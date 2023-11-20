@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.goldze.user.ui.viewmodel.UserDetailViewModel" />
+            type="com.xtree.user.ui.viewmodel.UserDetailViewModel" />
     </data>
 
     <LinearLayout

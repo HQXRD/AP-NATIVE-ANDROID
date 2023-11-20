@@ -3,7 +3,7 @@
 
     <data>
 
-        <import type="com.goldze.home.ui.viewmodel.ViewPagerItemViewModel" />
+        <import type="com.xtree.home.ui.viewmodel.ViewPagerItemViewModel" />
 
         <variable
             name="viewModel"

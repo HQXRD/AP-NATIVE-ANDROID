@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.goldze.user.ui.viewmodel.MeViewModel" />
+            type="com.xtree.user.ui.viewmodel.MeViewModel" />
 
         <import type="android.view.View" />
     </data>

@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.goldze.main">
+    package="com.xtree.main">
 
     <application
-        android:name="com.goldze.base.debug.DebugApplication"
+        android:name="com.xtree.base.debug.DebugApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/main_name"
@@ -18,6 +18,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.goldze.main.ui.MainActivity"></activity>
+        <activity android:name="com.xtree.main.ui.MainActivity"></activity>
     </application>
 </manifest>

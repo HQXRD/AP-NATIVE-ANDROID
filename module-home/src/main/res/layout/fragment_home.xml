@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.goldze.home.ui.viewmodel.HomeViewModel" />
+            type="com.xtree.home.ui.viewmodel.HomeViewModel" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -1,15 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.goldze.work">
+    package="com.xtree.work">
 
     <application
-        android:name="com.goldze.base.debug.DebugApplication"
+        android:name="com.xtree.base.debug.DebugApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/work_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.goldze.work.debug.DebugActivity">
+        <activity android:name="com.xtree.work.debug.DebugActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

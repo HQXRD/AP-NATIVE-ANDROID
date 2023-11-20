@@ -202,9 +202,10 @@ android {
 ```
 #### 2.3.5、manifest配置
 组件在自己的AndroidManifest.xml各自配置，application标签无需添加属性，也不需要指定activity的intent-filter。当合并打包时，gradle会将每个组件的AndroidManifest合并到宿主App中。
+
 ```xml
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.goldze.main">
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.xtree.main">
     <application>
         ...
     </application>
@@ -213,20 +214,18 @@ android {
 组件独立运行时，就需要单独的一个AndroidManifest.xml作为调试用。可以在src/main文件夹下创建一个alone/AndroidManifest.xml。配置application标签属性，并指定启动的activity。
 
 ```xml
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.goldze.main">
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.xtree.main">
     <application
+    ...
+    >
+    <activity
+    ...
+    >
+    <intent-filter>
         ...
-        >
-        <activity 
-            ...
-            >
-            <intent-filter>
-                ...
-            </intent-filter>
-        </activity>
-    </application>
-</manifest>
+    </intent-filter>
+</activity></application></manifest>
 ```
 并在build.gradle中配置
 

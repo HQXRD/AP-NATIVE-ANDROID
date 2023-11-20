@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.goldze.sign">
+    package="com.xtree.sign">
 
     <application>
-        <activity android:name=".ui.LoginActivity"></activity>
+        <activity android:name="com.xtree.sign.ui.LoginActivity"></activity>
     </application>
 </manifest>

@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="com.goldze.work.ui.viewmodel.WorkItemViewModel" />
+            type="com.xtree.work.ui.viewmodel.WorkItemViewModel" />
 
     </data>
 
