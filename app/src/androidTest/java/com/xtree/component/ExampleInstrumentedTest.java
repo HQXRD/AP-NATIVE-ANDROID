@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.goldze.component", appContext.getPackageName());
+        assertEquals("com.xtree.component", appContext.getPackageName());
     }
 }

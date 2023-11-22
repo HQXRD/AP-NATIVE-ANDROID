@@ -1,4 +1,4 @@
-package component.goldze.com.base;
+package component.xtree.com.base;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("component.goldze.com.base.test", appContext.getPackageName());
+        assertEquals("component.xtree.com.base.test", appContext.getPackageName());
     }
 }

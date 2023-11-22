@@ -1,4 +1,4 @@
-package component.goldze.com.base;
+package component.xtree.com.base;
 
 import org.junit.Test;
 
