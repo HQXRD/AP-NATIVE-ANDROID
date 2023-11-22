@@ -1,10 +1,10 @@
 package com.xtree.home.data;
 
 
+import com.xtree.base.service.ApiService;
 import com.xtree.home.data.source.HttpDataSource;
 import com.xtree.home.data.source.LocalDataSource;
 import com.xtree.home.data.source.http.HttpDataSourceImpl;
-import com.xtree.home.data.source.http.service.DemoApiService;
 import com.xtree.home.data.source.local.LocalDataSourceImpl;
 import com.xtree.net.RetrofitClient;
 
@@ -14,7 +14,7 @@ import com.xtree.net.RetrofitClient;
 public class Injection {
     public static HomeRepository provideHomeRepository() {
         //网络API服务
-        DemoApiService apiService = RetrofitClient.getInstance().create(DemoApiService.class);
+        ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
         //网络数据源
         HttpDataSource httpDataSource = HttpDataSourceImpl.getInstance(apiService);
         //本地数据源

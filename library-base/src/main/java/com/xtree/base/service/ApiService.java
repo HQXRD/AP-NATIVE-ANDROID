@@ -1,4 +1,4 @@
-package com.xtree.home.data.source.http.service;
+package com.xtree.base.service;
 
 import io.reactivex.rxjava3.core.Observable;
 import me.xtree.mvvmhabit.http.BaseResponse;
@@ -11,7 +11,7 @@ import retrofit2.http.POST;
  * Created by goldze on 2017/6/15.
  */
 
-public interface DemoApiService {
+public interface ApiService {
     @GET("action/apiv2/banner?catalog=1")
     Observable<BaseResponse<Object>> demoGet();
 

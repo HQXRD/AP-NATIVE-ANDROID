@@ -1,25 +1,23 @@
 package com.xtree.home.data.source.http;
 
 
+import com.xtree.base.service.ApiService;
 import com.xtree.home.data.source.HttpDataSource;
-import com.xtree.home.data.source.http.service.DemoApiService;
 
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.ObservableEmitter;
-import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import me.xtree.mvvmhabit.http.BaseResponse;
 
 /**
  * Created by goldze on 2019/3/26.
  */
 public class HttpDataSourceImpl implements HttpDataSource {
-    private DemoApiService apiService;
+    private ApiService apiService;
     private volatile static HttpDataSourceImpl INSTANCE = null;
 
-    public static HttpDataSourceImpl getInstance(DemoApiService apiService) {
+    public static HttpDataSourceImpl getInstance(ApiService apiService) {
         if (INSTANCE == null) {
             synchronized (HttpDataSourceImpl.class) {
                 if (INSTANCE == null) {
@@ -34,7 +32,7 @@ public class HttpDataSourceImpl implements HttpDataSource {
         INSTANCE = null;
     }
 
-    private HttpDataSourceImpl(DemoApiService apiService) {
+    private HttpDataSourceImpl(ApiService apiService) {
         this.apiService = apiService;
     }
 
