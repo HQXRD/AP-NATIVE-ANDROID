@@ -20,8 +20,8 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    api 'androidx.test.ext:junit:1.1.5'
-    //support
+    api rootProject.ext.support["jutil"]
+    //appcompat
     api rootProject.ext.support["appcompat-v7"]
     //rxjava
     api rootProject.ext.dependencies.rxjava

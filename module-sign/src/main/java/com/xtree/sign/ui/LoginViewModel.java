@@ -13,9 +13,9 @@ import com.xtree.base.global.SPKeyGlobal;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.binding.command.BindingAction;
 import me.xtree.mvvmhabit.binding.command.BindingCommand;
@@ -99,26 +99,18 @@ public class LoginViewModel extends BaseViewModel {
         //RaJava模拟一个延迟操作
         Observable.just("")
                 .delay(3, TimeUnit.SECONDS) //延迟3秒
-                //.compose(RxUtils.bindToLifecycle(getLifecycleProvider()))//界面关闭自动取消
+                .compose(RxUtils.bindToLifecycle(getLifecycleProvider()))//界面关闭自动取消
                 .compose(RxUtils.schedulersTransformer()) //线程调度
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        showDialog();
-                    }
-                })
-                .subscribe(new Consumer() {
-                    @Override
-                    public void accept(Object o) throws Exception {
-                        dismissDialog();
-                        //保存用户信息
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_INFO, userName.get());
-                        _Login _login = new _Login();
-                        //采用ARouter+RxBus实现组件间通信
-                        RxBus.getDefault().post(_login);
-                        //关闭页面
-                        finish();
-                    }
+                .doOnSubscribe((Consumer<Disposable>) disposable -> showDialog())
+                .subscribe(o -> {
+                    dismissDialog();
+                    //保存用户信息
+                    SPUtils.getInstance().put(SPKeyGlobal.USER_INFO, userName.get());
+                    _Login _login = new _Login();
+                    //采用ARouter+RxBus实现组件间通信
+                    RxBus.getDefault().post(_login);
+                    //关闭页面
+                    finish();
                 });
     }
 }

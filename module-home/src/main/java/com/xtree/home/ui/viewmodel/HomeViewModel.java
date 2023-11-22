@@ -7,12 +7,16 @@ import androidx.databinding.ObservableList;
 
 import com.xtree.home.R;
 import com.xtree.home.BR;
+import com.xtree.home.data.HomeRepository;
 import com.xtree.home.ui.adapter.ViewPagerBindingAdapter;
 
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.binding.command.BindingCommand;
 import me.xtree.mvvmhabit.binding.command.BindingConsumer;
 import me.xtree.mvvmhabit.bus.event.SingleLiveEvent;
+import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.tatarka.bindingcollectionadapter2.BindingViewPagerAdapter;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
@@ -21,10 +25,25 @@ import me.tatarka.bindingcollectionadapter2.ItemBinding;
  * Created by goldze on 2018/6/21.
  */
 
-public class HomeViewModel extends BaseViewModel {
+public class HomeViewModel extends BaseViewModel<HomeRepository> {
     public SingleLiveEvent<String> itemClickEvent = new SingleLiveEvent<>();
-    public HomeViewModel(@NonNull Application application) {
-        super(application);
+    public HomeViewModel(@NonNull Application application, HomeRepository repository) {
+        super(application, repository);
+    }
+
+    private void login() {
+
+        //RaJava模拟登录
+        addSubscribe(model.login()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .doOnSubscribe((Consumer<Disposable>) disposable -> showDialog())
+                .subscribe((Consumer<Object>) o -> {
+                    dismissDialog();
+                    //进入DemoActivity页面
+                    //关闭页面
+                    finish();
+                }));
+
     }
 
     public void addPage() {
