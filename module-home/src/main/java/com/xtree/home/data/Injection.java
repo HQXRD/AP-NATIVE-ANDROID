@@ -12,7 +12,7 @@ import com.xtree.net.RetrofitClient;
  * 注入全局的数据仓库
  */
 public class Injection {
-    public static HomeRepository provideDemoRepository() {
+    public static HomeRepository provideHomeRepository() {
         //网络API服务
         DemoApiService apiService = RetrofitClient.getInstance().create(DemoApiService.class);
         //网络数据源

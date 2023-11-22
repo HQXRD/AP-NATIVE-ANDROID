@@ -40,4 +40,8 @@ dependencies {
     api project(':mvvmhabit')
     //阿里路由框架
     api rootProject.ext.dependencies["arouter-api"]
+    implementation 'com.alibaba:fastjson:1.2.31'
+    api 'com.mixpanel.android:mixpanel-android:7.+'
+
+
 }

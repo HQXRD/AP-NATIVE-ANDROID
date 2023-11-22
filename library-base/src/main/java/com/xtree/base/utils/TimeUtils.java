@@ -1,0 +1,217 @@
+package com.xtree.base.utils;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+//@SuppressLint("SimpleDateFormat")
+public class TimeUtils {
+
+    /**
+     * 时间转换
+     * <p>
+     * 时间格式支持：<br>
+     * Date: java.util.Date<br>
+     * Long: 1417251375035 1417251375 <br>
+     * String:<br>
+     * 2014-11-29T16:56:15.035+0800 <br>
+     * 2014-11-29 16:56:15.035 <br>
+     * 2014-11-29 16:56:15
+     *
+     * @param time
+     * @return MM-dd HH:mm / last year: yyyy-MM-dd HH:mm
+     */
+    public static String showTime(Object time) {
+        if (time instanceof Date) {
+            return parseTime((Date) time);
+        } else if (time instanceof String) {
+            return parseTime(utc2Date((String) time));
+        } else if (time instanceof Long) {
+            return parseTime(utc2Date((Long) time));
+        }
+
+        return null;
+    }
+
+    public static long Obj2UTC(Object time) {
+        if (time instanceof Date) {
+            return ((Date) time).getTime();
+        } else if (time instanceof String) {
+            return utc2Date((String) time).getTime();
+        } else if (time instanceof Long) {
+            return (utc2Date((Long) time)).getTime();
+        }
+        return 0;
+    }
+
+    /**
+     * 时间格式支持:<br>
+     * 2014-11-29T16:56:15.035+0800 <br>
+     * 2014-11-29 16:56:15.035 <br>
+     * 2014-11-29 16:56:15
+     *
+     * @param utc
+     * @return Date
+     */
+    public static Date utc2Date(String utc) {
+        if (null == utc || "".equals(utc)) {
+            return null;
+        }
+
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+
+        if (utc.length() == 23) {
+            formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        } else if (utc.length() == 19) {
+            formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        }
+
+        Date date = null;
+        try {
+            date = formatter.parse(utc);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
+    }
+
+    /**
+     * 时间格式支持：<br>
+     * 1417251375035 <br>
+     * 1417251375
+     *
+     * @param utc
+     * @return Date
+     */
+    public static Date utc2Date(long utc) {
+        long milliseconds = (Long) utc;
+        if (milliseconds < 10000000000L) {
+            milliseconds = milliseconds * 1000;
+        }
+        return new Date(milliseconds);
+    }
+
+    /**
+     * @param date
+     * @return MM-dd HH:mm / last year: yyyy-MM-dd HH:mm
+     */
+    @SuppressWarnings("deprecation")
+    public static String parseTime(Date date) {
+        if (date == null) {
+            date = new Date();
+        }
+        // yyyy-MM-dd HH:mm:ss
+        DateFormat format = new SimpleDateFormat("MM-dd HH:mm");
+        if (date.getYear() != new Date().getYear()) {
+            format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        }
+        return format.format(date);
+    }
+
+    public static String getTime(Date date) {
+        if (date == null) {
+            date = new Date();
+        }
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        return format.format(date);
+    }
+
+    public static int getDate() {
+        DateFormat format = new SimpleDateFormat("yyyyMMdd");
+        return Integer.parseInt(format.format(new Date()));
+    }
+
+    public static String getCurDate() {
+        return android.text.format.DateFormat.format("yyyyMMdd", new Date()).toString();
+    }
+
+    /**
+     * 返回几号 两位数字
+     *
+     * @param date
+     * @return dd
+     */
+    public static String parseDate(Date date) {
+        if (date == null) {
+            return "";
+        }
+        DateFormat format = new SimpleDateFormat("dd");
+        return format.format(date);
+    }
+
+    public static String parseFullTime(Date date) {
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        return formatter.format(date);
+    }
+
+    /**
+     * @param str
+     * @return yyyy-MM-dd HH:mm:ss
+     */
+    public static String formTime(String str) {
+        if (str == null || str.isEmpty()) {
+            return "";
+        }
+        try {
+            String s = str.split("\\.")[0];
+            String time = s.replace("T", " ");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            return "" + sdf.parse(time).getTime();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    /**
+     * Function :getDate
+     * <p>
+     * <p>
+     * Description :unix时间戳转换为Date Author :[hWX275113] 2015年5月4日
+     *
+     * @param unixDate
+     * @return
+     */
+    public static Date unixTime2Date(String unixDate) {
+        Date date = new Date(Long.parseLong(unixDate) * 1000);
+        return date;
+    }
+
+    /**
+     * 取带时区的时间
+     *
+     * @param date
+     * @return
+     * @author zWX232819
+     * @date 2015年5月12日
+     */
+    public static String getTimeZ(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+
+        return formatter.format(date);
+    }
+
+    /**
+     * format格式转换成 format2 格式
+     *
+     * @param date    日期时间
+     * @param format
+     * @param format2
+     * @return
+     */
+    public static String convert(String date, String format, String format2) {
+        SimpleDateFormat formatter = new SimpleDateFormat(format);
+        SimpleDateFormat formatter2 = new SimpleDateFormat(format2);
+        //formatter.format(date);
+        try {
+            return formatter2.format(formatter.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+}
