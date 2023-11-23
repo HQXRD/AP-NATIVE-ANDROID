@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -21,7 +20,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 /**
  * Created by goldze on 2018/6/21
  */
-@Route(path = RouterFragmentPath.Home.PAGER_HOME)
+@Route(path = RouterFragmentPath.Activity.PAGER_ACTIVITY)
 public class ActivityFragment extends BaseFragment<FragmentActivityBinding,ActivityViewModel> {
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -14,6 +14,23 @@ public class RouterFragmentPath {
         private static final String HOME = "/home";
         /*首页*/
         public static final String PAGER_HOME = HOME + "/Home";
+
+    }
+
+    public static class Activity{
+
+        private static final String ACTIVITY = "/activity";
+        public static final String PAGER_ACTIVITY =ACTIVITY +"/Activity";
+    }
+    public static class Mine{
+        private static final String MINE = "/mine";
+        public static final String PAGER_MINE =MINE +"/Mine";
+
+    }
+
+    public static class Recharge{
+        private static final String RECHARGE = "/recharge";
+        public static final String PAGER_RECHARGE = RECHARGE+"/Recharge";
     }
 
     /**

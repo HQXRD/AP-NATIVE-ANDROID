@@ -25,7 +25,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 /**
  * Created by goldze on 2018/6/21
  */
-@Route(path = RouterFragmentPath.Home.PAGER_HOME)
+@Route(path = RouterFragmentPath.Recharge.PAGER_RECHARGE)
 public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, RechargeViewModel> {
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
