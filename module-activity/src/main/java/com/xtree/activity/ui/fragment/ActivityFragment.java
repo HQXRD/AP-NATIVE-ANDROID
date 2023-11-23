@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.xtree.activity.BR;
 import com.xtree.activity.R;
 import com.xtree.activity.databinding.FragmentActivityBinding;
 import com.xtree.activity.ui.viewmodel.ActivityViewModel;

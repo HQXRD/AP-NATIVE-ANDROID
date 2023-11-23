@@ -56,15 +56,13 @@ dependencies {
     } else {
         //主业务模块
         implementation project(':module-main')
-        //身份验证模块
-        implementation project(':module-sign')
         //应用模块
         implementation project(':module-home')
-        //工作模块
-        implementation project(':module-work')
-        //消息模块
-        implementation project(':module-msg')
-        //用户模块
-        implementation project(':module-user')
+        //活动模块
+        implementation project(':module-activity')
+        //充值模块
+        implementation project(':module-recharge')
+        //我的模块
+        implementation project(':module-mine')
     }
 }

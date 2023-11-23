@@ -8,9 +8,10 @@ import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.xtree.home.data.HomeRepository;
-import com.xtree.home.data.Injection;
-import com.xtree.home.ui.viewmodel.HomeViewModel;
+import com.xtree.activity.data.ActivityRepository;
+import com.xtree.activity.data.Injection;
+import com.xtree.activity.ui.viewmodel.ActivityViewModel;
+
 
 /**
  * Created by marquis on 2023/11/22.
@@ -19,7 +20,7 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @SuppressLint("StaticFieldLeak")
     private static volatile AppViewModelFactory INSTANCE;
     private final Application mApplication;
-    private final HomeRepository mRepository;
+    private final ActivityRepository mRepository;
 
     public static AppViewModelFactory getInstance(Application application) {
         if (INSTANCE == null) {
@@ -37,7 +38,7 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         INSTANCE = null;
     }
 
-    private AppViewModelFactory(Application application, HomeRepository repository) {
+    private AppViewModelFactory(Application application, ActivityRepository repository) {
         this.mApplication = application;
         this.mRepository = repository;
     }
@@ -45,8 +46,8 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        if (modelClass.isAssignableFrom(HomeViewModel.class)) {
-            return (T) new HomeViewModel(mApplication, mRepository);
+        if (modelClass.isAssignableFrom(ActivityViewModel.class)) {
+            return (T) new ActivityViewModel(mApplication, mRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }
