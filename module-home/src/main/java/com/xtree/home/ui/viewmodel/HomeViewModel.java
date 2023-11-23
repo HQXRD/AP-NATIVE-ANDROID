@@ -28,11 +28,21 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     }
 
     public void login(String username, String password) {
-        addSubscribe(model.login(username, password)
+        model.login(username, password)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
                 .doOnSubscribe((Consumer<Disposable>) disposable -> showDialog())
-                .subscribe());
+                .subscribe(new ApiDisposableObserver<Object>() {
+                    @Override
+                    public void onResult(Object o) {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        super.onError(e);
+                        dismissDialog();
+                    }
+                });
 
     }
 
