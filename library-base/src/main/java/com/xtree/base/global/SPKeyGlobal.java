@@ -6,4 +6,8 @@ package com.xtree.base.global;
  */
 public class SPKeyGlobal {
     public static final String USER_INFO = "user_info";
+    public static final String USER_TOKEN = "user_token";
+    public static final String USER_SHARE_SESSID = "clientSessionModel_share_sessid";
+    public static final String USER_SHARE_COOKIE_NAME = "clientSessionModel_share_COOKIE_NAME";
+    public static final String NET_WORK_BASE_URL = "net_work_base_url";
 }

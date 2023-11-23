@@ -18,7 +18,7 @@ ext {
     support = [
             'appcompat-v7': "androidx.appcompat:appcompat:${versions["support-version"]}",
             'design'      : "com.google.android.material:material:1.9.0",
-            'jutil'      : "androidx.test.ext:junit:${versions["junit-version"]}",
+            'jutil'       : "androidx.test.ext:junit:${versions["junit-version"]}",
     ]
     //依赖第三方配置
     dependencies = [
@@ -26,8 +26,8 @@ ext {
             "arouter-api"                          : "com.alibaba:arouter-api:1.5.2",
             "arouter-compiler"                     : "com.alibaba:arouter-compiler:1.5.2",
             //rxjava
-            "rxjava"                               : "io.reactivex.rxjava3:rxjava:3.1.8",
-            "rxandroid"                            : "io.reactivex.rxjava3:rxandroid:3.0.2",
+            "rxjava"                               : "io.reactivex.rxjava2:rxjava:2.2.10",
+            "rxandroid"                            : "io.reactivex.rxjava2:rxandroid:2.1.1",
             //rx系列与View生命周期同步
             "rxlifecycle"                          : "com.trello.rxlifecycle4:rxlifecycle:4.0.2",
             "rxlifecycle-components"               : "com.trello.rxlifecycle4:rxlifecycle-components:4.0.2",
@@ -65,7 +65,7 @@ ext {
 
             "swiperefreshlayout"                   : "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0",
             "viewpager2"                           : "androidx.viewpager2:viewpager2:1.0.0",
-
+            "logging-interceptor"                  : "com.squareup.okhttp3:logging-interceptor:3.9.1",
 
     ]
 }

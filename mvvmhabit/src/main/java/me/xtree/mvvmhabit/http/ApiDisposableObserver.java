@@ -45,19 +45,19 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
     @Override
     public void onNext(Object o) {
         BaseResponse baseResponse = (BaseResponse) o;
-        switch (baseResponse.getCode()) {
+        switch (baseResponse.getStatus()) {
             case CodeRule.CODE_200:
                 //请求成功, 正确的操作方式
-                onResult((T) baseResponse.getResult());
+                onResult((T) baseResponse.getData());
                 break;
             case CodeRule.CODE_220:
                 // 请求成功, 正确的操作方式, 并消息提示
-                onResult((T) baseResponse.getResult());
+                onResult((T) baseResponse.getData());
                 break;
             case CodeRule.CODE_300:
                 //请求失败，不打印Message
                 KLog.e("请求失败");
-                ToastUtils.showShort("错误代码:", baseResponse.getCode());
+                ToastUtils.showShort("错误代码:", baseResponse.getStatus());
                 break;
             case CodeRule.CODE_330:
                 //请求失败，打印Message
@@ -65,7 +65,7 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
                 break;
             case CodeRule.CODE_500:
                 //服务器内部异常
-                ToastUtils.showShort("错误代码:", baseResponse.getCode());
+                ToastUtils.showShort("错误代码:", baseResponse.getStatus());
                 break;
             case CodeRule.CODE_503:
                 //参数为空
@@ -87,10 +87,10 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
                 ToastUtils.showShort("请先登录");
                 break;
             case CodeRule.CODE_551:
-                ToastUtils.showShort("错误代码:", baseResponse.getCode());
+                ToastUtils.showShort("错误代码:", baseResponse.getStatus());
                 break;
             default:
-                ToastUtils.showShort("错误代码:", baseResponse.getCode());
+                ToastUtils.showShort("错误代码:", baseResponse.getStatus());
                 break;
         }
     }

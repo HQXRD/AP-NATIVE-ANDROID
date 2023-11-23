@@ -1,7 +1,7 @@
 package com.xtree.home.data.source;
 
 
-import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.Observable;
 import me.xtree.mvvmhabit.http.BaseResponse;
 
 /**
@@ -9,7 +9,7 @@ import me.xtree.mvvmhabit.http.BaseResponse;
  */
 public interface HttpDataSource {
     //模拟登录
-    Observable<Object> login();
+    Observable<BaseResponse<Object>> login(String username, String password);
 
     Observable<BaseResponse<Object>> demoGet();
 

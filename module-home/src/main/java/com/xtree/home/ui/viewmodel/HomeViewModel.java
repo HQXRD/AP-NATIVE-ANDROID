@@ -5,11 +5,17 @@ import androidx.annotation.NonNull;
 
 import com.xtree.home.data.HomeRepository;
 
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.Flowable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableObserver;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveEvent;
+import me.xtree.mvvmhabit.http.ApiDisposableObserver;
+import me.xtree.mvvmhabit.http.BaseResponse;
+import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by goldze on 2018/6/21.
@@ -21,18 +27,24 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         super(application, repository);
     }
 
-    private void login() {
-
-        //RaJava模拟登录
-        addSubscribe(model.login()
+    public void login(String username, String password) {
+        addSubscribe(model.login(username, password)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
                 .doOnSubscribe((Consumer<Disposable>) disposable -> showDialog())
-                .subscribe((Consumer<Object>) o -> {
-                    dismissDialog();
-                    //进入DemoActivity页面
-                    //关闭页面
-                    finish();
-                }));
+                .subscribe());
 
     }
+
+    /*new ApiDisposableObserver<Object>() {
+        @Override
+        public void onResult(Object o) {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+
+        }
+    }*/
 }

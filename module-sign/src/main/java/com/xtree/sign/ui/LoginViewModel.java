@@ -13,9 +13,9 @@ import com.xtree.base.global.SPKeyGlobal;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.Observable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.binding.command.BindingAction;
 import me.xtree.mvvmhabit.binding.command.BindingCommand;
@@ -99,7 +99,7 @@ public class LoginViewModel extends BaseViewModel {
         //RaJava模拟一个延迟操作
         Observable.just("")
                 .delay(3, TimeUnit.SECONDS) //延迟3秒
-                .compose(RxUtils.bindToLifecycle(getLifecycleProvider()))//界面关闭自动取消
+                //.compose(RxUtils.bindToLifecycle(getLifecycleProvider()))//界面关闭自动取消
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .doOnSubscribe((Consumer<Disposable>) disposable -> showDialog())
                 .subscribe(o -> {

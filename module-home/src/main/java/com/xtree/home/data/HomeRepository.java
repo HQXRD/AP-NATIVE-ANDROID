@@ -7,7 +7,7 @@ import androidx.annotation.VisibleForTesting;
 import com.xtree.home.data.source.HttpDataSource;
 import com.xtree.home.data.source.LocalDataSource;
 
-import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.Observable;
 import me.xtree.mvvmhabit.base.BaseModel;
 import me.xtree.mvvmhabit.http.BaseResponse;
 
@@ -45,8 +45,8 @@ public class HomeRepository extends BaseModel implements HttpDataSource, LocalDa
 
 
     @Override
-    public @NonNull Observable<Object> login() {
-        return mHttpDataSource.login();
+    public @NonNull Observable<BaseResponse<Object>> login(String username, String password) {
+        return mHttpDataSource.login(username, password);
     }
 
     @Override

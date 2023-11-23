@@ -9,12 +9,12 @@ import androidx.fragment.app.Fragment;
 import com.trello.rxlifecycle4.LifecycleProvider;
 import com.trello.rxlifecycle4.LifecycleTransformer;
 
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.ObservableSource;
-import io.reactivex.rxjava3.core.ObservableTransformer;
-import io.reactivex.rxjava3.functions.Function;
-import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.ExceptionHandle;
 
@@ -62,25 +62,21 @@ public class RxUtils {
      * 线程调度器
      */
     public static ObservableTransformer schedulersTransformer() {
-        return new ObservableTransformer() {
-            @Override
-            public ObservableSource apply(Observable upstream) {
-                return upstream.subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
-            }
-        };
+        return upstream -> upstream.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     public static ObservableTransformer exceptionTransformer() {
+        return new ErrorTransformer();
+    }
 
-        return new ObservableTransformer() {
-            @Override
-            public ObservableSource apply(Observable observable) {
-                return observable
-//                        .map(new HandleFuc<T>())  //这里可以取出BaseResponse中的Result
-                        .onErrorResumeNext(new HttpResponseFunc());
-            }
-        };
+    private static class ErrorTransformer<T> implements ObservableTransformer{
+
+        @Override
+        public ObservableSource apply(Observable upstream) {
+            //onErrorResumeNext当发生错误的时候，由另外一个Observable来代替当前的Observable并继续发射数据
+            return (Observable<T>) upstream.map(new HandleFuc<T>()).onErrorResumeNext(new HttpResponseFunc<T>());
+        }
     }
 
     private static class HttpResponseFunc<T> implements Function<Throwable, Observable<T>> {
@@ -94,8 +90,8 @@ public class RxUtils {
         @Override
         public T apply(BaseResponse<T> response) {
             if (!response.isOk())
-                throw new RuntimeException(!"".equals(response.getCode() + "" + response.getMessage()) ? response.getMessage() : "");
-            return response.getResult();
+                throw new RuntimeException(!"".equals(response.getStatus() + "" + response.getMessage()) ? response.getMessage() : "");
+            return response.getData();
         }
     }
 

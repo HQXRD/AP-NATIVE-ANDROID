@@ -43,6 +43,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     public void initData() {
+        viewModel.login("testkite1002", "kite123456");
     }
 
     @Override

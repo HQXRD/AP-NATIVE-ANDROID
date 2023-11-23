@@ -5,8 +5,11 @@ import android.text.TextUtils;
 
 
 import com.xtree.base.BuildConfig;
+import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.utils.TagUtils;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -21,11 +24,13 @@ import me.xtree.mvvmhabit.http.interceptor.CacheInterceptor;
 import me.xtree.mvvmhabit.http.interceptor.logging.Level;
 import me.xtree.mvvmhabit.http.interceptor.logging.LoggingInterceptor;
 import me.xtree.mvvmhabit.utils.KLog;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 import okhttp3.Cache;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import okhttp3.internal.platform.Platform;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -40,7 +45,7 @@ public class RetrofitClient {
     //缓存时间
     private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
     //服务端根路径
-    public static String baseUrl = "https://www.oschina.net/";
+    public static String baseUrl = /*SPUtils.getInstance().getString(SPKeyGlobal.NET_WORK_BASE_URL);*/"https://app3.icvrz.vip/api/";
 
     private static Context mContext = Utils.getContext();
 
@@ -79,6 +84,22 @@ public class RetrofitClient {
         } catch (Exception e) {
             KLog.e("Could not create http cache", e);
         }
+
+        if(headers == null) {
+            Map<String, String> header = new HashMap<>();
+            String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+            header.put("Content-Type", "application/json");
+            if (!TextUtils.isEmpty(token)) {
+                header.put("Authorization", "bearer" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN));
+                header.put("Cookie", "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";" +
+                        SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME) + "=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID) + ";");
+
+            }
+            header.put("Source", "8");
+            header.put("UUID", TagUtils.getAndroidId(Utils.getContext()));
+            headers = header;
+        }
+
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
         okHttpClient = new OkHttpClient.Builder()
                 .cookieJar(new CookieJarImpl(new PersistentCookieStore(mContext)))
@@ -86,6 +107,7 @@ public class RetrofitClient {
                 .addInterceptor(new BaseInterceptor(headers))
                 .addInterceptor(new CacheInterceptor(mContext))
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
+                //.addInterceptor(new HttpLoggingInterceptor(message -> CfLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(new LoggingInterceptor
                         .Builder()//构建者模式
                         .loggable(BuildConfig.DEBUG) //是否开启日志打印
@@ -93,9 +115,7 @@ public class RetrofitClient {
                         .log(Platform.INFO) // 打印类型
                         .request("Request") // request的Tag
                         .response("Response")// Response的Tag
-                        .addHeader("log-header", "I am the log request header.") // 添加打印头, 注意 key 和 value 都不能是中文
-                        .build()
-                )
+                        .build())
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS))
