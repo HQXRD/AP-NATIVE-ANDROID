@@ -6,7 +6,6 @@ import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
 
-import com.xtree.base.BuildConfig;
 import com.google.gson.Gson;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
@@ -24,6 +23,7 @@ public class TagUtils {
 
     public static String MIXPANEL_TOKEN = "******";
     public static String USER_ID = "";
+    private static String deviceId;
 
     public static void initMixpanel(Context ctx) {
         String channelName = CHANNEL_NAME; // 渠道号
@@ -238,7 +238,7 @@ public class TagUtils {
      * @param ctx 上下文
      * @return 设备的AndroidId
      */
-    private static String getDevId(Context ctx) {
+    public static String getDevId(Context ctx) {
 
         SharedPreferences sp = ctx.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         String dvcId = sp.getString("dvcId", "");
@@ -279,6 +279,30 @@ public class TagUtils {
             ex.printStackTrace();
         }
         return "";
+    }
+
+    public static String getDeviceId(Context context) {
+        if (deviceId != null && !deviceId.isEmpty()) {
+            return deviceId;
+        }
+
+        try {
+            String str = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+            str = str.substring(0, 4) + str.substring(str.length() - 4);
+            deviceId = str;
+            return str;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return "";
+    }
+
+    public static String getDeviceId() {
+        return deviceId;
+    }
+
+    public static void initDeviceId(Context context) {
+        getDeviceId(context);
     }
 
     /**

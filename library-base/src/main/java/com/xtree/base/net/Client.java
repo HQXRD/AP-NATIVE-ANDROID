@@ -5,6 +5,7 @@ import com.xtree.base.utils.CfLog;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -17,26 +18,9 @@ public class Client {
 
     private static Retrofit mRetrofit;
     private static OkHttpClient client;
-    // private Context ctx;
-    //private static ProxyCallFactory proxyCallFactory;
+
     private static String domainUrl = null; //
-    private static String DOMAIN_URL_DEF = "https://";//BuildConfig.SERVER_URL; //"https://baofyy.tv";
-
-    /**
-     * 应该在Application onCreate中实例
-     *
-     * @param ctx
-     */
-    /*public static void config(Context ctx) {
-
-        proxyCallFactory = new ProxyCallFactory(getClient(), ctx.getApplicationContext());
-    }*/
-
-    /*public static void init()
-    {
-        proxyCallFactory = new ProxyCallFactory(getClient(), ctx);
-        mRetrofit = null;
-    }*/
+    private static String DOMAIN_URL_DEF = "https://www.weres.bar";//BuildConfig.SERVER_URL;
 
     /**
      * 基本域名（+path）
@@ -66,20 +50,13 @@ public class Client {
      */
     public static OkHttpClient getClient() {
 
-        //HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-
         if (null == client) {
             client = new OkHttpClient.Builder()
                     .connectTimeout(DEFAULT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
                     .readTimeout(DEFAULT_READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
                     .writeTimeout(DEFAULT_WRITE_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-                    .addInterceptor(new AccessTokenInterceptor()) //token放在前面
-                    //.addInterceptor(new TokenInterceptor())
-                    //.addInterceptor(new AppInterceptor())
-                    //.addInterceptor(new LoggingInterceptor())
-                    //.addInterceptor(interceptor)
-                    //.addInterceptor(new LoggerInterceptor())
-                    //.addInterceptor(new HttpLoggingInterceptor(message -> CfLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .addInterceptor(AccessTokenInterceptor.newInstance()) //token放在前面
+                    .addInterceptor(new HttpLoggingInterceptor(message -> CfLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))
                     .sslSocketFactory(new SSLSocketFactoryCompat(SSLSocketFactoryCompat.trustAllCert), SSLSocketFactoryCompat.trustAllCert) //解决4.x版本ssl异常
                     .build();
         }
@@ -91,9 +68,7 @@ public class Client {
 
             mRetrofit = new Retrofit.Builder()
                     .baseUrl(baseUrl())
-                    .client(getClient()) // 加这个 2023-10-21
-                    //.addConverterFactory(new NullOnEmptyConverterFactory())
-                    //.callFactory(proxyCallFactory) // 去掉这个，有报错 2023-10-21
+                    .client(getClient()) // 加这个
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();

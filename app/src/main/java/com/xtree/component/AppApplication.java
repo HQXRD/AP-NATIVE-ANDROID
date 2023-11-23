@@ -1,6 +1,7 @@
 package com.xtree.component;
 
 import com.xtree.base.config.ModuleLifecycleConfig;
+import com.xtree.base.utils.TagUtils;
 
 import me.xtree.mvvmhabit.base.BaseApplication;
 
@@ -17,5 +18,6 @@ public class AppApplication extends BaseApplication {
         //....
         //初始化组件(靠后)
         ModuleLifecycleConfig.getInstance().initModuleLow(this);
+        TagUtils.initDeviceId(this);
     }
 }

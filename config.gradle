@@ -66,6 +66,9 @@ ext {
             "swiperefreshlayout"                   : "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0",
             "viewpager2"                           : "androidx.viewpager2:viewpager2:1.0.0",
             "logging-interceptor"                  : "com.squareup.okhttp3:logging-interceptor:3.9.1",
+            "fastjson"                             : "com.alibaba:fastjson:1.2.31",
+            "mixpanel"                             : "com.mixpanel.android:mixpanel-android:7.+",
+            "XPopup"                               : "com.github.li-xiaojun:XPopup:2.4.6",
 
     ]
 }
