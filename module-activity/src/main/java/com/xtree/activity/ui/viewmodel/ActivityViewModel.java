@@ -25,16 +25,6 @@ public class ActivityViewModel extends BaseViewModel<ActivityRepository> {
 
     private void login() {
 
-        //RaJava模拟登录
-        addSubscribe(model.login()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .doOnSubscribe((Consumer<Disposable>) disposable -> showDialog())
-                .subscribe((Consumer<Object>) o -> {
-                    dismissDialog();
-                    //进入DemoActivity页面
-                    //关闭页面
-                    finish();
-                }));
 
     }
 }

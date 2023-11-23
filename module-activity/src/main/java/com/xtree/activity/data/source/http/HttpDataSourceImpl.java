@@ -1,13 +1,14 @@
 package com.xtree.activity.data.source.http;
 
 
+import androidx.annotation.NonNull;
+
 import com.xtree.activity.data.source.HttpDataSource;
 import com.xtree.base.service.ApiService;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.rxjava3.annotations.NonNull;
-import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.Observable;
 import me.xtree.mvvmhabit.http.BaseResponse;
 
 /**

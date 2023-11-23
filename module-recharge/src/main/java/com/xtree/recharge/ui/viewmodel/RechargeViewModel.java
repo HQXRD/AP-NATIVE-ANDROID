@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 
 import com.xtree.recharge.data.RechargeRepository;
 
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveEvent;
 import me.xtree.mvvmhabit.utils.RxUtils;
@@ -24,16 +24,6 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
 
     private void login() {
 
-        //RaJava模拟登录
-        addSubscribe(model.login()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .doOnSubscribe((Consumer<Disposable>) disposable -> showDialog())
-                .subscribe((Consumer<Object>) o -> {
-                    dismissDialog();
-                    //进入DemoActivity页面
-                    //关闭页面
-                    finish();
-                }));
 
     }
 }

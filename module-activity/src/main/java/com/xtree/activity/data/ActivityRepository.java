@@ -8,7 +8,7 @@ import androidx.annotation.VisibleForTesting;
 import com.xtree.activity.data.source.HttpDataSource;
 import com.xtree.activity.data.source.LocalDataSource;
 
-import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.Observable;
 import me.xtree.mvvmhabit.base.BaseModel;
 import me.xtree.mvvmhabit.http.BaseResponse;
 
