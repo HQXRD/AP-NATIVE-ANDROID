@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -7,20 +8,173 @@
             name="viewModel"
             type="com.xtree.mine.ui.viewmodel.MineViewModel" />
     </data>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/black">
 
-        <com.google.android.material.tabs.TabLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/tabs"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/headArea"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="@color/colorPrimaryDark"
-            app:tabSelectedTextColor="@color/colorPrimaryDark"
-            app:tabTextColor="@android:color/black" />
+            android:layout_height="290dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <View style="@style/ViewLineStyle" />
-    </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/topArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/icon_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_name" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/icon_name"
+                    android:text="@string/user_name_hint"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:id="@+id/icon_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_message" />
+
+                <ImageView
+                    android:id="@+id/icon_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/icon_message"
+                    android:src="@mipmap/icon_setting" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="20dp"
+                android:background="@mipmap/middle_bg"
+                app:layout_constraintLeft_toLeftOf="@+id/topArea"
+                app:layout_constraintRight_toRightOf="@+id/topArea"
+                app:layout_constraintTop_toBottomOf="@+id/topArea">
+
+                <RelativeLayout
+                    android:id="@+id/unlogin_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/textView_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/visitor_hint"
+                        android:layout_alignRight="@+id/visitor_hint"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/login_btn_bg"
+                        android:paddingLeft="45dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="45dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/login_hint"
+                        android:textSize="@dimen/mine_text_size" />
+
+                    <TextView
+                        android:id="@+id/textView_register"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textView_login"
+                        android:layout_alignLeft="@+id/visitor_hint"
+                        android:layout_alignRight="@+id/visitor_hint"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/login_btn_bg"
+                        android:gravity="center"
+                        android:paddingLeft="45dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="45dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/register_hint"
+                        android:textSize="@dimen/mine_text_size" />
+
+                    <TextView
+                        android:id="@+id/visitor_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textView_register"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/visit_hint"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/mine_text_size" />
+
+                </RelativeLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    >
+                    <TextView
+                        android:id="@+id/total_money_hint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/money_total"
+                        android:textSize="@dimen/mine_text_size"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textColor="@color/text_color"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:text="@string/get_all_money"
+                        android:background="@drawable/login_btn_bg"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:paddingRight="20dp"
+                        android:paddingLeft="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </RelativeLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="280dp"
+            android:background="@mipmap/second_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/headArea"
+            app:layout_constraintStart_toStartOf="@+id/headArea"></RelativeLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </layout>
