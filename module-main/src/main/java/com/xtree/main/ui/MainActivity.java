@@ -50,14 +50,14 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     private void initFragment() {
         //ARouter拿到多Fragment(这里需要通过ARouter获取，不能直接new,因为在组件独立运行时，宿主app是没有依赖其他组件，所以new不到其他组件的Fragment)
         Fragment homeFragment = (Fragment) ARouter.getInstance().build(RouterFragmentPath.Home.PAGER_HOME).navigation();
-        Fragment workFragment = (Fragment) ARouter.getInstance().build(RouterFragmentPath.Work.PAGER_WORK).navigation();
-        Fragment msgFragment = (Fragment) ARouter.getInstance().build(RouterFragmentPath.Msg.PAGER_MSG).navigation();
-        Fragment meFragment = (Fragment) ARouter.getInstance().build(RouterFragmentPath.User.PAGER_ME).navigation();
+        Fragment activityFragment = (Fragment) ARouter.getInstance().build(RouterFragmentPath.Activity.PAGER_ACTIVITY).navigation();
+        Fragment rechargeFragment = (Fragment) ARouter.getInstance().build(RouterFragmentPath.Recharge.PAGER_RECHARGE).navigation();
+        Fragment mineFragment = (Fragment) ARouter.getInstance().build(RouterFragmentPath.Mine.PAGER_MINE).navigation();
         mFragments = new ArrayList<>();
         mFragments.add(homeFragment);
-        mFragments.add(workFragment);
-        mFragments.add(msgFragment);
-        mFragments.add(meFragment);
+        mFragments.add(activityFragment);
+        mFragments.add(rechargeFragment);
+        mFragments.add(mineFragment);
         if (homeFragment != null) {
             //默认选中第一个
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -69,8 +69,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     private void initBottomTab() {
         NavigationController navigationController = binding.pagerBottomTab.material()
                 .addItem(R.mipmap.yingyong, "首页")
-                .addItem(R.mipmap.huanzhe, "工作")
-                .addItem(R.mipmap.xiaoxi_select, "消息")
+                .addItem(R.mipmap.huanzhe, "活动")
+                .addItem(R.mipmap.xiaoxi_select, "充值")
                 .addItem(R.mipmap.wode_select, "我的")
                 .setDefaultColor(ContextCompat.getColor(this, R.color.textColorVice))
                 .build();
