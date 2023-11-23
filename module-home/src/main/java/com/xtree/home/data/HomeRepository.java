@@ -7,6 +7,7 @@ import androidx.annotation.VisibleForTesting;
 import com.xtree.home.data.source.HttpDataSource;
 import com.xtree.home.data.source.LocalDataSource;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import me.xtree.mvvmhabit.base.BaseModel;
 import me.xtree.mvvmhabit.http.BaseResponse;
@@ -43,20 +44,9 @@ public class HomeRepository extends BaseModel implements HttpDataSource, LocalDa
         INSTANCE = null;
     }
 
-
     @Override
-    public @NonNull Observable<BaseResponse<Object>> login(String username, String password) {
+    public Flowable<BaseResponse<Object>> login(String username, String password) {
         return mHttpDataSource.login(username, password);
-    }
-
-    @Override
-    public Observable<BaseResponse<Object>> demoGet() {
-        return null;
-    }
-
-    @Override
-    public Observable<BaseResponse<Object>> demoPost(String catalog) {
-        return null;
     }
 
     @Override

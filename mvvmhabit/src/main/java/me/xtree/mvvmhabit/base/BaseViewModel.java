@@ -16,15 +16,19 @@ import androidx.lifecycle.Observer;
 
 import com.trello.rxlifecycle4.LifecycleProvider;
 
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.subscribers.DisposableSubscriber;
 import me.xtree.mvvmhabit.bus.event.SingleLiveEvent;
 
 /**
  * Created by goldze on 2017/6/15.
  */
-public class BaseViewModel<M extends BaseModel> extends AndroidViewModel implements IBaseViewModel, Consumer<Disposable> {
+public class BaseViewModel<M extends BaseModel> extends AndroidViewModel implements IBaseViewModel, Consumer<Disposable>{
     protected M model;
     private UIChangeLiveData uc;
     //弱引用持有
@@ -42,10 +46,15 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         mCompositeDisposable = new CompositeDisposable();
     }
 
-    protected void addSubscribe(Disposable disposable) {
+    protected void addSubscribe(Flowable observable, DisposableSubscriber observer) {
         if (mCompositeDisposable == null) {
             mCompositeDisposable = new CompositeDisposable();
         }
+        mCompositeDisposable.add(observer);
+        observable.subscribe(observer);
+    }
+
+    protected void addSubscribe(Disposable disposable) {
         mCompositeDisposable.add(disposable);
     }
 
@@ -195,6 +204,11 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
     public void accept(Disposable disposable) throws Exception {
         addSubscribe(disposable);
     }
+
+    /*@Override
+    public void accept(Disposable disposable) throws Exception {
+        addSubscribe(disposable);
+    }*/
 
     public final class UIChangeLiveData extends SingleLiveEvent {
         private SingleLiveEvent<String> showDialogEvent;

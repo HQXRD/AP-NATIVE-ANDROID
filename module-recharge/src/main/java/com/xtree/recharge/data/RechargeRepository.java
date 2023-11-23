@@ -8,6 +8,7 @@ import androidx.annotation.VisibleForTesting;
 import com.xtree.recharge.data.source.HttpDataSource;
 import com.xtree.recharge.data.source.LocalDataSource;
 
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import me.xtree.mvvmhabit.base.BaseModel;
 import me.xtree.mvvmhabit.http.BaseResponse;
@@ -44,22 +45,6 @@ public class RechargeRepository extends BaseModel implements HttpDataSource, Loc
         INSTANCE = null;
     }
 
-
-    @Override
-    public @NonNull Observable<Object> login() {
-        return mHttpDataSource.login();
-    }
-
-    @Override
-    public Observable<BaseResponse<Object>> demoGet() {
-        return null;
-    }
-
-    @Override
-    public Observable<BaseResponse<Object>> demoPost(String catalog) {
-        return null;
-    }
-
     @Override
     public void saveUserName(String userName) {
         mLocalDataSource.saveUserName(userName);
@@ -78,5 +63,10 @@ public class RechargeRepository extends BaseModel implements HttpDataSource, Loc
     @Override
     public String getPassword() {
         return mLocalDataSource.getPassword();
+    }
+
+    @Override
+    public Flowable<BaseResponse<Object>> login(String username, String password) {
+        return mHttpDataSource.login(username, password);
     }
 }

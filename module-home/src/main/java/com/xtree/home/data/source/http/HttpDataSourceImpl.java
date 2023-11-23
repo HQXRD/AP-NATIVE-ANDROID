@@ -1,12 +1,10 @@
 package com.xtree.home.data.source.http;
 
 
-import androidx.annotation.NonNull;
-
 import com.xtree.base.service.ApiService;
 import com.xtree.home.data.source.HttpDataSource;
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.http.BaseResponse;
 
 /**
@@ -36,17 +34,7 @@ public class HttpDataSourceImpl implements HttpDataSource {
     }
 
     @Override
-    public @NonNull Observable<BaseResponse<Object>> login(String username, String password) {
+    public Flowable<BaseResponse<Object>> login(String username, String password) {
         return apiService.login(username, password);
-    }
-
-    @Override
-    public Observable<BaseResponse<Object>> demoGet() {
-        return apiService.demoGet();
-    }
-
-    @Override
-    public Observable<BaseResponse<Object>> demoPost(String catalog) {
-        return apiService.demoPost(catalog);
     }
 }

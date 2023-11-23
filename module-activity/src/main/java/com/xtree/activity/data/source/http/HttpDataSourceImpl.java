@@ -1,14 +1,10 @@
 package com.xtree.activity.data.source.http;
 
 
-import androidx.annotation.NonNull;
-
 import com.xtree.activity.data.source.HttpDataSource;
 import com.xtree.base.service.ApiService;
 
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.http.BaseResponse;
 
 /**
@@ -38,17 +34,7 @@ public class HttpDataSourceImpl implements HttpDataSource {
     }
 
     @Override
-    public @NonNull Observable<Object> login() {
-        return Observable.just(new Object()).delay(3, TimeUnit.SECONDS); //延迟3秒
-    }
-
-    @Override
-    public Observable<BaseResponse<Object>> demoGet() {
-        return apiService.demoGet();
-    }
-
-    @Override
-    public Observable<BaseResponse<Object>> demoPost(String catalog) {
-        return apiService.demoPost(catalog);
+    public Flowable<BaseResponse<Object>> login(String username, String password) {
+        return apiService.login(username, password);
     }
 }

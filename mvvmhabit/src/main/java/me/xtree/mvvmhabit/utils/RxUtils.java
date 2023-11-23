@@ -9,6 +9,10 @@ import androidx.fragment.app.Fragment;
 import com.trello.rxlifecycle4.LifecycleProvider;
 import com.trello.rxlifecycle4.LifecycleTransformer;
 
+import org.reactivestreams.Publisher;
+
+import io.reactivex.Flowable;
+import io.reactivex.FlowableTransformer;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
@@ -61,28 +65,54 @@ public class RxUtils {
     /**
      * 线程调度器
      */
-    public static ObservableTransformer schedulersTransformer() {
+    /*public static ObservableTransformer schedulersTransformer() {
         return upstream -> upstream.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
+
+    }*/
+
+    public static FlowableTransformer schedulersTransformer1() {
+        return upstream -> upstream.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
     }
 
-    public static ObservableTransformer exceptionTransformer() {
+    /*public static ObservableTransformer exceptionTransformer() {
         return new ErrorTransformer();
+    }*/
+
+    private static class ErrorTransformer1<T> implements FlowableTransformer {
+        @Override
+        public Publisher apply(Flowable upstream) {
+            //onErrorResumeNext当发生错误的时候，由另外一个Observable来代替当前的Observable并继续发射数据
+            return (Flowable<T>) upstream.map(new HandleFuc<T>()).onErrorResumeNext(new HttpResponseFunc1<T>());
+        }
     }
 
-    private static class ErrorTransformer<T> implements ObservableTransformer{
+    public static FlowableTransformer exceptionTransformer1() {
+        return new ErrorTransformer1();
+    }
+
+    /*private static class ErrorTransformer<T> implements ObservableTransformer {
 
         @Override
         public ObservableSource apply(Observable upstream) {
             //onErrorResumeNext当发生错误的时候，由另外一个Observable来代替当前的Observable并继续发射数据
             return (Observable<T>) upstream.map(new HandleFuc<T>()).onErrorResumeNext(new HttpResponseFunc<T>());
         }
-    }
+    }*/
 
-    private static class HttpResponseFunc<T> implements Function<Throwable, Observable<T>> {
+    /*private static class HttpResponseFunc<T> implements Function<Throwable, Observable<T>> {
         @Override
         public Observable<T> apply(Throwable t) {
             return Observable.error(ExceptionHandle.handleException(t));
+        }
+    }*/
+
+    private static class HttpResponseFunc1<T> implements Function<Throwable, Flowable<T>> {
+        @Override
+        public Flowable<T> apply(Throwable t) {
+            return Flowable.error(ExceptionHandle.handleException(t));
         }
     }
 

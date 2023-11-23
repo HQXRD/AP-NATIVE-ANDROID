@@ -1,19 +1,14 @@
 package com.xtree.activity.data.source;
 
 
-import io.reactivex.Observable;
+import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.http.BaseResponse;
 
 /**
  * Created by goldze on 2019/3/26.
  */
 public interface HttpDataSource {
-    //模拟登录
-    Observable<Object> login();
 
-    Observable<BaseResponse<Object>> demoGet();
-
-    Observable<BaseResponse<Object>> demoPost(String catalog);
-
+    Flowable<BaseResponse<Object>> login(String username, String password);
 
 }
