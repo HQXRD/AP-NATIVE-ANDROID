@@ -55,7 +55,6 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 ToastUtils.showShort("错误代码:", baseResponse.getStatus());
                 break;
         }
-        ToastUtils.showLong("请求成功");
     }
 
     @Override

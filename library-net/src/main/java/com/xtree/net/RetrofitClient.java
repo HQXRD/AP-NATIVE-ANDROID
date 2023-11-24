@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.xtree.base.BuildConfig;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TagUtils;
 
 import java.io.File;
@@ -107,15 +108,15 @@ public class RetrofitClient {
                 .addInterceptor(new BaseInterceptor(headers))
                 .addInterceptor(new CacheInterceptor(mContext))
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
-                //.addInterceptor(new HttpLoggingInterceptor(message -> CfLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(new LoggingInterceptor
+                .addInterceptor(new HttpLoggingInterceptor(message -> KLog.d(message)).setLevel(HttpLoggingInterceptor.Level.HEADERS))
+                /*.addInterceptor(new LoggingInterceptor
                         .Builder()//构建者模式
                         .loggable(BuildConfig.DEBUG) //是否开启日志打印
                         .setLevel(Level.BASIC) //打印的等级
                         .log(Platform.INFO) // 打印类型
                         .request("Request") // request的Tag
                         .response("Response")// Response的Tag
-                        .build())
+                        .build())*/
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS))

@@ -1,6 +1,8 @@
-include ':app', ':library-base', ':module-main',':module-sign', ':module-home', ':module-user', ':library-res', ':module-work', ':module-msg', ':mvvmhabit', ':library-net'
+include ':app', ':library-base', ':module-main', ':module-home', ':library-res',  ':mvvmhabit', ':library-net'
 
 include ':module-mine'
 include ':module-activity'
 include ':module-recharge'
 include ':module-bet'
+
+//include ':module-sign', ':module-work', ':module-msg', ':module-user'
