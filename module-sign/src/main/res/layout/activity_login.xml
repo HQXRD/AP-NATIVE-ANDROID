@@ -137,7 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:background="@mipmap/btn_login"
+                android:background="@mipmap/me_btn_login"
                 android:orientation="vertical"
                 android:padding="6dp">
 

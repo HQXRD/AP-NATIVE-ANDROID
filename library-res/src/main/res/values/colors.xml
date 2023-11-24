@@ -11,4 +11,10 @@
     <color name="appBackColor">#F4F3F3</color>
     <color name="viewLineColor">#E0E0E0</color>
 
+
+    <color name="me_text_color">#FCE5DE</color>
+    <color name="me_level_color">#D5D7DB</color>
+    <color name="me_progress_bar_bg">#3E414B</color>
+
+
 </resources>
