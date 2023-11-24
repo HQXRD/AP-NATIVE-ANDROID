@@ -1,13 +1,12 @@
-package com.xtree.home.ui.viewmodel;
+package com.xtree.bet.ui.viewmodel;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.xtree.home.data.HomeRepository;
+import com.xtree.bet.data.BetRepository;
 
 import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveEvent;
 import me.xtree.mvvmhabit.http.ApiBack;
@@ -19,10 +18,10 @@ import me.xtree.mvvmhabit.utils.RxUtils;
  * Created by goldze on 2018/6/21.
  */
 
-public class HomeViewModel extends BaseViewModel<HomeRepository> {
+public class HomeViewModel extends BaseViewModel<BetRepository> {
     public SingleLiveEvent<String> itemClickEvent = new SingleLiveEvent<>();
 
-    public HomeViewModel(@NonNull Application application, HomeRepository repository) {
+    public HomeViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
     }
 

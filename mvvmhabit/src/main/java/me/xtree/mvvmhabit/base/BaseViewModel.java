@@ -205,11 +205,6 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         addSubscribe(disposable);
     }
 
-    /*@Override
-    public void accept(Disposable disposable) throws Exception {
-        addSubscribe(disposable);
-    }*/
-
     public final class UIChangeLiveData extends SingleLiveEvent {
         private SingleLiveEvent<String> showDialogEvent;
         private SingleLiveEvent<Void> dismissDialogEvent;

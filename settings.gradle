@@ -3,3 +3,4 @@ include ':app', ':library-base', ':module-main',':module-sign', ':module-home', 
 include ':module-mine'
 include ':module-activity'
 include ':module-recharge'
+include ':module-bet'

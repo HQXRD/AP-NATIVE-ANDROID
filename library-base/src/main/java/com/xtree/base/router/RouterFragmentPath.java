@@ -59,4 +59,12 @@ public class RouterFragmentPath {
         /*我的*/
         public static final String PAGER_ME = USER + "/Me";
     }
+
+    /**
+     * 投注组件
+     */
+    public static class Bet{
+        private static final String BET = "/bet";
+        public static final String PAGER_BET_HOME = BET+"/home";
+    }
 }
