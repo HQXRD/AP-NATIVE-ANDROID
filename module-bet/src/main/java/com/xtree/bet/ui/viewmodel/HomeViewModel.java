@@ -9,8 +9,8 @@ import com.xtree.bet.data.BetRepository;
 import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveEvent;
-import me.xtree.mvvmhabit.http.ApiBack;
 import me.xtree.mvvmhabit.http.ApiCallBack;
+import me.xtree.mvvmhabit.http.ApiSubscriber;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.utils.RxUtils;
 
@@ -27,9 +27,9 @@ public class HomeViewModel extends BaseViewModel<BetRepository> {
 
     public void login(String username, String password) {
         Flowable<BaseResponse<Object>> flowable = model.login(username, password)
-                .compose(RxUtils.schedulersTransformer1()) //线程调度
-                .compose(RxUtils.exceptionTransformer1());
-        ApiBack apiBack = new ApiBack(new ApiCallBack<Object>() {
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer());
+        ApiCallBack apiBack = new ApiCallBack(new ApiSubscriber<Object>() {
 
             @Override
             public void onStart() {

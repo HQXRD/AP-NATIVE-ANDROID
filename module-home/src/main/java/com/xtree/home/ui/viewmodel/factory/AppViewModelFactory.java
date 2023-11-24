@@ -8,9 +8,15 @@ import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.xtree.base.base.IModuleInit;
 import com.xtree.home.data.HomeRepository;
 import com.xtree.home.data.Injection;
 import com.xtree.home.ui.viewmodel.HomeViewModel;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import me.xtree.mvvmhabit.base.BaseModel;
 
 /**
  * Created by marquis on 2023/11/22.
@@ -19,7 +25,7 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @SuppressLint("StaticFieldLeak")
     private static volatile AppViewModelFactory INSTANCE;
     private final Application mApplication;
-    private final HomeRepository mRepository;
+    private final BaseModel mRepository;
 
     public static AppViewModelFactory getInstance(Application application) {
         if (INSTANCE == null) {
@@ -45,9 +51,13 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        if (modelClass.isAssignableFrom(HomeViewModel.class)) {
-            return (T) new HomeViewModel(mApplication, mRepository);
+        try {
+            Class<T> clazz = (Class<T>) Class.forName(modelClass.getName());
+            Constructor constructor = clazz.getConstructor(Application.class, HomeRepository.class);
+            return (T) constructor.newInstance(mApplication, mRepository);
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException |
+                 InstantiationException | InvocationTargetException e) {
+            return null;
         }
-        throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }
 }

@@ -1,6 +1,6 @@
 package me.xtree.mvvmhabit.http;
 
-import io.reactivex.observers.DisposableObserver;
+import io.reactivex.subscribers.DisposableSubscriber;
 import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -11,7 +11,7 @@ import me.xtree.mvvmhabit.utils.Utils;
  * 统一的Code封装处理。该类仅供参考，实际业务逻辑, 根据需求来定义，
  */
 
-public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
+public abstract class ApiSubscriber<T> extends DisposableSubscriber<T> {
     public abstract void onResult(T t);
 
     @Override
@@ -20,8 +20,16 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
     }
 
     @Override
+    public void onStart() {
+        // if  NetworkAvailable no !   must to call onCompleted
+        if (!NetworkUtil.isNetworkAvailable(Utils.getContext())) {
+            KLog.d("无网络，读取缓存数据");
+            onComplete();
+        }
+    }
+
+    @Override
     public void onError(Throwable e) {
-        e.printStackTrace();
         if (e instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) e;
             ToastUtils.showShort(rError.message);
@@ -32,26 +40,12 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        ToastUtils.showShort("http is start");
-        // if  NetworkAvailable no !   must to call onCompleted
-        if (!NetworkUtil.isNetworkAvailable(Utils.getContext())) {
-            KLog.d("无网络，读取缓存数据");
-            onComplete();
-        }
-    }
+    public void onNext(T o) {
 
-    @Override
-    public void onNext(Object o) {
         BaseResponse baseResponse = (BaseResponse) o;
         switch (baseResponse.getStatus()) {
-            case CodeRule.CODE_200:
+            case CodeRule.CODE_10000:
                 //请求成功, 正确的操作方式
-                onResult((T) baseResponse.getData());
-                break;
-            case CodeRule.CODE_220:
-                // 请求成功, 正确的操作方式, 并消息提示
                 onResult((T) baseResponse.getData());
                 break;
             case CodeRule.CODE_300:
@@ -97,9 +91,7 @@ public abstract class ApiDisposableObserver<T> extends DisposableObserver<T> {
 
     public static final class CodeRule {
         //请求成功, 正确的操作方式
-        static final int CODE_200 = 200;
-        //请求成功, 消息提示
-        static final int CODE_220 = 220;
+        static final int CODE_10000 = 10000;
         //请求失败，不打印Message
         static final int CODE_300 = 300;
         //请求失败，打印Message

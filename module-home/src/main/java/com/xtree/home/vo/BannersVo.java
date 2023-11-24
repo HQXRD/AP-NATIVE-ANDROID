@@ -1,11 +1,8 @@
 package com.xtree.home.vo;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
-import com.xtree.base.base.BaseBean;
-
-//import com.xtree.base.base.BaseBean;
+import com.xtree.base.vo.BaseBean;
 
 // extends BaseBean
 public class BannersVo implements BaseBean {

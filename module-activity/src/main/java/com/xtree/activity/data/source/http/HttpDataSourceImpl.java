@@ -1,8 +1,8 @@
 package com.xtree.activity.data.source.http;
 
 
+import com.xtree.activity.data.source.ApiService;
 import com.xtree.activity.data.source.HttpDataSource;
-import com.xtree.base.service.ApiService;
 
 import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.http.BaseResponse;

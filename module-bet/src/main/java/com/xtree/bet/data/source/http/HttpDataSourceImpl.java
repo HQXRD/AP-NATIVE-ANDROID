@@ -1,7 +1,7 @@
 package com.xtree.bet.data.source.http;
 
 
-import com.xtree.base.service.ApiService;
+import com.xtree.bet.data.ApiService;
 import com.xtree.bet.data.source.HttpDataSource;
 
 import io.reactivex.Flowable;

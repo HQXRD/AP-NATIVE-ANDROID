@@ -283,6 +283,6 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
      * @return
      */
     public <T extends ViewModel> T createViewModel(Fragment fragment, Class<T> cls) {
-        return new ViewModelProvider(fragment).get(cls);
+        return new ViewModelProvider(fragment, null).get(cls);
     }
 }

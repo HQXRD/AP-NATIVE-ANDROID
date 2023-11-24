@@ -1,16 +1,16 @@
 package com.xtree.home.data.source.http;
 
-import com.xtree.home.data.ApiService;
+import com.xtree.home.data.source.HomeApiService;
 import com.xtree.home.data.source.HttpDataSource;
 
 /**
  * Created by goldze on 2019/3/26.
  */
 public class HttpDataSourceImpl implements HttpDataSource {
-    private ApiService apiService;
+    private HomeApiService apiService;
     private volatile static HttpDataSourceImpl INSTANCE = null;
 
-    public static HttpDataSourceImpl getInstance(ApiService apiService) {
+    public static HttpDataSourceImpl getInstance(HomeApiService apiService) {
         if (INSTANCE == null) {
             synchronized (HttpDataSourceImpl.class) {
                 if (INSTANCE == null) {
@@ -25,12 +25,12 @@ public class HttpDataSourceImpl implements HttpDataSource {
         INSTANCE = null;
     }
 
-    private HttpDataSourceImpl(ApiService apiService) {
+    private HttpDataSourceImpl(HomeApiService apiService) {
         this.apiService = apiService;
     }
 
     @Override
-    public ApiService getApiService() {
+    public HomeApiService getApiService() {
         return apiService;
     }
 }

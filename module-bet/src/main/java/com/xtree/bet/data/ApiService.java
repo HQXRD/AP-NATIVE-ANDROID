@@ -1,4 +1,4 @@
-package com.xtree.home.data;
+package com.xtree.bet.data;
 
 import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.http.BaseResponse;

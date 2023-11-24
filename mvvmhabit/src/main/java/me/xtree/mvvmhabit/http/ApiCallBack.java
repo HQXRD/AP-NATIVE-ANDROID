@@ -2,120 +2,40 @@ package me.xtree.mvvmhabit.http;
 
 import org.reactivestreams.Subscription;
 
-import io.reactivex.FlowableSubscriber;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.subscribers.DisposableSubscriber;
-import me.xtree.mvvmhabit.base.AppManager;
-import me.xtree.mvvmhabit.utils.KLog;
-import me.xtree.mvvmhabit.utils.ToastUtils;
-import me.xtree.mvvmhabit.utils.Utils;
+import io.reactivex.Flowable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.internal.subscribers.LambdaSubscriber;
 
-/**
- * Created by goldze on 2017/5/10.
- * 统一的Code封装处理。该类仅供参考，实际业务逻辑, 根据需求来定义，
- */
+public class ApiCallBack<T> {
+    private ApiSubscriber<T> mApiSubscriber;
+    private Flowable<T> mFlowable;
 
-public abstract class ApiCallBack<T> extends DisposableSubscriber<T> {
-    public abstract void onResult(T t);
-
-    @Override
-    public void onComplete() {
-
+    public ApiCallBack(ApiSubscriber apiCallBack, Flowable flowable){
+        mApiSubscriber = apiCallBack;
+        mFlowable = flowable;
     }
 
-    @Override
-    public void onStart() {
-        // if  NetworkAvailable no !   must to call onCompleted
-        if (!NetworkUtil.isNetworkAvailable(Utils.getContext())) {
-            KLog.d("无网络，读取缓存数据");
-            onComplete();
-        }
+    public Consumer<? super T> onNext(){
+        return (Consumer<T>) o -> mApiSubscriber.onNext(o);
     }
 
-    @Override
-    public void onError(Throwable e) {
-        if (e instanceof ResponseThrowable) {
-            ResponseThrowable rError = (ResponseThrowable) e;
-            ToastUtils.showShort(rError.message);
-            return;
-        }
-        //其他全部甩锅网络异常
-        ToastUtils.showShort("网络异常");
+    public Consumer<? super Throwable> onError(){
+        return (Consumer<Throwable>) t -> mApiSubscriber.onError(t);
     }
 
-    @Override
-    public void onNext(Object o) {
-        BaseResponse baseResponse = (BaseResponse) o;
-        switch (baseResponse.getStatus()) {
-            case CodeRule.CODE_200:
-                //请求成功, 正确的操作方式
-                onResult((T) baseResponse.getData());
-                break;
-            case CodeRule.CODE_220:
-                // 请求成功, 正确的操作方式, 并消息提示
-                onResult((T) baseResponse.getData());
-                break;
-            case CodeRule.CODE_300:
-                //请求失败，不打印Message
-                KLog.e("请求失败");
-                ToastUtils.showShort("错误代码:", baseResponse.getStatus());
-                break;
-            case CodeRule.CODE_330:
-                //请求失败，打印Message
-                ToastUtils.showShort(baseResponse.getMessage());
-                break;
-            case CodeRule.CODE_500:
-                //服务器内部异常
-                ToastUtils.showShort("错误代码:", baseResponse.getStatus());
-                break;
-            case CodeRule.CODE_503:
-                //参数为空
-                KLog.e("参数为空");
-                break;
-            case CodeRule.CODE_502:
-                //没有数据
-                KLog.e("没有数据");
-                break;
-            case CodeRule.CODE_510:
-                //无效的Token，提示跳入登录页
-                ToastUtils.showShort("token已过期，请重新登录");
-                //关闭所有页面
-                AppManager.getAppManager().finishAllActivity();
-                //跳入登录界面
-                //*****该类仅供参考，实际业务Code, 根据需求来定义，******//
-                break;
-            case CodeRule.CODE_530:
-                ToastUtils.showShort("请先登录");
-                break;
-            case CodeRule.CODE_551:
-                ToastUtils.showShort("错误代码:", baseResponse.getStatus());
-                break;
-            default:
-                ToastUtils.showShort("错误代码:", baseResponse.getStatus());
-                break;
-        }
+    public Consumer<? super Subscription> onSubscribe(){
+        return (Consumer<Subscription>) subscription -> mApiSubscriber.onSubscribe(subscription);
     }
 
-    public static final class CodeRule {
-        //请求成功, 正确的操作方式
-        static final int CODE_200 = 200;
-        //请求成功, 消息提示
-        static final int CODE_220 = 220;
-        //请求失败，不打印Message
-        static final int CODE_300 = 300;
-        //请求失败，打印Message
-        static final int CODE_330 = 330;
-        //服务器内部异常
-        static final int CODE_500 = 500;
-        //参数为空
-        static final int CODE_503 = 503;
-        //没有数据
-        static final int CODE_502 = 502;
-        //无效的Token
-        static final int CODE_510 = 510;
-        //未登录
-        static final int CODE_530 = 530;
-        //请求的操作异常终止：未知的页面类型
-        static final int CODE_551 = 551;
+    public Action onComplete(){
+        return () -> mApiSubscriber.onComplete();
+    }
+
+    public Disposable getDisposable(ApiCallBack<T> apiBack){
+        LambdaSubscriber<T> ls = new LambdaSubscriber<>(apiBack.onNext(), apiBack.onError(), apiBack.onComplete(), apiBack.onSubscribe());
+        mFlowable.subscribe(ls);
+        return  ls;
     }
 }

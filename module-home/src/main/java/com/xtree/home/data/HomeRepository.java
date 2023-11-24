@@ -4,6 +4,7 @@ package com.xtree.home.data;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
+import com.xtree.home.data.source.HomeApiService;
 import com.xtree.home.data.source.HttpDataSource;
 import com.xtree.home.data.source.LocalDataSource;
 
@@ -45,11 +46,6 @@ public class HomeRepository extends BaseModel implements HttpDataSource, LocalDa
     }
 
     @Override
-    public Flowable<BaseResponse<Object>> login(String username, String password) {
-        return mHttpDataSource.login(username, password);
-    }
-
-    @Override
     public void saveUserName(String userName) {
         mLocalDataSource.saveUserName(userName);
     }
@@ -67,5 +63,10 @@ public class HomeRepository extends BaseModel implements HttpDataSource, LocalDa
     @Override
     public String getPassword() {
         return mLocalDataSource.getPassword();
+    }
+
+    @Override
+    public HomeApiService getApiService() {
+        return mHttpDataSource.getApiService();
     }
 }

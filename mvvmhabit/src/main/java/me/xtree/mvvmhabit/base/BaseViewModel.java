@@ -46,14 +46,6 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         mCompositeDisposable = new CompositeDisposable();
     }
 
-    protected void addSubscribe(Flowable observable, DisposableSubscriber observer) {
-        if (mCompositeDisposable == null) {
-            mCompositeDisposable = new CompositeDisposable();
-        }
-        mCompositeDisposable.add(observer);
-        observable.subscribe(observer);
-    }
-
     protected void addSubscribe(Disposable disposable) {
         mCompositeDisposable.add(disposable);
     }

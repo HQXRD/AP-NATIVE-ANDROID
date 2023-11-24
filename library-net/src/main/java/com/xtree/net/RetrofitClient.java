@@ -45,7 +45,7 @@ public class RetrofitClient {
     //缓存时间
     private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
     //服务端根路径
-    public static String baseUrl = /*SPUtils.getInstance().getString(SPKeyGlobal.NET_WORK_BASE_URL);*/"https://app3.icvrz.vip/api/";
+    public static String baseUrl = /*SPUtils.getInstance().getString(SPKeyGlobal.NET_WORK_BASE_URL);*/"https://www.weres.bar/api/";
 
     private static Context mContext = Utils.getContext();
 
@@ -88,7 +88,7 @@ public class RetrofitClient {
         if(headers == null) {
             Map<String, String> header = new HashMap<>();
             String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
-            header.put("Content-Type", "application/json");
+            header.put("Content-Type", "application/vnd.sc-api.v1.json");
             if (!TextUtils.isEmpty(token)) {
                 header.put("Authorization", "bearer" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN));
                 header.put("Cookie", "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";" +

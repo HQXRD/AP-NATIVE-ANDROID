@@ -26,7 +26,7 @@ public class BaseResponse<T> {
     }
 
     public boolean isOk() {
-        return status == 200;
+        return status == 10000;
     }
 
     public String getMessage() {

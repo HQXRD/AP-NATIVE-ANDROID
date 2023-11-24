@@ -1,17 +1,11 @@
 package com.xtree.recharge.data.source.http;
 
-
-import androidx.annotation.NonNull;
-
-import com.xtree.base.service.ApiService;
 import com.xtree.recharge.data.source.HttpDataSource;
 
-
-import java.util.concurrent.TimeUnit;
-
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import me.xtree.mvvmhabit.http.BaseResponse;
+
+import com.xtree.recharge.data.source.ApiService;
 
 /**
  * Created by goldze on 2019/3/26.

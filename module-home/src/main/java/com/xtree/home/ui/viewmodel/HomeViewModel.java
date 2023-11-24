@@ -5,18 +5,19 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.xtree.home.data.HomeRepository;
+import com.xtree.home.vo.BannersVo;
 
-import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
+import java.util.List;
+
+import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveEvent;
-import me.xtree.mvvmhabit.http.ApiBack;
-import me.xtree.mvvmhabit.http.ApiCallBack;
-import me.xtree.mvvmhabit.http.BaseResponse;
+import me.xtree.mvvmhabit.http.HttpCallBack;
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
- * Created by goldze on 2018/6/21.
+ * Created by marquis on 2023/11/24.
  */
 
 public class HomeViewModel extends BaseViewModel<HomeRepository> {
@@ -26,51 +27,25 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         super(application, repository);
     }
 
-    public void login(String username, String password) {
-        Flowable<BaseResponse<Object>> flowable = model.login(username, password)
-                .compose(RxUtils.schedulersTransformer1()) //线程调度
-                .compose(RxUtils.exceptionTransformer1());
-        ApiBack apiBack = new ApiBack(new ApiCallBack<Object>() {
+    public void getBanner() {
+        Disposable disposable = (Disposable) model.getApiService().getBanners()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<List<BannersVo>>() {
 
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
 
-            @Override
-            public void onResult(Object o) {
+                    @Override
+                    public void onResult(List<BannersVo> list) {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-            }
-        }, flowable);
-
-        
-        addSubscribe(apiBack.getDisposable(apiBack));
-
-        /*addSubscribe(model.login(username, password)
-                .compose(RxUtils.schedulersTransformer1()) //线程调度
-                .compose(RxUtils.exceptionTransformer1()), new ApiCallBack<Object>() {
-
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
-
-            @Override
-            public void onResult(Object o) {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-            }
-        });*/
-
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
 
     }
 

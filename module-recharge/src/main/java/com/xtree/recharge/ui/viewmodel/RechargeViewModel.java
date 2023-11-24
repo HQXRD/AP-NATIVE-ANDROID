@@ -7,10 +7,10 @@ import androidx.annotation.NonNull;
 import com.xtree.recharge.data.RechargeRepository;
 
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveEvent;
-import me.xtree.mvvmhabit.http.ApiCallBack;
+import me.xtree.mvvmhabit.http.ApiSubscriber;
+import me.xtree.mvvmhabit.http.HttpCallBack;
 import me.xtree.mvvmhabit.utils.RxUtils;
 
 /**
@@ -24,26 +24,22 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     }
 
     private void login(String username, String password) {
-        addSubscribe(model.login(username, password)
-                .compose(RxUtils.schedulersTransformer1()) //线程调度
-                .compose(RxUtils.exceptionTransformer1())
-                .doOnSubscribe(RechargeViewModel.this), new ApiCallBack<Object>() {
+        Disposable disposable = (Disposable) model.login(username, password)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<Object>() {
+                    @Override
+                    public void onResult(Object o) {
 
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
+                    }
 
-            @Override
-            public void onResult(Object o) {
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
 
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-            }
-        });
-
+        addSubscribe(disposable);
     }
+
 }

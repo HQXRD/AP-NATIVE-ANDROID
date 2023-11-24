@@ -1,7 +1,6 @@
 package com.xtree.bet.data;
 
 
-import com.xtree.base.service.ApiService;
 import com.xtree.bet.data.source.LocalDataSource;
 import com.xtree.bet.data.source.HttpDataSource;
 import com.xtree.bet.data.source.http.HttpDataSourceImpl;

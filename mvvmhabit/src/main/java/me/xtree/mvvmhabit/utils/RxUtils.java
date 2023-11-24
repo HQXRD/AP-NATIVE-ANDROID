@@ -13,9 +13,6 @@ import org.reactivestreams.Publisher;
 
 import io.reactivex.Flowable;
 import io.reactivex.FlowableTransformer;
-import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
-import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -71,7 +68,7 @@ public class RxUtils {
 
     }*/
 
-    public static FlowableTransformer schedulersTransformer1() {
+    public static FlowableTransformer schedulersTransformer() {
         return upstream -> upstream.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 
@@ -81,16 +78,18 @@ public class RxUtils {
         return new ErrorTransformer();
     }*/
 
-    private static class ErrorTransformer1<T> implements FlowableTransformer {
+    private static class ErrorTransformer<T> implements FlowableTransformer {
         @Override
         public Publisher apply(Flowable upstream) {
             //onErrorResumeNext当发生错误的时候，由另外一个Observable来代替当前的Observable并继续发射数据
-            return (Flowable<T>) upstream.map(new HandleFuc<T>()).onErrorResumeNext(new HttpResponseFunc1<T>());
+            return (Flowable<T>) upstream
+                    //.map(new HandleFuc<T>())
+                    .onErrorResumeNext(new HttpResponseFunc<T>());
         }
     }
 
-    public static FlowableTransformer exceptionTransformer1() {
-        return new ErrorTransformer1();
+    public static FlowableTransformer exceptionTransformer() {
+        return new ErrorTransformer();
     }
 
     /*private static class ErrorTransformer<T> implements ObservableTransformer {
@@ -109,7 +108,7 @@ public class RxUtils {
         }
     }*/
 
-    private static class HttpResponseFunc1<T> implements Function<Throwable, Flowable<T>> {
+    private static class HttpResponseFunc<T> implements Function<Throwable, Flowable<T>> {
         @Override
         public Flowable<T> apply(Throwable t) {
             return Flowable.error(ExceptionHandle.handleException(t));
