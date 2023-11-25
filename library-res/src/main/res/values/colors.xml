@@ -15,6 +15,7 @@
     <color name="me_text_color">#FCE5DE</color>
     <color name="me_level_color">#D5D7DB</color>
     <color name="me_progress_bar_bg">#3E414B</color>
+    <color name="me_more_service_color">#534C5B</color>
 
 
     <!-- 投注模块  begin -->
