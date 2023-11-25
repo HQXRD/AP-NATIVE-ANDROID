@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="48dp"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bt_match_item_bb_selector"/>
+        <TextView
+            android:id="@+id/iv_match_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/iv_icon"
+            android:layout_marginStart="-2dp"
+            android:textSize="10dp"
+            android:text="(130)"
+            android:textColor="@color/bt_color_bet_match_item_text"/>
+
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/tab_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_icon"
+        android:layout_marginTop="2dp"
+        android:paddingStart="2dp"
+        android:text="足球"
+        android:textColor="@color/bt_color_bet_match_item_text"
+        android:textSize="10sp"/>
+</LinearLayout>

@@ -6,7 +6,13 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.xtree.base.utils.TimeUtils;
+import com.xtree.bet.bean.LeagueItem;
+import com.xtree.bet.bean.MatchItem;
 import com.xtree.bet.data.BetRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
@@ -24,36 +30,39 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
 
     public SingleLiveData<String[]> playMethodTab = new SingleLiveData<>();
+    public SingleLiveData<List<String>> playSearchDate = new SingleLiveData<>();
+    public SingleLiveData<List<MatchItem>> matchItemDate = new SingleLiveData<>();
+    public SingleLiveData<LeagueItem> leagueItemDate = new SingleLiveData<>();
 
     public MainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
     }
 
-    public void login(String username, String password) {
-        Flowable<BaseResponse<Object>> flowable = model.login(username, password)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer());
-        ApiCallBack apiBack = new ApiCallBack(new ApiSubscriber<Object>() {
+    public void setPlayMethodTabData(){
+        playMethodTab.setValue(new String[]{"今日", "滚球", "早盘", "串关", "冠军"});
+    }
 
-            @Override
-            public void onStart() {
-                super.onStart();
-            }
+    public void setplaySearchDateData(){
+        playSearchDate.setValue(TimeUtils.getNextDays(8, TimeUtils.FORMAT_MM_DD));
+    }
 
-            @Override
-            public void onResult(Object o) {
+    public void setMatchItems(){
+        List<MatchItem> matchItemList = new ArrayList<>();
+        MatchItem item = new MatchItem();
+        item.setName("足球");
+        item.setMatchCount(15);
+        matchItemList.add(item);
 
-            }
+        MatchItem itemb = new MatchItem();
+        itemb.setName("篮球");
+        itemb.setMatchCount(150);
+        matchItemList.add(itemb);
 
-            @Override
-            public void onError(Throwable e) {
-                super.onError(e);
-            }
-        }, flowable);
+        matchItemDate.postValue(matchItemList);
+    }
 
-        
-        addSubscribe(apiBack.getDisposable(apiBack));
-
+    public void setFbLeagueData(){
+        leagueItemDate.setValue(new LeagueItem());
     }
 
 }
