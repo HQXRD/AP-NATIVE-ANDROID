@@ -36,7 +36,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
 
                     @Override
                     public void onResult(List<BannersVo> list) {
-
+                        ToastUtils.showLong("请求成功");
                     }
 
                     @Override

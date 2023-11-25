@@ -184,7 +184,7 @@ class Printer {
     private static void logLines(int type, String tag, String[] lines, Logger logger, boolean withLineSize) {
         for (String line : lines) {
             int lineLength = line.length();
-            int MAX_LONG_SIZE = withLineSize ? 4000000 : lineLength;
+            int MAX_LONG_SIZE = withLineSize ? 4000 : lineLength;
             for (int i = 0; i <= lineLength / MAX_LONG_SIZE; i++) {
                 int start = i * MAX_LONG_SIZE;
                 int end = (i + 1) * MAX_LONG_SIZE;
