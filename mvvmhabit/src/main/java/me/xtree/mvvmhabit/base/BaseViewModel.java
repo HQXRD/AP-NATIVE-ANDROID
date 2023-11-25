@@ -16,14 +16,10 @@ import androidx.lifecycle.Observer;
 
 import com.trello.rxlifecycle4.LifecycleProvider;
 
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.subscribers.DisposableSubscriber;
-import me.xtree.mvvmhabit.bus.event.SingleLiveEvent;
+import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 
 /**
  * Created by goldze on 2017/6/15.
@@ -197,41 +193,41 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         addSubscribe(disposable);
     }
 
-    public final class UIChangeLiveData extends SingleLiveEvent {
-        private SingleLiveEvent<String> showDialogEvent;
-        private SingleLiveEvent<Void> dismissDialogEvent;
-        private SingleLiveEvent<Map<String, Object>> startActivityEvent;
-        private SingleLiveEvent<Map<String, Object>> startContainerActivityEvent;
-        private SingleLiveEvent<Void> finishEvent;
-        private SingleLiveEvent<Void> onBackPressedEvent;
+    public final class UIChangeLiveData extends SingleLiveData {
+        private SingleLiveData<String> showDialogEvent;
+        private SingleLiveData<Void> dismissDialogEvent;
+        private SingleLiveData<Map<String, Object>> startActivityEvent;
+        private SingleLiveData<Map<String, Object>> startContainerActivityEvent;
+        private SingleLiveData<Void> finishEvent;
+        private SingleLiveData<Void> onBackPressedEvent;
 
-        public SingleLiveEvent<String> getShowDialogEvent() {
+        public SingleLiveData<String> getShowDialogEvent() {
             return showDialogEvent = createLiveData(showDialogEvent);
         }
 
-        public SingleLiveEvent<Void> getDismissDialogEvent() {
+        public SingleLiveData<Void> getDismissDialogEvent() {
             return dismissDialogEvent = createLiveData(dismissDialogEvent);
         }
 
-        public SingleLiveEvent<Map<String, Object>> getStartActivityEvent() {
+        public SingleLiveData<Map<String, Object>> getStartActivityEvent() {
             return startActivityEvent = createLiveData(startActivityEvent);
         }
 
-        public SingleLiveEvent<Map<String, Object>> getStartContainerActivityEvent() {
+        public SingleLiveData<Map<String, Object>> getStartContainerActivityEvent() {
             return startContainerActivityEvent = createLiveData(startContainerActivityEvent);
         }
 
-        public SingleLiveEvent<Void> getFinishEvent() {
+        public SingleLiveData<Void> getFinishEvent() {
             return finishEvent = createLiveData(finishEvent);
         }
 
-        public SingleLiveEvent<Void> getOnBackPressedEvent() {
+        public SingleLiveData<Void> getOnBackPressedEvent() {
             return onBackPressedEvent = createLiveData(onBackPressedEvent);
         }
 
-        private <T> SingleLiveEvent<T> createLiveData(SingleLiveEvent<T> liveData) {
+        private <T> SingleLiveData<T> createLiveData(SingleLiveData<T> liveData) {
             if (liveData == null) {
-                liveData = new SingleLiveEvent<>();
+                liveData = new SingleLiveData<>();
             }
             return liveData;
         }

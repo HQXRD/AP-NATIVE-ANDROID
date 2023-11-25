@@ -10,9 +10,8 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.home.databinding.FragmentMineBinding;
 import com.xtree.mine.BR;
-import com.xtree.mine.R;
-import com.xtree.mine.databinding.FragmentMineBinding;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 

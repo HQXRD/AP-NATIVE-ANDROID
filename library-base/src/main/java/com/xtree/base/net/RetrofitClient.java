@@ -1,12 +1,10 @@
-package com.xtree.net;
+package com.xtree.base.net;
 
 import android.content.Context;
 import android.text.TextUtils;
 
-
 import com.xtree.base.BuildConfig;
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TagUtils;
 
 import java.io.File;
@@ -31,7 +29,6 @@ import okhttp3.Cache;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
 import okhttp3.internal.platform.Platform;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;

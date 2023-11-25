@@ -11,7 +11,6 @@ android {
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation project(':library-net')
     //组件依赖基础库
     api project(':library-base')
     //组件中依赖阿里路由编译框架

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+
+    <TextView
+        android:id="@+id/tab_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="今日"
+        android:textColor="@color/color_bet_top_tab_item_text"
+        android:textSize="16sp"/>
+</LinearLayout>

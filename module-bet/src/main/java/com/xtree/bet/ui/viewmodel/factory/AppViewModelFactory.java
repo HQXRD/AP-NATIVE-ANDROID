@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.data.Injection;
-import com.xtree.bet.ui.viewmodel.HomeViewModel;
+import com.xtree.bet.ui.viewmodel.MainViewModel;
 
 /**
  * Created by marquis on 2023/11/22.
@@ -45,8 +45,8 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        if (modelClass.isAssignableFrom(HomeViewModel.class)) {
-            return (T) new HomeViewModel(mApplication, mRepository);
+        if (modelClass.isAssignableFrom(MainViewModel.class)) {
+            return (T) new MainViewModel(mApplication, mRepository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }

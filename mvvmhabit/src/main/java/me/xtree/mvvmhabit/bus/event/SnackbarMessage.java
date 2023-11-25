@@ -22,12 +22,12 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 
 /**
- * A SingleLiveEvent used for Snackbar messages. Like a {@link SingleLiveEvent} but also prevents
+ * A SingleLiveEvent used for Snackbar messages. Like a {@link SingleLiveData} but also prevents
  * null messages and uses a custom observer.
  * <p>
  * Note that only one observer is going to be notified of changes.
  */
-public class SnackbarMessage extends SingleLiveEvent<Integer> {
+public class SnackbarMessage extends SingleLiveData<Integer> {
 
     public void observe(LifecycleOwner owner, final SnackbarObserver observer) {
         super.observe(owner, new Observer<Integer>() {

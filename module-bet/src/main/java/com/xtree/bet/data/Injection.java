@@ -5,7 +5,7 @@ import com.xtree.bet.data.source.LocalDataSource;
 import com.xtree.bet.data.source.HttpDataSource;
 import com.xtree.bet.data.source.http.HttpDataSourceImpl;
 import com.xtree.bet.data.source.local.LocalDataSourceImpl;
-import com.xtree.net.RetrofitClient;
+import com.xtree.base.net.RetrofitClient;
 
 /**
  * 注入全局的数据仓库

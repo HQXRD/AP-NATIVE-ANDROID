@@ -7,7 +7,7 @@ import com.xtree.mine.data.source.LocalDataSource;
 import com.xtree.mine.data.source.http.HttpDataSourceImpl;
 import com.xtree.mine.data.source.http.service.DemoApiService;
 import com.xtree.mine.data.source.local.LocalDataSourceImpl;
-import com.xtree.net.RetrofitClient;
+import com.xtree.base.net.RetrofitClient;
 
 /**
  * 注入全局的数据仓库

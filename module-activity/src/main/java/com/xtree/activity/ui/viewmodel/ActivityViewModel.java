@@ -7,18 +7,15 @@ import androidx.annotation.NonNull;
 
 import com.xtree.activity.data.ActivityRepository;
 
-import io.reactivex.rxjava3.disposables.Disposable;
-import io.reactivex.rxjava3.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.bus.event.SingleLiveEvent;
-import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 
 /**
  * Created by goldze on 2018/6/21.
  */
 
 public class ActivityViewModel extends BaseViewModel<ActivityRepository> {
-    public SingleLiveEvent<String> itemClickEvent = new SingleLiveEvent<>();
+    public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
     public ActivityViewModel(@NonNull Application application, ActivityRepository repository) {
         super(application, repository);
     }

@@ -8,8 +8,7 @@ import com.xtree.recharge.data.RechargeRepository;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.bus.event.SingleLiveEvent;
-import me.xtree.mvvmhabit.http.ApiSubscriber;
+import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.http.HttpCallBack;
 import me.xtree.mvvmhabit.utils.RxUtils;
 
@@ -18,7 +17,7 @@ import me.xtree.mvvmhabit.utils.RxUtils;
  */
 
 public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
-    public SingleLiveEvent<String> itemClickEvent = new SingleLiveEvent<>();
+    public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
     public RechargeViewModel(@NonNull Application application, RechargeRepository repository) {
         super(application, repository);
     }

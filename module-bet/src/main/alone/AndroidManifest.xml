@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xtree.home">
+    package="com.xtree.bet">
 
     <application
         android:name="com.xtree.base.debug.DebugApplication"
@@ -8,8 +8,10 @@
         android:label="@string/bet_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name="com.xtree.bet.debug.DebugActivity">
+        android:theme="@style/AppTheme"
+        android:exported="true">
+        <activity android:name="com.xtree.bet.debug.DebugActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

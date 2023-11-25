@@ -16,6 +16,9 @@
     <color name="me_level_color">#D5D7DB</color>
     <color name="me_progress_bar_bg">#3E414B</color>
 
+
+    <!-- 投注模块  begin -->
+
     <!-- 圆角透明背景颜色，例如投注页右上角显示金额UI -->
     <color name="bt_bg_shape_alpha">#33F3F3F3</color>
 
@@ -23,12 +26,17 @@
     <color name="bt_text_color_primary">#4A4A4A</color>
 
     <!-- 投注页加粗字体颜色 -->
-    <color name="bt_text_color_bold">#4A4A4A</color>
+    <color name="bt_text_color_bold">#000000</color>
 
     <!-- 投注页页面背颜色 -->
     <color name="bt_page_bg">#F3F3F3</color>
 
     <!-- 投注页页面各区块背颜色 -->
     <color name="bt_page_up_bg">#FFFFFF</color>
+
+    <!-- 投注页页面顶部玩法tabIndicator颜色 -->
+    <color name="bt_page_top_tab_indicator">#00000000</color>
+
+    <!-- 投注模块  end -->
 
 </resources>

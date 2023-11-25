@@ -1,7 +1,7 @@
 package com.xtree.recharge.data;
 
 
-import com.xtree.net.RetrofitClient;
+import com.xtree.base.net.RetrofitClient;
 import com.xtree.recharge.data.source.ApiService;
 import com.xtree.recharge.data.source.HttpDataSource;
 import com.xtree.recharge.data.source.LocalDataSource;

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xtree.home">
+    package="com.xtree.mine">
 
     <application
         android:name="com.xtree.base.debug.DebugApplication"
@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.xtree.mine.debug.DebugActivity">
+        <activity android:name="com.xtree.mine.debug.DebugActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

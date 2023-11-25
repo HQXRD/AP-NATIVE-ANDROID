@@ -11,7 +11,7 @@ import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.bus.event.SingleLiveEvent;
+import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.http.HttpCallBack;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -21,7 +21,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 
 public class HomeViewModel extends BaseViewModel<HomeRepository> {
-    public SingleLiveEvent<String> itemClickEvent = new SingleLiveEvent<>();
+    public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
 
     public HomeViewModel(@NonNull Application application, HomeRepository repository) {
         super(application, repository);

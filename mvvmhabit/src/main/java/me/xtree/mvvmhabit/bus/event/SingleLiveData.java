@@ -37,7 +37,7 @@ import androidx.lifecycle.Observer;
  * <p>
  * Note that only one observer is going to be notified of changes.
  */
-public class SingleLiveEvent<T> extends MutableLiveData<T> {
+public class SingleLiveData<T> extends MutableLiveData<T> {
     private static final String TAG = "SingleLiveEvent";
 
     private final AtomicBoolean mPending = new AtomicBoolean(false);
