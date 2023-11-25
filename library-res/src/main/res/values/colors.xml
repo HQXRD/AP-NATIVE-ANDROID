@@ -15,6 +15,7 @@
     <color name="me_text_color">#FCE5DE</color>
     <color name="me_level_color">#D5D7DB</color>
     <color name="me_progress_bar_bg">#3E414B</color>
+    <color name="me_more_service_color">#534C5B</color>
 
     <!-- 圆角透明背景颜色，例如投注页右上角显示金额UI -->
     <color name="bt_bg_shape_alpha">#33F3F3F3</color>

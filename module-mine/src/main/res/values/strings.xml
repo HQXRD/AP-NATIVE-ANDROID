@@ -9,4 +9,22 @@
     <string name="me_level_hint">亲！您还差89点就可以升级为VIP10，更多福利等着您！</string>
     <string name="me_my_pocket">我的钱包</string>
     <string name="me_transfer">转账</string>
+    <string name="me_betting_record">投注记录</string>
+    <string name="me_account_record">账变记录</string>
+    <string name="me_account_safety">账户安全</string>
+    <string name="me_more_service">更多服务</string>
+    <string name="me_invite_friend">好友邀请</string>
+    <string name="me_guanfang_heyin">官方合营</string>
+    <string name="me_yinkui_baobiao">盈亏报表</string>
+    <string name="me_sanfang_zhuanzhang">三方转账</string>
+    <string name="me_anquan_zhongxin">安全中心</string>
+    <string name="me_zhanghu_shezhi">账户设置</string>
+    <string name="me_vip_zhongxin">VIP中心</string>
+    <string name="me_fanhui_baobiao">返水报表</string>
+    <string name="me_tiyu_guize">体育规则</string>
+    <string name="me_changjian_wenti">常见问题</string>
+    <string name="me_bangzhu_zhongxin">帮助中心</string>
+    <string name="me_usdt_jiaocheng">USDT教程</string>
+    <string name="me_logout_login">退出登录</string>
+
 </resources>
