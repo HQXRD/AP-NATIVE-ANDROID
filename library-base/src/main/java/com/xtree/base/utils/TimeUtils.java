@@ -1,12 +1,22 @@
 package com.xtree.base.utils;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 //@SuppressLint("SimpleDateFormat")
 public class TimeUtils {
+    public final static String FORMAT_MM_DD = "MM/dd";
 
     /**
      * 时间转换
@@ -110,11 +120,11 @@ public class TimeUtils {
         return format.format(date);
     }
 
-    public static String getTime(Date date) {
+    public static String getTime(Date date, String dateFormat) {
         if (date == null) {
             date = new Date();
         }
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat format = new SimpleDateFormat(dateFormat);
 
         return format.format(date);
     }
@@ -212,6 +222,36 @@ public class TimeUtils {
         }
 
         return null;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static List<String> calculateDates(LocalDate startDate, int daysToAdd) {
+        List<String> dateList = new ArrayList<>();
+        DateTimeFormatter formatter = null;
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        for (int i = 0; i < daysToAdd; i++) {
+            // 将日期格式化为字符串并添加到列表中
+            dateList.add(startDate.format(formatter));
+
+            // 计算下一天的日期
+            startDate = startDate.plusDays(1);
+        }
+
+        return dateList;
+    }
+
+    public static List<String> getNextDays(int daysToAdd, String format) {
+        List<String> dateList = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+
+        for (int i = 0; i < daysToAdd; i++) {
+            dateList.add(getTime(calendar.getTime(), format));
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        return dateList;
     }
 
 }
