@@ -88,13 +88,14 @@ public class RetrofitClient {
             String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
             header.put("Content-Type", "application/vnd.sc-api.v1.json");
             if (!TextUtils.isEmpty(token)) {
-                header.put("Authorization", "bearer" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN));
+                header.put("Authorization", "bearer " + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN));
                 header.put("Cookie", "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";" +
                         SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME) + "=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID) + ";");
 
             }
+            header.put("App-RNID", "87jumkljo"); //
             header.put("Source", "8");
-            header.put("UUID", TagUtils.getAndroidId(Utils.getContext()));
+            header.put("UUID", TagUtils.getDeviceId(Utils.getContext()));
             headers = header;
         }
 
@@ -105,7 +106,7 @@ public class RetrofitClient {
                 .addInterceptor(new BaseInterceptor(headers))
                 .addInterceptor(new CacheInterceptor(mContext))
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
-                //.addInterceptor(new HttpLoggingInterceptor(message -> KLog.d(message)).setLevel(HttpLoggingInterceptor.Level.HEADERS))
+                //.addInterceptor(new HttpLoggingInterceptor(message -> KLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(new LoggingInterceptor
                         .Builder()//构建者模式
                         .loggable(BuildConfig.DEBUG) //是否开启日志打印
