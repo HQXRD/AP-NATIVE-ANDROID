@@ -16,9 +16,7 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.tabs.TabLayout;
 import com.xtree.base.router.RouterFragmentPath;
-import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.BR;
-import com.xtree.bet.bean.LeagueItem;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.R;
@@ -55,6 +53,7 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
         viewModel.setplaySearchDateData();
         viewModel.setMatchItems();
         viewModel.setFbLeagueData();
+        GenerateValueFiles.main(new String[]{"1"});
     }
 
     @Override
