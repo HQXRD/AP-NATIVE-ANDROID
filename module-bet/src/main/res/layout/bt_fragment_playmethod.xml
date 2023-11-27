@@ -33,7 +33,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="5dp"
-                android:textSize="12sp"
+                android:textSize="@dimen/bt_text_sp12"
                 android:text="进行中"
                 android:textColor="@color/bt_text_color_bold"/>
         </LinearLayout>
