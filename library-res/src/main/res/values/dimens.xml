@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="bt_text_sp15">15sp</dimen>
+    <dimen name="bt_text_sp14">14sp</dimen>
+    <dimen name="bt_text_sp13">13sp</dimen>
+    <dimen name="bt_text_sp12">12sp</dimen>
+    <dimen name="bt_text_sp11">11sp</dimen>
+    <dimen name="bt_text_sp10">10sp</dimen>
 
-    <dimen name="me_test_size">12sp</dimen>
 </resources>

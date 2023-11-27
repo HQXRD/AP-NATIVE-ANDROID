@@ -4,11 +4,13 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -47,18 +49,20 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
 
     @Override
     public void initData() {
-        viewModel.playMethodTab.setValue(new String[]{"今日", "滚球", "早盘", "串关", "冠军"/*, "冠军", "冠军", "冠军", "冠军"*/});
-
+        viewModel.setPlayMethodTabData();
+        viewModel.setplaySearchDateData();
+        viewModel.setMatchItems();
+        viewModel.setFbLeagueData();
     }
 
     @Override
     public void initViewObservable() {
-        viewModel.itemClickEvent.observe(this, (Observer<String>) s -> ToastUtils.showShort(s));
-        viewModel.playMethodTab.observe(this, (Observer<String[]>) titles -> {
-            for (int i = 0; i < titles.length; i ++) {
+        viewModel.itemClickEvent.observe(this, s -> ToastUtils.showShort(s));
+        viewModel.playMethodTab.observe(this, titleList -> {
+            for (int i = 0; i < titleList.length; i ++) {
                 TextView textView = new TextView(getContext());
-                textView.setText(titles[i]);
-                ColorStateList colorStateList=getResources().getColorStateList(R.color.color_bet_top_tab_item_text);
+                textView.setText(titleList[i]);
+                ColorStateList colorStateList=getResources().getColorStateList(R.color.bt_color_bet_top_tab_item_text);
                 textView.setTextColor(colorStateList);
                 if(i == 0){
                     textView.setTextSize(16);
@@ -84,5 +88,44 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
                 }
             });
         });
+        viewModel.playSearchDate.observe(this, dateList -> {
+            for (int i = 0; i < dateList.size(); i ++) {
+                binding.tabSearchDate.addTab(binding.tabSearchDate.newTab().setText(dateList.get(i)));
+            }
+        });
+        viewModel.matchItemDate.observe(this, matchitemList -> {
+            for (int i = 0; i < matchitemList.size(); i ++) {
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.bt_layout_bet_match_item_tab_item, null);
+                TextView tvName = view.findViewById(R.id.tab_item_name);
+                TextView tvMatchCount = view.findViewById(R.id.iv_match_count);
+                ImageView ivIcon = view.findViewById(R.id.iv_icon);
+
+                tvName.setText(matchitemList.get(i).getName());
+                tvMatchCount.setText(String.valueOf(matchitemList.get(i).getMatchCount()));
+                ColorStateList colorStateList=getResources().getColorStateList(R.color.bt_color_bet_match_item_text);
+                tvName.setTextColor(colorStateList);
+                tvMatchCount.setTextColor(colorStateList);
+
+                binding.tabMatchItem.addTab(binding.tabMatchItem.newTab().setCustomView(view));
+            }
+        });
+        viewModel.leagueItemDate.observe(this, leagueItem -> {
+            for (int i = 0; i < leagueItem.getLeagueNameList().length; i ++) {
+                View view = LayoutInflater.from(getContext()).inflate(R.layout.bt_layout_bet_league_tab_item, null);
+                TextView tvName = view.findViewById(R.id.tab_item_name);
+                ImageView ivIcon = view.findViewById(R.id.iv_icon);
+                String name = leagueItem.getLeagueNameList()[i];
+                if(TextUtils.equals(name, "全部")){
+                    ivIcon.setVisibility(View.GONE);
+                }
+
+                tvName.setText(name);
+                ColorStateList colorStateList=getResources().getColorStateList(R.color.bt_color_bet_top_tab_item_text);
+                tvName.setTextColor(colorStateList);
+
+                binding.tabFbLeague.addTab(binding.tabFbLeague.newTab().setCustomView(view));
+            }
+        });
     }
+
 }

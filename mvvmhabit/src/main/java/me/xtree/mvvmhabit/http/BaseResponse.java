@@ -7,6 +7,7 @@ package me.xtree.mvvmhabit.http;
 public class BaseResponse<T> {
     private int status;
     private String message;
+    public int timestamp; // 1700702751
     private T data;
 
     public int getStatus() {
@@ -36,4 +37,13 @@ public class BaseResponse<T> {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    public int getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(int timestamp) {
+        this.timestamp = timestamp;
+    }
+
 }
