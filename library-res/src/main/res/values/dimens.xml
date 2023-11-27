@@ -6,5 +6,6 @@
     <dimen name="bt_text_sp12">12sp</dimen>
     <dimen name="bt_text_sp11">11sp</dimen>
     <dimen name="bt_text_sp10">10sp</dimen>
+    <dimen name="me_test_size">12sp</dimen>
 
 </resources>
