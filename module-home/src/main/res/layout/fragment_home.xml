@@ -12,8 +12,67 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:orientation="vertical">
 
+        <Button
+            android:id="@+id/btn_banner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="banner" />
 
+        <Button
+            android:id="@+id/btn_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Setting" />
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login" />
+
+        <Button
+            android:id="@+id/btn_cookie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Get Cookie" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Login Name:" />
+
+        <EditText
+            android:id="@+id/edt_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:background="@color/gray"
+            android:hint="loginName"
+            android:minHeight="48dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Login PWD:" />
+
+        <EditText
+            android:id="@+id/edt_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:background="@color/gray"
+            android:hint="pwd"
+            android:minHeight="48dp" />
+
+        <Button
+            android:id="@+id/btn_login2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Login_2" />
     </LinearLayout>
 </layout>

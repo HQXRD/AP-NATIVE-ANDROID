@@ -1,12 +1,12 @@
 package com.xtree.home.ui.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xtree.base.router.RouterFragmentPath;
@@ -20,7 +20,7 @@ import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
- * Created by goldze on 2018/6/21
+ * 首页
  */
 @Route(path = RouterFragmentPath.Home.PAGER_HOME)
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
@@ -44,7 +44,26 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     @Override
     public void initData() {
         //viewModel.getBanners();
-        viewModel.getBanner();
+        //viewModel.getSettings(getContext());
+
+        String username = "testkite1002";
+        String pwd = "kite123456";
+        //viewModel.login(getContext(), username, pwd); // 要等公钥接口返回结果以后 才能调用
+
+        binding.btnBanner.setOnClickListener(view -> viewModel.getBanners());
+        binding.btnSetting.setOnClickListener(view -> viewModel.getSettings(getContext()));
+        binding.btnCookie.setOnClickListener(view -> viewModel.getCookie(getContext()));
+        binding.btnLogin.setOnClickListener(view -> viewModel.login(getContext(), username, pwd));
+
+
+        binding.btnLogin2.setOnClickListener(view -> {
+            String username2 = binding.edtName.getText().toString().trim();
+            String pwd2 = binding.edtPwd.getText().toString().trim();
+            if (!username2.isEmpty() && !pwd2.isEmpty()) {
+                viewModel.login(getContext(), username2, pwd2);
+            }
+        });
+
     }
 
     @Override

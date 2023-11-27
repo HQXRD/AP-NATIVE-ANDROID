@@ -1,33 +1,34 @@
 package com.xtree.home.vo;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
-import com.xtree.base.vo.BaseBean;
+//import com.xtree.base.base.BaseBean;
 
 // extends BaseBean
-public class BannersVo implements BaseBean {
+public class BannersVo implements Parcelable {
 
-    private String title; // "虚拟体育 惊喜不断"
-    private String ad_id; // "465"
-    private String link; // "#/newactivity/detail/225"
-    private String start_time; // "2023-11-16"
-    private String end_time; // "2023-12-01"
-    private String sort; // "2"
-    private String platform_id; // "25"
-    private String actlink_id; // "0"
-    private String position_pop; // "1"
-    private String unlogin_pop; // "0"
-    private String login_pop; // "0"
-    private String pop_image; // "https://jxpicture.julaohuivip.com/2023/11/01/xnty_H5_banner0348.jpg"
-    private String ad_position; // "4"
-    private String pop_image_type; // "0"
-    private String user_pop; // "1"
-    private String pop_start_time; // "0000-00-00"
-    private String pop_end_time; // "0000-00-00"
-    private String design_pop_user; // "0"
-    private String h5_target_link; // ""
-    private String app_target_link; // ""
-    private String picture; // "https://jxpicture.julaohuivip.com/2023/11/01/xnty_H5_banner0348.jpg"
+    public String title; // "虚拟体育 惊喜不断"
+    public String ad_id; // "465"
+    public String link; // "#/newactivity/detail/225"
+    public String start_time; // "2023-11-16"
+    public String end_time; // "2023-12-01"
+    public String sort; // "2"
+    public String platform_id; // "25"
+    public String actlink_id; // "0"
+    public String position_pop; // "1"
+    public String unlogin_pop; // "0"
+    public String login_pop; // "0"
+    public String pop_image; // "https://jxpicture.julaohuivip.com/2023/11/01/xnty_H5_banner0348.jpg"
+    public String ad_position; // "4"
+    public String pop_image_type; // "0"
+    public String user_pop; // "1"
+    public String pop_start_time; // "0000-00-00"
+    public String pop_end_time; // "0000-00-00"
+    public String design_pop_user; // "0"
+    public String h5_target_link; // ""
+    public String app_target_link; // ""
+    public String picture; // "https://jxpicture.julaohuivip.com/2023/11/01/xnty_H5_banner0348.jpg"
 
 
     protected BannersVo(Parcel in) {
