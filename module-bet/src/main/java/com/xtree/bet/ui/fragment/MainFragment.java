@@ -53,7 +53,6 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
         viewModel.setplaySearchDateData();
         viewModel.setMatchItems();
         viewModel.setFbLeagueData();
-        GenerateValueFiles.main(new String[]{"1"});
     }
 
     @Override
