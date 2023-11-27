@@ -482,7 +482,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/more_service_hint"
                 app:layout_constraintTop_toTopOf="@+id/more_service_hint"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="6dp"
                 />
 
             <LinearLayout
