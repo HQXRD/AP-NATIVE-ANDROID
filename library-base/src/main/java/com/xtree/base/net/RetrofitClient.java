@@ -61,6 +61,10 @@ public class RetrofitClient {
         return SingletonHolder.INSTANCE;
     }
 
+    public static void init() {
+        SingletonHolder.INSTANCE = new RetrofitClient();
+    }
+
     private RetrofitClient() {
         this(baseUrl, null);
     }
@@ -83,7 +87,7 @@ public class RetrofitClient {
             KLog.e("Could not create http cache", e);
         }
 
-        if(headers == null) {
+        if (headers == null) {
             Map<String, String> header = new HashMap<>();
             String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
             header.put("Content-Type", "application/vnd.sc-api.v1.json");
