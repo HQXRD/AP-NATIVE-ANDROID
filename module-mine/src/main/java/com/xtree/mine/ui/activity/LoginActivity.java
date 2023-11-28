@@ -41,13 +41,15 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     }
     private void initView(){
 
-
         boolean isRememberPwd = SPUtil.get(getApplication()).get(Spkey.REMEMBER_PWD,false);
         if(isRememberPwd){
             binding.mePwdInput.setText(SPUtil.get(getApplication()).get(Spkey.PWD,""));
+            binding.meAccountInput.setText(SPUtil.get(getApplication()).get(Spkey.ACCOUNT,""));
             binding.meCheckbox.setChecked(true);
         }else{
             binding.meCheckbox.setChecked(false);
+            binding.mePwdInput.setText("");
+            binding.meAccountInput.setText("");
         }
 
         binding.meCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
