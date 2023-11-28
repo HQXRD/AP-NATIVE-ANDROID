@@ -1,6 +1,8 @@
 package com.xtree.mine.data.source;
 
 
+import com.xtree.mine.data.source.http.service.HttpApiService;
+
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import me.xtree.mvvmhabit.http.BaseResponse;
@@ -15,6 +17,8 @@ public interface HttpDataSource {
     Observable<BaseResponse<Object>> demoGet();
 
     Observable<BaseResponse<Object>> demoPost(String catalog);
+
+    HttpApiService getApiService();
 
 
 }

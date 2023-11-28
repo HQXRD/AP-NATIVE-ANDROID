@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xtree.mine">
-
-    <application></application>
+    <application>
+        <!--在自己组件中注册Activity-->
+        <activity android:name="com.xtree.mine.ui.activity.LoginActivity"
+            android:screenOrientation="portrait"></activity>
+    </application>
 </manifest>

@@ -7,6 +7,7 @@ import androidx.annotation.VisibleForTesting;
 
 import com.xtree.mine.data.source.HttpDataSource;
 import com.xtree.mine.data.source.LocalDataSource;
+import com.xtree.mine.data.source.http.service.HttpApiService;
 
 import io.reactivex.rxjava3.core.Observable;
 import me.xtree.mvvmhabit.base.BaseModel;
@@ -61,6 +62,11 @@ public class MineRepository extends BaseModel implements HttpDataSource, LocalDa
     }
 
     @Override
+    public HttpApiService getApiService() {
+        return mHttpDataSource.getApiService();
+    }
+
+    @Override
     public void saveUserName(String userName) {
         mLocalDataSource.saveUserName(userName);
     }
@@ -79,4 +85,6 @@ public class MineRepository extends BaseModel implements HttpDataSource, LocalDa
     public String getPassword() {
         return mLocalDataSource.getPassword();
     }
+
+
 }

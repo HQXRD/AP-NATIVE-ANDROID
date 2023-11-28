@@ -3,7 +3,7 @@ package com.xtree.mine.data.source.http;
 
 
 import com.xtree.mine.data.source.HttpDataSource;
-import com.xtree.mine.data.source.http.service.DemoApiService;
+import com.xtree.mine.data.source.http.service.HttpApiService;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,10 +15,10 @@ import me.xtree.mvvmhabit.http.BaseResponse;
  * Created by goldze on 2019/3/26.
  */
 public class HttpDataSourceImpl implements HttpDataSource {
-    private DemoApiService apiService;
+    private HttpApiService apiService;
     private volatile static HttpDataSourceImpl INSTANCE = null;
 
-    public static HttpDataSourceImpl getInstance(DemoApiService apiService) {
+    public static HttpDataSourceImpl getInstance(HttpApiService apiService) {
         if (INSTANCE == null) {
             synchronized (HttpDataSourceImpl.class) {
                 if (INSTANCE == null) {
@@ -33,7 +33,7 @@ public class HttpDataSourceImpl implements HttpDataSource {
         INSTANCE = null;
     }
 
-    private HttpDataSourceImpl(DemoApiService apiService) {
+    private HttpDataSourceImpl(HttpApiService apiService) {
         this.apiService = apiService;
     }
 
@@ -51,4 +51,11 @@ public class HttpDataSourceImpl implements HttpDataSource {
     public Observable<BaseResponse<Object>> demoPost(String catalog) {
         return apiService.demoPost(catalog);
     }
+
+    @Override
+    public HttpApiService getApiService() {
+        return apiService;
+    }
+
+
 }
