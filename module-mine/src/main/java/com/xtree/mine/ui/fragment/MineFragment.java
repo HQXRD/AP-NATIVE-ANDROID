@@ -2,6 +2,7 @@ package com.xtree.mine.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
@@ -48,6 +49,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         //binding.tabs.setupWithViewPager(binding.viewPager);
         //binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabs));
       //  viewModel.addPage();
+       binding.textViewLogin.setOnClickListener(new View.OnClickListener(){
+           @Override
+           public void onClick(View v) {
+
+           }
+       });
     }
 
     @Override
