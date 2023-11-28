@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
@@ -15,10 +16,11 @@ import com.xtree.base.utils.SPUtil;
 import com.xtree.home.data.HomeRepository;
 import com.xtree.home.vo.BannersVo;
 import com.xtree.home.vo.CookieVo;
+import com.xtree.home.vo.DataVo;
 import com.xtree.home.vo.LoginResultVo;
+import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.SettingsVo;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -39,7 +41,8 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class HomeViewModel extends BaseViewModel<HomeRepository> {
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
 
-    public MutableLiveData<ArrayList<BannersVo>> liveDataBanner = new MutableLiveData<>();
+    public MutableLiveData<List<BannersVo>> liveDataBanner = new MutableLiveData<>();
+    public MutableLiveData<List<NoticeVo>> liveDataNotice = new MutableLiveData<>();
     public MutableLiveData<String> liveDataUser = new MutableLiveData<>();
     public MutableLiveData<String> liveDataCookie = new MutableLiveData<>();
     public MutableLiveData<SettingsVo> liveDataSettings = new MutableLiveData<>();
@@ -60,12 +63,40 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     public void onResult(List<BannersVo> list) {
                         //ToastUtils.showLong("请求成功");
                         KLog.i(list.get(0));
+                        liveDataBanner.setValue(list);
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
                         ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getNotices() {
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        if (TextUtils.isEmpty(token)) {
+            KLog.e("no token, not get notices");
+            return;
+        }
+
+        Disposable disposable = (Disposable) model.getApiService().getNotices()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<DataVo<NoticeVo>>() {
+                    @Override
+                    public void onResult(DataVo<NoticeVo> data) {
+                        KLog.i(data.list.get(0));
+                        liveDataNotice.setValue(data.list);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        KLog.e("error, Maybe no token.");
+                        super.onError(t);
+                        //ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -146,6 +177,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         //SPUtil.get(ctx).put("cookie_name", vo.cookie.cookie_name);
                         SPUtil.get(ctx).put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
+
+                        RetrofitClient.init();
                     }
 
                     @Override

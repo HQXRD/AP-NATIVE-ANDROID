@@ -2,7 +2,9 @@ package com.xtree.home.data.source;
 
 import com.xtree.home.vo.BannersVo;
 import com.xtree.home.vo.CookieVo;
+import com.xtree.home.vo.DataVo;
 import com.xtree.home.vo.LoginResultVo;
+import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.SettingsVo;
 
 import java.util.List;
@@ -26,6 +28,9 @@ public interface HomeApiService {
 
     @GET("bns/4/banners?limit=20")
     Flowable<BaseResponse<List<BannersVo>>> getBanners();
+
+    @GET("notice/list?page=1&per_page=10&sort=-istop,-sendtime")
+    Flowable<BaseResponse<DataVo<NoticeVo>>> getNotices();
 
     @GET("/api/settings/?")
     Flowable<BaseResponse<SettingsVo>> getSettings(@QueryMap Map<String, String> filters);
