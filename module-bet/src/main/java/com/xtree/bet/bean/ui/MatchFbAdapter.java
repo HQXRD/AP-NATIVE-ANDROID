@@ -63,12 +63,23 @@ public class MatchFbAdapter implements Match{
      */
     @Override
     public List<Integer> getScore() {
-        for (ScoreInfo scoreInfo: matchInfo.nsg) {
-            if(scoreInfo.pe == matchInfo.mc.pe){
-                return scoreInfo.sc;
+        if(matchInfo.nsg != null) {
+            for (ScoreInfo scoreInfo : matchInfo.nsg) {
+                if (scoreInfo.pe == matchInfo.mc.pe) {
+                    return scoreInfo.sc;
+                }
             }
         }
         return null;
+    }
+
+    /**
+     * 获取单个赛事玩法总数
+     * @return
+     */
+    @Override
+    public int getPlayTypeCount() {
+        return matchInfo.tms;
     }
 
     /**

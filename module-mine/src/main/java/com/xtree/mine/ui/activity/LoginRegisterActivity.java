@@ -43,10 +43,10 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         String username = "testkite1002";
         String pwd = "kite123456";
 
-        initView();
 
     }
-    private void initView(){
+    @Override
+    public void initView(){
 
         Intent intent = getIntent();
         int viewType = intent.getIntExtra(ENTER_TYPE,LOGIN_TYPE);

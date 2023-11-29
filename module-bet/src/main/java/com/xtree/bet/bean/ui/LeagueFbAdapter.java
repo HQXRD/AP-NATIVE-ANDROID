@@ -5,12 +5,23 @@ import com.xtree.bet.bean.LeagueInfo;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.xtree.mvvmhabit.bus.RxSubscriptions;
+
 public class LeagueFbAdapter implements League{
     public int sort;
     public LeagueInfo leagueInfo;
-    public List<MatchFbAdapter> matchFbAdapterlist = new ArrayList<>();
+    public List<Match> matchList = new ArrayList<>();
+
     public LeagueFbAdapter(LeagueInfo leagueInfo){
         this.leagueInfo = leagueInfo;
+    }
+
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
     }
 
     /**
@@ -32,7 +43,7 @@ public class LeagueFbAdapter implements League{
     }
 
     @Override
-    public List<MatchFbAdapter> getMatchList() {
-        return matchFbAdapterlist;
+    public List<Match> getMatchList() {
+        return matchList;
     }
 }

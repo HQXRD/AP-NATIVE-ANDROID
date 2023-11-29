@@ -106,21 +106,26 @@
             android:textSize="10sp"
             app:layout_constraintTop_toBottomOf="@+id/tab_match_item"
             app:tabIndicatorHeight="0dp"
-            app:tabMaxWidth="60dp"
+            app:tabMaxWidth="80dp"
             app:tabMinWidth="20dp"
             app:tabMode="scrollable"
             app:tabPaddingEnd="5dp"
             app:tabPaddingStart="5dp" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/srl_league"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tab_fb_league">
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/tab_fb_league"
+            android:layout_marginTop="140dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:paddingTop="10dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_league"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 

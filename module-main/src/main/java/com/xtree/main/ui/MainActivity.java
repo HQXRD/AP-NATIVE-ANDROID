@@ -40,6 +40,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     }
 
     @Override
+    public void initView() {
+
+    }
+
+    @Override
     public void initData() {
         //初始化Fragment
         initFragment();

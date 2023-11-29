@@ -41,6 +41,11 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding,Activ
     }
 
     @Override
+    public void initView() {
+
+    }
+
+    @Override
     public void initData() {
     }
 

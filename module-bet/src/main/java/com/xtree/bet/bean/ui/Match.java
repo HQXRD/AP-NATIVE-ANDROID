@@ -33,6 +33,12 @@ public interface Match {
     List<Integer> getScore();
 
     /**
+     * 获取单个赛事玩法总数
+     * @return
+     */
+    int getPlayTypeCount();
+
+    /**
      * 获取玩法列表
      * @return
      */

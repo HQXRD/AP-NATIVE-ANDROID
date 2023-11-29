@@ -6,8 +6,10 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.xtree.base.utils.TimeUtils;
+import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueFbAdapter;
 import com.xtree.bet.bean.LeagueItem;
+import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFbAdapter;
 import com.xtree.bet.bean.MatchInfo;
 import com.xtree.bet.bean.MatchItem;
@@ -36,7 +38,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
     public SingleLiveData<List<String>> playSearchDate = new SingleLiveData<>();
     public SingleLiveData<List<MatchItem>> matchItemDate = new SingleLiveData<>();
     public SingleLiveData<LeagueItem> leagueItemDate = new SingleLiveData<>();
-    public SingleLiveData<List<LeagueFbAdapter>> setLeagueListDate = new SingleLiveData<>();
+    public SingleLiveData<List<League>> setLeagueListDate = new SingleLiveData<>();
 
     public MainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
@@ -70,13 +72,16 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
     }
 
     public void setLeagueList(InputStream inputStream){
+        String json = null;
         try {
-            String json = readTextFile(inputStream);
-            MatchListRsp matchListRsp = new Gson().fromJson(json, MatchListRsp.class);
-            setLeagueListDate.postValue(leagueAdapterList(matchListRsp.records, true));
+            json = readTextFile(inputStream);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            String s = e.getMessage();
+            String sq = s;
         }
+        MatchListRsp matchListRsp = new Gson().fromJson(json, MatchListRsp.class);
+        setLeagueListDate.postValue(leagueAdapterList(matchListRsp.records, true));
+
     }
 
     /**
@@ -85,23 +90,22 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
      * @param isFb
      * @return
      */
-    public static List<LeagueFbAdapter> leagueAdapterList(List<MatchInfo> matchInfoList, boolean isFb) {
-        List<LeagueFbAdapter> list = new ArrayList<>();
-        Map<String, LeagueFbAdapter> map = new HashMap<>();
+    public static List<League> leagueAdapterList(List<MatchInfo> matchInfoList, boolean isFb) {
+        List<League> list = new ArrayList<>();
+        Map<String, League> map = new HashMap<>();
 
         int index = 0;
         for (MatchInfo matchInfo : matchInfoList) {
 
-            LeagueFbAdapter leagueAdapter = map.get(String.valueOf(matchInfo.lg.id));
+            League leagueAdapter = map.get(String.valueOf(matchInfo.lg.id));
             if(leagueAdapter == null){
                 leagueAdapter = new LeagueFbAdapter(matchInfo.lg);
-                leagueAdapter.sort = index;
+                leagueAdapter.setSort(index ++);
                 map.put(String.valueOf(matchInfo.lg.id), leagueAdapter);
-                index ++;
             }
 
-            MatchFbAdapter matchFbAdapter = new MatchFbAdapter(matchInfo);
-            leagueAdapter.matchFbAdapterlist.add(matchFbAdapter);
+            Match matchFbAdapter = new MatchFbAdapter(matchInfo);
+            leagueAdapter.getMatchList().add(matchFbAdapter);
         }
         list.addAll(map.values());
         return list;

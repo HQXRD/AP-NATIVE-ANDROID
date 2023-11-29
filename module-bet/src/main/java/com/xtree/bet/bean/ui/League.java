@@ -17,5 +17,9 @@ public interface League {
      */
     int getId();
 
-    List<MatchFbAdapter> getMatchList();
+    List<Match> getMatchList();
+
+    int getSort();
+
+    void setSort(int sort);
 }

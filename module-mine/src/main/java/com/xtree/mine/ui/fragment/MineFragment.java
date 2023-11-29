@@ -29,6 +29,11 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 @Route(path = RouterFragmentPath.Mine.PAGER_MINE)
 public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewModel> {
     @Override
+    public void initView() {
+
+    }
+
+    @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return R.layout.fragment_mine;
     }
