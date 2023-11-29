@@ -43,10 +43,12 @@
         android:paddingRight="10dp"
         >
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/login_area"
             android:layout_width="0dp"
             android:layout_height="320dp"
             android:background="@mipmap/me_login_area_bg"
             android:layout_weight="11"
+            android:visibility="visible"
             >
             <TextView
                 android:id="@+id/me_login_title"
@@ -266,19 +268,207 @@
             android:background="@mipmap/me_login_recg"
             android:layout_weight="2"
             android:orientation="vertical"
+            android:id="@+id/to_register_area"
+            android:visibility="visible"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/me_login_register" />
+        </RelativeLayout>
+
+
+        
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="320dp"
+            android:background="@mipmap/me_to_login_bg"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:id="@+id/to_login_area"
+            android:visibility="gone"
             >
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@mipmap/me_login_register" />
-
+                android:src="@mipmap/me_back_login_bg" />
         </RelativeLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="320dp"
+            android:background="@mipmap/me_register_area_bg"
+            android:layout_weight="11"
+            android:id="@+id/me_register_area"
+            android:visibility="gone"
+            >
+            <TextView
+                android:id="@+id/me_register_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/me_register"
+                android:textSize="@dimen/me_text_sp20"
+                android:textStyle="bold"
+                android:layout_marginTop="18dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/me_register_title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/me_input_bg"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/me_account_icon"
+                        android:layout_marginLeft="15dp"
+                        android:layout_gravity="center_vertical"
+                        />
+
+
+                    <EditText
+                        android:id="@+id/me_register_account_input"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="5"
+                        android:hint="@string/me_account_hint"
+                        android:background="@null"
+                        android:textSize="@dimen/me_test_size"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/me_input_bg"
+                    android:layout_marginTop="10dp"
+                    >
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/me_pwd_icon"
+                        android:layout_marginLeft="15dp"
+                        android:layout_gravity="center_vertical"
+                        />
+
+                    <EditText
+                        android:id="@+id/me_register_pwd_input"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:hint="@string/me_pwd_hint"
+                        android:background="@null"
+                        android:textSize="@dimen/me_test_size"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:inputType="textPassword"
+                        >
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/me_input_bg"
+                    android:layout_marginTop="10dp"
+                    >
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/me_pwd_icon"
+                        android:layout_marginLeft="15dp"
+                        android:layout_gravity="center_vertical"
+                        />
+
+                    <EditText
+                        android:id="@+id/me_reinput_register_pwd"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        android:hint="@string/me_pwd_hint"
+                        android:background="@null"
+                        android:textSize="@dimen/me_test_size"
+                        android:layout_marginLeft="10dp"
+                        android:layout_gravity="center_vertical"
+                        android:inputType="textPassword"
+                        >
+                    </EditText>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="20dp"
+                    >
+                    <CheckBox
+                        android:id="@+id/register_agreement_checkbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:checked="true"
+                        style="@style/PwdCheckboxStyle"
+                        android:layout_marginTop="2dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/me_agreement_hint"
+                        android:textSize="@dimen/me_text_size_sp12sp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="2dp"
+                        android:textStyle="bold"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/me_agreement_content"
+                        android:textSize="@dimen/me_text_size_sp12sp"
+                        android:layout_gravity="center_vertical"
+                        android:textStyle="bold"
+                        android:textColor="@color/me_text_agreement"
+                        />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/me_btn_register"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@mipmap/me_login_logout_bg"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/me_register"
+                    android:textColor="@color/white"
+                    />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

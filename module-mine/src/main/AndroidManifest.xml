@@ -2,7 +2,7 @@
     package="com.xtree.mine">
     <application>
         <!--在自己组件中注册Activity-->
-        <activity android:name="com.xtree.mine.ui.activity.LoginActivity"
+        <activity android:name="com.xtree.mine.ui.activity.LoginRegisterActivity"
             android:screenOrientation="portrait"></activity>
     </application>
 </manifest>

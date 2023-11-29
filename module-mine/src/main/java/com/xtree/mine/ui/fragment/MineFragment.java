@@ -16,7 +16,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMineBinding;
-import com.xtree.mine.ui.activity.LoginActivity;
+import com.xtree.mine.ui.activity.LoginRegisterActivity;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 
@@ -55,7 +55,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
        binding.textViewLogin.setOnClickListener(new View.OnClickListener(){
            @Override
            public void onClick(View v) {
-             Intent toLogin = new Intent(getContext(), LoginActivity.class);
+             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
              startActivity(toLogin);
            }
        });

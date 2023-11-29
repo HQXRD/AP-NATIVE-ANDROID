@@ -3,6 +3,7 @@ package com.xtree.mine.ui.activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.CompoundButton;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -18,7 +19,7 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
-public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> {
+public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> {
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -84,6 +85,20 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                 return;
             }
             viewModel.login(getApplication(),binding.meAccountInput.getText().toString(),binding.mePwdInput.getText().toString());
+        });
+
+        binding.toRegisterArea.setOnClickListener(v->{
+            //显示注册页面，隐藏登录界面
+            binding.toLoginArea.setVisibility(View.VISIBLE);
+            binding.meRegisterArea.setVisibility(View.VISIBLE);
+            binding.toRegisterArea.setVisibility(View.GONE);
+            binding.loginArea.setVisibility(View.GONE);
+        });
+        binding.toLoginArea.setOnClickListener(v -> {
+            binding.toRegisterArea.setVisibility(View.VISIBLE);
+            binding.loginArea.setVisibility(View.VISIBLE);
+            binding.toLoginArea.setVisibility(View.GONE);
+            binding.meRegisterArea.setVisibility(View.GONE);
         });
     }
     private boolean ifAgree(){
