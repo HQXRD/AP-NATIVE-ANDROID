@@ -25,7 +25,7 @@
             android:paddingStart="2dp"
             tools:text="全部"
             android:textColor="@color/bt_color_bet_match_item_text"
-            android:textSize="@dimen/bt_text_sp12"/>
+            android:textSize="@dimen/bt_text_12sp"/>
 
     </LinearLayout>
 

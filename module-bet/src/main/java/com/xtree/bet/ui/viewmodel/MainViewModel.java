@@ -3,24 +3,27 @@ package com.xtree.bet.ui.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
+import com.google.gson.Gson;
 import com.xtree.base.utils.TimeUtils;
+import com.xtree.bet.bean.ui.LeagueFbAdapter;
 import com.xtree.bet.bean.LeagueItem;
+import com.xtree.bet.bean.ui.MatchFbAdapter;
+import com.xtree.bet.bean.MatchInfo;
 import com.xtree.bet.bean.MatchItem;
+import com.xtree.bet.bean.MatchListRsp;
 import com.xtree.bet.data.BetRepository;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
-import me.xtree.mvvmhabit.http.ApiCallBack;
-import me.xtree.mvvmhabit.http.ApiSubscriber;
-import me.xtree.mvvmhabit.http.BaseResponse;
-import me.xtree.mvvmhabit.utils.RxUtils;
 
 /**
  * Created by goldze on 2018/6/21.
@@ -33,6 +36,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
     public SingleLiveData<List<String>> playSearchDate = new SingleLiveData<>();
     public SingleLiveData<List<MatchItem>> matchItemDate = new SingleLiveData<>();
     public SingleLiveData<LeagueItem> leagueItemDate = new SingleLiveData<>();
+    public SingleLiveData<List<LeagueFbAdapter>> setLeagueListDate = new SingleLiveData<>();
 
     public MainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
@@ -63,6 +67,56 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
 
     public void setFbLeagueData(){
         leagueItemDate.setValue(new LeagueItem());
+    }
+
+    public void setLeagueList(InputStream inputStream){
+        try {
+            String json = readTextFile(inputStream);
+            MatchListRsp matchListRsp = new Gson().fromJson(json, MatchListRsp.class);
+            setLeagueListDate.postValue(leagueAdapterList(matchListRsp.records, true));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     *
+     * @param matchInfoList
+     * @param isFb
+     * @return
+     */
+    public static List<LeagueFbAdapter> leagueAdapterList(List<MatchInfo> matchInfoList, boolean isFb) {
+        List<LeagueFbAdapter> list = new ArrayList<>();
+        Map<String, LeagueFbAdapter> map = new HashMap<>();
+
+        int index = 0;
+        for (MatchInfo matchInfo : matchInfoList) {
+
+            LeagueFbAdapter leagueAdapter = map.get(String.valueOf(matchInfo.lg.id));
+            if(leagueAdapter == null){
+                leagueAdapter = new LeagueFbAdapter(matchInfo.lg);
+                leagueAdapter.sort = index;
+                map.put(String.valueOf(matchInfo.lg.id), leagueAdapter);
+                index ++;
+            }
+
+            MatchFbAdapter matchFbAdapter = new MatchFbAdapter(matchInfo);
+            leagueAdapter.matchFbAdapterlist.add(matchFbAdapter);
+        }
+        list.addAll(map.values());
+        return list;
+    }
+
+    private String readTextFile(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte buf[] = new byte[1024];
+        int len;
+        while ((len = inputStream.read(buf)) != -1) {
+            outputStream.write(buf, 0, len);
+        }
+        outputStream.close();
+        inputStream.close();
+        return outputStream.toString();
     }
 
 }

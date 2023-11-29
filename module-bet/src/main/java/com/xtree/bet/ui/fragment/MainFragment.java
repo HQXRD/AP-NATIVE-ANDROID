@@ -17,10 +17,13 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.tabs.TabLayout;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.bet.BR;
+import com.xtree.bet.bean.ui.LeagueFbAdapter;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.R;
 import com.xtree.bet.databinding.FragmentMainBinding;
+import com.zhy.adapter.recyclerview.CommonAdapter;
+import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -53,6 +56,7 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
         viewModel.setplaySearchDateData();
         viewModel.setMatchItems();
         viewModel.setFbLeagueData();
+        viewModel.setLeagueList(getResources().openRawResource(R.raw.test));
     }
 
     @Override
@@ -125,6 +129,14 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
 
                 binding.tabFbLeague.addTab(binding.tabFbLeague.newTab().setCustomView(view));
             }
+        });
+        viewModel.setLeagueListDate.observe(this, leagueAdapters -> {
+            binding.rvLeague.setAdapter(new CommonAdapter<LeagueFbAdapter>(getActivity(), R.layout.bt_fb_list_item, leagueAdapters) {
+                @Override
+                protected void convert(ViewHolder holder, LeagueFbAdapter leagueAdapter, int position) {
+                    holder.setText(R.id.tv_league_name, leagueAdapter.leagueInfo.na);
+                }
+            });
         });
     }
 

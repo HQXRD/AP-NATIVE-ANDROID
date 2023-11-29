@@ -83,21 +83,7 @@ public class RetrofitClient {
             KLog.e("Could not create http cache", e);
         }
 
-        if(headers == null) {
-            Map<String, String> header = new HashMap<>();
-            String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
-            header.put("Content-Type", "application/vnd.sc-api.v1.json");
-            if (!TextUtils.isEmpty(token)) {
-                header.put("Authorization", "bearer " + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN));
-                header.put("Cookie", "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";" +
-                        SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME) + "=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID) + ";");
 
-            }
-            header.put("App-RNID", "87jumkljo"); //
-            header.put("Source", "8");
-            header.put("UUID", TagUtils.getDeviceId(Utils.getContext()));
-            headers = header;
-        }
 
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
         okHttpClient = new OkHttpClient.Builder()

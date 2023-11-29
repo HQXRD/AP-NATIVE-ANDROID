@@ -1,9 +1,9 @@
 <resources>
-    <dimen name="bt_text_sp15">15sp</dimen>
-    <dimen name="bt_text_sp14">14sp</dimen>
-    <dimen name="bt_text_sp13">13sp</dimen>
-    <dimen name="bt_text_sp12">12sp</dimen>
-    <dimen name="bt_text_sp11">11sp</dimen>
-    <dimen name="bt_text_sp10">10sp</dimen>
+    <dimen name="bt_text_15sp">15sp</dimen>
+    <dimen name="bt_text_14sp">14sp</dimen>
+    <dimen name="bt_text_13sp">13sp</dimen>
+    <dimen name="bt_text_12sp">12sp</dimen>
+    <dimen name="bt_text_11sp">11sp</dimen>
+    <dimen name="bt_text_10sp">10sp</dimen>
 
 </resources>

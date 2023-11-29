@@ -254,4 +254,16 @@ public class TimeUtils {
         return dateList;
     }
 
+    /**
+     * 秒数转换成分秒
+     * @param s
+     * @return
+     */
+    public static String sToMs(int s){
+        long milliseconds = s * 1000;
+        long minutes = (milliseconds / 1000) / 60;
+        long seconds = (milliseconds / 1000) % 60;
+        return String.format("%d : %d", minutes, seconds);
+    }
+
 }

@@ -44,6 +44,7 @@ dependencies {
     api rootProject.ext.dependencies["fastjson"]
     api rootProject.ext.dependencies["mixpanel"]
     api rootProject.ext.dependencies["XPopup"]
-
+    api rootProject.ext.dependencies["XBanner"]
+    api rootProject.ext.dependencies["base-rvadapter"]
 
 }
