@@ -1,7 +1,9 @@
 package com.xtree.mine.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
@@ -14,6 +16,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMineBinding;
+import com.xtree.mine.ui.activity.LoginRegisterActivity;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 
@@ -48,6 +51,21 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         //binding.tabs.setupWithViewPager(binding.viewPager);
         //binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabs));
       //  viewModel.addPage();
+
+       binding.textViewLogin.setOnClickListener(new View.OnClickListener(){
+           @Override
+           public void onClick(View v) {
+             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
+             toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE,LoginRegisterActivity.LOGIN_TYPE);
+             startActivity(toLogin);
+           }
+       });
+
+       binding.textViewRegister.setOnClickListener(v -> {
+           Intent toRegister = new Intent(getContext(),LoginRegisterActivity.class);
+           toRegister.putExtra(LoginRegisterActivity.ENTER_TYPE,LoginRegisterActivity.REGISTER_TYPE);
+           startActivity(toRegister);
+       });
     }
 
     @Override

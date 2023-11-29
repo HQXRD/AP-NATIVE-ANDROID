@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <!-- 首页模块 begin -->
+    <color name="clr_hm_txt_black">#000000</color>
+    <color name="clr_hm_txt_grey_01">#b1b1b1</color>
+    <color name="clr_hm_txt_grey_03">#9E9E9E</color>
+    <!-- 首页模块 end-->
 </resources>

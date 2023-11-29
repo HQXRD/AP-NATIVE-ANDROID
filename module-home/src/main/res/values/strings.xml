@@ -1,3 +1,9 @@
 <resources>
-    <string name="home_name">首页组件</string>
+    <string name="hm_name">首页组件</string>
+    <string name="hm_you_dont_login">您还未登录</string>
+    <string name="hm_pls_login_view">请登录后查看</string>
+    <string name="hm_txt_deposit">存款</string>
+    <string name="hm_txt_withdraw">提现</string>
+    <string name="hm_txt_trans">转账</string>
+    <string name="hm_txt_member">会员</string>
 </resources>

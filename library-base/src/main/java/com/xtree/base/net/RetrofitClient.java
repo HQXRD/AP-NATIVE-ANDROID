@@ -61,6 +61,10 @@ public class RetrofitClient {
         return SingletonHolder.INSTANCE;
     }
 
+    public static void init() {
+        SingletonHolder.INSTANCE = new RetrofitClient();
+    }
+
     private RetrofitClient() {
         this(baseUrl, null);
     }
@@ -83,7 +87,21 @@ public class RetrofitClient {
             KLog.e("Could not create http cache", e);
         }
 
+        if (headers == null) {
+            Map<String, String> header = new HashMap<>();
+            String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+            header.put("Content-Type", "application/vnd.sc-api.v1.json");
+            if (!TextUtils.isEmpty(token)) {
+                header.put("Authorization", "bearer " + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN));
+                header.put("Cookie", "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";" +
+                        SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME) + "=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID) + ";");
 
+            }
+            header.put("App-RNID", "87jumkljo"); //
+            header.put("Source", "8");
+            header.put("UUID", TagUtils.getDeviceId(Utils.getContext()));
+            headers = header;
+        }
 
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
         okHttpClient = new OkHttpClient.Builder()
@@ -96,7 +114,7 @@ public class RetrofitClient {
                 .addInterceptor(new LoggingInterceptor
                         .Builder()//构建者模式
                         .loggable(BuildConfig.DEBUG) //是否开启日志打印
-                        .setLevel(Level.BASIC) //打印的等级
+                        .setLevel(Level.BODY) //打印的等级
                         .log(Platform.INFO) // 打印类型
                         .request("Request") // request的Tag
                         .response("Response")// Response的Tag

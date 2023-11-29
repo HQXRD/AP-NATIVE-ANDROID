@@ -25,6 +25,7 @@ public class RouterFragmentPath {
     public static class Mine{
         private static final String MINE = "/mine";
         public static final String PAGER_MINE =MINE +"/Mine";
+        public static final String PAGER_LOGIN = MINE + "/Login";
 
     }
 

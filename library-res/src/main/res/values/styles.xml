@@ -25,4 +25,11 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/viewLineColor</item>
     </style>
+
+
+    <style name="PwdCheckboxStyle">
+        <item name="android:button">@drawable/checkbox_bg_selector</item>
+    </style>
+
+
 </resources>
