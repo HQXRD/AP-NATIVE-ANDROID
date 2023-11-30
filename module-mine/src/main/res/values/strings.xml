@@ -37,5 +37,6 @@
     <string name="me_online_service">在线客服</string>
     <string name="me_agree_hint">请授权同意</string>
     <string name="me_register">注册</string>
-
+    <string name="me_register_reinput">请再次输入密码</string>
+    <string name="me_choose_acount">请选择账号类型</string>
 </resources>

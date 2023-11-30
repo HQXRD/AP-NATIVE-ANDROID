@@ -137,6 +137,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:visibility="gone"
+                    android:id="@+id/me_already_login_area"
                     >
                     <TextView
                         android:id="@+id/total_money_hint"

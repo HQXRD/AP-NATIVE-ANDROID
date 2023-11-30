@@ -108,5 +108,7 @@ public abstract class ApiSubscriber<T> extends DisposableSubscriber<T> {
         static final int CODE_530 = 530;
         //请求的操作异常终止：未知的页面类型
         static final int CODE_551 = 551;
+        //用户名或密码错误
+        static final int CODE_20203 = 20203;
     }
 }

@@ -51,8 +51,9 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             case ApiSubscriber.CodeRule.CODE_551:
                 ToastUtils.showShort("错误代码:", baseResponse.getStatus());
                 break;
-            default:
-                ToastUtils.showShort("错误代码:", baseResponse.getStatus());
+
+            case ApiSubscriber.CodeRule.CODE_20203:
+                ToastUtils.showShort(baseResponse.getMessage());
                 break;
         }
     }
