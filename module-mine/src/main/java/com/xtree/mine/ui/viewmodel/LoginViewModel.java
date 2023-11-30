@@ -77,4 +77,31 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                 });
         addSubscribe(disposable);
     }
+
+    public void register(Context ctx,String userName,String pwd){
+        HashMap<String, String> map = new HashMap();
+        map.put("carryAuth","false");
+        map.put("code","");
+        map.put("nonce", UUID.randomUUID().toString().replace("-", ""));
+        map.put("username",userName.toString());
+        map.put("userpass",pwd.toString());
+
+        Disposable disposable = (Disposable) model.getApiService().register(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<String>() {
+                    @Override
+                    public void onResult(String result) {
+
+                        String content = result;
+                    }
+                    @Override
+                    public void onError(Throwable t) {
+                        KLog.e(t.toString());
+                        super.onError(t);
+                        ToastUtils.showLong("注册失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
 }

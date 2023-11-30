@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ResourceName">
 
     <style name="style_hm_txt_bold">
         <item name="android:layout_width">wrap_content</item>

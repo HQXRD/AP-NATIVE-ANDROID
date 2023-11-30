@@ -3,6 +3,7 @@ package com.xtree.home.data.source;
 import com.xtree.home.vo.BannersVo;
 import com.xtree.home.vo.CookieVo;
 import com.xtree.home.vo.DataVo;
+import com.xtree.home.vo.GameStatusVo;
 import com.xtree.home.vo.LoginResultVo;
 import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.SettingsVo;
@@ -23,14 +24,17 @@ import retrofit2.http.QueryMap;
 public interface HomeApiService {
 
     @FormUrlEncoded
-    @POST("auth/login")
+    @POST("/api/auth/login")
     Flowable<BaseResponse<Object>> login(@Field("username") String username, @Field("password") String password);
 
-    @GET("bns/4/banners?limit=20")
+    @GET("/api/bns/4/banners?limit=20")
     Flowable<BaseResponse<List<BannersVo>>> getBanners();
 
-    @GET("notice/list?page=1&per_page=10&sort=-istop,-sendtime")
+    @GET("/api/notice/list?page=1&per_page=10&sort=-istop,-sendtime")
     Flowable<BaseResponse<DataVo<NoticeVo>>> getNotices();
+
+    @GET("/api/game/status")
+    Flowable<BaseResponse<List<GameStatusVo>>> getGameStatus();
 
     @GET("/api/settings/?")
     Flowable<BaseResponse<SettingsVo>> getSettings(@QueryMap Map<String, String> filters);

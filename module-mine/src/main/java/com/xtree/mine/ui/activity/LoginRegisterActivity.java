@@ -3,7 +3,9 @@ package com.xtree.mine.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CompoundButton;
 
@@ -121,9 +123,101 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             binding.toLoginArea.setVisibility(View.GONE);
             binding.meRegisterArea.setVisibility(View.GONE);
         });
+
+        register();
     }
     private boolean ifAgree(){
         return binding.agreementCheckbox.isChecked();
+    }
+
+    private void register(){
+
+        binding.meRegisterAccountInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if(charSequence.toString().length() < 6 || charSequence.toString().length() > 12){
+                    ToastUtils.showLong("用户名为6到12位");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        binding.meRegisterPwdInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if(charSequence.toString().length() < 6 || charSequence.toString().length() > 12){
+                    ToastUtils.showLong("密码为6到12位");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        binding.meReinputRegisterPwd.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if(charSequence.toString().length() < 6 || charSequence.toString().length() > 12){
+                    ToastUtils.showLong("密码为6到12位");
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        binding.meBtnRegister.setOnClickListener(view -> {
+
+            if(!binding.registerAgreementCheckbox.isChecked()){
+                ToastUtils.showLong(getResources().getString(R.string.me_agree_hint));
+                return;
+            }
+            if(TextUtils.isEmpty(binding.meRegisterAccountInput.getText().toString())){
+                ToastUtils.showLong(getResources().getString(R.string.me_account_hint));
+                return;
+            }
+            if(TextUtils.isEmpty(binding.meRegisterPwdInput.getText().toString())){
+                ToastUtils.showLong(getResources().getString(R.string.me_pwd_hint));
+                return;
+            }
+
+            if(TextUtils.isEmpty(binding.meReinputRegisterPwd.getText().toString())){
+                ToastUtils.showLong("请再次输入密码");
+                return;
+            }
+
+            if(!binding.meReinputRegisterPwd.getText().toString().equals(binding.meRegisterPwdInput.getText().toString())){
+                ToastUtils.showLong("两次输入密码不一致");
+                return;
+            }
+
+            //验证输入参数
+            viewModel.register(this,binding.meRegisterAccountInput.getText().toString(),binding.meRegisterPwdInput.getText().toString());
+
+        });
+
     }
 
     @Override

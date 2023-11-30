@@ -18,8 +18,8 @@
     <color name="me_more_service_color">#534C5B</color>
     <color name="me_text_forget_pwd">#CC6A74</color>
     <color name="me_text_agreement">#9C6490</color>
-
-
+    <color name="me_account_start_color">#D8A2EB</color>
+    <color name="me_account_end_color">#B097F0</color>
     <!-- 投注模块  begin -->
 
     <!-- 圆角透明背景颜色，例如投注页右上角显示金额UI -->

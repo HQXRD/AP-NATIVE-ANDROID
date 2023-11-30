@@ -1,0 +1,38 @@
+[
+  { "id":"101", "title": "XXXX", "picture": "hm_gm_ty_01", "typeId": 101, "pId": 1 ,    	"cid":41, "alias":"fbxc", "imageName": "XCImage.sport_FBXC" } ,
+  { "id":"102", "title": "XXXX", "picture": "hm_gm_ty_02", "typeId": 102, "pId": 1 ,    	"isH5": true, "cid":5, "alias":"obg", "imageName": "XCImage.sport_OBG", "twoImage": true } ,
+  { "id":"103", "title": "XXXX", "picture": "hm_gm_ty_03", "typeId": 103, "pId": 1 ,    	"isH5": true, "cid":26, "alias":"fb","imageName": "XCImage.sport_FB", "twoImage": true } ,
+  { "id":"104", "title": "XXXX", "picture": "hm_gm_ty_04", "typeId": 104, "pId": 1 ,    	"playURL":"ibcgame?s=1&autoThrad", "isH5": true, "cid":10, "imageName": "XCImage.sport_IBC" } ,
+  { "id":"105", "title": "XXAA", "picture": "hm_gm_ty_05", "typeId": 105, "pId": 1 ,    	"isH5": true, "cid":30,"imageName": "XCImage.sport_IMONE", "gameId": 2757 } ,
+
+  { "id":"201", "title": "XXXX", "picture": "hm_gm_zr_01", "typeId": 201, "pId": 2 ,    	"playURL":"ptgame/livehallplay", "isH5": true, "cid":1, "imageName": "XCImage.casino_PT" } ,
+  { "id":"202", "title": "XXXX", "picture": "hm_gm_zr_02", "typeId": 202, "pId": 2 ,    	"name":"AG真人", "playURL":"aggame/hallplay", "isH5": true, "cid":3, "imageName": "XCImage.casino_AG" } ,
+  { "id":"203", "title": "XXXX", "picture": "hm_gm_zr_03", "typeId": 203, "pId": 2 ,    	"playURL":"livegame/tobbinpage/live", "isH5": true, "cid":2, "imageName": "XCImage.casino_BBIN" } ,
+  { "id":"204", "title": "XXXX", "picture": "hm_gm_zr_04", "typeId": 204, "pId": 2 ,    	"isH5": true, "cid":31, "imageName": "XCImage.casino_OBGZR" } ,
+  { "id":"205", "title": "XXXX", "picture": "hm_gm_zr_05", "typeId": 205, "pId": 2 ,    	"isH5": true, "cid":38, "imageName": "XCImage.casino_BGZR" } ,
+
+  { "id":"301", "title": "XXXX", "picture": "hm_gm_dz_01", "typeId": 301, "pId": 3 ,    	"playURL":"ptgame/play/pt2?isH5=1&autoThrad", "isH5": true, "cid":16, "imageName": "XCImage.slot_PT" } ,
+  { "id":"302", "title": "XXXX", "picture": "hm_gm_dz_02", "typeId": 302, "pId": 3 ,    	"playURL":"pggame/play/PG", "isH5": true, "cid":19, "imageName": "XCImage.slot_PG" } ,
+  { "id":"303", "title": "XXXX", "picture": "hm_gm_dz_03", "typeId": 303, "pId": 3 ,    	"playURL":"ppgame/play/PP", "isH5": true, "cid":34, "imageName": "XCImage.slot_PP" } ,
+  { "id":"304", "title": "XXXX", "picture": "hm_gm_dz_04", "typeId": 304, "pId": 3 ,    	"name":"AG电子", "playURL":"aggame/electronicplay?autoThrad", "isH5": true, "cid":3, "imageName": "XCImage.slot_AG" } ,
+  { "id":"305", "title": "XXXX", "picture": "hm_gm_dz_05", "typeId": 305, "pId": 3 ,    	"playURL":"livegame/bbinplay/bbin?autoThrad", "isH5": true, "cid":2, "imageName": "XCImage.slot_BBIN" } ,
+  { "id":"306", "title": "XXXX", "picture": "hm_gm_dz_06", "typeId": 306, "pId": 3 ,    	"playURL":"cqninegame/play", "isH5": true, "cid":17, "imageName": "XCImage.slot_CQ9" } ,
+  { "id":"307", "title": "XXXX", "picture": "hm_gm_dz_07", "typeId": 307, "pId": 3 ,    	"playURL":"jdbgame/play", "isH5": true, "cid":18, "imageName": "XCImage.slot_JDB" } ,
+  { "id":"308", "title": "XXXX", "picture": "hm_gm_dz_08", "typeId": 308, "pId": 3 ,    	"isH5": true, "cid":33, "imageName": "XCImage.slot_MG" } ,
+  { "id":"701", "title": "XXXX", "picture": "hm_gm_dz_09", "typeId": 309, "pId": 3 ,    	"name":"AG捕鱼", "playURL":"aggame/fishplay?autoThrad", "isH5": true, "cid":3, "imageName": "XCImage.fishing_AG" } ,
+  { "id":"702", "title": "XXXX", "picture": "hm_gm_dz_10", "typeId": 310, "pId": 3 ,    	"playURL":"sggame/play/1719?autoThrad", "isH5": true, "cid":36, "imageName": "XCImage.fishing_SG" } ,
+  { "id":"703", "title": "XXYY", "picture": "hm_gm_dz_11", "typeId": 311, "pId": 3 ,    	"name":"AG街", "playURL":"aggame/yoplay?autoThrad", "isH5": true, "imageName": "XCImage.slot_AGARCADE" } ,
+
+  { "id":"401", "title": "XXXX", "picture": "hm_gm_dj_01", "typeId": 401, "pId": 4 ,    	"playURL":"lhgame/play", "isH5": true, "cid":28, "imageName": "XCImage.esports_LH" } ,
+  { "id":"402", "title": "XXXX", "picture": "hm_gm_dj_02", "typeId": 402, "pId": 4 ,    	"isH5": true, "cid":30, "imageName": "XCImage.esports_IMONE", "gameId": 2758 } ,
+  { "id":"403", "title": "XXXX", "picture": "hm_gm_dj_03", "typeId": 403, "pId": 4 ,    	"playURL":"aviagame/play?autoThrad", "isH5": true, "cid":39, "imageName": "XCImage.esports_AVIA" } ,
+  { "id":"404", "title": "XXXX", "picture": "hm_gm_dj_04", "typeId": 404, "pId": 4 ,    	"isH5": true, "cid":40, "imageName": "XCImage.esports_OBGDJ" } ,
+
+  { "id":"501", "title": "XXXX", "picture": "hm_gm_qp_01", "typeId": 501, "pId": 5 ,    	"playURL":"yygame/play?autoThrad", "isH5": true, "cid":20, "imageName": "XCImage.chess_YY" } ,
+  { "id":"502", "title": "XXXX", "picture": "hm_gm_qp_02", "typeId": 502, "pId": 5 ,    	"isH5": true, "cid":32, "imageName": "XCImage.chess_OBGQP" } ,
+  { "id":"503", "title": "XXXX", "picture": "hm_gm_qp_03", "typeId": 503, "pId": 5 ,    	"name":"KY棋牌", "playURL":"kygame/play", "isH5": true, "cid":35, "imageName": "XCImage.chess_KY" } ,
+  { "id":"504", "title": "XXXX", "picture": "hm_gm_qp_04", "typeId": 504, "pId": 5 ,    	"isH5": true, "cid":4, "imageName": "XCImage.chess_KGAME" } ,
+  { "id":"505", "title": "XXXX", "picture": "hm_gm_qp_05", "typeId": 505, "pId": 5 ,    	"playURL": "augame/list", "isH5": true, "cid":7, "imageName": "XCImage.chess_AU" } ,
+
+  { "id":"601", "title": "XXXX", "picture": "hm_gm_cp_01", "typeId": 601, "pId": 6 ,    	"name": "杏彩彩票", "playURL": "eliminated-h5/#/alllottery", "isH5": true, "imageName": "XCImage.lottery_CAIPAO" }
+]

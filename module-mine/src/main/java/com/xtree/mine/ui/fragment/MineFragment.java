@@ -1,10 +1,14 @@
 package com.xtree.mine.ui.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.PopupWindow;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
@@ -71,6 +75,39 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
            toRegister.putExtra(LoginRegisterActivity.ENTER_TYPE,LoginRegisterActivity.REGISTER_TYPE);
            startActivity(toRegister);
        });
+
+       binding.iconSetting.setOnClickListener(view -> {
+           popup();
+       });
+    }
+
+    private void popup(){
+        showBottomDialog();
+    }
+
+    private void showBottomDialog(){
+        //1、使用Dialog、设置style
+        final Dialog dialog = new Dialog(getActivity(),R.style.DialogTheme);
+        //2、设置布局
+        View view = View.inflate(getActivity(),R.layout.mine_account_popup_window,null);
+        dialog.setContentView(view);
+
+        Window window = dialog.getWindow();
+        //设置弹出位置
+        window.setGravity(Gravity.BOTTOM);
+        //设置弹出动画
+        window.setWindowAnimations(R.style.main_menu_animStyle);
+        //设置对话框大小
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.show();
+        dialog.findViewById(R.id.me_close_icon).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+
     }
 
     @Override
