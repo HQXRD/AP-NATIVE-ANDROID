@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/iv_icon"
             android:layout_marginStart="-2dp"
-            android:textSize="@dimen/bt_text_sp10"
+            android:textSize="@dimen/bt_text_10sp"
             android:text="(130)"
             android:textColor="@color/bt_color_bet_match_item_text"/>
 
@@ -36,5 +36,5 @@
         android:paddingStart="2dp"
         android:text="足球"
         android:textColor="@color/bt_color_bet_match_item_text"
-        android:textSize="@dimen/bt_text_sp10"/>
+        android:textSize="@dimen/bt_text_10sp"/>
 </LinearLayout>

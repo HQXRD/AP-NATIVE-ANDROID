@@ -69,7 +69,9 @@ ext {
             "fastjson"                             : "com.alibaba:fastjson:1.2.31",
             "mixpanel"                             : "com.mixpanel.android:mixpanel-android:7.+",
             "XPopup"                               : "com.github.li-xiaojun:XPopup:2.4.6",
+            "XBanner"                              : "com.github.xiaohaibin:XBanner:androidx_v1.2.8",
             "banner"                               : "com.youth.banner:banner:2.1.0",
+            "base-rvadapter"                       : "com.zhy:base-rvadapter:3.0.3",
 
     ]
 }

@@ -1,3 +1,9 @@
 <resources>
     <string name="bet_name">投注组件</string>
+    <string name="bt_all_league">全部联赛</string>
+    <string name="bt_game_going_on">进行中</string>
+    <string name="bt_game_waiting">未开赛</string>
+    <string name="bt_play_type_dy">全场独赢</string>
+    <string name="bt_play_type_yf">全场让分</string>
+    <string name="bt_play_type_dx">全场大小</string>
 </resources>

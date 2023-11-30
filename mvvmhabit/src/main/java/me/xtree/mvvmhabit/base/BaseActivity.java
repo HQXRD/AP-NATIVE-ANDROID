@@ -43,6 +43,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         initViewDataBinding(savedInstanceState);
         //私有的ViewModel与View的契约事件回调逻辑
         registorUIChangeLiveDataCallBack();
+        initView();
         //页面数据初始化方法
         initData();
         //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
@@ -247,6 +248,8 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     public VM initViewModel() {
         return null;
     }
+
+    public abstract void initView();
 
     @Override
     public void initData() {

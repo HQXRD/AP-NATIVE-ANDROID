@@ -1,8 +1,10 @@
 package com.xtree.mine.ui.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.CompoundButton;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -18,7 +20,12 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
-public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> {
+public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> {
+
+    public static final String ENTER_TYPE = "enter_type";
+    public static final int  LOGIN_TYPE = 0x1001;
+    public static final int REGISTER_TYPE = 0x1002;
+
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -36,10 +43,25 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         String username = "testkite1002";
         String pwd = "kite123456";
 
-        initView();
 
     }
-    private void initView(){
+    @Override
+    public void initView(){
+
+        Intent intent = getIntent();
+        int viewType = intent.getIntExtra(ENTER_TYPE,LOGIN_TYPE);
+        if(viewType == LOGIN_TYPE){
+            binding.toRegisterArea.setVisibility(View.VISIBLE);
+            binding.loginArea.setVisibility(View.VISIBLE);
+            binding.toLoginArea.setVisibility(View.GONE);
+            binding.meRegisterArea.setVisibility(View.GONE);
+        }
+        if(viewType == REGISTER_TYPE){
+            binding.toLoginArea.setVisibility(View.VISIBLE);
+            binding.meRegisterArea.setVisibility(View.VISIBLE);
+            binding.toRegisterArea.setVisibility(View.GONE);
+            binding.loginArea.setVisibility(View.GONE);
+        }
 
         boolean isRememberPwd = SPUtil.get(getApplication()).get(Spkey.REMEMBER_PWD,false);
         if(isRememberPwd){
@@ -84,6 +106,20 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                 return;
             }
             viewModel.login(getApplication(),binding.meAccountInput.getText().toString(),binding.mePwdInput.getText().toString());
+        });
+
+        binding.toRegisterArea.setOnClickListener(v->{
+            //显示注册页面，隐藏登录界面
+            binding.toLoginArea.setVisibility(View.VISIBLE);
+            binding.meRegisterArea.setVisibility(View.VISIBLE);
+            binding.toRegisterArea.setVisibility(View.GONE);
+            binding.loginArea.setVisibility(View.GONE);
+        });
+        binding.toLoginArea.setOnClickListener(v -> {
+            binding.toRegisterArea.setVisibility(View.VISIBLE);
+            binding.loginArea.setVisibility(View.VISIBLE);
+            binding.toLoginArea.setVisibility(View.GONE);
+            binding.meRegisterArea.setVisibility(View.GONE);
         });
     }
     private boolean ifAgree(){

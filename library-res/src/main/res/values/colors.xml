@@ -46,6 +46,15 @@
     <!-- 投注页页面日期下比赛选中状态的字体颜色 -->
     <color name="bt_tab_match_textcolor_selected">#373737</color>
 
+    <!-- 分隔线颜色 -->
+    <color name="bt_color_line">#f8f8f8</color>
+
+    <!-- 赛事比分颜色 -->
+    <color name="bt_color_score">#F74E15</color>
+
+    <!-- 模糊的字体颜色 -->
+    <color name="bt_color_blurred">#D1D1D1</color>
+
     <!-- 投注模块 end-->
 
 </resources>

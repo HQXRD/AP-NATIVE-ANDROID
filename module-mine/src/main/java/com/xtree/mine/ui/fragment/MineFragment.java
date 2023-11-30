@@ -16,7 +16,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMineBinding;
-import com.xtree.mine.ui.activity.LoginActivity;
+import com.xtree.mine.ui.activity.LoginRegisterActivity;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 
@@ -28,6 +28,11 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 @Route(path = RouterFragmentPath.Mine.PAGER_MINE)
 public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewModel> {
+    @Override
+    public void initView() {
+
+    }
+
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return R.layout.fragment_mine;
@@ -55,9 +60,16 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
        binding.textViewLogin.setOnClickListener(new View.OnClickListener(){
            @Override
            public void onClick(View v) {
-             Intent toLogin = new Intent(getContext(), LoginActivity.class);
+             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
+             toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE,LoginRegisterActivity.LOGIN_TYPE);
              startActivity(toLogin);
            }
+       });
+
+       binding.textViewRegister.setOnClickListener(v -> {
+           Intent toRegister = new Intent(getContext(),LoginRegisterActivity.class);
+           toRegister.putExtra(LoginRegisterActivity.ENTER_TYPE,LoginRegisterActivity.REGISTER_TYPE);
+           startActivity(toRegister);
        });
     }
 

@@ -20,6 +20,7 @@ public class BaseInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+
         Request.Builder builder = chain.request()
                 .newBuilder();
         if (headers != null && headers.size() > 0) {

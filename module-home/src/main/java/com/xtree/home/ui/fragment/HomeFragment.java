@@ -81,8 +81,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         //        viewModel.login(getContext(), username2, pwd2);
         //    }
         //});
-
-        initView();
         viewModel.liveDataBanner.observe(getViewLifecycleOwner(), new Observer<List<BannersVo>>() {
             @Override
             public void onChanged(List<BannersVo> list) {
@@ -116,7 +114,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.itemClickEvent.observe(this, (Observer<String>) s -> ToastUtils.showShort(s));
     }
 
-    private void initView() {
+    public void initView() {
 
         binding.bnrTop.setIndicator(new CircleIndicator(getContext())); // 增加小圆点
         //binding.bnrTop.setBannerGalleryEffect(20, 12, 0.8f);// 画廊效果

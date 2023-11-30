@@ -36,5 +36,6 @@
     <string name="me_go_round">先去逛逛</string>
     <string name="me_online_service">在线客服</string>
     <string name="me_agree_hint">请授权同意</string>
+    <string name="me_register">注册</string>
 
 </resources>
