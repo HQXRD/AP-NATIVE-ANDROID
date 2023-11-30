@@ -43,4 +43,16 @@ public interface Match {
      * @return
      */
     List<PlayType> getPlayTypeList();
+
+    /**
+     * 是否有视频直播
+     * @return
+     */
+    boolean hasVideo();
+
+    /**
+     * 是否有动画直播
+     * @return
+     */
+    boolean hasAs();
 }

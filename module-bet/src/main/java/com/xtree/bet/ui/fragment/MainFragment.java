@@ -23,25 +23,34 @@ import com.google.android.material.tabs.TabLayout;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.bet.BR;
 import com.xtree.bet.bean.ui.League;
-import com.xtree.bet.bean.ui.LeagueFbAdapter;
-import com.xtree.bet.bean.ui.Match;
-import com.xtree.bet.constant.MatchPeriod;
+import com.xtree.bet.contract.ExpandContract;
 import com.xtree.bet.ui.adapter.LeagueAdapter;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.R;
 import com.xtree.bet.databinding.FragmentMainBinding;
-import com.zhy.adapter.recyclerview.CommonAdapter;
-import com.zhy.adapter.recyclerview.base.ViewHolder;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.bus.RxBus;
+import me.xtree.mvvmhabit.bus.RxSubscriptions;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by goldze on 2018/6/21
  */
 @Route(path = RouterFragmentPath.Bet.PAGER_BET_HOME)
-public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewModel> implements SwipeRefreshLayout.OnRefreshListener {
+public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewModel> implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+
+    private List<League> mLeagueAdapters = new ArrayList<>();
+    private LeagueAdapter mLeagueAdapter;
+
+    private boolean isGoingExpand = true;
+    private boolean isWatingExpand = true;
+
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return R.layout.fragment_main;
@@ -62,6 +71,20 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
     @Override
     public void initView() {
         binding.srlLeague.setOnRefreshListener(this);
+        binding.rvLeague.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                int topRowVerticalPosition =
+                        (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
+                binding.srlLeague.setEnabled(topRowVerticalPosition >= 0);
+            }
+        });
+        binding.llGoingOn.setOnClickListener(this);
     }
 
     @Override
@@ -70,7 +93,8 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
         viewModel.setplaySearchDateData();
         viewModel.setMatchItems();
         viewModel.setFbLeagueData();
-        viewModel.setLeagueList(getResources().openRawResource(R.raw.test));
+        viewModel.setGoingLeagueList(getResources().openRawResource(R.raw.test_going_on));
+        viewModel.addSubscription();
     }
 
     @Override
@@ -144,14 +168,61 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
                 binding.tabFbLeague.addTab(binding.tabFbLeague.newTab().setCustomView(view));
             }
         });
-        viewModel.setLeagueListDate.observe(this, leagueAdapters -> {
+
+        viewModel.leagueWaitingListDate.observe(this, leagueAdapters -> {
+            if(!leagueAdapters.isEmpty()){
+                League league = leagueAdapters.get(0).instance();
+                league.setHead(true);
+                this.mLeagueAdapters.add(league);
+            }
+            this.mLeagueAdapters.addAll(leagueAdapters);
+            mLeagueAdapter = new LeagueAdapter(getActivity(), this.mLeagueAdapters);
             binding.rvLeague.setLayoutManager(new LinearLayoutManager(getActivity()));
-            binding.rvLeague.setAdapter(new LeagueAdapter(getActivity(), R.layout.bt_fb_list_item, leagueAdapters));
+            binding.rvLeague.setAdapter(mLeagueAdapter);
+        });
+
+        viewModel.leagueGoingOnListDate.observe(this, leagueAdapters -> {
+            this.mLeagueAdapters = leagueAdapters;
+            viewModel.setWaitingLeagueList(getResources().openRawResource(R.raw.test));
+        });
+
+        viewModel.expandContractListDate.observe(this, expandContract -> {
+            isWatingExpand = !isWatingExpand;
+            int index = -1;
+            for(int i = 0; i < mLeagueAdapters.size(); i ++){
+                League league = mLeagueAdapters.get(i);
+
+                if(league.isHead()){
+                    index = i;
+                }
+                if(index > 0) {
+                    league.setExpand(isWatingExpand);
+                }
+            }
+            mLeagueAdapter.notifyDataSetChanged();
         });
     }
 
     @Override
     public void onRefresh() {
-        new Handler().postDelayed(() -> binding.srlLeague.setRefreshing(false),2000);
+        new Handler().postDelayed(() -> binding.srlLeague.setRefreshing(false), 500);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        switch (id) {
+            case R.id.ll_going_on:
+            case R.id.ll_all_league:
+                isGoingExpand = !isGoingExpand;
+                for(League league : this.mLeagueAdapters){
+                    if(league.isHead()){
+                        break;
+                    }
+                    league.setExpand(isGoingExpand);
+                }
+                mLeagueAdapter.notifyDataSetChanged();
+                break;
+        }
     }
 }

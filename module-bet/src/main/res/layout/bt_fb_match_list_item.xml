@@ -1,28 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bt_bg_match_item"
     android:orientation="vertical"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent">
-
+        <View
+            android:id="@+id/line_divier"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bt_color_line"
+            app:layout_constraintTop_toTopOf="parent"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="@+id/line_divier">
 
             <RelativeLayout
                 android:layout_width="0dp"
-                android:layout_height="127dp"
+                android:layout_height="@dimen/bt_match_list_height"
                 android:layout_weight="1">
 
                 <TextView
@@ -85,19 +89,21 @@
                     android:layout_toRightOf="@+id/iv_court"
                     android:background="@mipmap/bt_icon_live" />
 
+
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
                 android:layout_weight="1">
                 <com.stx.xhb.androidx.XBanner
                     android:id="@+id/play_type_banner"
                     android:layout_width="match_parent"
-                    android:layout_height="127dp"
-                    app:AutoPlayTime="3000"
+                    android:layout_height="@dimen/bt_match_list_height"
                     app:isAutoPlay="false"
-                    app:isShowIndicatorOnlyOne="true"
+                    app:isShowIndicatorOnlyOne="false"
+                    app:pointsVisibility="false"
                     app:pageChangeDuration="800"
                     app:pointsPosition="CENTER"/>
             </RelativeLayout>
@@ -107,7 +113,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="20dp"
-            android:background="@color/bt_page_bg">
+            android:background="@color/bt_bg_color_time">
             <TextView
                 android:id="@+id/tv_match_time"
                 android:layout_width="wrap_content"

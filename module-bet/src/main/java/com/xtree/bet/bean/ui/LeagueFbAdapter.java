@@ -8,9 +8,15 @@ import java.util.List;
 import me.xtree.mvvmhabit.bus.RxSubscriptions;
 
 public class LeagueFbAdapter implements League{
+    private boolean isExpand = true;
+    private boolean isHead;
     public int sort;
     public LeagueInfo leagueInfo;
     public List<Match> matchList = new ArrayList<>();
+
+    public LeagueFbAdapter(){
+
+    }
 
     public LeagueFbAdapter(LeagueInfo leagueInfo){
         this.leagueInfo = leagueInfo;
@@ -22,6 +28,36 @@ public class LeagueFbAdapter implements League{
 
     public void setSort(int sort) {
         this.sort = sort;
+    }
+
+    @Override
+    public String getIcon() {
+        return leagueInfo.lurl;
+    }
+
+    @Override
+    public boolean setExpand(boolean isExpand) {
+        return this.isExpand = isExpand;
+    }
+
+    @Override
+    public boolean getExpand() {
+        return this.isExpand;
+    }
+
+    @Override
+    public void setHead(boolean isHead) {
+        this.isHead = isHead;
+    }
+
+    @Override
+    public League instance() {
+        return new LeagueFbAdapter();
+    }
+
+    @Override
+    public boolean isHead() {
+        return isHead;
     }
 
     /**
@@ -46,4 +82,6 @@ public class LeagueFbAdapter implements League{
     public List<Match> getMatchList() {
         return matchList;
     }
+
+
 }

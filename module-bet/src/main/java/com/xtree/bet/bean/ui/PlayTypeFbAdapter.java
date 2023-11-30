@@ -48,4 +48,14 @@ public class PlayTypeFbAdapter implements PlayType{
         }
         return optionList;
     }
+
+    @Override
+    public Object getXBannerUrl() {
+        return null;
+    }
+
+    @Override
+    public String getXBannerTitle() {
+        return null;
+    }
 }

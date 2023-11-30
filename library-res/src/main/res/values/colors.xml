@@ -23,7 +23,7 @@
     <!-- 投注模块  begin -->
 
     <!-- 圆角透明背景颜色，例如投注页右上角显示金额UI -->
-    <color name="bt_bg_shape_alpha">#33F3F3F3</color>
+    <color name="bt_bg_shape_alpha">#F3F3F3</color>
 
     <!-- 投注页字体主题色 -->
     <color name="bt_text_color_primary">#4A4A4A</color>
@@ -54,6 +54,15 @@
 
     <!-- 模糊的字体颜色 -->
     <color name="bt_color_blurred">#D1D1D1</color>
+
+    <!-- 赛事列表进行时间背影颜色 -->
+    <color name="bt_bg_color_time">#FBFBFB</color>
+
+    <!-- 投注项默认背影颜色 -->
+    <color name="bt_option_bg_default">#FBFAFF</color>
+
+    <!-- 投注项选中背影颜色 -->
+    <color name="bt_option_bg_selected">#CE9CE5</color>
 
     <!-- 投注模块 end-->
 

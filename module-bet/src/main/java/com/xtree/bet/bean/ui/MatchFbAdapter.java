@@ -92,7 +92,17 @@ public class MatchFbAdapter implements Match{
             PlayTypeFbAdapter playTypeFbAdapter = new PlayTypeFbAdapter(playTypeInfo);
             playTypeList.add(playTypeFbAdapter);
         }
-        return null;
+        return playTypeList;
+    }
+
+    @Override
+    public boolean hasVideo() {
+        return matchInfo.vs.have;
+    }
+
+    @Override
+    public boolean hasAs() {
+        return matchInfo.as != null && !matchInfo.as.isEmpty();
     }
 
 

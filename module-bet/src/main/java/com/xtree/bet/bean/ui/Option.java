@@ -1,6 +1,6 @@
 package com.xtree.bet.bean.ui;
 
- interface Option {
+ public interface Option {
     
     /**
      * 选项全称，投注框一般用全称展示

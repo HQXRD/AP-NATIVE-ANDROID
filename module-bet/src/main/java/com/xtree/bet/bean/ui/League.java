@@ -17,9 +17,37 @@ public interface League {
      */
     int getId();
 
+    /**
+     * 获取比赛列表
+     * @return
+     */
     List<Match> getMatchList();
 
+    /**
+     * 排序
+     * @return
+     */
     int getSort();
 
     void setSort(int sort);
+
+    String getIcon();
+
+    /**
+     * 设置是否展开赛事，true-展开，false-关闭
+     * @return
+     */
+    boolean setExpand(boolean isExpand);
+
+    /**
+     * 获取是否展开赛事，true-展开，false-关闭
+     * @return
+     */
+    boolean getExpand();
+
+    boolean isHead();
+
+    void setHead(boolean isHead);
+
+    League instance();
 }
