@@ -1,12 +1,16 @@
 package com.xtree.home.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,13 +22,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.home.BR;
 import com.xtree.home.R;
 import com.xtree.home.databinding.FragmentHomeBinding;
+import com.xtree.home.ui.GameAdapter;
 import com.xtree.home.ui.viewmodel.HomeViewModel;
 import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.home.vo.BannersVo;
+import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
@@ -43,6 +50,10 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 @Route(path = RouterFragmentPath.Home.PAGER_HOME)
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
+
+    GameAdapter gameAdapter;
+    private int curPId = 0; // 当前选中的游戏大类型 1体育,2真人,3电子,4电竞,5棋牌,6彩票
+
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return R.layout.fragment_home;
@@ -106,6 +117,16 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             }
         });
         viewModel.getNotices();
+
+        viewModel.liveDataGames.observe(getViewLifecycleOwner(), new Observer<List<GameVo>>() {
+            @Override
+            public void onChanged(List<GameVo> list) {
+                KLog.i("size: " + list.size());
+                KLog.i(list.get(0));
+                gameAdapter.addAll(list);
+            }
+        });
+        viewModel.getGameStatus(getContext());
 
     }
 
@@ -177,8 +198,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             KLog.i("**************");
         });
 
-        //RoomAdapter roomAdapter = new RoomAdapter(getContext());
-        //binding.rcvList.setAdapter(roomAdapter);
+        gameAdapter = new GameAdapter(getContext());
+        binding.rcvList.setAdapter(gameAdapter);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         binding.rcvList.setLayoutManager(manager);
 
@@ -193,12 +214,58 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 super.onScrolled(recyclerView, dx, dy);
 
                 int position = manager.findFirstVisibleItemPosition();
-                // manager.findLastCompletelyVisibleItemPosition(); // 最后一个完整可见的
-                View view = manager.findViewByPosition(position);
-
+                //int end = manager.findLastCompletelyVisibleItemPosition(); // 最后一个完整可见的
+                // View view = manager.findViewByPosition(position);
+                GameVo vo = gameAdapter.get(position);
+                if (vo.pId != curPId) {
+                    CfLog.e("类型发生了改变 " + curPId + ", " + vo.pId);
+                    curPId = vo.pId;
+                    RadioButton rbtn = binding.rgpType.findViewWithTag("tp_" + curPId);
+                    rbtn.setChecked(true);
+                }
             }
         });
 
+        // 1体育, 2真人, 3电子, 4电竞, 5棋牌, 6彩票
+        int count = binding.rgpType.getChildCount();
+        RadioButton rbtn;
+        Drawable dr;
+
+        for (int i = 0; i < count; i++) {
+            dr = getResources().getDrawable(R.drawable.hm_game_type_selector);
+            rbtn = (RadioButton) binding.rgpType.getChildAt(i);
+            dr.setLevel(i + 1);
+            rbtn.setButtonDrawable(dr);
+
+            rbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String tag = v.getTag().toString();
+                    int pid = Integer.parseInt(tag.replace("tp_", ""));
+                    smoothToPosition(pid);
+                }
+            });
+        }
+
+        /*binding.rgpType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                String tag = group.findViewById(checkedId).getTag().toString();
+                int pid = Integer.parseInt(tag.replace("tp_", ""));
+                smoothToPosition(pid);
+            }
+        });*/
+
+    }
+
+    private void smoothToPosition(int pid) {
+        List<GameVo> list = gameAdapter.getData();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).pId == pid) {
+                binding.rcvList.smoothScrollToPosition(i);
+                return;
+            }
+        }
     }
 
 }
