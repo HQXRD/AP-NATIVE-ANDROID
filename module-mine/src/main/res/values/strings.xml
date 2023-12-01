@@ -40,4 +40,13 @@
     <string name="me_register_reinput">请再次输入密码</string>
     <string name="me_choose_acount">请选择账号类型</string>
     <string name="me_my_wallet">我的钱包</string>
+    <string name="me_wallet_title">平台中心余额 (元)</string>
+    <string name="me_wallet_deposit">去存款</string>
+    <string name="me_wallet_amount">0.00000</string>
+    <string name="me_wallet_save">存款</string>
+    <string name="me_wallet_transfer">转账</string>
+    <string name="me_wallet_withdraw">取款</string>
+    <string name="me_wallet_account">账户管理</string>
+    <string name="me_wallet_record">充提记录</string>
+    <string name="me_wallet_details">钱包明细</string>
 </resources>

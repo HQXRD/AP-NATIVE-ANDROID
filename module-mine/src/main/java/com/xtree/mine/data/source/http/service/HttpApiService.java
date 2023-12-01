@@ -1,6 +1,7 @@
 package com.xtree.mine.data.source.http.service;
 
 import com.xtree.mine.vo.LoginResultVo;
+import com.xtree.mine.vo.SettingsVo;
 
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by goldze on 2017/6/15.
@@ -33,5 +35,8 @@ public interface HttpApiService {
     @POST("/api/register/kygprka")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<String>> register(@Body Map<String,String> map);
+
+    @GET("/api/settings/?")
+    Flowable<BaseResponse<SettingsVo>> getSettings(@QueryMap Map<String, String> filters);
 
 }

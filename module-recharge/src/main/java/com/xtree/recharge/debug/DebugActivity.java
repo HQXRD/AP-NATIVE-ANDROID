@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import com.xtree.recharge.ui.fragment.RechargeFragment;
+
 import me.xtree.mvvmhabit.base.ContainerActivity;
 
 
@@ -19,7 +21,7 @@ public class DebugActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = new Intent(this, ContainerActivity.class);
-        //intent.putExtra("fragment", HomeFragment.class.getCanonicalName());
+        intent.putExtra("fragment", RechargeFragment.class.getCanonicalName());
         this.startActivity(intent);
         finish();
     }
