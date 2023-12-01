@@ -32,6 +32,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildFeatures {
+        buildConfig true
+        viewBinding true
+        //dataBinding true
+    }
 }
 
 dependencies {
@@ -54,5 +59,6 @@ dependencies {
     api rootProject.ext.dependencies["XBanner"]
     api rootProject.ext.dependencies["banner"]
     api rootProject.ext.dependencies["base-rvadapter"]
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
 }
