@@ -11,6 +11,9 @@ import android.widget.CompoundButton;
 
 import androidx.lifecycle.ViewModelProvider;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.SPUtil;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -21,7 +24,7 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.ToastUtils;
-
+@Route(path = RouterActivityPath.Mine.PAGER_LOGIN_REGISTER)
 public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> {
 
     public static final String ENTER_TYPE = "enter_type";
@@ -47,6 +50,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     @Override
     public void initData() {
 
+        viewModel.getSettings();
         String username = "testkite1002";
         String pwd = "kite123456";
 
@@ -112,9 +116,10 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 ToastUtils.showLong(getResources().getString(R.string.me_pwd_hint));
                 return;
             }
-            viewModel.login(getApplication(), binding.meAccountInput.getText().toString(), binding.mePwdInput.getText().toString(), new LoginCallback() {
+            viewModel.login(binding.meAccountInput.getText().toString(), binding.mePwdInput.getText().toString(), new LoginCallback() {
                 @Override
                 public void loginSuccess() {
+                    ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN).navigation();
                     LoginRegisterActivity.this.finish();
                 }
 

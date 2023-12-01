@@ -14,6 +14,7 @@ import com.xtree.base.utils.SPUtil;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.ui.activity.LoginRegisterActivity;
 import com.xtree.mine.vo.LoginResultVo;
+import com.xtree.mine.vo.SettingsVo;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -29,16 +30,17 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class LoginViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
+    String public_key;
     public LoginViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
     }
 
 
-    public void login(Context ctx, String userName, String pwd, LoginRegisterActivity.LoginCallback loginCallback) {
+    public void login(String userName, String pwd, LoginRegisterActivity.LoginCallback loginCallback) {
         String password = MD5Util.generateMd5("") + MD5Util.generateMd5(pwd);
         CfLog.i("password: " + password);
 
-        String public_key = SPUtil.get(ctx).get("public_key", "");
+        String public_key = SPUtils.getInstance().getString("public_key", "");
         String loginpass = RSAEncrypt.encrypt2(pwd, public_key);
         CfLog.i("loginpass: " + loginpass);
 
@@ -107,4 +109,36 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                 });
         addSubscribe(disposable);
     }
+
+    public void getSettings() {
+        HashMap<String, String> map = new HashMap();
+        map.put("fields", "customer_service_url,public_key,barrage_api_url," +
+                "x9_customer_service_url," + "promption_code,default_promption_code");
+        Disposable disposable = (Disposable) model.getApiService().getSettings(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<SettingsVo>() {
+                    @Override
+                    public void onResult(SettingsVo vo) {
+                        //CfLog.i(vo.toString());
+                        public_key = vo.public_key
+                                .replace("\n", "")
+                                .replace("\t", " ")
+                                .replace("-----BEGIN PUBLIC KEY-----", "")
+                                .replace("-----END PUBLIC KEY-----", "");
+
+
+                        SPUtils.getInstance().put("public_key", public_key);
+                        SPUtils.getInstance().put("customer_service_url", vo.customer_service_url);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
 }

@@ -33,4 +33,14 @@ public class RouterActivityPath {
         /*用户详情*/
         public static final String PAGER_USERDETAIL = USER + "/UserDetail";
     }
+
+    /**
+     * 我的组件
+     */
+    public static class Mine{
+        private static final String MINE = "/mine";
+
+        /*登录注册*/
+        public static final String PAGER_LOGIN_REGISTER = MINE+"/loginRegister";
+    }
 }
