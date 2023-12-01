@@ -49,4 +49,10 @@
     <string name="me_wallet_account">账户管理</string>
     <string name="me_wallet_record">充提记录</string>
     <string name="me_wallet_details">钱包明细</string>
+    <string name="me_wallet_ptgame">PT娱乐</string>
+    <string name="me_wallet_bbingame">BBIN娱乐</string>
+    <string name="me_wallet_aggame">AG街机捕鱼</string>
+    <string name="me_wallet_pmgame">PM电竞</string>
+    <string name="me_wallet_yunyouqipai">云游棋牌</string>
+    <string name="me_wallet_pmqp">PM棋牌</string>
 </resources>

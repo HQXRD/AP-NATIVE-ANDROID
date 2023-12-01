@@ -21,6 +21,7 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMineBinding;
 import com.xtree.mine.ui.activity.LoginRegisterActivity;
+import com.xtree.mine.ui.activity.MyWalletActivity;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 
@@ -80,6 +81,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
        binding.iconSetting.setOnClickListener(view -> {
            popup();
+       });
+
+       binding.myPocketArea.setOnClickListener(view -> {
+           Intent toMyWallet = new Intent(getContext(), MyWalletActivity.class);
+           startActivity(toMyWallet);
        });
     }
 
