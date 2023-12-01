@@ -3,14 +3,12 @@ package com.xtree.home.ui.fragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
@@ -31,6 +31,7 @@ import com.xtree.home.ui.GameAdapter;
 import com.xtree.home.ui.viewmodel.HomeViewModel;
 import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.home.vo.BannersVo;
+import com.xtree.home.vo.CookieVo;
 import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
 import com.youth.banner.adapter.BannerImageAdapter;
@@ -40,9 +41,11 @@ import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.KLog;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
@@ -76,8 +79,20 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         //viewModel.getBanners();
         viewModel.getSettings(getContext());
 
-        String username = "testkite1002";
-        String pwd = "kite123456";
+        viewModel.liveDataCookie.observe(getViewLifecycleOwner(), new Observer<CookieVo>() {
+            @Override
+            public void onChanged(CookieVo cookieVo) {
+                viewModel.getProfile();
+            }
+        });
+
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        if (!TextUtils.isEmpty(token)) {
+            viewModel.getCookie();
+        }
+
+        String username = "test032"; // testkite1002/kite123456
+        String pwd = "aaa222";
         binding.btnLogin.setOnClickListener(view -> viewModel.login(getContext(), username, pwd));
         //viewModel.login(getContext(), username, pwd); // 要等公钥接口返回结果以后 才能调用
 
@@ -127,6 +142,15 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             }
         });
         viewModel.getGameStatus(getContext());
+
+        viewModel.liveDataPlayUrl.observe(getViewLifecycleOwner(), new Observer<Map>() {
+            @Override
+            public void onChanged(Map map) {
+                CfLog.e("*** " + new Gson().toJson(map));
+                // 跳转到游戏H5
+                gameAdapter.playGame(map.get("url").toString());
+            }
+        });
 
     }
 
@@ -198,7 +222,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             KLog.i("**************");
         });
 
-        gameAdapter = new GameAdapter(getContext());
+        GameAdapter.ICallBack mCallBack = new GameAdapter.ICallBack() {
+            @Override
+            public void onClick(String gameAlias, String gameId) {
+                viewModel.getPlayUrl(gameAlias, gameId);
+            }
+        };
+
+        gameAdapter = new GameAdapter(getContext(), mCallBack);
         binding.rcvList.setAdapter(gameAdapter);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         binding.rcvList.setLayoutManager(manager);
@@ -218,7 +249,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 // View view = manager.findViewByPosition(position);
                 GameVo vo = gameAdapter.get(position);
                 if (vo.pId != curPId) {
-                    CfLog.e("类型发生了改变 " + curPId + ", " + vo.pId);
+                    //CfLog.d("类型发生了改变 " + curPId + ", " + vo.pId);
                     curPId = vo.pId;
                     RadioButton rbtn = binding.rgpType.findViewWithTag("tp_" + curPId);
                     rbtn.setChecked(true);

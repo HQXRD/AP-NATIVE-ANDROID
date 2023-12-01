@@ -1,0 +1,79 @@
+package com.xtree.home.vo;
+
+public class ProfileVo {
+
+    public int bet_user; // 1,
+    public int bet_user_chess; // 1,
+    public int top_user; // 0,
+    public int top_user_hour; // 0,
+    public int top_user_day; // 0,
+    public int topUserSports; // 1,
+    public int topUserChess; // 0,
+    public int topUserLive; // 0,
+    public int topUserLottery; // 1,
+    public int topUserPinkLottery; // 1,
+    public int topUserPinkSports; // 0,
+    public int topUserPinkChess; // 0,
+    public int topUserPinkLive; // 0,
+    public int is_director; // 0,
+    public int frequency; // null,
+    public int liveStatus; // 0,
+    public int sportStatus; // 0,
+    public int maxLivePoint; // 0,
+    public int maxSportPoint; // 0,
+    public int userid; // 5373118,
+    public String username; // test032
+    public String nickname; // test032
+    public int agency_model; // 4,
+    public int user_agency_model; // 2,
+    public int usertype; // 1,
+    public int parentid; // 3160900,
+    public int lvtopid; // 3160839,
+    public int iscreditaccount; // 0,
+    public int is_top; // 0,
+    public int auto_thrad_status; // 0,
+    public String preinfo; // ""
+    public int messages; // 0,
+    public String availablebalance; // "0.0000",
+    public String rebate_percentage; // "3.0%",
+    public boolean has_securitypwd; // false,
+    public boolean solo_challenge; // true,
+    public int set_question; // 0,
+    public int twofa; // 0,
+    public int twofa_login_enabled; // "1",
+    public int twofa_withdraw_enabled; // "1",
+    public boolean is_binding_usdt; // false,
+    public boolean is_binding_card; // false,
+    public boolean is_binding_phone; // false,
+    public boolean is_binding_email; // false,
+    public int isFrozen; // 0,
+    public int is_activity; // 0,
+    public int is_daily_wage; // 0,
+    public int is_hourly_rate; // 0,
+    public CreditWalletVo creditwallet;
+    //public boolean credit_USDT_enable; // false,
+    //public boolean credit_RMB_enable; // false,
+    //public String balance_U; // "0.0000"
+    //public String balance_RMB; // "0.0000"
+
+    public int user_type; // 1,
+    public String birthday; // ""
+    public String[] binding_usdt_info; // [],
+    public String[] binding_card_info; // [],
+    public String binding_phone_info; // ""
+    public String binding_email_info; // ""
+    public String ratio; // ""
+    public String[] withdraw_risk_refused; // [],
+    public int act_userlabel_id; // 0,
+    public int act_userlabel_type; // 0,
+    public int act_userlabel_st; // 0,
+    public int act_userlabel_amount; // 0,
+    public int act_userlabel_cumrech; // 0,
+    public int act_userlabel_signupbonus; // 0,
+    public int act_userlabel_signupbonus_status; // 0,
+    public int act_userlabel_advance; // 0,
+    public int act_userlabel_todayuse; // 0,
+    public int act_userlabel_pupshow; // 1,
+    public int phone_selfupdate; // 1,
+    public String email_selfupdate; // "1"
+}
