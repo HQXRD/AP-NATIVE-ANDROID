@@ -39,11 +39,11 @@ public class LeagueDataItemDelagate implements ItemViewDelegate<League> {
                 //.apply(new RequestOptions().placeholder(placeholderRes))
                 .into((ImageView) holder.getView(R.id.iv_icon));
         holder.getView(R.id.rl_league).setOnClickListener(view -> {
-            if(league.isExpand()){
+            /*if(league.isExpand()){
                 rvMatch.setAnimation(moveToViewTop(rvMatch));
             }else{
                 rvMatch.setAnimation(moveTopToViewLocaton(rvMatch));
-            }
+            }*/
 
             league.setExpand(!league.isExpand());
             holder.setVisible(R.id.rv_match, league.isExpand());

@@ -45,6 +45,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     private boolean isGoingExpand = true;
     private boolean isWatingExpand = true;
 
+    /*@Override
+    public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return R.layout.fragment_main;
+    }*/
+
     @Override
     public int initContentView(Bundle savedInstanceState) {
         return R.layout.fragment_main;
@@ -230,18 +235,15 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        switch (id) {
-            case R.id.ll_going_on:
-            case R.id.ll_all_league:
-                isGoingExpand = !isGoingExpand;
-                for(League league : this.mLeagueAdapters){
-                    if(league.isHead()){
-                        break;
-                    }
-                    league.setExpand(isGoingExpand);
+        if (id == R.id.ll_going_on || id == R.id.ll_all_league) {
+            isGoingExpand = !isGoingExpand;
+            for (League league : this.mLeagueAdapters) {
+                if (league.isHead()) {
+                    break;
                 }
-                mLeagueAdapter.notifyDataSetChanged();
-                break;
+                league.setExpand(isGoingExpand);
+            }
+            mLeagueAdapter.notifyDataSetChanged();
         }
     }
 }
