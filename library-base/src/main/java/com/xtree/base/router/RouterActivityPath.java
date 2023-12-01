@@ -43,4 +43,12 @@ public class RouterActivityPath {
         /*登录注册*/
         public static final String PAGER_LOGIN_REGISTER = MINE+"/loginRegister";
     }
+
+    /**
+     * 投注组件
+     */
+    public static class Bet{
+        private static final String BET = "/bet";
+        public static final String PAGER_BET_HOME = BET + "/home";
+    }
 }

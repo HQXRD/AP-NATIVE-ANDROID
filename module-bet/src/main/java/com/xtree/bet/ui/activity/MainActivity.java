@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.tabs.TabLayout;
-import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.router.RouterActivityPath;
 import com.xtree.bet.BR;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.ui.adapter.LeagueAdapter;
@@ -36,7 +36,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 /**
  * Created by goldze on 2018/6/21
  */
-@Route(path = RouterFragmentPath.Bet.PAGER_BET_HOME)
+@Route(path = RouterActivityPath.Bet.PAGER_BET_HOME)
 public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewModel> implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     private List<League> mLeagueAdapters = new ArrayList<>();
@@ -44,11 +44,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
 
     private boolean isGoingExpand = true;
     private boolean isWatingExpand = true;
-
-    /*@Override
-    public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return R.layout.fragment_main;
-    }*/
 
     @Override
     public int initContentView(Bundle savedInstanceState) {

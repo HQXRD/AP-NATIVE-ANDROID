@@ -64,5 +64,7 @@ dependencies {
         implementation project(':module-recharge')
         //我的模块
         implementation project(':module-mine')
+        //投注模块
+        implementation project(':module-bet')
     }
 }
