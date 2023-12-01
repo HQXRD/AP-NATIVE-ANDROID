@@ -80,7 +80,7 @@
             app:tabTextColor="@color/bt_text_color_primary" />
 
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_match_item"
+            android:id="@+id/tab_sport_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
@@ -104,7 +104,7 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:textSize="10sp"
-            app:layout_constraintTop_toBottomOf="@+id/tab_match_item"
+            app:layout_constraintTop_toBottomOf="@+id/tab_sport_type"
             app:tabIndicatorHeight="0dp"
             app:tabMaxWidth="80dp"
             app:tabMinWidth="20dp"

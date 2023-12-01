@@ -1,5 +1,7 @@
-<manifest
-    package="com.xtree.bet">
+<manifest package="com.xtree.bet"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <application></application>
+    <application>
+        <activity android:name="com.xtree.bet.ui.activity.MainActivity"></activity>
+    </application>
 </manifest>

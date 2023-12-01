@@ -1,5 +1,5 @@
 <resources>
-    <dimen name="bt_match_list_height">127dp</dimen>
+    <dimen name="bt_match_list_height">142dp</dimen>
 
     <dimen name="bt_text_7sp">7sp</dimen>
     <dimen name="bt_text_8sp">8sp</dimen>
