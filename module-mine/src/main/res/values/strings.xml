@@ -39,4 +39,5 @@
     <string name="me_register">注册</string>
     <string name="me_register_reinput">请再次输入密码</string>
     <string name="me_choose_acount">请选择账号类型</string>
+    <string name="me_my_wallet">我的钱包</string>
 </resources>

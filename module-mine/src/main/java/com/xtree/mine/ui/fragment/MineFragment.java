@@ -25,6 +25,7 @@ import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
@@ -32,6 +33,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 @Route(path = RouterFragmentPath.Mine.PAGER_MINE)
 public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewModel> {
+
     @Override
     public void initView() {
 

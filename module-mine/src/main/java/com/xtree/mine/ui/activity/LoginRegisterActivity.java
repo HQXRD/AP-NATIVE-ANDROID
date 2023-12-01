@@ -28,6 +28,11 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     public static final int  LOGIN_TYPE = 0x1001;
     public static final int REGISTER_TYPE = 0x1002;
 
+    public interface LoginCallback{
+
+        public void loginSuccess();
+        public void loginFailure();
+    }
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -107,7 +112,17 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 ToastUtils.showLong(getResources().getString(R.string.me_pwd_hint));
                 return;
             }
-            viewModel.login(getApplication(),binding.meAccountInput.getText().toString(),binding.mePwdInput.getText().toString());
+            viewModel.login(getApplication(), binding.meAccountInput.getText().toString(), binding.mePwdInput.getText().toString(), new LoginCallback() {
+                @Override
+                public void loginSuccess() {
+                    LoginRegisterActivity.this.finish();
+                }
+
+                @Override
+                public void loginFailure() {
+
+                }
+            });
         });
 
         binding.toRegisterArea.setOnClickListener(v->{

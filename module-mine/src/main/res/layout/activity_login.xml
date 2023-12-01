@@ -48,7 +48,7 @@
             android:layout_height="320dp"
             android:background="@mipmap/me_login_area_bg"
             android:layout_weight="11"
-            android:visibility="visible"
+            android:visibility="gone"
             >
             <TextView
                 android:id="@+id/me_login_title"
@@ -104,15 +104,7 @@
                         android:layout_gravity="center_vertical"
                         />
 
-                    <ImageView
-                        android:id="@+id/me_show_icon"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:src="@mipmap/me_show_icon"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginRight="15dp"
-                        />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -144,6 +136,16 @@
                         android:inputType="textPassword"
                         >
                     </EditText>
+
+                    <ImageView
+                        android:id="@+id/me_show_icon"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/me_show_icon"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="15dp"
+                        />
                 </LinearLayout>
 
                 <RelativeLayout
@@ -269,7 +271,7 @@
             android:layout_weight="2"
             android:orientation="vertical"
             android:id="@+id/to_register_area"
-            android:visibility="visible"
+            android:visibility="gone"
             >
             <ImageView
                 android:layout_width="wrap_content"
@@ -287,7 +289,7 @@
             android:layout_weight="2"
             android:orientation="vertical"
             android:id="@+id/to_login_area"
-            android:visibility="gone"
+            android:visibility="visible"
             >
 
             <ImageView
@@ -302,7 +304,7 @@
             android:background="@mipmap/me_register_area_bg"
             android:layout_weight="11"
             android:id="@+id/me_register_area"
-            android:visibility="gone"
+            android:visibility="visible"
             >
             <TextView
                 android:id="@+id/me_register_title"
@@ -386,6 +388,16 @@
                         android:inputType="textPassword"
                         >
                     </EditText>
+
+                    <ImageView
+                        android:id="@+id/me_show_pwd_icon"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/me_show_icon"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="15dp"
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -416,6 +428,16 @@
                         android:inputType="textPassword"
                         >
                     </EditText>
+
+                    <ImageView
+                        android:id="@+id/me_show_input_pwd_icon"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/me_show_icon"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="15dp"
+                        />
                 </LinearLayout>
 
                 <LinearLayout

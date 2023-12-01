@@ -12,6 +12,7 @@ import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
 import com.xtree.base.utils.SPUtil;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.ui.activity.LoginRegisterActivity;
 import com.xtree.mine.vo.LoginResultVo;
 
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
     }
 
 
-    public void login(Context ctx, String userName, String pwd) {
+    public void login(Context ctx, String userName, String pwd, LoginRegisterActivity.LoginCallback loginCallback) {
         String password = MD5Util.generateMd5("") + MD5Util.generateMd5(pwd);
         CfLog.i("password: " + password);
 
@@ -66,6 +67,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, vo.token_type);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
+                        loginCallback.loginSuccess();
                     }
 
                     @Override
@@ -73,6 +75,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         KLog.e(t.toString());
                         super.onError(t);
                         ToastUtils.showLong("登录失败");
+                        loginCallback.loginFailure();
                     }
                 });
         addSubscribe(disposable);
