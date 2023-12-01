@@ -43,7 +43,7 @@ public interface League {
      * 获取是否展开赛事，true-展开，false-关闭
      * @return
      */
-    boolean getExpand();
+    boolean isExpand();
 
     boolean isHead();
 

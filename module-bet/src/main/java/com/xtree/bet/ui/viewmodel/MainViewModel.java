@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.xtree.base.utils.TimeUtils;
+import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueFbAdapter;
 import com.xtree.bet.bean.LeagueItem;
@@ -32,6 +33,7 @@ import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.bus.RxSubscriptions;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+import me.xtree.mvvmhabit.utils.Utils;
 
 /**
  * Created by goldze on 2018/6/21.
@@ -63,15 +65,14 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
 
     public void setMatchItems(){
         List<MatchItem> matchItemList = new ArrayList<>();
-        MatchItem item = new MatchItem();
-        item.setName("足球");
-        item.setMatchCount(15);
-        matchItemList.add(item);
-
-        MatchItem itemb = new MatchItem();
-        itemb.setName("篮球");
-        itemb.setMatchCount(150);
-        matchItemList.add(itemb);
+        String[] sportNames = new String[]{"足球", "篮球", "网球", "斯诺克", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "海滩排球"};
+        int[] sportGameCount = new int[]{12, 13, 25, 36, 54, 45, 12, 89, 121, 18};
+        for (int i = 0; i < sportNames.length; i ++){
+            MatchItem item = new MatchItem();
+            item.setName(sportNames[i]);
+            item.setMatchCount(sportGameCount[i]);
+            matchItemList.add(item);
+        }
 
         matchItemDate.postValue(matchItemList);
     }
@@ -80,7 +81,37 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
         leagueItemDate.setValue(new LeagueItem());
     }
 
-    public void setWaitingLeagueList(InputStream inputStream){
+    public void setLeagueList(int playMethod, int sportType){
+        if(playMethod == 0){
+            setGoingLeagueList(playMethod, sportType);
+        }else{
+            setWaitingLeagueList(sportType);
+        }
+    }
+
+    public void setWaitingLeagueList(int sportType){
+        InputStream inputStream = Utils.getContext().getResources().openRawResource(R.raw.test);
+        if(sportType == 0) {
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test);
+        }else if(sportType == 1){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_bb);
+        }else if(sportType == 2){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_wq);
+        }else if(sportType == 3){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_snk);
+        }else if(sportType == 4){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_pq);
+        }else if(sportType == 5){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_ymq);
+        }else if(sportType == 6){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_mszq);
+        }else if(sportType == 7){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_bbq);
+        }else if(sportType == 8){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_bq);
+        }else if(sportType == 9){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_stpq);
+        }
         String json = null;
         try {
             json = readTextFile(inputStream);
@@ -93,7 +124,29 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
 
     }
 
-    public void setGoingLeagueList(InputStream inputStream){
+    public void setGoingLeagueList(int playMethod, int sportType){
+        InputStream inputStream = Utils.getContext().getResources().openRawResource(R.raw.test);
+        if(sportType == 0) {
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test);
+        }else if(sportType == 1){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_bb);
+        }else if(sportType == 2){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_wq);
+        }else if(sportType == 3){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_snk);
+        }else if(sportType == 4){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_pq);
+        }else if(sportType == 5){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_ymq);
+        }else if(sportType == 6){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_mszq);
+        }else if(sportType == 7){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_bbq);
+        }else if(sportType == 8){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_bq);
+        }else if(sportType == 9){
+            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_stpq);
+        }
         String json = null;
         try {
             json = readTextFile(inputStream);
@@ -103,7 +156,9 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
         }
         MatchListRsp matchListRsp = new Gson().fromJson(json, MatchListRsp.class);
         leagueGoingOnListDate.postValue(leagueAdapterList(matchListRsp.records, true));
-
+        if(playMethod == 0){
+            setWaitingLeagueList(sportType);
+        }
     }
 
     /**

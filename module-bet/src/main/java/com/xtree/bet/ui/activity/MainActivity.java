@@ -1,10 +1,9 @@
-package com.xtree.bet.ui.fragment;
+package com.xtree.bet.ui.activity;
 
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +13,6 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +21,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.bet.BR;
 import com.xtree.bet.bean.ui.League;
-import com.xtree.bet.contract.ExpandContract;
 import com.xtree.bet.ui.adapter.LeagueAdapter;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
@@ -33,17 +30,14 @@ import com.xtree.bet.databinding.FragmentMainBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.disposables.Disposable;
-import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.bus.RxBus;
-import me.xtree.mvvmhabit.bus.RxSubscriptions;
+import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by goldze on 2018/6/21
  */
 @Route(path = RouterFragmentPath.Bet.PAGER_BET_HOME)
-public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewModel> implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewModel> implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
 
     private List<League> mLeagueAdapters = new ArrayList<>();
     private LeagueAdapter mLeagueAdapter;
@@ -52,7 +46,7 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
     private boolean isWatingExpand = true;
 
     @Override
-    public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public int initContentView(Bundle savedInstanceState) {
         return R.layout.fragment_main;
     }
 
@@ -64,7 +58,7 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
     @Override
     public MainViewModel initViewModel() {
         //使用自定义的ViewModelFactory来创建ViewModel，如果不重写该方法，则默认会调用LoginViewModel(@NonNull Application application)构造方法
-        AppViewModelFactory factory = AppViewModelFactory.getInstance(getActivity().getApplication());
+        AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
         return new ViewModelProvider(this, factory).get(MainViewModel.class);
     }
 
@@ -85,6 +79,43 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
             }
         });
         binding.llGoingOn.setOnClickListener(this);
+        binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                ((TextView) tab.getCustomView()).setTextSize(16);
+                playMethodPos = tab.getPosition();
+                mLeagueAdapters.clear();
+                viewModel.setLeagueList(playMethodPos, sportTypePos);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                ((TextView) tab.getCustomView()).setTextSize(12);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        binding.tabSportType.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                sportTypePos = tab.getPosition();
+                mLeagueAdapters.clear();
+                viewModel.setLeagueList(playMethodPos, sportTypePos);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     @Override
@@ -93,16 +124,19 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
         viewModel.setplaySearchDateData();
         viewModel.setMatchItems();
         viewModel.setFbLeagueData();
-        viewModel.setGoingLeagueList(getResources().openRawResource(R.raw.test_going_on));
         viewModel.addSubscription();
+        viewModel.setLeagueList(playMethodPos, sportTypePos);
     }
+
+    int playMethodPos;
+    int sportTypePos;
 
     @Override
     public void initViewObservable() {
         viewModel.itemClickEvent.observe(this, s -> ToastUtils.showShort(s));
         viewModel.playMethodTab.observe(this, titleList -> {
             for (int i = 0; i < titleList.length; i++) {
-                TextView textView = new TextView(getContext());
+                TextView textView = new TextView(this);
                 textView.setText(titleList[i]);
                 ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_bet_top_tab_item_text);
                 textView.setTextColor(colorStateList);
@@ -113,22 +147,7 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
                 }
                 binding.tabPlayMethod.addTab(binding.tabPlayMethod.newTab().setCustomView(textView));
             }
-            binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-                @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-                    ((TextView) tab.getCustomView()).setTextSize(16);
-                }
 
-                @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
-                    ((TextView) tab.getCustomView()).setTextSize(12);
-                }
-
-                @Override
-                public void onTabReselected(TabLayout.Tab tab) {
-
-                }
-            });
         });
         viewModel.playSearchDate.observe(this, dateList -> {
             for (int i = 0; i < dateList.size(); i++) {
@@ -137,7 +156,7 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
         });
         viewModel.matchItemDate.observe(this, matchitemList -> {
             for (int i = 0; i < matchitemList.size(); i++) {
-                View view = LayoutInflater.from(getContext()).inflate(R.layout.bt_layout_bet_match_item_tab_item, null);
+                View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_match_item_tab_item, null);
                 TextView tvName = view.findViewById(R.id.tab_item_name);
                 TextView tvMatchCount = view.findViewById(R.id.iv_match_count);
                 ImageView ivIcon = view.findViewById(R.id.iv_icon);
@@ -148,12 +167,12 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
                 tvName.setTextColor(colorStateList);
                 tvMatchCount.setTextColor(colorStateList);
 
-                binding.tabMatchItem.addTab(binding.tabMatchItem.newTab().setCustomView(view));
+                binding.tabSportType.addTab(binding.tabSportType.newTab().setCustomView(view));
             }
         });
         viewModel.leagueItemDate.observe(this, leagueItem -> {
             for (int i = 0; i < leagueItem.getLeagueNameList().length; i++) {
-                View view = LayoutInflater.from(getContext()).inflate(R.layout.bt_layout_bet_league_tab_item, null);
+                View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_league_tab_item, null);
                 TextView tvName = view.findViewById(R.id.tab_item_name);
                 ImageView ivIcon = view.findViewById(R.id.iv_icon);
                 String name = leagueItem.getLeagueNameList()[i];
@@ -176,14 +195,14 @@ public class MainFragment extends BaseFragment<FragmentMainBinding, MainViewMode
                 this.mLeagueAdapters.add(league);
             }
             this.mLeagueAdapters.addAll(leagueAdapters);
-            mLeagueAdapter = new LeagueAdapter(getActivity(), this.mLeagueAdapters);
-            binding.rvLeague.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mLeagueAdapter = new LeagueAdapter(this, this.mLeagueAdapters);
+            binding.rvLeague.setLayoutManager(new LinearLayoutManager(this));
             binding.rvLeague.setAdapter(mLeagueAdapter);
         });
 
         viewModel.leagueGoingOnListDate.observe(this, leagueAdapters -> {
-            this.mLeagueAdapters = leagueAdapters;
-            viewModel.setWaitingLeagueList(getResources().openRawResource(R.raw.test));
+            this.mLeagueAdapters.clear();
+            this.mLeagueAdapters.addAll(leagueAdapters);
         });
 
         viewModel.expandContractListDate.observe(this, expandContract -> {

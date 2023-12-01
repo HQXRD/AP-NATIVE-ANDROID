@@ -41,7 +41,7 @@ public class LeagueFbAdapter implements League{
     }
 
     @Override
-    public boolean getExpand() {
+    public boolean isExpand() {
         return this.isExpand;
     }
 
