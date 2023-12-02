@@ -67,7 +67,11 @@ public class BrowserActivity extends AppCompatActivity {
 
         String url = getIntent().getStringExtra("url");
         //setCookie(cookie, url); // 设置 cookie
-
+        Uri uri = getIntent().getData();
+        if (uri != null && TextUtils.isEmpty(url)) {
+            url = uri.toString();
+        }
+        CfLog.i("url: " + url);
         if (TextUtils.isEmpty(url)) {
             finish();
         } else {
