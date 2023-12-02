@@ -14,7 +14,6 @@ import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
-import com.xtree.base.utils.SPUtil;
 import com.xtree.home.R;
 import com.xtree.home.data.HomeRepository;
 import com.xtree.home.vo.BannersVo;
@@ -24,7 +23,9 @@ import com.xtree.home.vo.GameStatusVo;
 import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.LoginResultVo;
 import com.xtree.home.vo.NoticeVo;
+import com.xtree.home.vo.ProfileVo;
 import com.xtree.home.vo.SettingsVo;
+import com.xtree.home.vo.VipInfoVo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,6 +34,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import io.reactivex.disposables.Disposable;
@@ -54,8 +56,11 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     public MutableLiveData<List<NoticeVo>> liveDataNotice = new MutableLiveData<>();
     //public MutableLiveData<List<GameStatusVo>> liveDataGameStatus = new MutableLiveData<>();
     public MutableLiveData<List<GameVo>> liveDataGames = new MutableLiveData<>();
+    public MutableLiveData<Map> liveDataPlayUrl = new MutableLiveData<>();
     public MutableLiveData<String> liveDataUser = new MutableLiveData<>();
-    public MutableLiveData<String> liveDataCookie = new MutableLiveData<>();
+    public MutableLiveData<CookieVo> liveDataCookie = new MutableLiveData<>();
+    public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>();
+    public MutableLiveData<VipInfoVo> liveDataVipInfo = new MutableLiveData<>();
     public MutableLiveData<SettingsVo> liveDataSettings = new MutableLiveData<>();
     public MutableLiveData<LoginResultVo> liveDataLoginResult = new MutableLiveData<>();
 
@@ -105,9 +110,10 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
 
                     @Override
                     public void onError(Throwable t) {
-                        CfLog.e("error, Maybe no token.");
-                        super.onError(t);
-                        //ToastUtils.showLong("请求失败");
+                        CfLog.e("error, Maybe no token. " + t.toString());
+                        //super.onError(t);
+                        //ToastUtils.showLong("获取公告失败");
+                        liveDataNotice.setValue(new ArrayList<>());
                     }
                 });
         addSubscribe(disposable);
@@ -133,6 +139,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
 
                     @Override
                     public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
                         super.onError(t);
                         ToastUtils.showLong("请求失败");
                     }
@@ -154,9 +161,13 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 }
             }
 
+            if (vo.cid == 0 || TextUtils.isEmpty(vo.playURL)) {
+                // 原生的,或者需要请求接口的
+                CfLog.w("******: " + vo);
+            }
             if (vo.status == 2) {
                 // 已下架,不要加到列表里面了
-                CfLog.w("not show: " + vo.toString());
+                CfLog.w("not show: " + vo);
                 continue;
             }
             CfLog.d(vo.toString());
@@ -167,7 +178,39 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         return mList;
     }
 
-    public void getSettings(Context ctx) {
+    public void getPlayUrl(String gameAlias, String gameId) {
+        if (TextUtils.isEmpty(gameId)) {
+            gameId = "1";
+        }
+        int autoThrad = SPUtils.getInstance().getInt(SPKeyGlobal.USER_AUTO_THRAD_STATUS);
+
+        HashMap<String, String> map = new HashMap();
+        map.put("autoThrad", autoThrad + "");
+        map.put("h5judge", "1");
+        map.put("id", gameId);
+
+        Disposable disposable = (Disposable) model.getApiService().getPlayUrl(gameAlias, map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<Map<String, String>>() {
+                    @Override
+                    public void onResult(Map<String, String> vo) {
+                        // "url": "https://user-h5-bw3.d91a21f.com?token=7c9c***039a"
+                        //CfLog.i(vo.toString());
+                        liveDataPlayUrl.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                        ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getSettings() {
         HashMap<String, String> map = new HashMap();
         map.put("fields", "customer_service_url,public_key,barrage_api_url," +
                 "x9_customer_service_url," + "promption_code,default_promption_code");
@@ -184,15 +227,15 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                                 .replace("-----BEGIN PUBLIC KEY-----", "")
                                 .replace("-----END PUBLIC KEY-----", "");
 
-                        SPUtil.get(ctx).put("public_key", public_key);
-                        SPUtil.get(ctx).put("customer_service_url", vo.customer_service_url);
-
-                        SPUtils.getInstance().put("public_key", public_key);
+                        SPUtils.getInstance().put(SPKeyGlobal.PUBLIC_KEY, public_key);
                         SPUtils.getInstance().put("customer_service_url", vo.customer_service_url);
+
+                        liveDataSettings.setValue(vo);
                     }
 
                     @Override
                     public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
                         super.onError(t);
                         ToastUtils.showLong("请求失败");
                     }
@@ -203,7 +246,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     public void login(Context ctx, String userName, String pwd) {
         String password = MD5Util.generateMd5("") + MD5Util.generateMd5(pwd);
         //CfLog.d("password: " + password);
-        String public_key = SPUtil.get(ctx).get("public_key", "");
+        String public_key = SPUtils.getInstance().getString("public_key", "");
         String loginpass = RSAEncrypt.encrypt2(pwd, public_key);
         //CfLog.d("loginpass: " + loginpass);
 
@@ -216,7 +259,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         map.put("password", password);
         map.put("grant_type", "login");
         map.put("validcode", "");
-        map.put("client_id", "10000004"); // h5:10000003, ios:10000004, android:10000005
+        map.put("client_id", "10000005"); // h5:10000003, ios:10000004, android:10000005
         map.put("loginpass", loginpass);
         map.put("nonce", UUID.randomUUID().toString().replace("-", "")); //
 
@@ -228,17 +271,9 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     public void onResult(LoginResultVo vo) {
                         CfLog.i(vo.toString());
                         ToastUtils.showLong("登录成功");
-                        //SPUtil.get(ctx).put("token", vo.token);
-                        SPUtil.get(ctx).put(SPKeyGlobal.USER_TOKEN, vo.token);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN, vo.token);
-                        //SPUtil.get(ctx).put("token_type", vo.token_type);
-                        SPUtil.get(ctx).put(SPKeyGlobal.USER_TOKEN_TYPE, vo.token_type);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, vo.token_type);
-                        //SPUtil.get(ctx).put("sessid", vo.cookie.sessid);
-                        SPUtil.get(ctx).put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
-                        //SPUtil.get(ctx).put("cookie_name", vo.cookie.cookie_name);
-                        SPUtil.get(ctx).put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
 
                         RetrofitClient.init();
@@ -254,8 +289,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         addSubscribe(disposable);
     }
 
-    public void getCookie(Context ctx) {
-
+    public void getCookie() {
         Disposable disposable = (Disposable) model.getApiService().getCookie()
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
@@ -263,16 +297,63 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onResult(CookieVo vo) {
                         CfLog.i(vo.toString());
-                        SPUtil.get(ctx).put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie_name);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie_name);
-                        SPUtil.get(ctx).put(SPKeyGlobal.USER_SHARE_SESSID, vo.sessid);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.sessid);
+                        RetrofitClient.init();
+                        liveDataCookie.setValue(vo);
                     }
 
                     @Override
                     public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
                         super.onError(t);
                         ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getProfile() {
+        Disposable disposable = (Disposable) model.getApiService().getProfile()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<ProfileVo>() {
+                    @Override
+                    public void onResult(ProfileVo vo) {
+                        CfLog.i(vo.toString());
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_AUTO_THRAD_STATUS, vo.auto_thrad_status);
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_PROFILE, new Gson().toJson(vo));
+
+                        liveDataProfile.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                        ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getVipInfo() {
+        Disposable disposable = (Disposable) model.getApiService().getVipInfo()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<VipInfoVo>() {
+                    @Override
+                    public void onResult(VipInfoVo vo) {
+                        CfLog.i(vo.toString());
+                        //SPUtils.getInstance().put(SPKeyGlobal.USER_AUTO_THRAD_STATUS, vo.auto_thrad_status);
+                        liveDataVipInfo.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                        //ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);

@@ -1,6 +1,7 @@
 package com.xtree.home.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,9 +9,13 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.widget.BrowserActivity;
 import com.xtree.home.R;
 import com.xtree.home.databinding.HmItemGameBinding;
 import com.xtree.home.vo.GameVo;
@@ -19,8 +24,15 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
     Context ctx;
     HmItemGameBinding binding;
 
-    public GameAdapter(Context ctx) {
+    ICallBack mCallBack;
+
+    public interface ICallBack {
+        void onClick(String gameAlias, String gameId);
+    }
+
+    public GameAdapter(Context ctx, ICallBack mCallBack) {
         this.ctx = ctx;
+        this.mCallBack = mCallBack;
     }
 
     @NonNull
@@ -53,22 +65,34 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
     }
 
     private void jump(GameVo vo) {
-        CfLog.i(vo.toString());
-        if (vo.isH5) {
+        CfLog.d(vo.toString());
+        if (vo.status != 1) {
+            // 0是维护, 1是正常, 2是下架
+            return;
+        }
 
+        if (vo.isH5) {
             if (TextUtils.isEmpty(vo.playURL)) {
                 // 去请求网络接口
-                CfLog.i("去请求网络接口");
+                CfLog.d("request api...");
+                mCallBack.onClick(vo.alias, vo.gameId);
             } else {
                 // 拼装URL
-                CfLog.i("拼装URL");
+                playGame(DomainUtil.getDomain() + vo.playURL);
             }
 
         } else {
             // 跳原生
-            CfLog.i("跳原生");
+            CfLog.d("跳原生");
+            ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).navigation();
         }
+    }
 
+    public void playGame(String playUrl) {
+        CfLog.i("URL: " + playUrl);
+        Intent it = new Intent(ctx, BrowserActivity.class);
+        it.putExtra("url", playUrl);
+        ctx.startActivity(it);
     }
 
 }
