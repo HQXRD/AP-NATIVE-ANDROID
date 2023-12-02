@@ -79,6 +79,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     public void onResult(List<BannersVo> list) {
                         //ToastUtils.showLong("请求成功");
                         CfLog.i(list.get(0).toString());
+                        SPUtils.getInstance().put(SPKeyGlobal.HOME_BANNER_LIST, new Gson().toJson(list));
                         liveDataBanner.setValue(list);
                     }
 
@@ -105,6 +106,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onResult(DataVo<NoticeVo> data) {
                         CfLog.i(data.list.get(0).toString());
+                        SPUtils.getInstance().put(SPKeyGlobal.HOME_NOTICE_LIST, new Gson().toJson(data.list));
                         liveDataNotice.setValue(data.list);
                     }
 
@@ -134,6 +136,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         }.getType());
                         CfLog.i("mList.size: " + mList.size());
                         mList = joinList(mList, list);
+                        SPUtils.getInstance().put(SPKeyGlobal.HOME_GAME_LIST, new Gson().toJson(mList));
                         liveDataGames.setValue(mList);
                     }
 
@@ -322,8 +325,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     public void onResult(ProfileVo vo) {
                         CfLog.i(vo.toString());
                         SPUtils.getInstance().put(SPKeyGlobal.USER_AUTO_THRAD_STATUS, vo.auto_thrad_status);
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_PROFILE, new Gson().toJson(vo));
-
+                        SPUtils.getInstance().put(SPKeyGlobal.HOME_PROFILE, new Gson().toJson(vo));
                         liveDataProfile.setValue(vo);
                     }
 
@@ -345,7 +347,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onResult(VipInfoVo vo) {
                         CfLog.i(vo.toString());
-                        //SPUtils.getInstance().put(SPKeyGlobal.USER_AUTO_THRAD_STATUS, vo.auto_thrad_status);
+                        SPUtils.getInstance().put(SPKeyGlobal.HOME_VIP_INFO, new Gson().toJson(vo));
                         liveDataVipInfo.setValue(vo);
                     }
 
@@ -357,6 +359,38 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     }
                 });
         addSubscribe(disposable);
+    }
+
+    public void readCache() {
+        CfLog.i("******");
+        Gson gson = new Gson();
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_BANNER_LIST, "[]");
+        List list = gson.fromJson(json, new TypeToken<List<BannersVo>>() {
+        }.getType());
+        liveDataBanner.setValue(list);
+
+        json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_NOTICE_LIST, "[]");
+        List list2 = gson.fromJson(json, new TypeToken<List<NoticeVo>>() {
+        }.getType());
+        liveDataNotice.setValue(list2);
+
+        json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_GAME_LIST, "[]");
+        List list3 = gson.fromJson(json, new TypeToken<List<GameVo>>() {
+        }.getType());
+        liveDataGames.setValue(list3);
+
+        json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        ProfileVo vo = gson.fromJson(json, ProfileVo.class);
+        if (vo != null) {
+            liveDataProfile.setValue(vo);
+        }
+
+        json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_VIP_INFO);
+        VipInfoVo vo2 = gson.fromJson(json, VipInfoVo.class);
+        if (vo2 != null) {
+            liveDataVipInfo.setValue(vo2);
+        }
+
     }
 
     private String readFromRaw(Context context, int rawRes) {

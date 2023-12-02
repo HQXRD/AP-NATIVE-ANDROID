@@ -80,6 +80,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     @Override
     public void initData() {
         initLiveData();
+        viewModel.readCache(); // 从缓存读取数据并显示
 
         viewModel.getSettings(); // 获取公钥,配置信息
         viewModel.getBanners(); // 获取banner
@@ -113,13 +114,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         viewModel.liveDataNotice.observe(getViewLifecycleOwner(), new Observer<List<NoticeVo>>() {
             @Override
-            public void onChanged(List<NoticeVo> noticeVos) {
-                if (noticeVos.isEmpty()) {
+            public void onChanged(List<NoticeVo> list) {
+                if (list.isEmpty()) {
                     binding.llNotice.setVisibility(View.GONE);
                     binding.ivwNotice.setVisibility(View.GONE);
                 } else {
                     StringBuffer sb = new StringBuffer();
-                    for (NoticeVo vo : noticeVos) {
+                    for (NoticeVo vo : list) {
                         sb.append(vo.title + " ");
                     }
                     binding.llNotice.setVisibility(View.VISIBLE);
@@ -132,7 +133,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             @Override
             public void onChanged(List<GameVo> list) {
                 KLog.i("size: " + list.size());
-                KLog.i(list.get(0));
+                //KLog.d(list.get(0));
                 gameAdapter.addAll(list);
             }
         });
@@ -295,15 +296,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 }
             });
         }
-
-        /*binding.rgpType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                String tag = group.findViewById(checkedId).getTag().toString();
-                int pid = Integer.parseInt(tag.replace("tp_", ""));
-                smoothToPosition(pid);
-            }
-        });*/
 
     }
 
