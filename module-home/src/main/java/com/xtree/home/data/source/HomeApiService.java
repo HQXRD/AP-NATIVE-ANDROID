@@ -8,6 +8,7 @@ import com.xtree.home.vo.LoginResultVo;
 import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.ProfileVo;
 import com.xtree.home.vo.SettingsVo;
+import com.xtree.home.vo.VipInfoVo;
 
 import java.util.List;
 import java.util.Map;
@@ -93,5 +94,11 @@ public interface HomeApiService {
      */
     @GET("/api/account/profile")
     Flowable<BaseResponse<ProfileVo>> getProfile();
+
+    /**
+     * 获取 VIP信息
+     */
+    @GET("/api/account/vipinfo")
+    Flowable<BaseResponse<VipInfoVo>> getVipInfo();
 
 }

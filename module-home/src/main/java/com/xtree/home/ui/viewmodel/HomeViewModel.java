@@ -25,6 +25,7 @@ import com.xtree.home.vo.LoginResultVo;
 import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.ProfileVo;
 import com.xtree.home.vo.SettingsVo;
+import com.xtree.home.vo.VipInfoVo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,6 +60,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     public MutableLiveData<String> liveDataUser = new MutableLiveData<>();
     public MutableLiveData<CookieVo> liveDataCookie = new MutableLiveData<>();
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>();
+    public MutableLiveData<VipInfoVo> liveDataVipInfo = new MutableLiveData<>();
     public MutableLiveData<SettingsVo> liveDataSettings = new MutableLiveData<>();
     public MutableLiveData<LoginResultVo> liveDataLoginResult = new MutableLiveData<>();
 
@@ -208,7 +210,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         addSubscribe(disposable);
     }
 
-    public void getSettings(Context ctx) {
+    public void getSettings() {
         HashMap<String, String> map = new HashMap();
         map.put("fields", "customer_service_url,public_key,barrage_api_url," +
                 "x9_customer_service_url," + "promption_code,default_promption_code");
@@ -330,6 +332,28 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
                         ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getVipInfo() {
+        Disposable disposable = (Disposable) model.getApiService().getVipInfo()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<VipInfoVo>() {
+                    @Override
+                    public void onResult(VipInfoVo vo) {
+                        CfLog.i(vo.toString());
+                        //SPUtils.getInstance().put(SPKeyGlobal.USER_AUTO_THRAD_STATUS, vo.auto_thrad_status);
+                        liveDataVipInfo.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                        //ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);

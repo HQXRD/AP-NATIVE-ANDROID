@@ -24,6 +24,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.widget.BrowserActivity;
 import com.xtree.home.BR;
 import com.xtree.home.R;
 import com.xtree.home.databinding.FragmentHomeBinding;
@@ -34,6 +35,8 @@ import com.xtree.home.vo.BannersVo;
 import com.xtree.home.vo.CookieVo;
 import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
+import com.xtree.home.vo.ProfileVo;
+import com.xtree.home.vo.VipInfoVo;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
@@ -76,44 +79,37 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     public void initData() {
-        //viewModel.getBanners();
-        viewModel.getSettings(getContext());
+        initLiveData();
 
-        viewModel.liveDataCookie.observe(getViewLifecycleOwner(), new Observer<CookieVo>() {
-            @Override
-            public void onChanged(CookieVo cookieVo) {
-                viewModel.getProfile();
-            }
-        });
+        viewModel.getSettings(); // 获取公钥,配置信息
+        viewModel.getBanners(); // 获取banner
+        viewModel.getGameStatus(getContext()); // 获取游戏状态列表
 
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         if (!TextUtils.isEmpty(token)) {
             viewModel.getCookie();
         }
 
-        String username = "test032"; // testkite1002/kite123456
-        String pwd = "aaa222";
-        binding.btnLogin.setOnClickListener(view -> viewModel.login(getContext(), username, pwd));
-        //viewModel.login(getContext(), username, pwd); // 要等公钥接口返回结果以后 才能调用
+    }
 
-        //binding.btnBanner.setOnClickListener(view -> viewModel.getBanners());
-        //binding.btnSetting.setOnClickListener(view -> viewModel.getSettings(getContext()));
-        //binding.btnCookie.setOnClickListener(view -> viewModel.getCookie(getContext()));
-        //
-        //binding.btnLogin2.setOnClickListener(view -> {
-        //    String username2 = binding.edtName.getText().toString().trim();
-        //    String pwd2 = binding.edtPwd.getText().toString().trim();
-        //    if (!username2.isEmpty() && !pwd2.isEmpty()) {
-        //        viewModel.login(getContext(), username2, pwd2);
-        //    }
-        //});
+    public void initLiveData() {
+
+        viewModel.liveDataCookie.observe(getViewLifecycleOwner(), new Observer<CookieVo>() {
+            @Override
+            public void onChanged(CookieVo cookieVo) {
+                KLog.d("************");
+                viewModel.getNotices(); // 获取公告
+                viewModel.getProfile(); // 获取个人信息
+                viewModel.getVipInfo(); // 获取VIP信息
+            }
+        });
+
         viewModel.liveDataBanner.observe(getViewLifecycleOwner(), new Observer<List<BannersVo>>() {
             @Override
             public void onChanged(List<BannersVo> list) {
                 binding.bnrTop.setDatas(list);
             }
         });
-        viewModel.getBanners();
 
         viewModel.liveDataNotice.observe(getViewLifecycleOwner(), new Observer<List<NoticeVo>>() {
             @Override
@@ -131,7 +127,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 }
             }
         });
-        viewModel.getNotices();
 
         viewModel.liveDataGames.observe(getViewLifecycleOwner(), new Observer<List<GameVo>>() {
             @Override
@@ -141,14 +136,31 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 gameAdapter.addAll(list);
             }
         });
-        viewModel.getGameStatus(getContext());
 
         viewModel.liveDataPlayUrl.observe(getViewLifecycleOwner(), new Observer<Map>() {
             @Override
             public void onChanged(Map map) {
-                CfLog.e("*** " + new Gson().toJson(map));
+                CfLog.d("*** " + new Gson().toJson(map));
                 // 跳转到游戏H5
                 gameAdapter.playGame(map.get("url").toString());
+            }
+        });
+        viewModel.liveDataProfile.observe(getViewLifecycleOwner(), new Observer<ProfileVo>() {
+            @Override
+            public void onChanged(ProfileVo vo) {
+                CfLog.d("*** " + new Gson().toJson(vo));
+                binding.clLoginNot.setVisibility(View.GONE);
+                binding.clLoginYet.setVisibility(View.VISIBLE);
+
+                binding.tvwName.setText(vo.username);
+                binding.tvwBalance.setText("￥" + vo.availablebalance); // creditwallet.balance_RMB
+            }
+        });
+        viewModel.liveDataVipInfo.observe(getViewLifecycleOwner(), new Observer<VipInfoVo>() {
+            @Override
+            public void onChanged(VipInfoVo vo) {
+                CfLog.d("*** " + vo.toString());
+                binding.ivwVip.setImageLevel(vo.display_level); // display_level
             }
         });
 
@@ -178,7 +190,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 if (!TextUtils.isEmpty(data.link)) {
                     String url = DomainUtil.getDomain() + data.link;
                     Uri uri = Uri.parse(url);
-                    Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                    //Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                    Intent it = new Intent(getContext(), BrowserActivity.class);
+                    it.setData(uri);
                     startActivity(it);
                 }
             }
@@ -199,11 +213,15 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             }
         });
 
+        binding.btnLogin.setOnClickListener(view -> {
+                    //viewModel.login(getContext(), username, pwd); // 要等公钥接口返回结果以后 才能调用
+                }
+        );
         //cl_login_not
         binding.clLoginNot.setOnClickListener(view -> {
             // 登录
             KLog.i("**************");
-            binding.btnLogin.setVisibility(View.VISIBLE);
+            //binding.btnLogin.setVisibility(View.VISIBLE);
         });
         binding.tvwDeposit.setOnClickListener(view -> {
             // 存款

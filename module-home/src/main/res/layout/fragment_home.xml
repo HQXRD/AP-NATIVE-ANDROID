@@ -89,7 +89,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:visibility="visible">
+                android:visibility="visible"
+                tools:visibility="gone">
 
                 <TextView
                     android:id="@+id/tvw_not_login"
@@ -112,7 +113,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:visibility="gone">
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tvw_name"
@@ -120,6 +122,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Lorraine001" />
+
+                <ImageView
+                    android:id="@+id/ivw_vip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/hm_vip_level"
+                    app:layout_constraintBottom_toBottomOf="@id/tvw_name"
+                    app:layout_constraintStart_toEndOf="@id/tvw_name"
+                    app:layout_constraintTop_toTopOf="@id/tvw_name" />
 
                 <TextView
                     android:id="@+id/tvw_balance"
