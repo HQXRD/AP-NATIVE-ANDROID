@@ -189,14 +189,16 @@
                     android:padding="5dp"
                     android:text="足球"
                     android:textSize="@dimen/bt_text_12sp" />
-
+                <androidx.core.widget.NestedScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_league"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="2dp"
                     android:layout_marginEnd="2dp" />
-
+                </androidx.core.widget.NestedScrollView>
             </LinearLayout>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

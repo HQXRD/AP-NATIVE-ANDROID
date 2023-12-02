@@ -47,6 +47,11 @@ public class LeagueDataItemDelagate implements ItemViewDelegate<League> {
 
             league.setExpand(!league.isExpand());
             holder.setVisible(R.id.rv_match, league.isExpand());
+            /*if(league.isExpand()){
+                holder.getView(R.id.v_zz).setVisibility(View.VISIBLE);
+            }else{
+                holder.getView(R.id.v_zz).setVisibility(View.GONE);
+            }*/
         });
     }
 
@@ -61,7 +66,7 @@ public class LeagueDataItemDelagate implements ItemViewDelegate<League> {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                view.setVisibility(View.VISIBLE);
+                view.setVisibility(View.GONE);
             }
 
             @Override
