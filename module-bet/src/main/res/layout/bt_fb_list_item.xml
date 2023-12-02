@@ -6,10 +6,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
     android:animateLayoutChanges="true"
     android:background="@drawable/bt_bg_match_item"
-    android:orientation="vertical"
-    android:layout_marginBottom="10dp">
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/rl_league"
@@ -21,8 +21,8 @@
             android:id="@+id/iv_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginStart="10dp"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp" />
 
         <TextView
             android:id="@+id/tv_league_name"
@@ -45,11 +45,23 @@
             android:src="@mipmap/bt_icon_expand" />
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_match"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/rl_league"/>
+        app:layout_constraintTop_toBottomOf="@+id/rl_league">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_match"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <View
+            android:id="@+id/v_zz"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bt_page_bg"
+            android:visibility="gone"/>
+    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

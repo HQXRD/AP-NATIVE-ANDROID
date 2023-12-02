@@ -11,6 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -75,6 +76,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 int topRowVerticalPosition =
                         (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
+                Log.e("test", "============" + topRowVerticalPosition);
                 binding.srlLeague.setEnabled(topRowVerticalPosition >= 0);
             }
         });
