@@ -18,9 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
@@ -80,6 +82,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     @Override
     public void initData() {
         initLiveData();
+        viewModel.readCache(); // 从缓存读取数据并显示
 
         viewModel.getSettings(); // 获取公钥,配置信息
         viewModel.getBanners(); // 获取banner
@@ -113,13 +116,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         viewModel.liveDataNotice.observe(getViewLifecycleOwner(), new Observer<List<NoticeVo>>() {
             @Override
-            public void onChanged(List<NoticeVo> noticeVos) {
-                if (noticeVos.isEmpty()) {
+            public void onChanged(List<NoticeVo> list) {
+                if (list.isEmpty()) {
                     binding.llNotice.setVisibility(View.GONE);
                     binding.ivwNotice.setVisibility(View.GONE);
                 } else {
                     StringBuffer sb = new StringBuffer();
-                    for (NoticeVo vo : noticeVos) {
+                    for (NoticeVo vo : list) {
                         sb.append(vo.title + " ");
                     }
                     binding.llNotice.setVisibility(View.VISIBLE);
@@ -132,7 +135,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             @Override
             public void onChanged(List<GameVo> list) {
                 KLog.i("size: " + list.size());
-                KLog.i(list.get(0));
+                //KLog.d(list.get(0));
                 gameAdapter.addAll(list);
             }
         });
@@ -222,6 +225,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             // 登录
             KLog.i("**************");
             //binding.btnLogin.setVisibility(View.VISIBLE);
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
         });
         binding.tvwDeposit.setOnClickListener(view -> {
             // 存款
@@ -295,15 +299,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 }
             });
         }
-
-        /*binding.rgpType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                String tag = group.findViewById(checkedId).getTag().toString();
-                int pid = Integer.parseInt(tag.replace("tp_", ""));
-                smoothToPosition(pid);
-            }
-        });*/
 
     }
 
