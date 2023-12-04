@@ -6,4 +6,5 @@
     <string name="bt_play_type_dy">全场独赢</string>
     <string name="bt_play_type_yf">全场让分</string>
     <string name="bt_play_type_dx">全场大小</string>
+    <string name="bt_car_add_match">增加赛事</string>
 </resources>
