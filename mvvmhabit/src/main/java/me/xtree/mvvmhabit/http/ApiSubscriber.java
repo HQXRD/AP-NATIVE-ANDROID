@@ -3,6 +3,7 @@ package me.xtree.mvvmhabit.http;
 import io.reactivex.subscribers.DisposableSubscriber;
 import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.utils.KLog;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
@@ -83,7 +84,20 @@ public abstract class ApiSubscriber<T> extends DisposableSubscriber<T> {
             case CodeRule.CODE_551:
                 ToastUtils.showShort("错误代码:", baseResponse.getStatus());
                 break;
+            case CodeRule.CODE_20101:
+            case CodeRule.CODE_20102:
+            case CodeRule.CODE_20103:
+            case CodeRule.CODE_20111:
+            case CodeRule.CODE_30018:
+            case CodeRule.CODE_30003:
+            case CodeRule.CODE_30713:
+                KLog.e("登出状态,销毁token. " + baseResponse);
+                SPUtils.getInstance().put("user_token", "");
+                SPUtils.getInstance().put("user_sessid", "");
+                ToastUtils.showShort("请重新登录");
+                break;
             default:
+                KLog.e("其它异常: " + baseResponse);
                 ToastUtils.showShort("错误代码:", baseResponse.getStatus());
                 break;
         }
@@ -108,6 +122,14 @@ public abstract class ApiSubscriber<T> extends DisposableSubscriber<T> {
         static final int CODE_530 = 530;
         //请求的操作异常终止：未知的页面类型
         static final int CODE_551 = 551;
+        // 登出状态,销毁当前 token
+        static final int CODE_20101 = 20101;
+        static final int CODE_20102 = 20102;
+        static final int CODE_20103 = 20103;
+        static final int CODE_20111 = 20111;
+        static final int CODE_30018 = 30018;
+        static final int CODE_30003 = 30003;
+        static final int CODE_30713 = 30713;
         //用户名或密码错误
         static final int CODE_20203 = 20203;
     }
