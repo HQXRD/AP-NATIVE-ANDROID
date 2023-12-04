@@ -8,15 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.PopupWindow;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.google.gson.Gson;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
-
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMineBinding;
@@ -24,9 +24,11 @@ import com.xtree.mine.ui.activity.LoginRegisterActivity;
 import com.xtree.mine.ui.activity.MyWalletActivity;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.mine.vo.ProfileVo;
+import com.xtree.mine.vo.VipInfoVo;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.bus.RxBus;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
@@ -62,42 +64,55 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         // 使用 TabLayout 和 ViewPager 相关联
         //binding.tabs.setupWithViewPager(binding.viewPager);
         //binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabs));
-      //  viewModel.addPage();
+        //viewModel.addPage();
 
-       binding.textViewLogin.setOnClickListener(new View.OnClickListener(){
-           @Override
-           public void onClick(View v) {
-             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
-             toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE,LoginRegisterActivity.LOGIN_TYPE);
-             startActivity(toLogin);
-           }
-       });
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        ProfileVo vo = new Gson().fromJson(json, ProfileVo.class);
+        json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_VIP_INFO);
+        VipInfoVo vo2 = new Gson().fromJson(json, VipInfoVo.class);
+        if (vo != null) {
+            binding.tvwName.setText(vo.username);
+            binding.tvwBalance.setText(vo.availablebalance);
+        }
+        if (vo2 != null) {
+            binding.ivwVip.setImageLevel(vo2.display_level);
+        }
 
-       binding.textViewRegister.setOnClickListener(v -> {
-           Intent toRegister = new Intent(getContext(),LoginRegisterActivity.class);
-           toRegister.putExtra(LoginRegisterActivity.ENTER_TYPE,LoginRegisterActivity.REGISTER_TYPE);
-           startActivity(toRegister);
-       });
+        binding.textViewLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
+                toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.LOGIN_TYPE);
+                startActivity(toLogin);
+            }
+        });
 
-       binding.iconSetting.setOnClickListener(view -> {
-           popup();
-       });
+        binding.textViewRegister.setOnClickListener(v -> {
+            Intent toRegister = new Intent(getContext(), LoginRegisterActivity.class);
+            toRegister.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.REGISTER_TYPE);
+            startActivity(toRegister);
+        });
 
-       binding.myPocketArea.setOnClickListener(view -> {
-           Intent toMyWallet = new Intent(getContext(), MyWalletActivity.class);
-           startActivity(toMyWallet);
-       });
+        binding.iconSetting.setOnClickListener(view -> {
+            popup();
+        });
+
+        binding.myPocketArea.setOnClickListener(view -> {
+            Intent toMyWallet = new Intent(getContext(), MyWalletActivity.class);
+            startActivity(toMyWallet);
+        });
+
     }
 
-    private void popup(){
+    private void popup() {
         showBottomDialog();
     }
 
-    private void showBottomDialog(){
+    private void showBottomDialog() {
         //1、使用Dialog、设置style
-        final Dialog dialog = new Dialog(getActivity(),R.style.DialogTheme);
+        final Dialog dialog = new Dialog(getActivity(), R.style.DialogTheme);
         //2、设置布局
-        View view = View.inflate(getActivity(),R.layout.mine_account_popup_window,null);
+        View view = View.inflate(getActivity(), R.layout.mine_account_popup_window, null);
         dialog.setContentView(view);
 
         Window window = dialog.getWindow();
@@ -106,7 +121,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         //设置弹出动画
         window.setWindowAnimations(R.style.main_menu_animStyle);
         //设置对话框大小
-        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
+        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.show();
         dialog.findViewById(R.id.me_close_icon).setOnClickListener(new View.OnClickListener() {
             @Override

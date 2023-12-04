@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -22,13 +23,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/topArea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginRight="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -39,20 +42,23 @@
                     android:src="@mipmap/me_icon_name" />
 
                 <TextView
+                    android:id="@+id/tvw_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/icon_name"
                     android:text="@string/me_user_name_hint"
                     android:textColor="@color/white" />
 
                 <ImageView
-                    android:id="@+id/icon_message"
+                    android:id="@+id/ivw_vip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/me_icon_message" />
+                    android:layout_marginStart="4dp"
+                    android:src="@drawable/cm_ic_vip_level" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:layout_weight="1" />
 
                 <ImageView
                     android:id="@+id/icon_setting"
@@ -60,9 +66,15 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
-                    android:layout_toLeftOf="@+id/icon_message"
                     android:src="@mipmap/me_icon_setting" />
-            </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/icon_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/me_icon_message" />
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:id="@+id/middle_area"
@@ -74,8 +86,7 @@
                 android:background="@mipmap/me_middle_bg"
                 app:layout_constraintLeft_toLeftOf="@+id/topArea"
                 app:layout_constraintRight_toRightOf="@+id/topArea"
-                app:layout_constraintTop_toBottomOf="@+id/topArea"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/topArea">
 
                 <RelativeLayout
                     android:id="@+id/unlogin_area"
@@ -132,51 +143,48 @@
                 </RelativeLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/me_already_login_area"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:visibility="visible"
-                    android:id="@+id/me_already_login_area"
-                    >
+                    android:visibility="visible">
+
                     <TextView
                         android:id="@+id/total_money_hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/me_money_total"
-                        android:textSize="@dimen/mine_text_size"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/get_all_money"
-                        app:layout_constraintBottom_toBottomOf="@+id/get_all_money"
                         android:textColor="@color/me_text_color"
-                        />
+                        android:textSize="@dimen/mine_text_size"
+                        app:layout_constraintBottom_toBottomOf="@+id/get_all_money"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/get_all_money" />
 
                     <TextView
                         android:id="@+id/get_all_money"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:text="@string/me_get_all_money"
-                        android:background="@drawable/me_login_btn_bg"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingRight="15dp"
-                        android:paddingLeft="15dp"
                         android:layout_marginTop="13dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:background="@drawable/me_login_btn_bg"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="5dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="5dp"
+                        android:text="@string/me_get_all_money"
+                        android:textColor="@color/black"
                         android:textSize="10sp"
-                        />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/hide_show_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/me_hide_icon"
-                        app:layout_constraintLeft_toRightOf="@+id/total_money_hint"
-                        app:layout_constraintBottom_toBottomOf="@+id/total_money_hint"
                         android:layout_marginLeft="10dp"
-                        />
+                        android:src="@mipmap/me_hide_icon"
+                        app:layout_constraintBottom_toBottomOf="@+id/total_money_hint"
+                        app:layout_constraintLeft_toRightOf="@+id/total_money_hint" />
 
 
                     <LinearLayout
@@ -185,26 +193,25 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         app:layout_constraintLeft_toLeftOf="@+id/total_money_hint"
-                        app:layout_constraintTop_toBottomOf="@+id/total_money_hint"
-                        >
+                        app:layout_constraintTop_toBottomOf="@+id/total_money_hint">
 
                         <TextView
+                            android:id="@+id/tvw_balance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1000,000.00"
+                            android:text="0.00"
                             android:textColor="@color/me_text_color"
-                            android:textStyle="bold"
                             android:textSize="18sp"
-                            />
+                            android:textStyle="bold"
+                            tools:text="1000,000.00" />
 
                         <ImageView
                             android:id="@+id/refresh_icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_refresh_icon"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="5dp"
-                            />
+                            android:src="@mipmap/me_refresh_icon" />
 
                     </LinearLayout>
 
@@ -212,93 +219,86 @@
                         android:id="@+id/level_area"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@+id/money_area"
-                        app:layout_constraintLeft_toLeftOf="@+id/total_money_hint"
                         android:layout_marginTop="20dp"
-                        >
+                        app:layout_constraintLeft_toLeftOf="@+id/total_money_hint"
+                        app:layout_constraintTop_toBottomOf="@+id/money_area">
+
                         <TextView
                             android:id="@+id/level_hint"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/me_level_hint"
-                            android:textSize="8sp"
-                            android:textColor="@color/me_level_color"
-                            android:layout_alignParentTop="true"
                             android:layout_alignParentStart="true"
-                            />
+                            android:layout_alignParentTop="true"
+                            android:text="@string/me_level_hint"
+                            android:textColor="@color/me_level_color"
+                            android:textSize="8sp" />
 
                         <ProgressBar
                             android:id="@+id/level_progress"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                             android:layout_width="200dp"
                             android:layout_height="5dp"
                             android:layout_below="@+id/level_hint"
                             android:layout_alignParentStart="true"
-                            android:background="@drawable/me_level_progressbar_bg"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                            android:progress="100"
-                            android:max="100"
-                            android:progressDrawable="@drawable/me_level_progressbar"
                             android:layout_marginTop="3dp"
-                            />
+                            android:background="@drawable/me_level_progressbar_bg"
+                            android:max="100"
+                            android:progress="100"
+                            android:progressDrawable="@drawable/me_level_progressbar" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_level_icon"
                             android:layout_alignParentEnd="true"
                             android:layout_marginLeft="5dp"
-                            />
+                            android:src="@mipmap/me_level_icon" />
                     </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toBottomOf="@+id/level_area"
-                        app:layout_constraintLeft_toLeftOf="@+id/level_area"
                         android:layout_marginTop="30dp"
-                        >
+                        android:orientation="horizontal"
+                        app:layout_constraintLeft_toLeftOf="@+id/level_area"
+                        app:layout_constraintTop_toBottomOf="@+id/level_area">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_jinji_lijin"
-                            />
+                            android:src="@mipmap/me_jinji_lijin" />
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:visibility="invisible"
-                            />
+                            android:visibility="invisible" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_meiyue_hongbao"
-                            />
+                            android:src="@mipmap/me_meiyue_hongbao" />
+
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:visibility="invisible"
-                            />
-                        <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/me_shengri_lijin"
-                        />
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:visibility="invisible"
-                            />
+                            android:visibility="invisible" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_zhuanshu_huodong"
-                            />
+                            android:src="@mipmap/me_shengri_lijin" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:visibility="invisible" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/me_zhuanshu_huodong" />
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -308,146 +308,134 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/middle_area"
                 app:layout_constraintLeft_toLeftOf="@+id/middle_area"
-                android:layout_marginTop="10dp"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/middle_area">
 
                 <LinearLayout
+                    android:id="@+id/my_pocket_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:id="@+id/my_pocket_area"
-                    >
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/me_my_pocket"
                         android:layout_gravity="center_horizontal"
-                        />
+                        android:src="@mipmap/me_my_pocket" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/me_my_pocket"
                         android:textColor="@color/me_level_color"
-                        android:textSize="10sp"
-                        />
+                        android:textSize="10sp" />
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:visibility="invisible"
-                    />
+                    android:visibility="invisible" />
 
                 <LinearLayout
+                    android:id="@+id/transfer_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:id="@+id/transfer_area"
-                    >
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/me_transfer"
                         android:layout_gravity="center_horizontal"
-                        />
+                        android:src="@mipmap/me_transfer" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/me_transfer"
                         android:textColor="@color/me_level_color"
-                        android:textSize="10sp"
-                        />
+                        android:textSize="10sp" />
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:visibility="invisible"
-                    />
+                    android:visibility="invisible" />
+
                 <LinearLayout
+                    android:id="@+id/betting_record_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:id="@+id/betting_record_area"
-                    >
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/me_betting_record"
                         android:layout_gravity="center_horizontal"
-                        />
+                        android:src="@mipmap/me_betting_record" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/me_betting_record"
                         android:textColor="@color/me_level_color"
-                        android:textSize="10sp"
-                        />
+                        android:textSize="10sp" />
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:visibility="invisible"
-                    />
+                    android:visibility="invisible" />
+
                 <LinearLayout
+                    android:id="@+id/account_record_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:id="@+id/account_record_area"
-                    >
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/me_account_record"
                         android:layout_gravity="center_horizontal"
-                        />
+                        android:src="@mipmap/me_account_record" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/me_account_record"
                         android:textColor="@color/me_level_color"
-                        android:textSize="10sp"
-                        />
+                        android:textSize="10sp" />
                 </LinearLayout>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:visibility="invisible"
-                    />
+                    android:visibility="invisible" />
+
                 <LinearLayout
+                    android:id="@+id/account_safety_area"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:id="@+id/account_safety_area"
-                    >
+                    android:orientation="vertical">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/me_account_safty"
                         android:layout_gravity="center_horizontal"
-                        />
+                        android:src="@mipmap/me_account_safty" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/me_account_safety"
                         android:textColor="@color/me_level_color"
-                        android:textSize="10sp"
-                        />
+                        android:textSize="10sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -468,147 +456,132 @@
                 android:id="@+id/more_service_hint"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/me_more_service"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
-                android:textSize="15sp"
+                android:layout_marginTop="20dp"
+                android:text="@string/me_more_service"
                 android:textColor="@color/me_more_service_color"
-                />
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="6dp"
                 android:src="@mipmap/me_more_icon"
                 app:layout_constraintLeft_toRightOf="@+id/more_service_hint"
                 app:layout_constraintTop_toBottomOf="@+id/more_service_hint"
-                app:layout_constraintTop_toTopOf="@+id/more_service_hint"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="6dp"
-                />
+                app:layout_constraintTop_toTopOf="@+id/more_service_hint" />
 
             <LinearLayout
                 android:id="@+id/more_service_area"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="@+id/more_service_hint"
-                app:layout_constraintTop_toBottomOf="@+id/more_service_hint"
                 android:layout_marginLeft="40dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:orientation="vertical"
-                >
+                app:layout_constraintLeft_toLeftOf="@+id/more_service_hint"
+                app:layout_constraintTop_toBottomOf="@+id/more_service_hint">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/invite_friend_area"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/invite_friend_area"
-                        >
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_invite_friend"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:src="@mipmap/me_invite_friend" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/me_invite_friend"
-                            android:textSize="@dimen/me_test_size"
-                            />
+                            android:textSize="@dimen/me_test_size" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        />
+                        android:visibility="invisible" />
 
                     <LinearLayout
+                        android:id="@+id/guanfangheyin_area"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/guanfangheyin_area"
-                        >
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_guanfangheyin"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:src="@mipmap/me_guanfangheyin" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/me_guanfang_heyin"
-                            android:textSize="@dimen/me_test_size"
-                            />
+                            android:textSize="@dimen/me_test_size" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        />
+                        android:visibility="invisible" />
 
                     <LinearLayout
+                        android:id="@+id/yingkui_baobiao_area"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/yingkui_baobiao_area"
-                        >
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_yinkui_baobiao"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:src="@mipmap/me_yinkui_baobiao" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/me_yinkui_baobiao"
-                            android:textSize="@dimen/me_test_size"
-                            />
+                            android:textSize="@dimen/me_test_size" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        />
+                        android:visibility="invisible" />
 
                     <LinearLayout
+                        android:id="@+id/sanfang_zhuanzhang_area"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/sanfang_zhuanzhang_area"
-                        >
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_sanfang_zhuanzhang"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:src="@mipmap/me_sanfang_zhuanzhang" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/me_sanfang_zhuanzhang"
-                            android:textSize="@dimen/me_test_size"
-                            />
+                            android:textSize="@dimen/me_test_size" />
                     </LinearLayout>
 
 
@@ -617,113 +590,101 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="30dp"
-                    >
+                    android:orientation="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/anquan_zhongxin_area"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/anquan_zhongxin_area"
-                        >
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_anquan_zhongxin"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:src="@mipmap/me_anquan_zhongxin" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/me_anquan_zhongxin"
-                            android:textSize="@dimen/me_test_size"
-                            />
+                            android:textSize="@dimen/me_test_size" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        />
+                        android:visibility="invisible" />
 
                     <LinearLayout
+                        android:id="@+id/zhanghu_shezhi_area"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/zhanghu_shezhi_area"
-                        >
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_zhanghu_shezhi"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:src="@mipmap/me_zhanghu_shezhi" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/me_zhanghu_shezhi"
-                            android:textSize="@dimen/me_test_size"
-                            />
+                            android:textSize="@dimen/me_test_size" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        />
+                        android:visibility="invisible" />
 
                     <LinearLayout
+                        android:id="@+id/vip_zhongxin_area"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/vip_zhongxin_area"
-                        >
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_vip_zhongxin"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:src="@mipmap/me_vip_zhongxin" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/me_vip_zhongxin"
-                            android:textSize="@dimen/me_test_size"
-                            />
+                            android:textSize="@dimen/me_test_size" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        />
+                        android:visibility="invisible" />
 
                     <LinearLayout
+                        android:id="@+id/fanshui_baobiao_area"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/fanshui_baobiao_area"
-                        >
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_fanhui_baobiao"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:src="@mipmap/me_fanhui_baobiao" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/me_fanhui_baobiao"
-                            android:textSize="@dimen/me_test_size"
-                            />
+                            android:textSize="@dimen/me_test_size" />
                     </LinearLayout>
 
 
@@ -732,114 +693,103 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_marginTop="30dp"
+                    android:orientation="horizontal"
 
                     >
 
                     <LinearLayout
+                        android:id="@+id/tiyu_guize_area"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/tiyu_guize_area"
-                        >
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_tiyu_guize"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:src="@mipmap/me_tiyu_guize" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/me_tiyu_guize"
-                            android:textSize="@dimen/me_test_size"
-                            />
+                            android:textSize="@dimen/me_test_size" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        />
+                        android:visibility="invisible" />
 
                     <LinearLayout
+                        android:id="@+id/changjian_wenti_area"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/changjian_wenti_area"
-                        >
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_changjian_wenti"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:src="@mipmap/me_changjian_wenti" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/me_changjian_wenti"
-                            android:textSize="@dimen/me_test_size"
-                            />
+                            android:textSize="@dimen/me_test_size" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        />
+                        android:visibility="invisible" />
 
                     <LinearLayout
+                        android:id="@+id/bangzhu_zhongxin_area"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/bangzhu_zhongxin_area"
-                        >
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_invite_friend"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:src="@mipmap/me_invite_friend" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/me_bangzhu_zhongxin"
-                            android:textSize="@dimen/me_test_size"
-                            />
+                            android:textSize="@dimen/me_test_size" />
                     </LinearLayout>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:visibility="invisible"
-                        />
+                        android:visibility="invisible" />
 
                     <LinearLayout
+                        android:id="@+id/usdt_jiaocheng_area"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:id="@+id/usdt_jiaocheng_area"
-                        >
+                        android:orientation="vertical">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_usdt_jiaocheng"
                             android:layout_gravity="center_horizontal"
-                            />
+                            android:src="@mipmap/me_usdt_jiaocheng" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/me_usdt_jiaocheng"
-                            android:textSize="@dimen/me_test_size"
-                            />
+                            android:textSize="@dimen/me_test_size" />
                     </LinearLayout>
 
 
@@ -851,15 +801,14 @@
                 android:id="@+id/btn_logout_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
+                android:background="@mipmap/me_logout_login_bg"
+                android:text="@string/me_logout_login"
                 app:layout_constraintLeft_toLeftOf="@+id/more_service_hint"
                 app:layout_constraintRight_toRightOf="@+id/more_service_area"
-                app:layout_constraintTop_toBottomOf="@+id/more_service_area"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:text="@string/me_logout_login"
-                android:layout_marginTop="15dp"
-                android:background="@mipmap/me_logout_login_bg"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/more_service_area" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
