@@ -18,9 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
@@ -223,6 +225,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             // 登录
             KLog.i("**************");
             //binding.btnLogin.setVisibility(View.VISIBLE);
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
         });
         binding.tvwDeposit.setOnClickListener(view -> {
             // 存款
