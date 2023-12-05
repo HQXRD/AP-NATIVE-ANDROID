@@ -7,11 +7,13 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
     public abstract void onResult(T t);
+
     @Override
     public void onNext(T o) {
 
         BaseResponse baseResponse = (BaseResponse) o;
         switch (baseResponse.getStatus()) {
+            case ApiSubscriber.CodeRule.CODE_0:
             case ApiSubscriber.CodeRule.CODE_10000:
                 //请求成功, 正确的操作方式
                 onResult((T) baseResponse.getData());
@@ -56,7 +58,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 ToastUtils.showShort(baseResponse.getMessage());
                 break;
             default:
-                KLog.e("default: " + baseResponse);
+                KLog.e("status is not normal: " + baseResponse);
                 ToastUtils.showShort(baseResponse.getMessage());
                 break;
         }
@@ -64,6 +66,8 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
 
     @Override
     public void onError(Throwable t) {
+        KLog.e("error: " + t.toString());
+        //t.printStackTrace();
         if (t instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) t;
             ToastUtils.showShort(rError.message);

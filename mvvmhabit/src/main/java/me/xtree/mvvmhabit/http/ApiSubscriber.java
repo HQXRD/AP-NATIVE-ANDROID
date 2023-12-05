@@ -105,6 +105,7 @@ public abstract class ApiSubscriber<T> extends DisposableSubscriber<T> {
 
     public static final class CodeRule {
         //请求成功, 正确的操作方式
+        static final int CODE_0 = 0;
         static final int CODE_10000 = 10000;
         //请求失败，不打印Message
         static final int CODE_300 = 300;
