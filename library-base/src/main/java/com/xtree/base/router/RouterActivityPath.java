@@ -13,7 +13,7 @@ public class RouterActivityPath {
     public static class Main {
         private static final String MAIN = "/main";
         /*主业务界面*/
-        public static final String PAGER_MAIN = MAIN +"/Main";
+        public static final String PAGER_MAIN = MAIN + "/Main";
     }
 
     /**
@@ -37,17 +37,18 @@ public class RouterActivityPath {
     /**
      * 我的组件
      */
-    public static class Mine{
+    public static class Mine {
         private static final String MINE = "/mine";
 
         /*登录注册*/
-        public static final String PAGER_LOGIN_REGISTER = MINE+"/loginRegister";
+        public static final String PAGER_LOGIN_REGISTER = MINE + "/loginRegister";
+        public static final String PAGER_MY_WALLET = MINE + "/wallet";
     }
 
     /**
      * 投注组件
      */
-    public static class Bet{
+    public static class Bet {
         private static final String BET = "/bet";
         public static final String PAGER_BET_HOME = BET + "/home";
     }
