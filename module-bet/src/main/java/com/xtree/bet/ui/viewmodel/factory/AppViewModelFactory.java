@@ -12,6 +12,9 @@ import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.data.Injection;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 /**
  * Created by marquis on 2023/11/22.
  */
@@ -45,9 +48,13 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        if (modelClass.isAssignableFrom(MainViewModel.class)) {
-            return (T) new MainViewModel(mApplication, mRepository);
+        try {
+            Class<T> clazz = (Class<T>) Class.forName(modelClass.getName());
+            Constructor constructor = clazz.getConstructor(Application.class, BetRepository.class);
+            return (T) constructor.newInstance(mApplication, mRepository);
+        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException |
+                 InstantiationException | InvocationTargetException e) {
+            return null;
         }
-        throw new IllegalArgumentException("Unknown ViewModel class: " + modelClass.getName());
     }
 }

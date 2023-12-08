@@ -6,10 +6,10 @@ import com.xtree.bet.bean.OptionInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OptionListFbAdapter implements OptionList {
+public class OptionListFb implements OptionList {
     OptionDataListInfo optionDataListInfo;
 
-    public OptionListFbAdapter(OptionDataListInfo optionDataListInfo){
+    public OptionListFb(OptionDataListInfo optionDataListInfo){
         this.optionDataListInfo = optionDataListInfo;
     }
 
@@ -53,7 +53,7 @@ public class OptionListFbAdapter implements OptionList {
     public List<Option> getOptionList() {
         List<Option> optionList = new ArrayList<>();
         for (OptionInfo optionInfo : optionDataListInfo.op) {
-            optionList.add(new OptionFbAdapter(optionInfo));
+            optionList.add(new OptionFb(optionInfo));
         }
         return optionList;
     }

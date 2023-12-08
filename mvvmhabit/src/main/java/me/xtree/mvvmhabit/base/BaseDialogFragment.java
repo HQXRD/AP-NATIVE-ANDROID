@@ -15,15 +15,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.fragment.app.DialogFragment;
 
 import com.trello.rxlifecycle4.components.support.RxDialogFragment;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.Objects;
+
+import me.xtree.mvvmhabit.R;
 
 
 public abstract class BaseDialogFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends RxDialogFragment implements View.OnClickListener {
@@ -47,11 +45,16 @@ public abstract class BaseDialogFragment<V extends ViewDataBinding, VM extends B
 
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialog);
+    }
+
     //这里用反射来获取布局文件
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Objects.requireNonNull(getDialog()).requestWindowFeature(Window.FEATURE_NO_TITLE);
         binding = DataBindingUtil.inflate(inflater, initContentView(inflater, container, savedInstanceState), container, false);
         return binding.getRoot();
     }
@@ -63,40 +66,36 @@ public abstract class BaseDialogFragment<V extends ViewDataBinding, VM extends B
         initView();
         //页面数据初始化方法
         initData();
+        //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
+        initViewObservable();
     }
 
     private void initViewDataBinding() {
         viewModel = initViewModel();
         //支持LiveData绑定xml，数据改变，UI自动会更新
         binding.setLifecycleOwner(this);
+        //让ViewModel拥有View的生命周期感应
+        getLifecycle().addObserver(viewModel);
+        //注入RxLifecycle生命周期
+        viewModel.injectLifecycleProvider(this);
+    }
+
+    public void initViewObservable() {
+
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Objects.requireNonNull(getDialog()).requestWindowFeature(Window.FEATURE_NO_TITLE);
         Window window = Objects.requireNonNull(getDialog()).getWindow();
         WindowManager.LayoutParams params = Objects.requireNonNull(window).getAttributes();
         //设置显示在底部
         params.gravity = Gravity.BOTTOM;
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.WRAP_CONTENT;
         window.setAttributes(params);
         View decorView = window.getDecorView();
-        decorView.setPadding(100, 100, 100, 0);
         decorView.setBackground(new ColorDrawable(Color.TRANSPARENT));
-        //设置点击空白处关闭，也能启动从上到下的动画
-        decorView.setOnTouchListener((view, motionEvent) -> {
-            dismiss();
-            return false;
-        });
     }
-    /*private void slideDown() {
-        AnimationUtil.slideToDown(mRootView, new AnimationUtil.AnimationEndListener() {
-            @Override
-            public void onFinish() {
-                dismiss();
-            }
-        });
-    }*/
 
 }

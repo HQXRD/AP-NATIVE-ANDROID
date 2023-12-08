@@ -19,6 +19,7 @@ import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.PlayGroup;
 import com.xtree.bet.bean.ui.PlayType;
+import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
@@ -56,5 +57,8 @@ public class MatchAdapter extends CommonAdapter<Match> {
         holder.setVisible(R.id.iv_court, match.hasAs());
         holder.setVisible(R.id.iv_live, match.hasVideo());
 
+        holder.itemView.setOnClickListener(view -> {
+            BtDetailActivity.start(view.getContext());
+        });
     }
 }
