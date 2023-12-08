@@ -88,4 +88,43 @@
 
     <!-- 投注模块 end-->
 
+    <!-- 首页模块 begin -->
+    <color name="clr_hm_txt_black">#000000</color>
+    <color name="clr_hm_txt_grey_01">#b1b1b1</color>
+    <color name="clr_hm_txt_grey_03">#9E9E9E</color>
+    <color name="clr_hm_grey_03">#E9E9E9</color>
+    <color name="clr_hm_grey_05">#D1D1D1</color>
+
+    <color name="clr_hm_purple_01">#9987E2</color>
+    <color name="clr_hm_purple_03">#CE9CE5</color>
+    <!-- 首页模块 end-->
+
+    <!-- 通用 begin -->
+    <color name="clr_white">#FFFFFF</color>
+    <color name="clr_txt_black">#000000</color>
+    <color name="clr_txt_black_01">#2F2747</color>
+    <color name="clr_txt_grey_01">#b1b1b1</color>
+    <color name="clr_txt_grey_03">#9E9E9E</color>
+    <color name="clr_grey_03">#E9E9E9</color>
+    <color name="clr_grey_05">#D1D1D1</color>
+
+    <color name="clr_grey_22">#38D9D9D9</color>
+
+    <color name="clr_grey_20">#332F2747</color>
+    <color name="clr_grey_40">#662F2747</color>
+    <color name="clr_grey_60">#992F2747</color>
+    <color name="clr_grey_80">#CC2F2747</color>
+
+    <color name="clr_purple_01">#9987E2</color>
+    <color name="clr_purple_03">#CE9CE5</color>
+    <!--  金额已选中  -->
+    <color name="clr_purple_05">#9179E7</color>
+    <!--  金额未选中  -->
+    <color name="clr_purple_06">#C4B2FF</color>
+
+    <color name="clr_orange_01">#FF804B</color>
+    <color name="clr_orange_03">#EE5A5A</color>
+
+    <!-- 通用 end-->
+
 </resources>

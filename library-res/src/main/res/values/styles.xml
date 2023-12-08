@@ -31,5 +31,39 @@
         <item name="android:button">@drawable/checkbox_bg_selector</item>
     </style>
 
+    <!-- 每个页面顶部标题栏的样式-标题 -->
+    <style name="style_cm_title_top">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/clr_txt_black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <!-- 每个页面标题栏的样式-返回按钮 -->
+    <style name="style_ic_title_back">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:src">@mipmap/cm_ic_back</item>
+    </style>
+
+    <!-- 每个页面标题栏的样式-右边小按钮 -->
+    <style name="style_ic_title_right">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">4dp</item>
+        <item name="android:padding">4dp</item>
+    </style>
+
+    <!-- 每个页面标题栏的样式-右边小按钮 -->
+    <style name="style_cm_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginTop">@dimen/layout_margin</item>
+        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textSize">17sp</item>
+    </style>
 
 </resources>
