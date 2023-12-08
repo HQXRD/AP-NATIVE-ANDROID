@@ -7,10 +7,10 @@ import com.xtree.bet.bean.PlayTypeInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayTypeFbAdapter implements PlayType{
+public class PlayTypeFb implements PlayType{
     private PlayTypeInfo playTypeInfo;
 
-    public PlayTypeFbAdapter(PlayTypeInfo playTypeInfo){
+    public PlayTypeFb(PlayTypeInfo playTypeInfo){
         this.playTypeInfo = playTypeInfo;
     }
 
@@ -35,7 +35,7 @@ public class PlayTypeFbAdapter implements PlayType{
     public List<OptionList> getOptionLists() {
         List<OptionList> optionLists = new ArrayList<>();
         for (OptionDataListInfo optionDataListInfo : playTypeInfo.mks) {
-            optionLists.add(new OptionListFbAdapter(optionDataListInfo));
+            optionLists.add(new OptionListFb(optionDataListInfo));
         }
         return null;
     }
@@ -44,7 +44,7 @@ public class PlayTypeFbAdapter implements PlayType{
     public List<Option> getOptionList() {
         List<Option> optionList = new ArrayList<>();
         for (OptionInfo optionInfo : playTypeInfo.mks.get(0).op) {
-            optionList.add(new OptionFbAdapter(optionInfo));
+            optionList.add(new OptionFb(optionInfo));
         }
         return optionList;
     }

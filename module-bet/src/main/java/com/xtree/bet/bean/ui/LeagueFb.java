@@ -5,20 +5,18 @@ import com.xtree.bet.bean.LeagueInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.xtree.mvvmhabit.bus.RxSubscriptions;
-
-public class LeagueFbAdapter implements League{
+public class LeagueFb implements League{
     private boolean isExpand = true;
     private boolean isHead;
     public int sort;
     public LeagueInfo leagueInfo;
     public List<Match> matchList = new ArrayList<>();
 
-    public LeagueFbAdapter(){
+    public LeagueFb(){
 
     }
 
-    public LeagueFbAdapter(LeagueInfo leagueInfo){
+    public LeagueFb(LeagueInfo leagueInfo){
         this.leagueInfo = leagueInfo;
     }
 
@@ -52,7 +50,7 @@ public class LeagueFbAdapter implements League{
 
     @Override
     public League instance() {
-        return new LeagueFbAdapter();
+        return new LeagueFb();
     }
 
     @Override

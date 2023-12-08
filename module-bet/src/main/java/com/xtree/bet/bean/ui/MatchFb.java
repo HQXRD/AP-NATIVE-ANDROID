@@ -12,12 +12,12 @@ import java.util.List;
 /**
  * 赛事列表UI显示需要用的比赛信息结构
  */
-public class MatchFbAdapter implements Match{
+public class MatchFb implements Match{
     MatchInfo matchInfo;
 
     List<PlayType> playTypeList = new ArrayList<>();
 
-    public MatchFbAdapter(MatchInfo matchInfo){
+    public MatchFb(MatchInfo matchInfo){
         this.matchInfo = matchInfo;
     }
 
@@ -89,7 +89,7 @@ public class MatchFbAdapter implements Match{
     public List<PlayType> getPlayTypeList() {
         List<PlayType> playTypeList = new ArrayList<>();
         for (PlayTypeInfo playTypeInfo: matchInfo.mg) {
-            PlayTypeFbAdapter playTypeFbAdapter = new PlayTypeFbAdapter(playTypeInfo);
+            PlayTypeFb playTypeFbAdapter = new PlayTypeFb(playTypeInfo);
             playTypeList.add(playTypeFbAdapter);
         }
         return playTypeList;

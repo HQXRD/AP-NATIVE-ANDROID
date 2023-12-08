@@ -1,14 +1,20 @@
 package me.xtree.mvvmhabit.utils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -610,5 +616,21 @@ public final class ConvertUtils {
             }
         }
         return true;
+    }
+
+    public static int getScreenWidth(Context context){
+        return ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getWidth();
+    }
+
+    public static int getScreenHeight(Context context){
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (wm == null) return -1;
+        Point point = new Point();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            wm.getDefaultDisplay().getRealSize(point);
+        } else {
+            wm.getDefaultDisplay().getSize(point);
+        }
+        return point.y;
     }
 }

@@ -8,10 +8,10 @@ import com.google.gson.Gson;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.League;
-import com.xtree.bet.bean.ui.LeagueFbAdapter;
+import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.LeagueItem;
 import com.xtree.bet.bean.ui.Match;
-import com.xtree.bet.bean.ui.MatchFbAdapter;
+import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.MatchInfo;
 import com.xtree.bet.bean.MatchItem;
 import com.xtree.bet.bean.MatchListRsp;
@@ -176,12 +176,12 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
 
             League leagueAdapter = map.get(String.valueOf(matchInfo.lg.id));
             if(leagueAdapter == null){
-                leagueAdapter = new LeagueFbAdapter(matchInfo.lg);
+                leagueAdapter = new LeagueFb(matchInfo.lg);
                 leagueAdapter.setSort(index ++);
                 map.put(String.valueOf(matchInfo.lg.id), leagueAdapter);
             }
 
-            Match matchFbAdapter = new MatchFbAdapter(matchInfo);
+            Match matchFbAdapter = new MatchFb(matchInfo);
             leagueAdapter.getMatchList().add(matchFbAdapter);
         }
         leagueList.addAll(map.values());
@@ -199,7 +199,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
                 .subscribe(expandContract -> {
                     expandContractListDate.postValue(new ExpandContract());
                 });
-        RxSubscriptions.add(mSubscription);
+        addSubscribe(mSubscription);
     }
 
     private String readTextFile(InputStream inputStream) throws IOException {
@@ -217,6 +217,5 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RxSubscriptions.remove(mSubscription);
     }
 }

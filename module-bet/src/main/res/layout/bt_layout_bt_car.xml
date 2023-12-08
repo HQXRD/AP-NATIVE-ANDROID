@@ -3,168 +3,250 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bt_bg_car"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/csl_top"
+        <LinearLayout
+
+            android:id="@+id/ll_root"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/bt_option_bg_selected"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/iv_cg_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@mipmap/bt_icon_dan"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/csl_top"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_above="@+id/nsv_option"
+                android:background="@color/bt_option_bg_selected">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/bt_color_under_bg_primary_text"
-                android:textSize="@dimen/bt_text_14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/iv_cg_type"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="FB体育" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/bt_bg_car_acount"
-                android:gravity="center"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                <ImageView
+                    android:id="@+id/iv_cg_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@mipmap/bt_icon_dan"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="6dp"
-                    android:text="80000000"
                     android:textColor="@color/bt_color_under_bg_primary_text"
-                    android:textSize="@dimen/bt_text_20sp" />
-
-                <ImageView
-                    android:id="@+id/iv_reflesh"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="5dp"
-                    android:background="@mipmap/bt_icon_refresh" />
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/csl_option"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/bt_bg_car"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/csl_top"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rl_bt_option"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rl_bt_cg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/rl_bt_option" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/rl_bt_cg">
+                    android:textSize="@dimen/bt_text_14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/iv_cg_type"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="FB体育" />
 
                 <LinearLayout
-                    android:id="@+id/btn_add_match"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bt_bg_car_add_match"
-                    android:gravity="center">
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/bt_bg_car_acount"
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_centerHorizontal="true"
-                        android:drawableStart="@mipmap/bt_ic_match_add"
-                        android:drawablePadding="5dp"
-                        android:gravity="center"
-                        android:text="@string/bt_car_add_match"
-                        android:textColor="@color/bt_color_car_dialog_hight_line2" />
-                </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:layout_margin="6dp"
+                        android:text="80000000"
+                        android:textColor="@color/bt_color_under_bg_primary_text"
+                        android:textSize="@dimen/bt_text_20sp" />
 
+                    <ImageView
+                        android:id="@+id/iv_reflesh"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@mipmap/bt_icon_refresh" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <me.xtree.mvvmhabit.widget.MaxHeightNetsedScrollView
+                android:id="@+id/nsv_option"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/csl_bottom"
+                android:background="@color/bt_page_up_bg"
+                android:paddingTop="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bt_bg_car"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_bt_option"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/bt_layout_car_bt_item" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_bt_cg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/rv_bt_option"
+                        tools:itemCount="1"
+                        tools:listitem="@layout/bt_layout_car_cg_item" />
+
+                    <LinearLayout
+                        android:id="@+id/btn_add_match"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bt_bg_car_add_match"
+                        android:gravity="center"
+                        app:layout_constraintTop_toBottomOf="@+id/rv_bt_cg">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_centerHorizontal="true"
+                            android:drawableStart="@mipmap/bt_ic_match_add"
+                            android:drawablePadding="5dp"
+                            android:gravity="center"
+                            android:text="@string/bt_car_add_match"
+                            android:textColor="@color/bt_color_car_dialog_hight_line2" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_keyboard_dan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+
+                    <View
+                        android:id="@+id/v_space"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"/>
+
+                </LinearLayout>
+            </me.xtree.mvvmhabit.widget.MaxHeightNetsedScrollView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/csl_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/bt_page_up_bg">
 
                 <CheckBox
+                    android:id="@+id/cb_accept"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/btn_add_match"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:checked="true"
                     android:text="自动接受更好赔率"
-                    android:textColor="@color/bt_color_hine_color" />
-            </RelativeLayout>
+                    android:textColor="@color/bt_color_hine_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/cb_accept">
 
+                    <View
+                        android:id="@+id/v_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:layout_marginBottom="20dp"
+                        android:background="@color/bt_color_shadow" />
 
-        <RelativeLayout
+                    <ImageView
+                        android:id="@+id/iv_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/v_line"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@mipmap/bt_ic_bt_delete" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_confirm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/v_line"
+                        android:layout_centerInParent="true"
+                        android:layout_toLeftOf="@+id/iv_bt"
+                        android:layout_toRightOf="@+id/iv_delete"
+                        android:background="@mipmap/bt_btn_bg_bt">
+
+                        <TextView
+                            android:id="@+id/tv_bt_opton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_toRightOf="@+id/iv_confirm"
+                            android:text="@string/bt_bt_confirm_option"
+                            android:textColor="@color/bt_color_under_bg_primary_text"
+                            android:textSize="@dimen/bt_text_15sp" />
+
+                        <TextView
+                            android:id="@+id/tv_bt_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginTop="17dp"
+                            android:layout_toRightOf="@+id/tv_bt_opton"
+                            android:textColor="@color/bt_color_under_bg_primary_text"
+                            android:textSize="@dimen/bt_text_12sp"
+                            tools:text="合计999" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginStart="2dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="15dp"
+                            android:text="> > >"
+                            android:textColor="@color/bt_color_under_bg_primary_text"
+                            android:textSize="@dimen/bt_text_15sp" />
+
+                        <com.xtree.bet.weight.DraggableImageView
+                            android:id="@+id/iv_confirm"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@mipmap/bt_ic_confirmation_arrow" />
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/iv_bt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/v_line"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@mipmap/bt_ic_bt_dan" />
+                </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_keyboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/csl_option">
-
-            <View
-                android:id="@+id/v_line"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginBottom="20dp"
-                android:background="@color/bt_color_shadow" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/v_line"
-                android:layout_marginStart="10dp"
-                android:background="@mipmap/bt_ic_bt_delete" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/v_line"
-                android:layout_centerInParent="true"
-                android:background="@mipmap/bt_btn_bg_bt">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@mipmap/bt_ic_confirmation_arrow" />
-            </RelativeLayout>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/v_line"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="10dp"
-                android:background="@mipmap/bt_ic_bt_dan" />
-        </RelativeLayout>
-
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

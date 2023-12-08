@@ -2,10 +2,10 @@ package com.xtree.bet.bean.ui;
 
 import com.xtree.bet.bean.OptionInfo;
 
-public class OptionFbAdapter implements Option{
+public class OptionFb implements Option{
     private OptionInfo optionInfo;
 
-    public OptionFbAdapter(OptionInfo optionInfo){
+    public OptionFb(OptionInfo optionInfo){
         this.optionInfo = optionInfo;
     }
 

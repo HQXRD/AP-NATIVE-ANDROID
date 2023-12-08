@@ -60,7 +60,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     public MainViewModel initViewModel() {
         //使用自定义的ViewModelFactory来创建ViewModel，如果不重写该方法，则默认会调用LoginViewModel(@NonNull Application application)构造方法
         AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
-        return new ViewModelProvider(this, factory).get(MainViewModel.class);
+        return new ViewModelProvider(this, (ViewModelProvider.Factory) factory).get(MainViewModel.class);
     }
 
     @Override
@@ -76,7 +76,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 int topRowVerticalPosition =
                         (recyclerView == null || recyclerView.getChildCount() == 0) ? 0 : recyclerView.getChildAt(0).getTop();
-                Log.e("test", "============" + topRowVerticalPosition);
                 binding.srlLeague.setEnabled(topRowVerticalPosition >= 0);
             }
         });

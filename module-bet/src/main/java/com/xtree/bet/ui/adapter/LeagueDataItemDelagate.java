@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.League;
+import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 

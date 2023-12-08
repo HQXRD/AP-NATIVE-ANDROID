@@ -26,6 +26,13 @@
         <item name="android:background">@color/viewLineColor</item>
     </style>
 
+    <style name="CustomDialog" parent="AppTheme" >
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+    </style>
+
 
     <style name="PwdCheckboxStyle">
         <item name="android:button">@drawable/checkbox_bg_selector</item>
