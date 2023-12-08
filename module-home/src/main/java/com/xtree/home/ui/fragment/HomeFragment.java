@@ -136,6 +136,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             public void onChanged(List<GameVo> list) {
                 KLog.i("size: " + list.size());
                 //KLog.d(list.get(0));
+                gameAdapter.clear();
                 gameAdapter.addAll(list);
             }
         });

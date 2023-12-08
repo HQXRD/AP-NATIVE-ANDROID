@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
@@ -19,6 +20,8 @@ import com.xtree.base.widget.BrowserActivity;
 import com.xtree.home.R;
 import com.xtree.home.databinding.HmItemGameBinding;
 import com.xtree.home.vo.GameVo;
+
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
     Context ctx;
@@ -68,6 +71,12 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         CfLog.d(vo.toString());
         if (vo.status != 1) {
             // 0是维护, 1是正常, 2是下架
+            return;
+        }
+
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        if (TextUtils.isEmpty(token)) {
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
             return;
         }
 
