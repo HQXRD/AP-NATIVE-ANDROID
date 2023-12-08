@@ -75,6 +75,19 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     @Override
     public void initView() {
+        boolean isShowBack = getArguments().getBoolean("isShowBack");
+        if (isShowBack) {
+            binding.ivwBack.setVisibility(View.VISIBLE);
+        } else {
+            binding.ivwBack.setVisibility(View.GONE);
+        }
+        binding.ivwBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+            }
+        });
+
         rechargeAdapter = new RechargeAdapter(getContext(), new RechargeAdapter.ICallBack() {
             @Override
             public void onClick(RechargeVo vo) {
@@ -282,6 +295,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     private void setRate(RechargeVo vo) {
         binding.llRate.setVisibility(View.VISIBLE);
+        binding.tvwPrePay.setText("");
 
         if (!TextUtils.isEmpty(vo.usdtrate)) {
             setUsdtRate(vo);
