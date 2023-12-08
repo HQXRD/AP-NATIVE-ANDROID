@@ -1,5 +1,7 @@
 package com.xtree.mine.data.source.http.service;
 
+import com.xtree.mine.vo.BalanceVo;
+import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.SettingsVo;
 
@@ -14,6 +16,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 /**
@@ -34,9 +37,23 @@ public interface HttpApiService {
 
     @POST("/api/register/kygprka")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse<String>> register(@Body Map<String,String> map);
+    Flowable<BaseResponse<String>> register(@Body Map<String, String> map);
 
     @GET("/api/settings/?")
     Flowable<BaseResponse<SettingsVo>> getSettings(@QueryMap Map<String, String> filters);
+
+    /**
+     *获取 平台中心余额
+     * @return
+     */
+    @GET("/api/account/balance")
+    Flowable<BaseResponse<BalanceVo>> getBalance();
+
+    /**
+     * 获取 某个场馆的余额 <p/>
+     * eg: "balance": "3.5000"
+     */
+    @GET("/api/game/{gameAlias}/balance")
+    Flowable<BaseResponse<GameBalanceVo>> getGameBalance(@Path("gameAlias") String gameAlias);
 
 }
