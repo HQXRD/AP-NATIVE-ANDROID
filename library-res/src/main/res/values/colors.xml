@@ -29,6 +29,9 @@
     <!-- 投注页字体主题色 -->
     <color name="bt_text_color_primary">#4A4A4A</color>
 
+    <!-- 投注页深色字体颜色 -->
+    <color name="bt_text_color_deep_primary">#4d4d4d</color>
+
     <!-- 投注页加粗字体颜色 -->
     <color name="bt_text_color_bold">#000000</color>
 
@@ -80,11 +83,14 @@
     <!-- 投注确认页提示高亮颜色(如比分已更改) -->
     <color name="bt_color_car_dialog_tip_hight_line">#FF7A00</color>
 
-    <!-- 投注确认页提示高亮颜色(如比分已更改) -->
+    <!-- hine字体颜色 -->
     <color name="bt_color_hine_color">#4D000000</color>
 
     <!-- 阴影颜色 -->
     <color name="bt_color_shadow">#1AA797F0</color>
+
+    <!-- 键盘背景颜色 -->
+    <color name="bt_bg_color_keyboard">#F6F4FF</color>
 
     <!-- 投注模块 end-->
 

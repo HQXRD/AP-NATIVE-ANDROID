@@ -3,5 +3,6 @@
 
     <application>
         <activity android:name="com.xtree.bet.ui.activity.MainActivity"></activity>
+        <activity android:name="com.xtree.bet.ui.activity.BtDetailActivity"></activity>
     </application>
 </manifest>
