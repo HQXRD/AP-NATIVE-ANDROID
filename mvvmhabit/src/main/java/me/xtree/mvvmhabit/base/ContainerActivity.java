@@ -2,8 +2,8 @@ package me.xtree.mvvmhabit.base;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.WindowManager;
-
 
 import java.lang.ref.WeakReference;
 
@@ -11,11 +11,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
 import me.xtree.mvvmhabit.R;
-
 
 /**
  * 盛装Fragment的一个容器(代理)Activity
@@ -25,6 +24,7 @@ public class ContainerActivity extends RxAppCompatActivity {
     private static final String FRAGMENT_TAG = "content_fragment_tag";
     public static final String FRAGMENT = "fragment";
     public static final String BUNDLE = "bundle";
+    public static final String ROUTER_PATH = "routerPath";
     protected WeakReference<Fragment> mFragment;
 
     @Override
@@ -37,6 +37,16 @@ public class ContainerActivity extends RxAppCompatActivity {
         if (savedInstanceState != null) {
             fragment = fm.getFragment(savedInstanceState, FRAGMENT_TAG);
         }
+
+        String routerPath = getIntent().getStringExtra(ROUTER_PATH);
+        if (!TextUtils.isEmpty(routerPath)) {
+            fragment = (Fragment) ARouter.getInstance().build(routerPath).navigation();
+            Bundle args = getIntent().getBundleExtra(BUNDLE);
+            if (args != null) {
+                fragment.setArguments(args);
+            }
+        }
+
         if (fragment == null) {
             fragment = initFromIntent(getIntent());
         }
