@@ -4,14 +4,11 @@ package com.xtree.recharge.data;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
-
+import com.xtree.recharge.data.source.ApiService;
 import com.xtree.recharge.data.source.HttpDataSource;
 import com.xtree.recharge.data.source.LocalDataSource;
 
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import me.xtree.mvvmhabit.base.BaseModel;
-import me.xtree.mvvmhabit.http.BaseResponse;
 
 /**
  * MVVM的Model层，统一模块的数据仓库，包含网络数据和本地数据（一个应用可以有多个Repositor）
@@ -65,8 +62,13 @@ public class RechargeRepository extends BaseModel implements HttpDataSource, Loc
         return mLocalDataSource.getPassword();
     }
 
-    @Override
+    /*@Override
     public Flowable<BaseResponse<Object>> login(String username, String password) {
         return mHttpDataSource.login(username, password);
+    }*/
+
+    @Override
+    public ApiService getApiService() {
+        return mHttpDataSource.getApiService();
     }
 }

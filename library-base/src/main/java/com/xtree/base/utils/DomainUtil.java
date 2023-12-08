@@ -7,4 +7,9 @@ public class DomainUtil {
         return "https://www.weres.bar/";
     }
 
+    public static String getDomain2() {
+
+        return "https://www.weres.bar";
+    }
+
 }

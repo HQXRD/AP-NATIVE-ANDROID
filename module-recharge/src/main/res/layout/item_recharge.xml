@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp">
+
+    <TextView
+        android:id="@+id/tvw_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="3dp"
+        android:background="@drawable/rc_bg_pmt_selector"
+        android:drawableTop="@drawable/rc_ic_pmt_selector"
+        android:gravity="center"
+        android:minEms="8"
+        android:paddingTop="10dp"
+        android:paddingBottom="8dp"
+        android:text="USDT TRC20快充"
+        android:textColor="@color/clr_item_text_selector"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvw_dep_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/clr_purple_01"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:textColor="@color/clr_white"
+        android:layout_marginBottom="6dp"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvw_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="DEMO" />
+
+    <ImageView
+        android:id="@+id/ivw_hot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:src="@mipmap/rc_ic_hot"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/ivw_rcmd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/rc_ic_recommend"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

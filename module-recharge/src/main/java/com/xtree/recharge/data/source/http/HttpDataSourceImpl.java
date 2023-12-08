@@ -1,11 +1,7 @@
 package com.xtree.recharge.data.source.http;
 
-import com.xtree.recharge.data.source.HttpDataSource;
-
-import io.reactivex.Flowable;
-import me.xtree.mvvmhabit.http.BaseResponse;
-
 import com.xtree.recharge.data.source.ApiService;
+import com.xtree.recharge.data.source.HttpDataSource;
 
 /**
  * Created by goldze on 2019/3/26.
@@ -33,8 +29,13 @@ public class HttpDataSourceImpl implements HttpDataSource {
         this.apiService = apiService;
     }
 
-    @Override
+    /*@Override
     public Flowable<BaseResponse<Object>> login(String username, String password) {
         return apiService.login(username, password);
+    }*/
+
+    @Override
+    public ApiService getApiService() {
+        return apiService;
     }
 }
