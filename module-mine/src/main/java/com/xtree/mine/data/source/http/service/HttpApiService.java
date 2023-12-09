@@ -1,5 +1,6 @@
 package com.xtree.mine.data.source.http.service;
 
+import com.xtree.base.vo.FBService;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.LoginResultVo;
@@ -56,4 +57,19 @@ public interface HttpApiService {
     @GET("/api/game/{gameAlias}/balance")
     Flowable<BaseResponse<GameBalanceVo>> getGameBalance(@Path("gameAlias") String gameAlias);
 
+    /**
+     * 获取 FB体育请求服务地址
+     * @return
+     */
+    @POST("/api/sports/fb/getToken?cachedToken=1")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<FBService>> getFBGameTokenApi();
+
+    /**
+     * 获取 PM体育请求服务地址
+     * @return
+     */
+    @POST("/api/sports/obg/getToken?cachedToken=1")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<String>> getPMGameTokenApi();
 }

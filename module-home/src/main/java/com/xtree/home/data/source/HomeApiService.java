@@ -1,5 +1,6 @@
 package com.xtree.home.data.source;
 
+import com.xtree.base.vo.FBService;
 import com.xtree.home.vo.BannersVo;
 import com.xtree.home.vo.CookieVo;
 import com.xtree.home.vo.DataVo;
@@ -100,5 +101,21 @@ public interface HomeApiService {
      */
     @GET("/api/account/vipinfo")
     Flowable<BaseResponse<VipInfoVo>> getVipInfo();
+
+    /**
+     * 获取 FB体育请求服务地址
+     * @return
+     */
+    @POST("/api/sports/fb/getToken?cachedToken=1")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<FBService>> getFBGameTokenApi();
+
+    /**
+     * 获取 PM体育请求服务地址
+     * @return
+     */
+    @POST("/api/sports/obg/getToken?cachedToken=1")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<String>> getPMGameTokenApi();
 
 }

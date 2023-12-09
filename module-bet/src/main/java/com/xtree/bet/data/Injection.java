@@ -14,7 +14,7 @@ public class Injection {
     public static BetRepository provideHomeRepository() {
 
         //网络API服务
-        ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
+        FBApiService apiService = RetrofitClient.getInstance().create(FBApiService.class);
         //网络数据源
         HttpDataSource httpDataSource = HttpDataSourceImpl.getInstance(apiService);
         //本地数据源

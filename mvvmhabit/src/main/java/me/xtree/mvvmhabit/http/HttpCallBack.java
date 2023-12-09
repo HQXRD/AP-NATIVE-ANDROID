@@ -57,6 +57,10 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             case ApiSubscriber.CodeRule.CODE_20203:
                 ToastUtils.showShort(baseResponse.getMessage());
                 break;
+
+            case ApiSubscriber.CodeRule.CODE_20103:
+                ToastUtils.showShort(baseResponse.getMessage());
+                break;
             default:
                 KLog.e("status is not normal: " + baseResponse);
                 ToastUtils.showShort(baseResponse.getMessage());

@@ -88,8 +88,8 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     @Override
     public void initData() {
         viewModel.addSubscription();
-        viewModel.setOptionData(R.raw.test_bet_dan);
-        viewModel.setCgData(R.raw.test_bet_dan);
+        viewModel.setOptionData(R.raw.test_bet);
+        viewModel.setCgData(R.raw.test_bet);
     }
 
     @Override
@@ -163,6 +163,6 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     @Override
     public BtCarViewModel initViewModel() {
         AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
-        return new ViewModelProvider(this, (ViewModelProvider.Factory) factory).get(BtCarViewModel.class);
+        return new ViewModelProvider(this, factory).get(BtCarViewModel.class);
     }
 }

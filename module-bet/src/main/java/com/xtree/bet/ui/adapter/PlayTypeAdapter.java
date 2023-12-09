@@ -25,8 +25,9 @@ public class PlayTypeAdapter extends CommonAdapter<PlayType> {
     protected void convert(ViewHolder holder, PlayType playType, int position) {
         holder.setText(R.id.tv_playtype_name, playType.getPlayTypeName());
         RecyclerView rvOption = holder.getView(R.id.rv_option);
-        //rvOption.setLayoutManager(new LinearLayoutManager(mContext));
         rvOption.setLayoutManager(new GridLayoutManager(mContext, 1));
-        rvOption.setAdapter(new OptionAdapter(mContext, R.layout.bt_fb_list_item_play_type_item_option, playType.getOptionList()));
+        OptionAdapter optionAdapter = new OptionAdapter(mContext, R.layout.bt_fb_list_item_play_type_item_option, playType.getOptionList());
+        optionAdapter.setMeasure(true);
+        rvOption.setAdapter(optionAdapter);
     }
 }

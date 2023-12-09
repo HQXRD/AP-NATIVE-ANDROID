@@ -37,7 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by goldze on 2017/5/10.
  * RetrofitClient封装单例类, 实现网络请求
  */
-public class RetrofitClient {
+public class FBRetrofitClient {
     //超时时间
     private static final int DEFAULT_TIMEOUT = 20;
     //缓存时间
@@ -54,22 +54,22 @@ public class RetrofitClient {
     private File httpCacheDirectory;
 
     private static class SingletonHolder {
-        private static RetrofitClient INSTANCE = new RetrofitClient();
+        private static FBRetrofitClient INSTANCE = new FBRetrofitClient();
     }
 
-    public static RetrofitClient getInstance() {
+    public static FBRetrofitClient getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
     public static void init() {
-        SingletonHolder.INSTANCE = new RetrofitClient();
+        SingletonHolder.INSTANCE = new FBRetrofitClient();
     }
 
-    private RetrofitClient() {
+    private FBRetrofitClient() {
         this(baseUrl, null);
     }
 
-    private RetrofitClient(String url, Map<String, String> headers) {
+    private FBRetrofitClient(String url, Map<String, String> headers) {
 
         if (TextUtils.isEmpty(url)) {
             url = baseUrl;
@@ -87,28 +87,11 @@ public class RetrofitClient {
             KLog.e("Could not create http cache", e);
         }
 
-        if (headers == null) {
-            Map<String, String> header = new HashMap<>();
-            String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
-            header.put("Content-Type", "application/vnd.sc-api.v1.json");
-            if (!TextUtils.isEmpty(token)) {
-                header.put("Authorization", "bearer " + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN));
-                header.put("Cookie", "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";" +
-                        SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME) + "=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID) + ";");
-
-            }
-            header.put("App-RNID", "87jumkljo"); //
-            header.put("Source", "8");
-            header.put("UUID", TagUtils.getDeviceId(Utils.getContext()));
-            headers = header;
-        }
-
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
         okHttpClient = new OkHttpClient.Builder()
                 .cookieJar(new CookieJarImpl(new PersistentCookieStore(mContext)))
 //                .cache(cache)
-                //.addInterceptor(new BaseInterceptor(headers))
-                .addInterceptor(new HeaderInterceptor())
+                .addInterceptor(new FBHeaderInterceptor())
                 .addInterceptor(new CacheInterceptor(mContext))
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 //.addInterceptor(new HttpLoggingInterceptor(message -> KLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))

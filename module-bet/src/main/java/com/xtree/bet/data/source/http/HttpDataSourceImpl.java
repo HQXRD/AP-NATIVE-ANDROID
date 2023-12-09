@@ -1,20 +1,17 @@
 package com.xtree.bet.data.source.http;
 
 
-import com.xtree.bet.data.ApiService;
+import com.xtree.bet.data.FBApiService;
 import com.xtree.bet.data.source.HttpDataSource;
-
-import io.reactivex.Flowable;
-import me.xtree.mvvmhabit.http.BaseResponse;
 
 /**
  * Created by goldze on 2019/3/26.
  */
 public class HttpDataSourceImpl implements HttpDataSource {
-    private ApiService apiService;
+    private FBApiService apiService;
     private volatile static HttpDataSourceImpl INSTANCE = null;
 
-    public static HttpDataSourceImpl getInstance(ApiService apiService) {
+    public static HttpDataSourceImpl getInstance(FBApiService apiService) {
         if (INSTANCE == null) {
             synchronized (HttpDataSourceImpl.class) {
                 if (INSTANCE == null) {
@@ -29,12 +26,12 @@ public class HttpDataSourceImpl implements HttpDataSource {
         INSTANCE = null;
     }
 
-    private HttpDataSourceImpl(ApiService apiService) {
+    private HttpDataSourceImpl(FBApiService apiService) {
         this.apiService = apiService;
     }
 
     @Override
-    public Flowable<BaseResponse<Object>> login(String username, String password) {
-        return apiService.login(username, password);
+    public FBApiService getApiService() {
+        return apiService;
     }
 }

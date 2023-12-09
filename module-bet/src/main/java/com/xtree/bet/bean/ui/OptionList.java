@@ -2,7 +2,7 @@ package com.xtree.bet.bean.ui;
 
 import java.util.List;
 
-interface OptionList {
+public interface OptionList {
 
     int getId();
 

@@ -33,6 +33,9 @@ import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.bus.RxSubscriptions;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+import me.xtree.mvvmhabit.http.HttpCallBack;
+import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
 /**
@@ -212,6 +215,24 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
         outputStream.close();
         inputStream.close();
         return outputStream.toString();
+    }
+
+    public void getFBGameTokenApi(){
+        Disposable disposable = (Disposable) model.getApiService().getFBGameTokenApi()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<String>() {
+                    @Override
+                    public void onResult(String vo) {
+                        SPUtils.getInstance().put("customer_service_url", vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
     }
 
     @Override

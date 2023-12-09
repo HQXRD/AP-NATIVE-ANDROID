@@ -14,6 +14,7 @@ import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
+import com.xtree.base.vo.FBService;
 import com.xtree.home.R;
 import com.xtree.home.data.HomeRepository;
 import com.xtree.home.vo.BannersVo;
@@ -145,6 +146,52 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
                         ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getFBGameTokenApi(){
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
+        if (TextUtils.isEmpty(token)) {
+            return;
+        }
+        Disposable disposable = (Disposable) model.getApiService().getFBGameTokenApi()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<FBService>() {
+                    @Override
+                    public void onResult(FBService fbService) {
+                        SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
+                        SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getPMGameTokenApi(){
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        if (TextUtils.isEmpty(token)) {
+            return;
+        }
+        Disposable disposable = (Disposable) model.getApiService().getFBGameTokenApi()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<FBService>() {
+                    @Override
+                    public void onResult(FBService fbService) {
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, fbService.getToken());
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);

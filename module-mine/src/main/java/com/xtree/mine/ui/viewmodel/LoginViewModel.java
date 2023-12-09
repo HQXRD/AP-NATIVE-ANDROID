@@ -11,6 +11,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
 import com.xtree.base.utils.SPUtil;
+import com.xtree.base.vo.FBService;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.ui.activity.LoginRegisterActivity;
 import com.xtree.mine.vo.LoginResultVo;
@@ -70,6 +71,8 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
                         loginCallback.loginSuccess();
+                        // 登录成功后获取FB体育请求服务地址
+                        getFBGameTokenApi();
                     }
 
                     @Override
@@ -136,6 +139,25 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         super.onError(t);
                         ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getFBGameTokenApi(){
+        Disposable disposable = (Disposable) model.getApiService().getFBGameTokenApi()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<FBService>() {
+                    @Override
+                    public void onResult(FBService fbService) {
+                        SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
+                        SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);
                     }
                 });
         addSubscribe(disposable);

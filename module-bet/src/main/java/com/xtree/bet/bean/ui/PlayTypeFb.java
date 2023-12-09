@@ -37,7 +37,7 @@ public class PlayTypeFb implements PlayType{
         for (OptionDataListInfo optionDataListInfo : playTypeInfo.mks) {
             optionLists.add(new OptionListFb(optionDataListInfo));
         }
-        return null;
+        return optionLists;
     }
 
     @Override

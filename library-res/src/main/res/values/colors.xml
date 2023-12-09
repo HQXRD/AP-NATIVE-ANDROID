@@ -92,7 +92,13 @@
     <!-- 键盘背景颜色 -->
     <color name="bt_bg_color_keyboard">#F6F4FF</color>
 
+    <!-- 赛事详情页顶部栏背景颜色 -->
+    <color name="bt_color_detail_top_toolbar">#4D000000</color>
+
     <!-- 投注模块 end-->
+
+
+
 
     <!-- 首页模块 begin -->
     <color name="clr_hm_txt_black">#000000</color>
