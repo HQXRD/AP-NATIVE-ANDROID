@@ -14,8 +14,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -39,7 +41,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
     @Override
     public void initView() {
-
+        binding.btnLogout.setOnClickListener(v -> viewModel.doLogout());
     }
 
     @Override
@@ -130,11 +132,18 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             }
         });
 
-
     }
 
     @Override
     public void initViewObservable() {
         viewModel.itemClickEvent.observe(this, (Observer<String>) s -> ToastUtils.showShort(s));
+
+        viewModel.liveDataLogout.observe(this, isLogout -> {
+            if (isLogout) {
+                ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .navigation();
+            }
+        });
     }
 }
