@@ -84,6 +84,8 @@ dependencies {
     api rootProject.ext.dependencies["swiperefreshlayout"]
     api rootProject.ext.dependencies["viewpager2"]
 
+    api rootProject.ext.dependencies["arouter-api"]
+
     configurations.all {
         resolutionStrategy {
             force 'org.jetbrains.kotlin:kotlin-stdlib-common:1.7.10',

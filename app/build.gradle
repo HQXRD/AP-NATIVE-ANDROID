@@ -8,6 +8,7 @@ android {
         compileSdkVersion rootProject.ext.android.compileSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //阿里路由框架配置
         javaCompileOptions {
@@ -39,13 +40,16 @@ android {
         }
     }
     //统一资源前缀，规范资源引用
-    resourcePrefix "app_"
+    //resourcePrefix "app_"
     dataBinding {
         enabled true
     }
+    buildFeatures {
+        buildConfig true
+        viewBinding true
+        //dataBinding true
+    }
 }
-
-
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')

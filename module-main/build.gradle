@@ -7,7 +7,7 @@ android {
         }
     }
     //统一资源前缀，规范资源引用
-    resourcePrefix "main_"
+    //resourcePrefix "main_"
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
