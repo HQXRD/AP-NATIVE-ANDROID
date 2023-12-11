@@ -53,6 +53,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
 
     @Override
     public void initView() {
+        binding.ivwBack.setOnClickListener(v -> finish());
         binding.ivwRefreshBlc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,11 +69,32 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
                 goRecharge();
             }
         });
-        binding.ivwDeposit.setOnClickListener(new View.OnClickListener() {
+        binding.tvwDeposit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CfLog.d("************");
                 goRecharge();
+            }
+        });
+        binding.tvwWithdraw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CfLog.d("************");
+                startActivity(new Intent(getBaseContext(), WithdrawActivity.class));
+            }
+        });
+        binding.tvwMgmt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CfLog.d("************");
+
+            }
+        });
+        binding.tvwRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CfLog.d("************");
+
             }
         });
 

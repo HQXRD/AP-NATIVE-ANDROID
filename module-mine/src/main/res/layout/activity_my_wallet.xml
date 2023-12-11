@@ -25,11 +25,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:id="@+id/ivw_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
+                android:padding="12dp"
                 android:src="@mipmap/me_wallet_left_arrow" />
 
             <TextView
@@ -130,137 +131,46 @@
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/me_wallet_save_area"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvw_deposit"
+                    style="@style/style_wallet_menu"
+                    android:drawableTop="@mipmap/me_wallet_save_icon"
+                    android:text="@string/me_wallet_save" />
 
-                    <ImageView
-                        android:id="@+id/ivw_deposit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/me_wallet_save_icon" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/me_wallet_save"
-                        android:textSize="@dimen/bt_text_12sp" />
-
-
-                </LinearLayout>
+                <TextView style="@style/style_wallet_space" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:id="@+id/tvw_trans"
+                    style="@style/style_wallet_menu"
+                    android:drawableTop="@mipmap/me_wallet_transfer_icon"
+                    android:text="@string/me_wallet_transfer" />
 
-                <LinearLayout
-                    android:id="@+id/me_wallet_transfer_area"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/me_wallet_transfer_icon" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/me_wallet_transfer"
-                        android:textSize="@dimen/bt_text_12sp" />
-
-
-                </LinearLayout>
+                <TextView style="@style/style_wallet_space" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:id="@+id/tvw_withdraw"
+                    style="@style/style_wallet_menu"
+                    android:drawableTop="@mipmap/me_wallet_withdraw_icon"
+                    android:text="@string/me_wallet_withdraw" />
 
-                <LinearLayout
-                    android:id="@+id/me_wallet_withdraw_area"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/me_wallet_withdraw_icon" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/me_wallet_withdraw"
-                        android:textSize="@dimen/bt_text_12sp" />
-
-
-                </LinearLayout>
+                <TextView style="@style/style_wallet_space" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:id="@+id/tvw_mgmt"
+                    style="@style/style_wallet_menu"
+                    android:drawableTop="@mipmap/me_wallet_account_icon"
+                    android:text="@string/me_wallet_account" />
 
-                <LinearLayout
-                    android:id="@+id/me_wallet_account_area"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@mipmap/me_wallet_account_icon" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/me_wallet_account"
-                        android:textSize="@dimen/bt_text_12sp" />
-
-
-                </LinearLayout>
+                <TextView style="@style/style_wallet_space" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@mipmap/me_wallet_record_icon" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="@string/me_wallet_record"
-                        android:textSize="@dimen/bt_text_12sp" />
-
-
-                </LinearLayout>
-
+                    android:id="@+id/tvw_record"
+                    style="@style/style_wallet_menu"
+                    android:drawableTop="@mipmap/me_wallet_record_icon"
+                    android:text="@string/me_wallet_record" />
             </LinearLayout>
 
         </RelativeLayout>
-
 
         <LinearLayout
             android:id="@+id/ll_wallet"
