@@ -1,0 +1,88 @@
+<resources>
+
+    <!-- 我的钱包-5个菜单 -->
+    <style name="style_wallet_menu">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_wallet_space">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <!-- 提款页-上半部分-彩色按钮 -->
+    <style name="style_rdo_wd_menu">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_rdo_wd_selector</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_menu_text_selector</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 提款页-下半部分灰色区-灰色框 -->
+    <style name="style_wd_info_area">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/layout_margin</item>
+        <item name="android:background">@color/clr_grey_03</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+    <!-- 提款页-下半部分灰色区-行框 -->
+    <style name="style_wd_info_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <!-- 提款页-下半部分灰色区-标题 -->
+    <style name="style_wd_info_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:minEms">7</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_wd_info_title2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:minEms">7</item>
+        <item name="android:textColor">@color/clr_grey_40</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!-- 提款页-下半部分灰色区-值(紫色) -->
+    <style name="style_wd_info_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textColor">@color/clr_purple_02</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_wd_info_value2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textColor">@color/clr_grey_00</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+</resources>

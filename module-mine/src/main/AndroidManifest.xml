@@ -1,12 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xtree.mine">
-    <application>
-        <!--在自己组件中注册Activity-->
-        <activity android:name="com.xtree.mine.ui.activity.LoginRegisterActivity"
-            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.activity.MyWalletActivity"
-            android:screenOrientation="portrait"
-            />
+    <application>
+
+        <!-- 在自己组件中注册Activity -->
+        <activity
+            android:name=".ui.activity.LoginRegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.MyWalletActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activity.WithdrawActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
     </application>
+
 </manifest>

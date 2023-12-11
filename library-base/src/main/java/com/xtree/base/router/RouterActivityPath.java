@@ -43,6 +43,7 @@ public class RouterActivityPath {
         /*登录注册*/
         public static final String PAGER_LOGIN_REGISTER = MINE + "/loginRegister";
         public static final String PAGER_MY_WALLET = MINE + "/wallet";
+        public static final String PAGER_WITHDRAW = MINE + "/withdraw";
     }
 
     /**
