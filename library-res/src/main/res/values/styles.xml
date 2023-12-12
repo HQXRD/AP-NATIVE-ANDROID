@@ -38,6 +38,10 @@
         <item name="android:button">@drawable/checkbox_bg_selector</item>
     </style>
 
+    <declare-styleable name="CircleImageView">
+        <attr name="imageCorn" format="dimension" />
+    </declare-styleable>
+
     <!-- 每个页面顶部标题栏的样式-标题 -->
     <style name="style_cm_title_top">
         <item name="android:layout_width">wrap_content</item>
