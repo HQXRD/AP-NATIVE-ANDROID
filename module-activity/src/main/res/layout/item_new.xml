@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/layout_margin"
+    android:layout_marginTop="@dimen/layout_margin"
+    android:layout_marginEnd="@dimen/layout_margin"
+    android:background="@drawable/bg_white"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/layout_margin">
+
+    <com.xtree.base.widget.AllRoundImageView
+        android:id="@+id/ivw_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/dc_bg"
+        app:imageCorn="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvw_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_margin"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/clr_txt_black_03"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivw_img"
+        tools:text="CNYT充提返利" />
+
+    <TextView
+        android:id="@+id/tvw_tm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_margin"
+        android:text="活动时间："
+        android:textColor="@color/clr_grey_13"
+        android:textSize="10sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvw_title" />
+
+    <TextView
+        android:id="@+id/tvw_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/clr_grey_13"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvw_tm"
+        app:layout_constraintStart_toEndOf="@id/tvw_tm"
+        app:layout_constraintTop_toTopOf="@id/tvw_tm"
+        tools:text="2023-12-20~2023-12-22" />
+
+    <TextView
+        android:id="@+id/tvw_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_margin"
+        android:layout_marginEnd="@dimen/layout_margin"
+        android:background="@mipmap/cm_btn_purple_02"
+        android:gravity="center"
+        android:paddingBottom="4dp"
+        android:text="查看详情"
+        android:textColor="@color/clr_white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/tvw_tm"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvw_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

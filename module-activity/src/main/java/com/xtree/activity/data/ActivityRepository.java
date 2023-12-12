@@ -1,10 +1,9 @@
 package com.xtree.activity.data;
 
-
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
-
+import com.xtree.activity.data.source.ApiService;
 import com.xtree.activity.data.source.HttpDataSource;
 import com.xtree.activity.data.source.LocalDataSource;
 
@@ -68,4 +67,10 @@ public class ActivityRepository extends BaseModel implements HttpDataSource, Loc
     public Flowable<BaseResponse<Object>> login(String username, String password) {
         return mHttpDataSource.login(username, password);
     }
+
+    @Override
+    public ApiService getApiService() {
+        return mHttpDataSource.getApiService();
+    }
+
 }

@@ -37,4 +37,9 @@ public class HttpDataSourceImpl implements HttpDataSource {
     public Flowable<BaseResponse<Object>> login(String username, String password) {
         return apiService.login(username, password);
     }
+
+    @Override
+    public ApiService getApiService() {
+        return apiService;
+    }
 }

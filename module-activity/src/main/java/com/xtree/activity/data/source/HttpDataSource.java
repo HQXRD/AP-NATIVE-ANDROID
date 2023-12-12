@@ -11,4 +11,5 @@ public interface HttpDataSource {
 
     Flowable<BaseResponse<Object>> login(String username, String password);
 
+    ApiService getApiService();
 }
