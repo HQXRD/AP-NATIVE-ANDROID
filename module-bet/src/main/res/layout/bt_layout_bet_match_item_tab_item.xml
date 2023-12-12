@@ -14,8 +14,7 @@
             android:id="@+id/iv_icon"
             android:layout_width="25dp"
             android:layout_height="25dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/bt_match_item_bb_selector"/>
+            android:layout_marginTop="5dp"/>
         <TextView
             android:id="@+id/iv_match_count"
             android:layout_width="wrap_content"

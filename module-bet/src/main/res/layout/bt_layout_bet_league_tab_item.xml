@@ -16,7 +16,7 @@
             android:id="@+id/iv_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bt_match_item_bb_selector"/>
+            android:background="@drawable/bt_match_item_lq_selector"/>
         <TextView
             android:id="@+id/tab_item_name"
             android:layout_width="match_parent"
