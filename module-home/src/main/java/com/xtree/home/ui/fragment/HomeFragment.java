@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -232,10 +233,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.tvwDeposit.setOnClickListener(view -> {
             // 存款
             KLog.i("**************");
+            goRecharge();
         });
         binding.tvwWithdraw.setOnClickListener(view -> {
             // 提现
             KLog.i("**************");
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_WITHDRAW).navigation();
         });
         binding.tvwTrans.setOnClickListener(view -> {
             // 转账
@@ -312,6 +315,15 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 return;
             }
         }
+    }
+
+    private void goRecharge() {
+        Intent intent = new Intent(getContext(), ContainerActivity.class);
+        intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Recharge.PAGER_RECHARGE);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isShowBack", true);
+        intent.putExtra(ContainerActivity.BUNDLE, bundle);
+        startActivity(intent);
     }
 
 }
