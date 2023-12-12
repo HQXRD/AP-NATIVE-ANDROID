@@ -1,6 +1,7 @@
 package com.xtree.base.utils;
 
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -17,6 +18,10 @@ import java.util.List;
 //@SuppressLint("SimpleDateFormat")
 public class TimeUtils {
     public final static String FORMAT_MM_DD = "MM/dd";
+    public final static String FORMAT_YY_MM_DD = "yyyy-MM-dd";
+    public final static String FORMAT_YY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+
+
 
     /**
      * 时间转换
@@ -152,8 +157,8 @@ public class TimeUtils {
         return format.format(date);
     }
 
-    public static String parseFullTime(Date date) {
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    public static String parseTime(Date date, String format) {
+        DateFormat formatter = new SimpleDateFormat(format);
         return formatter.format(date);
     }
 
@@ -203,6 +208,21 @@ public class TimeUtils {
         return formatter.format(date);
     }
 
+    public static Date strFormatDate(String time, String format){
+        DateFormat dateFormat = new SimpleDateFormat(format);
+        try {
+            return dateFormat.parse(time);
+        } catch (ParseException e) {
+            return new Date();
+        }
+    }
+
+    public static String longFormatString(long time, String format){
+        DateFormat dateFormat = new SimpleDateFormat(format);
+        Date date = new Date(time);
+        return dateFormat.format(date);
+    }
+
     /**
      * format格式转换成 format2 格式
      *
@@ -241,17 +261,30 @@ public class TimeUtils {
         return dateList;
     }
 
-    public static List<String> getNextDays(int daysToAdd, String format) {
-        List<String> dateList = new ArrayList<>();
+    public static List<Date> getNextDays(int daysToAdd) {
+        List<Date> dateList = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
 
         for (int i = 0; i < daysToAdd; i++) {
-            dateList.add(getTime(calendar.getTime(), format));
+            dateList.add(strFormatDate(parseTime(calendar.getTime(), FORMAT_YY_MM_DD), FORMAT_YY_MM_DD));
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
 
         return dateList;
+    }
+
+    /**
+     * 获取指定时间N天后的时间
+     * @param date
+     * @param n
+     * @return
+     */
+    public static Date addDays(Date date, int n){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_YEAR, n);
+        return calendar.getTime();
     }
 
     /**

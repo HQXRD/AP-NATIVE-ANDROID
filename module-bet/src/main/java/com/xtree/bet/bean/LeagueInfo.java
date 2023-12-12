@@ -5,7 +5,10 @@ import android.os.Parcel;
 import com.xtree.base.vo.BaseBean;
 
 public class LeagueInfo implements BaseBean {
-
+    /**
+     * 联赛ID
+     */
+    public int id;
     /**
      * 该联赛开售的赛事统计
      */
@@ -18,10 +21,6 @@ public class LeagueInfo implements BaseBean {
      * 联赛名称
      */
     public String na;
-    /**
-     * 联赛ID
-     */
-    public int id;
     /**
      * 联赛等级，可用于联赛排序，值越小，联赛等级越高
      */

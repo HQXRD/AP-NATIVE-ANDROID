@@ -11,7 +11,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,8 +19,10 @@ import android.widget.TextView;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.tabs.TabLayout;
 import com.xtree.base.router.RouterActivityPath;
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.BR;
 import com.xtree.bet.bean.ui.League;
+import com.xtree.bet.constant.Constants;
 import com.xtree.bet.ui.adapter.LeagueAdapter;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
@@ -29,7 +30,9 @@ import com.xtree.bet.R;
 import com.xtree.bet.databinding.FragmentMainBinding;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -39,12 +42,24 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 @Route(path = RouterActivityPath.Bet.PAGER_BET_HOME)
 public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewModel> implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+    /**
+     * 赛事统计数据
+     */
+    private Map<String, List<Integer>> statisticalData;
 
     private List<League> mLeagueAdapters = new ArrayList<>();
     private LeagueAdapter mLeagueAdapter;
 
     private boolean isGoingExpand = true;
     private boolean isWatingExpand = true;
+    private int searchDatePos = -1;
+
+    /**
+     * 玩法类型，默认为今日+滚球
+     */
+    private int playMethodType = 6;
+    private int playMethodPos;
+    private int sportTypePos;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -60,7 +75,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     public MainViewModel initViewModel() {
         //使用自定义的ViewModelFactory来创建ViewModel，如果不重写该方法，则默认会调用LoginViewModel(@NonNull Application application)构造方法
         AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
-        return new ViewModelProvider(this, (ViewModelProvider.Factory) factory).get(MainViewModel.class);
+        return new ViewModelProvider(this, factory).get(MainViewModel.class);
     }
 
     @Override
@@ -84,9 +99,22 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 ((TextView) tab.getCustomView()).setTextSize(16);
-                playMethodPos = tab.getPosition();
-                mLeagueAdapters.clear();
-                viewModel.setLeagueList(playMethodPos, sportTypePos);
+                if(playMethodPos != tab.getPosition()) {
+                    playMethodType = playMethodTypeList.get(tab.getPosition());
+                    playMethodPos = tab.getPosition();
+                    mLeagueAdapters.clear();
+                    updateStatisticalData();
+                    if(playMethodType == 4 || playMethodType == 2){
+                        binding.tabSearchDate.setVisibility(View.VISIBLE);
+                        searchDatePos = 0;
+                    }else{
+                        binding.tabSearchDate.setVisibility(View.GONE);
+                        searchDatePos = -1;
+                    }
+                    viewModel.getLeagueList(Integer.valueOf(Constants.SPORT_IDS[sportTypePos]), 1, null, null,
+                            playMethodType, searchDatePos);
+                }
+                viewModel.setPlaySearchDateData();
             }
 
             @Override
@@ -104,7 +132,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
             public void onTabSelected(TabLayout.Tab tab) {
                 sportTypePos = tab.getPosition();
                 mLeagueAdapters.clear();
-                viewModel.setLeagueList(playMethodPos, sportTypePos);
+                viewModel.getLeagueList(Integer.valueOf(Constants.SPORT_IDS[sportTypePos]), 1, null, null,
+                        playMethodType, searchDatePos);
             }
 
             @Override
@@ -117,27 +146,48 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
 
             }
         });
+        binding.tabSearchDate.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(playMethodType == 4 || playMethodType == 2) {
+                    searchDatePos = tab.getPosition();
+                    viewModel.getLeagueList(Integer.valueOf(Constants.SPORT_IDS[sportTypePos]), 1, null, null,
+                            playMethodType, searchDatePos);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        binding.rvLeague.setLayoutManager(new LinearLayoutManager(this));
     }
 
     @Override
     public void initData() {
+        viewModel.setSportItems();
         viewModel.setPlayMethodTabData();
-        viewModel.setplaySearchDateData();
-        viewModel.setMatchItems();
+        viewModel.setPlaySearchDateData();
         viewModel.setFbLeagueData();
         viewModel.addSubscription();
-        viewModel.setLeagueList(playMethodPos, sportTypePos);
+        viewModel.statistical();
     }
 
-    int playMethodPos;
-    int sportTypePos;
-
+    List<Integer> playMethodTypeList = new ArrayList<>();
     @Override
     public void initViewObservable() {
         viewModel.itemClickEvent.observe(this, s -> ToastUtils.showShort(s));
         viewModel.playMethodTab.observe(this, titleList -> {
             for (int i = 0; i < titleList.length; i++) {
                 TextView textView = new TextView(this);
+                playMethodTypeList.add(Integer.valueOf(Constants.PLAY_METHOD_IDS[i]));
                 textView.setText(titleList[i]);
                 ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_bet_top_tab_item_text);
                 textView.setTextColor(colorStateList);
@@ -150,20 +200,32 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
             }
 
         });
-        viewModel.playSearchDate.observe(this, dateList -> {
+        viewModel.playSearchData.observe(this, dateList -> {
+            binding.tabSearchDate.removeAllTabs();
             for (int i = 0; i < dateList.size(); i++) {
-                binding.tabSearchDate.addTab(binding.tabSearchDate.newTab().setText(dateList.get(i)));
+                TextView textView = new TextView(this);
+                if(i == 0){
+                    textView.setText("全部");
+                }else if(i == dateList.size() - 1){
+                    textView.setText("其他");
+                }else{
+                    textView.setText(TimeUtils.getTime(dateList.get(i), TimeUtils.FORMAT_MM_DD));
+                }
+
+                ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_bet_top_tab_item_text);
+                textView.setTextColor(colorStateList);
+                binding.tabSearchDate.addTab(binding.tabSearchDate.newTab().setCustomView(textView));
             }
         });
-        viewModel.matchItemDate.observe(this, matchitemList -> {
-            for (int i = 0; i < matchitemList.size(); i++) {
+        viewModel.sportItemData.observe(this, matchitemList -> {
+            for (int i = 0; i < matchitemList.length; i++) {
                 View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_match_item_tab_item, null);
                 TextView tvName = view.findViewById(R.id.tab_item_name);
                 TextView tvMatchCount = view.findViewById(R.id.iv_match_count);
                 ImageView ivIcon = view.findViewById(R.id.iv_icon);
-
-                tvName.setText(matchitemList.get(i).getName());
-                tvMatchCount.setText(String.valueOf(matchitemList.get(i).getMatchCount()));
+                ivIcon.setBackgroundResource(Constants.SPORT_ICON[i]);
+                tvName.setText(matchitemList[i]);
+                tvMatchCount.setText(String.valueOf(0));
                 ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_bet_match_item_text);
                 tvName.setTextColor(colorStateList);
                 tvMatchCount.setTextColor(colorStateList);
@@ -171,7 +233,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
                 binding.tabSportType.addTab(binding.tabSportType.newTab().setCustomView(view));
             }
         });
-        viewModel.leagueItemDate.observe(this, leagueItem -> {
+        viewModel.leagueItemData.observe(this, leagueItem -> {
             for (int i = 0; i < leagueItem.getLeagueNameList().length; i++) {
                 View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_league_tab_item, null);
                 TextView tvName = view.findViewById(R.id.tab_item_name);
@@ -189,24 +251,32 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
             }
         });
 
-        viewModel.leagueWaitingListDate.observe(this, leagueAdapters -> {
+        viewModel.leagueWaitingListData.observe(this, leagueAdapters -> {
+            if(playMethodType != 6){
+                this.mLeagueAdapters.clear();
+            }
             if(!leagueAdapters.isEmpty()){
                 League league = leagueAdapters.get(0).instance();
                 league.setHead(true);
                 this.mLeagueAdapters.add(league);
             }
+            setTopShow();
             this.mLeagueAdapters.addAll(leagueAdapters);
             mLeagueAdapter = new LeagueAdapter(this, this.mLeagueAdapters);
-            binding.rvLeague.setLayoutManager(new LinearLayoutManager(this));
             binding.rvLeague.setAdapter(mLeagueAdapter);
         });
 
-        viewModel.leagueGoingOnListDate.observe(this, leagueAdapters -> {
+        viewModel.leagueGoingOnListData.observe(this, leagueAdapters -> {
             this.mLeagueAdapters.clear();
             this.mLeagueAdapters.addAll(leagueAdapters);
+            if(playMethodType == 1){
+                this.mLeagueAdapters.addAll(leagueAdapters);
+                mLeagueAdapter = new LeagueAdapter(this, this.mLeagueAdapters);
+                binding.rvLeague.setAdapter(mLeagueAdapter);
+            }
         });
 
-        viewModel.expandContractListDate.observe(this, expandContract -> {
+        viewModel.expandContractListData.observe(this, expandContract -> {
             isWatingExpand = !isWatingExpand;
             int index = -1;
             for(int i = 0; i < mLeagueAdapters.size(); i ++){
@@ -221,6 +291,35 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
             }
             mLeagueAdapter.notifyDataSetChanged();
         });
+        viewModel.statisticalData.observe(this, statisticalData -> {
+            this.statisticalData = statisticalData;
+            updateStatisticalData();
+        });
+    }
+
+    /**+
+     * 设置赛事列表头显示的信息（进行中或全部比赛）
+     */
+    private void setTopShow() {
+        if(playMethodType == 4){
+            binding.llAllLeague.setVisibility(View.VISIBLE);
+            binding.llGoingOn.setVisibility(View.GONE);
+        }else if(playMethodType == 7){
+            binding.llAllLeague.setVisibility(View.GONE);
+            binding.llGoingOn.setVisibility(View.GONE);
+        }else{
+            binding.llAllLeague.setVisibility(View.GONE);
+            binding.llGoingOn.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void updateStatisticalData(){
+        int tabCount = binding.tabSportType.getTabCount();
+        for(int i = 0; i < tabCount; i ++){
+            View view = binding.tabSportType.getTabAt(i).getCustomView();
+            TextView tvCount = view.findViewById(R.id.iv_match_count);
+            tvCount.setText(String.valueOf(statisticalData.get(String.valueOf(playMethodType)).get(i)));
+        }
     }
 
     @Override

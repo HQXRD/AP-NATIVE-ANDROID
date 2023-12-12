@@ -1,20 +1,24 @@
 package com.xtree.bet.ui.viewmodel;
 
 import android.app.Application;
+import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.google.gson.Gson;
 import com.xtree.base.utils.TimeUtils;
-import com.xtree.bet.R;
+import com.xtree.bet.bean.MatchTypeInfo;
+import com.xtree.bet.bean.MatchTypeStatisInfo;
+import com.xtree.bet.bean.StatisticalInfo;
+import com.xtree.bet.bean.request.PBListReq;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.LeagueItem;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.MatchInfo;
-import com.xtree.bet.bean.MatchItem;
 import com.xtree.bet.bean.MatchListRsp;
+import com.xtree.bet.constant.Constants;
 import com.xtree.bet.contract.ExpandContract;
 import com.xtree.bet.data.BetRepository;
 
@@ -24,6 +28,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,12 +36,12 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.RxBus;
-import me.xtree.mvvmhabit.bus.RxSubscriptions;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
-import me.xtree.mvvmhabit.http.HttpCallBack;
+
+import com.xtree.base.net.HttpCallBack;
+
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import me.xtree.mvvmhabit.utils.Utils;
 
 /**
  * Created by goldze on 2018/6/21.
@@ -47,125 +52,161 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
 
     public SingleLiveData<String[]> playMethodTab = new SingleLiveData<>();
-    public SingleLiveData<List<String>> playSearchDate = new SingleLiveData<>();
-    public SingleLiveData<List<MatchItem>> matchItemDate = new SingleLiveData<>();
-    public SingleLiveData<LeagueItem> leagueItemDate = new SingleLiveData<>();
-    public SingleLiveData<List<League>> leagueWaitingListDate = new SingleLiveData<>();
-    public SingleLiveData<List<League>> leagueGoingOnListDate = new SingleLiveData<>();
-    public SingleLiveData<ExpandContract> expandContractListDate = new SingleLiveData<>();
+    public SingleLiveData<List<Date>> playSearchData = new SingleLiveData<>();
+    public SingleLiveData<String[]> sportItemData = new SingleLiveData<>();
+    public SingleLiveData<LeagueItem> leagueItemData = new SingleLiveData<>();
+    public SingleLiveData<List<League>> leagueWaitingListData = new SingleLiveData<>();
+    public SingleLiveData<List<League>> leagueGoingOnListData = new SingleLiveData<>();
+    public SingleLiveData<ExpandContract> expandContractListData = new SingleLiveData<>();
+    /**
+     * 赛事统计数据
+     */
+    public SingleLiveData<Map<String, List<Integer>>> statisticalData = new SingleLiveData<>();
+
+
+    private Map<String, List<Integer>> sportCountMap = new HashMap<>();
+    private List<Date> dateList = new ArrayList<>();
+
+    private int currentPage = 1;
+    private int goingOnPageSize = 250;
+    private int pageSize = 30;
 
     public MainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
     }
 
-    public void setPlayMethodTabData(){
-        playMethodTab.setValue(new String[]{"今日", "滚球", "早盘", "串关", "冠军"});
+    public void setPlayMethodTabData() {
+        playMethodTab.setValue(Constants.PLAY_METHOD_NAMES);
     }
 
-    public void setplaySearchDateData(){
-        playSearchDate.setValue(TimeUtils.getNextDays(8, TimeUtils.FORMAT_MM_DD));
+    public void setPlaySearchDateData() {
+        List<Date> dateList = new ArrayList<>();
+        dateList.addAll(TimeUtils.getNextDays(9));
+        this.dateList = dateList;
+        playSearchData.setValue(dateList);
     }
 
-    public void setMatchItems(){
-        List<MatchItem> matchItemList = new ArrayList<>();
-        String[] sportNames = new String[]{"足球", "篮球", "网球", "斯诺克", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "海滩排球"};
-        int[] sportGameCount = new int[]{12, 13, 25, 36, 54, 45, 12, 89, 121, 18};
-        for (int i = 0; i < sportNames.length; i ++){
-            MatchItem item = new MatchItem();
-            item.setName(sportNames[i]);
-            item.setMatchCount(sportGameCount[i]);
-            matchItemList.add(item);
-        }
-
-        matchItemDate.postValue(matchItemList);
+    public void setSportItems() {
+        sportItemData.postValue(Constants.SPORT_NAMES);
     }
 
-    public void setFbLeagueData(){
-        leagueItemDate.setValue(new LeagueItem());
-    }
-
-    public void setLeagueList(int playMethod, int sportType){
-        if(playMethod == 0){
-            setGoingLeagueList(playMethod, sportType);
-        }else{
-            setWaitingLeagueList(sportType);
-        }
-    }
-
-    public void setWaitingLeagueList(int sportType){
-        InputStream inputStream = Utils.getContext().getResources().openRawResource(R.raw.test);
-        if(sportType == 0) {
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test);
-        }else if(sportType == 1){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_bb);
-        }else if(sportType == 2){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_wq);
-        }else if(sportType == 3){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_snk);
-        }else if(sportType == 4){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_pq);
-        }else if(sportType == 5){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_ymq);
-        }else if(sportType == 6){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_mszq);
-        }else if(sportType == 7){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_bbq);
-        }else if(sportType == 8){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_bq);
-        }else if(sportType == 9){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_stpq);
-        }
-        String json = null;
-        try {
-            json = readTextFile(inputStream);
-        } catch (IOException e) {
-            String s = e.getMessage();
-            String sq = s;
-        }
-        MatchListRsp matchListRsp = new Gson().fromJson(json, MatchListRsp.class);
-        leagueWaitingListDate.postValue(leagueAdapterList(matchListRsp.records, true));
-
-    }
-
-    public void setGoingLeagueList(int playMethod, int sportType){
-        InputStream inputStream = Utils.getContext().getResources().openRawResource(R.raw.test);
-        if(sportType == 0) {
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test);
-        }else if(sportType == 1){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_bb);
-        }else if(sportType == 2){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_wq);
-        }else if(sportType == 3){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_snk);
-        }else if(sportType == 4){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_pq);
-        }else if(sportType == 5){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_ymq);
-        }else if(sportType == 6){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_mszq);
-        }else if(sportType == 7){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_bbq);
-        }else if(sportType == 8){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_bq);
-        }else if(sportType == 9){
-            inputStream = Utils.getContext().getResources().openRawResource(R.raw.test_stpq);
-        }
-        String json = null;
-        try {
-            json = readTextFile(inputStream);
-        } catch (IOException e) {
-            String s = e.getMessage();
-            String sq = s;
-        }
-        MatchListRsp matchListRsp = new Gson().fromJson(json, MatchListRsp.class);
-        leagueGoingOnListDate.postValue(leagueAdapterList(matchListRsp.records, true));
-        if(playMethod == 0){
-            setWaitingLeagueList(sportType);
-        }
+    public void setFbLeagueData() {
+        leagueItemData.setValue(new LeagueItem());
     }
 
     /**
-     *
+     * 获取赛事列表
+     * @param sportId
+     * @param orderBy
+     * @param leagueIds
+     * @param matchids
+     * @param playMethodType
+     * @param searchDatePos 查询时间列表中的位置
+     */
+    public void getLeagueList(int sportId, int orderBy, int[] leagueIds, int[] matchids, int playMethodType, int searchDatePos) {
+        int type = playMethodType == 6 ? 1 : playMethodType;
+        boolean flag = playMethodType == 6 ? true : false;
+        Log.e("test", "=========searchDatePos========" + searchDatePos);
+        PBListReq pbListReq = new PBListReq();
+        pbListReq.setSportId(sportId);
+        pbListReq.setType(type);
+        pbListReq.setOrderBy(orderBy);
+        pbListReq.setLeagueIds(leagueIds);
+        pbListReq.setMatchIds(matchids);
+        pbListReq.setCurrent(currentPage);
+
+        String startTime;
+        String endTime;
+
+
+
+        if(searchDatePos != -1) {
+            if (searchDatePos == 0) {
+                pbListReq.setBeginTime(dateList.get(searchDatePos).getTime());
+                pbListReq.setEndTime(dateList.get(dateList.size() - 2).getTime());
+            } else if (searchDatePos == dateList.size() - 1) {
+                pbListReq.setBeginTime(dateList.get(dateList.size() - 1).getTime());
+                pbListReq.setEndTime(TimeUtils.addDays(dateList.get(dateList.size() - 1), 30).getTime());
+            } else {
+                String start = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 00:00:01";
+                String end = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 23:59:59";
+
+                pbListReq.setBeginTime(TimeUtils.strFormatDate(start, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime());
+                pbListReq.setEndTime(TimeUtils.strFormatDate(end, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime());
+            }
+            startTime = TimeUtils.longFormatString(pbListReq.getBeginTime(), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
+            endTime = TimeUtils.longFormatString(pbListReq.getEndTime(), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
+            Log.e("test", startTime);
+            Log.e("test", endTime);
+        }
+
+        if (type == 1) {// 滚球
+            pbListReq.setSize(goingOnPageSize);
+        }else {
+            pbListReq.setSize(pageSize);
+        }
+
+        Disposable disposable = (Disposable) model.getApiService().getFBList(pbListReq)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<MatchListRsp>() {
+                    @Override
+                    public void onResult(MatchListRsp matchListRsp) {
+                        if (type == 1) { // 滚球
+                            leagueGoingOnListData.postValue(leagueAdapterList(matchListRsp.records, true));
+                            if(flag) {
+                                getLeagueList(sportId, orderBy, leagueIds, matchids, 3, searchDatePos);
+                            }
+                        } else {
+                            leagueWaitingListData.postValue(leagueAdapterList(matchListRsp.records, true));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取赛事统计数据
+     */
+    public void statistical() {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("languageType", "CMN");
+
+        Disposable disposable = (Disposable) model.getApiService().statistical(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<StatisticalInfo>() {
+                    @Override
+                    public void onResult(StatisticalInfo statisticalInfo) {
+                        for (MatchTypeInfo matchTypeInfo : statisticalInfo.sl) {
+                            Map<String, Integer> sslMap = new HashMap<>();
+                            for (MatchTypeStatisInfo matchTypeStatisInfo : matchTypeInfo.ssl) {
+                                sslMap.put(String.valueOf(matchTypeStatisInfo.sid), matchTypeStatisInfo.c);
+                            }
+                            List<Integer> sportCountList = new ArrayList<>();
+                            for (String sportId : Constants.SPORT_IDS) {
+                                sportCountList.add(sslMap.get(sportId));
+                            }
+                            sportCountMap.put(String.valueOf(matchTypeInfo.ty), sportCountList);
+                        }
+                        statisticalData.postValue(sportCountMap);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
      * @param matchInfoList
      * @param isFb
      * @return
@@ -178,9 +219,9 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
         for (MatchInfo matchInfo : matchInfoList) {
 
             League leagueAdapter = map.get(String.valueOf(matchInfo.lg.id));
-            if(leagueAdapter == null){
+            if (leagueAdapter == null) {
                 leagueAdapter = new LeagueFb(matchInfo.lg);
-                leagueAdapter.setSort(index ++);
+                leagueAdapter.setSort(index++);
                 map.put(String.valueOf(matchInfo.lg.id), leagueAdapter);
             }
 
@@ -197,10 +238,10 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
         return leagueList;
     }
 
-    public void addSubscription(){
+    public void addSubscription() {
         mSubscription = RxBus.getDefault().toObservable(ExpandContract.class)
                 .subscribe(expandContract -> {
-                    expandContractListDate.postValue(new ExpandContract());
+                    expandContractListData.postValue(new ExpandContract());
                 });
         addSubscribe(mSubscription);
     }
@@ -217,7 +258,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
         return outputStream.toString();
     }
 
-    public void getFBGameTokenApi(){
+    public void getFBGameTokenApi() {
         Disposable disposable = (Disposable) model.getApiService().getFBGameTokenApi()
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())

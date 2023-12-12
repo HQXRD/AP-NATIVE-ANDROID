@@ -1,6 +1,7 @@
 package com.xtree.base.net;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -25,14 +26,18 @@ public class FBHeaderInterceptor implements Interceptor {
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request.Builder builder = chain.request()
                 .newBuilder();
+
         Map<String, String> header = new HashMap<>();
         String token = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
+        if(chain.request().url().url().toString().contains("fb")){
+            Log.e("test", "========token======"+  token);
+        }
         builder.addHeader("Content-Type", "application/json; charset=utf-8");
         if (!TextUtils.isEmpty(token)) {
-            builder.addHeader("Authorization", SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN));
+            builder.addHeader("Authorization", token);
         }
         builder.addHeader("App-RNID", "87jumkljo"); //
-        builder.addHeader("Source", "9");
+        builder.addHeader("Source", "8");
         builder.addHeader("UUID", TagUtils.getDeviceId(Utils.getContext()));
         //请求信息
         return chain.proceed(builder.build());

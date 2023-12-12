@@ -3,6 +3,7 @@ package com.xtree.mine.ui.viewmodel;
 import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -10,7 +11,6 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
-import com.xtree.base.utils.SPUtil;
 import com.xtree.base.vo.FBService;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.ui.activity.LoginRegisterActivity;
@@ -23,7 +23,7 @@ import java.util.UUID;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
-import me.xtree.mvvmhabit.http.HttpCallBack;
+import com.xtree.base.net.HttpCallBack;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -153,11 +153,12 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                     public void onResult(FBService fbService) {
                         SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                        Log.e("test", "========fbService.getToken()======"+  fbService.getToken());
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        //super.onError(t);
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);

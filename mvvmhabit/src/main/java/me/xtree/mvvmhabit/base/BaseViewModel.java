@@ -14,6 +14,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.trello.rxlifecycle4.LifecycleProvider;
 
 import io.reactivex.disposables.CompositeDisposable;
