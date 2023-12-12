@@ -12,7 +12,7 @@ import com.xtree.mine.vo.GameBalanceVo;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
-import me.xtree.mvvmhabit.http.HttpCallBack;
+import com.xtree.base.net.HttpCallBack;
 import me.xtree.mvvmhabit.utils.RxUtils;
 
 public class MyWalletViewModel extends BaseViewModel<MineRepository> {

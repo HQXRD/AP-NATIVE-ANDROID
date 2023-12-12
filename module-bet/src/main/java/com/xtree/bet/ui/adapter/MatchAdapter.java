@@ -51,8 +51,8 @@ public class MatchAdapter extends CommonAdapter<Match> {
 
         XBanner playTypeBanner = holder.getView(R.id.play_type_banner);
         playTypeBanner.setBannerData(R.layout.bt_fb_list_item_play_type, playGroupList);
-        playTypeBanner.loadImage(new PlayGroupAdapter());
-        playTypeBanner.getViewPager().setOverScrollMode(View.OVER_SCROLL_NEVER);
+        //playTypeBanner.loadImage(new PlayGroupAdapter());
+        //playTypeBanner.getViewPager().setOverScrollMode(View.OVER_SCROLL_NEVER);
 
         holder.setVisible(R.id.iv_court, match.hasAs());
         holder.setVisible(R.id.iv_live, match.hasVideo());

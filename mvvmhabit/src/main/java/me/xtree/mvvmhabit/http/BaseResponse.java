@@ -5,13 +5,18 @@ package me.xtree.mvvmhabit.http;
  * 该类仅供参考，实际业务返回的固定字段, 根据需求来定义，
  */
 public class BaseResponse<T> {
-    private int status;
+    private int status = -1;
+    private int code = -1;
     private String message;
     public int timestamp; // 1700702751
     private T data;
 
     public int getStatus() {
         return status;
+    }
+
+    public int getCode() {
+        return code;
     }
 
     public void setStatus(int status) {
