@@ -4,8 +4,11 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.xtree.activity.data.ActivityRepository;
 import com.xtree.activity.vo.NewVo;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 
@@ -15,6 +18,7 @@ import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * Created by goldze on 2018/6/21.
@@ -36,6 +40,7 @@ public class ActivityViewModel extends BaseViewModel<ActivityRepository> {
                     @Override
                     public void onResult(ArrayList<NewVo> list) {
                         //CfLog.d(vo.toString());
+                        SPUtils.getInstance().put(SPKeyGlobal.DC_NEWS_LIST, new Gson().toJson(list));
                         liveDataNewList.setValue(list);
                     }
 
@@ -46,6 +51,16 @@ public class ActivityViewModel extends BaseViewModel<ActivityRepository> {
                     }
                 });
         addSubscribe(disposable);
+    }
+
+    public void readCache() {
+        CfLog.i("******");
+        Gson gson = new Gson();
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.DC_NEWS_LIST, "[]");
+        ArrayList list = gson.fromJson(json, new TypeToken<ArrayList<NewVo>>() {
+        }.getType());
+
+        liveDataNewList.setValue(list);
     }
 
 }

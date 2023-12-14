@@ -2,6 +2,7 @@ package com.xtree.activity.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -42,6 +43,14 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
     ArrayList<CategoryVo> list2 = new ArrayList<>();
     private Map<String, ArrayList<NewVo>> map = new HashMap<>();
     //private int curIndex = 0; // 当前选中的tab
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        viewModel.readCache();
+        viewModel.getNewList();
+    }
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -91,7 +100,7 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
 
     @Override
     public void initData() {
-        viewModel.getNewList();
+
     }
 
     @Override

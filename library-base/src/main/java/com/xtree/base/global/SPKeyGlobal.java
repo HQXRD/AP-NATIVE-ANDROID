@@ -19,6 +19,7 @@ public class SPKeyGlobal {
     public static final String HOME_GAME_LIST = "home_game_list";
     public static final String HOME_PROFILE = "home_profile";
     public static final String HOME_VIP_INFO = "home_vip_info";
+    public static final String DC_NEWS_LIST = "dc_news_list";
     public static final String RC_PAYMENT_OBJ = "rc_payment_obj";
     public static final String FB_TOKEN = "fb_token";
     public static final String PM_TOKEN = "pm_token";
