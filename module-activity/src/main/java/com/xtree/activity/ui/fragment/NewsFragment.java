@@ -79,7 +79,7 @@ public class NewsFragment extends BaseFragment<FragmentNewsBinding, ActivityView
         CfLog.i("typeId: " + typeId + ", typeName: " + typeName + ", list: " + list.size());
 
         binding.tvwInfo.setText(typeName + ", " + typeId);
-        mAdapter.clear();
+        //mAdapter.clear(); // 刚初始化,没有数据,无需clear
         mAdapter.addAll(list);
     }
 

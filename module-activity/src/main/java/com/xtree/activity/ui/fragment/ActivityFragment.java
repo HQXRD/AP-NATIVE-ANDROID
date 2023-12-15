@@ -23,6 +23,7 @@ import com.xtree.activity.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.activity.vo.CategoryVo;
 import com.xtree.activity.vo.NewVo;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.CfLog;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -112,7 +113,6 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
             public void onChanged(ArrayList<NewVo> list) {
                 // 加载主页,
                 setNewsView(list);
-                // 缓存数据
             }
         });
 
@@ -129,6 +129,11 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
 
         ArrayList<NewVo> tmpList;
         for (NewVo vo : list) {
+            if (vo.category_order == 0) {
+                // 避免死循环; 0的已按照默认“全部优惠”处理
+                CfLog.d("****** default: " + vo);
+                continue;
+            }
             String key = String.valueOf(vo.category_order);
             if (!map.containsKey(key)) {
                 list2.add(new CategoryVo(vo.category_order, vo.category));
