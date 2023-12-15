@@ -41,7 +41,9 @@ import java.util.UUID;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+
 import com.xtree.base.net.HttpCallBack;
+
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -78,8 +80,10 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 .subscribeWith(new HttpCallBack<List<BannersVo>>() {
                     @Override
                     public void onResult(List<BannersVo> list) {
-                        //ToastUtils.showLong("请求成功");
-                        CfLog.i(list.get(0).toString());
+                        if (list.isEmpty()) {
+                            // 没有数据时,banner会占满手机屏幕/白屏;加条数据显示默认图片
+                            list.add(new BannersVo("default"));
+                        }
                         SPUtils.getInstance().put(SPKeyGlobal.HOME_BANNER_LIST, new Gson().toJson(list));
                         liveDataBanner.setValue(list);
                     }
@@ -106,7 +110,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 .subscribeWith(new HttpCallBack<DataVo<NoticeVo>>() {
                     @Override
                     public void onResult(DataVo<NoticeVo> data) {
-                        CfLog.i(data.list.get(0).toString());
+                        //CfLog.i(data.list.get(0).toString());
                         SPUtils.getInstance().put(SPKeyGlobal.HOME_NOTICE_LIST, new Gson().toJson(data.list));
                         liveDataNotice.setValue(data.list);
                     }
@@ -151,7 +155,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         addSubscribe(disposable);
     }
 
-    public void getFBGameTokenApi(){
+    public void getFBGameTokenApi() {
         String token = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
         if (TextUtils.isEmpty(token)) {
             return;
@@ -174,7 +178,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         addSubscribe(disposable);
     }
 
-    public void getPMGameTokenApi(){
+    public void getPMGameTokenApi() {
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         if (TextUtils.isEmpty(token)) {
             return;
@@ -220,7 +224,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 CfLog.w("not show: " + vo);
                 continue;
             }
-            CfLog.d(vo.toString());
+            //CfLog.d(vo.toString());
             mList.add(vo);
         }
 
@@ -414,6 +418,10 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_BANNER_LIST, "[]");
         List list = gson.fromJson(json, new TypeToken<List<BannersVo>>() {
         }.getType());
+        if (list.isEmpty()) {
+            // 没有数据时,banner会占满手机屏幕/白屏;加条数据显示默认图片
+            list.add(new BannersVo("default"));
+        }
         liveDataBanner.setValue(list);
 
         json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_NOTICE_LIST, "[]");
