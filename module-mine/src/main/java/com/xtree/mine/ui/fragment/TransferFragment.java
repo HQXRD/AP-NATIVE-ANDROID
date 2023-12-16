@@ -75,7 +75,7 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //viewModel.readCache(); // 先读取缓存数据
+        viewModel.readCache(); // 先读取缓存数据
         refreshBalance();
     }
 
@@ -311,6 +311,11 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
                 TextView tvw = binding.llWallet.findViewWithTag(vo.gameAlias);
                 if (tvw != null) {
                     tvw.setText(vo.balance);
+                    if (Double.parseDouble(vo.balance) > 0) {
+                        tvw.setSelected(true);
+                    } else {
+                        tvw.setSelected(false); // 这里是为了颜色
+                    }
                 }
                 //setGameBalance(vo);
                 map.put(vo.gameAlias, vo);
@@ -407,10 +412,11 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         for (int i = 0; i < arrayName.length; i++) {
             if (i < listGameBalance.size()) {
                 arrayName[i].setText(listGameBalance.get(i).gameName);
+                arrayBlc[i].setText(listGameBalance.get(i).balance);
                 if (Double.parseDouble(listGameBalance.get(i).balance) > 0) {
-                    arrayBlc[i].setText(listGameBalance.get(i).balance);
+                    arrayBlc[i].setSelected(true);
                 } else {
-                    arrayBlc[i].setText("");
+                    arrayBlc[i].setSelected(false);
                 }
             } else {
                 arrayName[i].setText(" ");

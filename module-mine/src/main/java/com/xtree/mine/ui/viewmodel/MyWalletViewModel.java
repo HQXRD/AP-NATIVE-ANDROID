@@ -4,6 +4,9 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.BalanceVo;
@@ -16,8 +19,10 @@ import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import com.xtree.base.net.HttpCallBack;
 
 import java.util.HashMap;
+import java.util.List;
 
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class MyWalletViewModel extends BaseViewModel<MineRepository> {
     //public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
@@ -26,6 +31,8 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<Boolean> liveData1kRecycle = new SingleLiveData<>(); // 1键回收
     public SingleLiveData<Boolean> liveDataAutoTrans = new SingleLiveData<>(); // 自动免转
     public SingleLiveData<Boolean> liveDataTransfer = new SingleLiveData<>(); // 转账
+
+    private HashMap<String, GameBalanceVo> map = new HashMap<>();
 
     public MyWalletViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
@@ -39,6 +46,7 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onResult(BalanceVo vo) {
                         CfLog.d(vo.toString());
+                        SPUtils.getInstance().put(SPKeyGlobal.WLT_CENTRAL_BLC, vo.balance);
                         liveDataBalance.setValue(vo);
                     }
 
@@ -60,6 +68,8 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                     public void onResult(GameBalanceVo vo) {
                         vo.gameAlias = gameAlias;
                         CfLog.d(vo.toString());
+                        map.put(gameAlias, getFullGame(vo));
+                        SPUtils.getInstance().put(SPKeyGlobal.WLT_GAME_ROOM_BLC, new Gson().toJson(map.values()));
                         liveDataGameBalance.setValue(getFullGame(vo));
                     }
 
@@ -133,6 +143,21 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                     }
                 });
         addSubscribe(disposable);
+    }
+
+    public void readCache() {
+        CfLog.i("******");
+        Gson gson = new Gson();
+        String balance = SPUtils.getInstance().getString(SPKeyGlobal.WLT_CENTRAL_BLC, "0.0000");
+        liveDataBalance.setValue(new BalanceVo(balance));
+
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.WLT_GAME_ROOM_BLC, "[]");
+        CfLog.e("json: " + json);
+        List<GameBalanceVo> list = gson.fromJson(json, new TypeToken<List<GameBalanceVo>>() {
+        }.getType());
+        for (GameBalanceVo vo : list) {
+            liveDataGameBalance.setValue(vo);
+        }
     }
 
     private GameBalanceVo getFullGame(GameBalanceVo vo) {
