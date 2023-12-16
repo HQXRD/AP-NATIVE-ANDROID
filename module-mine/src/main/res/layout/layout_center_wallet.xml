@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@mipmap/cm_bg_center"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/layout_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_central_wallet"
+            android:textColor="@color/clr_white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvw_1k_recycle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:background="@mipmap/me_bg_wd_1k"
+            android:drawableStart="@mipmap/cm_ic_cny"
+            android:drawablePadding="4dp"
+            android:gravity="center_vertical"
+            android:paddingStart="4dp"
+            android:text="@string/txt_1k_recycle"
+            android:textColor="@color/clr_white"
+            android:textSize="11sp" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="12dp"
+            android:layout_weight="1" />
+
+        <CheckBox
+            android:id="@+id/ckb_auto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:background="@mipmap/me_ic_auto_trans"
+            android:button="@null"
+            android:drawableEnd="@drawable/cm_ic_switch_selector"
+            android:drawablePadding="6dp"
+            android:gravity="center_vertical"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:text="@string/txt_auto_transfer"
+            android:textColor="@color/clr_white"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvw_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.0000"
+        android:textColor="@color/clr_white"
+        android:textSize="24sp"
+        tools:text="9,999.0000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/txt_lock_wallet"
+        android:textColor="@color/clr_white"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0.0000"
+        android:textColor="@color/clr_white"
+        android:textSize="16sp"
+        tools:text="999.0000" />
+</LinearLayout>
+

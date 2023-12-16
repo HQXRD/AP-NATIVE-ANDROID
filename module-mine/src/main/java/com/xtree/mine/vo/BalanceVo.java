@@ -7,6 +7,13 @@ public class BalanceVo {
     public String now_ag; // "0.00",
     public String dispensing_mul; // null
 
+    public BalanceVo() {
+    }
+
+    public BalanceVo(String balance) {
+        this.balance = balance;
+    }
+
     @Override
     public String toString() {
         return "BalanceVo { " +
