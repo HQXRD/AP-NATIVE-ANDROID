@@ -7,9 +7,35 @@ package me.xtree.mvvmhabit.http;
 public class BaseResponse<T> {
     private int status = -1;
     private int code = -1;
-    private String message;
+    private String message = ""; // msg, sMsg
+    private AuthVo authorization;
     public int timestamp; // 1700702751
     private T data;
+
+    public class AuthVo {
+        public String token; // "eyJ0eXAiOi***NTViMg"
+        public String token_type; // "bearer"
+        public int expires_in; // 604800 (7 day)
+
+        @Override
+        public String toString() {
+            return "AuthVo{" +
+                    "token='" + token + '\'' +
+                    ", token_type='" + token_type + '\'' +
+                    ", expires_in=" + expires_in +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "BaseResponse{" +
+                "status=" + status +
+                ", message='" + message + '\'' +
+                ", timestamp=" + timestamp +
+                ", data=" + data +
+                '}';
+    }
 
     public int getStatus() {
         return status;
@@ -41,6 +67,14 @@ public class BaseResponse<T> {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public AuthVo getAuthorization() {
+        return authorization;
+    }
+
+    public void setAuthorization(AuthVo authorization) {
+        this.authorization = authorization;
     }
 
     public int getTimestamp() {
