@@ -21,7 +21,6 @@ import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.GameBalanceVo;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
-import me.xtree.mvvmhabit.base.ContainerActivity;
 
 @Route(path = RouterActivityPath.Mine.PAGER_MY_WALLET)
 public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWalletViewModel> {
@@ -29,6 +28,8 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        viewModel.readCache(); // 读取缓存
 
         viewModel.getBalance(); // 平台中心余额
 
@@ -74,6 +75,13 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
             public void onClick(View v) {
                 CfLog.d("************");
                 goRecharge();
+            }
+        });
+        binding.tvwTrans.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CfLog.d("************");
+                startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER);
             }
         });
         binding.tvwWithdraw.setOnClickListener(new View.OnClickListener() {
@@ -134,12 +142,9 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
     }
 
     private void goRecharge() {
-        Intent intent = new Intent(getBaseContext(), ContainerActivity.class);
-        intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Recharge.PAGER_RECHARGE);
         Bundle bundle = new Bundle();
         bundle.putBoolean("isShowBack", true);
-        intent.putExtra(ContainerActivity.BUNDLE, bundle);
-        startActivity(intent);
+        startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
     }
 
 }
