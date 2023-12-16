@@ -14,11 +14,13 @@ import com.xtree.base.R;
 
 public class ListDialog extends BottomPopupView {
 
+    String title; // 标题
+    RecyclerView.Adapter adapter;
+    int maxHeight = 40; // 最大高度百分比 10-100
+
     TextView tvwTitle;
     ImageView ivwClose;
     RecyclerView rcvMain;
-    String title;
-    RecyclerView.Adapter adapter;
 
     public ListDialog(@NonNull Context context) {
         super(context);
@@ -28,6 +30,19 @@ public class ListDialog extends BottomPopupView {
         super(context);
         this.title = title;
         this.adapter = adapter;
+    }
+
+    /**
+     * @param context   Context
+     * @param title     标题
+     * @param adapter   适配器
+     * @param maxHeight 最大高度, 占屏幕高度的百分比 (推荐 30-90)
+     */
+    public ListDialog(@NonNull Context context, String title, RecyclerView.Adapter adapter, int maxHeight) {
+        super(context);
+        this.title = title;
+        this.adapter = adapter;
+        this.maxHeight = maxHeight;
     }
 
     @Override
@@ -58,7 +73,10 @@ public class ListDialog extends BottomPopupView {
     @Override
     protected int getMaxHeight() {
         //return super.getMaxHeight();
-        return (XPopupUtils.getScreenHeight(getContext()) * 4 / 10);
+        if (maxHeight < 5 || maxHeight > 100) {
+            maxHeight = 40;
+        }
+        return (XPopupUtils.getScreenHeight(getContext()) * maxHeight / 100);
     }
 
 }
