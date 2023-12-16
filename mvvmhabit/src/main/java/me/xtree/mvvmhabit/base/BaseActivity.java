@@ -218,6 +218,19 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         startActivity(intent);
     }
 
+    public void startContainerFragment(String path) {
+        startContainerFragment(path, null);
+    }
+
+    public void startContainerFragment(String path, Bundle bundle) {
+        Intent intent = new Intent(this, ContainerActivity.class);
+        intent.putExtra(ContainerActivity.ROUTER_PATH, path);
+        if (bundle != null) {
+            intent.putExtra(ContainerActivity.BUNDLE, bundle);
+        }
+        startActivity(intent);
+    }
+
     /**
      * =====================================================================
      **/
