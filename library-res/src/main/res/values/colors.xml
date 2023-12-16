@@ -127,17 +127,24 @@
     <color name="clr_txt_grey_07">#767677</color>
     <color name="clr_grey_03">#E9E9E9</color>
     <color name="clr_grey_05">#D1D1D1</color>
+    <color name="clr_grey_07">#F7F7F7</color>
 
     <color name="clr_grey_22">#38D9D9D9</color>
+    <color name="clr_grey_080">#CCD9D9D9</color>
     <color name="clr_grey_13">#99A0B1</color>
+    <color name="clr_gray_30">#4DDFDCE9</color>
+    <color name="clr_gray_021">#767677</color>
 
     <color name="clr_grey_menu">#767677</color>
 
     <color name="clr_grey_00">#2F2747</color>
     <color name="clr_grey_20">#332F2747</color>
     <color name="clr_grey_40">#662F2747</color>
+    <color name="clr_grey_50">#802F2747</color>
     <color name="clr_grey_60">#992F2747</color>
     <color name="clr_grey_80">#CC2F2747</color>
+
+    <color name="clr_white_14">#24FFFFFF</color>
 
     <color name="clr_purple_01">#9987E2</color>
     <color name="clr_purple_02">#9981F5</color>
@@ -148,6 +155,10 @@
     <color name="clr_purple_bg_1">#9179E7</color>
     <color name="clr_purple_bg_2">#CA9BE6</color>
 
+    <color name="clr_purple_bg_021">#9179e7</color>
+    <color name="clr_purple_bg_022">#CA9BE6</color>
+    <color name="clr_purple_bg_023">#F2EFFF</color>
+
     <!--  金额已选中  -->
     <color name="clr_purple_05">#9179E7</color>
     <!--  金额未选中  -->
@@ -157,6 +168,11 @@
     <color name="clr_orange_03">#EE5A5A</color>
 
     <color name="clr_blue_03">#119BFF</color>
+    <color name="clr_blue_05">#376CAA</color>
+    <color name="clr_blue_06">#CEE4FE</color>
+
+    <color name="clr_green_03">#5BBA5B</color>
+    <color name="clr_green_06">#E7E7E7</color>
 
     <!-- 通用 end-->
 
