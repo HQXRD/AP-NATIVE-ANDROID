@@ -35,7 +35,11 @@ public class OptionInfo implements BaseBean {
     /**
      * 选项结算结果，仅虚拟体育展示
      */
-    public int otcm; 
+    public int otcm;
+    /**
+     * 是否选中
+     */
+    public boolean isSelected;
 
     @Override
     public int describeContents() {
@@ -51,6 +55,7 @@ public class OptionInfo implements BaseBean {
         dest.writeDouble(this.bod);
         dest.writeInt(this.odt);
         dest.writeInt(this.otcm);
+        dest.writeByte(this.isSelected ? (byte) 1 : (byte) 0);
     }
 
     public void readFromParcel(Parcel source) {
@@ -61,6 +66,7 @@ public class OptionInfo implements BaseBean {
         this.bod = source.readDouble();
         this.odt = source.readInt();
         this.otcm = source.readInt();
+        this.isSelected = source.readByte() != 0;
     }
 
     public OptionInfo() {
@@ -74,6 +80,7 @@ public class OptionInfo implements BaseBean {
         this.bod = in.readDouble();
         this.odt = in.readInt();
         this.otcm = in.readInt();
+        this.isSelected = in.readByte() != 0;
     }
 
     public static final Creator<OptionInfo> CREATOR = new Creator<OptionInfo>() {

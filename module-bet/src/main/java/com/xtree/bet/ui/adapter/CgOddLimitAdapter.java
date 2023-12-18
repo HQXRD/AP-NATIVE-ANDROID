@@ -5,14 +5,12 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.CgOddLimit;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.weight.KeyboardView;
-import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.lang.reflect.Method;
@@ -20,12 +18,10 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseActivity;
 
-public class CgOddLimitAdapter extends CommonAdapter<CgOddLimit> {
+public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
     private boolean flag;
 
     private KeyboardView keyboardView;
@@ -40,13 +36,18 @@ public class CgOddLimitAdapter extends CommonAdapter<CgOddLimit> {
         this.listener = listener;
     }
 
-    public CgOddLimitAdapter(Context context, int layoutId, List<CgOddLimit> datas) {
-        super(context, layoutId, datas);
+    public CgOddLimitAdapter(Context context, List<CgOddLimit> datas) {
+        super(context, datas);
+    }
+
+    @Override
+    public int layoutId() {
+        return R.layout.bt_layout_car_cg_item;
     }
 
     @Override
     protected void convert(ViewHolder holder, CgOddLimit cgOddLimit, int position) {
-        if (getItemCount() > 1) { // 串关
+        if (getItemCount() > 1 || !TextUtils.isEmpty(cgOddLimit.getCgName())) { // 串关
             holder.setVisible(R.id.csl_cg_dan, false);
             holder.setVisible(R.id.csl_cg_cc, true);
             EditText etAmount = holder.getView(R.id.et_bt_amount_cc);
@@ -147,7 +148,7 @@ public class CgOddLimitAdapter extends CommonAdapter<CgOddLimit> {
                             holder.setText(R.id.tv_pay_dan, mContext.getResources().getString(R.string.bt_bt_pay, String.valueOf(amount)));
                             if (!flag) {
                                 flag = true;
-                                Disposable disposable = Observable.timer(1, TimeUnit.SECONDS).subscribe(aLong -> {
+                                Disposable disposable = Observable.timer(2, TimeUnit.SECONDS).subscribe(aLong -> {
                                     if (TextUtils.isEmpty(etAmount.getText()) || Double.valueOf(etAmount.getText().toString()) >= cgOddLimit.getDMin()) {
                                         flag = false;
                                         return;

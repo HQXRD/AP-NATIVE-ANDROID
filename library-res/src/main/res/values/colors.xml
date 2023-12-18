@@ -36,10 +36,10 @@
     <color name="bt_text_color_deep_primary">#4d4d4d</color>
 
     <!-- 投注页加粗字体颜色 -->
-    <color name="bt_text_color_bold">#1E1E1E</color>
+    <color name="bt_text_color_bold">#000000</color>
 
     <!-- 投注页页面背颜色 -->
-    <color name="bt_page_bg">#F3F3F3</color>
+    <color name="bt_page_bg">#F2F3F7</color>
 
     <!-- 投注页页面各区块背景颜色 -->
     <color name="bt_page_up_bg">#FFFFFF</color>
@@ -59,8 +59,14 @@
     <!-- 赛事比分颜色 -->
     <color name="bt_color_score">#F74E15</color>
 
+    <!-- 赔率上升字体颜色 -->
+    <color name="bt_color_odd_up">#F74E15</color>
+
+    <!-- 赔率下降字体颜色 -->
+    <color name="bt_color_odd_down">#63BE59</color>
+
     <!-- 模糊的字体颜色 -->
-    <color name="bt_color_blurred">#D1D1D1</color>
+    <color name="bt_color_blurred">#B9B9B9</color>
 
     <!-- 赛事列表进行时间背影颜色 -->
     <color name="bt_bg_color_time">#FBFBFB</color>
@@ -78,10 +84,10 @@
     <color name="bt_color_car_dialog_top_acount">#54D8CAFF</color>
 
     <!-- 投注确认页高亮颜色 -->
-    <color name="bt_color_car_dialog_hight_line">#9987E2</color>
+    <color name="bt_color_car_dialog_hight_line">#C1C4F2</color>
 
     <!-- 投注确认页高亮颜色2 -->
-    <color name="bt_color_car_dialog_hight_line2">#9396E4</color>
+    <color name="bt_color_car_dialog_hight_line2">#A17DF5</color>
 
     <!-- 投注确认页提示高亮颜色(如比分已更改) -->
     <color name="bt_color_car_dialog_tip_hight_line">#FF7A00</color>

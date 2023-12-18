@@ -1,46 +1,214 @@
 package com.xtree.bet.bean.ui;
 
+import android.os.Parcel;
+import android.text.TextUtils;
+
+import com.xtree.base.vo.BaseBean;
 import com.xtree.bet.bean.BtConfirmOptionInfo;
 
-public class BetConfirmOptionFb implements BetConfirmOption {
+/**
+ * 投注确认页选项
+ */
+public class BetConfirmOptionFb implements BetConfirmOption{
     private BtConfirmOptionInfo btConfirmOptionInfo;
+    private Match match;
+    private PlayType playType;
+    private OptionList optionList;
+    private Option option;
     private String teamName;
+
     public BetConfirmOptionFb(BtConfirmOptionInfo btConfirmOptionInfo, String teamName){
         this.btConfirmOptionInfo = btConfirmOptionInfo;
         this.teamName = teamName;
     }
+
+    public BetConfirmOptionFb(Match match, PlayType playType, OptionList optionList, Option option){
+        this.optionList = optionList;
+        this.option = option;
+        this.match = match;
+        this.playType = playType;
+        teamName = match.getTeamMain() + " VS " + match.getTeamVistor();
+    }
+    /**
+     * 设置比赛及投注信息
+     * @return
+     */
+    public void setData(Match match, PlayType playType, OptionList optionList, Option option){
+        this.optionList = optionList;
+        this.option = option;
+        this.match = match;
+        this.playType = playType;
+        teamName = match.getTeamMain() + " VS " + match.getTeamVistor();
+    }
+    /**
+     * 获取投注信息唯一标识
+     * @return
+     */
+    @Override
+    public String getCode() {
+        StringBuffer code = new StringBuffer();
+        code.append(match.getId());
+        code.append(playType.getPlayType());
+        code.append(playType.getPlayPeriod());
+        code.append(optionList.getId());
+        code.append(option.getOptionType());
+        return code.toString();
+    }
+
     @Override
     public int getPlayTypeId() {
-        return btConfirmOptionInfo.mid;
+        if(btConfirmOptionInfo != null) {
+            return btConfirmOptionInfo.mid;
+        }else{
+            return optionList.getId();
+        }
     }
 
     @Override
     public Option getOption() {
-        return new OptionFb(btConfirmOptionInfo.op);
+        if(btConfirmOptionInfo != null && btConfirmOptionInfo.op != null) {
+            return new OptionFb(btConfirmOptionInfo.op);
+        }else{
+            return option;
+        }
     }
 
     @Override
     public double getDanMin() {
-        return btConfirmOptionInfo.smin;
+
+        if(btConfirmOptionInfo != null) {
+            return btConfirmOptionInfo.smin;
+        }else{
+            return 0;
+        }
     }
 
     @Override
     public double getDanMax() {
-        return btConfirmOptionInfo.smax;
+        if(btConfirmOptionInfo != null) {
+            return btConfirmOptionInfo.smax;
+        }else{
+            return 0;
+        }
     }
 
+    /**
+     * 玩法销售状态是否关闭，0暂停，1开售，-1未开售
+     * @return
+     */
     @Override
-    public int isClose() {
-        return btConfirmOptionInfo.ss;
+    public boolean isClose() {
+        if(btConfirmOptionInfo != null) {
+            return btConfirmOptionInfo.ss == 0 || btConfirmOptionInfo.ss == -1;
+        }else{
+            return true;
+        }
     }
 
     @Override
     public String getScore() {
-        return btConfirmOptionInfo.re;
+        if(btConfirmOptionInfo != null && !TextUtils.isEmpty(btConfirmOptionInfo.re)) {
+            return btConfirmOptionInfo.re;
+        }else{
+            return "";
+        }
     }
 
     @Override
     public String getTeamName() {
         return teamName;
     }
+
+    /**
+     * 获取投注的比赛信息
+     * @return
+     */
+    @Override
+    public Match getMatch() {
+        return match;
+    }
+
+    /**
+     * 获取投注项类型
+     * @return
+     */
+    @Override
+    public int getOptionType() {
+        if(btConfirmOptionInfo != null && btConfirmOptionInfo.op != null) {
+            return btConfirmOptionInfo.op.ty;
+        }else{
+            return option.getOptionType();
+        }
+    }
+
+    /**
+     * 获取投注玩法类型数据
+     * @return
+     */
+    @Override
+    public OptionList getOptionList(){
+        return optionList;
+    }
+
+    /**
+     * 获取服务器返回的真实数据
+     * @return
+     */
+    @Override
+    public void setRealData(BaseBean data) {
+        this.btConfirmOptionInfo = (BtConfirmOptionInfo) data;
+    }
+
+    /**
+     * 获取投注玩法数据
+     * @return
+     */
+    @Override
+    public PlayType getPlayType() {
+        return playType;
+    }
+
+    @Override
+    public BaseBean getRealData() {
+        return btConfirmOptionInfo;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.btConfirmOptionInfo, flags);
+        dest.writeParcelable(this.optionList, flags);
+        dest.writeParcelable(this.option, flags);
+        dest.writeString(this.teamName);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.btConfirmOptionInfo = source.readParcelable(BtConfirmOptionInfo.class.getClassLoader());
+        this.optionList = source.readParcelable(OptionList.class.getClassLoader());
+        this.option = source.readParcelable(Option.class.getClassLoader());
+        this.teamName = source.readString();
+    }
+
+    protected BetConfirmOptionFb(Parcel in) {
+        this.btConfirmOptionInfo = in.readParcelable(BtConfirmOptionInfo.class.getClassLoader());
+        this.optionList = in.readParcelable(OptionList.class.getClassLoader());
+        this.option = in.readParcelable(Option.class.getClassLoader());
+        this.teamName = in.readString();
+    }
+
+    public static final Creator<BetConfirmOptionFb> CREATOR = new Creator<BetConfirmOptionFb>() {
+        @Override
+        public BetConfirmOptionFb createFromParcel(Parcel source) {
+            return new BetConfirmOptionFb(source);
+        }
+
+        @Override
+        public BetConfirmOptionFb[] newArray(int size) {
+            return new BetConfirmOptionFb[size];
+        }
+    };
 }

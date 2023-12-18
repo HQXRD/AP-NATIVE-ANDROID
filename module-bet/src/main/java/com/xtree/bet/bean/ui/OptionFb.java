@@ -1,5 +1,7 @@
 package com.xtree.bet.bean.ui;
 
+import android.os.Parcel;
+
 import com.xtree.bet.bean.OptionInfo;
 
 public class OptionFb implements Option{
@@ -58,4 +60,48 @@ public class OptionFb implements Option{
     public int getSettlementResult() {
         return optionInfo.otcm;
     }
+
+    @Override
+    public boolean setSelected(boolean isSelected) {
+        return optionInfo.isSelected = isSelected;
+    }
+
+    /**
+     * 是否选中
+     * @return
+     */
+    @Override
+    public boolean isSelected() {
+        return optionInfo.isSelected;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.optionInfo, flags);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.optionInfo = source.readParcelable(OptionInfo.class.getClassLoader());
+    }
+
+    protected OptionFb(Parcel in) {
+        this.optionInfo = in.readParcelable(OptionInfo.class.getClassLoader());
+    }
+
+    public static final Creator<OptionFb> CREATOR = new Creator<OptionFb>() {
+        @Override
+        public OptionFb createFromParcel(Parcel source) {
+            return new OptionFb(source);
+        }
+
+        @Override
+        public OptionFb[] newArray(int size) {
+            return new OptionFb[size];
+        }
+    };
 }

@@ -83,7 +83,7 @@
                     android:layout_marginStart="5dp"
                     android:padding="5dp"
                     tools:text="预计可赢999.0000RMB"
-                    android:textColor="@color/bt_color_hine_color"
+                    android:textColor="@color/bt_color_car_dialog_hight_line2"
                     android:textSize="@dimen/bt_text_11sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -95,7 +95,7 @@
                     android:layout_marginStart="5dp"
                     android:padding="5dp"
                     tools:text="小计999.0000RMB"
-                    android:textColor="@color/bt_color_hine_color"
+                    android:textColor="@color/bt_color_car_dialog_hight_line2"
                     android:textSize="@dimen/bt_text_11sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -170,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="预计可赢999.0000RMB"
-                    android:textColor="@color/bt_color_hine_color"
+                    android:textColor="@color/bt_color_car_dialog_hight_line2"
                     android:textSize="@dimen/bt_text_11sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -181,7 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="小计999.0000RMB"
-                    android:textColor="@color/bt_color_hine_color"
+                    android:textColor="@color/bt_color_car_dialog_hight_line2"
                     android:textSize="@dimen/bt_text_11sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

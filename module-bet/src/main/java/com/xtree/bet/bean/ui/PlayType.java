@@ -16,6 +16,11 @@ public interface PlayType extends BaseBannerInfo {
      * @return
      */
     String getPlayTypeName();
+    /**
+     * 设置玩法名称
+     * @return
+     */
+    String setPlayTypeName(String playTypeName);
 
     /**
      * 获取投注玩法列表
@@ -28,4 +33,10 @@ public interface PlayType extends BaseBannerInfo {
      * @return
      */
     List<Option> getOptionList();
+
+    /**
+     * 获取玩法阶段，如足球上半场、全场等
+     * @return
+     */
+    int getPlayPeriod();
 }

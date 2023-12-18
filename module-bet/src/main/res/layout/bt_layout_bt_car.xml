@@ -76,6 +76,7 @@
                 android:id="@+id/nsv_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="300dp"
                 android:layout_above="@+id/csl_bottom"
                 android:background="@color/bt_page_up_bg"
                 android:paddingTop="10dp">

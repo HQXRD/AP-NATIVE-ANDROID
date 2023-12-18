@@ -19,6 +19,7 @@ import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.PlayGroup;
 import com.xtree.bet.bean.ui.PlayType;
+import com.xtree.bet.constant.Constants;
 import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
@@ -37,9 +38,9 @@ public class MatchAdapter extends CommonAdapter<Match> {
     protected void convert(ViewHolder holder, Match match, int position) {
         holder.setText(R.id.tv_team_name_main, match.getTeamMain());
         holder.setText(R.id.tv_team_name_visitor, match.getTeamVistor());
-        if(match.getScore() != null && match.getScore().size() > 1){
-            holder.setText(R.id.tv_score_main, String.valueOf(match.getScore().get(0)));
-            holder.setText(R.id.tv_score_visitor, String.valueOf(match.getScore().get(1)));
+        if(match.getScore(Constants.SCORE_TYPE_SCORE) != null && match.getScore(Constants.SCORE_TYPE_SCORE).size() > 1){
+            holder.setText(R.id.tv_score_main, String.valueOf(match.getScore(Constants.SCORE_TYPE_SCORE).get(0)));
+            holder.setText(R.id.tv_score_visitor, String.valueOf(match.getScore(Constants.SCORE_TYPE_SCORE).get(1)));
         }
         holder.setText(R.id.tv_match_time, match.getStage() + " " + match.getTime());
         holder.setText(R.id.tv_playtype_count, match.getPlayTypeCount() + "+>");
@@ -51,8 +52,8 @@ public class MatchAdapter extends CommonAdapter<Match> {
 
         XBanner playTypeBanner = holder.getView(R.id.play_type_banner);
         playTypeBanner.setBannerData(R.layout.bt_fb_list_item_play_type, playGroupList);
-        //playTypeBanner.loadImage(new PlayGroupAdapter());
-        //playTypeBanner.getViewPager().setOverScrollMode(View.OVER_SCROLL_NEVER);
+        playTypeBanner.loadImage(new PlayGroupAdapter());
+        playTypeBanner.getViewPager().setOverScrollMode(View.OVER_SCROLL_NEVER);
 
         holder.setVisible(R.id.iv_court, match.hasAs());
         holder.setVisible(R.id.iv_live, match.hasVideo());

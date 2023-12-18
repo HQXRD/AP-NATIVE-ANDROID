@@ -1,20 +1,22 @@
 package com.xtree.bet.bean.ui;
 
+import android.os.Parcelable;
+
 import java.util.List;
 
-public interface OptionList {
+public interface OptionList extends Parcelable {
 
     int getId();
 
     /**
-     * 玩法销售状态，0暂停，1开售，-1未开售（未开售状态一般是不展示的）
+     * 是否开售，0暂停，1开售，-1未开售（未开售状态一般是不展示的）
      */
-    int getSellState();
+    boolean isOpen();
 
     /**
      * 是否支持串关，0 不可串关，1 可串关
      */
-    int getAllowCrossover();
+    boolean isAllowCrossover();
 
     /**
      * 是否为最优线，带线玩法可用该字段进行排序，从小到大

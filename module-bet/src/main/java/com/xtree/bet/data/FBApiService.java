@@ -1,7 +1,10 @@
 package com.xtree.bet.data;
 
+import com.xtree.bet.bean.BtConfirmInfo;
+import com.xtree.bet.bean.BtConfirmOptionInfo;
 import com.xtree.bet.bean.MatchListRsp;
 import com.xtree.bet.bean.StatisticalInfo;
+import com.xtree.bet.bean.request.BtCarReq;
 import com.xtree.bet.bean.request.PBListReq;
 
 import java.util.Map;
@@ -40,4 +43,12 @@ public interface FBApiService {
     @POST("/v1/match/statistical")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<BaseResponse<StatisticalInfo>> statistical(@Body Map<String, String> map);
+
+    /**
+     * 按运动、分类类型统计可投注的赛事个数
+     * @return
+     */
+    @POST("/v1/order/batchBetMatchMarketOfJumpLine")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<BaseResponse<BtConfirmInfo>> batchBetMatchMarketOfJumpLine(@Body BtCarReq btCarReq);
 }

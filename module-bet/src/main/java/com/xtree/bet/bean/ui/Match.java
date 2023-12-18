@@ -1,8 +1,15 @@
 package com.xtree.bet.bean.ui;
 
+import com.xtree.base.vo.BaseBean;
+
 import java.util.List;
 
-public interface Match {
+public interface Match extends BaseBean {
+    /**
+     * 获取比赛ID
+     * @return
+     */
+    int getId();
     /**
      * 获取主队名称
      * @return
@@ -28,9 +35,10 @@ public interface Match {
 
     /**
      * 获取赛事比分
+     * @param type 比分类型，例如角球、黄牌等
      * @return
      */
-    List<Integer> getScore();
+    List<Integer> getScore(int type);
 
     /**
      * 获取单个赛事玩法总数

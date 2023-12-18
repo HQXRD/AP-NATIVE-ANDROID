@@ -30,20 +30,22 @@ public class OptionAdapter extends CommonAdapter<Option> {
 
     @Override
     protected void convert(ViewHolder holder, Option option, int position) {
-        holder.setText(R.id.tv_option_name, option.getSortName());
-        holder.setText(R.id.tv_option_odd, String.valueOf(option.getOdd()));
-
-        if(isMeasure) {
-            float h = mContext.getResources().getDimension(R.dimen.bt_match_list_height) - ConvertUtils.dp2px(40);
-            float optionHeight = h / getItemCount();
-            holder.itemView.getLayoutParams().height = (int) optionHeight;
+        if (option != null) {
+            holder.setVisible(R.id.tv_option_name, true);
+            holder.setVisible(R.id.tv_option_odd, true);
+            holder.setVisible(R.id.tv_option_unable, false);
+            holder.setText(R.id.tv_option_name, option.getSortName());
+            holder.setText(R.id.tv_option_odd, String.valueOf(option.getOdd()));
+            holder.itemView.setOnClickListener(view -> {
+                BtCarDialogFragment btCarDialogFragment = new BtCarDialogFragment();
+                if (mContext instanceof BaseActivity) {
+                    btCarDialogFragment.show(((BaseActivity) mContext).getSupportFragmentManager(), "btCarDialogFragment");
+                }
+            });
+        } else {
+            holder.setVisible(R.id.tv_option_name, false);
+            holder.setVisible(R.id.tv_option_odd, false);
+            holder.setVisible(R.id.tv_option_unable, true);
         }
-
-        holder.itemView.setOnClickListener(view -> {
-            BtCarDialogFragment btCarDialogFragment = new BtCarDialogFragment();
-            if(mContext instanceof BaseActivity) {
-                btCarDialogFragment.show(((BaseActivity) mContext).getSupportFragmentManager(), "btCarDialogFragment");
-            }
-        });
     }
 }

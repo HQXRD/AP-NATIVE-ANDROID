@@ -3,9 +3,13 @@ package com.xtree.bet.bean.ui;
 import com.xtree.bet.bean.OptionDataListInfo;
 import com.xtree.bet.bean.OptionInfo;
 import com.xtree.bet.bean.PlayTypeInfo;
+import com.xtree.bet.constant.Constants;
+import com.xtree.bet.constant.SPKey;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class PlayTypeFb implements PlayType{
     private PlayTypeInfo playTypeInfo;
@@ -32,6 +36,11 @@ public class PlayTypeFb implements PlayType{
     }
 
     @Override
+    public String setPlayTypeName(String playTypeName) {
+        return playTypeInfo.nm = playTypeName;
+    }
+
+    @Override
     public List<OptionList> getOptionLists() {
         List<OptionList> optionLists = new ArrayList<>();
         for (OptionDataListInfo optionDataListInfo : playTypeInfo.mks) {
@@ -43,10 +52,23 @@ public class PlayTypeFb implements PlayType{
     @Override
     public List<Option> getOptionList() {
         List<Option> optionList = new ArrayList<>();
-        for (OptionInfo optionInfo : playTypeInfo.mks.get(0).op) {
-            optionList.add(new OptionFb(optionInfo));
+        if(playTypeInfo.mks != null) {
+            for (OptionInfo optionInfo : playTypeInfo.mks.get(0).op) {
+                optionList.add(new OptionFb(optionInfo));
+            }
+        }else{
+            int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
+            int length = playTypeInfo.nm.contains("独赢") && sportId == 0 || sportId == 9 ? 3 : 2;
+            for (int i = 0; i < length; i++) {
+                optionList.add(null);
+            }
         }
         return optionList;
+    }
+
+    @Override
+    public int getPlayPeriod() {
+        return playTypeInfo.pe;
     }
 
     @Override
