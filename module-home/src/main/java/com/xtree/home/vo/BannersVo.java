@@ -30,6 +30,9 @@ public class BannersVo implements Parcelable {
     public String app_target_link; // ""
     public String picture; // "https://jxpicture.julaohuivip.com/2023/11/01/xnty_H5_banner0348.jpg"
 
+    public BannersVo(String title) {
+        this.title = title;
+    }
 
     protected BannersVo(Parcel in) {
         title = in.readString();

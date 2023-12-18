@@ -1,5 +1,8 @@
 package com.xtree.recharge.vo;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class RechargeVo {
 
     public String bid; // "122",
@@ -21,7 +24,8 @@ public class RechargeVo {
     //public int recharge_pattern; // 2,
     public boolean phone_fillin_name; // true,
     //public int ptype; // 1,
-    //public String[] user_bank_info; // [],
+    public Object user_bank_info; // 格式不固定 [], {"1452165":"中国工商银行--***************8487"}
+    public ArrayList<BankCardVo> userBankList = new ArrayList<>(); // 自己加的,方便显示银行卡列表
     public boolean realchannel_status; // true,
     public boolean isusdt; // false, true
     public String udtType; // null, "TRC20"
@@ -37,8 +41,8 @@ public class RechargeVo {
     public String PayCardId; // "2350",
     //public boolean namountdecimal; // false,
     //public boolean nalipayname; // false,
-    //public boolean fixedamount_channelshow; // false,
-    //public String[] fixedamount_info; // [],
+    public boolean fixedamount_channelshow; // false, true
+    public String[] fixedamount_info; // [], ["100","200","300","500","1000","2000","3000","5000","10000","20000","30000","50000"]
     public boolean phone_needbind; // true,
     //public boolean showfee; // false,
     //public int fee; // 0,
@@ -65,25 +69,9 @@ public class RechargeVo {
                 ", PayCardId='" + PayCardId + '\'' +
                 ", loadmin='" + loadmin + '\'' +
                 ", loadmax='" + loadmax + '\'' +
-                '}';
-    }
-
-    public String toInfo2() {
-        return "RechargeVo { " +
-                "bid='" + bid + '\'' +
-                ", paycode='" + paycode + '\'' +
-                ", title='" + title + '\'' +
-                ", type='" + type + '\'' +
-                ", typename='" + typename + '\'' +
-                ", loadmax='" + loadmax + '\'' +
-                ", loadmin='" + loadmin + '\'' +
-                ", firemark=" + firemark +
-                ", sortnum=" + sortnum +
-                ", recommend=" + recommend +
-                ", starttime='" + starttime + '\'' +
-                ", endtime='" + endtime + '\'' +
-                ", PayCardId='" + PayCardId + '\'' +
-                ", tips_recommended=" + tips_recommended +
+                ", userBankList=" + Arrays.toString(userBankList.toArray()) +
+                ", fixedamount_channelshow=" + fixedamount_channelshow +
+                ", fixedamount_info=" + Arrays.toString(fixedamount_info) +
                 '}';
     }
 
@@ -95,78 +83,32 @@ public class RechargeVo {
                 ", title='" + title + '\'' +
                 ", loadmin='" + loadmin + '\'' +
                 ", loadmax='" + loadmax + '\'' +
+                ", type='" + type + '\'' +
+                ", typename='" + typename + '\'' +
                 ", firemark=" + firemark +
                 ", sortnum=" + sortnum +
                 ", recommend=" + recommend +
-                ", type='" + type + '\'' +
-                ", typename='" + typename + '\'' +
-                ", starttime='" + starttime + '\'' +
-                ", endtime='" + endtime + '\'' +
-                ", PayCardId='" + PayCardId + '\'' +
-                ", phone_needbind=" + phone_needbind +
-                ", op_thiriframe_use=" + op_thiriframe_use +
-                ", op_thiriframe_status=" + op_thiriframe_status +
-                ", op_thiriframe_msg='" + op_thiriframe_msg + '\'' +
-                ", op_thiriframe_url='" + op_thiriframe_url + '\'' +
-                ", tips_recommended=" + tips_recommended +
-                '}';
-    }
-
-/*@Override
-    public String toString() {
-        return "RechargeVo{" +
-                "bid='" + bid + '\'' +
-                ", paycode='" + paycode + '\'' +
-                ", type='" + type + '\'' +
-                ", typename='" + typename + '\'' +
-                ", title='" + title + '\'' +
-                ", loadmax='" + loadmax + '\'' +
-                ", loadmin='" + loadmin + '\'' +
-                ", firemark=" + firemark +
-                ", randturnauto=" + randturnauto +
-                ", recharge_auto_minus_turn_on=" + recharge_auto_minus_turn_on +
-                ", recharge_auto_minus_max='" + recharge_auto_minus_max + '\'' +
-                ", recharge_auto_minus_min='" + recharge_auto_minus_min + '\'' +
-                ", rechargedecimal_status=" + rechargedecimal_status +
-                ", sortnum=" + sortnum +
-                ", recommend=" + recommend +
-                ", view_bank_card=" + view_bank_card +
-                ", recharge_pattern=" + recharge_pattern +
                 ", phone_fillin_name=" + phone_fillin_name +
-                ", ptype=" + ptype +
-                ", user_bank_info=" + Arrays.toString(user_bank_info) +
+                ", user_bank_info=" + user_bank_info +
+                //", userBankList=" + userBankList +
                 ", realchannel_status=" + realchannel_status +
                 ", isusdt=" + isusdt +
                 ", udtType='" + udtType + '\'' +
                 ", usdtrate='" + usdtrate + '\'' +
                 ", depositfee_disabled=" + depositfee_disabled +
                 ", depositfee_rate='" + depositfee_rate + '\'' +
-                ", isdisabled='" + isdisabled + '\'' +
-                ", isrechgetime=" + isrechgetime +
-                ", starttime=" + starttime +
-                ", endtime=" + endtime +
-                ", addcredittimes='" + addcredittimes + '\'' +
-                ", addcreditminsec=" + addcreditminsec +
+                ", starttime='" + starttime + '\'' +
+                ", endtime='" + endtime + '\'' +
                 ", PayCardId='" + PayCardId + '\'' +
-                ", namountdecimal=" + namountdecimal +
-                ", nalipayname=" + nalipayname +
                 ", fixedamount_channelshow=" + fixedamount_channelshow +
                 ", fixedamount_info=" + Arrays.toString(fixedamount_info) +
                 ", phone_needbind=" + phone_needbind +
-                ", showfee=" + showfee +
-                ", fee=" + fee +
-                ", op_series=" + op_series +
                 ", op_thiriframe_use=" + op_thiriframe_use +
                 ", op_thiriframe_status=" + op_thiriframe_status +
                 ", op_thiriframe_msg='" + op_thiriframe_msg + '\'' +
                 ", op_thiriframe_url='" + op_thiriframe_url + '\'' +
-                ", recharge_json_channel=" + recharge_json_channel +
-                ", recharge_json_count_once=" + recharge_json_count_once +
-                ", recharge_json_day_notsucc=" + recharge_json_day_notsucc +
-                ", isrecharge_additional=" + isrecharge_additional +
-                ", low_rate_hint='" + low_rate_hint + '\'' +
                 ", accountname='" + accountname + '\'' +
                 ", tips_recommended=" + tips_recommended +
                 '}';
-    }*/
+    }
 }

@@ -26,7 +26,7 @@
         <item name="android:background">@color/viewLineColor</item>
     </style>
 
-    <style name="CustomDialog" parent="AppTheme" >
+    <style name="CustomDialog" parent="AppTheme">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowIsFloating">true</item>
@@ -37,6 +37,10 @@
     <style name="PwdCheckboxStyle">
         <item name="android:button">@drawable/checkbox_bg_selector</item>
     </style>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="imageCorn" format="dimension" />
+    </declare-styleable>
 
     <!-- 每个页面顶部标题栏的样式-标题 -->
     <style name="style_cm_title_top">
@@ -71,6 +75,122 @@
         <item name="android:layout_marginTop">@dimen/layout_margin</item>
         <item name="android:textColor">@color/clr_txt_black_01</item>
         <item name="android:textSize">17sp</item>
+    </style>
+
+    <!-- 充值页-选取金额 按钮背景 -->
+    <style name="style_rdo_blc">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/ckb_ic_blc_selector</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textColor">@color/clr_purple_05</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_rdo_amount">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/ic_bg_amount_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_purple_05</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_ll_row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="style_fb_info_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:minEms">7</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_cm_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@mipmap/cm_bg_input</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">16</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 通用 金额输入框(带背景) -->
+    <style name="style_cm_edit_amount">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@mipmap/cm_bg_input_wht</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:hint"></item>
+        <item name="android:inputType">numberDecimal</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">16</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_grey_20</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_wd_info_value2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textColor">@color/clr_grey_00</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 转账页 灰色区 -->
+    <style name="style_trans_ll">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <!-- 转账页 灰色区 场馆名 -->
+    <style name="style_trans_name">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">6</item>
+        <item name="android:textColor">@color/clr_grey_50</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 转账页 灰色区 场馆余额 -->
+    <style name="style_trans_value" parent="style_trans_name">
+        <item name="android:hint">0.0000</item>
+        <item name="android:textColorHint">@color/clr_grey_50</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+    </style>
+
+    <!-- 转账页 灰色区 分割线 -->
+    <style name="style_trans_dividing_line">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@mipmap/cm_dividing_line</item>
     </style>
 
 </resources>

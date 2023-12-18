@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
@@ -54,7 +55,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         map.put("password", password);
         map.put("grant_type", "login");
         map.put("validcode", "");
-        map.put("client_id", "10000004"); // h5:10000003, ios:10000004, android:10000005
+        map.put("client_id", "10000005"); // h5:10000003, ios:10000004, android:10000005
         map.put("loginpass", loginpass);
         map.put("nonce", UUID.randomUUID().toString().replace("-", "")); //
 
@@ -70,6 +71,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, vo.token_type);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
+                        RetrofitClient.init();
                         loginCallback.loginSuccess();
                         // 登录成功后获取FB体育请求服务地址
                         getFBGameTokenApi();
@@ -86,13 +88,13 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
-    public void register(Context ctx,String userName,String pwd){
+    public void register(Context ctx, String userName, String pwd) {
         HashMap<String, String> map = new HashMap();
-        map.put("carryAuth","false");
-        map.put("code","");
+        map.put("carryAuth", "false");
+        map.put("code", "");
         map.put("nonce", UUID.randomUUID().toString().replace("-", ""));
-        map.put("username",userName.toString());
-        map.put("userpass",pwd.toString());
+        map.put("username", userName.toString());
+        map.put("userpass", pwd.toString());
 
         Disposable disposable = (Disposable) model.getApiService().register(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
@@ -103,6 +105,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
 
                         String content = result;
                     }
+
                     @Override
                     public void onError(Throwable t) {
                         KLog.e(t.toString());
@@ -130,8 +133,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                                 .replace("-----BEGIN PUBLIC KEY-----", "")
                                 .replace("-----END PUBLIC KEY-----", "");
 
-
-                        SPUtils.getInstance().put("public_key", public_key);
+                        SPUtils.getInstance().put(SPKeyGlobal.PUBLIC_KEY, public_key);
                         SPUtils.getInstance().put("customer_service_url", vo.customer_service_url);
                     }
 

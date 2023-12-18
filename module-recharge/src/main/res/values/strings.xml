@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="ExtraTranslation">
     <string name="app_name">module-recharge</string>
     <string name="txt_not_support">暂不支持</string>
     <string name="pls_choose_recharge_type">请选择充值类型</string>
@@ -9,4 +9,11 @@
     <string name="txt_rate_cnyt_cny">参考汇率 1CNYT ≈ 1.00CNY</string>
     <string name="txt_rate_tog_cny">参考汇率 1TOG ≈ 1.00CNY</string>
     <string name="txt_rate_eb_cny">参考汇率 1EB ≈ 1.00CNY</string>
+    <string name="txt_recharge">充值</string>
+    <string name="txt_feedback">反馈信息</string>
+    <string name="txt_choose_recharge_channel">请选择充值渠道：</string>
+    <string name="txt_kind_tips">温馨提示</string>
+    <string name="txt_is_to_open_hiwallet_wallet">是否打开HiWallet钱包</string>
+    <string name="txt_pls_select_payment_card">请选择付款银行卡</string>
+    <string name="txt_recharge_tutorial">充值教程</string>
 </resources>

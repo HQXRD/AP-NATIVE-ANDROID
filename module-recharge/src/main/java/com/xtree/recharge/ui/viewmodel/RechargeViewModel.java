@@ -7,19 +7,22 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.recharge.data.RechargeRepository;
+import com.xtree.recharge.vo.BankCardVo;
 import com.xtree.recharge.vo.PaymentVo;
 import com.xtree.recharge.vo.RechargePayVo;
 import com.xtree.recharge.vo.RechargeVo;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
-import com.xtree.base.net.HttpCallBack;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -31,12 +34,40 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
     //public SingleLiveData<PaymentVo> liveDataPaymentVo = new SingleLiveData<>();
+    public SingleLiveData<String> liveData1kEntry = new SingleLiveData<>();
     public SingleLiveData<List<RechargeVo>> liveDataRechargeList = new SingleLiveData<>(); // 充值列表
+    public SingleLiveData<String> liveDataTutorial = new SingleLiveData<>(); // 充值教程
     public SingleLiveData<RechargeVo> liveDataRecharge = new SingleLiveData<>(); // 充值详情
     public SingleLiveData<RechargePayVo> liveDataRechargePay = new SingleLiveData<>(); // 充值提交结果
 
     public RechargeViewModel(@NonNull Application application, RechargeRepository repository) {
         super(application, repository);
+    }
+
+    /**
+     * 获取 一键进入 的链接
+     */
+    public void get1kEntry() {
+        Map<String, String> map = new HashMap<>();
+        map.put("nonce", UUID.randomUUID().toString().replace("-", ""));
+        Disposable disposable = (Disposable) model.getApiService().get1kEntry(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<Map<String, String>>() {
+                    @Override
+                    public void onResult(Map<String, String> vo) {
+                        CfLog.d(vo.toString());
+                        liveData1kEntry.setValue(vo.get("login_url"));
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        t.printStackTrace();
+                        super.onError(t);
+                    }
+                });
+
+        addSubscribe(disposable);
     }
 
     /**
@@ -51,7 +82,24 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     public void onResult(PaymentVo vo) {
                         CfLog.d("chongzhiListCount: " + vo.chongzhiListCount);
                         SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_OBJ, new Gson().toJson(vo));
+
+                        // 转换银行卡数据 把map格式的转换成list
+                        for (int i = 0; i < vo.chongzhiList.size(); i++) {
+                            RechargeVo vo2 = vo.chongzhiList.get(i);
+                            if (vo2.user_bank_info != null) {
+                                if (vo2.user_bank_info instanceof Map) {
+                                    Map<String, String> map = (Map<String, String>) vo2.user_bank_info;
+                                    for (Map.Entry<String, String> entry : map.entrySet()) {
+                                        BankCardVo vo3 = new BankCardVo(entry.getKey(), entry.getValue());
+                                        vo2.userBankList.add(vo3);
+                                    }
+                                }
+                            }
+
+                        }
+
                         liveDataRechargeList.setValue(vo.chongzhiList);
+                        liveDataTutorial.setValue(vo.bankdirect_url);
                     }
 
                     @Override

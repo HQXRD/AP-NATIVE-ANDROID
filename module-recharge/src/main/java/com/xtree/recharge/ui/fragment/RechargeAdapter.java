@@ -84,5 +84,4 @@ public class RechargeAdapter extends CachedAutoRefreshAdapter<RechargeVo> {
         });
     }
 
-
 }

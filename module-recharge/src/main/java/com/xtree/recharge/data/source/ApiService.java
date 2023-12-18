@@ -24,6 +24,16 @@ public interface ApiService {
     Flowable<BaseResponse<Object>> login(@Field("username") String username, @Field("password") String password);
 
     /**
+     * 获取 一键进入 hiwallet钱包<br>
+     * "login_url": "https://hiwalletH5.com/signup?qy=1&platformCode=AS&platformUserId=28***26&userEmail="
+     *
+     * @return
+     */
+    @POST("/api/deposit/payments/login/hiwallet")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<Map<String, String>>> get1kEntry(@Body Map<String, String> map);
+
+    /**
      * 获取 充值列表
      *
      * @return
@@ -39,7 +49,6 @@ public interface ApiService {
      */
     @GET("/api/deposit/payments?")
     Flowable<BaseResponse<RechargeVo>> getPayment(@Query("bid") String bid);
-    //Flowable<BaseResponse<RechargeVo>> getPayment(@QueryMap Map<String, String> map);
 
     @POST("/api/deposit/rechargepay/{bid}")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})

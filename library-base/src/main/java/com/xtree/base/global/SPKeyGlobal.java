@@ -19,7 +19,11 @@ public class SPKeyGlobal {
     public static final String HOME_GAME_LIST = "home_game_list";
     public static final String HOME_PROFILE = "home_profile";
     public static final String HOME_VIP_INFO = "home_vip_info";
+    public static final String DC_NEWS_LIST = "dc_news_list";
     public static final String RC_PAYMENT_OBJ = "rc_payment_obj";
+    public static final String RC_PAYMENT_THIRIFRAME = "rc_payment_thiriframe";
+    public static final String WLT_CENTRAL_BLC = "wlt_central_blc";
+    public static final String WLT_GAME_ROOM_BLC = "wlt_game_room_blc";
     public static final String FB_TOKEN = "fb_token";
     public static final String PM_TOKEN = "pm_token";
     public static final String FB_API_SERVICE_URL = "fb_api_service_url";

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/layout_margin"
+    android:layout_marginTop="@dimen/layout_margin"
+    android:layout_marginEnd="@dimen/layout_margin"
+    android:background="@drawable/bg_item_wlt_room_selector"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/layout_margin"
+    android:paddingStart="@dimen/layout_margin">
+
+    <ImageView
+        android:id="@+id/ivw_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/me_ic_wlt_level" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/layout_margin"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvw_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="中心钱包"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvw_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/clr_grey_00"
+            android:textSize="14sp"
+            tools:text="9,999.0000" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivw_check"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/cm_ck2_selector" />
+
+</LinearLayout>

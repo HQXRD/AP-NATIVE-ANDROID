@@ -17,20 +17,27 @@ public class RouterFragmentPath {
 
     }
 
-    public static class Activity{
+    public static class Activity {
 
         private static final String ACTIVITY = "/activity";
-        public static final String PAGER_ACTIVITY =ACTIVITY +"/Activity";
+        public static final String PAGER_ACTIVITY = ACTIVITY + "/Activity";
     }
-    public static class Mine{
+
+    public static class Mine {
         private static final String MINE = "/mine";
-        public static final String PAGER_MINE =MINE +"/Mine";
+        public static final String PAGER_MINE = MINE + "/Mine";
 
     }
 
-    public static class Recharge{
+    public static class Wallet {
+        private static final String WALLET = "/wallet";
+        public static final String PAGER_TRANSFER = WALLET + "/Mine";
+
+    }
+
+    public static class Recharge {
         private static final String RECHARGE = "/recharge";
-        public static final String PAGER_RECHARGE = RECHARGE+"/Recharge";
+        public static final String PAGER_RECHARGE = RECHARGE + "/Recharge";
     }
 
     /**
@@ -63,7 +70,7 @@ public class RouterFragmentPath {
     /**
      * 投注组件
      */
-    public static class Bet{
+    public static class Bet {
         private static final String BET = "/bet";
         public static final String PAGER_BET_HOME = BET + "/home";
     }

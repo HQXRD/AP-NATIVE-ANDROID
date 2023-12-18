@@ -2,7 +2,9 @@
 <level-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@mipmap/rc_ic_pmt_wykc_selected" android:maxLevel="91" />
+    <item android:drawable="@mipmap/rc_ic_pmt_wykc_selected" android:maxLevel="113" />
     <item android:drawable="@mipmap/rc_ic_pmt_zfb_selected" android:maxLevel="122" />
+    <item android:drawable="@mipmap/rc_ic_pmt_wykc_selected" android:maxLevel="151" />
     <item android:drawable="@mipmap/rc_ic_pmt_usdt_selected" android:maxLevel="169" />
     <item android:drawable="@mipmap/rc_ic_pmt_usdt_selected" android:maxLevel="170" />
     <item android:drawable="@mipmap/rc_ic_pmt_ebkc_selected" android:maxLevel="191" />
@@ -14,6 +16,7 @@
     <item android:drawable="@mipmap/rc_ic_pmt_beiyong_selected" android:maxLevel="223" />
     <item android:drawable="@mipmap/rc_ic_pmt_yhk_selected" android:maxLevel="226" />
 
+    <item android:drawable="@mipmap/rc_ic_pmt_happy_selected" android:maxLevel="999" />
     <item android:drawable="@mipmap/rc_ic_pmt_beiyong_selected" android:maxLevel="1000" />
     <item android:drawable="@mipmap/rc_ic_pmt_shandiankuaichong_selected" android:maxLevel="205" />
     <item android:drawable="@mipmap/rc_ic_pmt_shandiankuaichong_selected" android:maxLevel="206" />

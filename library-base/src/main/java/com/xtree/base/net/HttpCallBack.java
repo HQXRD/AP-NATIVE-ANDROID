@@ -1,6 +1,7 @@
 package com.xtree.base.net;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 
 import io.reactivex.subscribers.DisposableSubscriber;
@@ -24,6 +25,10 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         switch (status) {
             case HttpCallBack.CodeRule.CODE_0:
             case HttpCallBack.CodeRule.CODE_10000:
+                if (baseResponse.getAuthorization() != null) {
+                    SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN, baseResponse.getAuthorization().token);
+                    SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, baseResponse.getAuthorization().token_type);
+                }
                 //请求成功, 正确的操作方式
                 onResult((T) baseResponse.getData());
                 break;
