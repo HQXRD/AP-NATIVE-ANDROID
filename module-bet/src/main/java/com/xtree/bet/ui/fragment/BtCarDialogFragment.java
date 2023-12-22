@@ -20,6 +20,7 @@ import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtLayoutBtCarBinding;
 import com.xtree.bet.manager.BtCarManager;
+import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.xtree.bet.ui.adapter.BetConfirmOptionAdapter;
 import com.xtree.bet.ui.adapter.CgOddLimitAdapter;
 import com.xtree.bet.ui.viewmodel.BtCarViewModel;
@@ -47,6 +48,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
      * 投注项列表
      */
     List<BetConfirmOption> betConfirmOptionList = new ArrayList<>();
+    List<CgOddLimit> cgOddLimitList = new ArrayList<>();
 
     private BetConfirmOptionAdapter betConfirmOptionAdapter;
     private CgOddLimitAdapter cgOddLimitAdapter;
@@ -76,7 +78,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         keyboardView.setVisibility(View.GONE);
         keyboardView.setListener(listener);
         binding.ivConfirm.setCallBack(() -> {
-            ToastUtils.showLong("开始投注");
+            viewModel.bet(betConfirmOptionList, cgOddLimitList);
         });
         binding.llRoot.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             if(BtCarManager.isCg()) {
@@ -132,9 +134,6 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
 
         viewModel.batchBetMatchMarketOfJumpLine(betConfirmOptionList);
 
-        List<CgOddLimit> cgOddLimitInfoList = new ArrayList<>();
-        cgOddLimitInfoList.add(new CgOddLimitFb(null, null, 0));
-        //viewModel.cgOddLimitDate.postValue(cgOddLimitInfoList);
     }
 
     @Override
@@ -174,6 +173,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             }
         });
         viewModel.cgOddLimitDate.observe(this, cgOddLimits -> {
+            this.cgOddLimitList = cgOddLimits;
             if (cgOddLimitAdapter == null) {
                 cgOddLimitAdapter = new CgOddLimitAdapter(getContext(), cgOddLimits);
                 cgOddLimitAdapter.setListener(listener);
@@ -182,6 +182,10 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             }else{
                 cgOddLimitAdapter.setNewData(cgOddLimits);
             }
+        });
+        viewModel.btResultInfoDate.observe(this, btResults -> {
+            BtResultDialogFragment.getInstance(betConfirmOptionList, cgOddLimitList, btResults).show(getParentFragmentManager(), "BtResultDialogFragment");
+            dismiss();
         });
     }
 
@@ -216,7 +220,12 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         int id = view.getId();
         if(id == R.id.iv_bt){
             if(BtCarManager.isCg() && !BtCarManager.isEmpty()){
-                viewModel.gotoToday();
+                if(getContext() instanceof BtDetailActivity){
+                    BtCarManager.setIsCg(false);
+                    BtCarManager.clearBtCar();
+                }else {
+                    viewModel.gotoToday();
+                }
                 binding.btnAddMatch.setVisibility(View.GONE);
                 dismiss();
             }else{
@@ -231,12 +240,14 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                             betConfirmOptionList.get(0).getOption());
                     binding.btnAddMatch.setVisibility(View.VISIBLE);
                     viewModel.gotoCg(betConfirmOption);
+                    if(getContext() instanceof BtDetailActivity){
+                        viewModel.finish();
+                    }
                     dismiss();
                 }
             }
         }else if(id == R.id.iv_delete){
             BtCarManager.clearBtCar();
-            RxBus.getDefault().post(new BetContract(BetContract.ACTION_BTCAR_CHANGE));
             dismiss();
         }else if(id == R.id.btn_add_match){
             dismiss();

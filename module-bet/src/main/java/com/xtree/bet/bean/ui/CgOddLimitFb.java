@@ -1,13 +1,16 @@
 package com.xtree.bet.bean.ui;
 
-import com.xtree.bet.bean.BtConfirmOptionInfo;
-import com.xtree.bet.bean.CgOddLimitInfo;
+import android.os.Parcel;
+
+import com.xtree.bet.bean.response.BtConfirmOptionInfo;
+import com.xtree.bet.bean.response.CgOddLimitInfo;
 
 public class CgOddLimitFb implements CgOddLimit{
     /**
      * 比赛场数
      */
     private int matchCount;
+    private double btCount;
     private CgOddLimitInfo cgOddLimitInfo;
     private BtConfirmOptionInfo betConfirmOption;
     public CgOddLimitFb(CgOddLimitInfo cgOddLimitInfo, BtConfirmOptionInfo betConfirmOptionInfo, int matchCount){
@@ -15,6 +18,12 @@ public class CgOddLimitFb implements CgOddLimit{
         this.betConfirmOption = betConfirmOptionInfo;
         this.matchCount = matchCount;
     }
+
+    @Override
+    public int getCgCount() {
+        return cgOddLimitInfo.sn;
+    }
+
     @Override
     public String getCgName() {
         if(cgOddLimitInfo == null){
@@ -61,7 +70,7 @@ public class CgOddLimitFb implements CgOddLimit{
 
     @Override
     public double getDOdd() {
-        if(betConfirmOption == null){
+        if(betConfirmOption == null || betConfirmOption.op == null){
             return 0;
         }
         return betConfirmOption.op.od;
@@ -78,7 +87,7 @@ public class CgOddLimitFb implements CgOddLimit{
     @Override
     public double getWin(double amount) {
         if(cgOddLimitInfo == null){
-            return 0;
+            return betConfirmOption.op.od * amount;
         }
         return cgOddLimitInfo.sodd * amount;
     }
@@ -98,4 +107,59 @@ public class CgOddLimitFb implements CgOddLimit{
         }
         return cgOddLimitInfo.in;
     }
+    /**
+     * 设置投注金额
+     * @return
+     */
+    @Override
+    public void setBtAmount(double count) {
+        btCount = count;
+    }
+    /**
+     * 获取投注金额
+     * @return
+     */
+    @Override
+    public double getBtAmount() {
+        return btCount;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.matchCount);
+        dest.writeDouble(this.btCount);
+        dest.writeParcelable(this.cgOddLimitInfo, flags);
+        dest.writeParcelable(this.betConfirmOption, flags);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.matchCount = source.readInt();
+        this.btCount = source.readDouble();
+        this.cgOddLimitInfo = source.readParcelable(CgOddLimitInfo.class.getClassLoader());
+        this.betConfirmOption = source.readParcelable(BtConfirmOptionInfo.class.getClassLoader());
+    }
+
+    protected CgOddLimitFb(Parcel in) {
+        this.matchCount = in.readInt();
+        this.btCount = in.readDouble();
+        this.cgOddLimitInfo = in.readParcelable(CgOddLimitInfo.class.getClassLoader());
+        this.betConfirmOption = in.readParcelable(BtConfirmOptionInfo.class.getClassLoader());
+    }
+
+    public static final Creator<CgOddLimitFb> CREATOR = new Creator<CgOddLimitFb>() {
+        @Override
+        public CgOddLimitFb createFromParcel(Parcel source) {
+            return new CgOddLimitFb(source);
+        }
+
+        @Override
+        public CgOddLimitFb[] newArray(int size) {
+            return new CgOddLimitFb[size];
+        }
+    };
 }

@@ -1,8 +1,8 @@
 package com.xtree.bet.bean.ui;
 
-import android.os.Parcelable;
+import com.xtree.base.vo.BaseBean;
 
-public interface Option extends Parcelable {
+public interface Option extends BaseBean {
     
     /**
      * 选项全称，投注框一般用全称展示
@@ -49,4 +49,10 @@ public interface Option extends Parcelable {
      * @return
      */
      boolean isSelected();
+
+    /**
+     * 	line值，带线玩法的线，例如大小球2.5线，部分玩法展示可用该字段进行分组展示
+     * @return
+     */
+     String getLine();
 }

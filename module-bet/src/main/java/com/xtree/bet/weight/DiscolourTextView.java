@@ -40,15 +40,24 @@ public class DiscolourTextView extends AppCompatTextView {
         }, 5000);
     }
 
-    public void setText(String newText) {
+    /*public void setText(String newText) {
         CharSequence oldText = getText();
         super.setText(newText);
-        if(oldText != null && oldText != null && StringUtils.isNumeric(oldText.toString()) && StringUtils.isNumeric(newText)){
-            if(Double.valueOf(newText) > Double.valueOf(oldText.toString())){
-                startUp();
-            } else if (Double.valueOf(newText) < Double.valueOf(oldText.toString())) {
-                startDown();
+        if(oldText != null && newText != null){
+            String oldStr = oldText.toString();
+            if(oldStr.startsWith("@")){
+                oldStr = oldStr.substring(1);
+            }
+            if(newText.startsWith("@")){
+                newText = newText.substring(1);
+            }
+            if(StringUtils.isNumeric(oldStr) && StringUtils.isNumeric(newText)){
+                if(Double.valueOf(newText) > Double.valueOf(oldStr)){
+                    startUp();
+                } else if (Double.valueOf(newText) < Double.valueOf(oldStr)) {
+                    startDown();
+                }
             }
         }
-    }
+    }*/
 }

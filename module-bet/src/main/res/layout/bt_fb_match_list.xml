@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/bt_bg_match_item"
     android:orientation="vertical">
 
@@ -42,7 +43,7 @@
                     android:layout_weight="6"
                     android:maxLines="2"
                     android:ellipsize="end"
-                    android:text="多拉多斯"
+                    tools:text="多拉多斯"
                     android:textSize="@dimen/bt_text_12sp" />
 
                 <TextView
@@ -52,7 +53,7 @@
                     android:gravity="center"
                     android:layout_alignParentRight="true"
                     android:layout_weight="1"
-                    android:text="0"
+                    tools:text="0"
                     android:textColor="@color/bt_color_score"
                     android:textSize="@dimen/bt_text_12sp" />
 
@@ -72,7 +73,7 @@
                     android:layout_weight="6"
                     android:maxLines="2"
                     android:ellipsize="end"
-                    android:text="多拉多斯"
+                    tools:text="多拉多斯"
                     android:textSize="@dimen/bt_text_12sp" />
 
                 <TextView
@@ -83,7 +84,7 @@
                     android:layout_below="@+id/tv_team_name_main"
                     android:layout_alignParentRight="true"
                     android:layout_weight="1"
-                    android:text="0"
+                    tools:text="0"
                     android:textColor="@color/bt_color_score"
                     android:textSize="@dimen/bt_text_12sp" />
             </LinearLayout>
@@ -102,7 +103,7 @@
                 <include layout="@layout/bt_fb_play_type_group_list" />
             </com.xtree.bet.weight.PageHorizontalScrollView>
 
-            <com.stx.xhb.androidx.XBanner
+            <!--<com.stx.xhb.androidx.XBanner
                 android:id="@+id/play_type_banner"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/bt_match_list_height"
@@ -111,7 +112,7 @@
                 app:pageChangeDuration="800"
                 app:pointsPosition="CENTER"
                 app:pointsVisibility="false"
-                android:visibility="gone"/>
+                android:visibility="visible"/>-->
         </RelativeLayout>
     </LinearLayout>
 
@@ -127,7 +128,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="22dp"
-            android:text="上半场15：15"
+            tools:text="上半场15：15"
             android:textColor="@color/bt_color_blurred"
             android:textSize="@dimen/bt_text_12sp" />
 
@@ -137,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginEnd="10dp"
-            android:text="32+>"
+            tools:text="32+>"
             android:textColor="@color/bt_color_blurred" />
     </RelativeLayout>
 

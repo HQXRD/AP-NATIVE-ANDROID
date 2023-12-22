@@ -1,7 +1,7 @@
 package com.xtree.bet.bean.ui;
 
 import com.stx.xhb.androidx.entity.BaseBannerInfo;
-import com.xtree.bet.bean.PlayTypeInfo;
+import com.xtree.bet.bean.response.PlayTypeInfo;
 import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.SPKey;
 

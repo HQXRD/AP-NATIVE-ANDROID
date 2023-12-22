@@ -5,12 +5,19 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.xtree.base.net.HttpCallBack;
-import com.xtree.bet.bean.BtConfirmInfo;
-import com.xtree.bet.bean.BtConfirmOptionInfo;
-import com.xtree.bet.bean.CgOddLimitInfo;
+import com.xtree.bet.bean.request.BtMultipleListReq;
+import com.xtree.bet.bean.request.BtOptionReq;
+import com.xtree.bet.bean.request.SingleBtListReq;
+import com.xtree.bet.bean.request.BtCgReq;
+import com.xtree.bet.bean.response.BtConfirmInfo;
+import com.xtree.bet.bean.response.BtConfirmOptionInfo;
+import com.xtree.bet.bean.response.BtResultInfo;
+import com.xtree.bet.bean.response.CgOddLimitInfo;
 import com.xtree.bet.bean.request.BtCarReq;
 import com.xtree.bet.bean.ui.BetConfirmOption;
 import com.xtree.bet.bean.ui.BetConfirmOptionFb;
+import com.xtree.bet.bean.ui.BtResult;
+import com.xtree.bet.bean.ui.BtResultFb;
 import com.xtree.bet.bean.ui.CgOddLimit;
 import com.xtree.bet.bean.ui.CgOddLimitFb;
 import com.xtree.bet.contract.BetContract;
@@ -25,6 +32,7 @@ import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by goldze on 2018/6/21.
@@ -34,6 +42,7 @@ public class BtCarViewModel extends BaseViewModel<BetRepository> {
     private Disposable mSubscription;
     public SingleLiveData<List<BetConfirmOption>> btConfirmInfoDate = new SingleLiveData<>();
     public SingleLiveData<List<CgOddLimit>> cgOddLimitDate = new SingleLiveData<>();
+    public SingleLiveData<List<BtResult>> btResultInfoDate = new SingleLiveData<>();
 
     public BtCarViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
@@ -57,6 +66,7 @@ public class BtCarViewModel extends BaseViewModel<BetRepository> {
             BtCarReq.BetMatchMarket betMatchMarket = new BtCarReq.BetMatchMarket();
             betMatchMarket.setMarketId(betConfirmOption.getPlayTypeId());
             betMatchMarket.setType(betConfirmOption.getOptionType());
+            betMatchMarket.setOddsType(1);
             betMatchMarket.setMatchId(betConfirmOption.getMatch().getId());
             betMatchMarketList.add(betMatchMarket);
         }
@@ -95,12 +105,117 @@ public class BtCarViewModel extends BaseViewModel<BetRepository> {
     }
 
     /**
+     * 单关投注
+     */
+    public void bet(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList){
+        if(betConfirmOptionList.size() > 1){
+            betMultiple(betConfirmOptionList, cgOddLimitList);
+        }else{
+            singleBet(betConfirmOptionList, cgOddLimitList);
+        }
+    }
+
+    /**
+     * 单关投注
+     */
+    public void singleBet(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList){
+        int index = 0;
+        if(betConfirmOptionList.isEmpty() || cgOddLimitList.isEmpty()){
+            return;
+        }
+        SingleBtListReq singleBetListReq = new SingleBtListReq();
+        for(BetConfirmOption betConfirmOption : betConfirmOptionList){
+
+            BtCgReq singleBetReq = new BtCgReq();
+            singleBetReq.setOddsChange(1);
+            singleBetReq.setUnitStake(cgOddLimitList.get(index ++).getBtAmount());
+
+            BtOptionReq betOptionReq = new BtOptionReq();
+            betOptionReq.setOptionType(betConfirmOption.getOptionType());
+            betOptionReq.setOdds(betConfirmOption.getOption().getOdd());
+            betOptionReq.setMarketId(betConfirmOption.getOptionList().getId());
+            betOptionReq.setOddsFormat(1);
+
+            singleBetReq.addBetOptionList(betOptionReq);
+
+            singleBetListReq.addSingleBetList(singleBetReq);
+        }
+
+        Disposable disposable = (Disposable) model.getApiService().singlePass(singleBetListReq)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<List<BtResultInfo>>() {
+                    @Override
+                    public void onResult(List<BtResultInfo> btResultRspList) {
+                        List<BtResult> btResultList = new ArrayList<>();
+                        for (BtResultInfo btResultInfo : btResultRspList) {
+                            btResultList.add(new BtResultFb(btResultInfo));
+                        }
+                        btResultInfoDate.postValue(btResultList);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 串关投注
+     */
+    public void betMultiple(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList){
+        if(betConfirmOptionList.isEmpty() || cgOddLimitList.isEmpty()){
+            return;
+        }
+        BtMultipleListReq btMultipleListReq = new BtMultipleListReq();
+        for(BetConfirmOption betConfirmOption : betConfirmOptionList){
+
+            BtOptionReq betOptionReq = new BtOptionReq();
+            betOptionReq.setOptionType(betConfirmOption.getOptionType());
+            betOptionReq.setOdds(betConfirmOption.getOption().getOdd());
+            betOptionReq.setMarketId(betConfirmOption.getOptionList().getId());
+            betOptionReq.setOddsFormat(1);
+            btMultipleListReq.addBtOptionList(betOptionReq);
+        }
+
+        for (CgOddLimit cgOddLimit : cgOddLimitList) {
+            BtCgReq btCgReq = new BtCgReq();
+            btCgReq.setOddsChange(1);
+            btCgReq.setUnitStake(cgOddLimit.getBtAmount());
+            btCgReq.setSeriesValue(cgOddLimit.getCgCount());
+            btMultipleListReq.addBtMultipleData(btCgReq);
+        }
+
+        Disposable disposable = (Disposable) model.getApiService().betMultiple(btMultipleListReq)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<List<BtResultInfo>>() {
+                    @Override
+                    public void onResult(List<BtResultInfo> btResultRspList) {
+                        List<BtResult> btResultList = new ArrayList<>();
+                        for (BtResultInfo btResultInfo : btResultRspList) {
+                            btResultList.add(new BtResultFb(btResultInfo));
+                        }
+                        btResultInfoDate.postValue(btResultList);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
      * 打开今日
      */
     public void gotoToday(){
-        BtCarManager.clearBtCar();
         BtCarManager.setIsCg(false);
-        RxBus.getDefault().post(new BetContract(BetContract.ACTION_OPEN_TODAY));
+        BtCarManager.clearBtCar();
+        RxBus.getDefault().postSticky(new BetContract(BetContract.ACTION_OPEN_TODAY));
     }
 
     /**

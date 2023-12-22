@@ -1,9 +1,10 @@
 package com.xtree.bet.bean.ui;
 
-import com.xtree.bet.bean.OptionDataListInfo;
-import com.xtree.bet.bean.OptionInfo;
-import com.xtree.bet.bean.PlayTypeInfo;
-import com.xtree.bet.constant.Constants;
+import android.os.Parcel;
+
+import com.xtree.bet.bean.response.OptionDataListInfo;
+import com.xtree.bet.bean.response.OptionInfo;
+import com.xtree.bet.bean.response.PlayTypeInfo;
 import com.xtree.bet.constant.SPKey;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class PlayTypeFb implements PlayType{
     @Override
     public List<Option> getOptionList() {
         List<Option> optionList = new ArrayList<>();
-        if(playTypeInfo.mks != null) {
+        if(playTypeInfo.mks != null && !playTypeInfo.mks.isEmpty()) {
             for (OptionInfo optionInfo : playTypeInfo.mks.get(0).op) {
                 optionList.add(new OptionFb(optionInfo));
             }
@@ -72,12 +73,32 @@ public class PlayTypeFb implements PlayType{
     }
 
     @Override
-    public Object getXBannerUrl() {
-        return null;
+    public int describeContents() {
+        return 0;
     }
 
     @Override
-    public String getXBannerTitle() {
-        return null;
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.playTypeInfo, flags);
     }
+
+    public void readFromParcel(Parcel source) {
+        this.playTypeInfo = source.readParcelable(PlayTypeInfo.class.getClassLoader());
+    }
+
+    protected PlayTypeFb(Parcel in) {
+        this.playTypeInfo = in.readParcelable(PlayTypeInfo.class.getClassLoader());
+    }
+
+    public static final Creator<PlayTypeFb> CREATOR = new Creator<PlayTypeFb>() {
+        @Override
+        public PlayTypeFb createFromParcel(Parcel source) {
+            return new PlayTypeFb(source);
+        }
+
+        @Override
+        public PlayTypeFb[] newArray(int size) {
+            return new PlayTypeFb[size];
+        }
+    };
 }

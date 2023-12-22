@@ -6,17 +6,17 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.xtree.base.utils.TimeUtils;
-import com.xtree.bet.bean.MatchTypeInfo;
-import com.xtree.bet.bean.MatchTypeStatisInfo;
-import com.xtree.bet.bean.StatisticalInfo;
+import com.xtree.bet.bean.response.MatchTypeInfo;
+import com.xtree.bet.bean.response.MatchTypeStatisInfo;
+import com.xtree.bet.bean.response.StatisticalInfo;
 import com.xtree.bet.bean.request.PBListReq;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueFb;
-import com.xtree.bet.bean.LeagueItem;
+import com.xtree.bet.bean.response.LeagueItem;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
-import com.xtree.bet.bean.MatchInfo;
-import com.xtree.bet.bean.MatchListRsp;
+import com.xtree.bet.bean.response.MatchInfo;
+import com.xtree.bet.bean.response.MatchListRsp;
 import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.contract.BetContract;
@@ -93,7 +93,22 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
     }
 
     public void setFbLeagueData() {
-        leagueItemData.setValue(new LeagueItem());
+        //leagueItemData.setValue(new LeagueItem());
+    }
+
+    public String getScore(List<League> leagueList, int matchId){
+        for(League league : leagueList){
+            for (Match match : league.getMatchList()){
+                if(matchId == match.getId()){
+                    if (match.getScore(Constants.SCORE_TYPE_SCORE) != null && match.getScore(Constants.SCORE_TYPE_SCORE).size() > 1) {
+                        String scoreMain = String.valueOf(match.getScore(Constants.SCORE_TYPE_SCORE).get(0));
+                        String scoreVisitor = String.valueOf(match.getScore(Constants.SCORE_TYPE_SCORE).get(1));
+                        return scoreMain + "-" + scoreVisitor;
+                    }
+                }
+            }
+        }
+        return "";
     }
 
     /**
@@ -153,11 +168,6 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
                     @Override
                     public void onResult(MatchListRsp matchListRsp) {
                         if (type == 1) { // 滚球
-                            /*if(isTimedRefresh) {
-                                leagueGoingOnTimerListData.postValue(leagueAdapterList(matchListRsp.records, true));
-                            }else{
-                                leagueGoingOnListData.postValue(leagueAdapterList(matchListRsp.records, true));
-                            }*/
                             leagueGoingOnListData.postValue(leagueAdapterList(matchListRsp.records, true));
                             if(flag) {
                                 getLeagueList(sportId, orderBy, leagueIds, matchids, 3, searchDatePos, isTimedRefresh);

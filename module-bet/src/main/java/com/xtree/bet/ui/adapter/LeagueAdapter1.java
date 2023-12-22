@@ -216,7 +216,7 @@ public class LeagueAdapter1 extends AnimatedExpandableListView.AnimatedExpandabl
 
 
         holder.llRoot.setOnClickListener(view -> {
-            BtDetailActivity.start(mContext);
+            BtDetailActivity.start(mContext, match);
         });
 
         convertView.setPadding(0, 0, 0, 0);

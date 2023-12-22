@@ -1,0 +1,207 @@
+package com.xtree.bet.ui.adapter;
+
+import android.content.Context;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.stx.xhb.androidx.XBanner;
+import com.xtree.bet.R;
+import com.xtree.bet.bean.ui.Match;
+import com.xtree.bet.bean.ui.OptionList;
+import com.xtree.bet.bean.ui.PlayType;
+import com.xtree.bet.databinding.BtFbDetailItemPlayTypeChildBinding;
+import com.xtree.bet.databinding.BtFbDetailItemPlayTypeGroupBinding;
+import com.xtree.bet.weight.AnimatedExpandableListView;
+import com.xtree.bet.weight.AnimatedExpandableListViewMax;
+import com.xtree.bet.weight.PageHorizontalScrollView;
+
+import java.util.List;
+
+import me.xtree.mvvmhabit.utils.ConvertUtils;
+
+public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedExpandableListAdapter {
+    private List<PlayType> mDatas;
+    private Match match;
+    private Context mContext;
+
+    public MatchDetailAdapter(Context context, Match match, List<PlayType> datas) {
+        this.mDatas = datas;
+        this.mContext = context;
+        this.match = match;
+    }
+
+    public void setData(List<PlayType> mLeagueList) {
+        this.mDatas = mLeagueList;
+        notifyDataSetChanged();
+    }
+
+    private static class ChildHolder {
+        TextView tvTeamNameMain;
+        TextView tvTeamNameVisitor;
+        TextView tvScoreMain;
+        TextView tvScoreVisitor;
+        TextView tvMatchTime;
+        TextView tvPlayTypeCount;
+        ImageView ivCourt;
+        ImageView ivLive;
+        XBanner xbPlayTypeGroup;
+        LinearLayout llRoot;
+        PageHorizontalScrollView hsvPlayTypeGroup;
+        LinearLayout llPointer;
+
+        ConstraintLayout itemView;
+
+        public ChildHolder(View view) {
+            tvTeamNameMain = view.findViewById(R.id.tv_team_name_main);
+            tvTeamNameVisitor = view.findViewById(R.id.tv_team_name_visitor);
+            tvScoreMain = view.findViewById(R.id.tv_score_main);
+            tvScoreVisitor = view.findViewById(R.id.tv_score_visitor);
+            tvMatchTime = view.findViewById(R.id.tv_match_time);
+            tvPlayTypeCount = view.findViewById(R.id.tv_playtype_count);
+            ivCourt = view.findViewById(R.id.iv_court);
+            ivLive = view.findViewById(R.id.iv_live);
+            xbPlayTypeGroup = view.findViewById(R.id.play_type_banner);
+            llRoot = view.findViewById(R.id.ll_root);
+            hsvPlayTypeGroup = view.findViewById(R.id.hsv_play_type_group);
+            llPointer = view.findViewById(R.id.ll_pointer);
+            itemView = view.findViewById(R.id.cl_root);
+        }
+    }
+
+    @Override
+    public int getRealChildrenCount(int groupPosition) {
+        return mDatas.get(groupPosition).getOptionLists().size();
+    }
+
+    @Override
+    public int getGroupCount() {
+        if (mDatas == null) {
+            return 0;
+        }
+        return mDatas.size();
+    }
+
+    @Override
+    public Object getGroup(int groupPosition) {
+        return mDatas.get(groupPosition);
+    }
+
+    @Override
+    public Object getChild(int groupPosition, int childPosition) {
+        if (mDatas == null || mDatas.isEmpty()) {
+            return null;
+        }
+        return mDatas.get(groupPosition).getOptionLists().get(childPosition);
+    }
+
+    @Override
+    public long getGroupId(int groupPosition) {
+        return groupPosition;
+    }
+
+    @Override
+    public long getChildId(int groupPosition, int childPosition) {
+        return childPosition;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup viewGroup) {
+        if (mDatas == null || mDatas.isEmpty()) {
+            return convertView;
+        }
+
+        PlayType playType = (PlayType) getGroup(groupPosition);
+
+        GroupHolder holder;
+        if (convertView == null) {
+            convertView = View.inflate(mContext, R.layout.bt_fb_detail_item_play_type_group, null);
+            holder = new GroupHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (GroupHolder) convertView.getTag();
+        }
+
+        BtFbDetailItemPlayTypeGroupBinding binding = BtFbDetailItemPlayTypeGroupBinding.bind(holder.itemView);
+
+        binding.tvPlaytypeName.setText(playType.getPlayTypeName());
+
+        /*if (isExpanded) {
+            convertView.setPadding(0, ConvertUtils.dp2px(5), 0, 0);
+        } else {
+            convertView.setPadding(0, ConvertUtils.dp2px(5), 0, ConvertUtils.dp2px(5));
+
+        }*/
+        return convertView;
+    }
+
+    @Override
+    public View getRealChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+
+        Log.e("test", "============getRealChildView============");
+
+        ChildHolder holder;
+
+        OptionList optionList = ((OptionList)getChild(groupPosition, childPosition));
+
+        if (convertView == null) {
+            convertView = View.inflate(mContext, R.layout.bt_fb_detail_item_play_type_child, null);
+            holder = new ChildHolder(convertView);
+            convertView.setTag(holder);
+        } else {
+            holder = (ChildHolder) convertView.getTag();
+        }
+        BtFbDetailItemPlayTypeChildBinding binding = BtFbDetailItemPlayTypeChildBinding.bind(holder.itemView);
+        OptionAdapter optionAdapter;
+        binding.rvOptionList.setHasFixedSize(true);
+        int spanCount = optionList.getOptionList().size() >= 3 ? 3 : optionList.getOptionList().size();
+        binding.rvOptionList.setLayoutManager(new GridLayoutManager(mContext, spanCount));
+        if(convertView.getTag(R.id.rv_option_list) == null) {
+            optionAdapter = new OptionAdapter(mContext, match, (PlayType) getGroup(groupPosition), optionList.getOptionList());
+            convertView.setTag(R.id.rv_option_list, optionAdapter);
+            binding.rvOptionList.setAdapter(optionAdapter);
+        }else{
+            optionAdapter = (OptionAdapter) convertView.getTag(R.id.rv_option_list);
+            optionAdapter.setNewData(optionList.getOptionList());
+        }
+
+        return convertView;
+    }
+
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return true;
+    }
+
+    private static class GroupHolder {
+        public GroupHolder(View view) {
+            itemView = view.findViewById(R.id.cl_root);
+            llHeader = view.findViewById(R.id.ll_header);
+            rlLeague = view.findViewById(R.id.rl_league);
+            tvLeagueName = view.findViewById(R.id.tv_league_name);
+            imLeague = view.findViewById(R.id.iv_icon);
+        }
+
+        TextView tvLeagueName;
+        ImageView imLeague;
+        ConstraintLayout itemView;
+        LinearLayout llHeader;
+        RelativeLayout rlLeague;
+    }
+
+}

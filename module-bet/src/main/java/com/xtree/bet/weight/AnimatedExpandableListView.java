@@ -612,4 +612,5 @@ public class AnimatedExpandableListView extends ExpandableListView {
             }
         }
     }
+
 }

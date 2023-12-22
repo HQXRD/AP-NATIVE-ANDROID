@@ -37,7 +37,7 @@ public class SplashActivity extends Activity {
      */
     private void inMain() {
 
-        if(TextUtils.isEmpty(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN))){
+        /*if(TextUtils.isEmpty(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN))){
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER)
                     .withInt(Constant.LoginRegisterActivity_ENTER_TYPE,Constant.LoginRegisterActivity_LOGIN_TYPE)
                     .navigation();
@@ -45,7 +45,10 @@ public class SplashActivity extends Activity {
         }else{
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        }
+        }*/
+
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
 
     }
 }

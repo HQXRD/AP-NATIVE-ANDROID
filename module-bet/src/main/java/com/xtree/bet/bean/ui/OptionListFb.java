@@ -2,8 +2,8 @@ package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
 
-import com.xtree.bet.bean.OptionDataListInfo;
-import com.xtree.bet.bean.OptionInfo;
+import com.xtree.bet.bean.response.OptionDataListInfo;
+import com.xtree.bet.bean.response.OptionInfo;
 
 import java.util.ArrayList;
 import java.util.List;

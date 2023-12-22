@@ -59,6 +59,7 @@ public class BtCarManager {
     public static void clearBtCar(){
         btCarList.clear();
         btCarMap.clear();
+        RxBus.getDefault().post(new BetContract(BetContract.ACTION_BTCAR_CHANGE));
     }
 
     /**

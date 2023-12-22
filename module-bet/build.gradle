@@ -8,6 +8,11 @@ android {
     }
     //统一资源前缀，规范资源引用
     //resourcePrefix "bet_"
+    buildFeatures {
+        buildConfig true
+        viewBinding true
+        //dataBinding true
+    }
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')

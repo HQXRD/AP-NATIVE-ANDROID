@@ -34,11 +34,18 @@ public interface Match extends BaseBean {
     String getTime();
 
     /**
-     * 获取赛事比分
+     * 获取实时比分信息
      * @param type 比分类型，例如角球、黄牌等
      * @return
      */
     List<Integer> getScore(int type);
+
+    /**
+     * 获取比分信息
+     * @param type 比分类型，例如角球、黄牌等
+     * @return
+     */
+    List<Score> getScoreList(int type);
 
     /**
      * 获取单个赛事玩法总数
@@ -63,4 +70,30 @@ public interface Match extends BaseBean {
      * @return
      */
     boolean hasAs();
+    /**
+     * 获取联赛信息
+     * @return
+     */
+    League getLeague();
+    /**
+     * 获取主队logo
+     * @return
+     */
+    String getIconMain();
+
+    /**
+     * 获取客队logo
+     * @return
+     */
+    String getIconVisitor();
+    /**
+     * 获取比赛是否未开始状态
+     * @return
+     */
+    boolean isUnGoingon();
+    /**
+     * 获取开赛时间
+     * @return
+     */
+    long getMatchTime();
 }

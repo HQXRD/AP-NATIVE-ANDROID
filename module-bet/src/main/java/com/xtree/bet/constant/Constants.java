@@ -1,8 +1,5 @@
 package com.xtree.bet.constant;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Constants {
 
 
@@ -46,6 +43,20 @@ public class Constants {
      * 比分类型-得牌(黄牌 + 红牌)
      */
     public static int SCORE_TYPE_BOOKING = 9;
+    /**
+     * 比分类型-盘分(网球、排球、沙滩排球)
+     */
+    public static int SCORE_TYPE_PF = 5556;
+    /**
+     * 比分类型-局分(网球、乒乓球、羽毛球)
+     */
+    public static int SCORE_TYPE_JF = 5559;
+    /**
+     * 局分(斯诺克)
+     */
+    public static int SCORE_TYPE_SNK_JF = 12;
+
+
     /**
      * 足球球法编号
      */

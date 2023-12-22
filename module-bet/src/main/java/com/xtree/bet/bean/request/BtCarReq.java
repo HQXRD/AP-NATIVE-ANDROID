@@ -50,7 +50,7 @@ public class BtCarReq {
         /**
          * 赔率类型
          */
-        private int oddsType;
+        private int oddsType = 1;
 
         public void setMarketId(int marketId) {
             this.marketId = marketId;

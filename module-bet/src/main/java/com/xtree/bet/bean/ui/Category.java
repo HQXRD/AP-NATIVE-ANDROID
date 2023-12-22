@@ -1,7 +1,5 @@
 package com.xtree.bet.bean.ui;
 
-import com.xtree.bet.bean.PlayTypeInfo;
-
 import java.util.List;
 
 /**

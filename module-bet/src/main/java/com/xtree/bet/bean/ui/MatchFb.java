@@ -3,9 +3,9 @@ package com.xtree.bet.bean.ui;
 import android.os.Parcel;
 
 import com.xtree.base.utils.TimeUtils;
-import com.xtree.bet.bean.MatchInfo;
-import com.xtree.bet.bean.PlayTypeInfo;
-import com.xtree.bet.bean.ScoreInfo;
+import com.xtree.bet.bean.response.MatchInfo;
+import com.xtree.bet.bean.response.PlayTypeInfo;
+import com.xtree.bet.bean.response.ScoreInfo;
 import com.xtree.bet.constant.MatchPeriod;
 
 import java.util.ArrayList;
@@ -68,7 +68,7 @@ public class MatchFb implements Match{
     }
 
     /**
-     * 获取比分信息
+     * 获取实时比分信息
      * @param type 比分类型，例如角球、黄牌等
      * @return
      */
@@ -85,6 +85,25 @@ public class MatchFb implements Match{
         sc.add(0);
         sc.add(0);
         return sc;
+    }
+
+    /**
+     * 获取比分信息
+     * @param type 比分类型，例如角球、黄牌等
+     * @return
+     */
+    @Override
+    public List<Score> getScoreList(int type) {
+        List<Score> scoreInfos = new ArrayList<>();
+        if(matchInfo.nsg != null && !matchInfo.nsg.isEmpty()) {
+            for (ScoreInfo scoreInfo : matchInfo.nsg) {
+                if (scoreInfo.tyg == type) {
+                    scoreInfos.add(new ScoreFb(scoreInfo));
+                }
+            }
+        }
+
+        return scoreInfos;
     }
 
     /**
@@ -119,6 +138,42 @@ public class MatchFb implements Match{
         return matchInfo.as != null && !matchInfo.as.isEmpty();
     }
 
+    /**
+     * 获取联赛信息
+     * @return
+     */
+    @Override
+    public League getLeague() {
+        return new LeagueFb(matchInfo.lg);
+    }
+
+    /**
+     * 获取主队logo
+     * @return
+     */
+    @Override
+    public String getIconMain() {
+        return matchInfo.ts.get(0).lurl;
+    }
+
+    /**
+     * 获取客队logo
+     * @return
+     */
+    @Override
+    public String getIconVisitor() {
+        return matchInfo.ts.get(1).lurl;
+    }
+
+    @Override
+    public boolean isUnGoingon() {
+        return matchInfo.ms == 4;
+    }
+
+    @Override
+    public long getMatchTime() {
+        return this.matchInfo.bt;
+    }
 
     @Override
     public int describeContents() {

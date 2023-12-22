@@ -1,12 +1,16 @@
 package com.xtree.bet.data;
 
-import com.xtree.bet.bean.BtConfirmInfo;
-import com.xtree.bet.bean.BtConfirmOptionInfo;
-import com.xtree.bet.bean.MatchListRsp;
-import com.xtree.bet.bean.StatisticalInfo;
+import com.xtree.bet.bean.request.BtMultipleListReq;
+import com.xtree.bet.bean.request.SingleBtListReq;
+import com.xtree.bet.bean.response.BtConfirmInfo;
+import com.xtree.bet.bean.response.BtResultInfo;
+import com.xtree.bet.bean.response.MatchInfo;
+import com.xtree.bet.bean.response.MatchListRsp;
+import com.xtree.bet.bean.response.StatisticalInfo;
 import com.xtree.bet.bean.request.BtCarReq;
 import com.xtree.bet.bean.request.PBListReq;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
@@ -51,4 +55,25 @@ public interface FBApiService {
     @POST("/v1/order/batchBetMatchMarketOfJumpLine")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<BaseResponse<BtConfirmInfo>> batchBetMatchMarketOfJumpLine(@Body BtCarReq btCarReq);
+    /**
+     * 按运动、分类类型统计可投注的赛事个数
+     * @return
+     */
+    @POST("/v1/match/getMatchDetail")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<BaseResponse<MatchInfo>> getMatchDetail(@Body Map<String, String> map);
+    /**
+     * 单关投注
+     * @return
+     */
+    @POST("/v1/order/bet/singlePass")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<BaseResponse<List<BtResultInfo>>> singlePass(@Body SingleBtListReq req);
+    /**
+     * 串关投注
+     * @return
+     */
+    @POST("/v1/order/betMultiple")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<BaseResponse<List<BtResultInfo>>> betMultiple(@Body BtMultipleListReq req);
 }

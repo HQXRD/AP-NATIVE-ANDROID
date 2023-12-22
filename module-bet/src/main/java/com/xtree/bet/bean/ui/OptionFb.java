@@ -2,7 +2,7 @@ package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
 
-import com.xtree.bet.bean.OptionInfo;
+import com.xtree.bet.bean.response.OptionInfo;
 
 public class OptionFb implements Option{
     private OptionInfo optionInfo;
@@ -73,6 +73,15 @@ public class OptionFb implements Option{
     @Override
     public boolean isSelected() {
         return optionInfo.isSelected;
+    }
+
+    /**
+     * 	line值，带线玩法的线，例如大小球2.5线，部分玩法展示可用该字段进行分组展示
+     * @return
+     */
+    @Override
+    public String getLine() {
+        return optionInfo.li;
     }
 
     @Override

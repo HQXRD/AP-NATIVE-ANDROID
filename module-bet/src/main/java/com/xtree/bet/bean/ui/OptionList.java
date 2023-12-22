@@ -2,9 +2,11 @@ package com.xtree.bet.bean.ui;
 
 import android.os.Parcelable;
 
+import com.xtree.base.vo.BaseBean;
+
 import java.util.List;
 
-public interface OptionList extends Parcelable {
+public interface OptionList extends BaseBean {
 
     int getId();
 

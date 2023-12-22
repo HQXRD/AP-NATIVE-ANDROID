@@ -1,10 +1,11 @@
 package com.xtree.bet.bean.ui;
 
 import com.stx.xhb.androidx.entity.BaseBannerInfo;
+import com.xtree.base.vo.BaseBean;
 
 import java.util.List;
 
-public interface PlayType extends BaseBannerInfo {
+public interface PlayType extends BaseBean {
     /**
      * 获取玩法类型，如 亚盘、大小球等
      * @return

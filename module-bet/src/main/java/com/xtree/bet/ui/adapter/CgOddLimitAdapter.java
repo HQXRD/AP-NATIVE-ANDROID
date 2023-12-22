@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 
 import com.xtree.bet.R;
@@ -54,6 +55,12 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
             etAmount.setHint("限制" + cgOddLimit.getCMin() + "-" + cgOddLimit.getCMax());
             holder.setText(R.id.iv_name, cgOddLimit.getCgName());
             holder.setText(R.id.iv_zs_amount, "x" + cgOddLimit.getBtCount());
+
+            if(etAmount.getTag() != null){
+                cgOddLimit.setBtAmount(((CgOddLimit)etAmount.getTag()).getBtAmount());
+            }
+            etAmount.setTag(cgOddLimit);
+
             etAmount.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -101,6 +108,7 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
                             holder.setText(R.id.tv_pay_cc, mContext.getResources().getString(R.string.bt_bt_pay, String.valueOf(cgOddLimit.getBtCount() * amount)));
                         }
                         holder.setVisible(R.id.csl_win_cc, true);
+                        cgOddLimit.setBtAmount(TextUtils.isEmpty(etAmount.getText()) ? 0 : Double.valueOf(etAmount.getText().toString()));
                     } else {
                         holder.setVisible(R.id.csl_win_cc, false);
                     }
@@ -125,6 +133,12 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
             holder.setVisible(R.id.csl_cg_cc, false);
             EditText etAmount = holder.getView(R.id.et_bt_amount_dan);
             etAmount.setHint("限制" + cgOddLimit.getDMin() + "-" + cgOddLimit.getDMax());
+
+            if(etAmount.getTag() != null){
+                cgOddLimit.setBtAmount(((CgOddLimit)etAmount.getTag()).getBtAmount());
+            }
+            etAmount.setTag(cgOddLimit);
+
             etAmount.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -174,6 +188,7 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
                             holder.setText(R.id.tv_pay_dan, mContext.getResources().getString(R.string.bt_bt_pay, String.valueOf(amount)));
                         }
                         holder.setVisible(R.id.csl_win_dan, true);
+                        cgOddLimit.setBtAmount(TextUtils.isEmpty(etAmount.getText()) ? 0 : Double.valueOf(etAmount.getText().toString()));
                     } else {
                         holder.setVisible(R.id.csl_win_dan, false);
                     }

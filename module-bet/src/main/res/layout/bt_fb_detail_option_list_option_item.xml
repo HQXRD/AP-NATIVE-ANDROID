@@ -25,7 +25,7 @@
         android:textSize="@dimen/bt_text_10sp"
         tools:text="主胜" />
 
-    <TextView
+    <com.xtree.bet.weight.DiscolourTextView
         android:id="@+id/tv_option_odd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -23,6 +23,9 @@
     <color name="me_wallet_detail_color">#A96B94</color>
     <!-- 投注模块  begin -->
 
+    <!-- 通用/遮罩 -->
+    <color name="bt_bg_common_cover">#80000000</color>
+
     <!-- 圆角透明背景颜色，例如投注页右上角显示金额UI -->
     <color name="bt_bg_shape_alpha">#F3F3F3</color>
 
@@ -103,6 +106,12 @@
 
     <!-- 赛事详情页顶部栏背景颜色 -->
     <color name="bt_color_detail_top_toolbar">#4D000000</color>
+
+    <!-- 投注成功提示字体颜色 -->
+    <color name="bt_color_bt_result_success">#477BFF</color>
+
+    <!-- 投注失败提示字体颜色 -->
+    <color name="bt_color_bt_result_failed">#F97152</color>
 
     <!-- 投注模块 end-->
 

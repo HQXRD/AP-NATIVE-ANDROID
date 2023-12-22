@@ -39,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -59,6 +60,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     private List<League> mLeagueGoingOnList = new ArrayList<>();
     private List<League> mLeagueList = new ArrayList<>();
     private LeagueAdapter mLeagueAdapter;
+
+    private Disposable timerDisposable;
 
     private boolean isGoingExpand = true;
     private boolean isWatingExpand = true;
@@ -222,7 +225,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     @Override
     protected void onResume() {
         super.onResume();
-        viewModel.addSubscribe(Observable.interval(10, 10, TimeUnit.SECONDS)
+        timerDisposable = Observable.interval(10, 10, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
@@ -238,8 +241,18 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
                     viewModel.getLeagueList(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), 1, null, null,
                             playMethodType, searchDatePos, true);
                     viewModel.statistical();
-                })
-        );
+                });
+        viewModel.addSubscribe(timerDisposable);
+        setCgBtCar();
+        if(mLeagueAdapter != null) {
+            mLeagueAdapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        viewModel.removeSubscribe(timerDisposable);
     }
 
     @Override
@@ -435,12 +448,16 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
         if (mLeagueAdapter == null) {
             mLeagueAdapter = new LeagueAdapter(this, this.mLeagueList);
             binding.rvLeague.setAdapter(mLeagueAdapter);
+            for (int i = 0; i < binding.rvLeague.getExpandableListAdapter().getGroupCount(); i++) {
+                binding.rvLeague.expandGroup(i);
+            }
         } else {
             mLeagueAdapter.setData(this.mLeagueList);
         }
-        for (int i = 0; i < binding.rvLeague.getExpandableListAdapter().getGroupCount(); i++) {
-            binding.rvLeague.expandGroup(i);
-        }
+    }
+
+    public String getScore(int matchId){
+        return viewModel.getScore(this.mLeagueList, matchId);
     }
 
     /**

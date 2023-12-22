@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.stx.xhb.androidx.XBanner;
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
 import com.xtree.bet.bean.ui.BetConfirmOptionFb;
@@ -29,6 +30,7 @@ import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.weight.AnimatedExpandableListView;
+import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 import com.xtree.bet.weight.DiscolourTextView;
 import com.xtree.bet.weight.PageHorizontalScrollView;
 
@@ -40,7 +42,7 @@ import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
-public class LeagueAdapter extends AnimatedExpandableListView.AnimatedExpandableListAdapter {
+public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpandableListAdapter {
     private List<League> mDatas;
     private Context mContext;
 
@@ -86,6 +88,9 @@ public class LeagueAdapter extends AnimatedExpandableListView.AnimatedExpandable
 
     @Override
     public int getRealChildrenCount(int groupPosition) {
+        if(mDatas.isEmpty() || mDatas.get(groupPosition).getMatchList().isEmpty()){
+            return 0;
+        }
         return mDatas.get(groupPosition).getMatchList().size();
     }
 
@@ -189,9 +194,20 @@ public class LeagueAdapter extends AnimatedExpandableListView.AnimatedExpandable
             holder.tvScoreMain.setText(String.valueOf(match.getScore(Constants.SCORE_TYPE_SCORE).get(0)));
             holder.tvScoreVisitor.setText(String.valueOf(match.getScore(Constants.SCORE_TYPE_SCORE).get(1)));
         }
-        holder.tvMatchTime.setText(match.getStage() + " " + match.getTime());
-        holder.tvPlayTypeCount.setText(match.getPlayTypeCount() + "+>");
 
+        holder.tvPlayTypeCount.setText(match.getPlayTypeCount() + "+>");
+        // 比赛未开始
+        if(match.isUnGoingon()){
+            holder.tvMatchTime.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_MM_DD_HH_MM));
+        }else {
+            int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
+            String sport = SportTypeContants.SPORT_IDS[sportType];
+            if (sport.equals(SportTypeContants.SPORT_ID_FB) || sport.equals(SportTypeContants.SPORT_ID_BSB)) {
+                holder.tvMatchTime.setText(match.getStage() + " " + match.getTime());
+            } else {
+                holder.tvMatchTime.setText(match.getStage());
+            }
+        }
 
         int sportPos = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
         boolean isFb = SPUtils.getInstance().getBoolean(SPKey.BT_SPORT_IF_FB, true);
@@ -218,7 +234,7 @@ public class LeagueAdapter extends AnimatedExpandableListView.AnimatedExpandable
         }
 
         holder.llRoot.setOnClickListener(view -> {
-            BtDetailActivity.start(mContext);
+            BtDetailActivity.start(mContext, match);
         });
         return convertView;
     }
@@ -259,27 +275,28 @@ public class LeagueAdapter extends AnimatedExpandableListView.AnimatedExpandable
     }
 
     private void setPlayTypeGroup(Match match, ViewGroup parent, LinearLayout rootPlayType, PlayType playType) {
-        View view;
         ViewGroup.LayoutParams params = rootPlayType.getLayoutParams();
         params.width = parent.getWidth() / 2 / 3;
         rootPlayType.setLayoutParams(params);
 
         for (int j = 0; j < rootPlayType.getChildCount(); j++) {
-            view = rootPlayType.getChildAt(j);
+            View view = rootPlayType.getChildAt(j);
             if (view instanceof TextView) {
                 ((TextView) view).setText(playType.getPlayTypeName());
             } else {
+
                 LinearLayout optionView = (LinearLayout) view;
+                List<Option> options = playType.getOptionList();
                 if (j - 1 == playType.getOptionList().size()) {
                     optionView.setVisibility(View.GONE);
                 } else {
                     optionView.setVisibility(View.VISIBLE);
-                    Option option = playType.getOptionList().get(j - 1);
+                    Option option = options.get(j - 1);
                     BetConfirmOption betConfirmOption = (BetConfirmOption) optionView.getTag();
 
-                    TextView uavailableTextView = (TextView)optionView.getChildAt(0);
-                    TextView nameTextView = (TextView)optionView.getChildAt(1);
-                    DiscolourTextView oddTextView = (DiscolourTextView)optionView.getChildAt(2);
+                    TextView uavailableTextView = (TextView) optionView.getChildAt(0);
+                    TextView nameTextView = (TextView) optionView.getChildAt(1);
+                    DiscolourTextView oddTextView = (DiscolourTextView) optionView.getChildAt(2);
 
                     if (option == null) {
                         uavailableTextView.setVisibility(View.VISIBLE);
@@ -287,6 +304,8 @@ public class LeagueAdapter extends AnimatedExpandableListView.AnimatedExpandable
                         nameTextView.setVisibility(View.GONE);
                         uavailableTextView.setText("-");
                         uavailableTextView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                        optionView.setOnClickListener(view1 -> {
+                        });
                     } else {
                         OptionList optionList = playType.getOptionLists().get(0);
                         if (!optionList.isOpen()) {
@@ -295,38 +314,39 @@ public class LeagueAdapter extends AnimatedExpandableListView.AnimatedExpandable
                             nameTextView.setVisibility(View.GONE);
                             uavailableTextView.setText("");
                             uavailableTextView.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.mipmap.bt_icon_option_locked), null, null, null);
-                            return;
-                        }
-
-                        uavailableTextView.setVisibility(View.GONE);
-                        oddTextView.setVisibility(View.VISIBLE);
-                        nameTextView.setVisibility(View.VISIBLE);
-                        nameTextView.setText(option.getSortName());
-                        oddTextView.setText(String.valueOf(option.getOdd()));
-
-                        if (betConfirmOption == null) {
-                            betConfirmOption = new BetConfirmOptionFb(match, playType, optionList, option);
-                            optionView.setTag(betConfirmOption);
+                            optionView.setOnClickListener(view1 -> {
+                            });
                         } else {
-                            betConfirmOption.setData(match, playType, optionList, option);
-                        }
-                        if (BtCarManager.isCg()) {
-                            boolean has = BtCarManager.has(betConfirmOption);
-                            if(has) {
-                                Log.e("test", option.getName() + "=======" + has);
-                            }
+                            uavailableTextView.setVisibility(View.GONE);
+                            oddTextView.setVisibility(View.VISIBLE);
+                            nameTextView.setVisibility(View.VISIBLE);
+                            nameTextView.setText(option.getSortName());
+                            oddTextView.setText(String.valueOf(option.getOdd()));
 
-                            optionView.setSelected(has);
-                            oddTextView.setSelected(has);
-                            nameTextView.setSelected(has);
-                        } else {
-                            if (optionView.isSelected()) {
-                                optionView.setSelected(false);
-                                oddTextView.setSelected(false);
-                                nameTextView.setSelected(false);
+                            if (betConfirmOption == null) {
+                                betConfirmOption = new BetConfirmOptionFb(match, playType, optionList, option);
+                                optionView.setTag(betConfirmOption);
+                            } else {
+                                betConfirmOption.setData(match, playType, optionList, option);
                             }
+                            if (BtCarManager.isCg()) {
+                                boolean has = BtCarManager.has(betConfirmOption);
+                                if (has) {
+                                    Log.e("test", option.getName() + "=======" + has);
+                                }
+
+                                optionView.setSelected(has);
+                                oddTextView.setSelected(has);
+                                nameTextView.setSelected(has);
+                            } else {
+                                if (optionView.isSelected()) {
+                                    optionView.setSelected(false);
+                                    oddTextView.setSelected(false);
+                                    nameTextView.setSelected(false);
+                                }
+                            }
+                            setOptionClickListener(optionView, optionList, option);
                         }
-                        setOptionClickListener(optionView, optionList, option);
                     }
                 }
             }
@@ -349,7 +369,7 @@ public class LeagueAdapter extends AnimatedExpandableListView.AnimatedExpandable
                 } else {
                     BtCarManager.removeBtCar(betConfirmOption);
                 }
-                option.setSelected(BtCarManager.has(betConfirmOption));
+                //option.setSelected(BtCarManager.has(betConfirmOption));
                 RxBus.getDefault().post(new BetContract(BetContract.ACTION_OPEN_CG));
             } else {
                 BtCarDialogFragment btCarDialogFragment = new BtCarDialogFragment();
