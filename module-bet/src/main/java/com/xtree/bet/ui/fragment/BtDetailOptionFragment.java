@@ -75,6 +75,7 @@ public class BtDetailOptionFragment extends BaseFragment<BtLayoutDetailOptionBin
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return R.layout.bt_layout_detail_option;
+
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.xtree.bet.bean.ui;
 
 import com.xtree.base.vo.BaseBean;
+import com.xtree.bet.bean.response.VideoInfo;
 
 import java.util.List;
 
@@ -70,6 +71,16 @@ public interface Match extends BaseBean {
      * @return
      */
     boolean hasAs();
+    /**
+     * 获取视频直播信息
+     * @return
+     */
+    VideoInfo getVideoInfo();
+    /**
+     * 获取动画直播地址列表
+     * @return
+     */
+    List<String> getAnmiUrls();
     /**
      * 获取联赛信息
      * @return

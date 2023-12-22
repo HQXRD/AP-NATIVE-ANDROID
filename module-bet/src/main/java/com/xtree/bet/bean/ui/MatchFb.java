@@ -6,6 +6,7 @@ import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.MatchInfo;
 import com.xtree.bet.bean.response.PlayTypeInfo;
 import com.xtree.bet.bean.response.ScoreInfo;
+import com.xtree.bet.bean.response.VideoInfo;
 import com.xtree.bet.constant.MatchPeriod;
 
 import java.util.ArrayList;
@@ -128,14 +129,31 @@ public class MatchFb implements Match{
         return playTypeList;
     }
 
+    /**
+     * 是否有视频直播
+     * @return
+     */
     @Override
     public boolean hasVideo() {
         return matchInfo.vs.have;
     }
-
+    /**
+     * 是否有动画直播
+     * @return
+     */
     @Override
     public boolean hasAs() {
         return matchInfo.as != null && !matchInfo.as.isEmpty();
+    }
+
+    @Override
+    public VideoInfo getVideoInfo() {
+        return matchInfo.vs;
+    }
+
+    @Override
+    public List<String> getAnmiUrls() {
+        return matchInfo.as;
     }
 
     /**

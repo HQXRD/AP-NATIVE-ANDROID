@@ -58,11 +58,11 @@ public class MatchInfo implements BaseBean {
      */
     public int ne;
     /**
-     * 动画直接地址集合
+     * 视频直播地址集合
      */
     public VideoInfo vs;
     /**
-     * 动画直接地址集合
+     * 动画直播地址集合
      */
     public List<String> as;
     /**

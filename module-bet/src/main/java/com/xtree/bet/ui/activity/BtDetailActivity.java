@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
+import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.BR;
 import com.xtree.bet.R;
@@ -24,8 +26,8 @@ import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.contract.BetContract;
-import com.xtree.bet.databinding.BtLayoutDetailBinding;
 import com.xtree.bet.manager.BtCarManager;
+import com.xtree.bet.ui.CustomGSYVideoPlayer;
 import com.xtree.bet.ui.adapter.MatchDetailAdapter;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.ui.fragment.BtDetailOptionFragment;
@@ -40,7 +42,6 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -48,7 +49,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 /**
  * Created by goldze on 2018/6/21
  */
-public class BtDetailActivity extends BaseActivity<BtLayoutDetailBinding, BtDetailViewModel> implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class BtDetailActivity extends GSYBaseActivityDetail<CustomGSYVideoPlayer> implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     private final static String KEY_MATCH = "KEY_MATCH_ID";
     private List<Category> mCategories = new ArrayList<>();
 
@@ -121,6 +122,19 @@ public class BtDetailActivity extends BaseActivity<BtLayoutDetailBinding, BtDeta
             }
         });
         binding.rlCg.setOnClickListener(this);
+
+        initVideoPlayer();
+    }
+
+    /**
+     * 初始化播放器相关控件
+     */
+    private void initVideoPlayer() {
+        //增加title
+        binding.videoPlayer.getTitleTextView().setVisibility(View.GONE);
+        binding.videoPlayer.getBackButton().setVisibility(View.GONE);
+        binding.tvLive.setOnClickListener(this);
+        binding.tvAnimi.setOnClickListener(this);
     }
 
     @Override
@@ -142,6 +156,56 @@ public class BtDetailActivity extends BaseActivity<BtLayoutDetailBinding, BtDeta
                     viewModel.getMatchDetail(match.getId());
                 })
         );
+    }
+
+    @Override
+    public CustomGSYVideoPlayer getGSYVideoPlayer() {
+        return binding.videoPlayer;
+    }
+
+    @Override
+    public GSYVideoOptionBuilder getGSYVideoOptionBuilder() {
+        String videoUrl = "";
+        if(!TextUtils.isEmpty(match.getVideoInfo().m3u8SD)){
+            videoUrl = match.getVideoInfo().m3u8SD;
+        } else if (!TextUtils.isEmpty(match.getVideoInfo().m3u8HD)) {
+            videoUrl = match.getVideoInfo().m3u8HD;
+        } else if (!TextUtils.isEmpty(match.getVideoInfo().flvSD)) {
+            videoUrl = match.getVideoInfo().flvSD;
+        } else if (!TextUtils.isEmpty(match.getVideoInfo().flvHD)) {
+            videoUrl = match.getVideoInfo().flvHD;
+        } else if (!TextUtils.isEmpty(match.getVideoInfo().web)) {
+            videoUrl = match.getVideoInfo().web;
+        }
+        String score = "";
+        if (match.getScore(Constants.SCORE_TYPE_SCORE) != null && match.getScore(Constants.SCORE_TYPE_SCORE).size() > 1) {
+            score = match.getScore(Constants.SCORE_TYPE_SCORE).get(0) + " - " + match.getScore(Constants.SCORE_TYPE_SCORE).get(1);
+        }
+        return new GSYVideoOptionBuilder()
+                //.setThumbImageView(imageView)
+                .setUrl("http://alvideo.ippzone.com/zyvd/98/90/b753-55fe-11e9-b0d8-00163e0c0248")
+                .setCacheWithPlay(false)
+                .setVideoTitle(match.getTeamMain() + score + match.getTeamVistor())
+                .setIsTouchWiget(true)
+                //.setAutoFullWithSize(true)
+                .setRotateViewAuto(false)
+                .setLockLand(false)
+                .setShowFullAnimation(false)//打开动画
+                .setNeedLockFull(true)
+                .setSeekRatio(1);
+    }
+
+    @Override
+    public void clickForFullScreen() {
+
+    }
+
+    /**
+     * 是否启动旋转横屏，true表示启动
+     */
+    @Override
+    public boolean getDetailOrientationRotateAuto() {
+        return true;
     }
 
     /**
@@ -285,6 +349,10 @@ public class BtDetailActivity extends BaseActivity<BtLayoutDetailBinding, BtDeta
             }
             BtCarDialogFragment btCarDialogFragment = new BtCarDialogFragment();
             btCarDialogFragment.show(BtDetailActivity.this.getSupportFragmentManager(), "btCarDialogFragment");
+        } else if (id == R.id.tv_live) {
+            binding.videoPlayer.setVisibility(View.VISIBLE);
+            initVideoBuilderMode();
+        } else if (id == R.id.tv_animi) {
         }
     }
 }
