@@ -72,9 +72,9 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
                         RetrofitClient.init();
-                        liveDataLogin.setValue(vo);
                         // 登录成功后获取FB体育请求服务地址
                         getFBGameTokenApi();
+                        //liveDataReg.setValue(vo);
                     }
 
                     @Override
@@ -107,7 +107,9 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
                         RetrofitClient.init();
-                        liveDataReg.setValue(vo);
+                        // 登录成功后获取FB体育请求服务地址
+                        getFBGameTokenApi();
+                        //liveDataReg.setValue(vo);
                     }
 
                     @Override
@@ -160,6 +162,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
                         KLog.e("========fbService.getToken()======" + fbService.getToken());
+                        finish();
                     }
 
                     @Override
