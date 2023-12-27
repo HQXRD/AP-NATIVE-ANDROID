@@ -3,10 +3,17 @@ package com.xtree.bet.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.net.http.SslError;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentTransaction;
@@ -16,6 +23,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
+import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.BR;
 import com.xtree.bet.R;
@@ -27,7 +36,6 @@ import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.manager.BtCarManager;
-import com.xtree.bet.ui.CustomGSYVideoPlayer;
 import com.xtree.bet.ui.adapter.MatchDetailAdapter;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.ui.fragment.BtDetailOptionFragment;
@@ -49,7 +57,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 /**
  * Created by goldze on 2018/6/21
  */
-public class BtDetailActivity extends GSYBaseActivityDetail<CustomGSYVideoPlayer> implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlayer> implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     private final static String KEY_MATCH = "KEY_MATCH_ID";
     private List<Category> mCategories = new ArrayList<>();
 
@@ -59,12 +67,12 @@ public class BtDetailActivity extends GSYBaseActivityDetail<CustomGSYVideoPlayer
 
     private BtDetailOptionFragment fragment;
 
-    private Match match;
+    private Match mMatch;
 
     private int tabPos;
 
-    public Match getMatch() {
-        return match;
+    public Match getmMatch() {
+        return mMatch;
     }
 
     @Override
@@ -94,13 +102,24 @@ public class BtDetailActivity extends GSYBaseActivityDetail<CustomGSYVideoPlayer
     public void initView() {
         binding.appBarLayout.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             if (Math.abs(verticalOffset) >= appBarLayout.getTotalScrollRange()) {// 收缩状态
-                binding.rlToolbar.setVisibility(View.VISIBLE);
-                binding.tvLeagueName.setVisibility(View.GONE);
+                binding.rlToolbarTime.setVisibility(View.VISIBLE);
+                binding.ctlToolbarLeague.setVisibility(View.GONE);
+                binding.llLive.setVisibility(View.GONE);
+                binding.llData.setVisibility(View.GONE);
                 binding.toolbar.setBackgroundResource(R.color.bt_color_detail_top_toolbar);
             } else if (Math.abs(verticalOffset) == 0) {//展开
-                binding.rlToolbar.setVisibility(View.GONE);
-                binding.tvLeagueName.setVisibility(View.VISIBLE);
+                binding.rlToolbarTime.setVisibility(View.GONE);
+                if(binding.videoPlayer.getVisibility() != View.VISIBLE && binding.wvAmin.getVisibility() != View.VISIBLE) {
+                    binding.ctlToolbarLeague.setVisibility(View.VISIBLE);
+                }else {
+                    binding.ctlToolbarLeague.setVisibility(View.GONE);
+                }
+                binding.llLive.setVisibility(View.VISIBLE);
+                binding.llData.setVisibility(View.VISIBLE);
                 binding.toolbar.setBackgroundResource(android.R.color.transparent);
+            } else {
+                binding.llLive.setVisibility(View.VISIBLE);
+                binding.llData.setVisibility(View.VISIBLE);
             }
         });
 
@@ -124,24 +143,15 @@ public class BtDetailActivity extends GSYBaseActivityDetail<CustomGSYVideoPlayer
         binding.rlCg.setOnClickListener(this);
 
         initVideoPlayer();
-    }
-
-    /**
-     * 初始化播放器相关控件
-     */
-    private void initVideoPlayer() {
-        //增加title
-        binding.videoPlayer.getTitleTextView().setVisibility(View.GONE);
-        binding.videoPlayer.getBackButton().setVisibility(View.GONE);
-        binding.tvLive.setOnClickListener(this);
-        binding.tvAnimi.setOnClickListener(this);
+        setWebView();
+        setTopBg();
     }
 
     @Override
     public void initData() {
-        match = getIntent().getParcelableExtra(KEY_MATCH);
-        viewModel.getMatchDetail(match.getId());
-        viewModel.matchData.postValue(match);
+        mMatch = getIntent().getParcelableExtra(KEY_MATCH);
+        viewModel.getMatchDetail(mMatch.getId());
+        viewModel.matchData.postValue(mMatch);
         viewModel.addSubscription();
         setCgBtCar();
     }
@@ -153,45 +163,105 @@ public class BtDetailActivity extends GSYBaseActivityDetail<CustomGSYVideoPlayer
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    viewModel.getMatchDetail(match.getId());
+                    viewModel.getMatchDetail(mMatch.getId());
                 })
         );
     }
 
+    /**
+     * 设置顶部背景图
+     */
+    private void setTopBg() {
+        int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
+        binding.ctlBg.setBackgroundResource(Constants.DETAIL_BG_SPORT_ICON[sportId]);
+    }
+
+    /**
+     * 初始化播放器相关控件
+     */
+    private void initVideoPlayer() {
+        //增加title
+        binding.tvLive.setOnClickListener(this);
+        binding.tvAnimi.setOnClickListener(this);
+        binding.ivBack.setOnClickListener(this);
+    }
+
+    private void setWebView() {
+
+        WebView webView = binding.wvAmin;
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+        settings.setUseWideViewPort(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setLoadsImagesAutomatically(true);
+
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                CfLog.d("onPageStarted url:  " + url);
+                //Log.d("---", "onPageStarted url:  " + url);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                CfLog.d("onPageFinished url: " + url);
+            }
+
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+                handler.proceed();
+            }
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                ToastUtils.showShort("");
+            }
+
+        });
+    }
+
     @Override
-    public CustomGSYVideoPlayer getGSYVideoPlayer() {
+    public StandardGSYVideoPlayer getGSYVideoPlayer() {
         return binding.videoPlayer;
     }
 
     @Override
     public GSYVideoOptionBuilder getGSYVideoOptionBuilder() {
         String videoUrl = "";
-        if(!TextUtils.isEmpty(match.getVideoInfo().m3u8SD)){
-            videoUrl = match.getVideoInfo().m3u8SD;
-        } else if (!TextUtils.isEmpty(match.getVideoInfo().m3u8HD)) {
-            videoUrl = match.getVideoInfo().m3u8HD;
-        } else if (!TextUtils.isEmpty(match.getVideoInfo().flvSD)) {
-            videoUrl = match.getVideoInfo().flvSD;
-        } else if (!TextUtils.isEmpty(match.getVideoInfo().flvHD)) {
-            videoUrl = match.getVideoInfo().flvHD;
-        } else if (!TextUtils.isEmpty(match.getVideoInfo().web)) {
-            videoUrl = match.getVideoInfo().web;
+        if(!TextUtils.isEmpty(mMatch.getVideoInfo().m3u8SD)){
+            videoUrl = mMatch.getVideoInfo().m3u8SD;
+        } else if (!TextUtils.isEmpty(mMatch.getVideoInfo().m3u8HD)) {
+            videoUrl = mMatch.getVideoInfo().m3u8HD;
+        } else if (!TextUtils.isEmpty(mMatch.getVideoInfo().flvSD)) {
+            videoUrl = mMatch.getVideoInfo().flvSD;
+        } else if (!TextUtils.isEmpty(mMatch.getVideoInfo().flvHD)) {
+            videoUrl = mMatch.getVideoInfo().flvHD;
+        } else if (!TextUtils.isEmpty(mMatch.getVideoInfo().web)) {
+            videoUrl = mMatch.getVideoInfo().web;
         }
         String score = "";
-        if (match.getScore(Constants.SCORE_TYPE_SCORE) != null && match.getScore(Constants.SCORE_TYPE_SCORE).size() > 1) {
-            score = match.getScore(Constants.SCORE_TYPE_SCORE).get(0) + " - " + match.getScore(Constants.SCORE_TYPE_SCORE).get(1);
+        if (mMatch.getScore(Constants.SCORE_TYPE_SCORE) != null && mMatch.getScore(Constants.SCORE_TYPE_SCORE).size() > 1) {
+            score = mMatch.getScore(Constants.SCORE_TYPE_SCORE).get(0) + " - " + mMatch.getScore(Constants.SCORE_TYPE_SCORE).get(1);
         }
+        ImageView thumb = new ImageView(this);
+        int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
+        thumb.setBackgroundResource(Constants.DETAIL_BG_SPORT_ICON[sportId]);
         return new GSYVideoOptionBuilder()
-                //.setThumbImageView(imageView)
-                .setUrl("http://alvideo.ippzone.com/zyvd/98/90/b753-55fe-11e9-b0d8-00163e0c0248")
+                .setThumbImageView(thumb)
+                .setUrl(videoUrl)
                 .setCacheWithPlay(false)
-                .setVideoTitle(match.getTeamMain() + score + match.getTeamVistor())
-                .setIsTouchWiget(true)
+                .setShrinkImageRes(R.mipmap.bt_video_shrink)
+                .setEnlargeImageRes(R.mipmap.bt_video_enlarge)
+                .setVideoTitle(mMatch.getTeamMain() + score + mMatch.getTeamVistor())
+                .setIsTouchWiget(false)
                 //.setAutoFullWithSize(true)
                 .setRotateViewAuto(false)
                 .setLockLand(false)
                 .setShowFullAnimation(false)//打开动画
-                .setNeedLockFull(true)
+                .setNeedLockFull(false)
                 .setSeekRatio(1);
     }
 
@@ -213,13 +283,17 @@ public class BtDetailActivity extends GSYBaseActivityDetail<CustomGSYVideoPlayer
      */
     private void updateOptionData() {
         if(fragment == null) {
-            fragment = BtDetailOptionFragment.getInstance(match, (ArrayList<PlayType>) mCategories.get(tabPos).getPlayTypeList());
-            FragmentTransaction trans = getSupportFragmentManager()
-                    .beginTransaction();
-            trans.replace(R.id.fl_option, fragment);
-            trans.commitAllowingStateLoss();
+            if(mCategories != null && !mCategories.isEmpty()) {
+                fragment = BtDetailOptionFragment.getInstance(mMatch, (ArrayList<PlayType>) mCategories.get(tabPos).getPlayTypeList());
+                FragmentTransaction trans = getSupportFragmentManager()
+                        .beginTransaction();
+                trans.replace(R.id.fl_option, fragment);
+                trans.commitAllowingStateLoss();
+            }
         }else{
-            RxBus.getDefault().post(new BetContract(BetContract.ACTION_OPTION_CHANGE, mCategories.get(tabPos).getPlayTypeList()));
+            if(mCategories != null && !mCategories.isEmpty()) {
+                RxBus.getDefault().post(new BetContract(BetContract.ACTION_OPTION_CHANGE, mCategories.get(tabPos).getPlayTypeList()));
+            }
         }
         /*if (detailPlayTypeAdapter == null) {
             detailPlayTypeAdapter = new MatchDetailAdapter(BtDetailActivity.this, mCategories.get(tabPos).getPlayTypeList());
@@ -232,7 +306,18 @@ public class BtDetailActivity extends GSYBaseActivityDetail<CustomGSYVideoPlayer
     @Override
     public void initViewObservable() {
         viewModel.matchData.observe(this, match -> {
-            this.match = match;
+            this.mMatch = match;
+            if(match.hasAs()){
+                binding.tvAnimi.setVisibility(View.VISIBLE);
+            }else{
+                binding.tvAnimi.setVisibility(View.INVISIBLE);
+            }
+
+            if(match.hasVideo()){
+                binding.tvLive.setVisibility(View.VISIBLE);
+            }else{
+                binding.tvLive.setVisibility(View.INVISIBLE);
+            }
             binding.tvLeagueName.setText(match.getLeague().getLeagueName());
             binding.tvTeamMain.setText(match.getTeamMain());
             binding.tvTeamVisisor.setText(match.getTeamVistor());
@@ -291,6 +376,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<CustomGSYVideoPlayer
 
         });
         viewModel.categoryListData.observe(this, categories -> {
+
             if(mCategories.size() != categories.size() ) {
                 mCategories = categories;
                 if (!categories.isEmpty()) {
@@ -309,8 +395,10 @@ public class BtDetailActivity extends GSYBaseActivityDetail<CustomGSYVideoPlayer
                     }
 
                 }
+            }else{
+                mCategories = categories;
+                updateOptionData();
             }
-            updateOptionData();
         });
 
         viewModel.betContractListData.observe(this, betContract -> {
@@ -351,8 +439,30 @@ public class BtDetailActivity extends GSYBaseActivityDetail<CustomGSYVideoPlayer
             btCarDialogFragment.show(BtDetailActivity.this.getSupportFragmentManager(), "btCarDialogFragment");
         } else if (id == R.id.tv_live) {
             binding.videoPlayer.setVisibility(View.VISIBLE);
+            binding.ctlToolbarLeague.setVisibility(View.GONE);
+            binding.rlToolbarTime.setVisibility(View.GONE);
             initVideoBuilderMode();
         } else if (id == R.id.tv_animi) {
+            if(mMatch.hasAs()) {
+                if (!TextUtils.isEmpty(mMatch.getAnmiUrls().get(0))) {
+                    setWebView();
+                    binding.wvAmin.setVisibility(View.VISIBLE);
+                    binding.ctlToolbarLeague.setVisibility(View.GONE);
+                    binding.rlToolbarTime.setVisibility(View.GONE);
+                    binding.wvAmin.loadUrl(mMatch.getAnmiUrls().get(0));
+                }
+            }
+
+        } else if (id == R.id.iv_back) {
+            if(binding.videoPlayer.getVisibility() == View.VISIBLE || binding.videoPlayer.getGSYVideoManager().isPlaying()) {
+                binding.videoPlayer.release();
+                binding.videoPlayer.setVisibility(View.GONE);
+            } else if (binding.wvAmin.getVisibility() == View.VISIBLE) {
+                binding.wvAmin.destroy();
+                binding.wvAmin.setVisibility(View.GONE);
+            } else {
+                finish();
+            }
         }
     }
 }

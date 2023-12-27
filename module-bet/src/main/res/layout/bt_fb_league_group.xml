@@ -59,10 +59,9 @@
         android:id="@+id/rl_league"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bt_bg_match_item"
+        android:background="@drawable/bt_bg_league_top"
         android:visibility="visible"
         app:layout_constraintTop_toTopOf="parent">
-
         <ImageView
             android:id="@+id/iv_icon"
             android:layout_width="20dp"

@@ -107,4 +107,11 @@ public interface Match extends BaseBean {
      * @return
      */
     long getMatchTime();
+
+    /**
+     * 是否冠军赛事
+     * @return
+     */
+    boolean isChampion();
+
 }

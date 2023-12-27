@@ -3,8 +3,10 @@ package com.xtree.bet.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 
+import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.xtree.bet.R;
 
@@ -27,9 +29,27 @@ public class CustomGSYVideoPlayer extends StandardGSYVideoPlayer {
         super(context, attrs);
     }
 
+
     @Override
     public int getLayoutId() {
         return R.layout.bt_video_layout_custom;
+    }
+
+    @Override
+    protected void init(Context context) {
+        super.init(context);
+        ImageView mVolumeButton = (ImageView) findViewById(R.id.iv_volume);
+        mVolumeButton.setOnClickListener(v -> {
+            if(getGSYVideoManager().isPlaying()) {
+                //静音
+                GSYVideoManager.instance().setNeedMute(!GSYVideoManager.instance().isNeedMute());
+                if(GSYVideoManager.instance().isNeedMute()){
+                    mVolumeButton.setImageResource(R.mipmap.bt_icon_voice_open);
+                }else{
+                    mVolumeButton.setImageResource(R.mipmap.bt_icon_voice_close);
+                }
+            }
+        });
     }
 
     @Override
@@ -37,11 +57,11 @@ public class CustomGSYVideoPlayer extends StandardGSYVideoPlayer {
         if(mStartButton instanceof ImageView) {
             ImageView imageView = (ImageView) mStartButton;
             if (mCurrentState == CURRENT_STATE_PLAYING) {
-                imageView.setImageResource(com.shuyu.gsyvideoplayer.R.drawable.video_click_pause_selector);
+                imageView.setImageResource(R.mipmap.bt_video_pause);
             } else if (mCurrentState == CURRENT_STATE_ERROR) {
-                imageView.setImageResource(com.shuyu.gsyvideoplayer.R.drawable.video_click_play_selector);
+                imageView.setImageResource(R.mipmap.bt_video_click_play);
             } else {
-                imageView.setImageResource(com.shuyu.gsyvideoplayer.R.drawable.video_click_play_selector);
+                imageView.setImageResource(R.mipmap.bt_video_click_play);
             }
         }
     }

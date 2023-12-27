@@ -113,6 +113,9 @@
     <!-- 投注失败提示字体颜色 -->
     <color name="bt_color_bt_result_failed">#F97152</color>
 
+    <!-- 投注失败提示字体颜色 -->
+    <color name="bt_color_league_line_top">#80A698D9</color>
+
     <!-- 投注模块 end-->
 
     <!-- 首页模块 begin -->

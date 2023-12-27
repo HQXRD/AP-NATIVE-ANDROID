@@ -55,4 +55,33 @@ public interface Option extends BaseBean {
      * @return
      */
      String getLine();
+
+    /**
+     * 设置投注选择唯一标识
+     * @param code
+     */
+     void setCode(String code);
+
+    /**
+     * 获取投注选择唯一标识
+     * @return
+     */
+     String getCode();
+
+    /**
+     * 设置投注项赔率的变化
+     * @return
+     */
+    void setChange(double newOdd);
+    /**
+     * 赔率是否上升
+     * @return
+     */
+    boolean isUp();
+    /**
+     * 赔率是否下降
+     * @return
+     */
+    boolean isDown();
+    void reset();
 }

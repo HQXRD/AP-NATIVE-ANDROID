@@ -29,7 +29,7 @@ public class PlayTypeAdapter extends CommonAdapter<PlayType> {
         holder.setText(R.id.tv_playtype_name, playType.getPlayTypeName());
         RecyclerView rvOption = holder.getView(R.id.rv_option);
         rvOption.setLayoutManager(new GridLayoutManager(mContext, 1));
-        OptionAdapter optionAdapter = new OptionAdapter(mContext, match, playType, playType.getOptionList());
+        OptionAdapter optionAdapter = new OptionAdapter(mContext, match, playType, playType.getOptionLists().get(0), playType.getOptionList());
         rvOption.setAdapter(optionAdapter);
     }
 }

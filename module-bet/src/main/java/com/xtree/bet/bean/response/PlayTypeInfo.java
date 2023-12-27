@@ -22,7 +22,7 @@ public class PlayTypeInfo implements BaseBean {
     /**
      * 玩法赔率集合，带线玩法，数组里是多个，或者一个玩法，不带线玩法，数组就是一条数据
      */
-    public List<OptionDataListInfo> mks;
+    public List<OptionDataListInfo> mks = new ArrayList<>();
     /**
      * 玩法展示分类数组， 如：热门、角球、波胆等，返回英文字母简称
      */

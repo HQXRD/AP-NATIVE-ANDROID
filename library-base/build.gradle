@@ -59,6 +59,8 @@ dependencies {
     api rootProject.ext.dependencies["XBanner"]
     api rootProject.ext.dependencies["banner"]
     api rootProject.ext.dependencies["base-rvadapter"]
+    api rootProject.ext.dependencies["smart-refresh-layout"]
+    api rootProject.ext.dependencies["smart-refresh-layout-header"]
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
 }

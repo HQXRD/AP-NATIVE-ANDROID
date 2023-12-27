@@ -72,6 +72,8 @@ ext {
             "XBanner"                              : "com.github.xiaohaibin:XBanner:androidx_v1.2.8",
             "banner"                               : "com.youth.banner:banner:2.1.0",
             "base-rvadapter"                       : "com.zhy:base-rvadapter:3.0.3",
+            "smart-refresh-layout"                 : "io.github.scwang90:refresh-layout-kernel:2.1.0",
+            "smart-refresh-layout-header"          : "io.github.scwang90:refresh-header-classics:2.1.0",
 
     ]
 }

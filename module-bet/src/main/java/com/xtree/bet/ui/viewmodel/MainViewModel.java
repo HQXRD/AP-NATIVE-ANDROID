@@ -1,6 +1,7 @@
 package com.xtree.bet.ui.viewmodel;
 
 import android.app.Application;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -17,17 +18,15 @@ import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.response.MatchInfo;
 import com.xtree.bet.bean.response.MatchListRsp;
+import com.xtree.bet.bean.ui.Option;
+import com.xtree.bet.bean.ui.PlayGroup;
+import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.data.BetRepository;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -65,13 +64,18 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
      */
     public SingleLiveData<Map<String, List<Integer>>> statisticalData = new SingleLiveData<>();
 
-
+    private List<Match> mMatchList = new ArrayList<>();
+    private Map<String, Match> mMapMatch = new HashMap<>();
+    private List<League> mLeagueList = new ArrayList<>();
+    private List<League> mGoingOnLeagueList = new ArrayList<>();
+    Map<String, League> mMapLeague = new HashMap<>();
     private Map<String, List<Integer>> sportCountMap = new HashMap<>();
     private List<Date> dateList = new ArrayList<>();
 
     private int currentPage = 1;
     private int goingOnPageSize = 300;
-    private int pageSize = 30;
+    private int pageSize = 50;
+    private List<League> mUpdateLeagueList;
 
     public MainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
@@ -96,10 +100,14 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
         //leagueItemData.setValue(new LeagueItem());
     }
 
-    public String getScore(List<League> leagueList, int matchId){
-        for(League league : leagueList){
-            for (Match match : league.getMatchList()){
-                if(matchId == match.getId()){
+    public void setUpdateLeagueList(List<League> updateLeague) {
+        mUpdateLeagueList = updateLeague;
+    }
+
+    public String getScore(List<League> leagueList, int matchId) {
+        for (League league : leagueList) {
+            for (Match match : league.getMatchList()) {
+                if (matchId == match.getId()) {
                     if (match.getScore(Constants.SCORE_TYPE_SCORE) != null && match.getScore(Constants.SCORE_TYPE_SCORE).size() > 1) {
                         String scoreMain = String.valueOf(match.getScore(Constants.SCORE_TYPE_SCORE).get(0));
                         String scoreVisitor = String.valueOf(match.getScore(Constants.SCORE_TYPE_SCORE).get(1));
@@ -113,18 +121,32 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
 
     /**
      * 获取赛事列表
+     *
      * @param sportId
      * @param orderBy
      * @param leagueIds
      * @param matchids
      * @param playMethodType
-     * @param searchDatePos 查询时间列表中的位置
+     * @param searchDatePos  查询时间列表中的位置
      * @param isTimedRefresh 是否定时刷新 true-是，false-否
+     * @param isRefresh      是否刷新 true-是, false-否
      */
-    public void getLeagueList(int sportId, int orderBy, int[] leagueIds, List<Integer> matchids, int playMethodType, int searchDatePos, boolean isTimedRefresh) {
-        int type = playMethodType == 6 || (playMethodType == 2 && searchDatePos == 0) ? 1 : playMethodType;
-        boolean flag = playMethodType == 6 || (playMethodType == 2 && searchDatePos == 0) ? true : false;
-        Log.e("test", "=========searchDatePos========" + searchDatePos);
+    public void getLeagueList(int sportId, int orderBy, int[] leagueIds, List<Integer> matchids, int playMethodType, int searchDatePos, boolean isTimedRefresh, boolean isRefresh) {
+        int type;
+        boolean flag = false;
+
+        if (isRefresh) {
+            type = playMethodType == 6 || (playMethodType == 2 && searchDatePos == 0) ? 1 : playMethodType;
+            flag = playMethodType == 6 || (playMethodType == 2 && searchDatePos == 0) ? true : false;
+            currentPage = 1;
+        } else {
+            type = playMethodType == 6 || (playMethodType == 2 && searchDatePos == 0) ? 3 : playMethodType;
+            currentPage++;
+        }
+
+        final int finalType = type;
+        final boolean finalFlag = flag;
+
         PBListReq pbListReq = new PBListReq();
         pbListReq.setSportId(sportId);
         pbListReq.setType(type);
@@ -137,14 +159,13 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
         String endTime;
 
 
-
-        if(type != 1 && type != 3) {
+        if (type != 1 && type != 3) {
             if (searchDatePos == dateList.size() - 1) {
                 pbListReq.setBeginTime(dateList.get(dateList.size() - 1).getTime() + "");
                 pbListReq.setEndTime(TimeUtils.addDays(dateList.get(dateList.size() - 1), 30).getTime() + "");
                 startTime = TimeUtils.longFormatString(Long.valueOf(pbListReq.getBeginTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
                 endTime = TimeUtils.longFormatString(Long.valueOf(pbListReq.getEndTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
-            } else if (searchDatePos != 0){
+            } else if (searchDatePos != 0) {
                 String start = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
                 String end = TimeUtils.parseTime(TimeUtils.addDays(dateList.get(searchDatePos), 1), TimeUtils.FORMAT_YY_MM_DD) + " 11:59:59";
 
@@ -157,8 +178,13 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
 
         if (type == 1) {// 滚球
             pbListReq.setSize(goingOnPageSize);
-        }else {
+        } else {
             pbListReq.setSize(pageSize);
+        }
+
+        if (isRefresh) {
+            mLeagueList.clear();
+            mMapLeague.clear();
         }
 
         Disposable disposable = (Disposable) model.getApiService().getFBList(pbListReq)
@@ -167,24 +193,45 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
                 .subscribeWith(new HttpCallBack<MatchListRsp>() {
                     @Override
                     public void onResult(MatchListRsp matchListRsp) {
-                        if (type == 1) { // 滚球
-                            leagueGoingOnListData.postValue(leagueAdapterList(matchListRsp.records, true));
-                            if(flag) {
-                                getLeagueList(sportId, orderBy, leagueIds, matchids, 3, searchDatePos, isTimedRefresh);
+                        if (isTimedRefresh) {
+                            setOptionOddChange(matchListRsp.records);
+                            leagueGoingOnTimerListData.postValue(mLeagueList);
+                            return;
+                        }
+                        if (finalType == 1) { // 滚球
+                            if(finalFlag) {
+                                leagueGoingList(matchListRsp.records);
+                                getLeagueList(sportId, orderBy, leagueIds, matchids, 3, searchDatePos, false, isRefresh);
+                            }else{
+                                leagueAdapterList(matchListRsp.records);
+                                leagueGoingOnListData.postValue(mLeagueList);
                             }
                         } else {
-                            if(isTimedRefresh){
-                                leagueWaitingTimerListData.postValue(leagueAdapterList(matchListRsp.records, true));
-                            }else{
-                                leagueWaitingListData.postValue(leagueAdapterList(matchListRsp.records, true));
-                            }
+                            leagueAdapterList(matchListRsp.records);
+                            leagueWaitingListData.postValue(mLeagueList);
+                        }
 
+
+
+                        if (isRefresh) {
+                            finishRefresh(true);
+                        } else {
+                            if (matchListRsp != null && matchListRsp.records != null && matchListRsp.records.isEmpty()) {
+                                loadMoreWithNoMoreData();
+                            } else {
+                                finishLoadMore(true);
+                            }
                         }
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
+                        if (isRefresh) {
+                            finishRefresh(false);
+                        } else {
+                            finishLoadMore(false);
+                        }
                     }
                 });
         addSubscribe(disposable);
@@ -226,36 +273,165 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
         addSubscribe(disposable);
     }
 
+    private List<League> leagueGoingList(List<MatchInfo> matchInfoList) {
+
+        Map<String, League> mapLeague = new HashMap<>();
+        for (MatchInfo matchInfo : matchInfoList) {
+            League league = mapLeague.get(String.valueOf(matchInfo.lg.id));
+
+            if (league == null) {
+                league = new LeagueFb(matchInfo.lg);
+                mapLeague.put(String.valueOf(matchInfo.lg.id), league);
+
+                mGoingOnLeagueList.add(league);
+                //mMapGoingOnLeague.put(String.valueOf(matchInfo.lg.id), league);
+            }
+
+            Match match = new MatchFb(matchInfo);
+            league.getMatchList().add(match);
+
+
+            if(mMapMatch.get(String.valueOf(match.getId())) == null){
+                mMapMatch.put(String.valueOf(match.getId()), match);
+                mMatchList.add(match);
+            }else{
+                int index = mMatchList.indexOf(mMapMatch.get(String.valueOf(match.getId())));
+                if(index > -1) {
+                    mMatchList.set(index, match);
+                }
+            }
+
+        }
+
+        return mGoingOnLeagueList;
+    }
+
+
     /**
      * @param matchInfoList
-     * @param isFb
      * @return
      */
-    public static List<League> leagueAdapterList(List<MatchInfo> matchInfoList, boolean isFb) {
-        List<League> leagueList = new ArrayList<>();
-        Map<String, League> map = new HashMap<>();
+    private List<League> leagueAdapterList(List<MatchInfo> matchInfoList) {
 
-        int index = 0;
-        for (MatchInfo matchInfo : matchInfoList) {
+        Map<String, League> mapLeague = new HashMap<>();
 
-            League leagueAdapter = map.get(String.valueOf(matchInfo.lg.id));
-            if (leagueAdapter == null) {
-                leagueAdapter = new LeagueFb(matchInfo.lg);
-                leagueAdapter.setSort(index++);
-                map.put(String.valueOf(matchInfo.lg.id), leagueAdapter);
-            }
-
-            Match matchFbAdapter = new MatchFb(matchInfo);
-            leagueAdapter.getMatchList().add(matchFbAdapter);
+        if(!mGoingOnLeagueList.isEmpty() && mLeagueList.isEmpty()){
+            mLeagueList.addAll(mGoingOnLeagueList);
+            League league = mLeagueList.get(0).instance();
+            league.setHead(true);
+            mLeagueList.add(league);
+            mGoingOnLeagueList.clear();
         }
-        leagueList.addAll(map.values());
-        Collections.sort(leagueList, new Comparator<League>() {
-            @Override
-            public int compare(League league, League t1) {
-                return league.getSort() - t1.getSort();
+
+        for (MatchInfo matchInfo : matchInfoList) {
+            League league = mMapLeague.get(String.valueOf(matchInfo.lg.id));
+
+            if (league == null) {
+                league = new LeagueFb(matchInfo.lg);
+                mapLeague.put(String.valueOf(matchInfo.lg.id), league);
+
+                mLeagueList.add(league);
+                mMapLeague.put(String.valueOf(matchInfo.lg.id), league);
             }
-        });
-        return leagueList;
+
+            Match match = new MatchFb(matchInfo);
+            league.getMatchList().add(match);
+
+
+            if(mMapMatch.get(String.valueOf(match.getId())) == null){
+                mMapMatch.put(String.valueOf(match.getId()), match);
+                mMatchList.add(match);
+            }else{
+                int index = mMatchList.indexOf(mMapMatch.get(String.valueOf(match.getId())));
+                if(index > -1) {
+                    mMatchList.set(index, match);
+                }
+            }
+        }
+
+        return mLeagueList;
+    }
+
+    /**
+     * 设置赔率变化
+     *
+     * @param matchInfoList
+     */
+    private void setOptionOddChange(List<MatchInfo> matchInfoList) {
+        List<Match> newMatchList = new ArrayList<>();
+        Map<String, Match> map = new HashMap<>();
+
+        for (Match match : mMatchList) {
+            map.put(String.valueOf(match.getId()), match);
+        }
+
+        for (MatchInfo matchInfo : matchInfoList) {
+            Match newMatch = new MatchFb(matchInfo);
+            newMatchList.add(newMatch);
+        }
+
+        List<Option> newOptonList = getMatchOptionList(newMatchList);
+        List<Option> oldOptonList = getMatchOptionList(mMatchList);
+
+        for (Option newOption : newOptonList) {
+            for (Option oldOption : oldOptonList) {
+                if (oldOption != null && newOption != null
+                        && oldOption.getOdd() != newOption.getOdd()
+                        && TextUtils.equals(oldOption.getCode(), newOption.getCode())) {
+                    newOption.setChange(oldOption.getOdd());
+                    break;
+                }
+            }
+        }
+
+        for (Match match : newMatchList) {
+            Match oldMatch = map.get(String.valueOf(match.getId()));
+            if (oldMatch != null) {
+                mMatchList.set(mMatchList.indexOf(oldMatch), match);
+            }
+        }
+
+        for (League league : mUpdateLeagueList) {
+            if (!league.isHead()) {
+                for (Match match : newMatchList) {
+                    Match oldMatch = map.get(String.valueOf(match.getId()));
+                    int index = league.getMatchList().indexOf(oldMatch);
+                    if (oldMatch != null && index > -1) {
+                        league.getMatchList().set(index, match);
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    private List<Option> getMatchOptionList(List<Match> matchList) {
+        List<Option> optionList = new ArrayList<>();
+        for (Match match : matchList) {
+            PlayGroup newPlayGroup = new PlayGroup(match.getPlayTypeList());
+            newPlayGroup.getPlayGroupList();
+
+            for (PlayType playType : newPlayGroup.getPlayTypeList()) {
+                playType.getOptionLists();
+                for (Option option : playType.getOptionList()) {
+                    if (playType.getOptionLists() != null && !playType.getOptionLists().isEmpty()) {
+                        StringBuffer code = new StringBuffer();
+                        code.append(match.getId());
+                        code.append(playType.getPlayType());
+                        code.append(playType.getPlayPeriod());
+                        code.append(playType.getOptionLists().get(0).getId());
+                        code.append(option.getOptionType());
+                        if (!TextUtils.isEmpty(option.getLine())) {
+                            code.append(option.getLine());
+                        }
+                        option.setCode(code.toString());
+                    }
+                    optionList.add(option);
+                }
+            }
+        }
+        return optionList;
     }
 
     public void addSubscription() {
@@ -264,18 +440,6 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
                     betContractListData.postValue(betContract);
                 });
         addSubscribe(mSubscription);
-    }
-
-    private String readTextFile(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte buf[] = new byte[1024];
-        int len;
-        while ((len = inputStream.read(buf)) != -1) {
-            outputStream.write(buf, 0, len);
-        }
-        outputStream.close();
-        inputStream.close();
-        return outputStream.toString();
     }
 
     public void getFBGameTokenApi() {

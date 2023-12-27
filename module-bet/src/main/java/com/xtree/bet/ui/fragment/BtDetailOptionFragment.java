@@ -1,49 +1,29 @@
 package com.xtree.bet.ui.fragment;
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.bumptech.glide.Glide;
-import com.google.android.material.tabs.TabLayout;
 import com.xtree.bet.BR;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.PlayType;
-import com.xtree.bet.constant.Constants;
-import com.xtree.bet.constant.SPKey;
-import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.contract.BetContract;
-import com.xtree.bet.databinding.BtLayoutDetailBinding;
 import com.xtree.bet.databinding.BtLayoutDetailOptionBinding;
-import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.xtree.bet.ui.adapter.MatchDetailAdapter;
 import com.xtree.bet.ui.viewmodel.BtDetailOptionViewModel;
-import com.xtree.bet.ui.viewmodel.BtDetailViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.weight.BaseDetailDataView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * Created by goldze on 2018/6/21
@@ -126,7 +106,7 @@ public class BtDetailOptionFragment extends BaseFragment<BtLayoutDetailOptionBin
         viewModel.betContractListData.observe(this, betContract -> {
             if (betContract.action == BetContract.ACTION_OPTION_CHANGE) {
                 playTypeList = (List<PlayType>) betContract.getData();
-                match = ((BtDetailActivity)getContext()).getMatch();
+                match = ((BtDetailActivity)getContext()).getmMatch();
                 updateOptionData();
             }
         });

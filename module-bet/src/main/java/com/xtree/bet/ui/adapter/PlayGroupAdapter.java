@@ -27,6 +27,6 @@ public class PlayGroupAdapter implements XBanner.XBannerAdapter {
 
         RecyclerView rvPlayType = view.findViewById(R.id.rv_group);
         rvPlayType.setLayoutManager(new GridLayoutManager(banner.getContext(), 3));
-        rvPlayType.setAdapter(new PlayTypeAdapter(banner.getContext(), R.layout.bt_fb_list_item_play_type_item, playGroup1.getPlayTypeList(), match));
+        rvPlayType.setAdapter(new PlayTypeAdapter(banner.getContext(), R.layout.bt_fb_list_item_play_type_item, playGroup1.getOriginalPlayTypeList(), match));
     }
 }

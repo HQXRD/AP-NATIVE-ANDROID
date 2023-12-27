@@ -31,34 +31,5 @@ public class AppApplication extends BaseApplication {
         //初始化组件(靠后)
         ModuleLifecycleConfig.getInstance().initModuleLow(this);
         TagUtils.initDeviceId(this);
-
-
-        ExoSourceManager.setExoMediaSourceInterceptListener(new ExoMediaSourceInterceptListener() {
-            @Override
-            public MediaSource getMediaSource(String dataSource, boolean preview, boolean cacheEnable, boolean isLooping, File cacheDir) {
-                //如果返回 null，就使用默认的
-                return null;
-            }
-
-            /**
-             * 通过自定义的 HttpDataSource ，可以设置自签证书或者忽略证书
-             * demo 里的 GSYExoHttpDataSourceFactory 使用的是忽略证书
-             * */
-            @Override
-            public DataSource.Factory getHttpDataSourceFactory(String userAgent, @Nullable TransferListener listener, int connectTimeoutMillis, int readTimeoutMillis,
-                                                               Map<String, String> mapHeadData, boolean allowCrossProtocolRedirects) {
-                //如果返回 null，就使用默认的
-                GSYExoHttpDataSourceFactory factory = new GSYExoHttpDataSourceFactory(userAgent, listener,
-                        connectTimeoutMillis,
-                        readTimeoutMillis, allowCrossProtocolRedirects);
-                factory.setDefaultRequestProperties(mapHeadData);
-                return factory;
-            }
-
-            @Override
-            public DataSink.Factory cacheWriteDataSinkFactory(String CachePath, String url) {
-                return null;
-            }
-        });
     }
 }

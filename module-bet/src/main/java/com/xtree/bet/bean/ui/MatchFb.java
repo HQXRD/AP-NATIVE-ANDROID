@@ -2,6 +2,8 @@ package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
 
+import androidx.annotation.Nullable;
+
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.MatchInfo;
 import com.xtree.bet.bean.response.PlayTypeInfo;
@@ -11,6 +13,7 @@ import com.xtree.bet.constant.MatchPeriod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 赛事列表UI显示需要用的比赛信息结构
@@ -191,6 +194,31 @@ public class MatchFb implements Match{
     @Override
     public long getMatchTime() {
         return this.matchInfo.bt;
+    }
+    /**
+     * 是否冠军赛事
+     * @return
+     */
+    @Override
+    public boolean isChampion() {
+        return this.matchInfo.ty == 1;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(this == obj){
+            return true;
+        }
+        if(obj == null || obj.getClass() != OptionFb.class){
+            return false;
+        }
+        MatchFb optionFb = (MatchFb) obj;
+        return getId() == optionFb.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(String.valueOf(getId()));
     }
 
     @Override

@@ -44,8 +44,10 @@ public class PlayTypeFb implements PlayType{
     @Override
     public List<OptionList> getOptionLists() {
         List<OptionList> optionLists = new ArrayList<>();
-        for (OptionDataListInfo optionDataListInfo : playTypeInfo.mks) {
-            optionLists.add(new OptionListFb(optionDataListInfo));
+        if(playTypeInfo != null && playTypeInfo.mks != null) {
+            for (OptionDataListInfo optionDataListInfo : playTypeInfo.mks) {
+                optionLists.add(new OptionListFb(optionDataListInfo));
+            }
         }
         return optionLists;
     }
@@ -53,7 +55,23 @@ public class PlayTypeFb implements PlayType{
     @Override
     public List<Option> getOptionList() {
         List<Option> optionList = new ArrayList<>();
-        if(playTypeInfo.mks != null && !playTypeInfo.mks.isEmpty()) {
+        if(playTypeInfo != null && playTypeInfo.mks != null && !playTypeInfo.mks.isEmpty()) {
+            for (OptionInfo optionInfo : playTypeInfo.mks.get(0).op) {
+                optionList.add(new OptionFb(optionInfo));
+            }
+        }else{
+            int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
+            int length = playTypeInfo.nm.contains("独赢") && sportId == 0 || sportId == 9 ? 3 : 2;
+            for (int i = 0; i < length; i++) {
+                optionList.add(null);
+            }
+        }
+        return optionList;
+    }
+
+    public List<Option> getChampionOptionList() {
+        List<Option> optionList = new ArrayList<>();
+        if(playTypeInfo != null && playTypeInfo.mks != null && !playTypeInfo.mks.isEmpty()) {
             for (OptionInfo optionInfo : playTypeInfo.mks.get(0).op) {
                 optionList.add(new OptionFb(optionInfo));
             }
@@ -70,6 +88,16 @@ public class PlayTypeFb implements PlayType{
     @Override
     public int getPlayPeriod() {
         return playTypeInfo.pe;
+    }
+
+
+    /**
+     * 获取盘口组标签集合
+     * @return
+     */
+    @Override
+    public List<String> getTags() {
+        return playTypeInfo.tps;
     }
 
     @Override

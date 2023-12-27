@@ -40,4 +40,10 @@ public interface PlayType extends BaseBean {
      * @return
      */
     int getPlayPeriod();
+
+    /**
+     * 获取盘口组标签集合
+     * @return
+     */
+    List<String> getTags();
 }

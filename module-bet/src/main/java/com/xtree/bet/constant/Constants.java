@@ -23,6 +23,24 @@ public class Constants {
             project.tqyb.com.library_res.R.drawable.bt_match_item_qj_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector};
+
+    /**
+     * 比赛详情页顶部背景图
+     */
+    public static int[] DETAIL_BG_SPORT_ICON = new int[]{
+            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_mszq_top,
+            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_lq_top,
+            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_wq_top,
+            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_snk_top,
+            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_bq_top,
+            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_pq_top,
+            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_ymq_top,
+            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_mszq_top,
+            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_bbq_top,
+            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_bq_top,
+            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_mszq_default_top,
+            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_pq_top,
+            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_mszq_default_top};
     /**
      * 比分类型-得分
      */

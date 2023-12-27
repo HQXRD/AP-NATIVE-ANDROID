@@ -429,6 +429,9 @@ public abstract class GSYVideoControlView extends GSYVideoView implements View.O
                 }
             }
             startDismissControlViewTimer();
+        } else if(i == R.id.back){
+            release();
+            setVisibility(GONE);
         }
     }
 

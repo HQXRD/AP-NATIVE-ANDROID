@@ -152,7 +152,6 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
     @Override
     public View getRealChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-        Log.e("test", "============getRealChildView============");
 
         ChildHolder holder;
 
@@ -170,14 +169,17 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
         binding.rvOptionList.setHasFixedSize(true);
         int spanCount = optionList.getOptionList().size() >= 3 ? 3 : optionList.getOptionList().size();
         binding.rvOptionList.setLayoutManager(new GridLayoutManager(mContext, spanCount));
-        if(convertView.getTag(R.id.rv_option_list) == null) {
-            optionAdapter = new OptionAdapter(mContext, match, (PlayType) getGroup(groupPosition), optionList.getOptionList());
+        optionAdapter = new OptionAdapter(mContext, match, (PlayType) getGroup(groupPosition), optionList, optionList.getOptionList());
+        convertView.setTag(R.id.rv_option_list, optionAdapter);
+        binding.rvOptionList.setAdapter(optionAdapter);
+        /*if(convertView.getTag(R.id.rv_option_list) == null) {
+            optionAdapter = new OptionAdapter(mContext, match, (PlayType) getGroup(groupPosition), optionList, optionList.getOptionList());
             convertView.setTag(R.id.rv_option_list, optionAdapter);
             binding.rvOptionList.setAdapter(optionAdapter);
         }else{
             optionAdapter = (OptionAdapter) convertView.getTag(R.id.rv_option_list);
             optionAdapter.setNewData(optionList.getOptionList());
-        }
+        }*/
 
         return convertView;
     }

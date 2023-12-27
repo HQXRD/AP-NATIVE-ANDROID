@@ -112,8 +112,8 @@
                 android:background="@color/bt_page_up_bg"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:visibility="gone"
                 android:textSize="10sp"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/tab_sport_type"
                 app:tabIndicatorHeight="0dp"
                 app:tabMaxWidth="80dp"
@@ -123,91 +123,92 @@
                 app:tabPaddingStart="5dp"
                 app:tabRippleColor="@android:color/transparent" />
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/srl_league"
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                app:layout_constraintTop_toBottomOf="@+id/tab_fb_league">
+                android:fillViewport="true">
 
-                <LinearLayout
+                <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                    android:id="@+id/srl_league"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/tab_fb_league">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <LinearLayout
-                            android:id="@+id/ll_all_league"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bt_bg_match_header"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:visibility="gone"
-                            app:layout_constraintTop_toTopOf="parent">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:background="@mipmap/bt_icon_going_on" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginTop="4dp"
-                                android:layout_marginBottom="4dp"
-                                android:text="@string/bt_all_league"
-                                android:textColor="@color/bt_text_color_bold"
-                                android:textSize="@dimen/bt_text_12sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/ll_going_on"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bt_bg_match_header"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            app:layout_constraintTop_toBottomOf="@+id/ll_all_league">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:background="@mipmap/bt_icon_going_on" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
-                                android:layout_marginTop="4dp"
-                                android:layout_marginBottom="4dp"
-                                android:text="@string/bt_game_going_on"
-                                android:textColor="@color/bt_text_color_bold"
-                                android:textSize="@dimen/bt_text_12sp" />
-                        </LinearLayout>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <TextView
-                        android:id="@+id/tv_sport_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:padding="5dp"
-                        android:text="足球"
-                        android:textSize="@dimen/bt_text_12sp" />
-
-                    <androidx.core.widget.NestedScrollView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fillViewport="true">
+                        android:orientation="vertical">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <LinearLayout
+                                android:id="@+id/ll_all_league"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bt_bg_match_header"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:visibility="gone"
+                                app:layout_constraintTop_toTopOf="parent">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:background="@mipmap/bt_icon_going_on" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginTop="4dp"
+                                    android:layout_marginBottom="4dp"
+                                    android:text="@string/bt_all_league"
+                                    android:textColor="@color/bt_text_color_bold"
+                                    android:textSize="@dimen/bt_text_12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/ll_going_on"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bt_bg_match_header"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                app:layout_constraintTop_toBottomOf="@+id/ll_all_league">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="10dp"
+                                    android:background="@mipmap/bt_icon_going_on" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="8dp"
+                                    android:layout_marginTop="4dp"
+                                    android:layout_marginBottom="4dp"
+                                    android:text="@string/bt_game_going_on"
+                                    android:textColor="@color/bt_text_color_bold"
+                                    android:textSize="@dimen/bt_text_12sp" />
+                            </LinearLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <TextView
+                            android:id="@+id/tv_sport_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:padding="5dp"
+                            android:text="足球"
+                            android:textSize="@dimen/bt_text_12sp" />
+
 
                         <com.xtree.bet.weight.AnimatedExpandableListViewMax
                             android:id="@+id/rv_league"
@@ -222,10 +223,10 @@
                             android:dividerHeight="0dp"
                             android:groupIndicator="@null"
                             android:listSelector="@android:color/transparent" />
-                    </androidx.core.widget.NestedScrollView>
-                </LinearLayout>
+                    </LinearLayout>
 
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+            </androidx.core.widget.NestedScrollView>
 
         </LinearLayout>
 

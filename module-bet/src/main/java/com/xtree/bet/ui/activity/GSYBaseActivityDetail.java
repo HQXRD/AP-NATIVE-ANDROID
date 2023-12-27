@@ -63,6 +63,7 @@ public abstract class GSYBaseActivityDetail<T extends GSYBaseVideoPlayer> extend
         getGSYVideoOptionBuilder().
                 setVideoAllCallBack(this)
                 .build(getGSYVideoPlayer());
+        binding.videoPlayer.startPlayLogic();
     }
 
     public void showFull() {
@@ -136,7 +137,7 @@ public abstract class GSYBaseActivityDetail<T extends GSYBaseVideoPlayer> extend
 
     @Override
     public void onStartPrepared(String url, Object... objects) {
-
+        binding.videoPlayer.getThumbImageViewLayout().setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -145,10 +146,10 @@ public abstract class GSYBaseActivityDetail<T extends GSYBaseVideoPlayer> extend
         if (orientationUtils == null) {
             throw new NullPointerException("initVideo() or initVideoBuilderMode() first");
         }
-        getGSYVideoPlayer().getThumbImageViewLayout().setVisibility(View.GONE);
         //开始播放了才能旋转和全屏
         orientationUtils.setEnable(getDetailOrientationRotateAuto() && !isAutoFullWithSize());
         isPlay = true;
+        binding.videoPlayer.getThumbImageViewLayout().setVisibility(View.GONE);
     }
 
     @Override

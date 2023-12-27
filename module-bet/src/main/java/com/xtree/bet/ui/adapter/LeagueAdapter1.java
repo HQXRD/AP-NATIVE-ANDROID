@@ -196,8 +196,8 @@ public class LeagueAdapter1 extends AnimatedExpandableListView.AnimatedExpandabl
         llTypeGroup.setLayoutParams(params);
 
         List<PlayType> playTypeList = new ArrayList<>();
-        playTypeList.addAll(playGroupList.get(0).getPlayTypeList());
-        playTypeList.addAll(playGroupList.get(1).getPlayTypeList());
+        playTypeList.addAll(playGroupList.get(0).getOriginalPlayTypeList());
+        playTypeList.addAll(playGroupList.get(1).getOriginalPlayTypeList());
         for(int i = 0; i < ((LinearLayout)llTypeGroup.getChildAt(0)).getChildCount(); i ++){
             setPlayTypeGroup(parent, (LinearLayout) ((LinearLayout)llTypeGroup.getChildAt(0)).getChildAt(i), playTypeList, i);
         }

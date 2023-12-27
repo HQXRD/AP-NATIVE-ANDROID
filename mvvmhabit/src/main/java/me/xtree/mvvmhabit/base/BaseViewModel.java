@@ -14,7 +14,6 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.trello.rxlifecycle4.LifecycleProvider;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -32,6 +31,13 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
     private WeakReference<LifecycleProvider> lifecycle;
     //管理RxJava，主要针对RxJava异步操作造成的内存泄漏
     private CompositeDisposable mCompositeDisposable;
+
+    public final static int ONFINISH_REFRESH = 1;
+    public final static int ONFINISH_LOAD_MORE = 2;
+    public final static int ON_LOAD_MORE_WITH_NO_MORE_DATA = 3;
+
+    public final static int ONFINISH_REFRESH_FAILED = 4;
+    public final static int ONFINISH_LOAD_MORE_FAILED = 5;
 
     public BaseViewModel(@NonNull Application application) {
         this(application, null);
@@ -193,6 +199,26 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         }
     }
 
+    public void finishLoadMore(boolean success) {
+        if(success) {
+            uc.smartRefreshListenerEvent.postValue(ONFINISH_LOAD_MORE);
+        }else {
+            uc.smartRefreshListenerEvent.postValue(ONFINISH_LOAD_MORE_FAILED);
+        }
+    }
+
+    public void finishRefresh(boolean success){
+        if(success) {
+            uc.smartRefreshListenerEvent.postValue(ONFINISH_REFRESH);
+        }else {
+            uc.smartRefreshListenerEvent.postValue(ONFINISH_REFRESH_FAILED);
+        }
+    }
+
+    public void loadMoreWithNoMoreData(){
+        uc.smartRefreshListenerEvent.postValue(ON_LOAD_MORE_WITH_NO_MORE_DATA);
+    }
+
     @Override
     public void accept(Disposable disposable) throws Exception {
         addSubscribe(disposable);
@@ -204,6 +230,7 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         private SingleLiveData<Map<String, Object>> startActivityEvent;
         private SingleLiveData<Map<String, Object>> startContainerActivityEvent;
         private SingleLiveData<Void> finishEvent;
+        private SingleLiveData<Integer> smartRefreshListenerEvent;
         private SingleLiveData<Void> onBackPressedEvent;
 
         public SingleLiveData<String> getShowDialogEvent() {
@@ -224,6 +251,10 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
 
         public SingleLiveData<Void> getFinishEvent() {
             return finishEvent = createLiveData(finishEvent);
+        }
+
+        public SingleLiveData<Integer> getSmartRefreshListenerEvent() {
+            return smartRefreshListenerEvent = createLiveData(smartRefreshListenerEvent);
         }
 
         public SingleLiveData<Void> getOnBackPressedEvent() {

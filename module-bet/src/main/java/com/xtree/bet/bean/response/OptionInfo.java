@@ -44,6 +44,7 @@ public class OptionInfo implements BaseBean {
      * 	line值，带线玩法的线，例如大小球2.5线，部分玩法展示可用该字段进行分组展示
      */
     public String li;
+    public int change;
 
     @Override
     public int describeContents() {

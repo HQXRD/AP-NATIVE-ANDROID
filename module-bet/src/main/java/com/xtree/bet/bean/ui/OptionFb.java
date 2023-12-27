@@ -1,11 +1,17 @@
 package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
+import android.util.Log;
+
+import androidx.annotation.Nullable;
 
 import com.xtree.bet.bean.response.OptionInfo;
 
 public class OptionFb implements Option{
+    private int change;
     private OptionInfo optionInfo;
+
+    private String code;
 
     public OptionFb(OptionInfo optionInfo){
         this.optionInfo = optionInfo;
@@ -83,6 +89,70 @@ public class OptionFb implements Option{
     public String getLine() {
         return optionInfo.li;
     }
+    /**
+     * 设置投注选择唯一标识
+     * @param code
+     */
+    @Override
+    public void setCode(String code) {
+        this.code = code;
+    }
+    /**
+     * 获取投注选择唯一标识
+     * @return
+     */
+    @Override
+    public String getCode() {
+        return code;
+    }
+    /**
+     * 设置投注项赔率的变化
+     * @return
+     */
+    @Override
+    public void setChange(double oldOdd) {
+        change = oldOdd < getOdd() ? 1 : oldOdd > getOdd() ? -1 : 0;
+        Log.e("test", "===========" + change);
+        optionInfo.change = change;
+    }
+    /**
+     * 赔率是否上升
+     * @return
+     */
+    @Override
+    public boolean isUp() {
+        return optionInfo.change == 1;
+    }
+    /**
+     * 赔率是否下降
+     * @return
+     */
+    @Override
+    public boolean isDown() {
+        return optionInfo.change == -1;
+    }
+
+    @Override
+    public void reset() {
+        optionInfo.change = 0;
+    }
+
+    /*@Override
+    public boolean equals(@Nullable Object obj) {
+        if(this == obj){
+            return true;
+        }
+        if(obj.getClass() != OptionFb.class){
+            return false;
+        }
+        OptionFb optionFb = (OptionFb) obj;
+        return getCode() == optionFb.getCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return getCode().hashCode();
+    }*/
 
     @Override
     public int describeContents() {

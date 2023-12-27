@@ -36,11 +36,13 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class OptionAdapter extends BaseAdapter<Option> {
     private Match match;
     private PlayType playType;
-    private BtFbListItemPlayTypeItemOptionBinding binding;
-    public OptionAdapter(Context context, Match match, PlayType playType, List<Option> datas) {
+    private OptionList optionList;
+
+    public OptionAdapter(Context context, Match match, PlayType playType, OptionList optionList, List<Option> datas) {
         super(context, datas);
         this.playType = playType;
         this.match = match;
+        this.optionList = optionList;
     }
 
     @Override
@@ -50,7 +52,7 @@ public class OptionAdapter extends BaseAdapter<Option> {
 
     @Override
     protected void convert(ViewHolder holder, Option option, int position) {
-        binding = BtFbListItemPlayTypeItemOptionBinding.bind(holder.itemView);
+        BtFbListItemPlayTypeItemOptionBinding binding = BtFbListItemPlayTypeItemOptionBinding.bind(holder.itemView);
         TextView uavailableTextView = binding.tvOptionUnable;
         TextView nameTextView = binding.tvOptionName;
         DiscolourTextView oddTextView = binding.tvOptionOdd;
@@ -65,7 +67,6 @@ public class OptionAdapter extends BaseAdapter<Option> {
             optionView.setOnClickListener(view1 -> {
             });
         } else {
-            OptionList optionList = playType.getOptionLists().get(0);
             if (!optionList.isOpen()) {
                 uavailableTextView.setVisibility(View.VISIBLE);
                 oddTextView.setVisibility(View.GONE);
@@ -79,18 +80,9 @@ public class OptionAdapter extends BaseAdapter<Option> {
                 oddTextView.setVisibility(View.VISIBLE);
                 nameTextView.setVisibility(View.VISIBLE);
                 nameTextView.setText(option.getSortName());
-                oddTextView.setText(String.valueOf(option.getOdd()));
-                BetConfirmOption betConfirmOption = (BetConfirmOption) optionView.getTag();
-                if (betConfirmOption == null) {
-                    betConfirmOption = new BetConfirmOptionFb(match, playType, optionList, option);
-                } else {
-                    if(option.getOdd() > betConfirmOption.getOption().getOdd()){
-                        oddTextView.startUp();
-                    } else if (option.getOdd() < betConfirmOption.getOption().getOdd()) {
-                        oddTextView.startDown();
-                    }
-                    betConfirmOption.setData(match, playType, optionList, option);
-                }
+                oddTextView.setOptionOdd(option);
+
+                BetConfirmOption betConfirmOption = new BetConfirmOptionFb(match, playType, optionList, option);
                 optionView.setTag(betConfirmOption);
 
                 if (BtCarManager.isCg()) {
