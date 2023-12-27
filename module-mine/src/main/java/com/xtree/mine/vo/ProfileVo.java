@@ -143,7 +143,7 @@ public class ProfileVo {
         }
     }
 
-    public class CardInfoVo {
+    public static class CardInfoVo {
 
         public String account; // "***************8487",
         public String atime; // "2023-09-01 19:58:53",

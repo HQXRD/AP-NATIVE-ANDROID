@@ -10,16 +10,15 @@
             type="com.xtree.mine.ui.viewmodel.MineViewModel" />
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/black">
+        android:background="@mipmap/cm_bg_dark">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/headArea"
             android:layout_width="match_parent"
-            android:layout_height="290dp"
+            android:layout_height="296dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -46,7 +45,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/me_user_name_hint"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
                 <ImageView
                     android:id="@+id/ivw_vip"
@@ -88,13 +88,15 @@
                 app:layout_constraintRight_toRightOf="@+id/topArea"
                 app:layout_constraintTop_toBottomOf="@+id/topArea">
 
-                <RelativeLayout
-                    android:id="@+id/unlogin_area"
+                <LinearLayout
+                    android:id="@+id/ll_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    android:gravity="center"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <TextView
                         android:id="@+id/textView_login"
@@ -140,10 +142,10 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/mine_text_size" />
 
-                </RelativeLayout>
+                </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/me_already_login_area"
+                    android:id="@+id/cl_already_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
@@ -201,7 +203,7 @@
                             android:layout_height="wrap_content"
                             android:text="0.00"
                             android:textColor="@color/me_text_color"
-                            android:textSize="18sp"
+                            android:textSize="32sp"
                             android:textStyle="bold"
                             tools:text="1000,000.00" />
 
@@ -231,7 +233,7 @@
                             android:layout_alignParentTop="true"
                             android:text="@string/me_level_hint"
                             android:textColor="@color/me_level_color"
-                            android:textSize="8sp" />
+                            android:textSize="10sp" />
 
                         <ProgressBar
                             android:id="@+id/level_progress"
@@ -257,7 +259,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="8dp"
                         android:orientation="horizontal"
                         app:layout_constraintLeft_toLeftOf="@+id/level_area"
                         app:layout_constraintTop_toBottomOf="@+id/level_area">
@@ -267,33 +269,21 @@
                             android:layout_height="wrap_content"
                             android:src="@mipmap/me_jinji_lijin" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:visibility="invisible" />
+                        <TextView style="@style/style_wallet_space" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@mipmap/me_meiyue_hongbao" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:visibility="invisible" />
+                        <TextView style="@style/style_wallet_space" />
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@mipmap/me_shengri_lijin" />
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:visibility="invisible" />
+                        <TextView style="@style/style_wallet_space" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -305,6 +295,7 @@
             </RelativeLayout>
 
             <LinearLayout
+                android:id="@+id/ll_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -314,139 +305,53 @@
                 app:layout_constraintLeft_toLeftOf="@+id/middle_area"
                 app:layout_constraintTop_toBottomOf="@+id/middle_area">
 
-                <LinearLayout
-                    android:id="@+id/my_pocket_area"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvw_wallet"
+                    style="@style/style_menu_white"
+                    android:drawableTop="@mipmap/me_my_pocket"
+                    android:text="@string/me_my_pocket" />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@mipmap/me_my_pocket" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/me_my_pocket"
-                        android:textColor="@color/me_level_color"
-                        android:textSize="10sp" />
-                </LinearLayout>
+                <TextView style="@style/style_wallet_space" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:visibility="invisible" />
+                    android:id="@+id/tvw_trans"
+                    style="@style/style_menu_white"
+                    android:drawableTop="@mipmap/me_transfer"
+                    android:text="@string/me_transfer" />
 
-                <LinearLayout
-                    android:id="@+id/transfer_area"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@mipmap/me_transfer" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/me_transfer"
-                        android:textColor="@color/me_level_color"
-                        android:textSize="10sp" />
-                </LinearLayout>
+                <TextView style="@style/style_wallet_space" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:visibility="invisible" />
+                    android:id="@+id/tvw_bet"
+                    style="@style/style_menu_white"
+                    android:drawableTop="@mipmap/me_betting_record"
+                    android:text="@string/me_betting_record" />
 
-                <LinearLayout
-                    android:id="@+id/betting_record_area"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@mipmap/me_betting_record" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/me_betting_record"
-                        android:textColor="@color/me_level_color"
-                        android:textSize="10sp" />
-                </LinearLayout>
+                <TextView style="@style/style_wallet_space" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:visibility="invisible" />
+                    android:id="@+id/tvw_trans_record"
+                    style="@style/style_menu_white"
+                    android:drawableTop="@mipmap/me_account_record"
+                    android:text="@string/me_account_record" />
 
-                <LinearLayout
-                    android:id="@+id/account_record_area"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@mipmap/me_account_record" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/me_account_record"
-                        android:textColor="@color/me_level_color"
-                        android:textSize="10sp" />
-                </LinearLayout>
+                <TextView style="@style/style_wallet_space" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:visibility="invisible" />
-
-                <LinearLayout
-                    android:id="@+id/account_safety_area"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:src="@mipmap/me_account_safty" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/me_account_safety"
-                        android:textColor="@color/me_level_color"
-                        android:textSize="10sp" />
-                </LinearLayout>
+                    android:id="@+id/tvw_safe"
+                    style="@style/style_menu_white"
+                    android:drawableTop="@mipmap/me_account_safty"
+                    android:text="@string/me_account_safety" />
 
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ll_menu2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="300dp"
+            android:layout_marginTop="312dp"
             android:background="@mipmap/me_second_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/headArea"
@@ -485,314 +390,103 @@
                 app:layout_constraintLeft_toLeftOf="@+id/more_service_hint"
                 app:layout_constraintTop_toBottomOf="@+id/more_service_hint">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/invite_friend_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/me_invite_friend" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/me_invite_friend"
-                            android:textSize="@dimen/me_test_size" />
-                    </LinearLayout>
+                <LinearLayout style="@style/style_ll_row">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="invisible" />
+                        android:id="@+id/tvw_invite_friend"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_invite_friend"
+                        android:text="@string/me_invite_friend" />
 
-                    <LinearLayout
-                        android:id="@+id/guanfangheyin_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/me_guanfangheyin" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/me_guanfang_heyin"
-                            android:textSize="@dimen/me_test_size" />
-                    </LinearLayout>
+                    <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="invisible" />
+                        android:id="@+id/tvw_guanfangheyin"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_guanfangheyin"
+                        android:text="@string/me_guanfang_heyin" />
 
-                    <LinearLayout
-                        android:id="@+id/yingkui_baobiao_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/me_yinkui_baobiao" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/me_yinkui_baobiao"
-                            android:textSize="@dimen/me_test_size" />
-                    </LinearLayout>
+                    <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="invisible" />
+                        android:id="@+id/tvw_yinkui_baobiao"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_yinkui_baobiao"
+                        android:text="@string/me_yinkui_baobiao" />
 
-                    <LinearLayout
-                        android:id="@+id/sanfang_zhuanzhang_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                    <TextView style="@style/style_wallet_space" />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/me_sanfang_zhuanzhang" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/me_sanfang_zhuanzhang"
-                            android:textSize="@dimen/me_test_size" />
-                    </LinearLayout>
-
-
+                    <TextView
+                        android:id="@+id/tvw_sanfang_zhuanzhang"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_sanfang_zhuanzhang"
+                        android:text="@string/me_sanfang_zhuanzhang" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/anquan_zhongxin_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/me_anquan_zhongxin" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/me_anquan_zhongxin"
-                            android:textSize="@dimen/me_test_size" />
-                    </LinearLayout>
+                <LinearLayout style="@style/style_ll_row">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="invisible" />
+                        android:id="@+id/tvw_security_center"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_anquan_zhongxin"
+                        android:text="@string/me_anquan_zhongxin" />
 
-                    <LinearLayout
-                        android:id="@+id/zhanghu_shezhi_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/me_zhanghu_shezhi" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/me_zhanghu_shezhi"
-                            android:textSize="@dimen/me_test_size" />
-                    </LinearLayout>
+                    <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="invisible" />
+                        android:id="@+id/tvw_zhanghu_shezhi"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_zhanghu_shezhi"
+                        android:text="@string/me_zhanghu_shezhi" />
 
-                    <LinearLayout
-                        android:id="@+id/vip_zhongxin_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/me_vip_zhongxin" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/me_vip_zhongxin"
-                            android:textSize="@dimen/me_test_size" />
-                    </LinearLayout>
+                    <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="invisible" />
+                        android:id="@+id/tvw_vip_zhongxin"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_vip_zhongxin"
+                        android:text="@string/me_vip_zhongxin" />
 
-                    <LinearLayout
-                        android:id="@+id/fanshui_baobiao_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                    <TextView style="@style/style_wallet_space" />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/me_fanhui_baobiao" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/me_fanhui_baobiao"
-                            android:textSize="@dimen/me_test_size" />
-                    </LinearLayout>
-
-
+                    <TextView
+                        android:id="@+id/tvw_fanhui_baobiao"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_fanhui_baobiao"
+                        android:text="@string/me_fanhui_baobiao" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:orientation="horizontal"
-
-                    >
-
-                    <LinearLayout
-                        android:id="@+id/tiyu_guize_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/me_tiyu_guize" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/me_tiyu_guize"
-                            android:textSize="@dimen/me_test_size" />
-                    </LinearLayout>
+                <LinearLayout style="@style/style_ll_row">
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="invisible" />
+                        android:id="@+id/tvw_tiyu_guize"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_tiyu_guize"
+                        android:text="@string/me_tiyu_guize" />
 
-                    <LinearLayout
-                        android:id="@+id/changjian_wenti_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/me_changjian_wenti" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/me_changjian_wenti"
-                            android:textSize="@dimen/me_test_size" />
-                    </LinearLayout>
+                    <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="invisible" />
+                        android:id="@+id/tvw_changjian_wenti"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_changjian_wenti"
+                        android:text="@string/me_changjian_wenti" />
 
-                    <LinearLayout
-                        android:id="@+id/bangzhu_zhongxin_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/me_invite_friend" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/me_bangzhu_zhongxin"
-                            android:textSize="@dimen/me_test_size" />
-                    </LinearLayout>
+                    <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="invisible" />
+                        android:id="@+id/tvw_bangzhu_zhongxin"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_invite_friend"
+                        android:text="@string/me_bangzhu_zhongxin" />
 
-                    <LinearLayout
-                        android:id="@+id/usdt_jiaocheng_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                    <TextView style="@style/style_wallet_space" />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:src="@mipmap/me_usdt_jiaocheng" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/me_usdt_jiaocheng"
-                            android:textSize="@dimen/me_test_size" />
-                    </LinearLayout>
-
-
+                    <TextView
+                        android:id="@+id/tvw_usdt_jiaocheng"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_usdt_jiaocheng"
+                        android:text="@string/me_usdt_jiaocheng" />
                 </LinearLayout>
 
             </LinearLayout>

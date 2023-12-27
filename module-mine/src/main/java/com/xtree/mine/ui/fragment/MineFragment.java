@@ -3,6 +3,7 @@ package com.xtree.mine.ui.fragment;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.CfLog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMineBinding;
@@ -31,17 +32,21 @@ import com.xtree.mine.vo.VipInfoVo;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by goldze on 2018/6/21
  */
 @Route(path = RouterFragmentPath.Mine.PAGER_MINE)
 public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewModel> {
+    ProfileVo mProfileVo;
+    String token;
 
     @Override
     public void initView() {
         binding.btnLogout.setOnClickListener(v -> viewModel.doLogout());
+        binding.tvwSecurityCenter.setOnClickListener(v -> startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER));
+        binding.tvwSafe.setOnClickListener(v -> startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER));
+
     }
 
     @Override
@@ -62,31 +67,43 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     }
 
     @Override
-    public void initData() {
-        // 使用 TabLayout 和 ViewPager 相关联
-        //binding.tabs.setupWithViewPager(binding.viewPager);
-        //binding.viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(binding.tabs));
-        //viewModel.addPage();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        if (mProfileVo == null || mProfileVo.userid == 0 || TextUtils.isEmpty(token)) {
+            CfLog.i("****** not login");
+            binding.llLogin.setVisibility(View.VISIBLE);
+            binding.clAlreadyLogin.setVisibility(View.INVISIBLE);
+        } else {
+            CfLog.i("****** already login");
+            binding.llLogin.setVisibility(View.GONE);
+            binding.clAlreadyLogin.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void initData() {
+        token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        if (TextUtils.isEmpty(token)) {
+            //ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+            //return;
+        }
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
-        ProfileVo vo = new Gson().fromJson(json, ProfileVo.class);
+        mProfileVo = new Gson().fromJson(json, ProfileVo.class);
         json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_VIP_INFO);
         VipInfoVo vo2 = new Gson().fromJson(json, VipInfoVo.class);
-        if (vo != null) {
-            binding.tvwName.setText(vo.username);
-            binding.tvwBalance.setText(vo.availablebalance);
+        if (mProfileVo != null) {
+            binding.tvwName.setText(mProfileVo.username);
+            binding.tvwBalance.setText(mProfileVo.availablebalance);
         }
         if (vo2 != null) {
             binding.ivwVip.setImageLevel(vo2.display_level);
         }
 
-        binding.textViewLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
-                toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.LOGIN_TYPE);
-                startActivity(toLogin);
-            }
+        binding.textViewLogin.setOnClickListener(v -> {
+            Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
+            toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.LOGIN_TYPE);
+            startActivity(toLogin);
         });
 
         binding.textViewRegister.setOnClickListener(v -> {
@@ -99,9 +116,14 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             popup();
         });
 
-        binding.myPocketArea.setOnClickListener(view -> {
+        binding.tvwWallet.setOnClickListener(view -> {
             Intent toMyWallet = new Intent(getContext(), MyWalletActivity.class);
             startActivity(toMyWallet);
+        });
+
+        binding.tvwTrans.setOnClickListener(v -> {
+            // 转账
+            startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER);
         });
 
     }
@@ -136,10 +158,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
     @Override
     public void initViewObservable() {
-        viewModel.itemClickEvent.observe(this, (Observer<String>) s -> ToastUtils.showShort(s));
 
         viewModel.liveDataLogout.observe(this, isLogout -> {
             if (isLogout) {
+                binding.llLogin.setVisibility(View.VISIBLE);
+                binding.clAlreadyLogin.setVisibility(View.INVISIBLE);
+                mProfileVo = null;
                 ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .navigation();
