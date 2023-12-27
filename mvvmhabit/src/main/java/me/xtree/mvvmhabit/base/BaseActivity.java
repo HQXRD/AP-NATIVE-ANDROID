@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.gyf.immersionbar.ImmersionBar;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
 import java.lang.reflect.ParameterizedType;
@@ -18,6 +19,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import me.xtree.mvvmhabit.R;
 import me.xtree.mvvmhabit.base.BaseViewModel.ParameterField;
 import me.xtree.mvvmhabit.bus.Messenger;
 import me.xtree.mvvmhabit.utils.MaterialDialogUtils;
@@ -39,6 +41,8 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         super.onCreate(savedInstanceState);
         //页面接受的参数方法
         initParam();
+        //初始化沉浸式
+        initImmersionBar();
         //私有的初始化Databinding和ViewModel方法
         initViewDataBinding(savedInstanceState);
         //私有的ViewModel与View的契约事件回调逻辑
@@ -60,9 +64,22 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         if (viewModel != null) {
             viewModel.removeRxBus();
         }
-        if(binding != null){
+        if (binding != null) {
             binding.unbind();
         }
+    }
+
+    /**
+     * 初始化沉浸式
+     * Init immersion bar.
+     */
+    protected void initImmersionBar() {
+        //设置共同沉浸式样式
+        ImmersionBar.with(this)
+                .navigationBarColor(R.color.default_navigation_bar_color)
+                .fitsSystemWindows(true)
+                .statusBarDarkFont(true)
+                .init();
     }
 
     /**

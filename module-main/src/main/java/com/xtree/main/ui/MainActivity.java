@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.main.R;
@@ -37,6 +38,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     @Override
     public int initVariableId() {
         return BR.viewModel;
+    }
+
+    @Override
+    protected void initImmersionBar() {
+        //设置共同沉浸式样式
+        ImmersionBar.with(this)
+                .fitsSystemWindows(false)
+                .statusBarDarkFont(true)
+                .init();
     }
 
     @Override

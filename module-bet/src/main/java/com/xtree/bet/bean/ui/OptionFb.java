@@ -5,7 +5,9 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.xtree.bet.bean.response.OptionDataListInfo;
 import com.xtree.bet.bean.response.OptionInfo;
+import com.xtree.bet.bean.response.PlayTypeInfo;
 
 public class OptionFb implements Option{
     private int change;
@@ -13,14 +15,31 @@ public class OptionFb implements Option{
 
     private String code;
 
+    private String name;
+
+    private OptionDataListInfo optionList;
+    private PlayTypeInfo playTypeInfo;
+
+    public OptionFb(String name){
+        this.name = name;
+    }
+
     public OptionFb(OptionInfo optionInfo){
         this.optionInfo = optionInfo;
+    }
+
+    public OptionFb(OptionInfo optionInfo, OptionDataListInfo optionList){
+        this.optionInfo = optionInfo;
+        this.optionList = optionList;
     }
 
     /**
      * 选项全称，投注框一般用全称展示
      */
     public String getName() {
+        if(optionInfo == null){
+            return name;
+        }
         return optionInfo.na;
     }
 
@@ -135,6 +154,17 @@ public class OptionFb implements Option{
     @Override
     public void reset() {
         optionInfo.change = 0;
+    }
+    /**
+     * 获取投注选项所属的投注线
+     * @return
+     */
+    @Override
+    public OptionList getOptionList() {
+        if(optionList == null){
+            return null;
+        }
+        return new OptionListFb(optionList);
     }
 
     /*@Override

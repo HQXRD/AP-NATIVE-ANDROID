@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.gyf.immersionbar.ImmersionBar;
 import com.trello.rxlifecycle4.components.support.RxFragment;
 
 import java.lang.reflect.ParameterizedType;
@@ -21,6 +22,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import me.xtree.mvvmhabit.R;
 import me.xtree.mvvmhabit.base.BaseViewModel.ParameterField;
 import me.xtree.mvvmhabit.bus.Messenger;
 import me.xtree.mvvmhabit.utils.MaterialDialogUtils;
@@ -38,11 +40,25 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initParam();
+        initImmersionBar();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    /**
+     * 初始化沉浸式
+     * Init immersion bar.
+     */
+    protected void initImmersionBar() {
+        //设置共同沉浸式样式
+        ImmersionBar.with(this)
+                .navigationBarColor(R.color.default_navigation_bar_color)
+                .fitsSystemWindows(true)
+                .statusBarDarkFont(true)
+                .init();
     }
 
     @Nullable

@@ -84,4 +84,10 @@ public interface Option extends BaseBean {
      */
     boolean isDown();
     void reset();
+
+    /**
+     * 获取投注选项所属的投注线
+     * @return
+     */
+    OptionList getOptionList();
 }

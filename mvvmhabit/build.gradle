@@ -85,6 +85,7 @@ dependencies {
     api rootProject.ext.dependencies["viewpager2"]
 
     api rootProject.ext.dependencies["arouter-api"]
+    api rootProject.ext.dependencies["immersionbar"]
 
     configurations.all {
         resolutionStrategy {

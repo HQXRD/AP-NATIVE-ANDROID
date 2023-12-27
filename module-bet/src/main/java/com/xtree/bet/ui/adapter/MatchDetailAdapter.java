@@ -139,7 +139,7 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
         BtFbDetailItemPlayTypeGroupBinding binding = BtFbDetailItemPlayTypeGroupBinding.bind(holder.itemView);
 
         binding.tvPlaytypeName.setText(playType.getPlayTypeName());
-
+        binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
         /*if (isExpanded) {
             convertView.setPadding(0, ConvertUtils.dp2px(5), 0, 0);
         } else {
@@ -172,15 +172,6 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
         optionAdapter = new OptionAdapter(mContext, match, (PlayType) getGroup(groupPosition), optionList, optionList.getOptionList());
         convertView.setTag(R.id.rv_option_list, optionAdapter);
         binding.rvOptionList.setAdapter(optionAdapter);
-        /*if(convertView.getTag(R.id.rv_option_list) == null) {
-            optionAdapter = new OptionAdapter(mContext, match, (PlayType) getGroup(groupPosition), optionList, optionList.getOptionList());
-            convertView.setTag(R.id.rv_option_list, optionAdapter);
-            binding.rvOptionList.setAdapter(optionAdapter);
-        }else{
-            optionAdapter = (OptionAdapter) convertView.getTag(R.id.rv_option_list);
-            optionAdapter.setNewData(optionList.getOptionList());
-        }*/
-
         return convertView;
     }
 
@@ -193,17 +184,9 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
     private static class GroupHolder {
         public GroupHolder(View view) {
             itemView = view.findViewById(R.id.cl_root);
-            llHeader = view.findViewById(R.id.ll_header);
-            rlLeague = view.findViewById(R.id.rl_league);
-            tvLeagueName = view.findViewById(R.id.tv_league_name);
-            imLeague = view.findViewById(R.id.iv_icon);
         }
+        RelativeLayout itemView;
 
-        TextView tvLeagueName;
-        ImageView imLeague;
-        ConstraintLayout itemView;
-        LinearLayout llHeader;
-        RelativeLayout rlLeague;
     }
 
 }

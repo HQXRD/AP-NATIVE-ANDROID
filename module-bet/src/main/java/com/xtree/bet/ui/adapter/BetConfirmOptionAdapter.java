@@ -26,7 +26,6 @@ import java.util.List;
 
 public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
     private BtCarDialogFragment btCarDialogFragment;
-    BtLayoutCarBtItemBinding binding;
     @Override
     public int layoutId() {
         return R.layout.bt_layout_car_bt_item;
@@ -43,9 +42,18 @@ public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
     @Override
     protected void convert(ViewHolder holder, BetConfirmOption option, int position) {
 
-        binding = BtLayoutCarBtItemBinding.bind(holder.itemView);
-        String optionName = option.getOption().getName().length() > option.getOption().getSortName().length() ? option.getOption().getName() : option.getOption().getSortName();
-        holder.setText(R.id.tv_name, optionName);
+        BtLayoutCarBtItemBinding binding = BtLayoutCarBtItemBinding.bind(holder.itemView);
+        String optionName;
+        String name = option.getOption().getName();
+        String sortName = option.getOption().getSortName();
+        if(name != null && sortName != null){
+            optionName = option.getOption().getName().length() > option.getOption().getSortName().length() ? option.getOption().getName() : option.getOption().getSortName();
+        } else if (sortName == null) {
+            optionName = name;
+        } else {
+            optionName = sortName;
+        }
+        binding.tvName.setText(optionName);
         String score = option.getScore();
         if(TextUtils.isEmpty(score)){
             if(mContext instanceof MainActivity) {
@@ -58,7 +66,7 @@ public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
         }else {
             holder.setText(R.id.iv_play_type, option.getPlayType().getPlayTypeName() + "[" + score + "]");
         }
-        holder.setText(R.id.iv_match_team, option.getTeamName());
+        binding.ivMatchTeam.setText(option.getTeamName());
         binding.ivOdd.setText("@" + option.getOption().getOdd());
         String oldScore = ((TextView)holder.getView(R.id.iv_play_type)).getText().toString();
         if(oldScore.indexOf("[") > -1 && oldScore.indexOf("]") > -1) {

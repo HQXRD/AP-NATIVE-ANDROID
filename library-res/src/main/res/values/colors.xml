@@ -71,6 +71,9 @@
     <!-- 模糊的字体颜色 -->
     <color name="bt_color_blurred">#B9B9B9</color>
 
+    <!-- 模糊的字体颜色2 -->
+    <color name="bt_color_blurred_2">#AEAEAE</color>
+
     <!-- 赛事列表进行时间背影颜色 -->
     <color name="bt_bg_color_time">#FBFBFB</color>
 

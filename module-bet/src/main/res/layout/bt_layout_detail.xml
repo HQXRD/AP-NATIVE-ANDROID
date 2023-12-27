@@ -181,9 +181,10 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/toolbar"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="80dp"
                         android:background="#cc000000"
                         android:visibility="visible"
+                        android:paddingTop="25dp"
                         app:layout_collapseMode="pin">
 
                         <ImageView
@@ -285,7 +286,7 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
+                    android:layout_height="60dp"
                     android:background="@color/bt_page_up_bg">
 
                     <com.google.android.material.tabs.TabLayout

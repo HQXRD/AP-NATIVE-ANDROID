@@ -33,6 +33,7 @@ import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 import com.xtree.bet.weight.DiscolourTextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
@@ -57,6 +58,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
     private static class ChildHolder {
         View itemView;
+
         public ChildHolder(View view) {
             itemView = view;
         }
@@ -64,7 +66,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
     @Override
     public int getRealChildrenCount(int groupPosition) {
-        if(mDatas.isEmpty() || mDatas.get(groupPosition).getMatchList().isEmpty()){
+        if (mDatas.isEmpty() || mDatas.get(groupPosition).getMatchList().isEmpty()) {
             return 0;
         }
         return mDatas.get(groupPosition).getMatchList().size();
@@ -119,7 +121,6 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             convertView = View.inflate(mContext, R.layout.bt_fb_league_group, null);
             holder = new GroupHolder(convertView);
             convertView.setTag(holder);
-            Log.e("test", "==========new=========");
         } else {
             holder = (GroupHolder) convertView.getTag();
         }
@@ -146,6 +147,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             convertView.setPadding(0, ConvertUtils.dp2px(5), 0, ConvertUtils.dp2px(5));
 
         }
+        binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
         league.setExpand(isExpanded);
         return convertView;
     }
@@ -171,14 +173,6 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
         BtFbMatchListBinding binding = BtFbMatchListBinding.bind(holder.itemView);
 
-        if(match.isChampion()){
-            binding.clOptionRoot.setVisibility(View.VISIBLE);
-            binding.cslMatch.setVisibility(View.GONE);
-        }else {
-            binding.clOptionRoot.setVisibility(View.GONE);
-            binding.cslMatch.setVisibility(View.VISIBLE);
-        }
-
         binding.tvTeamNameMain.setText(match.getTeamMain());
         binding.tvTeamNameVisitor.setText(match.getTeamVistor());
         if (match.getScore(Constants.SCORE_TYPE_SCORE) != null && match.getScore(Constants.SCORE_TYPE_SCORE).size() > 1) {
@@ -188,9 +182,9 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
         binding.tvPlaytypeCount.setText(match.getPlayTypeCount() + "+>");
         // 比赛未开始
-        if(match.isUnGoingon()){
+        if (match.isUnGoingon()) {
             binding.tvMatchTime.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_MM_DD_HH_MM));
-        }else {
+        } else {
             int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
             String sport = SportTypeContants.SPORT_IDS[sportType];
             if (sport.equals(SportTypeContants.SPORT_ID_FB) || sport.equals(SportTypeContants.SPORT_ID_BSB)) {

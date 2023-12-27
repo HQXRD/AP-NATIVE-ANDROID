@@ -90,6 +90,10 @@ public class MatchInfo implements BaseBean {
      */
     public String ye;
     /**
+     * 冠军赛赛事名称，用于展示名称
+     */
+    public String nm;
+    /**
      * 比分板
      */
     public ScoreboardInfo sb;

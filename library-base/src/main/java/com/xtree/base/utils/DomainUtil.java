@@ -4,12 +4,12 @@ public class DomainUtil {
 
     public static String getDomain() {
 
-        return "https://www.weres.bar/";
+        return "https://app1.dhtjf656.com/";
     }
 
     public static String getDomain2() {
 
-        return "https://www.weres.bar";
+        return "https://app1.dhtjf656.com/";
     }
 
 }

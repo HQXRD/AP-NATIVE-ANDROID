@@ -30,7 +30,16 @@ public class BetResultOptionAdapter extends BaseAdapter<BetConfirmOption> {
     protected void convert(ViewHolder holder, BetConfirmOption option, int position) {
 
         BtLayoutCarBtResultItemBinding binding = BtLayoutCarBtResultItemBinding.bind(holder.itemView);
-        String optionName = option.getOption().getName().length() > option.getOption().getSortName().length() ? option.getOption().getName() : option.getOption().getSortName();
+        String optionName;
+        String name = option.getOption().getName();
+        String sortName = option.getOption().getSortName();
+        if(name != null && sortName != null){
+            optionName = option.getOption().getName().length() > option.getOption().getSortName().length() ? option.getOption().getName() : option.getOption().getSortName();
+        } else if (sortName == null) {
+            optionName = name;
+        } else {
+            optionName = sortName;
+        }
         binding.tvName.setText(optionName);
         String score = option.getScore();
         if(TextUtils.isEmpty(score)){
@@ -38,7 +47,11 @@ public class BetResultOptionAdapter extends BaseAdapter<BetConfirmOption> {
                 score = ((MainActivity) mContext).getScore(option.getMatch().getId());
             }
         }
-        binding.ivPlayType.setText(option.getPlayType().getPlayTypeName() + "[" + score + "]");
+        String playTypeName = option.getPlayType().getPlayTypeName();
+        if(!TextUtils.isEmpty(score)){
+            playTypeName += "[" + score + "]";
+        }
+        binding.ivPlayType.setText(playTypeName);
         binding.ivMatchTeam.setText(option.getTeamName());
         binding.ivOdd.setText("@" + option.getOption().getOdd());
     }

@@ -119,6 +119,9 @@ public class BetConfirmOptionFb implements BetConfirmOption{
 
     @Override
     public String getTeamName() {
+        if(TextUtils.isEmpty(match.getTeamMain())){
+            return match.getChampionMatchName();
+        }
         return teamName;
     }
 

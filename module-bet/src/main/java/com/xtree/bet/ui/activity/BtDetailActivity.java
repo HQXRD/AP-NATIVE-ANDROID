@@ -22,6 +22,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
+import com.gyf.immersionbar.ImmersionBar;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.xtree.base.utils.CfLog;
@@ -83,6 +84,18 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
     @Override
     public int initVariableId() {
         return BR.viewModel;
+    }
+
+    /**
+     * 初始化沉浸式
+     * Init immersion bar.
+     */
+    protected void initImmersionBar() {
+        //设置共同沉浸式样式
+        ImmersionBar.with(this)
+                .fitsSystemWindows(false)
+                .statusBarDarkFont(false)
+                .init();
     }
 
     public static void start(Context context, Match match) {

@@ -36,11 +36,23 @@ public class MatchFb implements Match{
     }
 
     /**
+     * 获取冠军赛赛事名称，用于展示名称
+     * @return
+     */
+    @Override
+    public String getChampionMatchName() {
+        return matchInfo.nm;
+    }
+
+    /**
      * 获取主队名称
      * @return
      */
     @Override
     public String getTeamMain() {
+        if(matchInfo.ts == null || matchInfo.ts.isEmpty()){
+            return "";
+        }
         return matchInfo.ts.get(0).na;
     }
 
@@ -50,6 +62,9 @@ public class MatchFb implements Match{
      */
     @Override
     public String getTeamVistor() {
+        if(matchInfo.ts == null || matchInfo.ts.isEmpty()){
+            return "";
+        }
         return matchInfo.ts.get(1).na;
     }
 

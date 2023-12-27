@@ -11,6 +11,12 @@ public interface Match extends BaseBean {
      * @return
      */
     int getId();
+
+    /**
+     * 获取冠军赛赛事名称，用于展示名称
+     * @return
+     */
+    String getChampionMatchName();
     /**
      * 获取主队名称
      * @return

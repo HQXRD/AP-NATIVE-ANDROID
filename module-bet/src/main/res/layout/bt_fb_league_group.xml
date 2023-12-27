@@ -80,6 +80,14 @@
             android:textStyle="bold"
             tools:text="墨西哥甲级联赛" />
 
+        <ImageView
+            android:id="@+id/group_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"/>
+
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

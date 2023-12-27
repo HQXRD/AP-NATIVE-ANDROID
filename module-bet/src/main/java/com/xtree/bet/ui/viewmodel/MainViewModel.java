@@ -58,6 +58,8 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
     public SingleLiveData<List<League>> leagueWaitingTimerListData = new SingleLiveData<>();
     public SingleLiveData<List<League>> leagueGoingOnListData = new SingleLiveData<>();
     public SingleLiveData<List<League>> leagueGoingOnTimerListData = new SingleLiveData<>();
+    public SingleLiveData<List<Match>> championMatchTimerListData = new SingleLiveData<>();
+    public SingleLiveData<List<Match>> championMatchListData = new SingleLiveData<>();
     public SingleLiveData<BetContract> betContractListData = new SingleLiveData<>();
     /**
      * 赛事统计数据
@@ -65,6 +67,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
     public SingleLiveData<Map<String, List<Integer>>> statisticalData = new SingleLiveData<>();
 
     private List<Match> mMatchList = new ArrayList<>();
+    private List<Match> mChampionMatchList = new ArrayList<>();
     private Map<String, Match> mMapMatch = new HashMap<>();
     private List<League> mLeagueList = new ArrayList<>();
     private List<League> mGoingOnLeagueList = new ArrayList<>();
@@ -238,6 +241,76 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
     }
 
     /**
+     * 获取冠军赛事列表
+     * @param sportId
+     * @param orderBy
+     * @param leagueIds
+     * @param matchids
+     * @param playMethodType
+     * @param isTimedRefresh
+     * @param isRefresh
+     */
+    public void getChampionList(int sportId, int orderBy, int[] leagueIds, List<Integer> matchids, int playMethodType, boolean isTimedRefresh, boolean isRefresh) {
+
+        if (isRefresh) {
+            currentPage = 1;
+        } else {
+            currentPage++;
+        }
+
+        PBListReq pbListReq = new PBListReq();
+        pbListReq.setSportId(sportId);
+        pbListReq.setType(playMethodType);
+        pbListReq.setOrderBy(orderBy);
+        pbListReq.setLeagueIds(leagueIds);
+        pbListReq.setMatchIds(matchids);
+        pbListReq.setCurrent(currentPage);
+        pbListReq.setSize(pageSize);
+
+        if (isRefresh) {
+            mChampionMatchList.clear();
+        }
+
+        Disposable disposable = (Disposable) model.getApiService().getFBList(pbListReq)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<MatchListRsp>() {
+                    @Override
+                    public void onResult(MatchListRsp matchListRsp) {
+                        if (isTimedRefresh) {
+                            setChampionOptionOddChange(matchListRsp.records);
+                            championMatchTimerListData.postValue(mChampionMatchList);
+                            return;
+                        }
+
+                        championLeagueList(matchListRsp.records);
+                        championMatchListData.postValue(mChampionMatchList);
+
+                        if (isRefresh) {
+                            finishRefresh(true);
+                        } else {
+                            if (matchListRsp != null && matchListRsp.records != null && matchListRsp.records.isEmpty()) {
+                                loadMoreWithNoMoreData();
+                            } else {
+                                finishLoadMore(true);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        if (isRefresh) {
+                            finishRefresh(false);
+                        } else {
+                            finishLoadMore(false);
+                        }
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
      * 获取赛事统计数据
      */
     public void statistical() {
@@ -273,7 +346,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
         addSubscribe(disposable);
     }
 
-    private List<League> leagueGoingList(List<MatchInfo> matchInfoList) {
+    private void leagueGoingList(List<MatchInfo> matchInfoList) {
 
         Map<String, League> mapLeague = new HashMap<>();
         for (MatchInfo matchInfo : matchInfoList) {
@@ -303,7 +376,6 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
 
         }
 
-        return mGoingOnLeagueList;
     }
 
 
@@ -311,7 +383,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
      * @param matchInfoList
      * @return
      */
-    private List<League> leagueAdapterList(List<MatchInfo> matchInfoList) {
+    private void leagueAdapterList(List<MatchInfo> matchInfoList) {
 
         Map<String, League> mapLeague = new HashMap<>();
 
@@ -349,7 +421,19 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
             }
         }
 
-        return mLeagueList;
+    }
+
+    /**
+     * @param matchInfoList
+     * @return
+     */
+    private void championLeagueList(List<MatchInfo> matchInfoList) {
+
+        for (MatchInfo matchInfo : matchInfoList) {
+            Match match = new MatchFb(matchInfo);
+            mChampionMatchList.add(match);
+        }
+
     }
 
     /**
@@ -402,7 +486,46 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
                 }
             }
         }
+    }
 
+    /**
+     * 设置赔率变化
+     *
+     * @param matchInfoList
+     */
+    private void setChampionOptionOddChange(List<MatchInfo> matchInfoList) {
+        List<Match> newMatchList = new ArrayList<>();
+        Map<String, Match> map = new HashMap<>();
+
+        for (Match match : mChampionMatchList) {
+            map.put(String.valueOf(match.getId()), match);
+        }
+
+        for (MatchInfo matchInfo : matchInfoList) {
+            Match newMatch = new MatchFb(matchInfo);
+            newMatchList.add(newMatch);
+        }
+
+        List<Option> newOptonList = getMatchOptionList(newMatchList);
+        List<Option> oldOptonList = getMatchOptionList(mChampionMatchList);
+
+        for (Option newOption : newOptonList) {
+            for (Option oldOption : oldOptonList) {
+                if (oldOption != null && newOption != null
+                        && oldOption.getOdd() != newOption.getOdd()
+                        && TextUtils.equals(oldOption.getCode(), newOption.getCode())) {
+                    newOption.setChange(oldOption.getOdd());
+                    break;
+                }
+            }
+        }
+
+        for (Match match : newMatchList) {
+            Match oldMatch = map.get(String.valueOf(match.getId()));
+            if (oldMatch != null) {
+                mChampionMatchList.set(mChampionMatchList.indexOf(oldMatch), match);
+            }
+        }
 
     }
 

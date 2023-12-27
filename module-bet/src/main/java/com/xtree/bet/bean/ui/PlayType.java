@@ -36,6 +36,12 @@ public interface PlayType extends BaseBean {
     List<Option> getOptionList();
 
     /**
+     * 获取冠军赛事投注玩法列表
+     * @return
+     */
+    List<Option> getChampionOptionList();
+
+    /**
      * 获取玩法阶段，如足球上半场、全场等
      * @return
      */
