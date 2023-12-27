@@ -26,18 +26,26 @@ public class RouterFragmentPath {
     public static class Mine {
         private static final String MINE = "/mine";
         public static final String PAGER_MINE = MINE + "/Mine";
-
+        public static final String PAGER_SECURITY_CENTER = MINE + "/SecurityCenter";
+        public static final String PAGER_SECURITY_VERIFY = MINE + "/SecurityVerify";
+        public static final String PAGER_SECURITY_VERIFY_CHOOSE = MINE + "/SecurityVerifyChoose";
+        public static final String PAGER_BIND = MINE + "/Bind";
+        public static final String PAGER_BIND_PHONE = MINE + "/BindPhone";
+        public static final String PAGER_BIND_EMAIL = MINE + "/BindEmail";
+        public static final String PAGER_CHANGE_PWD = MINE + "/ChangePwd";
     }
 
     public static class Wallet {
         private static final String WALLET = "/wallet";
         public static final String PAGER_TRANSFER = WALLET + "/Mine";
+        public static final String PAGER_WITHDRAW = WALLET + "/Withdraw";
 
     }
 
     public static class Recharge {
         private static final String RECHARGE = "/recharge";
         public static final String PAGER_RECHARGE = RECHARGE + "/Recharge";
+        public static final String PAGER_RECHARGE_FEEDBACK = RECHARGE + "/RechargeFeedback";
     }
 
     /**
