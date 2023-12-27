@@ -194,11 +194,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 // 客服
             }
         });
-        binding.ivwRule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 反馈
-            }
+        binding.ivwRule.setOnClickListener(v -> {
+            // 反馈
+            startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK);
         });
         binding.ivwMsg.setOnClickListener(new View.OnClickListener() {
             @Override
