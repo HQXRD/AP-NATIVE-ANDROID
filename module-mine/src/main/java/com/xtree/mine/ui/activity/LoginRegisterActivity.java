@@ -240,14 +240,14 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     .navigation();
-            LoginRegisterActivity.this.finish();
+            //LoginRegisterActivity.this.finish();
         });
 
         viewModel.liveDataReg.observe(this, vo -> {
             ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     .navigation();
-            LoginRegisterActivity.this.finish();
+            //LoginRegisterActivity.this.finish();
         });
 
     }
