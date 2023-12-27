@@ -11,6 +11,7 @@ public class LoginResultVo implements Parcelable {
     public String expires_in; // 604800
     public CookieVo cookie; // { }
     public String twofa_required; // 0
+    //public Object user_agency_model; // 注册接口返回的 { "user_agency_model": "2" }
     public boolean samewith_securitypwd; // false
 
     protected LoginResultVo(Parcel in) {
