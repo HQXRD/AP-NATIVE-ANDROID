@@ -88,7 +88,8 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
             @Override
             public void onClick(View v) {
                 CfLog.d("************");
-                startActivity(new Intent(getBaseContext(), WithdrawActivity.class));
+                //startActivity(new Intent(getBaseContext(), WithdrawActivity.class));
+                startContainerFragment(RouterFragmentPath.Wallet.PAGER_WITHDRAW);
             }
         });
         binding.tvwMgmt.setOnClickListener(new View.OnClickListener() {
