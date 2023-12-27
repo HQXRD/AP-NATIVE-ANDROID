@@ -1,7 +1,9 @@
 package com.xtree.bet.bean.ui;
 
-import com.xtree.bet.bean.OptionDataListInfo;
-import com.xtree.bet.bean.OptionInfo;
+import android.os.Parcel;
+
+import com.xtree.bet.bean.response.OptionDataListInfo;
+import com.xtree.bet.bean.response.OptionInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,15 +22,15 @@ public class OptionListFb implements OptionList {
     /**
      * 玩法销售状态，0暂停，1开售，-1未开售（未开售状态一般是不展示的）
      */
-    public int getSellState() {
-        return optionDataListInfo.ss;
+    public boolean isOpen() {
+        return optionDataListInfo.ss == 1;
     }
 
     /**
      * 是否支持串关，0 不可串关，1 可串关
      */
-    public int getAllowCrossover() {
-        return optionDataListInfo.au;
+    public boolean isAllowCrossover() {
+        return optionDataListInfo.au == 1;
     }
 
     /**
@@ -57,4 +59,34 @@ public class OptionListFb implements OptionList {
         }
         return optionList;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.optionDataListInfo, flags);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.optionDataListInfo = source.readParcelable(OptionDataListInfo.class.getClassLoader());
+    }
+
+    protected OptionListFb(Parcel in) {
+        this.optionDataListInfo = in.readParcelable(OptionDataListInfo.class.getClassLoader());
+    }
+
+    public static final Creator<OptionListFb> CREATOR = new Creator<OptionListFb>() {
+        @Override
+        public OptionListFb createFromParcel(Parcel source) {
+            return new OptionListFb(source);
+        }
+
+        @Override
+        public OptionListFb[] newArray(int size) {
+            return new OptionListFb[size];
+        }
+    };
 }

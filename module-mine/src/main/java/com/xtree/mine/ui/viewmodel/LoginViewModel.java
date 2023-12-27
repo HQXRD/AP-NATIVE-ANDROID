@@ -42,7 +42,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         String password = MD5Util.generateMd5("") + MD5Util.generateMd5(pwd);
         CfLog.i("password: " + password);
 
-        String public_key = SPUtils.getInstance().getString("public_key", "");
+        String public_key = SPUtils.getInstance().getString("public_key", "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDW+Gv8Xmk+EdTLQUU5fEAzhlVuFrI7GN4a8N\\/B0Oe63ORK8oBE1pK+t5U5Iz89K4zf7nX+tqQvzND5Z57NMwyqTYYb3TMbrKgjqF1K2YW08OaubjpdohMnDIibmPXNtrbRZpOf2xIaApR+wpqGS+Xw0LzKA8JPYDOPO4lseAtqVwIDAQAB");
         String loginpass = RSAEncrypt.encrypt2(pwd, public_key);
         CfLog.i("loginpass: " + loginpass);
 

@@ -43,7 +43,7 @@ public class RetrofitClient {
     //缓存时间
     private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
     //服务端根路径
-    public static String baseUrl = "https://www.weres.bar/";
+    public static String baseUrl = "https://app1.dhtjf656.com/";//"https://www.weres.bar/";
 
     private static Context mContext = Utils.getContext();
 

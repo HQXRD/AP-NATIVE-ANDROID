@@ -1,6 +1,6 @@
 package com.xtree.bet.bean.ui;
 
-import com.xtree.bet.bean.LeagueInfo;
+import com.xtree.bet.bean.response.LeagueInfo;
 
 import java.util.ArrayList;
 import java.util.List;

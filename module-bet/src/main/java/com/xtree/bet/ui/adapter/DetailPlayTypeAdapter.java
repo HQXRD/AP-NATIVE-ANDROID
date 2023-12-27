@@ -7,14 +7,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.PlayType;
-import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.List;
 
-public class DetailPlayTypeAdapter extends CommonAdapter<PlayType> {
-    public DetailPlayTypeAdapter(Context context, int layoutId, List<PlayType> datas) {
-        super(context, layoutId, datas);
+public class DetailPlayTypeAdapter extends BaseAdapter<PlayType> {
+    public DetailPlayTypeAdapter(Context context, List<PlayType> datas) {
+        super(context, datas);
+    }
+
+    @Override
+    public int layoutId() {
+        return R.layout.bt_fb_detail_item_play_type_group;
     }
 
     @Override

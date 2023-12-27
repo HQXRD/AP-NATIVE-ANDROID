@@ -1,25 +1,25 @@
 package com.xtree.bet.ui.viewmodel;
 
 import android.app.Application;
-import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.xtree.base.utils.TimeUtils;
-import com.xtree.bet.bean.MatchTypeInfo;
-import com.xtree.bet.bean.MatchTypeStatisInfo;
-import com.xtree.bet.bean.StatisticalInfo;
+import com.xtree.bet.bean.response.MatchTypeInfo;
+import com.xtree.bet.bean.response.MatchTypeStatisInfo;
+import com.xtree.bet.bean.response.StatisticalInfo;
 import com.xtree.bet.bean.request.PBListReq;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueFb;
-import com.xtree.bet.bean.LeagueItem;
+import com.xtree.bet.bean.response.LeagueItem;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
-import com.xtree.bet.bean.MatchInfo;
-import com.xtree.bet.bean.MatchListRsp;
+import com.xtree.bet.bean.response.MatchInfo;
+import com.xtree.bet.bean.response.MatchListRsp;
 import com.xtree.bet.constant.Constants;
-import com.xtree.bet.contract.ExpandContract;
+import com.xtree.bet.constant.SportTypeContants;
+import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.data.BetRepository;
 
 import java.io.ByteArrayOutputStream;
@@ -56,8 +56,10 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
     public SingleLiveData<String[]> sportItemData = new SingleLiveData<>();
     public SingleLiveData<LeagueItem> leagueItemData = new SingleLiveData<>();
     public SingleLiveData<List<League>> leagueWaitingListData = new SingleLiveData<>();
+    public SingleLiveData<List<League>> leagueWaitingTimerListData = new SingleLiveData<>();
     public SingleLiveData<List<League>> leagueGoingOnListData = new SingleLiveData<>();
-    public SingleLiveData<ExpandContract> expandContractListData = new SingleLiveData<>();
+    public SingleLiveData<List<League>> leagueGoingOnTimerListData = new SingleLiveData<>();
+    public SingleLiveData<BetContract> betContractListData = new SingleLiveData<>();
     /**
      * 赛事统计数据
      */
@@ -68,7 +70,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
     private List<Date> dateList = new ArrayList<>();
 
     private int currentPage = 1;
-    private int goingOnPageSize = 250;
+    private int goingOnPageSize = 300;
     private int pageSize = 30;
 
     public MainViewModel(@NonNull Application application, BetRepository repository) {
@@ -87,11 +89,26 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
     }
 
     public void setSportItems() {
-        sportItemData.postValue(Constants.SPORT_NAMES);
+        sportItemData.postValue(SportTypeContants.SPORT_NAMES);
     }
 
     public void setFbLeagueData() {
-        leagueItemData.setValue(new LeagueItem());
+        //leagueItemData.setValue(new LeagueItem());
+    }
+
+    public String getScore(List<League> leagueList, int matchId){
+        for(League league : leagueList){
+            for (Match match : league.getMatchList()){
+                if(matchId == match.getId()){
+                    if (match.getScore(Constants.SCORE_TYPE_SCORE) != null && match.getScore(Constants.SCORE_TYPE_SCORE).size() > 1) {
+                        String scoreMain = String.valueOf(match.getScore(Constants.SCORE_TYPE_SCORE).get(0));
+                        String scoreVisitor = String.valueOf(match.getScore(Constants.SCORE_TYPE_SCORE).get(1));
+                        return scoreMain + "-" + scoreVisitor;
+                    }
+                }
+            }
+        }
+        return "";
     }
 
     /**
@@ -102,10 +119,11 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
      * @param matchids
      * @param playMethodType
      * @param searchDatePos 查询时间列表中的位置
+     * @param isTimedRefresh 是否定时刷新 true-是，false-否
      */
-    public void getLeagueList(int sportId, int orderBy, int[] leagueIds, int[] matchids, int playMethodType, int searchDatePos) {
-        int type = playMethodType == 6 ? 1 : playMethodType;
-        boolean flag = playMethodType == 6 ? true : false;
+    public void getLeagueList(int sportId, int orderBy, int[] leagueIds, List<Integer> matchids, int playMethodType, int searchDatePos, boolean isTimedRefresh) {
+        int type = playMethodType == 6 || (playMethodType == 2 && searchDatePos == 0) ? 1 : playMethodType;
+        boolean flag = playMethodType == 6 || (playMethodType == 2 && searchDatePos == 0) ? true : false;
         Log.e("test", "=========searchDatePos========" + searchDatePos);
         PBListReq pbListReq = new PBListReq();
         pbListReq.setSportId(sportId);
@@ -120,24 +138,21 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
 
 
 
-        if(searchDatePos != -1) {
-            if (searchDatePos == 0) {
-                pbListReq.setBeginTime(dateList.get(searchDatePos).getTime());
-                pbListReq.setEndTime(dateList.get(dateList.size() - 2).getTime());
-            } else if (searchDatePos == dateList.size() - 1) {
-                pbListReq.setBeginTime(dateList.get(dateList.size() - 1).getTime());
-                pbListReq.setEndTime(TimeUtils.addDays(dateList.get(dateList.size() - 1), 30).getTime());
-            } else {
-                String start = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 00:00:01";
-                String end = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 23:59:59";
+        if(type != 1 && type != 3) {
+            if (searchDatePos == dateList.size() - 1) {
+                pbListReq.setBeginTime(dateList.get(dateList.size() - 1).getTime() + "");
+                pbListReq.setEndTime(TimeUtils.addDays(dateList.get(dateList.size() - 1), 30).getTime() + "");
+                startTime = TimeUtils.longFormatString(Long.valueOf(pbListReq.getBeginTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
+                endTime = TimeUtils.longFormatString(Long.valueOf(pbListReq.getEndTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
+            } else if (searchDatePos != 0){
+                String start = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
+                String end = TimeUtils.parseTime(TimeUtils.addDays(dateList.get(searchDatePos), 1), TimeUtils.FORMAT_YY_MM_DD) + " 11:59:59";
 
-                pbListReq.setBeginTime(TimeUtils.strFormatDate(start, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime());
-                pbListReq.setEndTime(TimeUtils.strFormatDate(end, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime());
+                pbListReq.setBeginTime(TimeUtils.strFormatDate(start, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime() + "");
+                pbListReq.setEndTime(TimeUtils.strFormatDate(end, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime() + "");
+                /*startTime = TimeUtils.longFormatString(Long.valueOf(pbListReq.getBeginTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
+                endTime = TimeUtils.longFormatString(Long.valueOf(pbListReq.getEndTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);*/
             }
-            startTime = TimeUtils.longFormatString(pbListReq.getBeginTime(), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
-            endTime = TimeUtils.longFormatString(pbListReq.getEndTime(), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
-            Log.e("test", startTime);
-            Log.e("test", endTime);
         }
 
         if (type == 1) {// 滚球
@@ -155,10 +170,15 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
                         if (type == 1) { // 滚球
                             leagueGoingOnListData.postValue(leagueAdapterList(matchListRsp.records, true));
                             if(flag) {
-                                getLeagueList(sportId, orderBy, leagueIds, matchids, 3, searchDatePos);
+                                getLeagueList(sportId, orderBy, leagueIds, matchids, 3, searchDatePos, isTimedRefresh);
                             }
                         } else {
-                            leagueWaitingListData.postValue(leagueAdapterList(matchListRsp.records, true));
+                            if(isTimedRefresh){
+                                leagueWaitingTimerListData.postValue(leagueAdapterList(matchListRsp.records, true));
+                            }else{
+                                leagueWaitingListData.postValue(leagueAdapterList(matchListRsp.records, true));
+                            }
+
                         }
                     }
 
@@ -190,7 +210,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
                                 sslMap.put(String.valueOf(matchTypeStatisInfo.sid), matchTypeStatisInfo.c);
                             }
                             List<Integer> sportCountList = new ArrayList<>();
-                            for (String sportId : Constants.SPORT_IDS) {
+                            for (String sportId : SportTypeContants.SPORT_IDS) {
                                 sportCountList.add(sslMap.get(sportId));
                             }
                             sportCountMap.put(String.valueOf(matchTypeInfo.ty), sportCountList);
@@ -239,9 +259,9 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
     }
 
     public void addSubscription() {
-        mSubscription = RxBus.getDefault().toObservable(ExpandContract.class)
-                .subscribe(expandContract -> {
-                    expandContractListData.postValue(new ExpandContract());
+        mSubscription = RxBus.getDefault().toObservable(BetContract.class)
+                .subscribe(betContract -> {
+                    betContractListData.postValue(betContract);
                 });
         addSubscribe(mSubscription);
     }

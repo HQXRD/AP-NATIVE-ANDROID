@@ -2,5 +2,6 @@
 <shape
     xmlns:android="http://schemas.android.com/apk/res/android">
     <corners android:radius="50dp"/>
-    <solid android:color="@color/bt_color_car_dialog_top_acount"/>
+    <gradient android:startColor="@color/bt_color_car_dialog_top_acount"
+        android:endColor="#24FFFFFF" android:angle="180"/>
 </shape>

@@ -5,8 +5,9 @@
     <dimen name="layout_margin">12dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="bt_match_list_height">142dp</dimen>
 
+    <dimen name="bt_match_list_height">142dp</dimen>
+    <dimen name="bt_match_list_height_2">118dp</dimen>
     <dimen name="bt_text_7sp">7sp</dimen>
     <dimen name="bt_text_8sp">8sp</dimen>
     <dimen name="bt_text_10sp">10sp</dimen>

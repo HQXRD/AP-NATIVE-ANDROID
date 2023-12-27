@@ -1,6 +1,8 @@
 package com.xtree.bet.bean.ui;
 
- public interface Option {
+import com.xtree.base.vo.BaseBean;
+
+public interface Option extends BaseBean {
     
     /**
      * 选项全称，投注框一般用全称展示
@@ -37,4 +39,20 @@ package com.xtree.bet.bean.ui;
      * 选项结算结果，仅虚拟体育展示
      */
      int getSettlementResult();
+    /**
+     * 设置是否选中
+     * @return
+     */
+    boolean setSelected(boolean isSelected);
+    /**
+     * 是否选中
+     * @return
+     */
+     boolean isSelected();
+
+    /**
+     * 	line值，带线玩法的线，例如大小球2.5线，部分玩法展示可用该字段进行分组展示
+     * @return
+     */
+     String getLine();
 }

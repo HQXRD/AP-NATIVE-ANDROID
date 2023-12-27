@@ -38,7 +38,7 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
 
         RecyclerView rvDefaultAmount = findViewById(R.id.rv_default_amount);
         rvDefaultAmount.setLayoutManager(new GridLayoutManager(context, 5));
-        Integer[] defaultAmount = new Integer[]{10, 50, 100, 500, 1000};
+        Integer[] defaultAmount = new Integer[]{100, 500, 1000, 2000, 5000};
         rvDefaultAmount.setAdapter(new CommonAdapter<Integer>(context, R.layout.bt_layout_keyboard_item, Arrays.asList(defaultAmount)) {
             @Override
             protected void convert(ViewHolder holder, Integer i, int position) {

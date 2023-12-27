@@ -9,40 +9,50 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_going_on"
+        android:id="@+id/ll_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bt_page_up_bg"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:background="@color/bt_page_bg"
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:background="@mipmap/bt_icon_going_on" />
+            android:background="@drawable/bt_bg_match_header"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:background="@mipmap/bt_icon_going_on" />
+
+            <TextView
+                android:id="@+id/tv_header_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:text="@string/bt_game_going_on"
+                android:textColor="@color/bt_text_color_bold"
+                android:textSize="@dimen/bt_text_12sp" />
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_header_name"
+            android:id="@+id/tv_sport_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/bt_game_going_on"
-            android:textColor="@color/bt_text_color_bold"
+            android:layout_marginTop="5dp"
+            android:text="足球"
             android:textSize="@dimen/bt_text_12sp" />
 
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_sport_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:text="足球"
-        android:textSize="@dimen/bt_text_12sp" />
 
 </LinearLayout>

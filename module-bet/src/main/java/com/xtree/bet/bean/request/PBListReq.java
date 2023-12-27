@@ -1,13 +1,15 @@
 package com.xtree.bet.bean.request;
 
+import java.util.List;
+
 public class PBListReq {
     private int sportId;
     private String languageType = "CMN";
     private int[] leagueIds;
     private int type;
-    private long beginTime;
-    private long endTime;
-    private int[] matchIds;
+    private String beginTime;
+    private String endTime;
+    private List<Integer> matchIds;
     private int current;
     private int size;
     private int orderBy;
@@ -45,27 +47,27 @@ public class PBListReq {
         this.type = type;
     }
 
-    public long getBeginTime() {
+    public String getBeginTime() {
         return beginTime;
     }
 
-    public void setBeginTime(long beginTime) {
+    public void setBeginTime(String beginTime) {
         this.beginTime = beginTime;
     }
 
-    public long getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(long endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
 
-    public int[] getMatchIds() {
+    public List<Integer> getMatchIds() {
         return matchIds;
     }
 
-    public void setMatchIds(int[] matchIds) {
+    public void setMatchIds(List<Integer> matchIds) {
         this.matchIds = matchIds;
     }
 

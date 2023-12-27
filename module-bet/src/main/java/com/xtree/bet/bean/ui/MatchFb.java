@@ -1,9 +1,12 @@
 package com.xtree.bet.bean.ui;
 
+import android.os.Parcel;
+
 import com.xtree.base.utils.TimeUtils;
-import com.xtree.bet.bean.MatchInfo;
-import com.xtree.bet.bean.PlayTypeInfo;
-import com.xtree.bet.bean.ScoreInfo;
+import com.xtree.bet.bean.response.MatchInfo;
+import com.xtree.bet.bean.response.PlayTypeInfo;
+import com.xtree.bet.bean.response.ScoreInfo;
+import com.xtree.bet.bean.response.VideoInfo;
 import com.xtree.bet.constant.MatchPeriod;
 
 import java.util.ArrayList;
@@ -19,6 +22,14 @@ public class MatchFb implements Match{
 
     public MatchFb(MatchInfo matchInfo){
         this.matchInfo = matchInfo;
+    }
+
+    /**
+     * 获取比赛ID
+     * @return
+     */
+    public int getId(){
+        return matchInfo.id;
     }
 
     /**
@@ -58,19 +69,42 @@ public class MatchFb implements Match{
     }
 
     /**
-     * 获取比分信息
+     * 获取实时比分信息
+     * @param type 比分类型，例如角球、黄牌等
      * @return
      */
     @Override
-    public List<Integer> getScore() {
-        if(matchInfo.nsg != null) {
+    public List<Integer> getScore(int type) {
+        if(matchInfo.nsg != null && !matchInfo.nsg.isEmpty()) {
             for (ScoreInfo scoreInfo : matchInfo.nsg) {
-                if (scoreInfo.pe == matchInfo.mc.pe) {
+                if (scoreInfo.tyg == type) {
                     return scoreInfo.sc;
                 }
             }
         }
-        return null;
+        List<Integer> sc = new ArrayList<>();
+        sc.add(0);
+        sc.add(0);
+        return sc;
+    }
+
+    /**
+     * 获取比分信息
+     * @param type 比分类型，例如角球、黄牌等
+     * @return
+     */
+    @Override
+    public List<Score> getScoreList(int type) {
+        List<Score> scoreInfos = new ArrayList<>();
+        if(matchInfo.nsg != null && !matchInfo.nsg.isEmpty()) {
+            for (ScoreInfo scoreInfo : matchInfo.nsg) {
+                if (scoreInfo.tyg == type) {
+                    scoreInfos.add(new ScoreFb(scoreInfo));
+                }
+            }
+        }
+
+        return scoreInfos;
     }
 
     /**
@@ -95,15 +129,102 @@ public class MatchFb implements Match{
         return playTypeList;
     }
 
+    /**
+     * 是否有视频直播
+     * @return
+     */
     @Override
     public boolean hasVideo() {
         return matchInfo.vs.have;
     }
-
+    /**
+     * 是否有动画直播
+     * @return
+     */
     @Override
     public boolean hasAs() {
         return matchInfo.as != null && !matchInfo.as.isEmpty();
     }
 
+    @Override
+    public VideoInfo getVideoInfo() {
+        return matchInfo.vs;
+    }
 
+    @Override
+    public List<String> getAnmiUrls() {
+        return matchInfo.as;
+    }
+
+    /**
+     * 获取联赛信息
+     * @return
+     */
+    @Override
+    public League getLeague() {
+        return new LeagueFb(matchInfo.lg);
+    }
+
+    /**
+     * 获取主队logo
+     * @return
+     */
+    @Override
+    public String getIconMain() {
+        return matchInfo.ts.get(0).lurl;
+    }
+
+    /**
+     * 获取客队logo
+     * @return
+     */
+    @Override
+    public String getIconVisitor() {
+        return matchInfo.ts.get(1).lurl;
+    }
+
+    @Override
+    public boolean isUnGoingon() {
+        return matchInfo.ms == 4;
+    }
+
+    @Override
+    public long getMatchTime() {
+        return this.matchInfo.bt;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable(this.matchInfo, flags);
+        dest.writeList(this.playTypeList);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.matchInfo = source.readParcelable(MatchInfo.class.getClassLoader());
+        this.playTypeList = new ArrayList<>();
+        source.readList(this.playTypeList, PlayType.class.getClassLoader());
+    }
+
+    protected MatchFb(Parcel in) {
+        this.matchInfo = in.readParcelable(MatchInfo.class.getClassLoader());
+        this.playTypeList = new ArrayList<>();
+        in.readList(this.playTypeList, PlayType.class.getClassLoader());
+    }
+
+    public static final Creator<MatchFb> CREATOR = new Creator<MatchFb>() {
+        @Override
+        public MatchFb createFromParcel(Parcel source) {
+            return new MatchFb(source);
+        }
+
+        @Override
+        public MatchFb[] newArray(int size) {
+            return new MatchFb[size];
+        }
+    };
 }

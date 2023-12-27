@@ -1,8 +1,16 @@
-<manifest package="com.xtree.bet"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.xtree.bet">
 
     <application>
-        <activity android:name="com.xtree.bet.ui.activity.MainActivity"></activity>
-        <activity android:name="com.xtree.bet.ui.activity.BtDetailActivity"></activity>
+        <activity
+            android:name="com.xtree.bet.ui.activity.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.xtree.bet.ui.activity.BtDetailActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.xtree.bet.ui.activity.ExpandActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

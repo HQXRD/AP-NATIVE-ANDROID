@@ -183,4 +183,27 @@ public final class StringUtils {
         }
         return new String(chars);
     }
+
+    /**
+     * 判断字符串是否是数字
+     * @param str
+     * @return
+     */
+    public static boolean isNumeric(String str) {
+        return str.matches("\\d+(?:\\.\\d+)?");
+        /*int temp = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == '.' && temp == 0) {
+                temp++;
+                continue;
+            }
+            if (!Character.isDigit(str.charAt(i))) {
+                return false;
+            }
+            if (str.charAt(str.length() - 1) == '.') {
+                return false;
+            }
+        }
+        return true;*/
+    }
 }

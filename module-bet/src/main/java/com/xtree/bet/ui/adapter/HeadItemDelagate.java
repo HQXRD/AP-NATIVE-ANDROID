@@ -1,10 +1,8 @@
 package com.xtree.bet.ui.adapter;
 
-import android.view.View;
-
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.League;
-import com.xtree.bet.contract.ExpandContract;
+import com.xtree.bet.contract.BetContract;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
@@ -25,7 +23,7 @@ public class HeadItemDelagate implements ItemViewDelegate<League> {
     public void convert(ViewHolder holder, League item, int position) {
         holder.setText(R.id.tv_header_name, "未开赛");
         holder.itemView.setOnClickListener(view -> {
-            RxBus.getDefault().post(new ExpandContract());
+            RxBus.getDefault().post(new BetContract(BetContract.ACTION_EXPAND));
         });
     }
 }

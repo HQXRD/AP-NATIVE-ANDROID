@@ -24,6 +24,6 @@ public class DetailOptionListAdapter extends CommonAdapter<OptionList> {
         RecyclerView rvOptionList = holder.getView(R.id.rv_option_list);
         int spanCount = optionList.getOptionList().size() >= 3 ? 3 : optionList.getOptionList().size();
         rvOptionList.setLayoutManager(new GridLayoutManager(mContext, spanCount));
-        rvOptionList.setAdapter(new OptionAdapter(mContext, R.layout.bt_fb_detail_option_list_option_item, optionList.getOptionList()));
+        //rvOptionList.setAdapter(new OptionAdapter(mContext, optionList.getOptionList()));
     }
 }

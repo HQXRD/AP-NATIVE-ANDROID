@@ -11,4 +11,18 @@
     <string name="bt_bt_win">预计可赢%1$sRMB</string>
     <string name="bt_bt_pay">小计%1$sRMB</string>
     <string name="bt_bt_keyboadr_max">最大</string>
+    <string name="bt_bt_is_not_allow_crossover">该玩法不支持串关</string>
+    <string name="bt_bt_must_have_two_match">至少选择两场比赛</string>
+    <string name="bt_bt_score_has_changed">比分已更改</string>
+    <string name="bt_detail_yellow_card">黄牌%1$d-%2$d</string>
+    <string name="bt_detail_red_card">红牌%1$d-%2$d</string>
+    <string name="bt_detail_cornor">角球%1$d-%2$d</string>
+    <string name="bt_detail_score">%1$d-%2$d</string>
+    <string name="bt_bt_result_bt_amount">投注金额</string>
+    <string name="bt_bt_result_win">可赢金额</string>
+    <string name="bt_bt_result_id">注单号</string>
+    <string name="bt_bt_btn_comfirm">确 认</string>
+    <string name="bt_bt_tip_success">注单已确认</string>
+    <string name="bt_bt_tip_failed">投注失败</string>
+
 </resources>
