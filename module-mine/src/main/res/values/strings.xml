@@ -5,7 +5,7 @@
     <string name="me_register_hint">注册</string>
     <string name="me_visit_hint">您好游客，请点击登录按钮</string>
     <string name="me_money_total">总资产(元)</string>
-    <string name="me_get_all_money">一键回收</string>
+    <string name="me_get_all_money">一键汇总</string>
     <string name="me_level_hint">亲！您还差89点就可以升级为VIP10，更多福利等着您！</string>
     <string name="me_my_pocket">我的钱包</string>
     <string name="me_transfer">转账</string>
@@ -18,7 +18,7 @@
     <string name="me_yinkui_baobiao">盈亏报表</string>
     <string name="me_sanfang_zhuanzhang">三方转账</string>
     <string name="me_anquan_zhongxin">安全中心</string>
-    <string name="me_zhanghu_shezhi">账户设置</string>
+    <string name="me_zhanghu_shezhi">账户管理</string>
     <string name="me_vip_zhongxin">VIP中心</string>
     <string name="me_fanhui_baobiao">返水报表</string>
     <string name="me_tiyu_guize">体育规则</string>
@@ -42,7 +42,7 @@
     <string name="me_my_wallet">我的钱包</string>
     <string name="me_wallet_title">平台中心余额 (元)</string>
     <string name="me_wallet_deposit">去存款</string>
-    <string name="me_wallet_amount">0.00000</string>
+    <string name="me_wallet_amount">0.0000</string>
     <string name="me_wallet_save">存款</string>
     <string name="me_wallet_transfer">转账</string>
     <string name="me_wallet_withdraw">取款</string>
@@ -81,4 +81,45 @@
     <string name="txt_set_fail">设置失败</string>
     <string name="txt_recycle_succ">回收成功</string>
     <string name="txt_recycle_fail">回收失败</string>
+
+    <string name="txt_security_center">安全中心</string>
+    <string name="txt_login_pwd">登录密码</string>
+    <string name="txt_google_code">Google动态口令</string>
+    <string name="txt_bind_phone">绑定手机号码</string>
+    <string name="txt_bind_email">绑定邮箱地址</string>
+
+    <string name="txt_security_verify">安全验证</string>
+    <string name="txt_verify">验证</string>
+    <string name="txt_choose_verify">请输入选择验证方式</string>
+    <string name="txt_phone_verify">手机号验证</string>
+    <string name="txt_email_verify">邮箱验证</string>
+    <string name="txt_phone_num">手机号码</string>
+    <string name="txt_email_addr">邮箱地址</string>
+    <string name="txt_email">邮箱</string>
+    <string name="txt_change_phone_num">"更新手机号 "</string>
+    <string name="txt_change_email">"更新邮箱地址 "</string>
+    <string name="txt_pwd_cannot_empty">新密码不能为空</string>
+    <string name="txt_pwd_not_same">两次密码不一致</string>
+    <string name="txt_change_succ">修改成功</string>
+    <string name="txt_get_code">获取验证码</string>
+    <string name="txt_already_send_code">已发送验证码</string>
+    <string name="txt_bind_succ">绑定成功</string>
+    <string name="txt_verify_succ">验证成功</string>
+    <string name="txt_enter_new_phone">请输入新手机</string>
+    <string name="txt_enter_new_email">请输入新邮箱</string>
+    <string name="txt_enter_phone_num">请输入11位的手机号码</string>
+    <string name="txt_enter_email_pls">请输入邮箱地址</string>
+    <string name="txt_enter_code_pls">请输入验证码</string>
+    <string name="txt_verify_code">验证码</string>
+    <string name="txt_email_will_help_u">邮箱将有助于您找回账号，同时也是客服人员确认您身份的重要依据</string>
+    <string name="txt_phone_will_help_u">手机号码将有助于您找回账号，同时也是客服人员确认您身份的重要依据</string>
+    <string name="txt_tip_cs_01">遇到问题 ？联系</string>
+    <string name="txt_tip_cs_02">人工客服</string>
+    <string name="txt_tip_cs_03">解决</string>
+
+    <string name="txt_change_pwd">修改密码</string>
+    <string name="txt_enter_new_pwd">请输入新的登录密码</string>
+    <string name="txt_reset">重置</string>
+    <string name="txt_confirm">确定</string>
+
 </resources>

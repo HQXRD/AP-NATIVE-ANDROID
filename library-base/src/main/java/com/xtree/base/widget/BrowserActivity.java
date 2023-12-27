@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,10 +36,14 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class BrowserActivity extends AppCompatActivity {
 
+    TextView tvwTitle;
+    ImageView ivwBack;
     WebView mWebView;
     ImageView ivwLoading;
     ImageView ivwLaunch;
     int sslErrorCount = 0;
+
+    String title = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,10 @@ public class BrowserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_browser);
 
         initView();
+        title = getIntent().getStringExtra("title");
+        if (!TextUtils.isEmpty(title)) {
+            tvwTitle.setText(title);
+        }
 
         String cookie = "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN)
                 + ";" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME)
@@ -83,9 +93,13 @@ public class BrowserActivity extends AppCompatActivity {
     }
 
     private void initView() {
+        tvwTitle = findViewById(R.id.tvw_title);
+        ivwBack = findViewById(R.id.ivw_back);
         mWebView = findViewById(R.id.wv_main);
         ivwLoading = findViewById(R.id.ivw_loading);
         ivwLaunch = findViewById(R.id.ivw_launch);
+
+        ivwBack.setOnClickListener(v -> finish());
 
         mWebView.setFitsSystemWindows(true);
         setWebView(mWebView);
@@ -114,6 +128,7 @@ public class BrowserActivity extends AppCompatActivity {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 CfLog.d("onPageStarted url:  " + url);
                 //Log.d("---", "onPageStarted url:  " + url);
+                setCookieInside();
             }
 
             @Override
@@ -197,6 +212,29 @@ public class BrowserActivity extends AppCompatActivity {
         cm.setCookie(url, cookie);
 
         cm.setAcceptThirdPartyCookies(mWebView, true);
+    }
+
+    private void setCookieInside() {
+
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";";
+        String sessid = SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID);
+        String js = "";
+        js += "(function() {" + "\n";
+        js += "const d = new Date();" + "\n";
+        js += "d.setTime(d.getTime() + (24*60*60*1000));" + "\n";
+        js += "let expires = \"expires=\"+ d.toUTCString();" + "\n";
+        js += "document.cookie = \"auth=" + token + ";\" + expires + \";path=/\";" + "\n";
+        js += "document.cookie = \"_sessionHandler=" + sessid + ";\" + expires + \";path=/\";" + "\n";
+        js += "localStorage.setItem('USER-PROFILE', '');" + "\n";
+        js += "localStorage.setItem('AUTH', '');" + "\n";
+        js += "})()" + "\n";
+
+        CfLog.d(js.replace("\n", " \t"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            mWebView.evaluateJavascript(js, null);
+        } else {
+            mWebView.loadUrl("javascript:" + js);
+        }
     }
 
 }

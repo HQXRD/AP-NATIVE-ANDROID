@@ -77,6 +77,78 @@
         <item name="android:textSize">17sp</item>
     </style>
 
+    <!-- 我的-5个菜单 白色字 -->
+    <style name="style_menu_white">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:textColor">@color/me_level_color</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!-- 我的-12个菜单 黑色字 -->
+    <style name="style_menu_black" parent="style_menu_white">
+        <item name="android:minEms">4</item>
+        <item name="android:textColor">@color/clr_black</item>
+    </style>
+
+    <!-- 我的-安全中心-验证 底部提示信息 灰色小字 -->
+    <style name="style_info_grey_50">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@color/clr_grey_50</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_info2_grey_50">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:textColor">@color/clr_grey_50</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!-- 我的-安全中心-验证 标题 -->
+    <style name="style_security_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
+    <!-- 我的-安全中心-验证 分割线 -->
+    <style name="style_dividing_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">@color/clr_grey_080</item>
+    </style>
+    <!-- 我的-安全中心-验证 获取验证码 -->
+    <style name="style_get_code">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:background">@drawable/bg_get_code_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">6</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">获取验证码</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!-- 我的-安全中心-验证 确定 -->
+    <style name="style_ok">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">36dp</item>
+        <item name="android:src">@drawable/bt_ok_selector</item>
+    </style>
+
     <!-- 充值页-选取金额 按钮背景 -->
     <style name="style_rdo_blc">
         <item name="android:layout_width">0dp</item>
@@ -183,7 +255,7 @@
     <style name="style_trans_value" parent="style_trans_name">
         <item name="android:hint">0.0000</item>
         <item name="android:textColorHint">@color/clr_grey_50</item>
-        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColor">@color/clr_text_trans_selector</item>
     </style>
 
     <!-- 转账页 灰色区 分割线 -->
