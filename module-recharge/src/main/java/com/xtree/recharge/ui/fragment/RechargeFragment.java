@@ -20,11 +20,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
+import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.MsgDialog;
@@ -188,46 +190,40 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         binding.rcvPmt.setAdapter(rechargeAdapter);
         binding.rcvPmt.setNestedScrollingEnabled(false); // 禁止滑动
 
-        binding.ivwCs.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 客服
-            }
+        binding.ivwCs.setOnClickListener(v -> {
+            // 客服
+            String title = getString(R.string.txt_custom_center);
+            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
+            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
         });
         binding.ivwRule.setOnClickListener(v -> {
             // 反馈
-            startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK);
+            //startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK);
+            String title = getString(R.string.txt_feedback);
+            String url = DomainUtil.getDomain2() + Constant.URL_DEPOSIT_FEEDBACK;
+            BrowserActivity.start(getContext(), title, url, true);
         });
-        binding.ivwMsg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 消息
+        binding.ivwMsg.setOnClickListener(v -> {
+            // 消息
+            String title = getString(R.string.txt_msg_center);
+            String url = DomainUtil.getDomain2() + Constant.URL_MY_MESSAGES;
+            BrowserActivity.start(getContext(), title, url, true);
+        });
+
+        binding.ivw1k.setOnClickListener(v -> {
+            // 1键进入
+            show1kEntryDialog();
+        });
+        binding.tvwTutorial.setOnClickListener(v -> {
+            // 充值教程
+            if (!TextUtils.isEmpty(tutorialUrl)) {
+                String title = getString(R.string.txt_recharge_tutorial);
+                new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, tutorialUrl)).show();
             }
         });
 
-        binding.ivw1k.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 1键进入
-                show1kEntryDialog();
-            }
-        });
-        binding.tvwTutorial.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 充值教程
-                if (!TextUtils.isEmpty(tutorialUrl)) {
-                    String title = getString(R.string.txt_recharge_tutorial);
-                    new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, tutorialUrl)).show();
-                }
-            }
-        });
-
-        binding.tvwBindPhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
+        binding.tvwBindPhone.setOnClickListener(v -> {
+            //
         });
         binding.tvwBindYhk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,12 +231,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
             }
         });
-        binding.ivwClear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.edtName.setText("");
-            }
-        });
+        binding.ivwClear.setOnClickListener(v -> binding.edtName.setText(""));
         binding.edtName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -283,38 +274,38 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             }
         });
 
-        binding.btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 下一步
-                if (curRechargeVo == null) {
-                    ToastUtils.showLong(R.string.pls_choose_recharge_type);
-                    return;
-                }
-
-                String txt = binding.edtAmount.getText().toString();
-                double amount = Double.parseDouble(0 + txt);
-                if (amount < loadMin && amount > loadMax) {
-                    txt = String.format(getString(R.string.txt_recharge_range), curRechargeVo.loadmin, curRechargeVo.loadmax);
-                    ToastUtils.showLong(txt);
-                    return;
-                }
-
-                Map<String, String> map = new HashMap<>();
-                map.put("alipayName", ""); //
-                map.put("amount", txt); //
-                // nonce: 如果第一次请求失败，第二次再请求 不能改变
-                map.put("nonce", UUID.randomUUID().toString().replace("-", ""));
-                map.put("rechRealname", binding.edtName.getText().toString().trim()); //
-
-                map.put("bankid", bankId);
-                //map.put("perOrder", "false");
-                //map.put("orderKey", "");
-
-                viewModel.rechargePay(curRechargeVo.bid, map);
-
-            }
+        binding.btnNext.setOnClickListener(v -> {
+            // 下一步
+            goNext();
         });
+    }
+
+    private void goNext() {
+        if (curRechargeVo == null) {
+            ToastUtils.showLong(R.string.pls_choose_recharge_type);
+            return;
+        }
+
+        String txt = binding.edtAmount.getText().toString();
+        double amount = Double.parseDouble(0 + txt);
+        if (amount < loadMin && amount > loadMax) {
+            txt = String.format(getString(R.string.txt_recharge_range), curRechargeVo.loadmin, curRechargeVo.loadmax);
+            ToastUtils.showLong(txt);
+            return;
+        }
+
+        Map<String, String> map = new HashMap<>();
+        map.put("alipayName", ""); //
+        map.put("amount", txt); //
+        // nonce: 如果第一次请求失败，第二次再请求 不能改变
+        map.put("nonce", UUID.randomUUID().toString().replace("-", ""));
+        map.put("rechRealname", binding.edtName.getText().toString().trim()); //
+
+        map.put("bankid", bankId);
+        //map.put("perOrder", "false");
+        //map.put("orderKey", "");
+
+        viewModel.rechargePay(curRechargeVo.bid, map);
     }
 
     private void show1kEntryDialog() {
