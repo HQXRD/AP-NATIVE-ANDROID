@@ -1,6 +1,5 @@
 package com.xtree.mine.ui.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -9,12 +8,17 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.lxj.xpopup.XPopup;
+import com.xtree.base.global.Constant;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.widget.BrowserActivity;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.ActivityMyWalletBinding;
+import com.xtree.mine.ui.fragment.AccountMgmtDialog;
 import com.xtree.mine.ui.viewmodel.MyWalletViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.BalanceVo;
@@ -84,27 +88,19 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
                 startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER);
             }
         });
-        binding.tvwWithdraw.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CfLog.d("************");
-                //startActivity(new Intent(getBaseContext(), WithdrawActivity.class));
-                startContainerFragment(RouterFragmentPath.Wallet.PAGER_WITHDRAW);
-            }
+        binding.tvwWithdraw.setOnClickListener(v -> {
+            CfLog.d("************");
+            //startActivity(new Intent(getBaseContext(), WithdrawActivity.class));
+            //startContainerFragment(RouterFragmentPath.Wallet.PAGER_WITHDRAW);
+            goWebView(v, Constant.URL_WITHDRAW);
         });
-        binding.tvwMgmt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CfLog.d("************");
-
-            }
+        binding.tvwMgmt.setOnClickListener(v -> {
+            CfLog.d("************");
+            new XPopup.Builder(this).asCustom(new AccountMgmtDialog(this)).show();
         });
-        binding.tvwRecord.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CfLog.d("************");
-
-            }
+        binding.tvwRecord.setOnClickListener(v -> {
+            CfLog.d("************");
+            goWebView(v, Constant.URL_DW_RECORD);
         });
 
     }
@@ -140,6 +136,12 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
                 }
             }
         });
+    }
+
+    private void goWebView(View v, String path) {
+        String title = ((TextView) v).getText().toString();
+        String url = DomainUtil.getDomain2() + path;
+        BrowserActivity.start(this, title, url, true);
     }
 
     private void goRecharge() {
