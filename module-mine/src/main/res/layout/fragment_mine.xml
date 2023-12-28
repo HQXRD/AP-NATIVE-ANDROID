@@ -26,9 +26,9 @@
                 android:id="@+id/topArea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_marginLeft="16dp"
                 android:layout_marginTop="30dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="16dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 app:layout_constraintStart_toStartOf="parent"
@@ -61,17 +61,18 @@
                     android:layout_weight="1" />
 
                 <ImageView
-                    android:id="@+id/icon_setting"
+                    android:id="@+id/ivw_setting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
+                    android:padding="8dp"
                     android:src="@mipmap/me_icon_setting" />
 
                 <ImageView
-                    android:id="@+id/icon_message"
+                    android:id="@+id/ivw_msg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="8dp"
                     android:src="@mipmap/me_icon_message" />
 
             </LinearLayout>
@@ -159,12 +160,12 @@
                         android:text="@string/me_money_total"
                         android:textColor="@color/me_text_color"
                         android:textSize="@dimen/mine_text_size"
-                        app:layout_constraintBottom_toBottomOf="@+id/get_all_money"
+                        app:layout_constraintBottom_toBottomOf="@+id/tvw_1k_recycle"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/get_all_money" />
+                        app:layout_constraintTop_toTopOf="@+id/tvw_1k_recycle" />
 
                     <TextView
-                        android:id="@+id/get_all_money"
+                        android:id="@+id/tvw_1k_recycle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="13dp"
@@ -174,20 +175,19 @@
                         android:paddingRight="15dp"
                         android:paddingBottom="5dp"
                         android:text="@string/me_get_all_money"
-                        android:textColor="@color/black"
-                        android:textSize="10sp"
+                        android:textColor="@color/clr_txt_black02"
+                        android:textSize="12sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
-                        android:id="@+id/hide_show_icon"
+                        android:id="@+id/ivw_eye"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:src="@mipmap/me_hide_icon"
                         app:layout_constraintBottom_toBottomOf="@+id/total_money_hint"
                         app:layout_constraintLeft_toRightOf="@+id/total_money_hint" />
-
 
                     <LinearLayout
                         android:id="@+id/money_area"
@@ -208,11 +208,12 @@
                             tools:text="1000,000.00" />
 
                         <ImageView
-                            android:id="@+id/refresh_icon"
+                            android:id="@+id/ivw_refresh_blc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="5dp"
+                            android:padding="6dp"
                             android:src="@mipmap/me_refresh_icon" />
 
                     </LinearLayout>
@@ -249,6 +250,7 @@
                             android:progressDrawable="@drawable/me_level_progressbar" />
 
                         <ImageView
+                            android:id="@+id/ivw_level"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"

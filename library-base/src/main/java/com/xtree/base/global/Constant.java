@@ -33,4 +33,22 @@ public class Constant {
     public static final String BIND_GOPAY = "bindgopay"; // 绑定GOPAY
     public static final String BIND_OKPAY = "bindokpay"; // 绑定OKPAY
 
+    public static final String URL_DEPOSIT_FEEDBACK = "/webapp/#/depositFeedback"; // 充值—反馈
+    public static final String URL_MY_MESSAGES = "/webapp/#/my/messages"; // 消息中心
+    public static final String URL_CUSTOMER_SERVICE = "/webapp/#/customerService"; // 客服中心
+    public static final String URL_VIP_CENTER = "/webapp/#/vipcenter"; // VIP中心
+    public static final String URL_WITHDRAW = "/webapp/#/withdraw"; // 提现
+    public static final String URL_PROFIT_LOSS = "/webapp/#/report/reports/eprofitloss"; // 盈亏报表
+    public static final String URL_3RD_TRANSFER = "/webapp/#/report/reports/3rd_transfer"; // 第三方转账
+    public static final String URL_REBATE_REPORT = "/webapp/#/report/compact/userantirepot"; // 返水报表
+
+    public static final String URL_PARTNER = "https://sc.sc/"; // 官方合营
+    public static final String URL_SPORT_RULES = "/static/activity/sportRules/index.html"; // 体育规则
+    public static final String URL_QA = "/webapp/#/my/qa"; // 常见问题
+    public static final String URL_TUTORIAL = "/static/vir-tutorial/cnyt.html"; // 充值教程
+    public static final String URL_HELP = "/webapp/#/my/help"; // 帮助中心
+    public static final String URL_BET_RECORD = "/webapp/#/report/bet-record"; // 投注记录
+    public static final String URL_ACCOUNT_CHANGE = "/webapp/#/report/account-change"; // 账变记录
+    public static final String URL_DW_RECORD = "/webapp/#/report/dw-record"; // 充提记录
+
 }
