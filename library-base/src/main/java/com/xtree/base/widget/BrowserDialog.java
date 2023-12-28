@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
+import android.os.Build;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.SslErrorHandler;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.R;
@@ -55,6 +58,12 @@ public class BrowserDialog extends BottomPopupView {
     public BrowserDialog(@NonNull Context context, String title, String url) {
         super(context);
         this.title = title;
+        this.url = url;
+    }
+
+    public BrowserDialog(@NonNull Context context, int resTitle, String url) {
+        super(context);
+        this.title = context.getString(resTitle);
         this.url = url;
     }
 
@@ -142,6 +151,7 @@ public class BrowserDialog extends BottomPopupView {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 CfLog.d("onPageStarted url:  " + url);
                 //Log.d("---", "onPageStarted url:  " + url);
+                setCookieInside();
             }
 
             @Override
@@ -226,4 +236,44 @@ public class BrowserDialog extends BottomPopupView {
         return (XPopupUtils.getScreenHeight(getContext()) * 85 / 100);
     }
 
+    private void setCookieInside() {
+        // auth, _sessionHandler 是验证类业务用的,比如绑USDT/绑YHK
+        // AUTH, USER-PROFILE 是给VIP中心/报表 用的
+
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        String sessid = SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID);
+
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        HashMap mProfileVo = new Gson().fromJson(json, new TypeToken<HashMap>() {
+        }.getType());
+
+        long expires = System.currentTimeMillis() + 24 * 60 * 60 * 1000;
+        HashMap map = new HashMap<>();
+        map.put("data", mProfileVo);
+        map.put("expires", expires);
+        String userProfile = new Gson().toJson(map);
+
+        map.clear();
+        map.put("data", token);
+        map.put("expires", expires);
+        String auth = new Gson().toJson(map);
+
+        String js = "";
+        js += "(function() {" + "\n";
+        js += "const d = new Date();" + "\n";
+        js += "d.setTime(d.getTime() + (24*60*60*1000));" + "\n";
+        js += "let expires = \"expires=\"+ d.toUTCString();" + "\n";
+        js += "document.cookie = \"auth=" + token + ";\" + expires + \";path=/\";" + "\n";
+        js += "document.cookie = \"_sessionHandler=" + sessid + ";\" + expires + \";path=/\";" + "\n";
+        js += "localStorage.setItem('USER-PROFILE', '" + userProfile + "');" + "\n";
+        js += "localStorage.setItem('AUTH', '" + auth + "');" + "\n";
+        js += "})()" + "\n";
+
+        CfLog.i(js.replace("\n", " \t"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            mWebView.evaluateJavascript(js, null);
+        } else {
+            mWebView.loadUrl("javascript:" + js);
+        }
+    }
 }
