@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_dialog_top_purple"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvw_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/me_choose_acount"
+            android:textColor="@color/clr_white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivw_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="close"
+            android:padding="4dp"
+            android:src="@mipmap/ic_pop_close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="@dimen/layout_margin"
+        android:paddingBottom="36dp">
+
+        <TextView
+            style="@style/style_choose_account"
+            android:tag="bindcard"
+            android:text="@string/txt_bind_card" />
+
+        <TextView
+            style="@style/style_choose_account"
+            android:tag="bindusdt"
+            android:text="@string/txt_bind_usdt" />
+
+        <TextView
+            style="@style/style_choose_account"
+            android:tag="bindebpay"
+            android:text="@string/txt_bind_ebpay" />
+
+        <TextView
+            style="@style/style_choose_account"
+            android:tag="bindtopay"
+            android:text="@string/txt_bind_topay" />
+
+        <TextView
+            style="@style/style_choose_account"
+            android:tag="bindgcnyt"
+            android:text="@string/txt_bind_gcnyt" />
+
+        <TextView
+            style="@style/style_choose_account"
+            android:tag="bindmpay"
+            android:text="@string/txt_bind_mpay" />
+
+        <TextView
+            style="@style/style_choose_account"
+            android:tag="bindgobao"
+            android:text="@string/txt_bind_gobao" />
+
+        <TextView
+            style="@style/style_choose_account"
+            android:tag="bindgopay"
+            android:text="@string/txt_bind_gopay" />
+
+        <TextView
+            style="@style/style_choose_account"
+            android:tag="bindokpay"
+            android:text="@string/txt_bind_okpay" />
+
+    </LinearLayout>
+
+</LinearLayout>
