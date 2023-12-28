@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">library-res</string>
+    <string name="txt_vip_center">VIP中心</string>
+    <string name="txt_withdraw">提款</string>
+    <string name="txt_feedback">反馈信息</string>
+    <string name="txt_custom_center">客服中心</string>
+    <string name="txt_msg_center">消息中心</string>
+
+    <string name="txt_bind_card">银行卡管理</string>
+    <string name="txt_bind_usdt">绑定USDT</string>
+    <string name="txt_bind_ebpay">绑定EBPAY</string>
+    <string name="txt_bind_topay">绑定TOPAY</string>
+    <string name="txt_bind_gcnyt">绑定CNYT</string>
+    <string name="txt_bind_mpay">绑定MPAY</string>
+    <string name="txt_bind_gobao">绑定GOBAO</string>
+    <string name="txt_bind_gopay">绑定GOPAY</string>
+    <string name="txt_bind_okpay">绑定OKPAY</string>
 </resources>

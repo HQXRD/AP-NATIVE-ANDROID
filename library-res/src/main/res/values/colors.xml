@@ -141,6 +141,7 @@
     <color name="clr_black">#000000</color>
     <color name="clr_txt_black">#000000</color>
     <color name="clr_txt_black_01">#2F2747</color>
+    <color name="clr_txt_black02">#161621</color>
     <color name="clr_txt_black_03">#121B47</color>
     <color name="clr_txt_grey_01">#b1b1b1</color>
     <color name="clr_txt_grey_03">#9E9E9E</color>
