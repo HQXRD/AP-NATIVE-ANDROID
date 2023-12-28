@@ -1,8 +1,6 @@
 package com.xtree.home.ui.fragment;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,7 +10,6 @@ import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,12 +19,15 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
+import com.lxj.xpopup.XPopup;
+import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.widget.BrowserActivity;
+import com.xtree.base.widget.BrowserDialog;
 import com.xtree.home.BR;
 import com.xtree.home.R;
 import com.xtree.home.databinding.FragmentHomeBinding;
@@ -35,11 +35,8 @@ import com.xtree.home.ui.GameAdapter;
 import com.xtree.home.ui.viewmodel.HomeViewModel;
 import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.home.vo.BannersVo;
-import com.xtree.home.vo.CookieVo;
 import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
-import com.xtree.home.vo.ProfileVo;
-import com.xtree.home.vo.VipInfoVo;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
@@ -47,13 +44,10 @@ import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 首页
@@ -91,8 +85,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
 
     @Override
-    public void initData() {
-        initLiveData();
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         viewModel.readCache(); // 从缓存读取数据并显示
 
         viewModel.getSettings(); // 获取公钥,配置信息
@@ -104,87 +98,67 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (!TextUtils.isEmpty(token)) {
             viewModel.getCookie();
         }
-
     }
 
-    public void initLiveData() {
-
-        viewModel.liveDataCookie.observe(getViewLifecycleOwner(), new Observer<CookieVo>() {
-            @Override
-            public void onChanged(CookieVo cookieVo) {
-                KLog.d("************");
-                viewModel.getNotices(); // 获取公告
-                viewModel.getProfile(); // 获取个人信息
-                viewModel.getVipInfo(); // 获取VIP信息
-            }
-        });
-
-        viewModel.liveDataBanner.observe(getViewLifecycleOwner(), new Observer<List<BannersVo>>() {
-            @Override
-            public void onChanged(List<BannersVo> list) {
-                binding.bnrTop.setDatas(list);
-            }
-        });
-
-        viewModel.liveDataNotice.observe(getViewLifecycleOwner(), new Observer<List<NoticeVo>>() {
-            @Override
-            public void onChanged(List<NoticeVo> list) {
-                if (list.isEmpty()) {
-                    binding.llNotice.setVisibility(View.GONE);
-                    binding.ivwNotice.setVisibility(View.GONE);
-                } else {
-                    StringBuffer sb = new StringBuffer();
-                    for (NoticeVo vo : list) {
-                        sb.append(vo.title + " ");
-                    }
-                    binding.llNotice.setVisibility(View.VISIBLE);
-                    binding.tvwNotice.setText(sb.toString());
-                }
-            }
-        });
-
-        viewModel.liveDataGames.observe(getViewLifecycleOwner(), new Observer<List<GameVo>>() {
-            @Override
-            public void onChanged(List<GameVo> list) {
-                KLog.i("size: " + list.size());
-                //KLog.d(list.get(0));
-                gameAdapter.clear();
-                gameAdapter.addAll(list);
-            }
-        });
-
-        viewModel.liveDataPlayUrl.observe(getViewLifecycleOwner(), new Observer<Map>() {
-            @Override
-            public void onChanged(Map map) {
-                CfLog.d("*** " + new Gson().toJson(map));
-                // 跳转到游戏H5
-                gameAdapter.playGame(map.get("url").toString());
-            }
-        });
-        viewModel.liveDataProfile.observe(getViewLifecycleOwner(), new Observer<ProfileVo>() {
-            @Override
-            public void onChanged(ProfileVo vo) {
-                CfLog.d("*** " + new Gson().toJson(vo));
-                binding.clLoginNot.setVisibility(View.GONE);
-                binding.clLoginYet.setVisibility(View.VISIBLE);
-
-                binding.tvwName.setText(vo.username);
-                binding.tvwBalance.setText("￥" + vo.availablebalance); // creditwallet.balance_RMB
-            }
-        });
-        viewModel.liveDataVipInfo.observe(getViewLifecycleOwner(), new Observer<VipInfoVo>() {
-            @Override
-            public void onChanged(VipInfoVo vo) {
-                CfLog.d("*** " + vo.toString());
-                binding.ivwVip.setImageLevel(vo.display_level); // display_level
-            }
-        });
+    @Override
+    public void initData() {
 
     }
 
     @Override
     public void initViewObservable() {
-        viewModel.itemClickEvent.observe(this, (Observer<String>) s -> ToastUtils.showShort(s));
+
+        viewModel.liveDataCookie.observe(getViewLifecycleOwner(), cookieVo -> {
+            KLog.d("************");
+            viewModel.getNotices(); // 获取公告
+            viewModel.getProfile(); // 获取个人信息
+            viewModel.getVipInfo(); // 获取VIP信息
+        });
+
+        viewModel.liveDataBanner.observe(getViewLifecycleOwner(), list -> {
+            // banner
+            binding.bnrTop.setDatas(list);
+        });
+
+        viewModel.liveDataNotice.observe(getViewLifecycleOwner(), list -> {
+            if (list.isEmpty()) {
+                binding.llNotice.setVisibility(View.GONE);
+                binding.ivwNotice.setVisibility(View.GONE);
+            } else {
+                StringBuffer sb = new StringBuffer();
+                for (NoticeVo vo : list) {
+                    sb.append(vo.title + " ");
+                }
+                binding.llNotice.setVisibility(View.VISIBLE);
+                binding.tvwNotice.setText(sb.toString());
+            }
+        });
+
+        viewModel.liveDataGames.observe(getViewLifecycleOwner(), list -> {
+            KLog.i("size: " + list.size());
+            //KLog.d(list.get(0));
+            gameAdapter.clear();
+            gameAdapter.addAll(list);
+        });
+
+        viewModel.liveDataPlayUrl.observe(getViewLifecycleOwner(), map -> {
+            CfLog.d("*** " + new Gson().toJson(map));
+            // 跳转到游戏H5
+            gameAdapter.playGame(map.get("url").toString());
+        });
+        viewModel.liveDataProfile.observe(getViewLifecycleOwner(), vo -> {
+            CfLog.d("*** " + new Gson().toJson(vo));
+            binding.clLoginNot.setVisibility(View.GONE);
+            binding.clLoginYet.setVisibility(View.VISIBLE);
+
+            binding.tvwName.setText(vo.username);
+            binding.tvwBalance.setText("￥" + vo.availablebalance); // creditwallet.balance_RMB
+        });
+        viewModel.liveDataVipInfo.observe(getViewLifecycleOwner(), vo -> {
+            CfLog.d("*** " + vo.toString());
+            binding.ivwVip.setImageLevel(vo.display_level); // display_level
+        });
+
     }
 
     public void initView() {
@@ -199,40 +173,38 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             }
         });
 
-        binding.bnrTop.setOnBannerListener(new OnBannerListener<BannersVo>() {
-            @Override
-            public void OnBannerClick(BannersVo data, int position) {
-                // 如果banner有链接 跳转到链接
-                if (!TextUtils.isEmpty(data.link)) {
-                    String url = DomainUtil.getDomain() + data.link;
-                    Uri uri = Uri.parse(url);
-                    //Intent it = new Intent(Intent.ACTION_VIEW, uri);
-                    Intent it = new Intent(getContext(), BrowserActivity.class);
-                    it.setData(uri);
-                    startActivity(it);
-                }
+        binding.bnrTop.setOnBannerListener((OnBannerListener<BannersVo>) (data, position) -> {
+            // 如果banner有链接 跳转到链接
+            if (!TextUtils.isEmpty(data.link)) {
+                String url = DomainUtil.getDomain() + data.link;
+                //Uri uri = Uri.parse(url);
+                //Intent it = new Intent(Intent.ACTION_VIEW, uri);
+                //Intent it = new Intent(getContext(), BrowserActivity.class);
+                //it.setData(uri);
+                //startActivity(it);
+                BrowserActivity.start(getContext(), data.title, url);
             }
         });
 
-        binding.ivwClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.llNotice.setVisibility(View.GONE);
-                binding.ivwNotice.setVisibility(View.VISIBLE);
-            }
+        binding.ivwCs.setOnClickListener(view -> {
+            String title = getString(R.string.txt_custom_center);
+            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
+            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
         });
-        binding.ivwNotice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.llNotice.setVisibility(View.VISIBLE);
-                binding.ivwNotice.setVisibility(View.INVISIBLE);
-            }
+        binding.ivwClose.setOnClickListener(view -> {
+            binding.llNotice.setVisibility(View.GONE);
+            binding.ivwNotice.setVisibility(View.VISIBLE);
+        });
+        binding.ivwNotice.setOnClickListener(view -> {
+            binding.llNotice.setVisibility(View.VISIBLE);
+            binding.ivwNotice.setVisibility(View.INVISIBLE);
+        });
+        binding.llNotice.setOnClickListener(view -> {
+            String title = getString(R.string.txt_msg_center);
+            String url = DomainUtil.getDomain2() + Constant.URL_MY_MESSAGES;
+            BrowserActivity.start(getContext(), title, url, true);
         });
 
-        binding.btnLogin.setOnClickListener(view -> {
-                    //viewModel.login(getContext(), username, pwd); // 要等公钥接口返回结果以后 才能调用
-                }
-        );
         //cl_login_not
         binding.clLoginNot.setOnClickListener(view -> {
             // 登录
@@ -248,15 +220,24 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.tvwWithdraw.setOnClickListener(view -> {
             // 提现
             KLog.i("**************");
-            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_WITHDRAW).navigation();
+            //ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_WITHDRAW).navigation();
+            //startContainerFragment(RouterFragmentPath.Wallet.PAGER_WITHDRAW);
+            String title = getString(R.string.txt_withdraw);
+            String url = DomainUtil.getDomain2() + Constant.URL_WITHDRAW;
+            BrowserActivity.start(getContext(), title, url, true);
         });
         binding.tvwTrans.setOnClickListener(view -> {
             // 转账
             KLog.i("**************");
+            startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER);
         });
         binding.tvwMember.setOnClickListener(view -> {
             // 会员
             KLog.i("**************");
+            String title = getString(R.string.txt_vip_center);
+            String url = DomainUtil.getDomain2() + Constant.URL_VIP_CENTER;
+            BrowserActivity.start(getContext(), title, url, true);
+            //new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url, true)).show();
         });
 
         GameAdapter.ICallBack mCallBack = new GameAdapter.ICallBack() {
@@ -282,8 +263,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 super.onScrolled(recyclerView, dx, dy);
 
                 int position = manager.findFirstVisibleItemPosition();
-                //int end = manager.findLastCompletelyVisibleItemPosition(); // 最后一个完整可见的
+                // int end = manager.findLastCompletelyVisibleItemPosition(); // 最后一个完整可见的
                 // View view = manager.findViewByPosition(position);
+                if (position < 0 || position > gameAdapter.size() - 1) {
+                    return;
+                }
                 GameVo vo = gameAdapter.get(position);
                 if (vo.pId != curPId) {
                     //CfLog.d("类型发生了改变 " + curPId + ", " + vo.pId);
@@ -305,13 +289,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             dr.setLevel(i + 1);
             rbtn.setButtonDrawable(dr);
 
-            rbtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String tag = v.getTag().toString();
-                    int pid = Integer.parseInt(tag.replace("tp_", ""));
-                    smoothToPosition(pid);
-                }
+            rbtn.setOnClickListener(v -> {
+                String tag = v.getTag().toString();
+                int pid = Integer.parseInt(tag.replace("tp_", ""));
+                smoothToPosition(pid);
             });
         }
 
@@ -328,12 +309,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
 
     private void goRecharge() {
-        Intent intent = new Intent(getContext(), ContainerActivity.class);
-        intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Recharge.PAGER_RECHARGE);
+        //Intent intent = new Intent(getContext(), ContainerActivity.class);
+        //intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Recharge.PAGER_RECHARGE);
         Bundle bundle = new Bundle();
         bundle.putBoolean("isShowBack", true);
-        intent.putExtra(ContainerActivity.BUNDLE, bundle);
-        startActivity(intent);
+        //intent.putExtra(ContainerActivity.BUNDLE, bundle);
+        //startActivity(intent);
+        startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
     }
 
 }
