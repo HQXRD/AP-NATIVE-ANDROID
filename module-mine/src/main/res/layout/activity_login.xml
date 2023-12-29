@@ -82,27 +82,9 @@
                         android:background="@mipmap/me_input_bg"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:id="@+id/me_account_icon"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="15dp"
-                            android:layout_weight="1"
-                            android:src="@mipmap/me_account_icon" />
-
-
                         <EditText
-                            android:id="@+id/me_account_input"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="5"
-                            android:background="@null"
-                            android:hint="@string/me_account_hint"
-                            android:textSize="@dimen/me_test_size" />
-
+                            android:id="@+id/edt_account"
+                            style="@style/style_cm_edt_account" />
 
                     </LinearLayout>
 
@@ -112,97 +94,57 @@
                         android:layout_marginTop="10dp"
                         android:background="@mipmap/me_input_bg">
 
-                        <ImageView
-                            android:id="@+id/me_pwd_icon"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="15dp"
-                            android:layout_weight="1"
-                            android:src="@mipmap/me_pwd_icon" />
-
                         <EditText
-                            android:id="@+id/me_pwd_input"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="6"
-                            android:background="@null"
-                            android:hint="@string/me_pwd_hint"
-                            android:inputType="textPassword"
-                            android:textSize="@dimen/me_test_size"></EditText>
-
-                        <ImageView
-                            android:id="@+id/me_show_icon"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginRight="15dp"
-                            android:layout_weight="1"
-                            android:src="@mipmap/me_show_icon" />
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginRight="15dp">
+                            android:id="@+id/edt_pwd"
+                            style="@style/style_cm_edt_pwd" />
 
                         <CheckBox
-                            android:id="@+id/me_checkbox"
-                            style="@style/PwdCheckboxStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="3dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="5dp"
-                            android:layout_toRightOf="@+id/me_checkbox"
-                            android:text="@string/me_pwd_rember"
-                            android:textSize="@dimen/me_test_size"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/me_pwd_forget"
-                            android:textColor="@color/me_text_forget_pwd"
-                            android:textSize="@dimen/me_test_size" />
-                    </RelativeLayout>
+                            android:id="@+id/ckb_eye"
+                            style="@style/style_cm_ckb_eye" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginRight="15dp"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/ckb_remember_pwd"
+                            style="@style/style_cm_ckb_normal"
+                            android:text="@string/me_pwd_rember" />
+
+                        <View
+                            android:layout_width="wrap_content"
+                            android:layout_height="1dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/tvw_forget_pwd"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/me_pwd_forget"
+                            android:textColor="@color/me_text_forget_pwd"
+                            android:textSize="@dimen/me_test_size" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
                         android:layout_marginTop="20dp"
                         android:orientation="horizontal">
 
                         <CheckBox
-                            android:id="@+id/agreement_checkbox"
-                            style="@style/PwdCheckboxStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginTop="2dp"
-                            android:checked="true" />
+                            android:id="@+id/ckb_agreement"
+                            style="@style/style_cm_ckb_normal"
+                            android:checked="true"
+                            android:text="@string/me_agreement_hint" />
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="2dp"
-                            android:text="@string/me_agreement_hint"
-                            android:textSize="@dimen/me_text_size_sp12sp"
-                            android:textStyle="bold" />
-
-                        <TextView
+                            android:id="@+id/tvw_agreement"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -214,7 +156,7 @@
                     </LinearLayout>
 
                     <Button
-                        android:id="@+id/me_btn_login"
+                        android:id="@+id/btn_login"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -230,6 +172,7 @@
                         android:layout_marginRight="15dp">
 
                         <TextView
+                            android:id="@+id/tvw_skip_login"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
@@ -239,6 +182,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tvw_cs"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -266,7 +210,6 @@
                     android:layout_centerInParent="true"
                     android:src="@mipmap/me_login_register" />
             </RelativeLayout>
-
 
             <RelativeLayout
                 android:id="@+id/to_login_area"
@@ -322,25 +265,9 @@
                         android:background="@mipmap/me_input_bg"
                         android:orientation="horizontal">
 
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="15dp"
-                            android:layout_weight="1"
-                            android:src="@mipmap/me_account_icon" />
-
-
                         <EditText
-                            android:id="@+id/me_register_account_input"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="5"
-                            android:background="@null"
-                            android:hint="@string/me_account_hint"
-                            android:textSize="@dimen/me_test_size" />
+                            android:id="@+id/edt_acc_reg"
+                            style="@style/style_cm_edt_account" />
 
                     </LinearLayout>
 
@@ -350,34 +277,13 @@
                         android:layout_marginTop="10dp"
                         android:background="@mipmap/me_input_bg">
 
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="15dp"
-                            android:layout_weight="1"
-                            android:src="@mipmap/me_pwd_icon" />
-
                         <EditText
-                            android:id="@+id/me_register_pwd_input"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="6"
-                            android:background="@null"
-                            android:hint="@string/me_pwd_hint"
-                            android:inputType="textPassword"
-                            android:textSize="@dimen/me_test_size"></EditText>
+                            android:id="@+id/edt_pwd1"
+                            style="@style/style_cm_edt_pwd" />
 
-                        <ImageView
-                            android:id="@+id/me_show_pwd_icon"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginRight="15dp"
-                            android:layout_weight="1"
-                            android:src="@mipmap/me_show_icon" />
+                        <CheckBox
+                            android:id="@+id/ckb_pwd1"
+                            style="@style/style_cm_ckb_eye" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -386,34 +292,13 @@
                         android:layout_marginTop="10dp"
                         android:background="@mipmap/me_input_bg">
 
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="15dp"
-                            android:layout_weight="1"
-                            android:src="@mipmap/me_pwd_icon" />
-
                         <EditText
-                            android:id="@+id/me_reinput_register_pwd"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="10dp"
-                            android:layout_weight="6"
-                            android:background="@null"
-                            android:hint="@string/me_pwd_hint"
-                            android:inputType="textPassword"
-                            android:textSize="@dimen/me_test_size"></EditText>
+                            android:id="@+id/edt_pwd2"
+                            style="@style/style_cm_edt_pwd" />
 
-                        <ImageView
-                            android:id="@+id/me_show_input_pwd_icon"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginRight="15dp"
-                            android:layout_weight="1"
-                            android:src="@mipmap/me_show_icon" />
+                        <CheckBox
+                            android:id="@+id/ckb_pwd2"
+                            style="@style/style_cm_ckb_eye" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -453,7 +338,7 @@
                     </LinearLayout>
 
                     <Button
-                        android:id="@+id/me_btn_register"
+                        android:id="@+id/btn_register"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"

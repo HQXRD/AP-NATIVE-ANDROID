@@ -18,7 +18,6 @@ import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.SettingsVo;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
@@ -74,7 +73,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         RetrofitClient.init();
                         // 登录成功后获取FB体育请求服务地址
                         getFBGameTokenApi();
-                        //liveDataReg.setValue(vo);
+                        //liveDataLogin.setValue(vo);
                     }
 
                     @Override
@@ -91,7 +90,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         HashMap<String, String> map = new HashMap();
         map.put("carryAuth", "false");
         map.put("code", "");
-        map.put("nonce", UUID.randomUUID().toString().replace("-", ""));
+        map.put("nonce", UuidUtil.getID16());
         map.put("username", userName);
         map.put("userpass", pwd); // 明文
 
@@ -162,7 +161,8 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
                         KLog.e("========fbService.getToken()======" + fbService.getToken());
-                        finish();
+                        //finish();
+                        liveDataLogin.setValue(null); // 登录成功,重新打开APP
                     }
 
                     @Override
