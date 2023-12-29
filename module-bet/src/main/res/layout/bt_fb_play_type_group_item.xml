@@ -52,7 +52,7 @@
                 tools:text="主胜" />
 
             <com.xtree.bet.weight.DiscolourTextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="@color/bt_option_item_odd_selector"
@@ -121,95 +121,7 @@
                 tools:text="主胜" />
 
             <com.xtree.bet.weight.DiscolourTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/bt_option_item_odd_selector"
-                android:textSize="@dimen/bt_text_10sp"
-                tools:text="1.25" />
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@drawable/bt_bg_match_item"
-        android:orientation="vertical">
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:textColor="@color/bt_text_color_primary"
-            android:textSize="@dimen/bt_text_11sp"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="让球" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/bt_bg_option_item_selector"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="-"
-                android:textColor="@color/bt_color_car_dialog_hight_line"
-                android:textSize="@dimen/bt_text_10sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/bt_option_item_name_selector"
-                android:textSize="@dimen/bt_text_10sp"
-                tools:text="主胜" />
-
-            <com.xtree.bet.weight.DiscolourTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/bt_option_item_odd_selector"
-                android:textSize="@dimen/bt_text_10sp"
-                tools:text="1.25" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@drawable/bt_bg_option_item_selector"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="-"
-                android:textColor="@color/bt_color_car_dialog_hight_line"
-                android:textSize="@dimen/bt_text_10sp"
-                android:visibility="gone" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/bt_option_item_name_selector"
-                android:textSize="@dimen/bt_text_10sp"
-                tools:text="主胜" />
-
-            <com.xtree.bet.weight.DiscolourTextView
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="@color/bt_option_item_odd_selector"
@@ -263,7 +175,7 @@
                 tools:text="主胜" />
 
             <com.xtree.bet.weight.DiscolourTextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="@color/bt_option_item_odd_selector"
@@ -297,7 +209,95 @@
                 tools:text="主胜" />
 
             <com.xtree.bet.weight.DiscolourTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/bt_option_item_odd_selector"
+                android:textSize="@dimen/bt_text_10sp"
+                tools:text="1.25" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/bt_bg_match_item"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:textColor="@color/bt_text_color_primary"
+            android:textSize="@dimen/bt_text_11sp"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="让球" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/bt_bg_option_item_selector"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="-"
+                android:textColor="@color/bt_color_car_dialog_hight_line"
+                android:textSize="@dimen/bt_text_10sp"
+                android:visibility="gone" />
+
+            <TextView
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/bt_option_item_name_selector"
+                android:textSize="@dimen/bt_text_10sp"
+                tools:text="主胜" />
+
+            <com.xtree.bet.weight.DiscolourTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/bt_option_item_odd_selector"
+                android:textSize="@dimen/bt_text_10sp"
+                tools:text="1.25" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/bt_bg_option_item_selector"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="-"
+                android:textColor="@color/bt_color_car_dialog_hight_line"
+                android:textSize="@dimen/bt_text_10sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/bt_option_item_name_selector"
+                android:textSize="@dimen/bt_text_10sp"
+                tools:text="主胜" />
+
+            <com.xtree.bet.weight.DiscolourTextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="@color/bt_option_item_odd_selector"
