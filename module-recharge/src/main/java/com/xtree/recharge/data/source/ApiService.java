@@ -52,6 +52,6 @@ public interface ApiService {
 
     @POST("/api/deposit/rechargepay/{bid}")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse<RechargePayVo>> rechargePay(@Path("bid") String bid, @Body Map<String, String> map);
+    Flowable<BaseResponse<Object>> rechargePay(@Path("bid") String bid, @Body Map<String, String> map);
 
 }
