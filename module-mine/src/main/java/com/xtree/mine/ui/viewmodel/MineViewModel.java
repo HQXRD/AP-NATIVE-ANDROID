@@ -11,6 +11,7 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.ProfileVo;
 
 import io.reactivex.disposables.Disposable;
@@ -26,6 +27,8 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class MineViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<Boolean> liveDataLogout = new SingleLiveData<>();
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>();
+    public SingleLiveData<BalanceVo> liveDataBalance = new SingleLiveData<>(); // 中心钱包
+    public SingleLiveData<Boolean> liveData1kRecycle = new SingleLiveData<>(); // 1键回收
 
     public MineViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
@@ -60,6 +63,48 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
                         ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getBalance() {
+        Disposable disposable = (Disposable) model.getApiService().getBalance()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<BalanceVo>() {
+                    @Override
+                    public void onResult(BalanceVo vo) {
+                        CfLog.d(vo.toString());
+                        SPUtils.getInstance().put(SPKeyGlobal.WLT_CENTRAL_BLC, vo.balance);
+                        liveDataBalance.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void do1kAutoRecycle() {
+        Disposable disposable = (Disposable) model.getApiService().do1kAutoRecycle()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<Object>() {
+                    @Override
+                    public void onResult(Object vo) {
+                        CfLog.d("******");
+                        liveData1kRecycle.setValue(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        liveData1kRecycle.setValue(false);
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);
