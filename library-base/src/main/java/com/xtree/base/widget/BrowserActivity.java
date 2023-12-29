@@ -1,6 +1,7 @@
 package com.xtree.base.widget;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.xtree.base.R;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
@@ -35,7 +37,11 @@ import java.util.Map;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class BrowserActivity extends AppCompatActivity {
+    public static final String ARG_TITLE = "title";
+    public static final String ARG_URL = "url";
+    public static final String ARG_IS_CONTAIN_TITLE = "isContainTitle";
 
+    View vTitle;
     TextView tvwTitle;
     ImageView ivwBack;
     WebView mWebView;
@@ -44,6 +50,8 @@ public class BrowserActivity extends AppCompatActivity {
     int sslErrorCount = 0;
 
     String title = "";
+    String url = "";
+    boolean isContainTitle = false; // 网页自身是否包含标题(少数情况下会包含)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +59,13 @@ public class BrowserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_browser);
 
         initView();
-        title = getIntent().getStringExtra("title");
+        title = getIntent().getStringExtra(ARG_TITLE);
+        isContainTitle = getIntent().getBooleanExtra(ARG_IS_CONTAIN_TITLE, false);
         if (!TextUtils.isEmpty(title)) {
             tvwTitle.setText(title);
+        }
+        if (isContainTitle) {
+            vTitle.setVisibility(View.GONE);
         }
 
         String cookie = "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN)
@@ -73,9 +85,8 @@ public class BrowserActivity extends AppCompatActivity {
 
         //header.put("Source", "8");
         //header.put("UUID", TagUtils.getDeviceId(Utils.getContext()));
-        CfLog.d("header: " + new Gson().toJson(header));
-
-        String url = getIntent().getStringExtra("url");
+        CfLog.d("header: " + header); // new Gson().toJson(header)
+        url = getIntent().getStringExtra("url");
         //setCookie(cookie, url); // 设置 cookie
         Uri uri = getIntent().getData();
         if (uri != null && TextUtils.isEmpty(url)) {
@@ -89,10 +100,13 @@ public class BrowserActivity extends AppCompatActivity {
         }
 
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_loading);
+        animation.setRepeatMode(Animation.RESTART);
+        animation.setDuration(20 * 1000);
         ivwLoading.startAnimation(animation);
     }
 
     private void initView() {
+        vTitle = findViewById(R.id.v_title);
         tvwTitle = findViewById(R.id.tvw_title);
         ivwBack = findViewById(R.id.ivw_back);
         mWebView = findViewById(R.id.wv_main);
@@ -215,9 +229,27 @@ public class BrowserActivity extends AppCompatActivity {
     }
 
     private void setCookieInside() {
+        // auth, _sessionHandler 是验证类业务用的,比如绑USDT/绑YHK
+        // AUTH, USER-PROFILE 是给VIP中心/报表 用的
 
-        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";";
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         String sessid = SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID);
+
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        HashMap mProfileVo = new Gson().fromJson(json, new TypeToken<HashMap>() {
+        }.getType());
+
+        long expires = System.currentTimeMillis() + 24 * 60 * 60 * 1000;
+        HashMap map = new HashMap<>();
+        map.put("data", mProfileVo);
+        map.put("expires", expires);
+        String userProfile = new Gson().toJson(map);
+
+        map.clear();
+        map.put("data", token);
+        map.put("expires", expires);
+        String auth = new Gson().toJson(map);
+
         String js = "";
         js += "(function() {" + "\n";
         js += "const d = new Date();" + "\n";
@@ -225,16 +257,40 @@ public class BrowserActivity extends AppCompatActivity {
         js += "let expires = \"expires=\"+ d.toUTCString();" + "\n";
         js += "document.cookie = \"auth=" + token + ";\" + expires + \";path=/\";" + "\n";
         js += "document.cookie = \"_sessionHandler=" + sessid + ";\" + expires + \";path=/\";" + "\n";
-        js += "localStorage.setItem('USER-PROFILE', '');" + "\n";
-        js += "localStorage.setItem('AUTH', '');" + "\n";
+        js += "localStorage.setItem('USER-PROFILE', '" + userProfile + "');" + "\n";
+        js += "localStorage.setItem('AUTH', '" + auth + "');" + "\n";
         js += "})()" + "\n";
 
-        CfLog.d(js.replace("\n", " \t"));
+        CfLog.i(js.replace("\n", " \t"));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mWebView.evaluateJavascript(js, null);
         } else {
             mWebView.loadUrl("javascript:" + js);
         }
+    }
+
+    /**
+     * @param ctx            上下文
+     * @param title          标题
+     * @param url            链接
+     * @param isContainTitle url对应的网页是否包含标题,默认false
+     */
+    public static void start(Context ctx, String title, String url, boolean isContainTitle) {
+        CfLog.i(title + ", isContainTitle: " + isContainTitle + ", url: " + url);
+        Intent it = new Intent(ctx, BrowserActivity.class);
+        it.putExtra(BrowserActivity.ARG_TITLE, title);
+        it.putExtra(BrowserActivity.ARG_URL, url);
+        it.putExtra(BrowserActivity.ARG_IS_CONTAIN_TITLE, isContainTitle);
+        ctx.startActivity(it);
+    }
+
+    public static void start(Context ctx, String title, String url) {
+        CfLog.i(title + ", isContainTitle: " + false + ", url: " + url);
+        Intent it = new Intent(ctx, BrowserActivity.class);
+        it.putExtra(BrowserActivity.ARG_TITLE, title);
+        it.putExtra(BrowserActivity.ARG_URL, url);
+        it.putExtra(BrowserActivity.ARG_IS_CONTAIN_TITLE, false);
+        ctx.startActivity(it);
     }
 
 }

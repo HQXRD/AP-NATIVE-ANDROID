@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/clr_transparent_50"
+    android:background="@color/clr_transparent"
     android:orientation="vertical"
     tools:context=".widget.BrowserDialog">
 
@@ -12,6 +12,7 @@
         android:id="@+id/v_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:background="@color/clr_transparent"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

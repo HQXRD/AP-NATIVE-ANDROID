@@ -148,6 +148,16 @@
         <item name="android:layout_marginTop">36dp</item>
         <item name="android:src">@drawable/bt_ok_selector</item>
     </style>
+    <!-- 我的-账户管理-item -->
+    <style name="style_choose_account">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:background">@drawable/btn_acc_item_selector</item>
+        <item name="android:textColor">@color/clr_white</item>
+    </style>
 
     <!-- 充值页-选取金额 按钮背景 -->
     <style name="style_rdo_blc">

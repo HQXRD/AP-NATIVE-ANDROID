@@ -1,14 +1,12 @@
 package com.xtree.mine.ui.fragment;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,10 +15,15 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
+import com.lxj.xpopup.XPopup;
+import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.widget.BrowserActivity;
+import com.xtree.base.widget.BrowserDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMineBinding;
@@ -35,7 +38,7 @@ import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
- * Created by goldze on 2018/6/21
+ * 我的/个人中心
  */
 @Route(path = RouterFragmentPath.Mine.PAGER_MINE)
 public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewModel> {
@@ -45,9 +48,109 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     @Override
     public void initView() {
         binding.btnLogout.setOnClickListener(v -> viewModel.doLogout());
-        binding.tvwSecurityCenter.setOnClickListener(v -> startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER));
-        binding.tvwSafe.setOnClickListener(v -> startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER));
 
+        binding.ivwSetting.setOnClickListener(view -> {
+            showAccountMgmt();
+        });
+        binding.ivwMsg.setOnClickListener(v -> {
+            CfLog.i("****** ");
+            String title = getString(R.string.txt_msg_center);
+            goWebView(title, Constant.URL_MY_MESSAGES);
+        });
+
+        binding.ivwEye.setOnClickListener(v -> {
+            CfLog.i("****** ");
+        });
+        binding.tvw1kRecycle.setOnClickListener(v -> {
+            CfLog.i("****** ");
+        });
+        binding.ivwRefreshBlc.setOnClickListener(v -> {
+            CfLog.i("****** ");
+        });
+
+        binding.tvwWallet.setOnClickListener(view -> {
+            Intent toMyWallet = new Intent(getContext(), MyWalletActivity.class);
+            startActivity(toMyWallet);
+        });
+        binding.tvwTrans.setOnClickListener(v -> {
+            // 转账
+            startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER);
+        });
+        binding.tvwBet.setOnClickListener(v -> {
+            CfLog.i("****** ");
+            goWebView(v, Constant.URL_BET_RECORD);
+        });
+        binding.tvwTransRecord.setOnClickListener(v -> {
+            CfLog.i("****** ");
+            goWebView(v, Constant.URL_ACCOUNT_CHANGE);
+        });
+        binding.tvwSafe.setOnClickListener(v -> {
+            CfLog.i("****** ");
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
+        });
+
+        binding.tvwInviteFriend.setOnClickListener(v -> {
+            CfLog.i("****** ");
+        });
+        binding.tvwGuanfangheyin.setOnClickListener(v -> {
+            String title = ((TextView) v).getText().toString();
+            // URL 不需要拼装
+            BrowserActivity.start(getContext(), title, Constant.URL_PARTNER, true);
+        });
+        binding.tvwYinkuiBaobiao.setOnClickListener(v -> {
+            goWebView(v, Constant.URL_PROFIT_LOSS);
+        });
+        binding.tvwSanfangZhuanzhang.setOnClickListener(v -> {
+            goWebView(v, Constant.URL_3RD_TRANSFER);
+        });
+
+        binding.tvwSecurityCenter.setOnClickListener(v -> {
+            // 安全中心
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
+        });
+        binding.tvwZhanghuShezhi.setOnClickListener(v -> {
+            showAccountMgmt();
+        });
+        binding.tvwVipZhongxin.setOnClickListener(v -> {
+            goWebView(v, Constant.URL_VIP_CENTER);
+        });
+        binding.tvwFanhuiBaobiao.setOnClickListener(v -> {
+            goWebView(v, Constant.URL_REBATE_REPORT);
+        });
+
+        binding.tvwTiyuGuize.setOnClickListener(v -> {
+            goWebView(v, Constant.URL_SPORT_RULES, false);
+        });
+        binding.tvwChangjianWenti.setOnClickListener(v -> {
+            //goWebView(v, Constant.URL_QA); // 底部弹出
+            String title = ((TextView) v).getText().toString();
+            String url = DomainUtil.getDomain2() + Constant.URL_QA;
+            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+        });
+        binding.tvwBangzhuZhongxin.setOnClickListener(v -> {
+            goWebView(v, Constant.URL_HELP, false);
+        });
+        binding.tvwUsdtJiaocheng.setOnClickListener(v -> {
+            goWebView(v, Constant.URL_TUTORIAL);
+        });
+
+    }
+
+    private void goWebView(String title, String path) {
+        String url = DomainUtil.getDomain2() + path;
+        BrowserActivity.start(getContext(), title, url, true);
+    }
+
+    private void goWebView(View v, String path) {
+        String title = ((TextView) v).getText().toString();
+        String url = DomainUtil.getDomain2() + path;
+        BrowserActivity.start(getContext(), title, url, true);
+    }
+
+    private void goWebView(View v, String path, boolean isContainTitle) {
+        String title = ((TextView) v).getText().toString();
+        String url = DomainUtil.getDomain2() + path;
+        BrowserActivity.start(getContext(), title, url, isContainTitle);
     }
 
     @Override
@@ -122,27 +225,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             startActivity(toRegister);
         });
 
-        binding.iconSetting.setOnClickListener(view -> {
-            popup();
-        });
-
-        binding.tvwWallet.setOnClickListener(view -> {
-            Intent toMyWallet = new Intent(getContext(), MyWalletActivity.class);
-            startActivity(toMyWallet);
-        });
-
-        binding.tvwTrans.setOnClickListener(v -> {
-            // 转账
-            startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER);
-        });
-
     }
 
-    private void popup() {
-        showBottomDialog();
+    private void showAccountMgmt() {
+        new XPopup.Builder(getContext()).asCustom(new AccountMgmtDialog(getContext())).show();
     }
 
-    private void showBottomDialog() {
+    /*private void showBottomDialog() {
         //1、使用Dialog、设置style
         final Dialog dialog = new Dialog(getActivity(), R.style.DialogTheme);
         //2、设置布局
@@ -164,7 +253,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             }
         });
 
-    }
+    }*/
 
     @Override
     public void initViewObservable() {
