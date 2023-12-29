@@ -1,13 +1,9 @@
 package com.xtree.bet.ui.activity;
 
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
@@ -36,6 +32,7 @@ import com.xtree.bet.ui.adapter.ChampionMatchAdapter;
 import com.xtree.bet.ui.adapter.LeagueAdapter;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.ui.fragment.BtRecordDialogFragment;
+import com.xtree.bet.ui.fragment.BtSettingDialogFragment;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.R;
@@ -53,7 +50,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
-import me.majiajie.pagerbottomtabstrip.item.NormalItemView;
 import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.base.BaseViewModel;
@@ -78,6 +74,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     private LeagueAdapter mLeagueAdapter;
     private ChampionMatchAdapter mChampionMatchAdapter;
 
+    private BtSettingDialogFragment btSettingDialogFragment;
+
     private Disposable timerDisposable;
 
     private boolean isGoingExpand = true;
@@ -90,6 +88,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     private int playMethodType = 6;
     private int playMethodPos;
     private int sportTypePos;
+    private int mOrderBy = 1;
+    private int mOddType = 1;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -159,7 +159,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
                         binding.tabSearchDate.setVisibility(View.GONE);
                     }
                     initTimer();
-                    getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), 1, null, null,
+                    getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
                             playMethodType, searchDatePos, false, true);
                 }
             }
@@ -186,7 +186,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
                     mLeagueGoingOnList.clear();
                     mLeagueList.clear();
                     initTimer();
-                    getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), 1, null, null,
+                    getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
                             playMethodType, searchDatePos, false, true);
                 }
             }
@@ -210,7 +210,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
                     if (playMethodType == 4 || playMethodType == 2) {
                         searchDatePos = tab.getPosition();
                         initTimer();
-                        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), 1, null, null,
+                        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
                                 playMethodType, searchDatePos, false, true);
                     }
                 }
@@ -270,6 +270,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
         } else if (index == 3) {
             BtRecordDialogFragment btRecordDialogFragment = BtRecordDialogFragment.getInstance(true);
             btRecordDialogFragment.show(getSupportFragmentManager(), "BtRecordDialogFragment");
+        } else if (index == 1) {
+            BtSettingDialogFragment btSettingDialogFragment = BtSettingDialogFragment.getInstance();
+            btSettingDialogFragment.show(getSupportFragmentManager(), "BtSettingDialogFragment");
         }
     }
 
@@ -291,10 +294,10 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     private void getMatchData(int sportId, int orderBy, int[] leagueIds, List<Integer> matchids, int playMethodType, int searchDatePos, boolean isTimedRefresh, boolean isRefresh) {
         if (playMethodType == 7) { // 冠军
             viewModel.getChampionList(sportId, orderBy, leagueIds, matchids,
-                    playMethodType, isTimedRefresh, isRefresh);
+                    playMethodType, mOddType, isTimedRefresh, isRefresh);
         } else {
             viewModel.getLeagueList(sportId, orderBy, leagueIds, matchids,
-                    playMethodType, searchDatePos, isTimedRefresh, isRefresh);
+                    playMethodType, searchDatePos, mOddType, isTimedRefresh, isRefresh);
         }
     }
 
@@ -308,9 +311,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
                 .subscribe(aLong -> {
                     refreshLeague();
                     viewModel.statistical();
-                   /* if(!timerDisposable.isDisposed()) {
-                        timerDisposable.dispose();
-                    }*/
                 });
         viewModel.addSubscribe(timerDisposable);
     }
@@ -341,7 +341,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
         }
         if (!matchIdList.isEmpty()) {
             viewModel.setUpdateLeagueList(updateLeague);
-            getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), 1, null, matchIdList,
+            getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, matchIdList,
                     playMethodType, searchDatePos, true, false);
         }
     }
@@ -355,7 +355,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
         viewModel.setFbLeagueData();
         viewModel.addSubscription();
         viewModel.statistical();
-        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), 1, null, null,
+        mOrderBy = SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ORDERBY, 1);
+        mOddType = SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE, 1);
+        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
                 playMethodType, searchDatePos, false, true);
     }
 
@@ -456,36 +458,36 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
         viewModel.leagueGoingOnListData.observe(this, leagueAdapters -> {
             this.mLeagueList = leagueAdapters;
             if (playMethodType == 1) {
-                updateLeagueData();
+                updateData();
             }
         });
 
         viewModel.leagueGoingOnTimerListData.observe(this, leagueList -> {
             this.mLeagueList = leagueList;
-            updateLeagueData();
+            updateData();
         });
 
         viewModel.leagueWaitingListData.observe(this, leagueAdapters -> {
             this.mLeagueList = leagueAdapters;
             setTopShow();
-            updateLeagueData();
+            updateData();
         });
 
         viewModel.leagueWaitingTimerListData.observe(this, leagueAdapters -> {
             this.mLeagueList = leagueAdapters;
             setTopShow();
-            updateLeagueData();
+            updateData();
         });
 
         viewModel.championMatchTimerListData.observe(this, championMatcheList -> {
             mChampionMatchList = championMatcheList;
-            updateChampionMatchData();
+            updateData();
         });
 
         viewModel.championMatchListData.observe(this, championMatcheList -> {
             mChampionMatchList = championMatcheList;
             setTopShow();
-            updateChampionMatchData();
+            updateData();
         });
 
         viewModel.betContractListData.observe(this, betContract -> {
@@ -505,6 +507,15 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
                 if (playMethodPos == 3) {
                     mLeagueAdapter.notifyDataSetChanged();
                 }
+            } else if (betContract.action == BetContract.ACTION_SORT_CHANGE) {
+                mOrderBy = (int)betContract.getData();
+                getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
+                        playMethodType, searchDatePos, false, true);
+            } else if (betContract.action == BetContract.ACTION_MARKET_CHANGE) {
+                mOddType = (int)betContract.getData();
+                /*getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
+                        playMethodType, searchDatePos, false, true);*/
+                updateData();
             }
 
         });
@@ -557,6 +568,14 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     public void setCgBtCar() {
         binding.tvCgCount.setText(String.valueOf(BtCarManager.size()));
         binding.rlCg.setVisibility(!BtCarManager.isCg() ? View.GONE : BtCarManager.isEmpty() ? View.GONE : View.VISIBLE);
+    }
+
+    private void updateData(){
+        if(playMethodPos == 4){
+            updateChampionMatchData();
+        }else{
+            updateLeagueData();
+        }
     }
 
     /**
@@ -664,13 +683,13 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), 1, null, null,
+        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
                 playMethodType, searchDatePos, false, true);
     }
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), 1, null, null,
+        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
                 playMethodType, searchDatePos, false, false);
     }
 }

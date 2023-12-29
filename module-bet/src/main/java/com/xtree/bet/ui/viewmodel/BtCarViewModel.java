@@ -53,6 +53,22 @@ public class BtCarViewModel extends BaseViewModel<BetRepository> {
 
     }
 
+    public int getOrderBy(int index){
+        return index == 1 ? 0 : 1;
+    }
+
+    public int getOrderByPosition(int orderBy){
+        return orderBy == 1 ? 0 : 1;
+    }
+
+    public int getMarket(int index){
+        return index == 0 ? 1 : 2;
+    }
+
+    public int getMarketPosition(int market){
+        return market == 2 ? 1 : 0;
+    }
+
     /**
      * 投注前查询指定玩法赔率
      */
@@ -132,7 +148,7 @@ public class BtCarViewModel extends BaseViewModel<BetRepository> {
 
             BtOptionReq betOptionReq = new BtOptionReq();
             betOptionReq.setOptionType(betConfirmOption.getOptionType());
-            betOptionReq.setOdds(betConfirmOption.getOption().getOdd());
+            betOptionReq.setOdds(betConfirmOption.getOption().getRealOdd());
             betOptionReq.setMarketId(betConfirmOption.getOptionList().getId());
             betOptionReq.setOddsFormat(1);
 
@@ -174,7 +190,7 @@ public class BtCarViewModel extends BaseViewModel<BetRepository> {
 
             BtOptionReq betOptionReq = new BtOptionReq();
             betOptionReq.setOptionType(betConfirmOption.getOptionType());
-            betOptionReq.setOdds(betConfirmOption.getOption().getOdd());
+            betOptionReq.setOdds(betConfirmOption.getOption().getRealOdd());
             betOptionReq.setMarketId(betConfirmOption.getOptionList().getId());
             betOptionReq.setOddsFormat(1);
             btMultipleListReq.addBtOptionList(betOptionReq);

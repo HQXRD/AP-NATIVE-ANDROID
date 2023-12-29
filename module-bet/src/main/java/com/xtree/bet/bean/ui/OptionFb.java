@@ -8,6 +8,11 @@ import androidx.annotation.Nullable;
 import com.xtree.bet.bean.response.OptionDataListInfo;
 import com.xtree.bet.bean.response.OptionInfo;
 import com.xtree.bet.bean.response.PlayTypeInfo;
+import com.xtree.bet.constant.SPKey;
+
+import java.math.BigDecimal;
+
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class OptionFb implements Option{
     private int change;
@@ -62,6 +67,15 @@ public class OptionFb implements Option{
      * 欧盘赔率，目前我们只提供欧洲盘赔率，投注是请提交该字段赔率值作为选项赔率，赔率小于0代表锁盘
      */
     public double getOdd() {
+        if(isHongKongMarket()){
+            BigDecimal bg = new BigDecimal(optionInfo.od - 1);
+            return bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+        }
+        return optionInfo.od;
+    }
+
+    @Override
+    public double getRealOdd() {
         return optionInfo.od;
     }
 
@@ -77,6 +91,15 @@ public class OptionFb implements Option{
      */
     public int getOddType() {
         return optionInfo.odt;
+    }
+
+    /**
+     * 是否香港盘
+     * @return
+     */
+    @Override
+    public boolean isHongKongMarket() {
+        return SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE) == 2;
     }
 
     /**

@@ -114,7 +114,7 @@ public class ExpandActivity extends BaseActivity<FragmentMainTestBinding, MainVi
                         binding.tabSearchDate.setVisibility(View.GONE);
                     }
                     viewModel.getLeagueList(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), 1, null, null,
-                            playMethodType, searchDatePos, false, true);
+                            playMethodType, searchDatePos, 1, false, true);
                 }
             }
 
@@ -138,7 +138,7 @@ public class ExpandActivity extends BaseActivity<FragmentMainTestBinding, MainVi
                     mLeagueGoingOnList.clear();
                     mLeagueList.clear();
                     viewModel.getLeagueList(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), 1, null, null,
-                            playMethodType, searchDatePos, false, true);
+                            playMethodType, searchDatePos, 1, false, true);
                 }
             }
 
@@ -161,7 +161,7 @@ public class ExpandActivity extends BaseActivity<FragmentMainTestBinding, MainVi
                     if (playMethodType == 4 || playMethodType == 2) {
                         searchDatePos = tab.getPosition();
                         viewModel.getLeagueList(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), 1, null, null,
-                                playMethodType, searchDatePos, false, true);
+                                playMethodType, searchDatePos, 1, false, true);
                     }
                 }
             }

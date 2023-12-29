@@ -14,6 +14,7 @@ public class PBListReq {
     private int size;
     private int orderBy;
     private boolean isPC = true;
+    private int oddType = 1;
 
     public int getSportId() {
         return sportId;
@@ -101,5 +102,13 @@ public class PBListReq {
 
     public void setPC(boolean PC) {
         isPC = PC;
+    }
+
+    public int getOddType() {
+        return oddType;
+    }
+
+    public void setOddType(int oddType) {
+        this.oddType = oddType;
     }
 }

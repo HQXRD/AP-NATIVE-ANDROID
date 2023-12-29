@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/bt_bg_setting_switch"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="2dp">
+
+        <TextView
+            android:id="@+id/tv_one"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:background="@drawable/bt_bg_setting_track"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="13dp"
+            android:text="热门盘口"
+            android:textColor="@color/bt_setting_switch_txt_selector"
+            android:textSize="@dimen/bt_text_14sp" />
+
+        <TextView
+            android:id="@+id/tv_two"
+            android:layout_width="wrap_content"
+            android:layout_height="31dp"
+            android:background="@drawable/bt_bg_setting_track"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="13dp"
+            android:text="时间"
+            android:textColor="@color/bt_setting_switch_txt_selector"
+            android:textSize="@dimen/bt_text_14sp" />
+    </LinearLayout>
+
+</LinearLayout>
+

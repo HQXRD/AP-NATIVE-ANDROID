@@ -131,10 +131,11 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
      * @param matchids
      * @param playMethodType
      * @param searchDatePos  查询时间列表中的位置
+     * @param oddType 盘口类型
      * @param isTimedRefresh 是否定时刷新 true-是，false-否
      * @param isRefresh      是否刷新 true-是, false-否
      */
-    public void getLeagueList(int sportId, int orderBy, int[] leagueIds, List<Integer> matchids, int playMethodType, int searchDatePos, boolean isTimedRefresh, boolean isRefresh) {
+    public void getLeagueList(int sportId, int orderBy, int[] leagueIds, List<Integer> matchids, int playMethodType, int searchDatePos, int oddType, boolean isTimedRefresh, boolean isRefresh) {
         int type;
         boolean flag = false;
 
@@ -157,6 +158,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
         pbListReq.setLeagueIds(leagueIds);
         pbListReq.setMatchIds(matchids);
         pbListReq.setCurrent(currentPage);
+        pbListReq.setOddType(oddType);
 
         String startTime;
         String endTime;
@@ -204,7 +206,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
                         if (finalType == 1) { // 滚球
                             if(finalFlag) {
                                 leagueGoingList(matchListRsp.records);
-                                getLeagueList(sportId, orderBy, leagueIds, matchids, 3, searchDatePos, false, isRefresh);
+                                getLeagueList(sportId, orderBy, leagueIds, matchids, 3, searchDatePos, oddType, false, isRefresh);
                             }else{
                                 leagueAdapterList(matchListRsp.records);
                                 leagueGoingOnListData.postValue(mLeagueList);
@@ -247,10 +249,11 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
      * @param leagueIds
      * @param matchids
      * @param playMethodType
+     * @param oddType
      * @param isTimedRefresh
      * @param isRefresh
      */
-    public void getChampionList(int sportId, int orderBy, int[] leagueIds, List<Integer> matchids, int playMethodType, boolean isTimedRefresh, boolean isRefresh) {
+    public void getChampionList(int sportId, int orderBy, int[] leagueIds, List<Integer> matchids, int playMethodType, int oddType, boolean isTimedRefresh, boolean isRefresh) {
 
         if (isRefresh) {
             currentPage = 1;
@@ -266,6 +269,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
         pbListReq.setMatchIds(matchids);
         pbListReq.setCurrent(currentPage);
         pbListReq.setSize(300);
+        pbListReq.setOddType(oddType);
 
         if (isRefresh) {
             mChampionMatchList.clear();

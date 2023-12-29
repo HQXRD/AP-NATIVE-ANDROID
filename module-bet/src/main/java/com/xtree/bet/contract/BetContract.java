@@ -24,6 +24,14 @@ public class BetContract {
      * 购物车数据改变
      */
     public static final String ACTION_OPTION_CHANGE = "ACTION_OPTION_CHANGE";
+    /**
+     * 赛事列表排序修改
+     */
+    public static final String ACTION_SORT_CHANGE = "ACTION_SORT_CHANGE";
+    /**
+     * 赛事列表盘口类型修改
+     */
+    public static final String ACTION_MARKET_CHANGE = "ACTION_MARKET_CHANGE";
 
     public BetContract(String action){
         this.action = action;
