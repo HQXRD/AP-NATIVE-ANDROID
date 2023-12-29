@@ -84,7 +84,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="20dp"
-                android:background="@mipmap/me_middle_bg"
+                android:background="@mipmap/me_bg_top_00"
                 app:layout_constraintLeft_toLeftOf="@+id/topArea"
                 app:layout_constraintRight_toRightOf="@+id/topArea"
                 app:layout_constraintTop_toBottomOf="@+id/topArea">
@@ -180,14 +180,17 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageView
-                        android:id="@+id/ivw_eye"
+                    <CheckBox
+                        android:id="@+id/ckb_eye"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@mipmap/me_hide_icon"
+                        android:layout_marginStart="@dimen/layout_margin"
+                        android:button="@drawable/ic_eye_gold_selector"
+                        android:checked="true"
+                        android:paddingEnd="@dimen/layout_margin"
                         app:layout_constraintBottom_toBottomOf="@+id/total_money_hint"
-                        app:layout_constraintLeft_toRightOf="@+id/total_money_hint" />
+                        app:layout_constraintLeft_toRightOf="@+id/total_money_hint"
+                        app:layout_constraintTop_toTopOf="@+id/total_money_hint" />
 
                     <LinearLayout
                         android:id="@+id/money_area"
@@ -227,7 +230,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/money_area">
 
                         <TextView
-                            android:id="@+id/level_hint"
+                            android:id="@+id/tvw_level_hint"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
@@ -237,16 +240,16 @@
                             android:textSize="10sp" />
 
                         <ProgressBar
-                            android:id="@+id/level_progress"
+                            android:id="@+id/pbr_level"
                             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                             android:layout_width="200dp"
                             android:layout_height="5dp"
-                            android:layout_below="@+id/level_hint"
+                            android:layout_below="@+id/tvw_level_hint"
                             android:layout_alignParentStart="true"
                             android:layout_marginTop="3dp"
                             android:background="@drawable/me_level_progressbar_bg"
                             android:max="100"
-                            android:progress="100"
+                            android:progress="10"
                             android:progressDrawable="@drawable/me_level_progressbar" />
 
                         <ImageView
@@ -255,7 +258,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
                             android:layout_marginLeft="5dp"
-                            android:src="@mipmap/me_level_icon" />
+                            android:src="@drawable/me_vip_level" />
                     </RelativeLayout>
 
                     <LinearLayout
