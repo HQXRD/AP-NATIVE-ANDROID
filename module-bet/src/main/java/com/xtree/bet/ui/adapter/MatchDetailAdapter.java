@@ -165,12 +165,10 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
             holder = (ChildHolder) convertView.getTag();
         }
         BtFbDetailItemPlayTypeChildBinding binding = BtFbDetailItemPlayTypeChildBinding.bind(holder.itemView);
-        OptionAdapter optionAdapter;
         binding.rvOptionList.setHasFixedSize(true);
         int spanCount = optionList.getOptionList().size() >= 3 ? 3 : optionList.getOptionList().size();
         binding.rvOptionList.setLayoutManager(new GridLayoutManager(mContext, spanCount));
-        optionAdapter = new OptionAdapter(mContext, match, (PlayType) getGroup(groupPosition), optionList, optionList.getOptionList());
-        convertView.setTag(R.id.rv_option_list, optionAdapter);
+        OptionAdapter optionAdapter = new OptionAdapter(mContext, match, (PlayType) getGroup(groupPosition), optionList, optionList.getOptionList());
         binding.rvOptionList.setAdapter(optionAdapter);
         return convertView;
     }
@@ -185,7 +183,7 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
         public GroupHolder(View view) {
             itemView = view.findViewById(R.id.cl_root);
         }
-        RelativeLayout itemView;
+        View itemView;
 
     }
 

@@ -64,8 +64,6 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
 
     private BaseDetailDataView fbDataView;
 
-    private MatchDetailAdapter detailPlayTypeAdapter;
-
     private BtDetailOptionFragment fragment;
 
     private Match mMatch;
@@ -154,6 +152,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             }
         });
         binding.rlCg.setOnClickListener(this);
+        binding.ivExpand.setOnClickListener(this);
 
         initVideoPlayer();
         setWebView();
@@ -476,6 +475,8 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             } else {
                 finish();
             }
+        } else if (id == R.id.iv_expand) {
+            fragment.expand();
         }
     }
 }

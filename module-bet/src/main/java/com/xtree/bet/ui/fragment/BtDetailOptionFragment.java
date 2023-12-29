@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.bet.BR;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.Category;
@@ -41,15 +42,27 @@ public class BtDetailOptionFragment extends BaseFragment<BtLayoutDetailOptionBin
 
     private Match match;
 
-    private int matchId;
+    private boolean isExpand = true;
 
-    public static BtDetailOptionFragment getInstance(Match match, ArrayList<PlayType> playTypeList){
+    public static BtDetailOptionFragment getInstance(Match match, ArrayList<PlayType> playTypeList) {
         BtDetailOptionFragment instance = new BtDetailOptionFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(KEY_PLAY_TYPE, playTypeList);
         bundle.putParcelable(KEY_MATCH, match);
         instance.setArguments(bundle);
         return instance;
+    }
+
+    /**
+     * 初始化沉浸式
+     * Init immersion bar.
+     */
+    protected void initImmersionBar() {
+        //设置共同沉浸式样式
+        ImmersionBar.with(this)
+                .fitsSystemWindows(false)
+                .statusBarDarkFont(false)
+                .init();
     }
 
     @Override
@@ -100,13 +113,24 @@ public class BtDetailOptionFragment extends BaseFragment<BtLayoutDetailOptionBin
         }
     }
 
+    public void expand() {
+        for (int i = 0; i < binding.aelOption.getExpandableListAdapter().getGroupCount(); i++) {
+            if (!isExpand) {
+                binding.aelOption.expandGroup(i);
+            } else {
+                binding.aelOption.collapseGroup(i);
+            }
+        }
+        isExpand = !isExpand;
+    }
+
     @Override
     public void initViewObservable() {
 
         viewModel.betContractListData.observe(this, betContract -> {
             if (betContract.action == BetContract.ACTION_OPTION_CHANGE) {
                 playTypeList = (List<PlayType>) betContract.getData();
-                match = ((BtDetailActivity)getContext()).getmMatch();
+                match = ((BtDetailActivity) getContext()).getmMatch();
                 updateOptionData();
             }
         });

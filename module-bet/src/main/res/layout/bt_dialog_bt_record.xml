@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/bt_bg_dialog_bt">
+
+        <RelativeLayout
+            android:id="@+id/ll_root"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/csl_top"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tab_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:textSize="18sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:tabIndicatorFullWidth="false"
+                    app:tabRippleColor="@android:color/transparent"
+                    app:tabIndicatorColor="@color/bt_color_under_bg_primary_text"
+                    app:tabIndicatorHeight="3dp"
+                    app:tabMinWidth="20dp"
+                    app:tabMode="scrollable"
+                    app:tabPaddingEnd="20dp"
+                    app:tabPaddingStart="20dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/csl_bottom"
+                android:layout_below="@+id/csl_top"
+                android:layout_marginTop="15dp"
+                android:scrollbars="none"
+                android:fillViewport="true">
+
+                <com.xtree.bet.weight.AnimatedExpandableListViewMax
+                    android:id="@+id/rv_record"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:scrollbars="none"
+                    android:background="@android:color/transparent"
+                    android:childIndicator="@null"
+                    android:defaultFocusHighlightEnabled="false"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="0dp"
+                    android:groupIndicator="@null"
+                    android:listSelector="@android:color/transparent"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/bt_layout_bt_record_time" />
+            </androidx.core.widget.NestedScrollView>
+
+            <TextView
+                android:id="@+id/tv_time_top"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@+id/csl_top"
+                android:background="@drawable/bt_bg_record_ceiling"
+                android:textColor="@color/bt_text_color_primary_1"
+                android:gravity="center_vertical"
+                android:paddingStart="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:textSize="@dimen/bt_text_16sp"
+                android:textStyle="bold"
+                android:text="11月18日" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/csl_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true">
+
+                <TextView
+                    android:id="@+id/tv_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="center"
+                    android:background="@mipmap/cm_bg_btn"
+                    android:gravity="center"
+                    android:text="@string/bt_bt_btn_colse"
+                    android:textColor="@color/bt_color_under_bg_primary_text"
+                    android:textSize="@dimen/bt_text_16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

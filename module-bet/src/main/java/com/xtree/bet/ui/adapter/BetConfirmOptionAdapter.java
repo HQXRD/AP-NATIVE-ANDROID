@@ -5,20 +5,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.stx.xhb.androidx.XBanner;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
-import com.xtree.bet.bean.ui.Match;
-import com.xtree.bet.bean.ui.PlayGroup;
-import com.xtree.bet.bean.ui.PlayType;
-import com.xtree.bet.databinding.BtLayoutBtCarBinding;
-import com.xtree.bet.databinding.BtLayoutBtCarBindingImpl;
-import com.xtree.bet.databinding.BtLayoutCarBtItemBinding;
-import com.xtree.bet.databinding.BtLayoutKeyboardItemBinding;
+import com.xtree.bet.databinding.BtLayoutCarBtMatchItemBinding;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.MainActivity;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
-import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
@@ -28,7 +20,7 @@ public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
     private BtCarDialogFragment btCarDialogFragment;
     @Override
     public int layoutId() {
-        return R.layout.bt_layout_car_bt_item;
+        return R.layout.bt_layout_car_bt_match_item;
     }
 
     public BetConfirmOptionAdapter(Context context, List<BetConfirmOption> datas) {
@@ -42,7 +34,7 @@ public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
     @Override
     protected void convert(ViewHolder holder, BetConfirmOption option, int position) {
 
-        BtLayoutCarBtItemBinding binding = BtLayoutCarBtItemBinding.bind(holder.itemView);
+        BtLayoutCarBtMatchItemBinding binding = BtLayoutCarBtMatchItemBinding.bind(holder.itemView);
         String optionName;
         String name = option.getOption().getName();
         String sortName = option.getOption().getSortName();

@@ -61,6 +61,8 @@ dependencies {
     api rootProject.ext.dependencies["base-rvadapter"]
     api rootProject.ext.dependencies["smart-refresh-layout"]
     api rootProject.ext.dependencies["smart-refresh-layout-header"]
+    //第三方底部Tabbar
+    api rootProject.ext.dependencies["pager-bottom-tab"]
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 

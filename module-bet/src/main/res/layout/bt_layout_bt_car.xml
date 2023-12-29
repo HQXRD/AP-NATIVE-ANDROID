@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:itemCount="3"
-                        tools:listitem="@layout/bt_layout_car_bt_item" />
+                        tools:listitem="@layout/bt_layout_car_bt_match_item" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rv_bt_cg"
@@ -139,8 +139,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/csl_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true">
+                android:layout_height="wrap_content">
 
                 <CheckBox
                     android:id="@+id/cb_accept"

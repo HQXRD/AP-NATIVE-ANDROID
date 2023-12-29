@@ -87,7 +87,7 @@
                 tools:text="主胜" />
 
             <com.xtree.bet.weight.DiscolourTextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="@color/bt_option_item_odd_selector"

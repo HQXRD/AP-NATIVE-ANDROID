@@ -28,17 +28,21 @@ public class DiscolourTextView extends AppCompatTextView {
 
     public void startUp() {
         setTextColor(getContext().getResources().getColor(R.color.bt_color_odd_up));
+        setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bt_icon_odd_up, 0);
         postDelayed(() -> {
             setSelected(isSelected());
-            setTextColor(getContext().getResources().getColor(R.color.bt_option_item_odd_selector));
+            setTextColor(getContext().getResources().getColorStateList(R.color.bt_option_item_odd_selector));
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }, 3000);
     }
 
     public void startDown() {
         setTextColor(getContext().getResources().getColor(R.color.bt_color_odd_down));
+        setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bt_icon_odd_down, 0);
         postDelayed(() -> {
             setSelected(isSelected());
-            setTextColor(getContext().getResources().getColor(R.color.bt_option_item_odd_selector));
+            setTextColor(getContext().getResources().getColorStateList(R.color.bt_option_item_odd_selector));
+            setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }, 3000);
     }
 

@@ -265,7 +265,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
         pbListReq.setLeagueIds(leagueIds);
         pbListReq.setMatchIds(matchids);
         pbListReq.setCurrent(currentPage);
-        pbListReq.setSize(pageSize);
+        pbListReq.setSize(300);
 
         if (isRefresh) {
             mChampionMatchList.clear();

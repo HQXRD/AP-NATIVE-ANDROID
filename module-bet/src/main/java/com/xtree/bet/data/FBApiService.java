@@ -1,14 +1,17 @@
 package com.xtree.bet.data;
 
 import com.xtree.bet.bean.request.BtMultipleListReq;
+import com.xtree.bet.bean.request.BtRecordReq;
 import com.xtree.bet.bean.request.SingleBtListReq;
 import com.xtree.bet.bean.response.BtConfirmInfo;
+import com.xtree.bet.bean.response.BtRecordRsp;
 import com.xtree.bet.bean.response.BtResultInfo;
 import com.xtree.bet.bean.response.MatchInfo;
 import com.xtree.bet.bean.response.MatchListRsp;
 import com.xtree.bet.bean.response.StatisticalInfo;
 import com.xtree.bet.bean.request.BtCarReq;
 import com.xtree.bet.bean.request.PBListReq;
+import com.xtree.bet.bean.ui.BtResult;
 
 import java.util.List;
 import java.util.Map;
@@ -76,4 +79,11 @@ public interface FBApiService {
     @POST("/v1/order/betMultiple")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<BaseResponse<List<BtResultInfo>>> betMultiple(@Body BtMultipleListReq req);
+    /**
+     * 投注记录接口，并按币种统计
+     * @return
+     */
+    @POST("/v1/order/new/bet/list")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<BaseResponse<BtRecordRsp>> betRecord(@Body BtRecordReq btRecordReq);
 }

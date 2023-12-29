@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.xtree.base.utils.TimeUtils;
@@ -141,12 +144,6 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                 RxBus.getDefault().post(new BetContract(BetContract.ACTION_EXPAND));
             });
         }
-        if (isExpanded) {
-            convertView.setPadding(0, ConvertUtils.dp2px(5), 0, 0);
-        } else {
-            convertView.setPadding(0, ConvertUtils.dp2px(5), 0, ConvertUtils.dp2px(5));
-
-        }
         binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
         league.setExpand(isExpanded);
         return convertView;
@@ -221,6 +218,13 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         binding.llRoot.setOnClickListener(view -> {
             BtDetailActivity.start(mContext, match);
         });
+
+        if(convertView.getLayoutParams() == null){
+            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.bottomMargin = ConvertUtils.dp2px(100);
+            convertView.setLayoutParams(params);
+        }
+
         return convertView;
     }
 

@@ -32,14 +32,14 @@
     <!-- 投注页字体主题色 -->
     <color name="bt_text_color_primary">#4A4A4A</color>
 
-    <!-- 投注页字体主题色 -->
-    <color name="bt_text_color_primary_3">#99A0B1</color>
-
     <!-- 投注页深色字体颜色 -->
     <color name="bt_text_color_deep_primary">#4d4d4d</color>
 
-    <!-- 投注页加粗字体颜色 -->
-    <color name="bt_text_color_bold">#000000</color>
+    <!-- 主色/1级字 -->
+    <color name="bt_text_color_primary_1">#000000</color>
+
+    <!-- 通用3级文字颜色 -->
+    <color name="bt_text_color_primary_3">#99A0B1</color>
 
     <!-- 投注页页面背颜色 -->
     <color name="bt_page_bg">#F2F3F7</color>
@@ -51,13 +51,13 @@
     <color name="bt_page_top_tab_indicator">#00000000</color>
 
     <!-- 投注页页面顶部玩法tab选中状态字体颜色 -->
-    <color name="bt_tab_textcolor_selected">@color/bt_text_color_bold</color>
+    <color name="bt_tab_textcolor_selected">@color/bt_text_color_primary_1</color>
 
     <!-- 投注页页面日期下比赛选中状态的字体颜色 -->
     <color name="bt_tab_match_textcolor_selected">#373737</color>
 
     <!-- 分隔线颜色 -->
-    <color name="bt_color_line">#f8f8f8</color>
+    <color name="bt_color_line">#F1F1F1</color>
 
     <!-- 赛事比分颜色 -->
     <color name="bt_color_score">#F74E15</color>
@@ -118,6 +118,15 @@
 
     <!-- 投注失败提示字体颜色 -->
     <color name="bt_color_league_line_top">#80A698D9</color>
+
+    <!-- 注单为赢的字体颜色 -->
+    <color name="bt_color_option_win">#F74E15</color>
+
+    <!-- 注单为输的字体颜色 -->
+    <color name="bt_color_option_lose">#63BE59</color>
+
+    <!-- 注单为走水的字体颜色 -->
+    <color name="bt_color_option_draw">#000000</color>
 
     <!-- 投注模块 end-->
 

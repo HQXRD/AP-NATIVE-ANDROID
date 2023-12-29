@@ -2,7 +2,6 @@ package com.xtree.bet.constant;
 
 public class Constants {
 
-
     public static String[] PLAY_METHOD_NAMES = new String[]{"今日", "滚球", "早盘", "串关", "冠军"};
     /**
      * 玩法ID，与PLAY_METHOD_NAMES一一对应
