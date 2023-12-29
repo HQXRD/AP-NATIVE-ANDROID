@@ -38,6 +38,9 @@
     <!-- 主色/1级字 -->
     <color name="bt_text_color_primary_1">#000000</color>
 
+    <!-- 主色/2级字 -->
+    <color name="bt_text_color_primary_2">#5B5B6A</color>
+
     <!-- 通用3级文字颜色 -->
     <color name="bt_text_color_primary_3">#99A0B1</color>
 

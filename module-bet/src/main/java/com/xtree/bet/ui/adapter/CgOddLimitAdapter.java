@@ -25,6 +25,8 @@ import me.xtree.mvvmhabit.base.BaseActivity;
 public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
     private boolean flag;
 
+    private boolean isRefresh;
+
     private KeyboardView keyboardView;
 
     private BtCarDialogFragment.KeyBoardListener listener;
@@ -35,6 +37,10 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
 
     public void setListener(BtCarDialogFragment.KeyBoardListener listener) {
         this.listener = listener;
+    }
+
+    public void setRefresh(boolean refresh) {
+        isRefresh = refresh;
     }
 
     public CgOddLimitAdapter(Context context, List<CgOddLimit> datas) {
@@ -200,10 +206,12 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
                 }
             });
             disableShowInput(etAmount);
-            etAmount.setFocusable(true);
-            etAmount.setFocusableInTouchMode(true);
-            etAmount.requestFocus();
-            etAmount.findFocus();
+            if(!isRefresh) {
+                etAmount.setFocusable(true);
+                etAmount.setFocusableInTouchMode(true);
+                etAmount.requestFocus();
+                etAmount.findFocus();
+            }
             keyboardView.setEditText(etAmount);
             etAmount.setOnFocusChangeListener((view, b) -> {
                 listener.showKeyBoard(true);

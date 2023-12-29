@@ -181,6 +181,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 binding.rvBtCg.setAdapter(cgOddLimitAdapter);
             }else{
                 cgOddLimitAdapter.setNewData(cgOddLimits);
+                cgOddLimitAdapter.setRefresh(true);
             }
         });
         viewModel.btResultInfoDate.observe(this, btResults -> {

@@ -21,9 +21,14 @@ public interface Option extends BaseBean {
      int getOptionType();
 
     /**
-     * 欧盘赔率，目前我们只提供欧洲盘赔率，投注是请提交该字段赔率值作为选项赔率，赔率小于0代表锁盘
+     * 欧盘赔率，目前我们只提供欧洲盘赔率，投注是请提交该字段赔率值作为选项赔率，赔率小于0代表锁盘，此方法用于显示
      */
      double getOdd();
+
+    /**
+     * 真实欧盘赔率，目前我们只提供欧洲盘赔率，投注是请提交该字段赔率值作为选项赔率，赔率小于0代表锁盘，此方法用于投注
+     */
+    double getRealOdd();
 
     /**
      * 赔率
@@ -34,6 +39,12 @@ public interface Option extends BaseBean {
      * 赔率类型
      */
      int getOddType();
+
+    /**
+     * 是否香港盘
+     * @return
+     */
+     boolean isHongKongMarket();
 
     /**
      * 选项结算结果，仅虚拟体育展示
