@@ -36,6 +36,7 @@ import com.xtree.mine.vo.VipInfoVo;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 我的/个人中心
@@ -43,6 +44,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 @Route(path = RouterFragmentPath.Mine.PAGER_MINE)
 public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewModel> {
     ProfileVo mProfileVo;
+    VipInfoVo mVipInfoVo;
     String token;
 
     @Override
@@ -58,14 +60,17 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             goWebView(title, Constant.URL_MY_MESSAGES);
         });
 
-        binding.ivwEye.setOnClickListener(v -> {
-            CfLog.i("****** ");
+        binding.ckbEye.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            setBalance();
         });
+
         binding.tvw1kRecycle.setOnClickListener(v -> {
             CfLog.i("****** ");
+            viewModel.do1kAutoRecycle();
         });
         binding.ivwRefreshBlc.setOnClickListener(v -> {
             CfLog.i("****** ");
+            viewModel.getBalance();
         });
 
         binding.tvwWallet.setOnClickListener(view -> {
@@ -191,6 +196,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             CfLog.i("****** already login");
             binding.llLogin.setVisibility(View.GONE);
             binding.clAlreadyLogin.setVisibility(View.VISIBLE);
+            resetView();
         }
     }
 
@@ -204,14 +210,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
         mProfileVo = new Gson().fromJson(json, ProfileVo.class);
         json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_VIP_INFO);
-        VipInfoVo vo2 = new Gson().fromJson(json, VipInfoVo.class);
-        if (mProfileVo != null) {
-            binding.tvwName.setText(mProfileVo.username);
-            binding.tvwBalance.setText(mProfileVo.availablebalance);
-        }
-        if (vo2 != null) {
-            binding.ivwVip.setImageLevel(vo2.display_level);
-        }
+        mVipInfoVo = new Gson().fromJson(json, VipInfoVo.class);
 
         binding.textViewLogin.setOnClickListener(v -> {
             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
@@ -225,6 +224,46 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             startActivity(toRegister);
         });
 
+    }
+
+    private void resetView() {
+        if (mProfileVo != null) {
+            binding.tvwName.setText(mProfileVo.username);
+            setBalance();
+        }
+        if (mVipInfoVo != null) {
+            binding.ivwVip.setImageLevel(mVipInfoVo.display_level);
+            binding.ivwLevel.setImageLevel(mVipInfoVo.display_level);
+            if (mVipInfoVo.display_level >= 10) {
+                binding.ivwLevel.setVisibility(View.GONE);
+                //binding.ivwLevel10.setVisibility(View.VISIBLE);
+                binding.middleArea.setBackgroundResource(R.mipmap.me_bg_top_10);
+            }
+
+            binding.pbrLevel.setProgress(mVipInfoVo.display_level * 10);
+
+            if (mVipInfoVo.vip_upgrade != null) {
+                if (mVipInfoVo.display_level < mVipInfoVo.vip_upgrade.size()) {
+                    VipInfoVo.VipUpgradeVo vo1 = mVipInfoVo.vip_upgrade.get(mVipInfoVo.display_level);
+                    VipInfoVo.VipUpgradeVo vo2 = mVipInfoVo.vip_upgrade.get(mVipInfoVo.display_level + 1);
+                    int point = vo2.active - vo1.active;
+                    int level = mVipInfoVo.display_level + 1;
+                    String txt = getString(R.string.txt_level_hint_00);
+                    txt = String.format(txt, point, level);
+                    binding.tvwLevelHint.setText(txt);
+                } else {
+                    binding.tvwLevelHint.setText(R.string.txt_level_hint_10);
+                }
+            }
+        }
+    }
+
+    private void setBalance() {
+        if (binding.ckbEye.isChecked()) {
+            binding.tvwBalance.setText(mProfileVo.availablebalance);
+        } else {
+            binding.tvwBalance.setText("******");
+        }
     }
 
     private void showAccountMgmt() {
@@ -268,5 +307,26 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                         .navigation();
             }
         });
+
+        viewModel.liveDataProfile.observe(this, vo -> {
+            // 个人信息
+            mProfileVo = vo;
+            resetView();
+        });
+
+        viewModel.liveDataBalance.observe(this, vo -> {
+            mProfileVo.availablebalance = vo.balance;
+            setBalance();
+        });
+        viewModel.liveData1kRecycle.observe(this, isSuccess -> {
+            if (isSuccess) {
+                ToastUtils.showLong(R.string.txt_recycle_succ);
+                viewModel.getBalance(); // 平台中心余额
+                viewModel.getProfile();
+            } else {
+                ToastUtils.showLong(R.string.txt_recycle_fail);
+            }
+        });
+
     }
 }

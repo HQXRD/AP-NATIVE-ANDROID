@@ -1,5 +1,8 @@
 package me.xtree.mvvmhabit.http;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by goldze on 2017/5/10.
  * 该类仅供参考，实际业务返回的固定字段, 根据需求来定义，
@@ -7,6 +10,8 @@ package me.xtree.mvvmhabit.http;
 public class BaseResponse<T> {
     private int status = -1;
     private int code = -1;
+    @SerializedName(value = "message", alternate = {"msg", "sMsg"})
+    @Expose
     private String message = ""; // msg, sMsg
     private AuthVo authorization;
     public int timestamp; // 1700702751

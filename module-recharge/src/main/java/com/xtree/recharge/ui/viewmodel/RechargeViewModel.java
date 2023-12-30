@@ -150,11 +150,14 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
         Disposable disposable = (Disposable) model.getApiService().rechargePay(bid, map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<RechargePayVo>() {
+                .subscribeWith(new HttpCallBack<Object>() {
                     @Override
-                    public void onResult(RechargePayVo vo) {
-                        CfLog.d("********");
-                        liveDataRechargePay.setValue(vo);
+                    public void onResult(Object vo) {
+                        CfLog.d("********"); // RechargePayVo
+                        if (new Gson().toJson(vo).startsWith("{")) {
+                            RechargePayVo t = new Gson().fromJson(new Gson().toJson(vo), RechargePayVo.class);
+                            liveDataRechargePay.setValue(t);
+                        }
                     }
 
                     @Override

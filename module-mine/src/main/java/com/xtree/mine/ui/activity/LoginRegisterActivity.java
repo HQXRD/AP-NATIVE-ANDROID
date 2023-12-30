@@ -1,20 +1,24 @@
 package com.xtree.mine.ui.activity;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.CompoundButton;
+import android.widget.EditText;
 
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.lxj.xpopup.XPopup;
+import com.xtree.base.global.Constant;
 import com.xtree.base.router.RouterActivityPath;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.SPUtil;
+import com.xtree.base.widget.BrowserDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Spkey;
@@ -44,11 +48,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     @Override
     public void initData() {
-
         viewModel.getSettings();
-        String username = "testkite1002";
-        String pwd = "kite123456";
-
 
     }
 
@@ -72,47 +72,55 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
         boolean isRememberPwd = SPUtil.get(getApplication()).get(Spkey.REMEMBER_PWD, false);
         if (isRememberPwd) {
-            binding.mePwdInput.setText(SPUtil.get(getApplication()).get(Spkey.PWD, ""));
-            binding.meAccountInput.setText(SPUtil.get(getApplication()).get(Spkey.ACCOUNT, ""));
-            binding.meCheckbox.setChecked(true);
+            binding.edtPwd.setText(SPUtil.get(getApplication()).get(Spkey.PWD, ""));
+            binding.edtAccount.setText(SPUtil.get(getApplication()).get(Spkey.ACCOUNT, ""));
+            binding.ckbRememberPwd.setChecked(true);
         } else {
-            binding.meCheckbox.setChecked(false);
-            binding.mePwdInput.setText("");
-            binding.meAccountInput.setText("");
+            binding.ckbRememberPwd.setChecked(false);
+            binding.edtPwd.setText("");
+            binding.edtAccount.setText("");
         }
 
-        binding.meCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SPUtil.get(getApplication()).put(Spkey.REMEMBER_PWD, isChecked);
-                if (isChecked) {
-                    if (!TextUtils.isEmpty(binding.mePwdInput.getText().toString())) {
-                        SPUtil.get(getApplication()).put(Spkey.PWD, binding.mePwdInput.getText().toString());
-                        SPUtil.get(getApplication()).put(Spkey.ACCOUNT, binding.meAccountInput.getText().toString());
-                    }
-                } else {
-                    SPUtil.get(getApplication()).put(Spkey.PWD, "");
-                    SPUtil.get(getApplication()).put(Spkey.ACCOUNT, "");
+        binding.ckbEye.setOnCheckedChangeListener((buttonView, isChecked) -> setEdtPwd(isChecked, binding.edtPwd));
+        binding.ckbPwd1.setOnCheckedChangeListener((buttonView, isChecked) -> setEdtPwd(isChecked, binding.edtPwd1));
+        binding.ckbPwd2.setOnCheckedChangeListener((buttonView, isChecked) -> setEdtPwd(isChecked, binding.edtPwd2));
+
+        binding.ckbRememberPwd.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            SPUtil.get(getApplication()).put(Spkey.REMEMBER_PWD, isChecked);
+            if (isChecked) {
+                if (!TextUtils.isEmpty(binding.edtPwd.getText().toString())) {
+                    SPUtil.get(getApplication()).put(Spkey.PWD, binding.edtPwd.getText().toString());
+                    SPUtil.get(getApplication()).put(Spkey.ACCOUNT, binding.edtAccount.getText().toString());
                 }
+            } else {
+                SPUtil.get(getApplication()).put(Spkey.PWD, "");
+                SPUtil.get(getApplication()).put(Spkey.ACCOUNT, "");
             }
         });
 
-        binding.meBtnLogin.setOnClickListener(v -> {
+        //binding.tvwForgetPwd.setOnClickListener(v -> goMain());
+        //binding.tvwAgreement.setOnClickListener(v -> goMain());
+        binding.tvwSkipLogin.setOnClickListener(v -> goMain());
+        binding.tvwCs.setOnClickListener(v -> goCustomerService());
+
+        binding.btnLogin.setOnClickListener(v -> {
             if (!ifAgree()) {
                 ToastUtils.showLong(getResources().getString(R.string.me_agree_hint));
                 return;
             }
 
-            if (TextUtils.isEmpty(binding.meAccountInput.getText().toString())) {
+            String acc = binding.edtAccount.getText().toString().trim();
+            String pwd = binding.edtPwd.getText().toString();
+            if (TextUtils.isEmpty(acc)) {
                 ToastUtils.showLong(getResources().getString(R.string.me_account_hint));
                 return;
             }
 
-            if (TextUtils.isEmpty(binding.mePwdInput.getText().toString())) {
+            if (TextUtils.isEmpty(pwd)) {
                 ToastUtils.showLong(getResources().getString(R.string.me_pwd_hint));
                 return;
             }
-            viewModel.login(binding.meAccountInput.getText().toString(), binding.mePwdInput.getText().toString());
+            viewModel.login(acc, pwd);
         });
 
         binding.toRegisterArea.setOnClickListener(v -> {
@@ -129,16 +137,24 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             binding.meRegisterArea.setVisibility(View.GONE);
         });
 
-        register();
-    }
+        binding.edtAccReg.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-    private boolean ifAgree() {
-        return binding.agreementCheckbox.isChecked();
-    }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if (charSequence.toString().length() < 6 || charSequence.toString().length() > 12) {
+                    ToastUtils.showLong(R.string.txt_user_name_should_6_12);
+                }
+            }
 
-    private void register() {
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
 
-        binding.meRegisterAccountInput.addTextChangedListener(new TextWatcher() {
+        binding.edtPwd1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -147,7 +163,8 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 if (charSequence.toString().length() < 6 || charSequence.toString().length() > 12) {
-                    ToastUtils.showLong("用户名为6到12位");
+                    //ToastUtils.showLong(R.string.txt_pwd_should_6_12);
+                    //binding.edtPwd1.setError(getString(R.string.txt_pwd_should_6_12));
                 }
             }
 
@@ -157,7 +174,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             }
         });
 
-        binding.meRegisterPwdInput.addTextChangedListener(new TextWatcher() {
+        binding.edtPwd2.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -165,8 +182,9 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if (charSequence.toString().length() < 6 || charSequence.toString().length() > 12) {
-                    ToastUtils.showLong("密码为6到12位");
+                if (charSequence.length() < 6 || charSequence.length() > 12) {
+                    //ToastUtils.showLong(R.string.txt_pwd_should_6_12);
+                    //binding.edtPwd2.setError(getString(R.string.txt_pwd_should_6_12));
                 }
             }
 
@@ -176,52 +194,48 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             }
         });
 
-        binding.meReinputRegisterPwd.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        binding.btnRegister.setOnClickListener(view -> {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if (charSequence.toString().length() < 6 || charSequence.toString().length() > 12) {
-                    ToastUtils.showLong("密码为6到12位");
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        binding.meBtnRegister.setOnClickListener(view -> {
-
+            String account = binding.edtAccReg.getText().toString().trim();
+            String pwd1 = binding.edtPwd1.getText().toString();
+            String pwd2 = binding.edtPwd2.getText().toString();
             if (!binding.registerAgreementCheckbox.isChecked()) {
                 ToastUtils.showLong(getResources().getString(R.string.me_agree_hint));
                 return;
             }
-            if (TextUtils.isEmpty(binding.meRegisterAccountInput.getText().toString())) {
+            if (TextUtils.isEmpty(account)) {
                 ToastUtils.showLong(getResources().getString(R.string.me_account_hint));
+                binding.edtAccReg.performClick();
                 return;
             }
-            if (TextUtils.isEmpty(binding.meRegisterPwdInput.getText().toString())) {
+
+            if (account.length() < 6 || account.length() > 12) {
+                ToastUtils.showLong(getResources().getString(R.string.txt_user_name_should_6_12));
+                return;
+            }
+
+            if (TextUtils.isEmpty(pwd1)) {
                 ToastUtils.showLong(getResources().getString(R.string.me_pwd_hint));
                 return;
             }
 
-            if (TextUtils.isEmpty(binding.meReinputRegisterPwd.getText().toString())) {
-                ToastUtils.showLong("请再次输入密码");
+            if (pwd1.length() < 6 || pwd1.length() > 12) {
+                ToastUtils.showLong(getResources().getString(R.string.txt_pwd_should_6_12));
                 return;
             }
 
-            if (!binding.meReinputRegisterPwd.getText().toString().equals(binding.meRegisterPwdInput.getText().toString())) {
-                ToastUtils.showLong("两次输入密码不一致");
+            if (TextUtils.isEmpty(pwd2)) {
+                ToastUtils.showLong(R.string.txt_enter_pwd_again);
+                return;
+            }
+
+            if (!pwd2.equals(pwd1)) {
+                ToastUtils.showLong(R.string.txt_pwd_should_same);
                 return;
             }
 
             //验证输入参数
-            viewModel.register(binding.meRegisterAccountInput.getText().toString(), binding.meRegisterPwdInput.getText().toString());
+            viewModel.register(account, pwd1);
 
         });
 
@@ -236,20 +250,36 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     @Override
     public void initViewObservable() {
-        viewModel.liveDataLogin.observe(this, vo -> {
-            ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    .navigation();
-            //LoginRegisterActivity.this.finish();
-        });
+        viewModel.liveDataLogin.observe(this, vo -> goMain());
 
-        viewModel.liveDataReg.observe(this, vo -> {
-            ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    .navigation();
-            //LoginRegisterActivity.this.finish();
-        });
+        viewModel.liveDataReg.observe(this, vo -> goMain());
 
+    }
+
+    private boolean ifAgree() {
+        return binding.ckbAgreement.isChecked();
+    }
+
+    private void setEdtPwd(boolean isChecked, EditText edt) {
+        if (isChecked) {
+            edt.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        } else {
+            edt.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
+        edt.setSelection(edt.length());
+    }
+
+    private void goCustomerService() {
+        String title = getString(R.string.txt_custom_center);
+        String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
+        new XPopup.Builder(this).asCustom(new BrowserDialog(this, title, url)).show();
+    }
+
+    private void goMain() {
+        ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
+                .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
+                .navigation();
+        LoginRegisterActivity.this.finish();
     }
 
 }

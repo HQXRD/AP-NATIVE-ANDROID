@@ -6,7 +6,9 @@
     <string name="me_visit_hint">您好游客，请点击登录按钮</string>
     <string name="me_money_total">总资产(元)</string>
     <string name="me_get_all_money">一键汇总</string>
-    <string name="me_level_hint">亲！您还差89点就可以升级为VIP10，更多福利等着您！</string>
+    <string name="me_level_hint">亲！您还差6000点就可以升级为VIP1，更多福利等着您！</string>
+    <string name="txt_level_hint_00">亲！您还差%1$d点就可以升级为VIP%2$d，更多福利等着您！</string>
+    <string name="txt_level_hint_10">恭喜您达到尊贵的VIP10，请尽享本平台游戏及福利!</string>
     <string name="me_my_pocket">我的钱包</string>
     <string name="me_transfer">转账</string>
     <string name="me_betting_record">投注记录</string>
@@ -121,5 +123,9 @@
     <string name="txt_enter_new_pwd">请输入新的登录密码</string>
     <string name="txt_reset">重置</string>
     <string name="txt_confirm">确定</string>
+    <string name="txt_user_name_should_6_12">用户名为6到12位</string>
+    <string name="txt_pwd_should_6_12">密码为6到12位</string>
+    <string name="txt_enter_pwd_again">请再次输入密码</string>
+    <string name="txt_pwd_should_same">两次输入密码不一致</string>
 
 </resources>

@@ -15,4 +15,8 @@
     <string name="txt_bind_gobao">绑定GOBAO</string>
     <string name="txt_bind_gopay">绑定GOPAY</string>
     <string name="txt_bind_okpay">绑定OKPAY</string>
+
+    <string name="txt_enter_login_name">请输入账号</string>
+    <string name="txt_enter_login_pwd">请输入密码</string>
+
 </resources>
