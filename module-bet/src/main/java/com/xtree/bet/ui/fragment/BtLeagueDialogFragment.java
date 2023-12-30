@@ -13,7 +13,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.xtree.bet.R;
@@ -43,21 +42,15 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
     public final static String KEY_LEAGUE = "KEY_LEAGUE";
     public final static String KEY_SPORTID = "KEY_SPORTID";
     public final static String KEY_TYPE = "KEY_TYPE";
-
-    private SideBar sideBar;
-
-    private SettingLeagueAdapter settingLeagueAdapter;
-
-    private List<League> mLeagueList;
-
-    private List<League> mSearchLeagueList = new ArrayList<>();
     private int sportId;
     private int type;
-    private List<LeagueArea> leagueAreas = new ArrayList<>();
-    private List<LeagueArea> searchLeagueAreas = new ArrayList<>();
-    private List<String> initialList = new ArrayList<>();
-    private List<InitialLeagueArea> initialLeagueAreaList = new ArrayList<>();
-    private List<InitialLeagueArea> searchInitialLeagueAreaList = new ArrayList<>();
+    private SideBar sideBar;
+    private SettingLeagueAdapter settingLeagueAdapter;
+    private List<League> mLeagueList; // 后台查询到的所有联赛列表
+    private List<League> mSearchLeagueList = new ArrayList<>();
+    private List<LeagueArea> mLeagueAreaList = new ArrayList<>(); // 联赛按区域分组数据
+    private List<LeagueArea> mSearchLeagueAreaList = new ArrayList<>();
+    private List<String> mInitialList = new ArrayList<>(); // 首字母列表
 
     public static BtLeagueDialogFragment getInstance(List<League> leagueList, int sportId, int type){
         BtLeagueDialogFragment btResultDialogFragment = new BtLeagueDialogFragment();
@@ -89,8 +82,8 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
         });
         binding.cbAll.setOnClickListener(v -> {
             boolean isChecked = binding.cbAll.isChecked();
-            for(int i = 0; i < leagueAreas.size(); i ++){
-                leagueAreas.get(i).setSelected(isChecked);
+            for(int i = 0; i < mLeagueAreaList.size(); i ++){
+                mLeagueAreaList.get(i).setSelected(isChecked);
             }
             for(int i = 0; i < mLeagueList.size(); i ++){
                 mLeagueList.get(i).setSelected(isChecked);
@@ -156,56 +149,54 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
 
     @Override
     public void initViewObservable() {
-        viewModel.settingInitialLeagueAreaData.observe(this, initialLeagueAreas -> {
-            this.initialLeagueAreaList = initialLeagueAreas;
-            initialList.clear();
-            for(InitialLeagueArea initialLeagueArea : initialLeagueAreas){
-                initialList.add(initialLeagueArea.getName());
-
-                leagueAreas.addAll(initialLeagueArea.getLeagueAreaList());
-                if(settingLeagueAdapter == null){
-                    settingLeagueAdapter = new SettingLeagueAdapter(getContext(), leagueAreas);
-                    binding.aelLeague.setAdapter(settingLeagueAdapter);
-                }else {
-                    settingLeagueAdapter.setData(leagueAreas);
-                }
-                for (int i = 0; i < binding.aelLeague.getExpandableListAdapter().getGroupCount(); i++) {
-                    binding.aelLeague.expandGroup(i);
-                }
+        viewModel.settingInitialLeagueAreaData.observe(this, mInitialLeagueAreaList -> {
+            mInitialList.clear();
+            mLeagueAreaList.clear();
+            for(InitialLeagueArea initialLeagueArea : mInitialLeagueAreaList){
+                mInitialList.add(initialLeagueArea.getName());
+                mLeagueAreaList.addAll(initialLeagueArea.getLeagueAreaList());
             }
-            sideBar = new SideBar(getContext(), initialList);
+            if(settingLeagueAdapter == null){
+                settingLeagueAdapter = new SettingLeagueAdapter(getContext(), mLeagueAreaList);
+                binding.aelLeague.setAdapter(settingLeagueAdapter);
+            }else {
+                settingLeagueAdapter.setData(mLeagueAreaList);
+            }
+            for (int i = 0; i < binding.aelLeague.getExpandableListAdapter().getGroupCount(); i++) {
+                binding.aelLeague.expandGroup(i);
+            }
+            sideBar = new SideBar(getContext(), mInitialList);
             binding.sbLeague.addView(sideBar);
             sideBar.setOnSelectListener(index -> {
-                int position = leagueAreas.indexOf(initialLeagueAreaList.get(index).getLeagueAreaList().get(0));
+                int position = mLeagueAreaList.indexOf(mInitialLeagueAreaList.get(index).getLeagueAreaList().get(0));
                 binding.aelLeague.scroll(position);
             });
         });
 
-        viewModel.settingSearchInitialLeagueAreaData.observe(this, initialLeagueAreas -> {
-            this.searchInitialLeagueAreaList = initialLeagueAreas;
-            initialList.clear();
-            searchLeagueAreas.clear();
-            for(InitialLeagueArea initialLeagueArea : initialLeagueAreas){
-                initialList.add(initialLeagueArea.getName());
-
-                searchLeagueAreas.addAll(initialLeagueArea.getLeagueAreaList());
-                if(settingLeagueAdapter == null){
-                    settingLeagueAdapter = new SettingLeagueAdapter(getContext(), searchLeagueAreas);
-                    binding.aelLeague.setAdapter(settingLeagueAdapter);
-                }else {
-                    settingLeagueAdapter.setData(searchLeagueAreas);
-                }
-                for (int i = 0; i < binding.aelLeague.getExpandableListAdapter().getGroupCount(); i++) {
-                    binding.aelLeague.expandGroup(i);
-                }
+        viewModel.settingSearchInitialLeagueAreaData.observe(this, mSearchInitialLeagueAreaList -> {
+            mInitialList.clear();
+            mSearchLeagueAreaList.clear();
+            for(InitialLeagueArea initialLeagueArea : mSearchInitialLeagueAreaList){
+                mInitialList.add(initialLeagueArea.getName());
+                mSearchLeagueAreaList.addAll(initialLeagueArea.getLeagueAreaList());
             }
-            sideBar = new SideBar(getContext(), initialList);
+
+            if(settingLeagueAdapter == null){
+                settingLeagueAdapter = new SettingLeagueAdapter(getContext(), mSearchLeagueAreaList);
+                binding.aelLeague.setAdapter(settingLeagueAdapter);
+            }else {
+                settingLeagueAdapter.setData(mSearchLeagueAreaList);
+            }
+            for (int i = 0; i < binding.aelLeague.getExpandableListAdapter().getGroupCount(); i++) {
+                binding.aelLeague.expandGroup(i);
+            }
+            sideBar = new SideBar(getContext(), mInitialList);
             if(binding.sbLeague.getChildCount() > 0){
                 binding.sbLeague.removeAllViews();
             }
             binding.sbLeague.addView(sideBar);
             sideBar.setOnSelectListener(index -> {
-                int position = leagueAreas.indexOf(initialLeagueAreaList.get(index).getLeagueAreaList().get(0));
+                int position = mLeagueAreaList.indexOf(mSearchInitialLeagueAreaList.get(index).getLeagueAreaList().get(0));
                 binding.aelLeague.scroll(position);
             });
         });
@@ -216,7 +207,7 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
         viewModel.betContractIsCheckedAllLeagueData.observe(this, betContract -> {
             if (betContract.action == BetContract.ACTION_CHECK_ALL_CHECK) {
                 boolean isCheckAll = true;
-                for(LeagueArea leagueArea : leagueAreas){
+                for(LeagueArea leagueArea : mLeagueAreaList){
                     if(!leagueArea.isSelected()){
                         isCheckAll = false;
                         break;

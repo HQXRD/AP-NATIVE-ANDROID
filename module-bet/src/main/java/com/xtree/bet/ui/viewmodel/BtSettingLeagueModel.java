@@ -89,6 +89,8 @@ public class BtSettingLeagueModel extends BaseViewModel<BetRepository> {
     }
 
     public void getLeagueAreaList(List<League> leagueList, boolean isSearch){
+
+        // 把后台查询到的联赛列表按地区分组 begin
         List<LeagueArea> leagueAreaList = new ArrayList<>();
         Map<String, LeagueArea> leagueAreaMap = new HashMap<>();
 
@@ -113,8 +115,9 @@ public class BtSettingLeagueModel extends BaseViewModel<BetRepository> {
                 hotLeagueArea.addLeagueList(league);
             }
         }
+        // 把后台查询到的联赛列表按地区分组 end
 
-
+        // 把得到的地区分组按首字母分组 begin
         TreeMap<String, InitialLeagueArea> initialLeagueAreaMap = new TreeMap<>();
         for (LeagueArea area : leagueAreaList) {
 
@@ -132,6 +135,7 @@ public class BtSettingLeagueModel extends BaseViewModel<BetRepository> {
                 initialLeagueArea.addLeagueList(area);
             }
         }
+        // 把得到的地区分组按首字母分组 end
 
         List<InitialLeagueArea> initialLeagueAreaList = new ArrayList<>();
         initialLeagueAreaList.add(hotInitialLeagueArea);
