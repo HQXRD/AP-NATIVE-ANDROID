@@ -135,12 +135,6 @@ public class ChampionMatchAdapter extends AnimatedExpandableListViewMax.Animated
                 //.apply(new RequestOptions().placeholder(placeholderRes))
                 .into(binding.ivIcon);
         binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
-        if (isExpanded) {
-            convertView.setPadding(0, ConvertUtils.dp2px(5), 0, 0);
-        } else {
-            convertView.setPadding(0, ConvertUtils.dp2px(5), 0, ConvertUtils.dp2px(5));
-
-        }
         return convertView;
     }
 

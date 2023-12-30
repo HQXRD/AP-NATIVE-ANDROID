@@ -1,0 +1,152 @@
+package com.xtree.bet.ui.viewmodel;
+
+import android.app.Application;
+import android.text.TextUtils;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.utils.StringUtils;
+import com.xtree.bet.bean.response.LeagueInfo;
+import com.xtree.bet.bean.ui.InitialLeagueArea;
+import com.xtree.bet.bean.ui.League;
+import com.xtree.bet.bean.ui.LeagueArea;
+import com.xtree.bet.bean.ui.LeagueFb;
+import com.xtree.bet.contract.BetContract;
+import com.xtree.bet.data.BetRepository;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import io.reactivex.disposables.Disposable;
+import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.bus.RxBus;
+import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+import me.xtree.mvvmhabit.utils.RxUtils;
+
+/**
+ * Created by goldze on 2018/6/21.
+ */
+
+public class BtSettingLeagueModel extends BaseViewModel<BetRepository> {
+    private Disposable mSubscription;
+    public SingleLiveData<List<InitialLeagueArea>> settingInitialLeagueAreaData = new SingleLiveData<>();
+    public SingleLiveData<List<InitialLeagueArea>> settingSearchInitialLeagueAreaData = new SingleLiveData<>();
+    public SingleLiveData<List<League>> settingLeagueData = new SingleLiveData<>();
+    /**
+     * 检查是否选中所有联赛
+     */
+    public SingleLiveData<BetContract> betContractIsCheckedAllLeagueData = new SingleLiveData<>();
+
+    public BtSettingLeagueModel(@NonNull Application application, BetRepository repository) {
+        super(application, repository);
+    }
+
+    public void addSubscription() {
+        mSubscription = RxBus.getDefault().toObservable(BetContract.class)
+                .subscribe(betContract -> {
+                    betContractIsCheckedAllLeagueData.postValue(betContract);
+                });
+        addSubscribe(mSubscription);
+    }
+
+    /**
+     * 获取联赛列表
+     */
+    public void getOnSaleLeagues(int sportId, int type) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("languageType", "CMN");
+        map.put("sportId", String.valueOf(sportId));
+        map.put("type", String.valueOf(type));
+
+        Disposable disposable = (Disposable) model.getApiService().getOnSaleLeagues(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<List<LeagueInfo>>() {
+                    @Override
+                    public void onResult(List<LeagueInfo> leagueInfoList) {
+                        List<League> leagueList = new ArrayList<>();
+                        for (LeagueInfo leagueInfo : leagueInfoList) {
+                            leagueList.add(new LeagueFb(leagueInfo));
+                        }
+                        settingLeagueData.postValue(leagueList);
+                        getLeagueAreaList(leagueList, false);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getLeagueAreaList(List<League> leagueList, boolean isSearch){
+        List<LeagueArea> leagueAreaList = new ArrayList<>();
+        Map<String, LeagueArea> leagueAreaMap = new HashMap<>();
+
+        LeagueArea hotLeagueArea = new LeagueArea();
+        hotLeagueArea.setName("热门联赛");
+
+        InitialLeagueArea hotInitialLeagueArea = new InitialLeagueArea();
+        hotInitialLeagueArea.setName("热");
+        hotInitialLeagueArea.getLeagueAreaList().add(hotLeagueArea);
+
+        LeagueArea leagueArea;
+        for (League league : leagueList) {
+            leagueArea = leagueAreaMap.get(String.valueOf(league.getAreaId()));
+            if(leagueArea == null){
+                leagueArea = new LeagueArea();
+                leagueArea.setName(league.getLeagueAreaName());
+                leagueAreaMap.put(String.valueOf(league.getAreaId()), leagueArea);
+                leagueAreaList.add(leagueArea);
+            }
+            leagueArea.addLeagueList(league);
+            if(league.isHot()){
+                hotLeagueArea.addLeagueList(league);
+            }
+        }
+
+
+        TreeMap<String, InitialLeagueArea> initialLeagueAreaMap = new TreeMap<>();
+        for (LeagueArea area : leagueAreaList) {
+
+            if(!TextUtils.isEmpty(area.getName())) {
+
+                String initial = StringUtils.getPinYinInitials(area.getName())[0]; // 首字母
+                InitialLeagueArea initialLeagueArea = initialLeagueAreaMap.get(initial);
+
+                if(initialLeagueArea == null) {
+                    initialLeagueArea = new InitialLeagueArea();
+                    initialLeagueArea.setName(initial);
+                    initialLeagueAreaMap.put(initial, initialLeagueArea);
+                }
+
+                initialLeagueArea.addLeagueList(area);
+            }
+        }
+
+        List<InitialLeagueArea> initialLeagueAreaList = new ArrayList<>();
+        initialLeagueAreaList.add(hotInitialLeagueArea);
+        for (Map.Entry<String, InitialLeagueArea> entry : initialLeagueAreaMap.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+            initialLeagueAreaList.add(entry.getValue());
+        }
+
+        if(!initialLeagueAreaMap.isEmpty()) {
+            if(isSearch){
+                settingSearchInitialLeagueAreaData.postValue(initialLeagueAreaList);
+            }else {
+                settingInitialLeagueAreaData.postValue(initialLeagueAreaList);
+            }
+        }
+    }
+
+}

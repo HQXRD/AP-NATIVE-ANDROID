@@ -1,13 +1,20 @@
 package com.xtree.bet.bean.ui;
 
+import android.annotation.SuppressLint;
+import android.os.Parcel;
+
+import androidx.annotation.NonNull;
+
 import com.xtree.bet.bean.response.LeagueInfo;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressLint("ParcelCreator")
 public class LeagueFb implements League{
     private boolean isExpand = true;
     private boolean isHead;
+    private boolean isSelected;
     public int sort;
     public LeagueInfo leagueInfo;
     public List<Match> matchList = new ArrayList<>();
@@ -47,6 +54,14 @@ public class LeagueFb implements League{
     public void setHead(boolean isHead) {
         this.isHead = isHead;
     }
+    /**
+     * 该联赛开售的赛事统计
+     * @return
+     */
+    @Override
+    public int getSaleCount() {
+        return leagueInfo.mt;
+    }
 
     @Override
     public League instance() {
@@ -54,8 +69,29 @@ public class LeagueFb implements League{
     }
 
     @Override
+    public boolean isHot() {
+        return leagueInfo.hot;
+    }
+
+    @Override
     public boolean isHead() {
         return isHead;
+    }
+    /**
+     * 获取联赛区域名称
+     * @return
+     */
+    @Override
+    public String getLeagueAreaName() {
+        return leagueInfo.rnm;
+    }
+    /**
+     * 获取联赛区域ID
+     * @return
+     */
+    @Override
+    public int getAreaId() {
+        return leagueInfo.rid;
     }
 
     /**
@@ -81,5 +117,21 @@ public class LeagueFb implements League{
         return matchList;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
 
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+
+    }
 }

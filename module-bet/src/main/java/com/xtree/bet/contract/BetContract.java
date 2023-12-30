@@ -32,6 +32,14 @@ public class BetContract {
      * 赛事列表盘口类型修改
      */
     public static final String ACTION_MARKET_CHANGE = "ACTION_MARKET_CHANGE";
+    /**
+     * 检查是否选择所有的联赛
+     */
+    public static final String ACTION_CHECK_ALL_CHECK = "ACTION_CHECK_ALL_CHECK";
+    /**
+     * 根据联赛查询列表
+     */
+    public static final String ACTION_CHECK_SEARCH_BY_LEAGUE = "ACTION_CHECK_SEARCH_BY_LEAGUE";
 
     public BetContract(String action){
         this.action = action;

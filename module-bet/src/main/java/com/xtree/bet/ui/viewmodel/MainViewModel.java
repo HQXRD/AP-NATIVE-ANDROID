@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.xtree.base.utils.TimeUtils;
+import com.xtree.bet.bean.response.LeagueInfo;
 import com.xtree.bet.bean.response.MatchTypeInfo;
 import com.xtree.bet.bean.response.MatchTypeStatisInfo;
 import com.xtree.bet.bean.response.StatisticalInfo;
@@ -65,6 +66,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
      * 赛事统计数据
      */
     public SingleLiveData<Map<String, List<Integer>>> statisticalData = new SingleLiveData<>();
+    public SingleLiveData<List<League>> settingLeagueData = new SingleLiveData<>();
 
     private List<Match> mMatchList = new ArrayList<>();
     private List<Match> mChampionMatchList = new ArrayList<>();
@@ -135,7 +137,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
      * @param isTimedRefresh 是否定时刷新 true-是，false-否
      * @param isRefresh      是否刷新 true-是, false-否
      */
-    public void getLeagueList(int sportId, int orderBy, int[] leagueIds, List<Integer> matchids, int playMethodType, int searchDatePos, int oddType, boolean isTimedRefresh, boolean isRefresh) {
+    public void getLeagueList(int sportId, int orderBy, List<Integer> leagueIds, List<Integer> matchids, int playMethodType, int searchDatePos, int oddType, boolean isTimedRefresh, boolean isRefresh) {
         int type;
         boolean flag = false;
 
@@ -253,7 +255,7 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
      * @param isTimedRefresh
      * @param isRefresh
      */
-    public void getChampionList(int sportId, int orderBy, int[] leagueIds, List<Integer> matchids, int playMethodType, int oddType, boolean isTimedRefresh, boolean isRefresh) {
+    public void getChampionList(int sportId, int orderBy, List<Integer> leagueIds, List<Integer> matchids, int playMethodType, int oddType, boolean isTimedRefresh, boolean isRefresh) {
 
         if (isRefresh) {
             currentPage = 1;
@@ -340,6 +342,37 @@ public class MainViewModel extends BaseViewModel<BetRepository> {
                             sportCountMap.put(String.valueOf(matchTypeInfo.ty), sportCountList);
                         }
                         statisticalData.postValue(sportCountMap);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取联赛列表
+     */
+    public void getOnSaleLeagues(int sportId, int type) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("languageType", "CMN");
+        map.put("sportId", String.valueOf(sportId));
+        map.put("type", String.valueOf(type));
+
+        Disposable disposable = (Disposable) model.getApiService().getOnSaleLeagues(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<List<LeagueInfo>>() {
+                    @Override
+                    public void onResult(List<LeagueInfo> leagueInfoList) {
+                        List<League> leagueList = new ArrayList<>();
+                        for (LeagueInfo leagueInfo : leagueInfoList) {
+                            leagueList.add(new LeagueFb(leagueInfo));
+                        }
+                        settingLeagueData.postValue(leagueList);
                     }
 
                     @Override

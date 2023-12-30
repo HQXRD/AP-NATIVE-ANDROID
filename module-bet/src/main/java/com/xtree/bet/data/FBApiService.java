@@ -6,12 +6,15 @@ import com.xtree.bet.bean.request.SingleBtListReq;
 import com.xtree.bet.bean.response.BtConfirmInfo;
 import com.xtree.bet.bean.response.BtRecordRsp;
 import com.xtree.bet.bean.response.BtResultInfo;
+import com.xtree.bet.bean.response.LeagueInfo;
 import com.xtree.bet.bean.response.MatchInfo;
 import com.xtree.bet.bean.response.MatchListRsp;
 import com.xtree.bet.bean.response.StatisticalInfo;
 import com.xtree.bet.bean.request.BtCarReq;
 import com.xtree.bet.bean.request.PBListReq;
 import com.xtree.bet.bean.ui.BtResult;
+import com.xtree.bet.bean.ui.League;
+import com.xtree.bet.bean.ui.LeagueArea;
 
 import java.util.List;
 import java.util.Map;
@@ -86,4 +89,11 @@ public interface FBApiService {
     @POST("/v1/order/new/bet/list")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<BaseResponse<BtRecordRsp>> betRecord(@Body BtRecordReq btRecordReq);
+    /**
+     * 获取联赛列表
+     * @return
+     */
+    @POST("/v1/match/getOnSaleLeagues")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<BaseResponse<List<LeagueInfo>>> getOnSaleLeagues(@Body Map<String, String> map);
 }

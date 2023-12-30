@@ -76,6 +76,7 @@ ext {
             "smart-refresh-layout-header"          : "io.github.scwang90:refresh-header-classics:2.1.0",
             "immersionbar"                         : "com.geyifeng.immersionbar:immersionbar:3.2.2",
             "pager-bottom-tab"                     : "me.majiajie:pager-bottom-tab-strip:2.4.0",
+            "pinyin4j"                             : "com.belerweb:pinyin4j:2.5.0",
     ]
 }
 

@@ -13,6 +13,7 @@ import com.xtree.bet.R;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtDialogSettingBinding;
+import com.xtree.bet.ui.activity.MainActivity;
 import com.xtree.bet.ui.adapter.BetResultOptionAdapter;
 import com.xtree.bet.ui.adapter.CgBtResultAdapter;
 import com.xtree.bet.ui.viewmodel.BtCarViewModel;
@@ -27,9 +28,6 @@ import me.xtree.mvvmhabit.utils.Utils;
  * 投注确认页面
  */
 public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingBinding, BtCarViewModel> {
-
-    private BetResultOptionAdapter betResultOptionAdapter;
-    private CgBtResultAdapter cgBtResultAdapter;
 
     public static BtSettingDialogFragment getInstance(){
         BtSettingDialogFragment btResultDialogFragment = new BtSettingDialogFragment();
@@ -46,6 +44,7 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
     @Override
     public void initView() {
         binding.tvClose.setOnClickListener(this);
+        binding.tvMore.setOnClickListener(this);
         binding.svSort.setSwitchText(new String[]{"热门盘口", "时间"});
         binding.svMarket.setSwitchText(new String[]{"欧洲盘", "香港盘"});
         binding.svSort.setCheckedListener(index -> {
@@ -90,6 +89,13 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
         int id = view.getId();
         if(id == R.id.tv_close){
             dismiss();
+        } else if (id == R.id.tv_more) {
+            dismiss();
+            if(getActivity() instanceof MainActivity) {
+                MainActivity activity = (MainActivity)getActivity();
+                BtLeagueDialogFragment btLeagueDialogFragment = BtLeagueDialogFragment.getInstance(activity.getSettingLeagueList(), activity.getSportId(), activity.getPlayMethodType());
+                btLeagueDialogFragment.show(getParentFragmentManager(), "BtLeagueDialogFragment");
+            }
         }
     }
 
