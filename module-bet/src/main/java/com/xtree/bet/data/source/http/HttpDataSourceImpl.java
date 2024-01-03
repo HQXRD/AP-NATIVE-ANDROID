@@ -2,6 +2,7 @@ package com.xtree.bet.data.source.http;
 
 
 import com.xtree.bet.data.FBApiService;
+import com.xtree.bet.data.PMApiService;
 import com.xtree.bet.data.source.HttpDataSource;
 
 /**
@@ -33,5 +34,10 @@ public class HttpDataSourceImpl implements HttpDataSource {
     @Override
     public FBApiService getApiService() {
         return apiService;
+    }
+
+    @Override
+    public PMApiService getPMApiService() {
+        return null;
     }
 }

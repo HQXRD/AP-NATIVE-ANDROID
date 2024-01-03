@@ -27,16 +27,19 @@ import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.contract.BetContract;
+import com.xtree.bet.databinding.FragmentMainBinding;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.adapter.ChampionMatchAdapter;
 import com.xtree.bet.ui.adapter.LeagueAdapter;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.ui.fragment.BtRecordDialogFragment;
 import com.xtree.bet.ui.fragment.BtSettingDialogFragment;
-import com.xtree.bet.ui.viewmodel.MainViewModel;
+import com.xtree.bet.ui.viewmodel.FBMainViewModel;
+import com.xtree.bet.ui.viewmodel.PMMainViewModel;
+import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.R;
-import com.xtree.bet.databinding.FragmentMainBinding;
+import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.weight.MenuItemView;
 
 import java.util.ArrayList;
@@ -60,7 +63,12 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  * Created by goldze on 2018/6/21
  */
 @Route(path = RouterActivityPath.Bet.PAGER_BET_HOME)
-public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewModel> implements OnRefreshLoadMoreListener, View.OnClickListener {
+public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMainViewModel> implements OnRefreshLoadMoreListener, View.OnClickListener {
+    public final static String KEY_PLATFORM = "KEY_PLATFORM";
+    public final static String PLATFORM_FB = "fbxc";
+    public final static String PLATFORM_PM = "obg";
+    private String mPlatform = PLATFORM_FB;
+
     /**
      * 赛事统计数据
      */
@@ -73,8 +81,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     private List<Match> mChampionMatchList = new ArrayList<>();
     private LeagueAdapter mLeagueAdapter;
     private ChampionMatchAdapter mChampionMatchAdapter;
-
-    private BtSettingDialogFragment btSettingDialogFragment;
+    private List<League> settingLeagueList = new ArrayList<>();
+    private List<Integer> mLeagueIdList;
 
     private Disposable timerDisposable;
 
@@ -91,6 +99,18 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     private int mOrderBy = 1;
     private int mOddType = 1;
 
+    public List<League> getSettingLeagueList() {
+        return settingLeagueList;
+    }
+
+    public int getPlayMethodType() {
+        return playMethodType;
+    }
+
+    public int getSportId() {
+        return Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]);
+    }
+
     @Override
     public int initContentView(Bundle savedInstanceState) {
         return R.layout.fragment_main;
@@ -99,6 +119,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     @Override
     public int initVariableId() {
         return BR.viewModel;
+    }
+
+    @Override
+    public void initParam() {
+        mPlatform = getIntent().getStringExtra(KEY_PLATFORM);
     }
 
     @Override
@@ -111,28 +136,19 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     }
 
     @Override
-    public MainViewModel initViewModel() {
-        //使用自定义的ViewModelFactory来创建ViewModel，如果不重写该方法，则默认会调用LoginViewModel(@NonNull Application application)构造方法
-        AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
-        return new ViewModelProvider(this, factory).get(MainViewModel.class);
+    public TemplateMainViewModel initViewModel() {
+        if(TextUtils.equals(mPlatform, PLATFORM_FB)) {
+            AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
+            return new ViewModelProvider(this, factory).get(FBMainViewModel.class);
+        }else {
+            PMAppViewModelFactory factory = PMAppViewModelFactory.getInstance(getApplication());
+            return new ViewModelProvider(this, factory).get(PMMainViewModel.class);
+        }
     }
 
     @Override
     public void initView() {
         binding.srlLeague.setOnRefreshLoadMoreListener(this);
-        /*binding.rvLeague.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-                int topRowVerticalPosition =
-                        (absListView == null || absListView.getChildCount() == 0) ? 0 : absListView.getChildAt(0).getTop();
-                binding.srlLeague.setEnabled(topRowVerticalPosition >= 0);
-            }
-        });*/
         binding.llGoingOn.setOnClickListener(this);
         binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -159,8 +175,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
                         binding.tabSearchDate.setVisibility(View.GONE);
                     }
                     initTimer();
-                    getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
+                    getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, mLeagueIdList, null,
                             playMethodType, searchDatePos, false, true);
+                    viewModel.getOnSaleLeagues(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), playMethodType);
                 }
             }
 
@@ -186,7 +203,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
                     mLeagueGoingOnList.clear();
                     mLeagueList.clear();
                     initTimer();
-                    getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
+                    getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, mLeagueIdList, null,
                             playMethodType, searchDatePos, false, true);
                 }
             }
@@ -210,7 +227,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
                     if (playMethodType == 4 || playMethodType == 2) {
                         searchDatePos = tab.getPosition();
                         initTimer();
-                        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
+                        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, mLeagueIdList, null,
                                 playMethodType, searchDatePos, false, true);
                     }
                 }
@@ -246,7 +263,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
                 .addItem(newItem(R.mipmap.bt_icon_menu_bet, getResources().getString(R.string.bt_bt_menu_bet)))
                 .addItem(newItem(R.mipmap.bt_icon_menu_refresh, getResources().getString(R.string.bt_bt_menu_refresh)))
                 .build();
-        navigationController.setMessageNumber(2, 8);
+        //navigationController.setMessageNumber(2, 8);
         //底部按钮的点击事件监听
         navigationController.addTabItemSelectedListener(new OnTabItemSelectedListener() {
             @Override
@@ -271,7 +288,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
             BtRecordDialogFragment btRecordDialogFragment = BtRecordDialogFragment.getInstance(true);
             btRecordDialogFragment.show(getSupportFragmentManager(), "BtRecordDialogFragment");
         } else if (index == 1) {
-            BtSettingDialogFragment btSettingDialogFragment = BtSettingDialogFragment.getInstance();
+            BtSettingDialogFragment btSettingDialogFragment = BtSettingDialogFragment.getInstance(mLeagueIdList);
             btSettingDialogFragment.show(getSupportFragmentManager(), "BtSettingDialogFragment");
         }
     }
@@ -291,7 +308,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
         }
     }
 
-    private void getMatchData(int sportId, int orderBy, int[] leagueIds, List<Integer> matchids, int playMethodType, int searchDatePos, boolean isTimedRefresh, boolean isRefresh) {
+    private void getMatchData(int sportId, int orderBy, List<Integer> leagueIds, List<Integer> matchids, int playMethodType, int searchDatePos, boolean isTimedRefresh, boolean isRefresh) {
         if (playMethodType == 7) { // 冠军
             viewModel.getChampionList(sportId, orderBy, leagueIds, matchids,
                     playMethodType, mOddType, isTimedRefresh, isRefresh);
@@ -357,7 +374,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
         viewModel.statistical();
         mOrderBy = SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ORDERBY, 1);
         mOddType = SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE, 1);
-        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
+        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, mLeagueIdList, null,
                 playMethodType, searchDatePos, false, true);
     }
 
@@ -509,13 +526,15 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
                 }
             } else if (betContract.action == BetContract.ACTION_SORT_CHANGE) {
                 mOrderBy = (int)betContract.getData();
-                getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
+                getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, mLeagueIdList, null,
                         playMethodType, searchDatePos, false, true);
             } else if (betContract.action == BetContract.ACTION_MARKET_CHANGE) {
                 mOddType = (int)betContract.getData();
-                /*getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
-                        playMethodType, searchDatePos, false, true);*/
                 updateData();
+            } else if (betContract.action == BetContract.ACTION_CHECK_SEARCH_BY_LEAGUE) {
+                mLeagueIdList = (List<Integer>)betContract.getData();
+                getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, mLeagueIdList, null,
+                        playMethodType, searchDatePos, false, true);
             }
 
         });
@@ -536,6 +555,10 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
             } else if (integer == BaseViewModel.ONFINISH_LOAD_MORE_FAILED) {
                 binding.srlLeague.finishLoadMore(false);
             }
+        });
+
+        viewModel.settingLeagueData.observe(this, leagueList -> {
+            settingLeagueList = leagueList;
         });
     }
 
@@ -683,13 +706,13 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
 
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
+        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, mLeagueIdList, null,
                 playMethodType, searchDatePos, false, true);
     }
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, null, null,
+        getMatchData(Integer.valueOf(SportTypeContants.SPORT_IDS[sportTypePos]), mOrderBy, mLeagueIdList, null,
                 playMethodType, searchDatePos, false, false);
     }
 }

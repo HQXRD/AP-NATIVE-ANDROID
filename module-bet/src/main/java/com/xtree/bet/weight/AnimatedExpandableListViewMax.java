@@ -22,6 +22,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,7 +139,7 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
         init();
     }
 
-    private void init(){
+    private void init() {
         nestedScrollingChildHelper = new NestedScrollingChildHelper(this);
         setNestedScrollingEnabled(true);
     }
@@ -195,7 +196,7 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
         super.setAdapter(adapter);
 
         // Make sure that the adapter extends AnimatedExpandableListAdapter
-        if(adapter instanceof AnimatedExpandableListAdapter) {
+        if (adapter instanceof AnimatedExpandableListAdapter) {
             this.adapter = (AnimatedExpandableListAdapter) adapter;
             this.adapter.setParent(this);
         } else {
@@ -205,9 +206,10 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
 
     /**
      * Expands the given group with an animation.
+     *
      * @param groupPos The position of the group to expand
-     * @return  Returns true if the group was expanded. False if the group was
-     *          already expanded.
+     * @return Returns true if the group was expanded. False if the group was
+     * already expanded.
      */
     @SuppressLint("NewApi")
     public boolean expandGroupWithAnimation(int groupPos) {
@@ -245,9 +247,10 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
 
     /**
      * Collapses the given group with an animation.
+     *
      * @param groupPos The position of the group to collapse
-     * @return  Returns true if the group was collapsed. False if the group was
-     *          already collapsed.
+     * @return Returns true if the group was collapsed. False if the group was
+     * already collapsed.
      */
     public boolean collapseGroupWithAnimation(int groupPos) {
         int groupFlatPos = getFlatListPosition(getPackedPositionForGroup(groupPos));
@@ -337,6 +340,7 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
         }
 
         public abstract View getRealChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent);
+
         public abstract int getRealChildrenCount(int groupPosition);
 
         private GroupInfo getGroupInfo(int groupPosition) {
@@ -512,10 +516,12 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
                         }
 
                         @Override
-                        public void onAnimationRepeat(Animation animation) {}
+                        public void onAnimationRepeat(Animation animation) {
+                        }
 
                         @Override
-                        public void onAnimationStart(Animation animation) {}
+                        public void onAnimationStart(Animation animation) {
+                        }
 
                     });
                     dummyView.startAnimation(ani);
@@ -539,10 +545,12 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
                         }
 
                         @Override
-                        public void onAnimationRepeat(Animation animation) {}
+                        public void onAnimationRepeat(Animation animation) {
+                        }
 
                         @Override
-                        public void onAnimationStart(Animation animation) {}
+                        public void onAnimationStart(Animation animation) {
+                        }
 
                     });
                     dummyView.startAnimation(ani);
@@ -578,7 +586,7 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
         }
 
         public void setDivider(Drawable divider, int dividerWidth, int dividerHeight) {
-            if(divider != null) {
+            if (divider != null) {
                 this.divider = divider;
                 this.dividerWidth = dividerWidth;
                 this.dividerHeight = dividerHeight;
@@ -589,6 +597,7 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
 
         /**
          * Add a view for the DummyView to draw.
+         *
          * @param childView View to draw
          */
         public void addFakeView(View childView) {
@@ -600,7 +609,7 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
         protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
             super.onLayout(changed, left, top, right, bottom);
             final int len = views.size();
-            for(int i = 0; i < len; i++) {
+            for (int i = 0; i < len; i++) {
                 View v = views.get(i);
                 v.layout(left, top, left + v.getMeasuredWidth(), top + v.getMeasuredHeight());
             }
@@ -613,12 +622,12 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
         @Override
         public void dispatchDraw(Canvas canvas) {
             canvas.save();
-            if(divider != null) {
+            if (divider != null) {
                 divider.setBounds(0, 0, dividerWidth, dividerHeight);
             }
 
             final int len = views.size();
-            for(int i = 0; i < len; i++) {
+            for (int i = 0; i < len; i++) {
                 View v = views.get(i);
 
                 canvas.save();
@@ -626,7 +635,7 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
                 v.draw(canvas);
                 canvas.restore();
 
-                if(divider != null) {
+                if (divider != null) {
                     divider.draw(canvas);
                     canvas.translate(0, dividerHeight);
                 }
@@ -670,6 +679,19 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
             }
         }
     }
+
+    public void scroll(int groupIndex) {
+        int position = 0;
+        for (int i = 0; i < groupIndex; i++) {
+            if (isGroupExpanded(i)) {
+                position += getExpandableListAdapter().getChildrenCount(i);
+            }
+            position += 1;
+        }
+        Log.e("test", "=======position======" + position);
+        super.setSelection(position);
+    }
+
 
     /*@Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

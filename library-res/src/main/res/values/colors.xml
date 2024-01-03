@@ -131,6 +131,17 @@
     <!-- 注单为走水的字体颜色 -->
     <color name="bt_color_option_draw">#000000</color>
 
+    <!-- 输入框背景颜色 -->
+    <color name="bt_color_botton">#E7E1FC</color>
+
+    <!-- 投注确认页赛事关闭提示背景颜色 -->
+    <color name="bt_color_match_close">#FFE3DF</color>
+
+    <!-- 投注确认页赛事关闭提示字体颜色 -->
+    <color name="bt_color_text_match_close">#B85F53</color>
+
+
+
     <!-- 投注模块 end-->
 
     <!-- 首页模块 begin -->

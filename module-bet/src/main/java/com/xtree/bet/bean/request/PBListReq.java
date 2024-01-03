@@ -5,7 +5,7 @@ import java.util.List;
 public class PBListReq {
     private int sportId;
     private String languageType = "CMN";
-    private int[] leagueIds;
+    private List<Integer> leagueIds;
     private int type;
     private String beginTime;
     private String endTime;
@@ -32,11 +32,11 @@ public class PBListReq {
         this.languageType = languageType;
     }
 
-    public int[] getLeagueIds() {
+    public List<Integer> getLeagueIds() {
         return leagueIds;
     }
 
-    public void setLeagueIds(int[] leagueIds) {
+    public void setLeagueIds(List<Integer> leagueIds) {
         this.leagueIds = leagueIds;
     }
 

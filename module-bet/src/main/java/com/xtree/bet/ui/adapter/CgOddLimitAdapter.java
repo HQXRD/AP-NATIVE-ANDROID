@@ -59,6 +59,7 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
             holder.setVisible(R.id.csl_cg_cc, true);
             EditText etAmount = holder.getView(R.id.et_bt_amount_cc);
             etAmount.setHint("限制" + cgOddLimit.getCMin() + "-" + cgOddLimit.getCMax());
+            etAmount.setEnabled(cgOddLimit.getCMin() > 0 && cgOddLimit.getCMax() > 0);
             holder.setText(R.id.iv_name, cgOddLimit.getCgName());
             holder.setText(R.id.iv_zs_amount, "x" + cgOddLimit.getBtCount());
 
@@ -75,7 +76,9 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                    if(!etAmount.isEnabled()){
+                        return;
+                    }
                     if (charSequence != null && !TextUtils.isEmpty(charSequence.toString())) {
                         double amount;
                         if(charSequence.toString().startsWith(".")){
@@ -139,6 +142,7 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
             holder.setVisible(R.id.csl_cg_cc, false);
             EditText etAmount = holder.getView(R.id.et_bt_amount_dan);
             etAmount.setHint("限制" + cgOddLimit.getDMin() + "-" + cgOddLimit.getDMax());
+            etAmount.setEnabled(cgOddLimit.getDMin() > 0 || cgOddLimit.getDMax() > 0);
 
             if(etAmount.getTag() != null){
                 cgOddLimit.setBtAmount(((CgOddLimit)etAmount.getTag()).getBtAmount());
@@ -153,6 +157,9 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    if(!etAmount.isEnabled()){
+                        return;
+                    }
 
                     if (charSequence != null && !TextUtils.isEmpty(charSequence.toString())) {
                         double amount;

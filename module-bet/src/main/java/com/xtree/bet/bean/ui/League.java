@@ -1,11 +1,23 @@
 package com.xtree.bet.bean.ui;
 
+import com.xtree.base.vo.BaseBean;
+
 import java.util.List;
 
 /**
  * 联赛
  */
-public interface League {
+public interface League extends BaseBean {
+    /**
+     * 获取联赛区域名称
+     * @return
+     */
+    String getLeagueAreaName();
+    /**
+     * 获取联赛区域ID
+     * @return
+     */
+    int getAreaId();
     /**
      * 获取联赛名称
      * @return
@@ -49,5 +61,29 @@ public interface League {
 
     void setHead(boolean isHead);
 
+    /**
+     * 该联赛开售的赛事统计
+     * @return
+     */
+    int getSaleCount();
+
+    /**
+     * 是否选中
+     * @return
+     */
+    boolean isSelected();
+
+    /**
+     * 设置是否选中
+     * @param selected
+     */
+    void setSelected(boolean selected);
+
     League instance();
+
+    /**
+     * 是否热门
+     * @return
+     */
+    boolean isHot();
 }

@@ -27,7 +27,6 @@ public class FBHeaderInterceptor implements Interceptor {
         Request.Builder builder = chain.request()
                 .newBuilder();
 
-        Map<String, String> header = new HashMap<>();
         String token = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
         if(chain.request().url().url().toString().contains("fb")){
             Log.e("test", "========token======"+  token);

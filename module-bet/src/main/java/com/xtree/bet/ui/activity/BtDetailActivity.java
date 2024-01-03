@@ -304,7 +304,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             }
         }else{
             if(mCategories != null && !mCategories.isEmpty()) {
-                RxBus.getDefault().post(new BetContract(BetContract.ACTION_OPTION_CHANGE, mCategories.get(tabPos).getPlayTypeList()));
+                if(tabPos < mCategories.size()) {
+                    RxBus.getDefault().post(new BetContract(BetContract.ACTION_OPTION_CHANGE, mCategories.get(tabPos).getPlayTypeList()));
+                }
             }
         }
         /*if (detailPlayTypeAdapter == null) {

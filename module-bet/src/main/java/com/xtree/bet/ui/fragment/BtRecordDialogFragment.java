@@ -96,8 +96,6 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
 
             @Override
             public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                /*int topRowVerticalPosition =
-                        (absListView == null || absListView.getChildCount() == 0) ? 0 : absListView.getChildAt(firstVisibleItem).getTop();*/
                 long position = binding.rvRecord.getExpandableListPosition(firstVisibleItem);
                 int type = binding.rvRecord.getPackedPositionType(position);
                 if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {

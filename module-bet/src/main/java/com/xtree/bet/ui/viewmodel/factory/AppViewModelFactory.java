@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.data.Injection;
-import com.xtree.bet.ui.viewmodel.MainViewModel;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
