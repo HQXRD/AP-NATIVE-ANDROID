@@ -1,15 +1,9 @@
 package me.xtree.mvvmhabit.base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.gyf.immersionbar.ImmersionBar;
-import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
-
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Map;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
@@ -18,6 +12,14 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.gyf.immersionbar.ImmersionBar;
+import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
+
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Map;
 
 import me.xtree.mvvmhabit.R;
 import me.xtree.mvvmhabit.base.BaseViewModel.ParameterField;
@@ -289,6 +291,18 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     @Override
     public void initViewObservable() {
 
+    }
+
+    /**
+     * 关闭键盘
+     */
+    public void hideKeyBoard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive()) {
+            if (getCurrentFocus().getWindowToken() != null) {
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
     }
 
     /**
