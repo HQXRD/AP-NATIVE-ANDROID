@@ -315,7 +315,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     public void hideKeyBoard() {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm.isActive()) {
-            if (getActivity().getCurrentFocus().getWindowToken() != null) {
+            if (getActivity().getCurrentFocus() != null && getActivity().getCurrentFocus().getWindowToken() != null) {
                 imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
             }
         }
