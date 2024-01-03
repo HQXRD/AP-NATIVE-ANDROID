@@ -19,6 +19,11 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
     @Override
     public void onNext(T o) {
 
+        if (!(o instanceof BaseResponse)) {
+            KLog.w("json is not normal");
+            onResult(o);
+            return;
+        }
         BaseResponse baseResponse = (BaseResponse) o;
         BusinessException ex = new BusinessException(baseResponse.getStatus(), baseResponse.getMessage());
         int status = baseResponse.getStatus() == -1 ? baseResponse.getCode() : baseResponse.getStatus();
@@ -101,7 +106,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             ResponseThrowable rError = (ResponseThrowable) t;
             ToastUtils.showShort(rError.message);
             return;
-        }else if(t instanceof BusinessException){
+        } else if (t instanceof BusinessException) {
             BusinessException rError = (BusinessException) t;
             ToastUtils.showShort(rError.message);
             return;
