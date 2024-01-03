@@ -82,5 +82,6 @@ public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
             btCarDialogFragment.batchBetMatchMarketOfJumpLine();
         });
         holder.setVisible(R.id.iv_option_delete, getItemCount() > 1);
+        holder.setVisible(R.id.ll_close_tip, option.isClose());
     }
 }

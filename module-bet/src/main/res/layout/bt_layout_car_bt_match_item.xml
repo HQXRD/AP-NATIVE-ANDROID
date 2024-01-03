@@ -64,6 +64,32 @@
             android:layout_marginStart="7dp"
             tools:text="布鲁斯特VS若基诺" />
 
+        <LinearLayout
+            android:id="@+id/ll_close_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:paddingBottom="10dp"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_match_team">
+
+            <TextView
+                android:id="@+id/iv_close_tip"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:background="@drawable/bt_bg_match_close"
+                android:drawableStart="@mipmap/bt_icon_remind"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:paddingStart="5dp"
+                android:text="本场赛事已关闭"
+                android:textColor="@color/bt_color_text_match_close"
+                android:textSize="@dimen/bt_text_10sp" />
+        </LinearLayout>
+
         <com.xtree.bet.weight.DiscolourTextView
             android:id="@+id/iv_odd"
             android:layout_width="wrap_content"
@@ -87,8 +113,8 @@
             android:textColor="@color/bt_color_car_dialog_tip_hight_line"
             android:textSize="@dimen/bt_text_10sp"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_odd"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_match_team"
             tools:text="比分已更改" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

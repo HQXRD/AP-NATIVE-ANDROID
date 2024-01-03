@@ -24,7 +24,7 @@ import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.databinding.FragmentMainTestBinding;
 import com.xtree.bet.ui.adapter.LeagueAdapter;
 import com.xtree.bet.ui.adapter.MyExpandableListViewAdapter;
-import com.xtree.bet.ui.viewmodel.MainViewModel;
+import com.xtree.bet.ui.viewmodel.FBMainViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  * Created by goldze on 2018/6/21
  */
 //@Route(path = RouterActivityPath.Bet.PAGER_BET_HOME)
-public class ExpandActivity extends BaseActivity<FragmentMainTestBinding, MainViewModel> implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class ExpandActivity extends BaseActivity<FragmentMainTestBinding, FBMainViewModel> implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     /**
      * 赛事统计数据
      */
@@ -73,10 +73,10 @@ public class ExpandActivity extends BaseActivity<FragmentMainTestBinding, MainVi
     }
 
     @Override
-    public MainViewModel initViewModel() {
+    public FBMainViewModel initViewModel() {
         //使用自定义的ViewModelFactory来创建ViewModel，如果不重写该方法，则默认会调用LoginViewModel(@NonNull Application application)构造方法
         AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
-        return new ViewModelProvider(this, factory).get(MainViewModel.class);
+        return new ViewModelProvider(this, factory).get(FBMainViewModel.class);
     }
 
     @Override

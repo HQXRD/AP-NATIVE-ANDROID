@@ -1,15 +1,10 @@
 package com.xtree.base.net;
 
 import android.content.Context;
-import android.text.TextUtils;
 
-import com.xtree.base.BuildConfig;
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.utils.TagUtils;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -18,17 +13,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.http.cookie.CookieJarImpl;
 import me.xtree.mvvmhabit.http.cookie.store.PersistentCookieStore;
-import me.xtree.mvvmhabit.http.interceptor.BaseInterceptor;
 import me.xtree.mvvmhabit.http.interceptor.CacheInterceptor;
-import me.xtree.mvvmhabit.http.interceptor.logging.Level;
-import me.xtree.mvvmhabit.http.interceptor.logging.LoggingInterceptor;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 import okhttp3.Cache;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
-import okhttp3.internal.platform.Platform;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -37,13 +29,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by goldze on 2017/5/10.
  * RetrofitClient封装单例类, 实现网络请求
  */
-public class RetrofitClient {
+public class PMRetrofitClient {
     //超时时间
     private static final int DEFAULT_TIMEOUT = 20;
     //缓存时间
     private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
     //服务端根路径
-    public static String baseUrl = "https://app1.dhtjf656.com/";//"https://www.weres.bar/";
+    public static String baseUrl;
 
     private static Context mContext = Utils.getContext();
 
@@ -54,26 +46,19 @@ public class RetrofitClient {
     private File httpCacheDirectory;
 
     private static class SingletonHolder {
-        private static RetrofitClient INSTANCE = new RetrofitClient();
+        private static PMRetrofitClient INSTANCE = new PMRetrofitClient();
     }
 
-    public static RetrofitClient getInstance() {
+    public static PMRetrofitClient getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
     public static void init() {
-        SingletonHolder.INSTANCE = new RetrofitClient();
+        SingletonHolder.INSTANCE = new PMRetrofitClient();
     }
 
-    private RetrofitClient() {
-        this(baseUrl, null);
-    }
-
-    private RetrofitClient(String url, Map<String, String> headers) {
-
-        if (TextUtils.isEmpty(url)) {
-            url = baseUrl;
-        }
+    private PMRetrofitClient() {
+        baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.PM_API_SERVICE_URL);
 
         if (httpCacheDirectory == null) {
             httpCacheDirectory = new File(mContext.getCacheDir(), "goldze_cache");
@@ -87,24 +72,23 @@ public class RetrofitClient {
             KLog.e("Could not create http cache", e);
         }
 
-
         HttpsUtils.SSLParams sslParams = HttpsUtils.getSslSocketFactory();
         okHttpClient = new OkHttpClient.Builder()
                 .cookieJar(new CookieJarImpl(new PersistentCookieStore(mContext)))
 //                .cache(cache)
-                //.addInterceptor(new BaseInterceptor(headers))
-                .addInterceptor(new HeaderInterceptor())
+                .addInterceptor(new PMHeaderInterceptor())
                 .addInterceptor(new CacheInterceptor(mContext))
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
-                //.addInterceptor(new HttpLoggingInterceptor(message -> KLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))
-                .addInterceptor(new LoggingInterceptor
+                .addInterceptor(new PMDecryptInterceptor())
+                .addInterceptor(new HttpLoggingInterceptor(message -> KLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))
+                /*.addInterceptor(new LoggingInterceptor
                         .Builder()//构建者模式
                         .loggable(BuildConfig.DEBUG) //是否开启日志打印
                         .setLevel(Level.BODY) //打印的等级
                         .log(Platform.INFO) // 打印类型
                         .request("Request") // request的Tag
                         .response("Response")// Response的Tag
-                        .build())
+                        .build())*/
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .connectionPool(new ConnectionPool(8, 15, TimeUnit.SECONDS))
@@ -114,7 +98,7 @@ public class RetrofitClient {
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .baseUrl(url)
+                .baseUrl(baseUrl)
                 .build();
 
     }

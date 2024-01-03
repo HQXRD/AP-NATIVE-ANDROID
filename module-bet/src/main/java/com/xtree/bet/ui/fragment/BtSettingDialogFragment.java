@@ -19,6 +19,9 @@ import com.xtree.bet.ui.adapter.CgBtResultAdapter;
 import com.xtree.bet.ui.viewmodel.BtCarViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
 import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -28,10 +31,15 @@ import me.xtree.mvvmhabit.utils.Utils;
  * 投注确认页面
  */
 public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingBinding, BtCarViewModel> {
+    public final static String KEY_LEAGUEIDS = "KEY_LEAGUEIDS";
 
-    public static BtSettingDialogFragment getInstance(){
+    // 已选联赛
+    private List<Integer> mLeagueIdList;
+
+    public static BtSettingDialogFragment getInstance(List<Integer> leagueIdList){
         BtSettingDialogFragment btResultDialogFragment = new BtSettingDialogFragment();
         Bundle bundle = new Bundle();
+        bundle.putIntegerArrayList(KEY_LEAGUEIDS, (ArrayList<Integer>) leagueIdList);
         btResultDialogFragment.setArguments(bundle);
         return btResultDialogFragment;
     }
@@ -57,10 +65,22 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
             RxBus.getDefault().post(new BetContract(BetContract.ACTION_MARKET_CHANGE, market));
             SPUtils.getInstance().put(SPKey.BT_MATCH_LIST_ODDTYPE, market);
         });
+
+        mLeagueIdList = getArguments().getIntegerArrayList(KEY_LEAGUEIDS);
+        if(mLeagueIdList == null || mLeagueIdList.isEmpty()){
+            binding.llLeague.setVisibility(View.VISIBLE);
+            binding.tvHaschoised.setVisibility(View.GONE);
+        }else{
+            binding.llLeague.setVisibility(View.GONE);
+            binding.tvHaschoised.setVisibility(View.VISIBLE);
+            binding.tvHaschoised.setText("(已选" + mLeagueIdList.size() + ")");
+        }
+
     }
 
     @Override
     public void initData() {
+
         int orderBy = SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ORDERBY, 1);
         binding.svSort.setCurrentPosition(viewModel.getOrderByPosition(orderBy));
         binding.svSort.setChecked(viewModel.getOrderByPosition(orderBy) == 1);
@@ -93,7 +113,7 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
             dismiss();
             if(getActivity() instanceof MainActivity) {
                 MainActivity activity = (MainActivity)getActivity();
-                BtLeagueDialogFragment btLeagueDialogFragment = BtLeagueDialogFragment.getInstance(activity.getSettingLeagueList(), activity.getSportId(), activity.getPlayMethodType());
+                BtLeagueDialogFragment btLeagueDialogFragment = BtLeagueDialogFragment.getInstance(activity.getSettingLeagueList(), activity.getSportId(), activity.getPlayMethodType(), mLeagueIdList);
                 btLeagueDialogFragment.show(getParentFragmentManager(), "BtLeagueDialogFragment");
             }
         }

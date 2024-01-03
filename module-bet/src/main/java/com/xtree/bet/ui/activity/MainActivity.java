@@ -4,7 +4,6 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
@@ -28,16 +27,19 @@ import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.contract.BetContract;
+import com.xtree.bet.databinding.FragmentMainBinding;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.adapter.ChampionMatchAdapter;
 import com.xtree.bet.ui.adapter.LeagueAdapter;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.ui.fragment.BtRecordDialogFragment;
 import com.xtree.bet.ui.fragment.BtSettingDialogFragment;
-import com.xtree.bet.ui.viewmodel.MainViewModel;
+import com.xtree.bet.ui.viewmodel.FBMainViewModel;
+import com.xtree.bet.ui.viewmodel.PMMainViewModel;
+import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.R;
-import com.xtree.bet.databinding.FragmentMainBinding;
+import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.weight.MenuItemView;
 
 import java.util.ArrayList;
@@ -61,7 +63,12 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  * Created by goldze on 2018/6/21
  */
 @Route(path = RouterActivityPath.Bet.PAGER_BET_HOME)
-public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewModel> implements OnRefreshLoadMoreListener, View.OnClickListener {
+public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMainViewModel> implements OnRefreshLoadMoreListener, View.OnClickListener {
+    public final static String KEY_PLATFORM = "KEY_PLATFORM";
+    public final static String PLATFORM_FB = "fbxc";
+    public final static String PLATFORM_PM = "obg";
+    private String mPlatform = PLATFORM_FB;
+
     /**
      * 赛事统计数据
      */
@@ -115,6 +122,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     }
 
     @Override
+    public void initParam() {
+        mPlatform = getIntent().getStringExtra(KEY_PLATFORM);
+    }
+
+    @Override
     protected void initImmersionBar() {
         //设置共同沉浸式样式
         ImmersionBar.with(this)
@@ -124,10 +136,14 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
     }
 
     @Override
-    public MainViewModel initViewModel() {
-        //使用自定义的ViewModelFactory来创建ViewModel，如果不重写该方法，则默认会调用LoginViewModel(@NonNull Application application)构造方法
-        AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
-        return new ViewModelProvider(this, factory).get(MainViewModel.class);
+    public TemplateMainViewModel initViewModel() {
+        if(TextUtils.equals(mPlatform, PLATFORM_FB)) {
+            AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
+            return new ViewModelProvider(this, factory).get(FBMainViewModel.class);
+        }else {
+            PMAppViewModelFactory factory = PMAppViewModelFactory.getInstance(getApplication());
+            return new ViewModelProvider(this, factory).get(PMMainViewModel.class);
+        }
     }
 
     @Override
@@ -272,7 +288,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, MainViewMode
             BtRecordDialogFragment btRecordDialogFragment = BtRecordDialogFragment.getInstance(true);
             btRecordDialogFragment.show(getSupportFragmentManager(), "BtRecordDialogFragment");
         } else if (index == 1) {
-            BtSettingDialogFragment btSettingDialogFragment = BtSettingDialogFragment.getInstance();
+            BtSettingDialogFragment btSettingDialogFragment = BtSettingDialogFragment.getInstance(mLeagueIdList);
             btSettingDialogFragment.show(getSupportFragmentManager(), "BtSettingDialogFragment");
         }
     }

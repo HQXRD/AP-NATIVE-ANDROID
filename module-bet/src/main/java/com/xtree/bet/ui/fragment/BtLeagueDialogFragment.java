@@ -4,6 +4,7 @@ import android.app.Application;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -42,8 +43,12 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
     public final static String KEY_LEAGUE = "KEY_LEAGUE";
     public final static String KEY_SPORTID = "KEY_SPORTID";
     public final static String KEY_TYPE = "KEY_TYPE";
+    public final static String KEY_LEAGUEIDS = "KEY_LEAGUEIDS";
+    // 已选联赛
+    private List<Integer> mLeagueIdList;
     private int sportId;
     private int type;
+    private boolean isSearch;
     private SideBar sideBar;
     private SettingLeagueAdapter settingLeagueAdapter;
     private List<League> mLeagueList; // 后台查询到的所有联赛列表
@@ -52,12 +57,13 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
     private List<LeagueArea> mSearchLeagueAreaList = new ArrayList<>();
     private List<String> mInitialList = new ArrayList<>(); // 首字母列表
 
-    public static BtLeagueDialogFragment getInstance(List<League> leagueList, int sportId, int type){
+    public static BtLeagueDialogFragment getInstance(List<League> leagueList, int sportId, int type, List<Integer> leagueIdList){
         BtLeagueDialogFragment btResultDialogFragment = new BtLeagueDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(KEY_LEAGUE, (ArrayList<? extends Parcelable>) leagueList);
         bundle.putInt(KEY_SPORTID, sportId);
         bundle.putInt(KEY_TYPE, type);
+        bundle.putIntegerArrayList(KEY_LEAGUEIDS, (ArrayList<Integer>) leagueIdList);
         btResultDialogFragment.setArguments(bundle);
         return btResultDialogFragment;
     }
@@ -80,16 +86,7 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
             }
             return true;
         });
-        binding.cbAll.setOnClickListener(v -> {
-            boolean isChecked = binding.cbAll.isChecked();
-            for(int i = 0; i < mLeagueAreaList.size(); i ++){
-                mLeagueAreaList.get(i).setSelected(isChecked);
-            }
-            for(int i = 0; i < mLeagueList.size(); i ++){
-                mLeagueList.get(i).setSelected(isChecked);
-            }
-            settingLeagueAdapter.notifyDataSetChanged();
-        });
+        binding.cbAll.setOnClickListener(this);
         binding.etSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -98,16 +95,27 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s == null || s.toString() == null){
-                    viewModel.getLeagueAreaList(mLeagueList, true);
+                binding.cbAll.setChecked(false);
+                for(int i = 0; i < mLeagueAreaList.size(); i ++){
+                    mLeagueAreaList.get(i).setSelected(false);
+                }
+                for(int i = 0; i < mLeagueList.size(); i ++){
+                    mLeagueList.get(i).setSelected(false);
+                }
+                if(s == null || TextUtils.isEmpty(s.toString())){
+                    binding.ivClose.setVisibility(View.GONE);
+                    viewModel.getLeagueAreaList(mLeagueList, false, null);
+                    isSearch = false;
                 }else {
+                    binding.ivClose.setVisibility(View.VISIBLE);
                     mSearchLeagueList.clear();
                     for (League league : mLeagueList) {
                         if (league.getLeagueName().contains(s.toString())){
                             mSearchLeagueList.add(league);
                         }
                     }
-                    viewModel.getLeagueAreaList(mSearchLeagueList, true);
+                    viewModel.getLeagueAreaList(mSearchLeagueList, true, null);
+                    isSearch = true;
                 }
             }
 
@@ -122,11 +130,12 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
 
     @Override
     public void initData() {
+        mLeagueIdList = getArguments().getIntegerArrayList(KEY_LEAGUEIDS);
         mLeagueList = (ArrayList)getArguments().getParcelableArrayList(KEY_LEAGUE);
         sportId = getArguments().getInt(KEY_SPORTID);
         type = getArguments().getInt(KEY_TYPE);
-        viewModel.getLeagueAreaList(mLeagueList, false);
-        viewModel.getOnSaleLeagues(sportId, type);
+        viewModel.getLeagueAreaList(mLeagueList, false, mLeagueIdList);
+        viewModel.getOnSaleLeagues(sportId, type, mLeagueIdList);
         viewModel.addSubscription();
     }
 
@@ -227,16 +236,40 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
             dismiss();
         } else if (id == R.id.tv_confirm) {
             List<Integer> leagueIdList = new ArrayList<>();
-            for (League league : mLeagueList) {
-                if (league.isSelected()) {
-                    leagueIdList.add(league.getId());
+            if(isSearch) {
+                for (League league : mSearchLeagueList) {
+                    if (league.isSelected()) {
+                        leagueIdList.add(league.getId());
+                    }
+                }
+            }else {
+                for (League league : mLeagueList) {
+                    if (league.isSelected()) {
+                        leagueIdList.add(league.getId());
+                    }
                 }
             }
             RxBus.getDefault().post(new BetContract(BetContract.ACTION_CHECK_SEARCH_BY_LEAGUE, leagueIdList));
             dismiss();
         } else if (id == R.id.iv_close) {
             binding.etSearch.setText("");
-            viewModel.getLeagueAreaList(mLeagueList, true);
+            viewModel.getLeagueAreaList(mLeagueList, false, mLeagueIdList);
+            isSearch = false;
+        } else if (id == R.id.cb_all) {
+            boolean isChecked = binding.cbAll.isChecked();
+            if(isSearch){
+                for(int i = 0; i < mSearchLeagueAreaList.size(); i ++){
+                    mSearchLeagueAreaList.get(i).setSelected(isChecked);
+                }
+            }else {
+                for (int i = 0; i < mLeagueAreaList.size(); i++) {
+                    mLeagueAreaList.get(i).setSelected(isChecked);
+                }
+            }
+            for(int i = 0; i < mLeagueList.size(); i ++){
+                mLeagueList.get(i).setSelected(isChecked);
+            }
+            settingLeagueAdapter.notifyDataSetChanged();
         }
     }
 

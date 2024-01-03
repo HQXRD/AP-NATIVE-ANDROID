@@ -147,15 +147,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
                     android:checked="true"
                     android:text="自动接受更好赔率"
                     android:textColor="@color/bt_color_hine_color"
+                    android:button="@drawable/bt_checkbox_selector"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     app:layout_constraintTop_toBottomOf="@+id/cb_accept">
 
                     <View

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.data.Injection;
+import com.xtree.bet.data.PMInjection;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -17,17 +18,17 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Created by marquis on 2023/11/22.
  */
-public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
+public class PMAppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @SuppressLint("StaticFieldLeak")
-    private static volatile AppViewModelFactory INSTANCE;
+    private static volatile PMAppViewModelFactory INSTANCE;
     private final Application mApplication;
     private final BetRepository mRepository;
 
-    public static AppViewModelFactory getInstance(Application application) {
+    public static PMAppViewModelFactory getInstance(Application application) {
         if (INSTANCE == null) {
-            synchronized (AppViewModelFactory.class) {
+            synchronized (PMAppViewModelFactory.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new AppViewModelFactory(application, Injection.provideHomeRepository());
+                    INSTANCE = new PMAppViewModelFactory(application, PMInjection.provideHomeRepository());
                 }
             }
         }
@@ -39,7 +40,7 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         INSTANCE = null;
     }
 
-    private AppViewModelFactory(Application application, BetRepository repository) {
+    private PMAppViewModelFactory(Application application, BetRepository repository) {
         this.mApplication = application;
         this.mRepository = repository;
     }

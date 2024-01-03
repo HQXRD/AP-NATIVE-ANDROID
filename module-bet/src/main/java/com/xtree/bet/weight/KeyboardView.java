@@ -43,7 +43,12 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
             @Override
             protected void convert(ViewHolder holder, Integer i, int position) {
                 holder.setText(R.id.tv_item, String.valueOf(i));
-                holder.itemView.setOnClickListener(view -> editText.setText(String.valueOf(i)));
+                holder.itemView.setOnClickListener(view -> {
+                    if(!editText.isEnabled()){
+                        return;
+                    }
+                    editText.setText(String.valueOf(i));
+                });
             }
 
         });
@@ -54,8 +59,14 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
         rvNumber.setAdapter(new CommonAdapter<String>(context, R.layout.bt_layout_keyboard_item, Arrays.asList(numbers)) {
             @Override
             protected void convert(ViewHolder holder, String number, int position) {
+                if(!editText.isEnabled()){
+                    return;
+                }
                 holder.setText(R.id.tv_item, number);
                 holder.itemView.setOnClickListener(view -> {
+                    if(!editText.isEnabled()){
+                        return;
+                    }
                     String value = !TextUtils.isEmpty(editText.getText()) ? editText.getText().toString() : "";
                     value += number;
                     editText.setText(value);
@@ -71,6 +82,9 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
             editText.setText(value);
         });
         findViewById(R.id.tv_max).setOnClickListener(view -> {
+            if(!editText.isEnabled()){
+                return;
+            }
             CharSequence hint = editText.getHint();
             String hintStr = !TextUtils.isEmpty(hint) ? hint.toString() : "-";
             hintStr = hintStr.substring(hintStr.indexOf("-") + 1, hintStr.length());

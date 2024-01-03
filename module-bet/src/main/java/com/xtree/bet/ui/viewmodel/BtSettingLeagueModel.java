@@ -59,7 +59,7 @@ public class BtSettingLeagueModel extends BaseViewModel<BetRepository> {
     /**
      * 获取联赛列表
      */
-    public void getOnSaleLeagues(int sportId, int type) {
+    public void getOnSaleLeagues(int sportId, int type, List<Integer> leagueIdList) {
 
         Map<String, String> map = new HashMap<>();
         map.put("languageType", "CMN");
@@ -77,7 +77,7 @@ public class BtSettingLeagueModel extends BaseViewModel<BetRepository> {
                             leagueList.add(new LeagueFb(leagueInfo));
                         }
                         settingLeagueData.postValue(leagueList);
-                        getLeagueAreaList(leagueList, false);
+                        getLeagueAreaList(leagueList, false, leagueIdList);
                     }
 
                     @Override
@@ -88,7 +88,7 @@ public class BtSettingLeagueModel extends BaseViewModel<BetRepository> {
         addSubscribe(disposable);
     }
 
-    public void getLeagueAreaList(List<League> leagueList, boolean isSearch){
+    public void getLeagueAreaList(List<League> leagueList, boolean isSearch, List<Integer> leagueIdList){
 
         // 把后台查询到的联赛列表按地区分组 begin
         List<LeagueArea> leagueAreaList = new ArrayList<>();
@@ -103,6 +103,9 @@ public class BtSettingLeagueModel extends BaseViewModel<BetRepository> {
 
         LeagueArea leagueArea;
         for (League league : leagueList) {
+            if(leagueIdList != null){
+                league.setSelected(leagueIdList.contains(league.getId()));
+            }
             leagueArea = leagueAreaMap.get(String.valueOf(league.getAreaId()));
             if(leagueArea == null){
                 leagueArea = new LeagueArea();
@@ -115,6 +118,27 @@ public class BtSettingLeagueModel extends BaseViewModel<BetRepository> {
                 hotLeagueArea.addLeagueList(league);
             }
         }
+
+        for(LeagueArea area : leagueAreaMap.values()){
+            boolean isCheckAll = true;
+            for (League league : area.getLeagueList()){
+                if(!league.isSelected()){
+                    isCheckAll = false;
+                    break;
+                }
+            }
+            area.setSelected(isCheckAll);
+        }
+
+        boolean isCheckAll = true;
+        for (League league : hotLeagueArea.getLeagueList()){
+            if(!league.isSelected()){
+                isCheckAll = false;
+                break;
+            }
+        }
+        hotLeagueArea.setSelected(isCheckAll);
+
         // 把后台查询到的联赛列表按地区分组 end
 
         // 把得到的地区分组按首字母分组 begin

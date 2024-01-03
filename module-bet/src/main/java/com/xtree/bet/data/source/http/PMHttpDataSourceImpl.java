@@ -8,15 +8,15 @@ import com.xtree.bet.data.source.HttpDataSource;
 /**
  * Created by goldze on 2019/3/26.
  */
-public class HttpDataSourceImpl implements HttpDataSource {
-    private FBApiService apiService;
-    private volatile static HttpDataSourceImpl INSTANCE = null;
+public class PMHttpDataSourceImpl implements HttpDataSource {
+    private PMApiService apiService;
+    private volatile static PMHttpDataSourceImpl INSTANCE = null;
 
-    public static HttpDataSourceImpl getInstance(FBApiService apiService) {
+    public static PMHttpDataSourceImpl getInstance(PMApiService apiService) {
         if (INSTANCE == null) {
-            synchronized (HttpDataSourceImpl.class) {
+            synchronized (PMHttpDataSourceImpl.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new HttpDataSourceImpl(apiService);
+                    INSTANCE = new PMHttpDataSourceImpl(apiService);
                 }
             }
         }
@@ -27,17 +27,17 @@ public class HttpDataSourceImpl implements HttpDataSource {
         INSTANCE = null;
     }
 
-    private HttpDataSourceImpl(FBApiService apiService) {
+    private PMHttpDataSourceImpl(PMApiService apiService) {
         this.apiService = apiService;
     }
 
     @Override
     public FBApiService getApiService() {
-        return apiService;
+        return null;
     }
 
     @Override
     public PMApiService getPMApiService() {
-        return null;
+        return apiService;
     }
 }

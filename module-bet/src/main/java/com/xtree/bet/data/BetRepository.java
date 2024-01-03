@@ -45,4 +45,9 @@ public class BetRepository extends BaseModel implements HttpDataSource, LocalDat
     public FBApiService getApiService() {
         return mHttpDataSource.getApiService();
     }
+
+    @Override
+    public PMApiService getPMApiService() {
+        return mHttpDataSource.getPMApiService();
+    }
 }

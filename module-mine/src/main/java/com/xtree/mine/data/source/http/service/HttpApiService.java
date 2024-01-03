@@ -1,6 +1,7 @@
 package com.xtree.mine.data.source.http.service;
 
 import com.xtree.base.vo.FBService;
+import com.xtree.base.vo.PMService;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.LoginResultVo;
@@ -137,7 +138,7 @@ public interface HttpApiService {
     /**
      * 获取 PM体育请求服务地址
      */
-    @POST("/api/sports/obg/getToken?cachedToken=1")
+    @POST("/api/sports/obg/getToken")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse<String>> getPMGameTokenApi();
+    Flowable<BaseResponse<PMService>> getPMGameTokenApi();
 }
