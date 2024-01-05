@@ -2,8 +2,8 @@ package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
 
-import com.xtree.bet.bean.response.BtConfirmOptionInfo;
-import com.xtree.bet.bean.response.CgOddLimitInfo;
+import com.xtree.bet.bean.response.fb.BtConfirmOptionInfo;
+import com.xtree.bet.bean.response.fb.CgOddLimitInfo;
 
 public class CgOddLimitFb implements CgOddLimit{
     /**

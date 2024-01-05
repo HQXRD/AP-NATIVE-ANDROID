@@ -6,7 +6,7 @@ import android.os.Parcel;
 import androidx.annotation.NonNull;
 
 import com.xtree.bet.R;
-import com.xtree.bet.bean.response.BtResultOptionInfo;
+import com.xtree.bet.bean.response.fb.BtResultOptionInfo;
 
 import java.util.HashMap;
 import java.util.Map;

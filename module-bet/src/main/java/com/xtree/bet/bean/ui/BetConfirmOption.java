@@ -17,7 +17,7 @@ public interface BetConfirmOption extends BaseBean {
      * 获取玩法ID
      * @return
      */
-    int getPlayTypeId();
+    long getPlayTypeId();
 
     /**
      * 获取投注项信息
@@ -55,7 +55,7 @@ public interface BetConfirmOption extends BaseBean {
      * 获取投注项类型
      * @return
      */
-    int getOptionType();
+    String getOptionType();
     /**
      * 获取投注的比赛信息
      * @return

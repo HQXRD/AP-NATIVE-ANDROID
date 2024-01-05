@@ -2,8 +2,8 @@ package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
 
-import com.xtree.bet.bean.response.OptionDataListInfo;
-import com.xtree.bet.bean.response.OptionInfo;
+import com.xtree.bet.bean.response.fb.OptionDataListInfo;
+import com.xtree.bet.bean.response.fb.OptionInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ public class OptionListFb implements OptionList {
         this.optionDataListInfo = optionDataListInfo;
     }
 
-    public int getId() {
+    public long getId() {
         return optionDataListInfo.id;
     }
 

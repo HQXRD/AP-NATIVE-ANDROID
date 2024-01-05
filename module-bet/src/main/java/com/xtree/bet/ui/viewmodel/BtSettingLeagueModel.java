@@ -2,13 +2,12 @@ package com.xtree.bet.ui.viewmodel;
 
 import android.app.Application;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.StringUtils;
-import com.xtree.bet.bean.response.LeagueInfo;
+import com.xtree.bet.bean.response.fb.LeagueInfo;
 import com.xtree.bet.bean.ui.InitialLeagueArea;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueArea;
@@ -17,8 +16,6 @@ import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.data.BetRepository;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +56,7 @@ public class BtSettingLeagueModel extends BaseViewModel<BetRepository> {
     /**
      * 获取联赛列表
      */
-    public void getOnSaleLeagues(int sportId, int type, List<Integer> leagueIdList) {
+    public void getOnSaleLeagues(int sportId, int type, List<Long> leagueIdList) {
 
         Map<String, String> map = new HashMap<>();
         map.put("languageType", "CMN");
@@ -88,7 +85,7 @@ public class BtSettingLeagueModel extends BaseViewModel<BetRepository> {
         addSubscribe(disposable);
     }
 
-    public void getLeagueAreaList(List<League> leagueList, boolean isSearch, List<Integer> leagueIdList){
+    public void getLeagueAreaList(List<League> leagueList, boolean isSearch, List<Long> leagueIdList){
 
         // 把后台查询到的联赛列表按地区分组 begin
         List<LeagueArea> leagueAreaList = new ArrayList<>();

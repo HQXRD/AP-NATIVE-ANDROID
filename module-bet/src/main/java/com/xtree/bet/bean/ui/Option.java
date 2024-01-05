@@ -3,6 +3,10 @@ package com.xtree.bet.bean.ui;
 import com.xtree.base.vo.BaseBean;
 
 public interface Option extends BaseBean {
+    /**
+     * 获取投注项ID
+     */
+    String getId();
     
     /**
      * 选项全称，投注框一般用全称展示
@@ -18,7 +22,7 @@ public interface Option extends BaseBean {
      * 选项类型，主、客、大、小等，投注时需要提交该字段作为选中的选项参数
      * @return
      */
-     int getOptionType();
+     String getOptionType();
 
     /**
      * 欧盘赔率，目前我们只提供欧洲盘赔率，投注是请提交该字段赔率值作为选项赔率，赔率小于0代表锁盘，此方法用于显示

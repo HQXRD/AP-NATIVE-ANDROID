@@ -2,8 +2,8 @@ package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
 
-import com.xtree.bet.bean.response.BtResultInfo;
-import com.xtree.bet.bean.response.BtResultOptionInfo;
+import com.xtree.bet.bean.response.fb.BtResultInfo;
+import com.xtree.bet.bean.response.fb.BtResultOptionInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

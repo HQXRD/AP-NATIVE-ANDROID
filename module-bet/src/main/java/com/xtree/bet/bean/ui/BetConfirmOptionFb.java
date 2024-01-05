@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.text.TextUtils;
 
 import com.xtree.base.vo.BaseBean;
-import com.xtree.bet.bean.response.BtConfirmOptionInfo;
+import com.xtree.bet.bean.response.fb.BtConfirmOptionInfo;
 
 /**
  * 投注确认页选项
@@ -59,7 +59,7 @@ public class BetConfirmOptionFb implements BetConfirmOption{
     }
 
     @Override
-    public int getPlayTypeId() {
+    public long getPlayTypeId() {
         if(btConfirmOptionInfo != null) {
             return btConfirmOptionInfo.mid;
         }else{
@@ -139,9 +139,9 @@ public class BetConfirmOptionFb implements BetConfirmOption{
      * @return
      */
     @Override
-    public int getOptionType() {
+    public String getOptionType() {
         if(btConfirmOptionInfo != null && btConfirmOptionInfo.op != null) {
-            return btConfirmOptionInfo.op.ty;
+            return String.valueOf(btConfirmOptionInfo.op.ty);
         }else{
             return option.getOptionType();
         }

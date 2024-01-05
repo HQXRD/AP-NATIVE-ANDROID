@@ -5,10 +5,10 @@ import android.os.Parcel;
 import androidx.annotation.Nullable;
 
 import com.xtree.base.utils.TimeUtils;
-import com.xtree.bet.bean.response.MatchInfo;
-import com.xtree.bet.bean.response.PlayTypeInfo;
-import com.xtree.bet.bean.response.ScoreInfo;
-import com.xtree.bet.bean.response.VideoInfo;
+import com.xtree.bet.bean.response.fb.MatchInfo;
+import com.xtree.bet.bean.response.fb.PlayTypeInfo;
+import com.xtree.bet.bean.response.fb.ScoreInfo;
+import com.xtree.bet.bean.response.fb.VideoInfo;
 import com.xtree.bet.constant.MatchPeriod;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class MatchFb implements Match{
      * 获取比赛ID
      * @return
      */
-    public int getId(){
+    public long getId(){
         return matchInfo.id;
     }
 

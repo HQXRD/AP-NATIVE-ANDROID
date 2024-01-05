@@ -7,6 +7,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.TagUtils;
 
@@ -16,10 +17,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
 import kotlin.text.Charsets;
+import me.xtree.mvvmhabit.http.PMBaseResponse;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 import okhttp3.Interceptor;
@@ -54,9 +57,21 @@ public class PMDecryptInterceptor implements Interceptor {
             charset = contentType.charset(Charsets.UTF_8);
         }
         String result = buffer.clone().readString(charset);
-        result = decrypt(result);
+        Map map = new Gson().fromJson(result, Map.class);
+        String data = map.get("data").toString();
 
-        return response;
+        try {
+            String rData = decrypt(data);
+
+            map.put("data", new Gson().fromJson(rData, Object.class));
+            result = new Gson().toJson(map);
+            ResponseBody resultResponseBody = ResponseBody.create(contentType, result);
+            response = response.newBuilder().body(resultResponseBody).build();
+        }catch (IllegalArgumentException e){
+            e.printStackTrace();
+        }finally {
+            return response;
+        }
     }
 
     private String decrypt(String result) {

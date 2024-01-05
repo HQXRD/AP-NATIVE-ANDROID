@@ -5,7 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.xtree.base.utils.TimeUtils;
-import com.xtree.bet.bean.response.LeagueItem;
+import com.xtree.bet.bean.response.fb.LeagueItem;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.constant.Constants;
@@ -28,12 +28,16 @@ import me.xtree.mvvmhabit.bus.event.SingleLiveData;
  */
 
 public abstract class TemplateMainViewModel extends BaseViewModel<BetRepository> implements MainViewModel{
-
+    public static String[] PLAY_METHOD_NAMES = new String[]{"今日", "滚球", "早盘", "串关", "冠军"};
+    public static String[] SPORT_NAMES = new String[]{"足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
+    /**
+     * 体育分类ID，与SPORT_NAMES一一对应
+     */
     private Disposable mSubscription;
 
     List<League> mUpdateLeagueList;
 
-    private List<Date> dateList = new ArrayList<>();
+    List<Date> dateList = new ArrayList<>();
 
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
 
@@ -60,7 +64,7 @@ public abstract class TemplateMainViewModel extends BaseViewModel<BetRepository>
 
 
     public void setPlayMethodTabData() {
-        playMethodTab.setValue(Constants.PLAY_METHOD_NAMES);
+        playMethodTab.setValue(PLAY_METHOD_NAMES);
     }
 
     public void setPlaySearchDateData() {
@@ -71,7 +75,7 @@ public abstract class TemplateMainViewModel extends BaseViewModel<BetRepository>
     }
 
     public void setSportItems() {
-        sportItemData.postValue(SportTypeContants.SPORT_NAMES);
+        sportItemData.postValue(SPORT_NAMES);
     }
 
     public void setFbLeagueData() {
@@ -82,7 +86,7 @@ public abstract class TemplateMainViewModel extends BaseViewModel<BetRepository>
         mUpdateLeagueList = updateLeague;
     }
 
-    public String getScore(List<League> leagueList, int matchId) {
+    public String getScore(List<League> leagueList, long matchId) {
         for (League league : leagueList) {
             for (Match match : league.getMatchList()) {
                 if (matchId == match.getId()) {

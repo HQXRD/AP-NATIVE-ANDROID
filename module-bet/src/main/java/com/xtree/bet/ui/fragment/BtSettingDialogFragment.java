@@ -34,12 +34,16 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
     public final static String KEY_LEAGUEIDS = "KEY_LEAGUEIDS";
 
     // 已选联赛
-    private List<Integer> mLeagueIdList;
+    private List<Long> mLeagueIdList = new ArrayList<>();
 
-    public static BtSettingDialogFragment getInstance(List<Integer> leagueIdList){
+    public static BtSettingDialogFragment getInstance(List<Long> leagueIdList){
         BtSettingDialogFragment btResultDialogFragment = new BtSettingDialogFragment();
         Bundle bundle = new Bundle();
-        bundle.putIntegerArrayList(KEY_LEAGUEIDS, (ArrayList<Integer>) leagueIdList);
+        long[] leagueIdArray = new long[leagueIdList.size()];
+        for (int i = 0; i <leagueIdList.size(); i ++){
+            leagueIdArray[i] = leagueIdList.get(i);
+        }
+        bundle.putLongArray(KEY_LEAGUEIDS, leagueIdArray);
         btResultDialogFragment.setArguments(bundle);
         return btResultDialogFragment;
     }
@@ -65,8 +69,10 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
             RxBus.getDefault().post(new BetContract(BetContract.ACTION_MARKET_CHANGE, market));
             SPUtils.getInstance().put(SPKey.BT_MATCH_LIST_ODDTYPE, market);
         });
-
-        mLeagueIdList = getArguments().getIntegerArrayList(KEY_LEAGUEIDS);
+        long[] leagues = getArguments().getLongArray(KEY_LEAGUEIDS);
+        for (int i = 0; i < leagues.length; i++) {
+            mLeagueIdList.add(leagues[i]);
+        }
         if(mLeagueIdList == null || mLeagueIdList.isEmpty()){
             binding.llLeague.setVisibility(View.VISIBLE);
             binding.tvHaschoised.setVisibility(View.GONE);

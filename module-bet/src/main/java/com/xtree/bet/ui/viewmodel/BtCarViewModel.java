@@ -5,15 +5,15 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 
 import com.xtree.base.net.HttpCallBack;
-import com.xtree.bet.bean.request.BtMultipleListReq;
-import com.xtree.bet.bean.request.BtOptionReq;
-import com.xtree.bet.bean.request.SingleBtListReq;
-import com.xtree.bet.bean.request.BtCgReq;
-import com.xtree.bet.bean.response.BtConfirmInfo;
-import com.xtree.bet.bean.response.BtConfirmOptionInfo;
-import com.xtree.bet.bean.response.BtResultInfo;
-import com.xtree.bet.bean.response.CgOddLimitInfo;
-import com.xtree.bet.bean.request.BtCarReq;
+import com.xtree.bet.bean.request.fb.BtMultipleListReq;
+import com.xtree.bet.bean.request.fb.BtOptionReq;
+import com.xtree.bet.bean.request.fb.SingleBtListReq;
+import com.xtree.bet.bean.request.fb.BtCgReq;
+import com.xtree.bet.bean.response.fb.BtConfirmInfo;
+import com.xtree.bet.bean.response.fb.BtConfirmOptionInfo;
+import com.xtree.bet.bean.response.fb.BtResultInfo;
+import com.xtree.bet.bean.response.fb.CgOddLimitInfo;
+import com.xtree.bet.bean.request.fb.BtCarReq;
 import com.xtree.bet.bean.ui.BetConfirmOption;
 import com.xtree.bet.bean.ui.BetConfirmOptionFb;
 import com.xtree.bet.bean.ui.BtResult;
@@ -32,7 +32,6 @@ import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.utils.RxUtils;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by goldze on 2018/6/21.

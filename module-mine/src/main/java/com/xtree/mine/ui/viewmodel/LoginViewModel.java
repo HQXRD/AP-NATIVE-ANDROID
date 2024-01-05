@@ -183,6 +183,8 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                     public void onResult(PMService pmService) {
                         SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
                         KLog.e("========pmService.getToken()======" + pmService.getToken());
                         //finish();
                         liveDataLogin.setValue(null); // 登录成功,重新打开APP

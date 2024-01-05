@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface OptionList extends BaseBean {
 
-    int getId();
+    long getId();
 
     /**
      * 是否开售，0暂停，1开售，-1未开售（未开售状态一般是不展示的）

@@ -6,20 +6,22 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.xtree.base.net.HttpCallBack;
-import com.xtree.bet.bean.response.MatchInfo;
-import com.xtree.bet.bean.response.PlayTypeInfo;
+import com.xtree.bet.bean.response.fb.MatchInfo;
+import com.xtree.bet.bean.response.fb.PlayTypeInfo;
 import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.CategoryFb;
-import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.PlayGroup;
+import com.xtree.bet.bean.ui.PlayGroupFb;
+import com.xtree.bet.bean.ui.PlayGroupPm;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.bean.ui.PlayTypeFb;
 import com.xtree.bet.constant.MarketTag;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.data.BetRepository;
+import com.xtree.bet.ui.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,7 +57,7 @@ public class BtDetailViewModel extends BaseViewModel<BetRepository> {
         addSubscribe(mSubscription);
     }
 
-    public void getMatchDetail(int matchId) {
+    public void getMatchDetail(long matchId) {
 
         Map<String, String> map = new HashMap<>();
         map.put("languageType", "CMN");
@@ -68,7 +70,7 @@ public class BtDetailViewModel extends BaseViewModel<BetRepository> {
                     @Override
                     public void onResult(MatchInfo matchInfo) {
                         Match match = new MatchFb(matchInfo);
-                        if(mMatch != null) {
+                        if (mMatch != null) {
                             setOptionOddChange(match);
                         }
                         mMatch = match;
@@ -125,27 +127,33 @@ public class BtDetailViewModel extends BaseViewModel<BetRepository> {
 
     private List<Option> getMatchOptionList(Match match) {
         List<Option> optionList = new ArrayList<>();
-            PlayGroup newPlayGroup = new PlayGroup(match.getPlayTypeList());
-            newPlayGroup.getPlayGroupList();
+        String mPlatform = "fbxc";
+        PlayGroup newPlayGroup;
+        if (mPlatform == MainActivity.PLATFORM_FB) {
+            newPlayGroup = new PlayGroupFb(match.getPlayTypeList());
+        } else {
+            newPlayGroup = new PlayGroupPm(match.getPlayTypeList());
+        }
 
-            for (PlayType playType : newPlayGroup.getPlayTypeList()) {
-                playType.getOptionLists();
-                for (Option option : playType.getOptionList()) {
-                    if (playType.getOptionLists() != null && !playType.getOptionLists().isEmpty()) {
-                        StringBuffer code = new StringBuffer();
-                        code.append(match.getId());
-                        code.append(playType.getPlayType());
-                        code.append(playType.getPlayPeriod());
-                        code.append(playType.getOptionLists().get(0).getId());
-                        code.append(option.getOptionType());
-                        if (!TextUtils.isEmpty(option.getLine())) {
-                            code.append(option.getLine());
-                        }
-                        option.setCode(code.toString());
+        for (PlayType playType : newPlayGroup.getPlayTypeList()) {
+            playType.getOptionLists();
+            for (Option option : playType.getOptionList()) {
+                if (option != null && playType.getOptionLists() != null && !playType.getOptionLists().isEmpty()) {
+                    StringBuffer code = new StringBuffer();
+                    code.append(match.getId());
+                    code.append(playType.getPlayType());
+                    code.append(playType.getPlayPeriod());
+                    code.append(playType.getOptionLists().get(0).getId());
+                    code.append(option.getOptionType());
+                    code.append(option.getId());
+                    if (!TextUtils.isEmpty(option.getLine())) {
+                        code.append(option.getLine());
                     }
-                    optionList.add(option);
+                    option.setCode(code.toString());
                 }
+                optionList.add(option);
             }
+        }
         return optionList;
     }
 }

@@ -28,6 +28,8 @@ public class SPKeyGlobal {
     public static final String PM_TOKEN = "pm_token";
     public static final String FB_API_SERVICE_URL = "fb_api_service_url";
     public static final String PM_API_SERVICE_URL = "pm_api_service_url";
+    public static final String PM_IMG_SERVICE_URL = "PM_IMG_SERVICE_URL";
+    public static final String PM_USER_ID = "PM_USER_ID";
 
 
 }

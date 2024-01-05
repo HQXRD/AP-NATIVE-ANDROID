@@ -5,7 +5,7 @@ import android.os.Parcel;
 
 import androidx.annotation.NonNull;
 
-import com.xtree.bet.bean.response.LeagueInfo;
+import com.xtree.bet.bean.response.fb.LeagueInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +108,7 @@ public class LeagueFb implements League{
      * @return
      */
     @Override
-    public int getId() {
+    public long getId() {
         return leagueInfo.id;
     }
 

@@ -27,7 +27,7 @@ public interface League extends BaseBean {
      * 获取联赛ID
      * @return
      */
-    int getId();
+    long getId();
 
     /**
      * 获取比赛列表
