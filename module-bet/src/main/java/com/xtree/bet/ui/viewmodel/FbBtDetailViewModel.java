@@ -11,6 +11,7 @@ import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.ui.Option;
+import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.data.BetRepository;
 
@@ -87,27 +88,30 @@ public class FbBtDetailViewModel extends TemplateBtDetailViewModel {
         if(match == null){
             return new ArrayList<>();
         }
-        List<Option> optionList = new ArrayList<>();
+        List<Option> optionArrayList = new ArrayList<>();
         for (PlayType playType : match.getPlayTypeList()) {
-            playType.getOptionLists();
-            for (Option option : playType.getOptionList()) {
-                if (option != null && playType.getOptionLists() != null && !playType.getOptionLists().isEmpty()) {
-                    StringBuffer code = new StringBuffer();
-                    code.append(match.getId());
-                    code.append(playType.getPlayType());
-                    code.append(playType.getPlayPeriod());
-                    code.append(playType.getOptionLists().get(0).getId());
-                    code.append(option.getOptionType());
-                    code.append(option.getId());
-                    if (!TextUtils.isEmpty(option.getLine())) {
-                        code.append(option.getLine());
+            if(playType.getOptionLists() != null) {
+                for (OptionList optionList : playType.getOptionLists()) {
+                    for (Option option : optionList.getOptionList()) {
+                        if (option != null) {
+                            StringBuffer code = new StringBuffer();
+                            code.append(match.getId());
+                            code.append(playType.getPlayType());
+                            code.append(playType.getPlayPeriod());
+                            code.append(optionList.getId());
+                            code.append(option.getOptionType());
+                            code.append(option.getId());
+                            if (!TextUtils.isEmpty(option.getLine())) {
+                                code.append(option.getLine());
+                            }
+                            option.setCode(code.toString());
+                        }
+                        optionArrayList.add(option);
                     }
-                    option.setCode(code.toString());
                 }
-                optionList.add(option);
             }
         }
-        return optionList;
+        return optionArrayList;
     }
 
 }

@@ -14,6 +14,7 @@ import com.xtree.bet.bean.ui.CategoryPm;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchPm;
 import com.xtree.bet.bean.ui.Option;
+import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.bean.ui.PlayTypePm;
 import com.xtree.bet.data.BetRepository;
@@ -165,11 +166,13 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
     private List<Option> getMatchOptionList(List<PlayType> playTypeList) {
         List<Option> optionList = new ArrayList<>();
         for (PlayType playType : playTypeList) {
-            for (Option option : playType.getOptionList()) {
-                if (option != null && playType.getOptionLists() != null && !playType.getOptionLists().isEmpty()) {
-                    option.setCode(option.getId());
+            for (OptionList options : playType.getOptionLists()) {
+                for (Option option : options.getOptionList()) {
+                    if (option != null) {
+                        option.setCode(option.getId());
+                    }
+                    optionList.add(option);
                 }
-                optionList.add(option);
             }
         }
         return optionList;
