@@ -7,6 +7,11 @@ import java.util.List;
 
 public interface PlayType extends BaseBean {
     /**
+     * 获取玩法ID
+     * @return
+     */
+    String getId();
+    /**
      * 获取玩法类型，如 亚盘、大小球等
      * @return
      */
@@ -52,4 +57,10 @@ public interface PlayType extends BaseBean {
      * @return
      */
     List<String> getTags();
+
+    /**
+     * 获取所属玩法集ID
+     * @return
+     */
+    String getCategoryId();
 }

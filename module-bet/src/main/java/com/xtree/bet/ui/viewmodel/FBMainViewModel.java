@@ -6,21 +6,21 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.xtree.base.utils.TimeUtils;
-import com.xtree.bet.bean.response.LeagueInfo;
-import com.xtree.bet.bean.response.MatchTypeInfo;
-import com.xtree.bet.bean.response.MatchTypeStatisInfo;
-import com.xtree.bet.bean.response.StatisticalInfo;
-import com.xtree.bet.bean.request.PBListReq;
+import com.xtree.bet.bean.response.fb.LeagueInfo;
+import com.xtree.bet.bean.response.fb.MatchTypeInfo;
+import com.xtree.bet.bean.response.fb.MatchTypeStatisInfo;
+import com.xtree.bet.bean.response.fb.StatisticalInfo;
+import com.xtree.bet.bean.request.fb.FBListReq;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
-import com.xtree.bet.bean.response.MatchInfo;
-import com.xtree.bet.bean.response.MatchListRsp;
+import com.xtree.bet.bean.response.fb.MatchInfo;
+import com.xtree.bet.bean.response.fb.MatchListRsp;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.PlayGroup;
+import com.xtree.bet.bean.ui.PlayGroupFb;
 import com.xtree.bet.bean.ui.PlayType;
-import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.data.BetRepository;
 
 import java.util.ArrayList;
@@ -41,6 +41,14 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  */
 
 public class FBMainViewModel extends TemplateMainViewModel implements MainViewModel {
+    /**
+     * 体育分类ID，与sportNames一一对应
+     */
+    public static String[] SPORT_IDS = new String[]{"1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
+    /**
+     * 玩法ID，与PLAY_METHOD_NAMES一一对应
+     */
+    private String[] PLAY_METHOD_TYPES = new String[]{"6", "1", "4", "2", "7"};
 
     private List<Match> mMatchList = new ArrayList<>();
     private List<Match> mChampionMatchList = new ArrayList<>();
@@ -49,8 +57,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     private List<League> mGoingOnLeagueList = new ArrayList<>();
     Map<String, League> mMapLeague = new HashMap<>();
     private Map<String, List<Integer>> sportCountMap = new HashMap<>();
-    private List<Date> dateList = new ArrayList<>();
-
     private int currentPage = 1;
     private int goingOnPageSize = 300;
     private int pageSize = 50;
@@ -72,7 +78,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @param isTimedRefresh 是否定时刷新 true-是，false-否
      * @param isRefresh      是否刷新 true-是, false-否
      */
-    public void getLeagueList(int sportId, int orderBy, List<Integer> leagueIds, List<Integer> matchids, int playMethodType, int searchDatePos, int oddType, boolean isTimedRefresh, boolean isRefresh) {
+    public void getLeagueList(int sportPos, int sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int searchDatePos, int oddType, boolean isTimedRefresh, boolean isRefresh) {
         int type;
         boolean flag = false;
 
@@ -88,14 +94,14 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         final int finalType = type;
         final boolean finalFlag = flag;
 
-        PBListReq pbListReq = new PBListReq();
-        pbListReq.setSportId(sportId);
-        pbListReq.setType(type);
-        pbListReq.setOrderBy(orderBy);
-        pbListReq.setLeagueIds(leagueIds);
-        pbListReq.setMatchIds(matchids);
-        pbListReq.setCurrent(currentPage);
-        pbListReq.setOddType(oddType);
+        FBListReq FBListReq = new FBListReq();
+        FBListReq.setSportId(sportId);
+        FBListReq.setType(type);
+        FBListReq.setOrderBy(orderBy);
+        FBListReq.setLeagueIds(leagueIds);
+        FBListReq.setMatchIds(matchids);
+        FBListReq.setCurrent(currentPage);
+        FBListReq.setOddType(oddType);
 
         String startTime;
         String endTime;
@@ -103,25 +109,25 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
         if (type != 1 && type != 3) {
             if (searchDatePos == dateList.size() - 1) {
-                pbListReq.setBeginTime(dateList.get(dateList.size() - 1).getTime() + "");
-                pbListReq.setEndTime(TimeUtils.addDays(dateList.get(dateList.size() - 1), 30).getTime() + "");
-                startTime = TimeUtils.longFormatString(Long.valueOf(pbListReq.getBeginTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
-                endTime = TimeUtils.longFormatString(Long.valueOf(pbListReq.getEndTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
+                FBListReq.setBeginTime(dateList.get(dateList.size() - 1).getTime() + "");
+                FBListReq.setEndTime(TimeUtils.addDays(dateList.get(dateList.size() - 1), 30).getTime() + "");
+                startTime = TimeUtils.longFormatString(Long.valueOf(FBListReq.getBeginTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
+                endTime = TimeUtils.longFormatString(Long.valueOf(FBListReq.getEndTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
             } else if (searchDatePos != 0) {
                 String start = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
                 String end = TimeUtils.parseTime(TimeUtils.addDays(dateList.get(searchDatePos), 1), TimeUtils.FORMAT_YY_MM_DD) + " 11:59:59";
 
-                pbListReq.setBeginTime(TimeUtils.strFormatDate(start, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime() + "");
-                pbListReq.setEndTime(TimeUtils.strFormatDate(end, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime() + "");
+                FBListReq.setBeginTime(TimeUtils.strFormatDate(start, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime() + "");
+                FBListReq.setEndTime(TimeUtils.strFormatDate(end, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime() + "");
                 /*startTime = TimeUtils.longFormatString(Long.valueOf(pbListReq.getBeginTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
                 endTime = TimeUtils.longFormatString(Long.valueOf(pbListReq.getEndTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);*/
             }
         }
 
         if (type == 1) {// 滚球
-            pbListReq.setSize(goingOnPageSize);
+            FBListReq.setSize(goingOnPageSize);
         } else {
-            pbListReq.setSize(pageSize);
+            FBListReq.setSize(pageSize);
         }
 
         if (isRefresh) {
@@ -129,7 +135,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             mMapLeague.clear();
         }
 
-        Disposable disposable = (Disposable) model.getApiService().getFBList(pbListReq)
+        Disposable disposable = (Disposable) model.getApiService().getFBList(FBListReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<MatchListRsp>() {
@@ -143,7 +149,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         if (finalType == 1) { // 滚球
                             if(finalFlag) {
                                 leagueGoingList(matchListRsp.records);
-                                getLeagueList(sportId, orderBy, leagueIds, matchids, 3, searchDatePos, oddType, false, isRefresh);
+                                getLeagueList(sportPos, sportId, orderBy, leagueIds, matchids, 3, searchDatePos, oddType, false, isRefresh);
                             }else{
                                 leagueAdapterList(matchListRsp.records);
                                 leagueGoingOnListData.postValue(mLeagueList);
@@ -190,7 +196,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @param isTimedRefresh
      * @param isRefresh
      */
-    public void getChampionList(int sportId, int orderBy, List<Integer> leagueIds, List<Integer> matchids, int playMethodType, int oddType, boolean isTimedRefresh, boolean isRefresh) {
+    public void getChampionList(int sportPos, int sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int oddType, boolean isTimedRefresh, boolean isRefresh) {
 
         if (isRefresh) {
             currentPage = 1;
@@ -198,21 +204,21 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             currentPage++;
         }
 
-        PBListReq pbListReq = new PBListReq();
-        pbListReq.setSportId(sportId);
-        pbListReq.setType(playMethodType);
-        pbListReq.setOrderBy(orderBy);
-        pbListReq.setLeagueIds(leagueIds);
-        pbListReq.setMatchIds(matchids);
-        pbListReq.setCurrent(currentPage);
-        pbListReq.setSize(300);
-        pbListReq.setOddType(oddType);
+        FBListReq FBListReq = new FBListReq();
+        FBListReq.setSportId(sportId);
+        FBListReq.setType(playMethodType);
+        FBListReq.setOrderBy(orderBy);
+        FBListReq.setLeagueIds(leagueIds);
+        FBListReq.setMatchIds(matchids);
+        FBListReq.setCurrent(currentPage);
+        FBListReq.setSize(300);
+        FBListReq.setOddType(oddType);
 
         if (isRefresh) {
             mChampionMatchList.clear();
         }
 
-        Disposable disposable = (Disposable) model.getApiService().getFBList(pbListReq)
+        Disposable disposable = (Disposable) model.getApiService().getFBList(FBListReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<MatchListRsp>() {
@@ -254,7 +260,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     /**
      * 获取赛事统计数据
      */
-    public void statistical() {
+    public void statistical(int playMethodType) {
 
         Map<String, String> map = new HashMap<>();
         map.put("languageType", "CMN");
@@ -271,7 +277,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                                 sslMap.put(String.valueOf(matchTypeStatisInfo.sid), matchTypeStatisInfo.c);
                             }
                             List<Integer> sportCountList = new ArrayList<>();
-                            for (String sportId : SportTypeContants.SPORT_IDS) {
+                            for (String sportId : SPORT_IDS) {
                                 sportCountList.add(sslMap.get(sportId));
                             }
                             sportCountMap.put(String.valueOf(matchTypeInfo.ty), sportCountList);
@@ -316,6 +322,16 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                     }
                 });
         addSubscribe(disposable);
+    }
+
+    @Override
+    public String[] getPlayMethodTypes() {
+        return PLAY_METHOD_TYPES;
+    }
+
+    @Override
+    public String[] getSportId(int playMethodType) {
+        return SPORT_IDS;
     }
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {
@@ -506,19 +522,20 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     private List<Option> getMatchOptionList(List<Match> matchList) {
         List<Option> optionList = new ArrayList<>();
         for (Match match : matchList) {
-            PlayGroup newPlayGroup = new PlayGroup(match.getPlayTypeList());
+            PlayGroup newPlayGroup = new PlayGroupFb(match.getPlayTypeList());
             newPlayGroup.getPlayGroupList();
 
             for (PlayType playType : newPlayGroup.getPlayTypeList()) {
                 playType.getOptionLists();
                 for (Option option : playType.getOptionList()) {
-                    if (playType.getOptionLists() != null && !playType.getOptionLists().isEmpty()) {
+                    if (option != null && playType.getOptionLists() != null && !playType.getOptionLists().isEmpty()) {
                         StringBuffer code = new StringBuffer();
                         code.append(match.getId());
                         code.append(playType.getPlayType());
                         code.append(playType.getPlayPeriod());
                         code.append(playType.getOptionLists().get(0).getId());
                         code.append(option.getOptionType());
+                        code.append(option.getId());
                         if (!TextUtils.isEmpty(option.getLine())) {
                             code.append(option.getLine());
                         }

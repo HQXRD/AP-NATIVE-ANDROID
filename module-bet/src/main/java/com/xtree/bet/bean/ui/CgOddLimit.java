@@ -22,23 +22,23 @@ public interface CgOddLimit extends Parcelable {
      * 获取单关，最小投注额
      * @return
      */
-    int getDMin();
+    double getDMin();
     /**
      * 获取单关，最大投注额
      * @return
      */
-    int getDMax();
+    double getDMax();
 
     /**
      * 获取串关，最小投注额
      * @return
      */
-    int getCMin();
+    double getCMin();
     /**
      * 获取串关，最大投注额
      * @return
      */
-    int getCMax();
+    double getCMax();
     /**
      * 获取单关赔率
      * @return
@@ -54,12 +54,6 @@ public interface CgOddLimit extends Parcelable {
      * @return
      */
     double getWin(double amount);
-
-    /**
-     * 获取投注金额
-     * @return
-     */
-    int getPay(int amount);
 
     /**
      * 获取投注注数

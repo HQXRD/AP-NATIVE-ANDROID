@@ -1,11 +1,12 @@
 package com.xtree.bet.ui.adapter;
 
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
+
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,11 +19,14 @@ import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
 import com.xtree.bet.bean.ui.BetConfirmOptionFb;
+import com.xtree.bet.bean.ui.BetConfirmOptionUtil;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayGroup;
+import com.xtree.bet.bean.ui.PlayGroupFb;
+import com.xtree.bet.bean.ui.PlayGroupPm;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.SPKey;
@@ -32,6 +36,7 @@ import com.xtree.bet.databinding.BtFbLeagueGroupBinding;
 import com.xtree.bet.databinding.BtFbMatchListBinding;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.BtDetailActivity;
+import com.xtree.bet.ui.activity.MainActivity;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 import com.xtree.bet.weight.DiscolourTextView;
@@ -48,7 +53,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpandableListAdapter {
     private List<League> mDatas;
     private Context mContext;
-
+    private String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
     public void setData(List<League> mLeagueList) {
         this.mDatas = mLeagueList;
         notifyDataSetChanged();
@@ -192,11 +197,18 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         }
 
         int sportPos = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-        boolean isFb = SPUtils.getInstance().getBoolean(SPKey.BT_SPORT_IF_FB, true);
         LinearLayout llTypeGroup = (LinearLayout) binding.hsvPlayTypeGroup.getChildAt(0);
 
+
         LinearLayout firstPagePlayType = (LinearLayout) llTypeGroup.getChildAt(0);
-        PlayGroup playGroup = new PlayGroup(match.getPlayTypeList());
+
+        PlayGroup playGroup;
+
+        if (TextUtils.equals(platform, MainActivity.PLATFORM_FB)) {
+            playGroup = new PlayGroupFb(match.getPlayTypeList());
+        } else {
+            playGroup = new PlayGroupPm(match.getPlayTypeList());
+        }
         List<PlayGroup> playGroupList = playGroup.getPlayGroupList();
 
         for (int i = 0; i < firstPagePlayType.getChildCount(); i++) {
@@ -204,7 +216,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         }
         binding.llPointer.removeAllViews();
         LinearLayout sencondPagePlayType = (LinearLayout) llTypeGroup.getChildAt(1);
-        if (SportTypeContants.SPORT_ID_FB.equals(SportTypeContants.getSportId(sportPos, isFb))) {
+        if (SportTypeContants.SPORT_ID_FB.equals(SportTypeContants.getSportId(sportPos))) {
             sencondPagePlayType.setVisibility(View.VISIBLE);
             List<PlayType> playTypeList = playGroupList.get(1).getOriginalPlayTypeList();
             for (int i = 0; i < sencondPagePlayType.getChildCount(); i++) {
@@ -219,7 +231,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             BtDetailActivity.start(mContext, match);
         });
 
-        if(convertView.getLayoutParams() == null){
+        if (convertView.getLayoutParams() == null) {
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.bottomMargin = ConvertUtils.dp2px(100);
             convertView.setLayoutParams(params);
@@ -310,14 +322,10 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                             nameTextView.setVisibility(View.VISIBLE);
                             nameTextView.setText(option.getSortName());
                             oddTextView.setOptionOdd(option);
-                            BetConfirmOptionFb betConfirmOption = new BetConfirmOptionFb(match, playType, optionList, option);
+                            BetConfirmOption betConfirmOption = BetConfirmOptionUtil.getInstance(match, playType, optionList, option);
                             optionView.setTag(betConfirmOption);
                             if (BtCarManager.isCg()) {
                                 boolean has = BtCarManager.has(betConfirmOption);
-                                if (has) {
-                                    Log.e("test", option.getName() + "=======" + has);
-                                }
-
                                 optionView.setSelected(has);
                                 oddTextView.setSelected(has);
                                 nameTextView.setSelected(has);

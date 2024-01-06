@@ -2,8 +2,8 @@ package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
 
-import com.xtree.bet.bean.response.BtConfirmOptionInfo;
-import com.xtree.bet.bean.response.CgOddLimitInfo;
+import com.xtree.bet.bean.response.fb.BtConfirmOptionInfo;
+import com.xtree.bet.bean.response.fb.CgOddLimitInfo;
 
 public class CgOddLimitFb implements CgOddLimit{
     /**
@@ -40,7 +40,7 @@ public class CgOddLimitFb implements CgOddLimit{
     }
 
     @Override
-    public int getDMin() {
+    public double getDMin() {
         if(betConfirmOption == null){
             return 5;
         }
@@ -48,7 +48,7 @@ public class CgOddLimitFb implements CgOddLimit{
     }
 
     @Override
-    public int getDMax() {
+    public double getDMax() {
         if(betConfirmOption == null){
             return 5;
         }
@@ -56,7 +56,7 @@ public class CgOddLimitFb implements CgOddLimit{
     }
 
     @Override
-    public int getCMin() {
+    public double getCMin() {
         if(cgOddLimitInfo == null){
             return 5;
         }
@@ -64,7 +64,7 @@ public class CgOddLimitFb implements CgOddLimit{
     }
 
     @Override
-    public int getCMax() {
+    public double getCMax() {
         if(cgOddLimitInfo == null){
             return 5;
         }
@@ -93,14 +93,6 @@ public class CgOddLimitFb implements CgOddLimit{
             return betConfirmOption.op.od * amount;
         }
         return cgOddLimitInfo.sodd * amount;
-    }
-
-    @Override
-    public int getPay(int amount) {
-        if(cgOddLimitInfo == null){
-            return 0;
-        }
-        return cgOddLimitInfo.in * amount;
     }
 
     @Override

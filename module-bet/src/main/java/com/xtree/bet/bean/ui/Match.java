@@ -1,7 +1,7 @@
 package com.xtree.bet.bean.ui;
 
 import com.xtree.base.vo.BaseBean;
-import com.xtree.bet.bean.response.VideoInfo;
+import com.xtree.bet.bean.response.fb.VideoInfo;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public interface Match extends BaseBean {
      * 获取比赛ID
      * @return
      */
-    int getId();
+    long getId();
 
     /**
      * 获取冠军赛赛事名称，用于展示名称
@@ -119,5 +119,8 @@ public interface Match extends BaseBean {
      * @return
      */
     boolean isChampion();
-
+    /**
+     * 获取赛种ID，如足球，篮球
+     */
+    String getSportId();
 }

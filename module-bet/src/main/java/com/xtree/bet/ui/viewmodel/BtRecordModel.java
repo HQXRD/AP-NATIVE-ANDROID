@@ -1,33 +1,17 @@
 package com.xtree.bet.ui.viewmodel;
 
 import android.app.Application;
-import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.TimeUtils;
-import com.xtree.bet.bean.request.BtCarReq;
-import com.xtree.bet.bean.request.BtCgReq;
-import com.xtree.bet.bean.request.BtMultipleListReq;
-import com.xtree.bet.bean.request.BtOptionReq;
-import com.xtree.bet.bean.request.BtRecordReq;
-import com.xtree.bet.bean.request.SingleBtListReq;
-import com.xtree.bet.bean.response.BtConfirmInfo;
-import com.xtree.bet.bean.response.BtConfirmOptionInfo;
-import com.xtree.bet.bean.response.BtRecordRsp;
-import com.xtree.bet.bean.response.BtResultInfo;
-import com.xtree.bet.bean.response.CgOddLimitInfo;
-import com.xtree.bet.bean.ui.BetConfirmOption;
-import com.xtree.bet.bean.ui.BetConfirmOptionFb;
+import com.xtree.bet.bean.request.fb.BtRecordReq;
+import com.xtree.bet.bean.response.fb.BtRecordRsp;
+import com.xtree.bet.bean.response.fb.BtResultInfo;
 import com.xtree.bet.bean.ui.BtRecordTime;
-import com.xtree.bet.bean.ui.BtResult;
 import com.xtree.bet.bean.ui.BtResultFb;
-import com.xtree.bet.bean.ui.CgOddLimit;
-import com.xtree.bet.bean.ui.CgOddLimitFb;
-import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.data.BetRepository;
-import com.xtree.bet.manager.BtCarManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +20,6 @@ import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.utils.RxUtils;
 

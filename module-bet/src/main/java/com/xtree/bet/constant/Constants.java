@@ -2,12 +2,6 @@ package com.xtree.bet.constant;
 
 public class Constants {
 
-    public static String[] PLAY_METHOD_NAMES = new String[]{"今日", "滚球", "早盘", "串关", "冠军"};
-    /**
-     * 玩法ID，与PLAY_METHOD_NAMES一一对应
-     */
-    public static String[] PLAY_METHOD_IDS = new String[]{"6", "1", "4", "2", "7"};
-
     public static int[] SPORT_ICON = new int[]{
             project.tqyb.com.library_res.R.drawable.bt_match_item_zq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_lq_selector,

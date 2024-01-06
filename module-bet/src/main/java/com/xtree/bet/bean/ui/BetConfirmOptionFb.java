@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.text.TextUtils;
 
 import com.xtree.base.vo.BaseBean;
-import com.xtree.bet.bean.response.BtConfirmOptionInfo;
+import com.xtree.bet.bean.response.fb.BtConfirmOptionInfo;
 
 /**
  * 投注确认页选项
@@ -41,6 +41,15 @@ public class BetConfirmOptionFb implements BetConfirmOption{
         teamName = match.getTeamMain() + " VS " + match.getTeamVistor();
     }
     /**
+     * PM获取投注信息唯一标识
+     * @return
+     */
+    @Override
+    public String getMatchId() {
+        return String.valueOf(getMatch().getId());
+    }
+
+    /**
      * 获取投注信息唯一标识
      * @return
      */
@@ -59,11 +68,11 @@ public class BetConfirmOptionFb implements BetConfirmOption{
     }
 
     @Override
-    public int getPlayTypeId() {
+    public String getPlayTypeId() {
         if(btConfirmOptionInfo != null) {
-            return btConfirmOptionInfo.mid;
+            return String.valueOf(btConfirmOptionInfo.mid);
         }else{
-            return optionList.getId();
+            return String.valueOf(optionList.getId());
         }
     }
 
@@ -76,25 +85,6 @@ public class BetConfirmOptionFb implements BetConfirmOption{
         }
     }
 
-    @Override
-    public double getDanMin() {
-
-        if(btConfirmOptionInfo != null) {
-            return btConfirmOptionInfo.smin;
-        }else{
-            return 0;
-        }
-    }
-
-    @Override
-    public double getDanMax() {
-        if(btConfirmOptionInfo != null) {
-            return btConfirmOptionInfo.smax;
-        }else{
-            return 0;
-        }
-    }
-
     /**
      * 玩法销售状态是否关闭，0暂停，1开售，-1未开售
      * @return
@@ -104,7 +94,7 @@ public class BetConfirmOptionFb implements BetConfirmOption{
         if(btConfirmOptionInfo != null) {
             return btConfirmOptionInfo.ss == 0 || btConfirmOptionInfo.ss == -1;
         }else{
-            return true;
+            return false;
         }
     }
 
@@ -139,9 +129,9 @@ public class BetConfirmOptionFb implements BetConfirmOption{
      * @return
      */
     @Override
-    public int getOptionType() {
+    public String getOptionType() {
         if(btConfirmOptionInfo != null && btConfirmOptionInfo.op != null) {
-            return btConfirmOptionInfo.op.ty;
+            return String.valueOf(btConfirmOptionInfo.op.ty);
         }else{
             return option.getOptionType();
         }

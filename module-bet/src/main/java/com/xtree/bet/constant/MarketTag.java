@@ -13,7 +13,6 @@ public class MarketTag {
 
     private static Map<String, String> map = new ArrayMap<>();
 
-    // todo 继续补充所有的 see enum: match_period
     public static String getMarketTag(String code){
         if(map.isEmpty()){
             // 足球

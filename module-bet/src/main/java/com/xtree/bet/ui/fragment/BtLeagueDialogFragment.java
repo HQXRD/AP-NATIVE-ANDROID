@@ -45,7 +45,7 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
     public final static String KEY_TYPE = "KEY_TYPE";
     public final static String KEY_LEAGUEIDS = "KEY_LEAGUEIDS";
     // 已选联赛
-    private List<Integer> mLeagueIdList;
+    private List<Long> mLeagueIdList = new ArrayList<>();
     private int sportId;
     private int type;
     private boolean isSearch;
@@ -57,13 +57,17 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
     private List<LeagueArea> mSearchLeagueAreaList = new ArrayList<>();
     private List<String> mInitialList = new ArrayList<>(); // 首字母列表
 
-    public static BtLeagueDialogFragment getInstance(List<League> leagueList, int sportId, int type, List<Integer> leagueIdList){
+    public static BtLeagueDialogFragment getInstance(List<League> leagueList, int sportId, int type, List<Long> leagueIdList){
         BtLeagueDialogFragment btResultDialogFragment = new BtLeagueDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(KEY_LEAGUE, (ArrayList<? extends Parcelable>) leagueList);
         bundle.putInt(KEY_SPORTID, sportId);
         bundle.putInt(KEY_TYPE, type);
-        bundle.putIntegerArrayList(KEY_LEAGUEIDS, (ArrayList<Integer>) leagueIdList);
+        long[] leagueIdArray = new long[leagueIdList.size()];
+        for (int i = 0; i <leagueIdList.size(); i ++){
+            leagueIdArray[i] = leagueIdList.get(i);
+        }
+        bundle.putLongArray(KEY_LEAGUEIDS, leagueIdArray);
         btResultDialogFragment.setArguments(bundle);
         return btResultDialogFragment;
     }
@@ -130,8 +134,10 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
 
     @Override
     public void initData() {
-        mLeagueIdList = getArguments().getIntegerArrayList(KEY_LEAGUEIDS);
-        mLeagueList = (ArrayList)getArguments().getParcelableArrayList(KEY_LEAGUE);
+        long[] leagues = getArguments().getLongArray(KEY_LEAGUEIDS);
+        for (int i = 0; i < leagues.length; i++) {
+            mLeagueIdList.add(leagues[i]);
+        }
         sportId = getArguments().getInt(KEY_SPORTID);
         type = getArguments().getInt(KEY_TYPE);
         viewModel.getLeagueAreaList(mLeagueList, false, mLeagueIdList);
@@ -235,7 +241,7 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
         if(id == R.id.tv_close){
             dismiss();
         } else if (id == R.id.tv_confirm) {
-            List<Integer> leagueIdList = new ArrayList<>();
+            List<Long> leagueIdList = new ArrayList<>();
             if(isSearch) {
                 for (League league : mSearchLeagueList) {
                     if (league.isSelected()) {

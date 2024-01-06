@@ -1,7 +1,5 @@
 package com.xtree.bet.bean.ui;
 
-import android.os.Parcelable;
-
 import com.xtree.base.vo.BaseBean;
 
 /**
@@ -9,7 +7,12 @@ import com.xtree.base.vo.BaseBean;
  */
 public interface BetConfirmOption extends BaseBean {
     /**
-     * 获取投注信息唯一标识
+     * PM获取投注信息唯一标识
+     * @return
+     */
+    String getMatchId();
+    /**
+     * FB获取投注信息唯一标识
      * @return
      */
     String getCode();
@@ -17,24 +20,13 @@ public interface BetConfirmOption extends BaseBean {
      * 获取玩法ID
      * @return
      */
-    int getPlayTypeId();
+    String getPlayTypeId();
 
     /**
      * 获取投注项信息
      * @return
      */
     Option getOption();
-
-    /**
-     * 获取单关最小投注额限制
-     * @return
-     */
-    double getDanMin();
-    /**
-     * 获取单关最大投注额限制
-     * @return
-     */
-    double getDanMax();
 
     /**
      * 玩法销售状态是否关闭，0暂停，1开售，-1未开售
@@ -55,7 +47,7 @@ public interface BetConfirmOption extends BaseBean {
      * 获取投注项类型
      * @return
      */
-    int getOptionType();
+    String getOptionType();
     /**
      * 获取投注的比赛信息
      * @return

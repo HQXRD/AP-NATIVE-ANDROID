@@ -1,6 +1,6 @@
 package com.xtree.bet.bean.ui;
 
-import com.xtree.bet.bean.response.ScoreInfo;
+import com.xtree.bet.bean.response.fb.ScoreInfo;
 
 import java.util.List;
 

@@ -14,9 +14,7 @@ import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtDialogSettingBinding;
 import com.xtree.bet.ui.activity.MainActivity;
-import com.xtree.bet.ui.adapter.BetResultOptionAdapter;
-import com.xtree.bet.ui.adapter.CgBtResultAdapter;
-import com.xtree.bet.ui.viewmodel.BtCarViewModel;
+import com.xtree.bet.ui.viewmodel.FBBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 
 import java.util.ArrayList;
@@ -30,16 +28,20 @@ import me.xtree.mvvmhabit.utils.Utils;
 /**
  * 投注确认页面
  */
-public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingBinding, BtCarViewModel> {
+public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingBinding, FBBtCarViewModel> {
     public final static String KEY_LEAGUEIDS = "KEY_LEAGUEIDS";
 
     // 已选联赛
-    private List<Integer> mLeagueIdList;
+    private List<Long> mLeagueIdList = new ArrayList<>();
 
-    public static BtSettingDialogFragment getInstance(List<Integer> leagueIdList){
+    public static BtSettingDialogFragment getInstance(List<Long> leagueIdList){
         BtSettingDialogFragment btResultDialogFragment = new BtSettingDialogFragment();
         Bundle bundle = new Bundle();
-        bundle.putIntegerArrayList(KEY_LEAGUEIDS, (ArrayList<Integer>) leagueIdList);
+        long[] leagueIdArray = new long[leagueIdList.size()];
+        for (int i = 0; i <leagueIdList.size(); i ++){
+            leagueIdArray[i] = leagueIdList.get(i);
+        }
+        bundle.putLongArray(KEY_LEAGUEIDS, leagueIdArray);
         btResultDialogFragment.setArguments(bundle);
         return btResultDialogFragment;
     }
@@ -65,8 +67,10 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
             RxBus.getDefault().post(new BetContract(BetContract.ACTION_MARKET_CHANGE, market));
             SPUtils.getInstance().put(SPKey.BT_MATCH_LIST_ODDTYPE, market);
         });
-
-        mLeagueIdList = getArguments().getIntegerArrayList(KEY_LEAGUEIDS);
+        long[] leagues = getArguments().getLongArray(KEY_LEAGUEIDS);
+        for (int i = 0; i < leagues.length; i++) {
+            mLeagueIdList.add(leagues[i]);
+        }
         if(mLeagueIdList == null || mLeagueIdList.isEmpty()){
             binding.llLeague.setVisibility(View.VISIBLE);
             binding.tvHaschoised.setVisibility(View.GONE);
@@ -120,8 +124,8 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
     }
 
     @Override
-    public BtCarViewModel initViewModel() {
+    public FBBtCarViewModel initViewModel() {
         AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
-        return new ViewModelProvider(this, factory).get(BtCarViewModel.class);
+        return new ViewModelProvider(this, factory).get(FBBtCarViewModel.class);
     }
 }

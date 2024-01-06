@@ -3,11 +3,9 @@ package com.xtree.bet.bean.ui;
 import android.os.Parcel;
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
-import com.xtree.bet.bean.response.OptionDataListInfo;
-import com.xtree.bet.bean.response.OptionInfo;
-import com.xtree.bet.bean.response.PlayTypeInfo;
+import com.xtree.bet.bean.response.fb.OptionDataListInfo;
+import com.xtree.bet.bean.response.fb.OptionInfo;
+import com.xtree.bet.bean.response.fb.PlayTypeInfo;
 import com.xtree.bet.constant.SPKey;
 
 import java.math.BigDecimal;
@@ -20,14 +18,7 @@ public class OptionFb implements Option{
 
     private String code;
 
-    private String name;
-
     private OptionDataListInfo optionList;
-    private PlayTypeInfo playTypeInfo;
-
-    public OptionFb(String name){
-        this.name = name;
-    }
 
     public OptionFb(OptionInfo optionInfo){
         this.optionInfo = optionInfo;
@@ -38,12 +29,17 @@ public class OptionFb implements Option{
         this.optionList = optionList;
     }
 
+    @Override
+    public String getId() {
+        return "";
+    }
+
     /**
      * 选项全称，投注框一般用全称展示
      */
     public String getName() {
         if(optionInfo == null){
-            return name;
+            return "";
         }
         return optionInfo.na;
     }
@@ -59,8 +55,8 @@ public class OptionFb implements Option{
      * 选项类型，主、客、大、小等，投注时需要提交该字段作为选中的选项参数
      * @return
      */
-    public int getOptionType() {
-        return optionInfo.ty;
+    public String getOptionType() {
+        return String.valueOf(optionInfo.ty);
     }
 
     /**

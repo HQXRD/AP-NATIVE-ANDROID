@@ -26,13 +26,14 @@ public class BetRepository extends BaseModel implements HttpDataSource, LocalDat
 
     public static BetRepository getInstance(HttpDataSource httpDataSource,
                                             LocalDataSource localDataSource) {
-        if (INSTANCE == null) {
+        /*if (INSTANCE == null) {
             synchronized (BetRepository.class) {
                 if (INSTANCE == null) {
                     INSTANCE = new BetRepository(httpDataSource, localDataSource);
                 }
             }
-        }
+        }*/
+        INSTANCE = new BetRepository(httpDataSource, localDataSource);
         return INSTANCE;
     }
 

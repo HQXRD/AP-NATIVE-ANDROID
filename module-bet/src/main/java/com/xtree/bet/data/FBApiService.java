@@ -1,20 +1,17 @@
 package com.xtree.bet.data;
 
-import com.xtree.bet.bean.request.BtMultipleListReq;
-import com.xtree.bet.bean.request.BtRecordReq;
-import com.xtree.bet.bean.request.SingleBtListReq;
-import com.xtree.bet.bean.response.BtConfirmInfo;
-import com.xtree.bet.bean.response.BtRecordRsp;
-import com.xtree.bet.bean.response.BtResultInfo;
-import com.xtree.bet.bean.response.LeagueInfo;
-import com.xtree.bet.bean.response.MatchInfo;
-import com.xtree.bet.bean.response.MatchListRsp;
-import com.xtree.bet.bean.response.StatisticalInfo;
-import com.xtree.bet.bean.request.BtCarReq;
-import com.xtree.bet.bean.request.PBListReq;
-import com.xtree.bet.bean.ui.BtResult;
-import com.xtree.bet.bean.ui.League;
-import com.xtree.bet.bean.ui.LeagueArea;
+import com.xtree.bet.bean.request.fb.BtMultipleListReq;
+import com.xtree.bet.bean.request.fb.BtRecordReq;
+import com.xtree.bet.bean.request.fb.SingleBtListReq;
+import com.xtree.bet.bean.response.fb.BtConfirmInfo;
+import com.xtree.bet.bean.response.fb.BtRecordRsp;
+import com.xtree.bet.bean.response.fb.BtResultInfo;
+import com.xtree.bet.bean.response.fb.LeagueInfo;
+import com.xtree.bet.bean.response.fb.MatchInfo;
+import com.xtree.bet.bean.response.fb.MatchListRsp;
+import com.xtree.bet.bean.response.fb.StatisticalInfo;
+import com.xtree.bet.bean.request.fb.BtCarReq;
+import com.xtree.bet.bean.request.fb.FBListReq;
 
 import java.util.List;
 import java.util.Map;
@@ -44,7 +41,7 @@ public interface FBApiService {
      */
     @POST("/v1/match/getList")
     @Headers({"Content-Type: application/json; charset=utf-8"})
-    Flowable<BaseResponse<MatchListRsp>> getFBList(@Body PBListReq pbListReq);
+    Flowable<BaseResponse<MatchListRsp>> getFBList(@Body FBListReq FBListReq);
 
     /**
      * 按运动、分类类型统计可投注的赛事个数

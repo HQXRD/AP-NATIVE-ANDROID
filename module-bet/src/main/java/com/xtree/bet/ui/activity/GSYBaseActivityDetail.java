@@ -15,6 +15,7 @@ import com.shuyu.gsyvideoplayer.utils.OrientationUtils;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
 import com.xtree.bet.databinding.BtLayoutDetailBinding;
 import com.xtree.bet.ui.viewmodel.BtDetailViewModel;
+import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
 
@@ -22,7 +23,7 @@ import me.xtree.mvvmhabit.base.BaseActivity;
  * 详情模式播放页面基础类
  * Created by guoshuyu on 2017/9/14.
  */
-public abstract class GSYBaseActivityDetail<T extends GSYBaseVideoPlayer> extends BaseActivity<BtLayoutDetailBinding, BtDetailViewModel> implements VideoAllCallBack {
+public abstract class GSYBaseActivityDetail<T extends GSYBaseVideoPlayer> extends BaseActivity<BtLayoutDetailBinding, TemplateBtDetailViewModel> implements VideoAllCallBack {
 
     protected boolean isPlay;
 

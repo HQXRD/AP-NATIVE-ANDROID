@@ -2,10 +2,11 @@ package com.xtree.bet.bean.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Parcel;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.xtree.bet.bean.response.LeagueInfo;
+import com.xtree.bet.bean.response.fb.LeagueInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +101,9 @@ public class LeagueFb implements League{
      */
     @Override
     public String getLeagueName() {
+        if(leagueInfo == null || TextUtils.isEmpty(leagueInfo.na)){
+            return "";
+        }
         return leagueInfo.na;
     }
 
@@ -108,7 +112,7 @@ public class LeagueFb implements League{
      * @return
      */
     @Override
-    public int getId() {
+    public long getId() {
         return leagueInfo.id;
     }
 

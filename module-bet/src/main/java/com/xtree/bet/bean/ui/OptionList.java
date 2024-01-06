@@ -8,8 +8,13 @@ import java.util.List;
 
 public interface OptionList extends BaseBean {
 
-    int getId();
+    long getId();
 
+    /**
+     * 赛事类型标识，传错将导致投注失败：1-早盘赛事，2-滚球盘赛事，3-冠军盘赛事， 4-VR赛事，5-电竞赛种。 取值逻辑： （1）早盘、滚球赛事：从相关赛事API的hl.hmt中获取，hmt=1表示早盘，hmt=0表示滚球 （2）冠军盘、虚拟、电竞赛事：根据菜单相应传3、4、5参数
+     * @return
+     */
+    int getMatchType();
     /**
      * 是否开售，0暂停，1开售，-1未开售（未开售状态一般是不展示的）
      */

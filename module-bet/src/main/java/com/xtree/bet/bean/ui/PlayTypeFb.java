@@ -2,9 +2,9 @@ package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
 
-import com.xtree.bet.bean.response.OptionDataListInfo;
-import com.xtree.bet.bean.response.OptionInfo;
-import com.xtree.bet.bean.response.PlayTypeInfo;
+import com.xtree.bet.bean.response.fb.OptionDataListInfo;
+import com.xtree.bet.bean.response.fb.OptionInfo;
+import com.xtree.bet.bean.response.fb.PlayTypeInfo;
 import com.xtree.bet.constant.SPKey;
 
 import java.util.ArrayList;
@@ -17,6 +17,11 @@ public class PlayTypeFb implements PlayType{
 
     public PlayTypeFb(PlayTypeInfo playTypeInfo){
         this.playTypeInfo = playTypeInfo;
+    }
+
+    @Override
+    public String getId() {
+        return "";
     }
 
     /**
@@ -102,6 +107,11 @@ public class PlayTypeFb implements PlayType{
     @Override
     public List<String> getTags() {
         return playTypeInfo.tps;
+    }
+
+    @Override
+    public String getCategoryId() {
+        return null;
     }
 
     @Override

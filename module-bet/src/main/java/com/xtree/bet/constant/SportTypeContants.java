@@ -8,7 +8,7 @@ public class SportTypeContants {
     /**
      * 体育分类ID，与sportNames一一对应
      */
-    public final static String[] SPORT_IDS = new String[]{"1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
+    public static String[] SPORT_IDS = new String[]{"1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
 
     /**
      * 体育分类ID-足球
@@ -63,7 +63,7 @@ public class SportTypeContants {
      */
     public static String SPORT_ID_SQ = "8";
 
-    public static String getSportId(int sportPos, boolean isFb){
+    public static String getSportId(int sportPos){
         return SPORT_IDS[sportPos];
     }
 }
