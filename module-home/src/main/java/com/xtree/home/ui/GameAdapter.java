@@ -71,7 +71,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         CfLog.d(vo.toString());
         if (vo.status != 1) {
             // 0是维护, 1是正常, 2是下架
-            //return;
+            return;
         }
 
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);

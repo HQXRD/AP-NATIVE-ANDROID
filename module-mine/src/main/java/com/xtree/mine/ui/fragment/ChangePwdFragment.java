@@ -1,8 +1,10 @@
 package com.xtree.mine.ui.fragment;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -41,6 +43,9 @@ public class ChangePwdFragment extends BaseFragment<FragmentChangePwdBinding, Ve
 
     @Override
     public void initView() {
+        binding.llRoot.setOnClickListener(v -> hideKeyBoard());
+        binding.ckbPwd.setOnCheckedChangeListener((buttonView, isChecked) -> setEdtPwd(isChecked, binding.edtPwd));
+        binding.ckbPwd2.setOnCheckedChangeListener((buttonView, isChecked) -> setEdtPwd(isChecked, binding.edtPwd2));
 
         binding.tvwReset.setOnClickListener(v -> {
             binding.edtPwd.setText("");
@@ -106,6 +111,15 @@ public class ChangePwdFragment extends BaseFragment<FragmentChangePwdBinding, Ve
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
         });
 
+    }
+
+    private void setEdtPwd(boolean isChecked, EditText edt) {
+        if (isChecked) {
+            edt.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+        } else {
+            edt.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        }
+        edt.setSelection(edt.length());
     }
 
 }

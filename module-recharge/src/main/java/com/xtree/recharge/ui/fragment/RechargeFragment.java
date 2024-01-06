@@ -26,6 +26,7 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.ListDialog;
@@ -44,7 +45,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -106,7 +106,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 getActivity().finish();
             }
         });
-
+        binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         rechargeAdapter = new RechargeAdapter(getContext(), new RechargeAdapter.ICallBack() {
             @Override
             public void onClick(RechargeVo vo) {
@@ -129,7 +129,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                         //viewModel.getPayment(vo.bid);
                         if (mapRechargeVo.containsKey(vo.bid)) {
                             RechargeVo t2 = mapRechargeVo.get(vo.bid);
-                            String url = DomainUtil.getDomain2() + t2.op_thiriframe_url;
+                            String url = t2.op_thiriframe_url;
+                            if (!url.startsWith("http")) {
+                                url = DomainUtil.getDomain2() + t2.op_thiriframe_url;
+                            }
                             CfLog.d(vo.title + ", jump: " + url);
                             new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), vo.title, url)).show();
                         } else {
@@ -281,14 +284,30 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void goNext() {
+        CfLog.i("******");
         if (curRechargeVo == null) {
             ToastUtils.showLong(R.string.pls_choose_recharge_type);
             return;
         }
 
+        if (!curRechargeVo.userBankList.isEmpty()) {
+            if (TextUtils.isEmpty(bankId)) {
+                ToastUtils.showLong(getString(R.string.txt_pls_select_payment_card));
+                return;
+            }
+        }
+
+        String realName = binding.edtName.getText().toString().trim();
+        if (curRechargeVo.realchannel_status && curRechargeVo.phone_fillin_name) {
+            if (TextUtils.isEmpty(realName)) {
+                ToastUtils.showLong(getString(R.string.txt_pls_enter_ur_real_name));
+                return;
+            }
+        }
+
         String txt = binding.edtAmount.getText().toString();
         double amount = Double.parseDouble(0 + txt);
-        if (amount < loadMin && amount > loadMax) {
+        if (amount < loadMin || amount > loadMax) {
             txt = String.format(getString(R.string.txt_recharge_range), curRechargeVo.loadmin, curRechargeVo.loadmax);
             ToastUtils.showLong(txt);
             return;
@@ -298,8 +317,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         map.put("alipayName", ""); //
         map.put("amount", txt); //
         // nonce: 如果第一次请求失败，第二次再请求 不能改变
-        map.put("nonce", UUID.randomUUID().toString().replace("-", ""));
-        map.put("rechRealname", binding.edtName.getText().toString().trim()); //
+        map.put("nonce", UuidUtil.getID16());
+        map.put("rechRealname", realName); //
 
         map.put("bankid", bankId);
         //map.put("perOrder", "false");
@@ -443,8 +462,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             @Override
             public void onChanged(RechargePayVo vo) {
                 CfLog.i(vo.payname + ", jump: " + vo.redirecturl);
+                String url = vo.redirecturl;
+                if (!url.startsWith("http") && vo.domain_list.length > 0) {
+                    url = vo.domain_list[0] + url;
+                }
                 // 点下一步 跳转到充值结果 弹窗
-                new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), vo.payname, vo.redirecturl)).show();
+                new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), vo.payname, url)).show();
             }
         });
 

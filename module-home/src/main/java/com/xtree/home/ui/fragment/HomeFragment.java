@@ -92,7 +92,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.getSettings(); // 获取公钥,配置信息
         viewModel.getBanners(); // 获取banner
         viewModel.getGameStatus(getContext()); // 获取游戏状态列表
-        viewModel.getFBGameTokenApi();
 
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         if (!TextUtils.isEmpty(token)) {

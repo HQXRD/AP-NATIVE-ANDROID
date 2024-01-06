@@ -38,6 +38,12 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.readCache();
+    }
+
+    @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return R.layout.fragment_security_center;
     }
@@ -128,11 +134,13 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
     public void initData() {
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
         mProfileVo = new Gson().fromJson(json, ProfileVo.class);
-        if (mProfileVo.is_binding_phone) {
-            binding.tvwPhone.setText(getString(R.string.txt_change_phone_num) + mProfileVo.binding_phone_info);
-        }
-        if (mProfileVo.is_binding_email) {
-            binding.tvwEmail.setText(getString(R.string.txt_change_email) + mProfileVo.binding_email_info);
+        if (mProfileVo != null) {
+            if (mProfileVo.is_binding_phone) {
+                binding.tvwPhone.setText(getString(R.string.txt_change_phone_num) + mProfileVo.binding_phone_info);
+            }
+            if (mProfileVo.is_binding_email) {
+                binding.tvwEmail.setText(getString(R.string.txt_change_email) + mProfileVo.binding_email_info);
+            }
         }
     }
 
