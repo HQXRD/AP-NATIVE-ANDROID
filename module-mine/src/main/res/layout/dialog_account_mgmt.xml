@@ -74,7 +74,7 @@
 
         <TextView
             style="@style/style_choose_account"
-            android:tag="bindgcnyt"
+            android:tag="bindhiwallet"
             android:text="@string/txt_bind_gcnyt" />
 
         <TextView
