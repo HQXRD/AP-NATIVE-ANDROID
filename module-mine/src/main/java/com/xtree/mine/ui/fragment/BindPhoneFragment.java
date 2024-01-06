@@ -56,7 +56,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
                     binding.tvwCode.setText(sec + "s");
                     mHandler.sendEmptyMessageDelayed(MSG_TIMER, 1000L);
                 } else {
-                    CfLog.i("************ 获取验证码");
+                    CfLog.i("************ ");
                     binding.tvwCode.setEnabled(true);
                     binding.tvwCode.setText(R.string.txt_get_code);
                 }
@@ -76,6 +76,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
 
     @Override
     public void initView() {
+        binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.tvwCode.setOnClickListener(v -> getCode());
         binding.ivwOk.setOnClickListener(v -> submit());
     }
@@ -114,6 +115,12 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
     public VerifyViewModel initViewModel() {
         AppViewModelFactory factory = AppViewModelFactory.getInstance(getActivity().getApplication());
         return new ViewModelProvider(this, factory).get(VerifyViewModel.class);
+    }
+
+    @Override
+    public void onDestroy() {
+        mHandler.removeMessages(MSG_TIMER);
+        super.onDestroy();
     }
 
     /**
