@@ -2,6 +2,7 @@ package com.xtree.mine.ui.viewmodel;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -15,10 +16,10 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.DomainUtil;
-import com.xtree.base.widget.BrowserActivity;
+import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.ProfileVo;
+import com.xtree.mine.vo.UserUsdtJumpVo;
 import com.xtree.mine.vo.VerificationCodeVo;
 import com.xtree.mine.vo.VerifyVo;
 
@@ -36,8 +37,8 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>();
     public MutableLiveData<ProfileVo> liveDataProfile2 = new MutableLiveData<>();
     public MutableLiveData<VerificationCodeVo> liveDataCode = new MutableLiveData<>(); // 发送验证码 绑定用
-    //    public MutableLiveData<VerificationCodeVo> liveDataCode2 = new MutableLiveData<>(); // 发送验证码 修改登录密码用
-    //    public MutableLiveData<VerificationCodeVo> liveDataCode3 = new MutableLiveData<>(); // 发送验证码 验证其它业务用
+    //public MutableLiveData<VerificationCodeVo> liveDataCode2 = new MutableLiveData<>(); // 发送验证码 修改登录密码用
+    //public MutableLiveData<VerificationCodeVo> liveDataCode3 = new MutableLiveData<>(); // 发送验证码 验证其它业务用
     public MutableLiveData<VerifyVo> liveDataSingleVerify1 = new MutableLiveData<>(); // 验证验证码(首次绑定用)
     public MutableLiveData<VerifyVo> liveDataSingleVerify2 = new MutableLiveData<>(); // 验证验证码(修改密码)
     public MutableLiveData<VerifyVo> liveDataSingleVerify3 = new MutableLiveData<>(); // 验证验证码(验证用)
@@ -69,7 +70,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
     private void getProfile(MutableLiveData<ProfileVo> liveData) {
 
         Disposable disposable = (Disposable) model.getApiService().getProfile()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<ProfileVo>() {
                     @Override
@@ -125,7 +126,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
 
     private void singleSend(String flag, String sendtype, String num, MutableLiveData<VerificationCodeVo> liveData) {
         Disposable disposable = (Disposable) model.getApiService().singleSend(flag, sendtype, num)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<VerificationCodeVo>() {
                     @Override
@@ -175,7 +176,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
 
     private void singleVerify(Map<String, String> map, MutableLiveData<VerifyVo> liveData) {
         Disposable disposable = (Disposable) model.getApiService().singleVerify(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<VerifyVo>() {
                     @Override
@@ -212,7 +213,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
 
     private void updateVerify(Map<String, String> map, MutableLiveData<VerifyVo> liveData) {
         Disposable disposable = (Disposable) model.getApiService().updateVerify(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<VerifyVo>() {
                     @Override
@@ -250,7 +251,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
     private void bindVerify(Map<String, String> map, MutableLiveData<VerifyVo> liveData) {
 
         Disposable disposable = (Disposable) model.getApiService().bindVerify(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<VerifyVo>() {
                     @Override
@@ -271,7 +272,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
 
     public void changePwd(Map<String, String> map) {
         Disposable disposable = (Disposable) model.getApiService().changePwd(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<Map<String, String>>() {
                     @Override
@@ -304,57 +305,63 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
 
     public void goOthers(Activity ctx, String type, VerifyVo vo) {
         String title = "";
-        String url = "";
+        String remind = "";
+        //String url = "";
         switch (type) {
             case Constant.RESET_LOGIN_PASSWORD:
                 CfLog.i("****** 修改密码...");
-                Bundle bundle = new Bundle();
-                bundle.putString("tokenSign", vo.tokenSign);
-                bundle.putString("mark", vo.mark);
-                Intent intent = new Intent(ctx, ContainerActivity.class);
-                intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_CHANGE_PWD);
-                if (bundle != null) {
-                    intent.putExtra(ContainerActivity.BUNDLE, bundle);
-                }
-                ctx.startActivity(intent);
+                startNextPage(ctx, RouterFragmentPath.Mine.PAGER_CHANGE_PWD, vo);
                 return;
             case Constant.BIND_CARD:
-                title = "银行卡管理";
-                url = DomainUtil.getDomain2() + "/user/userbankinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
-                break;
+                //title = ctx.getString(R.string.txt_bind_card); //"银行卡管理";
+                //remind = ctx.getString(R.string.txt_remind_card);
+                //url = DomainUtil.getDomain2() + "/user/userbankinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
+                startNextPage(ctx, RouterFragmentPath.Mine.PAGER_BIND_CARD, vo);
+                return;
             case Constant.BIND_USDT:
-                title = "绑定USDT";
-                url = DomainUtil.getDomain2() + "/user/userusdtinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
-                break;
+                title = ctx.getString(R.string.txt_bind_usdt); //"绑定USDT";
+                remind = ctx.getString(R.string.txt_remind_usdt_trc20) + ";\n" + ctx.getString(R.string.txt_remind_usdt_erc20);
+                //url = DomainUtil.getDomain2() + "/user/userusdtinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
+                //startNextPage(ctx, RouterFragmentPath.Mine.PAGER_BIND_USDT, vo);
+                startUsdt(ctx, title, remind, vo, true);
+                return;
             case Constant.BIND_EBPAY:
-                title = "绑定EBPAY";
-                url = DomainUtil.getDomain2() + "/user/userebpayinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
+                title = ctx.getString(R.string.txt_bind_ebpay); //"绑定EBPAY";
+                remind = ctx.getString(R.string.txt_remind_ebpay);
+                //url = DomainUtil.getDomain2() + "/user/userebpayinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
+                //startUsdt(ctx, title, vo);
                 break;
             case Constant.BIND_TOPAY:
-                title = "绑定TOPAY";
-                url = DomainUtil.getDomain2() + "/user/usertopayinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
+                title = ctx.getString(R.string.txt_bind_topay); //"绑定TOPAY";
+                remind = ctx.getString(R.string.txt_remind_topay);
+                //url = DomainUtil.getDomain2() + "/user/usertopayinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
                 break;
 
             case Constant.BIND_GCNYT:
             case Constant.BIND_HIWALLET:
-                title = "绑定CNYT";
-                url = DomainUtil.getDomain2() + "/user/userhiwalletinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
+                title = ctx.getString(R.string.txt_bind_gcnyt); //"绑定CNYT";
+                remind = ctx.getString(R.string.txt_remind_gcnyt);
+                //url = DomainUtil.getDomain2() + "/user/userhiwalletinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
                 break;
             case Constant.BIND_MPAY:
-                title = "绑定MPAY";
-                url = DomainUtil.getDomain2() + "/user/usermpayinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
+                title = ctx.getString(R.string.txt_bind_mpay); //"绑定MPAY";
+                remind = ctx.getString(R.string.txt_remind_mpay);
+                //url = DomainUtil.getDomain2() + "/user/usermpayinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
                 break;
             case Constant.BIND_GOBAO:
-                title = "绑定GOBAO";
-                url = DomainUtil.getDomain2() + "/user/usergobaoinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
+                title = ctx.getString(R.string.txt_bind_gobao); //"绑定GOBAO";
+                remind = ctx.getString(R.string.txt_remind_gobao);
+                //url = DomainUtil.getDomain2() + "/user/usergobaoinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
                 break;
             case Constant.BIND_GOPAY:
-                title = "绑定GOPAY";
-                url = DomainUtil.getDomain2() + "/user/usergopayinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
+                title = ctx.getString(R.string.txt_bind_gopay); //"绑定GOPAY";
+                remind = ctx.getString(R.string.txt_remind_gopay);
+                //url = DomainUtil.getDomain2() + "/user/usergopayinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
                 break;
             case Constant.BIND_OKPAY:
-                title = "绑定OKPAY";
-                url = DomainUtil.getDomain2() + "/user/userokpayinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
+                title = ctx.getString(R.string.txt_bind_okpay); //"绑定OKPAY";
+                remind = ctx.getString(R.string.txt_remind_okpay);
+                //url = DomainUtil.getDomain2() + "/user/userokpayinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
                 break;
 
             default:
@@ -362,11 +369,47 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                 return;
         }
 
+        startUsdt(ctx, title, remind, vo);
         //new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, title, url)).show();
-        Intent it = new Intent(ctx, BrowserActivity.class);
+        /*Intent it = new Intent(ctx, BrowserActivity.class);
         it.putExtra("url", url);
         it.putExtra("title", title);
-        ctx.startActivity(it);
+        ctx.startActivity(it);*/
+    }
+
+    private void startUsdt(Context ctx, String title, String remind, VerifyVo vo) {
+        startUsdt(ctx, title, remind, vo, false);
+    }
+
+    private void startUsdt(Context ctx, String title, String remind, VerifyVo vo, boolean isShowType) {
+        String key = vo.mark.replace("bind", ""); // usdt
+        UserUsdtJumpVo t = new UserUsdtJumpVo();
+        t.title = title;
+        t.remind = remind;
+        t.key = key;
+        t.mark = vo.mark;
+        t.tokenSign = vo.tokenSign;
+        t.isShowType = isShowType;
+        t.controller = "security";
+        t.action = "adduser" + key; // adduserusdt
+        t.type = key.toUpperCase(); // // ERC20_USDT,TRC20_USDT
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("obj", t);
+        Intent intent = new Intent(ctx, ContainerActivity.class);
+        intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_BIND_USDT);
+        intent.putExtra(ContainerActivity.BUNDLE, bundle);
+        ctx.startActivity(intent);
+    }
+
+    private void startNextPage(Context ctx, String path, VerifyVo vo) {
+        Bundle bundle = new Bundle();
+        bundle.putString("mark", vo.mark);
+        bundle.putString("tokenSign", vo.tokenSign);
+        Intent intent = new Intent(ctx, ContainerActivity.class);
+        intent.putExtra(ContainerActivity.ROUTER_PATH, path);
+        intent.putExtra(ContainerActivity.BUNDLE, bundle);
+        ctx.startActivity(intent);
     }
 
     public void readCache() {
