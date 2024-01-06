@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/layout_margin"
+    android:layout_marginTop="@dimen/layout_margin"
+    android:layout_marginEnd="@dimen/layout_margin"
+    android:background="@drawable/bg_item_wlt_room_selector"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="@dimen/layout_margin"
+    android:paddingStart="@dimen/layout_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvw_user_name"
+            style="@style/style_wd_info_value2"
+            android:layout_marginStart="0dp"
+            android:layout_weight="1"
+            tools:text="DEMO" />
+
+        <TextView
+            style="@style/style_wd_info_title2"
+            android:text="@string/txt_bind_time_c" />
+
+        <TextView
+            android:id="@+id/tvw_bind_time"
+            style="@style/style_wd_info_title2"
+            tools:text="2024-01-01 16:00:00" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tvw_type_title"
+                style="@style/style_wd_info_title2"
+                android:gravity="start"
+                android:text="@string/txt_open_acc_bank" />
+
+            <TextView
+                android:id="@+id/tvw_type"
+                style="@style/style_wd_info_title"
+                android:gravity="start"
+                tools:text="XX银行" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvw_acc_title"
+                style="@style/style_wd_info_title2"
+                android:gravity="start"
+                android:text="@string/txt_card_num" />
+
+            <TextView
+                android:id="@+id/tvw_account"
+                style="@style/style_wd_info_title"
+                android:gravity="start"
+                tools:text="***3281" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvw_status"
+                style="@style/style_wd_info_title2"
+                android:gravity="start"
+                android:minEms="2"
+                android:text="@string/txt_card_locked"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tvw_rebind"
+                style="@style/style_btn_small"
+                android:text="@string/txt_rebind"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

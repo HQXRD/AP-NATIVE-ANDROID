@@ -33,6 +33,13 @@ public class RouterFragmentPath {
         public static final String PAGER_BIND_PHONE = MINE + "/BindPhone";
         public static final String PAGER_BIND_EMAIL = MINE + "/BindEmail";
         public static final String PAGER_CHANGE_PWD = MINE + "/ChangePwd";
+
+        public static final String PAGER_BIND_CARD = MINE + "/BindCard";
+        public static final String PAGER_BIND_CARD_ADD = MINE + "/BindCardAdd";
+        public static final String PAGER_BIND_CARD_LOCK = MINE + "/BindCardLock";
+        public static final String PAGER_BIND_USDT = MINE + "/BindUsdtList";
+        public static final String PAGER_BIND_USDT_ADD = MINE + "/BindUsdtAdd";
+        public static final String PAGER_BIND_USDT_REBIND = MINE + "/BindUsdtRebind";
     }
 
     public static class Wallet {

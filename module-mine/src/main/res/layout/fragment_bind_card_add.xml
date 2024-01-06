@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.xtree.mine.ui.viewmodel.BindCardViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/clr_white"
+        android:orientation="vertical"
+        tools:context=".ui.fragment.BindCardAddFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvw_title"
+                style="@style/style_cm_title"
+                android:text="@string/txt_bind_card"
+                app:layout_constraintBaseline_toBaselineOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivw_back"
+                style="@style/style_ic_title_back"
+                android:src="@mipmap/cm_ic_back"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                style="@style/style_cm_tip_small_orange"
+                android:text="@string/txt_note_asterisks_cannot_empty" />
+
+            <TextView
+                style="@style/style_bind_title"
+                android:text="@string/txt_s_bank_num" />
+
+            <EditText
+                android:id="@+id/edt_acc"
+                style="@style/style_cm_edt"
+                android:hint="@string/txt_enter_bank_num"
+                android:inputType="number"
+                android:maxLength="19"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tvw_tip_address"
+                style="@style/style_cm_tip_small_grey"
+                android:text=""
+                android:visibility="visible"
+                tools:text="@string/txt_remind_card"
+                tools:visibility="visible" />
+
+            <TextView
+                style="@style/style_bind_title"
+                android:text="@string/txt_s_acc_real_name" />
+
+            <EditText
+                android:id="@+id/edt_name"
+                style="@style/style_cm_edt"
+                android:hint="@string/txt_enter_account_name"
+                android:imeOptions="actionDone"
+                android:maxLength="16"
+                android:text="" />
+
+            <TextView
+                style="@style/style_cm_tip_small_grey"
+                android:text="@string/txt_s_enter_real_name_pls"
+                android:textSize="12sp" />
+
+            <TextView
+                style="@style/style_bind_title"
+                android:text="@string/txt_s_bank_name" />
+
+            <TextView
+                android:id="@+id/tvw_choose_bank"
+                style="@style/style_cm_spinner"
+                android:hint="@string/txt_choose_bank" />
+
+            <TextView
+                style="@style/style_bind_title"
+                android:text="@string/txt_open_area" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tvw_choose_province"
+                    style="@style/style_cm_spinner2"
+                    android:hint="@string/txt_choose_province" />
+
+                <TextView
+                    android:id="@+id/tvw_choose_city"
+                    style="@style/style_cm_spinner2"
+                    android:hint="@string/txt_choose_city" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/style_bind_title"
+                android:text="@string/txt_s_branch_name" />
+
+            <EditText
+                android:id="@+id/edt_branch"
+                style="@style/style_cm_edt"
+                android:hint="@string/txt_enter_branch"
+                android:imeOptions="actionDone" />
+
+            <ImageView
+                android:id="@+id/ivw_next"
+                style="@style/style_cm_btn_next" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                style="@style/style_bind_title"
+                android:text="@string/txt_info_review" />
+
+            <LinearLayout style="@style/style_bind_confirm_ll">
+
+                <TextView
+                    style="@style/style_bind_confirm_bank_title"
+                    android:text="@string/txt_nickname_c" />
+
+                <TextView
+                    android:id="@+id/tvw_nickname"
+                    style="@style/style_bind_confirm_value"
+                    tools:text="DEMO" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_bind_confirm_ll">
+
+                <TextView
+                    style="@style/style_bind_confirm_bank_title"
+                    android:text="@string/txt_bind_bank_c" />
+
+                <TextView
+                    android:id="@+id/tvw_bank"
+                    style="@style/style_bind_confirm_value"
+                    tools:text="DEMO" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_bind_confirm_ll">
+
+                <TextView
+                    style="@style/style_bind_confirm_bank_title"
+                    android:text="@string/txt_bank_province_c" />
+
+                <TextView
+                    android:id="@+id/tvw_bank_province"
+                    style="@style/style_bind_confirm_value"
+                    tools:text="XXX" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_bind_confirm_ll">
+
+                <TextView
+                    style="@style/style_bind_confirm_bank_title"
+                    android:text="@string/txt_bank_city_c" />
+
+                <TextView
+                    android:id="@+id/tvw_bank_city"
+                    style="@style/style_bind_confirm_value"
+                    tools:text="XX" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_bind_confirm_ll">
+
+                <TextView
+                    style="@style/style_bind_confirm_bank_title"
+                    android:text="@string/txt_branch_name_c" />
+
+                <TextView
+                    android:id="@+id/tvw_branch"
+                    style="@style/style_bind_confirm_value"
+                    tools:text="XX" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_bind_confirm_ll">
+
+                <TextView
+                    style="@style/style_bind_confirm_bank_title"
+                    android:text="@string/txt_acc_name_c" />
+
+                <TextView
+                    android:id="@+id/tvw_real_name"
+                    style="@style/style_bind_confirm_value"
+                    tools:text="XX" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_bind_confirm_ll">
+
+                <TextView
+                    style="@style/style_bind_confirm_bank_title"
+                    android:text="@string/txt_bank_acc_c" />
+
+                <TextView
+                    android:id="@+id/tvw_acc"
+                    style="@style/style_bind_confirm_value"
+                    tools:text="XX" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_cm_btn_ll">
+
+                <TextView
+                    android:id="@+id/tvw_back"
+                    style="@style/style_btn_back" />
+
+                <TextView
+                    android:id="@+id/tvw_submit"
+                    style="@style/style_btn" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

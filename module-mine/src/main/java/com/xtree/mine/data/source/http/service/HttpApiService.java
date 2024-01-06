@@ -3,13 +3,22 @@ package com.xtree.mine.data.source.http.service;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.mine.vo.BalanceVo;
+import com.xtree.mine.vo.BankCardVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.ProfileVo;
 import com.xtree.mine.vo.SettingsVo;
+import com.xtree.mine.vo.UsdtVo;
+import com.xtree.mine.vo.UserBankConfirmVo;
+import com.xtree.mine.vo.UserBankProvinceVo;
+import com.xtree.mine.vo.UserBindBaseVo;
+import com.xtree.mine.vo.UserUsdtConfirmVo;
+import com.xtree.mine.vo.UserUsdtTypeVo;
 import com.xtree.mine.vo.VerificationCodeVo;
 import com.xtree.mine.vo.VerifyVo;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
@@ -127,6 +136,74 @@ public interface HttpApiService {
     @POST("/api/game/transfer")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<Object>> doTransfer(@Body Map<String, String> map);
+
+    /**
+     * 获取用户已绑定的银行卡列表
+     * /user/userbankinfo?check=***&mark=bindcard&client=m
+     */
+    @GET("/user/userbankinfo?")
+    Flowable<UserBindBaseVo<BankCardVo>> getBankCardList(@QueryMap Map<String, String> map);
+
+    /**
+     * 获取银行列表/省列表
+     * /user/userbankinfo?check=***&mark=bindcard&client=m&controller=security&action=adduserbank
+     */
+    @GET("/user/userbankinfo?")
+    Flowable<UserBankProvinceVo> getBankProvinceList(@QueryMap Map<String, String> map);
+
+    /**
+     * 获取 市列表
+     */
+    @POST("/user/userbankinfo/?controller=security&action=adduserbank&client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<HashMap<String, List<UserBankProvinceVo.AreaVo>>> getCityList(@Body Map<String, String> map);
+
+    /**
+     * 绑定银行卡
+     *
+     * @param queryMap URL拼装用的 controller=security&action=adduserbank&client=m&mark=bindcard&check=***
+     * @param map      POST Body 体用的
+     */
+    @POST("/user/userbankinfo/?")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<UserBankConfirmVo> doBindBankCard(@QueryMap Map<String, String> queryMap, @Body Map<String, String> map);
+
+    /**
+     * 锁定银行卡
+     * /security/deluserbank?flag=lock&id=***&client=m
+     */
+    @POST("/security/deluserbank?")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<UserBankConfirmVo> delBankCard(@QueryMap Map<String, String> queryMap, @Body Map<String, String> map);
+
+    /**
+     * 查询已绑定的列表
+     * client=m&check=***&mark=bindusdt
+     */
+    @GET("/user/user{key}info?")
+    Flowable<UserBindBaseVo<UsdtVo>> getUsdtList(@Path("key") String key, @QueryMap Map<String, String> map);
+
+    /**
+     * 查询 USDT 类型
+     * client=m&controller=security&action=adduserusdt
+     */
+    @GET("/user/user{key}info?")
+    Flowable<UserUsdtTypeVo> getUsdtType(@Path("key") String key, @QueryMap Map<String, String> map);
+
+    /**
+     * 绑定
+     * client=m&controller=security&action=adduserusdt
+     */
+    @POST("/user/user{key}info?")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<UserUsdtConfirmVo> doBindUsdt(@Path("key") String key, @QueryMap Map<String, String> queryMap, @Body Map<String, String> map);
+
+    /**
+     * 重新绑定
+     */
+    @POST("/security/{key}rebinding?")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<UserUsdtConfirmVo> doRebindUsdt(@Path("key") String key, @QueryMap Map<String, String> queryMap, @Body Map<String, String> map);
 
     /**
      * 获取 FB体育请求服务地址
