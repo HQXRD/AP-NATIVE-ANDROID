@@ -173,5 +173,6 @@
     <string name="txt_address_c">地址：</string>
     <string name="txt_wallet_address_c">钱包地址：</string>
     <string name="txt_address_should_same">两次输入的地址不一致</string>
+    <string name="txt_bind_time_c">绑定时间：</string>
 
 </resources>

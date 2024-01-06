@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -20,12 +19,9 @@ import com.xtree.base.utils.CfLog;
 import java.util.ArrayList;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.utils.KLog;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link NewsFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * 活动页-子页
  */
 public class NewsFragment extends BaseFragment<FragmentNewsBinding, ActivityViewModel> {
 
@@ -40,7 +36,6 @@ public class NewsFragment extends BaseFragment<FragmentNewsBinding, ActivityView
     NewAdapter mAdapter;
 
     public NewsFragment() {
-        // Required empty public constructor
     }
 
     /**
@@ -85,13 +80,11 @@ public class NewsFragment extends BaseFragment<FragmentNewsBinding, ActivityView
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //return 0;
         return R.layout.fragment_news;
     }
 
     @Override
     public int initVariableId() {
-        //return 0;
         return BR.viewModel;
     }
 
@@ -104,7 +97,7 @@ public class NewsFragment extends BaseFragment<FragmentNewsBinding, ActivityView
 
     @Override
     public void onDestroy() {
-        KLog.i(this.getClass().getSimpleName() + "typeId: " + typeId + ", typeName: " + typeName);
+        CfLog.d(this.getClass().getSimpleName() + "typeId: " + typeId + ", typeName: " + typeName);
         super.onDestroy();
     }
 

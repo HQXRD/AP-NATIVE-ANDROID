@@ -8,12 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.xtree.activity.BR;
 import com.xtree.activity.R;
@@ -31,10 +29,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
- * Created by goldze on 2018/6/21
+ * 活动页-主页
  */
 @Route(path = RouterFragmentPath.Activity.PAGER_ACTIVITY)
 public class ActivityFragment extends BaseFragment<FragmentActivityBinding, ActivityViewModel> {
@@ -88,13 +85,10 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
         binding.vpMain.setAdapter(mAdapter);
         binding.vpMain.setUserInputEnabled(true); // true: ViewPager2可左右滑动
         binding.vpMain.setSaveEnabled(false);
-        new TabLayoutMediator(binding.tblType, binding.vpMain, new TabLayoutMediator.TabConfigurationStrategy() {
-            @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                if (position < list2.size()) {
-                    tab.setText(list2.get(position).category);
-                    //tab.setTag(list2.get(position));
-                }
+        new TabLayoutMediator(binding.tblType, binding.vpMain, (tab, position) -> {
+            if (position < list2.size()) {
+                tab.setText(list2.get(position).category);
+                //tab.setTag(list2.get(position));
             }
         }).attach();
     }
@@ -106,14 +100,10 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
 
     @Override
     public void initViewObservable() {
-        viewModel.itemClickEvent.observe(this, (Observer<String>) s -> ToastUtils.showShort(s));
 
-        viewModel.liveDataNewList.observe(getViewLifecycleOwner(), new Observer<ArrayList<NewVo>>() {
-            @Override
-            public void onChanged(ArrayList<NewVo> list) {
-                // 加载主页,
-                setNewsView(list);
-            }
+        viewModel.liveDataNewList.observe(getViewLifecycleOwner(), list -> {
+            // 加载主页,
+            setNewsView(list);
         });
 
     }
@@ -124,7 +114,7 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
         list2.clear();
         map.clear();
 
-        list2.add(new CategoryVo(0, "全部优惠"));
+        list2.add(new CategoryVo(0, getString(R.string.txt_all_discount)));
         map.put("0", list);
 
         ArrayList<NewVo> tmpList;
@@ -147,7 +137,7 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
 
         Collections.sort(list2);
         for (CategoryVo t2 : list2) {
-            if (t2.category.contains("小9直播")) {
+            if (t2.category.contains(getString(R.string.txt_xiao_9_live))) {
                 list2.remove(t2);
                 list2.add(list2.size() - 1, t2);
                 break;
