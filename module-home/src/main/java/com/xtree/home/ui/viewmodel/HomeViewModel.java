@@ -10,10 +10,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.MD5Util;
-import com.xtree.base.utils.RSAEncrypt;
 import com.xtree.base.vo.FBService;
 import com.xtree.home.R;
 import com.xtree.home.data.HomeRepository;
@@ -22,7 +21,6 @@ import com.xtree.home.vo.CookieVo;
 import com.xtree.home.vo.DataVo;
 import com.xtree.home.vo.GameStatusVo;
 import com.xtree.home.vo.GameVo;
-import com.xtree.home.vo.LoginResultVo;
 import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.ProfileVo;
 import com.xtree.home.vo.SettingsVo;
@@ -36,14 +34,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.bus.event.SingleLiveData;
-
-import com.xtree.base.net.HttpCallBack;
-
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -53,19 +46,16 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 
 public class HomeViewModel extends BaseViewModel<HomeRepository> {
-    public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
 
     public MutableLiveData<List<BannersVo>> liveDataBanner = new MutableLiveData<>();
     public MutableLiveData<List<NoticeVo>> liveDataNotice = new MutableLiveData<>();
     //public MutableLiveData<List<GameStatusVo>> liveDataGameStatus = new MutableLiveData<>();
     public MutableLiveData<List<GameVo>> liveDataGames = new MutableLiveData<>();
     public MutableLiveData<Map> liveDataPlayUrl = new MutableLiveData<>();
-    public MutableLiveData<String> liveDataUser = new MutableLiveData<>();
     public MutableLiveData<CookieVo> liveDataCookie = new MutableLiveData<>();
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>();
     public MutableLiveData<VipInfoVo> liveDataVipInfo = new MutableLiveData<>();
     public MutableLiveData<SettingsVo> liveDataSettings = new MutableLiveData<>();
-    public MutableLiveData<LoginResultVo> liveDataLoginResult = new MutableLiveData<>();
 
     String public_key;
 
@@ -75,13 +65,15 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
 
     public void getBanners() {
         Disposable disposable = (Disposable) model.getApiService().getBanners()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<List<BannersVo>>() {
                     @Override
                     public void onResult(List<BannersVo> list) {
+                        CfLog.i("****** ");
                         if (list.isEmpty()) {
-                            // 没有数据时,banner会占满手机屏幕/白屏;加条数据显示默认图片
+                            // 没有数据时,banner会占满手机屏幕/白屏;加2条数据显示默认图片
+                            list.add(new BannersVo("default"));
                             list.add(new BannersVo("default"));
                         }
                         SPUtils.getInstance().put(SPKeyGlobal.HOME_BANNER_LIST, new Gson().toJson(list));
@@ -105,12 +97,12 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         }
 
         Disposable disposable = (Disposable) model.getApiService().getNotices()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<DataVo<NoticeVo>>() {
                     @Override
                     public void onResult(DataVo<NoticeVo> data) {
-                        //CfLog.i(data.list.get(0).toString());
+                        CfLog.i("****** ");
                         SPUtils.getInstance().put(SPKeyGlobal.HOME_NOTICE_LIST, new Gson().toJson(data.list));
                         liveDataNotice.setValue(data.list);
                     }
@@ -128,13 +120,13 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
 
     public void getGameStatus(Context ctx) {
         Disposable disposable = (Disposable) model.getApiService().getGameStatus()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<List<GameStatusVo>>() {
                     @Override
                     public void onResult(List<GameStatusVo> list) {
                         //ToastUtils.showLong("请求成功");
-                        CfLog.i("list.size: " + list.size()); // 37
+                        CfLog.i("****** list.size: " + list.size()); // 37
                         CfLog.i(list.get(0).toString()); // GameStatusVo{cid=1, name='PT娱乐', alias='pt', status=1}
                         String json = readFromRaw(ctx, R.raw.games);
                         List<GameVo> mList = new Gson().fromJson(json, new TypeToken<List<GameVo>>() {
@@ -161,11 +153,12 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
             return;
         }
         Disposable disposable = (Disposable) model.getApiService().getFBGameTokenApi()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<FBService>() {
                     @Override
                     public void onResult(FBService fbService) {
+                        CfLog.i("****** ");
                         SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
                     }
@@ -184,7 +177,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
             return;
         }
         Disposable disposable = (Disposable) model.getApiService().getFBGameTokenApi()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<FBService>() {
                     @Override
@@ -244,7 +237,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         map.put("id", gameId);
 
         Disposable disposable = (Disposable) model.getApiService().getPlayUrl(gameAlias, map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<Map<String, String>>() {
                     @Override
@@ -269,12 +262,12 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         map.put("fields", "customer_service_url,public_key,barrage_api_url," +
                 "x9_customer_service_url," + "promption_code,default_promption_code");
         Disposable disposable = (Disposable) model.getApiService().getSettings(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<SettingsVo>() {
                     @Override
                     public void onResult(SettingsVo vo) {
-                        //CfLog.i(vo.toString());
+                        CfLog.i("****** ");
                         public_key = vo.public_key
                                 .replace("\n", "")
                                 .replace("\t", " ")
@@ -297,55 +290,9 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         addSubscribe(disposable);
     }
 
-    public void login(Context ctx, String userName, String pwd) {
-        String password = MD5Util.generateMd5("") + MD5Util.generateMd5(pwd);
-        //CfLog.d("password: " + password);
-        String public_key = SPUtils.getInstance().getString("public_key", "");
-        String loginpass = RSAEncrypt.encrypt2(pwd, public_key);
-        //CfLog.d("loginpass: " + loginpass);
-
-        if (TextUtils.isEmpty(loginpass)) {
-            return;
-        }
-
-        HashMap<String, String> map = new HashMap();
-        map.put("username", userName);
-        map.put("password", password);
-        map.put("grant_type", "login");
-        map.put("validcode", "");
-        map.put("client_id", "10000005"); // h5:10000003, ios:10000004, android:10000005
-        map.put("loginpass", loginpass);
-        map.put("nonce", UUID.randomUUID().toString().replace("-", "")); //
-
-        Disposable disposable = (Disposable) model.getApiService().login(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<LoginResultVo>() {
-                    @Override
-                    public void onResult(LoginResultVo vo) {
-                        CfLog.i(vo.toString());
-                        ToastUtils.showLong("登录成功");
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN, vo.token);
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, vo.token_type);
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
-
-                        RetrofitClient.init();
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        CfLog.e(t.toString());
-                        super.onError(t);
-                        ToastUtils.showLong("登录失败");
-                    }
-                });
-        addSubscribe(disposable);
-    }
-
     public void getCookie() {
         Disposable disposable = (Disposable) model.getApiService().getCookie()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<CookieVo>() {
                     @Override
@@ -369,7 +316,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
 
     public void getProfile() {
         Disposable disposable = (Disposable) model.getApiService().getProfile()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<ProfileVo>() {
                     @Override
@@ -392,7 +339,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
 
     public void getVipInfo() {
         Disposable disposable = (Disposable) model.getApiService().getVipInfo()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<VipInfoVo>() {
                     @Override
@@ -419,7 +366,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         List list = gson.fromJson(json, new TypeToken<List<BannersVo>>() {
         }.getType());
         if (list.isEmpty()) {
-            // 没有数据时,banner会占满手机屏幕/白屏;加条数据显示默认图片
+            // 没有数据时,banner会占满手机屏幕/白屏;加2条数据显示默认图片
+            list.add(new BannersVo("default"));
             list.add(new BannersVo("default"));
         }
         liveDataBanner.setValue(list);
