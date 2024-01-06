@@ -141,7 +141,6 @@
     <color name="bt_color_text_match_close">#B85F53</color>
 
 
-
     <!-- 投注模块 end-->
 
     <!-- 首页模块 begin -->
@@ -198,6 +197,7 @@
     <color name="clr_purple_08">#EFE9FF</color>
     <color name="clr_purple_09">#D6CEF9</color>
 
+    <!-- 按钮背景 左中右/上中下 -->
     <color name="clr_purple_bg01">#E5BFFC</color>
     <color name="clr_purple_bg03">#AF8BE6</color>
     <color name="clr_purple_bg05">#8869E6</color>
@@ -205,12 +205,18 @@
     <color name="clr_purple_53">#35F0EAFF</color>
     <color name="clr_purple_00">#ECE8FF</color>
 
+    <!-- 按钮背景 右 -->
     <color name="clr_purple_bg_1">#9179E7</color>
+    <!-- 按钮背景 左 -->
     <color name="clr_purple_bg_2">#CA9BE6</color>
 
     <color name="clr_purple_bg_021">#9179e7</color>
     <color name="clr_purple_bg_022">#CA9BE6</color>
     <color name="clr_purple_bg_023">#F2EFFF</color>
+
+    <!-- 按钮背景 灰色 -->
+    <color name="clr_btn_grey01">#D6D5D7</color>
+    <color name="clr_btn_grey02">#E1E1E1</color>
 
     <!--  金额已选中  -->
     <color name="clr_purple_05">#9179E7</color>

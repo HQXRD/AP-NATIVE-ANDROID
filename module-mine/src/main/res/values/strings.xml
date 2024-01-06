@@ -121,11 +121,57 @@
 
     <string name="txt_change_pwd">修改密码</string>
     <string name="txt_enter_new_pwd">请输入新的登录密码</string>
-    <string name="txt_reset">重置</string>
-    <string name="txt_confirm">确定</string>
     <string name="txt_user_name_should_6_12">用户名为6到12位</string>
     <string name="txt_pwd_should_6_12">密码为6到12位</string>
     <string name="txt_enter_pwd_again">请再次输入密码</string>
     <string name="txt_pwd_should_same">两次输入密码不一致</string>
+
+    <string name="txt_enter_bank_num">请输入银行卡号</string>
+    <string name="txt_enter_account_name">请输入开户人姓名</string>
+    <string name="txt_choose_bank">请选择银行</string>
+    <string name="txt_choose_province">请选择省</string>
+    <string name="txt_choose_city">请选择市</string>
+    <string name="txt_enter_branch">请输入支行名称</string>
+    <string name="txt_s_bank_num">*银行卡号</string>
+    <string name="txt_s_acc_real_name">*开户人姓名</string>
+    <string name="txt_s_enter_real_name_pls">*为了您的资金能够迅速到账，请确保填写你的姓名与银行卡的开户姓名一致</string>
+    <string name="txt_s_bank_name">*开户银行</string>
+    <string name="txt_s_branch_name">*支行名称</string>
+    <string name="txt_choose_pls">请选择</string>
+    <string name="txt_choose_type_pls">请选择类型</string>
+    <string name="txt_s_usdt_type">*货币类型</string>
+    <string name="txt_s_usdt_addr">*提现钱包地址</string>
+    <string name="txt_s_usdt_addr2">*确认钱包地址</string>
+    <string name="txt_enter_wallet_addr">请输入钱包地址</string>
+    <string name="txt_enter_wallet_addr2">确认钱包地址</string>
+    <string name="txt_enter_wallet_old_addr">请输入旧的钱包地址</string>
+
+    <string name="txt_lock_card">锁定银行卡</string>
+    <string name="txt_add_bind">增加绑定</string>
+    <string name="txt_card_locked">卡已锁定</string>
+    <string name="txt_bind_most_cards">一个账户最多只能绑定%1$s张银行卡</string>
+    <string name="txt_lock_cards">银行卡锁定可以增强账户安全,推荐锁定(如：账户被他人盗用后，由于锁定的限制，您账户的资金不会被他人提款 )</string>
+    <string name="txt_u_cannot_unlock_cards">银行卡锁定后，不能增加新银行卡绑定，自身不能解绑和解锁银行卡，联系您的上级申请解锁</string>
+
+    <string name="txt_bind_most_usdt">一个账户最多只能绑定%1$s个%2$s地址</string>
+    <string name="txt_rebind">重新绑定</string>
+    <string name="txt_open_acc_bank">开户行：</string>
+    <string name="txt_card_num">卡号：</string>
+    <string name="txt_open_area">*开户地区</string>
+    <string name="txt_info_review">信息核对</string>
+    <string name="txt_nickname_c">昵称：</string>
+    <string name="txt_bind_bank_c">绑定银行：</string>
+    <string name="txt_bank_province_c">开户银行省份：</string>
+    <string name="txt_bank_city_c">开户银行城市：</string>
+    <string name="txt_branch_name_c">支行名称：</string>
+    <string name="txt_acc_name_c">开户人姓名：</string>
+    <string name="txt_bank_acc_c">银行账号：</string>
+    <string name="txt_enter_the_last_acc_name">请输入最新绑定银行卡开户人姓名</string>
+    <string name="txt_enter_last_bank_card_num">请输入最新绑定银行卡卡号</string>
+    <string name="txt_note_cs_cannot_unlock_bank_card">注意：在线客服不提供账户银行卡解锁业务，若要解锁请向上级代理申请。</string>
+    <string name="txt_type_c">类型：</string>
+    <string name="txt_address_c">地址：</string>
+    <string name="txt_wallet_address_c">钱包地址：</string>
+    <string name="txt_address_should_same">两次输入的地址不一致</string>
 
 </resources>
