@@ -77,62 +77,6 @@ public abstract class TemplateBtDetailViewModel extends BaseViewModel<BetReposit
     }
 
     /**
-     * 设置赔率变化
-     *
-     * @param mewMatch
-     */
-    void setOptionOddChange(Match mewMatch, List<PlayType> newPlayTypeList) {
-        List<Option> newOptonList = getMatchOptionList(mewMatch, newPlayTypeList);
-        List<Option> oldOptonList = getMatchOptionList(mMatch, newPlayTypeList);
-
-        for (Option newOption : newOptonList) {
-            for (Option oldOption : oldOptonList) {
-                if (oldOption != null && newOption != null
-                        && oldOption.getOdd() != newOption.getOdd()
-                        && TextUtils.equals(oldOption.getCode(), newOption.getCode())) {
-                    newOption.setChange(oldOption.getOdd());
-                    break;
-                }
-            }
-        }
-    }
-
-    private List<Option> getMatchOptionList(Match match, List<PlayType> playTypeList) {
-        if(match == null){
-            return new ArrayList<>();
-        }
-        if(playTypeList != null){
-            return getOptionList(match, playTypeList);
-        }else {
-            return getOptionList(match, match.getPlayTypeList());
-        }
-    }
-
-    private List<Option> getOptionList(Match match, List<PlayType> playTypeList) {
-        List<Option> optionList = new ArrayList<>();
-        for (PlayType playType : playTypeList) {
-            playType.getOptionLists();
-            for (Option option : playType.getOptionList()) {
-                if (option != null && playType.getOptionLists() != null && !playType.getOptionLists().isEmpty()) {
-                    StringBuffer code = new StringBuffer();
-                    code.append(match.getId());
-                    code.append(playType.getPlayType());
-                    code.append(playType.getPlayPeriod());
-                    code.append(playType.getOptionLists().get(0).getId());
-                    code.append(option.getOptionType());
-                    code.append(option.getId());
-                    if (!TextUtils.isEmpty(option.getLine())) {
-                        code.append(option.getLine());
-                    }
-                    option.setCode(code.toString());
-                }
-                optionList.add(option);
-            }
-        }
-        return optionList;
-    }
-
-    /**
      * 获取赛事玩法分类，仅PM用
      * @param matchId
      * @param sportId

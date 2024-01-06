@@ -13,6 +13,7 @@ import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.CategoryPm;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchPm;
+import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.bean.ui.PlayTypePm;
 import com.xtree.bet.data.BetRepository;
@@ -37,6 +38,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
     private List<Category> categoryList = new ArrayList<>();
     //private Map<String, Category> categoryMap = new HashMap<>();
     private boolean isFirst = true;
+    private List<PlayType> mPlayTypeList;
 
     public PmBtDetailViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
@@ -94,19 +96,6 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                     }
                 });
         addSubscribe(disposable);
-
-
-        /*Map<String, Category> map = new HashMap<>();
-        List<Category> categoryList = new ArrayList<>();
-        for (PlayTypeInfo playTypeInfo : matchInfo.mg) {
-            for (String type : playTypeInfo.tps) {
-                if (map.get(type) == null) {
-                    map.put(type, new CategoryPm(playTypeInfo));
-                }
-                map.get(type).addPlayTypeList(new PlayTypePm(playTypeInfo));
-            }
-        }
-        categoryList.addAll(map.values());*/
     }
 
     @Override
@@ -123,7 +112,14 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                     @Override
                     public void onResult(List<PlayTypeInfo> playTypeList) {
                         Collections.sort(playTypeList);
+
+                        List<PlayType> playTypes = new ArrayList<>();
+                        for (PlayTypeInfo playTypeInfo : playTypeList) {
+                            playTypes.add(new PlayTypePm(playTypeInfo));
+                        }
+
                         if (isFirst) {
+                            mPlayTypeList = playTypes;
                             for(Category category : categoryList){
                                 for (PlayTypeInfo playTypeInfo : playTypeList) {
                                     CategoryPm categoryPm = (CategoryPm) category;
@@ -133,11 +129,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                                 }
                             }
                         }else { // 设置赔率变化
-                            List<PlayType> playTypes = new ArrayList<>();
-                            for (PlayTypeInfo playTypeInfo : playTypeList) {
-                                playTypes.add(new PlayTypePm(playTypeInfo));
-                            }
-                            setOptionOddChange(mMatch, playTypes);
+                            setOptionOddChange(playTypes);
                         }
                         isFirst = false;
                         categoryListData.postValue(categoryList);
@@ -149,6 +141,38 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                     }
                 });
         addSubscribe(disposable);
+    }
+
+    /**
+     * 设置赔率变化
+     */
+    void setOptionOddChange(List<PlayType> newPlayTypeList) {
+        List<Option> newOptonList = getMatchOptionList(newPlayTypeList);
+        List<Option> oldOptonList = getMatchOptionList(mPlayTypeList);
+
+        for (Option newOption : newOptonList) {
+            for (Option oldOption : oldOptonList) {
+                if (oldOption != null && newOption != null
+                        && oldOption.getOdd() != newOption.getOdd()
+                        && TextUtils.equals(oldOption.getCode(), newOption.getCode())) {
+                    newOption.setChange(oldOption.getOdd());
+                    break;
+                }
+            }
+        }
+    }
+
+    private List<Option> getMatchOptionList(List<PlayType> playTypeList) {
+        List<Option> optionList = new ArrayList<>();
+        for (PlayType playType : playTypeList) {
+            for (Option option : playType.getOptionList()) {
+                if (option != null && playType.getOptionLists() != null && !playType.getOptionLists().isEmpty()) {
+                    option.setCode(option.getId());
+                }
+                optionList.add(option);
+            }
+        }
+        return optionList;
     }
 
 }

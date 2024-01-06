@@ -74,8 +74,8 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     private List<MenuInfo> mMenuInfoList = new ArrayList<>();
 
     private int currentPage = 1;
-    private int goingOnPageSize = 300;
-    private int pageSize = 20;
+    private int goingOnPageSize = 1;
+    private int pageSize = 1;
     private List<League> mUpdateLeagueList = new ArrayList<>();
 
     public PMMainViewModel(@NonNull Application application, BetRepository repository) {
@@ -665,23 +665,12 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         List<Option> optionList = new ArrayList<>();
         for (Match match : matchList) {
             PlayGroup newPlayGroup = new PlayGroupPm(match.getPlayTypeList());
-            newPlayGroup.getPlayGroupList();
 
             for (PlayType playType : newPlayGroup.getPlayTypeList()) {
                 playType.getOptionLists();
                 for (Option option : playType.getOptionList()) {
-                    if (option != null && playType.getOptionLists() != null && !playType.getOptionLists().isEmpty()) {
-                        StringBuffer code = new StringBuffer();
-                        code.append(match.getId());
-                        code.append(playType.getPlayType());
-                        code.append(playType.getPlayPeriod());
-                        code.append(playType.getOptionLists().get(0).getId());
-                        code.append(option.getOptionType());
-                        code.append(option.getId());
-                        if (!TextUtils.isEmpty(option.getLine())) {
-                            code.append(option.getLine());
-                        }
-                        option.setCode(option.toString());
+                    if (option != null) {
+                        option.setCode(option.getId());
                     }
                     optionList.add(option);
                 }
