@@ -54,7 +54,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     @Override
     public void initView() {
-
+        binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         Intent intent = getIntent();
         int viewType = intent.getIntExtra(ENTER_TYPE, LOGIN_TYPE);
         if (viewType == LOGIN_TYPE) {
@@ -145,7 +145,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 if (charSequence.toString().length() < 6 || charSequence.toString().length() > 12) {
-                    ToastUtils.showLong(R.string.txt_user_name_should_6_12);
+                    //ToastUtils.showLong(R.string.txt_user_name_should_6_12);
                 }
             }
 
