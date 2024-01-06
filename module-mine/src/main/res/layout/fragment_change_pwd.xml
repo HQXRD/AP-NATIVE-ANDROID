@@ -11,6 +11,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -72,12 +73,10 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/ivw_eye"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:padding="12dp"
-                android:src="@mipmap/me_hide_icon"
+            <CheckBox
+                android:id="@+id/ckb_pwd"
+                style="@style/style_cm_ckb_eye"
+                android:layout_marginRight="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -96,18 +95,17 @@
                 style="@style/style_cm_edit_amount"
                 android:background="@null"
                 android:hint=""
+                android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:maxLength="22"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/ivw_eye2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:padding="12dp"
-                android:src="@mipmap/me_hide_icon"
+            <CheckBox
+                android:id="@+id/ckb_pwd2"
+                style="@style/style_cm_ckb_eye"
+                android:layout_marginRight="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -116,37 +114,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginTop="36dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/ivw_reset"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:src="@mipmap/me_hide_icon"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/ivw_ok"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="12dp"
-                android:src="@mipmap/me_hide_icon"
-                android:visibility="gone" />
-
             <TextView
                 android:id="@+id/tvw_reset"
-                style="@style/style_get_code"
-                android:text="@string/txt_reset"
-                android:textSize="14sp" />
+                style="@style/style_btn"
+                android:text="@string/txt_reset" />
 
             <TextView
                 android:id="@+id/tvw_ok"
-                style="@style/style_get_code"
-                android:text="@string/txt_confirm"
-                android:textSize="14sp" />
+                style="@style/style_btn"
+                android:text="@string/txt_confirm" />
         </LinearLayout>
     </LinearLayout>
 </layout>
