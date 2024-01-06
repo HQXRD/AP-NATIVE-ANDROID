@@ -13,8 +13,11 @@
     <item android:drawable="@mipmap/rc_ic_pmt_topay_selected" android:maxLevel="208" />
     <item android:drawable="@mipmap/rc_ic_pmt_cn_selected" android:maxLevel="210" />
     <item android:drawable="@mipmap/rc_ic_pmt_yhk_selected" android:maxLevel="211" />
-    <item android:drawable="@mipmap/rc_ic_pmt_beiyong_selected" android:maxLevel="223" />
+    <item android:drawable="@mipmap/rc_ic_pmt_gobao_selected" android:maxLevel="223" />
     <item android:drawable="@mipmap/rc_ic_pmt_yhk_selected" android:maxLevel="226" />
+    <item android:drawable="@mipmap/rc_ic_pmt_gopay_selected" android:maxLevel="227" />
+    <item android:drawable="@mipmap/rc_ic_pmt_okpay_selected" android:maxLevel="228" />
+    <item android:drawable="@mipmap/rc_ic_pmt_cn_selected" android:maxLevel="229" />
 
     <item android:drawable="@mipmap/rc_ic_pmt_happy_selected" android:maxLevel="999" />
     <item android:drawable="@mipmap/rc_ic_pmt_beiyong_selected" android:maxLevel="1000" />
