@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.xtree.mine.ui.viewmodel.BindUsdtViewModel" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/clr_white"
+        android:orientation="vertical"
+        tools:context=".ui.fragment.BindUsdtRebindFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvw_title"
+                style="@style/style_cm_title"
+                android:text="@string/txt_bind_usdt"
+                app:layout_constraintBaseline_toBaselineOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivw_back"
+                style="@style/style_ic_title_back"
+                android:src="@mipmap/cm_ic_back"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_old"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                style="@style/style_bind_title"
+                android:text="@string/txt_s_usdt_addr" />
+
+            <EditText
+                android:id="@+id/edt_acc_old"
+                style="@style/style_cm_edt"
+                android:hint="@string/txt_enter_wallet_old_addr" />
+
+            <LinearLayout style="@style/style_cm_btn_ll">
+
+                <TextView
+                    android:id="@+id/tvw_back_old"
+                    style="@style/style_btn_back" />
+
+                <TextView
+                    android:id="@+id/tvw_submit_old"
+                    style="@style/style_btn" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_add"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                style="@style/style_cm_tip_small_orange"
+                android:text="@string/txt_note_asterisks_cannot_empty" />
+
+            <TextView
+                android:id="@+id/tvw_choose_title"
+                style="@style/style_bind_title"
+                android:text="@string/txt_s_usdt_type" />
+
+            <TextView
+                android:id="@+id/tvw_choose"
+                style="@style/style_cm_spinner"
+                android:hint="@string/txt_choose_pls" />
+
+            <TextView
+                style="@style/style_bind_title"
+                android:text="@string/txt_s_usdt_addr" />
+
+            <EditText
+                android:id="@+id/edt_acc"
+                style="@style/style_cm_edt"
+                android:hint="@string/txt_enter_wallet_addr" />
+
+            <TextView
+                android:id="@+id/tvw_tip_address"
+                style="@style/style_cm_tip_small_orange"
+                android:text=""
+                android:visibility="visible"
+                tools:text="@string/txt_remind_usdt_trc20"
+                tools:visibility="visible" />
+
+            <TextView
+                style="@style/style_bind_title"
+                android:text="@string/txt_s_usdt_addr2" />
+
+            <EditText
+                android:id="@+id/edt_acc2"
+                style="@style/style_cm_edt"
+                android:hint="@string/txt_enter_wallet_addr2" />
+
+            <ImageView
+                android:id="@+id/ivw_next"
+                style="@style/style_cm_btn_next" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                style="@style/style_bind_title"
+                android:text="@string/txt_info_review" />
+
+            <LinearLayout style="@style/style_bind_confirm_ll">
+
+                <TextView
+                    style="@style/style_bind_confirm_title"
+                    android:text="@string/txt_type_c" />
+
+                <TextView
+                    android:id="@+id/tvw_type"
+                    style="@style/style_bind_confirm_value"
+                    tools:text="XX" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_bind_confirm_ll">
+
+                <TextView
+                    style="@style/style_bind_confirm_title"
+                    android:text="@string/txt_address_c" />
+
+                <TextView
+                    android:id="@+id/tvw_acc"
+                    style="@style/style_bind_confirm_value"
+                    tools:text="XX" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_cm_btn_ll">
+
+                <TextView
+                    android:id="@+id/tvw_back"
+                    style="@style/style_btn_back" />
+
+                <TextView
+                    android:id="@+id/tvw_submit"
+                    style="@style/style_btn" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>

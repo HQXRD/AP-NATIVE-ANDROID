@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.xtree.mine.ui.viewmodel.BindUsdtViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/clr_white"
+        android:orientation="vertical"
+        tools:context=".ui.fragment.BindCardFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvw_title"
+                style="@style/style_cm_title"
+                android:text="@string/txt_bind_usdt"
+                app:layout_constraintBaseline_toBaselineOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivw_back"
+                style="@style/style_ic_title_back"
+                android:src="@mipmap/cm_ic_back"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout style="@style/style_cm_btn_ll">
+
+            <TextView
+                android:id="@+id/tvw_add"
+                style="@style/style_btn"
+                android:text="@string/txt_add_bind" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvw_tip"
+            style="@style/style_cm_tip_small_grey"
+            android:text=""
+            tools:text="@string/txt_bind_most_usdt" />
+
+    </LinearLayout>
+
+</layout>
