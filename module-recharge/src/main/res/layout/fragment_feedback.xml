@@ -11,6 +11,7 @@
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -63,14 +64,8 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical"
-            android:text="*为必填信息!"
-            android:textColor="@color/clr_orange_03"
-            android:textSize="11sp" />
+            style="@style/style_cm_tip_small_orange"
+            android:text="@string/txt_note_asterisks_cannot_empty" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -140,7 +135,8 @@
                     <EditText
                         android:id="@+id/edt_amount"
                         style="@style/style_cm_edit"
-                        android:hint="请输入存款金额" />
+                        android:hint="请输入存款金额"
+                        android:imeOptions="actionDone" />
                 </LinearLayout>
 
                 <LinearLayout style="@style/style_ll_row">
@@ -164,7 +160,8 @@
                     <EditText
                         android:id="@+id/edt_ref_num"
                         style="@style/style_cm_edit"
-                        android:hint="请输入第三方订单号" />
+                        android:hint="请输入第三方订单号"
+                        android:imeOptions="actionDone" />
                 </LinearLayout>
 
                 <LinearLayout style="@style/style_ll_row">

@@ -29,6 +29,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
     @Override
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
+        binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.ivwNext.setOnClickListener(v -> {
             //
         });
