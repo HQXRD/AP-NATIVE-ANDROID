@@ -20,6 +20,11 @@ public class PlayTypePm implements PlayType{
         this.playTypeInfo = playTypeInfo;
     }
 
+    @Override
+    public String getId() {
+        return playTypeInfo.hpid;
+    }
+
     /**
      * 获取玩法类型，如 亚盘、大小球等
      * @return
@@ -119,6 +124,14 @@ public class PlayTypePm implements PlayType{
     @Override
     public List<String> getTags() {
         return null;
+    }
+    /**
+     * 获取所属玩法集ID
+     * @return
+     */
+    @Override
+    public String getCategoryId() {
+        return playTypeInfo.hlid;
     }
 
     @Override

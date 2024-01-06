@@ -13,6 +13,12 @@ public class CategoryFb implements Category{
         this.playTypeInfo = playTypeInfo;
         this.name = name;
     }
+
+    @Override
+    public String getId() {
+        return null;
+    }
+
     @Override
     public String getName() {
         return name;

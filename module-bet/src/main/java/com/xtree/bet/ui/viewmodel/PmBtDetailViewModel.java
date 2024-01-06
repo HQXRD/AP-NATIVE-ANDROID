@@ -1,0 +1,154 @@
+package com.xtree.bet.ui.viewmodel;
+
+import android.app.Application;
+import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+
+import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.PMHttpCallBack;
+import com.xtree.bet.bean.response.pm.MatchInfo;
+import com.xtree.bet.bean.response.pm.PlayTypeInfo;
+import com.xtree.bet.bean.ui.Category;
+import com.xtree.bet.bean.ui.CategoryPm;
+import com.xtree.bet.bean.ui.Match;
+import com.xtree.bet.bean.ui.MatchPm;
+import com.xtree.bet.bean.ui.PlayType;
+import com.xtree.bet.bean.ui.PlayTypePm;
+import com.xtree.bet.data.BetRepository;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import io.reactivex.disposables.Disposable;
+import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.SPUtils;
+
+/**
+ * Created by goldze on 2018/6/21.
+ */
+
+public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
+
+    private List<Category> categoryList = new ArrayList<>();
+    //private Map<String, Category> categoryMap = new HashMap<>();
+    private boolean isFirst = true;
+
+    public PmBtDetailViewModel(@NonNull Application application, BetRepository repository) {
+        super(application, repository);
+    }
+
+    public void getMatchDetail(long matchId) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("mid", String.valueOf(matchId));
+
+        Disposable disposable = (Disposable) model.getPMApiService().getMatchDetail(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new PMHttpCallBack<MatchInfo>() {
+                    @Override
+                    public void onResult(MatchInfo matchInfo) {
+                        Match match = new MatchPm(matchInfo);
+                        mMatch = match;
+                        matchData.postValue(match);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+
+    }
+
+    @Override
+    public void getCategoryList(String matchId, String sportId) {
+
+        Map<String, String> map = new HashMap<>();
+        map.put("mid", matchId);
+        map.put("sportId", sportId);
+
+        Disposable disposable = (Disposable) model.getPMApiService().getCategoryList(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new PMHttpCallBack<List<CategoryPm>>() {
+                    @Override
+                    public void onResult(List<CategoryPm> categoryPms) {
+                        categoryList.clear();
+                        for (CategoryPm category : categoryPms) {
+                            categoryList.add(category);
+                            //categoryMap.put(category.getId(), category);
+                        }
+                        getMatchOddsInfoPB(matchId, "0");
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+
+
+        /*Map<String, Category> map = new HashMap<>();
+        List<Category> categoryList = new ArrayList<>();
+        for (PlayTypeInfo playTypeInfo : matchInfo.mg) {
+            for (String type : playTypeInfo.tps) {
+                if (map.get(type) == null) {
+                    map.put(type, new CategoryPm(playTypeInfo));
+                }
+                map.get(type).addPlayTypeList(new PlayTypePm(playTypeInfo));
+            }
+        }
+        categoryList.addAll(map.values());*/
+    }
+
+    @Override
+    public void getMatchOddsInfoPB(String mid, String mcid) {
+        Map<String, String> map = new HashMap<>();
+        map.put("mid", mid);
+        map.put("mcid", mcid);
+        map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PM_USER_ID));
+
+        Disposable disposable = (Disposable) model.getPMApiService().getMatchOddsInfoPB(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new PMHttpCallBack<List<PlayTypeInfo>>() {
+                    @Override
+                    public void onResult(List<PlayTypeInfo> playTypeList) {
+                        Collections.sort(playTypeList);
+                        if (isFirst) {
+                            for(Category category : categoryList){
+                                for (PlayTypeInfo playTypeInfo : playTypeList) {
+                                    CategoryPm categoryPm = (CategoryPm) category;
+                                    if(categoryPm.getPlays().contains(Integer.valueOf(playTypeInfo.hpid))){
+                                        category.addPlayTypeList(new PlayTypePm(playTypeInfo));
+                                    }
+                                }
+                            }
+                        }else { // 设置赔率变化
+                            List<PlayType> playTypes = new ArrayList<>();
+                            for (PlayTypeInfo playTypeInfo : playTypeList) {
+                                playTypes.add(new PlayTypePm(playTypeInfo));
+                            }
+                            setOptionOddChange(mMatch, playTypes);
+                        }
+                        isFirst = false;
+                        categoryListData.postValue(categoryList);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+}

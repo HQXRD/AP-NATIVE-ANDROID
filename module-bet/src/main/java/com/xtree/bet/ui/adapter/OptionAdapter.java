@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
 import com.xtree.bet.bean.ui.BetConfirmOptionFb;
+import com.xtree.bet.bean.ui.BetConfirmOptionUtil;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.OptionList;
@@ -82,7 +83,7 @@ public class OptionAdapter extends BaseAdapter<Option> {
                 nameTextView.setText(option.getSortName());
                 oddTextView.setOptionOdd(option);
 
-                BetConfirmOption betConfirmOption = new BetConfirmOptionFb(match, playType, optionList, option);
+                BetConfirmOption betConfirmOption = BetConfirmOptionUtil.getInstance(match, playType, optionList, option);
                 optionView.setTag(betConfirmOption);
 
                 if (BtCarManager.isCg()) {

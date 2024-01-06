@@ -153,6 +153,9 @@ public class MatchFb implements Match{
      */
     @Override
     public boolean hasVideo() {
+        if(matchInfo == null || matchInfo.vs == null){
+            return false;
+        }
         return matchInfo.vs.have;
     }
     /**
@@ -217,6 +220,13 @@ public class MatchFb implements Match{
     @Override
     public boolean isChampion() {
         return this.matchInfo.ty == 1;
+    }
+    /**
+     * 获取赛种ID，如足球，篮球
+     */
+    @Override
+    public String getSportId() {
+        return "";
     }
 
     @Override

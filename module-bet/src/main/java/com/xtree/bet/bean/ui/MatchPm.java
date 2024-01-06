@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.bet.bean.response.fb.VideoInfo;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
@@ -13,6 +14,8 @@ import com.xtree.bet.bean.response.pm.PlayTypeInfo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * 赛事列表UI显示需要用的比赛信息结构
@@ -203,7 +206,15 @@ public class MatchPm implements Match{
      */
     @Override
     public String getIconMain() {
-        return matchInfo.mhlu.get(0);
+        String logoUrl = matchInfo.mhlu.get(0);
+        String domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);
+        if(domain.endsWith("/") && logoUrl.startsWith("/")){
+            return domain.substring(domain.indexOf("/")) + logoUrl;
+        } else if (!domain.endsWith("/") && !logoUrl.startsWith("/")) {
+            return domain + "/" + logoUrl;
+        } else {
+            return domain+ logoUrl;
+        }
     }
 
     /**
@@ -212,7 +223,15 @@ public class MatchPm implements Match{
      */
     @Override
     public String getIconVisitor() {
-        return matchInfo.malu.get(1);
+        String logoUrl = matchInfo.malu.get(0);
+        String domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);
+        if(domain.endsWith("/") && logoUrl.startsWith("/")){
+            return domain.substring(domain.indexOf("/")) + logoUrl;
+        } else if (!domain.endsWith("/") && !logoUrl.startsWith("/")) {
+            return domain + "/" + logoUrl;
+        } else {
+            return domain+ logoUrl;
+        }
     }
 
     /**
@@ -239,6 +258,13 @@ public class MatchPm implements Match{
     @Override
     public boolean isChampion() {
         return this.matchInfo.mcg == 100;
+    }
+    /**
+     * 获取赛种ID，如足球，篮球
+     */
+    @Override
+    public String getSportId() {
+        return matchInfo.csid;
     }
 
     @Override

@@ -17,7 +17,7 @@ import com.xtree.bet.bean.ui.CgOddLimit;
 import com.xtree.bet.databinding.BtLayoutBtResultBinding;
 import com.xtree.bet.ui.adapter.BetResultOptionAdapter;
 import com.xtree.bet.ui.adapter.CgBtResultAdapter;
-import com.xtree.bet.ui.viewmodel.BtCarViewModel;
+import com.xtree.bet.ui.viewmodel.FBBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ import me.xtree.mvvmhabit.utils.Utils;
 /**
  * 投注确认页面
  */
-public class BtResultDialogFragment extends BaseDialogFragment<BtLayoutBtResultBinding, BtCarViewModel> {
+public class BtResultDialogFragment extends BaseDialogFragment<BtLayoutBtResultBinding, FBBtCarViewModel> {
     public final static String KEY_BT_OPTION = "KEY_BT_OPTION";
     public final static String KEY_BT_CGLIMITE = "KEY_BT_CGLIMITE";
     public final static String KEY_BT_RESULT = "KEY_BT_RESULT";
@@ -71,7 +71,6 @@ public class BtResultDialogFragment extends BaseDialogFragment<BtLayoutBtResultB
 
     @Override
     public void initData() {
-        viewModel.addSubscription();
         betConfirmOptionList = getArguments().getParcelableArrayList(KEY_BT_OPTION);
         cgOddLimitList = getArguments().getParcelableArrayList(KEY_BT_CGLIMITE);
         btResultList = getArguments().getParcelableArrayList(KEY_BT_RESULT);
@@ -136,8 +135,8 @@ public class BtResultDialogFragment extends BaseDialogFragment<BtLayoutBtResultB
     }
 
     @Override
-    public BtCarViewModel initViewModel() {
+    public FBBtCarViewModel initViewModel() {
         AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
-        return new ViewModelProvider(this, factory).get(BtCarViewModel.class);
+        return new ViewModelProvider(this, factory).get(FBBtCarViewModel.class);
     }
 }

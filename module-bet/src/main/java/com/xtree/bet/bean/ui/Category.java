@@ -7,6 +7,11 @@ import java.util.List;
  */
 public interface Category {
     /**
+     * 获取玩法分类ID
+     * @return
+     */
+    String getId();
+    /**
      * 获取玩法分类名称
      * @return
      */

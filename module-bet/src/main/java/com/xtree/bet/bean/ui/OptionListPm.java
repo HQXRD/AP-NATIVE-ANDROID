@@ -27,6 +27,14 @@ public class OptionListPm implements OptionList {
         return Long.valueOf(optionDataListInfo.hid);
     }
 
+    @Override
+    public int getMatchType() {
+        if(optionDataListInfo == null || TextUtils.isEmpty(optionDataListInfo.hid)){
+            return 0;
+        }
+        return optionDataListInfo.hmt;
+    }
+
     /**
      * 玩法销售状态
      */

@@ -19,6 +19,11 @@ public class PlayTypeFb implements PlayType{
         this.playTypeInfo = playTypeInfo;
     }
 
+    @Override
+    public String getId() {
+        return "";
+    }
+
     /**
      * 获取玩法类型，如 亚盘、大小球等
      * @return
@@ -102,6 +107,11 @@ public class PlayTypeFb implements PlayType{
     @Override
     public List<String> getTags() {
         return playTypeInfo.tps;
+    }
+
+    @Override
+    public String getCategoryId() {
+        return null;
     }
 
     @Override

@@ -144,6 +144,18 @@ public class MatchInfo implements BaseBean {
      */
     public List<String> msc;
     /**
+     * 排序值
+     */
+    public int orderNo;
+    /**
+     * 是否杯赛 1：是
+     */
+    public int isc;
+    /**
+     * 回合数
+     */
+    public int lod;
+    /**
      * 玩法集合
      */
     public List<PlayTypeInfo> hps = new ArrayList<>();

@@ -119,5 +119,8 @@ public interface Match extends BaseBean {
      * @return
      */
     boolean isChampion();
-
+    /**
+     * 获取赛种ID，如足球，篮球
+     */
+    String getSportId();
 }

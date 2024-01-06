@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 玩法
  */
-public class PlayTypeInfo implements BaseBean {
+public class PlayTypeInfo implements BaseBean, Comparable {
     /**
      * 盘口id
      */
@@ -97,6 +97,8 @@ public class PlayTypeInfo implements BaseBean {
      *
      */
     public List<OptionInfo> ol;
+
+
 
     @Override
     public int describeContents() {
@@ -190,4 +192,15 @@ public class PlayTypeInfo implements BaseBean {
             return new PlayTypeInfo[size];
         }
     };
+
+    @Override
+    public int compareTo(Object o) {
+        if(this.hpon > ((PlayTypeInfo) o).hpon){
+            return 1;
+        }else if (this.hpon < ((PlayTypeInfo) o).hpon){
+            return  -1;
+        }else {
+            return 0;
+        }
+    }
 }

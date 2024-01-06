@@ -19,6 +19,11 @@ public class OptionListFb implements OptionList {
         return optionDataListInfo.id;
     }
 
+    @Override
+    public int getMatchType() {
+        return 0;
+    }
+
     /**
      * 玩法销售状态，0暂停，1开售，-1未开售（未开售状态一般是不展示的）
      */

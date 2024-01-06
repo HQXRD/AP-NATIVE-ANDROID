@@ -1,5 +1,8 @@
 package com.xtree.bet.ui.activity;
 
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -41,7 +44,13 @@ import com.xtree.bet.ui.adapter.MatchDetailAdapter;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.ui.fragment.BtDetailOptionFragment;
 import com.xtree.bet.ui.viewmodel.BtDetailViewModel;
+import com.xtree.bet.ui.viewmodel.FBMainViewModel;
+import com.xtree.bet.ui.viewmodel.FbBtDetailViewModel;
+import com.xtree.bet.ui.viewmodel.PMMainViewModel;
+import com.xtree.bet.ui.viewmodel.PmBtDetailViewModel;
+import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.weight.BaseDetailDataView;
 
 import java.util.ArrayList;
@@ -69,6 +78,8 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
     private Match mMatch;
 
     private int tabPos;
+
+    private String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
 
     public Match getmMatch() {
         return mMatch;
@@ -103,10 +114,14 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
     }
 
     @Override
-    public BtDetailViewModel initViewModel() {
-        //使用自定义的ViewModelFactory来创建ViewModel，如果不重写该方法，则默认会调用LoginViewModel(@NonNull Application application)构造方法
-        AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
-        return new ViewModelProvider(this, factory).get(BtDetailViewModel.class);
+    public TemplateBtDetailViewModel initViewModel() {
+        if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+            AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
+            return new ViewModelProvider(this, factory).get(FbBtDetailViewModel.class);
+        } else {
+            PMAppViewModelFactory factory = PMAppViewModelFactory.getInstance(getApplication());
+            return new ViewModelProvider(this, factory).get(PmBtDetailViewModel.class);
+        }
     }
 
     @Override
@@ -162,8 +177,11 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
     @Override
     public void initData() {
         mMatch = getIntent().getParcelableExtra(KEY_MATCH);
+
         viewModel.getMatchDetail(mMatch.getId());
-        viewModel.matchData.postValue(mMatch);
+        viewModel.getCategoryList(String.valueOf(mMatch.getId()), mMatch.getSportId());
+
+        //viewModel.matchData.postValue(mMatch);
         viewModel.addSubscription();
         setCgBtCar();
     }
@@ -176,6 +194,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     viewModel.getMatchDetail(mMatch.getId());
+                    viewModel.getMatchOddsInfoPB(String.valueOf(mMatch.getId()), "0");
                 })
         );
     }

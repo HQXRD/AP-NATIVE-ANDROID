@@ -21,6 +21,10 @@ public class OptionPm implements Option{
     private OptionDataListInfo optionList;
     private PlayTypeInfo playTypeInfo;
 
+    public OptionPm(OptionInfo optionInfo){
+        this.optionInfo = optionInfo;
+    }
+
     public OptionPm(OptionInfo optionInfo, OptionDataListInfo optionList, PlayTypeInfo playTypeInfo){
         this.optionInfo = optionInfo;
         this.optionList = optionList;
@@ -29,7 +33,8 @@ public class OptionPm implements Option{
 
     @Override
     public String getId() {
-        if(optionInfo == null){
+        Log.e("test", "======optionInfo======" + optionInfo);
+        if(optionInfo == null || optionInfo.oid == null){
             return "";
         }
         return optionInfo.oid;

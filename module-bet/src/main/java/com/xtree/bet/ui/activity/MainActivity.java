@@ -109,10 +109,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         return Integer.valueOf(viewModel.getSportId(playMethodType)[sportTypePos]);
     }
 
-    public String getmPlatform() {
-        return mPlatform;
-    }
-
     @Override
     public int initContentView(Bundle savedInstanceState) {
         return R.layout.fragment_main;
@@ -126,6 +122,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     @Override
     public void initParam() {
         mPlatform = getIntent().getStringExtra(KEY_PLATFORM);
+        SPUtils.getInstance().put(KEY_PLATFORM, mPlatform);
     }
 
     @Override

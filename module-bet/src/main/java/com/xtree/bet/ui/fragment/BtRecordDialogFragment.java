@@ -3,7 +3,6 @@ package com.xtree.bet.ui.fragment;
 import android.app.Application;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,42 +16,23 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.tabs.TabLayout;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
-import com.xtree.bet.bean.ui.BetConfirmOption;
-import com.xtree.bet.bean.ui.BetConfirmOptionFb;
 import com.xtree.bet.bean.ui.BtRecordTime;
-import com.xtree.bet.bean.ui.CgOddLimit;
-import com.xtree.bet.constant.Constants;
 import com.xtree.bet.databinding.BtDialogBtRecordBinding;
-import com.xtree.bet.databinding.BtLayoutBtCarBinding;
-import com.xtree.bet.manager.BtCarManager;
-import com.xtree.bet.ui.activity.BtDetailActivity;
-import com.xtree.bet.ui.adapter.BetConfirmOptionAdapter;
 import com.xtree.bet.ui.adapter.BtRecordAdapter;
-import com.xtree.bet.ui.adapter.CgOddLimitAdapter;
-import com.xtree.bet.ui.viewmodel.BtCarViewModel;
 import com.xtree.bet.ui.viewmodel.BtRecordModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.bet.weight.KeyboardView;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
 /**

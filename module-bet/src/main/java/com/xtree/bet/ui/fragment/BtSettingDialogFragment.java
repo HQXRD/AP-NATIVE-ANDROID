@@ -14,9 +14,7 @@ import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtDialogSettingBinding;
 import com.xtree.bet.ui.activity.MainActivity;
-import com.xtree.bet.ui.adapter.BetResultOptionAdapter;
-import com.xtree.bet.ui.adapter.CgBtResultAdapter;
-import com.xtree.bet.ui.viewmodel.BtCarViewModel;
+import com.xtree.bet.ui.viewmodel.FBBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 
 import java.util.ArrayList;
@@ -30,7 +28,7 @@ import me.xtree.mvvmhabit.utils.Utils;
 /**
  * 投注确认页面
  */
-public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingBinding, BtCarViewModel> {
+public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingBinding, FBBtCarViewModel> {
     public final static String KEY_LEAGUEIDS = "KEY_LEAGUEIDS";
 
     // 已选联赛
@@ -126,8 +124,8 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
     }
 
     @Override
-    public BtCarViewModel initViewModel() {
+    public FBBtCarViewModel initViewModel() {
         AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
-        return new ViewModelProvider(this, factory).get(BtCarViewModel.class);
+        return new ViewModelProvider(this, factory).get(FBBtCarViewModel.class);
     }
 }

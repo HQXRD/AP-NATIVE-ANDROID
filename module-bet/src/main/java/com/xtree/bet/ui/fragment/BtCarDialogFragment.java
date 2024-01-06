@@ -1,8 +1,11 @@
 package com.xtree.bet.ui.fragment;
 
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+
 import android.app.Application;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +16,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
-import com.xtree.bet.bean.ui.BetConfirmOptionFb;
+import com.xtree.bet.bean.ui.BetConfirmOptionUtil;
 import com.xtree.bet.bean.ui.CgOddLimit;
-import com.xtree.bet.bean.ui.CgOddLimitFb;
-import com.xtree.bet.constant.SportTypeContants;
-import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtLayoutBtCarBinding;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.xtree.bet.ui.adapter.BetConfirmOptionAdapter;
 import com.xtree.bet.ui.adapter.CgOddLimitAdapter;
-import com.xtree.bet.ui.viewmodel.BtCarViewModel;
+import com.xtree.bet.ui.viewmodel.FBBtCarViewModel;
+import com.xtree.bet.ui.viewmodel.PMBtCarViewModel;
+import com.xtree.bet.ui.viewmodel.TemplateBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.weight.KeyboardView;
 
 import java.util.ArrayList;
@@ -35,14 +38,14 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
-import me.xtree.mvvmhabit.bus.RxBus;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
 /**
  * 投注确认页面
  */
-public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding, BtCarViewModel> {
+public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding, TemplateBtCarViewModel> {
     public final static String KEY_BT_OPTION = "KEY_BT_OPTION";
     /**
      * 投注项列表
@@ -53,6 +56,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     private BetConfirmOptionAdapter betConfirmOptionAdapter;
     private CgOddLimitAdapter cgOddLimitAdapter;
     private KeyboardView keyboardView;
+    private String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
 
     private KeyBoardListener listener = new KeyBoardListener() {
         @Override
@@ -120,7 +124,6 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
 
     @Override
     public void initData() {
-        viewModel.addSubscription();
 
         if(!BtCarManager.getBtCarList().isEmpty()) {
             betConfirmOptionList = BtCarManager.getBtCarList();
@@ -135,7 +138,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         viewModel.batchBetMatchMarketOfJumpLine(betConfirmOptionList);
 
     }
-
+    int index = 0;
     @Override
     public void onResume() {
         super.onResume();
@@ -143,7 +146,10 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    batchBetMatchMarketOfJumpLine();
+                    if(index == 0) {
+                        batchBetMatchMarketOfJumpLine();
+                        index ++;
+                    }
                 })
         );
     }
@@ -161,8 +167,18 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     @Override
     public void initViewObservable() {
         viewModel.btConfirmInfoDate.observe(this, betConfirmOptions -> {
+
             for (int i = 0; i < betConfirmOptionList.size(); i ++){
-                betConfirmOptionList.get(i).setRealData(betConfirmOptions.get(i).getRealData());
+                if (TextUtils.equals(platform, PLATFORM_FB)) {
+                    betConfirmOptionList.get(i).setRealData(betConfirmOptions.get(i).getRealData());
+                }else{
+                    for (BetConfirmOption option : betConfirmOptions){
+                        if(TextUtils.equals(((BetConfirmOption)betConfirmOptionList.get(i)).getMatchId(), ((BetConfirmOption)option).getMatchId())){
+                            betConfirmOptionList.get(i).setRealData(option.getRealData());
+                            break;
+                        }
+                    }
+                }
             }
 
             if (betConfirmOptionAdapter == null) {
@@ -235,10 +251,11 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                         ToastUtils.showShort(getContext().getResources().getText(R.string.bt_bt_is_not_allow_crossover));
                         return;
                     }
-                    BetConfirmOption betConfirmOption = new BetConfirmOptionFb(betConfirmOptionList.get(0).getMatch(),
+                    BetConfirmOption betConfirmOption = BetConfirmOptionUtil.getInstance(betConfirmOptionList.get(0).getMatch(),
                             betConfirmOptionList.get(0).getPlayType(),
                             betConfirmOptionList.get(0).getPlayType().getOptionLists().get(0),
                             betConfirmOptionList.get(0).getOption());
+                    betConfirmOption.setRealData(betConfirmOptionList.get(0).getRealData());
                     binding.btnAddMatch.setVisibility(View.VISIBLE);
                     viewModel.gotoCg(betConfirmOption);
                     if(getContext() instanceof BtDetailActivity){
@@ -256,8 +273,13 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     }
 
     @Override
-    public BtCarViewModel initViewModel() {
-        AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
-        return new ViewModelProvider(this, factory).get(BtCarViewModel.class);
+    public TemplateBtCarViewModel initViewModel() {
+        if (TextUtils.equals(platform, PLATFORM_FB)) {
+            AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
+            return new ViewModelProvider(this, factory).get(FBBtCarViewModel.class);
+        } else {
+            PMAppViewModelFactory factory = PMAppViewModelFactory.getInstance((Application) Utils.getContext());
+            return new ViewModelProvider(this, factory).get(PMBtCarViewModel.class);
+        }
     }
 }
