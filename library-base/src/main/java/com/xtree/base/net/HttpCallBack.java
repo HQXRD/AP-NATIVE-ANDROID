@@ -76,6 +76,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             case HttpCallBack.CodeRule.CODE_20101:
             case HttpCallBack.CodeRule.CODE_20102:
             case HttpCallBack.CodeRule.CODE_20103:
+            case HttpCallBack.CodeRule.CODE_20217:
             case HttpCallBack.CodeRule.CODE_20111:
             case HttpCallBack.CodeRule.CODE_30018:
             case HttpCallBack.CodeRule.CODE_30003:
@@ -150,6 +151,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         static final int CODE_30713 = 30713;
         //用户名或密码错误
         static final int CODE_20203 = 20203;
+        static final int CODE_20217 = 20217; //已修改密码或被踢出
     }
 
     public static final class FBCodeRule {
