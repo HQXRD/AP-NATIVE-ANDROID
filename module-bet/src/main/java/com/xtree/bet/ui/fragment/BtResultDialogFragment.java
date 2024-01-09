@@ -17,7 +17,7 @@ import com.xtree.bet.bean.ui.CgOddLimit;
 import com.xtree.bet.databinding.BtLayoutBtResultBinding;
 import com.xtree.bet.ui.adapter.BetResultOptionAdapter;
 import com.xtree.bet.ui.adapter.CgBtResultAdapter;
-import com.xtree.bet.ui.viewmodel.FBBtCarViewModel;
+import com.xtree.bet.ui.viewmodel.fb.FBBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 
 import java.util.ArrayList;

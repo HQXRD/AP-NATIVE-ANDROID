@@ -1,4 +1,4 @@
-package com.xtree.bet.ui.viewmodel;
+package com.xtree.bet.ui.viewmodel.fb;
 
 import android.app.Application;
 
@@ -23,6 +23,7 @@ import com.xtree.bet.bean.ui.CgOddLimitFb;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.manager.BtCarManager;
+import com.xtree.bet.ui.viewmodel.TemplateBtCarViewModel;
 
 import java.util.ArrayList;
 import java.util.List;

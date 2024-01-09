@@ -40,14 +40,10 @@ import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.manager.BtCarManager;
-import com.xtree.bet.ui.adapter.MatchDetailAdapter;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.ui.fragment.BtDetailOptionFragment;
-import com.xtree.bet.ui.viewmodel.BtDetailViewModel;
-import com.xtree.bet.ui.viewmodel.FBMainViewModel;
-import com.xtree.bet.ui.viewmodel.FbBtDetailViewModel;
-import com.xtree.bet.ui.viewmodel.PMMainViewModel;
-import com.xtree.bet.ui.viewmodel.PmBtDetailViewModel;
+import com.xtree.bet.ui.viewmodel.fb.FbBtDetailViewModel;
+import com.xtree.bet.ui.viewmodel.pm.PmBtDetailViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
@@ -194,7 +190,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     viewModel.getMatchDetail(mMatch.getId());
-                    viewModel.getMatchOddsInfoPB(String.valueOf(mMatch.getId()), "0");
+                    if(!mCategories.isEmpty()) {
+                        viewModel.getMatchOddsInfoPB(String.valueOf(mMatch.getId()), mCategories.get(tabPos).getId());
+                    }
                 })
         );
     }

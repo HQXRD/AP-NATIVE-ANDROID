@@ -74,6 +74,7 @@ public class OptionChampionAdapter extends BaseAdapter<Option> {
                 nameTextView.setText(option.getSortName());
                 oddTextView.setOptionOdd(option);
 
+
                 BetConfirmOption betConfirmOption = BetConfirmOptionUtil.getInstance(match, playType, option.getOptionList(), option);
                 optionView.setTag(betConfirmOption);
 

@@ -58,6 +58,9 @@ public class PMDecryptInterceptor implements Interceptor {
         }
         String result = buffer.clone().readString(charset);
         Map map = new Gson().fromJson(result, Map.class);
+        if(map.get("data") == null){
+            return response;
+        }
         String data = map.get("data").toString();
 
         try {

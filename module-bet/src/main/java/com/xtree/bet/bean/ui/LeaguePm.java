@@ -38,6 +38,14 @@ public class LeaguePm implements League{
         this.sort = sort;
     }
 
+    public LeagueInfo getLeagueInfo() {
+        return leagueInfo;
+    }
+
+    public void setLeagueInfo(LeagueInfo leagueInfo) {
+        this.leagueInfo = leagueInfo;
+    }
+
     @Override
     public String getIcon() {
         String domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);

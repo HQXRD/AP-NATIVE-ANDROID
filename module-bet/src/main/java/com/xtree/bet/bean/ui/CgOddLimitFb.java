@@ -27,7 +27,7 @@ public class CgOddLimitFb implements CgOddLimit{
     @Override
     public String getCgName() {
         if(cgOddLimitInfo == null){
-            return "";
+            return "单关";
         }
         if(cgOddLimitInfo.sn == 0){
             return matchCount + "串" + cgOddLimitInfo.in;
@@ -37,6 +37,11 @@ public class CgOddLimitFb implements CgOddLimit{
 
         /*data.sos.sn	integer	串关子单选项个数，如：投注4场比赛的3串1，此字段为3，如果是全串关（4串11×11），则为0；
         data.sos.in	integer	串关子单个数，如 投注4场比赛的3串1*4，此字段为4，全串关（4串11×11），则为11*/
+    }
+
+    @Override
+    public String getCgType() {
+        return null;
     }
 
     @Override
@@ -117,6 +122,14 @@ public class CgOddLimitFb implements CgOddLimit{
     @Override
     public double getBtAmount() {
         return btCount;
+    }
+    /**
+     * 获取总投注金额
+     * @return
+     */
+    @Override
+    public double getBtTotalAmount() {
+        return btCount * getBtCount();
     }
 
     @Override

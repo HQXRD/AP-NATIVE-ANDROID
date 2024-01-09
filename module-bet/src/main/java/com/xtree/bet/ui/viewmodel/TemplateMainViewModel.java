@@ -35,9 +35,9 @@ public abstract class TemplateMainViewModel extends BaseViewModel<BetRepository>
      */
     private Disposable mSubscription;
 
-    List<League> mUpdateLeagueList;
+    public List<League> mUpdateLeagueList;
 
-    List<Date> dateList = new ArrayList<>();
+    public List<Date> dateList = new ArrayList<>();
 
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
 

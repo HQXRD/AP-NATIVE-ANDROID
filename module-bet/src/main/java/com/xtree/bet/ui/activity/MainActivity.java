@@ -33,8 +33,8 @@ import com.xtree.bet.ui.adapter.LeagueAdapter;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.ui.fragment.BtRecordDialogFragment;
 import com.xtree.bet.ui.fragment.BtSettingDialogFragment;
-import com.xtree.bet.ui.viewmodel.FBMainViewModel;
-import com.xtree.bet.ui.viewmodel.PMMainViewModel;
+import com.xtree.bet.ui.viewmodel.fb.FBMainViewModel;
+import com.xtree.bet.ui.viewmodel.pm.PMMainViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.R;
@@ -329,8 +329,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    refreshLeague();
-                    viewModel.statistical(playMethodType);
+                    //refreshLeague();
+                    //viewModel.statistical(playMethodType);
                 });
         viewModel.addSubscribe(timerDisposable);
     }

@@ -33,7 +33,8 @@ public class CgBtResultAdapter extends BaseAdapter<BtResult> {
             binding.cslCgCc.setVisibility(View.VISIBLE);
             binding.tvName.setText(cgOddLimit.getCgName());
             binding.ivZsAmount.setText("x" + cgOddLimit.getBtCount());
-            binding.tvAmountCc.setText(mContext.getResources().getString(R.string.bt_bt_pay, String.valueOf(cgOddLimit.getBtAmount())));
+            binding.tvBtAmount.setText(String.valueOf(cgOddLimit.getBtAmount()));
+            binding.tvAmountCc.setText(mContext.getResources().getString(R.string.bt_bt_pay, String.valueOf(cgOddLimit.getBtTotalAmount())));
             binding.tvWinCc.setText(mContext.getResources().getString(R.string.bt_bt_win, String.valueOf(cgOddLimit.getWin(cgOddLimit.getBtAmount()))));
             binding.tvResult.setText(btResult.getStatusDesc());
             if(btResult.isSuccessed()){

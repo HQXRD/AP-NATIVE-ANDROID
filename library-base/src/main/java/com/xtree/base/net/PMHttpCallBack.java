@@ -30,16 +30,19 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
         int code = baseResponse.getCode();
         switch (code) {
             case PMHttpCallBack.CodeRule.CODE_0:
+
                 //请求成功, 正确的操作方式
                 onResult((T) baseResponse.getData());
                 break;
             case PMHttpCallBack.CodeRule.CODE_401013:
             case PMHttpCallBack.CodeRule.CODE_401026:
-
-
                 //账号已登出，请重新登录
                 ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
                 onError(ex);
+                break;
+            case PMHttpCallBack.CodeRule.CODE_400467:
+                ResponseThrowable rError = new ResponseThrowable(PMHttpCallBack.CodeRule.CODE_400467, baseResponse.getMsg());
+                onError(rError);
                 break;
             default:
                 ToastUtils.showShort(baseResponse.getMsg());
@@ -73,6 +76,7 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
         public static final int CODE_401038 = 401038;
         public static final int CODE_401026 = 401026;
         public static final int CODE_401013 = 401013;
+        public static final int CODE_400467 = 400467;
 
 
 

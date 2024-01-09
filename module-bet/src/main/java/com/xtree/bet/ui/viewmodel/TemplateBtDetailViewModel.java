@@ -46,7 +46,7 @@ public abstract class TemplateBtDetailViewModel extends BaseViewModel<BetReposit
     public SingleLiveData<List<Category>> categoryListData = new SingleLiveData<>();
     public SingleLiveData<Match> matchData = new SingleLiveData<>();
     public SingleLiveData<BetContract> betContractListData = new SingleLiveData<>();
-    Match mMatch;
+    public Match mMatch;
     private String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
 
     public TemplateBtDetailViewModel(@NonNull Application application, BetRepository repository) {
@@ -61,7 +61,7 @@ public abstract class TemplateBtDetailViewModel extends BaseViewModel<BetReposit
         addSubscribe(mSubscription);
     }
 
-    List<Category> getCategoryList(MatchInfo matchInfo) {
+    public List<Category> getCategoryList(MatchInfo matchInfo) {
         Map<String, Category> map = new HashMap<>();
         List<Category> categoryList = new ArrayList<>();
         for (PlayTypeInfo playTypeInfo : matchInfo.mg) {

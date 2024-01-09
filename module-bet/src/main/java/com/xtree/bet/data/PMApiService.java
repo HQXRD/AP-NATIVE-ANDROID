@@ -2,22 +2,23 @@ package com.xtree.bet.data;
 
 import com.xtree.bet.bean.request.pm.BtCarCgReq;
 import com.xtree.bet.bean.request.pm.BtCarReq;
+import com.xtree.bet.bean.request.pm.BtRecordReq;
+import com.xtree.bet.bean.request.pm.BtReq;
 import com.xtree.bet.bean.request.pm.PMListReq;
 import com.xtree.bet.bean.response.pm.BtConfirmInfo;
+import com.xtree.bet.bean.response.pm.BtRecordRsp;
+import com.xtree.bet.bean.response.pm.BtResultInfo;
 import com.xtree.bet.bean.response.pm.CgOddLimitInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
 import com.xtree.bet.bean.response.pm.MenuInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
-import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.CategoryPm;
 
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.Completable;
 import io.reactivex.Flowable;
-import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.PMBaseResponse;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -93,4 +94,22 @@ public interface PMApiService {
     @GET("/yewu11/v1/m/matchDetail/getMatchOddsInfoPB")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<PMBaseResponse<List<PlayTypeInfo>>> getMatchOddsInfoPB(@QueryMap Map<String, String> map);
+
+    /**
+     * 查询最大最小投注金额
+     * @return
+     */
+    @POST("/yewu13/v1/betOrder/client/bet")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<PMBaseResponse<BtResultInfo>> bet(@Body BtReq btReq);
+
+    /**
+     * 投注记录接口，按照投注时间查询
+     * @return
+     */
+    @POST("/yewu13/v1/betOrder/client/getOrderListV4PB")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<PMBaseResponse<BtRecordRsp>> betRecord(@Body BtRecordReq btRecordReq);
+
+
 }

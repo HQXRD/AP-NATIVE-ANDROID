@@ -1,5 +1,7 @@
 package com.xtree.bet.manager;
 
+import android.text.TextUtils;
+
 import com.xtree.bet.bean.ui.BetConfirmOption;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;

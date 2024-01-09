@@ -14,7 +14,7 @@ import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtDialogSettingBinding;
 import com.xtree.bet.ui.activity.MainActivity;
-import com.xtree.bet.ui.viewmodel.FBBtCarViewModel;
+import com.xtree.bet.ui.viewmodel.fb.FBBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 
 import java.util.ArrayList;

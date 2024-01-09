@@ -12,6 +12,11 @@ public interface PlayType extends BaseBean {
      */
     String getId();
     /**
+     * 获取盘口ID
+     * @return
+     */
+    String getMarketId();
+    /**
      * 获取玩法类型，如 亚盘、大小球等
      * @return
      */

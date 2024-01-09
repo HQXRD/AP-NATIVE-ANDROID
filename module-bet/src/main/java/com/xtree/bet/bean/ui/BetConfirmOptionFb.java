@@ -68,6 +68,26 @@ public class BetConfirmOptionFb implements BetConfirmOption{
     }
 
     @Override
+    public int getPlaceNum() {
+        return 0;
+    }
+
+    @Override
+    public String getOptionName() {
+        String optionName;
+        String name = getOption().getName();
+        String sortName = getOption().getSortName();
+        if(name != null && sortName != null){
+            optionName = getOption().getName().length() > getOption().getSortName().length() ? getOption().getName() : getOption().getSortName();
+        } else if (sortName == null) {
+            optionName = name;
+        } else {
+            optionName = sortName;
+        }
+        return optionName;
+    }
+
+    @Override
     public String getPlayTypeId() {
         if(btConfirmOptionInfo != null) {
             return String.valueOf(btConfirmOptionInfo.mid);

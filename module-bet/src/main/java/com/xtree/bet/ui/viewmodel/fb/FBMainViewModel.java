@@ -1,4 +1,4 @@
-package com.xtree.bet.ui.viewmodel;
+package com.xtree.bet.ui.viewmodel.fb;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -32,6 +32,8 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 
 import com.xtree.base.net.HttpCallBack;
+import com.xtree.bet.ui.viewmodel.MainViewModel;
+import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;

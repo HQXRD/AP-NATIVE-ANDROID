@@ -1,4 +1,4 @@
-package com.xtree.bet.ui.viewmodel;
+package com.xtree.bet.ui.viewmodel.pm;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -21,6 +21,8 @@ import com.xtree.bet.bean.ui.PlayGroup;
 import com.xtree.bet.bean.ui.PlayGroupPm;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.data.BetRepository;
+import com.xtree.bet.ui.viewmodel.MainViewModel;
+import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -669,9 +671,12 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             for (PlayType playType : newPlayGroup.getPlayTypeList()) {
                 playType.getOptionLists();
                 for (Option option : playType.getOptionList()) {
+                    StringBuffer code = new StringBuffer();
+                    code.append(match.getId());
                     if (option != null) {
-                        option.setCode(option.getId());
+                        code.append(option.getId());
                     }
+                    option.setCode(code.toString());
                     optionList.add(option);
                 }
             }

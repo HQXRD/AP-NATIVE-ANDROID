@@ -32,38 +32,28 @@ public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
     }
 
     @Override
-    protected void convert(ViewHolder holder, BetConfirmOption option, int position) {
+    protected void convert(ViewHolder holder, BetConfirmOption betConfirmOption, int position) {
 
         BtLayoutCarBtMatchItemBinding binding = BtLayoutCarBtMatchItemBinding.bind(holder.itemView);
-        String optionName;
-        String name = option.getOption().getName();
-        String sortName = option.getOption().getSortName();
-        if(name != null && sortName != null){
-            optionName = option.getOption().getName().length() > option.getOption().getSortName().length() ? option.getOption().getName() : option.getOption().getSortName();
-        } else if (sortName == null) {
-            optionName = name;
-        } else {
-            optionName = sortName;
-        }
-        binding.tvName.setText(optionName);
-        String score = option.getScore();
+        binding.tvName.setText(betConfirmOption.getOptionName());
+        String score = betConfirmOption.getScore();
         if(TextUtils.isEmpty(score)){
             if(mContext instanceof MainActivity) {
-                score = ((MainActivity) mContext).getScore(option.getMatch().getId());
+                score = ((MainActivity) mContext).getScore(betConfirmOption.getMatch().getId());
             }
         }
 
         if(TextUtils.isEmpty(score)){
-            holder.setText(R.id.iv_play_type, option.getPlayType().getPlayTypeName());
+            holder.setText(R.id.iv_play_type, betConfirmOption.getPlayType().getPlayTypeName());
         }else {
-            holder.setText(R.id.iv_play_type, option.getPlayType().getPlayTypeName() + "[" + score + "]");
+            holder.setText(R.id.iv_play_type, betConfirmOption.getPlayType().getPlayTypeName() + "[" + score + "]");
         }
-        binding.ivMatchTeam.setText(option.getTeamName());
-        binding.ivOdd.setText("@" + option.getOption().getOdd());
+        binding.ivMatchTeam.setText(betConfirmOption.getTeamName());
+        binding.ivOdd.setText("@" + betConfirmOption.getOption().getOdd());
         String oldScore = ((TextView)holder.getView(R.id.iv_play_type)).getText().toString();
         if(oldScore.indexOf("[") > -1 && oldScore.indexOf("]") > -1) {
-            oldScore = oldScore.substring(option.getPlayType().getPlayTypeName().length() + 1, oldScore.length() - 1);
-            if (!TextUtils.isEmpty(option.getScore()) && !TextUtils.isEmpty(oldScore) && !TextUtils.equals(option.getScore(), oldScore)) {
+            oldScore = oldScore.substring(betConfirmOption.getPlayType().getPlayTypeName().length() + 1, oldScore.length() - 1);
+            if (!TextUtils.isEmpty(betConfirmOption.getScore()) && !TextUtils.isEmpty(oldScore) && !TextUtils.equals(betConfirmOption.getScore(), oldScore)) {
                 holder.setVisible(R.id.iv_tip, true);
                 holder.setText(R.id.iv_tip, mContext.getResources().getString(R.string.bt_bt_score_has_changed));
                 binding.ivTip.postDelayed(() -> binding.ivTip.setVisibility(View.GONE), 4000);
@@ -71,7 +61,7 @@ public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
         }
 
         holder.setOnClickListener(R.id.iv_option_delete, view -> {
-            BtCarManager.removeBtCar(option);
+            BtCarManager.removeBtCar(betConfirmOption);
             if(BtCarManager.size() < 2){
                 btCarDialogFragment.dismiss();
                 return;
@@ -82,6 +72,6 @@ public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
             btCarDialogFragment.batchBetMatchMarketOfJumpLine();
         });
         holder.setVisible(R.id.iv_option_delete, getItemCount() > 1);
-        holder.setVisible(R.id.ll_close_tip, option.isClose());
+        holder.setVisible(R.id.ll_close_tip, betConfirmOption.isClose());
     }
 }

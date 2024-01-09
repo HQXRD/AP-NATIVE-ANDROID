@@ -25,17 +25,7 @@ public class BetResultOptionAdapter extends BaseAdapter<BetConfirmOption> {
     protected void convert(ViewHolder holder, BetConfirmOption option, int position) {
 
         BtLayoutCarBtMatchItemBinding binding = BtLayoutCarBtMatchItemBinding.bind(holder.itemView);
-        String optionName;
-        String name = option.getOption().getName();
-        String sortName = option.getOption().getSortName();
-        if(name != null && sortName != null){
-            optionName = option.getOption().getName().length() > option.getOption().getSortName().length() ? option.getOption().getName() : option.getOption().getSortName();
-        } else if (sortName == null) {
-            optionName = name;
-        } else {
-            optionName = sortName;
-        }
-        binding.tvName.setText(optionName);
+        binding.tvName.setText(option.getOptionName());
         String score = option.getScore();
         if(TextUtils.isEmpty(score)){
             if(mContext instanceof MainActivity) {

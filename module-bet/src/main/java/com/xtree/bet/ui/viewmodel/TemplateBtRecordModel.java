@@ -27,10 +27,11 @@ import me.xtree.mvvmhabit.utils.RxUtils;
  * Created by goldze on 2018/6/21.
  */
 
-public interface BtRecordModel {
-    /**
-     * 查询投注记录
-     */
-    void betRecord(boolean isSettled);
+public abstract class TemplateBtRecordModel extends BaseViewModel<BetRepository> implements BtRecordModel{
+    public SingleLiveData<List<BtRecordTime>> btRecordTimeDate = new SingleLiveData<>();
+
+    public TemplateBtRecordModel(@NonNull Application application, BetRepository repository) {
+        super(application, repository);
+    }
 
 }

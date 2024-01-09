@@ -3,8 +3,6 @@ package com.xtree.bet.bean.ui;
 import android.os.Parcel;
 import android.text.TextUtils;
 
-import androidx.annotation.Nullable;
-
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.bet.bean.response.fb.VideoInfo;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
@@ -13,7 +11,6 @@ import com.xtree.bet.bean.response.pm.PlayTypeInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -24,6 +21,8 @@ public class MatchPm implements Match{
     MatchInfo matchInfo;
 
     List<PlayType> playTypeList = new ArrayList<>();
+
+    LeaguePm mLeague;
 
     public MatchPm(MatchInfo matchInfo){
         this.matchInfo = matchInfo;
@@ -193,11 +192,19 @@ public class MatchPm implements Match{
      */
     @Override
     public League getLeague() {
-        LeagueInfo leagueInfo = new LeagueInfo();
+        LeagueInfo leagueInfo;
+        if(mLeague == null) {
+            leagueInfo = new LeagueInfo();
+            mLeague = new LeaguePm(leagueInfo);
+        }else {
+            leagueInfo = mLeague.getLeagueInfo();
+        }
         leagueInfo.lurl = matchInfo.lurl;
         leagueInfo.tn = matchInfo.tn;
-        leagueInfo.tid = Integer.valueOf(matchInfo.tid);
-        return new LeaguePm(leagueInfo);
+        if(!TextUtils.isEmpty(matchInfo.tid)) {
+            leagueInfo.tid = Long.valueOf(matchInfo.tid);
+        }
+        return mLeague;
     }
 
     /**
@@ -206,6 +213,9 @@ public class MatchPm implements Match{
      */
     @Override
     public String getIconMain() {
+        if(matchInfo == null || matchInfo.mhlu.isEmpty()){
+            return "";
+        }
         String logoUrl = matchInfo.mhlu.get(0);
         String domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);
         if(domain.endsWith("/") && logoUrl.startsWith("/")){
@@ -223,6 +233,9 @@ public class MatchPm implements Match{
      */
     @Override
     public String getIconVisitor() {
+        if(matchInfo == null || matchInfo.malu.isEmpty()){
+            return "";
+        }
         String logoUrl = matchInfo.malu.get(0);
         String domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);
         if(domain.endsWith("/") && logoUrl.startsWith("/")){
