@@ -8,11 +8,11 @@ public class LeagueInfo implements BaseBean {
     /**
      * 联赛ID
      */
-    public long tid;
+    public long id;
     /**
      * 该联赛开售的赛事统计
      */
-    public int mt;
+    public int num;
     /**
      * 该联赛正在滚球的赛事个数
      */
@@ -20,7 +20,7 @@ public class LeagueInfo implements BaseBean {
     /**
      * 联赛名称
      */
-    public String tn;
+    public String nameText;
     /**
      * 联赛等级，可用于联赛排序，值越小，联赛等级越高
      */
@@ -28,15 +28,15 @@ public class LeagueInfo implements BaseBean {
     /**
      * 联赛图标地址
      */
-    public String lurl;
+    public String picUrlthumb;
     /**
-     * 运动种类id , see enum: sports
+     * 联赛的运动种类id
      */
-    public int sid;
+    public int sportId;
     /**
      * 区域id
      */
-    public int rid; 
+    public int regionId;
     /**
      * 区域名称
      */
@@ -45,6 +45,10 @@ public class LeagueInfo implements BaseBean {
      * 是否热门
      */
     public boolean hot;
+    /**
+     * 热门状态
+     */
+    public int hotStatus;
     /**
      * 联赛分组
      */
@@ -57,28 +61,28 @@ public class LeagueInfo implements BaseBean {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.mt);
+        dest.writeInt(this.num);
         dest.writeInt(this.lt);
-        dest.writeString(this.tn);
-        dest.writeLong(this.tid);
+        dest.writeString(this.nameText);
+        dest.writeLong(this.id);
         dest.writeInt(this.or);
-        dest.writeString(this.lurl);
-        dest.writeInt(this.sid);
-        dest.writeInt(this.rid);
+        dest.writeString(this.picUrlthumb);
+        dest.writeInt(this.sportId);
+        dest.writeInt(this.regionId);
         dest.writeString(this.rnm);
         dest.writeByte(this.hot ? (byte) 1 : (byte) 0);
         dest.writeString(this.slid);
     }
 
     public void readFromParcel(Parcel source) {
-        this.mt = source.readInt();
+        this.num = source.readInt();
         this.lt = source.readInt();
-        this.tn = source.readString();
-        this.tid = source.readInt();
+        this.nameText = source.readString();
+        this.id = source.readInt();
         this.or = source.readInt();
-        this.lurl = source.readString();
-        this.sid = source.readInt();
-        this.rid = source.readInt();
+        this.picUrlthumb = source.readString();
+        this.sportId = source.readInt();
+        this.regionId = source.readInt();
         this.rnm = source.readString();
         this.hot = source.readByte() != 0;
         this.slid = source.readString();
@@ -88,14 +92,14 @@ public class LeagueInfo implements BaseBean {
     }
 
     protected LeagueInfo(Parcel in) {
-        this.mt = in.readInt();
+        this.num = in.readInt();
         this.lt = in.readInt();
-        this.tn = in.readString();
-        this.tid = in.readInt();
+        this.nameText = in.readString();
+        this.id = in.readInt();
         this.or = in.readInt();
-        this.lurl = in.readString();
-        this.sid = in.readInt();
-        this.rid = in.readInt();
+        this.picUrlthumb = in.readString();
+        this.sportId = in.readInt();
+        this.regionId = in.readInt();
         this.rnm = in.readString();
         this.hot = in.readByte() != 0;
         this.slid = in.readString();

@@ -26,7 +26,6 @@ import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -480,9 +479,9 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
             if (league == null) {
                 LeagueInfo leagueInfo = new LeagueInfo();
-                leagueInfo.lurl = matchInfo.lurl;
-                leagueInfo.tn = matchInfo.tn;
-                leagueInfo.tid = Long.valueOf(matchInfo.tid);
+                leagueInfo.picUrlthumb = matchInfo.lurl;
+                leagueInfo.nameText = matchInfo.tn;
+                leagueInfo.id = Long.valueOf(matchInfo.tid);
                 league = new LeaguePm(leagueInfo);
                 mapLeague.put(String.valueOf(matchInfo.tid), league);
 
@@ -530,9 +529,9 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
             if (league == null) {
                 LeagueInfo leagueInfo = new LeagueInfo();
-                leagueInfo.lurl = matchInfo.lurl;
-                leagueInfo.tn = matchInfo.tn;
-                leagueInfo.tid = Long.valueOf(matchInfo.tid);
+                leagueInfo.picUrlthumb = matchInfo.lurl;
+                leagueInfo.nameText = matchInfo.tn;
+                leagueInfo.id = Long.valueOf(matchInfo.tid);
                 league = new LeaguePm(leagueInfo);
                 mapLeague.put(String.valueOf(matchInfo.tid), league);
 
