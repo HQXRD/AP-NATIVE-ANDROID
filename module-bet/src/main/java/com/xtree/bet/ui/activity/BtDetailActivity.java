@@ -131,9 +131,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 binding.toolbar.setBackgroundResource(R.color.bt_color_detail_top_toolbar);
             } else if (Math.abs(verticalOffset) == 0) {//展开
                 binding.rlToolbarTime.setVisibility(View.GONE);
-                if(binding.videoPlayer.getVisibility() != View.VISIBLE && binding.wvAmin.getVisibility() != View.VISIBLE) {
+                if (binding.videoPlayer.getVisibility() != View.VISIBLE && binding.wvAmin.getVisibility() != View.VISIBLE) {
                     binding.ctlToolbarLeague.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     binding.ctlToolbarLeague.setVisibility(View.GONE);
                 }
                 binding.llLive.setVisibility(View.VISIBLE);
@@ -176,8 +176,6 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
 
         viewModel.getMatchDetail(mMatch.getId());
         viewModel.getCategoryList(String.valueOf(mMatch.getId()), mMatch.getSportId());
-
-        //viewModel.matchData.postValue(mMatch);
         viewModel.addSubscription();
         setCgBtCar();
     }
@@ -190,7 +188,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     viewModel.getMatchDetail(mMatch.getId());
-                    if(!mCategories.isEmpty()) {
+                    if (!mCategories.isEmpty()) {
                         viewModel.getMatchOddsInfoPB(String.valueOf(mMatch.getId()), mCategories.get(tabPos).getId());
                     }
                 })
@@ -260,16 +258,8 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
     @Override
     public GSYVideoOptionBuilder getGSYVideoOptionBuilder() {
         String videoUrl = "";
-        if(!TextUtils.isEmpty(mMatch.getVideoInfo().m3u8SD)){
-            videoUrl = mMatch.getVideoInfo().m3u8SD;
-        } else if (!TextUtils.isEmpty(mMatch.getVideoInfo().m3u8HD)) {
-            videoUrl = mMatch.getVideoInfo().m3u8HD;
-        } else if (!TextUtils.isEmpty(mMatch.getVideoInfo().flvSD)) {
-            videoUrl = mMatch.getVideoInfo().flvSD;
-        } else if (!TextUtils.isEmpty(mMatch.getVideoInfo().flvHD)) {
-            videoUrl = mMatch.getVideoInfo().flvHD;
-        } else if (!TextUtils.isEmpty(mMatch.getVideoInfo().web)) {
-            videoUrl = mMatch.getVideoInfo().web;
+        if(!mMatch.getVideoUrls().isEmpty()){
+            videoUrl = mMatch.getVideoUrls().get(0);
         }
         String score = "";
         if (mMatch.getScore(Constants.SCORE_TYPE_SCORE) != null && mMatch.getScore(Constants.SCORE_TYPE_SCORE).size() > 1) {
@@ -311,17 +301,17 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
      * 更新联赛数据
      */
     private void updateOptionData() {
-        if(fragment == null) {
-            if(mCategories != null && !mCategories.isEmpty()) {
+        if (fragment == null) {
+            if (mCategories != null && !mCategories.isEmpty()) {
                 fragment = BtDetailOptionFragment.getInstance(mMatch, (ArrayList<PlayType>) mCategories.get(tabPos).getPlayTypeList());
                 FragmentTransaction trans = getSupportFragmentManager()
                         .beginTransaction();
                 trans.replace(R.id.fl_option, fragment);
                 trans.commitAllowingStateLoss();
             }
-        }else{
-            if(mCategories != null && !mCategories.isEmpty()) {
-                if(tabPos < mCategories.size()) {
+        } else {
+            if (mCategories != null && !mCategories.isEmpty()) {
+                if (tabPos < mCategories.size()) {
                     RxBus.getDefault().post(new BetContract(BetContract.ACTION_OPTION_CHANGE, mCategories.get(tabPos).getPlayTypeList()));
                 }
             }
@@ -338,16 +328,19 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
     public void initViewObservable() {
         viewModel.matchData.observe(this, match -> {
             this.mMatch = match;
-            if(match.hasAs()){
+            if(match == null){
+                return;
+            }
+            if (match.hasAs()) {
                 binding.tvAnimi.setVisibility(View.VISIBLE);
-            }else{
-                binding.tvAnimi.setVisibility(View.INVISIBLE);
+            } else {
+                binding.tvAnimi.setVisibility(View.GONE);
             }
 
-            if(match.hasVideo()){
+            if (match.hasVideo()) {
                 binding.tvLive.setVisibility(View.VISIBLE);
-            }else{
-                binding.tvLive.setVisibility(View.INVISIBLE);
+            } else {
+                binding.tvLive.setVisibility(View.GONE);
             }
             binding.tvLeagueName.setText(match.getLeague().getLeagueName());
             binding.tvTeamMain.setText(match.getTeamMain());
@@ -382,11 +375,11 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             String sport = SportTypeContants.SPORT_IDS[sportType];
 
             // 比赛未开始
-            if(match.isUnGoingon()){
+            if (!match.isGoingon()) {
                 binding.tvTimeTop.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_MM_DD_HH_MM));
                 binding.tvTime.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_MM_DD_1));
                 binding.tvScore.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_HH_MM));
-            }else {
+            } else {
                 if (sport.equals(SportTypeContants.SPORT_ID_FB) || sport.equals(SportTypeContants.SPORT_ID_BSB)) {
                     binding.tvTime.setText(match.getStage() + " " + match.getTime());
                     binding.tvTimeTop.setText(match.getStage() + " " + match.getTime());
@@ -408,7 +401,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
         });
         viewModel.categoryListData.observe(this, categories -> {
 
-            if(mCategories.size() != categories.size() ) {
+            if (mCategories.size() != categories.size()) {
                 mCategories = categories;
                 if (!categories.isEmpty()) {
 
@@ -426,7 +419,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                     }
 
                 }
-            }else{
+            } else {
                 mCategories = categories;
                 updateOptionData();
             }
@@ -436,7 +429,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             if (betContract.action == BetContract.ACTION_BTCAR_CHANGE) {
                 setCgBtCar();
                 updateOptionData();
-                if(!BtCarManager.isCg()){
+                if (!BtCarManager.isCg()) {
                     binding.rlCg.postDelayed(() -> RxBus.getDefault().postSticky(new BetContract(BetContract.ACTION_OPEN_TODAY)), 500);
                 }
             } else if (betContract.action == BetContract.ACTION_OPEN_CG) {
@@ -449,7 +442,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
     /**
      * 设置串关数量与显示与否
      */
-    public void setCgBtCar(){
+    public void setCgBtCar() {
         binding.tvCgCount.setText(String.valueOf(BtCarManager.size()));
         binding.rlCg.setVisibility(!BtCarManager.isCg() ? View.GONE : BtCarManager.isEmpty() ? View.GONE : View.VISIBLE);
     }
@@ -472,20 +465,27 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             binding.videoPlayer.setVisibility(View.VISIBLE);
             binding.ctlToolbarLeague.setVisibility(View.GONE);
             binding.rlToolbarTime.setVisibility(View.GONE);
-            initVideoBuilderMode();
+            if(mMatch.isVideoStart()){
+                initVideoBuilderMode();
+            }else {
+                ToastUtils.showLong(getText(R.string.bt_bt_match_not_runing));
+            }
+
         } else if (id == R.id.tv_animi) {
-            if(mMatch.hasAs()) {
-                if (!TextUtils.isEmpty(mMatch.getAnmiUrls().get(0))) {
+            if (mMatch.hasAs() && mMatch.isAnimationStart()) {
+                if (mMatch.getAnmiUrls() != null && !TextUtils.isEmpty(mMatch.getAnmiUrls().get(0))) {
                     setWebView();
                     binding.wvAmin.setVisibility(View.VISIBLE);
                     binding.ctlToolbarLeague.setVisibility(View.GONE);
                     binding.rlToolbarTime.setVisibility(View.GONE);
                     binding.wvAmin.loadUrl(mMatch.getAnmiUrls().get(0));
+                } else {
+                    ToastUtils.showLong(getText(R.string.bt_bt_match_not_runing));
                 }
             }
 
         } else if (id == R.id.iv_back) {
-            if(binding.videoPlayer.getVisibility() == View.VISIBLE || binding.videoPlayer.getGSYVideoManager().isPlaying()) {
+            if (binding.videoPlayer.getVisibility() == View.VISIBLE || binding.videoPlayer.getGSYVideoManager().isPlaying()) {
                 binding.videoPlayer.release();
                 binding.videoPlayer.setVisibility(View.GONE);
             } else if (binding.wvAmin.getVisibility() == View.VISIBLE) {

@@ -7,8 +7,10 @@ import androidx.annotation.NonNull;
 
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.PMHttpCallBack;
+import com.xtree.bet.bean.response.pm.LeagueAreaInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
+import com.xtree.bet.bean.response.pm.VideoAnimationInfo;
 import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.CategoryPm;
 import com.xtree.bet.bean.ui.Match;
@@ -41,6 +43,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
     private Map<String, Category> categoryMap = new HashMap<>();
     private boolean isFirst = true;
     private List<PlayType> mPlayTypeList;
+    private MatchInfo mMatchInfo;
 
     public PmBtDetailViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
@@ -57,14 +60,60 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                 .subscribeWith(new PMHttpCallBack<MatchInfo>() {
                     @Override
                     public void onResult(MatchInfo matchInfo) {
-                        Match match = new MatchPm(matchInfo);
-                        mMatch = match;
-                        matchData.postValue(match);
+                        mMatchInfo = matchInfo;
+                        videoAnimationUrlPB(Long.valueOf(mMatchInfo.mid), "Video");
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+
+    }
+
+    @Override
+    public void videoAnimationUrlPB(long matchId, String type) {
+
+        Map<String, String> map = new HashMap<>();
+
+        map.put("device", "H5");
+        map.put("mid", String.valueOf(matchId));
+        map.put("type", type);
+
+        Disposable disposable = (Disposable) model.getPMApiService().videoAnimationUrlPB(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new PMHttpCallBack<VideoAnimationInfo>() {
+                    @Override
+                    public void onResult(VideoAnimationInfo videoAnimationInfo) {
+                        if(mMatchInfo != null) {
+                            if (TextUtils.equals(type, "Video")) {
+                                if(videoAnimationInfo.videoUrlVOList != null) {
+                                    mMatchInfo.vs = videoAnimationInfo.videoUrlVOList;
+                                }
+                                videoAnimationUrlPB(mMatch.getId(), "Animation");
+                            }
+                            if (TextUtils.equals(type, "Animation")) {
+                                if(!TextUtils.isEmpty(videoAnimationInfo.animationUrl)) {
+                                    mMatchInfo.as.clear();
+                                    mMatchInfo.as.add(videoAnimationInfo.animationUrl);
+                                }
+                                Match match = new MatchPm(mMatchInfo);
+                                mMatch = match;
+                                matchData.postValue(match);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        if(mMatchInfo != null) {
+                            Match match = new MatchPm(mMatchInfo);
+                            mMatch = match;
+                            matchData.postValue(match);
+                        }
                     }
                 });
         addSubscribe(disposable);

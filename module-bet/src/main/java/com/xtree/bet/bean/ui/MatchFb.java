@@ -1,6 +1,7 @@
 package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
+import android.text.TextUtils;
 
 import androidx.annotation.Nullable;
 
@@ -158,6 +159,12 @@ public class MatchFb implements Match{
         }
         return matchInfo.vs.have;
     }
+
+    @Override
+    public boolean isVideoStart() {
+        return isGoingon();
+    }
+
     /**
      * 是否有动画直播
      * @return
@@ -168,8 +175,25 @@ public class MatchFb implements Match{
     }
 
     @Override
-    public VideoInfo getVideoInfo() {
-        return matchInfo.vs;
+    public boolean isAnimationStart() {
+        return isGoingon();
+    }
+
+    @Override
+    public List<String> getVideoUrls() {
+        List<String> urls = new ArrayList<>();
+        if (!TextUtils.isEmpty(matchInfo.vs.m3u8SD)) {
+            urls.add(matchInfo.vs.m3u8SD);
+        } else if (!TextUtils.isEmpty(matchInfo.vs.m3u8HD)) {
+            urls.add(matchInfo.vs.m3u8HD);
+        } else if (!TextUtils.isEmpty(matchInfo.vs.flvSD)) {
+            urls.add(matchInfo.vs.flvSD);
+        } else if (!TextUtils.isEmpty(matchInfo.vs.flvHD)) {
+            urls.add(matchInfo.vs.flvHD);
+        } else if (!TextUtils.isEmpty(matchInfo.vs.web)) {
+            urls.add(matchInfo.vs.web);
+        }
+        return urls;
     }
 
     @Override
@@ -204,9 +228,13 @@ public class MatchFb implements Match{
         return matchInfo.ts.get(1).lurl;
     }
 
+    /**
+     * 获取比赛是否开始状态
+     * @return
+     */
     @Override
-    public boolean isUnGoingon() {
-        return matchInfo.ms == 4;
+    public boolean isGoingon() {
+        return matchInfo.ms == 1;
     }
 
     @Override

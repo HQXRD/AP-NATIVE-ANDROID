@@ -4,10 +4,10 @@ import android.os.Parcel;
 import android.text.TextUtils;
 
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.bet.bean.response.fb.VideoInfo;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
+import com.xtree.bet.bean.response.pm.VideoInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,24 +157,41 @@ public class MatchPm implements Match{
      */
     @Override
     public boolean hasVideo() {
-        return matchInfo.mms != -1;
+        return matchInfo.mms != -1 && !getVideoUrls().isEmpty();
     }
+
+    @Override
+    public boolean isVideoStart() {
+        return matchInfo.mms == 2;
+    }
+
     /**
      * 是否有动画直播
      * @return
      */
     @Override
     public boolean hasAs() {
-        return matchInfo.mvs != -1;
+        return matchInfo.mvs == -1 && !getAnmiUrls().isEmpty();
     }
 
-    /**
-     * 获取视频源信息
-     * @return
-     */
     @Override
-    public VideoInfo getVideoInfo() {
-        return null;
+    public boolean isAnimationStart() {
+        return matchInfo.mvs == 2;
+    }
+
+    @Override
+    public List<String> getVideoUrls() {
+        List<String> urls = new ArrayList<>();
+        if(matchInfo != null && matchInfo.vs != null) {
+            for (VideoInfo videoInfo : matchInfo.vs) {
+                if (!TextUtils.isEmpty(videoInfo.flvUrl)) {
+                    urls.add(videoInfo.flvUrl);
+                } else if (!TextUtils.isEmpty(videoInfo.muUrl)) {
+                    urls.add(videoInfo.muUrl);
+                }
+            }
+        }
+        return urls;
     }
 
     /**
@@ -183,7 +200,7 @@ public class MatchPm implements Match{
      */
     @Override
     public List<String> getAnmiUrls() {
-        return null;
+        return matchInfo.as;
     }
 
     /**
@@ -248,12 +265,13 @@ public class MatchPm implements Match{
     }
 
     /**
-     * 获取比赛是否未开始状态
+     * 获取比赛是否进行中状态
      * @return
      */
     @Override
-    public boolean isUnGoingon() {
-        return TextUtils.equals(matchInfo.mmp, "0");
+    public boolean isGoingon() {
+        return !TextUtils.equals(matchInfo.mmp, "0") && !TextUtils.equals(matchInfo.mmp, "90")
+                &&!TextUtils.equals(matchInfo.mmp, "999") && !TextUtils.equals(matchInfo.mmp, "61");
     }
 
     /**

@@ -37,5 +37,6 @@
     <string name="bt_bt_menu_unbet">未结注单</string>
     <string name="bt_bt_menu_bet">已结注单</string>
     <string name="bt_bt_menu_refresh">刷新</string>
+    <string name="bt_bt_match_not_runing">比赛尚未开始</string>
 
 </resources>

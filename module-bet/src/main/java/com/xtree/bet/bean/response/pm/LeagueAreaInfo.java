@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * 联赛所属区域
  */
-public class LeagueArea {
+public class LeagueAreaInfo {
 
     /**
      * id : 0
@@ -31,29 +31,5 @@ public class LeagueArea {
         public String nameText;
         public String spell;
         public List<LeagueInfo> tournamentList;
-
-        public static class LeagueInfo {
-            /**
-             * hotStatus : 1
-             * id : 95
-             * nameText : 澳大利亚甲级联赛
-             * num : 1
-             * picUrlthumb : group1/M00/15/3C/CgURt2HPoWSAcMQsAAAZ40V-tUo842.png
-             * regionId : 2
-             * sportId : 1
-             * tournamentId : 95
-             * tournamentLevel : 1
-             */
-
-            public int hotStatus;
-            public String id;
-            public String nameText;
-            public int num;
-            public String picUrlthumb;
-            public String regionId;
-            public String sportId;
-            public String tournamentId;
-            public int tournamentLevel;
-        }
     }
 }

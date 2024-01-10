@@ -14,6 +14,7 @@ import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
 import com.xtree.bet.bean.response.pm.MenuInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
+import com.xtree.bet.bean.response.pm.VideoAnimationInfo;
 import com.xtree.bet.bean.ui.CategoryPm;
 
 import java.util.List;
@@ -119,4 +120,12 @@ public interface PMApiService {
     @GET("/yewu11/v1/m/getFilterMatchListPB")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<PMBaseResponse<List<LeagueAreaInfo>>> getOnSaleLeagues(@QueryMap Map<String, String> map);
+
+    /**
+     * 获取联赛列表
+     * @return
+     */
+    @POST("/yewu11/v1/w/videoAnimationUrlPB")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<PMBaseResponse<VideoAnimationInfo>> videoAnimationUrlPB(@Body Map<String, String> map);
 }

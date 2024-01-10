@@ -23,6 +23,7 @@ import java.util.zip.GZIPInputStream;
 
 import kotlin.text.Charsets;
 import me.xtree.mvvmhabit.http.PMBaseResponse;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 import okhttp3.Interceptor;
@@ -65,6 +66,7 @@ public class PMDecryptInterceptor implements Interceptor {
 
         try {
             String rData = decrypt(data);
+            KLog.d(request.url() + "\n" + rData);
 
             map.put("data", new Gson().fromJson(rData, Object.class));
             result = new Gson().toJson(map);

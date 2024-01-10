@@ -73,15 +73,26 @@ public interface Match extends BaseBean {
     boolean hasVideo();
 
     /**
+     * 视频直播是否开始
+     * @return
+     */
+    boolean isVideoStart();
+
+    /**
      * 是否有动画直播
      * @return
      */
     boolean hasAs();
     /**
-     * 获取视频直播信息
+     * 动画直播是否开始
      * @return
      */
-    VideoInfo getVideoInfo();
+    boolean isAnimationStart();
+    /**
+     * 获取动画直播地址列表
+     * @return
+     */
+    List<String> getVideoUrls();
     /**
      * 获取动画直播地址列表
      * @return
@@ -107,7 +118,7 @@ public interface Match extends BaseBean {
      * 获取比赛是否未开始状态
      * @return
      */
-    boolean isUnGoingon();
+    boolean isGoingon();
     /**
      * 获取开赛时间
      * @return

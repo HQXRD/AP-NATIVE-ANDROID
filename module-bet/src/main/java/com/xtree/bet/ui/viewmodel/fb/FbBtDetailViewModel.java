@@ -8,11 +8,16 @@ import androidx.annotation.NonNull;
 
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.bet.bean.response.fb.MatchInfo;
+import com.xtree.bet.bean.response.fb.PlayTypeInfo;
+import com.xtree.bet.bean.ui.Category;
+import com.xtree.bet.bean.ui.CategoryFb;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayType;
+import com.xtree.bet.bean.ui.PlayTypeFb;
+import com.xtree.bet.constant.MarketTag;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
 
@@ -62,6 +67,21 @@ public class FbBtDetailViewModel extends TemplateBtDetailViewModel {
                 });
         addSubscribe(disposable);
 
+    }
+
+    public List<Category> getCategoryList(MatchInfo matchInfo) {
+        Map<String, Category> map = new HashMap<>();
+        List<Category> categoryList = new ArrayList<>();
+        for (PlayTypeInfo playTypeInfo : matchInfo.mg) {
+            for (String type : playTypeInfo.tps) {
+                if (map.get(type) == null) {
+                    map.put(type, new CategoryFb(playTypeInfo, MarketTag.getMarketTag(type)));
+                }
+                map.get(type).addPlayTypeList(new PlayTypeFb(playTypeInfo));
+            }
+        }
+        categoryList.addAll(map.values());
+        return categoryList;
     }
 
     /**
