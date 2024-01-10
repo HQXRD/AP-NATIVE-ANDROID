@@ -158,7 +158,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             for (Long leagueid : leagueIds) {
                 leagueids += leagueid + ",";
             }
-            pmListReq.setTid(leagueids.substring(leagueids.length() - 1));
+            pmListReq.setTid(leagueids.substring(0, leagueids.length() - 1));
         }
         pmListReq.setCpn(currentPage);
         //pmListReq.setOddType(oddType);
@@ -481,7 +481,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 LeagueInfo leagueInfo = new LeagueInfo();
                 leagueInfo.picUrlthumb = matchInfo.lurl;
                 leagueInfo.nameText = matchInfo.tn;
-                leagueInfo.id = Long.valueOf(matchInfo.tid);
+                leagueInfo.tournamentId = Long.valueOf(matchInfo.tid);
                 league = new LeaguePm(leagueInfo);
                 mapLeague.put(String.valueOf(matchInfo.tid), league);
 
@@ -531,7 +531,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 LeagueInfo leagueInfo = new LeagueInfo();
                 leagueInfo.picUrlthumb = matchInfo.lurl;
                 leagueInfo.nameText = matchInfo.tn;
-                leagueInfo.id = Long.valueOf(matchInfo.tid);
+                leagueInfo.tournamentId = Long.valueOf(matchInfo.tid);
                 league = new LeaguePm(leagueInfo);
                 mapLeague.put(String.valueOf(matchInfo.tid), league);
 

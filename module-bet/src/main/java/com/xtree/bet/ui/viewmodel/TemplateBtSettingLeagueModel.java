@@ -127,10 +127,22 @@ public abstract class TemplateBtSettingLeagueModel extends BaseViewModel<BetRepo
         // 把得到的地区分组按首字母分组 end
 
         List<InitialLeagueArea> initialLeagueAreaList = new ArrayList<>();
-        initialLeagueAreaList.add(hotInitialLeagueArea);
+        if(!hotInitialLeagueArea.getLeagueAreaList().isEmpty() && !hotLeagueArea.getLeagueList().isEmpty()){
+            initialLeagueAreaList.add(hotInitialLeagueArea);
+        }
         for (Map.Entry<String, InitialLeagueArea> entry : initialLeagueAreaMap.entrySet()) {
             System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
-            initialLeagueAreaList.add(entry.getValue());
+            if(TextUtils.equals("R", entry.getKey())){
+                for (LeagueArea area : entry.getValue().getLeagueAreaList()){
+                    if(TextUtils.equals("热门联赛", area.getName())){
+                        entry.getValue().getLeagueAreaList().remove(area);
+                        break;
+                    }
+                }
+            }
+            if(!entry.getValue().getLeagueAreaList().isEmpty()) {
+                initialLeagueAreaList.add(entry.getValue());
+            }
         }
 
         if(!initialLeagueAreaMap.isEmpty()) {

@@ -202,7 +202,7 @@ public class MatchPm implements Match{
         leagueInfo.picUrlthumb = matchInfo.lurl;
         leagueInfo.nameText = matchInfo.tn;
         if(!TextUtils.isEmpty(matchInfo.tid)) {
-            leagueInfo.id = Long.valueOf(matchInfo.tid);
+            leagueInfo.tournamentId = Long.valueOf(matchInfo.tid);
         }
         return mLeague;
     }

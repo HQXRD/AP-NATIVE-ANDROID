@@ -15,10 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView;
+import android.widget.ExpandableListView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.InitialLeagueArea;
 import com.xtree.bet.bean.ui.League;
@@ -62,7 +65,7 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
     private boolean isSearch;
     private SideBar sideBar;
     private SettingLeagueAdapter settingLeagueAdapter;
-    private List<League> mLeagueList; // 后台查询到的所有联赛列表
+    private List<League> mLeagueList = new ArrayList<>(); // 后台查询到的所有联赛列表
     private List<League> mSearchLeagueList = new ArrayList<>();
     private List<LeagueArea> mLeagueAreaList = new ArrayList<>(); // 联赛按区域分组数据
     private List<LeagueArea> mSearchLeagueAreaList = new ArrayList<>();
@@ -101,6 +104,24 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
             }
             return true;
         });
+
+        binding.aelLeague.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                long position = binding.aelLeague.getExpandableListPosition(firstVisibleItem);
+                int type = binding.aelLeague.getPackedPositionType(position);
+                if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                    int groupPosition = binding.aelLeague.getPackedPositionGroup(position);
+                    sideBar.setHint(groupPosition);
+                }
+            }
+        });
+
         binding.cbAll.setOnClickListener(this);
         binding.etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -192,6 +213,9 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
                 binding.aelLeague.expandGroup(i);
             }
             sideBar = new SideBar(getContext(), mInitialList);
+            if(binding.sbLeague.getChildCount() > 0){
+                binding.sbLeague.removeAllViews();
+            }
             binding.sbLeague.addView(sideBar);
             sideBar.setOnSelectListener(index -> {
                 int position = mLeagueAreaList.indexOf(mInitialLeagueAreaList.get(index).getLeagueAreaList().get(0));
@@ -222,7 +246,7 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
             }
             binding.sbLeague.addView(sideBar);
             sideBar.setOnSelectListener(index -> {
-                int position = mLeagueAreaList.indexOf(mSearchInitialLeagueAreaList.get(index).getLeagueAreaList().get(0));
+                int position = mSearchLeagueAreaList.indexOf(mSearchInitialLeagueAreaList.get(index).getLeagueAreaList().get(0));
                 binding.aelLeague.scroll(position);
             });
         });

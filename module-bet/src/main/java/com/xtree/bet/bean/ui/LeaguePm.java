@@ -88,7 +88,7 @@ public class LeaguePm implements League{
 
     @Override
     public boolean isHot() {
-        return leagueInfo.hot;
+        return leagueInfo.hotStatus == 1;
     }
 
     @Override
@@ -101,7 +101,7 @@ public class LeaguePm implements League{
      */
     @Override
     public String getLeagueAreaName() {
-        return leagueInfo.rnm;
+        return leagueInfo.regionName;
     }
     /**
      * 获取联赛区域ID
@@ -127,7 +127,7 @@ public class LeaguePm implements League{
      */
     @Override
     public long getId() {
-        return leagueInfo.id;
+        return leagueInfo.tournamentId;
     }
 
     @Override

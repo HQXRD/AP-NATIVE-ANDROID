@@ -129,6 +129,11 @@ public class SideBar extends View {
         return null;
     }
 
+    public void setHint(int index){
+        touchY = cellHeight * index;
+        invalidate();
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
