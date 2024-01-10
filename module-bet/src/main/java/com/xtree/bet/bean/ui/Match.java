@@ -134,4 +134,16 @@ public interface Match extends BaseBean {
      * 获取赛种ID，如足球，篮球
      */
     String getSportId();
+
+    /**
+     * PM获取播放器请求头信息
+     * @return
+     */
+    String getReferUrl();
+
+    /**
+     * PM设置播放器请求头信息
+     * @param referUrl
+     */
+    void setReferUrl(String referUrl);
 }

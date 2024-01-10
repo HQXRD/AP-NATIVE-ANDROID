@@ -93,7 +93,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                                 if(videoAnimationInfo.videoUrlVOList != null) {
                                     mMatchInfo.vs = videoAnimationInfo.videoUrlVOList;
                                 }
-                                videoAnimationUrlPB(mMatch.getId(), "Animation");
+                                videoAnimationUrlPB(Long.valueOf(mMatchInfo.mid), "Animation");
                             }
                             if (TextUtils.equals(type, "Animation")) {
                                 if(!TextUtils.isEmpty(videoAnimationInfo.animationUrl)) {
@@ -102,6 +102,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                                 }
                                 Match match = new MatchPm(mMatchInfo);
                                 mMatch = match;
+                                mMatch.setReferUrl(videoAnimationInfo.referUrl);
                                 matchData.postValue(match);
                             }
                         }

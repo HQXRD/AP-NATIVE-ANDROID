@@ -41,7 +41,7 @@ public class PMBtSettingLeagueModel extends TemplateBtSettingLeagueModel {
     public void getOnSaleLeagues(int sportId, int type, List<Long> leagueIdList) {
 
         Map<String, String> map = new HashMap<>();
-        map.put("euid", String.valueOf(sportId + 20000));
+        map.put("euid", String.valueOf(sportId));
         map.put("device", "v2_h5");
         map.put("type", String.valueOf(type));
         map.put("inputText", "");

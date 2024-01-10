@@ -55,7 +55,7 @@ public interface PMApiService {
      */
     @GET("/yewu11/pub/v1/m/menu/initPB")
     @Headers({"Content-Type: application/json; charset=utf-8"})
-    Flowable<PMBaseResponse<List<MenuInfo>>> initPB();
+    Flowable<PMBaseResponse<List<MenuInfo>>> initPB(@QueryMap Map<String, String> map);
 
     /**
      * 获取最新投注数据

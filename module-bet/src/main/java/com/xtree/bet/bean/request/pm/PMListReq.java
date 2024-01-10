@@ -51,7 +51,7 @@ public class PMListReq {
     private String csid;
 
     public void setEuid(String euid) {
-        Integer iEuid = Integer.valueOf(euid) + 20000;
+        Integer iEuid = Integer.valueOf(euid);
         this.euid = String.valueOf(iEuid);
     }
 

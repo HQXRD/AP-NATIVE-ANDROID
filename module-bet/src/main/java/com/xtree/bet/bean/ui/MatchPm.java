@@ -23,6 +23,10 @@ public class MatchPm implements Match{
     List<PlayType> playTypeList = new ArrayList<>();
 
     LeaguePm mLeague;
+    /**
+     * 播放器请求头
+     */
+    private String referUrl;
 
     public MatchPm(MatchInfo matchInfo){
         this.matchInfo = matchInfo;
@@ -92,8 +96,8 @@ public class MatchPm implements Match{
     public List<Integer> getScore(int type) {
         List<Integer> sc = new ArrayList<>();
         for (String str : matchInfo.msc) {
-            if (str.contains("S1") && matchInfo.msc != null && !matchInfo.msc.isEmpty()) {
-                String score = matchInfo.msc.get(0);
+            if (str.contains("S1|") && matchInfo.msc != null && !matchInfo.msc.isEmpty()) {
+                String score = str;
                 if (!TextUtils.isEmpty(score) && score.contains("|")) {
                     score = score.substring(score.indexOf("|") + 1, score.length());
                     if (!TextUtils.isEmpty(score) && score.contains(":")) {
@@ -162,7 +166,7 @@ public class MatchPm implements Match{
 
     @Override
     public boolean isVideoStart() {
-        return matchInfo.mms == 2;
+        return matchInfo.mms == 2 || matchInfo.mms == 1;
     }
 
     /**
@@ -171,12 +175,12 @@ public class MatchPm implements Match{
      */
     @Override
     public boolean hasAs() {
-        return matchInfo.mvs == -1 && !getAnmiUrls().isEmpty();
+        return matchInfo.mvs != -1 && !getAnmiUrls().isEmpty();
     }
 
     @Override
     public boolean isAnimationStart() {
-        return matchInfo.mvs == 2;
+        return matchInfo.mvs == 2 || matchInfo.mvs == 1;
     }
 
     @Override
@@ -296,6 +300,16 @@ public class MatchPm implements Match{
     @Override
     public String getSportId() {
         return matchInfo.csid;
+    }
+
+    @Override
+    public String getReferUrl() {
+        return referUrl;
+    }
+
+    @Override
+    public void setReferUrl(String referUrl) {
+        this.referUrl = referUrl;
     }
 
     @Override

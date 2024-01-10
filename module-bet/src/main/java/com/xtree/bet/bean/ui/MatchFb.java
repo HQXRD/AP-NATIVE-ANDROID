@@ -234,7 +234,7 @@ public class MatchFb implements Match{
      */
     @Override
     public boolean isGoingon() {
-        return matchInfo.ms == 1;
+        return matchInfo.ms != 4;
     }
 
     @Override
@@ -255,6 +255,16 @@ public class MatchFb implements Match{
     @Override
     public String getSportId() {
         return "";
+    }
+
+    @Override
+    public String getReferUrl() {
+        return null;
+    }
+
+    @Override
+    public void setReferUrl(String referUrl) {
+
     }
 
     @Override

@@ -50,7 +50,9 @@ import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.weight.BaseDetailDataView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -268,9 +270,14 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
         ImageView thumb = new ImageView(this);
         int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
         thumb.setBackgroundResource(Constants.DETAIL_BG_SPORT_ICON[sportId]);
+        Map header = new HashMap();
+        if(!TextUtils.isEmpty(mMatch.getReferUrl())) {
+            header.put("Referer", mMatch.getReferUrl());
+        }
         return new GSYVideoOptionBuilder()
                 .setThumbImageView(thumb)
                 .setUrl(videoUrl)
+                .setMapHeadData(header)
                 .setCacheWithPlay(false)
                 .setShrinkImageRes(R.mipmap.bt_video_shrink)
                 .setEnlargeImageRes(R.mipmap.bt_video_enlarge)

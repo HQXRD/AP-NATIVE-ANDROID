@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.request.pm.PMListReq;
@@ -370,9 +371,11 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * 获取赛事统计数据
      */
     public void statistical(int playMethodType) {
+        Map<String, String > map = new HashMap<>();
+        map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PM_USER_ID));
+        map.put("sys", "7");
 
-
-        Disposable disposable = (Disposable) model.getPMApiService().initPB()
+        Disposable disposable = (Disposable) model.getPMApiService().initPB(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new PMHttpCallBack<List<MenuInfo>>() {
