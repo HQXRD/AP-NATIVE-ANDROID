@@ -1,5 +1,8 @@
 package com.xtree.bet.ui.fragment;
 
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+
 import android.app.Application;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -24,7 +27,13 @@ import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtDialogLeagueBinding;
 import com.xtree.bet.ui.adapter.SettingLeagueAdapter;
 import com.xtree.bet.ui.viewmodel.BtSettingLeagueModel;
+import com.xtree.bet.ui.viewmodel.TemplateBtSettingLeagueModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
+import com.xtree.bet.ui.viewmodel.fb.FBBtRecordModel;
+import com.xtree.bet.ui.viewmodel.fb.FBBtSettingLeagueModel;
+import com.xtree.bet.ui.viewmodel.pm.PMBtRecordModel;
+import com.xtree.bet.ui.viewmodel.pm.PMBtSettingLeagueModel;
 import com.xtree.bet.weight.SideBar;
 
 import java.util.ArrayList;
@@ -34,16 +43,18 @@ import java.util.Objects;
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
 import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
 /**
  * 联赛筛选
  */
-public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBinding, BtSettingLeagueModel> {
+public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBinding, TemplateBtSettingLeagueModel> {
     public final static String KEY_LEAGUE = "KEY_LEAGUE";
     public final static String KEY_SPORTID = "KEY_SPORTID";
     public final static String KEY_TYPE = "KEY_TYPE";
     public final static String KEY_LEAGUEIDS = "KEY_LEAGUEIDS";
+    private String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
     // 已选联赛
     private List<Long> mLeagueIdList = new ArrayList<>();
     private int sportId;
@@ -280,8 +291,13 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
     }
 
     @Override
-    public BtSettingLeagueModel initViewModel() {
-        AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
-        return new ViewModelProvider(this, factory).get(BtSettingLeagueModel.class);
+    public TemplateBtSettingLeagueModel initViewModel() {
+        if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+            AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
+            return new ViewModelProvider(this, factory).get(FBBtSettingLeagueModel.class);
+        } else {
+            PMAppViewModelFactory factory = PMAppViewModelFactory.getInstance((Application) Utils.getContext());
+            return new ViewModelProvider(this, factory).get(PMBtSettingLeagueModel.class);
+        }
     }
 }

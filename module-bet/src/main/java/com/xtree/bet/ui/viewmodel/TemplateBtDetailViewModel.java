@@ -47,7 +47,6 @@ public abstract class TemplateBtDetailViewModel extends BaseViewModel<BetReposit
     public SingleLiveData<Match> matchData = new SingleLiveData<>();
     public SingleLiveData<BetContract> betContractListData = new SingleLiveData<>();
     public Match mMatch;
-    private String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
 
     public TemplateBtDetailViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);

@@ -5,10 +5,12 @@ import com.xtree.bet.bean.request.pm.BtCarReq;
 import com.xtree.bet.bean.request.pm.BtRecordReq;
 import com.xtree.bet.bean.request.pm.BtReq;
 import com.xtree.bet.bean.request.pm.PMListReq;
+import com.xtree.bet.bean.response.fb.LeagueInfo;
 import com.xtree.bet.bean.response.pm.BtConfirmInfo;
 import com.xtree.bet.bean.response.pm.BtRecordRsp;
 import com.xtree.bet.bean.response.pm.BtResultInfo;
 import com.xtree.bet.bean.response.pm.CgOddLimitInfo;
+import com.xtree.bet.bean.response.pm.LeagueArea;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
 import com.xtree.bet.bean.response.pm.MenuInfo;
@@ -19,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
+import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.PMBaseResponse;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -110,6 +113,12 @@ public interface PMApiService {
     @POST("/yewu13/v1/betOrder/client/getOrderListV4PB")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<PMBaseResponse<BtRecordRsp>> betRecord(@Body BtRecordReq btRecordReq);
-
+    /**
+     * 获取联赛列表
+     * @return
+     */
+    @POST("/yewu11/v1/m/getFilterMatchListPB")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<BaseResponse<List<LeagueArea>>> getOnSaleLeagues(@Body Map<String, String> map);
 
 }

@@ -199,10 +199,10 @@ public class MatchPm implements Match{
         }else {
             leagueInfo = mLeague.getLeagueInfo();
         }
-        leagueInfo.lurl = matchInfo.lurl;
-        leagueInfo.tn = matchInfo.tn;
+        leagueInfo.picUrlthumb = matchInfo.lurl;
+        leagueInfo.nameText = matchInfo.tn;
         if(!TextUtils.isEmpty(matchInfo.tid)) {
-            leagueInfo.tid = Long.valueOf(matchInfo.tid);
+            leagueInfo.id = Long.valueOf(matchInfo.tid);
         }
         return mLeague;
     }
