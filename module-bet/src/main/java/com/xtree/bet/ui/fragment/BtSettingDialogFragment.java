@@ -1,7 +1,11 @@
 package com.xtree.bet.ui.fragment;
 
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+
 import android.app.Application;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +18,13 @@ import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtDialogSettingBinding;
 import com.xtree.bet.ui.activity.MainActivity;
+import com.xtree.bet.ui.viewmodel.TemplateBtCarViewModel;
+import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.fb.FBBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.bet.ui.viewmodel.fb.FBBtRecordModel;
+import com.xtree.bet.ui.viewmodel.pm.PMBtCarViewModel;
+import com.xtree.bet.ui.viewmodel.pm.PMBtRecordModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,20 +37,23 @@ import me.xtree.mvvmhabit.utils.Utils;
 /**
  * 投注确认页面
  */
-public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingBinding, FBBtCarViewModel> {
+public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingBinding, TemplateBtCarViewModel> {
     public final static String KEY_LEAGUEIDS = "KEY_LEAGUEIDS";
 
     // 已选联赛
     private List<Long> mLeagueIdList = new ArrayList<>();
+    private String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
 
     public static BtSettingDialogFragment getInstance(List<Long> leagueIdList){
         BtSettingDialogFragment btResultDialogFragment = new BtSettingDialogFragment();
         Bundle bundle = new Bundle();
-        long[] leagueIdArray = new long[leagueIdList.size()];
-        for (int i = 0; i <leagueIdList.size(); i ++){
-            leagueIdArray[i] = leagueIdList.get(i);
+        if(!leagueIdList.isEmpty()) {
+            long[] leagueIdArray = new long[leagueIdList.size()];
+            for (int i = 0; i < leagueIdList.size(); i++) {
+                leagueIdArray[i] = leagueIdList.get(i);
+            }
+            bundle.putLongArray(KEY_LEAGUEIDS, leagueIdArray);
         }
-        bundle.putLongArray(KEY_LEAGUEIDS, leagueIdArray);
         btResultDialogFragment.setArguments(bundle);
         return btResultDialogFragment;
     }
@@ -68,8 +80,10 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
             SPUtils.getInstance().put(SPKey.BT_MATCH_LIST_ODDTYPE, market);
         });
         long[] leagues = getArguments().getLongArray(KEY_LEAGUEIDS);
-        for (int i = 0; i < leagues.length; i++) {
-            mLeagueIdList.add(leagues[i]);
+        if(leagues != null && leagues.length > 0) {
+            for (int i = 0; i < leagues.length; i++) {
+                mLeagueIdList.add(leagues[i]);
+            }
         }
         if(mLeagueIdList == null || mLeagueIdList.isEmpty()){
             binding.llLeague.setVisibility(View.VISIBLE);
@@ -124,8 +138,13 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
     }
 
     @Override
-    public FBBtCarViewModel initViewModel() {
-        AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
-        return new ViewModelProvider(this, factory).get(FBBtCarViewModel.class);
+    public TemplateBtCarViewModel initViewModel() {
+        if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+            AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
+            return new ViewModelProvider(this, factory).get(FBBtCarViewModel.class);
+        } else {
+            PMAppViewModelFactory factory = PMAppViewModelFactory.getInstance((Application) Utils.getContext());
+            return new ViewModelProvider(this, factory).get(PMBtCarViewModel.class);
+        }
     }
 }

@@ -47,6 +47,16 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
         super(application, repository);
     }
 
+    @Override
+    public int getOrderBy(int index){
+        return index == 1 ? 2 : 1;
+    }
+
+    @Override
+    public int getOrderByPosition(int orderBy){
+        return orderBy == 1 ? 0 : 1;
+    }
+
     /**
      * 投注前查询指定玩法赔率
      */
@@ -147,47 +157,7 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
      * 单关投注
      */
     public void singleBet(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList) {
-        /*int index = 0;
-        if(betConfirmOptionList.isEmpty() || cgOddLimitList.isEmpty()){
-            return;
-        }
-        SingleBtListReq singleBetListReq = new SingleBtListReq();
-        for(BetConfirmOption betConfirmOption : betConfirmOptionList){
 
-            BtCgReq singleBetReq = new BtCgReq();
-            singleBetReq.setOddsChange(1);
-            singleBetReq.setUnitStake(cgOddLimitList.get(index ++).getBtAmount());
-
-            BtOptionReq betOptionReq = new BtOptionReq();
-            betOptionReq.setOptionType(betConfirmOption.getOptionType());
-            betOptionReq.setOdds(betConfirmOption.getOption().getRealOdd());
-            betOptionReq.setMarketId(betConfirmOption.getOptionList().getId());
-            betOptionReq.setOddsFormat(1);
-
-            singleBetReq.addBetOptionList(betOptionReq);
-
-            singleBetListReq.addSingleBetList(singleBetReq);
-        }
-
-        Disposable disposable = (Disposable) model.getApiService().singlePass(singleBetListReq)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<List<BtResultInfo>>() {
-                    @Override
-                    public void onResult(List<BtResultInfo> btResultRspList) {
-                        List<BtResult> btResultList = new ArrayList<>();
-                        for (BtResultInfo btResultInfo : btResultRspList) {
-                            btResultList.add(new BtResultFb(btResultInfo));
-                        }
-                        btResultInfoDate.postValue(btResultList);
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);*/
     }
 
     /**

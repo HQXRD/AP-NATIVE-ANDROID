@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private LeagueAdapter mLeagueAdapter;
     private ChampionMatchAdapter mChampionMatchAdapter;
     private List<League> settingLeagueList = new ArrayList<>();
-    private List<Long> mLeagueIdList;
+    private List<Long> mLeagueIdList = new ArrayList<>();
 
     private Disposable timerDisposable;
 

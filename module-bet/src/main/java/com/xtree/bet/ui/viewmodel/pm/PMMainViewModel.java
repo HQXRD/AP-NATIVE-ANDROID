@@ -154,7 +154,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
 
         pmListReq.setSort(orderBy);
-        if (leagueIds != null) {
+        if (leagueIds != null && !leagueIds.isEmpty()) {
             String leagueids = "";
             for (Long leagueid : leagueIds) {
                 leagueids += leagueid + ",";
