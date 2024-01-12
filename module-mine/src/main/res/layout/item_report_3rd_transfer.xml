@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/layout_margin"
+    android:background="@drawable/bg_white_6"
+    android:orientation="vertical"
+    android:padding="@dimen/layout_margin">
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            android:id="@+id/tvw_action_time"
+            style="@style/style_item_report_title"
+            tools:text="2024-01-12 15:00:00" />
+
+        <TextView
+            android:id="@+id/tvw_status"
+            style="@style/style_item_report_value_end"
+            android:textColor="@color/clr_red_01"
+            tools:text="@string/txt_succ" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:text="@string/txt_acc_out" />
+
+        <TextView
+            style="@style/style_item_report_title_center"
+            android:text="@string/txt_acc_in" />
+
+        <TextView
+            style="@style/style_item_report_title_end"
+            android:text="@string/txt_trans_amount" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            android:id="@+id/tvw_out"
+            style="@style/style_item_report_value"
+            android:textColor="@color/clr_red_01"
+            tools:text="PT" />
+
+        <TextView
+            android:id="@+id/tvw_in"
+            style="@style/style_item_report_value_center"
+            tools:text="5.00" />
+
+        <TextView
+            android:id="@+id/tvw_amount"
+            style="@style/style_item_report_value_end"
+            android:textColor="@color/clr_red_01"
+            tools:text="0.0000" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:text="@string/txt_balance_pre" />
+
+        <TextView
+            style="@style/style_item_report_title_center"
+            android:text="@string/txt_balance_after" />
+
+        <TextView
+            style="@style/style_item_report_title_end"
+            android:text="" />
+    </LinearLayout>
+
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            android:id="@+id/tvw_prebalance"
+            style="@style/style_item_report_value"
+            tools:text="5.00" />
+
+        <TextView
+            android:id="@+id/tvw_channelbalance"
+            style="@style/style_item_report_value_center"
+            tools:text="5.00" />
+
+        <TextView
+            android:id="@+id/tvw_self_money"
+            style="@style/style_item_report_value_end" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/style_item_ll_row"
+        android:layout_marginTop="@dimen/layout_margin">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:layout_weight="0"
+            android:minEms="0"
+            android:text="@string/txt_order_s" />
+
+        <TextView
+            android:id="@+id/tvw_orderno"
+            style="@style/style_item_report_title"
+            tools:text="20240110VCB****JAG" />
+    </LinearLayout>
+
+</LinearLayout>
