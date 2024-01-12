@@ -194,9 +194,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             }
         }
 
-        int sportPos = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
         LinearLayout llTypeGroup = (LinearLayout) binding.hsvPlayTypeGroup.getChildAt(0);
-
 
         LinearLayout firstPagePlayType = (LinearLayout) llTypeGroup.getChildAt(0);
 

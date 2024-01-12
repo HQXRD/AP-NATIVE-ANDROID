@@ -36,12 +36,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="FB体育"
                     android:textColor="@color/bt_color_under_bg_primary_text"
                     android:textSize="@dimen/bt_text_14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_cg_type"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="FB体育" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -75,64 +75,84 @@
                 android:id="@+id/nsv_option"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="300dp"
                 android:layout_above="@+id/csl_bottom"
+                android:minHeight="300dp"
                 android:paddingTop="10dp">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:orientation="vertical">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_bt_option"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:itemCount="3"
-                        tools:listitem="@layout/bt_layout_car_bt_match_item" />
-
-                    <com.xtree.bet.weight.CgOddLimitView
-                        android:id="@+id/rv_bt_cg"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@+id/rv_bt_option"
-                        android:orientation="vertical"/>
+                    android:layout_height="wrap_content">
 
                     <LinearLayout
-                        android:id="@+id/btn_add_match"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/bt_bg_car_add_match"
-                        android:gravity="center"
-                        app:layout_constraintTop_toBottomOf="@+id/rv_bt_cg">
+                        android:orientation="vertical"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_centerHorizontal="true"
-                            android:drawableStart="@mipmap/bt_ic_match_add"
-                            android:drawablePadding="5dp"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv_bt_option"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:itemCount="3"
+                            tools:listitem="@layout/bt_layout_car_bt_match_item" />
+
+                        <com.xtree.bet.weight.CgOddLimitView
+                            android:id="@+id/rv_bt_cg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintTop_toBottomOf="@+id/rv_bt_option" />
+
+                        <LinearLayout
+                            android:id="@+id/btn_add_match"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bt_bg_car_add_match"
                             android:gravity="center"
-                            android:text="@string/bt_car_add_match"
-                            android:textColor="@color/bt_color_car_dialog_hight_line2" />
+                            app:layout_constraintTop_toBottomOf="@+id/rv_bt_cg">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="40dp"
+                                android:layout_centerHorizontal="true"
+                                android:drawableStart="@mipmap/bt_ic_match_add"
+                                android:drawablePadding="5dp"
+                                android:gravity="center"
+                                android:text="@string/bt_car_add_match"
+                                android:textColor="@color/bt_color_car_dialog_hight_line2" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/ll_keyboard_dan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" />
+
+                        <View
+                            android:id="@+id/v_space"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" />
+
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/ll_keyboard_dan"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"/>
-
-                    <View
-                        android:id="@+id/v_space"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"/>
-
-                </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_timer"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="60dp"
+                        android:layout_marginEnd="30dp"
+                        android:background="@drawable/bt_bg_timer"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:text="5"
+                        android:textColor="@color/bt_color_car_dialog_hight_line2"
+                        android:textSize="@dimen/bt_text_12sp"
+                        android:visibility="gone" />
+                </RelativeLayout>
             </me.xtree.mvvmhabit.widget.MaxHeightNetsedScrollView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -145,12 +165,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:button="@drawable/bt_checkbox_selector"
                     android:checked="true"
                     android:text="自动接受更好赔率"
                     android:textColor="@color/bt_color_hine_color"
-                    android:button="@drawable/bt_checkbox_selector"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -244,9 +264,9 @@
             android:id="@+id/ll_keyboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

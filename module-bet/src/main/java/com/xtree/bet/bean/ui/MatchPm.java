@@ -4,10 +4,13 @@ import android.os.Parcel;
 import android.text.TextUtils;
 
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
 import com.xtree.bet.bean.response.pm.VideoInfo;
+import com.xtree.bet.constant.FBMatchPeriod;
+import com.xtree.bet.constant.PMMatchPeriod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,23 +71,21 @@ public class MatchPm implements Match{
     }
 
     /**
-     * TODO
      * 获取赛事阶段，如 足球上半场，篮球第一节等
      * @return
      */
     @Override
     public String getStage() {
-        return "";
+        return PMMatchPeriod.getMatchPeriod(String.valueOf(matchInfo.mmp));
     }
 
     /**
-     * TODO
      * 获取走表时间，以秒为单位，如250秒，客户端用秒去转换成时分秒时间
      * @return
      */
     @Override
     public String getTime() {
-        return "";
+        return TimeUtils.sToMs(Integer.valueOf(matchInfo.mst));
     }
 
     /**

@@ -117,7 +117,7 @@ public class PageHorizontalScrollView extends HorizontalScrollView {
     private void smoothScrollToNextPage() {
         if (currentPage < subChildCount - 1) {
             currentPage++;
-            smoothScrollTo(viewList.get(currentPage), 0);
+            smoothScrollTo(getMeasuredWidth(), 0);
             if(onPageSelectedListener != null){
                 onPageSelectedListener.onPageSelected(currentPage);
             }
@@ -130,7 +130,7 @@ public class PageHorizontalScrollView extends HorizontalScrollView {
     private void smoothScrollToPrePage() {
         if (currentPage > 0) {
             currentPage--;
-            smoothScrollTo(viewList.get(currentPage), 0);
+            smoothScrollTo(0, 0);
             if(onPageSelectedListener != null){
                 onPageSelectedListener.onPageSelected(currentPage);
             }

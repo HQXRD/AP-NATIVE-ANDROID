@@ -64,6 +64,8 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
      * 是否有已关闭的投注选项
      */
     private boolean hasCloseOption;
+    private Runnable runnable;
+    private int countdown = 5;
     private String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
 
     private KeyBoardListener mListener = new KeyBoardListener() {
@@ -74,10 +76,6 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
 
         @Override
         public void scroll(int height) {
-            binding.nsvOption.postDelayed(() -> {
-
-
-            }, 220);
 
         }
     };
@@ -165,9 +163,19 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         betConfirmOptionAdapter = new BetConfirmOptionAdapter(getContext(), betConfirmOptionList);
         binding.rvBtOption.setAdapter(betConfirmOptionAdapter);
         betConfirmOptionAdapter.setBtCarDialogFragment(this);
-
+        binding.tvTimer.setText(String.valueOf(countdown));
         viewModel.batchBetMatchMarketOfJumpLine(betConfirmOptionList);
-
+        if(BtCarManager.getBtCarList().isEmpty()) {
+            binding.tvTimer.setVisibility(View.VISIBLE);
+            runnable = () -> {
+                binding.tvTimer.setText(String.valueOf(countdown--));
+                if (countdown == -1) {
+                    countdown = 5;
+                }
+                binding.tvTimer.postDelayed(runnable, 1000);
+            };
+            binding.tvTimer.postDelayed(runnable, 1000);
+        }
     }
     int index = 0;
     @Override
@@ -177,10 +185,10 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    if(index == 0) {
+                    //if(index == 0) {
                         batchBetMatchMarketOfJumpLine();
-                    }
-                    index ++;
+                    //}
+                    //index ++;
                 })
         );
     }
@@ -237,7 +245,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 cgOddLimitAdapter.setKeyboardView(keyboardView);
                 binding.rvBtCg.setAdapter(cgOddLimitAdapter);
             }else{
-                for (int i = 0; i < cgOddLimitList.size(); i ++) {
+                for (int i = 0; i < cgOddLimits.size(); i ++) {
                     cgOddLimits.get(i).setBtAmount(cgOddLimitList.get(i).getBtAmount());
                 }
                 this.cgOddLimitList = cgOddLimits;
@@ -252,7 +260,9 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     }
 
     public void batchBetMatchMarketOfJumpLine(){
-        betConfirmOptionList = BtCarManager.getBtCarList();
+        if(!BtCarManager.getBtCarList().isEmpty()) {
+            betConfirmOptionList = BtCarManager.getBtCarList();
+        }
         viewModel.batchBetMatchMarketOfJumpLine(betConfirmOptionList);
     }
 

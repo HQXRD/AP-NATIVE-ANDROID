@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.text.TextUtils;
 
 import com.xtree.bet.bean.response.pm.CgOddLimitInfo;
+import com.xtree.bet.manager.BtCarManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -118,9 +119,22 @@ public class CgOddLimitPm implements CgOddLimit{
         if(TextUtils.equals("1", getCgType())){
             return 1;
         }
-        int index = cgName.indexOf("串");
-        return Integer.valueOf(cgName.substring(index + 1, cgName.length()));
+        String[] ints = cgName.split("串");
+        int btCount = Integer.valueOf(ints[1]);
+        if(btCount == 1){
+            btCount = calculate(BtCarManager.size(), Integer.valueOf(ints[0]));
+        }
+
+        return btCount;
     }
+
+    public int calculate(int n, int m) {
+        if (m == 0 || n == m) {
+            return 1;
+        }
+        return calculate(n - 1, m - 1) + calculate(n - 1, m);
+    }
+
     /**
      * 设置投注金额
      * @return

@@ -96,13 +96,13 @@
             android:layout_marginTop="1dp"
             android:layout_weight="1">
 
-            <HorizontalScrollView
+            <com.xtree.bet.weight.PageHorizontalScrollView
                 android:id="@+id/hsv_play_type_group"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/bt_match_list_height">
 
                 <include layout="@layout/bt_fb_play_type_group_list" />
-            </HorizontalScrollView>
+            </com.xtree.bet.weight.PageHorizontalScrollView>
 
             <!--<com.stx.xhb.androidx.XBanner
                 android:id="@+id/play_type_banner"

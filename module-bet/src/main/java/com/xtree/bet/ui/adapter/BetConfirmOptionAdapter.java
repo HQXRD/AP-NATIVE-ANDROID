@@ -1,6 +1,7 @@
 package com.xtree.bet.ui.adapter;
 
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -15,6 +16,11 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
     private BtCarDialogFragment btCarDialogFragment;
@@ -49,6 +55,7 @@ public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
             holder.setText(R.id.iv_play_type, betConfirmOption.getPlayType().getPlayTypeName() + "[" + score + "]");
         }
         binding.ivMatchTeam.setText(betConfirmOption.getTeamName());
+        binding.tvLeagueName.setText(betConfirmOption.getMatch().getLeague().getLeagueName());
         binding.ivOdd.setText("@" + betConfirmOption.getOption().getOdd());
         String oldScore = ((TextView)holder.getView(R.id.iv_play_type)).getText().toString();
         if(oldScore.indexOf("[") > -1 && oldScore.indexOf("]") > -1) {
@@ -56,7 +63,7 @@ public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
             if (!TextUtils.isEmpty(betConfirmOption.getScore()) && !TextUtils.isEmpty(oldScore) && !TextUtils.equals(betConfirmOption.getScore(), oldScore)) {
                 holder.setVisible(R.id.iv_tip, true);
                 holder.setText(R.id.iv_tip, mContext.getResources().getString(R.string.bt_bt_score_has_changed));
-                binding.ivTip.postDelayed(() -> binding.ivTip.setVisibility(View.GONE), 4000);
+                binding.ivTip.postDelayed(() -> binding.ivTip.setVisibility(View.INVISIBLE), 4000);
             }
         }
 
