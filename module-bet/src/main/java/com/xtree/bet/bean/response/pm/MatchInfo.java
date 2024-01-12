@@ -89,6 +89,14 @@ public class MatchInfo implements BaseBean {
      */
     public String mat;
     /**
+     * 视频直播地址集合
+     */
+    public List<VideoInfo> vs;
+    /**
+     * 动画直播地址集合
+     */
+    public List<String> as = new ArrayList<>();
+    /**
      * 比赛是否结束
      */
     public int mo;

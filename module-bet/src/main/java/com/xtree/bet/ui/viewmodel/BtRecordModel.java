@@ -27,51 +27,10 @@ import me.xtree.mvvmhabit.utils.RxUtils;
  * Created by goldze on 2018/6/21.
  */
 
-public class BtRecordModel extends BaseViewModel<BetRepository> {
-    public SingleLiveData<List<BtRecordTime>> btRecordTimeDate = new SingleLiveData<>();
-
-    public BtRecordModel(@NonNull Application application, BetRepository repository) {
-        super(application, repository);
-    }
-
+public interface BtRecordModel {
     /**
-     * 投注前查询指定玩法赔率
+     * 查询投注记录
      */
-    public void betRecord(boolean isSettled){
-
-        BtRecordReq btRecordReq = new BtRecordReq();
-        btRecordReq.setSettled(isSettled);
-
-        Disposable disposable = (Disposable) model.getApiService().betRecord(btRecordReq)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<BtRecordRsp>() {
-                    @Override
-                    public void onResult(BtRecordRsp btRecordRsp) {
-                        List<BtRecordTime> btRecordTimeList = new ArrayList<>();
-                        Map<String, BtRecordTime> btRecordTimeMap = new HashMap<>();
-                        for (BtResultInfo btResultInfo : btRecordRsp.records){
-                            String time = TimeUtils.longFormatString(btResultInfo.cte, TimeUtils.FORMAT_YY_MM_DD);
-                            BtRecordTime btRecordTime;
-                            if(btRecordTimeMap.get(time) == null){
-                                btRecordTime = new BtRecordTime();
-                                btRecordTime.setTime(btResultInfo.cte);
-                                btRecordTimeMap.put(time, btRecordTime);
-                                btRecordTimeList.add(btRecordTime);
-                            }else{
-                                btRecordTime = btRecordTimeMap.get(time);
-                            }
-                            btRecordTime.addBtResultList(new BtResultFb(btResultInfo));
-                        }
-                        btRecordTimeDate.postValue(btRecordTimeList);
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);
-    }
+    void betRecord(boolean isSettled);
 
 }

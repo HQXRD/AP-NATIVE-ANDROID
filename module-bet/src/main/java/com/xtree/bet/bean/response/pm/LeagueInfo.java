@@ -8,47 +8,39 @@ public class LeagueInfo implements BaseBean {
     /**
      * 联赛ID
      */
-    public long tid;
+    public long tournamentId;
     /**
      * 该联赛开售的赛事统计
      */
-    public int mt;
-    /**
-     * 该联赛正在滚球的赛事个数
-     */
-    public int lt;
+    public int num;
     /**
      * 联赛名称
      */
-    public String tn;
+    public String nameText;
     /**
      * 联赛等级，可用于联赛排序，值越小，联赛等级越高
      */
-    public int or;
+    public int tournamentLevel;
     /**
      * 联赛图标地址
      */
-    public String lurl;
+    public String picUrlthumb;
     /**
-     * 运动种类id , see enum: sports
+     * 联赛的运动种类id
      */
-    public int sid;
+    public int sportId;
     /**
      * 区域id
      */
-    public int rid; 
+    public int regionId;
     /**
      * 区域名称
      */
-    public String rnm; 
+    public String regionName;
     /**
-     * 是否热门
+     * 是否热门, 1-热门，0-非热门
      */
-    public boolean hot;
-    /**
-     * 联赛分组
-     */
-    public String slid;
+    public int hotStatus;
 
     @Override
     public int describeContents() {
@@ -57,48 +49,42 @@ public class LeagueInfo implements BaseBean {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.mt);
-        dest.writeInt(this.lt);
-        dest.writeString(this.tn);
-        dest.writeLong(this.tid);
-        dest.writeInt(this.or);
-        dest.writeString(this.lurl);
-        dest.writeInt(this.sid);
-        dest.writeInt(this.rid);
-        dest.writeString(this.rnm);
-        dest.writeByte(this.hot ? (byte) 1 : (byte) 0);
-        dest.writeString(this.slid);
+        dest.writeLong(this.tournamentId);
+        dest.writeInt(this.num);
+        dest.writeString(this.nameText);
+        dest.writeInt(this.tournamentLevel);
+        dest.writeString(this.picUrlthumb);
+        dest.writeInt(this.sportId);
+        dest.writeInt(this.regionId);
+        dest.writeString(this.regionName);
+        dest.writeInt(this.hotStatus);
     }
 
     public void readFromParcel(Parcel source) {
-        this.mt = source.readInt();
-        this.lt = source.readInt();
-        this.tn = source.readString();
-        this.tid = source.readInt();
-        this.or = source.readInt();
-        this.lurl = source.readString();
-        this.sid = source.readInt();
-        this.rid = source.readInt();
-        this.rnm = source.readString();
-        this.hot = source.readByte() != 0;
-        this.slid = source.readString();
+        this.tournamentId = source.readLong();
+        this.num = source.readInt();
+        this.nameText = source.readString();
+        this.tournamentLevel = source.readInt();
+        this.picUrlthumb = source.readString();
+        this.sportId = source.readInt();
+        this.regionId = source.readInt();
+        this.regionName = source.readString();
+        this.hotStatus = source.readInt();
     }
 
     public LeagueInfo() {
     }
 
     protected LeagueInfo(Parcel in) {
-        this.mt = in.readInt();
-        this.lt = in.readInt();
-        this.tn = in.readString();
-        this.tid = in.readInt();
-        this.or = in.readInt();
-        this.lurl = in.readString();
-        this.sid = in.readInt();
-        this.rid = in.readInt();
-        this.rnm = in.readString();
-        this.hot = in.readByte() != 0;
-        this.slid = in.readString();
+        this.tournamentId = in.readLong();
+        this.num = in.readInt();
+        this.nameText = in.readString();
+        this.tournamentLevel = in.readInt();
+        this.picUrlthumb = in.readString();
+        this.sportId = in.readInt();
+        this.regionId = in.readInt();
+        this.regionName = in.readString();
+        this.hotStatus = in.readInt();
     }
 
     public static final Creator<LeagueInfo> CREATOR = new Creator<LeagueInfo>() {

@@ -19,6 +19,12 @@ public interface CgOddLimit extends Parcelable {
     String getCgName();
 
     /**
+     * 返回串关类型
+     * @return
+     */
+    String getCgType();
+
+    /**
      * 获取单关，最小投注额
      * @return
      */
@@ -71,4 +77,9 @@ public interface CgOddLimit extends Parcelable {
      * @return
      */
     double getBtAmount();
+    /**
+     * 获取总投注金额
+     * @return
+     */
+    double getBtTotalAmount();
 }

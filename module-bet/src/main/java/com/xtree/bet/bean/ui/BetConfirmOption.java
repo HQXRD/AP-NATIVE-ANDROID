@@ -17,6 +17,15 @@ public interface BetConfirmOption extends BaseBean {
      */
     String getCode();
     /**
+     * 获取盘口坑位
+     */
+    int getPlaceNum();
+    /**
+     * 获取投注项名称
+     * @return
+     */
+    String getOptionName();
+    /**
      * 获取玩法ID
      * @return
      */

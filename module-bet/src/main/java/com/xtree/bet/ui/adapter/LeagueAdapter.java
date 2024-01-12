@@ -18,7 +18,6 @@ import com.bumptech.glide.Glide;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
-import com.xtree.bet.bean.ui.BetConfirmOptionFb;
 import com.xtree.bet.bean.ui.BetConfirmOptionUtil;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
@@ -41,7 +40,6 @@ import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 import com.xtree.bet.weight.DiscolourTextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
@@ -184,7 +182,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
         binding.tvPlaytypeCount.setText(match.getPlayTypeCount() + "+>");
         // 比赛未开始
-        if (match.isUnGoingon()) {
+        if (!match.isGoingon()) {
             binding.tvMatchTime.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_MM_DD_HH_MM));
         } else {
             int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);

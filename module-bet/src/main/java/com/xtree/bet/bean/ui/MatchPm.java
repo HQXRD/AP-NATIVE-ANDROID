@@ -3,17 +3,14 @@ package com.xtree.bet.bean.ui;
 import android.os.Parcel;
 import android.text.TextUtils;
 
-import androidx.annotation.Nullable;
-
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.bet.bean.response.fb.VideoInfo;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
+import com.xtree.bet.bean.response.pm.VideoInfo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -24,6 +21,12 @@ public class MatchPm implements Match{
     MatchInfo matchInfo;
 
     List<PlayType> playTypeList = new ArrayList<>();
+
+    LeaguePm mLeague;
+    /**
+     * 播放器请求头
+     */
+    private String referUrl;
 
     public MatchPm(MatchInfo matchInfo){
         this.matchInfo = matchInfo;
@@ -93,8 +96,8 @@ public class MatchPm implements Match{
     public List<Integer> getScore(int type) {
         List<Integer> sc = new ArrayList<>();
         for (String str : matchInfo.msc) {
-            if (str.contains("S1") && matchInfo.msc != null && !matchInfo.msc.isEmpty()) {
-                String score = matchInfo.msc.get(0);
+            if (str.contains("S1|") && matchInfo.msc != null && !matchInfo.msc.isEmpty()) {
+                String score = str;
                 if (!TextUtils.isEmpty(score) && score.contains("|")) {
                     score = score.substring(score.indexOf("|") + 1, score.length());
                     if (!TextUtils.isEmpty(score) && score.contains(":")) {
@@ -158,24 +161,41 @@ public class MatchPm implements Match{
      */
     @Override
     public boolean hasVideo() {
-        return matchInfo.mms != -1;
+        return matchInfo.mms != -1 && !getVideoUrls().isEmpty();
     }
+
+    @Override
+    public boolean isVideoStart() {
+        return matchInfo.mms == 2 || matchInfo.mms == 1;
+    }
+
     /**
      * 是否有动画直播
      * @return
      */
     @Override
     public boolean hasAs() {
-        return matchInfo.mvs != -1;
+        return matchInfo.mvs != -1 && !getAnmiUrls().isEmpty();
     }
 
-    /**
-     * 获取视频源信息
-     * @return
-     */
     @Override
-    public VideoInfo getVideoInfo() {
-        return null;
+    public boolean isAnimationStart() {
+        return matchInfo.mvs == 2 || matchInfo.mvs == 1;
+    }
+
+    @Override
+    public List<String> getVideoUrls() {
+        List<String> urls = new ArrayList<>();
+        if(matchInfo != null && matchInfo.vs != null) {
+            for (VideoInfo videoInfo : matchInfo.vs) {
+                if (!TextUtils.isEmpty(videoInfo.flvUrl)) {
+                    urls.add(videoInfo.flvUrl);
+                } else if (!TextUtils.isEmpty(videoInfo.muUrl)) {
+                    urls.add(videoInfo.muUrl);
+                }
+            }
+        }
+        return urls;
     }
 
     /**
@@ -184,7 +204,7 @@ public class MatchPm implements Match{
      */
     @Override
     public List<String> getAnmiUrls() {
-        return null;
+        return matchInfo.as;
     }
 
     /**
@@ -193,11 +213,19 @@ public class MatchPm implements Match{
      */
     @Override
     public League getLeague() {
-        LeagueInfo leagueInfo = new LeagueInfo();
-        leagueInfo.lurl = matchInfo.lurl;
-        leagueInfo.tn = matchInfo.tn;
-        leagueInfo.tid = Integer.valueOf(matchInfo.tid);
-        return new LeaguePm(leagueInfo);
+        LeagueInfo leagueInfo;
+        if(mLeague == null) {
+            leagueInfo = new LeagueInfo();
+            mLeague = new LeaguePm(leagueInfo);
+        }else {
+            leagueInfo = mLeague.getLeagueInfo();
+        }
+        leagueInfo.picUrlthumb = matchInfo.lurl;
+        leagueInfo.nameText = matchInfo.tn;
+        if(!TextUtils.isEmpty(matchInfo.tid)) {
+            leagueInfo.tournamentId = Long.valueOf(matchInfo.tid);
+        }
+        return mLeague;
     }
 
     /**
@@ -206,6 +234,9 @@ public class MatchPm implements Match{
      */
     @Override
     public String getIconMain() {
+        if(matchInfo == null || matchInfo.mhlu.isEmpty()){
+            return "";
+        }
         String logoUrl = matchInfo.mhlu.get(0);
         String domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);
         if(domain.endsWith("/") && logoUrl.startsWith("/")){
@@ -223,6 +254,9 @@ public class MatchPm implements Match{
      */
     @Override
     public String getIconVisitor() {
+        if(matchInfo == null || matchInfo.malu.isEmpty()){
+            return "";
+        }
         String logoUrl = matchInfo.malu.get(0);
         String domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);
         if(domain.endsWith("/") && logoUrl.startsWith("/")){
@@ -235,12 +269,13 @@ public class MatchPm implements Match{
     }
 
     /**
-     * 获取比赛是否未开始状态
+     * 获取比赛是否进行中状态
      * @return
      */
     @Override
-    public boolean isUnGoingon() {
-        return TextUtils.equals(matchInfo.mmp, "0");
+    public boolean isGoingon() {
+        return !TextUtils.equals(matchInfo.mmp, "0") && !TextUtils.equals(matchInfo.mmp, "90")
+                &&!TextUtils.equals(matchInfo.mmp, "999") && !TextUtils.equals(matchInfo.mmp, "61");
     }
 
     /**
@@ -265,6 +300,16 @@ public class MatchPm implements Match{
     @Override
     public String getSportId() {
         return matchInfo.csid;
+    }
+
+    @Override
+    public String getReferUrl() {
+        return referUrl;
+    }
+
+    @Override
+    public void setReferUrl(String referUrl) {
+        this.referUrl = referUrl;
     }
 
     @Override

@@ -38,15 +38,23 @@ public class LeaguePm implements League{
         this.sort = sort;
     }
 
+    public LeagueInfo getLeagueInfo() {
+        return leagueInfo;
+    }
+
+    public void setLeagueInfo(LeagueInfo leagueInfo) {
+        this.leagueInfo = leagueInfo;
+    }
+
     @Override
     public String getIcon() {
         String domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);
-        if(domain.endsWith("/") && leagueInfo.lurl.startsWith("/")){
-            return domain.substring(domain.indexOf("/")) + leagueInfo.lurl;
-        } else if (!domain.endsWith("/") && !leagueInfo.lurl.startsWith("/")) {
-            return domain + "/" + leagueInfo.lurl;
+        if(domain.endsWith("/") && leagueInfo.picUrlthumb.startsWith("/")){
+            return domain.substring(domain.indexOf("/")) + leagueInfo.picUrlthumb;
+        } else if (!domain.endsWith("/") && !leagueInfo.picUrlthumb.startsWith("/")) {
+            return domain + "/" + leagueInfo.picUrlthumb;
         } else {
-            return domain+ leagueInfo.lurl;
+            return domain+ leagueInfo.picUrlthumb;
         }
     }
 
@@ -70,7 +78,7 @@ public class LeaguePm implements League{
      */
     @Override
     public int getSaleCount() {
-        return leagueInfo.mt;
+        return leagueInfo.num;
     }
 
     @Override
@@ -80,7 +88,7 @@ public class LeaguePm implements League{
 
     @Override
     public boolean isHot() {
-        return leagueInfo.hot;
+        return leagueInfo.hotStatus == 1;
     }
 
     @Override
@@ -93,7 +101,7 @@ public class LeaguePm implements League{
      */
     @Override
     public String getLeagueAreaName() {
-        return leagueInfo.rnm;
+        return leagueInfo.regionName;
     }
     /**
      * 获取联赛区域ID
@@ -101,7 +109,7 @@ public class LeaguePm implements League{
      */
     @Override
     public int getAreaId() {
-        return leagueInfo.rid;
+        return leagueInfo.regionId;
     }
 
     /**
@@ -110,7 +118,7 @@ public class LeaguePm implements League{
      */
     @Override
     public String getLeagueName() {
-        return leagueInfo.tn;
+        return leagueInfo.nameText;
     }
 
     /**
@@ -119,7 +127,7 @@ public class LeaguePm implements League{
      */
     @Override
     public long getId() {
-        return leagueInfo.tid;
+        return leagueInfo.tournamentId;
     }
 
     @Override

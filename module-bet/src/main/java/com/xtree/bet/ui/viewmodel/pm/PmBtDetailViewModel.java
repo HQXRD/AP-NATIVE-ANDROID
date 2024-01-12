@@ -1,4 +1,4 @@
-package com.xtree.bet.ui.viewmodel;
+package com.xtree.bet.ui.viewmodel.pm;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -7,8 +7,10 @@ import androidx.annotation.NonNull;
 
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.PMHttpCallBack;
+import com.xtree.bet.bean.response.pm.LeagueAreaInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
+import com.xtree.bet.bean.response.pm.VideoAnimationInfo;
 import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.CategoryPm;
 import com.xtree.bet.bean.ui.Match;
@@ -18,6 +20,7 @@ import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.bean.ui.PlayTypePm;
 import com.xtree.bet.data.BetRepository;
+import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,9 +40,10 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
 
     private List<Category> categoryList = new ArrayList<>();
-    //private Map<String, Category> categoryMap = new HashMap<>();
+    private Map<String, Category> categoryMap = new HashMap<>();
     private boolean isFirst = true;
     private List<PlayType> mPlayTypeList;
+    private MatchInfo mMatchInfo;
 
     public PmBtDetailViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
@@ -56,14 +60,61 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                 .subscribeWith(new PMHttpCallBack<MatchInfo>() {
                     @Override
                     public void onResult(MatchInfo matchInfo) {
-                        Match match = new MatchPm(matchInfo);
-                        mMatch = match;
-                        matchData.postValue(match);
+                        mMatchInfo = matchInfo;
+                        videoAnimationUrlPB(Long.valueOf(mMatchInfo.mid), "Video");
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+
+    }
+
+    @Override
+    public void videoAnimationUrlPB(long matchId, String type) {
+
+        Map<String, String> map = new HashMap<>();
+
+        map.put("device", "H5");
+        map.put("mid", String.valueOf(matchId));
+        map.put("type", type);
+
+        Disposable disposable = (Disposable) model.getPMApiService().videoAnimationUrlPB(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new PMHttpCallBack<VideoAnimationInfo>() {
+                    @Override
+                    public void onResult(VideoAnimationInfo videoAnimationInfo) {
+                        if(mMatchInfo != null) {
+                            if (TextUtils.equals(type, "Video")) {
+                                if(videoAnimationInfo.videoUrlVOList != null) {
+                                    mMatchInfo.vs = videoAnimationInfo.videoUrlVOList;
+                                }
+                                videoAnimationUrlPB(Long.valueOf(mMatchInfo.mid), "Animation");
+                            }
+                            if (TextUtils.equals(type, "Animation")) {
+                                if(!TextUtils.isEmpty(videoAnimationInfo.animationUrl)) {
+                                    mMatchInfo.as.clear();
+                                    mMatchInfo.as.add(videoAnimationInfo.animationUrl);
+                                }
+                                Match match = new MatchPm(mMatchInfo);
+                                mMatch = match;
+                                mMatch.setReferUrl(videoAnimationInfo.referUrl);
+                                matchData.postValue(match);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        if(mMatchInfo != null) {
+                            Match match = new MatchPm(mMatchInfo);
+                            mMatch = match;
+                            matchData.postValue(match);
+                        }
                     }
                 });
         addSubscribe(disposable);
@@ -86,7 +137,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                         categoryList.clear();
                         for (CategoryPm category : categoryPms) {
                             categoryList.add(category);
-                            //categoryMap.put(category.getId(), category);
+                            categoryMap.put(category.getId(), category);
                         }
                         getMatchOddsInfoPB(matchId, "0");
                     }
@@ -122,15 +173,30 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                         if (isFirst) {
                             mPlayTypeList = playTypes;
                             for(Category category : categoryList){
-                                for (PlayTypeInfo playTypeInfo : playTypeList) {
+                                for (PlayType playType : mPlayTypeList) {
                                     CategoryPm categoryPm = (CategoryPm) category;
-                                    if(categoryPm.getPlays().contains(Integer.valueOf(playTypeInfo.hpid))){
-                                        category.addPlayTypeList(new PlayTypePm(playTypeInfo));
+                                    if(categoryPm.getPlays().contains(Integer.valueOf(playType.getId()))){
+                                        category.addPlayTypeList(playType);
                                     }
                                 }
                             }
                         }else { // 设置赔率变化
-                            setOptionOddChange(playTypes);
+                            setOptionOddChange(mid, playTypes);
+                            CategoryPm categoryPm = (CategoryPm) categoryMap.get(mcid);
+                            for (PlayType newPlayType : playTypes) {
+                                for (PlayType oldPlayType : categoryPm.getPlayTypeList()) {
+                                    if(TextUtils.equals(oldPlayType.getId(), newPlayType.getId()) && TextUtils.equals(oldPlayType.getPlayTypeName(), newPlayType.getPlayTypeName())){
+
+                                        int index = categoryPm.getPlayTypeList().indexOf(oldPlayType);
+                                        if(index > -1){
+                                            categoryPm.getPlayTypeList().set(index, newPlayType);
+                                        }
+
+                                        break;
+                                    }
+                                }
+                            }
+                            mPlayTypeList = categoryPm.getPlayTypeList();
                         }
                         isFirst = false;
                         categoryListData.postValue(categoryList);
@@ -147,9 +213,9 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
     /**
      * 设置赔率变化
      */
-    void setOptionOddChange(List<PlayType> newPlayTypeList) {
-        List<Option> newOptonList = getMatchOptionList(newPlayTypeList);
-        List<Option> oldOptonList = getMatchOptionList(mPlayTypeList);
+    void setOptionOddChange(String matchId, List<PlayType> newPlayTypeList) {
+        List<Option> newOptonList = getMatchOptionList(matchId, newPlayTypeList);
+        List<Option> oldOptonList = getMatchOptionList(matchId, mPlayTypeList);
 
         for (Option newOption : newOptonList) {
             for (Option oldOption : oldOptonList) {
@@ -163,13 +229,18 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
         }
     }
 
-    private List<Option> getMatchOptionList(List<PlayType> playTypeList) {
+    private List<Option> getMatchOptionList(String matchId, List<PlayType> playTypeList) {
         List<Option> optionList = new ArrayList<>();
         for (PlayType playType : playTypeList) {
             for (OptionList options : playType.getOptionLists()) {
                 for (Option option : options.getOptionList()) {
                     if (option != null) {
-                        option.setCode(option.getId());
+                        StringBuffer code = new StringBuffer();
+                        code.append(matchId);
+                        if (option != null) {
+                            code.append(option.getId());
+                        }
+                        option.setCode(code.toString());
                     }
                     optionList.add(option);
                 }

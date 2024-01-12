@@ -1,6 +1,7 @@
 package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.xtree.bet.bean.response.pm.OptionDataListInfo;
@@ -33,7 +34,6 @@ public class OptionPm implements Option{
 
     @Override
     public String getId() {
-        Log.e("test", "======optionInfo======" + optionInfo);
         if(optionInfo == null || optionInfo.oid == null){
             return "";
         }
@@ -41,20 +41,24 @@ public class OptionPm implements Option{
     }
 
     /**
-     * 选项全称，投注项列表页名称展示值
+     * 投注项投注名称展示值
      */
     public String getName() {
         if(optionInfo == null){
             return "";
         }
-        return optionInfo.onb;
+        return optionInfo.on;
     }
 
     /**
-     * 投注项投注名称展示值
+     * 投注项列表页名称展示值
      */
     public String getSortName() {
-        return optionInfo.on;
+        if(!TextUtils.isEmpty(optionInfo.onb)){
+            return optionInfo.onb;
+        } else {
+            return optionInfo.ot;
+        }
     }
 
     /**
@@ -85,7 +89,7 @@ public class OptionPm implements Option{
      * 赔率
      */
     public double getBodd() {
-        return 0;
+        return optionInfo.ov;
     }
 
     /**

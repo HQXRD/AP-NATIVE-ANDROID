@@ -29,10 +29,10 @@ public class OptionListPm implements OptionList {
 
     @Override
     public int getMatchType() {
-        if(optionDataListInfo == null || TextUtils.isEmpty(optionDataListInfo.hid)){
+        if(optionDataListInfo == null){
             return 0;
         }
-        return optionDataListInfo.hmt;
+        return optionDataListInfo.hmt == 0 ? 2 : optionDataListInfo.hmt;
     }
 
     /**
@@ -74,6 +74,11 @@ public class OptionListPm implements OptionList {
             optionList.add(new OptionPm(optionInfo, optionDataListInfo, playTypeInfo));
         }
         return optionList;
+    }
+
+    @Override
+    public int getPlaceNum() {
+        return optionDataListInfo.hn;
     }
 
     @Override

@@ -60,6 +60,7 @@ public class BtConfirmInfo implements BaseBean {
      * 赛事id(对应mid)
      */
     public String matchInfoId;
+    public String marketId;
     /**
      * 赛事结束状态 0：未结束，1：结束(对应mo)
      */

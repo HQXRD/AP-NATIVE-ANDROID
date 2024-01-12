@@ -54,7 +54,7 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
 
     @Override
     protected void convert(ViewHolder holder, CgOddLimit cgOddLimit, int position) {
-        if (getItemCount() > 1 || !TextUtils.isEmpty(cgOddLimit.getCgName())) { // 串关
+        if (getItemCount() > 1 || !TextUtils.equals("单关", cgOddLimit.getCgName())) { // 串关
             holder.setVisible(R.id.csl_cg_dan, false);
             holder.setVisible(R.id.csl_cg_cc, true);
             EditText etAmount = holder.getView(R.id.et_bt_amount_cc);

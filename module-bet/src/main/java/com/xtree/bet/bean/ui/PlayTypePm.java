@@ -25,6 +25,11 @@ public class PlayTypePm implements PlayType{
         return playTypeInfo.hpid;
     }
 
+    @Override
+    public String getMarketId() {
+        return String.valueOf(playTypeInfo.hid);
+    }
+
     /**
      * 获取玩法类型，如 亚盘、大小球等
      * @return
@@ -105,6 +110,7 @@ public class PlayTypePm implements PlayType{
             for (OptionInfo optionInfo : playTypeInfo.ol) {
                 OptionDataListInfo optionDataListInfo = new OptionDataListInfo();
                 optionDataListInfo.hs = playTypeInfo.hs;
+                optionDataListInfo.hmt = 3;
                 optionList.add(new OptionPm(optionInfo, optionDataListInfo, playTypeInfo));
             }
         }

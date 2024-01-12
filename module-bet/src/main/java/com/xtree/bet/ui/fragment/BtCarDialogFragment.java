@@ -23,8 +23,8 @@ import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.xtree.bet.ui.adapter.BetConfirmOptionAdapter;
 import com.xtree.bet.ui.adapter.CgOddLimitAdapter;
-import com.xtree.bet.ui.viewmodel.FBBtCarViewModel;
-import com.xtree.bet.ui.viewmodel.PMBtCarViewModel;
+import com.xtree.bet.ui.viewmodel.fb.FBBtCarViewModel;
+import com.xtree.bet.ui.viewmodel.pm.PMBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
@@ -138,7 +138,6 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         viewModel.batchBetMatchMarketOfJumpLine(betConfirmOptionList);
 
     }
-    int index = 0;
     @Override
     public void onResume() {
         super.onResume();
@@ -146,10 +145,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    if(index == 0) {
-                        batchBetMatchMarketOfJumpLine();
-                        index ++;
-                    }
+                    //batchBetMatchMarketOfJumpLine();
                 })
         );
     }

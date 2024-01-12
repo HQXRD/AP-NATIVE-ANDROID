@@ -65,7 +65,7 @@ public class BetConfirmOptionPm implements BetConfirmOption {
      */
     @Override
     public String getCode() {
-        StringBuffer code = new StringBuffer();
+        /*StringBuffer code = new StringBuffer();
         code.append(match.getId());
         code.append(playType.getPlayType());
         code.append(playType.getPlayPeriod());
@@ -73,30 +73,56 @@ public class BetConfirmOptionPm implements BetConfirmOption {
         code.append(option.getOptionType());
         if (!TextUtils.isEmpty(option.getLine())) {
             code.append(option.getLine());
+        }*/
+        if(TextUtils.isEmpty(option.getCode())){
+            return getMatchId() + option.getId();
+        }else{
+            return option.getCode();
         }
-        return code.toString();
+    }
+
+    @Override
+    public int getPlaceNum() {
+        if(btConfirmInfo != null) {
+            return btConfirmInfo.placeNum;
+        }else{
+            return optionList.getPlaceNum();
+        }
+    }
+
+    @Override
+    public String getOptionName() {
+        if(!TextUtils.isEmpty(getOption().getSortName())){
+            return getOption().getSortName();
+        }else if(btConfirmInfo != null && !TextUtils.isEmpty(btConfirmInfo.marketValue)){
+            return btConfirmInfo.marketValue;
+        }else {
+            return option.getSortName();
+        }
     }
 
     @Override
     public String getPlayTypeId() {
         if (btConfirmInfo != null && !TextUtils.isEmpty(btConfirmInfo.id)) {
             return btConfirmInfo.id;
-        } else {
+        } else if(optionList.getId() > 0){
             return String.valueOf(optionList.getId());
+        } else {
+            return playType.getMarketId();
         }
     }
 
     @Override
     public Option getOption() {
-        if (option != null) {
-            return option;
-        } else {
+        if(btConfirmInfo != null && btConfirmInfo.marketOddsList != null && !btConfirmInfo.marketOddsList.isEmpty()){
             OptionInfo optionInfo = new OptionInfo();
             optionInfo.oid = btConfirmInfo.marketOddsList.get(0).id;
             optionInfo.onb = btConfirmInfo.marketOddsList.get(0).playOptions;
             optionInfo.on = btConfirmInfo.marketOddsList.get(0).playOptions;
             optionInfo.ov = btConfirmInfo.marketOddsList.get(0).oddsValue;
             return new OptionPm(optionInfo);
+        }else {
+            return option;
         }
     }
 

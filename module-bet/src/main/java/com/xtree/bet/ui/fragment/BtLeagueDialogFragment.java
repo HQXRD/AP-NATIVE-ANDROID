@@ -1,5 +1,8 @@
 package com.xtree.bet.ui.fragment;
 
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+
 import android.app.Application;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -12,10 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView;
+import android.widget.ExpandableListView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.InitialLeagueArea;
 import com.xtree.bet.bean.ui.League;
@@ -24,7 +30,13 @@ import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtDialogLeagueBinding;
 import com.xtree.bet.ui.adapter.SettingLeagueAdapter;
 import com.xtree.bet.ui.viewmodel.BtSettingLeagueModel;
+import com.xtree.bet.ui.viewmodel.TemplateBtSettingLeagueModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
+import com.xtree.bet.ui.viewmodel.fb.FBBtRecordModel;
+import com.xtree.bet.ui.viewmodel.fb.FBBtSettingLeagueModel;
+import com.xtree.bet.ui.viewmodel.pm.PMBtRecordModel;
+import com.xtree.bet.ui.viewmodel.pm.PMBtSettingLeagueModel;
 import com.xtree.bet.weight.SideBar;
 
 import java.util.ArrayList;
@@ -34,16 +46,18 @@ import java.util.Objects;
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
 import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
 /**
  * 联赛筛选
  */
-public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBinding, BtSettingLeagueModel> {
+public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBinding, TemplateBtSettingLeagueModel> {
     public final static String KEY_LEAGUE = "KEY_LEAGUE";
     public final static String KEY_SPORTID = "KEY_SPORTID";
     public final static String KEY_TYPE = "KEY_TYPE";
     public final static String KEY_LEAGUEIDS = "KEY_LEAGUEIDS";
+    private String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
     // 已选联赛
     private List<Long> mLeagueIdList = new ArrayList<>();
     private int sportId;
@@ -51,7 +65,7 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
     private boolean isSearch;
     private SideBar sideBar;
     private SettingLeagueAdapter settingLeagueAdapter;
-    private List<League> mLeagueList; // 后台查询到的所有联赛列表
+    private List<League> mLeagueList = new ArrayList<>(); // 后台查询到的所有联赛列表
     private List<League> mSearchLeagueList = new ArrayList<>();
     private List<LeagueArea> mLeagueAreaList = new ArrayList<>(); // 联赛按区域分组数据
     private List<LeagueArea> mSearchLeagueAreaList = new ArrayList<>();
@@ -90,6 +104,24 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
             }
             return true;
         });
+
+        binding.aelLeague.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                long position = binding.aelLeague.getExpandableListPosition(firstVisibleItem);
+                int type = binding.aelLeague.getPackedPositionType(position);
+                if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+                    int groupPosition = binding.aelLeague.getPackedPositionGroup(position);
+                    sideBar.setHint(groupPosition);
+                }
+            }
+        });
+
         binding.cbAll.setOnClickListener(this);
         binding.etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -181,6 +213,9 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
                 binding.aelLeague.expandGroup(i);
             }
             sideBar = new SideBar(getContext(), mInitialList);
+            if(binding.sbLeague.getChildCount() > 0){
+                binding.sbLeague.removeAllViews();
+            }
             binding.sbLeague.addView(sideBar);
             sideBar.setOnSelectListener(index -> {
                 int position = mLeagueAreaList.indexOf(mInitialLeagueAreaList.get(index).getLeagueAreaList().get(0));
@@ -211,7 +246,7 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
             }
             binding.sbLeague.addView(sideBar);
             sideBar.setOnSelectListener(index -> {
-                int position = mLeagueAreaList.indexOf(mSearchInitialLeagueAreaList.get(index).getLeagueAreaList().get(0));
+                int position = mSearchLeagueAreaList.indexOf(mSearchInitialLeagueAreaList.get(index).getLeagueAreaList().get(0));
                 binding.aelLeague.scroll(position);
             });
         });
@@ -280,8 +315,13 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
     }
 
     @Override
-    public BtSettingLeagueModel initViewModel() {
-        AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
-        return new ViewModelProvider(this, factory).get(BtSettingLeagueModel.class);
+    public TemplateBtSettingLeagueModel initViewModel() {
+        if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+            AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
+            return new ViewModelProvider(this, factory).get(FBBtSettingLeagueModel.class);
+        } else {
+            PMAppViewModelFactory factory = PMAppViewModelFactory.getInstance((Application) Utils.getContext());
+            return new ViewModelProvider(this, factory).get(PMBtSettingLeagueModel.class);
+        }
     }
 }

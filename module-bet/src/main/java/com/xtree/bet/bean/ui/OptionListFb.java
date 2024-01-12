@@ -66,6 +66,11 @@ public class OptionListFb implements OptionList {
     }
 
     @Override
+    public int getPlaceNum() {
+        return 0;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

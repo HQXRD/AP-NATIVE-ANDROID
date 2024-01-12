@@ -1,8 +1,12 @@
 package com.xtree.bet.ui.fragment;
 
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+
 import android.app.Application;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +28,13 @@ import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BtRecordTime;
 import com.xtree.bet.databinding.BtDialogBtRecordBinding;
 import com.xtree.bet.ui.adapter.BtRecordAdapter;
-import com.xtree.bet.ui.viewmodel.BtRecordModel;
+import com.xtree.bet.ui.viewmodel.TemplateBtRecordModel;
+import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
+import com.xtree.bet.ui.viewmodel.fb.FBBtRecordModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.bet.ui.viewmodel.fb.FBMainViewModel;
+import com.xtree.bet.ui.viewmodel.pm.PMBtRecordModel;
+import com.xtree.bet.ui.viewmodel.pm.PMMainViewModel;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -33,12 +42,13 @@ import java.util.Objects;
 
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
 /**
  * 投注记录页面
  */
-public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordBinding, BtRecordModel> {
+public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordBinding, TemplateBtRecordModel> {
 
     public final static String KEY_ISSETTLED = "KEY_ISSETTLED";
 
@@ -48,6 +58,8 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
 
     private boolean isSettled;
     private List<BtRecordTime> btRecordTimes;
+
+    private String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
 
     public static BtRecordDialogFragment getInstance(boolean isSettled){
         BtRecordDialogFragment btRecordDialogFragment = new BtRecordDialogFragment();
@@ -180,8 +192,13 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
     }
 
     @Override
-    public BtRecordModel initViewModel() {
-        AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
-        return new ViewModelProvider(this, factory).get(BtRecordModel.class);
+    public TemplateBtRecordModel initViewModel() {
+        if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+            AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
+            return new ViewModelProvider(this, factory).get(FBBtRecordModel.class);
+        } else {
+            PMAppViewModelFactory factory = PMAppViewModelFactory.getInstance((Application) Utils.getContext());
+            return new ViewModelProvider(this, factory).get(PMBtRecordModel.class);
+        }
     }
 }

@@ -52,6 +52,11 @@ public class CgOddLimitPm implements CgOddLimit{
     }
 
     @Override
+    public String getCgType() {
+        return cgOddLimitInfo.type;
+    }
+
+    @Override
     public double getDMin() {
         if(cgOddLimitInfo == null){
             return 5;
@@ -110,6 +115,9 @@ public class CgOddLimitPm implements CgOddLimit{
             return 0;
         }
         String cgName = getCgName();
+        if(TextUtils.equals("1", getCgType())){
+            return 1;
+        }
         int index = cgName.indexOf("串");
         return Integer.valueOf(cgName.substring(index + 1, cgName.length()));
     }
@@ -128,6 +136,14 @@ public class CgOddLimitPm implements CgOddLimit{
     @Override
     public double getBtAmount() {
         return btCount;
+    }
+    /**
+     * 获取总投注金额
+     * @return
+     */
+    @Override
+    public double getBtTotalAmount() {
+        return btCount * getBtCount();
     }
 
     @Override

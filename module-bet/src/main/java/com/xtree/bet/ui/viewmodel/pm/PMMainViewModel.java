@@ -1,10 +1,11 @@
-package com.xtree.bet.ui.viewmodel;
+package com.xtree.bet.ui.viewmodel.pm;
 
 import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.request.pm.PMListReq;
@@ -21,10 +22,11 @@ import com.xtree.bet.bean.ui.PlayGroup;
 import com.xtree.bet.bean.ui.PlayGroupPm;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.data.BetRepository;
+import com.xtree.bet.ui.viewmodel.MainViewModel;
+import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -152,12 +154,12 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
 
         pmListReq.setSort(orderBy);
-        if (leagueIds != null) {
+        if (leagueIds != null && !leagueIds.isEmpty()) {
             String leagueids = "";
             for (Long leagueid : leagueIds) {
                 leagueids += leagueid + ",";
             }
-            pmListReq.setTid(leagueids.substring(leagueids.length() - 1));
+            pmListReq.setTid(leagueids.substring(0, leagueids.length() - 1));
         }
         pmListReq.setCpn(currentPage);
         //pmListReq.setOddType(oddType);
@@ -369,9 +371,11 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * 获取赛事统计数据
      */
     public void statistical(int playMethodType) {
+        Map<String, String > map = new HashMap<>();
+        map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PM_USER_ID));
+        map.put("sys", "7");
 
-
-        Disposable disposable = (Disposable) model.getPMApiService().initPB()
+        Disposable disposable = (Disposable) model.getPMApiService().initPB(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new PMHttpCallBack<List<MenuInfo>>() {
@@ -478,9 +482,9 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
             if (league == null) {
                 LeagueInfo leagueInfo = new LeagueInfo();
-                leagueInfo.lurl = matchInfo.lurl;
-                leagueInfo.tn = matchInfo.tn;
-                leagueInfo.tid = Long.valueOf(matchInfo.tid);
+                leagueInfo.picUrlthumb = matchInfo.lurl;
+                leagueInfo.nameText = matchInfo.tn;
+                leagueInfo.tournamentId = Long.valueOf(matchInfo.tid);
                 league = new LeaguePm(leagueInfo);
                 mapLeague.put(String.valueOf(matchInfo.tid), league);
 
@@ -528,9 +532,9 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
             if (league == null) {
                 LeagueInfo leagueInfo = new LeagueInfo();
-                leagueInfo.lurl = matchInfo.lurl;
-                leagueInfo.tn = matchInfo.tn;
-                leagueInfo.tid = Long.valueOf(matchInfo.tid);
+                leagueInfo.picUrlthumb = matchInfo.lurl;
+                leagueInfo.nameText = matchInfo.tn;
+                leagueInfo.tournamentId = Long.valueOf(matchInfo.tid);
                 league = new LeaguePm(leagueInfo);
                 mapLeague.put(String.valueOf(matchInfo.tid), league);
 
@@ -669,9 +673,12 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             for (PlayType playType : newPlayGroup.getPlayTypeList()) {
                 playType.getOptionLists();
                 for (Option option : playType.getOptionList()) {
+                    StringBuffer code = new StringBuffer();
+                    code.append(match.getId());
                     if (option != null) {
-                        option.setCode(option.getId());
+                        code.append(option.getId());
                     }
+                    option.setCode(code.toString());
                     optionList.add(option);
                 }
             }

@@ -24,6 +24,11 @@ public class PlayTypeFb implements PlayType{
         return "";
     }
 
+    @Override
+    public String getMarketId() {
+        return null;
+    }
+
     /**
      * 获取玩法类型，如 亚盘、大小球等
      * @return

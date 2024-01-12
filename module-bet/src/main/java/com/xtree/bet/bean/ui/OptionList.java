@@ -40,4 +40,8 @@ public interface OptionList extends BaseBean {
      * 玩法选项
      */
     List<Option> getOptionList();
+    /**
+     * 获取盘口坑位
+     */
+    int getPlaceNum();
 }

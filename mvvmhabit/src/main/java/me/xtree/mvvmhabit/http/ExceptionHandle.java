@@ -80,7 +80,12 @@ public class ExceptionHandle {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
             ex.message = "主机地址未知";
             return ex;
-        } else {
+        }  else if (e instanceof NullPointerException) {
+            ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
+            ex.message = "主机地址未知";
+            return ex;
+        }
+        else {
             ex = new ResponseThrowable(e, ERROR.UNKNOWN);
             ex.message = "未知错误";
             return ex;
