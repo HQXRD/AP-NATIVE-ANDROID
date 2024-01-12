@@ -9,8 +9,7 @@ import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.response.fb.PlayTypeInfo;
 import com.xtree.bet.bean.response.fb.ScoreInfo;
-import com.xtree.bet.bean.response.fb.VideoInfo;
-import com.xtree.bet.constant.MatchPeriod;
+import com.xtree.bet.constant.FBMatchPeriod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +74,7 @@ public class MatchFb implements Match{
      */
     @Override
     public String getStage() {
-        return MatchPeriod.getMatchPeriod(String.valueOf(matchInfo.mc.pe));
+        return FBMatchPeriod.getMatchPeriod(String.valueOf(matchInfo.mc.pe));
     }
 
     /**

@@ -5,15 +5,20 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.CgOddLimit;
+import com.xtree.bet.databinding.BtLayoutCarCgItemBinding;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
+import com.xtree.bet.weight.CgOddLimitView;
 import com.xtree.bet.weight.KeyboardView;
-import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -21,13 +26,14 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseActivity;
 
-public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
+public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
     private boolean flag;
 
     private boolean isRefresh;
 
     private KeyboardView keyboardView;
-    private int mPosition = -1;
+
+    private List<BtLayoutCarCgItemBinding> bindingList = new ArrayList<>();
 
     private BtCarDialogFragment.KeyBoardListener mKeyBoardListener;
 
@@ -43,7 +49,7 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
         isRefresh = refresh;
     }
 
-    public CgOddLimitAdapter(Context context, List<CgOddLimit> datas) {
+    public CgOddLimitSecAdapter(Context context, List<CgOddLimit> datas) {
         super(context, datas);
     }
 
@@ -53,18 +59,21 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
     }
 
     @Override
-    protected void convert(ViewHolder holder, CgOddLimit cgOddLimit, int position) {
-        /*if (getItemCount() > 1 || !TextUtils.equals("单关", cgOddLimit.getCgName())) { // 串关
-            holder.setVisible(R.id.csl_cg_dan, false);
-            holder.setVisible(R.id.csl_cg_cc, true);
-            EditText etAmount = holder.getView(R.id.et_bt_amount_cc);
+    protected void convert(View itemView, CgOddLimit cgOddLimit, int position) {
+
+        if (getItemCount() > 1 || !TextUtils.equals("单关", cgOddLimit.getCgName())) { // 串关
+
+            itemView.findViewById(R.id.csl_cg_dan).setVisibility(View.GONE);
+            itemView.findViewById(R.id.csl_cg_cc).setVisibility(View.VISIBLE);
+            EditText etAmount = itemView.findViewById(R.id.et_bt_amount_cc);
             etAmount.setHint("限制" + cgOddLimit.getCMin() + "-" + cgOddLimit.getCMax());
             etAmount.setEnabled(cgOddLimit.getCMin() > 0 && cgOddLimit.getCMax() > 0);
-            *//*if(cgOddLimit.getBtAmount() > 0) {
-                etAmount.setText(String.valueOf(cgOddLimit.getBtAmount()));
-            }*//*
-            holder.setText(R.id.iv_name, cgOddLimit.getCgName());
-            holder.setText(R.id.iv_zs_amount, "x" + cgOddLimit.getBtCount());
+            if(sizeChange) {
+                itemView.findViewById(R.id.csl_win_cc).setVisibility(View.GONE);
+                etAmount.setText("");
+            }
+            ((TextView)itemView.findViewById(R.id.iv_name)).setText(cgOddLimit.getCgName());
+            ((TextView)itemView.findViewById(R.id.iv_zs_amount)).setText("x" + cgOddLimit.getBtCount());
 
             etAmount.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -74,8 +83,8 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    textChanged(etAmount, charSequence, holder, cgOddLimit, cgOddLimit.getCMin(), cgOddLimit.getCMax(), cgOddLimit.getCOdd(),
-                            R.string.bt_bt_win, R.string.bt_bt_pay, R.id.tv_win_cc, R.id.tv_pay_cc, R.id.csl_win_cc);
+                    textChanged(etAmount, charSequence, cgOddLimit, cgOddLimit.getCMin(), cgOddLimit.getCMax(), cgOddLimit.getCOdd(),
+                            R.string.bt_bt_win, R.string.bt_bt_pay, itemView.findViewById(R.id.tv_win_cc), itemView.findViewById(R.id.tv_pay_cc), itemView.findViewById(R.id.csl_win_cc));
                 }
 
                 @Override
@@ -85,44 +94,32 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
             });
             disableShowInput(etAmount);
 
-
-
-            if(isRefresh){
-                if(mPosition == position){
-                    etAmount.requestFocus();
-                    etAmount.findFocus();
-                    keyboardView.setEditText(etAmount);
-                }
-            }else{
-                etAmount.setFocusable(true);
-                etAmount.setFocusableInTouchMode(true);
-            }
-
-            etAmount.setOnFocusChangeListener((view, b) -> {
-                keyboardView.setEditText(etAmount);
-                mPosition = position;
-                if(isRefresh) {
-                    mKeyBoardListener.showKeyBoard(keyboardView.isShowing());
+            etAmount.setOnFocusChangeListener((v, hasFocus) -> {
+                if(hasFocus) {
+                    keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_cc));
+                    itemView.findViewById(R.id.csl_win_cc).setVisibility(View.VISIBLE);
                 }else{
-                    mKeyBoardListener.showKeyBoard(b);
+                    itemView.findViewById(R.id.csl_win_cc).setVisibility(View.GONE);
                 }
-                *//*if(b && !keyboardView.isShow()) {
-
-                }*//*
+                if(hasFocus && !keyboardView.isShowing()) {
+                    mKeyBoardListener.showKeyBoard(true);
+                }
 
             });
-            *//*etAmount.setOnClickListener(view -> {
-                mPosition = position;
-                keyboardView.setEditText(etAmount);
-                etAmount.setFocusable(true);
-                etAmount.setFocusableInTouchMode(true);
-                mKeyBoardListener.showKeyBoard(true);
 
-            });*//*
+            etAmount.setOnClickListener(view -> {
+                if(!etAmount.hasFocus()) {
+                    keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_cc));
+                }
+                itemView.findViewById(R.id.csl_win_cc).setVisibility(View.VISIBLE);
+                if(!keyboardView.isShowing()) {
+                    mKeyBoardListener.showKeyBoard(true);
+                }
+            });
         } else {
-            holder.setVisible(R.id.csl_cg_dan, true);
-            holder.setVisible(R.id.csl_cg_cc, false);
-            EditText etAmount = holder.getView(R.id.et_bt_amount_dan);
+            itemView.findViewById(R.id.csl_cg_dan).setVisibility(View.VISIBLE);
+            itemView.findViewById(R.id.csl_cg_cc).setVisibility(View.GONE);
+            EditText etAmount = itemView.findViewById(R.id.et_bt_amount_dan);
             etAmount.setHint("限制" + cgOddLimit.getDMin() + "-" + cgOddLimit.getDMax());
             etAmount.setEnabled(cgOddLimit.getDMin() > 0 || cgOddLimit.getDMax() > 0);
 
@@ -134,8 +131,8 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    textChanged(etAmount, charSequence, holder, cgOddLimit, cgOddLimit.getDMin(), cgOddLimit.getDMax(), cgOddLimit.getDOdd(),
-                            R.string.bt_bt_win, R.string.bt_bt_pay, R.id.tv_win_dan, R.id.tv_pay_dan, R.id.csl_win_dan);
+                    textChanged(etAmount, charSequence, cgOddLimit, cgOddLimit.getDMin(), cgOddLimit.getDMax(), cgOddLimit.getDOdd(),
+                            R.string.bt_bt_win, R.string.bt_bt_pay, itemView.findViewById(R.id.tv_win_dan), itemView.findViewById(R.id.tv_pay_dan), itemView.findViewById(R.id.csl_win_dan));
                 }
 
                 @Override
@@ -147,39 +144,37 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
 
             etAmount.setOnFocusChangeListener((view, b) -> {
                 mKeyBoardListener.showKeyBoard(keyboardView.isShowing());
-                keyboardView.setEditText(etAmount);
+                keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_dan));
             });
             etAmount.setFocusable(true);
             etAmount.setFocusableInTouchMode(true);
             etAmount.requestFocus();
             etAmount.findFocus();
-            keyboardView.setEditText(etAmount);
+            keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_dan));
 
             etAmount.setOnClickListener(view -> {
                 mKeyBoardListener.showKeyBoard(true);
-                keyboardView.setEditText(etAmount);
+                keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_dan));
             });
-        }*/
+        }
     }
-
 
     /**
      * @param etAmount
      * @param charSequence
-     * @param holder
      * @param cgOddLimit
      * @param minValue       最小限额
      * @param maxValue       最大限额
      * @param odd            赔率
      * @param winResStringId 可赢金额 string id
      * @param payResStringId 投注金额 string id
-     * @param winResId       可赢金额 textview id
-     * @param payResId       投注金额 textview id
-     * @param cslWin         单关或串关groupview id
+     * @param tvWin       可赢金额 textview
+     * @param tvPay       投注金额 textview
+     * @param cslWin         单关或串关groupview
      */
-    private void textChanged(EditText etAmount, CharSequence charSequence, ViewHolder holder,
-                               CgOddLimit cgOddLimit, double minValue, double maxValue, double odd,
-                               int winResStringId, int payResStringId, int winResId, int payResId, int cslWin) {
+    private void textChanged(EditText etAmount, CharSequence charSequence,
+                             CgOddLimit cgOddLimit, double minValue, double maxValue, double odd,
+                             int winResStringId, int payResStringId, TextView tvWin, TextView tvPay, View cslWin) {
         if (!etAmount.isEnabled()) {
             return;
         }
@@ -194,8 +189,8 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
             }
 
             if (amount < minValue) {
-                holder.setText(winResId, mContext.getResources().getString(winResStringId, String.valueOf(odd * amount)));
-                holder.setText(payResId, mContext.getResources().getString(payResStringId, String.valueOf(amount)));
+                tvWin.setText(mContext.getResources().getString(winResStringId, String.valueOf(odd * amount)));
+                tvPay.setText(mContext.getResources().getString(payResStringId, String.valueOf(amount * cgOddLimit.getBtCount())));
                 if (!flag) {
                     flag = true;
                     Disposable disposable = Observable.timer(2, TimeUnit.SECONDS).subscribe(aLong -> {
@@ -206,8 +201,8 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
                         ((BaseActivity) mContext).runOnUiThread(() -> {
                             etAmount.setText(String.valueOf(minValue));
                             etAmount.setSelection(String.valueOf(minValue).length());
-                            holder.setText(winResId, mContext.getResources().getString(winResStringId, String.valueOf(odd * minValue)));
-                            holder.setText(payResId, mContext.getResources().getString(payResStringId, String.valueOf(minValue)));
+                            tvWin.setText(mContext.getResources().getString(winResStringId, String.valueOf(odd * minValue)));
+                            tvPay.setText(mContext.getResources().getString(payResStringId, String.valueOf(minValue * cgOddLimit.getBtCount())));
                             flag = false;
                         });
 
@@ -217,16 +212,21 @@ public class CgOddLimitAdapter extends BaseAdapter<CgOddLimit> {
             } else if (amount > maxValue) {
                 etAmount.setText(String.valueOf(maxValue));
                 etAmount.setSelection(String.valueOf(maxValue).length());
-                holder.setText(winResId, mContext.getResources().getString(winResStringId, String.valueOf(odd * maxValue)));
-                holder.setText(payResId, mContext.getResources().getString(payResStringId, String.valueOf(maxValue)));
+                tvWin.setText(mContext.getResources().getString(winResStringId, String.valueOf(odd * maxValue)));
+                tvPay.setText(mContext.getResources().getString(payResStringId, String.valueOf(maxValue * cgOddLimit.getBtCount())));
             } else {
-                holder.setText(winResId, mContext.getResources().getString(winResStringId, String.valueOf(odd * amount)));
-                holder.setText(payResId, mContext.getResources().getString(payResStringId, String.valueOf(amount)));
+                tvWin.setText(mContext.getResources().getString(winResStringId, String.valueOf(odd * amount)));
+                tvPay.setText(mContext.getResources().getString(payResStringId, String.valueOf(amount * cgOddLimit.getBtCount())));
             }
-            holder.setVisible(cslWin, true);
+            cslWin.setVisibility(View.VISIBLE);
             cgOddLimit.setBtAmount(TextUtils.isEmpty(etAmount.getText()) ? 0 : Double.valueOf(etAmount.getText().toString()));
         } else {
-            holder.setVisible(cslWin, false);
+            if(!sizeChange) {
+                cslWin.setVisibility(View.VISIBLE);
+            }
+            cgOddLimit.setBtAmount(0);
+            tvWin.setText(mContext.getResources().getString(winResStringId, "0"));
+            tvPay.setText(mContext.getResources().getString(payResStringId, "0"));
         }
     }
 

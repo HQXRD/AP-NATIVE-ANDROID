@@ -40,6 +40,9 @@ public class DraggableImageView extends androidx.appcompat.widget.AppCompatImage
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if(!isEnabled()){
+            return false;
+        }
         //得到事件的坐标
         int eventX = (int) event.getRawX();
         switch (event.getAction()) {

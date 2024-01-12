@@ -49,10 +49,10 @@ public class DiscolourTextView extends AppCompatTextView {
     public void setOptionOdd(Option option) {
         setText(String.valueOf(option.getOdd()));
         if (option.isUp()) {
-            Log.e("test", "====startUp=======");
+            //Log.e("test", "====startUp=======");
             startUp();
         } else if (option.isDown()) {
-            Log.e("test", "====startDown=======");
+            //Log.e("test", "====startDown=======");
             startDown();
         }
         option.reset();

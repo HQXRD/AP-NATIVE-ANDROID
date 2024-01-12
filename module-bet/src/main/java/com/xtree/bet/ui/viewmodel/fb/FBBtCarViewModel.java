@@ -161,11 +161,13 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
         }
 
         for (CgOddLimit cgOddLimit : cgOddLimitList) {
-            BtCgReq btCgReq = new BtCgReq();
-            btCgReq.setOddsChange(1);
-            btCgReq.setUnitStake(cgOddLimit.getBtAmount());
-            btCgReq.setSeriesValue(cgOddLimit.getCgCount());
-            btMultipleListReq.addBtMultipleData(btCgReq);
+            if(cgOddLimit.getBtAmount() > 0) {
+                BtCgReq btCgReq = new BtCgReq();
+                btCgReq.setOddsChange(1);
+                btCgReq.setUnitStake(cgOddLimit.getBtAmount());
+                btCgReq.setSeriesValue(cgOddLimit.getCgCount());
+                btMultipleListReq.addBtMultipleData(btCgReq);
+            }
         }
 
         Disposable disposable = (Disposable) model.getApiService().betMultiple(btMultipleListReq)

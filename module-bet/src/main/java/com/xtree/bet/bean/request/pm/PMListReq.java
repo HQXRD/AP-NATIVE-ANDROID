@@ -2,6 +2,8 @@ package com.xtree.bet.bean.request.pm;
 
 import com.xtree.base.global.SPKeyGlobal;
 
+import java.util.List;
+
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class PMListReq {
@@ -49,6 +51,10 @@ public class PMListReq {
      * 指定赛事列表球种ID
      */
     private String csid;
+    /**
+     * 赛事id，多个用逗号分隔
+     */
+    private String mids = "";
 
     public void setEuid(String euid) {
         Integer iEuid = Integer.valueOf(euid);
@@ -89,5 +95,18 @@ public class PMListReq {
 
     public void setCsid(String csid) {
         this.csid = csid;
+    }
+
+    public String getMids() {
+        return mids;
+    }
+
+    public void setMids(List<Long> mids) {
+        if(mids != null){
+            for (Long mid :
+                    mids) {
+                this.mids += mid + ",";
+            }
+        }
     }
 }

@@ -38,7 +38,7 @@ public class SeriesOrderInfo implements BaseBean {
      */
     public String orderNo;
     /**
-     * 订单状态
+     * 订单状态码 0：投注失败，1：接单，2：确认中
      */
     public int orderStatusCode;
     /**

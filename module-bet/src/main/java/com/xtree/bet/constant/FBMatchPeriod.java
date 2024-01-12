@@ -3,9 +3,8 @@ package com.xtree.bet.constant;
 import android.util.ArrayMap;
 
 import java.util.Map;
-import java.util.SimpleTimeZone;
 
-public class MatchPeriod {
+public class FBMatchPeriod {
     private int code;
     private String desc;
 

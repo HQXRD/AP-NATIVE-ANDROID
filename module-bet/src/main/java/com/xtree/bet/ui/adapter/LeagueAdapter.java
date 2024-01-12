@@ -194,9 +194,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             }
         }
 
-        int sportPos = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
         LinearLayout llTypeGroup = (LinearLayout) binding.hsvPlayTypeGroup.getChildAt(0);
-
 
         LinearLayout firstPagePlayType = (LinearLayout) llTypeGroup.getChildAt(0);
 
@@ -214,7 +212,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         }
         binding.llPointer.removeAllViews();
         LinearLayout sencondPagePlayType = (LinearLayout) llTypeGroup.getChildAt(1);
-        if (SportTypeContants.SPORT_ID_FB.equals(SportTypeContants.getSportId(sportPos))) {
+        if (playGroupList.size() > 1) {
             sencondPagePlayType.setVisibility(View.VISIBLE);
             List<PlayType> playTypeList = playGroupList.get(1).getOriginalPlayTypeList();
             for (int i = 0; i < sencondPagePlayType.getChildCount(); i++) {

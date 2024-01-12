@@ -300,7 +300,18 @@ public class TimeUtils {
         long milliseconds = s * 1000;
         long minutes = (milliseconds / 1000) / 60;
         long seconds = (milliseconds / 1000) % 60;
-        return String.format("%d : %d", minutes, seconds);
+
+        String strMinutes = String.valueOf(minutes);
+        String strSeconds = String.valueOf(seconds);
+
+
+        if(minutes < 10){
+            strMinutes = "0" + minutes;
+        }
+        if(seconds < 10){
+            strSeconds = "0" + seconds;
+        }
+        return String.format("%s : %s", strMinutes, strSeconds);
     }
 
 }

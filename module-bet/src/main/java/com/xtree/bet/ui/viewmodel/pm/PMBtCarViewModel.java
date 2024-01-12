@@ -48,12 +48,12 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
     }
 
     @Override
-    public int getOrderBy(int index){
+    public int getOrderBy(int index) {
         return index == 1 ? 2 : 1;
     }
 
     @Override
-    public int getOrderByPosition(int orderBy){
+    public int getOrderByPosition(int orderBy) {
         return orderBy == 1 ? 0 : 1;
     }
 
@@ -83,7 +83,7 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
                 .subscribeWith(new PMHttpCallBack<List<BtConfirmInfo>>() {
                     @Override
                     public void onResult(List<BtConfirmInfo> btConfirmInfoList) {
-                        if(btConfirmInfoList == null || btConfirmInfoList.isEmpty()){
+                        if (btConfirmInfoList == null || btConfirmInfoList.isEmpty()) {
                             return;
                         }
                         mBetConfirmOptionList = new ArrayList<>();
@@ -128,12 +128,12 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
                     public void onResult(List<CgOddLimitInfo> cgOddLimitInfos) {
 
                         List<CgOddLimit> cgOddLimitInfoList = new ArrayList<>();
-                        if(betConfirmOptionList.size() == 1){
+                        if (betConfirmOptionList.size() == 1) {
                             CgOddLimitInfo cgOddLimitInfo = cgOddLimitInfos.get(0);
                             cgOddLimitInfo.seriesOdds = String.valueOf(betConfirmOptionList.get(0).getOption().getRealOdd());
                             cgOddLimitInfo.type = "1";
                             cgOddLimitInfoList.add(new CgOddLimitPm(cgOddLimitInfo));
-                        }else {
+                        } else {
                             if (!cgOddLimitInfos.isEmpty()) {
                                 for (CgOddLimitInfo cgOddLimitInfo : cgOddLimitInfos) {
                                     cgOddLimitInfoList.add(new CgOddLimitPm(cgOddLimitInfo));
@@ -157,41 +157,42 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
      * 单关投注
      */
     public void singleBet(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList) {
-
+        betMultiple(betConfirmOptionList, cgOddLimitList);
     }
 
     /**
      * 串关投注
      */
     public void betMultiple(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList) {
-        if(betConfirmOptionList.isEmpty() || cgOddLimitList.isEmpty()){
+        if (betConfirmOptionList.isEmpty() || cgOddLimitList.isEmpty()) {
             return;
         }
         BtReq btReq = new BtReq();
         List<SeriesOrder> seriesOrders = new ArrayList<>();
-        for(CgOddLimit cgOddLimit : cgOddLimitList){
+        for (CgOddLimit cgOddLimit : cgOddLimitList) {
+            if(cgOddLimit.getBtAmount() > 0) {
+                SeriesOrder seriesOrder = new SeriesOrder();
+                seriesOrder.setSeriesSum(cgOddLimit.getBtCount());
+                seriesOrder.setSeriesType(cgOddLimit.getCgType());
+                seriesOrder.setFullBet(0);
 
-            SeriesOrder seriesOrder = new SeriesOrder();
-            seriesOrder.setSeriesSum(cgOddLimit.getBtCount());
-            seriesOrder.setSeriesType(cgOddLimit.getCgType());
-            seriesOrder.setFullBet(0);
-
-            List<OrderDetail> orderDetailList = new ArrayList<>();
-            for (BetConfirmOption betConfirmOption : betConfirmOptionList) {
-                OrderDetail orderDetail = new OrderDetail();
-                orderDetail.setBetAmount(cgOddLimit.getBtAmount());
-                orderDetail.setMarketId(betConfirmOption.getPlayTypeId());
-                orderDetail.setMatchId(Long.valueOf(betConfirmOption.getMatchId()));
-                orderDetail.setMatchType(betConfirmOption.getOptionList().getMatchType());
-                orderDetail.setOddFinally(String.valueOf(betConfirmOption.getOption().getRealOdd()));
-                orderDetail.setOdds((long)betConfirmOption.getOption().getBodd());
-                orderDetail.setPlayId(Long.valueOf(betConfirmOption.getPlayType().getId()));
-                orderDetail.setPlayOptionsId(betConfirmOption.getOption().getId());
-                orderDetail.setPlaceNum(betConfirmOption.getPlaceNum());
-                orderDetailList.add(orderDetail);
+                List<OrderDetail> orderDetailList = new ArrayList<>();
+                for (BetConfirmOption betConfirmOption : betConfirmOptionList) {
+                    OrderDetail orderDetail = new OrderDetail();
+                    orderDetail.setBetAmount(cgOddLimit.getBtAmount());
+                    orderDetail.setMarketId(betConfirmOption.getPlayTypeId());
+                    orderDetail.setMatchId(Long.valueOf(betConfirmOption.getMatchId()));
+                    orderDetail.setMatchType(betConfirmOption.getOptionList().getMatchType());
+                    orderDetail.setOddFinally(String.valueOf(betConfirmOption.getOption().getRealOdd()));
+                    orderDetail.setOdds((long) betConfirmOption.getOption().getBodd());
+                    orderDetail.setPlayId(Long.valueOf(betConfirmOption.getPlayType().getId()));
+                    orderDetail.setPlayOptionsId(betConfirmOption.getOption().getId());
+                    orderDetail.setPlaceNum(betConfirmOption.getPlaceNum());
+                    orderDetailList.add(orderDetail);
+                }
+                seriesOrder.setOrderDetailList(orderDetailList);
+                seriesOrders.add(seriesOrder);
             }
-            seriesOrder.setOrderDetailList(orderDetailList);
-            seriesOrders.add(seriesOrder);
         }
         btReq.setSeriesOrders(seriesOrders);
 
@@ -203,11 +204,11 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
                     @Override
                     public void onResult(BtResultInfo btResultInfo) {
                         List<BtResult> btResultList = new ArrayList<>();
-                        if(btResultInfo.seriesOrderRespList != null) {
+                        if (btResultInfo.seriesOrderRespList != null) {
                             for (SeriesOrderInfo seriesOrderInfo : btResultInfo.seriesOrderRespList) {
                                 btResultList.add(new BtResultPm(seriesOrderInfo));
                             }
-                        }else{
+                        } else {
                             BtResultOptionInfo btResultOptionInfo = btResultInfo.orderDetailRespList.get(0);
                             SeriesOrderInfo seriesOrderInfo = new SeriesOrderInfo();
                             seriesOrderInfo.maxWinAmount = btResultOptionInfo.maxWinMoney;
@@ -222,8 +223,8 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
-                        if(t instanceof ResponseThrowable){
-                            if(((ResponseThrowable) t).code == CODE_400467){
+                        if (t instanceof ResponseThrowable) {
+                            if (((ResponseThrowable) t).code == CODE_400467) {
                                 batchBetMatchMarketOfJumpLine(mSearchBetConfirmOptionList);
                             }
                         }

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,18 +21,54 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.Arrays;
 
+import me.xtree.mvvmhabit.utils.ConvertUtils;
+
 public class KeyboardView extends FrameLayout implements View.OnClickListener {
 
     private EditText editText;
-    private BtCarDialogFragment.KeyBoardListener listener;
+    private BtCarDialogFragment.KeyBoardListener mKeyBoardListener;
+    private boolean isShow;
+    private NestedScrollView parent;
+    private int parentY;
+    private View itemView;
 
-    public void setEditText(EditText editText) {
+    public void setEditText(EditText editText, View itemView) {
         this.editText = editText;
+        this.itemView = itemView;
+        postDelayed(() -> {
+
+            int[] outLocation = new int[2];
+            itemView.getLocationInWindow(outLocation);
+            int editAreaY = outLocation[1];
+            Log.e("test", itemView + "======editAreaY=======" + editAreaY);
+            Log.e("test", "======parentY=======" + parentY);
+
+            int[] outLocation1 = new int[2];
+            getLocationInWindow(outLocation1);
+            int keyBoardY = outLocation1[1];
+
+            int editAreaHeight = itemView.getMeasuredHeight();
+            Log.e("test", "======editAreaHeight=======" + editAreaHeight);
+
+            if(editAreaY + editAreaHeight > keyBoardY){
+                int y = editAreaY + editAreaHeight * 2 - keyBoardY;
+                parent.scrollBy(0, y);
+            }
+        }, 120);
+
     }
 
-    public void setListener(BtCarDialogFragment.KeyBoardListener listener) {
-        this.listener = listener;
+    public void setKeyBoardListener(BtCarDialogFragment.KeyBoardListener mKeyBoardListener) {
+        this.mKeyBoardListener = mKeyBoardListener;
     }
+
+    public void setParent(NestedScrollView parent) {
+        this.parent = parent;
+        int[] outLocation = new int[2];
+        ((View)parent.getParent()).getLocationInWindow(outLocation);
+        parentY = outLocation[1];
+    }
+
     public KeyboardView(@NonNull Context context, AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater.from(context).inflate(R.layout.bt_layout_keyboard, this);
@@ -92,11 +129,26 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
         });
     }
 
+    public void show(){
+        isShow = true;
+        this.setVisibility(VISIBLE);
+    }
+
+    public void hide(){
+        isShow = false;
+        this.setVisibility(GONE);
+    }
+
+    public boolean isShowing() {
+        return isShow;
+    }
+
     @Override
     public void onClick(View view) {
         int id = view.getId();
         if(id == R.id.ll_expand){
-            listener.showKeyBoard(false);
+            mKeyBoardListener.showKeyBoard(false);
+            Log.e("test", "关闭=============" + isShow );
         }
     }
 }

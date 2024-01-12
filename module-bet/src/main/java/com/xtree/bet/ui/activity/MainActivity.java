@@ -149,6 +149,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     public void initView() {
         binding.srlLeague.setOnRefreshLoadMoreListener(this);
         binding.llGoingOn.setOnClickListener(this);
+        binding.ivBack.setOnClickListener(this);
         binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -330,7 +331,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     //refreshLeague();
-                    //viewModel.statistical(playMethodType);
+                    viewModel.statistical(playMethodType);
                 });
         viewModel.addSubscribe(timerDisposable);
     }
@@ -340,27 +341,26 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         int firstVisiblePos = binding.rvLeague.getFirstVisiblePosition();
         int lastVisiblePos = binding.rvLeague.getLastVisiblePosition();
         List<Long> matchIdList = new ArrayList<>();
-        for (int i = firstVisiblePos; i < lastVisiblePos; i++) {
-            long position = binding.rvLeague.getExpandableListPosition(i);
-            int type = binding.rvLeague.getPackedPositionType(position);
+        if(playMethodPos != 4) {
+            for (int i = firstVisiblePos; i <= lastVisiblePos; i++) {
+                long position = binding.rvLeague.getExpandableListPosition(i);
+                int type = binding.rvLeague.getPackedPositionType(position);
 
-            if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                int groupPosition = binding.rvLeague.getPackedPositionGroup(position);
-
-                if (mLeagueList.size() > groupPosition) {
-                    League league = mLeagueList.get(groupPosition);
-                    if (!league.isHead() && league.isExpand()) {
-                        updateLeague.add(league);
-                        for (Match match : league.getMatchList()) {
-                            matchIdList.add(match.getId());
-                        }
+                if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
+                    int childPosition = binding.rvLeague.getPackedPositionChild(i);
+                    Match match = (Match)binding.rvLeague.getItemAtPosition(i);
+                    if(match != null) {
+                        matchIdList.add(match.getId());
                     }
                 }
             }
-
+        }else {
+            for (Match match : mChampionMatchList) {
+                matchIdList.add(match.getId());
+            }
         }
         if (!matchIdList.isEmpty()) {
-            viewModel.setUpdateLeagueList(updateLeague);
+            //viewModel.setUpdateLeagueList(updateLeague);
             getMatchData(Integer.valueOf(viewModel.getSportId(playMethodType)[sportTypePos]), mOrderBy, null, matchIdList,
                     playMethodType, searchDatePos, true, false);
         }
@@ -718,6 +718,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
             BtCarDialogFragment btCarDialogFragment = new BtCarDialogFragment();
             btCarDialogFragment.show(MainActivity.this.getSupportFragmentManager(), "btCarDialogFragment");
+        } else if (id == R.id.iv_back) {
+            finish();
         }
     }
 
