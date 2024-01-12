@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/layout_margin"
+    android:background="@drawable/bg_white_6"
+    android:orientation="vertical"
+    android:padding="@dimen/layout_margin">
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:text="@string/txt_bt_amount2" />
+
+        <TextView
+            style="@style/style_item_report_title_center"
+            android:text="@string/txt_sprize_amount" />
+
+        <TextView
+            style="@style/style_item_report_title_end"
+            android:text="@string/txt_efficient_bt" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            android:id="@+id/tvw_sbet"
+            style="@style/style_filter_info_value"
+            android:layout_weight="1"
+            android:minEms="5"
+            tools:text="5.00" />
+
+        <TextView
+            android:id="@+id/tvw_spirze"
+            style="@style/style_filter_info_value"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:minEms="5"
+            tools:text="5.00" />
+
+        <TextView
+            android:id="@+id/tvw_seffective_bet"
+            style="@style/style_filter_info_value"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:minEms="5"
+            tools:text="0.0000" />
+    </LinearLayout>
+
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:text="@string/txt_member_win_fail" />
+
+        <TextView
+            style="@style/style_item_report_title_center"
+            android:text="@string/txt_rebate_amount" />
+
+        <TextView
+            style="@style/style_item_report_title_end"
+            android:text="@string/txt_discount_amount" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            android:id="@+id/tvw_sprofit_loss"
+            style="@style/style_item_report_value"
+            android:textColor="@color/clr_text_red_green_selector"
+            tools:text="5.00" />
+
+        <TextView
+            android:id="@+id/tvw_wages"
+            style="@style/style_item_report_value_center"
+            tools:text="5.00" />
+
+        <TextView
+            android:id="@+id/tvw_sactive_prize"
+            style="@style/style_item_report_value_end"
+            tools:text="0.0000" />
+    </LinearLayout>
+
+</LinearLayout>
