@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/layout_margin"
+    android:background="@drawable/bg_white_6"
+    android:orientation="vertical"
+    android:padding="@dimen/layout_margin">
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:layout_weight="0"
+            android:minEms="0"
+            android:text="@string/txt_status_s" />
+
+        <TextView
+            android:id="@+id/tvw_order_status_text"
+            style="@style/style_item_report_value"
+            android:textColor="@color/clr_orange_01"
+            tools:text="@string/txt_order_expired" />
+
+        <TextView
+            android:id="@+id/tvw_detail"
+            style="@style/style_item_report_value_end"
+            android:layout_weight="0"
+            android:minEms="3"
+            android:text="@string/txt_view"
+            android:textColor="@color/clr_blue_03" />
+    </LinearLayout>
+
+    <View
+        style="@style/style_filter_info_dividing"
+        android:layout_marginTop="6dp" />
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:minEms="0"
+            android:text="@string/txt_3rd_order_s" />
+
+        <TextView
+            android:id="@+id/tvw_third_order_id"
+            style="@style/style_item_report_title_end"
+            tools:text="63" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:text="@string/txt_deposit_amount_s" />
+
+        <TextView
+            android:id="@+id/tvw_userpay_amount"
+            style="@style/style_item_report_title_end"
+            tools:text="123.00" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:text="@string/txt_deposit_time_s" />
+
+        <TextView
+            android:id="@+id/tvw_userpay_time"
+            style="@style/style_item_report_title_end"
+            tools:text="2024-01-11 16:00:00" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:text="@string/txt_submit_time_s" />
+
+        <TextView
+            android:id="@+id/tvw_add_time"
+            style="@style/style_item_report_title_end"
+            tools:text="2024-01-11 09:00:00" />
+    </LinearLayout>
+
+</LinearLayout>

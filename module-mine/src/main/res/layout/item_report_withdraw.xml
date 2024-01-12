@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/layout_margin"
+    android:background="@drawable/bg_white_6"
+    android:orientation="vertical"
+    android:padding="@dimen/layout_margin">
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:text="@string/txt_order_num" />
+
+        <TextView
+            style="@style/style_item_report_title_center"
+            android:text="@string/txt_withdraw_type" />
+
+        <TextView
+            style="@style/style_item_report_title_end"
+            android:text="@string/txt_status" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            android:id="@+id/tvw_entry"
+            style="@style/style_item_report_value"
+            tools:text="33805428" />
+
+        <TextView
+            android:id="@+id/tvw_bank_name"
+            style="@style/style_item_report_value_center"
+            tools:text="USDT" />
+
+        <TextView
+            android:id="@+id/tvw_status"
+            style="@style/style_item_report_value_end"
+            tools:text="失败" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:text="@string/txt_withdraw_amount" />
+
+        <TextView
+            style="@style/style_item_report_title_center"
+            android:text="@string/txt_fee" />
+
+        <TextView
+            style="@style/style_item_report_title_end"
+            android:text="" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            android:id="@+id/tvw_amount"
+            style="@style/style_item_report_value"
+            tools:text="5.00" />
+
+        <TextView
+            android:id="@+id/tvw_fee"
+            style="@style/style_item_report_value_center"
+            android:text="--" />
+
+        <TextView
+            style="@style/style_item_report_value_end"
+            android:text="" />
+    </LinearLayout>
+
+    <View style="@style/style_filter_info_dividing" />
+
+    <LinearLayout
+        style="@style/style_item_ll_row"
+        android:layout_marginTop="6dp">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:layout_weight="0"
+            android:minEms="0"
+            android:text="@string/txt_submit_time_s" />
+
+        <TextView
+            android:id="@+id/tvw_accept_time"
+            style="@style/style_item_report_title"
+            tools:text="2024-01-11 09:00:00" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:layout_weight="0"
+            android:minEms="0"
+            android:text="@string/txt_income_time_s" />
+
+        <TextView
+            android:id="@+id/tvw_finish_time"
+            style="@style/style_item_report_title"
+            tools:text="2024-01-11 16:00:00" />
+    </LinearLayout>
+
+</LinearLayout>
