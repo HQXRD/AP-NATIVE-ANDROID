@@ -40,6 +40,13 @@ public class RouterFragmentPath {
         public static final String PAGER_BIND_USDT = MINE + "/BindUsdtList";
         public static final String PAGER_BIND_USDT_ADD = MINE + "/BindUsdtAdd";
         public static final String PAGER_BIND_USDT_REBIND = MINE + "/BindUsdtRebind";
+
+        public static final String PAGER_ACCOUNT_CHANGE = MINE + "/AccountChange"; //账变记录
+        public static final String PAGER_PROFIT_LOSS = MINE + "/ProfitLoss"; // 盈亏报表
+        public static final String PAGER_REBATE_REPORT = MINE + "/RebateReport"; // 返水报表
+        public static final String PAGER_THIRD_TRANSFER = MINE + "/ThirdTransfer"; // 三方转账
+        public static final String PAGER_RECHARGE_WITHDRAW = MINE + "/RechargeWithdraw"; // 充提记录
+        public static final String PAGER_RECHARGE_FEEDBACK_DETAIL = MINE + "/RechargeFeedbackDetail"; // 充提记录-反馈详情
     }
 
     public static class Wallet {
