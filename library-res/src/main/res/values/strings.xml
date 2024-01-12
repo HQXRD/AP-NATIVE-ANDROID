@@ -37,4 +37,46 @@
     <string name="txt_submit">提交</string>
     <string name="txt_note_asterisks_cannot_empty">说明：*为必填信息！</string>
 
+    <string name="txt_type">类型</string>
+    <string name="txt_status">状态</string>
+    <string name="txt_all">所有</string>
+    <string name="txt_succ">成功</string>
+    <string name="txt_fail">失败</string>
+    <string name="txt_processed">已处理</string>
+    <string name="txt_to_process">待处理</string>
+    <string name="txt_expired">超时无效</string>
+
+    <string name="txt_all_status">所有状态</string>
+    <string name="txt_received">已到账</string>
+    <string name="txt_unreceived">未到账</string>
+
+    <string name="txt_rebate_ty">体育返水</string>
+    <string name="txt_rebate_zr">真人返水</string>
+    <string name="txt_rebate_qp">棋牌返水</string>
+    <string name="txt_rebate_dj">电竞返水</string>
+
+    <string name="txt_report_acc_change">账变记录</string>
+    <string name="txt_report_profit">盈亏报表</string>
+    <string name="txt_report_rebate">返水报表</string>
+    <string name="txt_report_3d">三方转账</string>
+    <string name="txt_report_bt">投注记录</string>
+    <string name="txt_report_recharge">充提记录</string>
+
+    <string name="txt_venue_all">所有平台</string>
+    <string name="txt_venue_cp">中心钱包</string>
+    <string name="txt_venue_pt">PT娱乐</string>
+    <string name="txt_venue_bbin">BBIN娱乐</string>
+    <string name="txt_venue_ag">AG街机捕鱼</string>
+    <string name="txt_venue_obgqp">DB棋牌</string>
+    <string name="txt_venue_obgdj">DB电竞</string>
+    <string name="txt_venue_yy">云游棋牌</string>
+
+    <string name="txt_query_type">查询类型</string>
+    <string name="txt_record_recharge">充值记录</string>
+    <string name="txt_record_withdraw">提款记录</string>
+    <string name="txt_record_feedback">未到账反馈记录</string>
+
+    <string name="txt_no_data">没有数据</string>
+    <string name="txt_remark">备注</string>
+
 </resources>

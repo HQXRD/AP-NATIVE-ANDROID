@@ -1,3 +1,14 @@
 <resources>
-    <string name="main_name">主业务组件</string>
+    <string name="main_name">杏彩体育</string>
+    <string name="txt_pg_home">首页</string>
+    <string name="txt_pg_discount">活动</string>
+    <string name="txt_pg_recharge">充值</string>
+    <string name="txt_pg_mine">我的</string>
+
+    <string name="app_name">杏彩体育</string>
+    <string name="domain_url">http</string>
+    <string name="channel_name">xingcai</string>
+    <string name="build_time">20240112</string>
+    <string name="mixpanel_token">abc123</string>
+    <bool name="is_tag">false</bool>
 </resources>
