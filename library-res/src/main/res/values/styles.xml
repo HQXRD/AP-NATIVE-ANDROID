@@ -42,6 +42,16 @@
         <attr name="imageCorn" format="dimension" />
     </declare-styleable>
 
+    <!-- 日期和类型选择组件 (报表用) -->
+    <declare-styleable name="filterView">
+        <attr name="typeName1" format="string" />
+        <attr name="type1Visibility" format="integer" />
+        <attr name="typeName2" format="string" />
+        <attr name="type2Visibility" format="integer" />
+        <attr name="statusName" format="string" />
+        <attr name="statusVisibility" format="integer" />
+    </declare-styleable>
+
     <!-- 每个页面顶部标题栏的样式-标题 -->
     <style name="style_cm_title_top">
         <item name="android:layout_width">wrap_content</item>
@@ -268,6 +278,49 @@
         <item name="android:textSize">11sp</item>
     </style>
 
+    <!-- 通用 筛选 标题 外框 -->
+    <style name="style_filter_info_row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <!-- 通用 筛选 值的下划线 -->
+    <style name="style_filter_info_div_row" parent="style_filter_info_row">
+        <item name="android:layout_marginTop">1dp</item>
+    </style>
+    <!-- 通用 筛选 标题 样式 -->
+    <style name="style_filter_info_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">start</item>
+        <item name="android:minEms">4</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textColor">@color/clr_filter_txt_gray</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_filter_info_div_left" parent="style_filter_info_title">
+        <item name="android:layout_height">1dp</item>
+    </style>
+    <!-- 通用 筛选 值 样式 -->
+    <style name="style_filter_info_value" parent="style_filter_info_title">
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/clr_filter_txt_black</item>
+    </style>
+    <!-- 通用 筛选 值 下拉 -->
+    <style name="style_filter_info_spn" parent="style_filter_info_value">
+        <item name="android:drawableEnd">@mipmap/bt_icon_expand</item>
+    </style>
+    <!-- 通用 筛选 下划线 -->
+    <style name="style_filter_info_dividing">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">@color/clr_grey_080</item>
+    </style>
+
     <style name="style_cm_edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>
@@ -311,6 +364,12 @@
     <style name="style_cm_spinner2" parent="style_cm_edt">
         <item name="android:layout_weight">1</item>
         <item name="android:drawableEnd">@mipmap/bt_icon_expand</item>
+    </style>
+    <!-- 通用下拉框 不带边框,一行有两个或多个下拉菜单的 小字-->
+    <style name="style_cm_spinner3" parent="style_cm_edt">
+        <item name="android:layout_weight">1</item>
+        <item name="android:drawableEnd">@mipmap/bt_icon_expand</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <!-- 通用 金额输入框(带背景) -->
@@ -470,6 +529,53 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 报表 列表项 行 -->
+    <style name="style_item_ll_row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!-- 报表 列表项 标题和值 基类 -->
+    <style name="style_item_report_base">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:minEms">5</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+        <item name="android:textColor">@color/clr_filter_txt_gray</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!-- 报表 列表项 标题灰色 靠左 -->
+    <style name="style_item_report_title" parent="style_item_report_base">
+        <item name="android:gravity">start</item>
+    </style>
+    <!-- 报表 列表项 标题灰色 居中 -->
+    <style name="style_item_report_title_center" parent="style_item_report_base">
+        <item name="android:gravity">center</item>
+    </style>
+    <!-- 报表 列表项 标题灰色 靠右 -->
+    <style name="style_item_report_title_end" parent="style_item_report_base">
+        <item name="android:gravity">end</item>
+    </style>
+
+    <!-- 报表 列表项 值 黑色 靠左 -->
+    <style name="style_item_report_value" parent="style_item_report_base">
+        <item name="android:textColor">@color/clr_filter_txt_black</item>
+    </style>
+    <!-- 报表 列表项 值 黑色 居中 -->
+    <style name="style_item_report_value_center" parent="style_item_report_value">
+        <item name="android:gravity">center</item>
+    </style>
+    <!-- 报表 列表项 值 黑色 靠右 -->
+    <style name="style_item_report_value_end" parent="style_item_report_value">
+        <item name="android:gravity">end</item>
     </style>
 
 </resources>

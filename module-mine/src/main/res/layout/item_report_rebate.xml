@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/layout_margin"
+    android:background="@drawable/bg_white_6"
+    android:orientation="vertical"
+    android:padding="@dimen/layout_margin">
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            android:id="@+id/tvw_date"
+            style="@style/style_item_report_title"
+            tools:text="2024-01-01" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            android:id="@+id/tvw_type"
+            style="@style/style_item_report_title"
+            android:text="真人返水" />
+
+        <TextView
+            android:id="@+id/tvw_pstatus"
+            style="@style/style_item_report_title_end"
+            android:textColor="@color/clr_text_red_green_selector"
+            tools:text="已到账" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:text="@string/txt_day_bt_amount" />
+
+        <TextView
+            style="@style/style_item_report_title_center"
+            android:text="@string/txt_efficient_bt_amount" />
+
+        <TextView
+            style="@style/style_item_report_title_end"
+            android:text="@string/txt_rebate_amount" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            android:id="@+id/tvw_bet"
+            style="@style/style_item_report_value"
+            tools:text="5.00" />
+
+        <TextView
+            android:id="@+id/tvw_liushui"
+            style="@style/style_item_report_value_center"
+            tools:text="5.00" />
+
+        <TextView
+            android:id="@+id/tvw_self_money"
+            style="@style/style_item_report_value_end"
+            android:textColor="@color/clr_red_01"
+            tools:text="0.0000" />
+    </LinearLayout>
+
+</LinearLayout>

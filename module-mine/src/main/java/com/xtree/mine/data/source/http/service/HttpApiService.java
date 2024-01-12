@@ -2,12 +2,18 @@ package com.xtree.mine.data.source.http.service;
 
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
+import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.BankCardVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.ProfileVo;
+import com.xtree.mine.vo.ProfitLossReportVo;
+import com.xtree.mine.vo.RebateReportVo;
+import com.xtree.mine.vo.RechargeReportVo;
 import com.xtree.mine.vo.SettingsVo;
+import com.xtree.mine.vo.ThirdGameTypeVo;
+import com.xtree.mine.vo.ThirdTransferReportVo;
 import com.xtree.mine.vo.UsdtVo;
 import com.xtree.mine.vo.UserBankConfirmVo;
 import com.xtree.mine.vo.UserBankProvinceVo;
@@ -204,6 +210,62 @@ public interface HttpApiService {
     @POST("/security/{key}rebinding?")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<UserUsdtConfirmVo> doRebindUsdt(@Path("key") String key, @QueryMap Map<String, String> queryMap, @Body Map<String, String> map);
+
+    /**
+     * 账变记录
+     * starttime=2024-01-09 00:00:00&endtime=2024-01-10 23:59:59&ordertype=0&status=0&p=1&pn=20&client=m
+     */
+    @GET("/report/selfbankreport?")
+    Flowable<AccountChangeVo> getAccountChangeReport(@QueryMap Map<String, String> map);
+
+    /**
+     * 盈亏报表-查类型
+     */
+    @GET("/api/game/thirdgametype?")
+    Flowable<BaseResponse<List<ThirdGameTypeVo>>> getThirdGameType();
+
+    /**
+     * 盈亏报表-查列表
+     */
+    @GET("/gameinfo/eprofitlossNew?")
+    Flowable<ProfitLossReportVo> getProfitLoss(@QueryMap Map<String, String> map);
+
+    /**
+     * 返水报表-查列表
+     * ?controller=compact&action=userantireport&client=m
+     * &starttime=2024-01-10 00:00:00&endtime=2024-01-11 23:59:59&type=0&pstatus=0&p=1&pn=15&orderby=date&sort=desc
+     */
+    @GET("/?")
+    Flowable<RebateReportVo> getRebateReport(@QueryMap Map<String, String> map);
+
+    /**
+     * 第三方转账
+     * ?controller=report&action=fundreport&isgetdata=1&client=m
+     * &starttime=2024-01-10 00:00:00&endtime=2024-01-11 23:59:59&out_money=all&in_money=all&status=all&p=1&page_size=10
+     */
+    @GET("/?")
+    Flowable<ThirdTransferReportVo> getThirdTransferReport(@QueryMap Map<String, String> map);
+
+    /**
+     * 充值记录
+     * ?starttime=2024-01-10 00:00:00&endtime=2024-01-11 23:59:59&p=1&pn=10&client=m
+     */
+    @GET("/report/emailreport?")
+    Flowable<RechargeReportVo> getRechargeReport(@QueryMap Map<String, String> map);
+
+    /**
+     * 提款记录
+     * ?starttime=2024-01-10 00:00:00&endtime=2024-01-11 23:59:59&p=1&pn=10&client=m
+     */
+    @GET("/report/withdrawalreport?")
+    Flowable<RechargeReportVo> getWithdrawReport(@QueryMap Map<String, String> map);
+
+    /**
+     * 未到账反馈记录
+     * ?starttime=2023-10-10 00:00&endtime=2024-01-11 23:59&p=1&page_size=10&client=m
+     */
+    @GET("/api/deposit/customerinfos?")
+    Flowable<BaseResponse<RechargeReportVo>> getFeedbackReport(@QueryMap Map<String, String> map);
 
     /**
      * 获取 FB体育请求服务地址

@@ -155,6 +155,8 @@
     <!-- 首页模块 end-->
 
     <!-- 通用 begin -->
+    <!-- 通用背景色 -->
+    <color name="clr_bg_main">#F2F3F7</color>
     <color name="bg_main">#F5F6FB</color>
     <color name="clr_white">#FFFFFF</color>
     <color name="clr_transparent">#00000000</color>
@@ -179,6 +181,10 @@
     <color name="clr_grey_13">#99A0B1</color>
     <color name="clr_gray_30">#4DDFDCE9</color>
     <color name="clr_gray_021">#767677</color>
+    <!-- 筛选框 灰色 标题 -->
+    <color name="clr_filter_txt_gray">#A1A1A1</color>
+    <!-- 筛选框 黑色 值 -->
+    <color name="clr_filter_txt_black">#1E1E1E</color>
 
     <color name="clr_grey_menu">#767677</color>
 
@@ -225,6 +231,11 @@
 
     <color name="clr_orange_01">#FF804B</color>
     <color name="clr_orange_03">#EE5A5A</color>
+
+    <!-- 报表-盈亏 红色 -->
+    <color name="clr_red_01">#FF5050</color>
+    <!-- 报表-盈亏 绿色 -->
+    <color name="clr_green_01">#20B56E</color>
 
     <color name="clr_blue_03">#119BFF</color>
     <color name="clr_blue_05">#376CAA</color>
