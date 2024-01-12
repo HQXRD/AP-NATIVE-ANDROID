@@ -2,6 +2,7 @@ package com.xtree.bet.ui.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
@@ -39,5 +40,7 @@ public class BetResultOptionAdapter extends BaseAdapter<BetConfirmOption> {
         binding.ivPlayType.setText(playTypeName);
         binding.ivMatchTeam.setText(option.getTeamName());
         binding.ivOdd.setText("@" + option.getOption().getOdd());
+        binding.ivOptionDelete.setVisibility(View.GONE);
+
     }
 }

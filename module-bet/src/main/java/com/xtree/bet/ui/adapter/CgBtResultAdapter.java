@@ -28,7 +28,7 @@ public class CgBtResultAdapter extends BaseAdapter<BtResult> {
     protected void convert(ViewHolder holder, BtResult btResult, int position) {
         BtLayoutCarCgResultItemBinding binding = BtLayoutCarCgResultItemBinding.bind(holder.itemView);
         CgOddLimit cgOddLimit = cgOddLimitList.get(position);
-        if (getItemCount() > 1 || !TextUtils.isEmpty(cgOddLimit.getCgName())) { // 串关
+        if (getItemCount() > 1 || !TextUtils.equals("单关", cgOddLimit.getCgName())) { // 串关
             binding.cslCgDan.setVisibility(View.GONE);
             binding.cslCgCc.setVisibility(View.VISIBLE);
             binding.tvName.setText(cgOddLimit.getCgName());

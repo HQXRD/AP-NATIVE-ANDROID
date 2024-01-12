@@ -21,7 +21,11 @@ public class CgOddLimitFb implements CgOddLimit{
 
     @Override
     public int getCgCount() {
-        return cgOddLimitInfo.sn;
+        if(cgOddLimitInfo != null) {
+            return cgOddLimitInfo.sn;
+        }else {
+            return 1;
+        }
     }
 
     @Override

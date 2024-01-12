@@ -128,4 +128,13 @@ public interface PMApiService {
     @POST("/yewu11/v1/w/videoAnimationUrlPB")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<PMBaseResponse<VideoAnimationInfo>> videoAnimationUrlPB(@Body Map<String, String> map);
+
+    /**
+     * 获取 PM赛事列表
+     * @return
+     */
+    @POST("/yewu11/v1/m/getMatchBaseInfoByMidsPB")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<PMBaseResponse<List<MatchInfo>>> getMatchBaseInfoByMidsPB(@Body PMListReq pmListReq);
+
 }

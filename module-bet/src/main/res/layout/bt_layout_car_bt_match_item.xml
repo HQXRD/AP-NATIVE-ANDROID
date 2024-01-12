@@ -85,7 +85,7 @@
                 android:drawablePadding="5dp"
                 android:gravity="center_vertical"
                 android:paddingStart="5dp"
-                android:text="本场赛事已关闭"
+                android:text="玩法已关闭"
                 android:textColor="@color/bt_color_text_match_close"
                 android:textSize="@dimen/bt_text_10sp" />
         </LinearLayout>

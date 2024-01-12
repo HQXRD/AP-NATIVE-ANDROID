@@ -4,8 +4,10 @@ import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
 import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
 
 import android.app.Application;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.xtree.bet.ui.adapter.BetConfirmOptionAdapter;
 import com.xtree.bet.ui.adapter.CgOddLimitAdapter;
+import com.xtree.bet.ui.adapter.CgOddLimitSecAdapter;
 import com.xtree.bet.ui.viewmodel.fb.FBBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.pm.PMBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateBtCarViewModel;
@@ -38,6 +41,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
+import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
@@ -54,21 +58,47 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     List<CgOddLimit> cgOddLimitList = new ArrayList<>();
 
     private BetConfirmOptionAdapter betConfirmOptionAdapter;
-    private CgOddLimitAdapter cgOddLimitAdapter;
+    private CgOddLimitSecAdapter cgOddLimitAdapter;
     private KeyboardView keyboardView;
+    /**
+     * 是否有已关闭的投注选项
+     */
+    private boolean hasCloseOption;
     private String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
 
-    private KeyBoardListener listener = new KeyBoardListener() {
+    private KeyBoardListener mListener = new KeyBoardListener() {
         @Override
         public void showKeyBoard(boolean isShow) {
             showOrHideKeyBoard(isShow);
         }
 
         @Override
-        public void clearFocus(View view) {
-            view.clearFocus();
+        public void scroll(int height) {
+            binding.nsvOption.postDelayed(() -> {
+
+
+            }, 220);
+
         }
     };
+
+    public void showOrHideKeyBoard(boolean isShow){
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)binding.vSpace.getLayoutParams();
+        if(isShow) {
+            keyboardView.show();
+            if(BtCarManager.isCg()) {
+                binding.llKeyboard.postDelayed(() -> {
+                    params.height = binding.llKeyboard.getMeasuredHeight() + ConvertUtils.dp2px(10);
+                    binding.vSpace.setLayoutParams(params);
+                }, 100);
+            }
+        }else{
+            keyboardView.hide();
+            params.height = 0;
+            binding.vSpace.setLayoutParams(params);
+        }
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,10 +107,11 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     @Override
     public void initView() {
         binding.rvBtOption.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        binding.rvBtCg.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        //binding.rvBtCg.setLayoutManager(new LinearLayoutManager(this.getContext()));
         keyboardView = new KeyboardView(getContext(), null);
         keyboardView.setVisibility(View.GONE);
-        keyboardView.setListener(listener);
+        keyboardView.setKeyBoardListener(mListener);
+        keyboardView.setParent(binding.nsvOption);
         binding.ivConfirm.setCallBack(() -> {
             viewModel.bet(betConfirmOptionList, cgOddLimitList);
         });
@@ -138,6 +169,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         viewModel.batchBetMatchMarketOfJumpLine(betConfirmOptionList);
 
     }
+    int index = 0;
     @Override
     public void onResume() {
         super.onResume();
@@ -145,7 +177,10 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    //batchBetMatchMarketOfJumpLine();
+                    if(index == 0) {
+                        batchBetMatchMarketOfJumpLine();
+                    }
+                    index ++;
                 })
         );
     }
@@ -163,8 +198,11 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     @Override
     public void initViewObservable() {
         viewModel.btConfirmInfoDate.observe(this, betConfirmOptions -> {
-
+            hasCloseOption = false;
             for (int i = 0; i < betConfirmOptionList.size(); i ++){
+                if(!hasCloseOption){
+                    hasCloseOption = betConfirmOptionList.get(i).isClose();
+                }
                 if (TextUtils.equals(platform, PLATFORM_FB)) {
                     betConfirmOptionList.get(i).setRealData(betConfirmOptions.get(i).getRealData());
                 }else{
@@ -177,6 +215,12 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 }
             }
 
+            if(hasCloseOption){
+                binding.ivConfirm.setEnabled(false);
+            }else{
+                binding.ivConfirm.setEnabled(true);
+            }
+
             if (betConfirmOptionAdapter == null) {
                 betConfirmOptionAdapter = new BetConfirmOptionAdapter(getContext(), betConfirmOptionList);
                 binding.rvBtOption.setAdapter(betConfirmOptionAdapter);
@@ -185,13 +229,18 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             }
         });
         viewModel.cgOddLimitDate.observe(this, cgOddLimits -> {
-            this.cgOddLimitList = cgOddLimits;
+
             if (cgOddLimitAdapter == null) {
-                cgOddLimitAdapter = new CgOddLimitAdapter(getContext(), cgOddLimits);
-                cgOddLimitAdapter.setListener(listener);
+                this.cgOddLimitList = cgOddLimits;
+                cgOddLimitAdapter = new CgOddLimitSecAdapter(getContext(), cgOddLimits);
+                cgOddLimitAdapter.setKeyBoardListener(mListener);
                 cgOddLimitAdapter.setKeyboardView(keyboardView);
                 binding.rvBtCg.setAdapter(cgOddLimitAdapter);
             }else{
+                for (int i = 0; i < cgOddLimitList.size(); i ++) {
+                    cgOddLimits.get(i).setBtAmount(cgOddLimitList.get(i).getBtAmount());
+                }
+                this.cgOddLimitList = cgOddLimits;
                 cgOddLimitAdapter.setNewData(cgOddLimits);
                 cgOddLimitAdapter.setRefresh(true);
             }
@@ -203,29 +252,13 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     }
 
     public void batchBetMatchMarketOfJumpLine(){
+        betConfirmOptionList = BtCarManager.getBtCarList();
         viewModel.batchBetMatchMarketOfJumpLine(betConfirmOptionList);
-    }
-
-    public void showOrHideKeyBoard(boolean isShow){
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)binding.vSpace.getLayoutParams();
-        if(isShow) {
-            keyboardView.setVisibility(View.VISIBLE);
-            if(BtCarManager.isCg()) {
-                binding.llKeyboard.postDelayed(() -> {
-                    params.height = binding.llKeyboard.getMeasuredHeight();
-                    binding.vSpace.setLayoutParams(params);
-                }, 200);
-            }
-        }else{
-            keyboardView.setVisibility(View.GONE);
-            params.height = 0;
-            binding.vSpace.setLayoutParams(params);
-        }
     }
 
     public interface KeyBoardListener{
         void showKeyBoard(boolean isShow);
-        void clearFocus(View view);
+        void scroll(int height);
     }
 
     @Override

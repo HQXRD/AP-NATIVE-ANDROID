@@ -75,15 +75,29 @@ public class BetConfirmOptionFb implements BetConfirmOption{
     @Override
     public String getOptionName() {
         String optionName;
-        String name = getOption().getName();
-        String sortName = getOption().getSortName();
-        if(name != null && sortName != null){
-            optionName = getOption().getName().length() > getOption().getSortName().length() ? getOption().getName() : getOption().getSortName();
-        } else if (sortName == null) {
-            optionName = name;
-        } else {
-            optionName = sortName;
+
+        /**
+         * 选项全称，投注框一般用全称展示 String getName() na
+         */
+
+        /**
+         * 选项简称(全名or简名，订单相关为全名，否则为简名)， 赔率列表一般都用简称展示 public String getSortName()  nm
+         */
+
+        if(btConfirmOptionInfo != null && btConfirmOptionInfo.op != null) {
+            String name = btConfirmOptionInfo.op.na;
+            String sortName = btConfirmOptionInfo.op.nm;
+            if(name != null && sortName != null){
+                optionName = name.length() > sortName.length() ? name : sortName;
+            } else if (sortName == null) {
+                optionName = name;
+            } else {
+                optionName = sortName;
+            }
+        }else{
+            optionName = option.getName() + " " + option.getLine();
         }
+
         return optionName;
     }
 

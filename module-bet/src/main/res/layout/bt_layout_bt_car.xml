@@ -94,13 +94,12 @@
                         tools:itemCount="3"
                         tools:listitem="@layout/bt_layout_car_bt_match_item" />
 
-                    <androidx.recyclerview.widget.RecyclerView
+                    <com.xtree.bet.weight.CgOddLimitView
                         android:id="@+id/rv_bt_cg"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toBottomOf="@+id/rv_bt_option"
-                        tools:itemCount="1"
-                        tools:listitem="@layout/bt_layout_car_cg_item" />
+                        android:orientation="vertical"/>
 
                     <LinearLayout
                         android:id="@+id/btn_add_match"

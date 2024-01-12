@@ -17,6 +17,7 @@ import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.response.fb.MatchListRsp;
+import com.xtree.bet.bean.ui.MatchPm;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.PlayGroup;
 import com.xtree.bet.bean.ui.PlayGroupFb;
@@ -51,13 +52,15 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      * 玩法ID，与PLAY_METHOD_NAMES一一对应
      */
     private String[] PLAY_METHOD_TYPES = new String[]{"6", "1", "4", "2", "7"};
-
-    private List<Match> mMatchList = new ArrayList<>();
-    private List<Match> mChampionMatchList = new ArrayList<>();
-    private Map<String, Match> mMapMatch = new HashMap<>();
+    private Map<String, League> mMapLeague = new HashMap<>();
     private List<League> mLeagueList = new ArrayList<>();
     private List<League> mGoingOnLeagueList = new ArrayList<>();
-    Map<String, League> mMapLeague = new HashMap<>();
+    private List<Match> mMatchList = new ArrayList<>();
+    private Map<String, Match> mMapMatch = new HashMap<>();
+
+    private List<Match> mChampionMatchList = new ArrayList<>();
+    private Map<String, Match> mChampionMatchMap = new HashMap<>();
+
     private Map<String, List<Integer>> sportCountMap = new HashMap<>();
     private int currentPage = 1;
     private int goingOnPageSize = 300;
@@ -218,6 +221,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
         if (isRefresh) {
             mChampionMatchList.clear();
+            mChampionMatchMap.clear();
         }
 
         Disposable disposable = (Disposable) model.getApiService().getFBList(FBListReq)
@@ -360,6 +364,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             }else{
                 int index = mMatchList.indexOf(mMapMatch.get(String.valueOf(match.getId())));
                 if(index > -1) {
+                    mMapMatch.put(String.valueOf(match.getId()), match);
                     mMatchList.set(index, match);
                 }
             }
@@ -406,6 +411,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             }else{
                 int index = mMatchList.indexOf(mMapMatch.get(String.valueOf(match.getId())));
                 if(index > -1) {
+                    mMapMatch.put(String.valueOf(match.getId()), match);
                     mMatchList.set(index, match);
                 }
             }
@@ -422,6 +428,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         for (MatchInfo matchInfo : matchInfoList) {
             Match match = new MatchFb(matchInfo);
             mChampionMatchList.add(match);
+            mChampionMatchMap.put(String.valueOf(match.getId()), match);
         }
 
     }
@@ -433,11 +440,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      */
     private void setOptionOddChange(List<MatchInfo> matchInfoList) {
         List<Match> newMatchList = new ArrayList<>();
-        Map<String, Match> map = new HashMap<>();
-
-        for (Match match : mMatchList) {
-            map.put(String.valueOf(match.getId()), match);
-        }
 
         for (MatchInfo matchInfo : matchInfoList) {
             Match newMatch = new MatchFb(matchInfo);
@@ -459,24 +461,31 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
 
         for (Match match : newMatchList) {
-            Match oldMatch = map.get(String.valueOf(match.getId()));
+            Match oldMatch = mMapMatch.get(String.valueOf(match.getId()));
+
             if (oldMatch != null) {
-                mMatchList.set(mMatchList.indexOf(oldMatch), match);
+                int index = mMatchList.indexOf(oldMatch);
+                if(index > -1) {
+                    mMatchList.set(mMatchList.indexOf(oldMatch), match);
+                }
             }
         }
 
-        if(mUpdateLeagueList != null) {
-            for (League league : mUpdateLeagueList) {
-                if (!league.isHead()) {
-                    for (Match match : newMatchList) {
-                        Match oldMatch = map.get(String.valueOf(match.getId()));
+        for (Match match : newMatchList) {
+            for (League league : mLeagueList) {
+                if (!league.isHead() && league.isExpand()) {
+                    Match oldMatch = mMapMatch.get(String.valueOf(match.getId()));
+                    if(oldMatch != null) {
                         int index = league.getMatchList().indexOf(oldMatch);
-                        if (oldMatch != null && index > -1) {
+                        if (index > -1) {
                             league.getMatchList().set(index, match);
+                            mMapMatch.put(String.valueOf(match.getId()), match);
+                            break;
                         }
                     }
                 }
             }
+
         }
     }
 
@@ -487,11 +496,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      */
     private void setChampionOptionOddChange(List<MatchInfo> matchInfoList) {
         List<Match> newMatchList = new ArrayList<>();
-        Map<String, Match> map = new HashMap<>();
-
-        for (Match match : mChampionMatchList) {
-            map.put(String.valueOf(match.getId()), match);
-        }
 
         for (MatchInfo matchInfo : matchInfoList) {
             Match newMatch = new MatchFb(matchInfo);
@@ -513,9 +517,10 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
 
         for (Match match : newMatchList) {
-            Match oldMatch = map.get(String.valueOf(match.getId()));
+            Match oldMatch = mChampionMatchMap.get(String.valueOf(match.getId()));
             if (oldMatch != null) {
                 mChampionMatchList.set(mChampionMatchList.indexOf(oldMatch), match);
+                mChampionMatchMap.put(String.valueOf(match.getId()), match);
             }
         }
 

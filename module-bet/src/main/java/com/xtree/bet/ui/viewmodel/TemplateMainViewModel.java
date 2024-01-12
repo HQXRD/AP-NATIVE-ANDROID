@@ -35,8 +35,6 @@ public abstract class TemplateMainViewModel extends BaseViewModel<BetRepository>
      */
     private Disposable mSubscription;
 
-    public List<League> mUpdateLeagueList;
-
     public List<Date> dateList = new ArrayList<>();
 
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
@@ -80,10 +78,6 @@ public abstract class TemplateMainViewModel extends BaseViewModel<BetRepository>
 
     public void setFbLeagueData() {
         //leagueItemData.setValue(new LeagueItem());
-    }
-
-    public void setUpdateLeagueList(List<League> updateLeague) {
-        mUpdateLeagueList = updateLeague;
     }
 
     public String getScore(List<League> leagueList, long matchId) {

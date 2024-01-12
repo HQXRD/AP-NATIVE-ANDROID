@@ -16,11 +16,9 @@ public class BtResultPm implements BtResult {
     private static Map<String, String> statusMap = new HashMap<>();
 
     static {
-        statusMap.put("0", "已确认");
-        statusMap.put("1", "已处理");
-        statusMap.put("2", "已拒单");
-        statusMap.put("3", "待确认");
-        statusMap.put("4", "失败");
+        statusMap.put("0", "投注失败");
+        statusMap.put("1", "接单");
+        statusMap.put("2", "确认中");
     }
 
     public BtResultPm(SeriesOrderInfo seriesOrderInfo){
@@ -44,7 +42,7 @@ public class BtResultPm implements BtResult {
 
     @Override
     public boolean isSuccessed() {
-        return seriesOrderInfo.orderStatusCode != 2 && seriesOrderInfo.orderStatusCode != 4;
+        return seriesOrderInfo.orderStatusCode != 0;
     }
 
     @Override

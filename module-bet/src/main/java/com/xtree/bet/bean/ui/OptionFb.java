@@ -150,7 +150,7 @@ public class OptionFb implements Option{
     @Override
     public void setChange(double oldOdd) {
         change = oldOdd < getOdd() ? 1 : oldOdd > getOdd() ? -1 : 0;
-        Log.e("test", "===========" + change);
+        //Log.e("test", "===========" + change);
         optionInfo.change = change;
     }
     /**
