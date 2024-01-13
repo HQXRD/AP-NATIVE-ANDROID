@@ -100,7 +100,8 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         });
         binding.tvwRecord.setOnClickListener(v -> {
             CfLog.d("************");
-            goWebView(v, Constant.URL_DW_RECORD);
+            //goWebView(v, Constant.URL_DW_RECORD);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_RECHARGE_WITHDRAW); // 充提记录
         });
 
     }
