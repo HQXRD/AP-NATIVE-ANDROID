@@ -1,4 +1,4 @@
-package com.xtree.bet.weight;
+package com.xtree.bet.weight.pm;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,7 +7,9 @@ import androidx.annotation.NonNull;
 
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.Match;
-import com.xtree.bet.constant.Constants;
+import com.xtree.bet.constant.FBConstants;
+import com.xtree.bet.constant.PMConstants;
+import com.xtree.bet.weight.BaseDetailDataView;
 
 /**
  * 排球相关数据view(第一盘，第二盘比分等)
@@ -18,8 +20,8 @@ public class VolleyballDataView extends BaseDetailDataView {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.bt_layout_basket_data, this);
         root = findViewById(R.id.ll_root);
-        periods = new Integer[]{13002, 13003, 13004, 13005, 13006, 13007, 13008, 13009};
-        scoreType = Constants.SCORE_TYPE_PF;
+        periods = new String[]{"S120", "S121", "S122", "S123", "S124"};
+        scoreType = periods;
         setMatch(match);
     }
 }

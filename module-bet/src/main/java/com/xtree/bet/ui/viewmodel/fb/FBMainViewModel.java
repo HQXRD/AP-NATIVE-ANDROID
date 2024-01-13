@@ -22,6 +22,7 @@ import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.PlayGroup;
 import com.xtree.bet.bean.ui.PlayGroupFb;
 import com.xtree.bet.bean.ui.PlayType;
+import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.data.BetRepository;
 
 import java.util.ArrayList;
@@ -44,14 +45,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  */
 
 public class FBMainViewModel extends TemplateMainViewModel implements MainViewModel {
-    /**
-     * 体育分类ID，与sportNames一一对应
-     */
-    public static String[] SPORT_IDS = new String[]{"1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
-    /**
-     * 玩法ID，与PLAY_METHOD_NAMES一一对应
-     */
-    private String[] PLAY_METHOD_TYPES = new String[]{"6", "1", "4", "2", "7"};
+
     private Map<String, League> mMapLeague = new HashMap<>();
     private List<League> mLeagueList = new ArrayList<>();
     private List<League> mGoingOnLeagueList = new ArrayList<>();
@@ -283,7 +277,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                                 sslMap.put(String.valueOf(matchTypeStatisInfo.sid), matchTypeStatisInfo.c);
                             }
                             List<Integer> sportCountList = new ArrayList<>();
-                            for (String sportId : SPORT_IDS) {
+                            for (String sportId : FBConstants.SPORT_IDS) {
                                 sportCountList.add(sslMap.get(sportId));
                             }
                             sportCountMap.put(String.valueOf(matchTypeInfo.ty), sportCountList);
@@ -332,12 +326,12 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     @Override
     public String[] getPlayMethodTypes() {
-        return PLAY_METHOD_TYPES;
+        return FBConstants.PLAY_METHOD_TYPES;
     }
 
     @Override
     public String[] getSportId(int playMethodType) {
-        return SPORT_IDS;
+        return FBConstants.SPORT_IDS;
     }
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {

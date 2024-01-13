@@ -45,14 +45,13 @@ public interface Match extends BaseBean {
      * @param type 比分类型，例如角球、黄牌等
      * @return
      */
-    List<Integer> getScore(int type);
-
+    List<Integer> getScore(String... type);
     /**
      * 获取比分信息
      * @param type 比分类型，例如角球、黄牌等
      * @return
      */
-    List<Score> getScoreList(int type);
+    List<Score> getScoreList(String... type);
 
     /**
      * 获取单个赛事玩法总数
@@ -146,4 +145,16 @@ public interface Match extends BaseBean {
      * @param referUrl
      */
     void setReferUrl(String referUrl);
+
+    /**
+     * 是否已经产生有角球
+     * @return
+     */
+    boolean hasCornor();
+
+    /**
+     * 是否中立场
+     * @return
+     */
+    boolean isNeutrality();
 }

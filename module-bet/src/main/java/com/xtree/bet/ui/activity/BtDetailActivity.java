@@ -36,6 +36,7 @@ import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
+import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.contract.BetContract;
@@ -264,8 +265,10 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             videoUrl = mMatch.getVideoUrls().get(0);
         }
         String score = "";
-        if (mMatch.getScore(Constants.SCORE_TYPE_SCORE) != null && mMatch.getScore(Constants.SCORE_TYPE_SCORE).size() > 1) {
-            score = mMatch.getScore(Constants.SCORE_TYPE_SCORE).get(0) + " - " + mMatch.getScore(Constants.SCORE_TYPE_SCORE).get(1);
+        List<Integer> scoreList = mMatch.getScore(Constants.getScoreType());
+
+        if (scoreList != null && scoreList.size() > 1) {
+            score = scoreList.get(0) + " - " + scoreList.get(1);
         }
         ImageView thumb = new ImageView(this);
         int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
@@ -375,8 +378,12 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                     //.apply(new RequestOptions().placeholder(placeholderRes))
                     .into(binding.ivLogoVisitorTop);
 
-            if (match.getScore(Constants.SCORE_TYPE_SCORE) != null && match.getScore(Constants.SCORE_TYPE_SCORE).size() > 1) {
-                binding.tvScore.setText(match.getScore(Constants.SCORE_TYPE_SCORE).get(0) + "-" + match.getScore(Constants.SCORE_TYPE_SCORE).get(1));
+            String score;
+            List<Integer> scoreList = mMatch.getScore(Constants.getScoreType());
+
+            if (scoreList != null && scoreList.size() > 1) {
+                score = scoreList.get(0) + " - " + scoreList.get(1);
+                binding.tvScore.setText(score);
             }
             int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
             String sport = SportTypeContants.SPORT_IDS[sportType];
@@ -502,7 +509,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 finish();
             }
         } else if (id == R.id.iv_expand) {
-            fragment.expand();
+            if(fragment != null) {
+                fragment.expand();
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.response.fb.PlayTypeInfo;
 import com.xtree.bet.bean.response.fb.ScoreInfo;
+import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.FBMatchPeriod;
 
 import java.util.ArrayList;
@@ -92,10 +93,10 @@ public class MatchFb implements Match{
      * @return
      */
     @Override
-    public List<Integer> getScore(int type) {
+    public List<Integer> getScore(String... type) {
         if(matchInfo.nsg != null && !matchInfo.nsg.isEmpty()) {
             for (ScoreInfo scoreInfo : matchInfo.nsg) {
-                if (scoreInfo.tyg == type) {
+                if (TextUtils.equals(String.valueOf(scoreInfo.tyg), type[0])) {
                     return scoreInfo.sc;
                 }
             }
@@ -112,11 +113,11 @@ public class MatchFb implements Match{
      * @return
      */
     @Override
-    public List<Score> getScoreList(int type) {
+    public List<Score> getScoreList(String... type) {
         List<Score> scoreInfos = new ArrayList<>();
         if(matchInfo.nsg != null && !matchInfo.nsg.isEmpty()) {
             for (ScoreInfo scoreInfo : matchInfo.nsg) {
-                if (scoreInfo.tyg == type) {
+                if (TextUtils.equals(String.valueOf(scoreInfo.tyg), type[0])) {
                     scoreInfos.add(new ScoreFb(scoreInfo));
                 }
             }
@@ -261,9 +262,32 @@ public class MatchFb implements Match{
         return null;
     }
 
+    /**
+     * PM设置播放器请求头信息
+     * @param referUrl
+     */
     @Override
     public void setReferUrl(String referUrl) {
 
+    }
+
+    /**
+     * 是否已经产生有角球
+     * @return
+     */
+    @Override
+    public boolean hasCornor() {
+        List<Integer> cornor = getScore(String.valueOf(FBConstants.SCORE_TYPE_CORNER));
+        return cornor.get(0) > 0 || cornor.get(1) > 0;
+    }
+
+    /**
+     * 是否中立场
+     * @return
+     */
+    @Override
+    public boolean isNeutrality() {
+        return matchInfo.ne == 1;
     }
 
     @Override

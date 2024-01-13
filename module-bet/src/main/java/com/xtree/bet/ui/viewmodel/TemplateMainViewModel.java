@@ -9,7 +9,7 @@ import com.xtree.bet.bean.response.fb.LeagueItem;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.constant.Constants;
-import com.xtree.bet.constant.SportTypeContants;
+import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.data.BetRepository;
 
@@ -84,9 +84,10 @@ public abstract class TemplateMainViewModel extends BaseViewModel<BetRepository>
         for (League league : leagueList) {
             for (Match match : league.getMatchList()) {
                 if (matchId == match.getId()) {
-                    if (match.getScore(Constants.SCORE_TYPE_SCORE) != null && match.getScore(Constants.SCORE_TYPE_SCORE).size() > 1) {
-                        String scoreMain = String.valueOf(match.getScore(Constants.SCORE_TYPE_SCORE).get(0));
-                        String scoreVisitor = String.valueOf(match.getScore(Constants.SCORE_TYPE_SCORE).get(1));
+                    List<Integer> scoreList = match.getScore(Constants.getScoreType());
+                    if (scoreList != null && scoreList.size() > 1) {
+                        String scoreMain = String.valueOf(scoreList.get(0));
+                        String scoreVisitor = String.valueOf(scoreList.get(1));
                         return scoreMain + "-" + scoreVisitor;
                     }
                 }

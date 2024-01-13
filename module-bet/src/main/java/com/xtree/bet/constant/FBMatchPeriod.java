@@ -5,12 +5,9 @@ import android.util.ArrayMap;
 import java.util.Map;
 
 public class FBMatchPeriod {
-    private int code;
-    private String desc;
 
     private static Map<String, String> map = new ArrayMap<>();
 
-    // todo 继续补充所有的 see enum: match_period
     public static String getMatchPeriod(String code){
         if(map.isEmpty()){
             // 足球
@@ -37,11 +34,11 @@ public class FBMatchPeriod {
             map.put("3003", "中场休息");
             map.put("3004", "下半场");
             map.put("3005", "第一节");
-            map.put("3006", "中场休息 1/2");
+            map.put("3006", "第一节结束");
             map.put("3007", "第二节");
-            map.put("3008", "中场休息 2/3");
+            map.put("3008", "中场休息");
             map.put("3009", "第三节");
-            map.put("3010", "中场休息 3/4");
+            map.put("3010", "第三节结束");
             map.put("3011", "第四节");
             map.put("3012", "加时");
             map.put("3013", "常规时间结束");

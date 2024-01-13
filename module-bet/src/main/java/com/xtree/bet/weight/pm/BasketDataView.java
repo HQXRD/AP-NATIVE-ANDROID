@@ -1,4 +1,4 @@
-package com.xtree.bet.weight;
+package com.xtree.bet.weight.pm;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,18 +7,19 @@ import androidx.annotation.NonNull;
 
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.Match;
-import com.xtree.bet.constant.Constants;
+import com.xtree.bet.weight.BaseDetailDataView;
 
 /**
- * 冰球相关数据view(第一盘，第二盘比分等)
+ * 篮球相关数据view(第一节，第二节比分等)
  */
-public class IceBallDataView extends BaseDetailDataView {
+public class BasketDataView extends BaseDetailDataView {
 
-    public IceBallDataView(@NonNull Context context, Match match) {
+    public BasketDataView(@NonNull Context context, Match match) {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.bt_layout_basket_data, this);
         root = findViewById(R.id.ll_root);
-        periods = new Integer[]{2003, 2004, 2005, 2006, 2007};
+        periods = new String[]{"S19", "S20", "S21", "S22", "S7"};
+        scoreType = periods;
         setMatch(match);
     }
 }

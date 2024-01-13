@@ -24,6 +24,7 @@ import com.xtree.bet.BR;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.constant.Constants;
+import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.FragmentMainBinding;
@@ -40,6 +41,7 @@ import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.R;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.weight.MenuItemView;
+import com.xtree.bet.weight.PageHorizontalScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -299,6 +301,14 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         }
     }
 
+    /**
+     *
+     * @param isEnable
+     */
+    public void setRefreshLayoutEnable(boolean isEnable){
+
+    }
+
     //创建一个Item
     private BaseTabItem newItem(int drawable, String text) {
         MenuItemView normalItemView = new MenuItemView(this);
@@ -330,7 +340,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    //refreshLeague();
+                    refreshLeague();
                     viewModel.statistical(playMethodType);
                 });
         viewModel.addSubscribe(timerDisposable);
@@ -624,6 +634,17 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             for (int i = 0; i < binding.rvLeague.getExpandableListAdapter().getGroupCount(); i++) {
                 binding.rvLeague.expandGroup(i);
             }
+            mLeagueAdapter.setOnScrollListener(new PageHorizontalScrollView.OnScrollListener() {
+                @Override
+                public void onScrolled() {
+                    binding.rvLeague.setEnabled(true);
+                }
+
+                @Override
+                public void onScrolling() {
+                    binding.rvLeague.setEnabled(false);
+                }
+            });
         } else {
             if (!(binding.rvLeague.getExpandableListAdapter() instanceof LeagueAdapter)) {
                 binding.rvLeague.setAdapter(mLeagueAdapter);

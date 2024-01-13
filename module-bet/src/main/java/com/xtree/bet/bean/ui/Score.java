@@ -10,7 +10,7 @@ public interface Score {
      * 获取玩法阶段
      * @return
      */
-    int getPeriod();
+    String getPeriod();
 
     /**
      * 获取比分

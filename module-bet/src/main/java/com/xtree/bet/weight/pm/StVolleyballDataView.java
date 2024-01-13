@@ -1,0 +1,26 @@
+package com.xtree.bet.weight.pm;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+
+import androidx.annotation.NonNull;
+
+import com.xtree.bet.R;
+import com.xtree.bet.bean.ui.Match;
+import com.xtree.bet.constant.FBConstants;
+import com.xtree.bet.weight.BaseDetailDataView;
+
+/**
+ * 海滩排球相关数据view(第一盘，第二盘比分等)
+ */
+public class StVolleyballDataView extends BaseDetailDataView {
+
+    public StVolleyballDataView(@NonNull Context context, Match match) {
+        super(context);
+        LayoutInflater.from(context).inflate(R.layout.bt_layout_basket_data, this);
+        root = findViewById(R.id.ll_root);
+        periods = new String[]{"S120", "S121", "S122", "S123", "S124"};
+        scoreType = periods;
+        setMatch(match);
+    }
+}
