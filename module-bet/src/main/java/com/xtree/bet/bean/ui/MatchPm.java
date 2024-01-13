@@ -375,6 +375,11 @@ public class MatchPm implements Match {
     }
 
     @Override
+    public String getFormat() {
+        return matchInfo.mfo;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

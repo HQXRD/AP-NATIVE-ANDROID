@@ -243,11 +243,13 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         } else {
             sencondPagePlayType.setVisibility(View.GONE);
             binding.llPointer.setVisibility(View.GONE);
-            binding.llScoreData.setVisibility(View.VISIBLE);
-            binding.llScoreData.removeAllViews();
-            BaseDetailDataView mScoreDataView = BaseDetailDataView.getInstance(mContext, match, true);
-            if(mScoreDataView != null) {
-                binding.llScoreData.addView(mScoreDataView);
+            if(match.isGoingon()) {
+                binding.llScoreData.setVisibility(View.VISIBLE);
+                binding.llScoreData.removeAllViews();
+                BaseDetailDataView mScoreDataView = BaseDetailDataView.getInstance(mContext, match, true);
+                if (mScoreDataView != null) {
+                    binding.llScoreData.addView(mScoreDataView);
+                }
             }
         }
 

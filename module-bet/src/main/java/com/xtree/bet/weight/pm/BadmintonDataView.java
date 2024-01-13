@@ -23,7 +23,7 @@ public class BadmintonDataView extends BaseDetailDataView {
         scoreType = periods;
         setMatch(match, isMatchList);
         if(isMatchList) {
-            addMatchListAdditional("三局二胜 总分");
+            addMatchListAdditional(match.getFormat() + " 总分");
         }
     }
 

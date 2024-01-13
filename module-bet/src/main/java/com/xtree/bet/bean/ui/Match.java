@@ -157,4 +157,10 @@ public interface Match extends BaseBean {
      * @return
      */
     boolean isNeutrality();
+
+    /**
+     * 获取赛制
+     * @return
+     */
+    String getFormat();
 }

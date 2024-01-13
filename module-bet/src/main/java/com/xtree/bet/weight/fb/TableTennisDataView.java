@@ -23,7 +23,7 @@ public class TableTennisDataView extends BaseDetailDataView {
         scoreType = new String[]{String.valueOf(FBConstants.SCORE_TYPE_JF)};
         setMatch(match, isMatchList);
         if(isMatchList) {
-            addMatchListAdditional("三局二胜 总分");
+            addMatchListAdditional(match.getFormat() + " 总分");
         }
     }
 

@@ -23,7 +23,7 @@ public class StVolleyballDataView extends BaseDetailDataView {
         scoreType = periods;
         setMatch(match, isMatchList);
         if(isMatchList) {
-            addMatchListAdditional("五局三胜 总分");
+            addMatchListAdditional(match.getFormat() + " 总分");
         }
     }
 

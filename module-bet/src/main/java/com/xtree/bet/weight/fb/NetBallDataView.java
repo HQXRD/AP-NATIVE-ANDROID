@@ -28,7 +28,7 @@ public class NetBallDataView extends BaseDetailDataView {
         scoreType = new String[]{String.valueOf(FBConstants.SCORE_TYPE_PF)};
         setMatch(match, isMatchList);
         if(isMatchList) {
-            addMatchListAdditional("三盘二胜 总分");
+            addMatchListAdditional(match.getFormat() + " 总局数");
         }
     }
 

@@ -23,7 +23,7 @@ public class NetBallDataView extends BaseDetailDataView {
         scoreType = periods;
         setMatch(match, isMatchList);
         if(isMatchList) {
-            addMatchListAdditional("三盘二胜 总分");
+            addMatchListAdditional(match.getFormat() + " 总局数");
         }
     }
 

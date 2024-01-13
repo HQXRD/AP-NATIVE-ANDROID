@@ -23,7 +23,7 @@ public class VolleyballDataView extends BaseDetailDataView {
         scoreType = new String[]{String.valueOf(FBConstants.SCORE_TYPE_PF)};
         setMatch(match, isMatchList);
         if(isMatchList) {
-            addMatchListAdditional("五局三胜 总分");
+            addMatchListAdditional(match.getFormat() + " 总分");
         }
     }
 

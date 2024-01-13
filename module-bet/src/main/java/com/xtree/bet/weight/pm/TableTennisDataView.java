@@ -19,11 +19,11 @@ public class TableTennisDataView extends BaseDetailDataView {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.bt_layout_basket_data, this);
         root = findViewById(R.id.ll_root);
-        periods = new String[]{"47002", "47002", "47002", "47002", "47002"};
+        periods = new String[]{"S120", "S121", "S122", "S123", "S124"};
         scoreType = periods;
         setMatch(match, isMatchList);
         if(isMatchList) {
-            addMatchListAdditional("三局二胜 总分");
+            addMatchListAdditional(match.getFormat() + " 总分");
         }
     }
     

@@ -20,6 +20,7 @@ import java.util.Objects;
  * 赛事列表UI显示需要用的比赛信息结构
  */
 public class MatchFb implements Match{
+    private static final String[] CHINESE_DIGITS = {"0", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
     MatchInfo matchInfo;
 
     List<PlayType> playTypeList = new ArrayList<>();
@@ -288,6 +289,11 @@ public class MatchFb implements Match{
     @Override
     public boolean isNeutrality() {
         return matchInfo.ne == 1;
+    }
+
+    @Override
+    public String getFormat() {
+        return CHINESE_DIGITS[matchInfo.fid] + (matchInfo.sid == 5 ? "盘" : "局") + CHINESE_DIGITS[(matchInfo.fid / 2 + 1)] + "胜";
     }
 
     @Override

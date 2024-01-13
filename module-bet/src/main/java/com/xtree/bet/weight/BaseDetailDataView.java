@@ -62,6 +62,9 @@ public abstract class BaseDetailDataView extends ConstraintLayout{
     public void setMatch(Match match, boolean isMatchList){
         List<Score> scoreList = match.getScoreList(scoreType);
         scores = new ArrayList<>();
+        if(periods == null){
+            return;
+        }
         List<String> periodList = Arrays.asList(periods);
         for(Score score : scoreList){
             if(periodList.contains(score.getPeriod())){
