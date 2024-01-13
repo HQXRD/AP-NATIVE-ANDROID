@@ -15,12 +15,16 @@ import com.xtree.bet.weight.BaseDetailDataView;
  */
 public class TableTennisDataView extends BaseDetailDataView {
 
-    public TableTennisDataView(@NonNull Context context, Match match) {
+    public TableTennisDataView(@NonNull Context context, Match match, boolean isMatchList) {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.bt_layout_basket_data, this);
         root = findViewById(R.id.ll_root);
         periods = new String[]{"47002", "47002", "47002", "47002", "47002"};
         scoreType = periods;
-        setMatch(match);
+        setMatch(match, isMatchList);
+        if(isMatchList) {
+            addMatchListAdditional("三局二胜 总分");
+        }
     }
+    
 }

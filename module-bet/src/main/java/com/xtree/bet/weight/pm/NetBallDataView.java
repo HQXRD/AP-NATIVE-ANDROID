@@ -15,12 +15,17 @@ import com.xtree.bet.weight.BaseDetailDataView;
  */
 public class NetBallDataView extends BaseDetailDataView {
 
-    public NetBallDataView(@NonNull Context context, Match match) {
+    public NetBallDataView(@NonNull Context context, Match match, boolean isMatchList) {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.bt_layout_basket_data, this);
         root = findViewById(R.id.ll_root);
         periods = new String[]{"S23", "S39", "S55", "S71", "S87"};
         scoreType = periods;
-        setMatch(match);
+        setMatch(match, isMatchList);
+        if(isMatchList) {
+            addMatchListAdditional("三盘二胜 总分");
+        }
     }
+
+    
 }

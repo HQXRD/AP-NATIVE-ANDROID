@@ -196,6 +196,17 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:visibility="gone"
+            android:orientation="horizontal" />
+
+        <LinearLayout
+            android:id="@+id/ll_score_data"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:layout_marginEnd="10dp"
+            android:gravity="right"
+            android:visibility="visible"
             android:orientation="horizontal" />
 
     </LinearLayout>

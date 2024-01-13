@@ -15,12 +15,14 @@ import com.xtree.bet.weight.BaseDetailDataView;
  */
 public class BasketDataView extends BaseDetailDataView {
 
-    public BasketDataView(@NonNull Context context, Match match) {
+    public BasketDataView(@NonNull Context context, Match match, boolean isMatchList) {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.bt_layout_basket_data, this);
         root = findViewById(R.id.ll_root);
         periods = new String[]{"3005", "3006", "3007", "3008", "3009"};
         scoreType = new String[]{String.valueOf(FBConstants.SCORE_TYPE_SCORE)};
-        setMatch(match);
+        setMatch(match, isMatchList);
     }
+
+    
 }

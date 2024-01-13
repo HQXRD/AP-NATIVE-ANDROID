@@ -15,12 +15,12 @@ import com.xtree.bet.weight.BaseDetailDataView;
  */
 public class AmericanFootballDataView extends BaseDetailDataView {
 
-    public AmericanFootballDataView(@NonNull Context context, Match match) {
+    public AmericanFootballDataView(@NonNull Context context, Match match, boolean isMatchList) {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.bt_layout_basket_data, this);
         root = findViewById(R.id.ll_root);
         periods = new String[]{"6005", "6006", "6007", "6008", "6009"};
         scoreType = new String[]{String.valueOf(FBConstants.SCORE_TYPE_SCORE)};
-        setMatch(match);
+        setMatch(match, isMatchList);
     }
 }

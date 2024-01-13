@@ -19,10 +19,10 @@ import java.util.List;
  * 足球相关数据view(如红牌，角球等)
  */
 public class FbDataView extends BaseDetailDataView implements View.OnClickListener {
-    public FbDataView(@NonNull Context context, Match match) {
+    public FbDataView(@NonNull Context context, Match match, boolean isMatchList) {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.bt_layout_fb_data, this);
-        setMatch(match);
+        setMatch(match, isMatchList);
     }
 
     public void setMatch(Match match){
@@ -43,4 +43,6 @@ public class FbDataView extends BaseDetailDataView implements View.OnClickListen
     @Override
     public void onClick(View view) {
     }
+
+    
 }

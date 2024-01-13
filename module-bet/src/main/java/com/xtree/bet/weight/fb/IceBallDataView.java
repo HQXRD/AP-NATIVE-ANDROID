@@ -15,12 +15,14 @@ import com.xtree.bet.weight.BaseDetailDataView;
  */
 public class IceBallDataView extends BaseDetailDataView {
 
-    public IceBallDataView(@NonNull Context context, Match match) {
+    public IceBallDataView(@NonNull Context context, Match match, boolean isMatchList) {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.bt_layout_basket_data, this);
         root = findViewById(R.id.ll_root);
         periods = new String[]{"2003", "2004", "2005", "2006", "2007"};
         scoreType = new String[]{String.valueOf(FBConstants.SCORE_TYPE_SCORE)};
-        setMatch(match);
+        setMatch(match, isMatchList);
     }
+
+    
 }

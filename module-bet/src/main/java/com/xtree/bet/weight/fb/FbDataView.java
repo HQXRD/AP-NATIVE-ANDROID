@@ -43,4 +43,5 @@ public class FbDataView extends BaseDetailDataView implements View.OnClickListen
     @Override
     public void onClick(View view) {
     }
+
 }

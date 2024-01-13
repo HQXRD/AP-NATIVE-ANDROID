@@ -38,6 +38,7 @@ import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.xtree.bet.ui.activity.MainActivity;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
+import com.xtree.bet.weight.BaseDetailDataView;
 import com.xtree.bet.weight.DiscolourTextView;
 import com.xtree.bet.weight.PageHorizontalScrollView;
 
@@ -236,10 +237,20 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             for (int i = 0; i < sencondPagePlayType.getChildCount(); i++) {
                 setPlayTypeGroup(match, parent, (LinearLayout) sencondPagePlayType.getChildAt(i), playTypeList.get(i));
             }
+            binding.llPointer.setVisibility(View.VISIBLE);
+            binding.llScoreData.setVisibility(View.GONE);
             initPointer(binding);
         } else {
             sencondPagePlayType.setVisibility(View.GONE);
+            binding.llPointer.setVisibility(View.GONE);
+            binding.llScoreData.setVisibility(View.VISIBLE);
+            binding.llScoreData.removeAllViews();
+            BaseDetailDataView mScoreDataView = BaseDetailDataView.getInstance(mContext, match, true);
+            if(mScoreDataView != null) {
+                binding.llScoreData.addView(mScoreDataView);
+            }
         }
+
 
         binding.llRoot.setOnClickListener(view -> {
             BtDetailActivity.start(mContext, match);

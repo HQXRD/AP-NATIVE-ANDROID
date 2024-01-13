@@ -15,12 +15,17 @@ import com.xtree.bet.weight.BaseDetailDataView;
  */
 public class StVolleyballDataView extends BaseDetailDataView {
 
-    public StVolleyballDataView(@NonNull Context context, Match match) {
+    public StVolleyballDataView(@NonNull Context context, Match match, boolean isMatchList) {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.bt_layout_basket_data, this);
         root = findViewById(R.id.ll_root);
         periods = new String[]{"51002", "51003", "51004", "51005", "51006"};
         scoreType = new String[]{String.valueOf(FBConstants.SCORE_TYPE_PF)};
-        setMatch(match);
+        setMatch(match, isMatchList);
+        if(isMatchList) {
+            addMatchListAdditional("五局三胜 总分");
+        }
     }
+
+    
 }

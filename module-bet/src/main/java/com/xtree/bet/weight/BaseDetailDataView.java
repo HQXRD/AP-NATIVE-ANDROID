@@ -36,7 +36,7 @@ import java.util.List;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
-public class BaseDetailDataView extends ConstraintLayout{
+public abstract class BaseDetailDataView extends ConstraintLayout{
     protected LinearLayout root;
     /**
      * 要获取比分的阶段
@@ -46,6 +46,7 @@ public class BaseDetailDataView extends ConstraintLayout{
      * 要获取的比分类型
      */
     protected String[] scoreType;
+    protected List<Score> scores;
     public BaseDetailDataView(@NonNull Context context) {
         super(context);
     }
@@ -58,9 +59,9 @@ public class BaseDetailDataView extends ConstraintLayout{
         super(context, attrs, defStyleAttr);
     }
 
-    public void setMatch(Match match){
+    public void setMatch(Match match, boolean isMatchList){
         List<Score> scoreList = match.getScoreList(scoreType);
-        List<Score> scores = new ArrayList<>();
+        scores = new ArrayList<>();
         List<String> periodList = Arrays.asList(periods);
         for(Score score : scoreList){
             if(periodList.contains(score.getPeriod())){
@@ -76,23 +77,70 @@ public class BaseDetailDataView extends ConstraintLayout{
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                 params.leftMargin = ConvertUtils.dp2px(5);
                 textView.setLayoutParams(params);
-                int color = i == scores.size() - 1 ? R.color.bt_color_car_dialog_hight_line2 : R.color.bt_color_under_bg_primary_text;
+                int color = i == scores.size() - 1 ? R.color.bt_color_car_dialog_hight_line2 : isMatchList ? R.color.bt_text_color_primary : R.color.bt_color_under_bg_primary_text;
                 textView.setTextColor(getResources().getColor(color));
                 textView.setTextSize(10);
             }else{
                 textView = (TextView) root.getChildAt(i);
+                int color = i == scores.size() - 1 ? R.color.bt_color_car_dialog_hight_line2 : isMatchList ? R.color.bt_text_color_primary : R.color.bt_color_under_bg_primary_text;
+                textView.setTextColor(getResources().getColor(color));
             }
-            if(i == scores.size() - 1){
-                Log.e("test", getResources().getString(R.string.bt_detail_score, score.getScores().get(0), score.getScores().get(1)));
-            }
+
             textView.setText(getResources().getString(R.string.bt_detail_score, score.getScores().get(0), score.getScores().get(1)));
             if(root.getChildAt(i) == null) {
                 root.addView(textView);
             }
+
         }
     }
 
-    public static BaseDetailDataView getInstance(Context context, Match match){
+    /**
+     * 获取总分
+     * @return
+     */
+    public String getTotalScore(){
+        int mainScore = 0;
+        int visitorScore = 0;
+        for (Score score : scores) {
+            mainScore += score.getScores().get(0);
+            visitorScore += score.getScores().get(1);
+        }
+        return mainScore + "-" + visitorScore + "(" + (mainScore + visitorScore) + ")";
+    }
+
+    /**
+     * 增加赛事列表附加数据 ，如三盘两胜 总局数等
+     */
+    public void addMatchListAdditional(String info){
+        TextView textView = new TextView(getContext());
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.leftMargin = ConvertUtils.dp2px(5);
+        textView.setLayoutParams(params);
+        int color = R.color.bt_text_color_primary;
+        textView.setTextColor(getResources().getColor(color));
+        textView.setTextSize(10);
+        textView.setText(info);
+        root.addView(textView);
+
+        TextView scoreTotalTextView = new TextView(getContext()); // 总分文本
+        LinearLayout.LayoutParams scoreTotalParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        scoreTotalParams.leftMargin = ConvertUtils.dp2px(5);
+        scoreTotalTextView.setLayoutParams(scoreTotalParams);
+        color = R.color.bt_color_car_dialog_hight_line2;
+        scoreTotalTextView.setTextColor(getResources().getColor(color));
+        scoreTotalTextView.setTextSize(10);
+        scoreTotalTextView.setText(getTotalScore());
+        root.addView(scoreTotalTextView);
+    }
+
+    /**
+     *
+     * @param context
+     * @param match
+     * @param isMatchList 是否赛事列表
+     * @return
+     */
+    public static BaseDetailDataView getInstance(Context context, Match match, boolean isMatchList){
         String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
         if (TextUtils.equals(platform, PLATFORM_FB)) {
             int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
@@ -100,19 +148,19 @@ public class BaseDetailDataView extends ConstraintLayout{
             if (sport.equals(SportTypeContants.SPORT_ID_FB)) {
                 return new FbDataView(context, match);
             } else if (sport.equals(SportTypeContants.SPORT_ID_BSB)) {
-                return new BasketDataView(context, match);
+                return new BasketDataView(context, match, isMatchList);
             } else if (sport.equals(SportTypeContants.SPORT_ID_WQ)) {
-                return new NetBallDataView(context, match);
+                return new NetBallDataView(context, match, isMatchList);
             } else if (sport.equals(SportTypeContants.SPORT_ID_PQ)) {
-                return new VolleyballDataView(context, match);
+                return new VolleyballDataView(context, match, isMatchList);
             } else if (sport.equals(SportTypeContants.SPORT_ID_STPQ)) {
-                return new StVolleyballDataView(context, match);
+                return new StVolleyballDataView(context, match, isMatchList);
             } else if (sport.equals(SportTypeContants.SPORT_ID_YMQ)) {
-                return new BadmintonDataView(context, match);
+                return new BadmintonDataView(context, match, isMatchList);
             } else if (sport.equals(SportTypeContants.SPORT_ID_BBQ)) {
-                return new TableTennisDataView(context, match);
+                return new TableTennisDataView(context, match, isMatchList);
             } else if (sport.equals(SportTypeContants.SPORT_ID_BQ)) {
-                return new IceBallDataView(context, match);
+                return new IceBallDataView(context, match, isMatchList);
             }/* else if (sport.equals(SportTypeContants.SPORT_ID_SNK)) {
             return new SnkDataView(context, match);
             }*/
@@ -120,21 +168,21 @@ public class BaseDetailDataView extends ConstraintLayout{
             int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
             String sport = SportTypeContants.SPORT_IDS[sportType];
             if (sport.equals(SportTypeContants.SPORT_ID_FB)) {
-                return new com.xtree.bet.weight.pm.FbDataView(context, match);
+                return new com.xtree.bet.weight.pm.FbDataView(context, match, isMatchList);
             } else if (sport.equals(SportTypeContants.SPORT_ID_BSB)) {
-                return new com.xtree.bet.weight.pm.BasketDataView(context, match);
+                return new com.xtree.bet.weight.pm.BasketDataView(context, match, isMatchList);
             } else if (sport.equals(SportTypeContants.SPORT_ID_WQ)) {
-                return new com.xtree.bet.weight.pm.NetBallDataView(context, match);
+                return new com.xtree.bet.weight.pm.NetBallDataView(context, match, isMatchList);
             } else if (sport.equals(SportTypeContants.SPORT_ID_PQ)) {
-                return new com.xtree.bet.weight.pm.VolleyballDataView(context, match);
+                return new com.xtree.bet.weight.pm.VolleyballDataView(context, match, isMatchList);
             } else if (sport.equals(SportTypeContants.SPORT_ID_STPQ)) {
-                return new com.xtree.bet.weight.pm.StVolleyballDataView(context, match);
+                return new com.xtree.bet.weight.pm.StVolleyballDataView(context, match, isMatchList);
             } else if (sport.equals(SportTypeContants.SPORT_ID_YMQ)) {
-                return new com.xtree.bet.weight.pm.BadmintonDataView(context, match);
+                return new com.xtree.bet.weight.pm.BadmintonDataView(context, match, isMatchList);
             } else if (sport.equals(SportTypeContants.SPORT_ID_BBQ)) {
-                return new com.xtree.bet.weight.pm.TableTennisDataView(context, match);
+                return new com.xtree.bet.weight.pm.TableTennisDataView(context, match, isMatchList);
             } else if (sport.equals(SportTypeContants.SPORT_ID_BQ)) {
-                return new com.xtree.bet.weight.pm.IceBallDataView(context, match);
+                return new com.xtree.bet.weight.pm.IceBallDataView(context, match, isMatchList);
             }
         }
         return null;

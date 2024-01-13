@@ -36,7 +36,6 @@ import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
-import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.contract.BetContract;
@@ -70,7 +69,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
     private final static String KEY_MATCH = "KEY_MATCH_ID";
     private List<Category> mCategories = new ArrayList<>();
 
-    private BaseDetailDataView fbDataView;
+    private BaseDetailDataView mScoreDataView;
 
     private BtDetailOptionFragment fragment;
 
@@ -404,12 +403,12 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             }
 
             if (binding.llData.getChildCount() == 0) {
-                fbDataView = BaseDetailDataView.getInstance(this, match);
-                if (fbDataView != null) {
-                    binding.llData.addView(fbDataView);
+                mScoreDataView = BaseDetailDataView.getInstance(this, match, false);
+                if (mScoreDataView != null) {
+                    binding.llData.addView(mScoreDataView);
                 }
             } else {
-                fbDataView.setMatch(match);
+                mScoreDataView.setMatch(match, false);
             }
 
         });

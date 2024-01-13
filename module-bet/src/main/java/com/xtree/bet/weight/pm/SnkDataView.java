@@ -15,12 +15,14 @@ import com.xtree.bet.weight.BaseDetailDataView;
  */
 public class SnkDataView extends BaseDetailDataView {
 
-    public SnkDataView(@NonNull Context context, Match match) {
+    public SnkDataView(@NonNull Context context, Match match, boolean isMatchList) {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.bt_layout_basket_data, this);
         root = findViewById(R.id.ll_root);
         periods = new String[]{"47002", "47002", "47002", "47002", "47002"};
         scoreType = periods;
-        setMatch(match);
+        setMatch(match, isMatchList);
     }
+
+    
 }
