@@ -83,11 +83,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
         binding.tvwBet.setOnClickListener(v -> {
             CfLog.i("****** ");
-            goWebView(v, Constant.URL_BET_RECORD);
+            //goWebView(v, Constant.URL_BET_RECORD);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_BT_REPORT); // 投注记录
         });
         binding.tvwTransRecord.setOnClickListener(v -> {
             CfLog.i("****** ");
-            goWebView(v, Constant.URL_ACCOUNT_CHANGE);
+            //goWebView(v, Constant.URL_ACCOUNT_CHANGE);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_ACCOUNT_CHANGE); // 账变记录
         });
         binding.tvwSafe.setOnClickListener(v -> {
             CfLog.i("****** ");
@@ -103,10 +105,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             BrowserActivity.start(getContext(), title, Constant.URL_PARTNER, true);
         });
         binding.tvwYinkuiBaobiao.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_PROFIT_LOSS);
+            //goWebView(v, Constant.URL_PROFIT_LOSS);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_PROFIT_LOSS); // 盈亏报表
         });
         binding.tvwSanfangZhuanzhang.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_3RD_TRANSFER);
+            //goWebView(v, Constant.URL_3RD_TRANSFER);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_THIRD_TRANSFER); // 三方转账
         });
 
         binding.tvwSecurityCenter.setOnClickListener(v -> {
@@ -120,7 +124,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             goWebView(v, Constant.URL_VIP_CENTER);
         });
         binding.tvwFanhuiBaobiao.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_REBATE_REPORT);
+            //goWebView(v, Constant.URL_REBATE_REPORT);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_REPORT); // 返水报表
         });
 
         binding.tvwTiyuGuize.setOnClickListener(v -> {

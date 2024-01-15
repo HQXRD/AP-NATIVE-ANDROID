@@ -28,11 +28,6 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawBinding, MyWa
         return BR.viewModel;
     }
 
-    /*@Override
-    public WithdrawViewModel initViewModel() {
-        AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
-        return new ViewModelProvider(this, factory).get(WithdrawViewModel.class);
-    }*/
     @Override
     public MyWalletViewModel initViewModel() {
         AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
@@ -41,7 +36,7 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawBinding, MyWa
 
     @Override
     public void initView() {
-
+        binding.ivwBack.setOnClickListener(v -> finish());
     }
 
     @Override
@@ -55,7 +50,7 @@ public class WithdrawActivity extends BaseActivity<ActivityWithdrawBinding, MyWa
         viewModel.liveDataBalance.observe(this, new Observer<BalanceVo>() {
             @Override
             public void onChanged(BalanceVo vo) {
-                binding.tvwBalance.setText(vo.balance);
+                binding.llCenterWallet.tvwBalance.setText(vo.balance);
             }
         });
     }
