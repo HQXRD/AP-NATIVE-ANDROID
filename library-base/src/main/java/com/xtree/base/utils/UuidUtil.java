@@ -14,7 +14,7 @@ public class UuidUtil {
     }
 
     /**
-     * 获取UUID 16位,不带横线
+     * 获取UUID 24位,不带横线
      * @return
      */
     public static String getID24() {

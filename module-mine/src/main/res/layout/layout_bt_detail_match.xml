@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title_end2"
+            android:text="体育名称：" />
+
+        <TextView
+            android:id="@+id/tvw_sports_name"
+            style="@style/style_item_report_value"
+            tools:text="--" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title_end2"
+            android:text="联赛名称：" />
+
+        <TextView
+            android:id="@+id/tvw_competition_name"
+            style="@style/style_item_report_value"
+            tools:text="--" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title_end2"
+            android:text="比赛队伍：" />
+
+        <TextView
+            android:id="@+id/tvw_team"
+            style="@style/style_item_report_value"
+            tools:text="--" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title_end2"
+            android:text="开赛时间：" />
+
+        <TextView
+            android:id="@+id/tvw_event_date_time"
+            style="@style/style_item_report_value"
+            tools:text="--" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title_end2"
+            android:text="玩法类型：" />
+
+        <TextView
+            android:id="@+id/tvw_bet_type"
+            style="@style/style_item_report_value"
+            tools:text="--" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title_end2"
+            android:text="玩法内容：" />
+
+        <TextView
+            android:id="@+id/tvw_playcontent"
+            style="@style/style_item_report_value"
+            tools:text="--" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title_end2"
+            android:text="下注盘口：" />
+
+        <TextView
+            android:id="@+id/tvw_bet_content"
+            style="@style/style_item_report_value"
+            tools:text="--" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title_end2"
+            android:text="下注赔率：" />
+
+        <TextView
+            android:id="@+id/tvw_odds"
+            style="@style/style_item_report_value"
+            tools:text="--" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -32,13 +32,12 @@ public class OrderTypeVo implements FilterView.IBaseVo {
 
     @Override
     public String getShowId() {
-        return String.valueOf(id);
+        return id;
     }
 
     @Override
     public String getShowName() {
         return cntitle;
     }
-
 
 }

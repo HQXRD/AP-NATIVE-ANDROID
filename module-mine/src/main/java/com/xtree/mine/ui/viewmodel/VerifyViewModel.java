@@ -78,6 +78,8 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                         CfLog.i(vo.toString());
                         SPUtils.getInstance().put(SPKeyGlobal.USER_AUTO_THRAD_STATUS, vo.auto_thrad_status);
                         SPUtils.getInstance().put(SPKeyGlobal.HOME_PROFILE, new Gson().toJson(vo));
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_ID, vo.userid);
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_NAME, vo.username);
                         liveData.setValue(vo);
                     }
 
