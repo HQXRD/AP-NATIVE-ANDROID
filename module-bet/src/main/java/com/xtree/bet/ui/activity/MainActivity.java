@@ -161,7 +161,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     playMethodType = playMethodTypeList.get(tab.getPosition());
                     showSearchDate();
                     playMethodPos = tab.getPosition();
-                    if (playMethodType == 6) {
+                    if (tab.getPosition() == 4) {
                         binding.srlLeague.setEnableLoadMore(false);
                     } else {
                         binding.srlLeague.setEnableLoadMore(true);
@@ -260,6 +260,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             return true;
         });*/
         binding.rlCg.setOnClickListener(this);
+        binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportTypePos]);
         initBottomTab();
     }
 
@@ -340,8 +341,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    refreshLeague();
-                    viewModel.statistical(playMethodType);
+                    //refreshLeague();
+                    //viewModel.statistical(playMethodType);
                 });
         viewModel.addSubscribe(timerDisposable);
     }
@@ -573,6 +574,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 binding.srlLeague.finishRefresh();
             } else if (integer == BaseViewModel.ON_LOAD_MORE_WITH_NO_MORE_DATA) {
                 binding.srlLeague.finishLoadMoreWithNoMoreData();
+                binding.srlLeague.finishRefreshWithNoMoreData();
             } else if (integer == BaseViewModel.ONFINISH_REFRESH_FAILED) {
                 binding.srlLeague.finishRefresh(false);
             } else if (integer == BaseViewModel.ONFINISH_LOAD_MORE_FAILED) {

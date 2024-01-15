@@ -18,6 +18,7 @@ public class LeaguePm implements League{
     private boolean isExpand = true;
     private boolean isHead;
     private boolean isSelected;
+    private int matchCount; //
     public int sort;
     public LeagueInfo leagueInfo;
     public List<Match> matchList = new ArrayList<>();
@@ -95,6 +96,17 @@ public class LeaguePm implements League{
     public boolean isHead() {
         return isHead;
     }
+
+    @Override
+    public int getMatchCount() {
+        return matchCount;
+    }
+
+    @Override
+    public void setMatchCount(int matchCount) {
+        this.matchCount = matchCount;
+    }
+
     /**
      * 获取联赛区域名称
      * @return

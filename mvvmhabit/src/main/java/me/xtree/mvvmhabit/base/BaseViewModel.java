@@ -38,6 +38,7 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
 
     public final static int ONFINISH_REFRESH_FAILED = 4;
     public final static int ONFINISH_LOAD_MORE_FAILED = 5;
+    public final static int ONFINISH_NO_MORE = 6;
 
     public BaseViewModel(@NonNull Application application) {
         this(application, null);

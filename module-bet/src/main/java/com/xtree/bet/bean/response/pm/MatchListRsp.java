@@ -12,6 +12,10 @@ public class MatchListRsp implements BaseBean {
     private int pages;
     public List<MatchInfo> data = new ArrayList<>();
 
+    public int getPages() {
+        return pages;
+    }
+
     @Override
     public int describeContents() {
         return 0;

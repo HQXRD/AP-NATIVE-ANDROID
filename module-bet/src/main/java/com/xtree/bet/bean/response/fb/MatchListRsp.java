@@ -14,6 +14,14 @@ public class MatchListRsp implements BaseBean {
     private int pages;
     public List<MatchInfo> records = new ArrayList<>();
 
+    public int getPages(){
+        int totalPage = total / size;
+        if (total % size != 0) {
+            totalPage++;
+        }
+        return totalPage;
+    }
+
     @Override
     public int describeContents() {
         return 0;

@@ -158,15 +158,19 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                             leagueWaitingListData.postValue(mLeagueList);
                         }
 
-
-
-                        if (isRefresh) {
-                            finishRefresh(true);
-                        } else {
-                            if (matchListRsp != null && matchListRsp.records != null && matchListRsp.records.isEmpty()) {
-                                loadMoreWithNoMoreData();
+                        if(!finalFlag) {
+                            if (isRefresh) {
+                                if (matchListRsp != null && currentPage == matchListRsp.getPages()) {
+                                    loadMoreWithNoMoreData();
+                                } else {
+                                    finishRefresh(true);
+                                }
                             } else {
-                                finishLoadMore(true);
+                                if (matchListRsp != null && currentPage == matchListRsp.getPages()) {
+                                    loadMoreWithNoMoreData();
+                                } else {
+                                    finishLoadMore(true);
+                                }
                             }
                         }
                     }
@@ -380,6 +384,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             mLeagueList.addAll(mGoingOnLeagueList);
             League league = mLeagueList.get(0).instance();
             league.setHead(true);
+            league.setMatchCount(matchInfoList.size());
             mLeagueList.add(league);
             mGoingOnLeagueList.clear();
         }

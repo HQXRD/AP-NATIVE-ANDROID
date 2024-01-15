@@ -75,6 +75,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      */
 
     private int mPlayType;
+
     public void getLeagueList(int sportPos, int sportId, int orderBy, List<Long> leagueIds, List<Long> matchidList, int playMethodType, int searchDatePos, int oddType, boolean isTimedRefresh, boolean isRefresh) {
         int type;
         boolean flag = false;
@@ -91,13 +92,13 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             currentPage++;
         }
 
-        if(playMethodType != 2) {
+        if (playMethodType != 2) {
             mPlayType = playMethodType;
         }
 
         if (type == 2) { // 今日和串关分开两次请求，第一次先获取滚球信息，第二次再获取今日赛事信息，type为2时，代表第二次的请求
             type = 3; // 不带时间查询条件时
-            if(searchDatePos > 0){ // 带时间查询条件时
+            if (searchDatePos > 0) { // 带时间查询条件时
                 type = 4;
             }
         }
@@ -116,7 +117,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                         }
                     }
                 }
-                if(isFound){
+                if (isFound) {
                     break;
                 }
             }
@@ -126,7 +127,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         final boolean finalFlag = flag;
 
         pmListReq.setType(type);
-        if(type == 1 && flag){
+        if (type == 1 && flag) {
             pmListReq.setType(3);
         }
 
@@ -142,7 +143,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         //pmListReq.setOddType(oddType);
         pmListReq.setDevice("v2_h5_st");
 
-        if(!dateList.isEmpty()) {
+        if (!dateList.isEmpty()) {
             if (searchDatePos == dateList.size() - 1) {
                 String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
                 pmListReq.setMd(String.valueOf(0 - TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
@@ -163,7 +164,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             pmListReq.setCps(pageSize);
         }
 
-        if(isTimedRefresh){
+        if (isTimedRefresh) {
             flowable = model.getPMApiService().getMatchBaseInfoByMidsPB(pmListReq);
         }
 
@@ -237,11 +238,14 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                         leagueWaitingListData.postValue(mLeagueList);
                     }
 
-
                     if (isRefresh) {
-                        finishRefresh(true);
+                        if (matchListRsp != null && currentPage == matchListRsp.getPages()) {
+                            loadMoreWithNoMoreData();
+                        } else {
+                            finishRefresh(true);
+                        }
                     } else {
-                        if (matchListRsp != null && matchListRsp.data != null && matchListRsp.data.isEmpty()) {
+                        if (matchListRsp != null && currentPage == matchListRsp.getPages()) {
                             loadMoreWithNoMoreData();
                         } else {
                             finishLoadMore(true);
@@ -304,7 +308,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                         }
                     }
                 }
-                if(isFound){
+                if (isFound) {
                     break;
                 }
             }
@@ -357,7 +361,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * 获取赛事统计数据
      */
     public void statistical(int playMethodType) {
-        Map<String, String > map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PM_USER_ID));
         map.put("sys", "7");
 
@@ -488,6 +492,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             mLeagueList.addAll(mGoingOnLeagueList);
             League league = mLeagueList.get(0).instance();
             league.setHead(true);
+            league.setMatchCount(matchInfoList.size());
             mLeagueList.add(league);
             mGoingOnLeagueList.clear();
         }
@@ -568,7 +573,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             Match oldMatch = mMapMatch.get(String.valueOf(match.getId()));
             if (oldMatch != null) {
                 int index = mMatchList.indexOf(oldMatch);
-                if(index > -1) {
+                if (index > -1) {
                     mMatchList.set(mMatchList.indexOf(oldMatch), match);
                 }
             }
@@ -578,7 +583,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             for (League league : mLeagueList) {
                 if (!league.isHead() && league.isExpand()) {
                     Match oldMatch = mMapMatch.get(String.valueOf(match.getId()));
-                    if(oldMatch != null) {
+                    if (oldMatch != null) {
                         int index = league.getMatchList().indexOf(oldMatch);
                         if (index > -1) {
                             league.getMatchList().set(index, match);
@@ -641,7 +646,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             for (PlayType playType : newPlayGroup.getPlayTypeList()) {
                 playType.getOptionLists();
                 for (Option option : playType.getOptionList()) {
-                    if(option == null){
+                    if (option == null) {
                         continue;
                     }
                     StringBuffer code = new StringBuffer();

@@ -36,6 +36,7 @@ import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.xtree.bet.ui.activity.MainActivity;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
+import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 import com.xtree.bet.weight.BaseDetailDataView;
 import com.xtree.bet.weight.DiscolourTextView;
@@ -150,6 +151,8 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             binding.llHeader.setVisibility(View.VISIBLE);
             binding.rlLeague.setVisibility(View.GONE);
             binding.tvHeaderName.setText("未开赛");
+            int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
+            binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportType] + "(" + league.getMatchCount() + ")");
             binding.llHeader.setOnClickListener(view -> {
                 RxBus.getDefault().post(new BetContract(BetContract.ACTION_EXPAND));
             });
@@ -197,7 +200,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         } else {
             int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
             //String sport = SportTypeContants.SPORT_IDS[sportType];
-            if (sportType == 0 || sportType == 1) {
+            if (sportType == 0 || sportType == 1) { // 足球和篮球
                 binding.tvMatchTime.setText(match.getStage() + " " + match.getTime());
             } else {
                 binding.tvMatchTime.setText(match.getStage());

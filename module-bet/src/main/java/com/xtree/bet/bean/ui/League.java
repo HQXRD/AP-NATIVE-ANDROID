@@ -58,6 +58,8 @@ public interface League extends BaseBean {
     boolean isExpand();
 
     boolean isHead();
+    int getMatchCount();
+    void setMatchCount(int matchCount);
 
     void setHead(boolean isHead);
 
