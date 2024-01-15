@@ -140,6 +140,7 @@ public class BtDetailDialog extends BottomPopupView {
             }
         } else if (vo.content instanceof String) {
             CfLog.i(vo.content);
+            binding.llBetContent.setVisibility(View.VISIBLE); // 显示出来
             binding.tvwBetContent.setText(vo.content.toString()); // 少数情况会出现
         } else {
             CfLog.e(vo.content.toString()); // 其它格式,暂未发现
