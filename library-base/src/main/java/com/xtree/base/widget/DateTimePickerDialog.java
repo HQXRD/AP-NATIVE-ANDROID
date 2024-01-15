@@ -18,6 +18,7 @@ import java.util.Calendar;
  */
 public class DateTimePickerDialog extends BottomPopupView {
 
+    String mFormat = "yyyy-MM-dd"; // "yyyy-MM-dd HH:mm:ss"
     String title = "";
     ICallBack mCallBack;
 
@@ -59,22 +60,37 @@ public class DateTimePickerDialog extends BottomPopupView {
         return dialog;
     }
 
+    public static DateTimePickerDialog newInstance(@NonNull Context context, String title, int minMonth, ICallBack mCallBack) {
+        return newInstance(context, title, minMonth, "yyyy-MM-dd", mCallBack);
+    }
+
     /**
      * @param context   上下文
      * @param title     标题
+     * @param format    日期时间样式 默认: "yyyy-MM-dd"
      * @param minMonth  当前日期往前几个月 (默认0,6个月前)
      * @param mCallBack 选中后的回调事件
      */
-    public static DateTimePickerDialog newInstance(@NonNull Context context, String title, int minMonth, ICallBack mCallBack) {
+    public static DateTimePickerDialog newInstance(@NonNull Context context, String title, int minMonth, String format, ICallBack mCallBack) {
         DateTimePickerDialog dialog = new DateTimePickerDialog(context);
         dialog.title = title;
         dialog.mCallBack = mCallBack;
+        dialog.mFormat = format;
         if (minMonth > 0) {
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - minMonth);
             dialog.minMillisecond = calendar.getTimeInMillis();
         }
         return dialog;
+    }
+
+    /**
+     * 设置 日期时间样式 默认: "yyyy-MM-dd", 参考: "yyyy-MM-dd HH:mm:ss"
+     *
+     * @param format 日期时间样式
+     */
+    public void setDateTimeFormat(String format) {
+        mFormat = format;
     }
 
     @Override
@@ -111,7 +127,7 @@ public class DateTimePickerDialog extends BottomPopupView {
         }
         binding.dateTimePicker.showLabel(true);
         binding.dateTimePicker.setOnDateTimeChangedListener((dateTimePicker, l) -> {
-            tmpDate = TimeUtils.longFormatString(l, "yyyy-MM-dd");
+            tmpDate = TimeUtils.longFormatString(l, mFormat);
             //CfLog.d(tmpDate);
         });
 
