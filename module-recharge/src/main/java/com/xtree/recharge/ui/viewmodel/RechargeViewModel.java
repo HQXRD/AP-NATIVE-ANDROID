@@ -9,6 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.UuidUtil;
 import com.xtree.recharge.data.RechargeRepository;
 import com.xtree.recharge.vo.BankCardVo;
 import com.xtree.recharge.vo.PaymentVo;
@@ -18,7 +19,6 @@ import com.xtree.recharge.vo.RechargeVo;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
@@ -49,7 +49,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
      */
     public void get1kEntry() {
         Map<String, String> map = new HashMap<>();
-        map.put("nonce", UUID.randomUUID().toString().replace("-", ""));
+        map.put("nonce", UuidUtil.getID16());
         Disposable disposable = (Disposable) model.getApiService().get1kEntry(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())

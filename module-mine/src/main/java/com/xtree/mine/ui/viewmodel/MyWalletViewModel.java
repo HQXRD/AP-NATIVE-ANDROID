@@ -7,25 +7,22 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.GameBalanceVo;
 
-import io.reactivex.disposables.Disposable;
-import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.bus.event.SingleLiveData;
-
-import com.xtree.base.net.HttpCallBack;
-
 import java.util.HashMap;
 import java.util.List;
 
+import io.reactivex.disposables.Disposable;
+import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class MyWalletViewModel extends BaseViewModel<MineRepository> {
-    //public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
     public SingleLiveData<BalanceVo> liveDataBalance = new SingleLiveData<>(); // 中心钱包
     public SingleLiveData<GameBalanceVo> liveDataGameBalance = new SingleLiveData<>(); // 场馆余额
     public SingleLiveData<Boolean> liveData1kRecycle = new SingleLiveData<>(); // 1键回收
@@ -40,7 +37,7 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
 
     public void getBalance() {
         Disposable disposable = (Disposable) model.getApiService().getBalance()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<BalanceVo>() {
                     @Override
@@ -61,7 +58,7 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
 
     public void getGameBalance(String gameAlias) {
         Disposable disposable = (Disposable) model.getApiService().getGameBalance(gameAlias)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<GameBalanceVo>() {
                     @Override
@@ -84,7 +81,7 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
 
     public void do1kAutoRecycle() {
         Disposable disposable = (Disposable) model.getApiService().do1kAutoRecycle()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<Object>() {
                     @Override
@@ -105,7 +102,7 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
 
     public void doAutoTransfer(HashMap map) {
         Disposable disposable = (Disposable) model.getApiService().doAutoTransfer(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<Object>() {
                     @Override
@@ -126,7 +123,7 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
 
     public void doTransfer(HashMap map) {
         Disposable disposable = (Disposable) model.getApiService().doTransfer(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<Object>() {
                     @Override
