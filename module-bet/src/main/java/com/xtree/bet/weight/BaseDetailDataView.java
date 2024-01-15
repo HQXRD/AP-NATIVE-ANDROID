@@ -6,7 +6,6 @@ import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,8 +17,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.Score;
+import com.xtree.bet.constant.FBConstants;
+import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.constant.SPKey;
-import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.weight.fb.BadmintonDataView;
 import com.xtree.bet.weight.fb.BasketDataView;
 import com.xtree.bet.weight.fb.FbDataView;
@@ -147,44 +147,44 @@ public abstract class BaseDetailDataView extends ConstraintLayout{
         String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
         if (TextUtils.equals(platform, PLATFORM_FB)) {
             int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-            String sport = SportTypeContants.SPORT_IDS[sportType];
-            if (sport.equals(SportTypeContants.SPORT_ID_FB)) {
+            String sport = FBConstants.SPORT_IDS[sportType];
+            if (sport.equals(FBConstants.SPORT_ID_FB)) {
                 return new FbDataView(context, match);
-            } else if (sport.equals(SportTypeContants.SPORT_ID_BSB)) {
+            } else if (sport.equals(FBConstants.SPORT_ID_BSB)) {
                 return new BasketDataView(context, match, isMatchList);
-            } else if (sport.equals(SportTypeContants.SPORT_ID_WQ)) {
+            } else if (sport.equals(FBConstants.SPORT_ID_WQ)) {
                 return new NetBallDataView(context, match, isMatchList);
-            } else if (sport.equals(SportTypeContants.SPORT_ID_PQ)) {
+            } else if (sport.equals(FBConstants.SPORT_ID_PQ)) {
                 return new VolleyballDataView(context, match, isMatchList);
-            } else if (sport.equals(SportTypeContants.SPORT_ID_STPQ)) {
+            } else if (sport.equals(FBConstants.SPORT_ID_STPQ)) {
                 return new StVolleyballDataView(context, match, isMatchList);
-            } else if (sport.equals(SportTypeContants.SPORT_ID_YMQ)) {
+            } else if (sport.equals(FBConstants.SPORT_ID_YMQ)) {
                 return new BadmintonDataView(context, match, isMatchList);
-            } else if (sport.equals(SportTypeContants.SPORT_ID_BBQ)) {
+            } else if (sport.equals(FBConstants.SPORT_ID_BBQ)) {
                 return new TableTennisDataView(context, match, isMatchList);
-            } else if (sport.equals(SportTypeContants.SPORT_ID_BQ)) {
+            } else if (sport.equals(FBConstants.SPORT_ID_BQ)) {
                 return new IceBallDataView(context, match, isMatchList);
-            }/* else if (sport.equals(SportTypeContants.SPORT_ID_SNK)) {
+            }/* else if (sport.equals(FBConstants.SPORT_ID_SNK)) {
             return new SnkDataView(context, match);
             }*/
         }else{
             int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-            String sport = SportTypeContants.SPORT_IDS[sportType];
-            if (sport.equals(SportTypeContants.SPORT_ID_FB)) {
+            String sport = PMConstants.SPORT_IDS[sportType];
+            if (sport.equals(PMConstants.SPORT_IDS[0])) {
                 return new com.xtree.bet.weight.pm.FbDataView(context, match, isMatchList);
-            } else if (sport.equals(SportTypeContants.SPORT_ID_BSB)) {
+            } else if (sport.equals(PMConstants.SPORT_IDS[1])) {
                 return new com.xtree.bet.weight.pm.BasketDataView(context, match, isMatchList);
-            } else if (sport.equals(SportTypeContants.SPORT_ID_WQ)) {
+            } else if (sport.equals(PMConstants.SPORT_IDS[2])) {
                 return new com.xtree.bet.weight.pm.NetBallDataView(context, match, isMatchList);
-            } else if (sport.equals(SportTypeContants.SPORT_ID_PQ)) {
+            } else if (sport.equals(PMConstants.SPORT_IDS[5])) {
                 return new com.xtree.bet.weight.pm.VolleyballDataView(context, match, isMatchList);
-            } else if (sport.equals(SportTypeContants.SPORT_ID_STPQ)) {
+            } else if (sport.equals(PMConstants.SPORT_IDS[11])) {
                 return new com.xtree.bet.weight.pm.StVolleyballDataView(context, match, isMatchList);
-            } else if (sport.equals(SportTypeContants.SPORT_ID_YMQ)) {
+            } else if (sport.equals(PMConstants.SPORT_IDS[6])) {
                 return new com.xtree.bet.weight.pm.BadmintonDataView(context, match, isMatchList);
-            } else if (sport.equals(SportTypeContants.SPORT_ID_BBQ)) {
+            } else if (sport.equals(PMConstants.SPORT_IDS[8])) {
                 return new com.xtree.bet.weight.pm.TableTennisDataView(context, match, isMatchList);
-            } else if (sport.equals(SportTypeContants.SPORT_ID_BQ)) {
+            } else if (sport.equals(PMConstants.SPORT_IDS[9])) {
                 return new com.xtree.bet.weight.pm.IceBallDataView(context, match, isMatchList);
             }
         }

@@ -130,7 +130,11 @@ public class MatchPm implements Match {
      */
     @Override
     public List<Score> getScoreList(String... type) {
+
         List<Score> scoreInfos = new ArrayList<>();
+        if(type == null){
+            return scoreInfos;
+        }
         if (matchInfo.msc != null && !matchInfo.msc.isEmpty()) {
             for (String strScore : matchInfo.msc) {
                 for (int i = 0; i < type.length; i++) {

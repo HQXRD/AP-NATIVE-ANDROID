@@ -53,8 +53,8 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     private List<MenuInfo> mMenuInfoList = new ArrayList<>();
 
     private int currentPage = 1;
-    private int goingOnPageSize = 1;
-    private int pageSize = 1;
+    private int goingOnPageSize = 300;
+    private int pageSize = 20;
 
     public PMMainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
@@ -142,12 +142,17 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         //pmListReq.setOddType(oddType);
         pmListReq.setDevice("v2_h5_st");
 
-        if(searchDatePos == dateList.size() - 1){
-            String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
-            pmListReq.setMd(String.valueOf(0 - TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
-        }else if (searchDatePos > 0) {
-            String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
-            pmListReq.setMd(String.valueOf(TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
+        if(!dateList.isEmpty()) {
+            if (searchDatePos == dateList.size() - 1) {
+                String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
+                pmListReq.setMd(String.valueOf(0 - TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
+            } else if (searchDatePos > 0) {
+                String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
+                pmListReq.setMd(String.valueOf(TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
+            } else {
+                String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
+                pmListReq.setMd(String.valueOf(TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
+            }
         }
 
         Flowable flowable = model.getPMApiService().noLiveMatchesPagePB(pmListReq);

@@ -29,7 +29,6 @@ import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.SPKey;
-import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtFbLeagueGroupBinding;
 import com.xtree.bet.databinding.BtFbMatchListBinding;
@@ -197,8 +196,8 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             binding.tvMatchTime.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_MM_DD_HH_MM));
         } else {
             int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-            String sport = SportTypeContants.SPORT_IDS[sportType];
-            if (sport.equals(SportTypeContants.SPORT_ID_FB) || sport.equals(SportTypeContants.SPORT_ID_BSB)) {
+            //String sport = SportTypeContants.SPORT_IDS[sportType];
+            if (sportType == 0 || sportType == 1) {
                 binding.tvMatchTime.setText(match.getStage() + " " + match.getTime());
             } else {
                 binding.tvMatchTime.setText(match.getStage());

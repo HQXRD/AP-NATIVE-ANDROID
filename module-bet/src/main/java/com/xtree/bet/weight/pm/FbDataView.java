@@ -25,7 +25,8 @@ public class FbDataView extends BaseDetailDataView implements View.OnClickListen
         setMatch(match, isMatchList);
     }
 
-    public void setMatch(Match match){
+    @Override
+    public void setMatch(Match match, boolean isMatchList){
         List<Integer> scoreYellowCard = match.getScore(String.valueOf(PMConstants.SCORE_TYPE_YELLOW_CARD));
         String yellowCard = getResources().getString(R.string.bt_detail_yellow_card, scoreYellowCard.get(0), scoreYellowCard.get(1));
         ((TextView)findViewById(R.id.tv_yellow_card)).setText(yellowCard);
