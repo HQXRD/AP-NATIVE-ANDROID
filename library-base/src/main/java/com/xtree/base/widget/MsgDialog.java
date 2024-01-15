@@ -20,6 +20,7 @@ public class MsgDialog extends CenterPopupView {
     String title;
     String msg;
     String txtLeft;
+    boolean isSingleBtn;
     String txtRight;
     ICallBack mCallBack;
 
@@ -49,6 +50,14 @@ public class MsgDialog extends CenterPopupView {
         this.mCallBack = mCallBack;
     }
 
+    public MsgDialog(@NonNull Context context, String title, String msg, boolean isSingleBtn, ICallBack mCallBack) {
+        super(context);
+        this.title = title;
+        this.msg = msg;
+        this.isSingleBtn = isSingleBtn;
+        this.mCallBack = mCallBack;
+    }
+
     @Override
     protected void onCreate() {
         super.onCreate();
@@ -67,7 +76,9 @@ public class MsgDialog extends CenterPopupView {
         }
 
         tvwMsg.setText(msg);
-
+        if (isSingleBtn) {
+            tvwLeft.setVisibility(View.GONE);
+        }
         if (!TextUtils.isEmpty(txtLeft)) {
             tvwLeft.setText(txtLeft);
         }
