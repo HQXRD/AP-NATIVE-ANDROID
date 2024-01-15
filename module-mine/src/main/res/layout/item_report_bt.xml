@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/layout_margin"
+    android:background="@drawable/bg_white_6"
+    android:orientation="vertical"
+    android:padding="@dimen/layout_margin">
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            android:id="@+id/tvw_username"
+            style="@style/style_item_report_value"
+            tools:text="Lorraine001" />
+
+        <TextView
+            android:id="@+id/tvw_bt_result"
+            style="@style/style_item_report_title_center"
+            android:textColor="@color/clr_text_red_green_selector"
+            tools:text="输" />
+
+        <TextView
+            style="@style/style_item_report_title_end"
+            android:minEms="3" />
+
+        <TextView
+            android:id="@+id/tvw_detail"
+            style="@style/style_btn_small"
+            android:minEms="3"
+            android:text="@string/txt_detail"
+            android:visibility="visible"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:text="@string/txt_bt_amount2" />
+
+        <TextView
+            style="@style/style_item_report_title_center"
+            android:text="@string/txt_sprize_amount2" />
+
+        <TextView
+            style="@style/style_item_report_title_end"
+            android:text="@string/txt_profit_loss" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            android:id="@+id/tvw_bet"
+            style="@style/style_item_report_value"
+            tools:text="5.00" />
+
+        <TextView
+            android:id="@+id/tvw_win"
+            style="@style/style_item_report_value_center"
+            tools:text="5.00" />
+
+        <TextView
+            android:id="@+id/tvw_sum"
+            style="@style/style_item_report_value_end"
+            android:textColor="@color/clr_text_red_green_selector"
+            tools:text="-5" />
+    </LinearLayout>
+
+    <View
+        style="@style/style_filter_info_dividing"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="6dp" />
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:layout_weight="0"
+            android:text="@string/txt_game_name_s" />
+
+        <TextView
+            android:id="@+id/tvw_game_name"
+            style="@style/style_item_report_title"
+            tools:text="经典**乐" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:layout_weight="0"
+            android:text="@string/txt_game_code_s" />
+
+        <TextView
+            android:id="@+id/tvw_game_code"
+            style="@style/style_item_report_title"
+            tools:text="9536793792****4224" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:layout_weight="0"
+            android:text="@string/txt_bt_date_s" />
+
+        <TextView
+            android:id="@+id/tvw_game_date"
+            style="@style/style_item_report_title"
+            tools:text="2024-01-12 14:41:22" />
+    </LinearLayout>
+
+</LinearLayout>

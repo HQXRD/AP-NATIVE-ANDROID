@@ -47,6 +47,7 @@ public class RouterFragmentPath {
         public static final String PAGER_THIRD_TRANSFER = MINE + "/ThirdTransfer"; // 三方转账
         public static final String PAGER_RECHARGE_WITHDRAW = MINE + "/RechargeWithdraw"; // 充提记录
         public static final String PAGER_RECHARGE_FEEDBACK_DETAIL = MINE + "/RechargeFeedbackDetail"; // 充提记录-反馈详情
+        public static final String PAGER_BT_REPORT = MINE + "/BtReport"; // 投注记录
     }
 
     public static class Wallet {

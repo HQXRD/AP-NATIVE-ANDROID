@@ -564,6 +564,11 @@
     <style name="style_item_report_title_end" parent="style_item_report_base">
         <item name="android:gravity">end</item>
     </style>
+    <!-- 报表 详情 标题 靠右 (适合一行两个的) -->
+    <style name="style_item_report_title_end2" parent="style_item_report_base">
+        <item name="android:gravity">end</item>
+        <item name="android:layout_weight">0</item>
+    </style>
 
     <!-- 报表 列表项 值 黑色 靠左 -->
     <style name="style_item_report_value" parent="style_item_report_base">

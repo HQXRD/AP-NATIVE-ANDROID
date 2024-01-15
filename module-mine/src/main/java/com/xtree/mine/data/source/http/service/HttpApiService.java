@@ -5,6 +5,9 @@ import com.xtree.base.vo.PMService;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.BankCardVo;
+import com.xtree.mine.vo.BtDetailVo;
+import com.xtree.mine.vo.BtPlatformVo;
+import com.xtree.mine.vo.BtReportVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.ProfileVo;
@@ -266,6 +269,28 @@ public interface HttpApiService {
      */
     @GET("/api/deposit/customerinfos?")
     Flowable<BaseResponse<RechargeReportVo>> getFeedbackReport(@QueryMap Map<String, String> map);
+
+    /**
+     * 投注记录-查类型 (同 盈亏报表-查类型)
+     */
+    @GET("/api/game/thirdgametype?")
+    Flowable<BaseResponse<List<BtPlatformVo>>> getBtPlatformType();
+
+    /**
+     * 投注记录-列表
+     * ?isgetdata=1&userid=2888826&startDate=2023-11-12 00:00:00&endDate=2024-01-12 23:59:59
+     * &platform=&ischild=0&p=1&bet_result=0&pn=20&client=m
+     */
+    @GET("/gameinfo/allProjectsNew?")
+    Flowable<BtReportVo> getBtReport(@QueryMap Map<String, String> map);
+
+    /**
+     * 投注记录-详情
+     * platform=FBXC,project_id=10950255273****7510,nonce=***
+     */
+    @POST("/api/game/projectDetail?")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<BtDetailVo>> getBtOrderDetail(@Body Map<String, String> map);
 
     /**
      * 获取 FB体育请求服务地址
