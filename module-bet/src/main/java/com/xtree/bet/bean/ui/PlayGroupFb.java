@@ -1,8 +1,7 @@
 package com.xtree.bet.bean.ui;
 
-import com.stx.xhb.androidx.entity.BaseBannerInfo;
 import com.xtree.bet.bean.response.fb.PlayTypeInfo;
-import com.xtree.bet.constant.Constants;
+import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.SPKey;
 
 import java.util.ArrayList;
@@ -35,8 +34,8 @@ public class PlayGroupFb implements PlayGroup {
 
     public List<PlayGroup> getPlayGroupList() {
         int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-        String[] playTypeIds = Constants.PLAY_TYPE_ID[sportId];
-        String[] playTypeNames = Constants.PLAY_TYPE_NAME[sportId];
+        String[] playTypeIds = FBConstants.PLAY_TYPE_ID[sportId];
+        String[] playTypeNames = FBConstants.PLAY_TYPE_NAME[sportId];
 
 
         playTypeList = new ArrayList<>(playTypeIds.length);

@@ -4,10 +4,12 @@ import com.xtree.bet.bean.response.fb.ScoreInfo;
 
 import java.util.List;
 
-public class ScoreFb implements Score{
-    private ScoreInfo scoreInfo;
-    public ScoreFb(ScoreInfo scoreInfo){
-        this.scoreInfo = scoreInfo;
+public class ScorePm implements Score{
+    private String period;
+    private List<Integer> scores;
+    public ScorePm(String period, List<Integer> scores){
+        this.period = period;
+        this.scores = scores;
     }
 
     /**
@@ -16,7 +18,7 @@ public class ScoreFb implements Score{
      */
     @Override
     public String getPeriod() {
-        return String.valueOf(scoreInfo.pe);
+        return period;
     }
 
     /**
@@ -25,6 +27,6 @@ public class ScoreFb implements Score{
      */
     @Override
     public List<Integer> getScores() {
-        return scoreInfo.sc;
+        return scores;
     }
 }

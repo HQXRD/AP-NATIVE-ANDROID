@@ -3,27 +3,34 @@ package com.xtree.bet.weight;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PageHorizontalScrollView extends HorizontalScrollView {
     /**
-     * 数据定义
+     * 子视图个数
      */
-    private int subChildCount = 0;
-    private ViewGroup firstChild = null;
+    private int subChildCount = 1;
     private int downX = 0;
     private int currentPage = 0;
-    private List<Integer> viewList = new ArrayList<Integer>();
 
     private OnPageSelectedListener onPageSelectedListener;
 
+    private OnScrollListener onScrollListener;
+
+    public void setChildCount(int subChildCount) {
+        this.subChildCount = subChildCount;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
     public void setOnPageSelectedListener(OnPageSelectedListener onPageSelectedListener) {
         this.onPageSelectedListener = onPageSelectedListener;
+    }
+
+    public void setOnScrollListener(OnScrollListener onScrollListener) {
+        this.onScrollListener = onScrollListener;
     }
 
     /**
@@ -46,32 +53,7 @@ public class PageHorizontalScrollView extends HorizontalScrollView {
     private void init() {
         setHorizontalScrollBarEnabled(false);//设置原有的滚动无效
     }
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        getChildInfo();
-    }
-    /**
-     * 获取子视图信息
-     * @author caizhiming
-     */
-    public void getChildInfo() {
-        postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                firstChild = (ViewGroup) getChildAt(0);
-                if (firstChild != null) {
-                    subChildCount = firstChild.getChildCount();
-                    for (int i = 0; i < subChildCount; i++) {
-                        if (((View) firstChild.getChildAt(i)).getWidth() > 0) {
-                            viewList.add(((View) firstChild.getChildAt(i)).getLeft());
-                        }
-                    }
-                }
-            }
-        }, 100);
 
-    }
     /**
      * 触摸监听时间
      * @author caizhiming
@@ -83,10 +65,17 @@ public class PageHorizontalScrollView extends HorizontalScrollView {
                 downX = (int) ev.getX();
                 break;
             case MotionEvent.ACTION_MOVE:
+                if(downX == 0){
+                    downX = (int)ev.getX();
+                    if(onScrollListener != null) {
+                        onScrollListener.onScrolling();
+                    }
+                }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL: {
-                if (Math.abs((ev.getX() - downX)) > getWidth() / 4) {
+                if (Math.abs((ev.getX() - downX)) > getWidth() / 6) {
+
                     if (ev.getX() - downX > 0) {
                         smoothScrollToPrePage();
                     } else {
@@ -94,6 +83,10 @@ public class PageHorizontalScrollView extends HorizontalScrollView {
                     }
                 } else {
                     smoothScrollToCurrent();
+                }
+                downX = 0;
+                if(onScrollListener != null) {
+                    onScrollListener.onScrolled();
                 }
                 return true;
             }
@@ -105,7 +98,11 @@ public class PageHorizontalScrollView extends HorizontalScrollView {
      * @author caizhiming
      */
     private void smoothScrollToCurrent() {
-        smoothScrollTo(viewList.get(currentPage), 0);
+        if(currentPage == 0) {
+            smoothScrollTo(0, 0);
+        }else {
+            smoothScrollTo(getWidth(), 0);
+        }
         if(onPageSelectedListener != null){
             onPageSelectedListener.onPageSelected(currentPage);
         }
@@ -117,7 +114,7 @@ public class PageHorizontalScrollView extends HorizontalScrollView {
     private void smoothScrollToNextPage() {
         if (currentPage < subChildCount - 1) {
             currentPage++;
-            smoothScrollTo(getMeasuredWidth(), 0);
+            smoothScrollTo(getWidth(), 0);
             if(onPageSelectedListener != null){
                 onPageSelectedListener.onPageSelected(currentPage);
             }
@@ -136,36 +133,13 @@ public class PageHorizontalScrollView extends HorizontalScrollView {
             }
         }
     }
-    /**
-     * 滑动到下一页
-     * @author caizhiming
-     */
-    public void nextPage() {
-        smoothScrollToNextPage();
-    }
-    /**
-     * 滑动到上一页
-     * @author caizhiming
-     */
-    public void prePage() {
-        smoothScrollToPrePage();
-    }
-    /**
-     * 跳转到指定的页面
-     *
-     * @param page
-     * @author caizhiming
-     */
-    public boolean gotoPage(int page) {
-        if (page > 0 && page < subChildCount - 1) {
-            smoothScrollTo(viewList.get(page), 0);
-            currentPage = page;
-            return true;
-        }
-        return false;
-    }
 
     public interface OnPageSelectedListener{
         void onPageSelected(int currentPage);
+    }
+
+    public interface OnScrollListener{
+        void onScrolled();
+        void onScrolling();
     }
 }

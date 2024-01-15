@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -28,8 +27,8 @@ import com.xtree.bet.bean.ui.PlayGroupFb;
 import com.xtree.bet.bean.ui.PlayGroupPm;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
+import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.SPKey;
-import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtFbLeagueGroupBinding;
 import com.xtree.bet.databinding.BtFbMatchListBinding;
@@ -38,7 +37,9 @@ import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.xtree.bet.ui.activity.MainActivity;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
+import com.xtree.bet.weight.BaseDetailDataView;
 import com.xtree.bet.weight.DiscolourTextView;
+import com.xtree.bet.weight.PageHorizontalScrollView;
 
 import java.util.List;
 
@@ -52,6 +53,12 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
     private List<League> mDatas;
     private Context mContext;
     private String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+    private PageHorizontalScrollView.OnScrollListener mOnScrollListener;
+
+    public void setOnScrollListener(PageHorizontalScrollView.OnScrollListener onScrollListener) {
+        this.mOnScrollListener = onScrollListener;
+    }
+
     public void setData(List<League> mLeagueList) {
         this.mDatas = mLeagueList;
         notifyDataSetChanged();
@@ -175,9 +182,12 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
         binding.tvTeamNameMain.setText(match.getTeamMain());
         binding.tvTeamNameVisitor.setText(match.getTeamVistor());
-        if (match.getScore(Constants.SCORE_TYPE_SCORE) != null && match.getScore(Constants.SCORE_TYPE_SCORE).size() > 1) {
-            binding.tvScoreMain.setText(String.valueOf(match.getScore(Constants.SCORE_TYPE_SCORE).get(0)));
-            binding.tvScoreVisitor.setText(String.valueOf(match.getScore(Constants.SCORE_TYPE_SCORE).get(1)));
+
+        List<Integer> scoreList = match.getScore(Constants.getScoreType());
+
+        if (scoreList != null && scoreList.size() > 1) {
+            binding.tvScoreMain.setText(String.valueOf(scoreList.get(0)));
+            binding.tvScoreVisitor.setText(String.valueOf(scoreList.get(1)));
         }
 
         binding.tvPlaytypeCount.setText(match.getPlayTypeCount() + "+>");
@@ -186,13 +196,20 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             binding.tvMatchTime.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_MM_DD_HH_MM));
         } else {
             int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-            String sport = SportTypeContants.SPORT_IDS[sportType];
-            if (sport.equals(SportTypeContants.SPORT_ID_FB) || sport.equals(SportTypeContants.SPORT_ID_BSB)) {
+            //String sport = SportTypeContants.SPORT_IDS[sportType];
+            if (sportType == 0 || sportType == 1) {
                 binding.tvMatchTime.setText(match.getStage() + " " + match.getTime());
             } else {
                 binding.tvMatchTime.setText(match.getStage());
             }
         }
+
+        binding.ivCourt.setSelected(match.hasAs());
+        binding.ivLive.setSelected(match.hasVideo());
+        binding.ivCornor.setVisibility(match.hasCornor() ? View.VISIBLE : View.GONE);
+        binding.ivCornor.setSelected(match.hasCornor());
+        binding.ivNeutrality.setVisibility(match.isNeutrality() ? View.VISIBLE : View.GONE);
+        binding.ivNeutrality.setSelected(match.isNeutrality());
 
         LinearLayout llTypeGroup = (LinearLayout) binding.hsvPlayTypeGroup.getChildAt(0);
 
@@ -214,14 +231,27 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         LinearLayout sencondPagePlayType = (LinearLayout) llTypeGroup.getChildAt(1);
         if (playGroupList.size() > 1) {
             sencondPagePlayType.setVisibility(View.VISIBLE);
+            binding.hsvPlayTypeGroup.setChildCount(2);
             List<PlayType> playTypeList = playGroupList.get(1).getOriginalPlayTypeList();
             for (int i = 0; i < sencondPagePlayType.getChildCount(); i++) {
                 setPlayTypeGroup(match, parent, (LinearLayout) sencondPagePlayType.getChildAt(i), playTypeList.get(i));
             }
+            binding.llPointer.setVisibility(View.VISIBLE);
+            binding.llScoreData.setVisibility(View.GONE);
             initPointer(binding);
         } else {
             sencondPagePlayType.setVisibility(View.GONE);
+            binding.llPointer.setVisibility(View.GONE);
+            if(match.isGoingon()) {
+                binding.llScoreData.setVisibility(View.VISIBLE);
+                binding.llScoreData.removeAllViews();
+                BaseDetailDataView mScoreDataView = BaseDetailDataView.getInstance(mContext, match, true);
+                if (mScoreDataView != null) {
+                    binding.llScoreData.addView(mScoreDataView);
+                }
+            }
         }
+
 
         binding.llRoot.setOnClickListener(view -> {
             BtDetailActivity.start(mContext, match);
@@ -245,17 +275,15 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         for (int i = 0; i < 2; i++) {
             ImageView ivPointer = new ImageView(mContext);
             ivPointer.setBackgroundResource(R.drawable.bt_bg_play_type_group_pointer_selected);
-            int width = i == 0 ? ConvertUtils.dp2px(12) : ConvertUtils.dp2px(7);
+            int width = i == binding.hsvPlayTypeGroup.getCurrentPage() ? ConvertUtils.dp2px(12) : ConvertUtils.dp2px(7);
             int height = ConvertUtils.dp2px(2);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
-            if (i == 0) {
-                params.rightMargin = ConvertUtils.dp2px(2);
-                ivPointer.setSelected(true);
-            }
+            params.rightMargin = ConvertUtils.dp2px(2);
+            ivPointer.setSelected(i == binding.hsvPlayTypeGroup.getCurrentPage());
             ivPointer.setLayoutParams(params);
             binding.llPointer.addView(ivPointer);
         }
-        /*binding.hsvPlayTypeGroup.setOnPageSelectedListener(currentPage -> {
+        binding.hsvPlayTypeGroup.setOnPageSelectedListener(currentPage -> {
             for (int i = 0; i < binding.llPointer.getChildCount(); i++) {
                 if (currentPage == i) {
                     binding.llPointer.getChildAt(i).setSelected(true);
@@ -268,7 +296,8 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                 binding.llPointer.getChildAt(i).setLayoutParams(params);
 
             }
-        });*/
+        });
+        binding.hsvPlayTypeGroup.setOnScrollListener(mOnScrollListener);
     }
 
     private void setPlayTypeGroup(Match match, ViewGroup parent, LinearLayout rootPlayType, PlayType playType) {
@@ -378,20 +407,9 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
     private static class GroupHolder {
         public GroupHolder(View view) {
             itemView = view;
-            /*tvHeaderName = view.findViewById(R.id.tv_header_name);
-            llHeader = view.findViewById(R.id.ll_header);
-            rlLeague = view.findViewById(R.id.rl_league);
-            tvLeagueName = view.findViewById(R.id.tv_league_name);
-            imLeague = view.findViewById(R.id.iv_icon);*/
         }
 
         View itemView;
-
-        TextView tvLeagueName;
-        ImageView imLeague;
-        TextView tvHeaderName;
-        LinearLayout llHeader;
-        RelativeLayout rlLeague;
     }
 
 }

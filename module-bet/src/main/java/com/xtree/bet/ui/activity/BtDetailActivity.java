@@ -37,7 +37,6 @@ import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.SPKey;
-import com.xtree.bet.constant.SportTypeContants;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
@@ -69,7 +68,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
     private final static String KEY_MATCH = "KEY_MATCH_ID";
     private List<Category> mCategories = new ArrayList<>();
 
-    private BaseDetailDataView fbDataView;
+    private BaseDetailDataView mScoreDataView;
 
     private BtDetailOptionFragment fragment;
 
@@ -264,8 +263,10 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             videoUrl = mMatch.getVideoUrls().get(0);
         }
         String score = "";
-        if (mMatch.getScore(Constants.SCORE_TYPE_SCORE) != null && mMatch.getScore(Constants.SCORE_TYPE_SCORE).size() > 1) {
-            score = mMatch.getScore(Constants.SCORE_TYPE_SCORE).get(0) + " - " + mMatch.getScore(Constants.SCORE_TYPE_SCORE).get(1);
+        List<Integer> scoreList = mMatch.getScore(Constants.getScoreType());
+
+        if (scoreList != null && scoreList.size() > 1) {
+            score = scoreList.get(0) + " - " + scoreList.get(1);
         }
         ImageView thumb = new ImageView(this);
         int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
@@ -375,11 +376,15 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                     //.apply(new RequestOptions().placeholder(placeholderRes))
                     .into(binding.ivLogoVisitorTop);
 
-            if (match.getScore(Constants.SCORE_TYPE_SCORE) != null && match.getScore(Constants.SCORE_TYPE_SCORE).size() > 1) {
-                binding.tvScore.setText(match.getScore(Constants.SCORE_TYPE_SCORE).get(0) + "-" + match.getScore(Constants.SCORE_TYPE_SCORE).get(1));
+            String score;
+            List<Integer> scoreList = mMatch.getScore(Constants.getScoreType());
+
+            if (scoreList != null && scoreList.size() > 1) {
+                score = scoreList.get(0) + " - " + scoreList.get(1);
+                binding.tvScore.setText(score);
             }
             int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-            String sport = SportTypeContants.SPORT_IDS[sportType];
+            //String sport = SportTypeContants.SPORT_IDS[sportType];
 
             // 比赛未开始
             if (!match.isGoingon()) {
@@ -387,7 +392,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 binding.tvTime.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_MM_DD_1));
                 binding.tvScore.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_HH_MM));
             } else {
-                if (sport.equals(SportTypeContants.SPORT_ID_FB) || sport.equals(SportTypeContants.SPORT_ID_BSB)) {
+                if (sportType == 0 || sportType == 1) {
                     binding.tvTime.setText(match.getStage() + " " + match.getTime());
                     binding.tvTimeTop.setText(match.getStage() + " " + match.getTime());
                 } else {
@@ -397,12 +402,12 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             }
 
             if (binding.llData.getChildCount() == 0) {
-                fbDataView = BaseDetailDataView.getInstance(this, match);
-                if (fbDataView != null) {
-                    binding.llData.addView(fbDataView);
+                mScoreDataView = BaseDetailDataView.getInstance(this, match, false);
+                if (mScoreDataView != null) {
+                    binding.llData.addView(mScoreDataView);
                 }
             } else {
-                fbDataView.setMatch(match);
+                mScoreDataView.setMatch(match, false);
             }
 
         });
@@ -502,7 +507,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 finish();
             }
         } else if (id == R.id.iv_expand) {
-            fragment.expand();
+            if(fragment != null) {
+                fragment.expand();
+            }
         }
     }
 }

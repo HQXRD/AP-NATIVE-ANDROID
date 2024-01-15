@@ -1,50 +1,22 @@
 package com.xtree.bet.ui.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.bumptech.glide.Glide;
-import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
-import com.xtree.bet.bean.ui.BetConfirmOption;
-import com.xtree.bet.bean.ui.BetConfirmOptionFb;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.Option;
-import com.xtree.bet.bean.ui.OptionList;
-import com.xtree.bet.bean.ui.PlayGroup;
 import com.xtree.bet.bean.ui.PlayType;
-import com.xtree.bet.constant.Constants;
-import com.xtree.bet.constant.SPKey;
-import com.xtree.bet.constant.SportTypeContants;
-import com.xtree.bet.contract.BetContract;
-import com.xtree.bet.databinding.BtFbLeagueGroupBinding;
 import com.xtree.bet.databinding.BtFbMatchGroupBinding;
-import com.xtree.bet.databinding.BtFbMatchListBinding;
-import com.xtree.bet.databinding.BtFbPlayTypeGroupListBinding;
 import com.xtree.bet.databinding.BtFbPlaytypeListBinding;
-import com.xtree.bet.manager.BtCarManager;
-import com.xtree.bet.ui.activity.BtDetailActivity;
-import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
-import com.xtree.bet.weight.DiscolourTextView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import me.xtree.mvvmhabit.base.BaseActivity;
-import me.xtree.mvvmhabit.bus.RxBus;
-import me.xtree.mvvmhabit.utils.ConvertUtils;
-import me.xtree.mvvmhabit.utils.SPUtils;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class ChampionMatchAdapter extends AnimatedExpandableListViewMax.AnimatedExpandableListAdapter {
     private List<Match> mDatas;

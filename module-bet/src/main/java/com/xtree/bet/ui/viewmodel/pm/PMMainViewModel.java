@@ -21,6 +21,7 @@ import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.PlayGroup;
 import com.xtree.bet.bean.ui.PlayGroupPm;
 import com.xtree.bet.bean.ui.PlayType;
+import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
@@ -41,30 +42,6 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  */
 
 public class PMMainViewModel extends TemplateMainViewModel implements MainViewModel {
-    public static String[] SPORT_NAMES = new String[]{"足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
-    /**
-     * 默认体育分类ID，与sportNames一一对应
-     */
-    public static String[] SPORT_IDS = new String[]{"40103", "40104", "40106", "40107", "40112", "40110", "40108", "40113", "40109", "40111", "19", "51", "8"};
-
-    /**
-     * 默认体育分类ID，与sportNames一一对应
-     */
-    public static String[] SPORT_IDS_SPECAIL = new String[]{"40203", "40204", "40206", "40207", "40212", "40210", "40208", "40213", "40209", "40211", "19", "51", "8"};
-    /**
-     * 默认冠军体育分类ID，与sportNames一一对应
-     */
-    public static String[] SPORT_IDS_CHAMPION_SPECAIL = new String[]{"40603", "40604", "40606", "40607", "40612", "40610", "40608", "40613", "40609", "40611", "19", "51", "8"};
-    /**
-     * 玩法ID，与PLAY_METHOD_NAMES一一对应
-     */
-    private String[] PLAY_METHOD_TYPES = new String[]{"3", "1", "4", "11", "100"};
-
-
-
-
-
-
     private List<Match> mMatchList = new ArrayList<>();
     private List<Match> mChampionMatchList = new ArrayList<>();
     private Map<String, Match> mMapMatch = new HashMap<>();
@@ -76,8 +53,8 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     private List<MenuInfo> mMenuInfoList = new ArrayList<>();
 
     private int currentPage = 1;
-    private int goingOnPageSize = 1;
-    private int pageSize = 1;
+    private int goingOnPageSize = 300;
+    private int pageSize = 20;
 
     public PMMainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
@@ -126,7 +103,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
 
         if (mMenuInfoList.isEmpty()) {
-            pmListReq.setEuid(SPORT_IDS_SPECAIL[sportPos]);
+            pmListReq.setEuid(PMConstants.SPORT_IDS_SPECAIL[sportPos]);
         } else {
             for (MenuInfo menuInfo : mMenuInfoList) {
                 boolean isFound = false;
@@ -165,12 +142,17 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         //pmListReq.setOddType(oddType);
         pmListReq.setDevice("v2_h5_st");
 
-        if(searchDatePos == dateList.size() - 1){
-            String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
-            pmListReq.setMd(String.valueOf(0 - TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
-        }else if (searchDatePos > 0) {
-            String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
-            pmListReq.setMd(String.valueOf(TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
+        if(!dateList.isEmpty()) {
+            if (searchDatePos == dateList.size() - 1) {
+                String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
+                pmListReq.setMd(String.valueOf(0 - TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
+            } else if (searchDatePos > 0) {
+                String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
+                pmListReq.setMd(String.valueOf(TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
+            } else {
+                String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
+                pmListReq.setMd(String.valueOf(TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
+            }
         }
 
         Flowable flowable = model.getPMApiService().noLiveMatchesPagePB(pmListReq);
@@ -309,7 +291,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         //pbListReq.setOddType(oddType);
 
         if (mMenuInfoList.isEmpty()) {
-            pmListReq.setEuid(SPORT_IDS_CHAMPION_SPECAIL[sportPos]);
+            pmListReq.setEuid(PMConstants.SPORT_IDS_CHAMPION_SPECAIL[sportPos]);
         } else {
             for (MenuInfo menuInfo : mMenuInfoList) {
                 boolean isFound = false;
@@ -394,7 +376,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                                 if (playMethodType == menuInfo.menuType) {
                                     int index = Arrays.asList(SPORT_NAMES).indexOf(subMenu.menuName);
                                     if (index != -1) {
-                                        SPORT_IDS[index] = String.valueOf(subMenu.menuId);
+                                        PMConstants.SPORT_IDS[index] = String.valueOf(subMenu.menuId);
                                     }
                                 }
                             }
@@ -449,12 +431,12 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     @Override
     public String[] getPlayMethodTypes() {
-        return PLAY_METHOD_TYPES;
+        return PMConstants.PLAY_METHOD_TYPES;
     }
 
     @Override
     public String[] getSportId(int playMethodType) {
-        return SPORT_IDS;
+        return PMConstants.SPORT_IDS;
     }
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {
