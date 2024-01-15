@@ -17,7 +17,7 @@ import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 
-public abstract class TemplateBtCarViewModel extends BaseViewModel<BetRepository> implements BtCarViewModel {
+public abstract class TemplateBtCarViewModel extends BaseBtViewModel implements BtCarViewModel {
     public SingleLiveData<List<BetConfirmOption>> btConfirmInfoDate = new SingleLiveData<>();
     public SingleLiveData<List<CgOddLimit>> cgOddLimitDate = new SingleLiveData<>();
     public SingleLiveData<List<BtResult>> btResultInfoDate = new SingleLiveData<>();

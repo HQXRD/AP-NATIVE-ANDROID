@@ -45,7 +45,7 @@
                     app:tabRippleColor="@android:color/transparent" />
 
                 <TextView
-                    android:id="@+id/tv_amount"
+                    android:id="@+id/tv_balance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -56,7 +56,7 @@
                     android:drawablePadding="3dp"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="85.00"
+                    android:text="0.00"
                     android:textColor="@color/bt_text_color_primary" />
 
             </RelativeLayout>
@@ -137,6 +137,7 @@
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/csl_goingon"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 

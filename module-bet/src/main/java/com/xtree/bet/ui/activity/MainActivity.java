@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
@@ -24,7 +25,6 @@ import com.xtree.bet.BR;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.constant.Constants;
-import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.FragmentMainBinding;
@@ -72,7 +72,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     /**
      * 赛事统计数据
      */
-    private Map<String, List<Integer>> statisticalData;
+    private Map<String, List<Integer>> mStatisticalData;
     /**
      * 滚球比赛列表
      */
@@ -384,11 +384,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         viewModel.setSportItems();
         viewModel.setPlayMethodTabData();
         //viewModel.setPlaySearchDateData();
-        viewModel.setFbLeagueData();
         viewModel.addSubscription();
         mOrderBy = SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ORDERBY, 1);
         mOddType = SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE, 1);
         viewModel.statistical(playMethodType);
+        viewModel.getUserBalance();
         getMatchData(Integer.valueOf(viewModel.getSportId(playMethodType)[sportTypePos]), mOrderBy, mLeagueIdList, null,
                 playMethodType, searchDatePos, false, true);
     }
@@ -563,7 +563,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
         });
         viewModel.statisticalData.observe(this, statisticalData -> {
-            this.statisticalData = statisticalData;
+            this.mStatisticalData = statisticalData;
             updateStatisticalData();
         });
 
@@ -584,6 +584,21 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
         viewModel.settingLeagueData.observe(this, leagueList -> {
             settingLeagueList = leagueList;
+        });
+
+        viewModel.goingOnMatchCountData.observe(this, matchCount -> {
+            if(matchCount > 0) {
+                binding.cslGoingon.setVisibility(View.VISIBLE);
+                binding.tvSportName.setVisibility(View.VISIBLE);
+                binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportTypePos] + "(" + matchCount + ")");
+            }else{
+                binding.cslGoingon.setVisibility(View.GONE);
+                binding.tvSportName.setVisibility(View.GONE);
+            }
+        });
+
+        viewModel.userBalanceData.observe(this, balance -> {
+            binding.tvBalance.setText(balance);
         });
     }
 
@@ -699,12 +714,12 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     }
 
     private void updateStatisticalData() {
-        if (statisticalData != null) {
+        if (mStatisticalData != null) {
             int tabCount = binding.tabSportType.getTabCount();
             for (int i = 0; i < tabCount; i++) {
                 View view = binding.tabSportType.getTabAt(i).getCustomView();
                 TextView tvCount = view.findViewById(R.id.iv_match_count);
-                Integer count = statisticalData.get(String.valueOf(playMethodType)).get(i);
+                Integer count = mStatisticalData.get(String.valueOf(playMethodType)).get(i);
                 if (count == null) {
                     count = 0;
                 }

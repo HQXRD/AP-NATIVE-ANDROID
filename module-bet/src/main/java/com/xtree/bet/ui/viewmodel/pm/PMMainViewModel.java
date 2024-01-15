@@ -9,6 +9,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.request.pm.PMListReq;
+import com.xtree.bet.bean.response.pm.BalanceInfo;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
@@ -188,6 +189,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                     if (finalType == 1) { // 滚球
                         if (finalFlag) {
                             leagueGoingList(data);
+                            goingOnMatchCountData.postValue(data.size());
                             getLeagueList(sportPos, sportId, orderBy, leagueIds, matchidList, 2, searchDatePos, oddType, false, isRefresh);
                         } else {
                             leagueAdapterList(data);

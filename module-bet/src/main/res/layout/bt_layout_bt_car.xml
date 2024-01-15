@@ -54,10 +54,11 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
+                        android:id="@+id/tv_balance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
-                        android:text="80000000"
+                        android:text="0.00"
                         android:textColor="@color/bt_color_under_bg_primary_text"
                         android:textSize="@dimen/bt_text_16sp" />
 

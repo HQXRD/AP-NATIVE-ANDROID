@@ -17,7 +17,6 @@ import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.response.fb.MatchListRsp;
-import com.xtree.bet.bean.ui.MatchPm;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.PlayGroup;
 import com.xtree.bet.bean.ui.PlayGroupFb;
@@ -26,7 +25,6 @@ import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.data.BetRepository;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -148,6 +146,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         if (finalType == 1) { // 滚球
                             if(finalFlag) {
                                 leagueGoingList(matchListRsp.records);
+                                goingOnMatchCountData.postValue(matchListRsp.getTotal());
                                 getLeagueList(sportPos, sportId, orderBy, leagueIds, matchids, 3, searchDatePos, oddType, false, isRefresh);
                             }else{
                                 leagueAdapterList(matchListRsp.records);

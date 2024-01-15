@@ -153,7 +153,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
 
     @Override
     public void initData() {
-
+        viewModel.getUserBalance();
         if(!BtCarManager.getBtCarList().isEmpty()) {
             betConfirmOptionList = BtCarManager.getBtCarList();
         }else {
@@ -256,6 +256,9 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         viewModel.btResultInfoDate.observe(this, btResults -> {
             BtResultDialogFragment.getInstance(betConfirmOptionList, cgOddLimitList, btResults).show(getParentFragmentManager(), "BtResultDialogFragment");
             dismiss();
+        });
+        viewModel.userBalanceData.observe(this, balance -> {
+            binding.tvBalance.setText(balance);
         });
     }
 

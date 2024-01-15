@@ -9,7 +9,6 @@ import com.xtree.bet.bean.response.fb.LeagueItem;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.constant.Constants;
-import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.data.BetRepository;
 
@@ -27,7 +26,7 @@ import me.xtree.mvvmhabit.bus.event.SingleLiveData;
  * Created by goldze on 2018/6/21.
  */
 
-public abstract class TemplateMainViewModel extends BaseViewModel<BetRepository> implements MainViewModel{
+public abstract class TemplateMainViewModel extends BaseBtViewModel implements MainViewModel{
     public static String[] PLAY_METHOD_NAMES = new String[]{"今日", "滚球", "早盘", "串关", "冠军"};
     public static String[] SPORT_NAMES = new String[]{"足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
     /**
@@ -50,6 +49,8 @@ public abstract class TemplateMainViewModel extends BaseViewModel<BetRepository>
     public SingleLiveData<List<Match>> championMatchTimerListData = new SingleLiveData<>();
     public SingleLiveData<List<Match>> championMatchListData = new SingleLiveData<>();
     public SingleLiveData<BetContract> betContractListData = new SingleLiveData<>();
+    public SingleLiveData<Integer> goingOnMatchCountData = new SingleLiveData<>();
+
     /**
      * 赛事统计数据
      */
@@ -74,10 +75,6 @@ public abstract class TemplateMainViewModel extends BaseViewModel<BetRepository>
 
     public void setSportItems() {
         sportItemData.postValue(SPORT_NAMES);
-    }
-
-    public void setFbLeagueData() {
-        //leagueItemData.setValue(new LeagueItem());
     }
 
     public String getScore(List<League> leagueList, long matchId) {

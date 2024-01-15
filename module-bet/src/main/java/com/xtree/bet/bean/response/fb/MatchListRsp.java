@@ -22,6 +22,10 @@ public class MatchListRsp implements BaseBean {
         return totalPage;
     }
 
+    public int getTotal() {
+        return total;
+    }
+
     @Override
     public int describeContents() {
         return 0;
