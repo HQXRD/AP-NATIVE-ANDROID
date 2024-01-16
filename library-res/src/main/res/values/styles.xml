@@ -272,7 +272,7 @@
         <item name="android:background">@drawable/bg_get_code_selector</item>
         <item name="android:gravity">center</item>
         <item name="android:minEms">5</item>
-        <item name="android:padding">2dp</item>
+        <item name="android:padding">1dp</item>
         <item name="android:text"></item>
         <item name="android:textColor">@color/clr_text_code_selector</item>
         <item name="android:textSize">11sp</item>
