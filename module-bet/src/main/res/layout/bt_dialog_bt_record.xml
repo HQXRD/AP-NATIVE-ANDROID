@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@mipmap/bt_bg_dialog_bt">
+        android:background="@mipmap/bt_bg_dialog_bt1">
 
         <RelativeLayout
             android:id="@+id/ll_root"

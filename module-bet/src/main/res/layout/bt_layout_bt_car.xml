@@ -6,8 +6,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/bt_bg_dialog_bt">
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@mipmap/bt_car_pop_top"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <LinearLayout
 
@@ -20,7 +25,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/csl_top"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:layout_above="@+id/nsv_option">
 
                 <ImageView
@@ -28,24 +34,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
                     android:background="@mipmap/bt_icon_dan"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="FB体育"
                     android:textColor="@color/bt_color_under_bg_primary_text"
                     android:textSize="@dimen/bt_text_14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_cg_type"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="31dp"
                     android:layout_marginEnd="10dp"
                     android:background="@drawable/bt_bg_car_acount"
                     android:gravity="center"
@@ -57,8 +61,8 @@
                         android:id="@+id/tv_balance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="0.00"
+                        tools:text="0.00"
+                        android:layout_marginStart="10dp"
                         android:textColor="@color/bt_color_under_bg_primary_text"
                         android:textSize="@dimen/bt_text_16sp" />
 
@@ -66,8 +70,7 @@
                         android:id="@+id/iv_reflesh"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginEnd="5dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@mipmap/bt_icon_refresh" />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -77,6 +80,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/csl_bottom"
+                android:background="@mipmap/bt_bg_dialog_bt"
+                android:layout_marginTop="10dp"
                 android:minHeight="300dp"
                 android:paddingTop="10dp">
 
