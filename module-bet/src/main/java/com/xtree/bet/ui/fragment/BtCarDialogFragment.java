@@ -3,6 +3,9 @@ package com.xtree.bet.ui.fragment;
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
 import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Application;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -98,11 +105,6 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public void initView() {
         binding.rvBtOption.setLayoutManager(new LinearLayoutManager(this.getContext()));
         //binding.rvBtCg.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -149,6 +151,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         binding.ivBt.setOnClickListener(this);
         binding.ivDelete.setOnClickListener(this);
         binding.btnAddMatch.setOnClickListener(this);
+        binding.ivReflesh.setOnClickListener(this);
     }
 
     @Override
@@ -311,6 +314,16 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             dismiss();
         }else if(id == R.id.btn_add_match){
             dismiss();
+        }
+        else if(id == R.id.iv_reflesh){
+            ObjectAnimator.ofFloat(binding.ivReflesh, "rotation", 0f, 360f).setDuration(700).start();
+
+            /*ObjectAnimator animator = ObjectAnimator.ofFloat(binding.ivReflesh, "rotation", 0f, 359f).setDuration(700);
+            animator.setRepeatMode(ValueAnimator.RESTART);
+            animator.setRepeatCount(ValueAnimator.INFINITE);
+            animator.start();*/
+
+            viewModel.getUserBalance();
         }
     }
 

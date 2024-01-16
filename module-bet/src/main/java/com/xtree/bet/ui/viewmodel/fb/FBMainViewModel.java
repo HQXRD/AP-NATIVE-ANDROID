@@ -72,10 +72,10 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @param playMethodType
      * @param searchDatePos  查询时间列表中的位置
      * @param oddType 盘口类型
-     * @param isTimedRefresh 是否定时刷新 true-是，false-否
+     * @param isTimerRefresh 是否定时刷新 true-是，false-否
      * @param isRefresh      是否刷新 true-是, false-否
      */
-    public void getLeagueList(int sportPos, int sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int searchDatePos, int oddType, boolean isTimedRefresh, boolean isRefresh) {
+    public void getLeagueList(int sportPos, int sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int searchDatePos, int oddType, boolean isTimerRefresh, boolean isRefresh) {
         int type;
         boolean flag = false;
 
@@ -137,8 +137,16 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<MatchListRsp>() {
                     @Override
+                    protected void onStart() {
+                        super.onStart();
+                        if(!isTimerRefresh) {
+                            getUC().getShowDialogEvent().postValue("");
+                        }
+                    }
+
+                    @Override
                     public void onResult(MatchListRsp matchListRsp) {
-                        if (isTimedRefresh) {
+                        if (isTimerRefresh) {
                             setOptionOddChange(matchListRsp.records);
                             leagueGoingOnTimerListData.postValue(mLeagueList);
                             return;
@@ -158,6 +166,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         }
 
                         if(!finalFlag) {
+                            getUC().getDismissDialogEvent().call();
                             if (isRefresh) {
                                 if (matchListRsp != null && currentPage == matchListRsp.getPages()) {
                                     loadMoreWithNoMoreData();
@@ -172,6 +181,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                                 }
                             }
                         }
+
                     }
 
                     @Override
@@ -182,6 +192,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         } else {
                             finishLoadMore(false);
                         }
+                        getUC().getDismissDialogEvent().call();
                     }
                 });
         addSubscribe(disposable);

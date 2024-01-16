@@ -1,5 +1,6 @@
 package com.xtree.bet.ui.activity;
 
+import android.animation.ObjectAnimator;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 
@@ -10,10 +11,14 @@ import androidx.lifecycle.ViewModelProvider;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
@@ -57,6 +62,7 @@ import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
 import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.utils.MaterialDialogUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -145,6 +151,19 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             PMAppViewModelFactory factory = PMAppViewModelFactory.getInstance(getApplication());
             return new ViewModelProvider(this, factory).get(PMMainViewModel.class);
         }
+    }
+
+    @Override
+    public void showDialog(String title) {
+        if(binding.ivLoading.getVisibility() == View.GONE) {
+            binding.ivLoading.setVisibility(View.VISIBLE);
+            ObjectAnimator.ofFloat(binding.ivLoading, "rotation", 0f, 360f).setDuration(700).start();
+        }
+    }
+
+    @Override
+    public void dismissDialog() {
+        binding.ivLoading.setVisibility(View.GONE);
     }
 
     @Override
@@ -263,14 +282,16 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportTypePos]);
         initBottomTab();
     }
-
+    NavigationController navigationController;
+    MenuItemView refreshMenu;
     private void initBottomTab() {
-        NavigationController navigationController = binding.pagerBottomTab.custom()
+        refreshMenu = (MenuItemView) newItem(R.mipmap.bt_icon_menu_refresh, getResources().getString(R.string.bt_bt_menu_refresh));
+        navigationController = binding.pagerBottomTab.custom()
                 .addItem(newItem(R.mipmap.bt_icon_menu_tutorial, getResources().getString(R.string.bt_bt_menu_course)))
                 .addItem(newItem(R.mipmap.bt_icon_menu_setting, getResources().getString(R.string.bt_bt_menu_setting)))
                 .addItem(newItem(R.mipmap.bt_icon_menu_unbet, getResources().getString(R.string.bt_bt_menu_unbet)))
                 .addItem(newItem(R.mipmap.bt_icon_menu_bet, getResources().getString(R.string.bt_bt_menu_bet)))
-                .addItem(newItem(R.mipmap.bt_icon_menu_refresh, getResources().getString(R.string.bt_bt_menu_refresh)))
+                .addItem(refreshMenu)
                 .build();
         //navigationController.setMessageNumber(2, 8);
         //底部按钮的点击事件监听
@@ -289,6 +310,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
     private void menuOnClick(int index) {
         if (index == 4) {
+            refreshMenu.rotation();
             refreshLeague();
         } else if (index == 2) {
             BtRecordDialogFragment btRecordDialogFragment = BtRecordDialogFragment.getInstance(false);
@@ -303,10 +325,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     }
 
     /**
-     *
      * @param isEnable
      */
-    public void setRefreshLayoutEnable(boolean isEnable){
+    public void setRefreshLayoutEnable(boolean isEnable) {
 
     }
 
@@ -352,20 +373,20 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         int firstVisiblePos = binding.rvLeague.getFirstVisiblePosition();
         int lastVisiblePos = binding.rvLeague.getLastVisiblePosition();
         List<Long> matchIdList = new ArrayList<>();
-        if(playMethodPos != 4) {
+        if (playMethodPos != 4) {
             for (int i = firstVisiblePos; i <= lastVisiblePos; i++) {
                 long position = binding.rvLeague.getExpandableListPosition(i);
                 int type = binding.rvLeague.getPackedPositionType(position);
 
                 if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
                     int childPosition = binding.rvLeague.getPackedPositionChild(i);
-                    Match match = (Match)binding.rvLeague.getItemAtPosition(i);
-                    if(match != null) {
+                    Match match = (Match) binding.rvLeague.getItemAtPosition(i);
+                    if (match != null) {
                         matchIdList.add(match.getId());
                     }
                 }
             }
-        }else {
+        } else {
             for (Match match : mChampionMatchList) {
                 matchIdList.add(match.getId());
             }
@@ -587,11 +608,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         });
 
         viewModel.goingOnMatchCountData.observe(this, matchCount -> {
-            if(matchCount > 0) {
+            if (matchCount > 0) {
                 binding.cslGoingon.setVisibility(View.VISIBLE);
                 binding.tvSportName.setVisibility(View.VISIBLE);
                 binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportTypePos] + "(" + matchCount + ")");
-            }else{
+            } else {
                 binding.cslGoingon.setVisibility(View.GONE);
                 binding.tvSportName.setVisibility(View.GONE);
             }
@@ -733,21 +754,21 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         int id = view.getId();
         if (id == R.id.ll_going_on || id == R.id.ll_all_league) {
             isWatingExpand = !isWatingExpand;
-            for (int i = 0; i < binding.rvLeague.getExpandableListAdapter().getGroupCount(); i++) {
-                League league = mLeagueList.get(i);
+            int index = 0;
+            for (League league : mLeagueList) {
                 if (league.isHead()) {
                     return;
                 }
                 if (isWatingExpand) {
-                    if (!binding.rvLeague.isGroupExpanded(i)) {
-                        binding.rvLeague.expandGroup(i);
+                    if (!binding.rvLeague.isGroupExpanded(index)) {
+                        binding.rvLeague.expandGroup(index);
                     }
                 } else {
-                    if (binding.rvLeague.isGroupExpanded(i)) {
-                        binding.rvLeague.collapseGroup(i);
+                    if (binding.rvLeague.isGroupExpanded(index)) {
+                        binding.rvLeague.collapseGroup(index);
                     }
                 }
-
+                index++;
             }
         } else if (id == R.id.rl_cg) {
             if (BtCarManager.size() <= 1) {

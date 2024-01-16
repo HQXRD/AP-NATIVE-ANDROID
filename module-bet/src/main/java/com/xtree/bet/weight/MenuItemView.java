@@ -1,9 +1,13 @@
 package com.xtree.bet.weight;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -120,5 +124,9 @@ public class MenuItemView extends BaseTabItem {
 
     public void setTextCheckedColor(@ColorInt int color) {
         mCheckedTextColor = color;
+    }
+
+    public void rotation(){
+        ObjectAnimator.ofFloat(mIcon, "rotation", 0f, 360f).setDuration(700).start();
     }
 }

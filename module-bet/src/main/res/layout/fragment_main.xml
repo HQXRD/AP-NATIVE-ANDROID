@@ -262,6 +262,14 @@
             android:layout_height="76dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/bt_bg_main_menu"/>
+
+        <ImageView
+            android:id="@+id/iv_loading"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:background="@mipmap/bt_icon_loading"
+            android:layout_centerInParent="true"/>
     </RelativeLayout>
 
 
