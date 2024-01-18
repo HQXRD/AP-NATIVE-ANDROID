@@ -12,8 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.gson.Gson;
@@ -32,11 +32,13 @@ import com.xtree.mine.ui.viewmodel.MyWalletViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.GameBalanceVo;
+import com.xtree.mine.vo.GameMenusVo;
 import com.xtree.mine.vo.ProfileVo;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -44,15 +46,21 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterFragmentPath.Wallet.PAGER_TRANSFER)
 public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWalletViewModel> {
-
+    private List<GameBalanceVo> transGameBalanceList = new ArrayList<>();
+    private List<GameBalanceVo> transGameBalanceWithOwnList = new ArrayList<>();
+    private List<GameMenusVo> transGameList = new ArrayList<>();
+    private List<GameBalanceVo> hasMoneyGame = new ArrayList<>();
     private final static int MSG_GAME_BALANCE_NO_ZERO = 1001;
+    private final static int MSG_GAME_BALANCE = 1002;
+    private final static int MSG_UPDATE_RCV = 1003;
+    private int count = 0;
+    private boolean filterNoMoney = false;
 
     HashMap<String, GameBalanceVo> map = new HashMap<>();
     ArrayList<GameBalanceVo> listGameBalance = new ArrayList<>();
     BalanceVo mBalanceVo = new BalanceVo("0"); // 中心钱包
-    TextView[] arrayName; // 场馆名称
-    TextView[] arrayBlc; // 场馆余额
     BasePopupView ppw = null; // 底部弹窗
+    TransferBalanceAdapter mTransferBalanceAdapter;
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -61,6 +69,19 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
             switch (msg.what) {
                 case MSG_GAME_BALANCE_NO_ZERO:
                     setGameBalanceNoZero();
+                    break;
+                case MSG_GAME_BALANCE:
+                    for (GameMenusVo vo : transGameList) {
+                        viewModel.getGameBalance(vo.key);
+                    }
+                    break;
+                case MSG_UPDATE_RCV:
+                    if (filterNoMoney) {
+                        mTransferBalanceAdapter.setData(hasMoneyGame);
+                    } else {
+                        mTransferBalanceAdapter.setData(transGameBalanceList);
+                    }
+                    mTransferBalanceAdapter.notifyDataSetChanged();
                     break;
                 default:
                     break;
@@ -80,20 +101,16 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     }
 
     private void refreshBalance() {
+        count = 0;
+        transGameList = new ArrayList<>();
+        transGameBalanceList = new ArrayList<>();
+        transGameBalanceWithOwnList = new ArrayList<>();
         viewModel.getBalance(); // 平台中心余额
-        // 某个场馆的余额
-        viewModel.getGameBalance("pt");
-        viewModel.getGameBalance("bbin");
-        viewModel.getGameBalance("ag");
-        viewModel.getGameBalance("obgdj");
-        viewModel.getGameBalance("yy");
-        viewModel.getGameBalance("obgqp");
-        //viewModel.getGameBalance("shaba"); // 沙巴体育
+        viewModel.getTransThirdGameType(getContext()); // 获取馆场资讯
     }
 
     @Override
     public void initView() {
-
         int auto_thrad_status = SPUtils.getInstance().getInt(SPKeyGlobal.USER_AUTO_THRAD_STATUS);
         if (auto_thrad_status == 1) {
             binding.llCenterWallet.ckbAuto.setChecked(true);
@@ -249,21 +266,13 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
 
     private void showDialogChoose(String title, String alias, TextView tvw) {
 
-        WalletRoomAdapter adapter = new WalletRoomAdapter(getContext(), alias, new WalletRoomAdapter.ICallBack() {
-            @Override
-            public void onClick(GameBalanceVo vo) {
-                tvw.setText(vo.gameName);
-                tvw.setTag(vo.gameAlias);
-                ppw.dismiss();
-            }
+        WalletRoomAdapter adapter = new WalletRoomAdapter(getContext(), alias, vo -> {
+            tvw.setText(vo.gameName);
+            tvw.setTag(vo.gameAlias);
+            ppw.dismiss();
         });
-
-        ArrayList<GameBalanceVo> list = new ArrayList<>();
-        list.add(new GameBalanceVo("lottery", getString(R.string.txt_central_wallet), 0, mBalanceVo.balance));
-
-        list.addAll(map.values());
-        Collections.sort(list);
-        adapter.addAll(list);
+        Collections.sort(transGameBalanceWithOwnList);
+        adapter.addAll(transGameBalanceWithOwnList);
 
         ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), title, adapter, 75));
         ppw.show();
@@ -271,10 +280,7 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
 
     @Override
     public void initData() {
-        arrayName = new TextView[]{binding.tvwName01, binding.tvwName02, binding.tvwName03,
-                binding.tvwName04, binding.tvwName05, binding.tvwName06};
-        arrayBlc = new TextView[]{binding.tvwBlc01, binding.tvwBlc02, binding.tvwBlc03,
-                binding.tvwBlc04, binding.tvwBlc05, binding.tvwBlc06};
+        binding.rcvAllGameBalance.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
     }
 
@@ -297,71 +303,90 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
 
     @Override
     public void initViewObservable() {
-        viewModel.liveDataBalance.observe(this, new Observer<BalanceVo>() {
-            @Override
-            public void onChanged(BalanceVo vo) {
-                binding.llCenterWallet.tvwBalance.setText(vo.balance);
-                mBalanceVo = vo;
+        viewModel.liveDataBalance.observe(this, vo -> {
+            binding.llCenterWallet.tvwBalance.setText(vo.balance);
+            mBalanceVo = vo;
+        });
+
+        viewModel.liveDataGameBalance.observe(this, vo -> {
+            if (transGameBalanceWithOwnList.size() == 0) {
+                transGameBalanceWithOwnList.add(new GameBalanceVo("lottery", getString(R.string.txt_central_wallet), 0, mBalanceVo.balance));
+            }
+            for (int i = 0; i < transGameBalanceList.size(); i++) {
+                if (transGameBalanceList.get(i).equals(vo.gameAlias)) {
+                    return;
+                }
+            }
+
+            transGameBalanceList.add(vo);
+            transGameBalanceWithOwnList.add(vo);
+
+            map.put(vo.gameAlias, vo);
+            count++;
+
+            CfLog.d("count : " + count + " transGameList.size() : " + transGameList.size());
+            if (count >= transGameList.size()) {
+                Collections.sort(transGameBalanceList);
+                mTransferBalanceAdapter = new TransferBalanceAdapter(getContext());
+                binding.rcvAllGameBalance.setAdapter(mTransferBalanceAdapter);
+                mTransferBalanceAdapter.setData(transGameBalanceList);
+            }
+
+            // 这里是要处理转账前,如果勾选了'隐藏无余额场馆'这种情况
+            if (binding.ckbHide.isChecked()) {
+                //setGameBalanceNoZero(); // 如果直接调用,会有6个场馆要调用6次出现卡顿,改用Handler
+                mHandler.removeMessages(MSG_GAME_BALANCE_NO_ZERO);
+                mHandler.sendEmptyMessageDelayed(MSG_GAME_BALANCE_NO_ZERO, 1000L);
             }
         });
 
-        viewModel.liveDataGameBalance.observe(this, new Observer<GameBalanceVo>() {
-            @Override
-            public void onChanged(GameBalanceVo vo) {
-                TextView tvw = binding.llWallet.findViewWithTag(vo.gameAlias);
-                if (tvw != null) {
-                    tvw.setText(vo.balance);
-                    if (Double.parseDouble(vo.balance) > 0) {
-                        tvw.setSelected(true);
-                    } else {
-                        tvw.setSelected(false); // 这里是为了颜色
-                    }
-                }
-                //setGameBalance(vo);
-                map.put(vo.gameAlias, vo);
+        viewModel.listSingleLiveData.observe(this, vo -> {
+            mTransferBalanceAdapter = new TransferBalanceAdapter(getContext());
+            binding.rcvAllGameBalance.setAdapter(mTransferBalanceAdapter);
+            Collections.sort(vo);
+            mTransferBalanceAdapter.setData(vo);
 
-                // 这里是要处理转账前,如果勾选了'隐藏无余额场馆'这种情况
-                if (binding.ckbHide.isChecked()) {
-                    //setGameBalanceNoZero(); // 如果直接调用,会有6个场馆要调用6次出现卡顿,改用Handler
-                    mHandler.removeMessages(MSG_GAME_BALANCE_NO_ZERO);
-                    mHandler.sendEmptyMessageDelayed(MSG_GAME_BALANCE_NO_ZERO, 1000L);
-                }
+            // 这里是要处理转账前,如果勾选了'隐藏无余额场馆'这种情况
+            if (binding.ckbHide.isChecked()) {
+                //setGameBalanceNoZero(); // 如果直接调用,会有6个场馆要调用6次出现卡顿,改用Handler
+                mHandler.removeMessages(MSG_GAME_BALANCE_NO_ZERO);
+                mHandler.sendEmptyMessageDelayed(MSG_GAME_BALANCE_NO_ZERO, 1000L);
             }
         });
-        viewModel.liveDataTransfer.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isSuccess) {
-                if (isSuccess) {
-                    ToastUtils.showLong(R.string.txt_transfer_success);
-                    refreshBalance();
-                } else {
-                    ToastUtils.showLong(R.string.txt_transfer_fail);
-                }
 
+        viewModel.liveDataTransfer.observe(this, isSuccess -> {
+            if (isSuccess) {
+                ToastUtils.showLong(R.string.txt_transfer_success);
+                refreshBalance();
+            } else {
+                ToastUtils.showLong(R.string.txt_transfer_fail);
             }
         });
-        viewModel.liveDataAutoTrans.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isSuccess) {
-                if (isSuccess) {
-                    ToastUtils.showLong(R.string.txt_set_succ);
-                    refreshBalance();
-                } else {
-                    ToastUtils.showLong(R.string.txt_set_fail);
-                }
 
+        viewModel.liveDataAutoTrans.observe(this, isSuccess -> {
+            if (isSuccess) {
+                ToastUtils.showLong(R.string.txt_set_succ);
+                refreshBalance();
+            } else {
+                ToastUtils.showLong(R.string.txt_set_fail);
+            }
+
+        });
+
+        viewModel.liveData1kRecycle.observe(this, isSuccess -> {
+            if (isSuccess) {
+                ToastUtils.showLong(R.string.txt_recycle_succ);
+                refreshBalance();
+            } else {
+                ToastUtils.showLong(R.string.txt_recycle_fail);
             }
         });
-        viewModel.liveData1kRecycle.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean isSuccess) {
-                if (isSuccess) {
-                    ToastUtils.showLong(R.string.txt_recycle_succ);
-                    refreshBalance();
-                } else {
-                    ToastUtils.showLong(R.string.txt_recycle_fail);
-                }
-            }
+
+        viewModel.liveDataTransGameType.observe(this, list -> {
+            transGameList = list;
+
+            // 某个场馆的余额
+            mHandler.sendEmptyMessage(MSG_GAME_BALANCE);
         });
 
     }
@@ -372,7 +397,6 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     private void setGameBalanceAll() {
         listGameBalance.clear();
         listGameBalance.addAll(map.values());
-        Collections.sort(listGameBalance);
         showGameBlc();
     }
 
@@ -383,46 +407,24 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
 
         listGameBalance.clear();
         listGameBalance.addAll(map.values());
-        Collections.sort(listGameBalance);
 
         for (int i = listGameBalance.size() - 1; i >= 0; i--) {
             if (Double.parseDouble(listGameBalance.get(i).balance) == 0.0d) {
                 listGameBalance.remove(i);
             }
         }
-
         showGameBlc();
-
-        if (listGameBalance.size() > 3) {
-            binding.llRow1.setVisibility(View.VISIBLE);
-            binding.llRow2.setVisibility(View.VISIBLE);
-        } else if (listGameBalance.size() > 0) {
-            binding.llRow1.setVisibility(View.VISIBLE);
-            binding.llRow2.setVisibility(View.GONE);
-        } else {
-            binding.llRow1.setVisibility(View.GONE);
-            binding.llRow2.setVisibility(View.GONE);
-        }
     }
 
     private void showGameBlc() {
-        binding.llRow1.setVisibility(View.VISIBLE);
-        binding.llRow2.setVisibility(View.VISIBLE);
-
-        for (int i = 0; i < arrayName.length; i++) {
-            if (i < listGameBalance.size()) {
-                arrayName[i].setText(listGameBalance.get(i).gameName);
-                arrayBlc[i].setText(listGameBalance.get(i).balance);
-                if (Double.parseDouble(listGameBalance.get(i).balance) > 0) {
-                    arrayBlc[i].setSelected(true);
-                } else {
-                    arrayBlc[i].setSelected(false);
-                }
-            } else {
-                arrayName[i].setText(" ");
-                arrayBlc[i].setText(" ");
+        hasMoneyGame = new ArrayList<>();
+        for (int i = 0; i < transGameBalanceList.size(); i++) {
+            if (Double.parseDouble(transGameBalanceList.get(i).balance) > 0) {
+                hasMoneyGame.add(transGameBalanceList.get(i));
             }
         }
+        Collections.sort(hasMoneyGame);
+        filterNoMoney = !filterNoMoney;
+        mHandler.sendEmptyMessage(MSG_UPDATE_RCV);
     }
-
 }

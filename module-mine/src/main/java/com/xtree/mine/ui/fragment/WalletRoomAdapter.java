@@ -25,7 +25,6 @@ public class WalletRoomAdapter extends CachedAutoRefreshAdapter<GameBalanceVo> {
     View curRoot;
     View curCheck;
 
-
     public interface ICallBack {
         void onClick(GameBalanceVo vo);
     }
@@ -57,6 +56,7 @@ public class WalletRoomAdapter extends CachedAutoRefreshAdapter<GameBalanceVo> {
         binding.ivwLogo.setImageLevel(vo.orderId);
         binding.tvwTitle.setText(vo.gameName);
         binding.tvwBalance.setText(vo.balance);
+        chooseIcon(vo);
 
         if (vo.gameAlias.equals(curAlias)) {
             binding.llRoot.setSelected(true);
@@ -69,19 +69,40 @@ public class WalletRoomAdapter extends CachedAutoRefreshAdapter<GameBalanceVo> {
             binding.ivwCheck.setSelected(false);
         }
 
-        binding.llRoot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (curRoot != null) {
-                    curRoot.setSelected(false);
-                    curCheck.setSelected(false);
-                }
-                binding.llRoot.setSelected(true);
-                binding.ivwCheck.setSelected(true);
-                mCallBack.onClick(vo);
+        binding.llRoot.setOnClickListener(v -> {
+            if (curRoot != null) {
+                curRoot.setSelected(false);
+                curCheck.setSelected(false);
             }
+            binding.llRoot.setSelected(true);
+            binding.ivwCheck.setSelected(true);
+            mCallBack.onClick(vo);
         });
-
     }
 
+    private void chooseIcon(GameBalanceVo vo) {
+        switch (vo.orderId) {
+            case 1:
+                binding.ivwLogo.setImageResource(R.mipmap.me_ic_wlt_pt);
+                break;
+            case 2:
+                binding.ivwLogo.setImageResource(R.mipmap.me_ic_wlt_bbin);
+                break;
+            case 4:
+                binding.ivwLogo.setImageResource(R.mipmap.me_ic_wlt_ag);
+                break;
+            case 40:
+                binding.ivwLogo.setImageResource(R.mipmap.me_ic_wlt_obgdj);
+                break;
+            case 20:
+                binding.ivwLogo.setImageResource(R.mipmap.me_ic_wlt_yy);
+                break;
+            case 32:
+                binding.ivwLogo.setImageResource(R.mipmap.me_ic_wlt_obgqp);
+                break;
+            default:
+                binding.ivwLogo.setImageResource(R.mipmap.me_ic_wlt_center);
+                break;
+        }
+    }
 }
