@@ -22,7 +22,6 @@ import com.xtree.mine.ui.fragment.AccountMgmtDialog;
 import com.xtree.mine.ui.viewmodel.MyWalletViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.BalanceVo;
-import com.xtree.mine.vo.GameBalanceVo;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
 
@@ -128,15 +127,15 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
             }
         });
 
-        viewModel.liveDataGameBalance.observe(this, new Observer<GameBalanceVo>() {
-            @Override
-            public void onChanged(GameBalanceVo vo) {
-                TextView tvw = binding.llWallet.findViewWithTag(vo.gameAlias);
-                if (tvw != null) {
-                    tvw.setText(vo.balance);
-                }
-            }
-        });
+//        viewModel.liveDataGameBalance.observe(this, new Observer<GameBalanceVo>() {
+//            @Override
+//            public void onChanged(GameBalanceVo vo) {
+//                TextView tvw = binding.llWallet.findViewWithTag(vo.gameAlias);
+//                if (tvw != null) {
+//                    tvw.setText(vo.balance);
+//                }
+//            }
+//        });
     }
 
     private void goWebView(View v, String path) {

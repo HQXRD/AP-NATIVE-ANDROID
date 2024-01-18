@@ -1,8 +1,10 @@
 package com.xtree.mine.ui.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -12,7 +14,12 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.GameBalanceVo;
+import com.xtree.mine.vo.GameMenusVo;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -25,9 +32,11 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 public class MyWalletViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<BalanceVo> liveDataBalance = new SingleLiveData<>(); // 中心钱包
     public SingleLiveData<GameBalanceVo> liveDataGameBalance = new SingleLiveData<>(); // 场馆余额
+    public SingleLiveData<List<GameBalanceVo>> listSingleLiveData = new SingleLiveData<>(); // 暂存场馆余额
     public SingleLiveData<Boolean> liveData1kRecycle = new SingleLiveData<>(); // 1键回收
     public SingleLiveData<Boolean> liveDataAutoTrans = new SingleLiveData<>(); // 自动免转
     public SingleLiveData<Boolean> liveDataTransfer = new SingleLiveData<>(); // 转账
+    public MutableLiveData<List<GameMenusVo>> liveDataTransGameType = new MutableLiveData<>(); // 可转账的平台
 
     private HashMap<String, GameBalanceVo> map = new HashMap<>();
 
@@ -54,6 +63,25 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                     }
                 });
         addSubscribe(disposable);
+    }
+
+    public void getTransThirdGameType(Context ctx) {
+        new Thread(() -> {
+            try {
+                List<GameMenusVo> canUseTransGame = new ArrayList<>();
+                List<GameMenusVo> gameMenusVoList = readFromRaw(ctx);
+                for (int i = 0; i < gameMenusVoList.size(); i++) {
+                    GameMenusVo vo = gameMenusVoList.get(i);
+                    if (vo.needTransfer) {
+                        CfLog.d(vo.name);
+                        canUseTransGame.add(vo);
+                    }
+                }
+                liveDataTransGameType.setValue(canUseTransGame);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }).run();
     }
 
     public void getGameBalance(String gameAlias) {
@@ -152,9 +180,8 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
         CfLog.e("json: " + json);
         List<GameBalanceVo> list = gson.fromJson(json, new TypeToken<List<GameBalanceVo>>() {
         }.getType());
-        for (GameBalanceVo vo : list) {
-            liveDataGameBalance.setValue(vo);
-        }
+        listSingleLiveData.setValue(list);
+
     }
 
     private GameBalanceVo getFullGame(GameBalanceVo vo) {
@@ -168,19 +195,16 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                 t = new GameBalanceVo(vo.gameAlias, "BBIN娱乐", 2, vo.balance);
                 break;
             case "ag":
-                t = new GameBalanceVo(vo.gameAlias, "AG街机捕鱼", 3, vo.balance);
+                t = new GameBalanceVo(vo.gameAlias, "AG街机捕鱼", 4, vo.balance);
                 break;
             case "obgdj":
-                t = new GameBalanceVo(vo.gameAlias, "DB电竞", 4, vo.balance);
+                t = new GameBalanceVo(vo.gameAlias, "DB电竞", 40, vo.balance);
                 break;
             case "yy":
-                t = new GameBalanceVo(vo.gameAlias, "云游棋牌", 5, vo.balance);
+                t = new GameBalanceVo(vo.gameAlias, "云游棋牌", 20, vo.balance);
                 break;
             case "obgqp":
-                t = new GameBalanceVo(vo.gameAlias, "DB棋牌", 6, vo.balance);
-                break;
-            case "shaba":
-                t = new GameBalanceVo(vo.gameAlias, "沙巴体育", 7, vo.balance);
+                t = new GameBalanceVo(vo.gameAlias, "DB棋牌", 32, vo.balance);
                 break;
             default:
                 CfLog.e("error, default, alias: " + vo);
@@ -190,4 +214,27 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
         return t;
     }
 
+    private List<GameMenusVo> readFromRaw(Context context) throws IOException {
+        InputStream is = context.getAssets().open("game_menus.json");
+        return readText(is);
+    }
+
+    private List<GameMenusVo> readText(InputStream is) {
+        List<GameMenusVo> gameMenusVoArrayList = new ArrayList<>();
+        try {
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            // 将字节数组转换为字符串
+            String json = new String(buffer, "UTF-8");
+
+            Gson gson = new Gson();
+            gameMenusVoArrayList = Arrays.asList(gson.fromJson(json, GameMenusVo[].class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return gameMenusVoArrayList;
+    }
 }

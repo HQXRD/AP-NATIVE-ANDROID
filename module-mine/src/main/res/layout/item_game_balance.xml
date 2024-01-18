@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/style_trans_ll"
+    android:orientation="horizontal">
+
+    <LinearLayout style="@style/style_trans_ll"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp">
+
+        <TextView
+            android:id="@+id/tvw_name"
+            style="@style/style_trans_name"
+            android:text="@string/me_wallet_dbqp" />
+
+        <TextView
+            android:id="@+id/tvw_blc"
+            style="@style/style_trans_value"
+            android:tag="obgqp"
+            tools:text="0.0000" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_line"
+        style="@style/style_trans_dividing_line" />
+
+</LinearLayout>
+
+
