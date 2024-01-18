@@ -1,6 +1,7 @@
 package com.xtree.bet.ui.fragment;
 
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM_NAME;
 import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
 
 import android.animation.AnimatorSet;
@@ -148,6 +149,9 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             showOrHideKeyBoard(true);
             binding.ivBt.setBackgroundResource(R.mipmap.bt_ic_bt_cg);
         }
+
+        binding.tvPlatform.setText(SPUtils.getInstance().getString(KEY_PLATFORM_NAME));
+
         binding.ivBt.setOnClickListener(this);
         binding.ivDelete.setOnClickListener(this);
         binding.btnAddMatch.setOnClickListener(this);

@@ -93,7 +93,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         } else {
             // 跳原生
             CfLog.d("跳原生");
-            ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).withString("KEY_PLATFORM", vo.alias).navigation();
+            ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).withString("KEY_PLATFORM", vo.alias).withString("KEY_PLATFORM_NAME", vo.name).navigation();
         }
     }
 

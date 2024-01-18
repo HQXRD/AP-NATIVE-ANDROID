@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:background="@mipmap/bt_car_pop_top"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
 
@@ -25,27 +25,31 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/csl_top"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_above="@+id/nsv_option">
+                android:layout_height="41dp"
+                android:layout_above="@+id/nsv_option"
+                android:layout_marginTop="8dp">
 
                 <ImageView
                     android:id="@+id/iv_cg_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
+                    android:layout_marginTop="8dp"
                     android:background="@mipmap/bt_icon_dan"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tv_platform"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="FB体育"
+                    android:layout_height="wrap_content"
                     android:textColor="@color/bt_color_under_bg_primary_text"
                     android:textSize="@dimen/bt_text_14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/iv_cg_type"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="FB体育" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -61,17 +65,30 @@
                         android:id="@+id/tv_balance"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:text="0.00"
                         android:layout_marginStart="10dp"
                         android:textColor="@color/bt_color_under_bg_primary_text"
-                        android:textSize="@dimen/bt_text_16sp" />
+                        android:textSize="@dimen/bt_text_16sp"
+                        android:textStyle="bold"
+                        android:text="0.00" />
 
-                    <ImageView
-                        android:id="@+id/iv_reflesh"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:background="@mipmap/bt_icon_refresh" />
+                        android:layout_marginTop="2dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="10dp">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/bt_balance_refresh_bg" />
+                        <ImageView
+                            android:id="@+id/iv_reflesh"
+                            android:layout_width="12dp"
+                            android:layout_height="12dp"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginTop="3dp"
+                            android:background="@mipmap/bt_icon_refresh" />
+                    </RelativeLayout>
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -80,8 +97,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/csl_bottom"
+                android:layout_marginTop="8dp"
                 android:background="@mipmap/bt_bg_dialog_bt"
-                android:layout_marginTop="10dp"
                 android:minHeight="300dp"
                 android:paddingTop="10dp">
 
@@ -164,7 +181,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/csl_bottom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/bt_page_up_bg">
 
                 <CheckBox
                     android:id="@+id/cb_accept"

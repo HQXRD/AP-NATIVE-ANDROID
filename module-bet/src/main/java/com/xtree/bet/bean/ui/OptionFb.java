@@ -9,6 +9,7 @@ import com.xtree.bet.bean.response.fb.PlayTypeInfo;
 import com.xtree.bet.constant.SPKey;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -65,7 +66,7 @@ public class OptionFb implements Option{
     public double getOdd() {
         if(isHongKongMarket()){
             BigDecimal bg = new BigDecimal(optionInfo.od - 1);
-            return bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            return bg.setScale(2, RoundingMode.HALF_UP).doubleValue();
         }
         return optionInfo.od;
     }

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
+import com.xtree.base.utils.NumberUtils;
 import com.xtree.bet.bean.response.fb.BalanceInfo;
 import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.PMConstants;
@@ -53,7 +54,7 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
                 .subscribeWith(new HttpCallBack<BalanceInfo>() {
                     @Override
                     public void onResult(BalanceInfo balanceInfo) {
-                        userBalanceData.postValue(balanceInfo.bl);
+                        userBalanceData.postValue(NumberUtils.format(Double.valueOf(balanceInfo.bl), 2));
                     }
 
                     @Override
@@ -74,7 +75,7 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
                 .subscribeWith(new PMHttpCallBack<com.xtree.bet.bean.response.pm.BalanceInfo>() {
                     @Override
                     public void onResult(com.xtree.bet.bean.response.pm.BalanceInfo balanceInfo) {
-                        userBalanceData.postValue(String.valueOf(balanceInfo.amount));
+                        userBalanceData.postValue(NumberUtils.format(balanceInfo.amount, 2));
                     }
 
                     @Override

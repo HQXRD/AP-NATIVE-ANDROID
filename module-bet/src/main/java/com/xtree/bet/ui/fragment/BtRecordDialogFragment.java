@@ -173,15 +173,20 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
     @Override
     public void initViewObservable() {
         viewModel.btRecordTimeDate.observe(this, btRecordTimes -> {
-            this.btRecordTimes = btRecordTimes;
-            if(btRecordAdapter == null) {
-                btRecordAdapter = new BtRecordAdapter(getContext(), btRecordTimes);
-                binding.rvRecord.setAdapter(btRecordAdapter);
+            if(btRecordTimes == null || btRecordTimes.isEmpty()){
+                binding.tvTimeTop.setVisibility(View.GONE);
             }else {
-                btRecordAdapter.setData(btRecordTimes);
-            }
-            for (int i = 0; i < binding.rvRecord.getExpandableListAdapter().getGroupCount(); i++) {
-                binding.rvRecord.expandGroup(i);
+                binding.tvTimeTop.setVisibility(View.VISIBLE);
+                this.btRecordTimes = btRecordTimes;
+                if (btRecordAdapter == null) {
+                    btRecordAdapter = new BtRecordAdapter(getContext(), btRecordTimes);
+                    binding.rvRecord.setAdapter(btRecordAdapter);
+                } else {
+                    btRecordAdapter.setData(btRecordTimes);
+                }
+                for (int i = 0; i < binding.rvRecord.getExpandableListAdapter().getGroupCount(); i++) {
+                    binding.rvRecord.expandGroup(i);
+                }
             }
         });
     }
@@ -189,6 +194,9 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
     @Override
     public void onClick(View view) {
         int id = view.getId();
+        if(id == R.id.tv_close){
+            dismiss();
+        }
     }
 
     @Override

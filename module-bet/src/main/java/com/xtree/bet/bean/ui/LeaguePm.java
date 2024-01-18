@@ -104,7 +104,7 @@ public class LeaguePm implements League{
 
     @Override
     public void setMatchCount(int matchCount) {
-        this.matchCount = matchCount;
+        this.matchCount += matchCount;
     }
 
     /**

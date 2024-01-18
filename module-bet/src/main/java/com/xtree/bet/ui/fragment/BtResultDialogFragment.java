@@ -58,11 +58,6 @@ public class BtResultDialogFragment extends BaseDialogFragment<BtLayoutBtResultB
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public void initView() {
         binding.rvBtOption.setLayoutManager(new LinearLayoutManager(this.getContext()));
         binding.rvBtCg.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -115,11 +110,6 @@ public class BtResultDialogFragment extends BaseDialogFragment<BtLayoutBtResultB
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return R.layout.bt_layout_bt_result;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     @Override
