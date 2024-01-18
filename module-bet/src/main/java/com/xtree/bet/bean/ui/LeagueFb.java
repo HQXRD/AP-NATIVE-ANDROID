@@ -62,7 +62,7 @@ public class LeagueFb implements League{
     }
     @Override
     public void setMatchCount(int matchCount) {
-        this.matchCount = matchCount;
+        this.matchCount += matchCount;
     }
 
     /**

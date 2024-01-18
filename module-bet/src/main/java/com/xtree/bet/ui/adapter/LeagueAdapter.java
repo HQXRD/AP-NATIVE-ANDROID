@@ -5,6 +5,7 @@ import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -54,10 +55,15 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
     private List<League> mDatas;
     private Context mContext;
     private String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+    private boolean headerIsExpand;
     private PageHorizontalScrollView.OnScrollListener mOnScrollListener;
 
     public void setOnScrollListener(PageHorizontalScrollView.OnScrollListener onScrollListener) {
         this.mOnScrollListener = onScrollListener;
+    }
+
+    public void setHeaderIsExpand(boolean headerIsExpand) {
+        this.headerIsExpand = headerIsExpand;
     }
 
     public void setData(List<League> mLeagueList) {
@@ -101,7 +107,10 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        if (mDatas == null || mDatas.isEmpty()) {
+        if (mDatas == null || mDatas.isEmpty() || mDatas.size() <= groupPosition) {
+            return null;
+        }
+        if(mDatas.get(groupPosition).getMatchList() == null || mDatas.get(groupPosition).getMatchList().size() <= childPosition){
             return null;
         }
         return mDatas.get(groupPosition).getMatchList().get(childPosition);
@@ -124,7 +133,10 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup viewGroup) {
-        if (mDatas == null || mDatas.isEmpty()) {
+        if (mDatas == null || mDatas.isEmpty() || mDatas.size() <= groupPosition) {
+            if (convertView == null) {
+                convertView = View.inflate(mContext, R.layout.bt_fb_league_group, null);
+            }
             return convertView;
         }
         League league = mDatas.get(groupPosition);
@@ -138,6 +150,14 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         } else {
             holder = (GroupHolder) convertView.getTag();
         }
+
+        if(holder == null || holder.itemView == null){
+            if (convertView == null) {
+                convertView = View.inflate(mContext, R.layout.bt_fb_league_group, null);
+            }
+            return convertView;
+        }
+
         BtFbLeagueGroupBinding binding = BtFbLeagueGroupBinding.bind(holder.itemView);
         if (!league.isHead()) {
             binding.llHeader.setVisibility(View.GONE);
@@ -150,6 +170,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         } else {
             binding.llHeader.setVisibility(View.VISIBLE);
             binding.rlLeague.setVisibility(View.GONE);
+            binding.ivExpand.setSelected(headerIsExpand);
             binding.tvHeaderName.setText("未开赛");
             int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
             binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportType] + "(" + league.getMatchCount() + ")");
@@ -165,11 +186,13 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
     @Override
     public View getRealChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-        //Log.e("test", "============getRealChildView============");
 
         ChildHolder holder;
         Match match = (Match) getChild(groupPosition, childPosition);
         if (match == null) {
+            if (convertView == null) {
+                convertView = View.inflate(mContext, R.layout.bt_fb_match_list, null);
+            }
             return convertView;
         }
 
@@ -179,6 +202,13 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             convertView.setTag(holder);
         } else {
             holder = (ChildHolder) convertView.getTag();
+        }
+
+        if(holder == null || holder.itemView == null){
+            if (convertView == null) {
+                convertView = View.inflate(mContext, R.layout.bt_fb_match_list, null);
+            }
+            return convertView;
         }
 
         BtFbMatchListBinding binding = BtFbMatchListBinding.bind(holder.itemView);
@@ -245,7 +275,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         } else {
             sencondPagePlayType.setVisibility(View.GONE);
             binding.llPointer.setVisibility(View.GONE);
-            if(match.isGoingon()) {
+            if (match.isGoingon()) {
                 binding.llScoreData.setVisibility(View.VISIBLE);
                 binding.llScoreData.removeAllViews();
                 BaseDetailDataView mScoreDataView = BaseDetailDataView.getInstance(mContext, match, true);
@@ -406,6 +436,10 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
+
+    /*public void updateHeader(View view, int position){
+        getGroup(position)
+    }*/
 
     private static class GroupHolder {
         public GroupHolder(View view) {

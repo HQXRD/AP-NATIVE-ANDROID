@@ -5,6 +5,7 @@ import com.xtree.bet.bean.request.pm.BtCarReq;
 import com.xtree.bet.bean.request.pm.BtRecordReq;
 import com.xtree.bet.bean.request.pm.BtReq;
 import com.xtree.bet.bean.request.pm.PMListReq;
+import com.xtree.bet.bean.response.pm.BalanceInfo;
 import com.xtree.bet.bean.response.pm.BtConfirmInfo;
 import com.xtree.bet.bean.response.pm.BtRecordRsp;
 import com.xtree.bet.bean.response.pm.BtResultInfo;
@@ -136,5 +137,9 @@ public interface PMApiService {
     @POST("/yewu11/v1/m/getMatchBaseInfoByMidsPB")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<PMBaseResponse<List<MatchInfo>>> getMatchBaseInfoByMidsPB(@Body PMListReq pmListReq);
+
+    @GET("/yewu12/api/user/amount")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<PMBaseResponse<BalanceInfo>> getUserBanlace(@QueryMap Map<String, String> map);
 
 }

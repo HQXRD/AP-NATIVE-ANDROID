@@ -86,7 +86,7 @@
             android:paddingBottom="10dp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_match_team">
+            app:layout_constraintTop_toBottomOf="@id/tv_league_name">
 
             <TextView
                 android:id="@+id/iv_close_tip"

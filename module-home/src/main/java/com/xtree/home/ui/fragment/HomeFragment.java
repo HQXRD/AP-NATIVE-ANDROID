@@ -112,6 +112,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             viewModel.getNotices(); // 获取公告
             viewModel.getProfile(); // 获取个人信息
             viewModel.getVipInfo(); // 获取VIP信息
+            //viewModel.getFBGameTokenApi();
+            //viewModel.getPMGameTokenApi();
         });
 
         viewModel.liveDataBanner.observe(getViewLifecycleOwner(), list -> {

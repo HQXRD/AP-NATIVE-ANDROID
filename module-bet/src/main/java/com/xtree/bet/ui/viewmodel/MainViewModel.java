@@ -58,4 +58,9 @@ public interface MainViewModel {
      * @return
      */
     String[] getSportId(int playMethodType);
+
+    /**
+     * 获取用户余额
+     */
+    void getUserBalance();
 }

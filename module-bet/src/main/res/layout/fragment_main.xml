@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bt_page_bg">
@@ -45,7 +46,7 @@
                     app:tabRippleColor="@android:color/transparent" />
 
                 <TextView
-                    android:id="@+id/tv_amount"
+                    android:id="@+id/tv_balance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -56,7 +57,7 @@
                     android:drawablePadding="3dp"
                     android:gravity="center"
                     android:padding="2dp"
-                    android:text="85.00"
+                    android:text="0.00"
                     android:textColor="@color/bt_text_color_primary" />
 
             </RelativeLayout>
@@ -137,10 +138,11 @@
                         android:orientation="vertical">
 
                         <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/csl_goingon"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <LinearLayout
+                            <RelativeLayout
                                 android:id="@+id/ll_all_league"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -154,20 +156,32 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
+                                    android:layout_centerVertical="true"
                                     android:background="@mipmap/bt_icon_going_on" />
 
                                 <TextView
+                                    android:id="@+id/tv_all_league"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
+                                    android:layout_marginStart="28dp"
                                     android:layout_marginTop="4dp"
                                     android:layout_marginBottom="4dp"
+                                    android:layout_centerVertical="true"
                                     android:text="@string/bt_all_league"
                                     android:textColor="@color/bt_text_color_primary_1"
                                     android:textSize="@dimen/bt_text_12sp" />
-                            </LinearLayout>
 
-                            <LinearLayout
+                                <ImageView
+                                    android:id="@+id/iv_expand_all"
+                                    android:layout_width="12dp"
+                                    android:layout_height="12dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="10dp"
+                                    android:background="@drawable/bt_icon_sport_type_expand_selector" />
+                            </RelativeLayout>
+
+                            <RelativeLayout
                                 android:id="@+id/ll_going_on"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -180,18 +194,29 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
+                                    android:layout_centerVertical="true"
                                     android:background="@mipmap/bt_icon_going_on" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
+                                    android:layout_marginStart="28dp"
                                     android:layout_marginTop="4dp"
                                     android:layout_marginBottom="4dp"
+                                    android:layout_centerVertical="true"
                                     android:text="@string/bt_game_going_on"
                                     android:textColor="@color/bt_text_color_primary_1"
                                     android:textSize="@dimen/bt_text_12sp" />
-                            </LinearLayout>
+
+                                <ImageView
+                                    android:id="@+id/iv_expand"
+                                    android:layout_width="12dp"
+                                    android:layout_height="12dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginEnd="10dp"
+                                    android:background="@drawable/bt_icon_sport_type_expand_selector" />
+                            </RelativeLayout>
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
@@ -261,6 +286,14 @@
             android:layout_height="76dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/bt_bg_main_menu"/>
+
+        <ImageView
+            android:id="@+id/iv_loading"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:background="@mipmap/bt_icon_loading"
+            android:layout_centerInParent="true"/>
     </RelativeLayout>
 
 

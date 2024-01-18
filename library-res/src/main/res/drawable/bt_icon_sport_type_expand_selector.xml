@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@mipmap/bt_icon_sport_type_expand" android:state_selected="true"/>
+    <item android:drawable="@mipmap/bt_icon_sport_type_unexpand" android:state_selected="false"/>
+</selector>

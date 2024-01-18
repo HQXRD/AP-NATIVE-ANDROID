@@ -4,12 +4,14 @@ import android.os.Parcel;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.xtree.base.utils.NumberUtils;
 import com.xtree.bet.bean.response.pm.OptionDataListInfo;
 import com.xtree.bet.bean.response.pm.OptionInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
 import com.xtree.bet.constant.SPKey;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -75,7 +77,7 @@ public class OptionPm implements Option{
     public double getOdd() {
         if(isHongKongMarket()){
             BigDecimal bg = new BigDecimal(getRealOdd() - 1);
-            return bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+            return bg.setScale(2, RoundingMode.HALF_UP).doubleValue();
         }
         return getRealOdd();
     }

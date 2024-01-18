@@ -3,6 +3,7 @@ package com.xtree.bet.data;
 import com.xtree.bet.bean.request.fb.BtMultipleListReq;
 import com.xtree.bet.bean.request.fb.BtRecordReq;
 import com.xtree.bet.bean.request.fb.SingleBtListReq;
+import com.xtree.bet.bean.response.fb.BalanceInfo;
 import com.xtree.bet.bean.response.fb.BtConfirmInfo;
 import com.xtree.bet.bean.response.fb.BtRecordRsp;
 import com.xtree.bet.bean.response.fb.BtResultInfo;
@@ -93,4 +94,14 @@ public interface FBApiService {
     @POST("/v1/match/getOnSaleLeagues")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<BaseResponse<List<LeagueInfo>>> getOnSaleLeagues(@Body Map<String, String> map);
+
+    /**
+     * 用户查询余额
+     * @param map
+     * @return
+     */
+    @POST("/v1/user/base")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<BaseResponse<BalanceInfo>> getUserBanlace(@Body Map<String, String> map);
+
 }

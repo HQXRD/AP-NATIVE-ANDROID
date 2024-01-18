@@ -14,6 +14,7 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.FBService;
+import com.xtree.base.vo.PMService;
 import com.xtree.home.R;
 import com.xtree.home.data.HomeRepository;
 import com.xtree.home.vo.BannersVo;
@@ -176,14 +177,16 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         if (TextUtils.isEmpty(token)) {
             return;
         }
-        Disposable disposable = (Disposable) model.getApiService().getFBGameTokenApi()
+        Disposable disposable = (Disposable) model.getApiService().getPMGameTokenApi()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<FBService>() {
+                .subscribeWith(new HttpCallBack<PMService>() {
                     @Override
-                    public void onResult(FBService fbService) {
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, fbService.getToken());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                    public void onResult(PMService pmService) {
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
                     }
 
                     @Override
