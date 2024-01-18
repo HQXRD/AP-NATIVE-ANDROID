@@ -59,7 +59,7 @@ public class OptionPm implements Option{
         if(!TextUtils.isEmpty(optionInfo.onb)){
             return optionInfo.onb;
         } else {
-            return optionInfo.ot;
+            return optionInfo.otv;
         }
     }
 
@@ -196,6 +196,11 @@ public class OptionPm implements Option{
             return null;
         }
         return new OptionListPm(optionList, playTypeInfo);
+    }
+
+    @Override
+    public boolean isBtHome() {
+        return TextUtils.equals(optionInfo.ots, "T1");
     }
 
     /*@Override

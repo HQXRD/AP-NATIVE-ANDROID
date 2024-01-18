@@ -187,6 +187,11 @@ public class OptionFb implements Option{
         return new OptionListFb(optionList);
     }
 
+    @Override
+    public boolean isBtHome() {
+        return false;
+    }
+
     /*@Override
     public boolean equals(@Nullable Object obj) {
         if(this == obj){

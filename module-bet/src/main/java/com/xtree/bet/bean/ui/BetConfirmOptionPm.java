@@ -97,7 +97,7 @@ public class BetConfirmOptionPm implements BetConfirmOption {
         }else if(btConfirmInfo != null && !TextUtils.isEmpty(btConfirmInfo.marketValue)){
             return btConfirmInfo.marketValue;
         }else {
-            return option.getSortName();
+            return option.isBtHome() ? match.getTeamMain() : match.getTeamVistor();
         }
     }
 
@@ -117,8 +117,8 @@ public class BetConfirmOptionPm implements BetConfirmOption {
         if(btConfirmInfo != null && btConfirmInfo.marketOddsList != null && !btConfirmInfo.marketOddsList.isEmpty()){
             OptionInfo optionInfo = new OptionInfo();
             optionInfo.oid = btConfirmInfo.marketOddsList.get(0).id;
-            optionInfo.onb = btConfirmInfo.marketOddsList.get(0).playOptions;
-            optionInfo.on = btConfirmInfo.marketOddsList.get(0).playOptions;
+            optionInfo.onb = TextUtils.isEmpty(option.getSortName()) ? option.isBtHome() ? btConfirmInfo.home : btConfirmInfo.away : option.getSortName();
+            optionInfo.on = TextUtils.isEmpty(option.getSortName()) ? option.isBtHome() ? btConfirmInfo.home : btConfirmInfo.away : option.getSortName();
             optionInfo.ov = btConfirmInfo.marketOddsList.get(0).oddsValue;
             return new OptionPm(optionInfo);
         }else {

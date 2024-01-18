@@ -377,8 +377,12 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                         } else {
                             uavailableTextView.setVisibility(View.GONE);
                             oddTextView.setVisibility(View.VISIBLE);
-                            nameTextView.setVisibility(View.VISIBLE);
-                            nameTextView.setText(option.getSortName());
+                            if(TextUtils.isEmpty(option.getSortName())){
+                                nameTextView.setVisibility(View.GONE);
+                            }else{
+                                nameTextView.setVisibility(View.VISIBLE);
+                                nameTextView.setText(option.getSortName());
+                            }
                             oddTextView.setOptionOdd(option);
                             BetConfirmOption betConfirmOption = BetConfirmOptionUtil.getInstance(match, playType, optionList, option);
                             optionView.setTag(betConfirmOption);
