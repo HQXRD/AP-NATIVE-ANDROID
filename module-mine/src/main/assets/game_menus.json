@@ -1,0 +1,518 @@
+[
+  {
+    "cid": 41,
+    "name": "杏彩体育",
+    "alias": "FBXC",
+    "key": "fbxc",
+    "forward": {
+      "sport": {
+        "route": "FBXCSport"
+      }
+    },
+    "cate": "sport",
+    "cateName": "体育",
+    "unionKey": "fbxc",
+    "unionId": "gameId_08dabfaf-764a-4bf9-8659-40d93c0010f4"
+  },
+  {
+    "cid": 10,
+    "name": "PM体育",
+    "alias": "OBG",
+    "key": "obg",
+    "forward": {
+      "sport": {
+        "route": "GameFrame"
+      },
+      "app-sport": {
+        "route": "OBGSport"
+      }
+    },
+    "cate": "sport",
+    "cateName": "体育",
+    "unionKey": "obg",
+    "unionId": "gameId_aba05bcb-505b-44ee-81ef-f223aa122e48"
+  },
+  {
+    "cid": 26,
+    "name": "FB体育",
+    "alias": "FB",
+    "key": "fb",
+    "forward": {
+      "sport": {
+        "route": "GameFrame"
+      },
+      "app-sport": {
+        "route": "FBSport"
+      }
+    },
+    "cate": "sport",
+    "cateName": "体育",
+    "unionKey": "fb",
+    "unionId": "gameId_91752706-f561-40c9-9078-9bdf3c154168"
+  },
+  {
+    "cid": 30,
+    "name": "IM娱乐",
+    "alias": "IMONE",
+    "key": "imone",
+    "forward": {
+      "esports": {
+        "route": "GameFrame",
+        "params": {
+          "gameId": 2758
+        }
+      },
+      "sport": {
+        "route": "GameFrame",
+        "params": {
+          "gameId": 2757
+        }
+      }
+    },
+    "cate": "sport",
+    "cateName": "体育",
+    "unionKey": "imone",
+    "unionId": "gameId_9c622952-b034-4a9a-8576-bb8fb866098e"
+  },
+  {
+    "cid": 3,
+    "name": "沙巴体育",
+    "alias": "IBC",
+    "key": "ibc",
+    "forward": {
+      "sport": {
+        "route": "GameFrame",
+        "params": {
+          "name": "沙巴体育",
+          "playURL": "ibcgame?s=1&autoThrad"
+        }
+      }
+    },
+    "cate": "sport",
+    "cateName": "体育",
+    "unionKey": "ibc",
+    "unionId": "gameId_a8e74511-baf8-4ce4-bfa1-023272a49a0a"
+  },
+  {
+    "cid": 1,
+    "name": "PT娱乐",
+    "alias": "PT",
+    "key": "pt",
+    "needTransfer": true,
+    "forward": {
+      "casino": {
+        "route": "GameFrame",
+        "params": {
+          "playURL": "ptgame/livehallplay"
+        }
+      },
+      "slot": {
+        "route": "GameHall",
+        "params": {
+          "playURL": "ptgame/play/$?ish5=1&autoThrad",
+          "cateId": 4
+        }
+      }
+    },
+    "cate": "casino",
+    "cateName": "真人",
+    "unionKey": "pt",
+    "unionId": "gameId_ae75cb3f-f57d-45fe-b2b0-3d26453e2e5f"
+  },
+  {
+    "cid": 4,
+    "name": "AG娱乐",
+    "alias": "AG",
+    "key": "ag",
+    "forward": {
+      "slot": {
+        "route": "GameFrame",
+        "params": {
+          "name": "AG电子",
+          "playURL": "aggame/electronicplay?autoThrad",
+          "cateId": 46
+        }
+      },
+      "casino": {
+        "route": "GameFrame",
+        "params": {
+          "name": "AG真人",
+          "playURL": "aggame/hallplay?autoThrad"
+        }
+      }
+    },
+    "cate": "casino",
+    "cateName": "真人",
+    "unionKey": "ag",
+    "unionId": "gameId_c57e918e-f012-4c2f-8ac2-c4ef864603bf"
+  },
+  {
+    "cid": 2,
+    "name": "BBIN娱乐",
+    "alias": "BBIN",
+    "key": "bbin",
+    "needTransfer": true,
+    "forward": {
+      "casino": {
+        "route": "GameFrame",
+        "params": {
+          "playURL": "livegame/tobbinpage/live"
+        }
+      },
+      "slot": {
+        "route": "GameHall",
+        "params": {
+          "playURL": "livegame/bbinplay/$?autoThrad",
+          "cateId": 11
+        }
+      }
+    },
+    "cate": "casino",
+    "cateName": "真人",
+    "unionKey": "bbin",
+    "unionId": "gameId_92c5583b-e4e5-44bc-9b53-86e96cac779a"
+  },
+  {
+    "cid": 31,
+    "name": "PM真人",
+    "alias": "OBGZR",
+    "key": "obgzr",
+    "forward": {
+      "casino": {
+        "route": "GameFrame"
+      }
+    },
+    "cate": "casino",
+    "cateName": "真人",
+    "unionKey": "obgzr",
+    "unionId": "gameId_9b134f86-af3e-4fc5-a700-9ebe8615d895"
+  },
+  {
+    "cid": 38,
+    "name": "BG真人",
+    "alias": "BGZR",
+    "key": "bgzr",
+    "forward": {
+      "casino": {
+        "route": "GameFrame"
+      }
+    },
+    "cate": "casino",
+    "cateName": "真人",
+    "unionKey": "bgzr",
+    "unionId": "gameId_00166992-bb9e-401d-a6e9-941d18ac8824"
+  },
+  {
+    "cid": 19,
+    "name": "PG电子",
+    "key": "pg",
+    "alias": "PG",
+    "forward": {
+      "slot": {
+        "route": "GameHall",
+        "params": {
+          "playURL": "pggame/play/$"
+        }
+      }
+    },
+    "cate": "slot",
+    "cateName": "电子",
+    "unionKey": "pg",
+    "unionId": "gameId_e169e757-80b3-423f-b199-3e94361578ec"
+  },
+  {
+    "cid": 34,
+    "name": "PP电子",
+    "key": "pp",
+    "alias": "PP",
+    "forward": {
+      "slot": {
+        "route": "GameHall",
+        "params": {
+          "playURL": "ppgame/play/$",
+          "cateId": 65
+        }
+      }
+    },
+    "cate": "slot",
+    "cateName": "电子",
+    "unionKey": "pp",
+    "unionId": "gameId_e04224fd-98e4-47a1-aff9-833e199685f7"
+  },
+  {
+    "cid": 18,
+    "name": "JDB娱乐",
+    "alias": "JDB",
+    "key": "jdb",
+    "forward": {
+      "slot": {
+        "route": "GameFrame",
+        "params": {
+          "playURL": "jdbgame/play"
+        }
+      }
+    },
+    "cate": "slot",
+    "cateName": "电子",
+    "unionKey": "jdb",
+    "unionId": "gameId_90a743de-ff38-4c8d-a27c-6a06b2ff0067"
+  },
+  {
+    "cid": 4,
+    "name": "AG娱乐",
+    "alias": "AG",
+    "key": "ag",
+    "forward": {
+      "slot": {
+        "route": "GameFrame",
+        "params": {
+          "name": "AG电子",
+          "playURL": "aggame/electronicplay?autoThrad",
+          "cateId": 46
+        }
+      },
+      "casino": {
+        "route": "GameFrame",
+        "params": {
+          "name": "AG真人",
+          "playURL": "aggame/hallplay?autoThrad"
+        }
+      }
+    },
+    "cate": "slot",
+    "cateName": "电子",
+    "unionKey": "ag",
+    "unionId": "gameId_243361f3-45f1-4035-89a4-6c50c1391016"
+  },
+  {
+    "cid": 4,
+    "name": "AG街机",
+    "alias": "AGARCADE",
+    "key": "ag",
+    "forward": {
+      "slot": {
+        "route": "GameFrame",
+        "params": {
+          "name": "AG街机",
+          "playURL": "aggame/yoplay?autoThrad"
+        }
+      }
+    },
+    "cate": "slot",
+    "cateName": "电子",
+    "unionKey": "agArcade",
+    "unionId": "gameId_30f097f2-f762-4a36-91c0-841a50dea51c"
+  },
+  {
+    "cid": 4,
+    "name": "AG街机捕鱼",
+    "alias": "AG",
+    "key": "ag",
+    "needTransfer": true,
+    "forward": {
+      "fishing": {
+        "route": "GameFrame",
+        "params": {
+          "name": "AG捕鱼",
+          "playURL": "aggame/fishplay?autoThrad"
+        }
+      }
+    },
+    "cate": "fishing",
+    "cateName": "捕鱼",
+    "unionKey": "agFishing",
+    "unionId": "gameId_c64a9932-a877-4259-b6b9-b8127cffdab7"
+  },
+  {
+    "cid": 36,
+    "name": "SG捕鱼",
+    "key": "sg",
+    "alias": "SG",
+    "forward": {
+      "fishing": {
+        "route": "GameFrame",
+        "params": {
+          "playURL": "sggame/play/1719?autoThrad"
+        }
+      }
+    },
+    "cate": "fishing",
+    "cateName": "捕鱼",
+    "unionKey": "sg",
+    "unionId": "gameId_82176c89-a96a-41bd-983e-cb7db568a148"
+  },
+  {
+    "cid": 28,
+    "name": "雷火电竞",
+    "alias": "LH",
+    "key": "lh",
+    "forward": {
+      "esports": {
+        "route": "GameFrame",
+        "params": {
+          "playURL": "lhgame/play"
+        }
+      }
+    },
+    "cate": "esports",
+    "cateName": "电竞",
+    "unionKey": "lh",
+    "unionId": "gameId_14f3cacd-458c-4d36-9a9a-12b17d063008"
+  },
+  {
+    "cid": 30,
+    "name": "IM娱乐",
+    "alias": "IMONE",
+    "key": "imone",
+    "forward": {
+      "esports": {
+        "route": "GameFrame",
+        "params": {
+          "gameId": 2758
+        }
+      },
+      "sport": {
+        "route": "GameFrame",
+        "params": {
+          "gameId": 2757
+        }
+      }
+    },
+    "cate": "esports",
+    "cateName": "电竞",
+    "unionKey": "imone",
+    "unionId": "gameId_945d8cae-2fde-4477-95b3-ecf0850435d6"
+  },
+  {
+    "cid": 39,
+    "name": "泛亚电竞",
+    "key": "avia",
+    "alias": "AVIA",
+    "forward": {
+      "esports": {
+        "route": "GameFrame",
+        "params": {
+          "playURL": "aviagame/play?autoThrad"
+        }
+      }
+    },
+    "cate": "esports",
+    "cateName": "电竞",
+    "unionKey": "avia",
+    "unionId": "gameId_17e66f01-e3bd-4493-8130-0e05d660d872"
+  },
+  {
+    "cid": 40,
+    "name": "DB电竞",
+    "key": "obgdj",
+    "alias": "OBGDJ",
+    "needTransfer": true,
+    "forward": {
+      "esports": {
+        "route": "GameFrame"
+      }
+    },
+    "cate": "esports",
+    "cateName": "电竞",
+    "unionKey": "obgdj",
+    "unionId": "gameId_eece32b6-df40-4d4b-8ed6-c6d1735ac668"
+  },
+  {
+    "cid": 20,
+    "name": "云游棋牌",
+    "alias": "YY",
+    "key": "yy",
+    "needTransfer": true,
+    "forward": {
+      "chess": {
+        "route": "GameFrame",
+        "params": {
+          "playURL": "yygame/play?autoThrad"
+        }
+      }
+    },
+    "cate": "chess",
+    "cateName": "棋牌",
+    "unionKey": "yy",
+    "unionId": "gameId_c45c4f35-44e7-4aca-ac30-602cfadc30ec"
+  },
+  {
+    "cid": 32,
+    "name": "DB棋牌",
+    "alias": "OBGQP",
+    "key": "obgqp",
+    "needTransfer": true,
+    "forward": {
+      "chess": {
+        "route": "GameFrame"
+      }
+    },
+    "cate": "chess",
+    "cateName": "棋牌",
+    "unionKey": "obgqp",
+    "unionId": "gameId_32c2016f-7906-4161-90fe-bad5371c4bd6"
+  },
+  {
+    "cid": 35,
+    "name": "KY棋牌",
+    "key": "ky",
+    "alias": "KY",
+    "forward": {
+      "chess": {
+        "route": "GameFrame",
+        "params": {
+          "playURL": "kygame/play"
+        }
+      }
+    },
+    "cate": "chess",
+    "cateName": "棋牌",
+    "unionKey": "ky",
+    "unionId": "gameId_44a34dde-9a82-4e6d-a171-8b03bbd86d38"
+  },
+  {
+    "cid": 6,
+    "name": "KGAME娱乐",
+    "key": "kgame",
+    "alias": "KGAME",
+    "forward": {
+      "chess": {
+        "route": "KGameHall"
+      }
+    },
+    "cate": "chess",
+    "cateName": "棋牌",
+    "unionKey": "kgame",
+    "unionId": "gameId_96e4d34c-31ce-4215-a76c-c385339ac086"
+  },
+  {
+    "cid": 12,
+    "name": "AUG娱乐",
+    "alias": "AU",
+    "key": "au",
+    "forward": {
+      "chess": {
+        "route": "AUGameHall"
+      }
+    },
+    "cate": "chess",
+    "cateName": "棋牌",
+    "unionKey": "au",
+    "unionId": "gameId_1522c889-e034-4865-8fd1-e758377c9d3d"
+  },
+  {
+    "cid": 200,
+    "name": "彩票",
+    "key": "caipao",
+    "alias": "CAIPAO",
+    "forward": {
+      "lottery": {
+        "route": "Lottery"
+      }
+    },
+    "cate": "lottery",
+    "cateName": "彩票",
+    "unionKey": "caipao",
+    "unionId": "gameId_4a33ad01-0042-40ce-8438-17947fe32f71"
+  }
+]
