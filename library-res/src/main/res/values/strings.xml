@@ -4,6 +4,7 @@
     <string name="txt_withdraw">提款</string>
     <string name="txt_feedback">反馈信息</string>
     <string name="txt_custom_center">客服中心</string>
+    <string name="txt_contact_custom">客服中心</string>
     <string name="txt_msg_center">消息中心</string>
 
     <string name="txt_bind_card">银行卡管理</string>
