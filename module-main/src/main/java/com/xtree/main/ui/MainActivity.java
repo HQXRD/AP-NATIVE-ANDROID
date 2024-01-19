@@ -2,7 +2,6 @@ package com.xtree.main.ui;
 
 import android.os.Bundle;
 
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -11,17 +10,19 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
-import com.xtree.main.R;
+import com.xtree.base.widget.MenuItemView;
 import com.xtree.main.BR;
+import com.xtree.main.R;
 import com.xtree.main.databinding.ActivityMainBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import me.majiajie.pagerbottomtabstrip.NavigationController;
+import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
+import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.majiajie.pagerbottomtabstrip.NavigationController;
-import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 
 /**
  * Created by goldze on 2018/6/21
@@ -81,13 +82,25 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
         }
     }
 
+    //创建一个Item
+    private BaseTabItem newItem(int drawable, int drawableSelect, String text) {
+        MenuItemView normalItemView = new MenuItemView(this);
+        normalItemView.initialize(drawable, drawable, text);
+        normalItemView.setDefaultDrawable(getResources().getDrawable(drawable));
+        normalItemView.setSelectedDrawable(getResources().getDrawable(drawableSelect));
+        normalItemView.setTextDefaultColor(getResources().getColor(R.color.textColorVice));
+        normalItemView.setTextCheckedColor(getResources().getColor(R.color.colorPrimary));
+        normalItemView.setIconTopMargin(16);
+        normalItemView.setTextTopMarginOnIcon(4);
+        return normalItemView;
+    }
+
     private void initBottomTab() {
-        NavigationController navigationController = binding.pagerBottomTab.material()
-                .addItem(R.mipmap.yingyong, "首页")
-                .addItem(R.mipmap.huanzhe, "活动")
-                .addItem(R.mipmap.xiaoxi_select, "充值")
-                .addItem(R.mipmap.wode_select, "我的")
-                .setDefaultColor(ContextCompat.getColor(this, R.color.textColorVice))
+        NavigationController navigationController = binding.pagerBottomTab.custom()
+                .addItem(newItem(R.mipmap.yingyong_unselected, R.mipmap.yingyong_selected, "首页"))
+                .addItem(newItem(R.mipmap.huanzhe_unselected, R.mipmap.huanzhe_selected, "活动"))
+                .addItem(newItem(R.mipmap.xiaoxi_unselected, R.mipmap.xiaoxi_selected, "充值"))
+                .addItem(newItem(R.mipmap.wode_unselected, R.mipmap.wode_selected, "我的"))
                 .build();
         //底部按钮的点击事件监听
         navigationController.addTabItemSelectedListener(new OnTabItemSelectedListener() {
