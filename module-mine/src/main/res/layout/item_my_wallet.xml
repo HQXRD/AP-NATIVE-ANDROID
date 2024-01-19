@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/style_trans_ll"
+    android:orientation="horizontal"
+    android:paddingTop="5dp">
+
+    <LinearLayout
+        style="@style/style_trans_ll"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp">
+
+        <TextView
+            android:id="@+id/tvw_third_game_name"
+            style="@style/style_trans_name"
+            android:text="@string/me_wallet_bbingame"
+            android:textSize="@dimen/bt_text_12sp" />
+
+        <TextView
+            android:id="@+id/tvw_third_game_balance"
+            style="@style/style_trans_value"
+            android:tag="obgqp"
+            android:textSize="@dimen/bt_text_12sp"
+            tools:text="0.0000" />
+
+    </LinearLayout>
+</LinearLayout>
