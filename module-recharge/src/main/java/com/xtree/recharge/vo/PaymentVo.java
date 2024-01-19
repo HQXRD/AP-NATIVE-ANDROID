@@ -3,7 +3,6 @@ package com.xtree.recharge.vo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class PaymentVo implements Parcelable {
@@ -11,7 +10,6 @@ public class PaymentVo implements Parcelable {
     public String bankdirect_url;
     public int chongzhiListCount;
     public List<RechargeVo> chongzhiList;
-    // public List<HashMap> chongzhiList;
     public ProcessingDataVo processingData;
 
     protected PaymentVo(Parcel in) {

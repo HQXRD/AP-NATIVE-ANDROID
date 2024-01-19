@@ -95,7 +95,7 @@ public class BetConfirmOptionFb implements BetConfirmOption{
                 optionName = sortName;
             }
         }else{
-            optionName = option.getName() + " " + option.getLine();
+            optionName = option.getName() + " " + option.getLine() == null ? "" : option.getLine();
         }
 
         return optionName;

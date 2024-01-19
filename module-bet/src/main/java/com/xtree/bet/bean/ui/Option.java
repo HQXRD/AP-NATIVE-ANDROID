@@ -105,4 +105,9 @@ public interface Option extends BaseBean {
      * @return
      */
     OptionList getOptionList();
+    /**
+     * 是否给主队投注
+     * @return
+     */
+    boolean isBtHome();
 }
