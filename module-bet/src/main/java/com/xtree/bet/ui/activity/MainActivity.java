@@ -3,17 +3,15 @@ package com.xtree.bet.ui.activity;
 import android.animation.ObjectAnimator;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.tabs.TabLayout;
@@ -22,7 +20,9 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.TimeUtils;
+import com.xtree.base.widget.MenuItemView;
 import com.xtree.bet.BR;
+import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.constant.Constants;
@@ -35,13 +35,11 @@ import com.xtree.bet.ui.adapter.LeagueAdapter;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.ui.fragment.BtRecordDialogFragment;
 import com.xtree.bet.ui.fragment.BtSettingDialogFragment;
-import com.xtree.bet.ui.viewmodel.fb.FBMainViewModel;
-import com.xtree.bet.ui.viewmodel.pm.PMMainViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.bet.R;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
-import com.xtree.bet.weight.MenuItemView;
+import com.xtree.bet.ui.viewmodel.fb.FBMainViewModel;
+import com.xtree.bet.ui.viewmodel.pm.PMMainViewModel;
 import com.xtree.bet.weight.PageHorizontalScrollView;
 
 import java.util.ArrayList;
@@ -810,7 +808,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      */
     private boolean isGoingOnHasExand() {
         int headerPosition = mHeaderPosition;
-        if(mHeaderPosition == 0){
+        if (mHeaderPosition == 0) {
             headerPosition = mLeagueList.size();
         }
         if (mLeagueList.isEmpty()) {
@@ -853,10 +851,10 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
             index++;
         }
-        if(mHeaderPosition == 0){
-            if(playMethodType == 2 || playMethodType == 6 || playMethodType == 11) { // 今日和串关
+        if (mHeaderPosition == 0) {
+            if (playMethodType == 2 || playMethodType == 6 || playMethodType == 11) { // 今日和串关
                 binding.tvAllLeague.setText(getString(R.string.bt_game_waiting));
-            }else{
+            } else {
                 binding.tvAllLeague.setText(getString(R.string.bt_all_league));
             }
             binding.llGoingOn.setVisibility(View.GONE);
@@ -868,7 +866,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.rvLeague.postDelayed(() -> {
 
             int headerPosition = mHeaderPosition;
-            if(mHeaderPosition == 0){
+            if (mHeaderPosition == 0) {
                 headerPosition = mLeagueList.size();
             }
             for (int i = 0; i < headerPosition; i++) {
