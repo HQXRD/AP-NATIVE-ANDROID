@@ -1,5 +1,4 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,8 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/icon"
-        android:layout_marginTop="6dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="6dp"
         android:maxLines="1"
         android:textSize="12sp"
         tools:text="123" />
@@ -31,8 +30,3 @@
         android:translationX="-5dp" />
 
 </RelativeLayout>
-
-
-
-
-

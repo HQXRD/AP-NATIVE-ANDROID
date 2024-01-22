@@ -49,6 +49,7 @@ public class RechargeAdapter extends CachedAutoRefreshAdapter<RechargeVo> {
         CfLog.d(vo.toInfo());
         binding = ItemRechargeBinding.bind(holder.itemView);
         binding.tvwTitle.setText(vo.title);
+        binding.tvwTitle.setTag(vo.bid); // 弹窗时会用到
 
         // 存款加赠5.00%
         if (vo.depositfee_disabled && !TextUtils.isEmpty(vo.depositfee_rate)) {
@@ -68,19 +69,16 @@ public class RechargeAdapter extends CachedAutoRefreshAdapter<RechargeVo> {
         Drawable dr = ctx.getDrawable(R.drawable.rc_ic_pmt_selector);
         dr.setLevel(Integer.parseInt(vo.bid));
         binding.tvwTitle.setCompoundDrawablesRelativeWithIntrinsicBounds(null, dr, null, null);
+        //holder.itemView.setOnClickListener(v -> binding.tvwTitle.performClick());
+        binding.tvwTitle.setOnClickListener(v -> {
 
-        binding.tvwTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (curView != null) {
-                    curView.setSelected(false);
-                }
-
-                v.setSelected(true);
-                curView = v;
-                mCallBack.onClick(vo);
+            if (curView != null) {
+                curView.setSelected(false);
             }
+
+            v.setSelected(true);
+            curView = v;
+            mCallBack.onClick(vo);
         });
     }
 

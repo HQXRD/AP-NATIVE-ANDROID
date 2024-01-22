@@ -1,11 +1,15 @@
 package com.xtree.mine.ui.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 
-import androidx.lifecycle.Observer;
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.lxj.xpopup.XPopup;
@@ -19,14 +23,26 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.ActivityMyWalletBinding;
 import com.xtree.mine.ui.fragment.AccountMgmtDialog;
+import com.xtree.mine.ui.fragment.MyWalletAdapter;
 import com.xtree.mine.ui.viewmodel.MyWalletViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.mine.vo.BalanceVo;
+import com.xtree.mine.vo.GameBalanceVo;
+import com.xtree.mine.vo.GameMenusVo;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
 
 @Route(path = RouterActivityPath.Mine.PAGER_MY_WALLET)
 public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWalletViewModel> {
+    private final static int MSG_GAME_BALANCE = 1004;
+    private List<GameMenusVo> walletGameList = new ArrayList<>();
+    private List<GameBalanceVo> transGameBalanceList = new ArrayList<>();
+    private int count = 0;
+
+    private MyWalletAdapter myWalletAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +52,24 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
 
         viewModel.getBalance(); // 平台中心余额
 
-        // 某个场馆的余额
-        viewModel.getGameBalance("pt");
-        viewModel.getGameBalance("bbin");
-        viewModel.getGameBalance("ag");
-        viewModel.getGameBalance("obgdj");
-        viewModel.getGameBalance("yy");
-        viewModel.getGameBalance("obgqp");
+        viewModel.getTransThirdGameType(this);
     }
+
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_GAME_BALANCE:
+                    for (GameMenusVo vo : walletGameList) {
+                        viewModel.getGameBalance(vo.key);
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -58,34 +84,22 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
     @Override
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> finish());
-        binding.ivwRefreshBlc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewModel.getBalance();
-                //Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.anim_loading);
-                //binding.ivwRefreshBlc.startAnimation(animation);
-            }
+        binding.ivwRefreshBlc.setOnClickListener(v -> {
+            viewModel.getBalance();
+            //Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.anim_loading);
+            //binding.ivwRefreshBlc.startAnimation(animation);
         });
-        binding.ivwGoDeposit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CfLog.d("************");
-                goRecharge();
-            }
+        binding.ivwGoDeposit.setOnClickListener(v -> {
+            CfLog.d("************");
+            goRecharge();
         });
-        binding.tvwDeposit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CfLog.d("************");
-                goRecharge();
-            }
+        binding.tvwDeposit.setOnClickListener(v -> {
+            CfLog.d("************");
+            goRecharge();
         });
-        binding.tvwTrans.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CfLog.d("************");
-                startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER);
-            }
+        binding.tvwTrans.setOnClickListener(v -> {
+            CfLog.d("************");
+            startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER);
         });
         binding.tvwWithdraw.setOnClickListener(v -> {
             CfLog.d("************");
@@ -103,6 +117,9 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
             startContainerFragment(RouterFragmentPath.Mine.PAGER_RECHARGE_WITHDRAW); // 充提记录
         });
 
+        int spanCount = 4; // 每行的列数
+        GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
+        binding.rcvWalletDetails.setLayoutManager(layoutManager);
     }
 
     @Override
@@ -119,23 +136,49 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
 
     @Override
     public void initViewObservable() {
-        viewModel.liveDataBalance.observe(this, new Observer<BalanceVo>() {
-            @Override
-            public void onChanged(BalanceVo vo) {
-                binding.tvwBalance.setText(vo.balance);
-                binding.ivwRefreshBlc.clearAnimation();
+        viewModel.liveDataBalance.observe(this, vo -> {
+            binding.tvwBalance.setText(vo.balance);
+            binding.ivwRefreshBlc.clearAnimation();
+        });
+
+        viewModel.liveDataGameBalance.observe(this, vo -> {
+            transGameBalanceList.add(vo);
+            count++;
+
+            CfLog.d("count : " + count + " walletGameList.size() : " + walletGameList.size());
+            if (count >= walletGameList.size()) {
+                Collections.sort(transGameBalanceList);
+                myWalletAdapter = new MyWalletAdapter(this);
+                binding.rcvWalletDetails.setAdapter(myWalletAdapter);
+                myWalletAdapter.setData(transGameBalanceList);
             }
         });
 
-//        viewModel.liveDataGameBalance.observe(this, new Observer<GameBalanceVo>() {
-//            @Override
-//            public void onChanged(GameBalanceVo vo) {
-//                TextView tvw = binding.llWallet.findViewWithTag(vo.gameAlias);
-//                if (tvw != null) {
-//                    tvw.setText(vo.balance);
-//                }
-//            }
-//        });
+        viewModel.liveDataGameBalance.observe(this, vo -> {
+            transGameBalanceList.add(vo);
+            count++;
+
+            if (count >= walletGameList.size()) {
+                Collections.sort(transGameBalanceList);
+                myWalletAdapter = new MyWalletAdapter(this);
+                binding.rcvWalletDetails.setAdapter(myWalletAdapter);
+                myWalletAdapter.setData(transGameBalanceList);
+            }
+        });
+
+        viewModel.listSingleLiveData.observe(this, vo -> {
+            myWalletAdapter = new MyWalletAdapter(this);
+            binding.rcvWalletDetails.setAdapter(myWalletAdapter);
+            Collections.sort(vo);
+            myWalletAdapter.setData(vo);
+        });
+
+        viewModel.liveDataTransGameType.observe(this, list -> {
+            walletGameList = list;
+
+            // 某个场馆的余额
+            mHandler.sendEmptyMessage(MSG_GAME_BALANCE);
+        });
     }
 
     private void goWebView(View v, String path) {

@@ -1,5 +1,8 @@
 package com.xtree.recharge.vo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RechargePayVo {
 
     public String status; // "success",
@@ -16,13 +19,13 @@ public class RechargePayVo {
     //public boolean isbank; // false,
     //public boolean iszskh; // false,
     //public String postscript; // null,
-    //public String bankcode; // "hiwallet",
-    //public String bankname; // "CNYT快付",
-    //public String bankacctcard; // null,
-    //public String bankacctname; // null,
+    public String bankcode; // "hiwallet",
+    public String bankname; // "CNYT快付",
+    public String bankacctcard; // null,
+    public String bankacctname; // null,
     //public String provice; // null,
-    //public boolean bankcardneedcopy; // false,
-    //public String maxexpiretime; // "10",
+    public boolean bankcardneedcopy; // false,
+    public String maxexpiretime; // "10",
     //public String bank_url; // "",
     //public String help_url; // "",
     //public boolean upamount; // false,
@@ -35,11 +38,12 @@ public class RechargePayVo {
     //public boolean nflashtime; // false,
     //public String flashtime; // null,
     //public String loss_bank; // null,
-    //public String toBankName; // null,
-    //public String toBankNameDetail; // null,
+    public String toBankName; // null,
+    public String toBankNameDetail; // null,
     //public String alipayName; // "",
     public boolean isRedirectMode; // true
     public boolean direct_enable; // true
-    public String[] domain_list; // [ "https:\/\/go.gobizas.net",  "https:\/\/go.sjhbiz.net" ]
+    public Object domain_list; // [ "https:\/\/go.gobizas.net",  "https:\/\/go.sjhbiz.net" ]
+    public List<String> domainList = new ArrayList<>(); // [ "https:\/\/go.gobizas.net",  "https:\/\/go.sjhbiz.net" ]
 
 }

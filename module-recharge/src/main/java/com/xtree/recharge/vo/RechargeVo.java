@@ -20,7 +20,7 @@ public class RechargeVo {
     //public boolean rechargedecimal_status; // false,
     public int sortnum; // 10,
     public int recommend; // 0,
-    //public boolean view_bank_card; // false,
+    public boolean view_bank_card; // false,
     //public int recharge_pattern; // 2,
     public boolean phone_fillin_name; // true,
     //public int ptype; // 1,
@@ -55,7 +55,7 @@ public class RechargeVo {
     //public int recharge_json_count_once; // 5,
     //public int recharge_json_day_notsucc; // 3,
     //public boolean isrecharge_additional; // false,
-    //public String low_rate_hint; // "1",
+    public String low_rate_hint; // "1", 当前渠道【{detail.title}】充值到账成功率较低，为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！
     public String accountname; // "",
     public int tips_recommended; // 0,
 
@@ -88,6 +88,7 @@ public class RechargeVo {
                 ", firemark=" + firemark +
                 ", sortnum=" + sortnum +
                 ", recommend=" + recommend +
+                ", view_bank_card=" + view_bank_card +
                 ", phone_fillin_name=" + phone_fillin_name +
                 ", user_bank_info=" + user_bank_info +
                 //", userBankList=" + userBankList +
@@ -107,6 +108,7 @@ public class RechargeVo {
                 ", op_thiriframe_status=" + op_thiriframe_status +
                 ", op_thiriframe_msg='" + op_thiriframe_msg + '\'' +
                 ", op_thiriframe_url='" + op_thiriframe_url + '\'' +
+                ", low_rate_hint='" + low_rate_hint + '\'' +
                 ", accountname='" + accountname + '\'' +
                 ", tips_recommended=" + tips_recommended +
                 '}';

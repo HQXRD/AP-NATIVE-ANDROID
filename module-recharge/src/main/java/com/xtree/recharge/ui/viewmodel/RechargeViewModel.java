@@ -28,15 +28,14 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
- * Created by goldze on 2018/6/21.
+ * 充值页 ViewModel
  */
-
 public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
-    //public SingleLiveData<PaymentVo> liveDataPaymentVo = new SingleLiveData<>();
+    public SingleLiveData<PaymentVo> liveDataPayment = new SingleLiveData<>(); // (从接口加载用)
     public SingleLiveData<String> liveData1kEntry = new SingleLiveData<>();
-    public SingleLiveData<List<RechargeVo>> liveDataRechargeList = new SingleLiveData<>(); // 充值列表
-    public SingleLiveData<String> liveDataTutorial = new SingleLiveData<>(); // 充值教程
+    public SingleLiveData<List<RechargeVo>> liveDataRechargeList = new SingleLiveData<>(); // 充值列表(从缓存加载用)
+    public SingleLiveData<String> liveDataTutorial = new SingleLiveData<>(); // 充值教程(从缓存加载用)
     public SingleLiveData<RechargeVo> liveDataRecharge = new SingleLiveData<>(); // 充值详情
     public SingleLiveData<RechargePayVo> liveDataRechargePay = new SingleLiveData<>(); // 充值提交结果
 
@@ -81,8 +80,6 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     @Override
                     public void onResult(PaymentVo vo) {
                         CfLog.d("chongzhiListCount: " + vo.chongzhiListCount);
-                        SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_OBJ, new Gson().toJson(vo));
-
                         // 转换银行卡数据 把map格式的转换成list
                         for (int i = 0; i < vo.chongzhiList.size(); i++) {
                             RechargeVo vo2 = vo.chongzhiList.get(i);
@@ -97,9 +94,11 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                             }
 
                         }
+                        SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_OBJ, new Gson().toJson(vo));
 
-                        liveDataRechargeList.setValue(vo.chongzhiList);
-                        liveDataTutorial.setValue(vo.bankdirect_url);
+                        liveDataPayment.setValue(vo);
+                        //liveDataRechargeList.setValue(vo.chongzhiList);
+                        //liveDataTutorial.setValue(vo.bankdirect_url);
                     }
 
                     @Override
@@ -118,8 +117,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
      * @param bid bid
      */
     public void getPayment(String bid) {
-        //Map<String ,String> map = new HashMap<>();
-        //map.put("bid", bid);
+
         Disposable disposable = (Disposable) model.getApiService().getPayment(bid)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
@@ -156,6 +154,11 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                         CfLog.d("********"); // RechargePayVo
                         if (new Gson().toJson(vo).startsWith("{")) {
                             RechargePayVo t = new Gson().fromJson(new Gson().toJson(vo), RechargePayVo.class);
+                            if (t.domain_list != null && new Gson().toJson(t.domain_list).startsWith("[")) {
+                                List<String> list = new Gson().fromJson(new Gson().toJson(t.domain_list), new TypeToken<List<String>>() {
+                                }.getType());
+                                t.domainList.addAll(list);
+                            }
                             liveDataRechargePay.setValue(t);
                         }
                     }
@@ -178,7 +181,9 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
         PaymentVo vo = gson.fromJson(json, new TypeToken<PaymentVo>() {
         }.getType());
         if (vo != null) {
+            //liveDataPayment.setValue(vo);
             liveDataRechargeList.setValue(vo.chongzhiList);
+            liveDataTutorial.setValue(vo.bankdirect_url);
         }
 
     }

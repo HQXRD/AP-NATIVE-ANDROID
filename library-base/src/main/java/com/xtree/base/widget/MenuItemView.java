@@ -1,21 +1,19 @@
-package com.xtree.bet.weight;
+package com.xtree.base.widget;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 
-import com.xtree.bet.R;
+import com.xtree.base.R;
 
 import me.majiajie.pagerbottomtabstrip.internal.RoundMessageView;
 import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
@@ -45,7 +43,7 @@ public class MenuItemView extends BaseTabItem {
     public MenuItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        LayoutInflater.from(context).inflate(R.layout.bt_menu_item, this, true);
+        LayoutInflater.from(context).inflate(R.layout.item_menu, this, true);
 
         mIcon = findViewById(R.id.icon);
         mTitle = findViewById(R.id.title);
@@ -126,7 +124,23 @@ public class MenuItemView extends BaseTabItem {
         mCheckedTextColor = color;
     }
 
-    public void rotation(){
+    public void rotation() {
         ObjectAnimator.ofFloat(mIcon, "rotation", 0f, 360f).setDuration(700).start();
+    }
+
+    public void setIconTopMargin(int px) {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mIcon.getLayoutParams();
+        params.topMargin = px; //
+        mIcon.setLayoutParams(params);
+    }
+
+    public void setTextTopMarginOnIcon(int px) {
+        RelativeLayout.LayoutParams titleParams = (RelativeLayout.LayoutParams) mTitle.getLayoutParams();
+        titleParams.topMargin = px; //
+        mTitle.setLayoutParams(titleParams);
+        RelativeLayout.LayoutParams messageParams = (RelativeLayout.LayoutParams) mMessages.getLayoutParams();
+        messageParams.topMargin = px; //
+        mMessages.setLayoutParams(messageParams);
+
     }
 }
