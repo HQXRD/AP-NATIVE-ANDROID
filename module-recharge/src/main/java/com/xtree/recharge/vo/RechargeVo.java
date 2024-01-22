@@ -51,7 +51,7 @@ public class RechargeVo {
     public boolean op_thiriframe_status; // false,
     public String op_thiriframe_msg; // "",
     public String op_thiriframe_url; // "",
-    //public boolean recharge_json_channel; // false,
+    public boolean recharge_json_channel; // false,
     //public int recharge_json_count_once; // 5,
     //public int recharge_json_day_notsucc; // 3,
     //public boolean isrecharge_additional; // false,

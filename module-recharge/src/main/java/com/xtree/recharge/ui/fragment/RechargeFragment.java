@@ -37,6 +37,7 @@ import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.recharge.vo.PaymentVo;
 import com.xtree.recharge.vo.ProcessingDataVo;
+import com.xtree.recharge.vo.RechargePayVo;
 import com.xtree.recharge.vo.RechargeVo;
 
 import java.util.ArrayList;
@@ -251,8 +252,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         binding.llDown.setVisibility(View.VISIBLE); // 下面的部分显示
 
-        // 显示/隐藏银行卡
-        if (!vo.userBankList.isEmpty()) {
+        // 显示/隐藏银行卡 userBankList
+        if (vo.view_bank_card) {
             binding.tvwChooseBankCard.setVisibility(View.VISIBLE);
             binding.tvwBankCard.setVisibility(View.VISIBLE);
             binding.tvwBankCard.setOnClickListener(v -> showBankCardDialog(vo));
@@ -296,7 +297,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
-        if (!curRechargeVo.userBankList.isEmpty()) {
+        if (curRechargeVo.view_bank_card) {
             if (TextUtils.isEmpty(bankId)) {
                 ToastUtils.showLong(getString(R.string.txt_pls_select_payment_card));
                 return;
@@ -447,28 +448,77 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         });
 
         viewModel.liveDataRechargePay.observe(getViewLifecycleOwner(), vo -> {
-            CfLog.i(vo.payname + ", order: " + vo.money);
-            if (vo.isRedirectMode && !TextUtils.isEmpty(vo.redirecturl)) {
-                String url = vo.redirecturl;
-                if (!TextUtils.isEmpty(url) && !url.startsWith("http")) {
-                    if (vo.domainList.size() > 0) {
-                        url = vo.domainList.get(0) + url;
-                    } else {
-                        url = DomainUtil.getDomain2() + url;
-                    }
-                }
-                CfLog.i(vo.payname + ", jump: " + url);
-                // 点下一步 跳转到充值结果 弹窗
-                new XPopup.Builder(getContext())
-                        .dismissOnTouchOutside(false)
-                        .dismissOnBackPressed(false)
-                        .asCustom(new BrowserDialog(getContext(), vo.payname, url))
-                        .show();
-            } else {
-                CfLog.i("弹窗提示: " + vo.toBankName + ", " + vo.toBankNameDetail + ", " + vo.bankacctname + ", " + vo.bankacctcard + ", " + vo.money);
-            }
+            CfLog.i(vo.payname + ", bankcode: " + vo.bankcode + ", money: " + vo.money);
+            goPay(vo);
         });
 
+    }
+
+    private void goPay(RechargePayVo vo) {
+        String payCodes = "alipay,alipay2,alipaysm,weixin,juxinpay,juxinpay1,juxinpay2,juxinwx1"
+                + ",juxinwex2,juxinzfb1,juxinzfb2,hqppay,ebpay,cryptohqppay2,cryptotrchqppay2"
+                + ",hqppaytopay,hiwallet,hqppay6";
+        List<String> payCodeList = Arrays.asList(payCodes.split(",")); // payCodeArr
+        boolean isInArr = payCodeList.contains(vo.bankcode);
+        CfLog.i(" bankcode: " + vo.bankcode + ", isInArr: " + isInArr + " isbank: " + vo.isbank + ", isusdt: " + vo.isusdt);
+        if (vo.bankcode.equals("ucim") && vo.isRedirectMode && vo.isredirect) {
+            // 卡转卡银行充值 (直接跳转) IM银行卡转账1, bankcode: ucim, money: 300.00
+            goPayWeb2(vo); // IM银行卡转账1
+        } else if (isInArr && vo.isredirect) {
+            // 弹出充值提示窗口, 含按钮 “弹出支付窗口”,点击按钮再次跳转
+            goPayWeb(vo);
+        } else if (vo.isbank) {
+            goPayBank(vo); // UC聚合支付,不能跳转
+        } else if (vo.isusdt) {
+            goPayUsdt(vo); // TRC20快付,不能跳转
+        } else {
+            goPayWeb(vo);
+        }
+    }
+
+    private void goPayWeb(RechargePayVo vo) {
+        new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(new RechargeOrderWebDialog(getContext(), vo))
+                .show();
+    }
+
+    private void goPayWeb2(RechargePayVo vo) {
+        String url = vo.redirecturl;
+        if (!TextUtils.isEmpty(url)) {
+            if (!url.startsWith("http")) {
+                if (vo.domainList.size() > 0) {
+                    url = vo.domainList.get(0) + url;
+                } else {
+                    url = DomainUtil.getDomain2() + url;
+                }
+            }
+            CfLog.i(vo.payname + ", jump: " + url);
+            // 弹窗
+            //getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            new XPopup.Builder(getContext())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(false)
+                    .asCustom(new BrowserDialog(getContext(), vo.payname, url))
+                    .show();
+        }
+    }
+
+    private void goPayBank(RechargePayVo vo) {
+        new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(new RechargeOrderBankDialog(getContext(), vo))
+                .show();
+    }
+
+    private void goPayUsdt(RechargePayVo vo) {
+        new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(new RechargeOrderUsdtDialog(getContext(), vo))
+                .show();
     }
 
     private void setMainList(List<RechargeVo> list) {
