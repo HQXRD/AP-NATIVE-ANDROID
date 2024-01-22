@@ -78,6 +78,9 @@ ext {
             "pager-bottom-tab"                     : "me.majiajie:pager-bottom-tab-strip:2.4.0",
             "pinyin4j"                             : "com.belerweb:pinyin4j:2.5.0",
             "DateTimePicker"                       : "com.github.loperSeven:DateTimePicker:0.1.0",
+            "zxing"                                : "com.google.zxing:core:3.2.1",
+            "zxingcreat"                           : "com.journeyapps:zxing-android-embedded:3.3.0",
+            "PictureSelectorNew"                   : "io.github.lucksiege:pictureselector:v3.11.1"
     ]
 }
 

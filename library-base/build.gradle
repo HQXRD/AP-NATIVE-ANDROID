@@ -65,6 +65,11 @@ dependencies {
     api rootProject.ext.dependencies["pager-bottom-tab"]
     api rootProject.ext.dependencies["pinyin4j"]
     api rootProject.ext.dependencies["DateTimePicker"]
+    //引入zxing二维码
+    api rootProject.ext.dependencies["zxing"]
+    api rootProject.ext.dependencies["zxingcreat"]
+    //增加最新图片选择器
+    api rootProject.ext.dependencies ["PictureSelectorNew"]
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
