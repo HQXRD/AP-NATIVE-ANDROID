@@ -87,6 +87,18 @@
     <string name="txt_security_center">安全中心</string>
     <string name="txt_login_pwd">登录密码</string>
     <string name="txt_google_code">Google动态口令</string>
+    <!--谷歌提示语1-->
+    <string name="txt_google_prompt1">1.在手机应用商店搜索"Google身份验证器"或者"Google Authenticator"，下载安装即可，也可以扫码下方二维码直接安装</string>
+    <!--谷歌提示语2-->
+    <string name="txt_google_prompt2">2.安装完成后打开"Google Authenticator"，扫描下方二维码或手动输入密钥，得到6位数验证码</string>
+    <!--谷歌提示语3-->
+    <string name="txt_google_prompt3">3.请将您获得的验证码输入到下方输入框中，并完成验证</string>
+    <string name="txt_key">密钥: </string>
+    <!--谷歌提示语-->
+    <string name="txt_google_hit_prompt">(请在动态口令中查看当前口令，并填入上方输入框)</string>
+    <string name="edit_google_hit">请输入谷歌验证码</string>
+    <string name="btn_bind_text">绑 定</string>
+
     <string name="txt_bind_phone">绑定手机号码</string>
     <string name="txt_bind_email">绑定邮箱地址</string>
 
