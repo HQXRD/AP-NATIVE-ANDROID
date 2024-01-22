@@ -18,6 +18,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.vo.CookieVo;
 import com.xtree.mine.vo.ProfileVo;
 import com.xtree.mine.vo.UserUsdtJumpVo;
 import com.xtree.mine.vo.VerificationCodeVo;
@@ -34,6 +35,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class VerifyViewModel extends BaseViewModel<MineRepository> {
 
+    public MutableLiveData<CookieVo> liveDataCookie = new MutableLiveData<>();
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>();
     public MutableLiveData<ProfileVo> liveDataProfile2 = new MutableLiveData<>();
     public MutableLiveData<VerificationCodeVo> liveDataCode = new MutableLiveData<>(); // 发送验证码 绑定用
@@ -58,11 +60,41 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
         super(application, model);
     }
 
+    public void getCookie() {
+        Disposable disposable = (Disposable) model.getApiService().getCookie()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<CookieVo>() {
+                    @Override
+                    public void onResult(CookieVo vo) {
+                        CfLog.i(vo.toString());
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie_name);
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.sessid);
+                        RetrofitClient.init();
+                        liveDataCookie.setValue(vo);
+                    }
 
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                        ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取用户个人信息
+     */
     public void getProfile() {
         getProfile(liveDataProfile);
     }
 
+
+    /**
+     * 获取用户个人信息 (关闭当前页面)
+     */
     public void getProfile2() {
         getProfile(liveDataProfile2);
     }
