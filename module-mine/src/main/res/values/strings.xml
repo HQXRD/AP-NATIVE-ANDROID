@@ -236,5 +236,10 @@
     <string name="txt_bt_date_s">投注日期：</string>
     <string name="txt_bt_time_s">投注时间：</string>
     <string name="txt_detail">详情</string>
+    <!--提款流程文字提示-->
+    <string name="txt_choose_withdrawal_method">请选择提款方式</string>
+    <string name="txt_choose_withdrawal_usdt">USDT介绍及提款教程</string>
+    <string name="txt_bank_card_withdrawal">银行卡提款</string>
+    <string name="txt_set_bank_card">1.设置提款请求</string>
 
 </resources>
