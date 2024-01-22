@@ -79,7 +79,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @param isTimerRefresh 是否定时刷新 true-是，false-否
      * @param isRefresh      是否刷新 true-是, false-否
      */
-    public void getLeagueList(int sportPos, int sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int searchDatePos, int oddType, boolean isTimerRefresh, boolean isRefresh) {
+    public void getLeagueList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int searchDatePos, int oddType, boolean isTimerRefresh, boolean isRefresh) {
         int type;
         boolean flag = false;
         if(!isStepSecond) {
@@ -230,7 +230,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @param isTimerRefresh
      * @param isRefresh
      */
-    public void getChampionList(int sportPos, int sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int oddType, boolean isTimerRefresh, boolean isRefresh) {
+    public void getChampionList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int oddType, boolean isTimerRefresh, boolean isRefresh) {
 
         if (isRefresh) {
             currentPage = 1;
@@ -247,6 +247,14 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         FBListReq.setCurrent(currentPage);
         FBListReq.setSize(300);
         FBListReq.setOddType(oddType);
+
+        if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
+            String sportIds = "";
+            for (int i = 1; i < FBConstants.SPORT_IDS.length; i++) {
+                sportIds += FBConstants.SPORT_IDS[i] + ",";
+            }
+            FBListReq.setSportId(sportIds);
+        }
 
         if (isRefresh) {
             mChampionMatchList.clear();

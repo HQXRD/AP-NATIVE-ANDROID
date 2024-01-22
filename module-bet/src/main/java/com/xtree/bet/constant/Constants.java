@@ -10,6 +10,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 public class Constants {
 
     public static int[] SPORT_ICON = new int[]{
+            project.tqyb.com.library_res.R.drawable.bt_match_item_hot_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_zq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_lq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_wq_selector,

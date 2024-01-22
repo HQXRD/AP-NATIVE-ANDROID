@@ -8,16 +8,19 @@ import com.xtree.bet.data.source.http.HttpDataSourceImpl;
 import com.xtree.bet.data.source.local.LocalDataSourceImpl;
 import com.xtree.base.net.RetrofitClient;
 
+import me.xtree.mvvmhabit.http.DownLoadManager;
+
 /**
  * 注入全局的数据仓库
  */
 public class Injection {
     public static BetRepository provideHomeRepository() {
-
+        //网络API服务
+        ApiService apiService = RetrofitClient.getInstance().create(ApiService.class);
         //网络API服务
         FBApiService fbApiService = FBRetrofitClient.getInstance().create(FBApiService.class);
         //网络数据源
-        HttpDataSource httpDataSource = HttpDataSourceImpl.getInstance(fbApiService);
+        HttpDataSource httpDataSource = HttpDataSourceImpl.getInstance(fbApiService, apiService);
         //本地数据源
         LocalDataSource localDataSource = LocalDataSourceImpl.getInstance();
         //两条分支组成一个数据仓库

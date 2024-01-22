@@ -76,14 +76,6 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         this.mContext = context;
     }
 
-    private static class ChildHolder {
-        View itemView;
-
-        public ChildHolder(View view) {
-            itemView = view;
-        }
-    }
-
     @Override
     public int getRealChildrenCount(int groupPosition) {
         if (mDatas.isEmpty() || mDatas.get(groupPosition).getMatchList().isEmpty()) {
@@ -102,7 +94,11 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
     @Override
     public Object getGroup(int groupPosition) {
-        return mDatas.get(groupPosition);
+        if (!mDatas.isEmpty() && mDatas.size() > groupPosition) {
+            return mDatas.get(groupPosition);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -110,7 +106,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         if (mDatas == null || mDatas.isEmpty() || mDatas.size() <= groupPosition) {
             return null;
         }
-        if(mDatas.get(groupPosition).getMatchList() == null || mDatas.get(groupPosition).getMatchList().size() <= childPosition){
+        if (mDatas.get(groupPosition).getMatchList() == null || mDatas.get(groupPosition).getMatchList().size() <= childPosition) {
             return null;
         }
         return mDatas.get(groupPosition).getMatchList().get(childPosition);
@@ -141,17 +137,17 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         }
         League league = mDatas.get(groupPosition);
 
-
         GroupHolder holder;
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.bt_fb_league_group, null);
+            convertView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             holder = new GroupHolder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (GroupHolder) convertView.getTag();
         }
 
-        if(holder == null || holder.itemView == null){
+        if (holder == null || holder.itemView == null) {
             if (convertView == null) {
                 convertView = View.inflate(mContext, R.layout.bt_fb_league_group, null);
             }
@@ -171,7 +167,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             binding.llHeader.setVisibility(View.VISIBLE);
             binding.rlLeague.setVisibility(View.GONE);
             binding.ivExpand.setSelected(headerIsExpand);
-            binding.tvHeaderName.setText("未开赛");
+            binding.tvHeaderName.setText(mContext.getResources().getString(R.string.bt_game_waiting));
             int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
             binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportType] + "(" + league.getMatchCount() + ")");
             binding.llHeader.setOnClickListener(view -> {
@@ -179,7 +175,14 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             });
         }
         binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
+        //mHeader.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
         league.setExpand(isExpanded);
+        binding.vSpace.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
+        /*if(groupPosition == 0){
+            binding.vSpace.getLayoutParams().height = 0;
+        }else{
+            binding.vSpace.getLayoutParams().height = ConvertUtils.dp2px(10);
+        }*/
         return convertView;
     }
 
@@ -204,11 +207,9 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             holder = (ChildHolder) convertView.getTag();
         }
 
-        if(holder == null || holder.itemView == null){
-            if (convertView == null) {
-                convertView = View.inflate(mContext, R.layout.bt_fb_match_list, null);
-            }
-            return convertView;
+        if (holder == null || holder.itemView == null) {
+            holder = new ChildHolder(convertView);
+            convertView.setTag(holder);
         }
 
         BtFbMatchListBinding binding = BtFbMatchListBinding.bind(holder.itemView);
@@ -290,12 +291,13 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             BtDetailActivity.start(mContext, match);
         });
 
-        if (convertView.getLayoutParams() == null) {
+        /*if (convertView.getLayoutParams() == null) {
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.bottomMargin = ConvertUtils.dp2px(100);
             convertView.setLayoutParams(params);
-        }
+        }*/
 
+        binding.vSpace.setVisibility(childPosition == getRealChildrenCount(groupPosition) - 1 ? View.VISIBLE : View.GONE);
         return convertView;
     }
 
@@ -377,9 +379,9 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                         } else {
                             uavailableTextView.setVisibility(View.GONE);
                             oddTextView.setVisibility(View.VISIBLE);
-                            if(TextUtils.isEmpty(option.getSortName())){
+                            if (TextUtils.isEmpty(option.getSortName())) {
                                 nameTextView.setVisibility(View.GONE);
-                            }else{
+                            } else {
                                 nameTextView.setVisibility(View.VISIBLE);
                                 nameTextView.setText(option.getSortName());
                             }
@@ -451,6 +453,14 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         }
 
         View itemView;
+    }
+
+    private static class ChildHolder {
+        View itemView;
+
+        public ChildHolder(View view) {
+            itemView = view;
+        }
     }
 
 }

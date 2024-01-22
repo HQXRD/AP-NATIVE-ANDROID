@@ -57,8 +57,7 @@ public class PMListReq {
     private String mids;
 
     public void setEuid(String euid) {
-        Integer iEuid = Integer.valueOf(euid);
-        this.euid = String.valueOf(iEuid);
+        this.euid = euid;
     }
 
     public void setTid(String tid) {

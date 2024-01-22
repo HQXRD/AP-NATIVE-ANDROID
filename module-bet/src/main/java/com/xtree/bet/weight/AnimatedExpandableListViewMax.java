@@ -21,21 +21,32 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.Transformation;
+import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.view.NestedScrollingChild;
 import androidx.core.view.NestedScrollingChildHelper;
+
+import com.bumptech.glide.Glide;
+import com.xtree.base.utils.TimeUtils;
+import com.xtree.bet.R;
+import com.xtree.bet.bean.ui.League;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,6 +135,9 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
 
     private NestedScrollingChildHelper nestedScrollingChildHelper;
 
+
+    private View mHeader;
+
     public AnimatedExpandableListViewMax(Context context) {
         super(context);
         init();
@@ -142,6 +156,51 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
     private void init() {
         nestedScrollingChildHelper = new NestedScrollingChildHelper(this);
         setNestedScrollingEnabled(true);
+    }
+
+    public static class OnScrollListenerImpl extends AbstractOnScrollListener{
+        private View haeder;
+        private ExpandableListView expandableListView;
+
+        public OnScrollListenerImpl(View header, ExpandableListView expandableListView){
+            this.haeder = header;
+            this.expandableListView = expandableListView;
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            if (haeder == null) {
+                return;
+            }
+            int firstGroup = getPackedPositionGroup(expandableListView.getExpandableListPosition(firstVisibleItem));
+            int nextGroup = getPackedPositionGroup(expandableListView.getExpandableListPosition(firstVisibleItem + 1));
+            View child = expandableListView.getChildAt(1);
+            if (child == null) {
+                return;
+            }
+            int top = child.getTop();
+            int measuredHeight = haeder.getMeasuredHeight();
+            int measuredWidth = haeder.getMeasuredWidth();
+
+            if ((firstGroup + 1) == nextGroup) {
+                if (top < measuredHeight) {
+                    int dy = measuredHeight - top;
+                    haeder.layout(0, -dy, measuredWidth, measuredHeight - dy);
+                    //Log.e("test", "=========(-dy))=======" + (-dy));
+                } else {
+                    haeder.layout(0, 0, measuredWidth, measuredHeight);
+                }
+            } else {
+                haeder.layout(0, 0, measuredWidth, measuredHeight);
+            }
+        }
+    }
+
+    public abstract static class AbstractOnScrollListener implements OnScrollListener{
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+        }
     }
 
     @Override
@@ -688,14 +747,61 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
             }
             position += 1;
         }
-        Log.e("test", "=======position======" + position);
         super.setSelection(position);
     }
 
+    public void addHeader(View header) {
+        mHeader = header;
+        requestLayout();
+        postInvalidate();
+    }
 
-    /*@Override
+    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int mExpandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
-        super.onMeasure(widthMeasureSpec, mExpandSpec);
-    }*/
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        /*if (header != null) {
+            measureChild(header, widthMeasureSpec, heightMeasureSpec);
+        }*/
+        if (mHeader == null) {
+            return;
+        }
+        measureChild(mHeader, widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        if (null != mHeader) {
+            drawChild(canvas, mHeader, getDrawingTime());
+        }
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        if (mHeader == null) {
+            return;
+        }
+        mHeader.layout(0, 0, mHeader.getMeasuredWidth(), mHeader.getMeasuredHeight());
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        int x = (int) ev.getX();
+        int y = (int) ev.getY();
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_UP:
+                if (mHeader != null && y > mHeader.getTop() && y < mHeader.getBottom()) {
+                    int packedPositionGroup = getPackedPositionGroup(getExpandableListPosition(pointToPosition(x, y)));
+                    if (isGroupExpanded(packedPositionGroup)) {
+                        collapseGroup(packedPositionGroup);
+                    } else {
+                        expandGroup(packedPositionGroup);
+                    }
+                    return true;
+                }
+                break;
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 }

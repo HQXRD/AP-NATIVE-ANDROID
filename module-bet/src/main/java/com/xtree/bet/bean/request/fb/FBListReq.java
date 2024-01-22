@@ -3,7 +3,7 @@ package com.xtree.bet.bean.request.fb;
 import java.util.List;
 
 public class FBListReq {
-    private int sportId;
+    private String sportId;
     private String languageType = "CMN";
     private List<Long> leagueIds;
     private int type;
@@ -16,11 +16,11 @@ public class FBListReq {
     private boolean isPC = true;
     private int oddType = 1;
 
-    public int getSportId() {
+    public String getSportId() {
         return sportId;
     }
 
-    public void setSportId(int sportId) {
+    public void setSportId(String sportId) {
         this.sportId = sportId;
     }
 

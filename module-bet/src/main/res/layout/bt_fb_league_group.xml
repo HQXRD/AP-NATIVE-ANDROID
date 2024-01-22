@@ -4,16 +4,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_league"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-
-    <View
-        android:id="@+id/v_space"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/clr_transparent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,7 +20,7 @@
             android:layout_marginBottom="5dp"
             android:background="@color/bt_page_bg"
             android:orientation="vertical"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent">
 
             <RelativeLayout
@@ -82,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bt_bg_league_top"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
@@ -94,10 +88,11 @@
 
             <TextView
                 android:id="@+id/tv_league_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/iv_icon"
                 android:padding="5dp"
+                android:layout_marginEnd="20dp"
                 android:textColor="@color/bt_text_color_primary_1"
                 android:textSize="@dimen/bt_text_15sp"
                 android:textStyle="bold"
@@ -113,6 +108,13 @@
 
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/v_space"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/clr_transparent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </LinearLayout>
 

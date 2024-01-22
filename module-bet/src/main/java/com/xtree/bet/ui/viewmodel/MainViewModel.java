@@ -22,7 +22,7 @@ public interface MainViewModel {
      * @param isTimedRefresh 是否定时刷新 true-是，false-否
      * @param isRefresh      是否刷新 true-是, false-否
      */
-    void getLeagueList(int sportPos, int sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int searchDatePos, int oddType, boolean isTimedRefresh, boolean isRefresh);
+    void getLeagueList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int searchDatePos, int oddType, boolean isTimedRefresh, boolean isRefresh);
 
     /**
      * 获取冠军赛事列表
@@ -35,7 +35,7 @@ public interface MainViewModel {
      * @param isTimedRefresh
      * @param isRefresh
      */
-    void getChampionList(int sportPos, int sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int oddType, boolean isTimedRefresh, boolean isRefresh);
+    void getChampionList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int oddType, boolean isTimedRefresh, boolean isRefresh);
 
     /**
      * 获取赛事统计数据

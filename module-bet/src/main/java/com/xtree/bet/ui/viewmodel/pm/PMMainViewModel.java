@@ -81,10 +81,10 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     private int mPlayType;
 
-    public void getLeagueList(int sportPos, int sportId, int orderBy, List<Long> leagueIds, List<Long> matchidList, int playMethodType, int searchDatePos, int oddType, boolean isTimerRefresh, boolean isRefresh) {
+    public void getLeagueList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchidList, int playMethodType, int searchDatePos, int oddType, boolean isTimerRefresh, boolean isRefresh) {
         int type;
         boolean flag = false;
-        if(!isStepSecond) {
+        if (!isStepSecond) {
             mPlayMethodType = playMethodType;
         }
         mSportPos = sportPos;
@@ -118,13 +118,22 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         } else {
             for (MenuInfo menuInfo : mMenuInfoList) {
                 boolean isFound = false;
-                for (MenuInfo subMenu : menuInfo.subList) {
-                    if (mPlayType == menuInfo.menuType) {
-                        if (TextUtils.equals(SPORT_NAMES[sportPos], subMenu.menuName)) {
-                            isFound = true;
-                            pmListReq.setEuid(String.valueOf(subMenu.menuId));
-                            break;
+                if (mPlayType == menuInfo.menuType) {
+                    String sportIds = "";
+                    for (MenuInfo subMenu : menuInfo.subList) {
+                        if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
+                            sportIds += subMenu.menuId + ",";
+                        }else {
+                            if (TextUtils.equals(SPORT_NAMES[sportPos], subMenu.menuName)) {
+                                isFound = true;
+                                pmListReq.setEuid(String.valueOf(subMenu.menuId));
+                                break;
+                            }
                         }
+                    }
+                    if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
+                        isFound = true;
+                        pmListReq.setEuid(sportIds.substring(0, sportIds.length() - 1));
                     }
                 }
                 if (isFound) {
@@ -169,7 +178,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         Flowable flowable = model.getPMApiService().noLiveMatchesPagePB(pmListReq);
         pmListReq.setCps(pageSize);
         if (type == 1) {// 滚球
-            if(finalFlag) {
+            if (finalFlag) {
                 pmListReq.setCps(goingOnPageSize);
                 flowable = model.getPMApiService().liveMatchesPB(pmListReq);
             }
@@ -192,7 +201,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 @Override
                 protected void onStart() {
                     super.onStart();
-                    if(!isTimerRefresh) {
+                    if (!isTimerRefresh) {
                         getUC().getShowDialogEvent().postValue("");
                     }
                 }
@@ -312,7 +321,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @param isTimerRefresh
      * @param isRefresh
      */
-    public void getChampionList(int sportPos, int sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int oddType, boolean isTimerRefresh, boolean isRefresh) {
+    public void getChampionList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int oddType, boolean isTimerRefresh, boolean isRefresh) {
 
         if (isRefresh) {
             currentPage = 1;
@@ -358,10 +367,11 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                     @Override
                     protected void onStart() {
                         super.onStart();
-                        if(!isTimerRefresh) {
+                        if (!isTimerRefresh) {
                             getUC().getShowDialogEvent().postValue("");
                         }
                     }
+
                     @Override
                     public void onResult(MatchListRsp matchListRsp) {
                         if (isTimerRefresh) {
@@ -541,12 +551,12 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             headerLeague.setHead(true);
             mLeagueList.add(headerLeague);
             mGoingOnLeagueList.clear();
-        }else if(headerLeague == null){
-            if(!sportCountMap.isEmpty() && sportCountList != null && sportCountList.size() > mSportPos) {
+        } else if (headerLeague == null) {
+            if (!sportCountMap.isEmpty() && sportCountList != null && sportCountList.size() > mSportPos) {
                 goingOnMatchCountData.postValue(sportCountList.get(mSportPos) == null ? 0 : sportCountList.get(mSportPos));
             }
         }
-        if(headerLeague != null) {
+        if (headerLeague != null) {
             headerLeague.setMatchCount(matchInfoList.size());
         }
 

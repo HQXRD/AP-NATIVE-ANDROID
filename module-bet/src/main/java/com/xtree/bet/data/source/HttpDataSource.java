@@ -1,6 +1,7 @@
 package com.xtree.bet.data.source;
 
 
+import com.xtree.bet.data.ApiService;
 import com.xtree.bet.data.FBApiService;
 import com.xtree.bet.data.PMApiService;
 
@@ -10,4 +11,5 @@ import com.xtree.bet.data.PMApiService;
 public interface HttpDataSource {
     FBApiService getApiService();
     PMApiService getPMApiService();
+    ApiService getBaseApiService();
 }

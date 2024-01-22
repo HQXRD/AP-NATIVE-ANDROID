@@ -1,6 +1,7 @@
 package com.xtree.bet.data.source.http;
 
 
+import com.xtree.bet.data.ApiService;
 import com.xtree.bet.data.FBApiService;
 import com.xtree.bet.data.PMApiService;
 import com.xtree.bet.data.source.HttpDataSource;
@@ -9,14 +10,15 @@ import com.xtree.bet.data.source.HttpDataSource;
  * Created by goldze on 2019/3/26.
  */
 public class HttpDataSourceImpl implements HttpDataSource {
+    private ApiService baseApiService;
     private FBApiService apiService;
     private volatile static HttpDataSourceImpl INSTANCE = null;
 
-    public static HttpDataSourceImpl getInstance(FBApiService apiService) {
+    public static HttpDataSourceImpl getInstance(FBApiService apiService, ApiService baseApiService) {
         if (INSTANCE == null) {
             synchronized (HttpDataSourceImpl.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new HttpDataSourceImpl(apiService);
+                    INSTANCE = new HttpDataSourceImpl(apiService, baseApiService);
                 }
             }
         }
@@ -27,8 +29,9 @@ public class HttpDataSourceImpl implements HttpDataSource {
         INSTANCE = null;
     }
 
-    private HttpDataSourceImpl(FBApiService apiService) {
+    private HttpDataSourceImpl(FBApiService apiService, ApiService baseApiService) {
         this.apiService = apiService;
+        this.baseApiService = baseApiService;
     }
 
     @Override
@@ -39,5 +42,10 @@ public class HttpDataSourceImpl implements HttpDataSource {
     @Override
     public PMApiService getPMApiService() {
         return null;
+    }
+
+    @Override
+    public ApiService getBaseApiService() {
+        return baseApiService;
     }
 }
