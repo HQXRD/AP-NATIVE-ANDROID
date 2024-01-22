@@ -33,6 +33,8 @@ public class RouterFragmentPath {
         public static final String PAGER_BIND_PHONE = MINE + "/BindPhone";
         public static final String PAGER_BIND_EMAIL = MINE + "/BindEmail";
         public static final String PAGER_CHANGE_PWD = MINE + "/ChangePwd";
+        /** 綁定谷歌动态口令 */
+        public static final String PAGER_BIND_GOOGLE_PWD = MINE + "/GooglePSW";
 
         public static final String PAGER_BIND_CARD = MINE + "/BindCard";
         public static final String PAGER_BIND_CARD_ADD = MINE + "/BindCardAdd";
@@ -61,6 +63,9 @@ public class RouterFragmentPath {
         private static final String RECHARGE = "/recharge";
         public static final String PAGER_RECHARGE = RECHARGE + "/Recharge";
         public static final String PAGER_RECHARGE_FEEDBACK = RECHARGE + "/RechargeFeedback";
+
+        /** 反馈查看页面 */
+        public static final String PAGER_RECHARGE_FEEDBACK_DETAIL = RECHARGE + "/RechargeFeedbackDetail";
     }
 
     /**
