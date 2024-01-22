@@ -2,6 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/clr_transparent"
@@ -49,6 +50,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/clr_white"
-        android:paddingBottom="12dp"/>
+        android:paddingBottom="12dp" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

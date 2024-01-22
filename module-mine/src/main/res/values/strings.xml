@@ -73,7 +73,7 @@
     <string name="txt_amount_cannot_empty">金额不能为空</string>
     <string name="txt_insufficient_balance">" 余额不足"</string>
     <string name="txt_is_1k_recycle_all">一键转回所有平台余额到中心钱包？</string>
-    <string name="txt_tip">提示</string>
+
     <string name="txt_open_auto_slow">开户免转，进入游戏场馆速度相较于关闭时会有一定降低，如发现第三方场馆进入过慢等问题，请关闭免转后重试</string>
     <string name="txt_confirm_open">确认开启</string>
     <string name="txt_central_wallet">中心钱包</string>

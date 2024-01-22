@@ -237,6 +237,12 @@
         <item name="android:text">@string/txt_note_asterisks_cannot_empty</item>
         <item name="android:textColor">@color/clr_orange_03</item>
     </style>
+    <!-- 通用 提示小字 桔红色 -->
+    <style name="style_cm_tip_small_yellow" parent="style_cm_tip_small_grey">
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_orange_02</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 
     <!-- 通用 下一步按钮 -->
     <style name="style_cm_btn_next">
