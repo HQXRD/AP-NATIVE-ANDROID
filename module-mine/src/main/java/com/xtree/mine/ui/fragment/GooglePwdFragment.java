@@ -24,10 +24,11 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.UuidUtil;
-import com.xtree.base.widget.MsgCenterDialog;
+//import com.xtree.base.widget.MsgCenterDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
-import com.xtree.mine.databinding.FragmentGooglePwdBinding;
+//import com.xtree.mine.databinding.FragmentGooglePwdBinding;
+import com.xtree.mine.databinding.FragmentBindCardAddBindingImpl;
 import com.xtree.mine.ui.viewmodel.VerifyViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.GooglePswVO;
@@ -43,9 +44,23 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 /**
  * Google动态口令
  */
-@Route(path = RouterFragmentPath.Mine.PAGER_BIND_GOOGLE_PWD)
-public class GooglePwdFragment extends BaseFragment<FragmentGooglePwdBinding, VerifyViewModel> {
-    //自定义二维码长宽
+//@Route(path = RouterFragmentPath.Mine.PAGER_BIND_GOOGLE_PWD)
+public class GooglePwdFragment extends BaseFragment<FragmentBindCardAddBindingImpl, VerifyViewModel> {
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return 0;
+    }
+
+    @Override
+    public int initVariableId() {
+        return 0;
+    }
+    /*//自定义二维码长宽
     private int height = 120;
     private int width = 120;
     private Bitmap bitmap;
@@ -146,11 +161,11 @@ public class GooglePwdFragment extends BaseFragment<FragmentGooglePwdBinding, Ve
     }
 
 
-    /**
+    *//**
      * 生产二维码
      *
      * @param name
-     */
+     *//*
     private void zxing(String name) {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         Map<EncodeHintType, String> hints = new HashMap<>();
@@ -183,13 +198,13 @@ public class GooglePwdFragment extends BaseFragment<FragmentGooglePwdBinding, Ve
 
     }
 
-    /**
+    *//**
      * 自定义生成BitMatrix
      *
      * @param matrix
      * @param margin
      * @return
-     */
+     *//*
     private static BitMatrix updateBit(BitMatrix matrix, int margin) {
         int tempM = margin * 2;
         int[] res = matrix.getEnclosingRectangle();
@@ -208,9 +223,9 @@ public class GooglePwdFragment extends BaseFragment<FragmentGooglePwdBinding, Ve
         return resMatrix;
     }
 
-    /**
+    *//**
      * 绑定谷歌动态二维码错误提示
-     */
+     *//*
     private void showErrorDialog() {
         String title = getString(R.string.txt_kind_tips);
         String msg = String.valueOf(R.string.txt_google_auth_fail);
@@ -218,22 +233,22 @@ public class GooglePwdFragment extends BaseFragment<FragmentGooglePwdBinding, Ve
         basePopupView.show();
     }
 
-    /**
+    *//**
      * 判断輸入是否为纯数字
      *
      * @param inputString
      * @return true-是
-     */
+     *//*
     private boolean checkInputNum(String inputString) {
         return inputString.trim().matches("-?\\\\d+(\\\\.\\\\d+)?");
     }
 
-    /**
+    *//**
      * 判断输入数据是否为6位
      *
      * @param inputString
      * @return ture-是 false-否
-     */
+     *//*
     private boolean checkInputLength(String inputString) {
         if (inputString.trim().length() == 6) {
             return true;
@@ -241,5 +256,5 @@ public class GooglePwdFragment extends BaseFragment<FragmentGooglePwdBinding, Ve
 
         return false;
     }
-
+*/
 }

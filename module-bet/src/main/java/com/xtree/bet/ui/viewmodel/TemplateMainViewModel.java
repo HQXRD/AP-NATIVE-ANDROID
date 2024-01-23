@@ -8,11 +8,11 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.xtree.base.net.HttpCallBack;
-import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.HotLeagueInfo;
 import com.xtree.bet.bean.response.fb.LeagueItem;
 import com.xtree.bet.bean.ui.League;
+import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.constant.Constants;
 import com.xtree.bet.contract.BetContract;
@@ -65,6 +65,11 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
      */
     public SingleLiveData<Map<String, List<Integer>>> statisticalData = new SingleLiveData<>();
     public SingleLiveData<List<League>> settingLeagueData = new SingleLiveData<>();
+    public Map<String, String> mMapSportType = new HashMap<>();
+    public boolean noLiveMatch;
+    public List<League> mLeagueList = new ArrayList<>();
+    public List<League> mGoingOnLeagueList = new ArrayList<>();
+    public League noLiveheaderLeague;
 
     public TemplateMainViewModel(@NonNull Application application, BetRepository model) {
         super(application, model);
@@ -135,6 +140,87 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
                     }
                 });
         addSubscribe(disposable);
+    }
+
+    /**
+     * 新建进行中的联赛分类信息
+     * @param liveheaderLeague
+     */
+    public void buildLiveHeaderLeague(League liveheaderLeague) {
+        liveheaderLeague.setHead(true);
+        liveheaderLeague.setHeadType(League.HEAD_TYPE_LIVE_OR_NOLIVE);
+        liveheaderLeague.setLeagueName("进行中");
+        mGoingOnLeagueList.add(liveheaderLeague);
+    }
+
+    /**
+     * 新建未开赛联赛分类信息
+     * @param league
+     */
+    public void buildNoLiveHeaderLeague(League league) {
+        if(!mGoingOnLeagueList.isEmpty() && mLeagueList.isEmpty()){
+            mLeagueList.addAll(mGoingOnLeagueList);
+            noLiveheaderLeague = league;
+            noLiveheaderLeague.setHead(true);
+            noLiveheaderLeague.setHeadType(League.HEAD_TYPE_LIVE_OR_NOLIVE);
+            noLiveheaderLeague.setLeagueName("未开赛");
+            mLeagueList.add(noLiveheaderLeague);
+
+            mGoingOnLeagueList.clear();
+        }else if(noLiveheaderLeague == null){
+            noLiveheaderLeague = new LeagueFb();
+            noLiveheaderLeague.setHead(true);
+            noLiveheaderLeague.setHeadType(League.HEAD_TYPE_LIVE_OR_NOLIVE);
+            if(noLiveMatch) {
+                noLiveheaderLeague.setLeagueName("未开赛");
+            }else {
+                noLiveheaderLeague.setLeagueName("全部联赛");
+            }
+            noLiveMatch = false;
+            mLeagueList.add(noLiveheaderLeague);
+        }
+    }
+
+    /**
+     * 新建进行中比赛种类头部信息，足球、篮球等
+     * @param matchCount
+     * @param mapSportType
+     * @param match
+     */
+    public void buildLiveSportHeader(int matchCount, Map<String, String> mapSportType, Match match, League league) {
+        String sportName = mapSportType.get(match.getSportId());
+        if(TextUtils.isEmpty(sportName)){
+            League sportHeaderLeague = league;
+            sportHeaderLeague.setHead(true);
+            sportHeaderLeague.setHeadType(League.HEAD_TYPE_SPORT_NAME);
+            sportHeaderLeague.setLeagueName(match.getSportName());
+            sportHeaderLeague.setMatchCount(matchCount);
+            mGoingOnLeagueList.add(sportHeaderLeague);
+            mapSportType.put(match.getSportId(), match.getSportName());
+        }
+    }
+
+    /**
+     * 新建未开赛比赛种类头部信息，足球、篮球等
+     * @param matchCount
+     * @param match
+     * @param league
+     */
+    public void buildNoLiveSportHeader(int matchCount, Match match, League league) {
+        String sportName = mMapSportType.get(match.getSportId());
+        if(TextUtils.isEmpty(sportName)){
+            League sportHeaderLeague = league;
+            sportHeaderLeague.setHead(true);
+            sportHeaderLeague.setHeadType(League.HEAD_TYPE_SPORT_NAME);
+            sportHeaderLeague.setLeagueName(match.getSportName());
+            sportHeaderLeague.setMatchCount(matchCount);
+            if (!mGoingOnLeagueList.isEmpty() && mLeagueList.isEmpty()) { // 进行中
+                mGoingOnLeagueList.add(sportHeaderLeague);
+            }else{  // 未开赛
+                mLeagueList.add(sportHeaderLeague);
+            }
+            mMapSportType.put(match.getSportId(), match.getSportName());
+        }
     }
 
     /*if(!scrollFlag || mHeaderPosition == 0){

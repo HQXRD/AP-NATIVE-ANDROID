@@ -5,14 +5,11 @@ import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.xtree.base.utils.TimeUtils;
@@ -28,7 +25,6 @@ import com.xtree.bet.bean.ui.PlayGroupFb;
 import com.xtree.bet.bean.ui.PlayGroupPm;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
-import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtFbLeagueGroupBinding;
@@ -56,6 +52,8 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
     private Context mContext;
     private String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
     private boolean headerIsExpand;
+    private int liveHeaderPosition;
+    private int noLiveHeaderPosition;
     private PageHorizontalScrollView.OnScrollListener mOnScrollListener;
 
     public void setOnScrollListener(PageHorizontalScrollView.OnScrollListener onScrollListener) {
@@ -68,12 +66,46 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
     public void setData(List<League> mLeagueList) {
         this.mDatas = mLeagueList;
+        init();
         notifyDataSetChanged();
     }
 
     public LeagueAdapter(Context context, List<League> datas) {
         this.mDatas = datas;
         this.mContext = context;
+        init();
+    }
+
+    public void init(){
+        int index = 0;
+        for (int i = 0; i < mDatas.size(); i++) {
+            if(mDatas.get(i).isHead() && mDatas.get(i).getHeadType() == League.HEAD_TYPE_LIVE_OR_NOLIVE){
+                if(index == 0){
+                    liveHeaderPosition = i;
+                    index ++;
+                }else if(index > 0){
+                    noLiveHeaderPosition = i;
+                    break;
+                }
+            }
+        }
+
+    }
+
+    public String expandRangeLive(){
+        int start = liveHeaderPosition + 2;
+        int end = noLiveHeaderPosition > 0 ? noLiveHeaderPosition : mDatas.size();
+        return start + "/" + end;
+    }
+
+    public String expandRangeNoLive(){
+        if(noLiveHeaderPosition > 0){
+            int start = noLiveHeaderPosition + 1;
+            int end = mDatas.size();
+            return start + "/" + end;
+        }else{
+            return null;
+        }
     }
 
     @Override
@@ -163,26 +195,39 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                     .load(league.getIcon())
                     //.apply(new RequestOptions().placeholder(placeholderRes))
                     .into(binding.ivIcon);
+            binding.vSpace.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
         } else {
             binding.llHeader.setVisibility(View.VISIBLE);
             binding.rlLeague.setVisibility(View.GONE);
-            binding.ivExpand.setSelected(headerIsExpand);
-            binding.tvHeaderName.setText(mContext.getResources().getString(R.string.bt_game_waiting));
-            int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-            binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportType] + "(" + league.getMatchCount() + ")");
-            binding.llHeader.setOnClickListener(view -> {
-                RxBus.getDefault().post(new BetContract(BetContract.ACTION_EXPAND));
-            });
+
+            if(league.getHeadType() == League.HEAD_TYPE_LIVE_OR_NOLIVE) {
+                binding.rlHeader.setVisibility(View.VISIBLE);
+                binding.tvSportName.setVisibility(View.GONE);
+                binding.ivExpand.setSelected(headerIsExpand);
+                binding.tvHeaderName.setText(league.getLeagueName());
+                binding.rlHeader.setOnClickListener(view -> {
+                    if(liveHeaderPosition == groupPosition){ // 点击进行中
+                        int start = groupPosition + 2;
+                        int end = noLiveHeaderPosition > 0 ? noLiveHeaderPosition : mDatas.size();
+                        RxBus.getDefault().post(new BetContract(BetContract.ACTION_EXPAND, start + "/" + end));
+                    }
+                    if(noLiveHeaderPosition > 0){
+                        int start = noLiveHeaderPosition + 1;
+                        int end = mDatas.size();
+                        RxBus.getDefault().post(new BetContract(BetContract.ACTION_EXPAND, start + "/" + end));
+                    }
+
+                });
+            }else {
+                binding.tvSportName.setText(league.getLeagueName() + "(" + league.getMatchCount() + ")");
+                binding.rlHeader.setVisibility(View.GONE);
+                binding.tvSportName.setVisibility(View.VISIBLE);
+            }
+            binding.vSpace.setVisibility(View.VISIBLE);
         }
+
         binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
-        //mHeader.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
         league.setExpand(isExpanded);
-        binding.vSpace.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
-        /*if(groupPosition == 0){
-            binding.vSpace.getLayoutParams().height = 0;
-        }else{
-            binding.vSpace.getLayoutParams().height = ConvertUtils.dp2px(10);
-        }*/
         return convertView;
     }
 

@@ -18,6 +18,8 @@ public class LeagueFb implements League{
     private boolean isSelected;
     private int matchCount; //
     public int sort;
+    public String leagueName = "";
+    private int headType;
     public LeagueInfo leagueInfo;
     public List<Match> matchList = new ArrayList<>();
 
@@ -75,11 +77,6 @@ public class LeagueFb implements League{
     }
 
     @Override
-    public League instance() {
-        return new LeagueFb();
-    }
-
-    @Override
     public boolean isHot() {
         return leagueInfo.hot;
     }
@@ -106,15 +103,40 @@ public class LeagueFb implements League{
     }
 
     /**
+     * 设置联赛名称
+     * @param leagueName
+     */
+    @Override
+    public void setLeagueName(String leagueName) {
+        this.leagueName = leagueName;
+    }
+
+    /**
      * 获取联赛名称
      * @return
      */
     @Override
     public String getLeagueName() {
         if(leagueInfo == null || TextUtils.isEmpty(leagueInfo.na)){
-            return "";
+            return leagueName;
         }
         return leagueInfo.na;
+    }
+
+    /**
+     * 获取头部类型 1-进行中或未开赛 2-球种名称
+     * @return
+     */
+    public int getHeadType() {
+        return headType;
+    }
+
+    /**
+     * 设置头部类型 1-进行中或未开赛 2-球种名称
+     * @return
+     */
+    public void setHeadType(int headType) {
+        this.headType = headType;
     }
 
     /**

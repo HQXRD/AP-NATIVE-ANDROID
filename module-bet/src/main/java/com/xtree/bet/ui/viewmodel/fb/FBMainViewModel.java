@@ -45,8 +45,6 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 public class FBMainViewModel extends TemplateMainViewModel implements MainViewModel {
 
     private Map<String, League> mMapLeague = new HashMap<>();
-    private List<League> mLeagueList = new ArrayList<>();
-    private List<League> mGoingOnLeagueList = new ArrayList<>();
     private List<Match> mMatchList = new ArrayList<>();
     private Map<String, Match> mMapMatch = new HashMap<>();
 
@@ -108,6 +106,14 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         FBListReq.setCurrent(currentPage);
         FBListReq.setOddType(oddType);
 
+        if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
+            /*String sportIds = "";
+            for (int i = 1; i < FBConstants.SPORT_IDS.length; i++) {
+                sportIds += FBConstants.SPORT_IDS[i] + ",";
+            }*/
+            FBListReq.setSportId(null);
+        }
+
         String startTime;
         String endTime;
 
@@ -138,7 +144,8 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         if (isRefresh) {
             mLeagueList.clear();
             mMapLeague.clear();
-            headerLeague = null;
+            mMapSportType.clear();
+            noLiveheaderLeague = null;
         }
 
         Disposable disposable = (Disposable) model.getApiService().getFBList(FBListReq)
@@ -393,9 +400,21 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     }
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {
-        mGoingonMatchCount = matchInfoList.size();
+        if(matchInfoList.isEmpty()){
+            noLiveMatch = true;
+            return;
+        }
+
+        League liveheaderLeague = new LeagueFb();
+        buildLiveHeaderLeague(liveheaderLeague);
+
         Map<String, League> mapLeague = new HashMap<>();
+        Map<String, String> mapSportType = new HashMap<>();
         for (MatchInfo matchInfo : matchInfoList) {
+            Match match = new MatchFb(matchInfo);
+
+            buildLiveSportHeader(matchInfoList.size(), mapSportType, match, new LeagueFb());
+
             League league = mapLeague.get(String.valueOf(matchInfo.lg.id));
 
             if (league == null) {
@@ -406,7 +425,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                 //mMapGoingOnLeague.put(String.valueOf(matchInfo.lg.id), league);
             }
 
-            Match match = new MatchFb(matchInfo);
             league.getMatchList().add(match);
 
 
@@ -425,34 +443,20 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     }
 
-    private League headerLeague;
-
     /**
      * @param matchInfoList
      * @return
      */
     private void leagueAdapterList(List<MatchInfo> matchInfoList) {
 
+        buildNoLiveHeaderLeague(new LeagueFb());
+
         Map<String, League> mapLeague = new HashMap<>();
-        List<Integer> sportCountList = sportCountMap.get(String.valueOf(mPlayMethodType));
-        if(!mGoingOnLeagueList.isEmpty() && mLeagueList.isEmpty()){
-            mLeagueList.addAll(mGoingOnLeagueList);
-            headerLeague = mLeagueList.get(0).instance();
-            headerLeague.setHead(true);
-            mLeagueList.add(headerLeague);
-            mGoingOnLeagueList.clear();
-        }else if(headerLeague == null){
-            if(!sportCountMap.isEmpty() && sportCountList != null && sportCountList.size() > mSportPos) {
-                goingOnMatchCountData.postValue(sportCountList.get(mSportPos) == null ? 0 : sportCountList.get(mSportPos));
-            }
-        }
-        if(headerLeague != null) {
-            headerLeague.setMatchCount(matchInfoList.size());
-        }
-
         for (MatchInfo matchInfo : matchInfoList) {
-            League league = mMapLeague.get(String.valueOf(matchInfo.lg.id));
+            Match match = new MatchFb(matchInfo);
+            buildNoLiveSportHeader(matchInfoList.size(), match, new LeagueFb());
 
+            League league = mMapLeague.get(String.valueOf(matchInfo.lg.id));
             if (league == null) {
                 league = new LeagueFb(matchInfo.lg);
                 mapLeague.put(String.valueOf(matchInfo.lg.id), league);
@@ -461,7 +465,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                 mMapLeague.put(String.valueOf(matchInfo.lg.id), league);
             }
 
-            Match match = new MatchFb(matchInfo);
             league.getMatchList().add(match);
 
 

@@ -9,7 +9,6 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.request.pm.PMListReq;
-import com.xtree.bet.bean.response.pm.BalanceInfo;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
@@ -191,7 +190,8 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         if (isRefresh) {
             mLeagueList.clear();
             mMapLeague.clear();
-            headerLeague = null;
+            mMapSportType.clear();
+            noLiveheaderLeague = null;
         }
         PMHttpCallBack pmHttpCallBack;
 
@@ -463,30 +463,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      */
     public void getOnSaleLeagues(int sportId, int type) {
 
-        /*Map<String, String> map = new HashMap<>();
-        map.put("languageType", "CMN");
-        map.put("sportId", String.valueOf(sportId));
-        map.put("type", String.valueOf(type));
-
-        Disposable disposable = (Disposable) model.getApiService().getOnSaleLeagues(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new PMHttpCallBack<List<LeagueInfo>>() {
-                    @Override
-                    public void onResult(List<LeagueInfo> leagueInfoList) {
-                        List<League> leagueList = new ArrayList<>();
-                        for (LeagueInfo leagueInfo : leagueInfoList) {
-                            leagueList.add(new MatchPm(leagueInfo));
-                        }
-                        settingLeagueData.postValue(leagueList);
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);*/
     }
 
     @Override
@@ -500,11 +476,22 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     }
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {
-        mGoingonMatchCount = matchInfoList.size();
-        Map<String, League> mapLeague = new HashMap<>();
-        for (MatchInfo matchInfo : matchInfoList) {
-            League league = mapLeague.get(String.valueOf(matchInfo.tid));
+        if(matchInfoList.isEmpty()){
+            noLiveMatch = true;
+            return;
+        }
 
+        League liveHeaderLeague = new LeaguePm();
+        buildLiveHeaderLeague(liveHeaderLeague);
+
+        Map<String, League> mapLeague = new HashMap<>();
+        Map<String, String> mapSportType = new HashMap<>();
+        for (MatchInfo matchInfo : matchInfoList) {
+            Match match = new MatchPm(matchInfo);
+
+            buildLiveSportHeader(matchInfoList.size(), mapSportType, match, new LeaguePm());
+
+            League league = mapLeague.get(String.valueOf(matchInfo.tid));
             if (league == null) {
                 LeagueInfo leagueInfo = new LeagueInfo();
                 leagueInfo.picUrlthumb = matchInfo.lurl;
@@ -516,10 +503,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 mGoingOnLeagueList.add(league);
                 //mMapGoingOnLeague.put(String.valueOf(matchInfo.lg.id), league);
             }
-
-            Match match = new MatchPm(matchInfo);
             league.getMatchList().add(match);
-
 
             if (mMapMatch.get(String.valueOf(match.getId())) == null) {
                 mMapMatch.put(String.valueOf(match.getId()), match);
@@ -535,34 +519,20 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     }
 
-    private League headerLeague;
-
     /**
      * @param matchInfoList
      * @return
      */
     private void leagueAdapterList(List<MatchInfo> matchInfoList) {
 
+        buildNoLiveHeaderLeague(new LeaguePm());
+
         Map<String, League> mapLeague = new HashMap<>();
-        List<Integer> sportCountList = sportCountMap.get(String.valueOf(mPlayMethodType));
-        if (!mGoingOnLeagueList.isEmpty() && mLeagueList.isEmpty()) {
-            mLeagueList.addAll(mGoingOnLeagueList);
-            headerLeague = mLeagueList.get(0).instance();
-            headerLeague.setHead(true);
-            mLeagueList.add(headerLeague);
-            mGoingOnLeagueList.clear();
-        } else if (headerLeague == null) {
-            if (!sportCountMap.isEmpty() && sportCountList != null && sportCountList.size() > mSportPos) {
-                goingOnMatchCountData.postValue(sportCountList.get(mSportPos) == null ? 0 : sportCountList.get(mSportPos));
-            }
-        }
-        if (headerLeague != null) {
-            headerLeague.setMatchCount(matchInfoList.size());
-        }
-
         for (MatchInfo matchInfo : matchInfoList) {
-            League league = mMapLeague.get(String.valueOf(matchInfo.tid));
+            Match match = new MatchPm(matchInfo);
+            buildNoLiveSportHeader(matchInfoList.size(), match, new LeaguePm());
 
+            League league = mMapLeague.get(String.valueOf(matchInfo.tid));
             if (league == null) {
                 LeagueInfo leagueInfo = new LeagueInfo();
                 leagueInfo.picUrlthumb = matchInfo.lurl;
@@ -574,8 +544,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 mLeagueList.add(league);
                 mMapLeague.put(String.valueOf(matchInfo.tid), league);
             }
-
-            Match match = new MatchPm(matchInfo);
             league.getMatchList().add(match);
 
 
