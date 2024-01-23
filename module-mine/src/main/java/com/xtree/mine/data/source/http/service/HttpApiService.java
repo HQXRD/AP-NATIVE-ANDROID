@@ -339,7 +339,7 @@ public interface HttpApiService {
     Flowable<BaseResponse<ForgetPasswordCheckInfoVo>> getUserInfoApi(@Body Map<String, String> map);
 
     /**
-     * 获取 用户资讯正确的token
+     * 获取 otp的资讯
      */
     @POST("/api/account/newforgetpassword")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
@@ -353,7 +353,7 @@ public interface HttpApiService {
     Flowable<BaseResponse<ForgetPasswordVerifyVo>> getUserTokenApi(@Body Map<String, String> map);
 
     /**
-     * 获取 用户资讯正确的token
+     * 获取 修改密码
      */
     @POST("/api/account/newforgetpassword")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
