@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/clr_transparent"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_dialog_top_purple"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvw_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/clr_white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="标题" />
+
+        <ImageView
+            android:id="@+id/ivw_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="close"
+            android:padding="4dp"
+            android:src="@mipmap/ic_pop_close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/clr_white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="12dp">
+
+            <TextView
+                android:id="@+id/tvw_cs"
+                style="@style/style_btn_small"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/layout_margin"
+                android:drawableStart="@mipmap/cm_ic_tutorial"
+                android:drawablePadding="4dp"
+                android:text="@string/txt_contact_custom" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="需充值USDT数量"
+                android:textColor="@color/clr_grey_80" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|bottom"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvw_rate_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="48sp"
+                    tools:text="1000.00" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_margin"
+                    android:text="@string/txt_pcs"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_rc_online_rc_yuan"
+                    android:textColor="@color/clr_grey_80" />
+
+                <TextView
+                    android:id="@+id/tvw_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    tools:text="1000.00" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_yuan"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="@dimen/layout_margin"
+                    android:text="@string/txt_rc_rate"
+                    android:textColor="@color/clr_grey_80" />
+
+                <TextView
+                    android:id="@+id/tvw_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    tools:text="6.73" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvw_max_expire_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:drawableStart="@mipmap/cm_ic_hourglass"
+            android:drawablePadding="12dp"
+            android:text="@string/txt_rc_submit_succ_pay_in_minutes_pls"
+            android:textColor="@color/black" />
+
+        <View
+            style="@style/style_filter_info_dividing"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    style="@style/style_bind_confirm_ll"
+                    android:layout_marginTop="@dimen/layout_margin">
+
+                    <TextView
+                        style="@style/style_bind_confirm_bank_title"
+                        android:layout_marginStart="12dp"
+                        android:gravity="start"
+                        android:minEms="2"
+                        android:text="收款钱包地址：" />
+
+                    <TextView
+                        android:id="@+id/tvw_qrcode_url"
+                        style="@style/style_bind_confirm_value"
+                        android:layout_gravity="end"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:textColor="@color/clr_black"
+                        android:textStyle="bold"
+                        tools:text="abcde abcde abcde abcde abcde abcde abcde " />
+
+                    <TextView
+                        android:id="@+id/tvw_copy"
+                        style="@style/style_btn_small"
+                        android:layout_marginEnd="@dimen/layout_margin"
+                        android:minEms="3"
+                        android:text="@string/txt_copy" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ivw_qrcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/layout_margin"
+                    tools:src="@mipmap/cm_ic_qrcode" />
+
+                <TextView
+                    android:id="@+id/tvw_ok"
+                    style="@style/style_btn"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="36dp"
+                    android:layout_marginTop="36dp"
+                    android:layout_marginEnd="36dp"
+                    android:text="@string/txt_rc_already_pay"
+                    android:visibility="visible" />
+
+                <TextView
+                    style="@style/style_cm_tip_small_grey"
+                    android:layout_marginTop="36dp"
+                    android:drawableStart="@mipmap/cm_ic_hint_purple"
+                    android:text="@string/txt_notice_c"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvw_01"
+                    style="@style/style_cm_tip_small_yellow"
+                    android:text="@string/txt_rc_dont_save_account_or_qrcode" />
+
+                <TextView
+                    android:id="@+id/tvw_02"
+                    style="@style/style_cm_tip_small_yellow"
+                    android:text="@string/txt_rc_wait_long_or_orders_not_processed_contact_cs" />
+
+                <TextView
+                    style="@style/style_cm_tip_small_grey"
+                    android:layout_marginTop="12dp"
+                    android:drawableStart="@mipmap/cm_ic_hint_purple"
+                    android:text="@string/txt_notice_important_c"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/tvw_03"
+                    style="@style/style_cm_tip_small_grey"
+                    android:text="@string/txt_rc_usdt_tip" />
+
+                <TextView
+                    style="@style/style_cm_tip_small_grey"
+                    android:text="@string/txt_rc_trans_usdt_demo"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/layout_margin"
+                    android:layout_marginTop="@dimen/layout_margin"
+                    android:src="@mipmap/rc_trans_usdt" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </LinearLayout>
+</LinearLayout>

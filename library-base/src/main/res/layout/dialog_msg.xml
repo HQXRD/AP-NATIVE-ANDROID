@@ -69,6 +69,24 @@
         app:layout_constraintTop_toBottomOf="@id/tvw_title"
         tools:text="这是内容  这是内容这是内容这是内容这是内容这是内容" />
 
+    <TextView
+        android:id="@+id/tvw_msg2"
+        style="@style/style_cm_tip_small_orange"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        android:textColor="@color/clr_grey_60"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg"
+        app:layout_constraintTop_toBottomOf="@id/tvw_title"
+        tools:text="这是内容 长的4行52字"
+        tools:visibility="gone" />
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -208,7 +208,7 @@
     </style>
 
     <style name="style_ll_row">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">12dp</item>
         <item name="android:layout_marginEnd">12dp</item>
@@ -217,11 +217,20 @@
 
     <style name="style_fb_info_title">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">end</item>
         <item name="android:minEms">7</item>
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textSize">14sp</item>
+    </style>
+    <!--反馈录入页面提示语言风格-->
+    <style name="style_fb_tip_title" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/clr_grey_00</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:layout_marginLeft">2dp</item>
+
     </style>
 
     <!-- 通用 提示小字 灰色 -->
@@ -239,6 +248,12 @@
     <style name="style_cm_tip_small_orange" parent="style_cm_tip_small_grey">
         <item name="android:text">@string/txt_note_asterisks_cannot_empty</item>
         <item name="android:textColor">@color/clr_orange_03</item>
+    </style>
+    <!-- 通用 提示小字 桔红色 -->
+    <style name="style_cm_tip_small_yellow" parent="style_cm_tip_small_grey">
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_orange_02</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <!-- 通用 下一步按钮 -->
@@ -345,6 +360,48 @@
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textColorHint">@color/clr_txt_grey_03</item>
         <item name="android:textSize">14sp</item>
+    </style>
+    <!--虚拟币提现 虚拟币地址选择框 -->
+    <style name="style_withdraw_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">30dp</item>
+
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">16</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!--提现输入背景-->
+    <style name="style_withdraw_money_bg">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">28dp</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">16</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">@dimen/bt_text_12sp</item>
+    </style>
+    <!--提现Edittext-->
+    <style name="style_bank_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">16</item>
+
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">12sp</item>
+
     </style>
 
     <!-- 通用输入框 带边框,占一整行的 -->
@@ -527,7 +584,14 @@
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textSize">14sp</item>
     </style>
-
+    <!-- 通用 google动态绑定按钮 -->
+    <style name="style_bind_google_btn_next">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:background">@mipmap/btn_google_bind_bg_bt</item>
+    </style>
     <style name="style_bind_confirm_bank_title" parent="style_bind_confirm_title">
         <item name="android:minEms">7</item>
     </style>
@@ -594,5 +658,20 @@
     <style name="style_item_report_value_end" parent="style_item_report_value">
         <item name="android:gravity">end</item>
     </style>
-
+    <!-- 选择提款方式文字风格 -->
+    <style name="style_choose_withdrawal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/clr_white</item>
+        <item name="android:textSize">@dimen/bt_text_16sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <!-- usdt提款教程 -->
+    <style name="style_usdt_tutorial">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">@color/clr_tutorial</item>
+        <item name="android:textSize">@dimen/bt_text_16sp</item>
+        <item name="android:gravity">center</item>
+    </style>
 </resources>

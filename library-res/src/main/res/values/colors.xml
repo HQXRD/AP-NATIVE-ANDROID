@@ -139,8 +139,8 @@
 
     <!-- 投注确认页赛事关闭提示字体颜色 -->
     <color name="bt_color_text_match_close">#B85F53</color>
-
-
+    <!-- 谷歌动态口令顶部颜色 -->
+    <color name="min_google_top_color">#F5F5F5</color>
     <!-- 投注模块 end-->
 
     <!-- 首页模块 begin -->
@@ -231,6 +231,7 @@
     <color name="clr_purple_07">#A882E7</color>
 
     <color name="clr_orange_01">#FF804B</color>
+    <color name="clr_orange_02">#FF8A00</color>
     <color name="clr_orange_03">#EE5A5A</color>
 
     <!-- 报表-盈亏 红色 -->
@@ -244,7 +245,14 @@
 
     <color name="clr_green_03">#5BBA5B</color>
     <color name="clr_green_06">#E7E7E7</color>
+    <color name="clr_tutorial">#585858</color>
+    <color name="clr_red_choose">#FF4A4D</color>
+    <color name="clr_txt_withdraw_money">#6D6C72</color>
+    <color name="clr_gap_bg">#EBEBEB</color>
+    <color name="cl_amount_txt">#C4B2FF</color>
 
+    <color name="clr_no_selector">#CDCDCD</color>
+    <color name="clr_hint">#F4F4F4</color>
     <!-- 通用 end-->
 
 </resources>

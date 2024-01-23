@@ -1,0 +1,157 @@
+package com.xtree.recharge.ui.fragment;
+
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.text.TextUtils;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
+
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
+import com.lxj.xpopup.core.BottomPopupView;
+import com.lxj.xpopup.util.XPopupUtils;
+import com.xtree.base.global.Constant;
+import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.widget.BrowserDialog;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.recharge.R;
+import com.xtree.recharge.databinding.DialogRcOrderWebBinding;
+import com.xtree.recharge.vo.RechargePayVo;
+
+public class RechargeOrderWebDialog extends BottomPopupView {
+
+    RechargePayVo mRechargePayVo;
+    DialogRcOrderWebBinding binding;
+    BasePopupView ppw;
+    BasePopupView ppw2;
+
+    public RechargeOrderWebDialog(@NonNull Context context) {
+        super(context);
+    }
+
+    public RechargeOrderWebDialog(@NonNull Context context, RechargePayVo mRechargePayVo) {
+        super(context);
+        this.mRechargePayVo = mRechargePayVo;
+    }
+
+    @Override
+    protected void onCreate() {
+        super.onCreate();
+
+        initView();
+    }
+
+    private void initView() {
+        binding = DialogRcOrderWebBinding.bind(findViewById(R.id.ll_root));
+        binding.ivwClose.setOnClickListener(v -> dismiss());
+        binding.tvwCs.setOnClickListener(v -> goCustomerService());
+        binding.tvwTitle.setText(mRechargePayVo.payname);
+        binding.tvwMoney.setText(mRechargePayVo.money);
+
+        String txt = mRechargePayVo.maxexpiretime + getContext().getString(R.string.txt_minutes); // xx分钟
+        txt = "<font color=#EE5A5A> " + txt + " </font>"; // 加彩色
+        txt = getContext().getString(R.string.txt_rc_submit_succ_pay_in_minutes_pls, txt).replace("\n", "<br>");
+        binding.tvwMaxExpireTime.setText(HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
+        binding.tvwOk.setOnClickListener(v -> dismiss());
+        binding.tvwShowPay.setOnClickListener(v -> showTipDialog());
+
+        binding.tvw01.setText("1. " + binding.tvw01.getText().toString());
+        binding.tvw02.setText("2. " + binding.tvw02.getText().toString());
+        binding.tvw03.setText("3. " + binding.tvw03.getText().toString());
+
+        if (mRechargePayVo.isqrcode) {
+            binding.tvwQrcodeUrl.setText(mRechargePayVo.qrcodeurl);
+            binding.llQrcodeUrl.setVisibility(View.VISIBLE);
+            binding.ivwQrcode.setVisibility(View.VISIBLE);
+            binding.tvwOk.setVisibility(View.VISIBLE);
+            binding.tvwShowPay.setVisibility(View.GONE); // 隐藏
+        }
+
+    }
+
+    private void showTipDialog() {
+        String title = getContext().getString(R.string.txt_tip);
+        String msg = getContext().getString(R.string.txt_rc_browser_continue);
+        ppw = new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(new MsgDialog(getContext(), title, msg, null, null, new MsgDialog.ICallBack() {
+                    @Override
+                    public void onClickLeft() {
+                        ppw.dismiss();
+                    }
+
+                    @Override
+                    public void onClickRight() {
+                        goPay();
+                        showTipDialog2();
+                        ppw.dismiss();
+                    }
+                }));
+        ppw.show();
+    }
+
+    private void showTipDialog2() {
+
+        String title = getContext().getString(R.string.txt_tip);
+        String msg = getContext().getString(R.string.txt_rc_is_succ);
+        String txtLeft = getContext().getString(R.string.txt_rc_question);
+        String txtRight = getContext().getString(R.string.txt_rc_succ);
+
+        ppw2 = new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(new MsgDialog(getContext(), title, msg, txtLeft, txtRight, new MsgDialog.ICallBack() {
+                    @Override
+                    public void onClickLeft() {
+                        ppw2.dismiss();
+                    }
+
+                    @Override
+                    public void onClickRight() {
+                        ppw2.dismiss();
+                        dismiss();
+                    }
+                }));
+        ppw2.show();
+    }
+
+    private void goPay() {
+        String url = mRechargePayVo.redirecturl;
+        if (!TextUtils.isEmpty(url)) {
+            if (!url.startsWith("http")) {
+                if (mRechargePayVo.domainList.size() > 0) {
+                    url = mRechargePayVo.domainList.get(0) + url;
+                } else {
+                    url = DomainUtil.getDomain2() + url;
+                }
+            }
+            CfLog.i(mRechargePayVo.payname + ", jump: " + url);
+            //  弹窗
+            getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        }
+    }
+
+    private void goCustomerService() {
+        String title = getContext().getString(R.string.txt_custom_center);
+        String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
+        new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+    }
+
+    @Override
+    protected int getImplLayoutId() {
+        return R.layout.dialog_rc_order_web;
+    }
+
+    @Override
+    protected int getMaxHeight() {
+        //return super.getMaxHeight();
+        return (XPopupUtils.getScreenHeight(getContext()) * 75 / 100);
+    }
+
+}

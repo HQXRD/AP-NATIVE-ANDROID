@@ -4,8 +4,9 @@
     <string name="txt_withdraw">提款</string>
     <string name="txt_feedback">反馈信息</string>
     <string name="txt_custom_center">客服中心</string>
-    <string name="txt_contact_custom">客服中心</string>
+    <string name="txt_contact_custom">联系客服</string>
     <string name="txt_msg_center">消息中心</string>
+    <string name="txt_kind_tips">温馨提示</string>
 
     <string name="txt_bind_card">银行卡管理</string>
     <string name="txt_bind_usdt">绑定USDT</string>
@@ -86,5 +87,12 @@
     <string name="txt_rst_lose">输</string>
     <string name="txt_yes">是</string>
     <string name="txt_no">否</string>
+    <string name="txt_google_auth_fail">绑定谷歌验证码失败</string>
+
+    <string name="txt_tip">提示</string>
+    <string name="txt_copy">复制</string>
+    <string name="txt_copied">已复制</string>
+    <string name="txt_yuan">元</string>
+    <string name="txt_pcs">个</string>
 
 </resources>

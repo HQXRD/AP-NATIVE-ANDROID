@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.fragment.GooglePwdFragment">
+        <!--顶部-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                style="@style/style_cm_title"
+                android:text="@string/txt_google_code"
+                app:layout_constraintBaseline_toBaselineOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivw_back"
+                style="@style/style_ic_title_back"
+                android:src="@mipmap/cm_ic_back"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/cl_google_psw_top_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/min_google_top_color"
+            app:layout_constraintTop_toBottomOf="@id/cl_title" />
+        <!---->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="@dimen/layout_margin"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_google_psw_top_view">
+
+            <TextView
+                android:id="@+id/tvw_prompt1"
+                style="@style/style_google_prompt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_google_prompt1" />
+            <!--二维码1 -->
+            <ImageView
+                android:id="@+id/ivw_code1"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/tvw_prompt1" />
+
+            <TextView
+                android:id="@+id/tvw_prompt2"
+                style="@style/style_google_prompt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/txt_google_prompt2" />
+            <!--二维码2-->
+            <ImageView
+                android:id="@+id/ivw_code2"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/tvw_prompt2" />
+
+            <TextView
+                android:id="@+id/tvw_prompt3"
+                style="@style/style_google_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/txt_key" />
+
+            <TextView
+                android:id="@+id/tvw_prompt4"
+                style="@style/style_google_prompt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/txt_google_prompt3" />
+
+            <EditText
+                android:id="@+id/edt_googlepsw"
+                style="@style/style_cm_edt"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="0dp"
+                android:hint="@string/edit_google_hit"
+                android:inputType="number"
+                app:layout_constraintTop_toBottomOf="@id/tvw_prompt3" />
+
+            <TextView
+                android:id="@+id/tvw_prompt5"
+                style="@style/style_google_prompt_bottom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp"
+                android:text="@string/txt_google_hit_prompt"
+                app:layout_constraintTop_toBottomOf="@id/edt_account" />
+
+            <Button
+                android:id="@+id/btn_bind"
+                style="@style/style_bind_google_btn_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="-2dp" />
+
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

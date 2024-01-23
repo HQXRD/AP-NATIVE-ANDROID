@@ -32,4 +32,86 @@
     <string name="txt_close_dialog_continue_cur">关闭弹窗，继续使用当前充值渠道</string>
     <string name="txt_rc_count_low_rate_hint"><![CDATA[您已经连续充值<font color=#EE5A5A>%1$d</font>次，为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！]]></string>
     <string name="txt_rc_order_not_received_contact_pls">有订单还未到账，为了能您的充值快速到账，请您进行反馈！</string>
+
+    <!--反馈录入页面录入提示语言-->
+    <string name="txt_tip_select_un_order">* 未到账订单选择：</string>
+    <string name="txt_tip_select_un_order_right">请选择未到账订单 </string>
+    <string name="txt_tip_select_pay">* 付款方式：</string>
+    <string name="txt_tip_select_pay_wechat">银行卡/微信/支付宝</string>
+    <string name="txt_tip_select_pay_usdt">虚拟货币</string>
+    <string name="txt_tip_select_pay_bottom">选择付款方式</string>
+    <string name="txt_tip_input_wechat_bank_name">请输入付款银行</string>
+    <string name="txt_tip_input_wechat_pay">请输入付款账号号码或者支付账号名称</string>
+    <string name="txt_tip_input_wechat_pay_name">请输入付款人姓名</string>
+    <string name="txt_tip_input_wechat_payee_name">请输入收款人姓名</string>
+    <string name="txt_tip_input_wechat_save_numb">请输入存款金额</string>
+    <string name="txt_tip_input_three_numb">请输入第三方订单号</string>
+    <string name="txt_tip_input_pay_wechat_name">例: 张三</string>
+    <string name="txt_tip_input_collection_wechat_name">例: 李四</string>
+    <string name="txt_tip_input_wechat_save_number">例: 5000</string>
+    <string name="txt_tip_input_image">请上传汇款成功截图，图片支持PNG,JPG,JPEG格式</string>
+
+    <string name="txt_tip_input_wechat_payment_account">* 付款账户：</string>
+    <string name="txt_tip_input_wechat_payment_name">* 付款人姓名：</string>
+    <string name="txt_tip_input_wechat_collection_name">* 收款人姓名：</string>
+    <string name="txt_tip_input_wechat_payment_numb">* 存款金额：</string>
+    <string name="txt_tip_input_wechat_payment_time">* 存款准确时间：</string>
+    <string name="txt_tip_input_wechat_three_numb">* 第三方订单号：</string>
+    <string name="txt_tip_input_wechat_three_numb_err">第三方订单号不能为空</string>
+    <string name="txt_tip_input_wechat_pay_way">* 支付渠道：</string>
+    <string name="txt_tip_input_wechat_select_pay_way">请选择支付渠道</string>
+
+
+    <string name="txt_tip_input_usdt_payment_account">* 付款钱包地址：</string>
+    <string name="txt_tip_input_usdt_selector_payment_account">请输入付款钱包地址</string>
+    <string name="txt_tip_input_usdt_payment_name">* 协议：</string>
+    <string name="txt_tip_input_usdt_payment_agreement">请选择协议</string>
+    <string name="txt_tip_input_usdt_numb">* 虚拟币数量：</string>
+    <string name="txt_tip_input_usdt_add">* 收款钱包地址：</string>
+    <string name="txt_tip_input_usdt_add_hint">请输入收款钱包地址</string>
+    <!--反馈录入页面录入异常提示语言 微信支付宝-->
+    <string name="txt_tip_input_wechat_pay_err">付款账户不能为空</string>
+    <string name="txt_tip_input_pay_wechat_name_err">付款人姓名不能为空</string>
+    <string name="txt_tip_input_collection_wechat_name_err">收款人姓名不能为空</string>
+    <string name="txt_tip_input_wechat_save_number_err">存款金额不能为空</string>
+    <string name="txt_tip_input_wechat_other_order_err">第三方订单号不能为空</string>
+    <!--反馈录入页面录入异常提示语言 虚拟币-->
+    <string name="txt_tip_input_usdt_pay_err">付款钱包地址不能为空</string>
+    <string name="txt_tip_input_usdt_save_number_time_err">存款时间不能为空</string>
+    <string name="txt_tip_input_usdt_collection_name_err">收款钱包地址不能为空</string>
+    <string name="txt_tip_input_usdt_add_err">收款钱包地址不能为空</string>
+
+    <string name="txt_rc_question">遇到问题</string>
+    <string name="txt_rc_succ">充值成功</string>
+    <string name="txt_minutes">分钟</string>
+    <string name="txt_rc_submit_succ_pay_in_minutes_pls">充值申请提交成功\n请在%1$s之内完成支付</string>
+    <string name="txt_rc_show_pay_dialog">弹出支付窗口</string>
+    <string name="txt_notice_c">注意事项：</string>
+    <string name="txt_notice_important_c">重要提示：</string>
+    <string name="txt_rc_browser_continue">如果您的浏览器提示充值跳转页面存在未经证实信息网站或非法网站等类似信息，请您不要关闭页面，忽略警告，放心点击继续访问。</string>
+    <string name="txt_rc_dont_save_account_or_qrcode">请不要保留收款账号或二维码进行重复充值，否则可能造成充值失败，感谢您的配合。</string>
+    <string name="txt_rc_wait_long_or_orders_not_processed_contact_cs">高峰期若充值订单处理时间过长或多个订单未处理，请联系客服为您手动处理充值订单。</string>
+    <string name="txt_rc_is_succ">是否充值成功？若充值未成功，请点击遇到问题，重新选择渠道进行充值！</string>
+
+    <string name="txt_rc_1k_copy_card">一键复制银行卡所有信息</string>
+    <string name="txt_rc_only_bank_card">仅支持银行卡转账，其它充值方式将无法到账。</string>
+    <string name="txt_rc_only_bank_card_no_others">本充值方式仅支持银行卡转账，其它充值方式将无法到账。</string>
+    <string name="txt_rc_order_amount_and_transfer_should_same">“订单金额”与网银转账金额不符，将无法到账。</string>
+    <string name="txt_login_online_banking_transfer">登录网银，点击“转账汇款”，输入上方收款信息。</string>
+    <string name="txt_to_bank_name">银行名称：</string>
+    <string name="txt_to_bank_name_detail">银行地区/支行：</string>
+    <string name="txt_bank_acct_name">收款账户名：</string>
+    <string name="txt_bank_acct_card">收款账号：</string>
+    <string name="txt_to_bank_card">收款银行卡</string>
+    <string name="txt_transfer_no_card">转账找不到银行卡？</string>
+    <string name="txt_click_to_guide">点击参考指引</string>
+    <string name="txt_rc_online_rc_yuan">在线充值：</string>
+    <string name="txt_rc_rate">汇率：</string>
+    <string name="txt_rc_help">充值帮助</string>
+    <string name="txt_rc_already_pay">我已充值</string>
+    <string name="txt_rc_trans_usdt_demo">转账钱包示意图如下：</string>
+    <string name="txt_rc_fee_amount">手续费金额</string>
+    <string name="txt_rc_received_amount">到账金额</string>
+    <string name="txt_rc_usdt_tip">进行USDT转账时请注意 手续费金额 及 到账金额，到账金额 必须与充值USDT个数一致，否则可能造成充值失败，感谢您的配合。</string>
+
 </resources>
