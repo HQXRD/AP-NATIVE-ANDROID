@@ -13,7 +13,7 @@ public class RechargeVo {
     public String loadmax; // "20000",
     public String loadmin; // "50",
     public int firemark; // 0,
-    //public int randturnauto; // 0,
+    public int randturnauto; // 0-默认; 1-金额后面会增加随机的小数
     //public boolean recharge_auto_minus_turn_on; // false,
     //public String recharge_auto_minus_max; // "",
     //public String recharge_auto_minus_min; // "",
@@ -69,6 +69,7 @@ public class RechargeVo {
                 ", PayCardId='" + PayCardId + '\'' +
                 ", loadmin='" + loadmin + '\'' +
                 ", loadmax='" + loadmax + '\'' +
+                ", randturnauto=" + randturnauto +
                 ", userBankList=" + Arrays.toString(userBankList.toArray()) +
                 ", fixedamount_channelshow=" + fixedamount_channelshow +
                 ", fixedamount_info=" + Arrays.toString(fixedamount_info) +
@@ -86,6 +87,7 @@ public class RechargeVo {
                 ", type='" + type + '\'' +
                 ", typename='" + typename + '\'' +
                 ", firemark=" + firemark +
+                ", randturnauto=" + randturnauto +
                 ", sortnum=" + sortnum +
                 ", recommend=" + recommend +
                 ", view_bank_card=" + view_bank_card +

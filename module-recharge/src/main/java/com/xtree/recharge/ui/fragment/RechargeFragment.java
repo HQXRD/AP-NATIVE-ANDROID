@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -104,6 +105,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
+        binding.llRoot2.setOnClickListener(v -> hideKeyBoard());
         rechargeAdapter = new RechargeAdapter(getContext(), vo -> {
             CfLog.d(vo.toInfo());
             curRechargeVo = vo;
@@ -287,6 +289,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         loadMin = Double.parseDouble(vo.loadmin);
         loadMax = Double.parseDouble(vo.loadmax);
         setRate(vo); // 设置汇率提示信息
+        setTipBottom(vo); // 设置底部的文字提示
 
     }
 
@@ -407,6 +410,61 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.tvwFxRate.setText("");
             binding.llRate.setVisibility(View.GONE);
         }
+
+    }
+
+    private void setTipBottom(RechargeVo vo) {
+
+        binding.tvwTipSameAmount.setVisibility(View.VISIBLE); // 默认显示
+        binding.tvwTipChannel.setVisibility(View.GONE); // 默认隐藏
+
+        String fontStart = "<font color=#EE5A5A>";
+        String fontEnd = "</font>";
+        String fontLine = "<BR>";
+        String html = getString(R.string.txt_kind_tips) + "："; // 温馨提示：
+        String tmp = "";
+
+        String payCodes = "icbc,ccb,abc,cmb";
+        List<String> payCodeList = Arrays.asList(payCodes.split(","));
+        if (payCodeList.contains(vo.paycode)) {
+            binding.tvwTipChannel.setVisibility(View.VISIBLE);
+        }
+
+        if (vo.isusdt) {
+            binding.tvwTipSameAmount.setVisibility(View.GONE);
+            // ['jxpayusdt','cryptohqppay1','jxpaytokenerc','jxpaytokenerc3','cryptohqppay2'].includes(xx.paycode)? 'ERC20_USDT':'TRC20_USDT'
+            tmp = fontStart + vo.udtType + "_USDT" + fontEnd; // 要修改
+            html += fontLine + getString(R.string.txt_rc_tip_usdt_1);
+            html += fontLine + getString(R.string.txt_rc_tip_usdt_2, tmp);
+
+        } else if (vo.paycode.equals("ebpay")) {
+            html += fontLine + getString(R.string.txt_rc_tip_ebpay_1);
+            html += fontLine + getString(R.string.txt_rc_tip_ebpay_2);
+
+        } else if (!vo.title.contains(getString(R.string.txt_alipay)) && !vo.title.contains(getString(R.string.txt_wechat))) {
+            tmp = vo.paycode.equals("ecnyhqppay") ? getString(R.string.txt_ecny) : getString(R.string.txt_bank_card);
+            //tmp = fontStart + tmp + fontEnd;
+            html += fontLine + getString(R.string.txt_rc_tip_yhk_1, tmp);
+
+            if (vo.randturnauto == 1) {
+                html += fontLine + getString(R.string.txt_rc_tip_yhk_2);
+            }
+            if (vo.paycode.equals("ecnyhqppay")) {
+                tmp = vo.randturnauto == 1 ? "3、" : "2、";
+                html += fontLine + tmp + getString(R.string.txt_rc_tip_yhk_3);
+            }
+            if (vo.randturnauto != 1 && !vo.paycode.equals("ecnyhqppay")) {
+                // 2、本通道只接受线上网银转账及手机银行转账。
+                tmp = fontStart + vo.title + fontEnd;
+                html += fontLine + getString(R.string.txt_rc_tip_yhk_2a, tmp);
+            }
+
+        } else {
+            // title 包含'支付宝'或'微信'
+            html += fontLine + getString(R.string.txt_rc_tip_alipay_wechat);
+        }
+
+        binding.tvwTipBottom.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
     }
 

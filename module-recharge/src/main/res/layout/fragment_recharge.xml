@@ -85,6 +85,7 @@
             tools:ignore="ScrollViewCount">
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/ll_root2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -272,16 +273,10 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/layout_margin"
-                            android:layout_marginTop="8dp"
+                            style="@style/style_cm_tip_small_orange"
                             android:drawableStart="@mipmap/cm_ic_hint_red"
                             android:drawablePadding="2dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/txt_enter_real_name_pls"
-                            android:textColor="@color/clr_orange_03"
-                            android:textSize="11sp" />
+                            android:text="@string/txt_enter_real_name_pls" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
                     <TextView
@@ -317,16 +312,10 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_margin"
-                        android:layout_marginTop="8dp"
+                        style="@style/style_cm_tip_small_orange"
                         android:drawableStart="@mipmap/cm_ic_hint_red"
                         android:drawablePadding="2dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/txt_enter_correct_amount"
-                        android:textColor="@color/clr_orange_03"
-                        android:textSize="11sp" />
+                        android:text="@string/txt_enter_correct_amount" />
 
                     <LinearLayout
                         android:id="@+id/ll_rate"
@@ -368,7 +357,6 @@
                         android:orientation="horizontal">
 
                         <TextView
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/layout_margin"
@@ -377,7 +365,6 @@
                             android:textColor="@color/clr_txt_black"
                             android:textSize="11sp"
                             android:textStyle="bold" />
-
 
                         <TextView
                             android:id="@+id/tvw_real_amount"
@@ -390,6 +377,13 @@
 
                     </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/tvw_tip_channel"
+                        style="@style/style_rc_tip_small_grey"
+                        android:text="@string/txt_rc_no_alipay_wechat"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
                     <ImageView
                         android:id="@+id/btn_next"
                         android:layout_width="wrap_content"
@@ -399,29 +393,17 @@
                         android:background="@mipmap/cm_btn_next" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_margin"
-                        android:layout_marginTop="8dp"
+                        android:id="@+id/tvw_tip_same_amount"
+                        style="@style/style_rc_tip_small_grey"
                         android:drawableStart="@mipmap/cm_ic_hint_purple"
                         android:drawablePadding="2dp"
-                        android:gravity="center_vertical"
-                        android:text="@string/txt_amount_filled_should_same_as_remittance_amount"
-                        android:textColor="@color/clr_grey_40"
-                        android:textSize="12sp" />
+                        android:text="@string/txt_amount_filled_should_same_as_remittance_amount" />
 
                     <TextView
                         android:id="@+id/tvw_tip_bottom"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_margin"
-                        android:layout_marginTop="24dp"
+                        style="@style/style_rc_tip_small_grey"
                         android:layout_marginBottom="36dp"
-                        android:drawablePadding="2dp"
-                        android:gravity="center_vertical"
-                        android:text="温馨提示"
-                        android:textColor="@color/clr_grey_40"
-                        android:textSize="12sp" />
+                        android:text="温馨提示" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
