@@ -9,6 +9,9 @@ import com.xtree.mine.vo.CookieVo;
 import com.xtree.mine.vo.BtDetailVo;
 import com.xtree.mine.vo.BtPlatformVo;
 import com.xtree.mine.vo.BtReportVo;
+import com.xtree.mine.vo.ForgetPasswordCheckInfoVo;
+import com.xtree.mine.vo.ForgetPasswordTimeoutVo;
+import com.xtree.mine.vo.ForgetPasswordVerifyVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.GooglePswVO;
 import com.xtree.mine.vo.LoginResultVo;
@@ -327,4 +330,32 @@ public interface HttpApiService {
     @POST("/api/sports/obg/getToken")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<PMService>> getPMGameTokenApi();
+
+    /**
+     * 获取 用户手机与信箱
+     */
+    @POST("/api/account/newforgetpassword")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<ForgetPasswordCheckInfoVo>> getUserInfoApi(@Body Map<String, String> map);
+
+    /**
+     * 获取 用户资讯正确的token
+     */
+    @POST("/api/account/newforgetpassword")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<ForgetPasswordTimeoutVo>> getForgetPasswordOTP(@Body Map<String, String> map);
+
+    /**
+     * 获取 用户资讯正确的token
+     */
+    @POST("/api/account/newforgetpassword")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<ForgetPasswordVerifyVo>> getUserTokenApi(@Body Map<String, String> map);
+
+    /**
+     * 获取 用户资讯正确的token
+     */
+    @POST("/api/account/newforgetpassword")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<Object>> getChangePasswordResult(@Body Map<String, String> map);
 }

@@ -16,6 +16,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.lxj.xpopup.XPopup;
 import com.xtree.base.global.Constant;
 import com.xtree.base.router.RouterActivityPath;
+import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.SPUtil;
 import com.xtree.base.widget.BrowserDialog;
@@ -49,7 +50,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     @Override
     public void initData() {
         viewModel.getSettings();
-
     }
 
     @Override
@@ -98,7 +98,8 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             }
         });
 
-        //binding.tvwForgetPwd.setOnClickListener(v -> goMain());
+        binding.tvwForgetPwd.setOnClickListener(v -> goForgetPassword());
+
         //binding.tvwAgreement.setOnClickListener(v -> goMain());
         binding.tvwSkipLogin.setOnClickListener(v -> goMain());
         binding.tvwCs.setOnClickListener(v -> goCustomerService());
@@ -280,6 +281,10 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
                 .navigation();
         LoginRegisterActivity.this.finish();
+    }
+
+    private void goForgetPassword() {
+        startContainerFragment(RouterFragmentPath.Mine.PAGER_FORGET_PASSWORD); // 三方转账
     }
 
 }
