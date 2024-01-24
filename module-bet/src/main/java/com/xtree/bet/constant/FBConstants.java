@@ -1,11 +1,17 @@
 package com.xtree.bet.constant;
 
+import android.util.ArrayMap;
+
+import java.util.Map;
+
 public class FBConstants {
 
     /**
      * 体育分类ID，与sportNames一一对应
      */
-    public static String[] SPORT_IDS = new String[]{"0", "1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
+    public static String[] SPORT_IDS = new String[]{"0", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
+    public static String[] SPORT_IDS_ALL = new String[]{"0", "1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
+    public static String[] SPORT_IDS_NOMAL = new String[]{"1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
     /**
      * 体育分类ID-足球
      */
@@ -203,6 +209,48 @@ public class FBConstants {
      */
     public static String[] PLAY_TYPE_NAME_SQ = new String[]{"全场独赢", "全场让球", "全场大小"};
 
+    private static Map<String, String[]> mapPlayTypeId = new ArrayMap<>();
+    private static Map<String, String[]> mapPlayTypeName = new ArrayMap<>();
+
+    public static String[] getPlayTypeId(String code){
+        if(mapPlayTypeId.isEmpty()){
+            // 足球
+            mapPlayTypeId.put("1", PLAY_TYPE_ID_FB);
+            mapPlayTypeId.put("3", PLAY_TYPE_ID_BSB);
+            mapPlayTypeId.put("5", PLAY_TYPE_ID_WQ);
+            mapPlayTypeId.put("16", PLAY_TYPE_ID_SNK);
+            mapPlayTypeId.put("7", PLAY_TYPE_ID_BQ);
+            mapPlayTypeId.put("13", PLAY_TYPE_ID_PQ);
+            mapPlayTypeId.put("47", PLAY_TYPE_ID_YMQ);
+            mapPlayTypeId.put("6", PLAY_TYPE_ID_MSZQ);
+            mapPlayTypeId.put("2", PLAY_TYPE_ID_ICEQ);
+            mapPlayTypeId.put("15", PLAY_TYPE_ID_BBQ);
+            mapPlayTypeId.put("19", PLAY_TYPE_ID_QJ);
+            mapPlayTypeId.put("51", PLAY_TYPE_ID_STPQ);
+            mapPlayTypeId.put("8", PLAY_TYPE_ID_SQ);
+        }
+        return mapPlayTypeId.get(code);
+    }
+
+    public static String[] getPlayTypeName(String code){
+        if(mapPlayTypeName.isEmpty()){
+            // 足球
+            mapPlayTypeName.put("1", PLAY_TYPE_NAME_FB);
+            mapPlayTypeName.put("3", PLAY_TYPE_NAME_BSB);
+            mapPlayTypeName.put("5", PLAY_TYPE_NAME_WQ);
+            mapPlayTypeName.put("16", PLAY_TYPE_NAME_SNK);
+            mapPlayTypeName.put("7", PLAY_TYPE_NAME_BQ);
+            mapPlayTypeName.put("13", PLAY_TYPE_NAME_PQ);
+            mapPlayTypeName.put("47", PLAY_TYPE_NAME_YMQ);
+            mapPlayTypeName.put("6", PLAY_TYPE_NAME_MSZQ);
+            mapPlayTypeName.put("2", PLAY_TYPE_NAME_ICEQ);
+            mapPlayTypeName.put("15", PLAY_TYPE_NAME_BBQ);
+            mapPlayTypeName.put("19", PLAY_TYPE_NAME_QJ);
+            mapPlayTypeName.put("51", PLAY_TYPE_NAME_STPQ);
+            mapPlayTypeName.put("8", PLAY_TYPE_NAME_SQ);
+        }
+        return mapPlayTypeName.get(code);
+    }
 
     public static String[][] PLAY_TYPE_ID = new String[][]{
             PLAY_TYPE_ID_FB,

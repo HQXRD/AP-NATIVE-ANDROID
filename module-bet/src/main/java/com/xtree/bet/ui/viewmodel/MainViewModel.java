@@ -63,4 +63,10 @@ public interface MainViewModel {
      * 获取用户余额
      */
     void getUserBalance();
+
+    /**
+     * 获取热门联赛赛事数量
+     * @param leagueIds
+     */
+    void getHotMatchCount(List<Long> leagueIds);
 }

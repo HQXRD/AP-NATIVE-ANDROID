@@ -10,6 +10,7 @@ public class FBListReq {
     private String beginTime;
     private String endTime;
     private List<Long> matchIds;
+    private List<Integer> sportIds;
     private int current;
     private int size;
     private int orderBy;

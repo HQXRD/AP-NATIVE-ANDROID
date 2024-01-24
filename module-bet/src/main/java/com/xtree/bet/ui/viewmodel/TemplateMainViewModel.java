@@ -35,7 +35,10 @@ import me.xtree.mvvmhabit.utils.RxUtils;
 
 public abstract class TemplateMainViewModel extends BaseBtViewModel implements MainViewModel{
     public static String[] PLAY_METHOD_NAMES = new String[]{"今日", "滚球", "早盘", "串关", "冠军"};
-    public static String[] SPORT_NAMES = new String[]{"热门", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
+    public static String[] SPORT_NAMES;
+    public static String[] SPORT_NAMES_NOMAL = new String[]{"足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
+    public static String[] SPORT_NAMES_LIVE = new String[]{"全部", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
+    public static String[] SPORT_NAMES_TODAY_CG = new String[]{"热门", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
     /**
      * 体育分类ID，与SPORT_NAMES一一对应
      */
@@ -58,14 +61,14 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     public SingleLiveData<List<Match>> championMatchTimerListData = new SingleLiveData<>();
     public SingleLiveData<List<Match>> championMatchListData = new SingleLiveData<>();
     public SingleLiveData<BetContract> betContractListData = new SingleLiveData<>();
-    public SingleLiveData<Integer> goingOnMatchCountData = new SingleLiveData<>();
+    public SingleLiveData<Integer> hotMatchCountData = new SingleLiveData<>();
 
     /**
      * 赛事统计数据
      */
     public SingleLiveData<Map<String, List<Integer>>> statisticalData = new SingleLiveData<>();
     public SingleLiveData<List<League>> settingLeagueData = new SingleLiveData<>();
-    public Map<String, String> mMapSportType = new HashMap<>();
+    public Map<String, League> mMapSportType = new HashMap<>();
     public boolean noLiveMatch;
     public List<League> mLeagueList = new ArrayList<>();
     public List<League> mGoingOnLeagueList = new ArrayList<>();
@@ -73,8 +76,9 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
 
     public TemplateMainViewModel(@NonNull Application application, BetRepository model) {
         super(application, model);
+        SPORT_NAMES = SPORT_NAMES_TODAY_CG;
+        Constants.SPORT_ICON = Constants.SPORT_ICON_TODAY_CG;
     }
-
 
     public void setPlayMethodTabData() {
         playMethodTab.setValue(PLAY_METHOD_NAMES);
@@ -87,7 +91,27 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         playSearchData.setValue(dateList);
     }
 
-    public void setSportItems() {
+    public abstract void setSportIds(int playMethodPos);
+
+    public void setSportItems(int playMethodPos) {
+        if(playMethodPos == 0 || playMethodPos == 3){
+            SPORT_NAMES = SPORT_NAMES_TODAY_CG;
+        } else if (playMethodPos == 1) {
+            SPORT_NAMES = SPORT_NAMES_LIVE;
+        } else {
+            SPORT_NAMES = SPORT_NAMES_NOMAL;
+        }
+        sportItemData.postValue(SPORT_NAMES);
+    }
+
+    public void setSportIcons(int playMethodPos) {
+        if(playMethodPos == 0 || playMethodPos == 3){
+            Constants.SPORT_ICON = Constants.SPORT_ICON_TODAY_CG;
+        } else if (playMethodPos == 1) {
+            Constants.SPORT_ICON = Constants.SPORT_ICON_LIVE;
+        } else {
+            Constants.SPORT_ICON = Constants.SPORT_ICON_NOMAL;
+        }
         sportItemData.postValue(SPORT_NAMES);
     }
 
@@ -132,6 +156,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
                         for (String leagueId : hotLeagues) {
                             hotLeagueList.add(Long.valueOf(leagueId));
                         }
+                        getHotMatchCount(hotLeagueList);
                     }
 
                     @Override
@@ -183,43 +208,45 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
 
     /**
      * 新建进行中比赛种类头部信息，足球、篮球等
-     * @param matchCount
      * @param mapSportType
      * @param match
      */
-    public void buildLiveSportHeader(int matchCount, Map<String, String> mapSportType, Match match, League league) {
-        String sportName = mapSportType.get(match.getSportId());
-        if(TextUtils.isEmpty(sportName)){
+    public void buildLiveSportHeader(Map<String, League> mapSportType, Match match, League league) {
+        League sportHeader = mapSportType.get(match.getSportId());
+        if(sportHeader == null){
             League sportHeaderLeague = league;
             sportHeaderLeague.setHead(true);
             sportHeaderLeague.setHeadType(League.HEAD_TYPE_SPORT_NAME);
             sportHeaderLeague.setLeagueName(match.getSportName());
-            sportHeaderLeague.setMatchCount(matchCount);
+            sportHeaderLeague.setMatchCount(1);
             mGoingOnLeagueList.add(sportHeaderLeague);
-            mapSportType.put(match.getSportId(), match.getSportName());
+            mapSportType.put(match.getSportId(), sportHeaderLeague);
+        }else {
+            sportHeader.setMatchCount(1);
         }
     }
 
     /**
      * 新建未开赛比赛种类头部信息，足球、篮球等
-     * @param matchCount
      * @param match
      * @param league
      */
-    public void buildNoLiveSportHeader(int matchCount, Match match, League league) {
-        String sportName = mMapSportType.get(match.getSportId());
-        if(TextUtils.isEmpty(sportName)){
+    public void buildNoLiveSportHeader(Match match, League league) {
+        League sportHeader = mMapSportType.get(match.getSportId());
+        if(sportHeader == null){
             League sportHeaderLeague = league;
             sportHeaderLeague.setHead(true);
             sportHeaderLeague.setHeadType(League.HEAD_TYPE_SPORT_NAME);
             sportHeaderLeague.setLeagueName(match.getSportName());
-            sportHeaderLeague.setMatchCount(matchCount);
+            sportHeaderLeague.setMatchCount(1);
             if (!mGoingOnLeagueList.isEmpty() && mLeagueList.isEmpty()) { // 进行中
                 mGoingOnLeagueList.add(sportHeaderLeague);
             }else{  // 未开赛
                 mLeagueList.add(sportHeaderLeague);
             }
-            mMapSportType.put(match.getSportId(), match.getSportName());
+            mMapSportType.put(match.getSportId(), sportHeaderLeague);
+        }else{
+            sportHeader.setMatchCount(1);
         }
     }
 

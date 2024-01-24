@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
@@ -80,10 +81,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private String mPlatformName;
     private boolean isShowLoading = true;
     /**
-     * 未开赛标题所在位置
-     */
-    private int mHeaderPosition;
-    /**
      * 赛事统计数据
      */
     private Map<String, List<Integer>> mStatisticalData;
@@ -100,8 +97,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
     private Disposable timerDisposable;
 
-    private boolean isGoingOnAllExpand = true;
-    private boolean isWaitingAllExpand = true;
     private int searchDatePos;
 
     /**
@@ -118,6 +113,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private View mHeader;
     private int mGoingOnMatchCount;
     private boolean firstInto = true;
+    private int mHotMatchCount;
 
     public List<League> getSettingLeagueList() {
         return settingLeagueList;
@@ -185,16 +181,13 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
     @Override
     public void initView() {
-        /*binding.ivExpand.setSelected(isGoingOnAllExpand());
-        binding.ivExpandAll.setSelected(isGoingOnAllExpand());
-        binding.llGoingOn.setOnClickListener(this);
-        binding.llAllLeague.setOnClickListener(this);*/
         binding.srlLeague.setOnRefreshLoadMoreListener(this);
         binding.ivBack.setOnClickListener(this);
         binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 ((TextView) tab.getCustomView()).setTextSize(16);
+                sportTypePos = 0;
                 if (playMethodPos != tab.getPosition()) {
                     searchDatePos = 0;
                     playMethodType = playMethodTypeList.get(tab.getPosition());
@@ -210,18 +203,24 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     mLeagueGoingOnList.clear();
                     mLeagueList.clear();
                     updateStatisticalData();
+
+                    viewModel.setSportIds(playMethodPos);
+                    viewModel.setSportItems(playMethodPos);
+                    viewModel.setSportIcons(playMethodPos);
+
                     if (playMethodType == 4 || playMethodType == 2 || playMethodType == 11) {
                         binding.tabSearchDate.setVisibility(View.VISIBLE);
                     } else {
                         binding.tabSearchDate.setVisibility(View.GONE);
                     }
                     viewModel.statistical(playMethodType);
-                    initTimer();
-                    getMatchData(viewModel.getSportId(playMethodType)[sportTypePos], mOrderBy, mLeagueIdList, null,
-                            playMethodType, searchDatePos, false, true);
+                    if (playMethodPos == 2 || playMethodPos == 4) {
+                        initTimer();
+                        getMatchData(viewModel.getSportId(playMethodType)[sportTypePos], mOrderBy, mLeagueIdList, null,
+                                playMethodType, searchDatePos, false, true);
+                    }
 
-                    viewModel.getOnSaleLeagues(Integer.valueOf(viewModel.getSportId(playMethodType)[sportTypePos]), playMethodType);
-                    //binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportTypePos]);
+                    //viewModel.getOnSaleLeagues(Integer.valueOf(viewModel.getSportId(playMethodType)[sportTypePos]), playMethodType);
                 }
             }
 
@@ -251,8 +250,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     initTimer();
                     getMatchData(viewModel.getSportId(playMethodType)[sportTypePos], mOrderBy, mLeagueIdList, null,
                             playMethodType, searchDatePos, false, true);
-
-                    //binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportTypePos]);
                 }
             }
 
@@ -305,25 +302,26 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 }
             }
             binding.rvLeague.postDelayed(() -> {
-                if (mHeaderPosition == 0) {
+                int noLiveHeaderPosition = mLeagueAdapter.getNoLiveHeaderPosition();
+                if (noLiveHeaderPosition == 0) {
                     boolean hasExpand = isGoingOnHasExand();
                     setGoingOnAllExpand(hasExpand);
                 } else {
-                    if (groupPosition < mHeaderPosition) {
+                    if (groupPosition < noLiveHeaderPosition) {
                         boolean hasExpand = isGoingOnHasExand();
                         setGoingOnAllExpand(hasExpand);
                     } else {
                         boolean hasExpand = isWaitingHasExpand();
                         setWaitingAllExpand(hasExpand);
-                        mLeagueAdapter.notifyDataSetChanged();
+
                     }
                 }
+                mLeagueAdapter.notifyDataSetChanged();
             }, 100);
 
             return true;
         });
         binding.rlCg.setOnClickListener(this);
-        //binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportTypePos]);
         initBottomTab();
     }
 
@@ -374,23 +372,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 super.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
 
-                if (mHeaderPosition == 0) {
-                    return;
-                }
-
-                long position = binding.rvLeague.getExpandableListPosition(firstVisibleItem);
+                /*long position = binding.rvLeague.getExpandableListPosition(firstVisibleItem);
                 int type = binding.rvLeague.getPackedPositionType(position);
-
-                /*int groupPosition = binding.rvLeague.getPackedPositionGroup(position);
-                if(groupPosition > mHeaderPosition) { // 上滑
-                    binding.tvGoingOn.setText(getResources().getString(R.string.bt_game_waiting));
-                    binding.tvAllLeague.setText(getResources().getString(R.string.bt_game_waiting));
-                    binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportTypePos] + "(" + mLeagueList.get(mHeaderPosition).getMatchCount() + ")");
-                }else if(groupPosition < mHeaderPosition){
-                    binding.tvGoingOn.setText(getResources().getString(R.string.bt_game_going_on));
-                    binding.tvAllLeague.setText(getResources().getString(R.string.bt_all_league));
-                    binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportTypePos] + "(" + mGoingOnMatchCount + ")");
-                }*/
 
                 if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
                     if (binding.rvLeague.getAdapter().getItem(firstVisibleItem) != null) {
@@ -399,21 +382,10 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                             setHeader(league);
                         } else {
 
-                            /*if(firstVisibleItem > lastVisibleItem) { // 上滑
-                                binding.tvGoingOn.setText(getResources().getString(R.string.bt_game_waiting));
-                                binding.tvAllLeague.setText(getResources().getString(R.string.bt_game_waiting));
-                                binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportTypePos] + "(" + league.getMatchCount() + ")");
-                            }else if(firstVisibleItem < lastVisibleItem){
-                                binding.tvGoingOn.setText(getResources().getString(R.string.bt_game_going_on));
-                                binding.tvAllLeague.setText(getResources().getString(R.string.bt_all_league));
-                                binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportTypePos] + "(" + mGoingOnMatchCount + ")");
-                            }*/
                         }
                     }
                 }
-                Log.e("test", "======firstVisibleItem======" + firstVisibleItem);
-                Log.e("test", "======lastVisibleItem======" + lastVisibleItem);
-                lastVisibleItem = firstVisibleItem;
+                lastVisibleItem = firstVisibleItem;*/
 
             }
         });
@@ -486,7 +458,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             viewModel.getChampionList(sportTypePos, sportId, orderBy, leagueIds, matchids,
                     playMethodType, mOddType, isTimedRefresh, isRefresh);
         } else {
-            if (sportTypePos == 0 && (playMethodPos == 0 || playMethodPos == 1 || playMethodPos == 3)) {
+            if (sportTypePos == 0 && (playMethodPos == 0 || playMethodPos == 3)) {
                 viewModel.getLeagueList(sportTypePos, sportId, orderBy, viewModel.hotLeagueList, matchids,
                         playMethodType, searchDatePos, mOddType, isTimedRefresh, isRefresh);
             } else {
@@ -511,7 +483,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     }
 
     private void refreshLeague() {
-        List<League> updateLeague = new ArrayList<>();
         int firstVisiblePos = binding.rvLeague.getFirstVisiblePosition();
         int lastVisiblePos = binding.rvLeague.getLastVisiblePosition();
         List<Long> matchIdList = new ArrayList<>();
@@ -521,7 +492,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 int type = binding.rvLeague.getPackedPositionType(position);
 
                 if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-                    int childPosition = binding.rvLeague.getPackedPositionChild(i);
                     Match match = (Match) binding.rvLeague.getItemAtPosition(i);
                     if (match != null) {
                         matchIdList.add(match.getId());
@@ -534,7 +504,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
         }
         if (!matchIdList.isEmpty()) {
-            //viewModel.setUpdateLeagueList(updateLeague);
             getMatchData(viewModel.getSportId(playMethodType)[sportTypePos], mOrderBy, null, matchIdList,
                     playMethodType, searchDatePos, true, false);
         }
@@ -545,7 +514,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         playMethodType = Integer.valueOf(viewModel.getPlayMethodTypes()[0]);
         SPUtils.getInstance().put(SPKey.BT_SPORT_ID, sportTypePos);
         viewModel.getHotLeague(mPlatform);
-        viewModel.setSportItems();
+        viewModel.setSportItems(playMethodPos);
         viewModel.setPlayMethodTabData();
         //viewModel.setPlaySearchDateData();
         viewModel.addSubscription();
@@ -628,6 +597,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
         });
         viewModel.sportItemData.observe(this, matchitemList -> {
+            binding.tabSportType.removeAllTabs();
+            sportTypePos = 0;
             for (int i = 0; i < matchitemList.length; i++) {
                 View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_match_item_tab_item, null);
                 TextView tvName = view.findViewById(R.id.tab_item_name);
@@ -642,7 +613,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
                 binding.tabSportType.addTab(binding.tabSportType.newTab().setCustomView(view));
             }
-            binding.tabSportType.selectTab(binding.tabSportType.getTabAt(1));
+            if (playMethodPos == 0 || playMethodPos == 1 || playMethodPos == 3) {
+                binding.tabSportType.selectTab(binding.tabSportType.getTabAt(1));
+            } else {
+                binding.tabSportType.selectTab(binding.tabSportType.getTabAt(0));
+            }
         });
         viewModel.leagueItemData.observe(this, leagueItem -> {
             for (int i = 0; i < leagueItem.getLeagueNameList().length; i++) {
@@ -752,32 +727,46 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             settingLeagueList = leagueList;
         });
 
-        viewModel.goingOnMatchCountData.observe(this, matchCount -> {
-            mGoingOnMatchCount = matchCount;
-            /*if (matchCount > 0) {
-                binding.cslGoingon.setVisibility(View.VISIBLE);
-                binding.tvSportName.setVisibility(View.VISIBLE);
-                binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportTypePos] + "(" + matchCount + ")");
-            } else {
-                binding.cslGoingon.setVisibility(View.GONE);
-                binding.tvSportName.setVisibility(View.GONE);
-            }*/
-        });
-
         viewModel.userBalanceData.observe(this, balance -> {
             binding.tvBalance.setText(balance);
         });
+
+        viewModel.hotMatchCountData.observe(this, hotMatchCount -> {
+            if (playMethodPos == 0 || playMethodPos == 3) {
+
+                mHotMatchCount = hotMatchCount;
+                if (playMethodPos == 0 || playMethodPos == 3) {
+                    View view = binding.tabSportType.getTabAt(0).getCustomView();
+                    TextView tvHotCount = view.findViewById(R.id.iv_match_count);
+                    tvHotCount.setText(String.valueOf(mHotMatchCount));
+                }
+            }
+        });
     }
 
+    /**
+     * 处理点击进行中或未开赛header展开收起事件
+     *
+     * @param betContract
+     */
     private void handleExpandContract(BetContract betContract) {
-        //setGoingOnAllExpand(!isGoingOnAllExpand());
         String data = (String) betContract.getData();
         int start = Integer.valueOf(data.split("/")[0]);
         int end = Integer.valueOf(data.split("/")[1]);
+
+        boolean isGoingOn = mLeagueAdapter.isHandleGoingOnExpand(start); // 是否处理进行中的展开收起事件
+        if (isGoingOn) {
+            setGoingOnAllExpand(!isGoingOnAllExpand());
+            mLeagueAdapter.setHeaderIsExpand(mLeagueAdapter.getLiveHeaderPosition(), isGoingOnAllExpand());
+        } else {
+            setWaitingAllExpand(!isWaitingAllExpand());
+            mLeagueAdapter.setHeaderIsExpand(mLeagueAdapter.getNoLiveHeaderPosition(), isWaitingAllExpand());
+        }
+        boolean isAllExpand = isGoingOn ? isGoingOnAllExpand() : isWaitingAllExpand();
         binding.rvLeague.postDelayed(() -> {
             for (int i = start; i < end; i++) {
                 League league = mLeagueList.get(i);
-                if (isWaitingAllExpand()) {
+                if (isAllExpand) {
                     binding.rvLeague.expandGroup(i);
                     league.setExpand(true);
                 } else {
@@ -793,13 +782,12 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             if (mLeagueList.isEmpty()) {
                 return;
             }
-            setGoingOnAllExpand(!isGoingOnAllExpand());
             String data = (String) mLeagueAdapter.expandRangeLive();
             int start = Integer.valueOf(data.split("/")[0]);
             int end = Integer.valueOf(data.split("/")[1]);
             for (int i = start; i < end; i++) {
                 League league = mLeagueList.get(i);
-                if (isWaitingAllExpand()) {
+                if (isGoingOnAllExpand()) {
                     binding.rvLeague.expandGroup(i);
                     league.setExpand(true);
                 } else {
@@ -812,9 +800,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     }
 
     private void waitingExpandOrCollapseGroup() {
-        mLeagueAdapter.setHeaderIsExpand(isWaitingAllExpand());
+
         binding.rvLeague.postDelayed(() -> {
-            setWaitingAllExpand(!isWaitingHasExpand());
             String data = (String) mLeagueAdapter.expandRangeNoLive();
             int start = Integer.valueOf(data.split("/")[0]);
             int end = Integer.valueOf(data.split("/")[1]);
@@ -851,14 +838,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 更新联赛数据
      */
     private void updateLeagueData() {
-        getHeaderPosition();
         if (mLeagueAdapter == null) {
             mLeagueAdapter = new LeagueAdapter(MainActivity.this, mLeagueList);
             initLeagueListView();
-            mLeagueAdapter.setHeaderIsExpand(isWaitingAllExpand());
             binding.rvLeague.setAdapter(mLeagueAdapter);
-            goingOnExpandOrCollapseGroup();
-            waitingExpandOrCollapseGroup();
+
             mLeagueAdapter.setOnScrollListener(new PageHorizontalScrollView.OnScrollListener() {
                 @Override
                 public void onScrolled() {
@@ -875,15 +859,13 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 binding.rvLeague.setAdapter(mLeagueAdapter);
             }
             mLeagueAdapter.setData(mLeagueList);
-            binding.rvLeague.postDelayed(() -> {
-                mLeagueAdapter.setHeaderIsExpand(isWaitingHasExpand());
-                setWaitingAllExpand(isWaitingHasExpand());
-                /*binding.ivExpand.setSelected(isGoingOnHasExand());
-                binding.ivExpandAll.setSelected(isGoingOnHasExand());*/
-            }, 100);
-
+            setGoingOnAllExpand(true);
+            setWaitingAllExpand(true);
         }
-
+        binding.rvLeague.postDelayed(() -> {
+            goingOnExpandOrCollapseGroup();
+            waitingExpandOrCollapseGroup();
+        }, 150);
 
         isShowLoading = true;
     }
@@ -934,6 +916,17 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     }
 
     private void updateStatisticalData() {
+        int allCount = 0;
+        TextView tvAllCount = null;
+        TextView tvHotCount = null;
+        if (playMethodPos == 1) {
+            View view = binding.tabSportType.getTabAt(0).getCustomView();
+            tvAllCount = view.findViewById(R.id.iv_match_count);
+        } else if (playMethodPos == 0 || playMethodPos == 3) {
+            View view = binding.tabSportType.getTabAt(0).getCustomView();
+            tvHotCount = view.findViewById(R.id.iv_match_count);
+            tvHotCount.setText(String.valueOf(mHotMatchCount));
+        }
         if (mStatisticalData != null) {
             int tabCount = binding.tabSportType.getTabCount();
             for (int i = 0; i < tabCount; i++) {
@@ -943,32 +936,35 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 if (count == null) {
                     count = 0;
                 }
+                if (playMethodPos == 1) {
+                    allCount += count;
+                }
                 tvCount.setText(String.valueOf(count));
             }
+        }
+        if (tvAllCount != null) {
+            tvAllCount.setText(String.valueOf(allCount));
         }
     }
 
     private boolean isGoingOnAllExpand() {
-        isGoingOnAllExpand = SPUtils.getInstance(BET_EXPAND).getBoolean(SPKey.BT_GOINGON_SPORT_TYPE_EXPAND + mPlatformName + playMethodType + getSportId(), true);
+        boolean isGoingOnAllExpand = SPUtils.getInstance(BET_EXPAND).getBoolean(SPKey.BT_GOINGON_SPORT_TYPE_EXPAND + mPlatformName + playMethodType + getSportId(), true);
         return isGoingOnAllExpand;
     }
 
     private void setGoingOnAllExpand(boolean isGoingExpand) {
-        this.isGoingOnAllExpand = isGoingExpand;
         SPUtils.getInstance(BET_EXPAND).put(SPKey.BT_GOINGON_SPORT_TYPE_EXPAND + mPlatformName + playMethodType + getSportId(), isGoingExpand);
-        /*binding.ivExpand.setSelected(isGoingOnAllExpand);
-        binding.ivExpandAll.setSelected(isGoingOnAllExpand);*/
+        mLeagueAdapter.setHeaderIsExpand(mLeagueAdapter.getLiveHeaderPosition(), isGoingExpand);
     }
 
     private boolean isWaitingAllExpand() {
-        isWaitingAllExpand = SPUtils.getInstance(BET_EXPAND).getBoolean(SPKey.BT_WAITING_SPORT_TYPE_EXPAND + mPlatformName + playMethodType + getSportId(), true);
+        boolean isWaitingAllExpand = SPUtils.getInstance(BET_EXPAND).getBoolean(SPKey.BT_WAITING_SPORT_TYPE_EXPAND + mPlatformName + playMethodType + getSportId(), true);
         return isWaitingAllExpand;
     }
 
     private void setWaitingAllExpand(boolean isWatingExpand) {
-        this.isWaitingAllExpand = isWatingExpand;
         SPUtils.getInstance(BET_EXPAND).put(SPKey.BT_WAITING_SPORT_TYPE_EXPAND + mPlatformName + playMethodType + getSportId(), isWatingExpand);
-        mLeagueAdapter.setHeaderIsExpand(isWatingExpand);
+        mLeagueAdapter.setHeaderIsExpand(mLeagueAdapter.getNoLiveHeaderPosition(), isWatingExpand);
     }
 
     /**
@@ -1013,34 +1009,10 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         return false;
     }
 
-    public void getHeaderPosition() {
-        mHeaderPosition = 0;
-        int index = 0;
-        for (League league : mLeagueList) {
-            if (league.isHead()) {
-                mHeaderPosition = index;
-                break;
-            }
-            index++;
-        }
-        /*if(mHeaderPosition == 0){
-            if(playMethodType == 2 || playMethodType == 6 || playMethodType == 11) { // 今日和串关
-                binding.tvAllLeague.setText(getString(R.string.bt_game_waiting));
-            }else{
-                binding.tvAllLeague.setText(getString(R.string.bt_all_league));
-            }
-            binding.llGoingOn.setVisibility(View.GONE);
-            binding.llAllLeague.setVisibility(View.VISIBLE);
-        }*/
-    }
-
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        /*if (id == R.id.ll_going_on || id == R.id.ll_all_league) {
-            setGoingOnAllExpand(!isGoingOnAllExpand());
-            goingOnExpandOrCollapseGroup();
-        } else */if (id == R.id.rl_cg) {
+        if (id == R.id.rl_cg) {
             if (BtCarManager.size() <= 1) {
                 ToastUtils.showLong(getText(R.string.bt_bt_must_have_two_match));
                 return;

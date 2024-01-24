@@ -22,7 +22,8 @@ public class FBSportName {
             map.put("47", "羽毛球");
             map.put("6", "美式足球");
             map.put("15", "乒乓球");
-            map.put("2", "拳击");
+            map.put("2", "冰球");
+            map.put("19", "拳击");
             map.put("51", "沙滩排球");
             map.put("8", "手球");
         }

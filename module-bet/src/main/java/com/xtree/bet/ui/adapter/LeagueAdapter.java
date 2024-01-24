@@ -5,6 +5,7 @@ import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -51,17 +52,27 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
     private List<League> mDatas;
     private Context mContext;
     private String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
-    private boolean headerIsExpand;
     private int liveHeaderPosition;
     private int noLiveHeaderPosition;
+
     private PageHorizontalScrollView.OnScrollListener mOnScrollListener;
 
     public void setOnScrollListener(PageHorizontalScrollView.OnScrollListener onScrollListener) {
         this.mOnScrollListener = onScrollListener;
     }
 
-    public void setHeaderIsExpand(boolean headerIsExpand) {
-        this.headerIsExpand = headerIsExpand;
+    public void setHeaderIsExpand(int position, boolean headerIsExpand) {
+        if(!mDatas.isEmpty() && mDatas.size() > position) {
+            mDatas.get(position).setExpand(headerIsExpand);
+        }
+    }
+
+    public int getLiveHeaderPosition() {
+        return liveHeaderPosition;
+    }
+
+    public int getNoLiveHeaderPosition() {
+        return noLiveHeaderPosition;
     }
 
     public void setData(List<League> mLeagueList) {
@@ -76,14 +87,16 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         init();
     }
 
-    public void init(){
+    public void init() {
+        liveHeaderPosition = 0;
+        noLiveHeaderPosition = 0;
         int index = 0;
         for (int i = 0; i < mDatas.size(); i++) {
-            if(mDatas.get(i).isHead() && mDatas.get(i).getHeadType() == League.HEAD_TYPE_LIVE_OR_NOLIVE){
-                if(index == 0){
+            if (mDatas.get(i).isHead() && mDatas.get(i).getHeadType() == League.HEAD_TYPE_LIVE_OR_NOLIVE) {
+                if (index == 0) {
                     liveHeaderPosition = i;
-                    index ++;
-                }else if(index > 0){
+                    index++;
+                } else if (index > 0) {
                     noLiveHeaderPosition = i;
                     break;
                 }
@@ -92,19 +105,39 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
     }
 
-    public String expandRangeLive(){
+    /**
+     * 是否点击进行中表头
+     *
+     * @param start
+     * @return
+     */
+    public boolean isHandleGoingOnExpand(int start) {
+        return noLiveHeaderPosition > 0 && start - 2 == liveHeaderPosition;
+    }
+
+    /**
+     * 获取进行中联赛的在列表中的起止位置
+     *
+     * @return
+     */
+    public String expandRangeLive() {
         int start = liveHeaderPosition + 2;
         int end = noLiveHeaderPosition > 0 ? noLiveHeaderPosition : mDatas.size();
         return start + "/" + end;
     }
 
-    public String expandRangeNoLive(){
-        if(noLiveHeaderPosition > 0){
+    /**
+     * 获取未开赛联赛的在列表中的起止位置
+     *
+     * @return
+     */
+    public String expandRangeNoLive() {
+        if (noLiveHeaderPosition > 0) {
             int start = noLiveHeaderPosition + 1;
             int end = mDatas.size();
             return start + "/" + end;
-        }else{
-            return null;
+        } else {
+            return 0 + "/" + mDatas.size();
         }
     }
 
@@ -161,6 +194,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup viewGroup) {
+        //Log.e("test", "=====groupPosition======" + groupPosition);
         if (mDatas == null || mDatas.isEmpty() || mDatas.size() <= groupPosition) {
             if (convertView == null) {
                 convertView = View.inflate(mContext, R.layout.bt_fb_league_group, null);
@@ -196,29 +230,34 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                     //.apply(new RequestOptions().placeholder(placeholderRes))
                     .into(binding.ivIcon);
             binding.vSpace.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
+            binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
+            league.setExpand(isExpanded);
         } else {
             binding.llHeader.setVisibility(View.VISIBLE);
             binding.rlLeague.setVisibility(View.GONE);
 
-            if(league.getHeadType() == League.HEAD_TYPE_LIVE_OR_NOLIVE) {
+            if (league.getHeadType() == League.HEAD_TYPE_LIVE_OR_NOLIVE) {
                 binding.rlHeader.setVisibility(View.VISIBLE);
                 binding.tvSportName.setVisibility(View.GONE);
-                binding.ivExpand.setSelected(headerIsExpand);
+                binding.ivExpand.setSelected(league.isExpand());
                 binding.tvHeaderName.setText(league.getLeagueName());
                 binding.rlHeader.setOnClickListener(view -> {
-                    if(liveHeaderPosition == groupPosition){ // 点击进行中
-                        int start = groupPosition + 2;
-                        int end = noLiveHeaderPosition > 0 ? noLiveHeaderPosition : mDatas.size();
-                        RxBus.getDefault().post(new BetContract(BetContract.ACTION_EXPAND, start + "/" + end));
+                    binding.ivExpand.setSelected(!league.isExpand());
+                    int start;
+                    int end;
+                    if (liveHeaderPosition == groupPosition) { // 点击进行中
+                        start = groupPosition + 2;
+                        end = noLiveHeaderPosition > 0 ? noLiveHeaderPosition : mDatas.size();
+                    } else if (noLiveHeaderPosition > 0) { // 点击未开赛
+                        start = noLiveHeaderPosition + 1;
+                        end = mDatas.size();
+                    } else { // 点击未开赛
+                        start = 0;
+                        end = mDatas.size();
                     }
-                    if(noLiveHeaderPosition > 0){
-                        int start = noLiveHeaderPosition + 1;
-                        int end = mDatas.size();
-                        RxBus.getDefault().post(new BetContract(BetContract.ACTION_EXPAND, start + "/" + end));
-                    }
-
+                    RxBus.getDefault().post(new BetContract(BetContract.ACTION_EXPAND, start + "/" + end + ""));
                 });
-            }else {
+            } else {
                 binding.tvSportName.setText(league.getLeagueName() + "(" + league.getMatchCount() + ")");
                 binding.rlHeader.setVisibility(View.GONE);
                 binding.tvSportName.setVisibility(View.VISIBLE);
@@ -226,8 +265,6 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             binding.vSpace.setVisibility(View.VISIBLE);
         }
 
-        binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
-        league.setExpand(isExpanded);
         return convertView;
     }
 
@@ -301,7 +338,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         } else {
             playGroup = new PlayGroupPm(match.getPlayTypeList());
         }
-        List<PlayGroup> playGroupList = playGroup.getPlayGroupList();
+        List<PlayGroup> playGroupList = playGroup.getPlayGroupList(match.getSportId());
 
         for (int i = 0; i < firstPagePlayType.getChildCount(); i++) {
             setPlayTypeGroup(match, parent, (LinearLayout) firstPagePlayType.getChildAt(i), playGroupList.get(0).getOriginalPlayTypeList().get(i));
@@ -336,11 +373,6 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             BtDetailActivity.start(mContext, match);
         });
 
-        /*if (convertView.getLayoutParams() == null) {
-            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.bottomMargin = ConvertUtils.dp2px(100);
-            convertView.setLayoutParams(params);
-        }*/
 
         binding.vSpace.setVisibility(childPosition == getRealChildrenCount(groupPosition) - 1 ? View.VISIBLE : View.GONE);
         return convertView;

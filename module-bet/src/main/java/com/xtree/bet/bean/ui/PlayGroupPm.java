@@ -26,7 +26,7 @@ public class PlayGroupPm implements PlayGroup{
         return playTypeList;
     }
 
-    public List<PlayGroup> getPlayGroupList() {
+    public List<PlayGroup> getPlayGroupList(String sportId) {
 
         List<PlayGroup> playGroupList = new ArrayList<>();
         PlayGroupPm playGroup = null;

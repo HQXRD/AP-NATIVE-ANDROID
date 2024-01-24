@@ -2,7 +2,6 @@ package com.xtree.bet.constant;
 
 public class PMConstants {
 
-    //public static String[] SPORT_NAMES = new String[]{"足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
     /**
      * 默认体育分类ID，与sportNames一一对应
      */
@@ -15,7 +14,7 @@ public class PMConstants {
     /**
      * 默认冠军体育分类ID，与sportNames一一对应
      */
-    public static String[] SPORT_IDS_CHAMPION_SPECAIL = new String[]{"0", "40603", "40604", "40606", "40607", "40612", "40610", "40608", "40613", "40609", "40611", "19", "51", "8"};
+    public static String[] SPORT_IDS_CHAMPION_SPECAIL = new String[]{"40603", "40604", "40606", "40607", "40612", "40610", "40608", "40613", "40609", "40611", "19", "51", "8"};
     /**
      * 玩法ID，与PLAY_METHOD_NAMES一一对应
      */

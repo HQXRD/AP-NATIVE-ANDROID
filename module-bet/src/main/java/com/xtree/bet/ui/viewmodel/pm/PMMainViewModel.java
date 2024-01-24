@@ -6,8 +6,10 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
+import com.xtree.bet.bean.request.fb.FBListReq;
 import com.xtree.bet.bean.request.pm.PMListReq;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
@@ -62,6 +64,24 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     public PMMainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
+    }
+
+    @Override
+    public void setSportIds(int playMethodPos){
+        if(playMethodPos == 0 || playMethodPos == 3 || playMethodPos == 1){
+
+        } else {
+
+        }
+    }
+
+    /**
+     * 获取热门联赛赛事数量
+     * @param leagueIds
+     */
+    @Override
+    public void getHotMatchCount(List<Long> leagueIds){
+
     }
 
     /**
@@ -217,7 +237,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                         if (finalFlag) {
                             isStepSecond = true;
                             leagueGoingList(data);
-                            goingOnMatchCountData.postValue(data.size());
+                            hotMatchCountData.postValue(data.size());
                             getLeagueList(sportPos, sportId, orderBy, leagueIds, matchidList, 2, searchDatePos, oddType, false, isRefresh);
                         } else {
                             getUC().getDismissDialogEvent().call();
@@ -485,11 +505,11 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         buildLiveHeaderLeague(liveHeaderLeague);
 
         Map<String, League> mapLeague = new HashMap<>();
-        Map<String, String> mapSportType = new HashMap<>();
+        Map<String, League> mapSportType = new HashMap<>();
         for (MatchInfo matchInfo : matchInfoList) {
             Match match = new MatchPm(matchInfo);
 
-            buildLiveSportHeader(matchInfoList.size(), mapSportType, match, new LeaguePm());
+            buildLiveSportHeader(mapSportType, match, new LeaguePm());
 
             League league = mapLeague.get(String.valueOf(matchInfo.tid));
             if (league == null) {
@@ -530,7 +550,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         Map<String, League> mapLeague = new HashMap<>();
         for (MatchInfo matchInfo : matchInfoList) {
             Match match = new MatchPm(matchInfo);
-            buildNoLiveSportHeader(matchInfoList.size(), match, new LeaguePm());
+            buildNoLiveSportHeader(match, new LeaguePm());
 
             League league = mMapLeague.get(String.valueOf(matchInfo.tid));
             if (league == null) {
