@@ -1,6 +1,13 @@
 package com.xtree.base.utils;
 
+import android.view.View;
+
 import net.sourceforge.pinyin4j.PinyinHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class StringUtils {
     public static String[] getPinYinInitials(String chinese) {
@@ -12,5 +19,28 @@ public class StringUtils {
         }
 
         return initials;
+    }
+
+    public static  boolean isInteger(String value)
+    {
+        try {
+            Integer.parseInt(value);
+            return true ;
+        }catch (Exception e)
+        {
+            return  false;
+        }
+    }
+    public static  boolean isDouble(String value)
+    {
+        try {
+            Double.parseDouble(value);
+            if (value.contains(".")) return true ;
+            return  false;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
     }
 }
