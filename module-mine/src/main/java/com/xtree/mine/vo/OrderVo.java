@@ -8,7 +8,7 @@ public class OrderVo {
     public String title; // "IMONE平台充值",
     public String preavailable; // "1278.0774",
     public String availablebalance; // "1268.0774",
-    public String transferstatus; // "2", 1,3失败 2成功
+    public String transferstatus; // "2", 1,3失败 0,2,其它成功
     public String o_entry; // "217226908",
     public String times; // "2024-01-06 13:25:52",
     public String ordertypeid; // "264",

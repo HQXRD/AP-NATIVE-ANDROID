@@ -94,7 +94,8 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportBinding, R
                 ItemReportAccChangeBinding binding2 = ItemReportAccChangeBinding.bind(holder.itemView);
                 OrderVo vo = get(position);
 
-                int status = "2".equals(vo.transferstatus) ? R.string.txt_succ : R.string.txt_fail;
+                // 1,3 失败; 其它成功
+                int status = "1".equals(vo.transferstatus) || "3".equals(vo.transferstatus) ? R.string.txt_fail : R.string.txt_succ;
                 String operations = "1".equals(vo.operations) ? "+" : "-";
                 if ("1".equals(vo.operations)) {
                     binding2.tvwAmount.setSelected(true); // +
