@@ -64,6 +64,9 @@ public class RechargeVo {
                 "bid='" + bid + '\'' +
                 ", paycode='" + paycode + '\'' +
                 ", title='" + title + '\'' +
+                ", op_thiriframe_use=" + op_thiriframe_use +
+                ", phone_needbind=" + phone_needbind +
+                ", view_bank_card=" + view_bank_card +
                 ", type='" + type + '\'' +
                 ", typename='" + typename + '\'' +
                 ", PayCardId='" + PayCardId + '\'' +

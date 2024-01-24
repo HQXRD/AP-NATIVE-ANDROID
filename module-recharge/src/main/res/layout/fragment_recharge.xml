@@ -88,7 +88,8 @@
                 android:id="@+id/ll_root2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/layout_margin">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -134,6 +135,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
+                <LinearLayout
+                    android:id="@+id/ll_cur_pmt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_margin"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/style_cm_title"
+                        android:layout_marginTop="0dp"
+                        android:text="@string/txt_cur_recharge_channel" />
+
+                    <ImageView
+                        android:id="@+id/ivw_cur_pmt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="4dp"
+                        tools:src="@mipmap/rc_ic_pmt_yhk" />
+
+                    <TextView
+                        android:id="@+id/tvw_cur_pmt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text=""
+                        android:textColor="@color/clr_txt_black_01"
+                        android:textSize="11sp"
+                        tools:text="银行卡充值" />
+                </LinearLayout>
+
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_down"
                     android:layout_width="match_parent"
@@ -141,36 +174,6 @@
                     android:orientation="vertical"
                     android:visibility="gone"
                     tools:visibility="visible">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            style="@style/style_cm_title"
-                            android:layout_marginTop="0dp"
-                            android:text="@string/txt_cur_recharge_channel" />
-
-                        <ImageView
-                            android:id="@+id/ivw_cur_pmt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:layout_marginEnd="4dp"
-                            tools:src="@mipmap/ic_ebkc" />
-
-                        <TextView
-                            android:id="@+id/tvw_cur_pmt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:text=""
-                            android:textColor="@color/clr_txt_black_01"
-                            android:textSize="11sp"
-                            tools:text="网银快充3" />
-                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_bind_info"

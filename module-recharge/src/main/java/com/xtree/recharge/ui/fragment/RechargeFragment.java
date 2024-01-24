@@ -62,13 +62,15 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     double loadMax;
     PaymentVo mPaymentVo;
     RechargeVo curRechargeVo;
-    BasePopupView ppw = null; // 底部弹窗 (选择银行卡)
+    BasePopupView ppw = null; // 底部弹窗
+    BasePopupView ppw2 = null; // 底部弹窗 (二层弹窗)
     String bankId = ""; // 银行卡ID
     String hiWalletUrl; // 一键进入 HiWallet钱包
     String tutorialUrl; // 充值教程
     List<RechargeVo> mRecommendList = new ArrayList<>(); // 推荐的充值渠道列表
     HashMap<String, RechargeVo> mapRechargeVo = new HashMap<>(); // 跳转第三方链接的充值渠道
     boolean isShowedProcessPendCount = false; // 是否显示过 "订单未到账" 的提示
+    boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -204,6 +206,24 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isBinding) {
+            isBinding = false;
+            View child = binding.rcvPmt.findViewWithTag(curRechargeVo.bid);
+            binding.tvwCurPmt.setText("");
+            binding.ivwCurPmt.setImageDrawable(null);
+            binding.llDown.setVisibility(View.GONE);
+            if (child != null) {
+                child.setSelected(false); // 已选中的取消掉,刷新等待时间有点长
+            }
+
+            curRechargeVo = null;
+            viewModel.getPayments(); // 绑定回来,刷新数据
+        }
+    }
+
     private void onClickPayment(RechargeVo vo) {
         CfLog.i(vo.toString());
         CfLog.i("****** " + vo.title);
@@ -226,6 +246,28 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         Drawable dr = getContext().getDrawable(R.drawable.rc_ic_pmt_selector);
         dr.setLevel(Integer.parseInt(vo.bid));
         binding.ivwCurPmt.setImageDrawable(dr);
+        binding.llDown.setVisibility(View.GONE); // 默认隐藏
+
+        if (vo.op_thiriframe_use && vo.phone_needbind && vo.view_bank_card && vo.userBankList.isEmpty()) {
+            // 绑定手机或者YHK
+            CfLog.i("****** 绑定手机或者YHK");
+            toBindPhoneOrCard();
+            return;
+        }
+        if (vo.op_thiriframe_use && vo.phone_needbind && (!vo.view_bank_card || (vo.view_bank_card && !vo.userBankList.isEmpty()))) {
+            // 绑定手机
+            CfLog.i("****** 绑定手机");
+            toBindPhoneNumber();
+            return;
+        }
+        //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
+        if (vo.view_bank_card && vo.userBankList.isEmpty()) {
+            // 绑定YHK
+            CfLog.i("****** 绑定YHK");
+            toBindCard();
+            return;
+        }
+        CfLog.i("****** not need bind...");
 
         if (vo.op_thiriframe_use && !vo.phone_needbind) {
             CfLog.d(vo.title + ", jump: " + vo.op_thiriframe_url);
@@ -252,6 +294,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
+        CfLog.i("****** llDown is visible");
         binding.llDown.setVisibility(View.VISIBLE); // 下面的部分显示
 
         // 显示/隐藏银行卡 userBankList
@@ -291,6 +334,87 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         setRate(vo); // 设置汇率提示信息
         setTipBottom(vo); // 设置底部的文字提示
 
+    }
+
+    private void toBindPhoneOrCard() {
+        String msg = getString(R.string.txt_rc_bind_personal_info);
+        String left = getString(R.string.txt_rc_bind_phone_now);
+        String right = getString(R.string.txt_rc_bind_bank_card_now);
+        MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+                toBindPhoneNumber();
+                ppw.dismiss();
+            }
+
+            @Override
+            public void onClickRight() {
+                toBindCard();
+                ppw.dismiss();
+            }
+        });
+        ppw = new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog);
+        ppw.show();
+    }
+
+    private void toBindPhoneNumber() {
+
+        String msg = getString(R.string.txt_rc_bind_phone_email_pls);
+        String left = getString(R.string.txt_rc_bind_phone);
+        String right = getString(R.string.txt_rc_bind_email);
+        MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+                toBindPhoneOrEmail(Constant.BIND_PHONE);
+                ppw2.dismiss();
+            }
+
+            @Override
+            public void onClickRight() {
+                toBindPhoneOrEmail(Constant.BIND_EMAIL);
+                ppw2.dismiss();
+            }
+        });
+        ppw2 = new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog);
+        ppw2.show();
+    }
+
+    private void toBindCard() {
+
+        String msg = getString(R.string.txt_rc_bind_bank_card_pls);
+        MsgDialog dialog = new MsgDialog(getContext(), null, msg, true, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+            }
+
+            @Override
+            public void onClickRight() {
+                isBinding = true;
+                Bundle bundle = new Bundle();
+                bundle.putString("type", "bindcard");
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
+                ppw2.dismiss();
+            }
+        });
+        ppw2 = new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog);
+        ppw2.show();
+
+    }
+
+    private void toBindPhoneOrEmail(String type) {
+        isBinding = true;
+        Bundle bundle = new Bundle();
+        bundle.putString("type", type);
+        startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
     }
 
     private void goNext() {

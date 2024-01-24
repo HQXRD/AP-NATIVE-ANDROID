@@ -126,5 +126,12 @@
     <string name="txt_rc_tip_yhk_3">部分银行暂不支持数字人民币手机充值，推荐使用微信、支付宝或者建行、招行充值</string>
     <string name="txt_rc_tip_yhk_2a">2、本通道只接受线上网银转账及手机银行转账。 %1$s 不接受支付宝、微信转账、财付通、ATM、临柜等其他方式，使用以上方式可能会导致无法到账或者到账延迟。</string>
     <string name="txt_rc_tip_alipay_wechat">请按照充值页提示操作，否则将可能造成充值延迟到账或到账失败的情况</string>
+    <string name="txt_rc_bind_personal_info">请先绑定个人信息</string>
+    <string name="txt_rc_bind_phone_now">立即绑定手机号</string>
+    <string name="txt_rc_bind_bank_card_now">立即绑定银行卡</string>
+    <string name="txt_rc_bind_phone_email_pls">您没有绑定手机或邮箱，请先绑定</string>
+    <string name="txt_rc_bind_phone">绑定手机</string>
+    <string name="txt_rc_bind_email">绑定邮箱</string>
+    <string name="txt_rc_bind_bank_card_pls">您没有绑定银行卡，请先绑定银行卡</string>
 
 </resources>
