@@ -14,6 +14,7 @@ import com.xtree.base.R;
 public class MsgDialog extends CenterPopupView {
     TextView tvwTitle;
     TextView tvwMsg;
+    TextView tvwMsg2; // 长内容使用这个
     TextView tvwLeft;
     TextView tvwRight;
 
@@ -68,6 +69,7 @@ public class MsgDialog extends CenterPopupView {
     private void initView() {
         tvwTitle = findViewById(R.id.tvw_title);
         tvwMsg = findViewById(R.id.tvw_msg);
+        tvwMsg2 = findViewById(R.id.tvw_msg2);
         tvwLeft = findViewById(R.id.tvw_left);
         tvwRight = findViewById(R.id.tvw_right);
 
@@ -76,6 +78,12 @@ public class MsgDialog extends CenterPopupView {
         }
 
         tvwMsg.setText(msg);
+        if (msg.length() > 39) {
+            tvwMsg.setVisibility(View.GONE);
+            tvwMsg2.setText(msg);
+            tvwMsg2.setVisibility(View.VISIBLE);
+        }
+
         if (isSingleBtn) {
             tvwLeft.setVisibility(View.GONE);
         }
@@ -86,15 +94,13 @@ public class MsgDialog extends CenterPopupView {
             tvwRight.setText(txtRight);
         }
 
-        tvwLeft.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        tvwLeft.setOnClickListener(v -> {
+            if (mCallBack != null) {
                 mCallBack.onClickLeft();
             }
         });
-        tvwRight.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        tvwRight.setOnClickListener(v -> {
+            if (mCallBack != null) {
                 mCallBack.onClickRight();
             }
         });

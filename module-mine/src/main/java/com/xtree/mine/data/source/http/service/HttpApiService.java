@@ -5,10 +5,15 @@ import com.xtree.base.vo.PMService;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.BankCardVo;
+import com.xtree.mine.vo.CookieVo;
 import com.xtree.mine.vo.BtDetailVo;
 import com.xtree.mine.vo.BtPlatformVo;
 import com.xtree.mine.vo.BtReportVo;
+import com.xtree.mine.vo.ForgetPasswordCheckInfoVo;
+import com.xtree.mine.vo.ForgetPasswordTimeoutVo;
+import com.xtree.mine.vo.ForgetPasswordVerifyVo;
 import com.xtree.mine.vo.GameBalanceVo;
+import com.xtree.mine.vo.GooglePswVO;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.ProfileVo;
 import com.xtree.mine.vo.ProfitLossReportVo;
@@ -73,6 +78,12 @@ public interface HttpApiService {
     Flowable<BaseResponse<ProfileVo>> getProfile();
 
     /**
+     * 获取 cookie,session
+     */
+    @GET("/api/auth/sessid?client_id=10000005")
+    Flowable<BaseResponse<CookieVo>> getCookie();
+
+    /**
      * 发送 短信/邮箱 验证码 (首次绑)
      */
     @GET("/api/verify/singlesend")
@@ -103,11 +114,31 @@ public interface HttpApiService {
     Flowable<BaseResponse<VerifyVo>> bindVerify(@Body Map<String, String> map);
 
     /**
+     * 发验证码 (异地登录/换设备登录)
+     */
+    @GET("/api/auth/sendCode")
+    Flowable<BaseResponse<VerificationCodeVo>> sendCodeByLogin(@QueryMap Map<String, String> map);
+
+    /**
      * 修改密码
      */
     @POST("/api/account/verifychangepassword")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<Map<String, String>>> changePwd(@Body Map<String, String> map);
+
+    /**
+     * 获取谷歌密钥文本格式
+     */
+    @GET("/api/two-fa/make-key")
+    Flowable<BaseResponse<GooglePswVO>> getGoogle();
+
+    /**
+     * 绑定谷歌动态口令
+     */
+    @POST("/api/two-fa/save")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<Object>> bindGoogle(@Body Map<String , String> map) ;
+
 
     /**
      * 获取 平台中心余额
@@ -305,4 +336,32 @@ public interface HttpApiService {
     @POST("/api/sports/obg/getToken")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<PMService>> getPMGameTokenApi();
+
+    /**
+     * 获取 用户手机与信箱
+     */
+    @POST("/api/account/newforgetpassword")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<ForgetPasswordCheckInfoVo>> getUserInfoApi(@Body Map<String, String> map);
+
+    /**
+     * 获取 用户资讯正确的token
+     */
+    @POST("/api/account/newforgetpassword")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<ForgetPasswordTimeoutVo>> getForgetPasswordOTP(@Body Map<String, String> map);
+
+    /**
+     * 获取 用户资讯正确的token
+     */
+    @POST("/api/account/newforgetpassword")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<ForgetPasswordVerifyVo>> getUserTokenApi(@Body Map<String, String> map);
+
+    /**
+     * 获取 用户资讯正确的token
+     */
+    @POST("/api/account/newforgetpassword")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<Object>> getChangePasswordResult(@Body Map<String, String> map);
 }

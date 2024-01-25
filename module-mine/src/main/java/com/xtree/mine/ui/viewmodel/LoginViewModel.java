@@ -5,10 +5,10 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
 import com.xtree.base.utils.UuidUtil;
@@ -23,6 +23,7 @@ import java.util.HashMap;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -31,6 +32,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class LoginViewModel extends BaseViewModel<MineRepository> {
 
     public SingleLiveData<LoginResultVo> liveDataLogin = new SingleLiveData<>();
+    public SingleLiveData<BusinessException> liveDataLoginFail = new SingleLiveData<>();
     public SingleLiveData<LoginResultVo> liveDataReg = new SingleLiveData<>();
     String public_key;
 
@@ -40,11 +42,11 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
 
     public void login(String userName, String pwd) {
         String password = MD5Util.generateMd5("") + MD5Util.generateMd5(pwd);
-        CfLog.i("password: " + password);
+        //KLog.i("password: " + password);
 
         String public_key = SPUtils.getInstance().getString("public_key", "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDW+Gv8Xmk+EdTLQUU5fEAzhlVuFrI7GN4a8N\\/B0Oe63ORK8oBE1pK+t5U5Iz89K4zf7nX+tqQvzND5Z57NMwyqTYYb3TMbrKgjqF1K2YW08OaubjpdohMnDIibmPXNtrbRZpOf2xIaApR+wpqGS+Xw0LzKA8JPYDOPO4lseAtqVwIDAQAB");
         String loginpass = RSAEncrypt.encrypt2(pwd, public_key);
-        CfLog.i("loginpass: " + loginpass);
+        //KLog.i("loginpass: " + loginpass);
 
         if (TextUtils.isEmpty(loginpass)) {
             return;
@@ -56,6 +58,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         map.put("grant_type", "login");
         map.put("validcode", "");
         map.put("client_id", "10000005"); // h5:10000003, ios:10000004, android:10000005
+        map.put("device_type", "app"); // pc,h5,app,(ios,android)
         map.put("loginpass", loginpass);
         map.put("nonce", UuidUtil.getID16());
 
@@ -71,6 +74,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, vo.token_type);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_NAME, userName); // 用户名
                         RetrofitClient.init();
                         // 登录成功后获取FB体育请求服务地址
                         getFBGameTokenApi();
@@ -80,8 +84,25 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onError(Throwable t) {
                         KLog.e(t.toString());
-                        super.onError(t);
-                        ToastUtils.showLong("登录失败");
+                        //super.onError(t);
+                        //ToastUtils.showLong("登录失败");
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t); // 弹提示
+                        KLog.e(t.toString());
+
+                        if (t.code == HttpCallBack.CodeRule.CODE_20208) {
+                            HashMap<String, Object> map2 = new HashMap<>();
+                            map2.put("loginArgs", new Gson().toJson(map));
+                            map2.put("data", t.data);
+                            t.data = map2;
+                            liveDataLoginFail.setValue(t);
+                        } else if (t.code == HttpCallBack.CodeRule.CODE_30018) {
+
+                        }
+
                     }
                 });
         addSubscribe(disposable);
@@ -106,6 +127,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, vo.token_type);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_NAME, userName); // 用户名
                         RetrofitClient.init();
                         // 登录成功后获取FB体育请求服务地址
                         getFBGameTokenApi();

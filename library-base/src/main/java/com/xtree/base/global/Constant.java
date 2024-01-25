@@ -32,6 +32,7 @@ public class Constant {
     public static final String BIND_GOBAO = "bindgobao"; // 绑定gobao
     public static final String BIND_GOPAY = "bindgopay"; // 绑定GOPAY
     public static final String BIND_OKPAY = "bindokpay"; // 绑定OKPAY
+    public static final String VERIFY_LOGIN = "verify_login"; // 异地登录/换设备登录 (补)
 
     public static final String URL_DEPOSIT_FEEDBACK = "/webapp/#/depositFeedback"; // 充值—反馈
     public static final String URL_MY_MESSAGES = "/webapp/#/my/messages"; // 消息中心
@@ -50,5 +51,6 @@ public class Constant {
     public static final String URL_BET_RECORD = "/webapp/#/report/bet-record"; // 投注记录
     public static final String URL_ACCOUNT_CHANGE = "/webapp/#/report/account-change"; // 账变记录
     public static final String URL_DW_RECORD = "/webapp/#/report/dw-record"; // 充提记录
+    public static final String URL_APP_CENTER = "/webapp/#/features"; // 底部几个菜单中间的那个
 
 }

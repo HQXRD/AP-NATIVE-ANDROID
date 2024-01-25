@@ -87,14 +87,16 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
         mProfileVo = new Gson().fromJson(json, ProfileVo.class);
 
         // 如果手机和邮箱都没有绑定的情况下, 此时应该是先去绑定
-        if (!mProfileVo.is_binding_phone && !mProfileVo.is_binding_email) {
+        if (mProfileVo != null && !mProfileVo.is_binding_phone && !mProfileVo.is_binding_email) {
             if (!Constant.BIND_PHONE.equals(typeName) && !Constant.BIND_EMAIL.equals(typeName)) {
                 typeName = Constant.BIND;
             }
         }
 
-        BindPhoneFragment bindPhoneFragment = BindPhoneFragment.newInstance(typeName, tokenSign);
-        BindEmailFragment bindEmailFragment = BindEmailFragment.newInstance(typeName, tokenSign);
+        //BindPhoneFragment bindPhoneFragment = BindPhoneFragment.newInstance(typeName, tokenSign);
+        //BindEmailFragment bindEmailFragment = BindEmailFragment.newInstance(typeName, tokenSign);
+        BindPhoneFragment bindPhoneFragment = BindPhoneFragment.newInstance(getArguments());
+        BindEmailFragment bindEmailFragment = BindEmailFragment.newInstance(getArguments());
 
         String txtPhone = getString(R.string.txt_phone_num);
         String txtEmail = getString(R.string.txt_email_addr);
@@ -113,11 +115,11 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
             binding.tblType.setVisibility(View.INVISIBLE);
         } else {
             // 去验证
-            if (mProfileVo.is_binding_phone) {
+            if (Constant.VERIFY_LOGIN.equals(typeName) || mProfileVo.is_binding_phone) {
                 fragmentList.add(bindPhoneFragment);
                 tabList.add(txtPhone);
             }
-            if (mProfileVo.is_binding_email) {
+            if (Constant.VERIFY_LOGIN.equals(typeName) || mProfileVo.is_binding_email) {
                 fragmentList.add(bindEmailFragment);
                 tabList.add(txtEmail);
             }

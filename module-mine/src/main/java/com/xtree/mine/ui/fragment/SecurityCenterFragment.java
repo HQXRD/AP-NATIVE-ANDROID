@@ -11,10 +11,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.gson.Gson;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentSecurityCenterBinding;
@@ -29,6 +32,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterBinding, VerifyViewModel> {
 
     private ProfileVo mProfileVo;
+   private BasePopupView basePopupView = null;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -41,6 +45,8 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
     public void onResume() {
         super.onResume();
         viewModel.readCache();
+        viewModel.getProfile();//刷新用户信息
+        viewModel.getCookie();//刷新cookie
     }
 
     @Override
@@ -71,9 +77,19 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
             startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
         });
+        //跳转Google动态口令绑定页面
         binding.tvwGoogle.setOnClickListener(v -> {
             CfLog.i("****** google");
 
+            if ((mProfileVo != null)&&(mProfileVo.twofa == 1))//已完成谷歌动态口令绑定
+            {
+                showOverBindGoogle("温馨提示","您已经绑定谷歌验证无法进行重复绑定");
+            }
+            else
+            {
+                Bundle bundle = new Bundle();
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_GOOGLE_PWD, null);
+            }
         });
 
         binding.tvwPhone.setOnClickListener(v -> {
@@ -157,4 +173,24 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
         });
     }
 
+    /**
+     * 显示已经绑定谷歌验证码提示
+     * @param title
+     * @param messgae
+     */
+    private void showOverBindGoogle(String title , String messgae) {
+        basePopupView = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, messgae, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+
+            }
+
+            @Override
+            public void onClickRight() {
+                basePopupView.dismiss();
+            }
+
+        }));
+        basePopupView.show();
+    }
 }
