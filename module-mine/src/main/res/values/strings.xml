@@ -256,5 +256,7 @@
     <string name="txt_choose_withdrawal_usdt">USDT介绍及提款教程</string>
     <string name="txt_bank_card_withdrawal">银行卡提款</string>
     <string name="txt_set_bank_card">1.设置提款请求</string>
+    <string name="txt_msg_message">公告</string>
+    <string name="txt_msg_message_person">站内信</string>
 
 </resources>
