@@ -33,7 +33,9 @@ public class RouterFragmentPath {
         public static final String PAGER_BIND_PHONE = MINE + "/BindPhone";
         public static final String PAGER_BIND_EMAIL = MINE + "/BindEmail";
         public static final String PAGER_CHANGE_PWD = MINE + "/ChangePwd";
-        /** 綁定谷歌动态口令 */
+        /**
+         * 綁定谷歌动态口令
+         */
         public static final String PAGER_BIND_GOOGLE_PWD = MINE + "/GooglePSW";
 
         public static final String PAGER_BIND_CARD = MINE + "/BindCard";
@@ -51,6 +53,9 @@ public class RouterFragmentPath {
         public static final String PAGER_RECHARGE_FEEDBACK_DETAIL = MINE + "/RechargeFeedbackDetail"; // 充提记录-反馈详情
         public static final String PAGER_BT_REPORT = MINE + "/BtReport"; // 投注记录
         public static final String PAGER_FORGET_PASSWORD = MINE + "/ForgetPassword"; // 忘记密码
+        public static final String PAGER_MSG = MINE + "/Msg"; // 忘记密码
+        public static final String PAGER_MSG_LIST = MINE + "/MsgList"; // 忘记密码
+        public static final String PAGER_MSG_PERSON_LIST = MINE + "/MsgPersonList"; // 忘记密码
     }
 
     public static class Wallet {
@@ -65,7 +70,9 @@ public class RouterFragmentPath {
         public static final String PAGER_RECHARGE = RECHARGE + "/Recharge";
         public static final String PAGER_RECHARGE_FEEDBACK = RECHARGE + "/RechargeFeedback";
 
-        /** 反馈查看页面 */
+        /**
+         * 反馈查看页面
+         */
         public static final String PAGER_RECHARGE_FEEDBACK_DETAIL = RECHARGE + "/RechargeFeedbackDetail";
     }
 

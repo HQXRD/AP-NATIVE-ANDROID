@@ -32,6 +32,6 @@ public class SPKeyGlobal {
     public static final String PM_API_SERVICE_URL = "pm_api_service_url";
     public static final String PM_IMG_SERVICE_URL = "PM_IMG_SERVICE_URL";
     public static final String PM_USER_ID = "PM_USER_ID";
-
-
+    public static final String MSG_INFO = "msg_info";
+    public static final String MSG_PERSON_INFO = "msg_person_info";
 }
