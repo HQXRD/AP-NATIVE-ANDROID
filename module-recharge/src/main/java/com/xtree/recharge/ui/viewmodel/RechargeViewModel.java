@@ -12,6 +12,9 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.recharge.data.RechargeRepository;
 import com.xtree.recharge.vo.BankCardVo;
+import com.xtree.recharge.vo.FeedbackCheckVo;
+import com.xtree.recharge.vo.FeedbackImageUploadVo;
+import com.xtree.recharge.vo.FeedbackVo;
 import com.xtree.recharge.vo.PaymentVo;
 import com.xtree.recharge.vo.RechargePayVo;
 import com.xtree.recharge.vo.RechargeVo;
@@ -38,6 +41,10 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<String> liveDataTutorial = new SingleLiveData<>(); // 充值教程(从缓存加载用)
     public SingleLiveData<RechargeVo> liveDataRecharge = new SingleLiveData<>(); // 充值详情
     public SingleLiveData<RechargePayVo> liveDataRechargePay = new SingleLiveData<>(); // 充值提交结果
+    public SingleLiveData<FeedbackVo> feedbackVoSingleLiveData = new SingleLiveData<>();//进入反馈页面回去的数据
+    public SingleLiveData<FeedbackImageUploadVo> imageUploadVoSingleLiveData = new SingleLiveData<>();//feedback图片上传
+    public SingleLiveData<Object> feedbackAddSingleLiveData = new SingleLiveData<>();//feedback 下一步接口
+    public SingleLiveData<FeedbackCheckVo> feedbackCheckVoSingleLiveData = new SingleLiveData<>();//feedbackCheck 反馈查看页面
 
     public RechargeViewModel(@NonNull Application application, RechargeRepository repository) {
         super(application, repository);
@@ -108,6 +115,41 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     }
                 });
 
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取反馈查询页面配信息
+     */
+    public void getFeedbackCheckInfo(String starttime, String endtime) {
+        Disposable disposable = (Disposable) model.getApiService().feedbackCheckInfo(starttime, endtime).
+                compose(RxUtils.schedulersTransformer()).
+                compose(RxUtils.exceptionTransformer()).
+                subscribeWith(new HttpCallBack<FeedbackVo>() {
+                    @Override
+                    public void onResult(FeedbackVo vo) {
+                        feedbackVoSingleLiveData.setValue(vo);
+                    }
+                });
+        addSubscribe(disposable);
+
+    }
+
+    /**
+     * 获取 反馈页面详情
+     *
+     * @param id
+     */
+    public void getFeedbackCheckDetailInfo(String id) {
+        Disposable disposable = (Disposable) model.getApiService().feedbackCheckDetailsInfo(id)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<FeedbackCheckVo>() {
+                    @Override
+                    public void onResult(FeedbackCheckVo checkVo) {
+                        feedbackCheckVoSingleLiveData.setValue(checkVo);
+                    }
+                });
         addSubscribe(disposable);
     }
 
@@ -188,4 +230,49 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
 
     }
 
+    public void feedbackInfo(String startTime, String endTime) {
+
+        CfLog.i("startTime = " + startTime + " ===========" + "endTime = " + endTime);
+        Disposable disposable = (Disposable) model.getApiService().getFeedback(startTime, endTime).
+                compose(RxUtils.schedulersTransformer()).
+                compose(RxUtils.exceptionTransformer()).
+                subscribeWith(new HttpCallBack<FeedbackVo>() {
+                    @Override
+                    public void onResult(FeedbackVo feedbackVo) {
+                        feedbackVoSingleLiveData.setValue(feedbackVo);
+
+                    }
+                });
+        addSubscribe(disposable);
+
+    }
+
+    /**上传图片*/
+    public void feedbackImageUp(Map<String, String> uploadMap) {
+        Disposable disposable = (Disposable) model.getApiService().feedbackFileUpLoad(uploadMap).
+                compose(RxUtils.schedulersTransformer()).
+                compose(RxUtils.exceptionTransformer()).
+                subscribeWith(new HttpCallBack<FeedbackImageUploadVo>() {
+                    @Override
+                    public void onResult(FeedbackImageUploadVo feedbackImageUploadVo) {
+                        imageUploadVoSingleLiveData.setValue(feedbackImageUploadVo);
+                    }
+
+                });
+        addSubscribe(disposable);
+    }
+
+    /**反馈提交确认*/
+    public void feedbackCustomAdd(Map<String, String> addMap) {
+        Disposable disposable = (Disposable) model.getApiService().feedbackCustomAdd(addMap).
+                compose(RxUtils.schedulersTransformer()).
+                compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<Object>() {
+                    @Override
+                    public void onResult(Object o) {
+                        feedbackAddSingleLiveData.setValue(o);
+                    }
+                });
+        addSubscribe(disposable);
+    }
 }

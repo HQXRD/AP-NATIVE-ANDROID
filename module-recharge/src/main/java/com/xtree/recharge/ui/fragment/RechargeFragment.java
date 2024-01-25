@@ -126,10 +126,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         });
         binding.ivwRule.setOnClickListener(v -> {
             // 反馈
-            //startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK);
-            String title = getString(R.string.txt_feedback);
+            startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK);
+            /*String title = getString(R.string.txt_feedback);
             String url = DomainUtil.getDomain2() + Constant.URL_DEPOSIT_FEEDBACK;
-            BrowserActivity.start(getContext(), title, url, true);
+            BrowserActivity.start(getContext(), title, url, true);*/
         });
         binding.ivwMsg.setOnClickListener(v -> {
             // 消息

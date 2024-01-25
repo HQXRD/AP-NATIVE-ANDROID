@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">library-res</string>
     <string name="txt_vip_center">VIP中心</string>
     <string name="txt_withdraw">提款</string>
@@ -87,12 +87,15 @@
     <string name="txt_rst_lose">输</string>
     <string name="txt_yes">是</string>
     <string name="txt_no">否</string>
-    <string name="txt_google_auth_fail">绑定谷歌验证码失败</string>
-
     <string name="txt_tip">提示</string>
+    <string name="txt_google_auth_fail">绑定谷歌验证码失败</string>
+    <string name="txt_submitted_suc">提交成功</string>
+
     <string name="txt_copy">复制</string>
     <string name="txt_copied">已复制</string>
     <string name="txt_yuan">元</string>
     <string name="txt_pcs">个</string>
+
+
 
 </resources>
