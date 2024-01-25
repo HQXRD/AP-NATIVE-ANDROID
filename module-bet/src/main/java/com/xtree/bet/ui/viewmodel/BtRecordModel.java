@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.request.fb.BtRecordReq;
 import com.xtree.bet.bean.response.fb.BtRecordRsp;

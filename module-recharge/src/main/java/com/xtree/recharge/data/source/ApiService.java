@@ -1,7 +1,9 @@
 package com.xtree.recharge.data.source;
 
+import com.xtree.recharge.vo.FeedbackCheckVo;
+import com.xtree.recharge.vo.FeedbackImageUploadVo;
+import com.xtree.recharge.vo.FeedbackVo;
 import com.xtree.recharge.vo.PaymentVo;
-import com.xtree.recharge.vo.RechargePayVo;
 import com.xtree.recharge.vo.RechargeVo;
 
 import java.util.Map;
@@ -53,5 +55,55 @@ public interface ApiService {
     @POST("/api/deposit/rechargepay/{bid}")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<Object>> rechargePay(@Path("bid") String bid, @Body Map<String, String> map);
+
+    /**
+     * 获取反馈页面基本数据
+     *
+     * @param starttime
+     * @param endtime   /api/deposit/customerinfos?starttime=2024-01-15 00:00&endtime=2024-01-15 23:59
+     */
+    @GET("/api/deposit/customerinfos?")
+    Flowable<BaseResponse<FeedbackVo>> getFeedback(@Query("starttime") String starttime, @Query("endtime") String endtime);
+
+    /**
+     * 反馈页面上传图片接口
+     *
+     * @param map
+     */
+    @POST("/api/fileuseapi/upload")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<FeedbackImageUploadVo>> feedbackFileUpLoad(@Body Map<String, String> map);
+
+    /**
+     * 查询获取查询反馈页面配置
+     */
+    @GET("/api/deposit/customerinfos?")
+    Flowable<BaseResponse<FeedbackVo>> feedbackCheckInfo(@Query("starttime") String starttime, @Query("endtime") String endtime);
+
+    /**
+     * 查询获取反馈页面详情数据（充值记录->查看）
+     *
+     * @param id     选择反馈记录id
+     */
+    @GET("/api/deposit/customerinfos?client=m")
+    Flowable<BaseResponse<FeedbackCheckVo>> feedbackCheckDetailsInfo(@Query("id") String id);
+
+
+    /**
+     * 反馈页面上传
+     *
+     * @param map
+     */
+    @POST("/api/deposit/customerinfoadd")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<Object>> feedbackCustomAdd(@Body Map<String, String> map);
+
+    /**
+     * 反馈页面 查看图片下载
+     *
+     * @param starttime
+     */
+    @GET("/api/deposit/customerinfos?")
+    Flowable<BaseResponse<Object>> feedbackCheckImage(@Query("starttime") String starttime);
 
 }

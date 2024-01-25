@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 
-import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.bet.bean.request.fb.BtMultipleListReq;
 import com.xtree.bet.bean.request.fb.BtOptionReq;
 import com.xtree.bet.bean.request.fb.SingleBtListReq;
@@ -20,18 +20,13 @@ import com.xtree.bet.bean.ui.BtResult;
 import com.xtree.bet.bean.ui.BtResultFb;
 import com.xtree.bet.bean.ui.CgOddLimit;
 import com.xtree.bet.bean.ui.CgOddLimitFb;
-import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.data.BetRepository;
-import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.viewmodel.TemplateBtCarViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
-import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.bus.RxBus;
-import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.utils.RxUtils;
 
 /**
@@ -66,7 +61,7 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
         Disposable disposable = (Disposable) model.getApiService().batchBetMatchMarketOfJumpLine(btCarReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<BtConfirmInfo>() {
+                .subscribeWith(new FBHttpCallBack<BtConfirmInfo>() {
                     @Override
                     public void onResult(BtConfirmInfo btConfirmInfo) {
                         List<BetConfirmOption> betConfirmOptionList = new ArrayList<>();
@@ -124,7 +119,7 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
         Disposable disposable = (Disposable) model.getApiService().singlePass(singleBetListReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<List<BtResultInfo>>() {
+                .subscribeWith(new FBHttpCallBack<List<BtResultInfo>>() {
                     @Override
                     public void onResult(List<BtResultInfo> btResultRspList) {
                         List<BtResult> btResultList = new ArrayList<>();
@@ -173,7 +168,7 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
         Disposable disposable = (Disposable) model.getApiService().betMultiple(btMultipleListReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<List<BtResultInfo>>() {
+                .subscribeWith(new FBHttpCallBack<List<BtResultInfo>>() {
                     @Override
                     public void onResult(List<BtResultInfo> btResultRspList) {
                         List<BtResult> btResultList = new ArrayList<>();

@@ -25,7 +25,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             return;
         }
         BaseResponse baseResponse = (BaseResponse) o;
-        BusinessException ex = new BusinessException(baseResponse.getStatus(), baseResponse.getMessage());
+        BusinessException ex = new BusinessException(baseResponse.getStatus(), baseResponse.getMessage(), baseResponse.getData());
         int status = baseResponse.getStatus() == -1 ? baseResponse.getCode() : baseResponse.getStatus();
         switch (status) {
             case HttpCallBack.CodeRule.CODE_0:
@@ -76,9 +76,9 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             case HttpCallBack.CodeRule.CODE_20101:
             case HttpCallBack.CodeRule.CODE_20102:
             case HttpCallBack.CodeRule.CODE_20103:
+            case HttpCallBack.CodeRule.CODE_20107:
             case HttpCallBack.CodeRule.CODE_20217:
             case HttpCallBack.CodeRule.CODE_20111:
-            case HttpCallBack.CodeRule.CODE_30018:
             case HttpCallBack.CodeRule.CODE_30003:
             case HttpCallBack.CodeRule.CODE_30713:
                 KLog.e("登出状态,销毁token. " + baseResponse);
@@ -87,6 +87,12 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 //ToastUtils.showShort("请重新登录");
                 ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
                 break;
+            case HttpCallBack.CodeRule.CODE_20208:
+            case HttpCallBack.CodeRule.CODE_30018:
+                // 异地登录/换设备登录
+                // 谷歌验证
+                onFail(ex);
+                break;
             case HttpCallBack.FBCodeRule.PB_CODE_14010:
                 //账号已登出，请重新登录
                 ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
@@ -94,7 +100,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 break;
             default:
                 KLog.e("status is not normal: " + baseResponse);
-                ToastUtils.showShort(baseResponse.getMessage());
+                onFail(ex);
                 break;
         }
     }
@@ -114,6 +120,11 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         }
         //其他全部甩锅网络异常
         ToastUtils.showShort("网络异常");
+    }
+
+    public void onFail(BusinessException t) {
+        KLog.e("error: " + t.toString());
+        ToastUtils.showShort(t.message);
     }
 
     @Override
@@ -145,12 +156,13 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         static final int CODE_20101 = 20101;
         static final int CODE_20102 = 20102;
         static final int CODE_20103 = 20103;
+        static final int CODE_20107 = 20107; // 长时间未操作，请重新登录
         static final int CODE_20111 = 20111;
-        static final int CODE_30018 = 30018;
+        public static final int CODE_20208 = 20208; // 异地登录(本次登录并非常用设备或地区， 需要进行安全验证)
+        public static final int CODE_30018 = 30018; // 谷歌验证
         static final int CODE_30003 = 30003;
         static final int CODE_30713 = 30713;
-        //用户名或密码错误
-        static final int CODE_20203 = 20203;
+        static final int CODE_20203 = 20203; //用户名或密码错误
         static final int CODE_20217 = 20217; //已修改密码或被踢出
     }
 

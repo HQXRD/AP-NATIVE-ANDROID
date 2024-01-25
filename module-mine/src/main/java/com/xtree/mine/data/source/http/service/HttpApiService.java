@@ -118,6 +118,12 @@ public interface HttpApiService {
     Flowable<BaseResponse<VerifyVo>> bindVerify(@Body Map<String, String> map);
 
     /**
+     * 发验证码 (异地登录/换设备登录)
+     */
+    @GET("/api/auth/sendCode")
+    Flowable<BaseResponse<VerificationCodeVo>> sendCodeByLogin(@QueryMap Map<String, String> map);
+
+    /**
      * 修改密码
      */
     @POST("/api/account/verifychangepassword")

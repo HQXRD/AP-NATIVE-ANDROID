@@ -9,7 +9,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.utils.NumberUtils;
 import com.xtree.bet.bean.response.fb.BalanceInfo;
@@ -51,7 +51,7 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
         Disposable disposable = (Disposable) model.getApiService().getUserBanlace(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<BalanceInfo>() {
+                .subscribeWith(new FBHttpCallBack<BalanceInfo>() {
                     @Override
                     public void onResult(BalanceInfo balanceInfo) {
                         userBalanceData.postValue(NumberUtils.format(Double.valueOf(balanceInfo.bl), 2));

@@ -6,7 +6,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.response.fb.PlayTypeInfo;
 import com.xtree.bet.bean.ui.Category;
@@ -17,7 +17,7 @@ import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.bean.ui.PlayTypeFb;
-import com.xtree.bet.constant.MarketTag;
+import com.xtree.bet.constant.FBMarketTag;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
 
@@ -48,7 +48,7 @@ public class FbBtDetailViewModel extends TemplateBtDetailViewModel {
         Disposable disposable = (Disposable) model.getApiService().getMatchDetail(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<MatchInfo>() {
+                .subscribeWith(new FBHttpCallBack<MatchInfo>() {
                     @Override
                     public void onResult(MatchInfo matchInfo) {
                         Match match = new MatchFb(matchInfo);
@@ -75,7 +75,7 @@ public class FbBtDetailViewModel extends TemplateBtDetailViewModel {
         for (PlayTypeInfo playTypeInfo : matchInfo.mg) {
             for (String type : playTypeInfo.tps) {
                 if (map.get(type) == null) {
-                    map.put(type, new CategoryFb(playTypeInfo, MarketTag.getMarketTag(type)));
+                    map.put(type, new CategoryFb(playTypeInfo, FBMarketTag.getMarketTag(type)));
                 }
                 map.get(type).addPlayTypeList(new PlayTypeFb(playTypeInfo));
             }

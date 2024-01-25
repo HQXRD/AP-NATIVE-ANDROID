@@ -1,216 +1,228 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bt_bg_match_item"
     android:orientation="vertical">
 
-    <View
-        android:id="@+id/line_divier"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/bt_color_line"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <LinearLayout
-        android:id="@+id/ll_root"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="@+id/line_divier">
+        android:background="@drawable/bt_bg_match_item">
+
+        <View
+            android:id="@+id/line_divier"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bt_color_line"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/ll_root"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingTop="40dp">
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="@+id/line_divier">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:gravity="center_vertical">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingTop="40dp">
 
-                <TextView
-                    android:id="@+id/tv_team_name_main"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="22dp"
-                    android:layout_weight="6"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:textSize="@dimen/bt_text_12sp"
-                    tools:text="多拉多斯" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"
+                    android:gravity="center_vertical">
 
-                <TextView
-                    android:id="@+id/tv_score_main"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="@color/bt_color_score"
-                    android:textSize="@dimen/bt_text_12sp"
-                    tools:text="0" />
+                    <TextView
+                        android:id="@+id/tv_team_name_main"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="22dp"
+                        android:layout_weight="6"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:textSize="@dimen/bt_text_12sp"
+                        tools:text="多拉多斯" />
 
+                    <TextView
+                        android:id="@+id/tv_score_main"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/bt_color_score"
+                        android:textSize="@dimen/bt_text_12sp"
+                        android:textStyle="bold"
+                        tools:text="0" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="33dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tv_team_name_visitor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_team_name_main"
+                        android:layout_marginStart="22dp"
+                        android:layout_weight="6"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:textSize="@dimen/bt_text_12sp"
+                        tools:text="多拉多斯" />
+
+                    <TextView
+                        android:id="@+id/tv_score_visitor"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_team_name_main"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/bt_color_score"
+                        android:textSize="@dimen/bt_text_12sp"
+                        android:textStyle="bold"
+                        tools:text="0" />
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="33dp"
-                android:gravity="center_vertical">
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/tv_team_name_visitor"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_team_name_main"
-                    android:layout_marginStart="22dp"
-                    android:layout_weight="6"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:textSize="@dimen/bt_text_12sp"
-                    tools:text="多拉多斯" />
+                <com.xtree.bet.weight.PageHorizontalScrollView
+                    android:id="@+id/hsv_play_type_group"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/bt_match_list_height">
 
-                <TextView
-                    android:id="@+id/tv_score_visitor"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_team_name_main"
-                    android:layout_alignParentRight="true"
-                    android:layout_weight="1"
-                    android:textStyle="bold"
-                    android:gravity="center"
-                    android:textColor="@color/bt_color_score"
-                    android:textSize="@dimen/bt_text_12sp"
-                    tools:text="0" />
-            </LinearLayout>
+                    <include layout="@layout/bt_fb_play_type_group_list" />
+                </com.xtree.bet.weight.PageHorizontalScrollView>
+
+                <!--<com.stx.xhb.androidx.XBanner
+                    android:id="@+id/play_type_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bt_match_list_height"
+                    app:isAutoPlay="false"
+                    app:isShowIndicatorOnlyOne="false"
+                    app:pageChangeDuration="800"
+                    app:pointsPosition="CENTER"
+                    app:pointsVisibility="false"
+                    android:visibility="visible"/>-->
+            </RelativeLayout>
         </LinearLayout>
 
         <RelativeLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:layout_weight="1">
+            android:layout_marginTop="20dp"
+            android:background="@color/bt_bg_color_time"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <com.xtree.bet.weight.PageHorizontalScrollView
-                android:id="@+id/hsv_play_type_group"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/bt_match_list_height">
-
-                <include layout="@layout/bt_fb_play_type_group_list" />
-            </com.xtree.bet.weight.PageHorizontalScrollView>
-
-            <!--<com.stx.xhb.androidx.XBanner
-                android:id="@+id/play_type_banner"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/bt_match_list_height"
-                app:isAutoPlay="false"
-                app:isShowIndicatorOnlyOne="false"
-                app:pageChangeDuration="800"
-                app:pointsPosition="CENTER"
-                app:pointsVisibility="false"
-                android:visibility="visible"/>-->
-        </RelativeLayout>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@color/bt_bg_color_time"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/tv_match_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="22dp"
-            android:textColor="@color/bt_color_blurred"
-            android:textSize="@dimen/bt_text_12sp"
-            tools:text="上半场15：15" />
-
-        <TextView
-            android:id="@+id/tv_playtype_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginEnd="10dp"
-            android:textColor="@color/bt_color_blurred"
-            tools:text="32+>" />
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/ll_root">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/iv_court"
+            <TextView
+                android:id="@+id/tv_match_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="22dp"
-                android:background="@drawable/bt_match_list_court_selector" />
+                android:textColor="@color/bt_color_blurred"
+                android:textSize="@dimen/bt_text_12sp"
+                tools:text="上半场15：15" />
 
-            <ImageView
-                android:id="@+id/iv_live"
+            <TextView
+                android:id="@+id/tv_playtype_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/iv_court"
-                android:layout_marginStart="2dp"
-                android:background="@drawable/bt_match_list_live_selector" />
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/bt_color_blurred"
+                tools:text="32+>" />
+        </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/iv_cornor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/iv_live"
-                android:layout_marginStart="2dp"
-                android:background="@drawable/bt_match_list_cornor_selector" />
+        <LinearLayout
+            android:id="@+id/ll_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/ll_root">
 
-            <ImageView
-                android:id="@+id/iv_neutrality"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/iv_live"
-                android:layout_marginStart="2dp"
-                android:background="@drawable/bt_match_list_neutrality_selector" />
+                android:layout_weight="1"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp">
+
+                <ImageView
+                    android:id="@+id/iv_court"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="22dp"
+                    android:background="@drawable/bt_match_list_court_selector" />
+
+                <ImageView
+                    android:id="@+id/iv_live"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_toRightOf="@+id/iv_court"
+                    android:background="@drawable/bt_match_list_live_selector" />
+
+                <ImageView
+                    android:id="@+id/iv_cornor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_toRightOf="@+id/iv_live"
+                    android:background="@drawable/bt_match_list_cornor_selector" />
+
+                <ImageView
+                    android:id="@+id/iv_neutrality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_toRightOf="@+id/iv_live"
+                    android:background="@drawable/bt_match_list_neutrality_selector" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_pointer"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/ll_score_data"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="10dp"
+                android:layout_weight="2"
+                android:gravity="right"
+                android:orientation="horizontal"
+                android:visibility="visible" />
+
         </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/ll_pointer"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:visibility="gone"
-            android:orientation="horizontal" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_score_data"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:layout_marginEnd="10dp"
-            android:gravity="right"
-            android:visibility="visible"
-            android:orientation="horizontal" />
-
-    </LinearLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:id="@+id/v_space"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/clr_transparent"
+        app:layout_constraintTop_toBottomOf="@+id/ll_data" />
+</LinearLayout>
 

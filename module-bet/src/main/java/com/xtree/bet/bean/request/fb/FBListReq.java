@@ -3,24 +3,25 @@ package com.xtree.bet.bean.request.fb;
 import java.util.List;
 
 public class FBListReq {
-    private int sportId;
+    private String sportId;
     private String languageType = "CMN";
     private List<Long> leagueIds;
     private int type;
     private String beginTime;
     private String endTime;
     private List<Long> matchIds;
+    private List<Integer> sportIds;
     private int current;
     private int size;
     private int orderBy;
     private boolean isPC = true;
     private int oddType = 1;
 
-    public int getSportId() {
+    public String getSportId() {
         return sportId;
     }
 
-    public void setSportId(int sportId) {
+    public void setSportId(String sportId) {
         this.sportId = sportId;
     }
 
@@ -110,5 +111,24 @@ public class FBListReq {
 
     public void setOddType(int oddType) {
         this.oddType = oddType;
+    }
+
+    @Override
+    public String toString() {
+        return "FBListReq{" +
+                "sportId='" + sportId + '\'' +
+                ", languageType='" + languageType + '\'' +
+                ", leagueIds=" + leagueIds +
+                ", type=" + type +
+                ", beginTime='" + beginTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", matchIds=" + matchIds +
+                ", sportIds=" + sportIds +
+                ", current=" + current +
+                ", size=" + size +
+                ", orderBy=" + orderBy +
+                ", isPC=" + isPC +
+                ", oddType=" + oddType +
+                '}';
     }
 }

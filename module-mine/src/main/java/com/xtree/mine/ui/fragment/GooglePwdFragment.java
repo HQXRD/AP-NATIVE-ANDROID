@@ -1,5 +1,7 @@
 package com.xtree.mine.ui.fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -11,12 +13,16 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.gson.Gson;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.QrcodeUtil;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
@@ -28,6 +34,7 @@ import com.xtree.mine.vo.GooglePswVO;
 import com.xtree.mine.vo.ProfileVo;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -42,6 +49,8 @@ public class GooglePwdFragment extends BaseFragment<FragmentGooglePwdBinding, Go
     private int height = 120;
     private int width = 120;
     BasePopupView basePopupView = null;
+    Bitmap bitmap;
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -131,8 +140,68 @@ public class GooglePwdFragment extends BaseFragment<FragmentGooglePwdBinding, Go
         ProfileVo mProfileVo = new Gson().fromJson(json, ProfileVo.class);
         //拼接二维码形式
         final String qrCode = "otpauth://totp" + "/as-" + mProfileVo.username + "?secret=" + secre;
-        //zxing(qrCode);
-        binding.ivwCode2.setImageBitmap(QrcodeUtil.getQrcode(qrCode, width, height, true));
+        zxing(qrCode);
+    }
+
+
+    /**
+     * 生产二维码
+     */
+    private void zxing(String name) {
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        Map<EncodeHintType, String> hints = new HashMap<>();
+
+        hints.put(EncodeHintType.CHARACTER_SET, "utf-8");//自定义长宽
+        BitMatrix endCode = null;
+        try {
+            endCode = qrCodeWriter.encode(name, BarcodeFormat.QR_CODE, width, height);
+        } catch (WriterException e) {
+            CfLog.e(e.toString());
+        }
+
+        endCode = updateBit(endCode, 0);
+        int newWidth = endCode.getWidth();
+        int newHeight = endCode.getHeight();
+
+        int[] colors = new int[newWidth * newHeight];
+
+        for (int i = 0; i < newWidth; i++) {
+            for (int j = 0; j < newHeight; j++) {
+                if (endCode.get(i, j)) {
+                    colors[i * newWidth + j] = Color.BLACK;
+                } else {
+                    colors[i * newWidth + j] = Color.WHITE;
+                }
+            }
+        }
+        bitmap = Bitmap.createBitmap(colors, newWidth, newHeight, Bitmap.Config.RGB_565);
+        binding.ivwCode2.setImageBitmap(bitmap);
+
+    }
+
+    /**
+     * 自定义生成BitMatrix
+     *
+     * @param matrix
+     * @param margin
+     * @return
+     */
+    private static BitMatrix updateBit(BitMatrix matrix, int margin) {
+        int tempM = margin * 2;
+        int[] res = matrix.getEnclosingRectangle();
+        int resWidth = res[2] + tempM;
+        int resHeight = res[3] + tempM;
+        BitMatrix resMatrix = new BitMatrix(resWidth, resHeight);
+        resMatrix.clear();
+        for (int i = 0; i < resWidth - margin; i++) {
+            for (int j = margin; j < resHeight - margin; j++) {
+                if (matrix.get(i - margin + res[0], j - margin + res[1])) {
+                    resMatrix.set(i, j);
+                }
+            }
+        }
+
+        return resMatrix;
     }
 
     /**

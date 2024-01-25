@@ -7,14 +7,10 @@ import androidx.annotation.NonNull;
 
 import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.Match;
-import com.xtree.bet.constant.MarketTag;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.data.BetRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;

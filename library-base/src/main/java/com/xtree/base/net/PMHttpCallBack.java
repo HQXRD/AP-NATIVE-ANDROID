@@ -53,7 +53,6 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
     @Override
     public void onError(Throwable t) {
         KLog.e("error: " + t.toString());
-        //t.printStackTrace();
         if (t instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) t;
             ToastUtils.showShort(rError.message);
@@ -73,42 +72,12 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
     }
 
     public static final class CodeRule {
-        public static final int CODE_401038 = 401038;
+        //请求成功, 正确的操作方式
+        static final int CODE_0 = 0;
+
         public static final int CODE_401026 = 401026;
         public static final int CODE_401013 = 401013;
         public static final int CODE_400467 = 400467;
 
-
-
-        //请求成功, 正确的操作方式
-        static final int CODE_0 = 0;
-        static final int CODE_10000 = 10000;
-        static final int CODE_0000000 = 0000000;
-        //请求失败，不打印Message
-        static final int CODE_300 = 300;
-        //请求失败，打印Message
-        static final int CODE_330 = 330;
-        //服务器内部异常
-        static final int CODE_500 = 500;
-        //参数为空
-        static final int CODE_503 = 503;
-        //没有数据
-        static final int CODE_502 = 502;
-        //无效的Token
-        static final int CODE_510 = 510;
-        //未登录
-        static final int CODE_530 = 530;
-        //请求的操作异常终止：未知的页面类型
-        static final int CODE_551 = 551;
-        // 登出状态,销毁当前 token
-        static final int CODE_20101 = 20101;
-        static final int CODE_20102 = 20102;
-        static final int CODE_20103 = 20103;
-        static final int CODE_20111 = 20111;
-        static final int CODE_30018 = 30018;
-        static final int CODE_30003 = 30003;
-        static final int CODE_30713 = 30713;
-        //用户名或密码错误
-        static final int CODE_20203 = 20203;
     }
 }

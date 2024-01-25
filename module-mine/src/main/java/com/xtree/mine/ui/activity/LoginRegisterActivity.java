@@ -15,8 +15,10 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.lxj.xpopup.XPopup;
 import com.xtree.base.global.Constant;
+import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.SPUtil;
 import com.xtree.base.widget.BrowserDialog;
@@ -26,6 +28,9 @@ import com.xtree.mine.data.Spkey;
 import com.xtree.mine.databinding.ActivityLoginBinding;
 import com.xtree.mine.ui.viewmodel.LoginViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.mine.vo.LoginResultVo;
+
+import java.util.HashMap;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -255,6 +260,22 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
         viewModel.liveDataReg.observe(this, vo -> goMain());
 
+        viewModel.liveDataLoginFail.observe(this, vo -> {
+            CfLog.d(vo.toString());
+            if (vo.code == HttpCallBack.CodeRule.CODE_20208) {
+                String acc = binding.edtAccount.getText().toString().trim();
+                HashMap<String, Object> map = (HashMap<String, Object>) vo.data;
+                LoginResultVo vo2 = (LoginResultVo) map.get("data");
+                Bundle bundle = new Bundle();
+                bundle.putString("type", Constant.VERIFY_LOGIN);
+                bundle.putString("username", acc);
+                bundle.putString("map", map.get("loginArgs").toString());
+                bundle.putString("phone", vo2.contacts.phone);
+                bundle.putString("email", vo2.contacts.email);
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
+            }
+
+        });
     }
 
     private boolean ifAgree() {

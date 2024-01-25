@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.bet.bean.response.fb.LeagueInfo;
 import com.xtree.bet.bean.ui.InitialLeagueArea;
@@ -51,7 +51,7 @@ public class FBBtSettingLeagueModel extends TemplateBtSettingLeagueModel {
         Disposable disposable = (Disposable) model.getApiService().getOnSaleLeagues(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<List<LeagueInfo>>() {
+                .subscribeWith(new FBHttpCallBack<List<LeagueInfo>>() {
                     @Override
                     public void onResult(List<LeagueInfo> leagueInfoList) {
                         List<League> leagueList = new ArrayList<>();

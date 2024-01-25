@@ -185,6 +185,11 @@
         <item name="android:textColor">@color/clr_purple_05</item>
         <item name="android:textSize">12sp</item>
     </style>
+    <!-- 充值页-底部 提示小字 灰色 -->
+    <style name="style_rc_tip_small_grey" parent="style_cm_tip_small_grey">
+        <item name="android:textColor">@color/clr_grey_40</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 
     <!-- 通用 标题 样式 -->
     <style name="style_forget_password_info_title">
@@ -208,7 +213,7 @@
     </style>
 
     <style name="style_ll_row">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">12dp</item>
         <item name="android:layout_marginEnd">12dp</item>

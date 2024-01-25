@@ -12,7 +12,6 @@
     <string name="txt_recharge">充值</string>
     <string name="txt_feedback">反馈信息</string>
     <string name="txt_choose_recharge_channel">请选择充值渠道：</string>
-    <string name="txt_kind_tips">温馨提示</string>
     <string name="txt_is_to_open_hiwallet_wallet">是否打开HiWallet钱包</string>
     <string name="txt_pls_select_payment_card">请选择付款银行卡</string>
     <string name="txt_pls_enter_ur_real_name">请输入支付账户真实姓名</string>
@@ -113,5 +112,26 @@
     <string name="txt_rc_fee_amount">手续费金额</string>
     <string name="txt_rc_received_amount">到账金额</string>
     <string name="txt_rc_usdt_tip">进行USDT转账时请注意 手续费金额 及 到账金额，到账金额 必须与充值USDT个数一致，否则可能造成充值失败，感谢您的配合。</string>
+    <string name="txt_rc_no_alipay_wechat">本渠道不支持支付宝、微信转账。</string>
+    <string name="txt_rc_tip_usdt_1">1、当前汇率仅供参考，实际到账金额以到账时的汇率时汇率进行计算</string>
+    <string name="txt_rc_tip_usdt_2">2、请不要向转账地址充值任何非 %1$s 资产，否则资产将可能无法找回</string>
+    <string name="txt_rc_tip_ebpay_1">1、请仔细核对充值地址进行确认</string>
+    <string name="txt_rc_tip_ebpay_2">2、请确保ebpay账户有足够金额进行充值</string>
+    <string name="txt_alipay">支付宝</string>
+    <string name="txt_wechat">微信</string>
+    <string name="txt_ecny">数字人民币</string>
+    <string name="txt_bank_card">银行卡</string>
+    <string name="txt_rc_tip_yhk_1">1、为了保证您正常提款,请您在使用 %1$s 充值时务必使用绑定银行卡或与绑定银行卡姓名相同的卡进行充值,否则将无法正常提款</string>
+    <string name="txt_rc_tip_yhk_2">2、为了您的资金安全，降低被银行冻卡风险，当充值金额为整数时（10，20，300）时，实际充值金额会在该整数的基础上随机增加尾数金额</string>
+    <string name="txt_rc_tip_yhk_3">部分银行暂不支持数字人民币手机充值，推荐使用微信、支付宝或者建行、招行充值</string>
+    <string name="txt_rc_tip_yhk_2a">2、本通道只接受线上网银转账及手机银行转账。 %1$s 不接受支付宝、微信转账、财付通、ATM、临柜等其他方式，使用以上方式可能会导致无法到账或者到账延迟。</string>
+    <string name="txt_rc_tip_alipay_wechat">请按照充值页提示操作，否则将可能造成充值延迟到账或到账失败的情况</string>
+    <string name="txt_rc_bind_personal_info">请先绑定个人信息</string>
+    <string name="txt_rc_bind_phone_now">立即绑定手机号</string>
+    <string name="txt_rc_bind_bank_card_now">立即绑定银行卡</string>
+    <string name="txt_rc_bind_phone_email_pls">您没有绑定手机或邮箱，请先绑定</string>
+    <string name="txt_rc_bind_phone">绑定手机</string>
+    <string name="txt_rc_bind_email">绑定邮箱</string>
+    <string name="txt_rc_bind_bank_card_pls">您没有绑定银行卡，请先绑定银行卡</string>
 
 </resources>

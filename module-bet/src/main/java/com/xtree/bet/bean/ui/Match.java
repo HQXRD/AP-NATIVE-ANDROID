@@ -135,6 +135,11 @@ public interface Match extends BaseBean {
     String getSportId();
 
     /**
+     * 获取赛种名称，如足球，篮球
+     */
+    String getSportName();
+
+    /**
      * PM获取播放器请求头信息
      * @return
      */
