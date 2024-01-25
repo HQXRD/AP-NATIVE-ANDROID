@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="ResourceName">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.xtree.mine.ui.viewmodel.MsgViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refresh_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.scwang.smart.refresh.header.ClassicsHeader
+                android:id="@+id/refresh_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="0dp"
+                tools:ignore="ScrollViewCount">
+
+                <!--                <androidx.constraintlayout.widget.ConstraintLayout-->
+                <!--                    android:id="@+id/cl_msg_person_title"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="60dp"-->
+                <!--                    android:orientation="horizontal"-->
+                <!--                    android:visibility="gone">-->
+
+                <!--                    <Button-->
+                <!--                        android:id="@+id/btn_select_all"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:text="全选本页"-->
+                <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                        app:layout_constraintEnd_toStartOf="@id/btn_delete_all"-->
+                <!--                        app:layout_constraintStart_toStartOf="parent"-->
+                <!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+                <!--                    <Button-->
+                <!--                        android:id="@+id/btn_delete_all"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginStart="10dp"-->
+                <!--                        android:text="删除所有"-->
+                <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                        app:layout_constraintEnd_toStartOf="@id/btn_delete_select"-->
+                <!--                        app:layout_constraintStart_toEndOf="@id/btn_select_all"-->
+                <!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+                <!--                    <Button-->
+                <!--                        android:id="@+id/btn_delete_select"-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginStart="10dp"-->
+                <!--                        android:text="批量删除已选"-->
+                <!--                        app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--                        app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                        app:layout_constraintStart_toEndOf="@id/btn_delete_all"-->
+                <!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+                <!--                </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/ll_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvw_no_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="36dp"
+                        android:drawableTop="@mipmap/img_no_data"
+                        android:drawablePadding="12dp"
+                        android:gravity="center"
+                        android:text="@string/txt_no_data"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_msg_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.core.widget.NestedScrollView>
+
+            <com.scwang.smart.refresh.footer.ClassicsFooter
+                android:id="@+id/refresh_footer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+    </LinearLayout>
+</layout>

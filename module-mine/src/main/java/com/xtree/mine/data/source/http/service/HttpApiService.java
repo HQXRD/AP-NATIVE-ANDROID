@@ -5,16 +5,20 @@ import com.xtree.base.vo.PMService;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.BankCardVo;
-import com.xtree.mine.vo.CookieVo;
 import com.xtree.mine.vo.BtDetailVo;
 import com.xtree.mine.vo.BtPlatformVo;
 import com.xtree.mine.vo.BtReportVo;
+import com.xtree.mine.vo.CookieVo;
 import com.xtree.mine.vo.ForgetPasswordCheckInfoVo;
 import com.xtree.mine.vo.ForgetPasswordTimeoutVo;
 import com.xtree.mine.vo.ForgetPasswordVerifyVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.GooglePswVO;
 import com.xtree.mine.vo.LoginResultVo;
+import com.xtree.mine.vo.MsgInfoVo;
+import com.xtree.mine.vo.MsgListVo;
+import com.xtree.mine.vo.MsgPersonInfoVo;
+import com.xtree.mine.vo.MsgPersonListVo;
 import com.xtree.mine.vo.ProfileVo;
 import com.xtree.mine.vo.ProfitLossReportVo;
 import com.xtree.mine.vo.RebateReportVo;
@@ -131,7 +135,7 @@ public interface HttpApiService {
      */
     @POST("/api/two-fa/save")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse<Object>> bindGoogle(@Body Map<String , String> map) ;
+    Flowable<BaseResponse<Object>> bindGoogle(@Body Map<String, String> map);
 
 
     /**
@@ -358,4 +362,28 @@ public interface HttpApiService {
     @POST("/api/account/newforgetpassword")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<Object>> getChangePasswordResult(@Body Map<String, String> map);
+
+    /**
+     * 获取 消息列表
+     */
+    @GET("/api/notice/list?")
+    Flowable<BaseResponse<MsgListVo>> getMessageList(@QueryMap Map<String, String> map);
+
+    /**
+     * 获取 消息详情
+     */
+    @GET("/api/notice/{key}")
+    Flowable<BaseResponse<MsgInfoVo>> getMessage(@Path("key") String key);
+
+    /**
+     * 获取 个人消息
+     */
+    @GET("/api/message/list?")
+    Flowable<BaseResponse<MsgPersonListVo>> getMessagePersonList(@QueryMap Map<String, String> map);
+
+    /**
+     * 获取 消息详情
+     */
+    @GET("/api/message/{key}")
+    Flowable<BaseResponse<MsgPersonInfoVo>> getMessagePerson(@Path("key") String key);
 }
