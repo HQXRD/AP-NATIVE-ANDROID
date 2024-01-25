@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.fb.LeagueInfo;
 import com.xtree.bet.bean.response.fb.MatchTypeInfo;
@@ -31,7 +32,7 @@ import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 
-import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 
@@ -79,7 +80,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @param leagueIds
      */
     @Override
-    public void getHotMatchCount(List<Long> leagueIds){
+    public void getHotMatchCount(int playMethodType, List<Long> leagueIds){
         FBListReq fBListReq = new FBListReq();
         fBListReq.setCurrent(1);
         fBListReq.setSize(30);
@@ -89,23 +90,18 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         Disposable disposable = (Disposable) model.getApiService().getFBList(fBListReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<MatchListRsp>() {
+                .subscribeWith(new FBHttpCallBack<MatchListRsp>() {
 
                     @Override
                     public void onResult(MatchListRsp matchListRsp) {
+                        CfLog.e(fBListReq.toString());
                         hotMatchCountData.postValue(matchListRsp.getTotal());
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
-                        getHotMatchCount(leagueIds);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        super.onComplete();
-                        isStepSecond = false;
+                        getHotMatchCount(playMethodType, leagueIds);
                     }
                 });
         addSubscribe(disposable);
@@ -198,7 +194,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         Disposable disposable = (Disposable) model.getApiService().getFBList(fBListReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<MatchListRsp>() {
+                .subscribeWith(new FBHttpCallBack<MatchListRsp>() {
                     @Override
                     protected void onStart() {
                         super.onStart();
@@ -244,13 +240,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                             }
                         } else {
                             leagueAdapterList(matchListRsp.records);
-                            if(playMethodType == 3){
-                                if(sportPos == 0){
-                                    hotMatchCountData.postValue(matchListRsp.getTotal());
-                                }else {
-                                    getHotMatchCount(hotLeagueList);
-                                }
-                            }
                             leagueWaitingListData.postValue(mLeagueList);
                         }
 
@@ -325,7 +314,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         Disposable disposable = (Disposable) model.getApiService().getFBList(FBListReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<MatchListRsp>() {
+                .subscribeWith(new FBHttpCallBack<MatchListRsp>() {
                     @Override
                     protected void onStart() {
                         super.onStart();
@@ -387,7 +376,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         Disposable disposable = (Disposable) model.getApiService().statistical(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<StatisticalInfo>() {
+                .subscribeWith(new FBHttpCallBack<StatisticalInfo>() {
                     @Override
                     public void onResult(StatisticalInfo statisticalInfo) {
                         for (MatchTypeInfo matchTypeInfo : statisticalInfo.sl) {
@@ -425,7 +414,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         Disposable disposable = (Disposable) model.getApiService().getOnSaleLeagues(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<List<LeagueInfo>>() {
+                .subscribeWith(new FBHttpCallBack<List<LeagueInfo>>() {
                     @Override
                     public void onResult(List<LeagueInfo> leagueInfoList) {
                         List<League> leagueList = new ArrayList<>();
@@ -676,7 +665,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         Disposable disposable = (Disposable) model.getApiService().getFBGameTokenApi()
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<String>() {
+                .subscribeWith(new FBHttpCallBack<String>() {
                     @Override
                     public void onResult(String vo) {
                         SPUtils.getInstance().put("customer_service_url", vo);

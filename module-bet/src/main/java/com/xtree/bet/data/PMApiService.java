@@ -38,6 +38,13 @@ public interface PMApiService {
      * 获取 PM赛事列表
      * @return
      */
+    @POST("/yewu11/v1/m/matchesPagePB")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<PMBaseResponse<MatchListRsp>> matchesPagePB(@Body PMListReq pmListReq);
+    /**
+     * 获取 PM赛事列表
+     * @return
+     */
     @POST("/yewu11/v1/m/noLiveMatchesPagePB")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<PMBaseResponse<MatchListRsp>> noLiveMatchesPagePB(@Body PMListReq pmListReq);

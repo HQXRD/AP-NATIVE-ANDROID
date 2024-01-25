@@ -7,7 +7,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.HotLeagueInfo;
 import com.xtree.bet.bean.response.fb.LeagueItem;
@@ -78,6 +78,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         super(application, model);
         SPORT_NAMES = SPORT_NAMES_TODAY_CG;
         Constants.SPORT_ICON = Constants.SPORT_ICON_TODAY_CG;
+        sportItemData.postValue(SPORT_NAMES);
     }
 
     public void setPlayMethodTabData() {
@@ -95,11 +96,17 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
 
     public void setSportItems(int playMethodPos) {
         if(playMethodPos == 0 || playMethodPos == 3){
-            SPORT_NAMES = SPORT_NAMES_TODAY_CG;
+            if(SPORT_NAMES != SPORT_NAMES_TODAY_CG) {
+                SPORT_NAMES = SPORT_NAMES_TODAY_CG;
+            }
         } else if (playMethodPos == 1) {
-            SPORT_NAMES = SPORT_NAMES_LIVE;
+            if(SPORT_NAMES != SPORT_NAMES_LIVE) {
+                SPORT_NAMES = SPORT_NAMES_LIVE;
+            }
         } else {
-            SPORT_NAMES = SPORT_NAMES_NOMAL;
+            if(SPORT_NAMES != SPORT_NAMES_NOMAL) {
+                SPORT_NAMES = SPORT_NAMES_NOMAL;
+            }
         }
         sportItemData.postValue(SPORT_NAMES);
     }
@@ -112,7 +119,6 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         } else {
             Constants.SPORT_ICON = Constants.SPORT_ICON_NOMAL;
         }
-        sportItemData.postValue(SPORT_NAMES);
     }
 
     public String getScore(List<League> leagueList, long matchId) {
@@ -149,14 +155,14 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         Disposable disposable = (Disposable) model.getBaseApiService().getSettings(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<HotLeagueInfo>() {
+                .subscribeWith(new FBHttpCallBack<HotLeagueInfo>() {
                     @Override
                     public void onResult(HotLeagueInfo hotLeagueInfo) {
                         List<String> hotLeagues = TextUtils.equals(platform, PLATFORM_FB) ? hotLeagueInfo.fbxc_popular_leagues : hotLeagueInfo.obg_popular_leagues;
                         for (String leagueId : hotLeagues) {
                             hotLeagueList.add(Long.valueOf(leagueId));
                         }
-                        getHotMatchCount(hotLeagueList);
+                        getHotMatchCount(TextUtils.equals(platform, PLATFORM_FB) ? 6 : 3, hotLeagueList);
                     }
 
                     @Override

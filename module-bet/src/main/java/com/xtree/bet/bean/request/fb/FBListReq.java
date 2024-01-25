@@ -112,4 +112,23 @@ public class FBListReq {
     public void setOddType(int oddType) {
         this.oddType = oddType;
     }
+
+    @Override
+    public String toString() {
+        return "FBListReq{" +
+                "sportId='" + sportId + '\'' +
+                ", languageType='" + languageType + '\'' +
+                ", leagueIds=" + leagueIds +
+                ", type=" + type +
+                ", beginTime='" + beginTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", matchIds=" + matchIds +
+                ", sportIds=" + sportIds +
+                ", current=" + current +
+                ", size=" + size +
+                ", orderBy=" + orderBy +
+                ", isPC=" + isPC +
+                ", oddType=" + oddType +
+                '}';
+    }
 }

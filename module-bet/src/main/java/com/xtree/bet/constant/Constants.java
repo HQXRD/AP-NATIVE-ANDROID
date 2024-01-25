@@ -27,7 +27,7 @@ public class Constants {
             project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector};
 
     public static int[] SPORT_ICON_LIVE = new int[]{
-            project.tqyb.com.library_res.R.drawable.bt_match_item_hot_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_live_all_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_zq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_lq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_wq_selector,

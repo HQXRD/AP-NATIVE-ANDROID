@@ -9,7 +9,7 @@ public class FBConstants {
     /**
      * 体育分类ID，与sportNames一一对应
      */
-    public static String[] SPORT_IDS = new String[]{"0", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
+    public static String[] SPORT_IDS/* = new String[]{"0", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"}*/;
     public static String[] SPORT_IDS_ALL = new String[]{"0", "1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
     public static String[] SPORT_IDS_NOMAL = new String[]{"1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
     /**

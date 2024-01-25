@@ -108,4 +108,21 @@ public class PMListReq {
             }
         }
     }
+
+    @Override
+    public String toString() {
+        return "PMListReq{" +
+                "euid='" + euid + '\'' +
+                ", tid='" + tid + '\'' +
+                ", type=" + type +
+                ", sort=" + sort +
+                ", cuid='" + cuid + '\'' +
+                ", md='" + md + '\'' +
+                ", device='" + device + '\'' +
+                ", cpn=" + cpn +
+                ", cps=" + cps +
+                ", csid='" + csid + '\'' +
+                ", mids='" + mids + '\'' +
+                '}';
+    }
 }
