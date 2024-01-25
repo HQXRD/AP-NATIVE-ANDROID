@@ -258,5 +258,9 @@
     <string name="txt_set_bank_card">1.设置提款请求</string>
     <string name="txt_msg_message">公告</string>
     <string name="txt_msg_message_person">站内信</string>
+    <string name="txt_will_u_logout">您确定要退出吗？</string>
+    <string name="txt_enter_google_code">请输入谷歌验证码</string>
+    <string name="txt_auth_code">验证码</string>
+    <string name="txt_check_pin_enter">请在动态口令中查看当前口令，并填入上方输入框</string>
 
 </resources>

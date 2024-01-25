@@ -18,6 +18,7 @@ import java.util.HashMap;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -27,6 +28,7 @@ public class GooglePwdViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>(); //查询个人信息
     public MutableLiveData<BindGoogleVO> liveDataBindGoogleVerify = new MutableLiveData<>() ; //谷歌验证
     public MutableLiveData<GooglePswVO> liveDataBindGoogleVerifyStr = new MutableLiveData<>(); //谷歌验证码文本
+    public MutableLiveData<Object> liveDataAuth = new MutableLiveData<>(); // 谷歌验证
 
     public GooglePwdViewModel(@NonNull Application application) {
         super(application);
@@ -91,6 +93,24 @@ public class GooglePwdViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
+    public void authGoogleCode(HashMap<String, String> map) {
+        Disposable disposable = (Disposable) model.getApiService().authGoogleCode(map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<Object>() {
+                    @Override
+                    public void onResult(Object obj) {
+                        CfLog.i("****** ");
+                        liveDataAuth.setValue(obj);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
 
     public void readCache() {
         CfLog.i("******");
