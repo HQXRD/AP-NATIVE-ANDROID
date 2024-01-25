@@ -23,10 +23,12 @@ import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
-/** 谷歌验证ViewModel*/
+/**
+ * 谷歌验证 ViewModel
+ */
 public class GooglePwdViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>(); //查询个人信息
-    public MutableLiveData<BindGoogleVO> liveDataBindGoogleVerify = new MutableLiveData<>() ; //谷歌验证
+    public MutableLiveData<BindGoogleVO> liveDataBindGoogleVerify = new MutableLiveData<>(); //谷歌验证
     public MutableLiveData<GooglePswVO> liveDataBindGoogleVerifyStr = new MutableLiveData<>(); //谷歌验证码文本
     public MutableLiveData<Object> liveDataAuth = new MutableLiveData<>(); // 谷歌验证
 
@@ -37,19 +39,11 @@ public class GooglePwdViewModel extends BaseViewModel<MineRepository> {
     public GooglePwdViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
     }
-    /**
-     * 获取谷歌验证吗
-     * @param map
-     */
-    public void bindVerifySecrets(HashMap<String , String > map){
-        bindVerifySecret(map , liveDataBindGoogleVerifyStr);
-    }
 
     /**
-     * get请求
+     * 获取谷歌验证吗
      */
-    private void bindVerifySecret(HashMap<String ,String> map ,MutableLiveData<GooglePswVO> googleData)
-    {
+    public void bindVerifySecrets(HashMap<String, String> map) {
         Disposable disposable = (Disposable) model.getApiService().getGoogle()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
@@ -57,22 +51,17 @@ public class GooglePwdViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onResult(GooglePswVO vo) {
 
-                        googleData.setValue(vo);
+                        liveDataBindGoogleVerifyStr.setValue(vo);
                     }
 
                 });
         addSubscribe(disposable);
     }
+
     /**
      * 绑定谷歌验证码
-     * @param map
      */
-    public void  bindVerifyGoogle(HashMap<String , String> map){
-        bindVerifyGoogle(map , liveDataBindGoogleVerify);
-    }
-
-    private void bindVerifyGoogle(HashMap<String , String> map  ,MutableLiveData<BindGoogleVO> liveData )
-    {
+    public void bindVerifyGoogle(HashMap<String, String> map) {
         Disposable disposable = (Disposable) model.getApiService().bindGoogle(map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer()).
@@ -80,7 +69,7 @@ public class GooglePwdViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onResult(BindGoogleVO vo) {
                         CfLog.i("****** "); // vo.toString()
-                        liveData.setValue(vo);
+                        liveDataBindGoogleVerify.setValue(vo);
                     }
 
                     @Override
@@ -112,24 +101,10 @@ public class GooglePwdViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
-    public void readCache() {
-        CfLog.i("******");
-        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
-        ProfileVo vo = new Gson().fromJson(json, ProfileVo.class);
-        if (vo != null) {
-            liveDataProfile.setValue(vo);
-        }
-    }
-
     /**
      * 获取用户个人信息
      */
     public void getProfile() {
-        getProfile(liveDataProfile);
-    }
-
-    private void getProfile(MutableLiveData<ProfileVo> liveData) {
-
         Disposable disposable = (Disposable) model.getApiService().getProfile()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
@@ -141,7 +116,7 @@ public class GooglePwdViewModel extends BaseViewModel<MineRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.HOME_PROFILE, new Gson().toJson(vo));
                         SPUtils.getInstance().put(SPKeyGlobal.USER_ID, vo.userid);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_NAME, vo.username);
-                        liveData.setValue(vo);
+                        liveDataProfile.setValue(vo);
                     }
 
                     @Override
@@ -153,4 +128,14 @@ public class GooglePwdViewModel extends BaseViewModel<MineRepository> {
                 });
         addSubscribe(disposable);
     }
+
+    public void readCache() {
+        CfLog.i("******");
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        ProfileVo vo = new Gson().fromJson(json, ProfileVo.class);
+        if (vo != null) {
+            liveDataProfile.setValue(vo);
+        }
+    }
+
 }
