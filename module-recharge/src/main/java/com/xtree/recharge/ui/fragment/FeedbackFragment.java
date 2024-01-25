@@ -64,7 +64,6 @@ import project.tqyb.com.library_res.databinding.ItemTextBinding;
 @Route(path = RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK)
 public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, RechargeViewModel> implements DateTimePickerDialog.ICallBack {
 
-    private ProfileVo profileVo;
     private int feedbackType = 1; //1 微信 2 usdt
     private boolean isNext = false;//是否提交过
     private String imageRealPathString;//选择的图片地址
@@ -206,7 +205,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
     ItemTextBinding binding2;
     BasePopupView ppw = null; // 底部弹窗 (选择**菜单)
-
 
     /**
      * 显示 提交成功Dialog
