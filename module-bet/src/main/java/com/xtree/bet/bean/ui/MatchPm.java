@@ -341,6 +341,13 @@ public class MatchPm implements Match {
     public String getSportId() {
         return matchInfo.csid;
     }
+    /**
+     * 获取赛种名称，如足球，篮球
+     */
+    @Override
+    public String getSportName() {
+        return matchInfo.csna;
+    }
 
     @Override
     public String getReferUrl() {

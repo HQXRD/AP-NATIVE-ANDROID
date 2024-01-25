@@ -1,5 +1,6 @@
 package com.xtree.mine.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,9 +13,12 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.UuidUtil;
@@ -74,6 +78,12 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
         return fragment;
     }
 
+    public static BindPhoneFragment newInstance(Bundle args) {
+        BindPhoneFragment fragment = new BindPhoneFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void initView() {
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
@@ -92,13 +102,21 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
 
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
         ProfileVo mProfileVo = new Gson().fromJson(json, ProfileVo.class);
-        if (mProfileVo.is_binding_phone
+        if (mProfileVo != null && mProfileVo.is_binding_phone
                 && !Constant.UPDATE_PHONE2.equals(typeName)
                 && !Constant.VERIFY_BIND_PHONE2.equals(typeName)) {
             binding.edtNum.setText(mProfileVo.binding_phone_info);
             binding.edtNum.setEnabled(false);
         }
 
+        if (Constant.VERIFY_LOGIN.equals(typeName)) {
+            String num = getArguments().getString(sendtype);
+            String map = getArguments().getString("map");
+            String username = getArguments().getString("username");
+            CfLog.d(typeName + ", " + username + ", " + num + ", " + map);
+            binding.edtNum.setEnabled(false);
+            binding.edtNum.setText(num);
+        }
     }
 
     @Override
@@ -181,6 +199,13 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             map.put("token", tokenSign); // mVerifyVo.tokenSign
             map.put("nonce", UuidUtil.getID16());
             viewModel.bindVerify3(map);
+        } else if (Constant.VERIFY_LOGIN.equals(typeName)) {
+            // 异地登录/换设备登录
+            // /api/auth/sendCode
+            String username = getArguments().getString("username");
+            map.put("username", username);
+            map.put("type", sendtype);
+            viewModel.sendCodeByLogin(map);
 
         } else {
             // 获取验证码，然后 跳到其它业务，比如 绑USDT
@@ -260,6 +285,15 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             map.put("sendtype", sendtype);
             map.put("nonce", UuidUtil.getID16());
             viewModel.bindVerify2(map);
+        } else if (Constant.VERIFY_LOGIN.equals(typeName)) {
+            // 异地登录/换设备登录
+            String json = getArguments().getString("map");
+            map = new Gson().fromJson(json, new TypeToken<Map<String, String>>() {
+            }.getType());
+            map.put("ex_code", code);
+            map.put("verify_type", sendtype);
+            map.put("nonce", UuidUtil.getID16());
+            viewModel.login(map);
 
         } else {
             // 验证收到的验证码，然后 跳到其它业务，比如 绑USDT
@@ -359,6 +393,13 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             CfLog.i("*********** 修改/绑定成功, ");
             //getActivity().finish();
             viewModel.getProfile2();
+        });
+        viewModel.liveDataLogin.observe(this, verifyVo -> {
+            CfLog.i("*********** 登录/验证成功...");
+            ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
+                    .navigation();
+            getActivity().finish();
         });
 
         viewModel.liveDataProfile2.observe(this, ov -> {

@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * 玩法展示分类
  */
-public class MarketTag {
+public class FBMarketTag {
     private int code;
     private String desc;
 

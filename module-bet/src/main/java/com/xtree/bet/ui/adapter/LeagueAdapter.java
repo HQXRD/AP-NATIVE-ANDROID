@@ -12,8 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.bumptech.glide.Glide;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
@@ -28,7 +26,6 @@ import com.xtree.bet.bean.ui.PlayGroupFb;
 import com.xtree.bet.bean.ui.PlayGroupPm;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
-import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtFbLeagueGroupBinding;
@@ -55,32 +52,92 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
     private List<League> mDatas;
     private Context mContext;
     private String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
-    private boolean headerIsExpand;
+    private int liveHeaderPosition;
+    private int noLiveHeaderPosition;
+
     private PageHorizontalScrollView.OnScrollListener mOnScrollListener;
 
     public void setOnScrollListener(PageHorizontalScrollView.OnScrollListener onScrollListener) {
         this.mOnScrollListener = onScrollListener;
     }
 
-    public void setHeaderIsExpand(boolean headerIsExpand) {
-        this.headerIsExpand = headerIsExpand;
+    public void setHeaderIsExpand(int position, boolean headerIsExpand) {
+        if(!mDatas.isEmpty() && mDatas.size() > position) {
+            mDatas.get(position).setExpand(headerIsExpand);
+        }
+    }
+
+    public int getLiveHeaderPosition() {
+        return liveHeaderPosition;
+    }
+
+    public int getNoLiveHeaderPosition() {
+        return noLiveHeaderPosition;
     }
 
     public void setData(List<League> mLeagueList) {
         this.mDatas = mLeagueList;
+        init();
         notifyDataSetChanged();
     }
 
     public LeagueAdapter(Context context, List<League> datas) {
         this.mDatas = datas;
         this.mContext = context;
+        init();
     }
 
-    private static class ChildHolder {
-        View itemView;
+    public void init() {
+        liveHeaderPosition = 0;
+        noLiveHeaderPosition = 0;
+        int index = 0;
+        for (int i = 0; i < mDatas.size(); i++) {
+            if (mDatas.get(i).isHead() && mDatas.get(i).getHeadType() == League.HEAD_TYPE_LIVE_OR_NOLIVE) {
+                if (index == 0) {
+                    liveHeaderPosition = i;
+                    index++;
+                } else if (index > 0) {
+                    noLiveHeaderPosition = i;
+                    break;
+                }
+            }
+        }
 
-        public ChildHolder(View view) {
-            itemView = view;
+    }
+
+    /**
+     * 是否点击进行中表头
+     *
+     * @param start
+     * @return
+     */
+    public boolean isHandleGoingOnExpand(int start) {
+        return noLiveHeaderPosition > 0 && start - 2 == liveHeaderPosition;
+    }
+
+    /**
+     * 获取进行中联赛的在列表中的起止位置
+     *
+     * @return
+     */
+    public String expandRangeLive() {
+        int start = liveHeaderPosition + 2;
+        int end = noLiveHeaderPosition > 0 ? noLiveHeaderPosition : mDatas.size();
+        return start + "/" + end;
+    }
+
+    /**
+     * 获取未开赛联赛的在列表中的起止位置
+     *
+     * @return
+     */
+    public String expandRangeNoLive() {
+        if (noLiveHeaderPosition > 0) {
+            int start = noLiveHeaderPosition + 1;
+            int end = mDatas.size();
+            return start + "/" + end;
+        } else {
+            return 0 + "/" + mDatas.size();
         }
     }
 
@@ -102,7 +159,11 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
     @Override
     public Object getGroup(int groupPosition) {
-        return mDatas.get(groupPosition);
+        if (!mDatas.isEmpty() && mDatas.size() > groupPosition) {
+            return mDatas.get(groupPosition);
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -110,7 +171,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         if (mDatas == null || mDatas.isEmpty() || mDatas.size() <= groupPosition) {
             return null;
         }
-        if(mDatas.get(groupPosition).getMatchList() == null || mDatas.get(groupPosition).getMatchList().size() <= childPosition){
+        if (mDatas.get(groupPosition).getMatchList() == null || mDatas.get(groupPosition).getMatchList().size() <= childPosition) {
             return null;
         }
         return mDatas.get(groupPosition).getMatchList().get(childPosition);
@@ -133,6 +194,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup viewGroup) {
+        //Log.e("test", "=====groupPosition======" + groupPosition);
         if (mDatas == null || mDatas.isEmpty() || mDatas.size() <= groupPosition) {
             if (convertView == null) {
                 convertView = View.inflate(mContext, R.layout.bt_fb_league_group, null);
@@ -141,17 +203,17 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         }
         League league = mDatas.get(groupPosition);
 
-
         GroupHolder holder;
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.bt_fb_league_group, null);
+            convertView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             holder = new GroupHolder(convertView);
             convertView.setTag(holder);
         } else {
             holder = (GroupHolder) convertView.getTag();
         }
 
-        if(holder == null || holder.itemView == null){
+        if (holder == null || holder.itemView == null) {
             if (convertView == null) {
                 convertView = View.inflate(mContext, R.layout.bt_fb_league_group, null);
             }
@@ -167,19 +229,42 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                     .load(league.getIcon())
                     //.apply(new RequestOptions().placeholder(placeholderRes))
                     .into(binding.ivIcon);
+            binding.vSpace.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
+            binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
+            league.setExpand(isExpanded);
         } else {
             binding.llHeader.setVisibility(View.VISIBLE);
             binding.rlLeague.setVisibility(View.GONE);
-            binding.ivExpand.setSelected(headerIsExpand);
-            binding.tvHeaderName.setText("未开赛");
-            int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-            binding.tvSportName.setText(TemplateMainViewModel.SPORT_NAMES[sportType] + "(" + league.getMatchCount() + ")");
-            binding.llHeader.setOnClickListener(view -> {
-                RxBus.getDefault().post(new BetContract(BetContract.ACTION_EXPAND));
-            });
+
+            if (league.getHeadType() == League.HEAD_TYPE_LIVE_OR_NOLIVE) {
+                binding.rlHeader.setVisibility(View.VISIBLE);
+                binding.tvSportName.setVisibility(View.GONE);
+                binding.ivExpand.setSelected(league.isExpand());
+                binding.tvHeaderName.setText(league.getLeagueName());
+                binding.rlHeader.setOnClickListener(view -> {
+                    binding.ivExpand.setSelected(!league.isExpand());
+                    int start;
+                    int end;
+                    if (liveHeaderPosition == groupPosition) { // 点击进行中
+                        start = groupPosition + 2;
+                        end = noLiveHeaderPosition > 0 ? noLiveHeaderPosition : mDatas.size();
+                    } else if (noLiveHeaderPosition > 0) { // 点击未开赛
+                        start = noLiveHeaderPosition + 1;
+                        end = mDatas.size();
+                    } else { // 点击未开赛
+                        start = 0;
+                        end = mDatas.size();
+                    }
+                    RxBus.getDefault().post(new BetContract(BetContract.ACTION_EXPAND, start + "/" + end + ""));
+                });
+            } else {
+                binding.tvSportName.setText(league.getLeagueName() + "(" + league.getMatchCount() + ")");
+                binding.rlHeader.setVisibility(View.GONE);
+                binding.tvSportName.setVisibility(View.VISIBLE);
+            }
+            binding.vSpace.setVisibility(View.VISIBLE);
         }
-        binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
-        league.setExpand(isExpanded);
+
         return convertView;
     }
 
@@ -204,11 +289,9 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             holder = (ChildHolder) convertView.getTag();
         }
 
-        if(holder == null || holder.itemView == null){
-            if (convertView == null) {
-                convertView = View.inflate(mContext, R.layout.bt_fb_match_list, null);
-            }
-            return convertView;
+        if (holder == null || holder.itemView == null) {
+            holder = new ChildHolder(convertView);
+            convertView.setTag(holder);
         }
 
         BtFbMatchListBinding binding = BtFbMatchListBinding.bind(holder.itemView);
@@ -255,7 +338,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         } else {
             playGroup = new PlayGroupPm(match.getPlayTypeList());
         }
-        List<PlayGroup> playGroupList = playGroup.getPlayGroupList();
+        List<PlayGroup> playGroupList = playGroup.getPlayGroupList(match.getSportId());
 
         for (int i = 0; i < firstPagePlayType.getChildCount(); i++) {
             setPlayTypeGroup(match, parent, (LinearLayout) firstPagePlayType.getChildAt(i), playGroupList.get(0).getOriginalPlayTypeList().get(i));
@@ -275,9 +358,9 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         } else {
             sencondPagePlayType.setVisibility(View.GONE);
             binding.llPointer.setVisibility(View.GONE);
+            binding.llScoreData.removeAllViews();
             if (match.isGoingon()) {
                 binding.llScoreData.setVisibility(View.VISIBLE);
-                binding.llScoreData.removeAllViews();
                 BaseDetailDataView mScoreDataView = BaseDetailDataView.getInstance(mContext, match, true);
                 if (mScoreDataView != null) {
                     binding.llScoreData.addView(mScoreDataView);
@@ -290,12 +373,8 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             BtDetailActivity.start(mContext, match);
         });
 
-        if (convertView.getLayoutParams() == null) {
-            ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.bottomMargin = ConvertUtils.dp2px(100);
-            convertView.setLayoutParams(params);
-        }
 
+        binding.vSpace.setVisibility(childPosition == getRealChildrenCount(groupPosition) - 1 ? View.VISIBLE : View.GONE);
         return convertView;
     }
 
@@ -377,9 +456,9 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                         } else {
                             uavailableTextView.setVisibility(View.GONE);
                             oddTextView.setVisibility(View.VISIBLE);
-                            if(TextUtils.isEmpty(option.getSortName())){
+                            if (TextUtils.isEmpty(option.getSortName())) {
                                 nameTextView.setVisibility(View.GONE);
-                            }else{
+                            } else {
                                 nameTextView.setVisibility(View.VISIBLE);
                                 nameTextView.setText(option.getSortName());
                             }
@@ -451,6 +530,14 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         }
 
         View itemView;
+    }
+
+    private static class ChildHolder {
+        View itemView;
+
+        public ChildHolder(View view) {
+            itemView = view;
+        }
     }
 
 }

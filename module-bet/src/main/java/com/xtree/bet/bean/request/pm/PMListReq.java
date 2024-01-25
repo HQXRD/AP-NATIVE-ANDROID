@@ -57,8 +57,7 @@ public class PMListReq {
     private String mids;
 
     public void setEuid(String euid) {
-        Integer iEuid = Integer.valueOf(euid);
-        this.euid = String.valueOf(iEuid);
+        this.euid = euid;
     }
 
     public void setTid(String tid) {
@@ -108,5 +107,22 @@ public class PMListReq {
                 this.mids += mid + ",";
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "PMListReq{" +
+                "euid='" + euid + '\'' +
+                ", tid='" + tid + '\'' +
+                ", type=" + type +
+                ", sort=" + sort +
+                ", cuid='" + cuid + '\'' +
+                ", md='" + md + '\'' +
+                ", device='" + device + '\'' +
+                ", cpn=" + cpn +
+                ", cps=" + cps +
+                ", csid='" + csid + '\'' +
+                ", mids='" + mids + '\'' +
+                '}';
     }
 }

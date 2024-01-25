@@ -13,7 +13,7 @@ import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
-public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
+public abstract class FBHttpCallBack<T> extends DisposableSubscriber<T> {
     public abstract void onResult(T t);
 
     @Override
@@ -25,11 +25,11 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             return;
         }
         BaseResponse baseResponse = (BaseResponse) o;
-        BusinessException ex = new BusinessException(baseResponse.getStatus(), baseResponse.getMessage(), baseResponse.getData());
+        BusinessException ex = new BusinessException(baseResponse.getStatus(), baseResponse.getMessage());
         int status = baseResponse.getStatus() == -1 ? baseResponse.getCode() : baseResponse.getStatus();
         switch (status) {
-            case HttpCallBack.CodeRule.CODE_0:
-            case HttpCallBack.CodeRule.CODE_10000:
+            case FBHttpCallBack.CodeRule.CODE_0:
+            case FBHttpCallBack.CodeRule.CODE_10000:
                 if (baseResponse.getAuthorization() != null) {
                     SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN, baseResponse.getAuthorization().token);
                     SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, baseResponse.getAuthorization().token_type);
@@ -37,28 +37,28 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 //请求成功, 正确的操作方式
                 onResult((T) baseResponse.getData());
                 break;
-            case HttpCallBack.CodeRule.CODE_300:
+            case FBHttpCallBack.CodeRule.CODE_300:
                 //请求失败，不打印Message
                 KLog.e("请求失败");
                 ToastUtils.showShort("错误代码:", baseResponse.getStatus());
                 break;
-            case HttpCallBack.CodeRule.CODE_330:
+            case FBHttpCallBack.CodeRule.CODE_330:
                 //请求失败，打印Message
                 ToastUtils.showShort(baseResponse.getMessage());
                 break;
-            case HttpCallBack.CodeRule.CODE_500:
+            case FBHttpCallBack.CodeRule.CODE_500:
                 //服务器内部异常
                 ToastUtils.showShort("错误代码:", baseResponse.getStatus());
                 break;
-            case HttpCallBack.CodeRule.CODE_503:
+            case FBHttpCallBack.CodeRule.CODE_503:
                 //参数为空
                 KLog.e("参数为空");
                 break;
-            case HttpCallBack.CodeRule.CODE_502:
+            case FBHttpCallBack.CodeRule.CODE_502:
                 //没有数据
                 KLog.e("没有数据");
                 break;
-            case HttpCallBack.CodeRule.CODE_510:
+            case FBHttpCallBack.CodeRule.CODE_510:
                 //无效的Token，提示跳入登录页
                 ToastUtils.showShort("token已过期，请重新登录");
                 //关闭所有页面
@@ -66,41 +66,35 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 //跳入登录界面
                 //*****该类仅供参考，实际业务Code, 根据需求来定义，******//
                 break;
-            case HttpCallBack.CodeRule.CODE_530:
+            case FBHttpCallBack.CodeRule.CODE_530:
                 ToastUtils.showShort("请先登录");
                 break;
-            case HttpCallBack.CodeRule.CODE_551:
-            case HttpCallBack.CodeRule.CODE_20203:
+            case FBHttpCallBack.CodeRule.CODE_551:
+            case FBHttpCallBack.CodeRule.CODE_20203:
                 ToastUtils.showShort(baseResponse.getMessage());
                 break;
-            case HttpCallBack.CodeRule.CODE_20101:
-            case HttpCallBack.CodeRule.CODE_20102:
-            case HttpCallBack.CodeRule.CODE_20103:
-            case HttpCallBack.CodeRule.CODE_20107:
-            case HttpCallBack.CodeRule.CODE_20217:
-            case HttpCallBack.CodeRule.CODE_20111:
-            case HttpCallBack.CodeRule.CODE_30003:
-            case HttpCallBack.CodeRule.CODE_30713:
+            case FBHttpCallBack.CodeRule.CODE_20101:
+            case FBHttpCallBack.CodeRule.CODE_20102:
+            case FBHttpCallBack.CodeRule.CODE_20103:
+            case FBHttpCallBack.CodeRule.CODE_20217:
+            case FBHttpCallBack.CodeRule.CODE_20111:
+            case FBHttpCallBack.CodeRule.CODE_30018:
+            case FBHttpCallBack.CodeRule.CODE_30003:
+            case FBHttpCallBack.CodeRule.CODE_30713:
                 KLog.e("登出状态,销毁token. " + baseResponse);
                 SPUtils.getInstance().put("user_token", "");
                 SPUtils.getInstance().put("user_sessid", "");
                 //ToastUtils.showShort("请重新登录");
                 ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
                 break;
-            case HttpCallBack.CodeRule.CODE_20208:
-            case HttpCallBack.CodeRule.CODE_30018:
-                // 异地登录/换设备登录
-                // 谷歌验证
-                onFail(ex);
-                break;
-            case HttpCallBack.FBCodeRule.PB_CODE_14010:
+            case FBHttpCallBack.FBCodeRule.PB_CODE_14010:
                 //账号已登出，请重新登录
                 ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
                 onError(ex);
                 break;
             default:
                 KLog.e("status is not normal: " + baseResponse);
-                onFail(ex);
+                ToastUtils.showShort(baseResponse.getMessage());
                 break;
         }
     }
@@ -120,11 +114,6 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         }
         //其他全部甩锅网络异常
         ToastUtils.showShort("网络异常");
-    }
-
-    public void onFail(BusinessException t) {
-        KLog.e("error: " + t.toString());
-        ToastUtils.showShort(t.message);
     }
 
     @Override
@@ -156,13 +145,12 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         static final int CODE_20101 = 20101;
         static final int CODE_20102 = 20102;
         static final int CODE_20103 = 20103;
-        static final int CODE_20107 = 20107; // 长时间未操作，请重新登录
         static final int CODE_20111 = 20111;
-        public static final int CODE_20208 = 20208; // 异地登录(本次登录并非常用设备或地区， 需要进行安全验证)
-        public static final int CODE_30018 = 30018; // 谷歌验证
+        static final int CODE_30018 = 30018;
         static final int CODE_30003 = 30003;
         static final int CODE_30713 = 30713;
-        static final int CODE_20203 = 20203; //用户名或密码错误
+        //用户名或密码错误
+        static final int CODE_20203 = 20203;
         static final int CODE_20217 = 20217; //已修改密码或被踢出
     }
 

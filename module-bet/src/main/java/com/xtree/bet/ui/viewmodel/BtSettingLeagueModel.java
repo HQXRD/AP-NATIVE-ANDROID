@@ -5,7 +5,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.bet.bean.response.fb.LeagueInfo;
 import com.xtree.bet.bean.ui.InitialLeagueArea;

@@ -2,14 +2,17 @@ package com.xtree.bet.ui.viewmodel.pm;
 
 import android.app.Application;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
+import com.xtree.bet.bean.request.fb.FBListReq;
 import com.xtree.bet.bean.request.pm.PMListReq;
-import com.xtree.bet.bean.response.pm.BalanceInfo;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
@@ -22,6 +25,7 @@ import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.PlayGroup;
 import com.xtree.bet.bean.ui.PlayGroupPm;
 import com.xtree.bet.bean.ui.PlayType;
+import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
@@ -46,8 +50,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     private List<Match> mMatchList = new ArrayList<>();
     private List<Match> mChampionMatchList = new ArrayList<>();
     private Map<String, Match> mMapMatch = new HashMap<>();
-    private List<League> mLeagueList = new ArrayList<>();
-    private List<League> mGoingOnLeagueList = new ArrayList<>();
     Map<String, League> mMapLeague = new HashMap<>();
     private Map<String, List<Integer>> sportCountMap = new HashMap<>();
 
@@ -63,6 +65,93 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     public PMMainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
+        PMConstants.SPORT_IDS = new String[14];
+    }
+
+    @Override
+    public void setSportIds(int playMethodPos) {
+        if (playMethodPos == 0 || playMethodPos == 3 || playMethodPos == 1) {
+            PMConstants.SPORT_IDS = new String[14];
+        } else {
+            PMConstants.SPORT_IDS = new String[13];
+        }
+        int playMethodType = Integer.valueOf(getPlayMethodTypes()[playMethodPos]);
+        for (MenuInfo menuInfo : mMenuInfoList) {
+            Map<String, Integer> sslMap = new HashMap<>();
+            if (playMethodType == menuInfo.menuType) {
+                for (MenuInfo subMenu : menuInfo.subList) {
+                    sslMap.put(String.valueOf(subMenu.menuId), subMenu.count);
+
+                    int index = Arrays.asList(SPORT_NAMES).indexOf(subMenu.menuName);
+                    if (index != -1) {
+                        PMConstants.SPORT_IDS[index] = String.valueOf(subMenu.menuId);
+                    }
+
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取热门联赛赛事数量
+     *
+     * @param leagueIds
+     */
+    @Override
+    public void getHotMatchCount(int playMethodType, List<Long> leagueIds) {
+
+        if(leagueIds.isEmpty()){
+            return;
+        }
+        PMListReq pmListReq = new PMListReq();
+        pmListReq.setCpn(currentPage);
+        pmListReq.setCps(goingOnPageSize);
+        String sportIds = "";
+        if (mMenuInfoList.isEmpty()) {
+            for (String sportId : PMConstants.SPORT_IDS_SPECAIL) {
+                if(!TextUtils.equals("0", sportId)) {
+                    sportIds += sportId + ",";
+                }
+            }
+        } else {
+            for (MenuInfo menuInfo : mMenuInfoList) {
+                if (playMethodType == menuInfo.menuType) {
+                    for (MenuInfo subMenu : menuInfo.subList) {
+                        sportIds += subMenu.menuId + ",";
+                    }
+                }
+            }
+        }
+        pmListReq.setEuid(sportIds);
+        if (leagueIds != null && !leagueIds.isEmpty()) {
+            String leagueids = "";
+            for (Long leagueid : leagueIds) {
+                leagueids += leagueid + ",";
+            }
+            pmListReq.setTid(leagueids.substring(0, leagueids.length() - 1));
+        }
+
+        pmListReq.setType(3);
+
+        Flowable flowable = model.getPMApiService().matchesPagePB(pmListReq);
+        PMHttpCallBack pmHttpCallBack = new PMHttpCallBack<MatchListRsp>() {
+
+            @Override
+            public void onResult(MatchListRsp matchListRsp) {
+                hotMatchCountData.postValue(matchListRsp.data.size());
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                getHotMatchCount(playMethodType, leagueIds);
+            }
+        };
+
+        Disposable disposable = (Disposable) flowable
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(pmHttpCallBack);
+        addSubscribe(disposable);
     }
 
     /**
@@ -81,10 +170,10 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     private int mPlayType;
 
-    public void getLeagueList(int sportPos, int sportId, int orderBy, List<Long> leagueIds, List<Long> matchidList, int playMethodType, int searchDatePos, int oddType, boolean isTimerRefresh, boolean isRefresh) {
+    public void getLeagueList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchidList, int playMethodType, int searchDatePos, int oddType, boolean isTimerRefresh, boolean isRefresh) {
         int type;
         boolean flag = false;
-        if(!isStepSecond) {
+        if (!isStepSecond) {
             mPlayMethodType = playMethodType;
         }
         mSportPos = sportPos;
@@ -118,13 +207,22 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         } else {
             for (MenuInfo menuInfo : mMenuInfoList) {
                 boolean isFound = false;
-                for (MenuInfo subMenu : menuInfo.subList) {
-                    if (mPlayType == menuInfo.menuType) {
-                        if (TextUtils.equals(SPORT_NAMES[sportPos], subMenu.menuName)) {
-                            isFound = true;
-                            pmListReq.setEuid(String.valueOf(subMenu.menuId));
-                            break;
+                if (mPlayType == menuInfo.menuType) {
+                    String sportIds = "";
+                    for (MenuInfo subMenu : menuInfo.subList) {
+                        if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
+                            sportIds += subMenu.menuId + ",";
+                        } else {
+                            if (TextUtils.equals(SPORT_NAMES[sportPos], subMenu.menuName)) {
+                                isFound = true;
+                                pmListReq.setEuid(String.valueOf(subMenu.menuId));
+                                break;
+                            }
                         }
+                    }
+                    if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
+                        isFound = true;
+                        pmListReq.setEuid(sportIds.substring(0, sportIds.length() - 1));
                     }
                 }
                 if (isFound) {
@@ -169,7 +267,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         Flowable flowable = model.getPMApiService().noLiveMatchesPagePB(pmListReq);
         pmListReq.setCps(pageSize);
         if (type == 1) {// 滚球
-            if(finalFlag) {
+            if (finalFlag) {
                 pmListReq.setCps(goingOnPageSize);
                 flowable = model.getPMApiService().liveMatchesPB(pmListReq);
             }
@@ -182,7 +280,8 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         if (isRefresh) {
             mLeagueList.clear();
             mMapLeague.clear();
-            headerLeague = null;
+            mMapSportType.clear();
+            noLiveheaderLeague = null;
         }
         PMHttpCallBack pmHttpCallBack;
 
@@ -192,7 +291,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 @Override
                 protected void onStart() {
                     super.onStart();
-                    if(!isTimerRefresh) {
+                    if (!isTimerRefresh) {
                         getUC().getShowDialogEvent().postValue("");
                     }
                 }
@@ -208,7 +307,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                         if (finalFlag) {
                             isStepSecond = true;
                             leagueGoingList(data);
-                            goingOnMatchCountData.postValue(data.size());
                             getLeagueList(sportPos, sportId, orderBy, leagueIds, matchidList, 2, searchDatePos, oddType, false, isRefresh);
                         } else {
                             getUC().getDismissDialogEvent().call();
@@ -312,7 +410,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @param isTimerRefresh
      * @param isRefresh
      */
-    public void getChampionList(int sportPos, int sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int oddType, boolean isTimerRefresh, boolean isRefresh) {
+    public void getChampionList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int oddType, boolean isTimerRefresh, boolean isRefresh) {
 
         if (isRefresh) {
             currentPage = 1;
@@ -358,10 +456,11 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                     @Override
                     protected void onStart() {
                         super.onStart();
-                        if(!isTimerRefresh) {
+                        if (!isTimerRefresh) {
                             getUC().getShowDialogEvent().postValue("");
                         }
                     }
+
                     @Override
                     public void onResult(MatchListRsp matchListRsp) {
                         if (isTimerRefresh) {
@@ -420,14 +519,15 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                         mMenuInfoList = menuInfoList;
                         for (MenuInfo menuInfo : menuInfoList) {
                             Map<String, Integer> sslMap = new HashMap<>();
-                            for (MenuInfo subMenu : menuInfo.subList) {
-                                sslMap.put(String.valueOf(subMenu.menuId), subMenu.count);
+                            if (playMethodType == menuInfo.menuType) {
+                                for (MenuInfo subMenu : menuInfo.subList) {
+                                    sslMap.put(String.valueOf(subMenu.menuId), subMenu.count);
 
-                                if (playMethodType == menuInfo.menuType) {
                                     int index = Arrays.asList(SPORT_NAMES).indexOf(subMenu.menuName);
                                     if (index != -1) {
                                         PMConstants.SPORT_IDS[index] = String.valueOf(subMenu.menuId);
                                     }
+
                                 }
                             }
                             List<Integer> sportCountList = new ArrayList<>();
@@ -453,30 +553,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      */
     public void getOnSaleLeagues(int sportId, int type) {
 
-        /*Map<String, String> map = new HashMap<>();
-        map.put("languageType", "CMN");
-        map.put("sportId", String.valueOf(sportId));
-        map.put("type", String.valueOf(type));
-
-        Disposable disposable = (Disposable) model.getApiService().getOnSaleLeagues(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new PMHttpCallBack<List<LeagueInfo>>() {
-                    @Override
-                    public void onResult(List<LeagueInfo> leagueInfoList) {
-                        List<League> leagueList = new ArrayList<>();
-                        for (LeagueInfo leagueInfo : leagueInfoList) {
-                            leagueList.add(new MatchPm(leagueInfo));
-                        }
-                        settingLeagueData.postValue(leagueList);
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);*/
     }
 
     @Override
@@ -490,11 +566,22 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     }
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {
-        mGoingonMatchCount = matchInfoList.size();
-        Map<String, League> mapLeague = new HashMap<>();
-        for (MatchInfo matchInfo : matchInfoList) {
-            League league = mapLeague.get(String.valueOf(matchInfo.tid));
+        if (matchInfoList.isEmpty()) {
+            noLiveMatch = true;
+            return;
+        }
 
+        League liveHeaderLeague = new LeaguePm();
+        buildLiveHeaderLeague(liveHeaderLeague);
+
+        Map<String, League> mapLeague = new HashMap<>();
+        Map<String, League> mapSportType = new HashMap<>();
+        for (MatchInfo matchInfo : matchInfoList) {
+            Match match = new MatchPm(matchInfo);
+
+            buildLiveSportHeader(mapSportType, match, new LeaguePm());
+
+            League league = mapLeague.get(String.valueOf(matchInfo.tid));
             if (league == null) {
                 LeagueInfo leagueInfo = new LeagueInfo();
                 leagueInfo.picUrlthumb = matchInfo.lurl;
@@ -506,10 +593,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 mGoingOnLeagueList.add(league);
                 //mMapGoingOnLeague.put(String.valueOf(matchInfo.lg.id), league);
             }
-
-            Match match = new MatchPm(matchInfo);
             league.getMatchList().add(match);
-
 
             if (mMapMatch.get(String.valueOf(match.getId())) == null) {
                 mMapMatch.put(String.valueOf(match.getId()), match);
@@ -525,34 +609,20 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     }
 
-    private League headerLeague;
-
     /**
      * @param matchInfoList
      * @return
      */
     private void leagueAdapterList(List<MatchInfo> matchInfoList) {
 
+        buildNoLiveHeaderLeague(new LeaguePm());
+
         Map<String, League> mapLeague = new HashMap<>();
-        List<Integer> sportCountList = sportCountMap.get(String.valueOf(mPlayMethodType));
-        if (!mGoingOnLeagueList.isEmpty() && mLeagueList.isEmpty()) {
-            mLeagueList.addAll(mGoingOnLeagueList);
-            headerLeague = mLeagueList.get(0).instance();
-            headerLeague.setHead(true);
-            mLeagueList.add(headerLeague);
-            mGoingOnLeagueList.clear();
-        }else if(headerLeague == null){
-            if(!sportCountMap.isEmpty() && sportCountList != null && sportCountList.size() > mSportPos) {
-                goingOnMatchCountData.postValue(sportCountList.get(mSportPos) == null ? 0 : sportCountList.get(mSportPos));
-            }
-        }
-        if(headerLeague != null) {
-            headerLeague.setMatchCount(matchInfoList.size());
-        }
-
         for (MatchInfo matchInfo : matchInfoList) {
-            League league = mMapLeague.get(String.valueOf(matchInfo.tid));
+            Match match = new MatchPm(matchInfo);
+            buildNoLiveSportHeader(match, new LeaguePm());
 
+            League league = mMapLeague.get(String.valueOf(matchInfo.tid));
             if (league == null) {
                 LeagueInfo leagueInfo = new LeagueInfo();
                 leagueInfo.picUrlthumb = matchInfo.lurl;
@@ -564,8 +634,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 mLeagueList.add(league);
                 mMapLeague.put(String.valueOf(matchInfo.tid), league);
             }
-
-            Match match = new MatchPm(matchInfo);
             league.getMatchList().add(match);
 
 

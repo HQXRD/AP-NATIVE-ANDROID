@@ -11,6 +11,7 @@ import com.xtree.bet.bean.response.fb.PlayTypeInfo;
 import com.xtree.bet.bean.response.fb.ScoreInfo;
 import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.FBMatchPeriod;
+import com.xtree.bet.constant.FBSportName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -255,7 +256,14 @@ public class MatchFb implements Match{
      */
     @Override
     public String getSportId() {
-        return "";
+        return String.valueOf(this.matchInfo.sid);
+    }
+    /**
+     * 获取赛种名称，如足球，篮球
+     */
+    @Override
+    public String getSportName() {
+        return FBSportName.getSportName(getSportId());
     }
 
     @Override

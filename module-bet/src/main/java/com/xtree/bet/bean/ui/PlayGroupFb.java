@@ -32,10 +32,9 @@ public class PlayGroupFb implements PlayGroup {
         return playTypeList;
     }
 
-    public List<PlayGroup> getPlayGroupList() {
-        int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-        String[] playTypeIds = FBConstants.PLAY_TYPE_ID[sportId];
-        String[] playTypeNames = FBConstants.PLAY_TYPE_NAME[sportId];
+    public List<PlayGroup> getPlayGroupList(String sportId) {
+        String[] playTypeIds = FBConstants.getPlayTypeId(sportId);
+        String[] playTypeNames = FBConstants.getPlayTypeName(sportId);
 
 
         playTypeList = new ArrayList<>(playTypeIds.length);

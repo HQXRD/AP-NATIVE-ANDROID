@@ -19,6 +19,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.CookieVo;
+import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.ProfileVo;
 import com.xtree.mine.vo.UserUsdtJumpVo;
 import com.xtree.mine.vo.VerificationCodeVo;
@@ -54,6 +55,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<VerifyVo> liveDataBindVerify2 = new MutableLiveData<>(); // 验证验证码
     public MutableLiveData<VerifyVo> liveDataBindVerify3 = new MutableLiveData<>(); // 验证验证码
     public MutableLiveData<VerifyVo> liveDataBindVerify4 = new MutableLiveData<>(); // 验证验证码
+    public MutableLiveData<LoginResultVo> liveDataLogin = new MutableLiveData<>(); // 异地登录/换设备登录
     public MutableLiveData<Map<String, String>> liveDataChangePwd = new MutableLiveData<>(); // 修改密码
 
     public VerifyViewModel(@NonNull Application application, MineRepository model) {
@@ -322,6 +324,59 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                         super.onError(t);
                         ToastUtils.showLong("请求失败");
                     }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void sendCodeByLogin(Map<String, String> map) {
+        Disposable disposable = (Disposable) model.getApiService().sendCodeByLogin(map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<VerificationCodeVo>() {
+                    @Override
+                    public void onResult(VerificationCodeVo vo) {
+                        CfLog.i(vo.toString());
+                        liveDataCode.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+
+    public void login(Map<String, String> map) {
+
+        String userName = map.get("username");
+
+        Disposable disposable = (Disposable) model.getApiService().login(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<LoginResultVo>() {
+                    @Override
+                    public void onResult(LoginResultVo vo) {
+                        CfLog.i(vo.toString());
+                        //ToastUtils.showLong("登录成功");
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN, vo.token);
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, vo.token_type);
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_NAME, userName); // 用户名
+                        RetrofitClient.init();
+                        // 登录成功后获取FB体育请求服务地址
+                        //getFBGameTokenApi();
+                        liveDataLogin.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);
+                    }
+
                 });
         addSubscribe(disposable);
     }
