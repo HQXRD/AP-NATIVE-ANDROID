@@ -56,8 +56,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
         binding.ivwMsg.setOnClickListener(v -> {
             CfLog.i("****** ");
-            String title = getString(R.string.txt_msg_center);
-            goWebView(title, Constant.URL_MY_MESSAGES);
+//            String title = getString(R.string.txt_msg_center);
+//            goWebView(title, Constant.URL_MY_MESSAGES);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG);
         });
 
         binding.ckbEye.setOnCheckedChangeListener((buttonView, isChecked) -> {
