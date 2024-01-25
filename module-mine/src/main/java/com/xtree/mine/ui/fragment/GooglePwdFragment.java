@@ -49,6 +49,7 @@ public class GooglePwdFragment extends BaseFragment<FragmentGooglePwdBinding, Go
     private int height = 120;
     private int width = 120;
     BasePopupView basePopupView = null;
+    Bitmap bitmap;
 
 
     @Override
