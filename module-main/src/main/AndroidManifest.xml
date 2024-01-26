@@ -3,6 +3,7 @@
 
     <application>
         <!--在自己组件中注册Activity-->
-        <activity android:name="com.xtree.main.ui.MainActivity"></activity>
+        <activity android:name="com.xtree.main.ui.MainActivity"
+            android:launchMode="singleTop"></activity>
     </application>
 </manifest>

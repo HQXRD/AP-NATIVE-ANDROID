@@ -143,6 +143,12 @@ public interface HttpApiService {
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<Object>> bindGoogle(@Body Map<String, String> map);
 
+    /**
+     * 谷歌验证 code,nonce
+     */
+    @POST("/api/two-fa/verify")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<Object>> authGoogleCode(@Body Map<String, String> map);
 
     /**
      * 获取 平台中心余额

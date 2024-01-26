@@ -325,6 +325,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onResult(MatchListRsp matchListRsp) {
+                        CfLog.e(FBListReq.toString());
                         if (isTimerRefresh) {
                             setChampionOptionOddChange(matchListRsp.records);
                             championMatchTimerListData.postValue(mChampionMatchList);
@@ -352,7 +353,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        //super.onError(t);
                         getChampionList(sportPos, sportId, orderBy, leagueIds, matchids, playMethodType, oddType, isTimerRefresh, isRefresh);
                         getUC().getDismissDialogEvent().call();
                         if (isRefresh) {

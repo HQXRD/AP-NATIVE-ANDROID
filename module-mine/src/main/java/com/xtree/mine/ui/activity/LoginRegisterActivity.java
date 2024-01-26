@@ -26,6 +26,7 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Spkey;
 import com.xtree.mine.databinding.ActivityLoginBinding;
+import com.xtree.mine.ui.fragment.GoogleAuthDialog;
 import com.xtree.mine.ui.viewmodel.LoginViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.LoginResultVo;
@@ -256,7 +257,24 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     @Override
     public void initViewObservable() {
-        viewModel.liveDataLogin.observe(this, vo -> goMain());
+        viewModel.liveDataLogin.observe(this, vo -> {
+            if (vo.twofa_required == 0) {
+                //viewModel.setLoginSucc(vo);
+                goMain();
+
+            } else if (vo.twofa_required == 1) {
+                CfLog.i("*********** 去谷歌验证...");
+                GoogleAuthDialog dialog = new GoogleAuthDialog(this, this, () -> {
+                    viewModel.setLoginSucc(vo);
+                    goMain();
+                });
+                new XPopup.Builder(this)
+                        .dismissOnBackPressed(false)
+                        .dismissOnTouchOutside(false)
+                        .asCustom(dialog)
+                        .show();
+            }
+        });
 
         viewModel.liveDataReg.observe(this, vo -> goMain());
 
@@ -301,7 +319,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
                 .navigation();
-        LoginRegisterActivity.this.finish();
+        finish();
     }
 
     private void goForgetPassword() {

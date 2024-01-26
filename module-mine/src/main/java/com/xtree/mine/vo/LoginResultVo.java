@@ -14,6 +14,7 @@ public class LoginResultVo implements Parcelable {
     //public Object user_agency_model; // 注册接口返回的 { "user_agency_model": "2" }
     public boolean samewith_securitypwd; // false
     public ContactsVo contacts; // { } 异地登录 验证
+    public String userName; // 登录名, 自己加的
 
     public static class ContactsVo implements Parcelable {
         public String phone; // "132****1233",
@@ -56,6 +57,7 @@ public class LoginResultVo implements Parcelable {
         twofa_required = in.readInt();
         samewith_securitypwd = in.readByte() != 0;
         contacts = in.readParcelable(ContactsVo.class.getClassLoader());
+        userName = in.readString();
     }
 
     @Override
@@ -67,6 +69,7 @@ public class LoginResultVo implements Parcelable {
         dest.writeInt(twofa_required);
         dest.writeByte((byte) (samewith_securitypwd ? 1 : 0));
         dest.writeParcelable(contacts, flags);
+        dest.writeString(userName);
     }
 
     @Override
@@ -96,6 +99,7 @@ public class LoginResultVo implements Parcelable {
                 ", twofa_required=" + twofa_required +
                 ", samewith_securitypwd=" + samewith_securitypwd +
                 ", contacts=" + contacts +
+                ", userName='" + userName + '\'' +
                 '}';
     }
 
