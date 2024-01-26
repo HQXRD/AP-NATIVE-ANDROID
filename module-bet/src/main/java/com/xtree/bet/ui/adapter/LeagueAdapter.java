@@ -249,7 +249,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                         start = groupPosition + 2;
                         end = noLiveHeaderPosition > 0 ? noLiveHeaderPosition : mDatas.size();
                     } else if (noLiveHeaderPosition > 0) { // 点击未开赛
-                        start = noLiveHeaderPosition + 1;
+                        start = noLiveHeaderPosition + 2;
                         end = mDatas.size();
                     } else { // 点击未开赛
                         start = 0;

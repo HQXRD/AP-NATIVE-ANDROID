@@ -792,16 +792,30 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
         switch (ev.getAction()) {
             case MotionEvent.ACTION_UP:
                 if (mHeader != null && y > mHeader.getTop() && y < mHeader.getBottom()) {
-                    int packedPositionGroup = getPackedPositionGroup(getExpandableListPosition(pointToPosition(x, y)));
-                    if (isGroupExpanded(packedPositionGroup)) {
-                        collapseGroup(packedPositionGroup);
+                    if(mOnHeaderClick != null){
+                        mOnHeaderClick.onHeaderClick();
                     } else {
-                        expandGroup(packedPositionGroup);
+                        int packedPositionGroup = getPackedPositionGroup(getExpandableListPosition(pointToPosition(x, y)));
+                        if (isGroupExpanded(packedPositionGroup)) {
+                            collapseGroup(packedPositionGroup);
+                        } else {
+                            expandGroup(packedPositionGroup);
+                        }
                     }
                     return true;
                 }
                 break;
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    private OnHeaderClick mOnHeaderClick;
+
+    public void setOnHeaderClick(OnHeaderClick onHeaderClick){
+        this.mOnHeaderClick = onHeaderClick;
+    }
+
+    public interface OnHeaderClick{
+        void onHeaderClick();
     }
 }

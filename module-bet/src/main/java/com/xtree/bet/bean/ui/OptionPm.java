@@ -58,8 +58,10 @@ public class OptionPm implements Option{
     public String getSortName() {
         if(!TextUtils.isEmpty(optionInfo.onb)){
             return optionInfo.onb;
-        } else {
+        } else if(!TextUtils.isEmpty(optionInfo.otv)){
             return optionInfo.otv;
+        } else {
+            return optionInfo.on;
         }
     }
 
