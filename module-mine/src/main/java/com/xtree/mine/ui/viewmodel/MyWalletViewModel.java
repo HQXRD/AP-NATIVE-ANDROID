@@ -26,6 +26,7 @@ import java.util.List;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -93,15 +94,22 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                     public void onResult(GameBalanceVo vo) {
                         vo.gameAlias = gameAlias;
                         CfLog.d(vo.toString());
-                        map.put(gameAlias, getFullGame(vo));
+                        map.put(gameAlias, getFullGame(vo.gameAlias, vo.balance));
                         SPUtils.getInstance().put(SPKeyGlobal.WLT_GAME_ROOM_BLC, new Gson().toJson(map.values()));
-                        liveDataGameBalance.setValue(getFullGame(vo));
+                        liveDataGameBalance.setValue(getFullGame(vo.gameAlias, vo.balance));
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        map.put(gameAlias, getFullGame(gameAlias, "0.0000"));
+                        SPUtils.getInstance().put(SPKeyGlobal.WLT_GAME_ROOM_BLC, new Gson().toJson(map.values()));
+                        liveDataGameBalance.setValue(getFullGame(gameAlias, "0.0000"));
                     }
                 });
         addSubscribe(disposable);
@@ -184,30 +192,30 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
 
     }
 
-    private GameBalanceVo getFullGame(GameBalanceVo vo) {
+    private GameBalanceVo getFullGame(String gameAlias, String balance) {
         GameBalanceVo t = null;
 
-        switch (vo.gameAlias) {
+        switch (gameAlias) {
             case "pt":
-                t = new GameBalanceVo(vo.gameAlias, "PT娱乐", 1, vo.balance);
+                t = new GameBalanceVo(gameAlias, "PT娱乐", 1, balance);
                 break;
             case "bbin":
-                t = new GameBalanceVo(vo.gameAlias, "BBIN娱乐", 2, vo.balance);
+                t = new GameBalanceVo(gameAlias, "BBIN娱乐", 2, balance);
                 break;
             case "ag":
-                t = new GameBalanceVo(vo.gameAlias, "AG街机捕鱼", 4, vo.balance);
+                t = new GameBalanceVo(gameAlias, "AG街机捕鱼", 4, balance);
                 break;
             case "obgdj":
-                t = new GameBalanceVo(vo.gameAlias, "DB电竞", 40, vo.balance);
+                t = new GameBalanceVo(gameAlias, "DB电竞", 40, balance);
                 break;
             case "yy":
-                t = new GameBalanceVo(vo.gameAlias, "云游棋牌", 20, vo.balance);
+                t = new GameBalanceVo(gameAlias, "云游棋牌", 20, balance);
                 break;
             case "obgqp":
-                t = new GameBalanceVo(vo.gameAlias, "DB棋牌", 32, vo.balance);
+                t = new GameBalanceVo(gameAlias, "DB棋牌", 32, balance);
                 break;
             default:
-                CfLog.e("error, default, alias: " + vo);
+                CfLog.e("error, default, alias: " + gameAlias);
                 break;
         }
 

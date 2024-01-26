@@ -118,7 +118,7 @@ public class BindMsgFragment extends BaseFragment<FragmentBindMsgBinding, MsgVie
         viewModel.liveDataMsgCount.observe(this, count -> this.count = count);
 
         viewModel.liveDataMsgInfo.observe(this, vo -> {
-            ppw = (ListMsgInfoDialog) new XPopup.Builder(getContext()).asCustom(new ListMsgInfoDialog(getContext(), vo, null, 8));
+            ppw = (ListMsgInfoDialog) new XPopup.Builder(getContext()).asCustom(new ListMsgInfoDialog(getContext(), vo, null, 80));
             ppw.show();
         });
     }

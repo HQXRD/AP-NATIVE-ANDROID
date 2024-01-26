@@ -16,6 +16,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lxj.xpopup.XPopup;
 import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
@@ -397,12 +398,26 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
             TagUtils.logEvent(getContext(), "bindEmail");
             viewModel.getProfile2();
         });
-        viewModel.liveDataLogin.observe(this, verifyVo -> {
-            CfLog.i("*********** 登录/验证成功...");
-            ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .navigation();
-            getActivity().finish();
+        viewModel.liveDataLogin.observe(this, vo -> {
+            CfLog.i("*********** 登录-验证成功...");
+
+            if (vo.twofa_required == 0) {
+                //viewModel.setLoginSucc(vo);
+                goMain();
+
+            } else if (vo.twofa_required == 1) {
+                CfLog.i("*********** 去谷歌验证...");
+                GoogleAuthDialog dialog = new GoogleAuthDialog(getContext(), this, () -> {
+                    viewModel.setLoginSucc(vo);
+                    goMain();
+                });
+                new XPopup.Builder(getContext())
+                        .dismissOnBackPressed(false)
+                        .dismissOnTouchOutside(false)
+                        .asCustom(dialog)
+                        .show();
+            }
+
         });
 
         viewModel.liveDataProfile2.observe(this, ov -> {
@@ -410,6 +425,13 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
             getActivity().finish();
         });
 
+    }
+
+    private void goMain() {
+        ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                .navigation();
+        getActivity().finish();
     }
 
     private void alreadySendCode(VerifyVo vo) {

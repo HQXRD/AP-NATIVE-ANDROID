@@ -348,7 +348,6 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
-
     public void login(Map<String, String> map) {
 
         String userName = map.get("username");
@@ -361,24 +360,24 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                     public void onResult(LoginResultVo vo) {
                         CfLog.i(vo.toString());
                         //ToastUtils.showLong("登录成功");
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN, vo.token);
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, vo.token_type);
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_NAME, userName); // 用户名
-                        RetrofitClient.init();
-                        // 登录成功后获取FB体育请求服务地址
-                        //getFBGameTokenApi();
+                        vo.userName = userName;
+                        if (vo.twofa_required == 0) {
+                            setLoginSucc(vo);
+                        }
                         liveDataLogin.setValue(vo);
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        //super.onError(t);
                     }
 
                 });
         addSubscribe(disposable);
+    }
+
+    public void setLoginSucc(LoginResultVo vo) {
+        SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN, vo.token);
+        SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, vo.token_type);
+        SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
+        SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
+        SPUtils.getInstance().put(SPKeyGlobal.USER_NAME, vo.userName); // 用户名
+        RetrofitClient.init();
     }
 
     public void doLogout() {

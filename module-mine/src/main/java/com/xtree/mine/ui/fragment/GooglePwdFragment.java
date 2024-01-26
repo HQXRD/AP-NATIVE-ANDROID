@@ -51,7 +51,6 @@ public class GooglePwdFragment extends BaseFragment<FragmentGooglePwdBinding, Go
     BasePopupView basePopupView = null;
     Bitmap bitmap;
 
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -143,7 +142,6 @@ public class GooglePwdFragment extends BaseFragment<FragmentGooglePwdBinding, Go
         zxing(qrCode);
     }
 
-
     /**
      * 生产二维码
      */
@@ -209,7 +207,7 @@ public class GooglePwdFragment extends BaseFragment<FragmentGooglePwdBinding, Go
      */
     private void showErrorDialog() {
         String title = getString(R.string.txt_kind_tips);
-        String msg = String.valueOf(R.string.txt_google_auth_fail);
+        String msg = getContext().getString(R.string.txt_google_auth_fail);
         basePopupView = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, msg, true, new MsgDialog.ICallBack() {
             @Override
             public void onClickLeft() {

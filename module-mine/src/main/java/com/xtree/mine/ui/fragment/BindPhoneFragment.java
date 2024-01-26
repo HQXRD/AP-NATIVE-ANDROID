@@ -16,11 +16,13 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lxj.xpopup.XPopup;
 import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -323,6 +325,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
         viewModel.liveDataSingleVerify1.observe(this, vo -> {
             CfLog.i("*********** 绑定成功，返回上页");
             //mVerifyVo= vo;
+            TagUtils.logEvent(getContext(), "bindPhone");
             ToastUtils.showLong(R.string.txt_bind_succ);
             //getActivity().finish();
             viewModel.getProfile2();
@@ -392,14 +395,29 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
         viewModel.liveDataBindVerify4.observe(this, verifyVo -> {
             CfLog.i("*********** 修改/绑定成功, ");
             //getActivity().finish();
+            TagUtils.logEvent(getContext(), "bindPhone");
             viewModel.getProfile2();
         });
-        viewModel.liveDataLogin.observe(this, verifyVo -> {
-            CfLog.i("*********** 登录/验证成功...");
-            ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
-                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
-                    .navigation();
-            getActivity().finish();
+        viewModel.liveDataLogin.observe(this, vo -> {
+            CfLog.i("*********** 登录-验证成功...");
+
+            if (vo.twofa_required == 0) {
+                //viewModel.setLoginSucc(vo);
+                goMain();
+
+            } else if (vo.twofa_required == 1) {
+                CfLog.i("*********** 去谷歌验证...");
+                GoogleAuthDialog dialog = new GoogleAuthDialog(getContext(), this, () -> {
+                    viewModel.setLoginSucc(vo);
+                    goMain();
+                });
+                new XPopup.Builder(getContext())
+                        .dismissOnBackPressed(false)
+                        .dismissOnTouchOutside(false)
+                        .asCustom(dialog)
+                        .show();
+            }
+
         });
 
         viewModel.liveDataProfile2.observe(this, ov -> {
@@ -407,6 +425,13 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             getActivity().finish();
         });
 
+    }
+
+    private void goMain() {
+        ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                .navigation();
+        getActivity().finish();
     }
 
     private void alreadySendCode(VerifyVo vo) {

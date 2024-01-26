@@ -119,7 +119,7 @@ public class BindMsgPersonFragment extends BaseFragment<FragmentBindMsgPersonBin
         viewModel.liveDataMsgPersonCount.observe(this, count -> this.count = count);
 
         viewModel.liveDataMsgPersonInfo.observe(this, vo -> {
-            ppw = (ListMsgInfoDialog) new XPopup.Builder(getContext()).asCustom(new ListMsgInfoDialog(getContext(), null, vo, 70));
+            ppw = (ListMsgInfoDialog) new XPopup.Builder(getContext()).asCustom(new ListMsgInfoDialog(getContext(), null, vo, 80));
             ppw.show();
         });
     }
