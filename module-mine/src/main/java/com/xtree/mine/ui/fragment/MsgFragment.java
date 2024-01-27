@@ -64,8 +64,8 @@ public class MsgFragment extends BaseFragment<FragmentMsgBinding, MsgViewModel> 
             tab.setText(tabList.get(position));
         }).attach();
 
-        BindMsgFragment bindMsgFragment = new BindMsgFragment();
-        BindMsgPersonFragment bindMsgPersonFragment = new BindMsgPersonFragment();
+        MsgListFragment bindMsgFragment = new MsgListFragment();
+        MsgPersonListFragment bindMsgPersonFragment = new MsgPersonListFragment();
 
         String txtMsg = getString(R.string.txt_msg_message);
         String txtMsgPerson = getString(R.string.txt_msg_message_person);

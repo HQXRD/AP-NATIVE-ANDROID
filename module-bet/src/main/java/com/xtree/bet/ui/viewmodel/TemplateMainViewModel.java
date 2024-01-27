@@ -108,6 +108,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
                 SPORT_NAMES = SPORT_NAMES_NOMAL;
             }
         }
+        setSportIds(playMethodPos);
         sportItemData.postValue(SPORT_NAMES);
     }
 

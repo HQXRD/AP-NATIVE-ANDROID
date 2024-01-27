@@ -15,6 +15,8 @@ public class RouterFragmentPath {
         /*首页*/
         public static final String PAGER_HOME = HOME + "/Home";
 
+        public static final String AD = HOME + "/ad";
+
     }
 
     public static class Activity {
