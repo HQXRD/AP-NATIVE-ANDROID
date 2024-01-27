@@ -3,6 +3,7 @@ package com.xtree.bet.bean.ui;
 import android.os.Parcel;
 import android.text.TextUtils;
 
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.pm.OptionDataListInfo;
 import com.xtree.bet.bean.response.pm.OptionInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
@@ -138,6 +139,11 @@ public class PlayTypePm implements PlayType{
     @Override
     public String getCategoryId() {
         return playTypeInfo.hlid;
+    }
+
+    @Override
+    public String getMatchDeadLine() {
+        return TimeUtils.longFormatString(Long.valueOf(playTypeInfo.hmed), TimeUtils.FORMAT_YY_MM_DD_HH_MM_1);
     }
 
     @Override

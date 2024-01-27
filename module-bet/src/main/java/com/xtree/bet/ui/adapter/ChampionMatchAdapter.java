@@ -42,7 +42,7 @@ public class ChampionMatchAdapter extends AnimatedExpandableListViewMax.Animated
 
     @Override
     public int getRealChildrenCount(int groupPosition) {
-        if (mDatas.isEmpty() || mDatas.get(groupPosition).getPlayTypeList().isEmpty()) {
+        if (mDatas.isEmpty() || mDatas.get(groupPosition).isHead() || mDatas.get(groupPosition).getPlayTypeList().isEmpty()) {
             return 0;
         }
         return mDatas.get(groupPosition).getPlayTypeList().size();
@@ -101,12 +101,21 @@ public class ChampionMatchAdapter extends AnimatedExpandableListViewMax.Animated
             holder = (GroupHolder) convertView.getTag();
         }
         BtFbMatchGroupBinding binding = BtFbMatchGroupBinding.bind(holder.itemView);
-        binding.tvLeagueName.setText(match.getChampionMatchName());
-        Glide.with(mContext)
-                .load(match.getLeague().getIcon())
-                //.apply(new RequestOptions().placeholder(placeholderRes))
-                .into(binding.ivIcon);
-        binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
+        if (match.isHead()) {
+            binding.llHeader.setVisibility(View.VISIBLE);
+            binding.rlLeague.setVisibility(View.GONE);
+            binding.ivExpand.setSelected(match.isExpand());
+        } else {
+            binding.llHeader.setVisibility(View.GONE);
+            binding.rlLeague.setVisibility(View.VISIBLE);
+            binding.tvLeagueName.setText(match.getChampionMatchName());
+            Glide.with(mContext)
+                    .load(match.getLeague().getIcon())
+                    //.apply(new RequestOptions().placeholder(placeholderRes))
+                    .into(binding.ivIcon);
+            binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
+            match.setExpand(isExpanded);
+        }
         return convertView;
     }
 
@@ -132,6 +141,7 @@ public class ChampionMatchAdapter extends AnimatedExpandableListViewMax.Animated
         BtFbPlaytypeListBinding binding = BtFbPlaytypeListBinding.bind(holder.itemView);
 
         binding.tvTitle.setText(playType.getPlayTypeName());
+        binding.tvDeadline.setText(mContext.getResources().getString(R.string.bt_bt_champion_match_deadline, playType.getMatchDeadLine()));
 
         List<Option> optionList = new ArrayList<>();
         optionList.addAll(playType.getChampionOptionList());

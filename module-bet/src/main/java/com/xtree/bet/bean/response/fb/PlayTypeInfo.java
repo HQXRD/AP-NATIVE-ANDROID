@@ -28,6 +28,10 @@ public class PlayTypeInfo implements BaseBean {
      */
     public List<String> tps = new ArrayList<>();
     /**
+     * 投注截止日期
+     */
+    public long hmed;
+    /**
      * 玩法名称
      */
     public String nm;
@@ -43,6 +47,7 @@ public class PlayTypeInfo implements BaseBean {
         dest.writeInt(this.pe);
         dest.writeTypedList(this.mks);
         dest.writeStringList(this.tps);
+        dest.writeLong(this.hmed);
         dest.writeString(this.nm);
     }
 
@@ -51,6 +56,7 @@ public class PlayTypeInfo implements BaseBean {
         this.pe = source.readInt();
         this.mks = source.createTypedArrayList(OptionDataListInfo.CREATOR);
         this.tps = source.createStringArrayList();
+        this.hmed = source.readLong();
         this.nm = source.readString();
     }
 
@@ -62,6 +68,7 @@ public class PlayTypeInfo implements BaseBean {
         this.pe = in.readInt();
         this.mks = in.createTypedArrayList(OptionDataListInfo.CREATOR);
         this.tps = in.createStringArrayList();
+        this.hmed = in.readLong();
         this.nm = in.readString();
     }
 

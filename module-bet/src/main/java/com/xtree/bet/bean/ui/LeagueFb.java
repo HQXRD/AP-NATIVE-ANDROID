@@ -45,8 +45,8 @@ public class LeagueFb implements League{
     }
 
     @Override
-    public boolean setExpand(boolean isExpand) {
-        return this.isExpand = isExpand;
+    public void setExpand(boolean isExpand) {
+        this.isExpand = isExpand;
     }
 
     @Override

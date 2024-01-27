@@ -20,6 +20,7 @@ import com.xtree.bet.bean.response.pm.MenuInfo;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeaguePm;
 import com.xtree.bet.bean.ui.Match;
+import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.ui.MatchPm;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.PlayGroup;
@@ -655,7 +656,9 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @return
      */
     private void championLeagueList(List<MatchInfo> matchInfoList) {
-
+        Match header = new MatchFb();
+        header.setHead(true);
+        mChampionMatchList.add(header);
         for (MatchInfo matchInfo : matchInfoList) {
             Match match = new MatchPm(matchInfo);
             mChampionMatchList.add(match);

@@ -2,6 +2,7 @@ package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
 
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.fb.OptionDataListInfo;
 import com.xtree.bet.bean.response.fb.OptionInfo;
 import com.xtree.bet.bean.response.fb.PlayTypeInfo;
@@ -117,6 +118,11 @@ public class PlayTypeFb implements PlayType{
     @Override
     public String getCategoryId() {
         return null;
+    }
+
+    @Override
+    public String getMatchDeadLine() {
+        return TimeUtils.longFormatString(playTypeInfo.hmed, TimeUtils.FORMAT_YY_MM_DD_HH_MM_1);
     }
 
     @Override
