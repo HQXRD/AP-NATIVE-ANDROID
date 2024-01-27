@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.lxj.xpopup.XPopup;
-import com.xtree.base.global.Constant;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
@@ -23,6 +23,7 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.ActivityMyWalletBinding;
 import com.xtree.mine.ui.fragment.AccountMgmtDialog;
+import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
 import com.xtree.mine.ui.fragment.MyWalletAdapter;
 import com.xtree.mine.ui.viewmodel.MyWalletViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
@@ -44,6 +45,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
 
     private MyWalletAdapter myWalletAdapter;
 
+    private BasePopupView basePopupView = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,11 +103,16 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
             CfLog.d("************");
             startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER);
         });
+        //取款
         binding.tvwWithdraw.setOnClickListener(v -> {
             CfLog.d("************");
             //startActivity(new Intent(getBaseContext(), WithdrawActivity.class));
-            //startContainerFragment(RouterFragmentPath.Wallet.PAGER_WITHDRAW);
-            goWebView(v, Constant.URL_WITHDRAW);
+            // startContainerFragment(RouterFragmentPath.Wallet.PAGER_WITHDRAW);
+            //goWebView(v, Constant.URL_WITHDRAW); ChooseWithdrawalDialog
+            showChoose(); // 显示提款方式
+            // showBankWithdrawalDialog();//显示银行卡提款
+            // showWithdrawalVirtualDialog();
+
         });
         binding.tvwMgmt.setOnClickListener(v -> {
             CfLog.d("************");
@@ -191,6 +198,34 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         Bundle bundle = new Bundle();
         bundle.putBoolean("isShowBack", true);
         startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
+
+    }
+
+    public BasePopupView getBasePopupView() {
+        return basePopupView;
+    }
+
+    public void setBasePopupView(BasePopupView basePopupView) {
+        this.basePopupView = basePopupView;
+    }
+    /**
+     * 显示提款页面
+     * @param
+     *
+     */
+    private void showChoose() {
+      /*  basePopupView = new XPopup.Builder(this).asCustom(new MsgCenterDialog(getContext(), title, messgae, new MsgCenterDialog.ICallBack() {
+            @Override
+            public void onClick() {
+                basePopupView.dismiss();
+            }
+        }));
+        BtDetailDialog dialog = BtDetailDialog.newInstance(getActivity(), getViewLifecycleOwner(), vo.project_Game_code, vo.p, getPlatformName(vo.p));
+        new XPopup.Builder(getContext()).asCustom(dialog).show();*/
+
+
+       basePopupView = new XPopup.Builder(this).asCustom( ChooseWithdrawalDialog.newInstance(this,this));
+        basePopupView.show();
     }
 
 }
