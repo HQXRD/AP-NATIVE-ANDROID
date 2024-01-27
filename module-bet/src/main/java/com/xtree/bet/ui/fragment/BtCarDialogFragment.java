@@ -2,23 +2,15 @@ package com.xtree.bet.ui.fragment;
 
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM_NAME;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
-import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.Application;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
@@ -32,7 +24,6 @@ import com.xtree.bet.databinding.BtLayoutBtCarBinding;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.xtree.bet.ui.adapter.BetConfirmOptionAdapter;
-import com.xtree.bet.ui.adapter.CgOddLimitAdapter;
 import com.xtree.bet.ui.adapter.CgOddLimitSecAdapter;
 import com.xtree.bet.ui.viewmodel.fb.FBBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.pm.PMBtCarViewModel;
@@ -218,7 +209,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 if(!hasCloseOption){
                     hasCloseOption = betConfirmOptionList.get(i).isClose();
                 }
-                if (TextUtils.equals(platform, PLATFORM_FB)) {
+                if (!TextUtils.equals(platform, PLATFORM_PM)) {
                     betConfirmOptionList.get(i).setRealData(betConfirmOptions.get(i).getRealData());
                 }else{
                     for (BetConfirmOption option : betConfirmOptions){
@@ -333,7 +324,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
 
     @Override
     public TemplateBtCarViewModel initViewModel() {
-        if (TextUtils.equals(platform, PLATFORM_FB)) {
+        if (!TextUtils.equals(platform, PLATFORM_PM)) {
             AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
             return new ViewModelProvider(this, factory).get(FBBtCarViewModel.class);
         } else {

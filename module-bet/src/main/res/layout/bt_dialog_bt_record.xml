@@ -12,12 +12,6 @@
             android:layout_height="300dp"
             android:background="@mipmap/bt_car_pop_top"
             app:layout_constraintTop_toTopOf="parent"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="45dp"
-            android:background="@mipmap/bt_bg_dialog_bt"
-            app:layout_constraintTop_toTopOf="parent"/>
 
         <RelativeLayout
             android:id="@+id/ll_root"
@@ -50,16 +44,22 @@
                     app:tabPaddingStart="20dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <include android:id="@+id/ll_empty" layout="@layout/bt_layout_record_empty" />
+
             <androidx.core.widget.NestedScrollView
+                android:id="@+id/nsv_option"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/csl_bottom"
                 android:layout_below="@+id/csl_top"
-                android:layout_marginTop="20dp"
+                android:background="@mipmap/bt_bg_dialog_bt"
+                android:layout_marginTop="10dp"
+                android:paddingTop="5dp"
                 android:scrollbars="none"
-                android:fillViewport="true">
+                android:fillViewport="true"
+                android:visibility="gone">
 
-                <ExpandableListView
+                <com.xtree.bet.weight.AnimatedExpandableListViewMax
                     android:id="@+id/rv_record"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -67,35 +67,20 @@
                     android:scrollbars="none"
                     android:background="@android:color/transparent"
                     android:childIndicator="@null"
+                    android:paddingTop="5dp"
                     android:defaultFocusHighlightEnabled="false"
                     android:divider="@android:color/transparent"
                     android:dividerHeight="0dp"
                     android:groupIndicator="@null"
-                    android:listSelector="@android:color/transparent"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/bt_layout_bt_record_time" />
+                    android:listSelector="@android:color/transparent"/>
             </androidx.core.widget.NestedScrollView>
-
-            <TextView
-                android:id="@+id/tv_time_top"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_below="@+id/csl_top"
-                android:background="@drawable/bt_bg_record_ceiling"
-                android:textColor="@color/bt_text_color_primary_1"
-                android:gravity="center_vertical"
-                android:paddingStart="10dp"
-                android:layout_marginTop="25dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginStart="15dp"
-                android:textSize="@dimen/bt_text_16sp"
-                android:textStyle="bold"
-                tools:text="11月18日" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/csl_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/bt_page_up_bg"
+                android:visibility="gone"
                 android:layout_alignParentBottom="true">
 
                 <TextView

@@ -1,7 +1,7 @@
 package com.xtree.bet.ui.fragment;
 
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.app.Application;
 import android.os.Bundle;
@@ -21,7 +21,6 @@ import android.widget.ExpandableListView;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.InitialLeagueArea;
 import com.xtree.bet.bean.ui.League;
@@ -29,13 +28,10 @@ import com.xtree.bet.bean.ui.LeagueArea;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtDialogLeagueBinding;
 import com.xtree.bet.ui.adapter.SettingLeagueAdapter;
-import com.xtree.bet.ui.viewmodel.BtSettingLeagueModel;
 import com.xtree.bet.ui.viewmodel.TemplateBtSettingLeagueModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
-import com.xtree.bet.ui.viewmodel.fb.FBBtRecordModel;
 import com.xtree.bet.ui.viewmodel.fb.FBBtSettingLeagueModel;
-import com.xtree.bet.ui.viewmodel.pm.PMBtRecordModel;
 import com.xtree.bet.ui.viewmodel.pm.PMBtSettingLeagueModel;
 import com.xtree.bet.weight.SideBar;
 
@@ -316,7 +312,7 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
 
     @Override
     public TemplateBtSettingLeagueModel initViewModel() {
-        if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
             AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
             return new ViewModelProvider(this, factory).get(FBBtSettingLeagueModel.class);
         } else {

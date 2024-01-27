@@ -149,7 +149,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     }
 
     public void getFBGameTokenApi() {
-        String token = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         if (TextUtils.isEmpty(token)) {
             return;
         }
@@ -162,6 +162,29 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         CfLog.i("****** ");
                         SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getFBXCGameTokenApi() {
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        if (TextUtils.isEmpty(token)) {
+            return;
+        }
+        Disposable disposable = (Disposable) model.getApiService().getFBXCGameTokenApi()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<FBService>() {
+                    @Override
+                    public void onResult(FBService fbService) {
+                        SPUtils.getInstance().put(SPKeyGlobal.FBXC_TOKEN, fbService.getToken());
+                        SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
                     }
 
                     @Override

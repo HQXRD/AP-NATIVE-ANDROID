@@ -1,6 +1,6 @@
 package com.xtree.bet.ui.viewmodel;
 
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -151,7 +151,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
      */
     public void getHotLeague(String platform){
         Map<String, String> map = new HashMap<>();
-        map.put("fields", TextUtils.equals(platform, PLATFORM_FB) ? "fbxc_popular_leagues" : "obg_popular_leagues");
+        map.put("fields", !TextUtils.equals(platform, PLATFORM_PM) ? "fbxc_popular_leagues" : "obg_popular_leagues");
 
         Disposable disposable = (Disposable) model.getBaseApiService().getSettings(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
@@ -159,11 +159,11 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
                 .subscribeWith(new FBHttpCallBack<HotLeagueInfo>() {
                     @Override
                     public void onResult(HotLeagueInfo hotLeagueInfo) {
-                        List<String> hotLeagues = TextUtils.equals(platform, PLATFORM_FB) ? hotLeagueInfo.fbxc_popular_leagues : hotLeagueInfo.obg_popular_leagues;
+                        List<String> hotLeagues = !TextUtils.equals(platform, PLATFORM_PM) ? hotLeagueInfo.fbxc_popular_leagues : hotLeagueInfo.obg_popular_leagues;
                         for (String leagueId : hotLeagues) {
                             hotLeagueList.add(Long.valueOf(leagueId));
                         }
-                        getHotMatchCount(TextUtils.equals(platform, PLATFORM_FB) ? 6 : 3, hotLeagueList);
+                        getHotMatchCount(!TextUtils.equals(platform, PLATFORM_PM) ? 6 : 3, hotLeagueList);
                     }
 
                     @Override

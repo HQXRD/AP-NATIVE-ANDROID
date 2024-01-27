@@ -5,7 +5,6 @@ import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -34,7 +33,6 @@ import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.xtree.bet.ui.activity.MainActivity;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
-import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 import com.xtree.bet.weight.BaseDetailDataView;
 import com.xtree.bet.weight.DiscolourTextView;
@@ -334,7 +332,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
         PlayGroup playGroup;
 
-        if (TextUtils.equals(platform, MainActivity.PLATFORM_FB)) {
+        if (!TextUtils.equals(platform, MainActivity.PLATFORM_PM)) {
             playGroup = new PlayGroupFb(match.getPlayTypeList());
         } else {
             playGroup = new PlayGroupPm(match.getPlayTypeList());

@@ -2,6 +2,7 @@ package com.xtree.bet.ui.viewmodel.factory;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -14,29 +15,44 @@ import com.xtree.bet.data.Injection;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import me.xtree.mvvmhabit.utils.SPUtils;
+
 /**
  * Created by marquis on 2023/11/22.
  */
 public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @SuppressLint("StaticFieldLeak")
-    private static volatile AppViewModelFactory INSTANCE;
+    private static volatile AppViewModelFactory FBXC_INSTANCE;
+    private static volatile AppViewModelFactory FB_INSTANCE;
     private final Application mApplication;
     private final BetRepository mRepository;
 
     public static AppViewModelFactory getInstance(Application application) {
-        if (INSTANCE == null) {
-            synchronized (AppViewModelFactory.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new AppViewModelFactory(application, Injection.provideHomeRepository());
+        String platform = SPUtils.getInstance().getString("KEY_PLATFORM");
+        if (TextUtils.equals("fbxc", platform)) {
+            if (FBXC_INSTANCE == null) {
+                synchronized (AppViewModelFactory.class) {
+                    if (FBXC_INSTANCE == null) {
+                        FBXC_INSTANCE = new AppViewModelFactory(application, Injection.provideHomeRepository());
+                    }
                 }
             }
+            return FBXC_INSTANCE;
+        } else {
+            if (FB_INSTANCE == null) {
+                synchronized (AppViewModelFactory.class) {
+                    if (FB_INSTANCE == null) {
+                        FB_INSTANCE = new AppViewModelFactory(application, Injection.provideHomeRepository());
+                    }
+                }
+            }
+            return FB_INSTANCE;
         }
-        return INSTANCE;
     }
 
     @VisibleForTesting
     public static void destroyInstance() {
-        INSTANCE = null;
+        FBXC_INSTANCE = null;
     }
 
     private AppViewModelFactory(Application application, BetRepository repository) {
