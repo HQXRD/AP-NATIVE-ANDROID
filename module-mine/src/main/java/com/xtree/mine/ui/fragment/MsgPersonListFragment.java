@@ -15,7 +15,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
-import com.xtree.mine.databinding.FragmentBindMsgPersonBinding;
+import com.xtree.mine.databinding.FragmentMsgPersonListBinding;
 import com.xtree.mine.ui.viewmodel.MsgViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.MsgPersonVo;
@@ -26,7 +26,7 @@ import java.util.List;
 import me.xtree.mvvmhabit.base.BaseFragment;
 
 @Route(path = RouterFragmentPath.Mine.PAGER_MSG_PERSON_LIST)
-public class BindMsgPersonFragment extends BaseFragment<FragmentBindMsgPersonBinding, MsgViewModel> {
+public class MsgPersonListFragment extends BaseFragment<FragmentMsgPersonListBinding, MsgViewModel> {
     MsgPersonListAdapter mMsgPersonListAdapter;
     ListMsgInfoDialog ppw = null; // 底部弹窗 (选择**菜单)
     int curPage = 0;
@@ -63,7 +63,7 @@ public class BindMsgPersonFragment extends BaseFragment<FragmentBindMsgPersonBin
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return R.layout.fragment_bind_msg_person;
+        return R.layout.fragment_msg_person__list;
     }
 
     @Override
