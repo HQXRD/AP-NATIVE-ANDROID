@@ -140,6 +140,7 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
 
         binding.tvPlaytypeName.setText(playType.getPlayTypeName());
         binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
+        binding.rlPlayMethod.setBackgroundResource(isExpanded ? R.drawable.bt_bg_expand_group : R.drawable.bt_bg_expand_group_collapse);
 
         return convertView;
     }

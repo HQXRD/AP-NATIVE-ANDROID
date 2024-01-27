@@ -231,6 +231,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                     .into(binding.ivIcon);
             binding.vSpace.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
             binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
+            binding.rlLeague.setBackgroundResource(isExpanded ? R.drawable.bt_bg_league_top : R.drawable.bt_bg_league_top_collapse);
             league.setExpand(isExpanded);
         } else {
             binding.llHeader.setVisibility(View.VISIBLE);
@@ -375,6 +376,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
 
         binding.vSpace.setVisibility(childPosition == getRealChildrenCount(groupPosition) - 1 ? View.VISIBLE : View.GONE);
+        binding.cslRoot.setBackgroundResource(childPosition == getRealChildrenCount(groupPosition) - 1 ? R.drawable.bt_bg_match_item_bottom : R.drawable.bt_bg_match_item);
         return convertView;
     }
 
