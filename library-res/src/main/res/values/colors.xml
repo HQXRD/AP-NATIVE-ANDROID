@@ -181,6 +181,8 @@
     <color name="clr_grey_13">#99A0B1</color>
     <color name="clr_gray_30">#4DDFDCE9</color>
     <color name="clr_gray_021">#767677</color>
+    <color name="clr_choose_20">#915783</color>
+
     <!-- 筛选框 灰色 标题 -->
     <color name="clr_filter_txt_gray">#A1A1A1</color>
     <!-- 筛选框 黑色 值 -->
@@ -236,6 +238,7 @@
 
     <!-- 报表-盈亏 红色 -->
     <color name="clr_red_01">#FF5050</color>
+
     <!-- 报表-盈亏 绿色 -->
     <color name="clr_green_01">#20B56E</color>
 

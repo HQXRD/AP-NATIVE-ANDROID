@@ -90,12 +90,15 @@
     <string name="txt_tip">提示</string>
     <string name="txt_google_auth_fail">绑定谷歌验证码失败</string>
     <string name="txt_submitted_suc">提交成功</string>
+    <string name="txt_usdt">提款账户</string>
 
     <string name="txt_copy">复制</string>
     <string name="txt_copied">已复制</string>
     <string name="txt_yuan">元</string>
     <string name="txt_pcs">个</string>
-
+    <string name="txt_set_withdrawal_request">1.设置提款请求</string>
+    <string name="text_confirm_withdrawal_message">2.确认提款消息</string>
+    <string name="text_over_withdrawal_request">3.完成申请</string>
 
 
 </resources>

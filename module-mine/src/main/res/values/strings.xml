@@ -262,5 +262,32 @@
     <string name="txt_enter_google_code">请输入谷歌验证码</string>
     <string name="txt_auth_code">验证码</string>
     <string name="txt_check_pin_enter">请在动态口令中查看当前口令，并填入上方输入框</string>
+    <string name="txt_withdrawal_type">提款类型：</string>
+    <string name="txt_withdrawal_enm">提款方式：</string>
+    <string name="txt_withdrawal_method">提款金额：</string>
+    <string name="txt_withdrawal_method_tip">提款金额</string>
+    <string name="txt_confirm_withdrawal_amount">可提款金额：</string>
+    <string name="txt_virtual_type">虚拟币类型：</string>
+    <string name="txt_confirm_amount">提款金额方式：</string>
+    <string name="txt_withdrawal_min">单笔最低提现金额:</string>
+    <string name="txt_input_money">请输入提款金额</string>
+    <string name="txt_actual_withdrawal_amount">实际提款金额</string>
+    <string name="txt_payee_bank_card">收款银行卡</string>
+    <string name="txt_kind_tips_count">1.为了保证您正常提款，请您在使用银行卡充值时务必使用绑定银行卡或者与绑定银行卡姓名相同的卡，否则将无法正常提款。 </string>
+    <string name="txt_bank_name_open">开户银行名称：</string>
+    <string name="txt_bank_name_location">开户银行所在地：</string>
+    <string name="txt_account_name">开户名：</string>
+    <string name="txt_bank_account">银行账户：</string>
+    <string name="txt_account_successful">账户提款申请成功</string>
+    <string name="txt_account_suc_message">账户提款申请成功提款进度请关注站内信通知</string>
+    <string name="txt_rate_tip">汇率:</string>
+    <string name="txt_actual_number">实际到账个数:</string>
+    <string name="txt_receive_usdt_account">收到USDT账户</string>
+    <string name="txt_select_virtual_address">请选择虚拟币收款地址</string>
+    <string name="txt_ust_trc20_usdt">【嗨钱包USDT】可使用TRC20_USDT类型进行提款</string>
+    <string name="txt_actual_arrival">实际到账：</string>
+    <string name="txt_withdrawal_address">提款地址:</string>
+    <string name="txt_handling_fee">手续费:</string>
+
 
 </resources>
