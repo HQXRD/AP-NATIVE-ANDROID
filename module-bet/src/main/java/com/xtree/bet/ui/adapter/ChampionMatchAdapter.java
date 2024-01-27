@@ -141,6 +141,7 @@ public class ChampionMatchAdapter extends AnimatedExpandableListViewMax.Animated
         BtFbPlaytypeListBinding binding = BtFbPlaytypeListBinding.bind(holder.itemView);
 
         binding.tvTitle.setText(playType.getPlayTypeName());
+        binding.tvDeadline.setText(mContext.getResources().getString(R.string.bt_bt_champion_match_deadline, playType.getMatchDeadLine()));
 
         List<Option> optionList = new ArrayList<>();
         optionList.addAll(playType.getChampionOptionList());

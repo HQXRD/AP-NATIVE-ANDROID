@@ -170,6 +170,7 @@ public class MatchFb implements Match{
     public List<PlayType> getPlayTypeList() {
         List<PlayType> playTypeList = new ArrayList<>();
         for (PlayTypeInfo playTypeInfo: matchInfo.mg) {
+            playTypeInfo.hmed = matchInfo.bt;
             PlayTypeFb playTypeFbAdapter = new PlayTypeFb(playTypeInfo);
             playTypeList.add(playTypeFbAdapter);
         }

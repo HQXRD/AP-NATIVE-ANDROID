@@ -68,4 +68,10 @@ public interface PlayType extends BaseBean {
      * @return
      */
     String getCategoryId();
+
+    /**
+     * 获取赛事截止时间
+     * @return
+     */
+    String getMatchDeadLine();
 }
