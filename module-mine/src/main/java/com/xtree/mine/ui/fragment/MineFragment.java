@@ -102,6 +102,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
         binding.tvwInviteFriend.setOnClickListener(v -> {
             CfLog.i("****** ");
+            goWebView(v, Constant.URL_INVITE_FRIEND);
         });
         binding.tvwGuanfangheyin.setOnClickListener(v -> {
             String title = ((TextView) v).getText().toString();
