@@ -96,6 +96,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         if (!TextUtils.isEmpty(token)) {
             viewModel.getCookie();
+            viewModel.getFBGameTokenApi();
+            viewModel.getPMGameTokenApi();
         }
     }
 

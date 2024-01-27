@@ -6,6 +6,19 @@ import com.xtree.bet.bean.response.fb.VideoInfo;
 import java.util.List;
 
 public interface Match extends BaseBean {
+    boolean isHead();
+    void setHead(boolean isHead);
+    /**
+     * 设置是否展开赛事，true-展开，false-关闭
+     * @return
+     */
+    void setExpand(boolean isExpand);
+
+    /**
+     * 获取是否展开赛事，true-展开，false-关闭
+     * @return
+     */
+    boolean isExpand();
     /**
      * 获取比赛ID
      * @return

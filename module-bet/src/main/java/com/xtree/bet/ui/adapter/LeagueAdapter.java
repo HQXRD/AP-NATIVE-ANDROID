@@ -133,7 +133,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
      */
     public String expandRangeNoLive() {
         if (noLiveHeaderPosition > 0) {
-            int start = noLiveHeaderPosition + 1;
+            int start = noLiveHeaderPosition + 2;
             int end = mDatas.size();
             return start + "/" + end;
         } else {

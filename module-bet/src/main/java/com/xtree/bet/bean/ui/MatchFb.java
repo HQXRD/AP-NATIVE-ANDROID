@@ -25,9 +25,35 @@ public class MatchFb implements Match{
     MatchInfo matchInfo;
 
     List<PlayType> playTypeList = new ArrayList<>();
+    private boolean isHead; //
+    private boolean isExpand;
+
+    public MatchFb(){
+
+    }
 
     public MatchFb(MatchInfo matchInfo){
         this.matchInfo = matchInfo;
+    }
+
+    @Override
+    public boolean isHead() {
+        return isHead;
+    }
+
+    @Override
+    public void setHead(boolean isHead) {
+        this.isHead = isHead;
+    }
+
+    @Override
+    public void setExpand(boolean isExpand) {
+        this.isExpand = isExpand;
+    }
+
+    @Override
+    public boolean isExpand() {
+        return isExpand;
     }
 
     /**
