@@ -1,121 +1,21 @@
 package com.xtree.base.widget;
 
 import android.content.Context;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.lxj.xpopup.core.CenterPopupView;
-import com.lxj.xpopup.util.XPopupUtils;
-import com.xtree.base.R;
-
-public class MsgDialog extends CenterPopupView {
-    TextView tvwTitle;
-    TextView tvwMsg;
-    TextView tvwMsg2; // 长内容使用这个
-    TextView tvwLeft;
-    TextView tvwRight;
-
-    String title;
-    String msg;
-    String txtLeft;
-    boolean isSingleBtn;
-    String txtRight;
-    ICallBack mCallBack;
-
-    public interface ICallBack {
-        void onClickLeft();
-
-        void onClickRight();
-    }
-
-    public MsgDialog(@NonNull Context context) {
-        super(context);
-    }
+public class MsgDialog extends TipDialog {
 
     public MsgDialog(@NonNull Context context, String title, String msg, ICallBack mCallBack) {
-        super(context);
-        this.title = title;
-        this.msg = msg;
-        this.mCallBack = mCallBack;
+        super(context, title, msg, mCallBack);
     }
 
     public MsgDialog(@NonNull Context context, String title, String msg, String txtLeft, String txtRight, ICallBack mCallBack) {
-        super(context);
-        this.title = title;
-        this.msg = msg;
-        this.txtLeft = txtLeft;
-        this.txtRight = txtRight;
-        this.mCallBack = mCallBack;
+        super(context, title, msg, txtLeft, txtRight, mCallBack);
     }
 
     public MsgDialog(@NonNull Context context, String title, String msg, boolean isSingleBtn, ICallBack mCallBack) {
-        super(context);
-        this.title = title;
-        this.msg = msg;
-        this.isSingleBtn = isSingleBtn;
-        this.mCallBack = mCallBack;
-    }
-
-    @Override
-    protected void onCreate() {
-        super.onCreate();
-
-        initView();
-    }
-
-    private void initView() {
-        tvwTitle = findViewById(R.id.tvw_title);
-        tvwMsg = findViewById(R.id.tvw_msg);
-        tvwMsg2 = findViewById(R.id.tvw_msg2);
-        tvwLeft = findViewById(R.id.tvw_left);
-        tvwRight = findViewById(R.id.tvw_right);
-
-        if (!TextUtils.isEmpty(title)) {
-            tvwTitle.setText(title);
-        }
-
-        tvwMsg.setText(msg);
-        if (msg.length() > 39) {
-            tvwMsg.setVisibility(View.GONE);
-            tvwMsg2.setText(msg);
-            tvwMsg2.setVisibility(View.VISIBLE);
-        }
-
-        if (isSingleBtn) {
-            tvwLeft.setVisibility(View.GONE);
-        }
-        if (!TextUtils.isEmpty(txtLeft)) {
-            tvwLeft.setText(txtLeft);
-        }
-        if (!TextUtils.isEmpty(txtRight)) {
-            tvwRight.setText(txtRight);
-        }
-
-        tvwLeft.setOnClickListener(v -> {
-            if (mCallBack != null) {
-                mCallBack.onClickLeft();
-            }
-        });
-        tvwRight.setOnClickListener(v -> {
-            if (mCallBack != null) {
-                mCallBack.onClickRight();
-            }
-        });
-
-    }
-
-    @Override
-    protected int getImplLayoutId() {
-        return R.layout.dialog_msg;
-    }
-
-    @Override
-    protected int getMaxHeight() {
-        //return super.getMaxHeight();
-        return (XPopupUtils.getScreenHeight(getContext()) * 4 / 10);
+        super(context, title, msg, isSingleBtn, mCallBack);
     }
 
 }
