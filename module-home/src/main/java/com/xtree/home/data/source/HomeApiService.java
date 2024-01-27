@@ -112,6 +112,14 @@ public interface HomeApiService {
     Flowable<BaseResponse<FBService>> getFBGameTokenApi();
 
     /**
+     * 获取 FB杏彩体育请求服务地址
+     * @return
+     */
+    @POST("/api/sports/fbxc/getToken")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<FBService>> getFBXCGameTokenApi();
+
+    /**
      * 获取 PM体育请求服务地址
      * @return
      */

@@ -97,6 +97,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (!TextUtils.isEmpty(token)) {
             viewModel.getCookie();
             viewModel.getFBGameTokenApi();
+            viewModel.getFBXCGameTokenApi();
             viewModel.getPMGameTokenApi();
         }
     }
