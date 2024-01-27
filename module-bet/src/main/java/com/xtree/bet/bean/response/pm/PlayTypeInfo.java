@@ -37,7 +37,7 @@ public class PlayTypeInfo implements BaseBean, Comparable {
      */
     public int hn;
     /**
-     *
+     * 投注截止日期
      */
     public String hmed;
     /**
