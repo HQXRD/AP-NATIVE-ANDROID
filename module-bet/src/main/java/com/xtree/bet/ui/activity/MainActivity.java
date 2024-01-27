@@ -22,7 +22,6 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.xtree.base.router.RouterActivityPath;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.MenuItemView;
 import com.xtree.bet.BR;
@@ -71,10 +70,12 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMainViewModel> implements OnRefreshLoadMoreListener, View.OnClickListener {
     public final static String KEY_PLATFORM = "KEY_PLATFORM";
     public final static String KEY_PLATFORM_NAME = "KEY_PLATFORM_NAME";
-    public final static String PLATFORM_FB = "fbxc";
+    public final static String PLATFORM_FBXC = "fbxc";
+    public final static String PLATFORM_FB = "fb";
+    public final static String PLATFORM_PM = "obg";
     public final static String BET_EXPAND = "betExpand";
 
-    private String mPlatform = PLATFORM_FB;
+    private String mPlatform = PLATFORM_FBXC;
     private String mPlatformName;
     private boolean mIsShowLoading = true;
     private boolean mIsChange;
@@ -159,7 +160,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
     @Override
     public TemplateMainViewModel initViewModel() {
-        if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
             AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
             return new ViewModelProvider(this, factory).get(FBMainViewModel.class);
         } else {

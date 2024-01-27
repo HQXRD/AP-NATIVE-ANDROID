@@ -27,8 +27,13 @@ public class FBHeaderInterceptor implements Interceptor {
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request.Builder builder = chain.request()
                 .newBuilder();
-
-        String token = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
+        String platform = SPUtils.getInstance().getString("KEY_PLATFORM");
+        String token;
+        if(TextUtils.equals(platform, "fbxc")) {
+            token = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_TOKEN);
+        } else {
+            token = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
+        }
         CfLog.e("========token======"+  token);
         builder.addHeader("Content-Type", "application/json; charset=utf-8");
         if (!TextUtils.isEmpty(token)) {

@@ -1,7 +1,7 @@
 package com.xtree.bet.ui.fragment;
 
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.app.Application;
 import android.content.res.ColorStateList;
@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,7 +22,6 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.tabs.TabLayout;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BtRecordTime;
@@ -33,9 +31,7 @@ import com.xtree.bet.ui.viewmodel.TemplateBtRecordModel;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.fb.FBBtRecordModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.bet.ui.viewmodel.fb.FBMainViewModel;
 import com.xtree.bet.ui.viewmodel.pm.PMBtRecordModel;
-import com.xtree.bet.ui.viewmodel.pm.PMMainViewModel;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 
 import java.lang.reflect.Field;
@@ -219,7 +215,7 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
 
     @Override
     public TemplateBtRecordModel initViewModel() {
-        if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
             AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
             return new ViewModelProvider(this, factory).get(FBBtRecordModel.class);
         } else {

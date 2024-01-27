@@ -1,7 +1,7 @@
 package com.xtree.bet.ui.activity;
 
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.content.Context;
 import android.content.Intent;
@@ -112,7 +112,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
 
     @Override
     public TemplateBtDetailViewModel initViewModel() {
-        if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
             AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
             return new ViewModelProvider(this, factory).get(FbBtDetailViewModel.class);
         } else {

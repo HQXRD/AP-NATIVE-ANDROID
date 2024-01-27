@@ -1,7 +1,7 @@
 package com.xtree.bet.constant;
 
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.text.TextUtils;
 
@@ -78,7 +78,7 @@ public class Constants {
 
     public static String getScoreType(){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
             return String.valueOf(FBConstants.SCORE_TYPE_SCORE);
         }else {
             return PMConstants.SCORE_TYPE_SCORE;
