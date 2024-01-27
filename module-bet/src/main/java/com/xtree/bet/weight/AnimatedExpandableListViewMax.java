@@ -798,12 +798,12 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
                     if(mOnHeaderClick != null){
                         mOnHeaderClick.onHeaderClick();
                     } else {
-                        int packedPositionGroup = getPackedPositionGroup(getExpandableListPosition(pointToPosition(x, y)));
+                        /*int packedPositionGroup = getPackedPositionGroup(getExpandableListPosition(pointToPosition(x, y)));
                         if (isGroupExpanded(packedPositionGroup)) {
                             collapseGroup(packedPositionGroup);
                         } else {
                             expandGroup(packedPositionGroup);
-                        }
+                        }*/
                     }
                     return true;
                 }
