@@ -105,6 +105,7 @@ public class ChampionMatchAdapter extends AnimatedExpandableListViewMax.Animated
             binding.llHeader.setVisibility(View.VISIBLE);
             binding.rlLeague.setVisibility(View.GONE);
             binding.ivExpand.setSelected(match.isExpand());
+            binding.vSpace.setVisibility(View.VISIBLE);
         } else {
             binding.llHeader.setVisibility(View.GONE);
             binding.rlLeague.setVisibility(View.VISIBLE);
@@ -115,6 +116,8 @@ public class ChampionMatchAdapter extends AnimatedExpandableListViewMax.Animated
                     .into(binding.ivIcon);
             binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
             match.setExpand(isExpanded);
+            binding.vSpace.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
+            binding.rlLeague.setBackgroundResource(isExpanded ? R.drawable.bt_bg_league_top : R.drawable.bt_bg_league_top_collapse);
         }
         return convertView;
     }
@@ -147,7 +150,8 @@ public class ChampionMatchAdapter extends AnimatedExpandableListViewMax.Animated
         optionList.addAll(playType.getChampionOptionList());
         binding.rvOptionList.setLayoutManager(new GridLayoutManager(mContext, 2));
         binding.rvOptionList.setAdapter(new OptionChampionAdapter(mContext, (Match) getGroup(groupPosition), playType, playType.getChampionOptionList()));
-
+        binding.vSpace.setVisibility(childPosition == getRealChildrenCount(groupPosition) - 1 ? View.VISIBLE : View.GONE);
+        binding.clOptionRoot.setBackgroundResource(childPosition == getRealChildrenCount(groupPosition) - 1 ? R.drawable.bt_bg_match_item_bottom : R.drawable.bt_bg_match_item);
         return convertView;
     }
 

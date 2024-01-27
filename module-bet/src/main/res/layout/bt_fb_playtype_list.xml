@@ -5,14 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bt_bg_match_item"
     android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_option_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bt_bg_expand_child"
+        android:background="@drawable/bt_bg_match_item"
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical">
 
@@ -62,6 +61,12 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <View
+        android:id="@+id/v_space"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/clr_transparent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_option_root" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
