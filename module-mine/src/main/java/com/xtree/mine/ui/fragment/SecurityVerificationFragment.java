@@ -41,6 +41,8 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
     private String typeName;
     private String tokenSign;
     ProfileVo mProfileVo;
+    private String phone; // 异地登录验证用
+    private String email; // 异地登录验证用
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -78,6 +80,8 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
         if (getArguments() != null) {
             typeName = getArguments().getString(ARG_TYPE);
             tokenSign = getArguments().getString(ARG_TOKEN_SIGN);
+            phone = getArguments().getString("phone");
+            email = getArguments().getString("email");
         }
         CfLog.i("****** typeName: " + typeName);
         fragmentList.clear();
@@ -115,11 +119,11 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
             binding.tblType.setVisibility(View.INVISIBLE);
         } else {
             // 去验证
-            if (Constant.VERIFY_LOGIN.equals(typeName) || mProfileVo.is_binding_phone) {
+            if ((Constant.VERIFY_LOGIN.equals(typeName) && !TextUtils.isEmpty(phone)) || (mProfileVo != null && mProfileVo.is_binding_phone)) {
                 fragmentList.add(bindPhoneFragment);
                 tabList.add(txtPhone);
             }
-            if (Constant.VERIFY_LOGIN.equals(typeName) || mProfileVo.is_binding_email) {
+            if ((Constant.VERIFY_LOGIN.equals(typeName) && !TextUtils.isEmpty(email)) || (mProfileVo != null && mProfileVo.is_binding_email)) {
                 fragmentList.add(bindEmailFragment);
                 tabList.add(txtEmail);
             }
