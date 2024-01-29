@@ -111,7 +111,7 @@ public class DateTimePickerDialog extends BottomPopupView {
             dismiss();
         });
 
-        int[] array = new int[]{0, 1, 2}; // show year,money,day
+        int[] array = getTimeFormat(); //new int[]{0, 1, 2, -1, -1}; // show year,money,day
         binding.dateTimePicker.setDisplayType(array);
 
         Calendar calendar = Calendar.getInstance();
@@ -125,12 +125,35 @@ public class DateTimePickerDialog extends BottomPopupView {
         if (maxMillisecond > 0) {
             binding.dateTimePicker.setMaxMillisecond(maxMillisecond);
         }
+        binding.dateTimePicker.setDefaultMillisecond(System.currentTimeMillis());
         binding.dateTimePicker.showLabel(true);
         binding.dateTimePicker.setOnDateTimeChangedListener((dateTimePicker, l) -> {
             tmpDate = TimeUtils.longFormatString(l, mFormat);
             //CfLog.d(tmpDate);
         });
 
+    }
+
+    private int[] getTimeFormat() {
+        // 参考 DateTimePicker #setDisplayType
+        int[] array = new int[]{-1, -1, -1, -1, -1}; // show year,money,day,hour,minute
+        if (mFormat.contains("y")) {
+            array[0] = 0;
+        }
+        if (mFormat.contains("M")) {
+            array[1] = 1;
+        }
+        if (mFormat.contains("d")) {
+            array[2] = 2;
+        }
+        if (mFormat.contains("H") || mFormat.contains("h")) {
+            array[3] = 3;
+        }
+        if (mFormat.contains("m")) {
+            array[4] = 4;
+        }
+
+        return array;
     }
 
     @Override

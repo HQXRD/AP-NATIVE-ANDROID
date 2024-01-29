@@ -15,15 +15,39 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class TagUtils {
 
-    public static String CHANNEL_NAME = ""; // 本包的渠道名,关于页显示当前安装包的渠道名用的。
-    public static String MEDIA_SOURCE = ""; // 旧包的渠道名,就是升级到最新官方安装包前的渠道名。
+    public static final String EVENT_REG = "register";
+    public static final String EVENT_LOGIN = "login";
+    public static final String EVENT_LOGOUT = "logout";
+    public static final String EVENT_RECHARGE = "recharge";
+    public static final String EVENT_WITHDRAW = "withdraw";
+    public static final String EVENT_TRANSFER = "transfer";
+    public static final String EVENT_BIND_YHK = "bind_yhk";
+    public static final String EVENT_BIND_USDT = "bind_usdt";
 
-    public static String MIXPANEL_TOKEN = "******";
-    public static String USER_ID = "";
+    private static String CHANNEL_NAME = ""; // 本包的渠道名,关于页显示当前安装包的渠道名用的。
+    private static String MEDIA_SOURCE = ""; // 旧包的渠道名,就是升级到最新官方安装包前的渠道名。
+    private static boolean IS_TAG = false; // 是否开启打点统计, true:开启, false:关闭
+    private static String MIXPANEL_TOKEN = "******";
+    private static String USER_ID = "";
     private static String deviceId;
+
+    private static Map<String, Long> mapCache = new HashMap<>(); // 记录打点事件对应的时间,防重复
+
+    public static void init(Context ctx, String token, String channel, String userId) {
+        init(ctx, token, channel, userId, true);
+    }
+
+    public static void init(Context ctx, String token, String channel, String userId, boolean isTag) {
+        MIXPANEL_TOKEN = token;
+        CHANNEL_NAME = channel;
+        USER_ID = userId;
+        IS_TAG = isTag;
+        initMixpanel(ctx);
+    }
 
     public static void initMixpanel(Context ctx) {
         String channelName = CHANNEL_NAME; // 渠道号
@@ -33,15 +57,17 @@ public class TagUtils {
         } catch (JSONException e) {
         }
 
-        TagUtils.MIXPANEL_TOKEN = MIXPANEL_TOKEN;
         initMixpanel(ctx, props);
     }
 
     public static void initMixpanel(Context ctx, JSONObject props) {
         CfLog.i("******");
+        if (!IS_TAG) {
+            return;
+        }
         MixpanelAPI.getInstance(ctx, MIXPANEL_TOKEN, props, true);
-        if (TagUtils.USER_ID != null && !TagUtils.USER_ID.isEmpty()) {
-            MixpanelAPI.getInstance(ctx, MIXPANEL_TOKEN, true).identify(TagUtils.USER_ID);
+        if (USER_ID != null && !USER_ID.isEmpty()) {
+            MixpanelAPI.getInstance(ctx, MIXPANEL_TOKEN, true).identify(USER_ID);
         } else {
             /*SharedPreferences sp = ctx.getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
             String dvcId = sp.getString("dvcId", "");
@@ -56,27 +82,27 @@ public class TagUtils {
     }
 
     public static void logEvent(Context ctx, String event) {
-        CfLog.e(ctx.getClass().getSimpleName() + ", event: " + event);
+        CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event);
         tagAppsFlyer(ctx, event, getMap(null, null));
         tagMixpanel(ctx, event, null);
     }
 
     /*public static void logEvent(Context ctx, String event, Object value) {
-        CfLog.e(ctx.getClass().getSimpleName() + ", event: " + event + ", value: " + value);
+        CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", value: " + value);
         AppsFlyerLib.getInstance().logEvent(ctx, event, getMap(event, value));
 
         tagMixpanel(ctx, event, value);
     }*/
 
     public static void logEvent(Context ctx, String event, String key, Object value) {
-        CfLog.e(ctx.getClass().getSimpleName() + ", event: " + event + ", key: " + key + ", value: " + value);
+        CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", key: " + key + ", value: " + value);
         tagAppsFlyer(ctx, event, getMap(key, value));
 
         tagMixpanel(ctx, event, key, value);
     }
 
     public static void logEvent(Context ctx, String event, HashMap<String, Object> map) {
-        CfLog.e(ctx.getClass().getSimpleName() + ", event: " + event + ", map: " + new Gson().toJson(map));
+        CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", map: " + new Gson().toJson(map));
         if (!map.containsKey("uid")) {
             map.put("uid", USER_ID);
         }
@@ -93,7 +119,7 @@ public class TagUtils {
      * @param uid   userId
      */
     public static void loginEvent(Context ctx, String event, String uid) {
-        CfLog.e(ctx.getClass().getSimpleName() + ", event: " + event + ", uid: " + uid);
+        CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", uid: " + uid);
         USER_ID = uid;
         //HashMap<String, Object> map = new HashMap<>();
         //map.put("uid", uid);
@@ -132,6 +158,9 @@ public class TagUtils {
     }
 
     private static void tagMixpanel(Context ctx, String event, JSONObject props) {
+        if (!IS_TAG || isFrequent(event)) {
+            return;
+        }
         if (props == null) {
             props = new JSONObject();
         }
@@ -142,6 +171,22 @@ public class TagUtils {
             }
         }
         MixpanelAPI.getInstance(ctx, MIXPANEL_TOKEN, true).track(event, props);
+    }
+
+    /**
+     * 某个事件 是否频繁 (true-频繁,可以return掉,防止某个事件短时间内重复多次)
+     *
+     * @param eventName 事件名
+     * @return true:是频繁, false不频繁
+     */
+    private static boolean isFrequent(String eventName) {
+
+        if (mapCache.containsKey(eventName) && System.currentTimeMillis() - mapCache.get(eventName) < 60 * 1000) {
+            return true;
+        }
+
+        mapCache.put(eventName, System.currentTimeMillis());
+        return false;
     }
 
     private static HashMap getMap(String key, Object value) {
