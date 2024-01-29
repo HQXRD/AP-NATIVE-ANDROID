@@ -200,8 +200,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
      * 设置顶部背景图
      */
     private void setTopBg() {
-        int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-        binding.ctlBg.setBackgroundResource(Constants.DETAIL_BG_SPORT_ICON[sportId]);
+        if(mMatch != null) {
+            binding.ctlBg.setBackgroundResource(Constants.getBgMatchDetailTop(mMatch.getSportId()));
+        }
     }
 
     /**
@@ -269,8 +270,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             score = scoreList.get(0) + " - " + scoreList.get(1);
         }
         ImageView thumb = new ImageView(this);
-        int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-        thumb.setBackgroundResource(Constants.DETAIL_BG_SPORT_ICON[sportId]);
+        if(mMatch != null) {
+            thumb.setBackgroundResource(Constants.getBgMatchDetailTop(mMatch.getSportId()));
+        }
         Map header = new HashMap();
         if(!TextUtils.isEmpty(mMatch.getReferUrl())) {
             header.put("Referer", mMatch.getReferUrl());
@@ -383,8 +385,6 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 score = scoreList.get(0) + " - " + scoreList.get(1);
                 binding.tvScore.setText(score);
             }
-            int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-            //String sport = SportTypeContants.SPORT_IDS[sportType];
 
             // 比赛未开始
             if (!match.isGoingon()) {
@@ -392,7 +392,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 binding.tvTime.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_MM_DD_1));
                 binding.tvScore.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_HH_MM));
             } else {
-                if (sportType == 0 || sportType == 1) {
+                if (TextUtils.equals(Constants.getFbSportId(), match.getSportId()) || TextUtils.equals(Constants.getBsbSportId(), match.getSportId())) { // 足球和篮球
                     binding.tvTime.setText(match.getStage() + " " + match.getTime());
                     binding.tvTimeTop.setText(match.getStage() + " " + match.getTime());
                 } else {

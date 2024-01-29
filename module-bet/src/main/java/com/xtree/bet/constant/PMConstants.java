@@ -1,6 +1,13 @@
 package com.xtree.bet.constant;
 
+import android.util.ArrayMap;
+
+import com.xtree.bet.R;
+
+import java.util.Map;
+
 public class PMConstants {
+    private static Map<String, Integer> mapBgMatchDetailTop = new ArrayMap<>();
 
     /**
      * 默认体育分类ID，与sportNames一一对应
@@ -19,7 +26,6 @@ public class PMConstants {
      * 玩法ID，与PLAY_METHOD_NAMES一一对应
      */
     public static String[] PLAY_METHOD_TYPES = new String[]{"3", "1", "4", "11", "100"};
-
 
     /**
      * 体育分类ID-足球
@@ -91,21 +97,25 @@ public class PMConstants {
      * 比分类型-红牌
      */
     public static String SCORE_TYPE_RED_CARD = "S11";
-    /**
-     * 比分类型-得牌(黄牌 + 红牌)
-     */
-    public static String SCORE_TYPE_BOOKING = "9";
-    /**
-     * 比分类型-盘分(网球、排球、沙滩排球)
-     */
-    public static String SCORE_TYPE_PF = "5556";
-    /**
-     * 比分类型-局分(网球、乒乓球、羽毛球)
-     */
-    public static String SCORE_TYPE_JF = "5559";
-    /**
-     * 局分(斯诺克)
-     */
-    public static String SCORE_TYPE_SNK_JF = "12";
+
+    public static int getBgMatchDetailTop(String sportId){
+        if(mapBgMatchDetailTop.isEmpty()){
+            // 足球
+            mapBgMatchDetailTop.put(SPORT_ID_FB, R.mipmap.bt_detail_bg_mszq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_BSB, R.mipmap.bt_detail_bg_lq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_WQ, R.mipmap.bt_detail_bg_wq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_SNK, R.mipmap.bt_detail_bg_snk_top);
+            mapBgMatchDetailTop.put(SPORT_ID_BQ, R.mipmap.bt_detail_bg_bq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_PQ, R.mipmap.bt_detail_bg_pq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_YMQ, R.mipmap.bt_detail_bg_ymq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_MSZQ, R.mipmap.bt_detail_bg_mszq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_ICEQ, R.mipmap.bt_detail_bg_bq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_BBQ, R.mipmap.bt_detail_bg_bbq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_QJ, R.mipmap.bt_detail_bg_mszq_default_top);
+            mapBgMatchDetailTop.put(SPORT_ID_STPQ, R.mipmap.bt_detail_bg_pq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_SQ, R.mipmap.bt_detail_bg_mszq_default_top);
+        }
+        return mapBgMatchDetailTop.get(sportId);
+    }
 
 }

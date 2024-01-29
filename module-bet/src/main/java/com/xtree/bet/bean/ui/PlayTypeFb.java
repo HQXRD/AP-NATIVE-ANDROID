@@ -1,11 +1,14 @@
 package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
+import android.text.TextUtils;
 
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.fb.OptionDataListInfo;
 import com.xtree.bet.bean.response.fb.OptionInfo;
 import com.xtree.bet.bean.response.fb.PlayTypeInfo;
+import com.xtree.bet.constant.FBConstants;
+import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.constant.SPKey;
 
 import java.util.ArrayList;
@@ -67,15 +70,14 @@ public class PlayTypeFb implements PlayType{
      * @return
      */
     @Override
-    public List<Option> getOptionList() {
+    public List<Option> getOptionList(String sportId) {
         List<Option> optionList = new ArrayList<>();
         if(playTypeInfo != null && playTypeInfo.mks != null && !playTypeInfo.mks.isEmpty()) {
             for (OptionInfo optionInfo : playTypeInfo.mks.get(0).op) {
                 optionList.add(new OptionFb(optionInfo));
             }
         }else{
-            int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-            int length = playTypeInfo.nm.contains("独赢") && sportId == 0 || sportId == 9 ? 3 : 2;
+            int length = playTypeInfo.nm.contains("独赢") && TextUtils.equals(FBConstants.SPORT_ID_FB, sportId) || TextUtils.equals(FBConstants.SPORT_ID_ICEQ, sportId) ? 3 : 2;
             for (int i = 0; i < length; i++) {
                 optionList.add(null);
             }

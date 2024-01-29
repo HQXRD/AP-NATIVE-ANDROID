@@ -25,6 +25,7 @@ import com.xtree.bet.bean.ui.PlayGroupFb;
 import com.xtree.bet.bean.ui.PlayGroupPm;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
+import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtFbLeagueGroupBinding;
@@ -310,9 +311,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         if (!match.isGoingon()) {
             binding.tvMatchTime.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_MM_DD_HH_MM));
         } else {
-            int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-            //String sport = SportTypeContants.SPORT_IDS[sportType];
-            if (sportType == 0 || sportType == 1) { // 足球和篮球
+            if (TextUtils.equals(Constants.getFbSportId(), match.getSportId()) || TextUtils.equals(Constants.getBsbSportId(), match.getSportId())) { // 足球和篮球
                 binding.tvMatchTime.setText(match.getStage() + " " + match.getTime());
             } else {
                 binding.tvMatchTime.setText(match.getStage());
@@ -424,8 +423,8 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             } else {
 
                 LinearLayout optionView = (LinearLayout) view;
-                List<Option> options = playType.getOptionList();
-                if (j - 1 == playType.getOptionList().size()) {
+                List<Option> options = playType.getOptionList(match.getSportId());
+                if (j - 1 == playType.getOptionList(match.getSportId()).size()) {
                     optionView.setVisibility(View.GONE);
                 } else {
                     optionView.setVisibility(View.VISIBLE);

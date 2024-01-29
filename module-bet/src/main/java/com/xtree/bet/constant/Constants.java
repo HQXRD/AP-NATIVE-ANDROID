@@ -4,6 +4,9 @@ import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
 import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.text.TextUtils;
+import android.util.ArrayMap;
+
+import java.util.Map;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -58,30 +61,47 @@ public class Constants {
             project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector};
 
-    /**
-     * 比赛详情页顶部背景图
-     */
-    public static int[] DETAIL_BG_SPORT_ICON = new int[]{
-            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_mszq_top,
-            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_lq_top,
-            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_wq_top,
-            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_snk_top,
-            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_bq_top,
-            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_pq_top,
-            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_ymq_top,
-            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_mszq_top,
-            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_bbq_top,
-            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_bq_top,
-            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_mszq_default_top,
-            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_pq_top,
-            project.tqyb.com.library_res.R.mipmap.bt_detail_bg_mszq_default_top};
-
     public static String getScoreType(){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
         if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
             return String.valueOf(FBConstants.SCORE_TYPE_SCORE);
         }else {
             return PMConstants.SCORE_TYPE_SCORE;
+        }
+    }
+
+    public static int getBgMatchDetailTop(String sportId){
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            return FBConstants.getBgMatchDetailTop(sportId);
+        }else {
+            return PMConstants.getBgMatchDetailTop(sportId);
+        }
+    }
+
+    /**
+     * 获取足球的体育 ID
+     * @return
+     */
+    public static String getFbSportId(){
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            return FBConstants.SPORT_ID_FB;
+        }else {
+            return PMConstants.SPORT_ID_FB;
+        }
+    }
+
+    /**
+     * 获取篮球的体育 ID
+     * @return
+     */
+    public static String getBsbSportId(){
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            return FBConstants.SPORT_ID_FB;
+        }else {
+            return PMConstants.SPORT_ID_FB;
         }
     }
 

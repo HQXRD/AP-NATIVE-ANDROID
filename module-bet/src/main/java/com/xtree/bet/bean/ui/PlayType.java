@@ -43,7 +43,7 @@ public interface PlayType extends BaseBean {
      * 获取投注玩法列表
      * @return
      */
-    List<Option> getOptionList();
+    List<Option> getOptionList(String sportId);
 
     /**
      * 获取冠军赛事投注玩法列表

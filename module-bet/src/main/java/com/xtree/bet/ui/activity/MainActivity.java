@@ -253,7 +253,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     BtCarManager.clearBtCar();
                     setCgBtCar();
                     sportTypePos = tab.getPosition();
-                    SPUtils.getInstance().put(SPKey.BT_SPORT_ID, sportTypePos);
                     mLeagueGoingOnList.clear();
                     mLeagueList.clear();
                     viewModel.statistical(playMethodType);
@@ -640,7 +639,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     @Override
     public void initData() {
         playMethodType = Integer.valueOf(viewModel.getPlayMethodTypes()[0]);
-        SPUtils.getInstance().put(SPKey.BT_SPORT_ID, sportTypePos);
         viewModel.getHotLeague(mPlatform);
         viewModel.setSportItems(playMethodPos);
         viewModel.setPlayMethodTabData();
