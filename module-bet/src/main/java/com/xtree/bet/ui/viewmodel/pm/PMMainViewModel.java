@@ -769,7 +769,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
             for (PlayType playType : newPlayGroup.getPlayTypeList()) {
                 playType.getOptionLists();
-                for (Option option : playType.getOptionList()) {
+                for (Option option : playType.getOptionList(match.getSportId())) {
                     if (option == null) {
                         continue;
                     }

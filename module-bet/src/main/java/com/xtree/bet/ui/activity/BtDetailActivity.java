@@ -165,16 +165,14 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
         });
         binding.rlCg.setOnClickListener(this);
         binding.ivExpand.setOnClickListener(this);
-
         initVideoPlayer();
         setWebView();
-        setTopBg();
+
     }
 
     @Override
     public void initData() {
         mMatch = getIntent().getParcelableExtra(KEY_MATCH);
-
         viewModel.getMatchDetail(mMatch.getId());
         viewModel.getCategoryList(String.valueOf(mMatch.getId()), mMatch.getSportId());
         viewModel.addSubscription();
@@ -189,7 +187,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     viewModel.getMatchDetail(mMatch.getId());
-                    if (!mCategories.isEmpty()) {
+                    if (!mCategories.isEmpty() && mCategories.size() > tabPos) {
                         viewModel.getMatchOddsInfoPB(String.valueOf(mMatch.getId()), mCategories.get(tabPos).getId());
                     }
                 })
@@ -341,6 +339,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             if(match == null){
                 return;
             }
+            setTopBg();
             if (match.hasAs()) {
                 binding.tvAnimi.setVisibility(View.VISIBLE);
             } else {
