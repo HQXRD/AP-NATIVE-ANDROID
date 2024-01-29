@@ -241,7 +241,7 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
             }
 
             curPage = vo.pages.p;
-            int total_page = vo.pages.equals("false") ? 0 : Integer.parseInt(vo.pages.total_page);
+            int total_page = vo.pages.total_page.equals("false") ? 0 : Integer.parseInt(vo.pages.total_page);
             if (vo.pages.p < total_page) {
                 binding.refreshLayout.setEnableLoadMore(true);
             } else {
