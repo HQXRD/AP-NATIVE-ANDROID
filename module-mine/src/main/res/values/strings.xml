@@ -26,7 +26,7 @@
     <string name="me_tiyu_guize">体育规则</string>
     <string name="me_changjian_wenti">常见问题</string>
     <string name="me_bangzhu_zhongxin">帮助中心</string>
-    <string name="me_usdt_jiaocheng">USDT教程</string>
+    <string name="me_usdt_jiaocheng">教程</string>
     <string name="me_logout_login">退出登录</string>
     <string name="me_login">登录</string>
     <string name="me_account_hint">请输入账号</string>
@@ -248,8 +248,8 @@
     <string name="txt_reset_password_tri_same_error">不能连续三个相同字符</string>
     <string name="txt_reset_password_not_same_error">两次密码输入不一致</string>
     <string name="txt_enter_otc">请输入验证码</string>
-    <string name="txt_check_your_email">%s，您好！ \n 您的邮箱地址为 \n %s \n 请进行邮箱验证</string>
-    <string name="txt_check_your_phone">%s，您好！ \n 您的手机号为 \n %s \n 请进行短信验证</string>
+    <string name="txt_check_your_email">%1$s，您好！ \n 您的邮箱地址为 \n %2$s \n 请进行邮箱验证</string>
+    <string name="txt_check_your_phone">%1$s，您好！ \n 您的手机号为 \n %2$s \n 请进行短信验证</string>
     <string name="txt_forget_password_finish">恭喜您，您的登入密码已修改完成</string>
     <!--提款流程文字提示-->
     <string name="txt_choose_withdrawal_method">请选择提款方式</string>
