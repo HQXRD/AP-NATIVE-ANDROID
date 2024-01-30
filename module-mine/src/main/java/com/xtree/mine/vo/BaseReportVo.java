@@ -43,10 +43,15 @@ public class BaseReportVo {
     public String starttime; // "2023-08-08 00:00:00",
     public String endtime; // "2024-01-09 23:59:59",
     //    public HashMap<String, OrderTypeVo> ordertypes; // {
-    public MobilePageVo mobile_page; // {
+    public MobilePageVo mobile_page = new MobilePageVo(); // {
     public ICountVo icount; // {
     //    public List<OrderVo> orders; // {
     //public String pageinfo; // "",
     public String username; // "",
+
+    // 失败/不通过,返回错误信息 msg_detail,msg_type,message
+    //public String msg_detail;
+    public int msg_type; // 1 (异常/失败的时候) 1,2-失败, 3-成功
+    public String message; // "页面超时！请重试。",
 
 }

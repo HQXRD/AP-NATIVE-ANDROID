@@ -16,6 +16,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
@@ -24,6 +25,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.BrowserDialog;
+import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMineBinding;
@@ -46,10 +48,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     ProfileVo mProfileVo;
     VipInfoVo mVipInfoVo;
     String token;
+    BasePopupView ppw;
 
     @Override
     public void initView() {
-        binding.btnLogout.setOnClickListener(v -> viewModel.doLogout());
+        binding.btnLogout.setOnClickListener(v -> showLogoutDialog());
 
         binding.ivwSetting.setOnClickListener(view -> {
             showAccountMgmt();
@@ -99,6 +102,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
         binding.tvwInviteFriend.setOnClickListener(v -> {
             CfLog.i("****** ");
+            goWebView(v, Constant.URL_INVITE_FRIEND);
         });
         binding.tvwGuanfangheyin.setOnClickListener(v -> {
             String title = ((TextView) v).getText().toString();
@@ -271,6 +275,27 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         } else {
             binding.tvwBalance.setText("******");
         }
+    }
+
+    private void showLogoutDialog() {
+        String msg = getString(R.string.txt_will_u_logout);
+        MsgDialog dialog = new MsgDialog(getContext(), null, msg, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+                ppw.dismiss();
+            }
+
+            @Override
+            public void onClickRight() {
+                viewModel.doLogout();
+                ppw.dismiss();
+            }
+        });
+        ppw = new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog);
+        ppw.show();
     }
 
     private void showAccountMgmt() {

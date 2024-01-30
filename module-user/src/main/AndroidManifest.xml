@@ -1,7 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xtree.user">
-
-    <application>
-        <activity android:name="com.xtree.user.ui.activity.UserDetailActivity"></activity>
-    </application>
-</manifest>

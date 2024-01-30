@@ -62,7 +62,7 @@ public interface League extends BaseBean {
      * 设置是否展开赛事，true-展开，false-关闭
      * @return
      */
-    boolean setExpand(boolean isExpand);
+    void setExpand(boolean isExpand);
 
     /**
      * 获取是否展开赛事，true-展开，false-关闭
@@ -71,10 +71,9 @@ public interface League extends BaseBean {
     boolean isExpand();
 
     boolean isHead();
+    void setHead(boolean isHead);
     int getMatchCount();
     void setMatchCount(int matchCount);
-
-    void setHead(boolean isHead);
 
     /**
      * 该联赛开售的赛事统计

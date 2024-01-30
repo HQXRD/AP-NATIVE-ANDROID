@@ -127,6 +127,7 @@ public class MatchInfo implements BaseBean {
         dest.writeInt(this.smt);
         dest.writeInt(this.ty);
         dest.writeString(this.ye);
+        dest.writeString(this.nm);
         dest.writeParcelable(this.sb, flags);
     }
 
@@ -153,6 +154,7 @@ public class MatchInfo implements BaseBean {
         this.smt = source.readInt();
         this.ty = source.readInt();
         this.ye = source.readString();
+        this.nm = source.readString();
         this.sb = source.readParcelable(ScoreboardInfo.class.getClassLoader());
     }
 
@@ -182,6 +184,7 @@ public class MatchInfo implements BaseBean {
         this.smt = in.readInt();
         this.ty = in.readInt();
         this.ye = in.readString();
+        this.nm = in.readString();
         this.sb = in.readParcelable(ScoreboardInfo.class.getClassLoader());
     }
 

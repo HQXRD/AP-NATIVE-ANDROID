@@ -756,12 +756,15 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
         postInvalidate();
     }
 
+    public void removeHeader(){
+        if (mHeader != null) {
+            mHeader.setVisibility(GONE);
+        }
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        /*if (header != null) {
-            measureChild(header, widthMeasureSpec, heightMeasureSpec);
-        }*/
         if (mHeader == null) {
             return;
         }
@@ -795,12 +798,12 @@ public class AnimatedExpandableListViewMax extends ExpandableListView implements
                     if(mOnHeaderClick != null){
                         mOnHeaderClick.onHeaderClick();
                     } else {
-                        int packedPositionGroup = getPackedPositionGroup(getExpandableListPosition(pointToPosition(x, y)));
+                        /*int packedPositionGroup = getPackedPositionGroup(getExpandableListPosition(pointToPosition(x, y)));
                         if (isGroupExpanded(packedPositionGroup)) {
                             collapseGroup(packedPositionGroup);
                         } else {
                             expandGroup(packedPositionGroup);
-                        }
+                        }*/
                     }
                     return true;
                 }

@@ -3,9 +3,11 @@ package com.xtree.bet.bean.ui;
 import android.os.Parcel;
 import android.text.TextUtils;
 
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.pm.OptionDataListInfo;
 import com.xtree.bet.bean.response.pm.OptionInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
+import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.constant.SPKey;
 
 import java.util.ArrayList;
@@ -71,10 +73,9 @@ public class PlayTypePm implements PlayType{
      * @return
      */
     @Override
-    public List<Option> getOptionList() {
+    public List<Option> getOptionList(String sportId) {
         List<Option> optionList = new ArrayList<>();
-        int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-        int length = playTypeInfo.hpn.contains("独赢") && sportId == 0 || sportId == 9 ? 3 : 2;
+        int length = playTypeInfo.hpn.contains("独赢") && TextUtils.equals(PMConstants.SPORT_ID_FB, sportId) || TextUtils.equals(PMConstants.SPORT_ID_ICEQ, sportId) ? 3 : 2;
 
         if(playTypeInfo != null && playTypeInfo.hl != null && !playTypeInfo.hl.isEmpty()) {
             for (int i = 0; i < length; i++) {
@@ -138,6 +139,11 @@ public class PlayTypePm implements PlayType{
     @Override
     public String getCategoryId() {
         return playTypeInfo.hlid;
+    }
+
+    @Override
+    public String getMatchDeadLine() {
+        return TimeUtils.longFormatString(Long.valueOf(playTypeInfo.hmed), TimeUtils.FORMAT_YY_MM_DD_HH_MM_1);
     }
 
     @Override

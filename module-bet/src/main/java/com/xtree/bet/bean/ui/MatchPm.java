@@ -31,9 +31,35 @@ public class MatchPm implements Match {
      * 播放器请求头
      */
     private String referUrl;
+    private boolean isHead;
+    private boolean isExpand;
+
+    public MatchPm(){
+
+    }
 
     public MatchPm(MatchInfo matchInfo) {
         this.matchInfo = matchInfo;
+    }
+
+    @Override
+    public boolean isHead() {
+        return isHead;
+    }
+
+    @Override
+    public void setHead(boolean isHead) {
+        this.isHead = isHead;
+    }
+
+    @Override
+    public void setExpand(boolean isExpand) {
+        this.isExpand = isExpand;
+    }
+
+    @Override
+    public boolean isExpand() {
+        return isExpand;
     }
 
     /**

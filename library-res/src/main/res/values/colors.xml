@@ -186,6 +186,7 @@
     <color name="clr_gray_3">#EFF1F8</color>
     <color name="clr_gray_4">#EEEEED</color>
     <color name="clr_gray_5">#DAD5E2</color>
+    <color name="clr_choose_20">#915783</color>
 
     <!-- 筛选框 灰色 标题 -->
     <color name="clr_filter_txt_gray">#A1A1A1</color>

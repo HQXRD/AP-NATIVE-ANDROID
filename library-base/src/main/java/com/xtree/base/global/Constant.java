@@ -51,6 +51,7 @@ public class Constant {
     public static final String URL_BET_RECORD = "/webapp/#/report/bet-record"; // 投注记录
     public static final String URL_ACCOUNT_CHANGE = "/webapp/#/report/account-change"; // 账变记录
     public static final String URL_DW_RECORD = "/webapp/#/report/dw-record"; // 充提记录
+    public static final String URL_INVITE_FRIEND = "/webapp/#/activity/141"; // 邀请好友
     public static final String URL_APP_CENTER = "/webapp/#/features"; // 底部几个菜单中间的那个
 
 }

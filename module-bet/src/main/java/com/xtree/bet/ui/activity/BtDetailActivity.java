@@ -1,7 +1,7 @@
 package com.xtree.bet.ui.activity;
 
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +36,6 @@ import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
-import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
@@ -112,7 +111,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
 
     @Override
     public TemplateBtDetailViewModel initViewModel() {
-        if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
             AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
             return new ViewModelProvider(this, factory).get(FbBtDetailViewModel.class);
         } else {
@@ -165,16 +164,14 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
         });
         binding.rlCg.setOnClickListener(this);
         binding.ivExpand.setOnClickListener(this);
-
         initVideoPlayer();
         setWebView();
-        setTopBg();
+
     }
 
     @Override
     public void initData() {
         mMatch = getIntent().getParcelableExtra(KEY_MATCH);
-
         viewModel.getMatchDetail(mMatch.getId());
         viewModel.getCategoryList(String.valueOf(mMatch.getId()), mMatch.getSportId());
         viewModel.addSubscription();
@@ -189,7 +186,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     viewModel.getMatchDetail(mMatch.getId());
-                    if (!mCategories.isEmpty()) {
+                    if (!mCategories.isEmpty() && mCategories.size() > tabPos) {
                         viewModel.getMatchOddsInfoPB(String.valueOf(mMatch.getId()), mCategories.get(tabPos).getId());
                     }
                 })
@@ -200,8 +197,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
      * 设置顶部背景图
      */
     private void setTopBg() {
-        int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-        binding.ctlBg.setBackgroundResource(Constants.DETAIL_BG_SPORT_ICON[sportId]);
+        if(mMatch != null) {
+            binding.ctlBg.setBackgroundResource(Constants.getBgMatchDetailTop(mMatch.getSportId()));
+        }
     }
 
     /**
@@ -269,8 +267,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             score = scoreList.get(0) + " - " + scoreList.get(1);
         }
         ImageView thumb = new ImageView(this);
-        int sportId = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-        thumb.setBackgroundResource(Constants.DETAIL_BG_SPORT_ICON[sportId]);
+        if(mMatch != null) {
+            thumb.setBackgroundResource(Constants.getBgMatchDetailTop(mMatch.getSportId()));
+        }
         Map header = new HashMap();
         if(!TextUtils.isEmpty(mMatch.getReferUrl())) {
             header.put("Referer", mMatch.getReferUrl());
@@ -339,6 +338,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             if(match == null){
                 return;
             }
+            setTopBg();
             if (match.hasAs()) {
                 binding.tvAnimi.setVisibility(View.VISIBLE);
             } else {
@@ -383,8 +383,6 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 score = scoreList.get(0) + " - " + scoreList.get(1);
                 binding.tvScore.setText(score);
             }
-            int sportType = SPUtils.getInstance().getInt(SPKey.BT_SPORT_ID);
-            //String sport = SportTypeContants.SPORT_IDS[sportType];
 
             // 比赛未开始
             if (!match.isGoingon()) {
@@ -392,7 +390,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 binding.tvTime.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_MM_DD_1));
                 binding.tvScore.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_HH_MM));
             } else {
-                if (sportType == 0 || sportType == 1) {
+                if (TextUtils.equals(Constants.getFbSportId(), match.getSportId()) || TextUtils.equals(Constants.getBsbSportId(), match.getSportId())) { // 足球和篮球
                     binding.tvTime.setText(match.getStage() + " " + match.getTime());
                     binding.tvTimeTop.setText(match.getStage() + " " + match.getTime());
                 } else {

@@ -5,6 +5,6 @@ package com.xtree.mine.vo;
  */
 public class MobilePageVo {
     public int p; // 1,
-    public String total_page; // 84, false
+    public String total_page = "0"; // 84, false
     public int page_size; // 20
 }

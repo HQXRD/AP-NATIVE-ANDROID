@@ -1,7 +1,7 @@
 package com.xtree.bet.ui.viewmodel;
 
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -13,8 +13,6 @@ import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.utils.NumberUtils;
 import com.xtree.bet.bean.response.fb.BalanceInfo;
-import com.xtree.bet.constant.FBConstants;
-import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.data.BetRepository;
 
 import java.util.HashMap;
@@ -38,7 +36,7 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
 
     public void getUserBalance(){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
             getUserBalanceFb();
         }else {
             getUserBalancePm();

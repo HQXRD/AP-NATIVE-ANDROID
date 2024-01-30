@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class RechargeReportVo extends BaseReportVo {
 
-    public MobilePageVo pages; // 页信息(充值记录)
+    public MobilePageVo pages = new MobilePageVo(); // 页信息(充值记录)
     public List<RechargeOrderVo> result; // 充值记录
     public List<WithdrawOrderVo> aProject; // 提现记录
 

@@ -2,6 +2,8 @@ package com.xtree.bet.constant;
 
 import android.util.ArrayMap;
 
+import com.xtree.bet.R;
+
 import java.util.Map;
 
 public class FBConstants {
@@ -12,6 +14,7 @@ public class FBConstants {
     public static String[] SPORT_IDS/* = new String[]{"0", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"}*/;
     public static String[] SPORT_IDS_ALL = new String[]{"0", "1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
     public static String[] SPORT_IDS_NOMAL = new String[]{"1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
+
     /**
      * 体育分类ID-足球
      */
@@ -211,74 +214,63 @@ public class FBConstants {
 
     private static Map<String, String[]> mapPlayTypeId = new ArrayMap<>();
     private static Map<String, String[]> mapPlayTypeName = new ArrayMap<>();
+    private static Map<String, Integer> mapBgMatchDetailTop = new ArrayMap<>();
 
-    public static String[] getPlayTypeId(String code){
+    public static int getBgMatchDetailTop(String sportId){
+        if(mapBgMatchDetailTop.isEmpty()){
+            mapBgMatchDetailTop.put(SPORT_ID_FB, R.mipmap.bt_detail_bg_zq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_BSB, R.mipmap.bt_detail_bg_lq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_WQ, R.mipmap.bt_detail_bg_wq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_SNK, R.mipmap.bt_detail_bg_snk_top);
+            mapBgMatchDetailTop.put(SPORT_ID_BQ, R.mipmap.bt_detail_bg_bq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_PQ, R.mipmap.bt_detail_bg_pq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_YMQ, R.mipmap.bt_detail_bg_ymq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_MSZQ, R.mipmap.bt_detail_bg_mszq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_ICEQ, R.mipmap.bt_detail_bg_bnq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_BBQ, R.mipmap.bt_detail_bg_bbq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_QJ, R.mipmap.bt_detail_bg_mszq_default_top);
+            mapBgMatchDetailTop.put(SPORT_ID_STPQ, R.mipmap.bt_detail_bg_pq_top);
+            mapBgMatchDetailTop.put(SPORT_ID_SQ, R.mipmap.bt_detail_bg_mszq_default_top);
+        }
+        return mapBgMatchDetailTop.get(sportId);
+    }
+
+    public static String[] getPlayTypeId(String sportId){
         if(mapPlayTypeId.isEmpty()){
-            // 足球
-            mapPlayTypeId.put("1", PLAY_TYPE_ID_FB);
-            mapPlayTypeId.put("3", PLAY_TYPE_ID_BSB);
-            mapPlayTypeId.put("5", PLAY_TYPE_ID_WQ);
-            mapPlayTypeId.put("16", PLAY_TYPE_ID_SNK);
-            mapPlayTypeId.put("7", PLAY_TYPE_ID_BQ);
-            mapPlayTypeId.put("13", PLAY_TYPE_ID_PQ);
-            mapPlayTypeId.put("47", PLAY_TYPE_ID_YMQ);
-            mapPlayTypeId.put("6", PLAY_TYPE_ID_MSZQ);
-            mapPlayTypeId.put("2", PLAY_TYPE_ID_ICEQ);
-            mapPlayTypeId.put("15", PLAY_TYPE_ID_BBQ);
-            mapPlayTypeId.put("19", PLAY_TYPE_ID_QJ);
-            mapPlayTypeId.put("51", PLAY_TYPE_ID_STPQ);
-            mapPlayTypeId.put("8", PLAY_TYPE_ID_SQ);
+            mapPlayTypeId.put(SPORT_ID_FB, PLAY_TYPE_ID_FB);
+            mapPlayTypeId.put(SPORT_ID_BSB, PLAY_TYPE_ID_BSB);
+            mapPlayTypeId.put(SPORT_ID_WQ, PLAY_TYPE_ID_WQ);
+            mapPlayTypeId.put(SPORT_ID_SNK, PLAY_TYPE_ID_SNK);
+            mapPlayTypeId.put(SPORT_ID_BQ, PLAY_TYPE_ID_BQ);
+            mapPlayTypeId.put(SPORT_ID_PQ, PLAY_TYPE_ID_PQ);
+            mapPlayTypeId.put(SPORT_ID_YMQ, PLAY_TYPE_ID_YMQ);
+            mapPlayTypeId.put(SPORT_ID_MSZQ, PLAY_TYPE_ID_MSZQ);
+            mapPlayTypeId.put(SPORT_ID_ICEQ, PLAY_TYPE_ID_ICEQ);
+            mapPlayTypeId.put(SPORT_ID_BBQ, PLAY_TYPE_ID_BBQ);
+            mapPlayTypeId.put(SPORT_ID_QJ, PLAY_TYPE_ID_QJ);
+            mapPlayTypeId.put(SPORT_ID_STPQ, PLAY_TYPE_ID_STPQ);
+            mapPlayTypeId.put(SPORT_ID_SQ, PLAY_TYPE_ID_SQ);
         }
-        return mapPlayTypeId.get(code);
+        return mapPlayTypeId.get(sportId);
     }
 
-    public static String[] getPlayTypeName(String code){
+    public static String[] getPlayTypeName(String sportId){
         if(mapPlayTypeName.isEmpty()){
-            // 足球
-            mapPlayTypeName.put("1", PLAY_TYPE_NAME_FB);
-            mapPlayTypeName.put("3", PLAY_TYPE_NAME_BSB);
-            mapPlayTypeName.put("5", PLAY_TYPE_NAME_WQ);
-            mapPlayTypeName.put("16", PLAY_TYPE_NAME_SNK);
-            mapPlayTypeName.put("7", PLAY_TYPE_NAME_BQ);
-            mapPlayTypeName.put("13", PLAY_TYPE_NAME_PQ);
-            mapPlayTypeName.put("47", PLAY_TYPE_NAME_YMQ);
-            mapPlayTypeName.put("6", PLAY_TYPE_NAME_MSZQ);
-            mapPlayTypeName.put("2", PLAY_TYPE_NAME_ICEQ);
-            mapPlayTypeName.put("15", PLAY_TYPE_NAME_BBQ);
-            mapPlayTypeName.put("19", PLAY_TYPE_NAME_QJ);
-            mapPlayTypeName.put("51", PLAY_TYPE_NAME_STPQ);
-            mapPlayTypeName.put("8", PLAY_TYPE_NAME_SQ);
+            mapPlayTypeName.put(SPORT_ID_FB, PLAY_TYPE_NAME_FB);
+            mapPlayTypeName.put(SPORT_ID_BSB, PLAY_TYPE_NAME_BSB);
+            mapPlayTypeName.put(SPORT_ID_WQ, PLAY_TYPE_NAME_WQ);
+            mapPlayTypeName.put(SPORT_ID_SNK, PLAY_TYPE_NAME_SNK);
+            mapPlayTypeName.put(SPORT_ID_BQ, PLAY_TYPE_NAME_BQ);
+            mapPlayTypeName.put(SPORT_ID_PQ, PLAY_TYPE_NAME_PQ);
+            mapPlayTypeName.put(SPORT_ID_YMQ, PLAY_TYPE_NAME_YMQ);
+            mapPlayTypeName.put(SPORT_ID_MSZQ, PLAY_TYPE_NAME_MSZQ);
+            mapPlayTypeName.put(SPORT_ID_ICEQ, PLAY_TYPE_NAME_ICEQ);
+            mapPlayTypeName.put(SPORT_ID_BBQ, PLAY_TYPE_NAME_BBQ);
+            mapPlayTypeName.put(SPORT_ID_QJ, PLAY_TYPE_NAME_QJ);
+            mapPlayTypeName.put(SPORT_ID_STPQ, PLAY_TYPE_NAME_STPQ);
+            mapPlayTypeName.put(SPORT_ID_SQ, PLAY_TYPE_NAME_SQ);
         }
-        return mapPlayTypeName.get(code);
+        return mapPlayTypeName.get(sportId);
     }
-
-    public static String[][] PLAY_TYPE_ID = new String[][]{
-            PLAY_TYPE_ID_FB,
-            PLAY_TYPE_ID_BSB,
-            PLAY_TYPE_ID_WQ,
-            PLAY_TYPE_ID_SNK,
-            PLAY_TYPE_ID_BQ,
-            PLAY_TYPE_ID_PQ,
-            PLAY_TYPE_ID_YMQ,
-            PLAY_TYPE_ID_MSZQ,
-            PLAY_TYPE_ID_BBQ,
-            PLAY_TYPE_ID_ICEQ,
-            PLAY_TYPE_ID_QJ,
-            PLAY_TYPE_ID_STPQ,
-            PLAY_TYPE_ID_SQ};
-    public static String[][] PLAY_TYPE_NAME = new String[][]{
-            PLAY_TYPE_NAME_FB,
-            PLAY_TYPE_NAME_BSB,
-            PLAY_TYPE_NAME_WQ,
-            PLAY_TYPE_NAME_SNK,
-            PLAY_TYPE_NAME_BQ,
-            PLAY_TYPE_NAME_PQ,
-            PLAY_TYPE_NAME_YMQ,
-            PLAY_TYPE_NAME_MSZQ,
-            PLAY_TYPE_NAME_BBQ,
-            PLAY_TYPE_NAME_ICEQ,
-            PLAY_TYPE_NAME_QJ,
-            PLAY_TYPE_NAME_STPQ,
-            PLAY_TYPE_NAME_SQ};
 
 }

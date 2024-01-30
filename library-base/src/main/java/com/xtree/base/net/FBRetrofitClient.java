@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.xtree.base.BuildConfig;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TagUtils;
 
 import java.io.File;
@@ -54,20 +55,28 @@ public class FBRetrofitClient {
     private Cache cache = null;
     private File httpCacheDirectory;
 
-    private static class SingletonHolder {
+    /*private static class SingletonHolder {
         private static FBRetrofitClient INSTANCE = new FBRetrofitClient();
-    }
+    }*/
 
     public static FBRetrofitClient getInstance() {
-        return SingletonHolder.INSTANCE;
+        return new FBRetrofitClient();
     }
 
-    public static void init() {
+    /*public static void init() {
         SingletonHolder.INSTANCE = new FBRetrofitClient();
-    }
+    }*/
 
     private FBRetrofitClient() {
         baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.FB_API_SERVICE_URL);
+
+        String platform = SPUtils.getInstance().getString("KEY_PLATFORM");
+        if(TextUtils.equals(platform, "fbxc")) {
+            baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_API_SERVICE_URL);
+        } else {
+            baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.FB_API_SERVICE_URL);
+        }
+        CfLog.e("=========baseUrl======" + baseUrl);
 
         if (httpCacheDirectory == null) {
             httpCacheDirectory = new File(mContext.getCacheDir(), "goldze_cache");

@@ -1,7 +1,7 @@
 package com.xtree.bet.ui.fragment;
 
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.app.Application;
 import android.os.Bundle;
@@ -22,9 +22,7 @@ import com.xtree.bet.ui.viewmodel.TemplateBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.fb.FBBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.bet.ui.viewmodel.fb.FBBtRecordModel;
 import com.xtree.bet.ui.viewmodel.pm.PMBtCarViewModel;
-import com.xtree.bet.ui.viewmodel.pm.PMBtRecordModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +137,7 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
 
     @Override
     public TemplateBtCarViewModel initViewModel() {
-        if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
             AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
             return new ViewModelProvider(this, factory).get(FBBtCarViewModel.class);
         } else {

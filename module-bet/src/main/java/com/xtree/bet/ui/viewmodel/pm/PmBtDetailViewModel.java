@@ -60,6 +60,9 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                 .subscribeWith(new PMHttpCallBack<MatchInfo>() {
                     @Override
                     public void onResult(MatchInfo matchInfo) {
+                        if(matchInfo == null){
+                            return;
+                        }
                         mMatchInfo = matchInfo;
                         videoAnimationUrlPB(Long.valueOf(mMatchInfo.mid), "Video");
                     }

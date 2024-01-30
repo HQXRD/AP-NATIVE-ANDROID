@@ -4,10 +4,13 @@ import android.view.View;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtils {
     public static String[] getPinYinInitials(String chinese) {
@@ -42,5 +45,23 @@ public class StringUtils {
         {
             return false;
         }
+    }
+
+    public  static  boolean isNumber(String str)
+    {
+        Pattern pattern = Pattern.compile("-?[0-9]+(\\.[0-9]+)?");
+        String bigStr ;
+        try {
+            bigStr = new BigDecimal(str).toString();
+        }catch (Exception exception)
+        {
+            return false;//
+        }
+        Matcher isNumber = pattern.matcher(bigStr);
+        if (!isNumber.matches())
+        {
+            return  false;
+        }
+        return true ;
     }
 }

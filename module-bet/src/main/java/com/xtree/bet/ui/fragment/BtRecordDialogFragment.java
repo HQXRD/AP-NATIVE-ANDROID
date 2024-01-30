@@ -1,7 +1,7 @@
 package com.xtree.bet.ui.fragment;
 
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.app.Application;
 import android.content.res.ColorStateList;
@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,9 +31,8 @@ import com.xtree.bet.ui.viewmodel.TemplateBtRecordModel;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.fb.FBBtRecordModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.bet.ui.viewmodel.fb.FBMainViewModel;
 import com.xtree.bet.ui.viewmodel.pm.PMBtRecordModel;
-import com.xtree.bet.ui.viewmodel.pm.PMMainViewModel;
+import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -60,8 +58,10 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
     private List<BtRecordTime> btRecordTimes;
 
     private String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+    private View mHeader;
+    private TextView tvHeaderName;
 
-    public static BtRecordDialogFragment getInstance(boolean isSettled){
+    public static BtRecordDialogFragment getInstance(boolean isSettled) {
         BtRecordDialogFragment btRecordDialogFragment = new BtRecordDialogFragment();
         Bundle bundle = new Bundle();
         bundle.putBoolean(KEY_ISSETTLED, isSettled);
@@ -79,23 +79,8 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
             textView.setTextSize(16);
             binding.tabTitle.addTab(binding.tabTitle.newTab().setCustomView(textView));
         }
+        initLeagueListView();
         binding.rvRecord.setOnGroupClickListener((parent, v, groupPosition, id) -> true);
-        binding.rvRecord.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                long position = binding.rvRecord.getExpandableListPosition(firstVisibleItem);
-                int type = binding.rvRecord.getPackedPositionType(position);
-                if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-                    int groupPosition = binding.rvRecord.getPackedPositionGroup(position);
-                    binding.tvTimeTop.setText(TimeUtils.longFormatString(btRecordTimes.get(groupPosition).getTime(), TimeUtils.FORMAT_MM_DD_1));
-                }
-            }
-        });
         binding.tabTitle.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -110,6 +95,29 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
+            }
+        });
+        binding.tvClose.setOnClickListener(this);
+    }
+
+    private void initLeagueListView() {
+        mHeader = LayoutInflater.from(getContext()).inflate(R.layout.bt_layout_bt_record_time, binding.rvRecord, false);
+        tvHeaderName = mHeader.findViewById(R.id.tv_name);
+        binding.rvRecord.addHeader(mHeader);
+        binding.rvRecord.setOnScrollListener(new AnimatedExpandableListViewMax.OnScrollListenerImpl(mHeader, binding.rvRecord) {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                super.onScroll(absListView, firstVisibleItem, visibleItemCount, totalItemCount);
+                long position = binding.rvRecord.getExpandableListPosition(firstVisibleItem);
+                int groupPosition = binding.rvRecord.getPackedPositionGroup(position);
+                if (tvHeaderName != null && groupPosition != -1) {
+                    tvHeaderName.setText(TimeUtils.longFormatString(btRecordTimes.get(groupPosition).getTime(), TimeUtils.FORMAT_MM_DD_1));
+                }
             }
         });
     }
@@ -173,10 +181,15 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
     @Override
     public void initViewObservable() {
         viewModel.btRecordTimeDate.observe(this, btRecordTimes -> {
-            if(btRecordTimes == null || btRecordTimes.isEmpty()){
-                binding.tvTimeTop.setVisibility(View.GONE);
-            }else {
-                binding.tvTimeTop.setVisibility(View.VISIBLE);
+            if (btRecordTimes == null || btRecordTimes.isEmpty()) {
+                binding.nsvOption.setVisibility(View.GONE);
+                binding.cslBottom.setVisibility(View.GONE);
+                binding.llEmpty.llEmpty.setVisibility(View.VISIBLE);
+                binding.llEmpty.tvBtNow.setOnClickListener(this);
+            } else {
+                binding.nsvOption.setVisibility(View.VISIBLE);
+                binding.cslBottom.setVisibility(View.VISIBLE);
+                binding.llEmpty.llEmpty.setVisibility(View.GONE);
                 this.btRecordTimes = btRecordTimes;
                 if (btRecordAdapter == null) {
                     btRecordAdapter = new BtRecordAdapter(getContext(), btRecordTimes);
@@ -187,6 +200,7 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
                 for (int i = 0; i < binding.rvRecord.getExpandableListAdapter().getGroupCount(); i++) {
                     binding.rvRecord.expandGroup(i);
                 }
+                binding.rvRecord.scroll(0);
             }
         });
     }
@@ -194,14 +208,14 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if(id == R.id.tv_close){
+        if (id == R.id.tv_close || id == R.id.tv_bt_now) {
             dismiss();
         }
     }
 
     @Override
     public TemplateBtRecordModel initViewModel() {
-        if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
             AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
             return new ViewModelProvider(this, factory).get(FBBtRecordModel.class);
         } else {

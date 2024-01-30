@@ -34,13 +34,16 @@ import java.util.Map;
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
-
 @Route(path = RouterFragmentPath.Home.AD)
 public class AdsFragment extends BaseFragment<FragmentAdsBinding, HomeViewModel> {
     int sslErrorCount = 0;
 
     @Override
     public void initView() {
+        //initWebView();
+    }
+
+    public void initWebView() {
         String cookie = "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN)
                 + ";" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME)
                 + "=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID)

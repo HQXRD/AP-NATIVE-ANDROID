@@ -95,7 +95,7 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
 
         GroupHolder holder;
         if (convertView == null) {
-            convertView = View.inflate(mContext, R.layout.bt_layout_bt_record_time, null);
+            convertView = View.inflate(mContext, R.layout.bt_layout_bt_record_header, null);
             holder = new GroupHolder(convertView);
             convertView.setTag(holder);
         } else {
@@ -103,14 +103,15 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         }
 
         BtLayoutBtRecordTimeBinding binding = BtLayoutBtRecordTimeBinding.bind(holder.itemView);
-        if(groupPosition == 0){
+        binding.tvName.setText(TimeUtils.longFormatString(btRecordTime.getTime(), TimeUtils.FORMAT_MM_DD_1));
+        /*if(groupPosition == 0){
             convertView.setVisibility(View.GONE);
             binding.vSpace.getLayoutParams().height = 0;
         }else {
             binding.vSpace.getLayoutParams().height = ConvertUtils.dp2px(10);
             convertView.setVisibility(View.VISIBLE);
             binding.tvName.setText(TimeUtils.longFormatString(btRecordTime.getTime(), TimeUtils.FORMAT_MM_DD_1));
-        }
+        }*/
         return convertView;
     }
 
@@ -131,11 +132,11 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         }
         BtLayoutBtRecordItemBinding binding = BtLayoutBtRecordItemBinding.bind(holder.itemView);
 
-        if(groupPosition == 0 && childPosition == 0){
+        /*if(groupPosition == 0 && childPosition == 0){
             binding.vSpace.getLayoutParams().height = 0;
         }else {
             binding.vSpace.getLayoutParams().height = ConvertUtils.dp2px(10);
-        }
+        }*/
 
         String cg = btResult.getBetResultOption().size() > 1 ? "串关" : "单关";
         if(btResult.getBetResultOption().size() > 1) {

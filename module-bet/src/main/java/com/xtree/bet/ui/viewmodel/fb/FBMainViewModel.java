@@ -531,7 +531,9 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @return
      */
     private void championLeagueList(List<MatchInfo> matchInfoList) {
-
+        Match header = new MatchFb();
+        header.setHead(true);
+        mChampionMatchList.add(header);
         for (MatchInfo matchInfo : matchInfoList) {
             Match match = new MatchFb(matchInfo);
             mChampionMatchList.add(match);
@@ -641,7 +643,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
             for (PlayType playType : newPlayGroup.getPlayTypeList()) {
                 playType.getOptionLists();
-                for (Option option : playType.getOptionList()) {
+                for (Option option : playType.getOptionList(match.getSportId())) {
                     if (option != null && playType.getOptionLists() != null && !playType.getOptionLists().isEmpty()) {
                         StringBuffer code = new StringBuffer();
                         code.append(match.getId());

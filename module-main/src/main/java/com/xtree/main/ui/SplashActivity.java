@@ -7,29 +7,52 @@ import android.os.Handler;
 
 import androidx.annotation.Nullable;
 
-import com.alibaba.android.arouter.launcher.ARouter;
-import com.alibaba.android.arouter.utils.TextUtils;
-import com.xtree.base.global.Constant;
-import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.router.RouterActivityPath;
+import com.xtree.base.BuildConfig;
+import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
+import com.xtree.main.R;
 
-import me.xtree.mvvmhabit.utils.SPUtils;
+import java.util.Arrays;
+import java.util.List;
+
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
- * Created by goldze on 2017/8/17 0017.
  * 冷启动
  */
-
 public class SplashActivity extends Activity {
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                inMain();
+        init();
+        setFasterDomain();
+
+        new Handler().postDelayed(() -> inMain(), 1 * 2500);
+    }
+
+    private void init() {
+        String url = getString(R.string.domain_url);
+        if (url.startsWith("http://") || url.startsWith("https://")) {
+            DomainUtil.setDomainUrl(url);
+        }
+
+        if (BuildConfig.DEBUG) {
+            ToastUtils.showLong("Debug model");
+        }
+    }
+
+    /**
+     * 线路竞速
+     */
+    private void setFasterDomain() {
+        String urls = getString(R.string.domain_url_list);
+        List<String> list = Arrays.asList(urls.split(";"));
+        for (String url : list) {
+            CfLog.i("url: " + url);
+            if (url.startsWith("http://") || url.startsWith("https://")) {
+
             }
-        }, 1 * 1000);
+        }
     }
 
     /**

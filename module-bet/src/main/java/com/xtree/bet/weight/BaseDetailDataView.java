@@ -1,7 +1,7 @@
 package com.xtree.bet.weight;
 
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -19,7 +19,6 @@ import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.Score;
 import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.PMConstants;
-import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.weight.fb.BadmintonDataView;
 import com.xtree.bet.weight.fb.BasketDataView;
 import com.xtree.bet.weight.fb.FbDataView;
@@ -146,7 +145,7 @@ public abstract class BaseDetailDataView extends ConstraintLayout{
     public static BaseDetailDataView getInstance(Context context, Match match, boolean isMatchList){
         String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
         String sport = match.getSportId();
-        if (TextUtils.equals(platform, PLATFORM_FB)) {
+        if (!TextUtils.equals(platform, PLATFORM_PM)) {
             if (sport.equals(FBConstants.SPORT_ID_FB)) {
                 return new FbDataView(context, match);
             } else if (sport.equals(FBConstants.SPORT_ID_BSB)) {

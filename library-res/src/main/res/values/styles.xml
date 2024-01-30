@@ -402,7 +402,20 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
         <item name="android:maxLength">16</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">12sp</item>
 
+    </style>
+    <!--usdt提现Edittext-->
+    <style name="style_usdt_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">40</item>
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textColorHint">@color/clr_txt_grey_03</item>
         <item name="android:textSize">12sp</item>
