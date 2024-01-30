@@ -238,9 +238,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.tvwMember.setOnClickListener(view -> {
             // 会员
             KLog.i("**************");
-            String title = getString(R.string.txt_vip_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_VIP_CENTER;
-            BrowserActivity.start(getContext(), title, url, true);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
             //new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url, true)).show();
         });
 
