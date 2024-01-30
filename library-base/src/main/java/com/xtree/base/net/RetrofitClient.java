@@ -4,11 +4,9 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.xtree.base.BuildConfig;
-import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.utils.TagUtils;
+import com.xtree.base.utils.DomainUtil;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -18,12 +16,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.http.cookie.CookieJarImpl;
 import me.xtree.mvvmhabit.http.cookie.store.PersistentCookieStore;
-import me.xtree.mvvmhabit.http.interceptor.BaseInterceptor;
 import me.xtree.mvvmhabit.http.interceptor.CacheInterceptor;
 import me.xtree.mvvmhabit.http.interceptor.logging.Level;
 import me.xtree.mvvmhabit.http.interceptor.logging.LoggingInterceptor;
 import me.xtree.mvvmhabit.utils.KLog;
-import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 import okhttp3.Cache;
 import okhttp3.ConnectionPool;
@@ -43,7 +39,7 @@ public class RetrofitClient {
     //缓存时间
     private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
     //服务端根路径
-    public static String baseUrl = "https://app1.dhtjf656.com/";//"https://www.weres.bar/";
+    public static String baseUrl = DomainUtil.getDomain();
 
     private static Context mContext = Utils.getContext();
 
