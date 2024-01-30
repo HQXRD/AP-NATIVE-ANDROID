@@ -1,7 +1,0 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xtree.sign">
-
-    <application>
-        <activity android:name="com.xtree.sign.ui.LoginActivity"></activity>
-    </application>
-</manifest>
