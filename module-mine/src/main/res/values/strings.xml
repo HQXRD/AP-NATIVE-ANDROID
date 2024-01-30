@@ -262,5 +262,17 @@
     <string name="txt_enter_google_code">请输入谷歌验证码</string>
     <string name="txt_auth_code">验证码</string>
     <string name="txt_check_pin_enter">请在动态口令中查看当前口令，并填入上方输入框</string>
+    <string name="txt_vip_back_percent_info">晋升标准\n会员累计投注额（彩票不计晋升活跃流水）达到相应级别的要求，即可在次日24点前晋级相应VIP等级。\n\n晋升顺序\nVIP等级达到相应的要求可每天晋升1级，但VIP等级不可越级晋升。\n\n保级要求\n会员在达到某VIP等级后，90天内投注需要完成保级要求。如果在此期间完成晋升，保级要求重新按照当前等级计算。\n\n降级标准\n如果会员在1个季度（90天计算）内没有完成相应的保级要求流水，系统会自动降级1个等级，相应的返水及其它优惠也会随之调整至降级后的等级。\n\n升级礼金\n升级礼金在会员提升等级后自动发放，每个级别的升级礼金仅发放一次。\n\n每周红包\n满足对应场馆流水要求即可解锁每周红包奖励。\n\n本平台有权对该活动进行修改、暂停、取消等，无需特别通知，并保留对该活动的最终解释权。</string>
+    <string name="txt_vip_back_percent_important">注：以上为各场馆最高返水，具体返水金额请以实际游戏为准。</string>
+    <string name="txt_vip_back_percent_title">VIP 反水比例</string>
+    <string name="txt_vip_gift">每周红包</string>
+    <string name="txt_vip_birthday">生日礼金</string>
+    <string name="txt_vip_withdraw_time">每日提款次数</string>
+    <string name="txt_vip_withdraw">每日提款额度</string>
+    <string name="txt_vip_card">晋级礼金</string>
+    <string name="txt_vip_detail">VIP详情 》</string>
+    <string name="txt_vip_now_back">当前流水 :</string>
+    <string name="txt_vip_back_need">流水要求</string>
+    <string name="txt_vip_back_need_three_month">保级流水3个月</string>
 
 </resources>
