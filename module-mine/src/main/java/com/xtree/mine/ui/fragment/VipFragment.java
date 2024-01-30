@@ -164,6 +164,8 @@ public class VipFragment extends BaseFragment<FragmentVipBinding, MineViewModel>
                 tabList.add("VIP 10");
             }
             mAdapter.notifyDataSetChanged();
+
+            binding.vpMain.setCurrentItem(level);
         });
 
         viewModel.liveDataProfile.observe(this, vo -> {
