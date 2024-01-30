@@ -41,6 +41,7 @@ import com.xtree.mine.vo.UserUsdtConfirmVo;
 import com.xtree.mine.vo.UserUsdtTypeVo;
 import com.xtree.mine.vo.VerificationCodeVo;
 import com.xtree.mine.vo.VerifyVo;
+import com.xtree.mine.vo.VipUpgradeInfoVo;
 import com.xtree.mine.vo.VirtualCashVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
@@ -409,6 +410,11 @@ public interface HttpApiService {
     @GET("/api/message/{key}")
     Flowable<BaseResponse<MsgPersonInfoVo>> getMessagePerson(@Path("key") String key);
 
+    /**
+     * 获取 消息详情
+     */
+    @GET("/api/account/vipinfo")
+    Flowable<BaseResponse<VipUpgradeInfoVo>> getVipUpgradeInfo();
     /** 获取提款方式*/
     @GET("/security/platwithdraw?1=1&client=m")
     Flowable<ChooseInfoVo> getChooseWithdrawInfo();

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvw_vip_level"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="VIP等级"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvw_vip_sport"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="体育 场馆"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvw_vip_real"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="真人 场馆"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvw_vip_electronic"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="电子 场馆"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvw_vip_gaming"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="电竞 场馆"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvw_vip_porker"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="棋牌 场馆"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvw_vip_lottery"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="彩票 场馆"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvw_vip_fishing"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="捕鱼 场馆"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvw_vip_level1"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="VIP等级"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvw_vip_sport1"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="体育 场馆"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvw_vip_real1"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="真人 场馆"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvw_vip_electronic1"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="电子 场馆"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvw_vip_gaming1"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="电竞 场馆"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvw_vip_porker1"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="棋牌 场馆"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvw_vip_lottery1"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="彩票 场馆"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvw_vip_fishing1"
+            android:layout_width="60dp"
+            android:layout_height="38dp"
+            android:background="@color/clr_gray_3"
+            android:gravity="center"
+            android:text="捕鱼 场馆"
+            android:textSize="12sp" />
+    </LinearLayout>
+</LinearLayout>

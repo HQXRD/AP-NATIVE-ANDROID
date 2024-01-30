@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="318dp"
+        android:layout_height="142dp"
+        android:background="@mipmap/me_vip_info_bg">
+
+        <TextView
+            android:id="@+id/tvw_vip_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:text="VIP"
+            android:textColor="@color/clr_gray_1"
+            android:textSize="28dp"
+            android:textStyle="italic|bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvw_vip_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="1"
+            android:textColor="@color/clr_gray_1"
+            android:textSize="28dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/tvw_vip_title"
+            app:layout_constraintTop_toTopOf="@id/tvw_vip_title" />
+
+        <TextView
+            android:id="@+id/tvw_vip_back_require"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:text="@string/txt_vip_back_need"
+            android:textColor="@color/clr_gray_2"
+            android:textSize="10dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/tvw_vip_title" />
+
+        <TextView
+            android:id="@+id/tvw_vip_back_require_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6000"
+            android:textColor="@color/me_text_agreement"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toTopOf="@id/tvw_vip_back_require"
+            app:layout_constraintStart_toStartOf="@id/tvw_vip_title" />
+
+        <TextView
+            android:id="@+id/tvw_vip_back_require_three_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="70dp"
+            android:text="@string/txt_vip_back_need_three_month"
+            android:textColor="@color/clr_gray_2"
+            android:textSize="10dp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/tvw_vip_back_require"
+            app:layout_constraintTop_toTopOf="@+id/tvw_vip_back_require" />
+
+        <TextView
+            android:id="@+id/tvw_vip_back_require_three_month_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4000"
+            android:textColor="@color/me_text_agreement"
+            android:textSize="18dp"
+            app:layout_constraintStart_toStartOf="@id/tvw_vip_back_require_three_month"
+            app:layout_constraintTop_toTopOf="@id/tvw_vip_back_require_num" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

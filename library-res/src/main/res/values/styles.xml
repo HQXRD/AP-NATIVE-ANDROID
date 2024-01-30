@@ -229,7 +229,7 @@
         <item name="android:textSize">14sp</item>
     </style>
     <!--反馈录入页面提示语言风格-->
-    <style name="style_fb_tip_title" >
+    <style name="style_fb_tip_title">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/clr_grey_00</item>
@@ -610,6 +610,7 @@
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:background">@mipmap/btn_google_bind_bg_bt</item>
     </style>
+
     <style name="style_bind_confirm_bank_title" parent="style_bind_confirm_title">
         <item name="android:minEms">7</item>
     </style>
@@ -691,5 +692,9 @@
         <item name="android:textColor">@color/clr_tutorial</item>
         <item name="android:textSize">@dimen/bt_text_16sp</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="style_custom_progress_bar" parent="android:Widget.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/bg_progressbar</item>
     </style>
 </resources>
