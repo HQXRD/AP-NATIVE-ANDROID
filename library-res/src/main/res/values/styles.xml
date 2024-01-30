@@ -694,7 +694,7 @@
         <item name="android:gravity">center</item>
     </style>
 
-    <style name="CustomProgressBar" parent="android:Widget.ProgressBar.Horizontal">
+    <style name="style_custom_progress_bar" parent="android:Widget.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/bg_progressbar</item>
     </style>
 </resources>

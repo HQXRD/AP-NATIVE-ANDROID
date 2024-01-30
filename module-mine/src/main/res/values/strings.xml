@@ -300,5 +300,6 @@
     <string name="txt_actual_arrival">实际到账：</string>
     <string name="txt_withdrawal_address">提款地址:</string>
     <string name="txt_handling_fee">手续费:</string>
+    <string name="txt_vip_title">VIP特权</string>
 
 </resources>
