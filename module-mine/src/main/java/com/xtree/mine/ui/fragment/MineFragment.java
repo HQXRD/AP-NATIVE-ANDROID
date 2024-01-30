@@ -23,6 +23,7 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.MsgDialog;
@@ -33,7 +34,6 @@ import com.xtree.mine.ui.activity.LoginRegisterActivity;
 import com.xtree.mine.ui.activity.MyWalletActivity;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.mine.vo.ProfileVo;
 import com.xtree.mine.vo.VipInfoVo;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
@@ -251,7 +251,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (mProfileVo == null || mProfileVo.userid == 0 || TextUtils.isEmpty(token)) {
+        if (mProfileVo == null || TextUtils.isEmpty(mProfileVo.userid) || TextUtils.isEmpty(token)) {
             CfLog.i("****** not login");
             binding.llLogin.setVisibility(View.VISIBLE);
             binding.clAlreadyLogin.setVisibility(View.INVISIBLE);

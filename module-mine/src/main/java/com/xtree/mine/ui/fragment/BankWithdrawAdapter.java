@@ -11,9 +11,9 @@ import androidx.annotation.NonNull;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.ItemBankWithdrawBinding;
-import com.xtree.mine.vo.ProfileVo;
 
 public class BankWithdrawAdapter extends CachedAutoRefreshAdapter<ProfileVo.CardInfoVo> {
 
