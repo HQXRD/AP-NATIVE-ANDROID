@@ -34,6 +34,7 @@ import com.xtree.mine.vo.UserUsdtConfirmVo;
 import com.xtree.mine.vo.UserUsdtTypeVo;
 import com.xtree.mine.vo.VerificationCodeVo;
 import com.xtree.mine.vo.VerifyVo;
+import com.xtree.mine.vo.VipUpgradeInfoVo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -398,4 +399,10 @@ public interface HttpApiService {
      */
     @GET("/api/message/{key}")
     Flowable<BaseResponse<MsgPersonInfoVo>> getMessagePerson(@Path("key") String key);
+
+    /**
+     * 获取 消息详情
+     */
+    @GET("/api/account/vipinfo")
+    Flowable<BaseResponse<VipUpgradeInfoVo>> getVipUpgradeInfo();
 }

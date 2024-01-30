@@ -122,7 +122,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             showAccountMgmt();
         });
         binding.tvwVipZhongxin.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_VIP_CENTER);
+//            goWebView(v, Constant.URL_VIP_CENTER);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
         });
         binding.tvwFanhuiBaobiao.setOnClickListener(v -> {
             //goWebView(v, Constant.URL_REBATE_REPORT);

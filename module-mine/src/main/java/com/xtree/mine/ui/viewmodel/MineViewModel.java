@@ -13,6 +13,8 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.ProfileVo;
+import com.xtree.mine.vo.VipInfoVo;
+import com.xtree.mine.vo.VipUpgradeInfoVo;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
@@ -29,6 +31,8 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>();
     public SingleLiveData<BalanceVo> liveDataBalance = new SingleLiveData<>(); // 中心钱包
     public SingleLiveData<Boolean> liveData1kRecycle = new SingleLiveData<>(); // 1键回收
+    public SingleLiveData<VipUpgradeInfoVo> liveDataVipUpgrade = new SingleLiveData<>(); // Vip升级资讯
+    public SingleLiveData<VipInfoVo> liveDataVipInfo = new SingleLiveData<>(); // Vip个人资讯
 
     public MineViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
@@ -112,6 +116,37 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
+    public void getVipUpgradeInfo() {
+        Disposable disposable = (Disposable) model.getApiService().getVipUpgradeInfo()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<VipUpgradeInfoVo>() {
+                    @Override
+                    public void onResult(VipUpgradeInfoVo vo) {
+                        CfLog.d(vo.toString());
+                        SPUtils.getInstance().put(SPKeyGlobal.VIP_INFO, new Gson().toJson(vo));
+                        liveDataVipUpgrade.setValue(vo);
+                        String vipInfoJson = SPUtils.getInstance().getString(SPKeyGlobal.HOME_VIP_INFO, "");
+                        if (!vipInfoJson.isEmpty()) {
+                            VipInfoVo vipInfoVo = new Gson().fromJson(vipInfoJson, VipInfoVo.class);
+                            liveDataVipInfo.setValue(vipInfoVo);
+                        }
+                        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+                        if (!vipInfoJson.isEmpty()) {
+                            ProfileVo mProfileVo = new Gson().fromJson(json, ProfileVo.class);
+                            liveDataProfile.setValue(mProfileVo);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
     public void readCache() {
         CfLog.i("******");
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
@@ -121,4 +156,24 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
         }
     }
 
+    public void readVipCache() {
+        CfLog.i("******");
+        String VipJson = SPUtils.getInstance().getString(SPKeyGlobal.VIP_INFO);
+        VipUpgradeInfoVo vo = new Gson().fromJson(VipJson, VipUpgradeInfoVo.class);
+        if (vo != null) {
+            CfLog.d(vo.toString());
+            SPUtils.getInstance().put(SPKeyGlobal.VIP_INFO, new Gson().toJson(vo));
+            liveDataVipUpgrade.setValue(vo);
+            String vipInfoJson = SPUtils.getInstance().getString(SPKeyGlobal.HOME_VIP_INFO, "");
+            if (!vipInfoJson.isEmpty()) {
+                VipInfoVo vipInfoVo = new Gson().fromJson(vipInfoJson, VipInfoVo.class);
+                liveDataVipInfo.setValue(vipInfoVo);
+            }
+            String homeJson = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+            if (!vipInfoJson.isEmpty()) {
+                ProfileVo mProfileVo = new Gson().fromJson(homeJson, ProfileVo.class);
+                liveDataProfile.setValue(mProfileVo);
+            }
+        }
+    }
 }
