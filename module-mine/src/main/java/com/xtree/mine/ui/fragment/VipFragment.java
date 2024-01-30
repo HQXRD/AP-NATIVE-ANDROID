@@ -40,6 +40,7 @@ public class VipFragment extends BaseFragment<FragmentVipBinding, MineViewModel>
 
     @Override
     public void initView() {
+        binding.ivwVipBack.setOnClickListener(v -> getActivity().finish());
         mAdapter = new FragmentStateAdapter(getChildFragmentManager(), getLifecycle()) {
             @NonNull
             @Override

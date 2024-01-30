@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -22,10 +22,30 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/ivw_vip_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@mipmap/back"
+            app:layout_constraintEnd_toStartOf="@id/ivw_vip_user_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_vip_title"
+            android:textColor="@color/clr_grey_1"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ivw_vip_back" />
+
+        <ImageView
             android:id="@+id/ivw_vip_user_icon"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="30dp"
             android:background="@mipmap/me_icon_name"
             app:layout_constraintBottom_toBottomOf="@id/ivw_vip_icon"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
             android:background="@mipmap/me_vip_level_00_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -113,7 +134,7 @@
 
             <ProgressBar
                 android:id="@+id/pb_vip"
-                style="@style/CustomProgressBar"
+                style="@style/style_custom_progress_bar"
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
                 android:layout_centerHorizontal="true"
