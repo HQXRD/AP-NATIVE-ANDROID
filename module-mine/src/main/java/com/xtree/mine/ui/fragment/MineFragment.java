@@ -170,7 +170,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
         });
         binding.tvwBangzhuZhongxin.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_HELP, false);
+//            goWebView(v, Constant.URL_HELP, false);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
         });
         binding.tvwUsdtJiaocheng.setOnClickListener(v -> {
             goWebView(v, Constant.URL_TUTORIAL);

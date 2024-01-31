@@ -53,5 +53,6 @@ public class Constant {
     public static final String URL_DW_RECORD = "/webapp/#/report/dw-record"; // 充提记录
     public static final String URL_INVITE_FRIEND = "/webapp/#/activity/141"; // 邀请好友
     public static final String URL_APP_CENTER = "/webapp/#/features"; // 底部几个菜单中间的那个
-
+    public static final String URL_LOTTERY_INFO = "/static/activity/xc/lotteryInfo.html"; // 彩种信息
+    public static final String URL_PLAY_INTRO = "/static/activity/xc/rulesInfo.html"; // 玩法介绍
 }
