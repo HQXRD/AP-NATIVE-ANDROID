@@ -57,7 +57,6 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import project.tqyb.com.library_res.databinding.ItemTextBinding;
 
-
 /**
  * 充值-反馈
  */
@@ -86,7 +85,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
     @Override
     public void initView() {
-
 
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
@@ -171,8 +169,9 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
     @Override
     public void initData() {
         //获取页面数据
-        String date = TimeUtils.parseTime(new Date(), TimeUtils.FORMAT_YY_MM_DD);
-        viewModel.feedbackInfo(date + " 00:00 ", date + " 23:59");
+        String startTime = TimeUtils.parseTime(new Date(), TimeUtils.FORMAT_YY_MM_DD) + " 00:00";
+        String endTime = TimeUtils.parseTime(new Date(), TimeUtils.FORMAT_YY_MM_DD_HH_MM);
+        viewModel.feedbackInfo(startTime, endTime);
     }
 
     @Override
@@ -382,7 +381,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
     }
 
-
     /**
      * 显示存款时间选择器
      */
@@ -467,7 +465,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             binding.tvSelectorLeftAdd.setText(R.string.txt_tip_input_usdt_add);
             binding.etSelectorRightAdd.setHint(R.string.txt_tip_input_usdt_add_hint);
 
-
         }
         //虚拟币
         else if (uiType == "usdt") {
@@ -530,7 +527,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
         }
     }
-
 
     /**
      * 付款账户检测//付款錢包地址
@@ -623,7 +619,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
     private void nextCheckInputWithPayway(int payType) {
         //1 支付宝 微信 2 虚拟币
 
-
         if (checkInputPaymentAccout(payType) && checkInputPaymentName(payType) &&
                 checkInputCollectionName(payType) && checkInputSaveName(payType) &&
                 checkInputThirdOrder() && imageSelector) {
@@ -655,7 +650,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         textChange.setArrayList(binding.tvSelectorRightThree);//第三方单号
         binding.tvSelectorRightThree.addTextChangedListener(textChange);
     }
-
 
     /**
      * 多个输入框监听
@@ -743,7 +737,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
         }
     }
-
 
     /**
      * 图片选择

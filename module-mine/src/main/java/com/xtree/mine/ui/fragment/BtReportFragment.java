@@ -162,7 +162,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
         listStatus.add(new StatusVo(1, getString(R.string.txt_settled)));
         listStatus.add(new StatusVo(2, getString(R.string.txt_unsettle)));
 
-        userId = "" + SPUtils.getInstance().getInt(SPKeyGlobal.USER_ID, 0);
+        userId = SPUtils.getInstance().getString(SPKeyGlobal.USER_ID);
         userName = SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME);
     }
 

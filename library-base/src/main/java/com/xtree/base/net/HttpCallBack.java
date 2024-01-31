@@ -82,9 +82,16 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             case HttpCallBack.CodeRule.CODE_30003:
             case HttpCallBack.CodeRule.CODE_30713:
                 KLog.e("登出状态,销毁token. " + baseResponse);
-                SPUtils.getInstance().put("user_token", "");
-                SPUtils.getInstance().put("user_sessid", "");
-                //ToastUtils.showShort("请重新登录");
+                SPUtils.getInstance().remove(SPKeyGlobal.USER_TOKEN);
+                SPUtils.getInstance().remove(SPKeyGlobal.USER_SHARE_SESSID);
+                SPUtils.getInstance().remove(SPKeyGlobal.HOME_PROFILE);
+                SPUtils.getInstance().remove(SPKeyGlobal.HOME_VIP_INFO);
+                SPUtils.getInstance().remove(SPKeyGlobal.HOME_NOTICE_LIST);
+                SPUtils.getInstance().remove(SPKeyGlobal.USER_ID);
+                //SPUtils.getInstance().remove(SPKeyGlobal.USER_NAME);
+                SPUtils.getInstance().remove(SPKeyGlobal.MSG_PERSON_INFO);
+                RetrofitClient.init();
+                ToastUtils.showShort("请重新登录");
                 ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
                 break;
             case HttpCallBack.CodeRule.CODE_20208:

@@ -2,6 +2,7 @@ package com.xtree.mine.data.source.http.service;
 
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.BankCardCashVo;
@@ -23,7 +24,6 @@ import com.xtree.mine.vo.MsgPersonInfoVo;
 import com.xtree.mine.vo.MsgPersonListVo;
 import com.xtree.mine.vo.PlatWithdrawConfirmVo;
 import com.xtree.mine.vo.PlatWithdrawVo;
-import com.xtree.mine.vo.ProfileVo;
 import com.xtree.mine.vo.ProfitLossReportVo;
 import com.xtree.mine.vo.RebateReportVo;
 import com.xtree.mine.vo.RechargeReportVo;

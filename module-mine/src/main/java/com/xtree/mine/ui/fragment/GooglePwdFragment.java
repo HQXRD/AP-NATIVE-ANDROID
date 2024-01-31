@@ -24,6 +24,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.UuidUtil;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -31,7 +32,6 @@ import com.xtree.mine.databinding.FragmentGooglePwdBinding;
 import com.xtree.mine.ui.viewmodel.GooglePwdViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.GooglePswVO;
-import com.xtree.mine.vo.ProfileVo;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -395,7 +395,9 @@
                 app:layout_constraintLeft_toLeftOf="@+id/more_service_hint"
                 app:layout_constraintTop_toBottomOf="@+id/more_service_hint">
 
-                <LinearLayout style="@style/style_ll_row">
+                <LinearLayout
+                    android:id="@+id/ll_menu_01"
+                    style="@style/style_ll_row">
 
                     <TextView
                         android:id="@+id/tvw_invite_friend"
@@ -428,7 +430,9 @@
                         android:text="@string/me_sanfang_zhuanzhang" />
                 </LinearLayout>
 
-                <LinearLayout style="@style/style_ll_row">
+                <LinearLayout
+                    android:id="@+id/ll_menu_02"
+                    style="@style/style_ll_row">
 
                     <TextView
                         android:id="@+id/tvw_security_center"
@@ -447,18 +451,19 @@
                     <TextView style="@style/style_wallet_space" />
 
                     <TextView
+                        android:id="@+id/tvw_fanhui_baobiao"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_fanhui_baobiao"
+                        android:text="@string/me_fanhui_baobiao" />
+
+                    <TextView style="@style/style_wallet_space" />
+
+                    <TextView
                         android:id="@+id/tvw_vip_zhongxin"
                         style="@style/style_menu_black"
                         android:drawableTop="@mipmap/me_vip_zhongxin"
                         android:text="@string/me_vip_zhongxin" />
 
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView
-                        android:id="@+id/tvw_fanhui_baobiao"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_fanhui_baobiao"
-                        android:text="@string/me_fanhui_baobiao" />
                 </LinearLayout>
 
                 <LinearLayout style="@style/style_ll_row">
@@ -480,18 +485,19 @@
                     <TextView style="@style/style_wallet_space" />
 
                     <TextView
+                        android:id="@+id/tvw_usdt_jiaocheng"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_usdt_jiaocheng"
+                        android:text="@string/me_usdt_jiaocheng" />
+
+                    <TextView style="@style/style_wallet_space" />
+
+                    <TextView
                         android:id="@+id/tvw_bangzhu_zhongxin"
                         style="@style/style_menu_black"
                         android:drawableTop="@mipmap/me_invite_friend"
                         android:text="@string/me_bangzhu_zhongxin" />
 
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView
-                        android:id="@+id/tvw_usdt_jiaocheng"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_usdt_jiaocheng"
-                        android:text="@string/me_usdt_jiaocheng" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -512,6 +518,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </layout>

@@ -15,6 +15,7 @@ import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.home.R;
 import com.xtree.home.data.HomeRepository;
 import com.xtree.home.vo.BannersVo;
@@ -23,7 +24,6 @@ import com.xtree.home.vo.DataVo;
 import com.xtree.home.vo.GameStatusVo;
 import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
-import com.xtree.home.vo.ProfileVo;
 import com.xtree.home.vo.SettingsVo;
 import com.xtree.home.vo.VipInfoVo;
 

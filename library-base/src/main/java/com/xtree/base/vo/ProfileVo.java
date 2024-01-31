@@ -23,7 +23,7 @@ public class ProfileVo {
     //public int sportStatus; // 0,
     //public int maxLivePoint; // 0,
     //public int maxSportPoint; // 0,
-    public int userid; // 5373118,
+    public String userid; // 5373118,
     public String username; // test032
     public String nickname; // test032
     public int agency_model; // 4,
@@ -160,7 +160,7 @@ public class ProfileVo {
         }
     }
 
-    public class CardInfoVo {
+    public static class CardInfoVo {
 
         public String account; // "***************8487",
         public String atime; // "2023-09-01 19:58:53",

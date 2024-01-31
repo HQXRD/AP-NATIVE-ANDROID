@@ -23,6 +23,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.UuidUtil;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
@@ -33,7 +34,6 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.GameMenusVo;
-import com.xtree.mine.vo.ProfileVo;
 
 import java.util.ArrayList;
 import java.util.Collections;

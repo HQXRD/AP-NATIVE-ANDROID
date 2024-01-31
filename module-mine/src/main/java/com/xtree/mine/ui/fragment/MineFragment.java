@@ -23,6 +23,7 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.MsgDialog;
@@ -33,7 +34,6 @@ import com.xtree.mine.ui.activity.LoginRegisterActivity;
 import com.xtree.mine.ui.activity.MyWalletActivity;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.mine.vo.ProfileVo;
 import com.xtree.mine.vo.VipInfoVo;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
@@ -49,6 +49,32 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     VipInfoVo mVipInfoVo;
     String token;
     BasePopupView ppw;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (TextUtils.isEmpty(token)) {
+            binding.ivwSetting.setClickable(false);
+            binding.ivwMsg.setClickable(false);
+            binding.btnLogout.setVisibility(View.INVISIBLE);
+            setChildClickable(binding.llMenu, false);
+            setChildClickable(binding.llMenu01, false);
+            setChildClickable(binding.llMenu02, false);
+        } else {
+            binding.ivwSetting.setClickable(true);
+            binding.ivwMsg.setClickable(true);
+            binding.btnLogout.setVisibility(View.VISIBLE);
+            setChildClickable(binding.llMenu, true);
+            setChildClickable(binding.llMenu01, true);
+            setChildClickable(binding.llMenu02, true);
+        }
+    }
+
+    private void setChildClickable(ViewGroup vgp, boolean isClickable) {
+        for (int i = 0; i < vgp.getChildCount(); i++) {
+            vgp.getChildAt(i).setClickable(isClickable);
+        }
+    }
 
     @Override
     public void initView() {
@@ -144,10 +170,37 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
         });
         binding.tvwBangzhuZhongxin.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_HELP, false);
+//            goWebView(v, Constant.URL_HELP, false);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
         });
         binding.tvwUsdtJiaocheng.setOnClickListener(v -> {
             goWebView(v, Constant.URL_TUTORIAL);
+        });
+        binding.textViewLogin.setOnClickListener(v -> {
+            Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
+            toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.LOGIN_TYPE);
+            startActivity(toLogin);
+        });
+        binding.textViewRegister.setOnClickListener(v -> {
+            Intent toRegister = new Intent(getContext(), LoginRegisterActivity.class);
+            toRegister.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.REGISTER_TYPE);
+            startActivity(toRegister);
+        });
+
+        binding.llMenu.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(token)) {
+                binding.textViewLogin.performClick();
+            }
+        });
+        binding.llMenu01.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(token)) {
+                binding.textViewLogin.performClick();
+            }
+        });
+        binding.llMenu02.setOnClickListener(v -> {
+            if (TextUtils.isEmpty(token)) {
+                binding.textViewLogin.performClick();
+            }
         });
 
     }
@@ -199,7 +252,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (mProfileVo == null || mProfileVo.userid == 0 || TextUtils.isEmpty(token)) {
+        if (mProfileVo == null || TextUtils.isEmpty(mProfileVo.userid) || TextUtils.isEmpty(token)) {
             CfLog.i("****** not login");
             binding.llLogin.setVisibility(View.VISIBLE);
             binding.clAlreadyLogin.setVisibility(View.INVISIBLE);
@@ -222,18 +275,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         mProfileVo = new Gson().fromJson(json, ProfileVo.class);
         json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_VIP_INFO);
         mVipInfoVo = new Gson().fromJson(json, VipInfoVo.class);
-
-        binding.textViewLogin.setOnClickListener(v -> {
-            Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
-            toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.LOGIN_TYPE);
-            startActivity(toLogin);
-        });
-
-        binding.textViewRegister.setOnClickListener(v -> {
-            Intent toRegister = new Intent(getContext(), LoginRegisterActivity.class);
-            toRegister.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.REGISTER_TYPE);
-            startActivity(toRegister);
-        });
 
     }
 
@@ -301,30 +342,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     private void showAccountMgmt() {
         new XPopup.Builder(getContext()).asCustom(new AccountMgmtDialog(getContext())).show();
     }
-
-    /*private void showBottomDialog() {
-        //1、使用Dialog、设置style
-        final Dialog dialog = new Dialog(getActivity(), R.style.DialogTheme);
-        //2、设置布局
-        View view = View.inflate(getActivity(), R.layout.mine_account_popup_window, null);
-        dialog.setContentView(view);
-
-        Window window = dialog.getWindow();
-        //设置弹出位置
-        window.setGravity(Gravity.BOTTOM);
-        //设置弹出动画
-        window.setWindowAnimations(R.style.main_menu_animStyle);
-        //设置对话框大小
-        window.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        dialog.show();
-        dialog.findViewById(R.id.me_close_icon).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-    }*/
 
     @Override
     public void initViewObservable() {

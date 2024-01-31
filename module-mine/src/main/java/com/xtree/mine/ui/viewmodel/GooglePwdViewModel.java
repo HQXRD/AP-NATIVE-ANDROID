@@ -9,10 +9,10 @@ import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.BindGoogleVO;
 import com.xtree.mine.vo.GooglePswVO;
-import com.xtree.mine.vo.ProfileVo;
 
 import java.util.HashMap;
 
