@@ -25,7 +25,6 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserActivity;
-import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -85,8 +84,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
         binding.ivwMsg.setOnClickListener(v -> {
             CfLog.i("****** ");
-//            String title = getString(R.string.txt_msg_center);
-//            goWebView(title, Constant.URL_MY_MESSAGES);
             startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG);
         });
 
@@ -113,12 +110,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
         binding.tvwBet.setOnClickListener(v -> {
             CfLog.i("****** ");
-            //goWebView(v, Constant.URL_BET_RECORD);
             startContainerFragment(RouterFragmentPath.Mine.PAGER_BT_REPORT); // 投注记录
         });
         binding.tvwTransRecord.setOnClickListener(v -> {
             CfLog.i("****** ");
-            //goWebView(v, Constant.URL_ACCOUNT_CHANGE);
             startContainerFragment(RouterFragmentPath.Mine.PAGER_ACCOUNT_CHANGE); // 账变记录
         });
         binding.tvwSafe.setOnClickListener(v -> {
@@ -136,11 +131,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             BrowserActivity.start(getContext(), title, Constant.URL_PARTNER, true);
         });
         binding.tvwYinkuiBaobiao.setOnClickListener(v -> {
-            //goWebView(v, Constant.URL_PROFIT_LOSS);
             startContainerFragment(RouterFragmentPath.Mine.PAGER_PROFIT_LOSS); // 盈亏报表
         });
         binding.tvwSanfangZhuanzhang.setOnClickListener(v -> {
-            //goWebView(v, Constant.URL_3RD_TRANSFER);
             startContainerFragment(RouterFragmentPath.Mine.PAGER_THIRD_TRANSFER); // 三方转账
         });
 
@@ -152,11 +145,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             showAccountMgmt();
         });
         binding.tvwVipZhongxin.setOnClickListener(v -> {
-//            goWebView(v, Constant.URL_VIP_CENTER);
             startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
         });
         binding.tvwFanhuiBaobiao.setOnClickListener(v -> {
-            //goWebView(v, Constant.URL_REBATE_REPORT);
             startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_REPORT); // 返水报表
         });
 
@@ -164,14 +155,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             goWebView(v, Constant.URL_SPORT_RULES, false);
         });
         binding.tvwChangjianWenti.setOnClickListener(v -> {
-            //goWebView(v, Constant.URL_QA); // 底部弹出
-//            String title = ((TextView) v).getText().toString();
-//            String url = DomainUtil.getDomain2() + Constant.URL_QA;
-//            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
             startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
         });
         binding.tvwBangzhuZhongxin.setOnClickListener(v -> {
-//            goWebView(v, Constant.URL_HELP, false);
             startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
         });
         binding.tvwUsdtJiaocheng.setOnClickListener(v -> {
@@ -232,6 +218,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     protected void initImmersionBar() {
         //设置共同沉浸式样式
         ImmersionBar.with(this)
+                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
                 .fitsSystemWindows(false)
                 .statusBarDarkFont(false)
                 .init();

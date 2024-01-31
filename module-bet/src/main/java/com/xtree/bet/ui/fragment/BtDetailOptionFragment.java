@@ -60,6 +60,7 @@ public class BtDetailOptionFragment extends BaseFragment<BtLayoutDetailOptionBin
     protected void initImmersionBar() {
         //设置共同沉浸式样式
         ImmersionBar.with(this)
+                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
                 .fitsSystemWindows(false)
                 .statusBarDarkFont(false)
                 .init();

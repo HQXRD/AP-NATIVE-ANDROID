@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     protected void initImmersionBar() {
         //设置共同沉浸式样式
         ImmersionBar.with(this)
+                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
                 .fitsSystemWindows(false)
                 .statusBarDarkFont(true)
                 .init();
@@ -102,9 +103,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     /**
      * 圆形tab
      */
-    private BaseTabItem newRoundItem(int drawable){
+    private BaseTabItem newRoundItem(int drawable) {
         SpecialMenuItemView mainTab = new SpecialMenuItemView(this);
-        mainTab.initialize(drawable,drawable,"");
+        mainTab.initialize(drawable, drawable, "");
         mainTab.setIconBottomMargin(60);
         return mainTab;
     }
