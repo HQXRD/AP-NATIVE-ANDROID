@@ -18,6 +18,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 public interface ApiService {
 
@@ -58,17 +59,14 @@ public interface ApiService {
 
     /**
      * 获取反馈页面基本数据
-     *
-     * @param starttime
-     * @param endtime   /api/deposit/customerinfos?starttime=2024-01-15 00:00&endtime=2024-01-15 23:59
      */
     @GET("/api/deposit/customerinfos?")
-    Flowable<BaseResponse<FeedbackVo>> getFeedback(@Query("starttime") String starttime, @Query("endtime") String endtime);
-
+    Flowable<BaseResponse<FeedbackVo>> getFeedback(@QueryMap Map<String , String> map);
+    /** 查看反馈详情*/
+    @GET("/api/deposit/customerinfos?")
+    Flowable<BaseResponse<FeedbackCheckVo>> getEditFeedback(@QueryMap Map<String , String> map);
     /**
      * 反馈页面上传图片接口
-     *
-     * @param map
      */
     @POST("/api/fileuseapi/upload")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})

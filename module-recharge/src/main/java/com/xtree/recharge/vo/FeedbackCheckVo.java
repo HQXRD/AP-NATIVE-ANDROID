@@ -7,8 +7,30 @@ import java.util.List;
  */
 public class FeedbackCheckVo {
 
+    public static class FeedbackBankInfo
+    {
+
+        public   int id ;
+        public  String name ;
+
+        public FeedbackBankInfo(int id, String name)
+        {
+            this.id = id ;
+            this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return "FeedbackBankInfo{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    '}';
+        }
+    }
+
 
     public List<FeedbackCheckInfo> list ;
+    public List<FeedbackBankInfo> banksInfo ;
     public static class FeedbackCheckInfo {
         public String  id ;
         public String userpay_mode ;
@@ -61,5 +83,6 @@ public class FeedbackCheckVo {
                     '}';
         }
     }
+    public List<FeedbackProtocolInfo> protocolInfo ;//虚拟币协议（虚拟币选项 协议选择使用）
 
 }

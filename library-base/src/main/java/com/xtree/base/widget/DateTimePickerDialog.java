@@ -8,6 +8,7 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.R;
 import com.xtree.base.databinding.DialogDatetimePickerBinding;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 
 import java.util.Calendar;
@@ -76,6 +77,7 @@ public class DateTimePickerDialog extends BottomPopupView {
         dialog.title = title;
         dialog.mCallBack = mCallBack;
         dialog.mFormat = format;
+        //dialog.mFormat = "yyyy-MM-dd HH:mm:ss";
         if (minMonth > 0) {
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - minMonth);
@@ -129,7 +131,7 @@ public class DateTimePickerDialog extends BottomPopupView {
         binding.dateTimePicker.showLabel(true);
         binding.dateTimePicker.setOnDateTimeChangedListener((dateTimePicker, l) -> {
             tmpDate = TimeUtils.longFormatString(l, mFormat);
-            //CfLog.d(tmpDate);
+            CfLog.d("---------->",tmpDate);
         });
 
     }

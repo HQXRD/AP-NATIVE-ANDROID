@@ -21,6 +21,7 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.StringUtils;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
@@ -96,7 +97,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView
     {
         binding = DialogBankWithdrawalVirtualBinding.bind(findViewById(R.id.ll_root));
         binding.ivwClose.setOnClickListener(v-> dismiss());
-        binding.tvwTitle.setText("请选择提款方式");
+        
+        binding.tvwTitle.setText(channelInfo.title);
 
         binding.etInputMoney.setInputType(InputType.TYPE_CLASS_NUMBER);
         //显示设置请求View
@@ -111,23 +113,6 @@ public class VirtualWithdrawalDialog extends BottomPopupView
             binding.llUsdt.setOnClickListener(v ->{
                 binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
                 binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
-            });
-            //test 显不同状态页面
-            binding.tvSetWithdrawalRequest.setOnClickListener( v -> {
-                binding.llSetRequestView.setVisibility(View.VISIBLE);
-                binding.llVirtualConfirmView.setVisibility(View.GONE);
-                binding.llOverApply.setVisibility(View.GONE);
-            });
-
-            binding.tvConfirmWithdrawalRequest.setOnClickListener(v->{
-                binding.llSetRequestView.setVisibility(View.GONE);
-                binding.llVirtualConfirmView.setVisibility(View.VISIBLE);
-                binding.llOverApply.setVisibility(View.GONE);
-            });
-            binding.tvOverWithdrawalRequest.setOnClickListener(v -> {
-                binding.llSetRequestView.setVisibility(View.GONE);
-                binding.llVirtualConfirmView.setVisibility(View.GONE);
-                binding.llOverApply.setVisibility(View.VISIBLE);
             });
         }
 
@@ -167,10 +152,10 @@ public class VirtualWithdrawalDialog extends BottomPopupView
     private void refreshSetUI()
     {
         binding.llSetRequestView.setVisibility(View.VISIBLE);
-
+        String showRest = StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.rest));
         //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
         String notice = "注意：每天限制提款"+usdtCashVo.count+"次，提款时间为"+usdtCashVo.wraptime.starttime+"至"
-         +usdtCashVo.wraptime.endtime+",您今日剩余提款额度为 "+usdtCashVo.rest+"元";
+         +usdtCashVo.wraptime.endtime+",您今日剩余提款额度为 "+showRest+"元";
         binding.tvNotice.setText(notice);
         binding.tvUserNameShow.setText(usdtCashVo.user.username);
         ;
@@ -231,19 +216,15 @@ public class VirtualWithdrawalDialog extends BottomPopupView
         binding.ivNext.setOnClickListener(v->{
             if (TextUtils.isEmpty(binding.etInputMoney.getText().toString()))
             {
-                ToastUtils.showLong("请输入正确金额");
+                ToastUtils.showLong(R.string.txt_input_amount_tip);;
             }
-           /* else if (StringUtils.isNumber(binding.tvInfoActualNumberShow.getText().toString().trim()))
-            {
-                ToastUtils.showLong("请输入正确金额2");
-            }*/
             else if (Long.valueOf(binding.etInputMoney.getText().toString()) > Long.valueOf(selectUsdtInfo.max_money))
             {
-                ToastUtils.showLong("请输入正确金额");
+                ToastUtils.showLong(R.string.txt_input_amount_tip);
             }
             else if (Integer.valueOf(binding.etInputMoney.getText().toString())<Integer.valueOf(selectUsdtInfo.min_money))
             {
-                ToastUtils.showLong("请输入正确金额");
+                ToastUtils.showLong(R.string.txt_input_amount_tip);
             }
             else
             {
@@ -259,23 +240,28 @@ public class VirtualWithdrawalDialog extends BottomPopupView
         }
         binding.llSetRequestView.setVisibility(View.GONE);
         binding.llVirtualConfirmView.setVisibility(View.VISIBLE);
-        //usdtSecurityVo
-        binding.tvConfirmUserNameShow.setText(usdtSecurityVo.user.username);
-        binding.tvConfirmWithdrawalTypeShow.setText(usdtCashVo.user.availablebalance);
+
+        binding.tvConfirmWithdrawalAmount.setText(usdtCashVo.user.username);
+
+        binding.tvConfirmWithdrawalTypeShow.setText(StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.user.availablebalance)));
         binding.tvConfirmAmountShow.setText(usdtSecurityVo.usdt_type);
         binding.tvWithdrawalVirtualTypeShow.setText(usdtSecurityVo.usdt_type);
+        binding.tvWithdrawalTypeShow.setText(usdtSecurityVo.usdt_type);
 
+        binding.tvWithdrawalAmountTypeShow.setText(usdtSecurityVo.usdt_type);
         binding.tvWithdrawalActualArrivalShow.setText(usdtSecurityVo.datas.arrive);
         binding.tvWithdrawalExchangeRateShow.setText(usdtSecurityVo.exchangerate);
         binding.tvWithdrawalAddressShow.setText(usdtSecurityVo.usdt_card);
-        binding.tvWithdrawalHandlingFeeShow.setText(usdtSecurityVo.ourfee);
+        binding.tvWithdrawalHandlingFeeShow.setText(usdtSecurityVo.datas.handing_fee);
+
         //下一步
         binding.ivConfirmNext.setOnClickListener(v->{
             requestConfirmVirtual ();
         });
         //上一步
         binding.ivConfirmPrevious.setOnClickListener(v->{
-
+            binding.llSetRequestView.setVisibility(View.VISIBLE);
+            binding.llVirtualConfirmView.setVisibility(View.GONE);
         });
     }
     /** 刷新完成申请UI*/
@@ -349,7 +335,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView
         };
         adapter.clear();
         adapter.addAll(list);
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择收款地址", adapter, 40));
+        String selectString = getContext().getString(R.string.txt_select_add);
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), selectString, adapter, 40));
         ppw.show();
     }
 
@@ -362,12 +349,12 @@ public class VirtualWithdrawalDialog extends BottomPopupView
         map.put("action","platwithdraw");
         map.put("channel_child" , "1");
         map.put("channel_typenum","1");
-        map.put("check","");
+        map.put("check","1");
         map.put("controller","security");
         map.put("flag","withdraw");
         map.put("money",money);
-
-        map.put("name","TRC20_USDT");
+    //usdt_type
+        map.put("name",selectUsdtInfo.usdt_type);
 
         String usdtid = null;
         if (selectUsdtInfo == null)
@@ -407,7 +394,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView
         map.put("flag","confirm");
         map.put("check","1");
         map.put("name" ,"");
-        map.put("money",usdtSecurityVo.datas.money);
+        map.put("money",usdtSecurityVo.datas.arrive);
         map.put("handing_fee",usdtSecurityVo.datas.handing_fee);
         map.put("cardid" ,"");
         map.put("play_source" ,"");

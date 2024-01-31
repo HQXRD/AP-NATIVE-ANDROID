@@ -28,7 +28,7 @@ public class BankCardCashVo {
     public Wraptime wraptime;//提款时间
     public ArrayList<ChanneBankVo> banks;//支持的银行卡列表
 
-    public ArrayList<ChannelVo> channel_list;//头部选项卡
+    public ArrayList<ChannelVo> channel_list = new ArrayList<>();//头部选项卡
     public String check;
     public String rest;//今日剩余提款额度
     public String desK;

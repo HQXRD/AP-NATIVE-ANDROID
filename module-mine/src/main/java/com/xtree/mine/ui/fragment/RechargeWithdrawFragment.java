@@ -169,12 +169,28 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
                 binding2.tvwUserpayAmount.setText(vo.userpay_amount);
                 binding2.tvwUserpayTime.setText(vo.userpay_time);
                 binding2.tvwAddTime.setText(vo.add_time);
+
                 binding2.tvwDetail.setOnClickListener(v -> {
-                    CfLog.i("****** ");
+                    CfLog.i("****** " +vo.id);
                     Bundle bundle = new Bundle();
                     bundle.putString("id", vo.id);
-                    startContainerFragment(RouterFragmentPath.Mine.PAGER_RECHARGE_FEEDBACK_DETAIL, bundle);
+                    startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK_DETAIL, bundle);
                 });
+                if (vo.order_status.equals("4")) //订单超时只能查看，不能修改
+                {
+                    binding2.tvwEdit.setVisibility(View.GONE);
+                }
+                else
+                {
+                    binding2.tvwEdit.setVisibility(View.VISIBLE);
+                    binding2.tvwEdit.setOnClickListener(v -> {
+                        CfLog.i("****** " +vo.id);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", vo.id);
+                        startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK_EDIT, bundle);
+                    });
+                }
+
             }
         };
 

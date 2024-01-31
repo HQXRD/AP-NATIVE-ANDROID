@@ -7,6 +7,7 @@ public class USDTConfirmVo {
     public String  msg_type;
     /*"msg_detail": "账户提款申请成功",
             "msg_type": 2,*/
+    public String error ;//提款失败后才有该字段
     public class  User
     {
         public String parentid ;
