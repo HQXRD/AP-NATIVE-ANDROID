@@ -146,6 +146,12 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
     public void initViewObservable() {
         viewModel.liveDataCardList.observe(this, vo -> {
             CfLog.i("******");
+            // 如果是列表为空的情况,跳到增加页,并关闭当前页(关闭是因为有时会提示最多只能绑定0张卡,或者死循环)
+            if (vo.status == 1) {
+                binding.tvwAdd.performClick(); // 跳到增加绑定页
+                getActivity().finish();
+                return;
+            }
 
             if (vo.banklist != null && !vo.banklist.isEmpty()) {
                 CfLog.i("****** 这是列表");

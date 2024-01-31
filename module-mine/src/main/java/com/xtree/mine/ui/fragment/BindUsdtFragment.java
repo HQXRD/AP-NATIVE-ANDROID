@@ -158,6 +158,8 @@ public class BindUsdtFragment extends BaseFragment<FragmentBindUsdtBinding, Bind
 
             if (vo.status == 1) {
                 binding.tvwAdd.performClick(); // 跳到增加绑定页
+                getActivity().finish();
+                return;
             }
             if (vo.banklist != null) {
                 mAdapter.clear();
