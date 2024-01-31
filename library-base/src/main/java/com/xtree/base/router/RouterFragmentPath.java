@@ -61,6 +61,7 @@ public class RouterFragmentPath {
         public static final String PAGER_VIP_INFO = MINE + "/VipInfo"; // VIP资讯
         public static final String PAGER_INFO = MINE + "/Info"; // 帮助中心
         public static final String PAGER_QUESTION = MINE + "/QUESTION"; // 网页资讯
+        public static final String PAGER_CHOOSE = MINE + "/ChooseWithdraw"; // 提款
     }
 
     public static class Wallet {

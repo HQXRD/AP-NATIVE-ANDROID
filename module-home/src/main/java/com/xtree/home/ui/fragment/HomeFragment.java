@@ -38,7 +38,6 @@ import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.home.vo.BannersVo;
 import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
-import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
@@ -327,7 +326,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
      * 显示提款页面
      */
     private void showChoose() {
-        basePopupView = new XPopup.Builder(getContext()).asCustom( ChooseWithdrawalDialog.newInstance(getContext(),this));
-        basePopupView.show();
+        ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE).navigation();
     }
 }
