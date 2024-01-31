@@ -98,10 +98,6 @@ public class FeedbackDetailFragment extends BaseFragment<FragmentFeedbackDetailB
         //查询获取反馈页面详情
         viewModel.feedbackCheckVoSingleLiveData.observe(this, v -> {
             feedbackCheckVo = v;
-            for (int i = 0; i < feedbackCheckVo.protocolInfo.size(); i++)
-            {
-                CfLog.i("protocolInfo = " + feedbackCheckVo.protocolInfo.get(i).toString());
-            }
             referUIWithModel(feedbackCheckVo.list.get(0));
         });
     }
