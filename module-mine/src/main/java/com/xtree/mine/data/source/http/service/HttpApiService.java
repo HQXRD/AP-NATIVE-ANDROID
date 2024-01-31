@@ -25,6 +25,7 @@ import com.xtree.mine.vo.MsgPersonListVo;
 import com.xtree.mine.vo.PlatWithdrawConfirmVo;
 import com.xtree.mine.vo.PlatWithdrawVo;
 import com.xtree.mine.vo.ProfitLossReportVo;
+import com.xtree.mine.vo.QuestionVo;
 import com.xtree.mine.vo.RebateReportVo;
 import com.xtree.mine.vo.RechargeReportVo;
 import com.xtree.mine.vo.SettingsVo;
@@ -415,47 +416,75 @@ public interface HttpApiService {
      */
     @GET("/api/account/vipinfo")
     Flowable<BaseResponse<VipUpgradeInfoVo>> getVipUpgradeInfo();
-    /** 获取提款方式*/
+
+    /**
+     * 获取提款方式
+     */
     @GET("/security/platwithdraw?1=1&client=m")
     Flowable<ChooseInfoVo> getChooseWithdrawInfo();
-    /**银行卡 获取提款方式*/
+
+    /**
+     * 银行卡 获取提款方式
+     */
     @GET("/security/platwithdraw/?controller=security&action=platwithdraw&check=&ismobile=true&usdt_type=1&is_tutorial=1&client=m")
     Flowable<BankCardCashVo> getChooseWithdrawBankDetailsInfo();
 
-    /**银行卡提款提交 */
+    /**
+     * 银行卡提款提交
+     */
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<PlatWithdrawVo> postPlatWithdrawBank(@Body Map<String , String> map);
+    Flowable<PlatWithdrawVo> postPlatWithdrawBank(@Body Map<String, String> map);
 
-    /**银行卡确认提交 */
+    /**
+     * 银行卡确认提交
+     */
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<PlatWithdrawConfirmVo> postConfirmWithdrawBank(@Body Map<String , String> map);
+    Flowable<PlatWithdrawConfirmVo> postConfirmWithdrawBank(@Body Map<String, String> map);
 
-    /**USDT获取提款方式*/
+    /**
+     * USDT获取提款方式
+     */
     @GET("/security/platwithdraw/?controller=security&action=platwithdraw&check=&ismobile=true&is_tutorial=1&client=m")
     Flowable<USDTCashVo> getChooseWithdrawUSDT(@QueryMap Map<String, String> map);
-    /**银行卡提款提交 */
+
+    /**
+     * 银行卡提款提交
+     */
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<USDTSecurityVo> postPlatWithdrawUSDT(@Body Map<String , String> map);
-    /**银行卡确认提交 */
+    Flowable<USDTSecurityVo> postPlatWithdrawUSDT(@Body Map<String, String> map);
+
+    /**
+     * 银行卡确认提交
+     */
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<USDTConfirmVo> postConfirmWithdrawUSDT(@Body Map<String , String> map);
+    Flowable<USDTConfirmVo> postConfirmWithdrawUSDT(@Body Map<String, String> map);
 
 
-    /**USDT获取提款方式*/
+    /**
+     * USDT获取提款方式
+     */
     //https://ap3sport.oxldkm.com/security/platwithdraw/?controller=security&action=platwithdraw&check=&ismobile=true&usdt_type=4&is_tutorial=1&client=m
     @GET("/security/platwithdraw/?controller=security&action=platwithdraw&check=&ismobile=true&is_tutorial=1&client=m")
     Flowable<VirtualCashVo> getChooseWithdrawVirtual(@QueryMap Map<String, String> map);
-    /**银行卡提款提交 */
-    @POST("/security/platwithdraw?1=1&client=m")
-    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<VirtualSecurityVo> postPlatWithdrawVirtual(@Body Map<String , String> map);
-    /**银行卡确认提交 */
-    @POST("/security/platwithdraw?1=1&client=m")
-    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<VirtualConfirmVo> postConfirmWithdrawVirtual(@Body Map<String , String> map);
 
+    /**
+     * 银行卡提款提交
+     */
+    @POST("/security/platwithdraw?1=1&client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<VirtualSecurityVo> postPlatWithdrawVirtual(@Body Map<String, String> map);
+
+    /**
+     * 银行卡确认提交
+     */
+    @POST("/security/platwithdraw?1=1&client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<VirtualConfirmVo> postConfirmWithdrawVirtual(@Body Map<String, String> map);
+
+    @GET("/help/answer?client=m")
+    Flowable<QuestionVo> getQuestionWeb();
 }
