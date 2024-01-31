@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 
+import com.xtree.base.utils.CfLog;
 import com.xtree.main.data.MainRepository;
 import com.xtree.main.data.Injection;
 
@@ -23,14 +24,14 @@ import me.xtree.mvvmhabit.base.BaseModel;
 public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @SuppressLint("StaticFieldLeak")
     private static volatile AppViewModelFactory INSTANCE;
-    private final Application mApplication;
+    private static Application mApplication;
     private final BaseModel mRepository;
 
     public static AppViewModelFactory getInstance(Application application) {
         if (INSTANCE == null) {
             synchronized (AppViewModelFactory.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new AppViewModelFactory(application, Injection.provideMainRepository());
+                    INSTANCE = new AppViewModelFactory(application, Injection.provideMainRepository(false));
                 }
             }
         }
@@ -58,5 +59,16 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
                  InstantiationException | InvocationTargetException e) {
             return null;
         }
+    }
+
+    public static void init() {
+        synchronized (AppViewModelFactory.class) {
+            INSTANCE = new AppViewModelFactory(mApplication, Injection.provideMainRepository(true));
+            CfLog.e("AppViewModelFactory init");
+        }
+    }
+
+    public BaseModel getmRepository() {
+        return mRepository;
     }
 }

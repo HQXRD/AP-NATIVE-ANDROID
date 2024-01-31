@@ -37,10 +37,9 @@ public class SplashViewModel extends BaseViewModel<MainRepository> {
                 .subscribeWith(new HttpCallBack<FBService>() {
                     @Override
                     public void onResult(FBService fbService) {
-                        CfLog.i("****** ");
+                        CfLog.i("FBService****** ");
                         SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
-                        getFBXCGameTokenApi();
                     }
 
                     @Override
@@ -60,7 +59,6 @@ public class SplashViewModel extends BaseViewModel<MainRepository> {
                     public void onResult(FBService fbService) {
                         SPUtils.getInstance().put(SPKeyGlobal.FBXC_TOKEN, fbService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
-                        getPMGameTokenApi();
                     }
 
                     @Override

@@ -50,6 +50,10 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         mCompositeDisposable = new CompositeDisposable();
     }
 
+    public void setModel(BaseModel model) {
+        this.model = (M) model;
+    }
+
     public void addSubscribe(Disposable disposable) {
         mCompositeDisposable.add(disposable);
     }

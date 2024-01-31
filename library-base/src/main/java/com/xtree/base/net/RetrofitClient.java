@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.xtree.base.BuildConfig;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 
 import java.io.File;
@@ -60,6 +61,7 @@ public class RetrofitClient {
     public static void init() {
         baseUrl = DomainUtil.getDomain();
         SingletonHolder.INSTANCE = new RetrofitClient();
+        CfLog.e("OkHttpClient init");
     }
 
     private RetrofitClient() {

@@ -8,6 +8,7 @@ import androidx.annotation.VisibleForTesting;
 import com.xtree.main.data.source.MainApiService;
 import com.xtree.main.data.source.HttpDataSource;
 import com.xtree.main.data.source.LocalDataSource;
+import com.xtree.main.data.source.http.HttpDataSourceImpl;
 
 import me.xtree.mvvmhabit.base.BaseModel;
 
@@ -27,11 +28,18 @@ public class MainRepository extends BaseModel implements HttpDataSource, LocalDa
     }
 
     public static MainRepository getInstance(HttpDataSource httpDataSource,
-                                             LocalDataSource localDataSource) {
-        if (INSTANCE == null) {
+                                             LocalDataSource localDataSource,
+                                             boolean reNew) {
+        if(reNew){
             synchronized (MainRepository.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new MainRepository(httpDataSource, localDataSource);
+                INSTANCE = new MainRepository(httpDataSource, localDataSource);
+            }
+        }else {
+            if (INSTANCE == null) {
+                synchronized (MainRepository.class) {
+                    if (INSTANCE == null) {
+                        INSTANCE = new MainRepository(httpDataSource, localDataSource);
+                    }
                 }
             }
         }

@@ -11,11 +11,17 @@ public class HttpDataSourceImpl implements HttpDataSource {
     private MainApiService apiService;
     private volatile static HttpDataSourceImpl INSTANCE = null;
 
-    public static HttpDataSourceImpl getInstance(MainApiService apiService) {
-        if (INSTANCE == null) {
+    public static HttpDataSourceImpl getInstance(MainApiService apiService, boolean reNew) {
+        if(reNew){
             synchronized (HttpDataSourceImpl.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new HttpDataSourceImpl(apiService);
+                INSTANCE = new HttpDataSourceImpl(apiService);
+            }
+        }else {
+            if (INSTANCE == null) {
+                synchronized (HttpDataSourceImpl.class) {
+                    if (INSTANCE == null) {
+                        INSTANCE = new HttpDataSourceImpl(apiService);
+                    }
                 }
             }
         }
