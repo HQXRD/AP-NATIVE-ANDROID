@@ -55,9 +55,7 @@ public class FeedbackDetailFragment extends BaseFragment<FragmentFeedbackDetailB
         });
         //消息中心
         binding.ivwMsg.setOnClickListener(v -> {
-            String title = getString(R.string.txt_msg_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_MY_MESSAGES;
-            BrowserActivity.start(getContext(), title, url, true);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG);
         });
     }
 
@@ -84,8 +82,6 @@ public class FeedbackDetailFragment extends BaseFragment<FragmentFeedbackDetailB
             feedbackId = getArguments().getString("id");
         }
         CfLog.i("从上级页面穿过的id = " + feedbackId);
-        //获取页面数据
-       // viewModel.getFeedbackCheckInfo(startTime, endTime);
         viewModel.getFeedbackCheckDetailInfo(feedbackId);
     }
 

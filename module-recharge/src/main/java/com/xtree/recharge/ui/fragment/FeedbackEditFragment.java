@@ -138,9 +138,7 @@ public FeedbackEditFragment()
         });
         //消息中心
         binding.ivwMsg.setOnClickListener(v -> {
-            String title = getString(R.string.txt_msg_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_MY_MESSAGES;
-            BrowserActivity.start(getContext(), title, url, true);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG);
         });
         //图片选择
         binding.llSelectorTipImage.setOnClickListener(v -> {
