@@ -103,7 +103,11 @@ public class MatchFb implements Match{
      */
     @Override
     public String getStage() {
-        return FBMatchPeriod.getMatchPeriod(String.valueOf(matchInfo.mc.pe));
+        if(matchInfo.mc != null) {
+            return FBMatchPeriod.getMatchPeriod(String.valueOf(matchInfo.mc.pe));
+        }else {
+            return "";
+        }
     }
 
     /**

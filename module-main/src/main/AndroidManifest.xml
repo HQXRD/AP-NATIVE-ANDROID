@@ -2,6 +2,16 @@
     package="com.xtree.main">
 
     <application>
+        <activity
+            android:name=".ui.SplashActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.Start">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <!--在自己组件中注册Activity-->
         <activity android:name="com.xtree.main.ui.MainActivity"
             android:launchMode="singleTop"></activity>

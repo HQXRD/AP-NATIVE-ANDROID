@@ -58,6 +58,7 @@ public class RetrofitClient {
     }
 
     public static void init() {
+        baseUrl = DomainUtil.getDomain();
         SingletonHolder.INSTANCE = new RetrofitClient();
     }
 

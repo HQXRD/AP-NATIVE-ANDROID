@@ -22,7 +22,7 @@ dependencies {
     implementation project(":gsyVideoPlayer")
     //implementation project(":gsyVideoPlayer-aliplay")
     //组件中依赖阿里路由编译框架
-    annotationProcessor rootProject.ext.dependencies["arouter-compiler"]
+    kapt rootProject.ext.dependencies["arouter-compiler"]
     //单组件依赖的第三方库，这里不能用implementation，否则宿主项目会因为databinding运行时不能找到第三方类报编译错误
 
     /*implementation 'com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:v8.5.0-release-jitpack'

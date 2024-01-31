@@ -5,6 +5,12 @@ if (isBuildModule.toBoolean()) {
     //作为组件运行
     apply plugin: 'com.android.library'
 }
+apply plugin: "kotlin-android"
+apply plugin: 'kotlin-kapt'
+kapt {
+    generateStubs = true
+}
+
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion

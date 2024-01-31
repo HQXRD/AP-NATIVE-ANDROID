@@ -74,6 +74,12 @@ public class RxUtils {
 
     }
 
+    public static io.reactivex.rxjava3.core.FlowableTransformer schedulersTransformer1() {
+        return upstream -> upstream.subscribeOn(io.reactivex.rxjava3.schedulers.Schedulers.io())
+                .observeOn(io.reactivex.rxjava3.android.schedulers.AndroidSchedulers.mainThread());
+
+    }
+
     /*public static ObservableTransformer exceptionTransformer() {
         return new ErrorTransformer();
     }*/
