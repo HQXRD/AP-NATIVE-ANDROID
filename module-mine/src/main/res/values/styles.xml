@@ -103,9 +103,11 @@
 
     <style name="style_virtual_text">
         <item name="android:textColor">@color/clr_txt_withdraw_money</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginLeft">1dp</item>
     </style>
 
 </resources>

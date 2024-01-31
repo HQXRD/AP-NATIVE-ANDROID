@@ -8,6 +8,16 @@
     <string name="txt_msg_center">消息中心</string>
     <string name="txt_kind_tips">温馨提示</string>
 
+    <string name="txt_bind_card_type">bindcard</string>
+    <string name="txt_bind_usdt_type">bindusdt</string>
+    <string name="txt_bind_ebpay_type">bindebpay</string>
+    <string name="txt_bind_topay_type">bindtopay</string>
+    <string name="txt_bind_gcnyt_type">bindhiwallet</string>
+    <string name="txt_bind_mpay_type">bindmpay</string>
+    <string name="txt_bind_gobao_type">bindgobao</string>
+    <string name="txt_bind_gopay_type">bindgopay</string>
+    <string name="txt_bind_okpay_type">bindokpay</string>
+
     <string name="txt_bind_card">银行卡管理</string>
     <string name="txt_bind_usdt">绑定USDT</string>
     <string name="txt_bind_ebpay">绑定EBPAY</string>

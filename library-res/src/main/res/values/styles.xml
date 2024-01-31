@@ -404,7 +404,7 @@
         <item name="android:maxLength">16</item>
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textColorHint">@color/clr_txt_grey_03</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
 
     </style>
     <!--usdt提现Edittext-->
@@ -418,7 +418,7 @@
         <item name="android:maxLength">40</item>
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textColorHint">@color/clr_txt_grey_03</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
 
     </style>
 
@@ -697,4 +697,101 @@
     <style name="style_custom_progress_bar" parent="android:Widget.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/bg_progressbar</item>
     </style>
+
+    <style name="style_withdraw_show_title" parent="style_withdraw_title">
+        <item name="android:minEms">7</item>
+    </style>
+
+    <!-- 提款 中间 textView侧风格-->
+    <style name="style_withdraw_bottom_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:minEms">4</item>
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- 提款 textView侧风格-->
+    <style name="style_withdraw_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:minEms">4</item>
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!-- 提款 分割线   -->
+    <style name="style_withdraw_dividing_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginEnd">2dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">@color/clr_grey_080</item>
+    </style>
+    <style name="style_withdraw_confirm_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <!--  提款 右侧textview显示 风格-->
+    <style name="style_withdraw_confirm_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--提款金额 红色 风格-->
+    <style name="style_withdraw_amount_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--  提款 右侧textview显示 风格-->
+    <style name="style_withdraw_bottom_confirm_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!--  提款 成功/失败 风格-->
+    <style name="style_withdraw_image_value">
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!--  提款 成功/失败 风格-->
+    <style name="style_withdraw_text_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="style_withdraw_bottom_text_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

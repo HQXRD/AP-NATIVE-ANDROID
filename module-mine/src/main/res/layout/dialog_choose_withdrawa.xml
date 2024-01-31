@@ -47,13 +47,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="5dp"/>
+        android:layout_height="2dp"
+        android:background="@color/clr_gap_bg"/>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:background="@color/clr_white"
         android:layout_marginBottom="0dp"
-        android:background="@color/clr_white">
+      >
 
        <RelativeLayout
            android:layout_width="match_parent"
@@ -67,7 +68,7 @@
                />
            <LinearLayout
                android:id="@+id/ll_choose_tutorial"
-               android:layout_marginTop="10dp"
+               android:layout_marginTop="20dp"
                android:layout_below="@id/lv_choose"
                android:layout_width="match_parent"
                android:layout_height="40dp"
@@ -86,7 +87,7 @@
                android:layout_below="@id/ll_choose_tutorial"
                android:layout_width="match_parent"
                android:layout_height="40dp"
-               android:layout_marginTop="20dp"
+               android:layout_marginTop="10dp"
                android:layout_marginLeft="@dimen/bt_text_20sp"
                android:layout_marginRight="@dimen/bt_text_20sp"
                >

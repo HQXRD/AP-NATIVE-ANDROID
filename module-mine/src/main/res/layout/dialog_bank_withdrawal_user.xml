@@ -229,15 +229,16 @@
                       <RelativeLayout
                           android:layout_width="match_parent"
                           android:layout_height="match_parent" >
-                          <TextView
-                              android:id="@+id/tv_withdrawal_amount_left"
-                              android:layout_width="match_parent"
+                          <!--  android:layout_width="match_parent"
                               android:layout_height="wrap_content"
                               android:layout_marginTop="10dp"
-                              android:text="@string/txt_actual_withdrawal_amount"
                               android:textSize="18sp"
                               android:textFontWeight="500"
-                              android:textColor="@color/cl_withdrawal_amount"
+                              android:textColor="@color/cl_withdrawal_amount"-->
+                          <TextView
+                              android:id="@+id/tv_withdrawal_amount_left"
+                              android:text="@string/txt_actual_withdrawal_amount"
+                              style="@style/style_withdraw_title"
                               />
                           <TextView
                               android:id="@+id/tv_withdrawal_amount_right"

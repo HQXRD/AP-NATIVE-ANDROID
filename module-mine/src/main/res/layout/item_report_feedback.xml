@@ -23,8 +23,17 @@
             tools:text="@string/txt_order_expired" />
 
         <TextView
+            android:id="@+id/tvw_edit"
+            style="@style/style_item_report_value_end"
+            android:layout_height="match_parent"
+            android:layout_weight="0"
+            android:minEms="3"
+            android:text="@string/txt_edit"
+            android:textColor="@color/clr_blue_03" />
+        <TextView
             android:id="@+id/tvw_detail"
             style="@style/style_item_report_value_end"
+            android:layout_height="match_parent"
             android:layout_weight="0"
             android:minEms="3"
             android:text="@string/txt_view"
