@@ -13,6 +13,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.BalanceVo;
+import com.xtree.mine.vo.QuestionVo;
 import com.xtree.mine.vo.VipInfoVo;
 import com.xtree.mine.vo.VipUpgradeInfoVo;
 
@@ -33,6 +34,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<Boolean> liveData1kRecycle = new SingleLiveData<>(); // 1键回收
     public SingleLiveData<VipUpgradeInfoVo> liveDataVipUpgrade = new SingleLiveData<>(); // Vip升级资讯
     public SingleLiveData<VipInfoVo> liveDataVipInfo = new SingleLiveData<>(); // Vip个人资讯
+    public SingleLiveData<String> liveDataQuestionWeb = new SingleLiveData<>(); // 常见问题
 
     public MineViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
@@ -150,6 +152,28 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
+    public void getQuestionWeb() {
+        Disposable disposable = (Disposable) model.getApiService().getQuestionWeb()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<QuestionVo>() {
+                    @Override
+                    public void onResult(QuestionVo vo) {
+                        CfLog.d(vo.toString());
+
+                        SPUtils.getInstance().put(SPKeyGlobal.QUESTION_WEB, vo.content);
+                        liveDataQuestionWeb.setValue(vo.content);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
     public void readCache() {
         CfLog.i("******");
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
@@ -177,6 +201,14 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                 ProfileVo mProfileVo = new Gson().fromJson(homeJson, ProfileVo.class);
                 liveDataProfile.setValue(mProfileVo);
             }
+        }
+    }
+
+    public void readQuestionWebCache() {
+        CfLog.i("******");
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.QUESTION_WEB, "");
+        if (!json.isEmpty()) {
+            liveDataQuestionWeb.setValue(json);
         }
     }
 }

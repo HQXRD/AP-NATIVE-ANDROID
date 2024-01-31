@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_bank_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/clr_transparent"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+
+        <LinearLayout
+            android:id="@+id/ll_bank_withdrawal_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <!--大额提款 用户信息-->
+                <LinearLayout
+                    android:id="@+id/ll_bank_userinfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <LinearLayout style="@style/style_withdraw_confirm_ll">
+                        <TextView
+                            style="@style/style_withdraw_show_title"
+                            android:text="@string/txt_withdrawal_user_name" />
+                        <TextView
+                            android:id="@+id/tv_user_name_show"
+                            style="@style/style_withdraw_confirm_value"
+                            tools:text="" />
+                    </LinearLayout>
+                    <View style="@style/style_withdraw_dividing_line" />
+
+                    <LinearLayout style="@style/style_withdraw_confirm_ll">
+                        <TextView
+                            style="@style/style_withdraw_show_title"
+                            android:text="@string/txt_withdrawal_type" />
+                        <TextView
+                            android:id="@+id/tv_withdrawal_type_show"
+                            style="@style/style_withdraw_confirm_value"
+                            tools:text="" />
+                    </LinearLayout>
+                    <View style="@style/style_withdraw_dividing_line" />
+
+                    <LinearLayout style="@style/style_withdraw_confirm_ll">
+                        <TextView
+                            style="@style/style_withdraw_show_title"
+                            android:text="@string/txt_withdrawal_method" />
+                        <TextView
+                            android:id="@+id/tv_withdrawal_amount_method"
+                            style="@style/style_withdraw_confirm_value"
+                            tools:text="" />
+                    </LinearLayout>
+                    <View style="@style/style_withdraw_dividing_line" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_withdrawal_amount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="@string/txt_withdrawal_method_tip"
+                                android:textColor="@color/clr_txt_withdraw_money"
+                                android:textSize="14sp"
+                                android:textStyle="bold"/>
+
+                            <TextView
+                                android:id="@+id/tv_withdrawal_amount_show"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tv_withdrawal_amount"
+                                android:text="@string/txt_withdrawal_min"
+                                android:textColor="@color/red"
+                                android:textSize="12sp" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                </LinearLayout>
+                <!--大额提款 提款金额输入 选择View-->
+                <LinearLayout
+                    android:id="@+id/ll_bank_amount_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ll_bank_userinfo"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+                    <!--输入提款信息-->
+                    <LinearLayout
+                        android:id="@+id/ll_virtual_input"
+                        style="@style/style_withdraw_money_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/ll_virtual_hint"
+                        android:layout_marginTop="4dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/bg_withdraw_money_input">
+
+                            <ImageView
+                                android:id="@+id/iv_input_money"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="10dp"
+                                android:background="@mipmap/me_icon_wlt_bank" />
+
+                            <EditText
+                                android:id="@+id/et_input_money"
+                                style="@style/style_bank_edit"
+                                android:layout_alignLeft="@id/iv_input_money"
+                                android:layout_marginLeft="18dp"
+                                android:hint="@string/txt_input_money"
+                                android:imeOptions="actionDone"
+                                android:inputType="number"
+                                android:numeric="integer"/>
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+                <!--大额提款 实际提款 提款银行卡 下一步 提示 View-->
+                <LinearLayout
+                    android:id="@+id/ll_bank_amount_other"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/ll_bank_amount_input"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+                    <!--实际提款金额-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                      >
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_actual_withdrawal_amount"
+                                style="@style/style_withdraw_title"
+                                android:text="@string/txt_actual_withdrawal_amount"
+                                android:layout_marginTop="4dp"
+                               />
+                            <TextView
+                                android:id="@+id/tv_actual_withdrawal_amount_show"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tv_actual_withdrawal_amount"
+                                android:layout_marginTop="3dp"
+                                android:text=""
+                                android:textColor="@color/clr_txt_withdraw_money"
+                                android:textStyle="bold"
+                                android:textSize="15sp" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_alignParentBottom="true"
+                                android:background="@color/clr_gap_bg" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                    <!--实际提款银行卡-->
+                    <LinearLayout
+                        android:id="@+id/ll_actual_withdrawal_bank"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                   >
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+                            <!--android:text="@string/txt_payee_bank_card"-->
+                            <TextView
+                                android:id="@+id/tv_actual_withdrawal_bank"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="1dp"
+                                android:text="@string/txt_payee_bank_card"
+                                android:textColor="@color/clr_txt_withdraw_money"
+                                android:textStyle="bold"
+                                android:textSize="14sp" />
+
+                          <TextView
+                                android:id="@+id/tv_actual_withdrawal_amount_bank_show"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_below="@id/tv_actual_withdrawal_bank"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="8dp"
+                                android:drawableEnd="@mipmap/bt_icon_expand"
+                                android:text=""
+                                android:textColor="@color/bt_text_color_primary_1"
+                                android:textSize="16sp" />
+
+                            <View
+
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_alignParentBottom="true"
+                                android:background="@color/clr_gap_bg" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                    <!--下一步 提示-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        >
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <ImageView
+                                android:id="@+id/tv_actual_withdrawal_next"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:background="@mipmap/cm_btn_withdrawal_next" />
+
+                            <TextView
+                                android:id="@+id/tv_actual_withdrawal_tip"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tv_actual_withdrawal_next"
+                                android:layout_alignLeft="@id/tv_actual_withdrawal_next"
+                                android:text="@string/txt_kind_tips"
+                                android:textColor="@color/cl_withdrawal_tip"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/tv_actual_withdrawal_tip"
+                                android:layout_alignLeft="@id/tv_actual_withdrawal_tip"
+                                android:layout_alignRight="@id/tv_actual_withdrawal_next"
+                                android:text="@string/txt_kind_tips_count"
+                                android:textColor="@color/cl_withdrawal_tip"
+                                android:textSize="14sp" />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </RelativeLayout>
+        </LinearLayout>
+
+</LinearLayout>

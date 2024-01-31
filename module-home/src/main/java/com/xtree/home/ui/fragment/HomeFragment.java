@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
@@ -37,6 +38,7 @@ import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.home.vo.BannersVo;
 import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
+import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
@@ -54,7 +56,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  */
 @Route(path = RouterFragmentPath.Home.PAGER_HOME)
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
-
+    private BasePopupView basePopupView = null;
     GameAdapter gameAdapter;
     private int curPId = 0; // 当前选中的游戏大类型 1体育,2真人,3电子,4电竞,5棋牌,6彩票
 
@@ -226,9 +228,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             KLog.i("**************");
             //ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_WITHDRAW).navigation();
             //startContainerFragment(RouterFragmentPath.Wallet.PAGER_WITHDRAW);
-            String title = getString(R.string.txt_withdraw);
+           /* String title = getString(R.string.txt_withdraw);
             String url = DomainUtil.getDomain2() + Constant.URL_WITHDRAW;
-            BrowserActivity.start(getContext(), title, url, true);
+            BrowserActivity.start(getContext(), title, url, true);*/
+            showChoose();
+
         });
         binding.tvwTrans.setOnClickListener(view -> {
             // 转账
@@ -319,5 +323,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         //startActivity(intent);
         startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
     }
-
+    /**
+     * 显示提款页面
+     */
+    private void showChoose() {
+        basePopupView = new XPopup.Builder(getContext()).asCustom( ChooseWithdrawalDialog.newInstance(getContext(),this));
+        basePopupView.show();
+    }
 }

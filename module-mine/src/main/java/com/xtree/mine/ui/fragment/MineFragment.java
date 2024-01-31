@@ -165,9 +165,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
         binding.tvwChangjianWenti.setOnClickListener(v -> {
             //goWebView(v, Constant.URL_QA); // 底部弹出
-            String title = ((TextView) v).getText().toString();
-            String url = DomainUtil.getDomain2() + Constant.URL_QA;
-            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+//            String title = ((TextView) v).getText().toString();
+//            String url = DomainUtil.getDomain2() + Constant.URL_QA;
+//            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
         });
         binding.tvwBangzhuZhongxin.setOnClickListener(v -> {
 //            goWebView(v, Constant.URL_HELP, false);

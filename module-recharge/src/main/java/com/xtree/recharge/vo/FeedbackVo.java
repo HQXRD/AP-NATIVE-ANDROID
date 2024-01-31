@@ -16,6 +16,8 @@ public class FeedbackVo {
 
     public List<FeedbackProtocolInfo> protocolInfo ;//虚拟币协议（虚拟币选项 协议选择使用）
 
+    public List<FeedbackDep>  last3Deps ;//反馈中的订单
+
 
     public static class FeedbackModeInfo
     {

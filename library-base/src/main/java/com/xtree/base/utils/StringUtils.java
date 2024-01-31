@@ -5,6 +5,7 @@ import android.view.View;
 import net.sourceforge.pinyin4j.PinyinHelper;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -63,5 +64,12 @@ public class StringUtils {
             return  false;
         }
         return true ;
+    }
+    /** float 数据格式转换成逗号分割的String*/
+    public static String formatToSeparate(float data)
+    {
+        DecimalFormat df = new DecimalFormat("#,###.00");
+        return df.format(data);
+        
     }
 }

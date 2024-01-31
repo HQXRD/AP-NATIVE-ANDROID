@@ -230,10 +230,9 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
 
     }
 
-    public void feedbackInfo(String startTime, String endTime) {
+    public void feedbackInfo(HashMap<String  , String> map) {
 
-        CfLog.i("startTime = " + startTime + " ===========" + "endTime = " + endTime);
-        Disposable disposable = (Disposable) model.getApiService().getFeedback(startTime, endTime).
+        Disposable disposable = (Disposable) model.getApiService().getFeedback(map).
                 compose(RxUtils.schedulersTransformer()).
                 compose(RxUtils.exceptionTransformer()).
                 subscribeWith(new HttpCallBack<FeedbackVo>() {
@@ -245,6 +244,22 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                 });
         addSubscribe(disposable);
 
+    }
+
+    /** 查询获取修改反馈页面信息*/
+    public void  getEditFeedback(HashMap<String , String> map)
+    {
+        Disposable disposable = (Disposable) model.getApiService().getEditFeedback(map).
+                compose(RxUtils.schedulersTransformer()).
+                compose(RxUtils.exceptionTransformer()).
+                subscribeWith(new HttpCallBack<FeedbackCheckVo>() {
+                    @Override
+                    public void onResult(FeedbackCheckVo feedbackVo) {
+                        feedbackCheckVoSingleLiveData.setValue(feedbackVo);
+
+                    }
+                });
+        addSubscribe(disposable);
     }
 
     /**上传图片*/

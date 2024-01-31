@@ -212,6 +212,7 @@
     <string name="txt_status_s">状态：</string>
     <string name="txt_order_expired">订单超时</string>
     <string name="txt_view">查看</string>
+    <string name="txt_edit">修改</string>
     <string name="txt_3rd_order_s">第三方单号：</string>
     <string name="txt_deposit_amount_s">存款金额：</string>
     <string name="txt_deposit_time_s">存款时间：</string>
@@ -252,6 +253,7 @@
     <string name="txt_check_your_phone">%1$s，您好！ \n 您的手机号为 \n %2$s \n 请进行短信验证</string>
     <string name="txt_forget_password_finish">恭喜您，您的登入密码已修改完成</string>
     <!--提款流程文字提示-->
+    <string name="txt_withdrawal_user_name">用户名:</string>
     <string name="txt_choose_withdrawal_method">请选择提款方式</string>
     <string name="txt_choose_withdrawal_usdt">USDT介绍及提款教程</string>
     <string name="txt_bank_card_withdrawal">银行卡提款</string>
@@ -297,9 +299,13 @@
     <string name="txt_receive_usdt_account">收到USDT账户</string>
     <string name="txt_select_virtual_address">请选择虚拟币收款地址</string>
     <string name="txt_ust_trc20_usdt">【嗨钱包USDT】可使用TRC20_USDT类型进行提款</string>
-    <string name="txt_actual_arrival">实际到账：</string>
+    <string name="txt_actual_arrival">实际到账金额：</string>
     <string name="txt_withdrawal_address">提款地址:</string>
     <string name="txt_handling_fee">手续费:</string>
+    <string name="txt_input_amount_tip">请输入正确金额</string>
+    <string name="txt_select_add">请选择收款地址</string>
+    <string name="txt_select_bank">请选择银行卡</string>
+
     <string name="txt_vip_title">VIP特权</string>
 
 </resources>

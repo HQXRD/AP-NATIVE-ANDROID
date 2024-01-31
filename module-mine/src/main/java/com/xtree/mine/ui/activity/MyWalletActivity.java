@@ -106,13 +106,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         //取款
         binding.tvwWithdraw.setOnClickListener(v -> {
             CfLog.d("************");
-            //startActivity(new Intent(getBaseContext(), WithdrawActivity.class));
-            // startContainerFragment(RouterFragmentPath.Wallet.PAGER_WITHDRAW);
-            //goWebView(v, Constant.URL_WITHDRAW); ChooseWithdrawalDialog
             showChoose(); // 显示提款方式
-            // showBankWithdrawalDialog();//显示银行卡提款
-            // showWithdrawalVirtualDialog();
-
         });
         binding.tvwMgmt.setOnClickListener(v -> {
             CfLog.d("************");
@@ -210,20 +204,8 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
     }
     /**
      * 显示提款页面
-     * @param
-     *
      */
     private void showChoose() {
-      /*  basePopupView = new XPopup.Builder(this).asCustom(new MsgCenterDialog(getContext(), title, messgae, new MsgCenterDialog.ICallBack() {
-            @Override
-            public void onClick() {
-                basePopupView.dismiss();
-            }
-        }));
-        BtDetailDialog dialog = BtDetailDialog.newInstance(getActivity(), getViewLifecycleOwner(), vo.project_Game_code, vo.p, getPlatformName(vo.p));
-        new XPopup.Builder(getContext()).asCustom(dialog).show();*/
-
-
        basePopupView = new XPopup.Builder(this).asCustom( ChooseWithdrawalDialog.newInstance(this,this));
         basePopupView.show();
     }

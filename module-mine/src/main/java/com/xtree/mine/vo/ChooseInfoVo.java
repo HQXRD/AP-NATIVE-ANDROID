@@ -16,6 +16,11 @@ public class ChooseInfoVo {
             "bankcardstatus_gobao":true,
             "bankcardstatus_gopay":true,
             "bankcardstatus_okpay":false,*/
+
+    public String  msg_detail ; // "抱歉，您的有效流水不足，仍需要 1008.54 才可提款",
+    public String msg_type ;//2
+    public String error ;//"error"
+    public String message ;
     public boolean bankcardstatus_okpay;
     public boolean  bankcardstatus_gopay ;
     public boolean bankcardstatus_gobao ;
@@ -79,7 +84,7 @@ public class ChooseInfoVo {
      public String bindType ;// 绑定type 向绑定页面传值
 
         public int  channeluse ;//支付渠道可否跳转状态 1可以跳转下一个页面； 0：不可跳转下一个页面
-        public String channeluseMessage ;//支付渠道不可跳转下一个页面弹出的消息
+        public String channeluseMessage ="" ;//支付渠道不可跳转下一个页面弹出的消息
         /*"id":"3",
             "type":"2",
             "title":"USDT提款",
