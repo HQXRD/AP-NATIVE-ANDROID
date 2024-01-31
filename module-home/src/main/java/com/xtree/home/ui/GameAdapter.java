@@ -22,12 +22,16 @@ import com.xtree.home.databinding.HmItemGameBinding;
 import com.xtree.home.vo.GameVo;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
     Context ctx;
     HmItemGameBinding binding;
 
     ICallBack mCallBack;
+
+    public final static String PLATFORM_FBXC = "fbxc";
+    public final static String PLATFORM_FB = "fb";
 
     public interface ICallBack {
         void onClick(String gameAlias, String gameId);
@@ -93,7 +97,19 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         } else {
             // 跳原生
             CfLog.d("跳原生");
-            ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).withString("KEY_PLATFORM", vo.alias).withString("KEY_PLATFORM_NAME", vo.name).navigation();
+            String cgToken;
+            if(TextUtils.equals(vo.alias, PLATFORM_FBXC)){
+                cgToken = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_TOKEN);
+            } else if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
+                cgToken = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
+            } else {
+                cgToken = SPUtils.getInstance().getString(SPKeyGlobal.PM_TOKEN);
+            }
+            if(TextUtils.isEmpty(cgToken)){
+                ToastUtils.showShort("场馆初始化中，请稍候...");
+            }else {
+                ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).withString("KEY_PLATFORM", vo.alias).withString("KEY_PLATFORM_NAME", vo.name).navigation();
+            }
         }
     }
 
