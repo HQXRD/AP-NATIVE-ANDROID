@@ -12,7 +12,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.lxj.xpopup.XPopup;
 import com.xtree.base.router.RouterFragmentPath;
@@ -75,23 +74,6 @@ public class VipFragment extends BaseFragment<FragmentVipBinding, MineViewModel>
             }
         });
 
-        binding.tblType.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
         binding.btnVipDetail.setOnClickListener(v -> {
             ppw = (VipBackPercentDialog) new XPopup.Builder(getContext()).asCustom(new VipBackPercentDialog(getContext(), vipUpgradeItems, level, 80));
             ppw.show();
@@ -131,11 +113,14 @@ public class VipFragment extends BaseFragment<FragmentVipBinding, MineViewModel>
             binding.tvwVipNowLevelStart.setText("VIP" + vo.level);
             binding.tvwVipNextLevelEnd.setText("VIP" + (vo.level + 1));
 
-            double progress = vo.current_activity / vo.vip_upgrade.get(vo.level + 1).active;
-            binding.pbVip.setProgress((int) (progress * 100));
+            double progress = ((double)vo.current_activity / (double)vo.vip_upgrade.get(vo.level + 1).active) * 100;
+            CfLog.e("vo.current_activity : " + vo.current_activity + " vo.vip_upgrade.get(vo.level + 1).active : " + vo.vip_upgrade.get(vo.level + 1).active +" progress : " + progress);
+            binding.pbVip.setProgress((int) (progress));
+
             ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.ivwVipPeople.getLayoutParams();
-            params.setMarginStart((int) (binding.pbVip.getWidth() * progress));
+            params.setMarginStart((int) (binding.pbVip.getWidth() * (progress/100)));
             binding.ivwVipPeople.setLayoutParams(params);
+
             if (fragmentList.isEmpty()) {
                 fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(0).level, vo.vip_upgrade.get(0).active, vo.vip_upgrade.get(0).new_active));
                 fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(1).level, vo.vip_upgrade.get(1).active, vo.vip_upgrade.get(1).new_active));
