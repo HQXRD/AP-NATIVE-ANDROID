@@ -20,6 +20,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.lxj.xpopup.widget.SmartDragLayout;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
@@ -39,6 +40,11 @@ import me.xtree.mvvmhabit.utils.Utils;
  * 选择提款方式Dialog
  */
 public class ChooseWithdrawalDialog  extends BottomPopupView {
+
+    public interface IChooseDialogBack{
+        public void  closeDialog();
+    }
+    private IChooseDialogBack callBack ;
     private BasePopupView basePopupView = null;
     DialogChooseWithdrawaBinding binding ;
     ChooseWithdrawViewModel viewModel ;
@@ -60,12 +66,13 @@ public class ChooseWithdrawalDialog  extends BottomPopupView {
     private ChooseWithdrawalDialog(@NonNull Context context) {
         super(context);
     }
-    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner)
+    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner , IChooseDialogBack callBack)
     {
         ChooseWithdrawalDialog dialog = new ChooseWithdrawalDialog(context);
         context = context ;
         dialog.context = context ;
         dialog.owner =owner ;
+        dialog.callBack = callBack ;
         return dialog;
     }
     @Override
@@ -79,10 +86,33 @@ public class ChooseWithdrawalDialog  extends BottomPopupView {
     private void initView()
     {
         binding = DialogChooseWithdrawaBinding.bind(findViewById(R.id.ll_root));
-        binding.ivwClose.setOnClickListener(v-> dismiss());
+        binding.ivwClose.setOnClickListener(v->{
+            dismiss();
+            callBack.closeDialog();
+
+        });
         binding.tvwTitle.setText(getContext().getString(R.string.txt_choose_withdrawal_method));
-       
-     
+
+        bottomPopupContainer.dismissOnTouchOutside(true);
+        bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
+            @Override
+            public void onClose() {
+                if (callBack!=null)
+                {
+                    callBack.closeDialog();
+                }
+            }
+
+            @Override
+            public void onDrag(int y, float percent, boolean isScrollUp) {
+
+            }
+
+            @Override
+            public void onOpen() {
+
+            }
+        });
     }
 
     private void initData()
@@ -114,75 +144,79 @@ public class ChooseWithdrawalDialog  extends BottomPopupView {
     }
     private void  referUI()
     {
-        if (chooseInfoVo.wdChannelList.size() > 0)
+        if (chooseInfoVo.wdChannelList !=null)
         {
-            ChooseAdapter adapter = new ChooseAdapter(getContext(), chooseInfoVo.wdChannelList, new IChooseCallback() {
-                @Override
-                public void onClick(String txt , ChooseInfoVo.ChannelInfo channelInfo) {
-                    String slectorChannel = txt ;
-                    ChooseInfoVo.ChannelInfo channel = channelInfo;
-                    if (channel.channeluse == 0)//显示弹窗
-                    {
-                        if (TextUtils.isEmpty(channelInfo.channeluseMessage))
+            if (chooseInfoVo.wdChannelList.size() > 0)
+            {
+                ChooseAdapter adapter = new ChooseAdapter(getContext(), chooseInfoVo.wdChannelList, new IChooseCallback() {
+                    @Override
+                    public void onClick(String txt , ChooseInfoVo.ChannelInfo channelInfo) {
+                        String slectorChannel = txt ;
+                        ChooseInfoVo.ChannelInfo channel = channelInfo;
+                        if (channel.channeluse == 0)//显示弹窗
                         {
-                            String errorMessage = "请先绑"+channelInfo.configkey.toUpperCase()+"后才可提款";
-                            showMessageDialog(channelInfo ,errorMessage);
+                            if (TextUtils.isEmpty(channelInfo.channeluseMessage))
+                            {
+                                String errorMessage = "请先绑"+channelInfo.configkey.toUpperCase()+"后才可提款";
+                                showMessageDialog(channelInfo ,errorMessage);
+                            }
+                            else
+                            {
+                                showMessageDialog(channelInfo ,channelInfo.channeluseMessage);
+                            }
+                            CfLog.i("conClick" + channelInfo.channeluseMessage);
+
                         }
                         else
                         {
-                            showMessageDialog(channelInfo ,channelInfo.channeluseMessage);
-                        }
-                        CfLog.i("conClick" + channelInfo.channeluseMessage);
+                            if (chooseInfoVo.bankchanneluse ==1 && txt.equals("银行卡提款"))
+                            {
+                                showBankWithdrawalDialog(channelInfo);
+                            }
+                            //银行卡提现通达打开，但点击的不是银行卡提款
+                            else if (chooseInfoVo.bankchanneluse ==1 && !txt.equals("银行卡提款"))
+                            {
+                                showUSDTWithdrawalDialog(channelInfo);
+                            }
 
+                        }
+
+                        CfLog.i("onClick   ---> 点击了 " + txt);
                     }
-                    else
-                    {
-                        if (chooseInfoVo.bankchanneluse ==1 && txt.equals("银行卡提款"))
-                        {
-                            showBankWithdrawalDialog(channelInfo);
-                        }
-                        //银行卡提现通达打开，但点击的不是银行卡提款
-                        else if (chooseInfoVo.bankchanneluse ==1 && !txt.equals("银行卡提款"))
-                        {
-                            showUSDTWithdrawalDialog(channelInfo);
-                        }
+                });
+                binding.lvChoose.setAdapter(adapter);
+                binding.llChooseTutorial.setVisibility(View.VISIBLE);
+                binding.tvChooseTutorial.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+                //下划线TextView 点击事件
+                binding.tvChooseTutorial.setOnClickListener(v->{
+                    CfLog.i(" binding.tvChooseTutorial. binding.tvChooseTutorial. binding.tvChooseTutorial.");
 
-                    }
+                    Intent intent = new Intent(getContext() ,BrowserActivity.class);
+                    intent.putExtra(BrowserActivity.ARG_TITLE , "USDT教程");
 
-                    CfLog.i("onClick   ---> 点击了 " + txt);
+                    intent.putExtra(BrowserActivity.ARG_URL ,  DomainUtil.getDomain2()+"/static/usdt-description/as/usdt_m.html");
+                    getContext().startActivity(intent);
+                });
+                binding.llChooseTip.setVisibility(View.VISIBLE);
+
+                String tipAvail ;
+                String usdtAcail;
+                tipAvail = "可用提款余额: "+ StringUtils.formatToSeparate(Float.valueOf(chooseInfoVo.user.availablebalance));
+                if (chooseInfoVo.usdtInfo.blebalance == 0)
+                {
+                    usdtAcail = "其中0.0可以使用虚拟币提款取出" ;
                 }
-            });
-            binding.lvChoose.setAdapter(adapter);
-            binding.llChooseTutorial.setVisibility(View.VISIBLE);
-            binding.tvChooseTutorial.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-            //下划线TextView 点击事件
-            binding.tvChooseTutorial.setOnClickListener(v->{
-                CfLog.i(" binding.tvChooseTutorial. binding.tvChooseTutorial. binding.tvChooseTutorial.");
-                
-                Intent intent = new Intent(getContext() ,BrowserActivity.class);
-                intent.putExtra(BrowserActivity.ARG_TITLE , "USDT教程");
-               
-                intent.putExtra(BrowserActivity.ARG_URL ,  DomainUtil.getDomain2()+"/static/usdt-description/as/usdt_m.html");
-                getContext().startActivity(intent);
-            });
-            binding.llChooseTip.setVisibility(View.VISIBLE);
+                else
+                {
+                    usdtAcail = "其中"+StringUtils.formatToSeparate(Float.valueOf(chooseInfoVo.usdtInfo.blebalance)) +"可以使用虚拟币提款取出";
+                }
+                String showChooseTip = tipAvail + usdtAcail ;
+                binding.tvChooseTip.setVisibility(View.VISIBLE);
+                binding.tvChooseTip.setText(showChooseTip);
 
-            String tipAvail ;
-            String usdtAcail;
-            tipAvail = "可用提款余额: "+ StringUtils.formatToSeparate(Float.valueOf(chooseInfoVo.user.availablebalance));
-            if (chooseInfoVo.usdtInfo.blebalance == 0)
-            {
-                usdtAcail = "其中0.0可以使用虚拟币提款取出" ;
             }
-            else
-            {
-                usdtAcail = "其中"+StringUtils.formatToSeparate(Float.valueOf(chooseInfoVo.usdtInfo.blebalance)) +"可以使用虚拟币提款取出";
-            }
-            String showChooseTip = tipAvail + usdtAcail ;
-            binding.tvChooseTip.setVisibility(View.VISIBLE);
-            binding.tvChooseTip.setText(showChooseTip);
-
         }
+
     }
 
 
@@ -326,4 +360,5 @@ public class ChooseWithdrawalDialog  extends BottomPopupView {
         }));
         ppw.show();
     }
+
 }

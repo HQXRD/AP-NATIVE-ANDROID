@@ -7,16 +7,61 @@ import java.util.ArrayList;
  */
 public class ChooseInfoVo {
 
-  /*  "bankcardstatus_rmb":true,
-            "bankcardstatus_usdt":true,
-            "bankcardstatus_ebpay":true,
-            "bankcardstatus_topay":true,
-            "bankcardstatus_hiwallet":true,
-            "bankcardstatus_mpay":false,
-            "bankcardstatus_gobao":true,
-            "bankcardstatus_gopay":true,
-            "bankcardstatus_okpay":false,*/
+    @Override
+    public String toString() {
+        return "ChooseInfoVo{" +
+                "check=" + check +
+                ", msg_detail='" + msg_detail + '\'' +
+                ", msg_type='" + msg_type + '\'' +
+                ", error='" + error + '\'' +
+                ", message='" + message + '\'' +
+                ", bankcardstatus_okpay=" + bankcardstatus_okpay +
+                ", bankcardstatus_gopay=" + bankcardstatus_gopay +
+                ", bankcardstatus_gobao=" + bankcardstatus_gobao +
+                ", bankcardstatus_mpay=" + bankcardstatus_mpay +
+                ", bankcardstatus_hiwallet=" + bankcardstatus_hiwallet +
+                ", bankcardstatus_topay=" + bankcardstatus_topay +
+                ", bankcardstatus_ebpay=" + bankcardstatus_ebpay +
+                ", bankcardstatus_rmb=" + bankcardstatus_rmb +
+                ", bankcardstatus_usdt=" + bankcardstatus_usdt +
+                ", usdtchanneluse=" + usdtchanneluse +
+                ", usdtchanneluse_msg='" + usdtchanneluse_msg + '\'' +
+                ", ebpaychanneluse=" + ebpaychanneluse +
+                ", ebpaychanneluse_msg='" + ebpaychanneluse_msg + '\'' +
+                ", topaychanneluse=" + topaychanneluse +
+                ", topaychanneluse_msg='" + topaychanneluse_msg + '\'' +
+                ", hiwalletchanneluse=" + hiwalletchanneluse +
+                ", hiwalletchanneluse_msg='" + hiwalletchanneluse_msg + '\'' +
+                ", mpaychanneluse=" + mpaychanneluse +
+                ", mpaychanneluse_msg='" + mpaychanneluse_msg + '\'' +
+                ", gobaochanneluse=" + gobaochanneluse +
+                ", gobaochanneluse_msg='" + gobaochanneluse_msg + '\'' +
+                ", gopaychanneluse=" + gopaychanneluse +
+                ", gopaychanneluse_msg='" + gopaychanneluse_msg + '\'' +
+                ", okpaychanneluse=" + okpaychanneluse +
+                ", okpaychanneluse_msg='" + okpaychanneluse_msg + '\'' +
+                ", bankchanneluse=" + bankchanneluse +
+                ", bankchanneluse_msg='" + bankchanneluse_msg + '\'' +
+                ", user=" + user +
+                ", usdtInfo=" + usdtInfo +
+                ", ebpayInfo=" + ebpayInfo +
+                ", topayInfo=" + topayInfo +
+                ", hiwalletInfo=" + hiwalletInfo +
+                ", okpayInfo=" + okpayInfo +
+                ", wdChannelList=" + wdChannelList +
+                '}';
+    }
 
+    /*  "bankcardstatus_rmb":true,
+                "bankcardstatus_usdt":true,
+                "bankcardstatus_ebpay":true,
+                "bankcardstatus_topay":true,
+                "bankcardstatus_hiwallet":true,
+                "bankcardstatus_mpay":false,
+                "bankcardstatus_gobao":true,
+                "bankcardstatus_gopay":true,
+                "bankcardstatus_okpay":false,*/
+    public  boolean check ;
     public String  msg_detail ; // "抱歉，您的有效流水不足，仍需要 1008.54 才可提款",
     public String msg_type ;//2
     public String error ;//"error"

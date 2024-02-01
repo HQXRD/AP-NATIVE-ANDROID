@@ -70,7 +70,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                     public void onResult(LoginResultVo vo) {
                         KLog.i(vo.toString());
                         //ToastUtils.showLong("登录成功");
-                         vo.userName = userName;
+                        vo.userName = userName;
                         if (vo.twofa_required == 0) {
                             setLoginSucc(vo); // 不需要谷歌验证
                         }
@@ -130,15 +130,11 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onResult(LoginResultVo vo) {
                         ToastUtils.showLong("注册成功");
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN, vo.token);
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, vo.token_type);
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
-                        SPUtils.getInstance().put(SPKeyGlobal.USER_NAME, userName); // 用户名
-                        RetrofitClient.init();
+                        vo.userName = userName;
+                        setLoginSucc(vo);
                         // 登录成功后获取FB体育请求服务地址
-                        getFBGameTokenApi();
-                        //liveDataReg.setValue(vo);
+                        //getFBGameTokenApi();
+                        liveDataReg.setValue(vo);
                     }
 
                     @Override
@@ -216,7 +212,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
                         KLog.e("========pmService.getToken()======" + pmService.getToken());
                         //finish();
-                        liveDataLogin.setValue(null); // 登录成功,重新打开APP
+                        //liveDataLogin.setValue(null); // 登录成功,重新打开APP
                     }
 
                     @Override

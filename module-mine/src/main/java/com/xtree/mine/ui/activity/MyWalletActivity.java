@@ -206,8 +206,14 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
      * 显示提款页面
      */
     private void showChoose() {
-       basePopupView = new XPopup.Builder(this).asCustom( ChooseWithdrawalDialog.newInstance(this,this));
+        basePopupView = new XPopup.Builder(this).asCustom( ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
+            @Override
+            public void closeDialog() {
+                basePopupView.dismiss();
+            }
+        }));
         basePopupView.show();
+
     }
 
 }

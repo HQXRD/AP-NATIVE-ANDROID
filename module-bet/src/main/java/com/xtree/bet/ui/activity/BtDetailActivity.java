@@ -40,11 +40,11 @@ import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.ui.fragment.BtDetailOptionFragment;
-import com.xtree.bet.ui.viewmodel.fb.FbBtDetailViewModel;
-import com.xtree.bet.ui.viewmodel.pm.PmBtDetailViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
+import com.xtree.bet.ui.viewmodel.fb.FbBtDetailViewModel;
+import com.xtree.bet.ui.viewmodel.pm.PmBtDetailViewModel;
 import com.xtree.bet.weight.BaseDetailDataView;
 
 import java.util.ArrayList;
@@ -98,6 +98,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
     protected void initImmersionBar() {
         //设置共同沉浸式样式
         ImmersionBar.with(this)
+                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
                 .fitsSystemWindows(false)
                 .statusBarDarkFont(false)
                 .init();
@@ -197,7 +198,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
      * 设置顶部背景图
      */
     private void setTopBg() {
-        if(mMatch != null) {
+        if (mMatch != null) {
             binding.ctlBg.setBackgroundResource(Constants.getBgMatchDetailTop(mMatch.getSportId()));
         }
     }
@@ -257,7 +258,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
     @Override
     public GSYVideoOptionBuilder getGSYVideoOptionBuilder() {
         String videoUrl = "";
-        if(!mMatch.getVideoUrls().isEmpty()){
+        if (!mMatch.getVideoUrls().isEmpty()) {
             videoUrl = mMatch.getVideoUrls().get(0);
         }
         String score = "";
@@ -267,11 +268,11 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             score = scoreList.get(0) + " - " + scoreList.get(1);
         }
         ImageView thumb = new ImageView(this);
-        if(mMatch != null) {
+        if (mMatch != null) {
             thumb.setBackgroundResource(Constants.getBgMatchDetailTop(mMatch.getSportId()));
         }
         Map header = new HashMap();
-        if(!TextUtils.isEmpty(mMatch.getReferUrl())) {
+        if (!TextUtils.isEmpty(mMatch.getReferUrl())) {
             header.put("Referer", mMatch.getReferUrl());
         }
         return new GSYVideoOptionBuilder()
@@ -335,7 +336,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
     public void initViewObservable() {
         viewModel.matchData.observe(this, match -> {
             this.mMatch = match;
-            if(match == null){
+            if (match == null) {
                 return;
             }
             setTopBg();
@@ -475,9 +476,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             binding.videoPlayer.setVisibility(View.VISIBLE);
             binding.ctlToolbarLeague.setVisibility(View.GONE);
             binding.rlToolbarTime.setVisibility(View.GONE);
-            if(mMatch.isVideoStart()){
+            if (mMatch.isVideoStart()) {
                 initVideoBuilderMode();
-            }else {
+            } else {
                 ToastUtils.showLong(getText(R.string.bt_bt_match_not_runing));
             }
 
@@ -505,7 +506,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 finish();
             }
         } else if (id == R.id.iv_expand) {
-            if(fragment != null) {
+            if (fragment != null) {
                 fragment.expand();
             }
         }

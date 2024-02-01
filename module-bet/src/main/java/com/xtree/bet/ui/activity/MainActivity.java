@@ -3,10 +3,6 @@ package com.xtree.bet.ui.activity;
 import android.animation.ObjectAnimator;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +10,9 @@ import android.widget.AbsListView;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
@@ -25,6 +24,7 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.MenuItemView;
 import com.xtree.bet.BR;
+import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.constant.Constants;
@@ -37,12 +37,11 @@ import com.xtree.bet.ui.adapter.LeagueAdapter;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.ui.fragment.BtRecordDialogFragment;
 import com.xtree.bet.ui.fragment.BtSettingDialogFragment;
-import com.xtree.bet.ui.viewmodel.fb.FBMainViewModel;
-import com.xtree.bet.ui.viewmodel.pm.PMMainViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.bet.R;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
+import com.xtree.bet.ui.viewmodel.fb.FBMainViewModel;
+import com.xtree.bet.ui.viewmodel.pm.PMMainViewModel;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 import com.xtree.bet.weight.PageHorizontalScrollView;
 
@@ -153,6 +152,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     protected void initImmersionBar() {
         //设置共同沉浸式样式
         ImmersionBar.with(this)
+                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
                 .fitsSystemWindows(true)
                 .statusBarDarkFont(true)
                 .init();
@@ -310,9 +310,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 binding.rvLeague.expandGroup(groupPosition);
             }
             binding.rvLeague.postDelayed(() -> {
-                if(playMethodPos == 4){
+                if (playMethodPos == 4) {
                     checkChampionHeaderIsExpand();
-                }else {
+                } else {
                     checkLeagueHeaderIsExpand(groupPosition);
                 }
             }, 150);

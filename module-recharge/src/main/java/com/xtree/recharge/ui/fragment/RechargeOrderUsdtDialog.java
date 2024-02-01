@@ -3,18 +3,10 @@ package com.xtree.recharge.ui.fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
@@ -26,9 +18,6 @@ import com.xtree.base.widget.BrowserDialog;
 import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.DialogRcOrderUsdtBinding;
 import com.xtree.recharge.vo.RechargePayVo;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import me.xtree.mvvmhabit.utils.ToastUtils;
 

@@ -34,7 +34,7 @@
     <string name="txt_remind_ebpay">EBPAY地址以eb开头的数字和字母组成的34位</string>
     <string name="txt_remind_topay">TOPAY地址以tp开头的18位 或字母开头的16位</string>
     <string name="txt_remind_gcnyt">地址以CNYT开头的20位英文或数字</string>
-    <string name="txt_remind_mpay"></string>
+    <string name="txt_remind_mpay">地址以mp开头加10位数字</string>
     <string name="txt_remind_gobao">地址以24位字母数字组成</string>
     <string name="txt_remind_gopay">地址以16位字母数字组成</string>
     <string name="txt_remind_okpay">地址以16位字母数字组成</string>

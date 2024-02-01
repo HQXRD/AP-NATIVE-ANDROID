@@ -168,7 +168,8 @@ public class BindUsdtFragment extends BaseFragment<FragmentBindUsdtBinding, Bind
 
             if (!TextUtils.isEmpty(vo.num)) {
                 String txt = "<font color=#EE5A5A>" + vo.num + "</font>";
-                String html = getString(R.string.txt_bind_most_usdt, txt, mUserUsdtJumpVo.key.toUpperCase());
+                String name = mUserUsdtJumpVo.key.contains("hiwallet") ? "CNYT" : mUserUsdtJumpVo.key.toUpperCase();
+                String html = getString(R.string.txt_bind_most_usdt, txt, name);
                 binding.tvwTip.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
                 int max = Integer.parseInt(vo.num);
