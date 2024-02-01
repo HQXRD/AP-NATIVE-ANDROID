@@ -14,6 +14,7 @@ import com.xtree.base.global.SPKeyGlobal
 import com.xtree.base.net.RetrofitClient
 import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.DomainUtil
+import com.xtree.base.utils.TagUtils
 import com.xtree.main.BR
 import com.xtree.main.R
 import com.xtree.main.databinding.ActivitySplashBinding
@@ -43,6 +44,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
 
     override fun initView() {
         init()
+        initTag()
         setFasterDomain()
     }
 
@@ -58,7 +60,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
         mCurDomainList = HashSet()
     }
 
-    fun addDomainList(domainList: List<String>) {
+    private fun addDomainList(domainList: List<String>) {
         domainList.forEachIndexed { _, s ->
             run {
                 mCurDomainList.add(s)
@@ -66,7 +68,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
         }
     }
 
-    fun getFastestDomain() {
+    private fun getFastestDomain() {
         scopeNet {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurDomainList.map { host ->
@@ -76,7 +78,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                     tag = RESPONSE,
                     uid = "the_fastest_line"
                 ).transform { data ->
-                    CfLog.e("$host")
+                    CfLog.i("$host")
                     NetConfig.host = host
                     DomainUtil.setDomainUrl(host)
                     viewModel?.reNewViewModel?.postValue(null)
@@ -86,6 +88,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
             try {
                 fastest(domainTasks, uid = "the_fastest_line")
             } catch (e: Exception) {
+                CfLog.e(e.toString())
                 e.printStackTrace()
             }
         }
@@ -127,7 +130,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
             viewModel?.setModel(AppViewModelFactory.getInstance(application).getmRepository())
             val token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN)
             if (!TextUtils.isEmpty(token)) {
-                CfLog.e("getFBGameTokenApi init")
+                CfLog.i("getFBGameTokenApi init")
                 viewModel?.getFBGameTokenApi()
                 viewModel?.getFBXCGameTokenApi()
                 viewModel?.getPMGameTokenApi()
@@ -135,6 +138,13 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                 inMain()
             }
         }
+    }
+
+    private fun initTag() {
+        val token = getString(R.string.mixpanel_token)
+        val channel = getString(R.string.channel_name)
+        val userId = SPUtils.getInstance().getString(SPKeyGlobal.USER_ID)
+        TagUtils.init(baseContext, token, channel, userId)
     }
 
     /**
