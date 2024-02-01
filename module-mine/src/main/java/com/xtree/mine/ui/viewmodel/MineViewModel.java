@@ -1,14 +1,17 @@
 package com.xtree.mine.ui.viewmodel;
 
 import android.app.Application;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
+import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.data.MineRepository;
@@ -160,15 +163,20 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onResult(QuestionVo vo) {
                         CfLog.d(vo.toString());
-
-                        SPUtils.getInstance().put(SPKeyGlobal.QUESTION_WEB, vo.content);
-                        liveDataQuestionWeb.setValue(vo.content);
+                        if (!TextUtils.isEmpty(vo.content)) {
+                            SPUtils.getInstance().put(SPKeyGlobal.QUESTION_WEB, vo.content);
+                            liveDataQuestionWeb.setValue(vo.content);
+                        } else {
+                            ToastUtils.showLong("请重新登录");
+                            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+                            finish(); // 关闭页面
+                        }
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
-                        super.onError(t);
+                        //super.onError(t);
                     }
                 });
         addSubscribe(disposable);
