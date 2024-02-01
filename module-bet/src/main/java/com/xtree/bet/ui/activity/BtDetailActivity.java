@@ -381,7 +381,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 score = scoreList.get(0) + " - " + scoreList.get(1);
                 binding.tvScore.setText(score);
                 binding.videoPlayer.getTitleTextView().setText(mMatch.getTeamMain() + score + mMatch.getTeamVistor());
-                if(fullVideoPlayer != null) {
+                if (fullVideoPlayer != null) {
                     fullVideoPlayer.getTitleTextView().setText(mMatch.getTeamMain() + score + mMatch.getTeamVistor());
                 }
             }
@@ -412,25 +412,31 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
 
         });
         viewModel.categoryListData.observe(this, categories -> {
-
+            if (categories.isEmpty()) {
+                binding.rlPlayMethod.setVisibility(View.GONE);
+                binding.flOption.setVisibility(View.GONE);
+                binding.llEnd.llEmpty.setVisibility(View.VISIBLE);
+            } else {
+                binding.rlPlayMethod.setVisibility(View.VISIBLE);
+                binding.flOption.setVisibility(View.VISIBLE);
+                binding.llEnd.llEmpty.setVisibility(View.GONE);
+            }
             if (mCategories.size() != categories.size()) {
                 mCategories = categories;
-                if (!categories.isEmpty()) {
 
-                    for (int i = 0; i < categories.size(); i++) {
-                        View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_catory_tab_item, null);
-                        TextView tvName = view.findViewById(R.id.tab_item_name);
-                        String name = categories.get(i).getName();
+                for (int i = 0; i < categories.size(); i++) {
+                    View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_catory_tab_item, null);
+                    TextView tvName = view.findViewById(R.id.tab_item_name);
+                    String name = categories.get(i).getName();
 
-                        tvName.setText(name);
-                        ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_category_tab_text);
-                        tvName.setTextColor(colorStateList);
+                    tvName.setText(name);
+                    ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_category_tab_text);
+                    tvName.setTextColor(colorStateList);
 
-                        binding.tabCategoryType.addTab(binding.tabCategoryType.newTab().setCustomView(view));
-
-                    }
+                    binding.tabCategoryType.addTab(binding.tabCategoryType.newTab().setCustomView(view));
 
                 }
+
             } else {
                 mCategories = categories;
                 updateOptionData();

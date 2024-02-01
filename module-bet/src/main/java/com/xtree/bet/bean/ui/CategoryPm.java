@@ -8,7 +8,6 @@ import java.util.List;
 
 public class CategoryPm implements Category{
     private List<PlayType> playTypeList = new ArrayList<>();
-    private PlayTypeInfo playTypeInfo;
     /**
      * marketName : 热门
      * orderNo : 1
@@ -32,14 +31,6 @@ public class CategoryPm implements Category{
      * 玩法id
      */
     private List<Integer> plays;
-
-    public CategoryPm(){
-
-    }
-
-    public CategoryPm(PlayTypeInfo playTypeInfo){
-        this.playTypeInfo = playTypeInfo;
-    }
 
     @Override
     public List<PlayType> getPlayTypeList() {

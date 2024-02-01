@@ -70,14 +70,21 @@ public class FbBtDetailViewModel extends TemplateBtDetailViewModel {
     }
 
     public List<Category> getCategoryList(MatchInfo matchInfo) {
-        Map<String, Category> map = new HashMap<>();
         List<Category> categoryList = new ArrayList<>();
+        if (matchInfo.mg.isEmpty()) {
+            return categoryList;
+        }
+        Map<String, Category> map = new HashMap<>();
+        CategoryFb categoryAll = new CategoryFb(FBMarketTag.getMarketTag("all"));
+        map.put("all", categoryAll);
         for (PlayTypeInfo playTypeInfo : matchInfo.mg) {
+            PlayTypeFb playType = new PlayTypeFb(playTypeInfo);
+            categoryAll.addPlayTypeList(playType);
             for (String type : playTypeInfo.tps) {
                 if (map.get(type) == null) {
-                    map.put(type, new CategoryFb(playTypeInfo, FBMarketTag.getMarketTag(type)));
+                    map.put(type, new CategoryFb(FBMarketTag.getMarketTag(type)));
                 }
-                map.get(type).addPlayTypeList(new PlayTypeFb(playTypeInfo));
+                map.get(type).addPlayTypeList(playType);
             }
         }
         categoryList.addAll(map.values());
@@ -106,12 +113,12 @@ public class FbBtDetailViewModel extends TemplateBtDetailViewModel {
     }
 
     private List<Option> getMatchOptionList(Match match) {
-        if(match == null){
+        if (match == null) {
             return new ArrayList<>();
         }
         List<Option> optionArrayList = new ArrayList<>();
         for (PlayType playType : match.getPlayTypeList()) {
-            if(playType.getOptionLists() != null) {
+            if (playType.getOptionLists() != null) {
                 for (OptionList optionList : playType.getOptionLists()) {
                     for (Option option : optionList.getOptionList()) {
                         if (option != null) {
