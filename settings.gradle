@@ -8,6 +8,7 @@ include ":gsyVideoPlayer",
         ":gsyVideoPlayer-java",
         ":gsyVideoPlayer-armv7a",
         ":gsyVideoPlayer-x86_64",
+        ":gsyVideoPlayer-x86",
         ":gsyVideoPlayer-base",
         ":gsyVideoPlayer-proxy_cache"
 

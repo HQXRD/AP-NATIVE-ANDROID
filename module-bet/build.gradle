@@ -19,7 +19,8 @@ dependencies {
     implementation 'com.github.traex.expandablelayout:library:1.3'
     //组件依赖基础库
     api project(':library-base')
-    implementation project(":gsyVideoPlayer")
+    implementation 'com.github.CarGuo.GSYVideoPlayer:GSYVideoPlayer:v8.5.0-release-jitpack'
+    //implementation project(":gsyVideoPlayer")
     //implementation project(":gsyVideoPlayer-aliplay")
     //组件中依赖阿里路由编译框架
     kapt rootProject.ext.dependencies["arouter-compiler"]
