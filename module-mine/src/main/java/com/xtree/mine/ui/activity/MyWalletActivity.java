@@ -12,18 +12,23 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
+import com.xtree.base.global.Constant;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserActivity;
+import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.ActivityMyWalletBinding;
 import com.xtree.mine.ui.fragment.AccountMgmtDialog;
-import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
 import com.xtree.mine.ui.fragment.MyWalletAdapter;
 import com.xtree.mine.ui.viewmodel.MyWalletViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
@@ -35,6 +40,7 @@ import java.util.Collections;
 import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 @Route(path = RouterActivityPath.Mine.PAGER_MY_WALLET)
 public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWalletViewModel> {
@@ -46,6 +52,12 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
     private MyWalletAdapter myWalletAdapter;
 
     private BasePopupView basePopupView = null;
+    private ProfileVo mProfileVo ;
+    private  BasePopupView ppw = null; // 底部弹窗
+    private  BasePopupView ppw2 = null; // 底部弹窗
+    boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +119,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         binding.tvwWithdraw.setOnClickListener(v -> {
             CfLog.d("************");
             showChoose(); // 显示提款方式
+
         });
         binding.tvwMgmt.setOnClickListener(v -> {
             CfLog.d("************");
@@ -121,6 +134,9 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         int spanCount = 4; // 每行的列数
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
         binding.rcvWalletDetails.setLayoutManager(layoutManager);
+
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        mProfileVo = new Gson().fromJson(json, ProfileVo.class);
     }
 
     @Override
@@ -206,14 +222,117 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
      * 显示提款页面
      */
     private void showChoose() {
-        basePopupView = new XPopup.Builder(this).asCustom( ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
+
+        if (mProfileVo.is_binding_phone == false )
+        {
+            toBindPhoneNumber();
+
+        }
+        else if ( mProfileVo.is_binding_email == false)
+        {
+            toBindPhoneNumber();
+
+        }
+        else if (mProfileVo.is_binding_card == false)
+        {
+            toBindPhoneOrCard();
+
+        }
+        else
+        {
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE).navigation();
+        }
+    /*    basePopupView = new XPopup.Builder(this).asCustom( ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
             @Override
             public void closeDialog() {
                 basePopupView.dismiss();
             }
         }));
-        basePopupView.show();
+        basePopupView.show();*/
 
+    }
+
+    private void toBindPhoneOrCard() {
+        String msg = getString(R.string.txt_rc_bind_personal_info);
+        String left = getString(R.string.txt_rc_bind_phone_now);
+        String right = getString(R.string.txt_rc_bind_bank_card_now);
+        MsgDialog dialog = new MsgDialog(this, null, msg, left, right, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+                toBindPhoneNumber();
+                ppw.dismiss();
+            }
+
+            @Override
+            public void onClickRight() {
+                toBindCard();
+                ppw.dismiss();
+            }
+        });
+        ppw = new XPopup.Builder(this)
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog);
+        ppw.show();
+    }
+
+    private void toBindPhoneNumber() {
+
+        String msg = getString(R.string.txt_rc_bind_phone_email_pls);
+        String left = getString(R.string.txt_rc_bind_phone);
+        String right = getString(R.string.txt_rc_bind_email);
+        MsgDialog dialog = new MsgDialog(this, null, msg, left, right, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+                toBindPhoneOrEmail(Constant.BIND_PHONE);
+                ppw2.dismiss();
+            }
+
+            @Override
+            public void onClickRight() {
+                toBindPhoneOrEmail(Constant.BIND_EMAIL);
+                ppw2.dismiss();
+            }
+        });
+        ppw2 = new XPopup.Builder(this)
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog);
+        ppw2.show();
+    }
+
+    private void toBindCard()
+    {
+
+        String msg = getString(R.string.txt_rc_bind_bank_card_pls);
+        MsgDialog dialog = new MsgDialog(this, null, msg, true, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+            }
+
+            @Override
+            public void onClickRight() {
+                isBinding = true;
+                Bundle bundle = new Bundle();
+                bundle.putString("type", "bindcard");
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
+                ppw2.dismiss();
+            }
+        });
+        ppw2 = new XPopup.Builder(this)
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog);
+        ppw2.show();
+
+    }
+
+
+    private void toBindPhoneOrEmail(String type) {
+        isBinding = true;
+        Bundle bundle = new Bundle();
+        bundle.putString("type", type);
+        startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
     }
 
 }

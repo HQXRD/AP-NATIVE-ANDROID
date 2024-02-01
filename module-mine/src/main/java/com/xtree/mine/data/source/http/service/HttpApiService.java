@@ -4,6 +4,7 @@ import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.vo.AccountChangeVo;
+import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.BankCardCashVo;
 import com.xtree.mine.vo.BankCardVo;
@@ -487,4 +488,7 @@ public interface HttpApiService {
 
     @GET("/help/answer?client=m")
     Flowable<QuestionVo> getQuestionWeb();
+    /** 获取流水*/
+    @GET("/api/activity/awardrecord?&client=m")
+    Flowable<BaseResponse<AwardsRecordVo>> getAwardrecord();
 }

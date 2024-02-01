@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/clr_transparent"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_dialog_top_choose"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvw_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="请选择提款方式"
+            android:textColor="@color/clr_filter_txt_black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            android:visibility="visible"/>
+
+        <ImageView
+            android:id="@+id/ivw_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="close"
+            android:padding="4dp"
+            android:src="@mipmap/ic_choose_pop_close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/clr_gap_bg"/>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/clr_white"
+        android:layout_marginBottom="0dp"
+      >
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent" >
+           <com.xtree.mine.ui.viewmodel.ChooseListViewForScrllview
+               android:id="@+id/lv_choose"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:divider="@null"
+               android:listSelector="@android:color/transparent"
+               />
+           <LinearLayout
+               android:id="@+id/ll_choose_tutorial"
+               android:layout_marginTop="20dp"
+               android:layout_below="@id/lv_choose"
+               android:layout_width="match_parent"
+               android:layout_height="40dp"
+               android:visibility="invisible"
+               >
+               <TextView
+                   android:id="@+id/tv_choose_tutorial"
+                   android:text="USDT介绍及提款教程"
+                   style="@style/style_usdt_tutorial"
+                   android:autoLink="all"
+
+                   />
+           </LinearLayout>
+           <LinearLayout
+               android:id="@+id/ll_choose_tip"
+               android:layout_below="@id/ll_choose_tutorial"
+               android:layout_width="match_parent"
+               android:layout_height="40dp"
+               android:layout_marginTop="10dp"
+               android:layout_marginLeft="@dimen/bt_text_20sp"
+               android:layout_marginRight="@dimen/bt_text_20sp"
+               >
+               <TextView
+                   android:id="@+id/tv_choose_tip"
+                   android:gravity="left"
+                   android:textColor="@color/clr_red_choose"
+                   android:text=""
+                   style="@style/style_usdt_tutorial"
+                   android:visibility="invisible"
+                   />
+           </LinearLayout>
+       </RelativeLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

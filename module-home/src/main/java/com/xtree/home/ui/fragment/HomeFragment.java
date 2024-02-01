@@ -27,8 +27,10 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.BrowserDialog;
+import com.xtree.base.widget.MsgDialog;
 import com.xtree.home.BR;
 import com.xtree.home.R;
 import com.xtree.home.databinding.FragmentHomeBinding;
@@ -44,6 +46,7 @@ import com.youth.banner.indicator.CircleIndicator;
 import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
@@ -55,9 +58,15 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  */
 @Route(path = RouterFragmentPath.Home.PAGER_HOME)
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
+
     private BasePopupView basePopupView = null;
     GameAdapter gameAdapter;
     private int curPId = 0; // 当前选中的游戏大类型 1体育,2真人,3电子,4电竞,5棋牌,6彩票
+    private  ProfileVo mProfileVo ; //最新的用戶信息
+    private  BasePopupView ppw = null; // 底部弹窗
+    private  BasePopupView ppw2 = null; // 底部弹窗
+    boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
+
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -154,6 +163,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
         viewModel.liveDataProfile.observe(getViewLifecycleOwner(), vo -> {
             CfLog.d("*** " + new Gson().toJson(vo));
+            mProfileVo = vo ;
             binding.clLoginNot.setVisibility(View.GONE);
             binding.clLoginYet.setVisibility(View.VISIBLE);
 
@@ -231,6 +241,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
            /* String title = getString(R.string.txt_withdraw);
             String url = DomainUtil.getDomain2() + Constant.URL_WITHDRAW;
             BrowserActivity.start(getContext(), title, url, true);*/
+
             showChoose();
 
         });
@@ -323,10 +334,127 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         //startActivity(intent);
         startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
     }
+    private void refreshUI()
+    {
+
+    }
+
+    private void showCapitalflow()
+    {
+        
+    }
     /**
      * 显示提款页面
      */
     private void showChoose() {
-        ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE).navigation();
+
+        if (mProfileVo == null)
+        {
+
+        }
+        else
+        {
+            if (mProfileVo.is_binding_phone == false )
+            {
+                toBindPhoneNumber();
+
+            }
+            else if ( mProfileVo.is_binding_email == false)
+            {
+                toBindPhoneNumber();
+
+            }
+            else if (mProfileVo.is_binding_card == false)
+            {
+                toBindPhoneOrCard();
+
+            }
+            else
+            {
+                ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE).navigation();
+            }
+        }
+    }
+    private void toBindPhoneOrCard() {
+        String msg = getString(R.string.txt_rc_bind_personal_info);
+        String left = getString(R.string.txt_rc_bind_phone_now);
+        String right = getString(R.string.txt_rc_bind_bank_card_now);
+        MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+                toBindPhoneNumber();
+                ppw.dismiss();
+            }
+
+            @Override
+            public void onClickRight() {
+                toBindCard();
+                ppw.dismiss();
+            }
+        });
+        ppw = new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog);
+        ppw.show();
+    }
+
+    private void toBindPhoneNumber() {
+
+        String msg = getString(R.string.txt_rc_bind_phone_email_pls);
+        String left = getString(R.string.txt_rc_bind_phone);
+        String right = getString(R.string.txt_rc_bind_email);
+        MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+                toBindPhoneOrEmail(Constant.BIND_PHONE);
+                ppw2.dismiss();
+            }
+
+            @Override
+            public void onClickRight() {
+                toBindPhoneOrEmail(Constant.BIND_EMAIL);
+                ppw2.dismiss();
+            }
+        });
+        ppw2 = new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog);
+        ppw2.show();
+    }
+
+    private void toBindCard()
+    {
+
+        String msg = getString(R.string.txt_rc_bind_bank_card_pls);
+        MsgDialog dialog = new MsgDialog(getContext(), null, msg, true, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+            }
+
+            @Override
+            public void onClickRight() {
+                isBinding = true;
+                Bundle bundle = new Bundle();
+                bundle.putString("type", "bindcard");
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
+                ppw2.dismiss();
+            }
+        });
+        ppw2 = new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog);
+        ppw2.show();
+
+    }
+
+
+    private void toBindPhoneOrEmail(String type) {
+        isBinding = true;
+        Bundle bundle = new Bundle();
+        bundle.putString("type", type);
+        startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
     }
 }
