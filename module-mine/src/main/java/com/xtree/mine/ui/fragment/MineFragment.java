@@ -55,6 +55,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         if (TextUtils.isEmpty(token)) {
             binding.ivwSetting.setClickable(false);
             binding.ivwMsg.setClickable(false);
+            binding.tvwChangjianWenti.setClickable(false);
             binding.btnLogout.setVisibility(View.INVISIBLE);
             setChildClickable(binding.llMenu, false);
             setChildClickable(binding.llMenu01, false);
@@ -62,6 +63,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         } else {
             binding.ivwSetting.setClickable(true);
             binding.ivwMsg.setClickable(true);
+            binding.tvwChangjianWenti.setClickable(true);
             binding.btnLogout.setVisibility(View.VISIBLE);
             setChildClickable(binding.llMenu, true);
             setChildClickable(binding.llMenu01, true);

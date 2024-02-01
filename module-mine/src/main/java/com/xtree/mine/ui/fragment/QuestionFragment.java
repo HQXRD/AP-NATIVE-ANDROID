@@ -50,6 +50,9 @@ public class QuestionFragment extends BaseFragment<FragmentInfoBinding, MineView
 
     @Override
     public void initViewObservable() {
-        viewModel.liveDataQuestionWeb.observe(this, s -> binding.tvwInformation.setText(HtmlCompat.fromHtml(s, HtmlCompat.FROM_HTML_MODE_LEGACY)));
+        viewModel.liveDataQuestionWeb.observe(this, s -> {
+            String html = s == null ? "--" : s.replace("\n", "<br>").replace("\r", "<br>");
+            binding.tvwInformation.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
+        });
     }
 }
