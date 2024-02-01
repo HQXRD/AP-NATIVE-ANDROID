@@ -104,11 +104,13 @@
                 android:id="@+id/tvw_left"
                 style="@style/style_btn_back"
                 android:text="@string/txt_cancel"
+                android:textSize="14sp"
                 android:textColor="@color/clr_txt_grey_04" />
 
             <TextView
                 android:id="@+id/tvw_right"
                 style="@style/style_btn"
+                android:textSize="14sp"
                 android:text="@string/txt_confirm" />
         </LinearLayout>
 

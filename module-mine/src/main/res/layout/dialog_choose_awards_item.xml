@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvw_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="请选择提款方式"
+            android:textColor="@color/clr_filter_txt_black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/cl_title"
+            app:layout_constraintTop_toTopOf="@id/cl_title"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/tvw_title_bonus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:drawableLeft="@mipmap/mine_bonus"
+            android:text="奖金:2000000.00"
+            android:textColor="@color/clr_filter_txt_black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/tvw_title"
+            app:layout_constraintTop_toBottomOf="@id/tvw_title"
+            android:layout_marginTop="10dp"
+            android:visibility="visible"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/clr_gap_bg"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_required_turnover"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/tvw_required_turnover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="所需流水:40000"
+            android:textColor="@color/clr_filter_txt_black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/cl_required_turnover"
+            app:layout_constraintTop_toTopOf="@id/cl_required_turnover"
+            android:visibility="visible"/>
+
+        <TextView
+            android:id="@+id/tvw_title_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|left"
+
+            android:text="场馆：PT真人，BBIN真人，AG真人，PT真人，BBIN真人，AG真人PT真人，BBIN真人，AG真人，PT真人，BBIN真人，PT真人，BBIN真人，AG真人，PT真人，BBIN真人，"
+            android:textColor="@color/clr_filter_txt_black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/tvw_required_turnover"
+            app:layout_constraintTop_toBottomOf="@id/tvw_required_turnover"
+            android:layout_marginTop="10dp"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/clr_gap_bg"/>
+
+</LinearLayout>

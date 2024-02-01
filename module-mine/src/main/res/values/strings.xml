@@ -307,5 +307,6 @@
     <string name="txt_select_bank">请选择银行卡</string>
 
     <string name="txt_vip_title">VIP特权</string>
+    <string name="txt_tip_unfinished_activity">未完成活动流水</string>
 
 </resources>
