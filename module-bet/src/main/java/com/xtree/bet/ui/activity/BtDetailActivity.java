@@ -359,19 +359,16 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                     //.apply(new RequestOptions().placeholder(placeholderRes))
                     .into(binding.ivLogoMain);
 
-            binding.tvTeamVisisor.setText(match.getTeamVistor());
             Glide.with(this)
                     .load(match.getIconVisitor())
                     //.apply(new RequestOptions().placeholder(placeholderRes))
                     .into(binding.ivLogoVisitor);
 
-            binding.tvTeamVisisor.setText(match.getTeamVistor());
             Glide.with(this)
                     .load(match.getIconMain())
                     //.apply(new RequestOptions().placeholder(placeholderRes))
                     .into(binding.ivLogoMainTop);
 
-            binding.tvTeamVisisor.setText(match.getTeamVistor());
             Glide.with(this)
                     .load(match.getIconVisitor())
                     //.apply(new RequestOptions().placeholder(placeholderRes))
@@ -383,6 +380,10 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             if (scoreList != null && scoreList.size() > 1) {
                 score = scoreList.get(0) + " - " + scoreList.get(1);
                 binding.tvScore.setText(score);
+                binding.videoPlayer.getTitleTextView().setText(mMatch.getTeamMain() + score + mMatch.getTeamVistor());
+                if(fullVideoPlayer != null) {
+                    fullVideoPlayer.getTitleTextView().setText(mMatch.getTeamMain() + score + mMatch.getTeamVistor());
+                }
             }
 
             // 比赛未开始

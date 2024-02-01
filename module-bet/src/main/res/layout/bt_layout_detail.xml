@@ -186,7 +186,6 @@
                         android:layout_height="80dp"
                         android:background="#cc000000"
                         android:visibility="visible"
-                        android:paddingTop="25dp"
                         app:layout_collapseMode="pin">
 
                         <ImageView

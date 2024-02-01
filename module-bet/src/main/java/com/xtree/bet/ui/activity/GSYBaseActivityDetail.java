@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.shuyu.gsyvideoplayer.GSYVideoManager;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
@@ -29,6 +28,7 @@ public abstract class GSYBaseActivityDetail<T extends GSYBaseVideoPlayer> extend
     protected boolean isPause;
 
     protected OrientationUtils orientationUtils;
+    protected GSYBaseVideoPlayer fullVideoPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public abstract class GSYBaseActivityDetail<T extends GSYBaseVideoPlayer> extend
             orientationUtils.resolveByClick();
         }
         //第一个true是否需要隐藏actionbar，第二个true是否需要隐藏statusbar
-        getGSYVideoPlayer().startWindowFullscreen(GSYBaseActivityDetail.this, hideActionBarWhenFull(), hideStatusBarWhenFull());
+        fullVideoPlayer = getGSYVideoPlayer().startWindowFullscreen(GSYBaseActivityDetail.this, hideActionBarWhenFull(), hideStatusBarWhenFull());
 
     }
 
