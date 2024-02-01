@@ -1,7 +1,6 @@
 package com.xtree.main.ui.viewmodel;
 
 import android.app.Application;
-import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -21,7 +20,6 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 /**
  * Created by marquis on 2023/11/24.
  */
-
 public class SplashViewModel extends BaseViewModel<MainRepository> {
     public MutableLiveData<Void> inMainData = new MutableLiveData<>();
     public MutableLiveData<Void> reNewViewModel = new MutableLiveData<>();
