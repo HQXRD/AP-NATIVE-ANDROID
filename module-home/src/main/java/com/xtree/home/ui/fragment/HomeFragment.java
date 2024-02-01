@@ -59,14 +59,12 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 @Route(path = RouterFragmentPath.Home.PAGER_HOME)
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
 
-    private BasePopupView basePopupView = null;
     GameAdapter gameAdapter;
     private int curPId = 0; // 当前选中的游戏大类型 1体育,2真人,3电子,4电竞,5棋牌,6彩票
-    private  ProfileVo mProfileVo ; //最新的用戶信息
-    private  BasePopupView ppw = null; // 底部弹窗
-    private  BasePopupView ppw2 = null; // 底部弹窗
+    private ProfileVo mProfileVo; //最新的用戶信息
+    private BasePopupView ppw = null; // 底部弹窗
+    private BasePopupView ppw2 = null; // 底部弹窗
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
-
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -98,6 +96,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setViewClickable(false); // 设置菜单不可点击
         viewModel.readCache(); // 从缓存读取数据并显示
 
         viewModel.getSettings(); // 获取公钥,配置信息
@@ -106,6 +105,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         if (!TextUtils.isEmpty(token)) {
+            setViewClickable(true);
             viewModel.getCookie();
             viewModel.getFBGameTokenApi();
             viewModel.getFBXCGameTokenApi();
@@ -163,7 +163,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
         viewModel.liveDataProfile.observe(getViewLifecycleOwner(), vo -> {
             CfLog.d("*** " + new Gson().toJson(vo));
-            mProfileVo = vo ;
+            mProfileVo = vo;
             binding.clLoginNot.setVisibility(View.GONE);
             binding.clLoginYet.setVisibility(View.VISIBLE);
 
@@ -228,6 +228,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             //binding.btnLogin.setVisibility(View.VISIBLE);
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
         });
+        binding.llMenu.setOnClickListener(v -> {
+            // 未登录时,点击登录右边的4个菜单
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+        });
+
         binding.tvwDeposit.setOnClickListener(view -> {
             // 存款
             KLog.i("**************");
@@ -315,6 +320,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     }
 
+    private void setViewClickable(boolean isClickable) {
+        binding.tvwDeposit.setClickable(isClickable);
+        binding.tvwWithdraw.setClickable(isClickable);
+        binding.tvwTrans.setClickable(isClickable);
+        binding.tvwMember.setClickable(isClickable);
+    }
+
     private void smoothToPosition(int pid) {
         List<GameVo> list = gameAdapter.getData();
         for (int i = 0; i < list.size(); i++) {
@@ -334,47 +346,26 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         //startActivity(intent);
         startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
     }
-    private void refreshUI()
-    {
 
-    }
-
-    private void showCapitalflow()
-    {
-        
-    }
     /**
      * 显示提款页面
      */
     private void showChoose() {
 
-        if (mProfileVo == null)
-        {
-
+        if (mProfileVo == null) {
+            return;
         }
-        else
-        {
-            if (mProfileVo.is_binding_phone == false )
-            {
-                toBindPhoneNumber();
-
-            }
-            else if ( mProfileVo.is_binding_email == false)
-            {
-                toBindPhoneNumber();
-
-            }
-            else if (mProfileVo.is_binding_card == false)
-            {
-                toBindPhoneOrCard();
-
-            }
-            else
-            {
-                ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE).navigation();
-            }
+        if (mProfileVo.is_binding_phone == false) {
+            toBindPhoneNumber();
+        } else if (mProfileVo.is_binding_email == false) {
+            toBindPhoneNumber();
+        } else if (mProfileVo.is_binding_card == false) {
+            toBindPhoneOrCard();
+        } else {
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE).navigation();
         }
     }
+
     private void toBindPhoneOrCard() {
         String msg = getString(R.string.txt_rc_bind_personal_info);
         String left = getString(R.string.txt_rc_bind_phone_now);
@@ -424,8 +415,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         ppw2.show();
     }
 
-    private void toBindCard()
-    {
+    private void toBindCard() {
 
         String msg = getString(R.string.txt_rc_bind_bank_card_pls);
         MsgDialog dialog = new MsgDialog(getContext(), null, msg, true, new MsgDialog.ICallBack() {
@@ -449,7 +439,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         ppw2.show();
 
     }
-
 
     private void toBindPhoneOrEmail(String type) {
         isBinding = true;
