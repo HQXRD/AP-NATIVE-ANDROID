@@ -1,5 +1,7 @@
 package com.xtree.base.utils;
 
+import android.text.TextUtils;
+
 public class DomainUtil {
 
     private static String domainUrl = "https://www.weres.bar/";
@@ -17,7 +19,16 @@ public class DomainUtil {
     }
 
     public static void setDomainUrl(String url) {
-        domainUrl = url;
+        CfLog.i("url: " + url);
+        // 设置域名，此片做各种判断
+        if (!TextUtils.isEmpty(url) && url.startsWith("http") && url.length() > 10) {
+            if (!url.endsWith("/")) {
+                domainUrl = url + "/"; // 必须要 "/"为后缀
+            } else {
+                domainUrl = url;
+            }
+            CfLog.i("domainUrl: " + domainUrl);
+        }
     }
 
 }
