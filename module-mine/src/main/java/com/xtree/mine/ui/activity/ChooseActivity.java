@@ -11,23 +11,23 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentChooseWithdrawBinding;
+import com.xtree.mine.ui.fragment.AwardsRecordDialog;
 import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.mine.vo.AwardsRecordVo;
+
 import me.xtree.mvvmhabit.base.BaseActivity;
 
 @Route(path = RouterActivityPath.Mine.PAGER_CHOOSE)
 public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel> {
-    private ChooseWithdrawViewModel viewModel ;
-    private  ChooseWithdrawalDialog chooseWithdrawalDialog ;//提款选择dialog
     private BasePopupView basePopupView = null;
+    private AwardsRecordVo awardsRecordVo ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
-
-
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -41,7 +41,14 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
     @Override
     public void initView() {
-        showChoose();
+        if (viewModel == null)
+        {
+            CfLog.i("ChooseActivity viewModel  null");
+        }
+        else
+        {
+            initViewModel();
+        }
     }
 
     @Override
@@ -52,10 +59,40 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
     @Override
     public void initData() {
+        if (viewModel == null)
+        {
+                CfLog.i("ChooseActivity viewModel  null");
+        }
+        else
+        {
+            viewModel.getAwardrecord();
+        }
+
     }
 
     @Override
     public void initViewObservable() {
+
+        showChoose();
+      /*  if (viewModel !=null)
+        {
+            viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
+                awardsRecordVo = vo ;
+                if (awardsRecordVo != null  && awardsRecordVo.list !=null)
+                {
+                    for (int i = 0; i < awardsRecordVo.list.size(); i++)
+                    {
+                        CfLog.i("initViewObservable" + awardsRecordVo.list.get(i).toString() );
+                    }
+
+                    showAwardsRecord();
+                }
+                else
+                {
+
+                }
+            });
+        }*/
 
     }
 
@@ -68,7 +105,22 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         return basePopupView;
     }
 
+    /** 显示资金流水*/
+    private  void    showAwardsRecord()
+    {
+        basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                        .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, new AwardsRecordDialog.IAwardsDialogBack() {
+                            @Override
+                            public void closeAwardsDialog() {
+                                basePopupView.dismiss();
+                                finish();
+                                CfLog.i("AwardsRecordDialog  dismiss");
+                            }
+                        }));
+        basePopupView.show();
 
+    }
     /**
      * 显示提款页面
      */

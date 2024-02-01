@@ -85,6 +85,7 @@
         </com.youth.banner.Banner>
 
         <LinearLayout
+            android:id="@+id/ll_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/page_margin"

@@ -7,10 +7,8 @@ import java.util.List;
 
 public class CategoryFb implements Category{
     private List<PlayType> playTypeList = new ArrayList<>();
-    private PlayTypeInfo playTypeInfo;
     private String name;
-    public CategoryFb(PlayTypeInfo playTypeInfo, String name){
-        this.playTypeInfo = playTypeInfo;
+    public CategoryFb(String name){
         this.name = name;
     }
 

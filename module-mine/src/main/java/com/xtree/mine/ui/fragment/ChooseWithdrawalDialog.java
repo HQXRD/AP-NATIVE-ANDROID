@@ -155,6 +155,7 @@ public class ChooseWithdrawalDialog  extends BottomPopupView {
                         ChooseInfoVo.ChannelInfo channel = channelInfo;
                         if (channel.channeluse == 0)//显示弹窗
                         {
+
                             if (TextUtils.isEmpty(channelInfo.channeluseMessage))
                             {
                                 String errorMessage = "请先绑"+channelInfo.configkey.toUpperCase()+"后才可提款";
@@ -180,8 +181,6 @@ public class ChooseWithdrawalDialog  extends BottomPopupView {
                             }
 
                         }
-
-                        CfLog.i("onClick   ---> 点击了 " + txt);
                     }
                 });
                 binding.lvChoose.setAdapter(adapter);
@@ -189,11 +188,8 @@ public class ChooseWithdrawalDialog  extends BottomPopupView {
                 binding.tvChooseTutorial.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
                 //下划线TextView 点击事件
                 binding.tvChooseTutorial.setOnClickListener(v->{
-                    CfLog.i(" binding.tvChooseTutorial. binding.tvChooseTutorial. binding.tvChooseTutorial.");
-
                     Intent intent = new Intent(getContext() ,BrowserActivity.class);
                     intent.putExtra(BrowserActivity.ARG_TITLE , "USDT教程");
-
                     intent.putExtra(BrowserActivity.ARG_URL ,  DomainUtil.getDomain2()+"/static/usdt-description/as/usdt_m.html");
                     getContext().startActivity(intent);
                 });

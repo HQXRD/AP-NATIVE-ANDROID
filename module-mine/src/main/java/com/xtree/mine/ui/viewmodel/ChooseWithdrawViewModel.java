@@ -1,7 +1,6 @@
 package com.xtree.mine.ui.viewmodel;
 
 import android.app.Application;
-import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -10,6 +9,7 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BankCardCashVo;
 import com.xtree.mine.vo.ChooseInfoVo;
 import com.xtree.mine.vo.PlatWithdrawConfirmVo;
@@ -33,7 +33,7 @@ import me.xtree.mvvmhabit.utils.RxUtils;
  */
 public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<ChooseInfoVo> chooseInfoVoMutableLiveData = new MutableLiveData<>();//选择提款方式
-    public MutableLiveData<BankCardCashVo> channelDetailVoMutableLiveData = new MutableLiveData();//提款页面数据详情
+    public MutableLiveData<BankCardCashVo> channelDetailVoMutableLiveData = new MutableLiveData<>();//提款页面数据详情
     public MutableLiveData<PlatWithdrawVo> platwithdrawVoMutableLiveData = new MutableLiveData<>();//提款提交
     public MutableLiveData<PlatWithdrawConfirmVo> platWithdrawConfirmVoMutableLiveData = new MutableLiveData<PlatWithdrawConfirmVo>();//银行卡提现确认
 
@@ -44,6 +44,8 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<VirtualCashVo> virtualCashVoMutableLiveData = new MutableLiveData<>();//虚拟币提款获取页面信息
     public MutableLiveData<VirtualSecurityVo> virtualSecurityVoMutableLiveData = new MutableLiveData<>();//虚拟币 确认提款信息
     public MutableLiveData<VirtualConfirmVo> virtualConfirmVoMutableLiveData = new MutableLiveData<>();//虚拟币完成提款申请
+
+    public MutableLiveData<AwardsRecordVo>  awardrecordVoMutableLiveData = new MutableLiveData<>() ;//流水
 
     public ChooseWithdrawViewModel(@NonNull Application application) {
         super(application);
@@ -350,6 +352,36 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onResult(VirtualConfirmVo virtualConfirmVo) {
                         virtualConfirmVoMutableLiveData.setValue(virtualConfirmVo);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /** 获取流水*/
+    public void  getAwardrecord()
+    {
+        Disposable disposable = (Disposable) model.getApiService().getAwardrecord()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<AwardsRecordVo>() {
+                    @Override
+                    public void onResult(AwardsRecordVo awardrecordVo) {
+
+                        if (awardrecordVo !=null)
+                        {
+                            awardrecordVoMutableLiveData.setValue(awardrecordVo);
+                        }
+                        else
+                        {
+                            CfLog.i("awardrecordVo IS NULL ");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                        //ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
