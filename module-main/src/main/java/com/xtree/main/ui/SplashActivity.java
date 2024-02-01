@@ -8,13 +8,16 @@ import android.os.Handler;
 import androidx.annotation.Nullable;
 
 import com.xtree.base.BuildConfig;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.main.R;
 
 import java.util.Arrays;
 import java.util.List;
 
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
@@ -25,6 +28,7 @@ public class SplashActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+        initTag();
         setFasterDomain();
 
         new Handler().postDelayed(() -> inMain(), 1 * 2500);
@@ -53,6 +57,14 @@ public class SplashActivity extends Activity {
 
             }
         }
+    }
+
+    private void initTag() {
+
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.PM_TOKEN);
+        String channel = getString(R.string.channel_name);
+        String userId = SPUtils.getInstance().getString(SPKeyGlobal.USER_ID);
+        TagUtils.init(getBaseContext(), token, channel, userId);
     }
 
     /**
