@@ -206,9 +206,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             binding.ivwNotice.setVisibility(View.INVISIBLE);
         });
         binding.llNotice.setOnClickListener(view -> {
-            String title = getString(R.string.txt_msg_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_MY_MESSAGES;
-            BrowserActivity.start(getContext(), title, url, true);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG);
         });
 
         //cl_login_not
