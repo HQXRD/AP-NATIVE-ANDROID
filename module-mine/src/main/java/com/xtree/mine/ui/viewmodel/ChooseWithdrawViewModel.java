@@ -33,7 +33,7 @@ import me.xtree.mvvmhabit.utils.RxUtils;
  */
 public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<ChooseInfoVo> chooseInfoVoMutableLiveData = new MutableLiveData<>();//选择提款方式
-    public MutableLiveData<BankCardCashVo> channelDetailVoMutableLiveData = new MutableLiveData();//提款页面数据详情
+    public MutableLiveData<BankCardCashVo> channelDetailVoMutableLiveData = new MutableLiveData<>();//提款页面数据详情
     public MutableLiveData<PlatWithdrawVo> platwithdrawVoMutableLiveData = new MutableLiveData<>();//提款提交
     public MutableLiveData<PlatWithdrawConfirmVo> platWithdrawConfirmVoMutableLiveData = new MutableLiveData<PlatWithdrawConfirmVo>();//银行卡提现确认
 

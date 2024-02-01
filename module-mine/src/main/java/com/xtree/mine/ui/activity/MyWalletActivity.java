@@ -29,7 +29,6 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.ActivityMyWalletBinding;
 import com.xtree.mine.ui.fragment.AccountMgmtDialog;
-import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
 import com.xtree.mine.ui.fragment.MyWalletAdapter;
 import com.xtree.mine.ui.viewmodel.MyWalletViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
