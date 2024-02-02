@@ -151,6 +151,14 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 tabPos = tab.getPosition();
+                for(int i = 0; i < binding.tabCategoryType.getTabCount(); i ++){
+                    if(tabPos == i){
+                        binding.tabCategoryType.getTabAt(i).getCustomView().setBackgroundResource(R.mipmap.bt_bg_category_tab_selected);
+                    }else {
+                        binding.tabCategoryType.getTabAt(i).getCustomView().setBackgroundResource(R.drawable.bt_bg_category_tab);
+                    }
+                }
+
                 updateOptionData();
             }
 
@@ -379,8 +387,12 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             List<Integer> scoreList = mMatch.getScore(Constants.getScoreType());
 
             if (scoreList != null && scoreList.size() > 1) {
-                score = scoreList.get(0) + " - " + scoreList.get(1);
+                String scoreMain = String.valueOf(scoreList.get(0));
+                String scoreVisitor = String.valueOf(scoreList.get(1));
+                score = scoreMain + " - " + scoreVisitor;
                 binding.tvScore.setText(score);
+                binding.tvScoreMainTop.setText(scoreMain);
+                binding.tvScoreVisitorTop.setText(scoreVisitor);
                 binding.videoPlayer.getTitleTextView().setText(mMatch.getTeamMain() + score + mMatch.getTeamVistor());
                 if (fullVideoPlayer != null) {
                     fullVideoPlayer.getTitleTextView().setText(mMatch.getTeamMain() + score + mMatch.getTeamVistor());

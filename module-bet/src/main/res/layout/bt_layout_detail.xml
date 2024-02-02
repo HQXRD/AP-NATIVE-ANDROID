@@ -193,6 +193,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="8dp"
+                            android:layout_marginTop="20dp"
                             android:src="@mipmap/cm_icon_back"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -208,6 +209,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/bt_color_under_bg_primary_text"
+                                android:layout_marginTop="20dp"
                                 android:textSize="@dimen/bt_text_14sp"
                                 android:visibility="visible"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -228,26 +230,27 @@
                                 android:id="@+id/iv_logo_main_top"
                                 android:layout_width="38dp"
                                 android:layout_height="38dp"
-                                android:layout_centerVertical="true"
+                                android:layout_marginTop="30dp"
                                 android:layout_marginStart="50dp" />
 
                             <TextView
                                 android:id="@+id/tv_score_main_top"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
+                                android:layout_marginTop="44dp"
                                 android:layout_marginEnd="15dp"
                                 android:layout_toStartOf="@+id/tv_time_top"
                                 android:textColor="@color/bt_color_under_bg_primary_text"
                                 android:textSize="@dimen/bt_text_14sp"
-                                tools:text="2" />
+                                android:text="2" />
 
                             <TextView
                                 android:id="@+id/tv_time_top"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
+                                android:layout_centerHorizontal="true"
                                 android:textColor="@color/bt_color_under_bg_primary_text"
+                                android:layout_marginTop="45dp"
                                 android:textSize="@dimen/bt_text_12sp"
                                 tools:text="上半场 02：54" />
 
@@ -255,19 +258,19 @@
                                 android:id="@+id/tv_score_visitor_top"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
                                 android:layout_toEndOf="@+id/tv_time_top"
+                                android:layout_marginTop="44dp"
                                 android:paddingStart="15dp"
                                 android:textColor="@color/bt_color_under_bg_primary_text"
                                 android:textSize="@dimen/bt_text_14sp"
-                                tools:text="1" />
+                                android:text="1" />
 
                             <ImageView
                                 android:id="@+id/iv_logo_visitor_top"
                                 android:layout_width="38dp"
                                 android:layout_height="38dp"
+                                android:layout_marginTop="30dp"
                                 android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
                                 android:layout_marginEnd="50dp" />
                         </RelativeLayout>
 
@@ -294,7 +297,7 @@
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tab_category_type"
                         android:layout_width="match_parent"
-                        android:layout_height="35dp"
+                        android:layout_height="38dp"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="15dp"
                         android:layout_marginEnd="15dp"
