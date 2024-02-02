@@ -58,6 +58,7 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     private final static int MSG_UPDATE_RCV = 1003;
     private int count = 0;
     private boolean filterNoMoney = false;
+    private boolean isAutoTransfer = false;
 
     HashMap<String, GameBalanceVo> map = new HashMap<>();
     ArrayList<GameBalanceVo> listGameBalance = new ArrayList<>();
@@ -117,8 +118,12 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         int auto_thrad_status = SPUtils.getInstance().getInt(SPKeyGlobal.USER_AUTO_THRAD_STATUS);
         if (auto_thrad_status == 1) {
             binding.llCenterWallet.ckbAuto.setChecked(true);
+            isAutoTransfer = true;
+            binding.llTransfer.setVisibility(View.GONE);
         } else {
             binding.llCenterWallet.ckbAuto.setChecked(false);
+            isAutoTransfer = false;
+            binding.llTransfer.setVisibility(View.VISIBLE);
         }
 
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
@@ -135,10 +140,14 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
 
         binding.llCenterWallet.ckbAuto.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
-                showDialogAutoTrans();
+                if(!isAutoTransfer) {
+                    showDialogAutoTrans();
+                }
             } else {
                 // 关闭自动免转, 不用弹窗提示
-                doAutoTransfer(false);
+                if(isAutoTransfer) {
+                    doAutoTransfer(false);
+                }
             }
         });
 
@@ -377,9 +386,23 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         viewModel.liveDataAutoTrans.observe(this, isSuccess -> {
             if (isSuccess) {
                 ToastUtils.showLong(R.string.txt_set_succ);
+                binding.llTransfer.setVisibility(View.GONE);
+                binding.llCenterWallet.ckbAuto.setChecked(!isAutoTransfer);
+                if (!isAutoTransfer) {
+                    binding.llTransfer.setVisibility(View.GONE);
+                } else {
+                    binding.llTransfer.setVisibility(View.VISIBLE);
+                }
+                isAutoTransfer = !isAutoTransfer;
                 refreshBalance();
             } else {
                 ToastUtils.showLong(R.string.txt_set_fail);
+                binding.llCenterWallet.ckbAuto.setChecked(isAutoTransfer);
+                if (isAutoTransfer) {
+                    binding.llTransfer.setVisibility(View.GONE);
+                } else {
+                    binding.llTransfer.setVisibility(View.VISIBLE);
+                }
             }
 
         });
