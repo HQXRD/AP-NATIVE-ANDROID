@@ -23,6 +23,7 @@ import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -70,25 +71,47 @@ public class FbBtDetailViewModel extends TemplateBtDetailViewModel {
     }
 
     public List<Category> getCategoryList(MatchInfo matchInfo) {
+        Map<String, Category> categoryMap = new HashMap<>();
         List<Category> categoryList = new ArrayList<>();
         if (matchInfo.mg.isEmpty()) {
             return categoryList;
         }
-        Map<String, Category> map = new HashMap<>();
+
         CategoryFb categoryAll = new CategoryFb(FBMarketTag.getMarketTag("all"));
-        map.put("all", categoryAll);
+        categoryMap.put("all", categoryAll);
+        categoryList.add(categoryAll);
         for (PlayTypeInfo playTypeInfo : matchInfo.mg) {
             PlayTypeFb playType = new PlayTypeFb(playTypeInfo);
             categoryAll.addPlayTypeList(playType);
             for (String type : playTypeInfo.tps) {
-                if (map.get(type) == null) {
-                    map.put(type, new CategoryFb(FBMarketTag.getMarketTag(type)));
+                if (categoryMap.get(type) == null) {
+                    Category category = new CategoryFb(FBMarketTag.getMarketTag(type));
+                    categoryMap.put(type, category);
+                    categoryList.add(category);
                 }
-                map.get(type).addPlayTypeList(playType);
+                categoryMap.get(type).addPlayTypeList(playType);
             }
         }
-        categoryList.addAll(map.values());
-        return categoryList;
+        if(mCategoryMap.isEmpty()) {
+            mCategoryMap = categoryMap;
+            mCategoryList = categoryList;
+        }else{
+            if(categoryMap.size() <= mCategoryMap.size()) {
+                for (String key : mCategoryMap.keySet()) {
+                    Category oldCategory = mCategoryMap.get(key);
+                    int index = mCategoryList.indexOf(oldCategory);
+                    Category newCategory = categoryMap.get(key);
+                    if(index > -1) {
+                        mCategoryList.set(index, newCategory);
+                        mCategoryMap.put(key, newCategory);
+                    }
+                }
+            }
+            /*if(!mCategoryList.isEmpty()) {
+                mCategoryList.set(mCategoryList.size() - 1, null);
+            }*/
+        }
+        return mCategoryList;
     }
 
     /**

@@ -192,7 +192,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.bnrTop.setOnBannerListener((OnBannerListener<BannersVo>) (data, position) -> {
             // 如果banner有链接 跳转到链接
             if (!TextUtils.isEmpty(data.link)) {
-                String url = DomainUtil.getDomain() + data.link;
+                CfLog.e(data.toString());
+                String url = DomainUtil.getDomain2() + Constant.URL_PREFIX + data.link;
                 //Uri uri = Uri.parse(url);
                 //Intent it = new Intent(Intent.ACTION_VIEW, uri);
                 //Intent it = new Intent(getContext(), BrowserActivity.class);
