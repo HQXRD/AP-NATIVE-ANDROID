@@ -18,7 +18,7 @@ public class FBMarketTag {
             // 足球
             map.put("all", "全部");
             map.put("p", "热门");
-            map.put("h", "让球/分 & 大/小");
+            map.put("h", "让球&大/小");
             map.put("s", "进球");
             map.put("f", "半场");
             map.put("c", "角球");
