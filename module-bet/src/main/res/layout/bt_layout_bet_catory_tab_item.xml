@@ -3,15 +3,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="33dp"
-    android:background="@drawable/bt_category_tab_selector">
+    android:layout_height="38dp">
 
         <TextView
             android:id="@+id/tab_item_name"
             android:layout_width="match_parent"
-            android:layout_height="28dp"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
+            android:layout_height="38dp"
             android:layout_below="@+id/iv_icon"
             android:gravity="center"
             tools:text="全部"

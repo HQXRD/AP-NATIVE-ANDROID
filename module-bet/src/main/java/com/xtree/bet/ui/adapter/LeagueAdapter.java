@@ -490,8 +490,8 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                 return;
             }
             BetConfirmOption betConfirmOption = (BetConfirmOption) view1.getTag();
-            if ((BtCarManager.isCg() && !BtCarManager.isEmpty())) { // 如果是串关，往购物车增加
-                if (!optionList.isAllowCrossover() && !BtCarManager.has(betConfirmOption)) {
+            if (BtCarManager.isCg()/* && !BtCarManager.isEmpty()*/) { // 如果是串关，往购物车增加
+                if (!optionList.isAllowCrossover()/* && !BtCarManager.has(betConfirmOption)*/) {
                     ToastUtils.showShort(mContext.getResources().getText(R.string.bt_bt_is_not_allow_crossover));
                     return;
                 }

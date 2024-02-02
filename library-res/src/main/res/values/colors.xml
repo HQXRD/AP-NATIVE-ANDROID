@@ -69,7 +69,7 @@
     <color name="bt_color_odd_up">#F74E15</color>
 
     <!-- 赔率下降字体颜色 -->
-    <color name="bt_color_odd_down">#63BE59</color>
+    <color name="bt_color_odd_down">#6BD85B</color>
 
     <!-- 模糊的字体颜色 -->
     <color name="bt_color_blurred">#B9B9B9</color>
