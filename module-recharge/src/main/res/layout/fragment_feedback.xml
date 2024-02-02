@@ -92,10 +92,11 @@
 
                         <TextView
                             android:id="@+id/tvw_un_order_selector"
-                            style="@style/style_cm_edit"
+                            style="@style/style_feedback_edit"
                             android:layout_toRightOf="@id/tv_unorder_selector_payway"
                             android:drawableEnd="@mipmap/bt_icon_expand"
                             android:hint="@string/txt_tip_select_un_order_right"
+                            android:singleLine="true"
                             android:text="" />
                         <ImageView
                             android:id="@+id/iv_selector_tip_un_order"

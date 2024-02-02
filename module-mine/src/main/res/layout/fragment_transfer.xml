@@ -102,217 +102,218 @@
             android:layout_marginBottom="0dp">
 
             <LinearLayout
+                android:id="@+id/ll_transfer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/clr_white"
                 android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="18dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="从" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:src="@mipmap/cm_ic_dot" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:src="@mipmap/cm_ic_dot" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="4dp"
-                        android:src="@mipmap/cm_ic_dot" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="到" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/layout_margin"
-                    android:layout_marginEnd="@dimen/layout_margin"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:layout_marginStart="18dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="18dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/bg_light_blue"
-                            android:paddingStart="6dp"
-                            android:paddingEnd="6dp"
-                            android:text="@string/txt_trans_out"
-                            android:textColor="@color/clr_blue_05"
-                            android:textSize="12sp" />
+                            android:text="从" />
 
-                        <TextView
-                            android:id="@+id/tvw_from"
-                            android:layout_width="match_parent"
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:padding="14dp"
-                            android:tag="lottery"
-                            android:text="@string/txt_central_wallet"
-                            android:textColor="@color/clr_grey_80"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                            android:padding="4dp"
+                            android:src="@mipmap/cm_ic_dot" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/clr_grey_080" />
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:src="@mipmap/cm_ic_dot" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"
+                            android:src="@mipmap/cm_ic_dot" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/bg_light_green"
-                            android:paddingStart="6dp"
-                            android:paddingEnd="6dp"
-                            android:text="@string/txt_trans_in"
-                            android:textColor="@color/clr_green_03"
-                            android:textSize="12sp" />
-
-                        <TextView
-                            android:id="@+id/tvw_to"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:padding="14dp"
-                            android:tag="pt"
-                            android:text="@string/me_wallet_ptgame"
-                            android:textColor="@color/clr_grey_80"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:text="到" />
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/clr_grey_080" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/layout_margin"
+                        android:layout_marginEnd="@dimen/layout_margin"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_light_blue"
+                                android:paddingStart="6dp"
+                                android:paddingEnd="6dp"
+                                android:text="@string/txt_trans_out"
+                                android:textColor="@color/clr_blue_05"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvw_from"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:padding="14dp"
+                                android:tag="lottery"
+                                android:text="@string/txt_central_wallet"
+                                android:textColor="@color/clr_grey_80"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/clr_grey_080" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/bg_light_green"
+                                android:paddingStart="6dp"
+                                android:paddingEnd="6dp"
+                                android:text="@string/txt_trans_in"
+                                android:textColor="@color/clr_green_03"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvw_to"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:padding="14dp"
+                                android:tag="pt"
+                                android:text="@string/me_wallet_ptgame"
+                                android:textColor="@color/clr_grey_80"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/clr_grey_080" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/ivw_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/cm_ic_transfer" />
                 </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/ivw_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/cm_ic_transfer" />
-            </LinearLayout>
-
-            <TextView
-                style="@style/style_cm_title"
-                android:text="转账额度" />
-
-            <RadioGroup
-                android:id="@+id/rgp_amount"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="12dp"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rdo_1"
-                    style="@style/style_rdo_blc"
-                    android:tag="100"
-                    android:text="100" />
-
-                <RadioButton
-                    android:id="@+id/rdo_2"
-                    style="@style/style_rdo_blc"
-                    android:tag="1000"
-                    android:text="1000" />
-
-                <RadioButton
-                    android:id="@+id/rdo_3"
-                    style="@style/style_rdo_blc"
-                    android:tag="10000"
-                    android:text="10000" />
-
-                <RadioButton
-                    android:id="@+id/rdo_4"
-                    style="@style/style_rdo_blc"
-                    android:tag="MAX"
-                    android:text="MAX" />
-
-            </RadioGroup>
-
-            <com.xtree.base.widget.MaxRecyclerView
-                android:id="@+id/rcv_amount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:visibility="gone" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_margin"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="@dimen/layout_margin">
-
-                <EditText
-                    android:id="@+id/edt_amount"
-                    style="@style/style_cm_edit_amount"
-                    android:hint="@string/txt_pls_enter_transfer_amount"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    style="@style/style_cm_title"
+                    android:text="转账额度" />
+
+                <RadioGroup
+                    android:id="@+id/rgp_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="12dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rdo_1"
+                        style="@style/style_rdo_blc"
+                        android:tag="100"
+                        android:text="100" />
+
+                    <RadioButton
+                        android:id="@+id/rdo_2"
+                        style="@style/style_rdo_blc"
+                        android:tag="1000"
+                        android:text="1000" />
+
+                    <RadioButton
+                        android:id="@+id/rdo_3"
+                        style="@style/style_rdo_blc"
+                        android:tag="10000"
+                        android:text="10000" />
+
+                    <RadioButton
+                        android:id="@+id/rdo_4"
+                        style="@style/style_rdo_blc"
+                        android:tag="MAX"
+                        android:text="MAX" />
+
+                </RadioGroup>
+
+                <com.xtree.base.widget.MaxRecyclerView
+                    android:id="@+id/rcv_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:visibility="gone" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_margin"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="@dimen/layout_margin">
+
+                    <EditText
+                        android:id="@+id/edt_amount"
+                        style="@style/style_cm_edit_amount"
+                        android:hint="@string/txt_pls_enter_transfer_amount"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/layout_margin"
+                        android:text="RMB"
+                        android:textColor="@color/clr_grey_60"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <ImageView
+                    android:id="@+id/ivw_transfer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/layout_margin"
-                    android:text="RMB"
-                    android:textColor="@color/clr_grey_60"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <ImageView
-                android:id="@+id/ivw_transfer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="24dp"
-                android:src="@mipmap/me_btn_transfer" />
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:src="@mipmap/me_btn_transfer" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

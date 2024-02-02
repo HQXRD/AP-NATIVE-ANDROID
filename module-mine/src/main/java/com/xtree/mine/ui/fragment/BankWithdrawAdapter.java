@@ -15,6 +15,8 @@ import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.ItemBankWithdrawBinding;
 
+import me.xtree.mvvmhabit.utils.ToastUtils;
+
 public class BankWithdrawAdapter extends CachedAutoRefreshAdapter<ProfileVo.CardInfoVo> {
 
     Context ctx;
@@ -56,7 +58,6 @@ public class BankWithdrawAdapter extends CachedAutoRefreshAdapter<ProfileVo.Card
 
             return;
         }
-
         binding.tvwTitle.setText(vo.bank_name);
         binding.tvwAccount.setText(vo.account);
         binding.llRoot.setBackgroundResource(R.mipmap.cm_ic_wd_card);

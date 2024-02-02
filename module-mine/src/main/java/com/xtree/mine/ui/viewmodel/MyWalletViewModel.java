@@ -153,6 +153,13 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                         liveDataAutoTrans.setValue(false);
                         super.onError(t);
                     }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        CfLog.e("error, " + t.toString());
+                        liveDataAutoTrans.setValue(false);
+                        super.onFail(t);
+                    }
                 });
         addSubscribe(disposable);
     }

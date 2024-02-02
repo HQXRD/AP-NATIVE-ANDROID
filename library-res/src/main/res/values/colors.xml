@@ -268,5 +268,6 @@
     <color name="clr_no_selector">#CDCDCD</color>
     <color name="clr_hint">#F4F4F4</color>
     <!-- 通用 end-->
+    <color name="clr_toast">#808080</color>
 
 </resources>
