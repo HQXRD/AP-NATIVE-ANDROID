@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -188,7 +189,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 .subscribe(aLong -> {
                     viewModel.getMatchDetail(mMatch.getId());
                     if (!mCategories.isEmpty() && mCategories.size() > tabPos) {
-                        viewModel.getMatchOddsInfoPB(String.valueOf(mMatch.getId()), mCategories.get(tabPos).getId());
+                        viewModel.getCategoryList(String.valueOf(mMatch.getId()), mMatch.getSportId());
                     }
                 })
         );
@@ -306,7 +307,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
     }
 
     /**
-     * 更新联赛数据
+     * 更新投注选项数据
      */
     private void updateOptionData() {
         if (fragment == null) {
@@ -411,6 +412,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
             }
 
         });
+        viewModel.updateCagegoryListData.observe(this, categories -> {
+            mCategories = categories;
+        });
         viewModel.categoryListData.observe(this, categories -> {
             if (categories.isEmpty()) {
                 binding.rlPlayMethod.setVisibility(View.GONE);
@@ -421,26 +425,39 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 binding.flOption.setVisibility(View.VISIBLE);
                 binding.llEnd.llEmpty.setVisibility(View.GONE);
             }
-            if (mCategories.size() != categories.size()) {
+            //if (mCategories.size() != categories.size()) {
                 mCategories = categories;
+                if(binding.tabCategoryType.getTabCount() == 0) {
+                    for (int i = 0; i < categories.size(); i++) {
+                        View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_catory_tab_item, null);
+                        TextView tvName = view.findViewById(R.id.tab_item_name);
+                        String name = categories.get(i).getName();
 
-                for (int i = 0; i < categories.size(); i++) {
-                    View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_catory_tab_item, null);
-                    TextView tvName = view.findViewById(R.id.tab_item_name);
-                    String name = categories.get(i).getName();
+                        tvName.setText(name);
+                        ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_category_tab_text);
+                        tvName.setTextColor(colorStateList);
 
-                    tvName.setText(name);
-                    ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_category_tab_text);
-                    tvName.setTextColor(colorStateList);
+                        binding.tabCategoryType.addTab(binding.tabCategoryType.newTab().setCustomView(view));
 
-                    binding.tabCategoryType.addTab(binding.tabCategoryType.newTab().setCustomView(view));
-
+                    }
+                }else{
+                    for (int i = 0; i < categories.size(); i++) {
+                        if(categories.get(i) == null){
+                            binding.tabCategoryType.removeTabAt(i);
+                            if(binding.tabCategoryType.getTabCount() == 0){
+                                binding.rlPlayMethod.setVisibility(View.GONE);
+                                binding.flOption.setVisibility(View.GONE);
+                                binding.llEnd.llEmpty.setVisibility(View.VISIBLE);
+                            }
+                        }
+                    }
+                    viewModel.updateCategoryData();
                 }
-
-            } else {
+            updateOptionData();
+            /*} else {
                 mCategories = categories;
                 updateOptionData();
-            }
+            }*/
         });
 
         viewModel.betContractListData.observe(this, betContract -> {
