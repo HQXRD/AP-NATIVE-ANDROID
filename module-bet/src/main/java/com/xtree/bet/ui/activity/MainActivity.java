@@ -21,6 +21,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.xtree.base.router.RouterActivityPath;
+import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.MenuItemView;
 import com.xtree.bet.BR;
@@ -187,6 +188,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     public void initView() {
         binding.srlLeague.setOnRefreshLoadMoreListener(this);
         binding.ivBack.setOnClickListener(this);
+        binding.tvBalance.setOnClickListener(this);
         binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -1138,6 +1140,10 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             btCarDialogFragment.show(MainActivity.this.getSupportFragmentManager(), "btCarDialogFragment");
         } else if (id == R.id.iv_back) {
             finish();
+        } else if (id == R.id.tv_balance){
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isShowBack", true);
+            startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
         }
     }
 
