@@ -27,6 +27,7 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.BrowserDialog;
@@ -74,6 +75,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     @Override
     public int initVariableId() {
         return BR.viewModel;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TagUtils.tagDailyEvent(getContext());
     }
 
     @Override

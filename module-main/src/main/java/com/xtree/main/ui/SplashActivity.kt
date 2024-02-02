@@ -16,6 +16,7 @@ import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.DomainUtil
 import com.xtree.base.utils.TagUtils
 import com.xtree.main.BR
+import com.xtree.main.BuildConfig
 import com.xtree.main.R
 import com.xtree.main.databinding.ActivitySplashBinding
 import com.xtree.main.ui.viewmodel.SplashViewModel
@@ -23,6 +24,7 @@ import com.xtree.main.ui.viewmodel.factory.AppViewModelFactory
 import me.xtree.mvvmhabit.base.BaseActivity
 import me.xtree.mvvmhabit.bus.Messenger
 import me.xtree.mvvmhabit.utils.SPUtils
+import me.xtree.mvvmhabit.utils.ToastUtils
 
 /**
  * 冷启动
@@ -31,7 +33,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
     private var mSavedInstanceState: Bundle? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mSavedInstanceState = savedInstanceState;
+        mSavedInstanceState = savedInstanceState
+
+        if (BuildConfig.DEBUG) {
+            ToastUtils.showLong("Debug Model")
+        }
     }
 
     override fun initContentView(savedInstanceState: Bundle?): Int {
@@ -145,6 +151,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
         val channel = getString(R.string.channel_name)
         val userId = SPUtils.getInstance().getString(SPKeyGlobal.USER_ID)
         TagUtils.init(baseContext, token, channel, userId)
+        TagUtils.tagDailyEvent(baseContext)
     }
 
     /**
