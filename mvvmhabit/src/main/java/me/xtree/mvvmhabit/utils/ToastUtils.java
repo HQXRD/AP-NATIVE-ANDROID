@@ -1,6 +1,7 @@
 package me.xtree.mvvmhabit.utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.SpannableString;
@@ -9,6 +10,9 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
@@ -19,6 +23,8 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
+import me.xtree.mvvmhabit.R;
+
 /**
  * Created by goldze on 2017/5/14.
  * 吐司工具类
@@ -27,9 +33,10 @@ public final class ToastUtils {
 
     private static final int DEFAULT_COLOR = 0x12000000;
     private static Toast sToast;
-    private static int gravity         = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
+        private static int gravity         = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
     private static int xOffset         = 0;
     private static int yOffset         = (int) (64 * Utils.getContext().getResources().getDisplayMetrics().density + 0.5);
+
     private static int backgroundColor = DEFAULT_COLOR;
     private static int bgResource      = -1;
     private static int messageColor    = DEFAULT_COLOR;
@@ -384,10 +391,16 @@ public final class ToastUtils {
      * @param duration 显示时长
      */
     private static void show(CharSequence text, int duration) {
-        cancel();
+        show(text ,duration, 0);
+
+     /*   cancel();
         boolean isCustom = false;
+        setView(R.layout.custom_toast);
         if (sViewWeakReference != null) {
             final View view = sViewWeakReference.get();
+            TextView textView = sViewWeakReference.get().findViewById(R.id.tv_toast) ;
+            textView.setText(text);
+
             if (view != null) {
                 sToast = new Toast(Utils.getContext());
                 sToast.setView(view);
@@ -401,6 +414,7 @@ public final class ToastUtils {
                 ForegroundColorSpan colorSpan = new ForegroundColorSpan(messageColor);
                 spannableString.setSpan(colorSpan, 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 sToast = Toast.makeText(Utils.getContext(), spannableString, duration);
+
             } else {
                 sToast = Toast.makeText(Utils.getContext(), text, duration);
             }
@@ -411,7 +425,53 @@ public final class ToastUtils {
         } else if (backgroundColor != DEFAULT_COLOR) {
             view.setBackgroundColor(backgroundColor);
         }
-        sToast.setGravity(gravity, xOffset, yOffset);
+
+       sToast.setGravity(gravity, xOffset, yOffset);
+        sToast.show();*/
+    }
+
+    /**
+     * 显示自定义Toast
+     * @param text
+     * @param duration
+     * @param flag 1:成功 2：失败 默认不传值 则显示logo
+     */
+    public static void  show(CharSequence text, int duration ,int flag)
+    {
+        cancel();
+        setView(R.layout.custom_toast);
+        if (sViewWeakReference != null) {
+            final View view = sViewWeakReference.get();
+            TextView textView = sViewWeakReference.get().findViewById(R.id.tv_toast) ;
+            textView.setText(text);
+            ImageView imageView = sViewWeakReference.get().findViewById(R.id.iv_toast);
+             if (flag ==1)
+             {
+                imageView.setBackgroundResource(R.drawable.ic_toast_success);
+            }
+             else if (flag == 2)
+            {
+                imageView.setBackgroundResource(R.drawable.ic_toast_fail);
+            }
+             else
+             {
+                 imageView.setBackgroundResource(R.drawable.ic_logo_59);
+             }
+
+            if (view != null) {
+                sToast = new Toast(Utils.getContext());
+                sToast.setView(view);
+                sToast.setDuration(duration);
+            }
+        }
+        View view = sToast.getView();
+        if (bgResource != -1) {
+            view.setBackgroundResource(bgResource);
+        } else if (backgroundColor != DEFAULT_COLOR) {
+            view.setBackgroundColor(backgroundColor);
+        }
+
+        sToast.setGravity(Gravity.TOP, 0, yOffset);
         sToast.show();
     }
 
