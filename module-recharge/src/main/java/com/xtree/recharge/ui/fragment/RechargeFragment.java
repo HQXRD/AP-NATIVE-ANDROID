@@ -27,7 +27,6 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.UuidUtil;
-import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.MsgDialog;
@@ -133,9 +132,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         });
         binding.ivwMsg.setOnClickListener(v -> {
             // 消息
-            String title = getString(R.string.txt_msg_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_MY_MESSAGES;
-            BrowserActivity.start(getContext(), title, url, true);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG);
         });
 
         binding.ivw1k.setOnClickListener(v -> {

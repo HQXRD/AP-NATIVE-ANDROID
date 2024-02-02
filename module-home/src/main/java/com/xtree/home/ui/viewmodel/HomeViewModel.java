@@ -387,7 +387,6 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         addSubscribe(disposable);
     }
 
-
     public void readCache() {
         CfLog.i("******");
         Gson gson = new Gson();
