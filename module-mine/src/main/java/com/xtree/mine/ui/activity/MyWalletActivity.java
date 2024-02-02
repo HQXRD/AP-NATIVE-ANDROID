@@ -52,11 +52,10 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
     private MyWalletAdapter myWalletAdapter;
 
     private BasePopupView basePopupView = null;
-    private ProfileVo mProfileVo ;
-    private  BasePopupView ppw = null; // 底部弹窗
-    private  BasePopupView ppw2 = null; // 底部弹窗
+    private ProfileVo mProfileVo;
+    private BasePopupView ppw = null; // 底部弹窗
+    private BasePopupView ppw2 = null; // 底部弹窗
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,11 +197,11 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         });
     }
 
-    private void goWebView(View v, String path) {
+   /* private void goWebView(View v, String path) {
         String title = ((TextView) v).getText().toString();
         String url = DomainUtil.getDomain2() + path;
         BrowserActivity.start(this, title, url, true);
-    }
+    }*/
 
     private void goRecharge() {
         Bundle bundle = new Bundle();
@@ -211,45 +210,23 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
 
     }
 
-    public BasePopupView getBasePopupView() {
-        return basePopupView;
-    }
-
-    public void setBasePopupView(BasePopupView basePopupView) {
-        this.basePopupView = basePopupView;
-    }
     /**
      * 显示提款页面
      */
     private void showChoose() {
 
-        if (mProfileVo.is_binding_phone == false )
-        {
+        if (mProfileVo.is_binding_phone == false) {
             toBindPhoneNumber();
 
-        }
-        else if ( mProfileVo.is_binding_email == false)
-        {
+        } else if (mProfileVo.is_binding_email == false) {
             toBindPhoneNumber();
 
-        }
-        else if (mProfileVo.is_binding_card == false)
-        {
+        } else if (mProfileVo.is_binding_card == false) {
             toBindPhoneOrCard();
 
+        } else {
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
         }
-        else
-        {
-            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE).navigation();
-        }
-    /*    basePopupView = new XPopup.Builder(this).asCustom( ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
-            @Override
-            public void closeDialog() {
-                basePopupView.dismiss();
-            }
-        }));
-        basePopupView.show();*/
-
     }
 
     private void toBindPhoneOrCard() {
@@ -270,12 +247,11 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
             }
         });
         ppw = new XPopup.Builder(this)
-                .dismissOnTouchOutside(false)
-                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(true)
+                .dismissOnBackPressed(true)
                 .asCustom(dialog);
         ppw.show();
     }
-
     private void toBindPhoneNumber() {
 
         String msg = getString(R.string.txt_rc_bind_phone_email_pls);
@@ -295,14 +271,13 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
             }
         });
         ppw2 = new XPopup.Builder(this)
-                .dismissOnTouchOutside(false)
-                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(true)
+                .dismissOnBackPressed(true)
                 .asCustom(dialog);
         ppw2.show();
     }
 
-    private void toBindCard()
-    {
+    private void toBindCard() {
 
         String msg = getString(R.string.txt_rc_bind_bank_card_pls);
         MsgDialog dialog = new MsgDialog(this, null, msg, true, new MsgDialog.ICallBack() {
@@ -326,7 +301,6 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         ppw2.show();
 
     }
-
 
     private void toBindPhoneOrEmail(String type) {
         isBinding = true;

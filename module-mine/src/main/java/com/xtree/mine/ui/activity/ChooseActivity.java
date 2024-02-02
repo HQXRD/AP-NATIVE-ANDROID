@@ -2,7 +2,9 @@ package com.xtree.mine.ui.activity;
 
 import android.os.Bundle;
 import android.view.MotionEvent;
+
 import androidx.lifecycle.ViewModelProvider;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -19,10 +21,11 @@ import com.xtree.mine.vo.AwardsRecordVo;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
 
-@Route(path = RouterActivityPath.Mine.PAGER_CHOOSE)
+@Route(path = RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW)
 public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel> {
     private BasePopupView basePopupView = null;
-    private AwardsRecordVo awardsRecordVo ;
+    private AwardsRecordVo awardsRecordVo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,12 +44,9 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
     @Override
     public void initView() {
-        if (viewModel == null)
-        {
+        if (viewModel == null) {
             CfLog.i("ChooseActivity viewModel  null");
-        }
-        else
-        {
+        } else {
             initViewModel();
         }
     }
@@ -59,41 +59,31 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
     @Override
     public void initData() {
-        if (viewModel == null)
-        {
-                CfLog.i("ChooseActivity viewModel  null");
-        }
-        else
-        {
+        if (viewModel == null) {
+            CfLog.i("ChooseActivity viewModel  null");
+        } else {
             viewModel.getAwardrecord();
         }
 
     }
 
     @Override
-    public void initViewObservable() {
+    public void initViewObservable()
+    {
 
-        showChoose();
-      /*  if (viewModel !=null)
-        {
+        if (viewModel != null) {
             viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
-                awardsRecordVo = vo ;
-                if (awardsRecordVo != null  && awardsRecordVo.list !=null)
-                {
-                    for (int i = 0; i < awardsRecordVo.list.size(); i++)
-                    {
-                        CfLog.i("initViewObservable" + awardsRecordVo.list.get(i).toString() );
+                awardsRecordVo = vo;
+                if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
+                    for (int i = 0; i < awardsRecordVo.list.size(); i++) {
+                        CfLog.i("initViewObservable" + awardsRecordVo.list.get(i).toString());
                     }
-
                     showAwardsRecord();
-                }
-                else
-                {
-
+                } else {
+                    showChoose();
                 }
             });
-        }*/
-
+        }
     }
 
     @Override
@@ -101,33 +91,32 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         return super.dispatchTouchEvent(ev);
     }
 
-    public BasePopupView getBasePopupView() {
-        return basePopupView;
-    }
+    /**
+     * 显示资金流水
+     */
+    private void showAwardsRecord() {
 
-    /** 显示资金流水*/
-    private  void    showAwardsRecord()
-    {
         basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
-                        .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, new AwardsRecordDialog.IAwardsDialogBack() {
-                            @Override
-                            public void closeAwardsDialog() {
-                                basePopupView.dismiss();
-                                finish();
-                                CfLog.i("AwardsRecordDialog  dismiss");
-                            }
-                        }));
+                .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, new AwardsRecordDialog.IAwardsDialogBack() {
+                    @Override
+                    public void closeAwardsDialog() {
+                        basePopupView.dismiss();
+                        finish();
+                        CfLog.i("AwardsRecordDialog  dismiss");
+                    }
+                }));
         basePopupView.show();
 
     }
+
     /**
      * 显示提款页面
      */
     private void showChoose() {
         basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
-                .asCustom( ChooseWithdrawalDialog.newInstance(this, this, () -> {
+                .asCustom(ChooseWithdrawalDialog.newInstance(this, this, () -> {
                     basePopupView.dismiss();
                     finish();
                     CfLog.i("closeDialog");

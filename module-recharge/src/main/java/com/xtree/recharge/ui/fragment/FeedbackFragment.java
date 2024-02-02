@@ -15,7 +15,6 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.gson.Gson;
@@ -63,34 +62,33 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import project.tqyb.com.library_res.databinding.ItemTextBinding;
 
-
 /**
-	* 充值-反馈
-	*/
+ * 充值-反馈
+ */
 @Route(path = RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK)
 public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, RechargeViewModel> implements DateTimePickerDialog.ICallBack {
 
-private int feedbackType = 1; //1 微信 2 usdt
-private boolean isNext = false;//是否提交过
-private String imageRealPathString;//选择的图片地址
-private boolean imageSelector = false;//是否已选择图片
-private Uri imageUri;
+    private int feedbackType = 1; //1 微信 2 usdt
+    private boolean isNext = false;//是否提交过
+    private String imageRealPathString;//选择的图片地址
+    private boolean imageSelector = false;//是否已选择图片
+    private Uri imageUri;
 
-private FeedbackVo feedbackVo;//进入反馈页面回去的数据
-private boolean dataIsOk = false;
+    private FeedbackVo feedbackVo;//进入反馈页面回去的数据
+    private boolean dataIsOk = false;
 
-private DateTimePickerDialog timePickerDialog;//时间选择器
-private ArrayList<OrderFeedbackVo> orderFeedbackVoArrayList = new ArrayList<>();//反馈中的订单
-private ArrayList<FeedbackVo.FeedbackModeInfo> modeInfoArrayList = new ArrayList<>();//存储支付方式List
-private ArrayList<FeedbackVo.FeedbackBankInfo> bankInfoArrayList = new ArrayList<>();//支付渠道
+    private DateTimePickerDialog timePickerDialog;//时间选择器
+    private ArrayList<OrderFeedbackVo> orderFeedbackVoArrayList = new ArrayList<>();//反馈中的订单
+    private ArrayList<FeedbackVo.FeedbackModeInfo> modeInfoArrayList = new ArrayList<>();//存储支付方式List
+    private ArrayList<FeedbackVo.FeedbackBankInfo> bankInfoArrayList = new ArrayList<>();//支付渠道
 
-private ArrayList<FeedbackVo.FeedbackProtocolInfo> protocolInfoArrayList = new ArrayList<>();//虚拟币支付协议
+    private ArrayList<FeedbackVo.FeedbackProtocolInfo> protocolInfoArrayList = new ArrayList<>();//虚拟币支付协议
 
-    private ArrayList<FeedbackDep> last3DepList = new ArrayList<FeedbackDep>() ;//反馈中订单信息
+    private ArrayList<FeedbackDep> last3DepList = new ArrayList<FeedbackDep>();//反馈中订单信息
 
-public FeedbackFragment() {
+    public FeedbackFragment() {
 
-}
+    }
 
     @Override
     public void initView() {
@@ -105,7 +103,7 @@ public FeedbackFragment() {
         binding.tvUnorderSelectorPayway.setOnClickListener(v -> {
             showUnReceivedDep(last3DepList);
         });
-        binding.tvwUnOrderSelector.setOnClickListener(v->{
+        binding.tvwUnOrderSelector.setOnClickListener(v -> {
             showUnReceivedDep(last3DepList);
         });
         //未到账订单点击
@@ -115,9 +113,9 @@ public FeedbackFragment() {
 
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
         ProfileVo mProfileVo = new Gson().fromJson(json, ProfileVo.class);
-
-        binding.tvUsername.setText(mProfileVo.username);
-
+        if (mProfileVo != null) {
+            binding.tvUsername.setText(mProfileVo.username);
+        }
         referFeedbackUI("wechat");
         //我的客服
         binding.ivwCs.setOnClickListener(v -> {
@@ -185,9 +183,9 @@ public FeedbackFragment() {
         //获取页面数据
         String startTime = TimeUtils.parseTime(new Date(), TimeUtils.FORMAT_YY_MM_DD) + " 00:00";
         String endTime = TimeUtils.parseTime(new Date(), TimeUtils.FORMAT_YY_MM_DD_HH_MM);
-        HashMap<String ,String> map = new HashMap<>() ;
-        map.put("starttime" , startTime);
-        map.put("endtime",endTime);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("starttime", startTime);
+        map.put("endtime", endTime);
         viewModel.feedbackInfo(map);
     }
 
@@ -203,12 +201,6 @@ public FeedbackFragment() {
             bankInfoArrayList.addAll(feedbackVo.banksInfo);//支付渠道
             protocolInfoArrayList.addAll(feedbackVo.protocolInfo);//虚拟币协议
             last3DepList.addAll(feedbackVo.last3Deps);// 反馈订单
-            for (int i = 0; i < feedbackVo.last3Deps.size(); i++)
-            {
-                CfLog.i("last3Deps = " + feedbackVo.last3Deps.get(i).toString());
-
-            }
-            //ToastUtils.showLong("已经获取数据 feedbackVo.modeInfo.get(0).name = " + feedbackVo.modeInfo.get(0).name);
 
         });
 
@@ -252,10 +244,12 @@ public FeedbackFragment() {
         ppw.show();
 
     }
-    /** 显示顶部反馈中的订单*/
-    private void showUnReceivedDep(ArrayList<FeedbackDep> list)
-    {
-        CachedAutoRefreshAdapter  adapter = new CachedAutoRefreshAdapter<FeedbackDep>() {
+
+    /**
+     * 显示顶部反馈中的订单
+     */
+    private void showUnReceivedDep(ArrayList<FeedbackDep> list) {
+        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<FeedbackDep>() {
 
             @NonNull
             @Override
@@ -268,8 +262,7 @@ public FeedbackFragment() {
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
                 FeedbackDep vo = get(position);
-                //订单号：XXXX 金额:xxxx
-                String showMessage = "订单号: " + vo.id + "金额: " + vo.money;
+                String showMessage = "订单号: " + vo.id + " 金额: " + vo.money;
                 CfLog.i("未到账订单信息是 ：" + showMessage);
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
@@ -288,8 +281,7 @@ public FeedbackFragment() {
      *
      * @param orderFeedbackVoArrayList
      */
-    private void showUnReceivedOrders(ArrayList<OrderFeedbackVo> orderFeedbackVoArrayList)
-    {
+    private void showUnReceivedOrders(ArrayList<OrderFeedbackVo> orderFeedbackVoArrayList) {
         CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<OrderFeedbackVo>() {
 
             @NonNull
@@ -335,7 +327,6 @@ public FeedbackFragment() {
             @Override
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
-                //  modeInfoArrayList
                 FeedbackVo.FeedbackModeInfo vo = get(position);
                 CfLog.i(" FeedbackVo.FeedbackModeInfo = " + vo.toString());
                 binding2.tvwTitle.setText(vo.name);
@@ -585,7 +576,7 @@ public FeedbackFragment() {
     /**
      * 付款账户检测//付款錢包地址
      */
-    private boolean checkInputPaymentAccout(int feedbackType) {
+    private boolean checkInputPaymentAccount(int feedbackType) {
 
         if (TextUtils.isEmpty(binding.etSelectorRightPaymentAccount.getText().toString())) //付款账户
         {
@@ -673,7 +664,7 @@ public FeedbackFragment() {
     private void nextCheckInputWithPayway(int payType) {
         //1 支付宝 微信 2 虚拟币
 
-        if (checkInputPaymentAccout(payType) && checkInputPaymentName(payType) &&
+        if (checkInputPaymentAccount(payType) && checkInputPaymentName(payType) &&
                 checkInputCollectionName(payType) && checkInputSaveName(payType) &&
                 checkInputThirdOrder() && imageSelector) {
             //提交图片
@@ -729,7 +720,8 @@ public FeedbackFragment() {
         public void afterTextChanged(Editable s) {
             for (int i = 0; i < arrayList.size(); i++) {
                 EditText e = arrayList.get(i);
-                if (e == binding.etSelectorRightPaymentAccount) {
+                if (e == binding.etSelectorRightPaymentAccount)
+                {
                     CfLog.i("binding.etSelectorRightPaymentAccount---");
                     //监听付款账户Ed
                     if (binding.etSelectorRightPaymentAccount.getText().length() > 0) {
@@ -816,7 +808,6 @@ public FeedbackFragment() {
                                     CfLog.i("获取图片地址不存在是 ====== " + result.get(i).getRealPath());
                                 }
 
-                                // binding.ivSelectorTipImage.setBackgroundResource(R.color.ps_color_4d);
                                 if (PictureMimeType.isContent(imageRealPathString)) {
                                     imageUri = Uri.parse(imageRealPathString);
                                 } else {
@@ -861,7 +852,6 @@ public FeedbackFragment() {
             uploadMap.put("userpay_bank", binding.etSelectorRightPaymentAccount.getText().toString());//付款账户
             uploadMap.put("userpay_amount", binding.etSelectorRightSavename.getText().toString());//存款金额
             uploadMap.put("userpay_time", binding.tvSelectorRightSavetime.getText().toString());//存款准确时间
-            uploadMap.put("userpay_time", "2024-01-16 12:03:00");//存款准确时间
             uploadMap.put("third_orderid", binding.tvSelectorRightThree.getText().toString()); //三方订单号
             uploadMap.put("userpay_picture", userPic); //上传图片三方地址
             String receiverBank = "";
@@ -886,7 +876,6 @@ public FeedbackFragment() {
             uploadMap.put("userpay_bank", binding.etSelectorRightPaymentAccount.getText().toString());//付款钱包地址
             uploadMap.put("userpay_amount", binding.etSelectorRightSavename.getText().toString());//存款金额
             uploadMap.put("userpay_time", binding.tvSelectorRightSavetime.getText().toString());//存款准确时间
-            uploadMap.put("userpay_time", "2024-01-16 12:03:00");//存款准确时间
             uploadMap.put("third_orderid", binding.tvSelectorRightThree.getText().toString()); //三方订单号
             uploadMap.put("userpay_picture", userPic); //上传图片三方地址
             String receiverBank = "";

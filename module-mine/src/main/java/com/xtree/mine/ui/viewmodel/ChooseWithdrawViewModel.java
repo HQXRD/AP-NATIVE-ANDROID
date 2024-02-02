@@ -45,7 +45,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<VirtualSecurityVo> virtualSecurityVoMutableLiveData = new MutableLiveData<>();//虚拟币 确认提款信息
     public MutableLiveData<VirtualConfirmVo> virtualConfirmVoMutableLiveData = new MutableLiveData<>();//虚拟币完成提款申请
 
-    public MutableLiveData<AwardsRecordVo>  awardrecordVoMutableLiveData = new MutableLiveData<>() ;//流水
+    public MutableLiveData<AwardsRecordVo> awardrecordVoMutableLiveData = new MutableLiveData<>();//流水
 
     public ChooseWithdrawViewModel(@NonNull Application application) {
         super(application);
@@ -67,81 +67,60 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onResult(ChooseInfoVo chooseInfoVo) {
                         CfLog.i("ChooseInfoVo = " + chooseInfoVo.toString());
-                        if (chooseInfoVo.wdChannelList != null)
-                        {
-                            for (int i = 0; i < chooseInfoVo.wdChannelList.size(); i++)
-                            {
-                                if (chooseInfoVo.wdChannelList.get(i).configkey.contains("usdt"))
-                                {
+                        if (chooseInfoVo.wdChannelList != null) {
+                            for (int i = 0; i < chooseInfoVo.wdChannelList.size(); i++) {
+                                if (chooseInfoVo.wdChannelList.get(i).configkey.contains("usdt")) {
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gcnyt_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.usdtchanneluse_msg;
-                                    if (chooseInfoVo.bankcardstatus_usdt)
-                                    {
+                                    if (chooseInfoVo.bankcardstatus_usdt) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
                                     } else
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 0;
 
-                                }
-                                else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("bank") ||
-                                        chooseInfoVo.wdChannelList.get(i).configkey.contains("hipaytx"))
-                                {
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("bank") ||
+                                        chooseInfoVo.wdChannelList.get(i).configkey.contains("hipaytx")) {
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.bankchanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_card_type);
                                     if (chooseInfoVo.bankcardstatus_rmb) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
                                     } else
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                }
-                                else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("ebpay"))
-                                {
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("ebpay")) {
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.ebpaychanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_ebpay_type);
-                                    if (chooseInfoVo.bankcardstatus_ebpay)
-                                    {
+                                    if (chooseInfoVo.bankcardstatus_ebpay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
                                     } else
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                }
-                                else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("topay"))
-                                {
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("topay")) {
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.topaychanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_topay_type);
-                                    if (chooseInfoVo.bankcardstatus_topay)
-                                    {
+                                    if (chooseInfoVo.bankcardstatus_topay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
                                     } else
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                }
-                                else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("hiwallet"))
-                                {
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("hiwallet")) {
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.hiwalletchanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gcnyt_type);
-                                    if (chooseInfoVo.bankcardstatus_hiwallet)
-                                    {
+                                    if (chooseInfoVo.bankcardstatus_hiwallet) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
                                     } else
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                }
-                                else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gopay"))
-                                {
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gopay")) {
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.gopaychanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gopay_type);
-                                    if (chooseInfoVo.bankcardstatus_gopay)
-                                    {
+                                    if (chooseInfoVo.bankcardstatus_gopay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
                                     } else
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                }
-                                else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("mpay"))
-                                {
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("mpay")) {
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_mpay_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.mpaychanneluse_msg;
                                     if (chooseInfoVo.bankcardstatus_mpay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
                                     } else
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                }
-                                else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gobao")
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gobao")
                                 ) {
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gobao_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.gobaochanneluse_msg;
@@ -149,23 +128,18 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
                                     } else
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                }
-                                else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("okpay"))
-                                {
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("okpay")) {
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_okpay_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.okpaychanneluse_msg;
                                     CfLog.i("okpaychanneluse_msg = " + chooseInfoVo.okpaychanneluse_msg + " | = channeluseMessage =  " + chooseInfoVo.wdChannelList.get(i).channeluseMessage);
-                                    if (chooseInfoVo.bankcardstatus_okpay)
-                                    {
+                                    if (chooseInfoVo.bankcardstatus_okpay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
                                     } else
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 0;
                                 }
 
                             }
-                        }
-                        else
-                        {
+                        } else {
 
                         }
 
@@ -188,25 +162,19 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onResult(BankCardCashVo bankCardCashVo) {
                         CfLog.i("BankCardCashVo = " + bankCardCashVo.toString());
-                        for (int i = 0; i < bankCardCashVo.channel_list.size(); i++)
-                        {
-                            BankCardCashVo.ChannelVo cv= bankCardCashVo.channel_list.get(i);
-                            if (!(cv.fixamount_list instanceof String))
-                            {
+                        for (int i = 0; i < bankCardCashVo.channel_list.size(); i++) {
+                            BankCardCashVo.ChannelVo cv = bankCardCashVo.channel_list.get(i);
+                            if (!(cv.fixamount_list instanceof String)) {
                                 //针对多金额选项数据封装
-                                for (int j = 0; j < ((ArrayList) cv.fixamount_list).size(); j++)
-                                {
+                                for (int j = 0; j < ((ArrayList) cv.fixamount_list).size(); j++) {
                                     bankCardCashVo.channel_list.get(i).fixamountList.add(((ArrayList) cv.fixamount_list).get(j).toString());
                                 }
                             } else {
 
                             }
-                            if (bankCardCashVo.channel_list.get(i).thiriframe_status == 1)
-                            {
+                            if (bankCardCashVo.channel_list.get(i).thiriframe_status == 1) {
                                 bankCardCashVo.channel_list.get(i).isWebView = 1;//需要展示webView页面
-                            }
-                            else
-                            {
+                            } else {
                                 bankCardCashVo.channel_list.get(i).isWebView = 2;//需要展示webView页面
                             }
                             //isShowErrorView
@@ -357,29 +325,25 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
-    /** 获取流水*/
-    public void  getAwardrecord()
-    {
+    /**
+     * 获取流水
+     */
+    public void getAwardrecord() {
         Disposable disposable = (Disposable) model.getApiService().getAwardrecord()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<AwardsRecordVo>() {
                     @Override
                     public void onResult(AwardsRecordVo awardrecordVo) {
-
-                        if (awardrecordVo !=null)
-                        {
+                        if (awardrecordVo != null) {
                             awardrecordVoMutableLiveData.setValue(awardrecordVo);
-                        }
-                        else
-                        {
+                        } else {
                             CfLog.i("awardrecordVo IS NULL ");
                         }
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        CfLog.e("error, " + t.toString());
                         super.onError(t);
                         //ToastUtils.showLong("请求失败");
                     }

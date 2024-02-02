@@ -99,7 +99,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
         return normalItemView;
     }
 
-
     /**
      * 圆形tab
      */

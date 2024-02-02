@@ -9,7 +9,6 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.BaseAdapter;
@@ -43,7 +42,6 @@ import com.xtree.mine.vo.PlatWithdrawVo;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 import project.tqyb.com.library_res.databinding.ItemTextBinding;
@@ -51,36 +49,35 @@ import project.tqyb.com.library_res.databinding.ItemTextBinding;
 /**
  * 银行卡提款Dialog
  */
-public class BankWithdrawalDialog extends BottomPopupView implements IAmountCallback ,IFruitHorCallback {
+public class BankWithdrawalDialog extends BottomPopupView implements IAmountCallback, IFruitHorCallback {
 
-    private String typenum ;//上一级界面传递过来的typenum
-    private Context context ;
-    private ChooseInfoVo.ChannelInfo channelInfo ;
-    private GridViewViewAdapter adapter ;
-    private LifecycleOwner owner ;
+    private String typenum;//上一级界面传递过来的typenum
+    private Context context;
+    private ChooseInfoVo.ChannelInfo channelInfo;
+    private GridViewViewAdapter adapter;
+    private LifecycleOwner owner;
     private int selectType = 0;//默认设置顶部选项卡
-    private BankCardCashVo.ChanneBankVo channeBankVo ; //选中的银行
-    private BankCardCashVo bankCardCashVo ;//银行卡提现model
-    private BankCardCashVo.ChannelVo selectChanneVo ;
-    private PlatWithdrawVo platWithdrawVo ;//提交订单后返回model
-    private PlatWithdrawConfirmVo platWithdrawConfirmVo ;//确认订单后返回的model
+    private BankCardCashVo.ChanneBankVo channeBankVo; //选中的银行
+    private BankCardCashVo bankCardCashVo;//银行卡提现model
+    private BankCardCashVo.ChannelVo selectChanneVo;
+    private PlatWithdrawVo platWithdrawVo;//提交订单后返回model
+    private PlatWithdrawConfirmVo platWithdrawConfirmVo;//确认订单后返回的model
 
-    ChooseWithdrawViewModel viewModel ;
+    ChooseWithdrawViewModel viewModel;
 
+    DialogBankWithdrawalBankBinding binding;
 
-    DialogBankWithdrawalBankBinding  binding ;
+    private FruitHorRecyclerViewAdapter recyclerViewAdapter;
 
-    private FruitHorRecyclerViewAdapter recyclerViewAdapter ;
-
-    public  static  BankWithdrawalDialog newInstance(Context context , LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo)
-    {
-        BankWithdrawalDialog dialog = new BankWithdrawalDialog(context) ;
-        context = context ;
-        dialog.context = context ;
-        dialog.owner = owner ;
-        dialog.channelInfo = channelInfo ;
-        return dialog ;
+    public static BankWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo) {
+        BankWithdrawalDialog dialog = new BankWithdrawalDialog(context);
+        context = context;
+        dialog.context = context;
+        dialog.owner = owner;
+        dialog.channelInfo = channelInfo;
+        return dialog;
     }
+
     public BankWithdrawalDialog(@NonNull Context context) {
         super(context);
     }
@@ -89,6 +86,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     protected int getImplLayoutId() {
         return R.layout.dialog_bank_withdrawal_bank;
     }
+
     @Override
     protected int getMaxHeight() {
         //return super.getMaxHeight();
@@ -106,20 +104,22 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         initMoreListener();
     }
 
-    private void  initView()
-    {
+    private void initView() {
         binding = DialogBankWithdrawalBankBinding.bind(findViewById(R.id.ll_bank_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
         binding.tvwTitle.setText("银行卡提款");
-        
+
     }
-    /** 注册监听*/
-    private void  initListener()
-    {
+
+    /**
+     * 注册监听
+     */
+    private void initListener() {
         binding.bankWithdrawalView.etInputMoney.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
@@ -135,46 +135,39 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         });
         //选择银行卡
         binding.bankWithdrawalView.llActualWithdrawalBank.setOnClickListener(v -> {
-            popShowBank( bankCardCashVo);
+            popShowBank(bankCardCashVo);
         });
-        binding.bankWithdrawalView.tvActualWithdrawalAmountBankShow.setOnClickListener( v -> {
-            popShowBank( bankCardCashVo);
+        binding.bankWithdrawalView.tvActualWithdrawalAmountBankShow.setOnClickListener(v -> {
+            popShowBank(bankCardCashVo);
         });
         //提交订单 下一步
         binding.bankWithdrawalView.tvActualWithdrawalNext.setOnClickListener(v -> {
 
-            String inputString =   binding.bankWithdrawalView.tvActualWithdrawalAmountShow.getText().toString();
+            String inputString = binding.bankWithdrawalView.tvActualWithdrawalAmountShow.getText().toString();
             String bankInfo = binding.bankWithdrawalView.tvActualWithdrawalAmountBankShow.getText().toString();
-            String typenNumber =selectChanneVo.typenum;
-            if (TextUtils.isEmpty(inputString))
-            {
+            String typeNumber = selectChanneVo.typenum;
+            if (TextUtils.isEmpty(inputString)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
-            }
-            else if (Integer.valueOf(inputString) > Integer.valueOf(channeBankVo.max_money ))
-            {
+            } else if (Integer.valueOf(inputString) > Integer.valueOf(channeBankVo.max_money)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
-            }
-            else if (Integer.valueOf(inputString) < Integer.valueOf(channeBankVo.min_money ))
-            {
+            } else if (Integer.valueOf(inputString) < Integer.valueOf(channeBankVo.min_money)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
-            }
-            else
-            {
-                requestNext(channelInfo.type,typenNumber ,inputString ,channeBankVo.id);
+            } else {
+                requestNext(channelInfo.type, typeNumber, inputString, channeBankVo.id);
             }
 
         });
 
         //确认订单下一步 bank_confirm_view
-        binding.bankConfirmView.ivConfirmNext.setOnClickListener(V->{
-            
+        binding.bankConfirmView.ivConfirmNext.setOnClickListener(V -> {
+
             String money = platWithdrawVo.datas.arrive;
-            String cardid = platWithdrawVo.datas.cardid ;
-            String  channel_child = platWithdrawVo.channel_child ;
-            requestConfirmWithdraw(money, cardid , channel_child);
+            String cardid = platWithdrawVo.datas.cardid;
+            String channel_child = platWithdrawVo.channel_child;
+            requestConfirmWithdraw(money, cardid, channel_child);
         });
         //确定订单 上一步
-        binding.bankConfirmView.ivConfirmPrevious.setOnClickListener(v->{
+        binding.bankConfirmView.ivConfirmPrevious.setOnClickListener(v -> {
             refreshWithdrawView(platWithdrawVo);
         });
         //确定提款继续提现
@@ -182,21 +175,22 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             dismiss();
         });
         //关闭提现
-        binding.ivOverViewPrevious.setOnClickListener(V->{
+        binding.ivOverViewPrevious.setOnClickListener(V -> {
             dismiss();
         });
 
     }
 
-    private void  initMoreListener()
-    {
+    private void initMoreListener() {
         binding.etInputMoneyMore.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 if (binding.etInputMoneyMore.hasFocus())//获取焦点
@@ -208,101 +202,97 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         });
         //选择银行卡
         binding.llActualWithdrawalAmountBankShowMore.setOnClickListener(v -> {
-            popShowBankMore( bankCardCashVo);
+            popShowBankMore(bankCardCashVo);
         });
-        binding.tvActualWithdrawalAmountBankShowMore.setOnClickListener( v -> {
-            popShowBankMore( bankCardCashVo);
+        binding.tvActualWithdrawalAmountBankShowMore.setOnClickListener(v -> {
+            popShowBankMore(bankCardCashVo);
         });
         //下一步
         binding.tvActualWithdrawalNextMore.setOnClickListener(v -> {
-            String inputString =   binding.tvActualWithdrawalAmountShowMore.getText().toString();
+            String inputString = binding.tvActualWithdrawalAmountShowMore.getText().toString();
             String bankInfo = binding.tvActualWithdrawalAmountBankShowMore.getText().toString();
-            String typenNumber =selectChanneVo.typenum;
-            if (TextUtils.isEmpty(inputString))
-            {
+            String typeNumber = selectChanneVo.typenum;
+            if (TextUtils.isEmpty(inputString)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
-            }
-            else
-            {
-                requestNext(channelInfo.type,typenNumber ,inputString ,channeBankVo.id);
+            } else {
+                requestNext(channelInfo.type, typeNumber, inputString, channeBankVo.id);
             }
         });
 
         //订单确认页 下一步
         binding.bankConfirmView.ivConfirmNext.setOnClickListener(v -> {
             String money = platWithdrawVo.datas.arrive;
-            String cardid = platWithdrawVo.datas.cardid ;
-            String  channel_child = platWithdrawVo.channel_child ;
-            requestConfirmWithdraw(money, cardid , channel_child);
+            String cardid = platWithdrawVo.datas.cardid;
+            String channel_child = platWithdrawVo.channel_child;
+            requestConfirmWithdraw(money, cardid, channel_child);
         });
         //订单确认 上一步
-        binding.bankConfirmView.ivConfirmPrevious.setOnClickListener(v ->{
-            
+        binding.bankConfirmView.ivConfirmPrevious.setOnClickListener(v -> {
+
             CfLog.i("订单上一步");
             binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面
             binding.llShowChooseCard.setVisibility(View.VISIBLE);
             binding.llShowNoticeInfo.setVisibility(View.VISIBLE);
-            if (selectType == 1)
-            {
+            if (selectType == 1) {
                 binding.nsSetWithdrawalRequest.setVisibility(View.VISIBLE);//单数据页面展示
                 binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
-            }
-            else if ( selectType ==2 )
-            {
+            } else if (selectType == 2) {
                 binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面展示
                 binding.nsSetWithdrawalRequestMore.setVisibility(View.VISIBLE);//多金额页面隐藏
             }
-            
+
             binding.nsH5View.setVisibility(View.GONE);//h5隐藏
             binding.nsOverView.setVisibility(View.GONE); //订单结果页面隐藏
             binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
-            
+
         });
         //继续提现
         binding.ivOverViewNext.setOnClickListener(v -> {
             dismiss();
         });
         //关闭提现
-        binding.ivOverViewPrevious.setOnClickListener(V->{
+        binding.ivOverViewPrevious.setOnClickListener(V -> {
             dismiss();
         });
     }
-    private  void  initData()
-    {
+
+    private void initData() {
         viewModel = new ChooseWithdrawViewModel((Application) Utils.getContext(), Injection.provideHomeRepository());
     }
-    private void  initViewObservable()
-    {
+
+    private void initViewObservable() {
         //银行卡提现详情model
-            viewModel.channelDetailVoMutableLiveData.observe(this.owner, vo->{
-                bankCardCashVo = vo ;
+        viewModel.channelDetailVoMutableLiveData.observe(this.owner, vo -> {
+            bankCardCashVo = vo;
             //1.初始化顶部选项卡
-                refreshTopUI(bankCardCashVo);
-             //2.为注意view设置相关值
-                refreshNoticeView(bankCardCashVo);
-                //3.刷新第一次获取的数据
-                refreshInitView(bankCardCashVo);
-            });
-            //银行卡提现
-        viewModel.platwithdrawVoMutableLiveData.observe(this.owner ,vo->{
-            platWithdrawVo= vo;
+            refreshTopUI(bankCardCashVo);
+            //2.为注意view设置相关值
+            refreshNoticeView(bankCardCashVo);
+            //3.刷新第一次获取的数据
+            refreshInitView(bankCardCashVo);
+        });
+        //银行卡提现
+        viewModel.platwithdrawVoMutableLiveData.observe(this.owner, vo -> {
+            platWithdrawVo = vo;
             refreshWithdrawView(platWithdrawVo);
         });
-        viewModel.platWithdrawConfirmVoMutableLiveData.observe(this.owner , ov ->{
+        viewModel.platWithdrawConfirmVoMutableLiveData.observe(this.owner, ov -> {
             platWithdrawConfirmVo = ov;
             refreshWithdrawConfirmView(platWithdrawConfirmVo);
         });
     }
-    private void   requestData()
-    {
+
+    private void requestData() {
         viewModel.getChooseWithdrawBankDetailInfo("1");
 
     }
-    /** 刷新第一次获取数据后选择的View*/
-    public void  refreshInitView(BankCardCashVo bankCardCashVo)
-    {
-        selectChanneVo = bankCardCashVo.channel_list.get(0) ;
 
+    /**
+     * 刷新第一次获取数据后选择的View
+     */
+    public void refreshInitView(BankCardCashVo bankCardCashVo) {
+        selectChanneVo = bankCardCashVo.channel_list.get(0);
+        // 展示错误信息 例如关闭提款通道
         /*if (bankCardCashVo.channel_list.get(0).isShowErrorView == 1)
         {
             binding.nsErrorView.setVisibility(View.VISIBLE);//展示错误信息页面
@@ -318,8 +308,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
         }*/
         //展示WebView界面
-        if (bankCardCashVo.channel_list.get(0).isWebView == 1 )
-        {
+        if (bankCardCashVo.channel_list.get(0).isWebView == 1) {
             CfLog.i("refreshInitView ChannelVo = bankCardCashVo.channel_list.get(0).isWebView == 1");
             binding.nsDefaultView.setVisibility(View.GONE);
             binding.nsErrorView.setVisibility(View.GONE);//隐藏错误信息页面
@@ -329,54 +318,46 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
             binding.wvH5View.setBackground(getContext().getDrawable(R.color.red));
             binding.wvH5View.loadUrl(bankCardCashVo.channel_list.get(0).thiriframe_url);
-            binding.wvH5View.setWebViewClient(new WebViewClient(){
+            binding.wvH5View.setWebViewClient(new WebViewClient() {
                 @Override
-                public boolean shouldOverrideUrlLoading(WebView view,  String url) {
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
                     view.loadUrl(url);
-                    return true ;
+                    return true;
                 }
             });
         }
         //展示原生页面
-        else if (bankCardCashVo.channel_list.get(0).isWebView ==2)
-        {
+        else if (bankCardCashVo.channel_list.get(0).isWebView == 2) {
             //展示多金额页面
-            if (bankCardCashVo.channel_list.get(0).fixamount_list_status == 1)
-            {
+            if (bankCardCashVo.channel_list.get(0).fixamount_list_status == 1) {
                 binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面
                 binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面展示
                 binding.nsSetWithdrawalRequestMore.setVisibility(View.VISIBLE);//多金额页面隐藏
                 binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
                 binding.nsH5View.setVisibility(View.GONE);//h5隐藏
-                refershRequestMoreView(bankCardCashVo ,bankCardCashVo.channel_list.get(0));
+                refershRequestMoreView(bankCardCashVo, bankCardCashVo.channel_list.get(0));
                 refreshSelectAmountUI(bankCardCashVo.channel_list.get(0));
-            }
-            else
-            {
+            } else {
                 binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面
                 binding.nsSetWithdrawalRequest.setVisibility(View.VISIBLE);//单数据页面展示
                 binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
                 binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
                 binding.nsH5View.setVisibility(View.GONE);//h5隐藏
-                refreshRequestView(bankCardCashVo ,bankCardCashVo.channel_list.get(0));
+                refreshRequestView(bankCardCashVo, bankCardCashVo.channel_list.get(0));
             }
         }
 
     }
-    private void refreshTopUI(BankCardCashVo bankCardCashVo)
-    {
-        for (int i = 0; i < bankCardCashVo.channel_list.size(); i++)
-        {
-            if (i ==0)
-            {
-                bankCardCashVo.channel_list.get(0).flag = true ;
-            }
-            else
-            {
-                bankCardCashVo.channel_list.get(i).flag = false ;
+
+    private void refreshTopUI(BankCardCashVo bankCardCashVo) {
+        for (int i = 0; i < bankCardCashVo.channel_list.size(); i++) {
+            if (i == 0) {
+                bankCardCashVo.channel_list.get(0).flag = true;
+            } else {
+                bankCardCashVo.channel_list.get(i).flag = false;
             }
         }
-        recyclerViewAdapter = new FruitHorRecyclerViewAdapter(context,  bankCardCashVo.channel_list, this);
+        recyclerViewAdapter = new FruitHorRecyclerViewAdapter(context, bankCardCashVo.channel_list, this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.context);
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
@@ -386,42 +367,47 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         binding.rvShowChooseCard.setItemAnimator(new DefaultItemAnimator());
     }
 
-    /**刷新注意View */
-    private void refreshNoticeView(BankCardCashVo bankCardCashVo)
-    {
-        String times ,   count ,  starttime ,  endtime , rest ;
-        times = String.valueOf(bankCardCashVo.times) ;
-        count = bankCardCashVo.count ;
-        starttime = bankCardCashVo.wraptime.starttime ;
-        endtime = bankCardCashVo.wraptime.endtime ;
-        rest =  StringUtils.formatToSeparate(Float.valueOf(bankCardCashVo.rest));
-        String textSource = "注意：每日限制提款"+times +",您已提款"+count+"次\n"+"提款时间为"+starttime+"至"+endtime +"您今日剩余额度为" + rest+"元";
+    /**
+     * 刷新注意View
+     */
+    private void refreshNoticeView(BankCardCashVo bankCardCashVo) {
+        String times, count, starttime, endtime, rest;
+        times = String.valueOf(bankCardCashVo.times);
+        count = bankCardCashVo.count;
+        starttime = bankCardCashVo.wraptime.starttime;
+        endtime = bankCardCashVo.wraptime.endtime;
+        rest = StringUtils.formatToSeparate(Float.valueOf(bankCardCashVo.rest));
+        String textSource
+                = "注意：每日限制提款" + times + ",您已提款" + count + "次\n" + "提款时间为"
+                + starttime + "至" + endtime + "您今日剩余额度为" + rest + "元";
         binding.tvShowNoticeInfo.setText(textSource);
     }
-    /**刷新单输入View */
-    private void  refreshRequestView(BankCardCashVo bankCardCashVo, BankCardCashVo.ChannelVo channelVo)
-    {
-        refreshUserView(bankCardCashVo);
-        refreshAmountUI(bankCardCashVo ,channelVo);
-    }
-    /**刷新多金额选择View */
-    private void  refershRequestMoreView(BankCardCashVo bankCardCashVo, BankCardCashVo.ChannelVo channelVo)
-    {
-        refreshUserView(bankCardCashVo);
-        refreshAmountUI(bankCardCashVo ,channelVo);
-    }
+
     /**
-     * 刷新用户信息View*/
-    private void refreshUserView(BankCardCashVo bankCardCashVo)
-    {
-        if (binding.nsSetWithdrawalRequest.getVisibility() == View.VISIBLE)
-        {
+     * 刷新单输入View
+     */
+    private void refreshRequestView(BankCardCashVo bankCardCashVo, BankCardCashVo.ChannelVo channelVo) {
+        refreshUserView(bankCardCashVo);
+        refreshAmountUI(bankCardCashVo, channelVo);
+    }
+
+    /**
+     * 刷新多金额选择View
+     */
+    private void refershRequestMoreView(BankCardCashVo bankCardCashVo, BankCardCashVo.ChannelVo channelVo) {
+        refreshUserView(bankCardCashVo);
+        refreshAmountUI(bankCardCashVo, channelVo);
+    }
+
+    /**
+     * 刷新用户信息View
+     */
+    private void refreshUserView(BankCardCashVo bankCardCashVo) {
+        if (binding.nsSetWithdrawalRequest.getVisibility() == View.VISIBLE) {
             binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.username);
             binding.bankWithdrawalView.tvWithdrawalTypeShow.setText("银行卡");
             binding.bankWithdrawalView.tvWithdrawalAmountMethod.setText(bankCardCashVo.user.cafAvailableBalance);
-        }
-        else if (binding.nsSetWithdrawalRequestMore.getVisibility() == View.VISIBLE)
-        {
+        } else if (binding.nsSetWithdrawalRequestMore.getVisibility() == View.VISIBLE) {
             binding.tvUserNameShowMore.setText(bankCardCashVo.user.username);
             binding.tvWithdrawalTypeShowMore.setText("银行卡");
             binding.tvWithdrawalAmountMethodMore.setText(bankCardCashVo.user.cafAvailableBalance);
@@ -432,51 +418,42 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /**
      * 刷新提现金额、收款银行开信息
      */
-    private void  refreshAmountUI(BankCardCashVo bankCardCashVo,BankCardCashVo.ChannelVo channelVo)
-    {
-        String textSource = "单笔最低提现金额："+channelVo.min_money+",最高:" +channelVo.max_money ;
-        if (binding.nsSetWithdrawalRequest.getVisibility() == View.VISIBLE)
-        {
+    private void refreshAmountUI(BankCardCashVo bankCardCashVo, BankCardCashVo.ChannelVo channelVo) {
+        String textSource = "单笔最低提现金额：" + channelVo.min_money + ",最高:" + channelVo.max_money;
+        if (binding.nsSetWithdrawalRequest.getVisibility() == View.VISIBLE) {
             binding.bankWithdrawalView.tvWithdrawalAmountShow.setText(textSource);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 binding.bankWithdrawalView.tvWithdrawalAmountShow.setTextColor(getContext().getColor(R.color.red));
             }
-            binding.bankWithdrawalView.tvActualWithdrawalAmountBankShow.setText(bankCardCashVo.banks.get(0).bank_name + " " +bankCardCashVo.banks.get(0).account);
-            channeBankVo = bankCardCashVo.banks.get(0) ;
-        }
-        else if (binding.nsSetWithdrawalRequestMore.getVisibility() == View.VISIBLE)
-        {
+            String bankInfoString = bankCardCashVo.banks.get(0).bank_name + " " + bankCardCashVo.banks.get(0).account;
+            binding.bankWithdrawalView.tvActualWithdrawalAmountBankShow.setText(bankInfoString);
+            channeBankVo = bankCardCashVo.banks.get(0);
+        } else if (binding.nsSetWithdrawalRequestMore.getVisibility() == View.VISIBLE) {
             binding.tvWithdrawalAmountShowMore.setText(textSource);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 binding.bankWithdrawalView.tvWithdrawalAmountShow.setTextColor(getContext().getColor(R.color.red));
             }
-            binding.tvActualWithdrawalAmountBankShowMore.setText(bankCardCashVo.banks.get(0).bank_name + " " +bankCardCashVo.banks.get(0).account);
+            binding.tvActualWithdrawalAmountBankShowMore.setText(bankCardCashVo.banks.get(0).bank_name + " " + bankCardCashVo.banks.get(0).account);
         }
     }
 
     /**
      * 刷新多个金额选择View
+     *
      * @param channelVo
      */
-    private void  refreshSelectAmountUI(BankCardCashVo.ChannelVo channelVo)
-    {
-        if (channelVo.fixamountList.size() >0)
-        {
+    private void refreshSelectAmountUI(BankCardCashVo.ChannelVo channelVo) {
+        if (channelVo.fixamountList.size() > 0) {
             CfLog.i("刷新 多金额选择区域 size = " + channelVo.fixamountList.size());
-            if (adapter  == null)
-            {
+            if (adapter == null) {
                 CfLog.i("adapter  == null 刷新 多金额选择区域 size = " + channelVo.fixamountList.size());
 
-                adapter= new GridViewViewAdapter(context, (ArrayList<String>) channelVo.fixamountList, this);
-            }
-            else
-            {
+                adapter = new GridViewViewAdapter(context, (ArrayList<String>) channelVo.fixamountList, this);
+            } else {
                 CfLog.i("adapter  != null 刷新 多金额选择区域 size = " + channelVo.fixamountList.size());
             }
             binding.gvSelectAmountMore.setAdapter(adapter);
-        }
-        else
-        {
+        } else {
             CfLog.i("refreshSelectAmountUI channelVo.size = 0?");
         }
     }
@@ -484,8 +461,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /**
      * 刷新确认提交订单页面
      */
-    private void  refreshWithdrawView(PlatWithdrawVo platWithdrawVo)
-    {
+    private void refreshWithdrawView(PlatWithdrawVo platWithdrawVo) {
 
         binding.llShowChooseCard.setVisibility(View.GONE);//顶部通用、大额提现View隐藏
         binding.llShowNoticeInfo.setVisibility(View.GONE); //顶部提示信息隐藏
@@ -512,15 +488,15 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         binding.bankConfirmView.tvWithdrawalAddressShow.setText(platWithdrawVo.datas.truename);
         binding.bankConfirmView.tvWithdrawalHandlingFeeShow.setText(platWithdrawVo.datas.bankno);
     }
+
     /**
      * 刷新提交点订单后页面
      */
-    private void refreshWithdrawConfirmView(PlatWithdrawConfirmVo vo)
-    {
+    private void refreshWithdrawConfirmView(PlatWithdrawConfirmVo vo) {
         binding.llShowChooseCard.setVisibility(View.GONE);//顶部通用、大额提现View隐藏
         binding.llShowNoticeInfo.setVisibility(View.GONE); //顶部提示信息隐藏
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            
+
             binding.tvSetWithdrawalRequest.setTextColor(getContext().getColor(R.color.black));
             binding.tvConfirmWithdrawalRequest.setTextColor(getContext().getColor(R.color.black));
             binding.tvOverWithdrawalRequest.setTextColor(getContext().getColor(R.color.red));
@@ -532,23 +508,20 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
         binding.nsOverView.setVisibility(View.VISIBLE);
 
-        if (vo.msg_type ==1 )//成功
+        if (vo.msg_type == 1)//成功
         {
             binding.nsOverView.setVisibility(View.VISIBLE); //订单结果页面隐藏
-        }
-        else if (vo.msg_type == 4)//稍后刷新重试
+        } else if (vo.msg_type == 4)//稍后刷新重试
         {
-            binding.nsOverView.setVisibility(View.VISIBLE); //订单结果页面隐藏
-        }
-        else //失败
+            binding.nsOverView.setVisibility(View.VISIBLE); //订单结果页面展示
+        } else //失败
         {
-            binding.nsOverView.setVisibility(View.VISIBLE); //订单结果页面隐藏
+            binding.nsOverView.setVisibility(View.VISIBLE); //订单结果页面展示
         }
     }
 
-     /**
+    /**
      * 固额提现 提款金额 多个选择金额btn 点击回调
-     * @param amount
      */
     @Override
     public void callbackWithAmount(String amount) {
@@ -559,12 +532,12 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     }
 
-
-    /** 顶部选项卡点击回调*/
+    /**
+     * 顶部选项卡点击回调
+     */
     @Override
-    public void callbackWithFruitHor(BankCardCashVo.ChannelVo  selectVO)
-    {
-        selectChanneVo = selectVO ;//设置选中的channelVo
+    public void callbackWithFruitHor(BankCardCashVo.ChannelVo selectVO) {
+        selectChanneVo = selectVO;//设置选中的channelVo
         if (selectVO.isShowErrorView == 1) //展示错误信息
         {
             binding.nsErrorView.setVisibility(View.VISIBLE);//展示错误信息页面
@@ -574,10 +547,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
 
             binding.tvShowErrorMessage.setText(bankCardCashVo.channel_list.get(0).thiriframe_msg);
-        }
-        else if (selectVO.isShowErrorView == 0)
-        {
-            if (selectVO.isWebView ==1 )//展示WebView
+        } else if (selectVO.isShowErrorView == 0) {
+            if (selectVO.isWebView == 1)//展示WebView
             {
                 binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面
                 binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据
@@ -586,44 +557,43 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
                 binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
                 binding.wvH5View.loadUrl(bankCardCashVo.channel_list.get(0).thiriframe_url);
-                binding.wvH5View.setWebViewClient(new WebViewClient(){
+                binding.wvH5View.setWebViewClient(new WebViewClient() {
                     @Override
-                    public boolean shouldOverrideUrlLoading(WebView view,  String url) {
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
                         view.loadUrl(url);
-                        return true ;
+                        return true;
                     }
                 });
-            }
-            else if (selectVO.fixamount_list_status == 0)
-            {
-                selectType =1 ;//选中单独金额选项View
+            } else if (selectVO.fixamount_list_status == 0) {
+                selectType = 1;//选中单独金额选项View
                 binding.nsErrorView.setVisibility(View.GONE);//隐藏错误信息页面隐藏
                 binding.nsSetWithdrawalRequest.setVisibility(View.VISIBLE);//单数据页面展示
                 binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
                 binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
                 binding.nsH5View.setVisibility(View.GONE);//h5隐藏
-                refreshRequestView(bankCardCashVo ,selectVO);
-            }
-            else if (selectVO.fixamount_list_status == 1 )
-            {
-                selectType =2 ;//选中多金额选项View
+                refreshRequestView(bankCardCashVo, selectVO);
+            } else if (selectVO.fixamount_list_status == 1) {
+                selectType = 2;//选中多金额选项View
                 binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面隐藏
                 binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面展示隐藏
                 binding.nsSetWithdrawalRequestMore.setVisibility(View.VISIBLE);//多金额页面隐藏
                 binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
                 binding.nsH5View.setVisibility(View.GONE);//h5隐藏
-                refershRequestMoreView(bankCardCashVo ,selectVO);
+                refershRequestMoreView(bankCardCashVo, selectVO);
 
                 refreshSelectAmountUI(selectVO);
             }
         }
 
-        }
+    }
+
     ItemTextBinding binding2;
     BasePopupView ppw = null; // 底部弹窗 (选择**菜单)
-    /** 显示银行卡信息*/
-    private void  popShowBank(BankCardCashVo bankCardCashVo)
-    {
+
+    /**
+     * 显示银行卡信息
+     */
+    private void popShowBank(BankCardCashVo bankCardCashVo) {
         CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<BankCardCashVo.ChanneBankVo>() {
 
             @NonNull
@@ -637,11 +607,11 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
                 BankCardCashVo.ChanneBankVo vo = get(position);
-                channeBankVo = vo ;
-                String showMessage = vo.bank_name +" " + vo.account;
+                channeBankVo = vo;
+                String showMessage = vo.bank_name + " " + vo.account;
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
-                   // binding.bankWithdrawalView.tvActualWithdrawalAmountBankShow.setText(showMessage);
+                    // binding.bankWithdrawalView.tvActualWithdrawalAmountBankShow.setText(showMessage);
                     ppw.dismiss();
                 });
 
@@ -653,8 +623,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), getContext().getString(R.string.txt_select_bank), adapter, 20));
         ppw.show();
     }
-    private  void  popShowBankMore(BankCardCashVo bankCardCashVo)
-    {
+
+    private void popShowBankMore(BankCardCashVo bankCardCashVo) {
         CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<BankCardCashVo.ChanneBankVo>() {
 
             @NonNull
@@ -668,8 +638,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
                 BankCardCashVo.ChanneBankVo vo = get(position);
-                channeBankVo = vo ;
-                String showMessage = vo.bank_name +" " + vo.account;
+                channeBankVo = vo;
+                String showMessage = vo.bank_name + " " + vo.account;
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
                     binding.tvActualWithdrawalAmountBankShowMore.setText(showMessage);
@@ -686,92 +656,65 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     /**
      * 提交订单
+     *
      * @param channel_typenum 上一级列表传递过来的 id
-     * @param channel_child  channel_list内选中的bean typenum
-     * @param money  输入的金额
-     * @param bankinfo 选中的收款银行卡的id
+     * @param channel_child   channel_list内选中的bean typenum
+     * @param money           输入的金额
+     * @param bankinfo        选中的收款银行卡的id
      */
-    private  void requestNext(String channel_typenum ,String channel_child ,String money , String bankinfo )
-    {
-     /*   {
-     * 	"action": "platwithdraw",
-     * 	"bankinfo": "1283196",
-     * 	"channel_child": 1,
-     * 	"channel_typenum": "1",
-     * 	"check": "",
-     * 	"controller": "security",
-     * 	"flag": "withdraw",
-     * 	"money": 36,
-     * 	"usdtType": 1
-                * }*/
+    private void requestNext(String channel_typenum, String channel_child, String money, String bankinfo) {
+
         HashMap<String, String> map = new HashMap<>();
-        map.put("action" , "platwithdraw");
-        map.put("bankinfo" , bankinfo);
-        map.put("channel_child" , channel_child);
-        map.put("channel_typenum" , channel_typenum);
-        map.put("check" ,"");
-        map.put("controller" , "security"); //列表也选择的取款类型
-        map.put("flag" , "withdraw");
-        map.put("money" , money);
+        map.put("action", "platwithdraw");
+        map.put("bankinfo", bankinfo);
+        map.put("channel_child", channel_child);
+        map.put("channel_typenum", channel_typenum);
+        map.put("check", "");
+        map.put("controller", "security"); //列表也选择的取款类型
+        map.put("flag", "withdraw");
+        map.put("money", money);
         map.put("usdtType", "1");
 
-        CfLog.i("requestNext --> " +map.toString());
+        CfLog.i("requestNext --> " + map.toString());
         viewModel.getPlatWithdraw(map);
     }
 
     /**
      * 确定提交
-     * @param money money  输入的金额
-     * @param cardid 选中的收款银行卡的id
-     * @param channel_child channel_list内选中的bean typenum
-     * platWithdrawVo
      */
-    private void  requestConfirmWithdraw(String money,String cardid , String  channel_child)
-    {
-        //{"controller":"security",
-        // "action":"platwithdraw",
-        // "flag":"confirm",
-        // "check":"",
-        // "money":44,
-        // "handing_fee":"0.00",
-        // "cardid":"1283196",
-        // "play_source":1,
-        // "usdt_type":"1",
-        // "channel_child":1,
-        // "smscode":"",
-        // "smstype":""}
+    private void requestConfirmWithdraw(String money, String cardid, String channel_child) {
+
         HashMap<String, String> map = new HashMap<>();
-        map.put("controller" , "security");
-        map.put("action" , "platwithdraw");
-        map.put("flag" , "confirm");
-        map.put("check" , "");
-        map.put("money" ,money);
-        map.put("handing_fee" , "0.00");
-        map.put("cardid",cardid);
-        map.put("usdtType" , "1"); //列表也选择的取款类型
-        map.put("play_source" , String.valueOf(1));
-        map.put("usdt_type" , "1");
-        map.put("channel_child" , channel_child);
-        map.put("smscode" , "");
-        map.put("smstype" , "");
+        map.put("controller", "security");
+        map.put("action", "platwithdraw");
+        map.put("flag", "confirm");
+        map.put("check", "");
+        map.put("money", money);
+        map.put("handing_fee", "0.00");
+        map.put("cardid", cardid);
+        map.put("usdtType", "1"); //列表也选择的取款类型
+        map.put("play_source", String.valueOf(1));
+        map.put("usdt_type", "1");
+        map.put("channel_child", channel_child);
+        map.put("smscode", "");
+        map.put("smstype", "");
         viewModel.postConfirmWithdraw(map);
 
     }
+
     /**
      * 定义GridViewViewAdapter 显示大额固额金额选择
      */
-    private static class GridViewViewAdapter extends BaseAdapter
-    {
-        public IAmountCallback callback ;
-        private Context context ;
-        public ArrayList<String> arrayList  ;
+    private static class GridViewViewAdapter extends BaseAdapter {
+        public IAmountCallback callback;
+        private Context context;
+        public ArrayList<String> arrayList;
 
-        public GridViewViewAdapter(Context context , ArrayList<String> list , IAmountCallback callback )
-        {
+        public GridViewViewAdapter(Context context, ArrayList<String> list, IAmountCallback callback) {
             super();
-            this.context = context ;
-            this.arrayList = list ;
-            this.callback = callback ;
+            this.context = context;
+            this.arrayList = list;
+            this.callback = callback;
         }
 
         @Override
@@ -792,38 +735,32 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         @Override
         public View getView(int position, View view, ViewGroup parent) {
             HolderView holderView = null;
-            if (view ==null)
-            {
-                view =  LayoutInflater.from(context).inflate(R.layout.dialog_bank_withdrawal_btn ,parent,false);
+            if (view == null) {
+                view = LayoutInflater.from(context).inflate(R.layout.dialog_bank_withdrawal_btn, parent, false);
                 holderView = new HolderView();
                 holderView.textView = (TextView) view.findViewById(R.id.tv_withdrawal_amount);
-                holderView.linear = (ConstraintLayout)view.findViewById(R.id.cl_bank_status);
+                holderView.linear = (ConstraintLayout) view.findViewById(R.id.cl_bank_status);
                 view.setTag(holderView);
-            }
-            else
-            {
+            } else {
                 holderView = (HolderView) view.getTag();
             }
             holderView.setShowAmount(arrayList.get(position));
 
             holderView.getTextView().setOnClickListener(v -> {
-                if (callback != null)
-                {
+                if (callback != null) {
                     callback.callbackWithAmount(arrayList.get(position));
                 }
             });
-            holderView.linear.setOnClickListener( v->{
-                if (callback != null)
-                {
+            holderView.linear.setOnClickListener(v -> {
+                if (callback != null) {
                     callback.callbackWithAmount(arrayList.get(position));
                 }
             });
             return view;
         }
 
-        private class HolderView
-        {
-            private String showAmount ;
+        private class HolderView {
+            private String showAmount;
 
             public void setShowAmount(String showAmount) {
                 this.showAmount = showAmount;
@@ -834,8 +771,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 return showAmount;
             }
 
-            private  TextView textView ;
-            private ConstraintLayout linear ;
+            private TextView textView;
+            private ConstraintLayout linear;
 
             public void setTextView(TextView textView) {
                 this.textView = textView;
@@ -846,5 +783,5 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             }
         }
     }
-    
+
 }

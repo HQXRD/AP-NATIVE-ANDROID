@@ -360,7 +360,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         } else if (mProfileVo.is_binding_card == false) {
             toBindPhoneOrCard();
         } else {
-            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE).navigation();
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
         }
     }
 
@@ -382,8 +382,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             }
         });
         ppw = new XPopup.Builder(getContext())
-                .dismissOnTouchOutside(false)
-                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(true)
+                .dismissOnBackPressed(true)
                 .asCustom(dialog);
         ppw.show();
     }
@@ -407,8 +407,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             }
         });
         ppw2 = new XPopup.Builder(getContext())
-                .dismissOnTouchOutside(false)
-                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(true)
+                .dismissOnBackPressed(true)
                 .asCustom(dialog);
         ppw2.show();
     }

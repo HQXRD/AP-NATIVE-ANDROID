@@ -44,7 +44,7 @@ public class RouterActivityPath {
         public static final String PAGER_LOGIN_REGISTER = MINE + "/loginRegister";
         public static final String PAGER_MY_WALLET = MINE + "/wallet";
         public static final String PAGER_WITHDRAW = MINE + "/withdraw";
-        public static final String PAGER_CHOOSE = MINE + "/choose";
+        public static final String PAGER_CHOOSE_WITHDRAW = MINE + "/choose";
     }
 
     /**
