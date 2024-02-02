@@ -99,9 +99,9 @@ public class Constants {
     public static String getBsbSportId(){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
         if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
-            return FBConstants.SPORT_ID_FB;
+            return FBConstants.SPORT_ID_BSB;
         }else {
-            return PMConstants.SPORT_ID_FB;
+            return PMConstants.SPORT_ID_BSB;
         }
     }
 

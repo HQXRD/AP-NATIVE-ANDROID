@@ -10,7 +10,11 @@ import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.data.BetRepository;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
@@ -23,7 +27,10 @@ import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 
 public abstract class TemplateBtDetailViewModel extends BaseViewModel<BetRepository> implements BtDetailViewModel {
     private Disposable mSubscription;
+    public List<Category> mCategoryList = new ArrayList<>();
+    public Map<String, Category> mCategoryMap = new HashMap<>();
     public SingleLiveData<List<Category>> categoryListData = new SingleLiveData<>();
+    public SingleLiveData<List<Category>> updateCagegoryListData = new SingleLiveData<>();
     public SingleLiveData<Match> matchData = new SingleLiveData<>();
     public SingleLiveData<BetContract> betContractListData = new SingleLiveData<>();
     public Match mMatch;
@@ -60,5 +67,29 @@ public abstract class TemplateBtDetailViewModel extends BaseViewModel<BetReposit
      */
     public void getMatchOddsInfoPB(String mid, String mcid){
 
+    }
+
+    public void updateCategoryData(){
+        /*for (String key : mCategoryMap.keySet()) {
+            Category category = mCategoryMap.get(key);
+            if(category == null){
+                mCategoryMap.remove(key);
+            }
+        }*/
+        Iterator<Category> iteratorMap = mCategoryMap.values().iterator();
+        while (iteratorMap.hasNext()) {
+            Category element = iteratorMap.next();
+            if (element == null) {
+                iteratorMap.remove();
+            }
+        }
+        Iterator<Category> iterator = mCategoryList.iterator();
+        while (iterator.hasNext()) {
+            Category element = iterator.next();
+            if (element == null) {
+                iterator.remove();
+            }
+        }
+        updateCagegoryListData.postValue(mCategoryList);
     }
 }

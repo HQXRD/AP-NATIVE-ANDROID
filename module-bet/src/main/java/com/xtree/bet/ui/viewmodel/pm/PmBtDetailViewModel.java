@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.PMHttpCallBack;
-import com.xtree.bet.bean.response.pm.LeagueAreaInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
 import com.xtree.bet.bean.response.pm.VideoAnimationInfo;
@@ -23,9 +22,9 @@ import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -38,9 +37,8 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  */
 
 public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
-
-    private List<Category> categoryList = new ArrayList<>();
-    private Map<String, Category> categoryMap = new HashMap<>();
+    private List<Category> mTmpCategoryList = new ArrayList<>();
+    private Map<String, Category> mTmpCategoryMap = new HashMap<>();
     private boolean isFirst = true;
     private List<PlayType> mPlayTypeList;
     private MatchInfo mMatchInfo;
@@ -64,7 +62,9 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                             return;
                         }
                         mMatchInfo = matchInfo;
-                        videoAnimationUrlPB(Long.valueOf(mMatchInfo.mid), "Video");
+                        if(mMatchInfo.mid != null) {
+                            videoAnimationUrlPB(Long.valueOf(mMatchInfo.mid), "Video");
+                        }
                     }
 
                     @Override
@@ -137,10 +137,18 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                 .subscribeWith(new PMHttpCallBack<List<CategoryPm>>() {
                     @Override
                     public void onResult(List<CategoryPm> categoryPms) {
-                        categoryList.clear();
+                        Map<String, Category> categoryMap = new HashMap<>();
+                        List<Category> categoryList = new ArrayList<>();
                         for (CategoryPm category : categoryPms) {
                             categoryList.add(category);
                             categoryMap.put(category.getId(), category);
+                        }
+                        if(mCategoryMap.isEmpty()) {
+                            mCategoryMap = categoryMap;
+                            mCategoryList = categoryList;
+                        } else {
+                            mTmpCategoryMap = categoryMap;
+                            mTmpCategoryList = categoryList;
                         }
                         getMatchOddsInfoPB(matchId, "0");
                     }
@@ -166,6 +174,15 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                 .subscribeWith(new PMHttpCallBack<List<PlayTypeInfo>>() {
                     @Override
                     public void onResult(List<PlayTypeInfo> playTypeList) {
+
+                        if(playTypeList == null || playTypeList.isEmpty()){
+                            mCategoryList.clear();
+                            mCategoryMap.clear();
+                            isFirst = false;
+                            categoryListData.postValue(mCategoryList);
+                            return;
+                        }
+
                         Collections.sort(playTypeList);
 
                         List<PlayType> playTypes = new ArrayList<>();
@@ -174,35 +191,43 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                         }
 
                         if (isFirst) {
-                            mPlayTypeList = playTypes;
-                            for(Category category : categoryList){
-                                for (PlayType playType : mPlayTypeList) {
+                            for(Category category : mCategoryList){
+                                for (PlayType playType : playTypes) {
                                     CategoryPm categoryPm = (CategoryPm) category;
                                     if(categoryPm.getPlays().contains(Integer.valueOf(playType.getId()))){
                                         category.addPlayTypeList(playType);
                                     }
                                 }
                             }
-                        }else { // 设置赔率变化
+                        }else {
+                            // 设置赔率变化
                             setOptionOddChange(mid, playTypes);
-                            CategoryPm categoryPm = (CategoryPm) categoryMap.get(mcid);
-                            for (PlayType newPlayType : playTypes) {
-                                for (PlayType oldPlayType : categoryPm.getPlayTypeList()) {
-                                    if(TextUtils.equals(oldPlayType.getId(), newPlayType.getId()) && TextUtils.equals(oldPlayType.getPlayTypeName(), newPlayType.getPlayTypeName())){
-
-                                        int index = categoryPm.getPlayTypeList().indexOf(oldPlayType);
-                                        if(index > -1){
-                                            categoryPm.getPlayTypeList().set(index, newPlayType);
-                                        }
-
-                                        break;
+                            for(Category category : mTmpCategoryList){
+                                for (PlayType playType : playTypes) {
+                                    CategoryPm categoryPm = (CategoryPm) category;
+                                    if(categoryPm.getPlays().contains(Integer.valueOf(playType.getId()))){
+                                        category.addPlayTypeList(playType);
                                     }
                                 }
                             }
-                            mPlayTypeList = categoryPm.getPlayTypeList();
+                            if(mTmpCategoryList.size() <= mCategoryMap.size()) {
+                                for (String key : mCategoryMap.keySet()) {
+                                    Category oldCategory = mCategoryMap.get(key);
+                                    int index = mCategoryList.indexOf(oldCategory);
+                                    Category newCategory = mTmpCategoryMap.get(key);
+                                    if(index > -1) {
+                                        mCategoryList.set(index, newCategory);
+                                        mCategoryMap.put(key, newCategory);
+                                    }
+                                }
+                            }
+                            /*if (!mCategoryList.isEmpty()) {
+                                mCategoryList.set(mCategoryList.size() - 1, null);
+                            }*/
                         }
+                        mPlayTypeList = playTypes;
                         isFirst = false;
-                        categoryListData.postValue(categoryList);
+                        categoryListData.postValue(mCategoryList);
                     }
 
                     @Override

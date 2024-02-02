@@ -116,7 +116,11 @@ public class MatchFb implements Match{
      */
     @Override
     public String getTime() {
-        return TimeUtils.sToMs(matchInfo.mc.s);
+        if(matchInfo != null && matchInfo.mc != null && matchInfo.mc.s >= 0) {
+            return TimeUtils.sToMs(matchInfo.mc.s);
+        }else {
+            return "";
+        }
     }
 
     /**
