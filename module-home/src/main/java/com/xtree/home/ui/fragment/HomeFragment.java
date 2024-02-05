@@ -68,6 +68,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private boolean needScroll;
     private int position;
     private LinearLayoutManager manager;
+    private String token;
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -199,16 +200,27 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
 
         binding.bnrTop.setOnBannerListener((OnBannerListener<BannersVo>) (data, position) -> {
+            String aid = "aid=";
+            String noAid = "detail/";
+            String result = "";
             // 如果banner有链接 跳转到链接
             if (!TextUtils.isEmpty(data.link)) {
                 CfLog.e(data.toString());
-                String url = DomainUtil.getDomain2() + Constant.URL_PREFIX + data.link;
-                //Uri uri = Uri.parse(url);
-                //Intent it = new Intent(Intent.ACTION_VIEW, uri);
-                //Intent it = new Intent(getContext(), BrowserActivity.class);
-                //it.setData(uri);
-                //startActivity(it);
-                BrowserActivity.start(getContext(), data.title, url);
+                if (data.link.contains(aid)) {
+                    int index = data.link.indexOf(aid) + aid.length();
+                    result = data.link.substring(index);
+                } else {
+                    int index = data.link.indexOf(noAid) + noAid.length();
+                    result = data.link.substring(index);
+                }
+                token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+                if (TextUtils.isEmpty(token) && result.equals("135")) {
+                    ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+                    return;
+                }
+                String url = DomainUtil.getDomain2() + Constant.URL_ACTIVITY + result;
+                CfLog.e(url);
+                BrowserActivity.start(getContext(), data.title, url, true);
             }
         });
 
