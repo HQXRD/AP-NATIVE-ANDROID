@@ -1,17 +1,13 @@
 package me.xtree.mvvmhabit.utils;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,15 +27,28 @@ import me.xtree.mvvmhabit.R;
  */
 public final class ToastUtils {
 
+    public static enum ShowType {
+        Default,
+        /**
+         * 默认状态 logo为杏彩logo
+         */
+        Fail,
+        /**
+         * 异常状态
+         */
+        Success  /**正确状态*/
+    }
+
+    public ShowType showType;
     private static final int DEFAULT_COLOR = 0x12000000;
     private static Toast sToast;
-        private static int gravity         = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
-    private static int xOffset         = 0;
-    private static int yOffset         = (int) (64 * Utils.getContext().getResources().getDisplayMetrics().density + 0.5);
+    private static int gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
+    private static int xOffset = 0;
+    private static int yOffset = (int) (64 * Utils.getContext().getResources().getDisplayMetrics().density + 0.5);
 
     private static int backgroundColor = DEFAULT_COLOR;
-    private static int bgResource      = -1;
-    private static int messageColor    = DEFAULT_COLOR;
+    private static int bgResource = -1;
+    private static int messageColor = DEFAULT_COLOR;
     private static WeakReference<View> sViewWeakReference;
     private static Handler sHandler = new Handler(Looper.getMainLooper());
 
@@ -391,7 +400,8 @@ public final class ToastUtils {
      * @param duration 显示时长
      */
     private static void show(CharSequence text, int duration) {
-        show(text ,duration, 0);
+        //show(text ,duration, 0);
+        show(text, ShowType.Default);
 
      /*   cancel();
         boolean isCustom = false;
@@ -431,32 +441,80 @@ public final class ToastUtils {
     }
 
     /**
-     * 显示自定义Toast
-     * @param text
-     * @param duration
-     * @param flag 1:成功 2：失败 默认不传值 则显示logo
+     * 显示错误信息（从顶部向下显示错误信息）
      */
-    public static void  show(CharSequence text, int duration ,int flag)
-    {
+    public static void showError(CharSequence text) {
+        show(text, ShowType.Fail);
+
+    }
+
+    /**
+     * 显示正确信息Toast（从顶部向下显示正确信息）
+     */
+    public static void showSuccess(CharSequence text) {
+        show(text, ShowType.Success);
+    }
+
+    /**
+     * 依据ShowType不同状态显示不同Toast
+     */
+    public static void show(CharSequence text, ShowType showType) {
         cancel();
         setView(R.layout.custom_toast);
         if (sViewWeakReference != null) {
             final View view = sViewWeakReference.get();
-            TextView textView = sViewWeakReference.get().findViewById(R.id.tv_toast) ;
+            TextView textView = sViewWeakReference.get().findViewById(R.id.tv_toast);
             textView.setText(text);
             ImageView imageView = sViewWeakReference.get().findViewById(R.id.iv_toast);
-             if (flag ==1)
-             {
+            switch (showType) {
+                case Fail:
+                    imageView.setBackgroundResource(R.drawable.ic_toast_fail);
+                    break;
+                case Success:
+                    imageView.setBackgroundResource(R.drawable.ic_toast_success);
+                    break;
+                case Default:
+                    imageView.setBackgroundResource(R.drawable.ic_logo_59);
+                    break;
+            }
+
+            if (view != null) {
+                sToast = new Toast(Utils.getContext());
+                sToast.setView(view);
+                sToast.setDuration(Toast.LENGTH_SHORT);
+            }
+        }
+        View view = sToast.getView();
+        if (bgResource != -1) {
+            view.setBackgroundResource(bgResource);
+        } else if (backgroundColor != DEFAULT_COLOR) {
+            view.setBackgroundColor(backgroundColor);
+        }
+
+        sToast.setGravity(Gravity.TOP, 0, yOffset);
+        sToast.show();
+    }
+
+    /**
+     * 显示自定义Toast
+     *
+     * @param flag 1:成功 2：失败 默认不传值 则显示logo
+     */
+    public static void show(CharSequence text, int duration, int flag) {
+        cancel();
+        setView(R.layout.custom_toast);
+        if (sViewWeakReference != null) {
+            final View view = sViewWeakReference.get();
+            TextView textView = sViewWeakReference.get().findViewById(R.id.tv_toast);
+            textView.setText(text);
+            ImageView imageView = sViewWeakReference.get().findViewById(R.id.iv_toast);
+            if (flag == 1) {
                 imageView.setBackgroundResource(R.drawable.ic_toast_success);
-            }
-             else if (flag == 2)
-            {
+            } else if (flag == 2) {
                 imageView.setBackgroundResource(R.drawable.ic_toast_fail);
+            } else {
+                imageView.setBackgroundResource(R.drawable.ic_logo_59);
             }
-             else
-             {
-                 imageView.setBackgroundResource(R.drawable.ic_logo_59);
-             }
 
             if (view != null) {
                 sToast = new Toast(Utils.getContext());
