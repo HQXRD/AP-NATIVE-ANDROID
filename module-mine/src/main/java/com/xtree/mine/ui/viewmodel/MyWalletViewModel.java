@@ -12,6 +12,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.GameMenusVo;
@@ -23,12 +24,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
+import retrofit2.http.GET;
 
 public class MyWalletViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<BalanceVo> liveDataBalance = new SingleLiveData<>(); // 中心钱包
@@ -38,11 +42,39 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<Boolean> liveDataAutoTrans = new SingleLiveData<>(); // 自动免转
     public SingleLiveData<Boolean> liveDataTransfer = new SingleLiveData<>(); // 转账
     public MutableLiveData<List<GameMenusVo>> liveDataTransGameType = new MutableLiveData<>(); // 可转账的平台
+    public MutableLiveData<AwardsRecordVo> awardrecordVoMutableLiveData = new MutableLiveData<>();//流水
 
     private HashMap<String, GameBalanceVo> map = new HashMap<>();
 
     public MyWalletViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
+    }
+
+
+    /**
+     * 获取流水
+     */
+    public void getAwardRecord() {
+        Disposable disposable = (Disposable) model.getApiService().getAwardRecord()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<AwardsRecordVo>() {
+                    @Override
+                    public void onResult(AwardsRecordVo awardrecordVo) {
+                        if (awardrecordVo != null) {
+                            awardrecordVoMutableLiveData.setValue(awardrecordVo);
+                        } else {
+                            CfLog.i("awardrecordVo IS NULL ");
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        //ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
     }
 
     public void getBalance() {

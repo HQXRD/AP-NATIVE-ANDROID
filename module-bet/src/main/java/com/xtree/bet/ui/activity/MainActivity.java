@@ -196,6 +196,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 mIsChange = true;
                 sportTypePos = 0;
                 if (playMethodPos != tab.getPosition()) {
+                    binding.srlLeague.resetNoMoreData();
                     searchDatePos = 0;
                     playMethodType = playMethodTypeList.get(tab.getPosition());
                     showSearchDate();
@@ -249,6 +250,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (sportTypePos != tab.getPosition()) {
+                    binding.srlLeague.resetNoMoreData();
                     searchDatePos = 0;
                     mIsChange = true;
                     showSearchDate();
@@ -284,6 +286,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 mLeagueList.clear();
                 mLeagueGoingOnList.clear();
                 if (searchDatePos != tab.getPosition()) {
+                    binding.srlLeague.resetNoMoreData();
                     mIsChange = true;
                     if (playMethodType == 4 || playMethodType == 2 || playMethodType == 11) {
                         searchDatePos = tab.getPosition();

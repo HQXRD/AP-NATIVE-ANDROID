@@ -69,9 +69,26 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             binding.tvwMaintenance.setVisibility(View.GONE);
             binding.ivwGreyCover.setVisibility(View.GONE);
         }
+
+        if (vo.twoImage) {
+            binding.ivwSplit.setVisibility(View.INVISIBLE);
+            binding.ivwCoverLeft.setVisibility(View.VISIBLE);
+            binding.ivwCoverRight.setVisibility(View.VISIBLE);
+            binding.ivwCoverLeft.setOnClickListener(view -> jump(vo, true));
+            binding.ivwCoverRight.setOnClickListener(view -> jump(vo, false));
+        } else {
+            binding.ivwSplit.setVisibility(View.GONE);
+            binding.ivwCoverLeft.setVisibility(View.GONE);
+            binding.ivwCoverRight.setVisibility(View.GONE);
+        }
+
     }
 
     private void jump(GameVo vo) {
+        jump(vo, true);
+    }
+
+    private void jump(GameVo vo, boolean isLeft) {
         CfLog.d(vo.toString());
         if (vo.status != 1) {
             // 0是维护, 1是正常, 2是下架
@@ -84,32 +101,48 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             return;
         }
 
-        if (vo.isH5) {
-            if (TextUtils.isEmpty(vo.playURL)) {
-                // 去请求网络接口
-                CfLog.d("request api...");
-                mCallBack.onClick(vo.alias, vo.gameId);
+        if (vo.twoImage) {
+            if (isLeft) {
+                goApp(vo);
             } else {
-                // 拼装URL
-                playGame(DomainUtil.getDomain() + vo.playURL);
+                goWeb(vo);
             }
+            return;
+        }
 
+        if (vo.isH5) {
+            goWeb(vo);
         } else {
             // 跳原生
             CfLog.d("跳原生");
-            String cgToken;
-            if(TextUtils.equals(vo.alias, PLATFORM_FBXC)){
-                cgToken = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_TOKEN);
-            } else if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
-                cgToken = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
-            } else {
-                cgToken = SPUtils.getInstance().getString(SPKeyGlobal.PM_TOKEN);
-            }
-            if(TextUtils.isEmpty(cgToken)){
-                ToastUtils.showShort("场馆初始化中，请稍候...");
-            }else {
-                ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).withString("KEY_PLATFORM", vo.alias).withString("KEY_PLATFORM_NAME", vo.name).navigation();
-            }
+            goApp(vo);
+        }
+    }
+
+    private void goWeb(GameVo vo) {
+        if (TextUtils.isEmpty(vo.playURL)) {
+            // 去请求网络接口
+            CfLog.d("request api...");
+            mCallBack.onClick(vo.alias, vo.gameId);
+        } else {
+            // 拼装URL
+            playGame(DomainUtil.getDomain() + vo.playURL);
+        }
+    }
+
+    private void goApp(GameVo vo) {
+        String cgToken;
+        if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
+            cgToken = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_TOKEN);
+        } else if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
+            cgToken = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
+        } else {
+            cgToken = SPUtils.getInstance().getString(SPKeyGlobal.PM_TOKEN);
+        }
+        if (TextUtils.isEmpty(cgToken)) {
+            ToastUtils.showShort("场馆初始化中，请稍候...");
+        } else {
+            ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).withString("KEY_PLATFORM", vo.alias).withString("KEY_PLATFORM_NAME", vo.name).navigation();
         }
     }
 

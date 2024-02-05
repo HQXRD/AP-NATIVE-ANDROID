@@ -190,7 +190,7 @@ public final class StringUtils {
      * @return
      */
     public static boolean isNumeric(String str) {
-        return str.matches("\\d+(?:\\.\\d+)?");
+        return str.matches("^[0-9]+(.[0-9]=)?$");
         /*int temp = 0;
         for (int i = 0; i < str.length(); i++) {
             if (str.charAt(i) == '.' && temp == 0) {

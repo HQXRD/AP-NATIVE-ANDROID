@@ -70,6 +70,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private LinearLayoutManager manager;
     private String token;
 
+    public  static  String CHOOSE_TYPE = "";
+
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return R.layout.fragment_home;
@@ -345,6 +347,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.tvwWithdraw.setClickable(isClickable);
         binding.tvwTrans.setClickable(isClickable);
         binding.tvwMember.setClickable(isClickable);
+        binding.llMenu.setClickable(!isClickable); // 设置相反的状态
     }
 
     private void smoothToPosition(int pid) {
@@ -382,7 +385,17 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         } else if (mProfileVo.is_binding_card == false) {
             toBindPhoneOrCard();
         } else {
-            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
+           // ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
+            CfLog.i("RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW");
+
+//            startContainerActivity(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW, bundle);
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW)
+                    /*.withInt(
+                            Constant.CHOOSEACTIVITY_CHOOSE_ENTER_TYPE,
+                            Constant.CHOOSEACTIVITY_CHOOSE_TYPE
+                    )*/
+                    .navigation();
+
         }
     }
 
