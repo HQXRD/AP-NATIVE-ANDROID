@@ -47,7 +47,6 @@ import com.youth.banner.indicator.CircleIndicator;
 import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
@@ -66,6 +65,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private BasePopupView ppw = null; // 底部弹窗
     private BasePopupView ppw2 = null; // 底部弹窗
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
+    private boolean needScroll;
+    private int position;
+    private LinearLayoutManager manager;
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -277,28 +279,28 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         gameAdapter = new GameAdapter(getContext(), mCallBack);
         binding.rcvList.setAdapter(gameAdapter);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        manager = new LinearLayoutManager(getContext());
         binding.rcvList.setLayoutManager(manager);
 
         binding.rcvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                if (needScroll == true && (newState == RecyclerView.SCROLL_STATE_IDLE)) {
+                    scrollRecycleView();
+                }
             }
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                int position = manager.findFirstVisibleItemPosition();
-                // int end = manager.findLastCompletelyVisibleItemPosition(); // 最后一个完整可见的
-                // View view = manager.findViewByPosition(position);
+                int position = manager.findLastCompletelyVisibleItemPosition();
                 if (position < 0 || position > gameAdapter.size() - 1) {
                     return;
                 }
                 GameVo vo = gameAdapter.get(position);
                 if (vo.pId != curPId) {
-                    //CfLog.d("类型发生了改变 " + curPId + ", " + vo.pId);
                     curPId = vo.pId;
                     RadioButton rbtn = binding.rgpType.findViewWithTag("tp_" + curPId);
                     rbtn.setChecked(true);
@@ -337,7 +339,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         List<GameVo> list = gameAdapter.getData();
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).pId == pid) {
-                binding.rcvList.smoothScrollToPosition(i);
+                smoothToPositionTop(i);
                 return;
             }
         }
@@ -451,5 +453,33 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
         startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
+    }
+
+
+    private void smoothToPositionTop(int position) {
+        this.position = position;
+        //获取第一个和最后一个可见项
+        int firstItemPosition = manager.findFirstVisibleItemPosition();
+        int lastItemPosition = manager.findLastVisibleItemPosition();
+        if (position < firstItemPosition) {
+            // 第一种可能:跳转位置在第一个可见位置之前
+            binding.rcvList.smoothScrollToPosition(position);
+        } else if (position <= lastItemPosition) {
+            // 第二种可能:跳转位置在第一个可见位置之后
+            binding.rcvList.smoothScrollBy(0, binding.rcvList.getChildAt(position - firstItemPosition).getTop());
+        } else {
+            // 第三种可能:跳转位置在最后可见项之后
+            binding.rcvList.smoothScrollToPosition(position);
+            needScroll = true;
+        }
+    }
+
+    private void scrollRecycleView() {
+        needScroll = false;
+        int diff = position - manager.findFirstVisibleItemPosition();
+        if (diff >= 0 && diff < binding.rcvList.getChildCount()) {
+            binding.rcvList.smoothScrollBy(0, binding.rcvList.getChildAt(diff).getTop());
+        }
+
     }
 }
