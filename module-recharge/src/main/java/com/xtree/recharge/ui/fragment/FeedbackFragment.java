@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -99,7 +98,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.ivwNext.setOnClickListener(v -> {
 
-            nextCheckInputWithPayway(feedbackType);
+            nextCheckInputWithPayWay(feedbackType);
         });
 
         binding.tvUnorderSelectorPayway.setOnClickListener(v -> {
@@ -663,7 +662,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         } else return true;
     }
 
-    private void nextCheckInputWithPayway(int payType) {
+    private void nextCheckInputWithPayWay(int payType) {
         //1 支付宝 微信 2 虚拟币
 
         if (checkInputPaymentAccount(payType) && checkInputPaymentName(payType) &&
@@ -671,13 +670,69 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 checkInputThirdOrder() && imageSelector) {
             //提交图片
             uploadImage(imageRealPathString);
-        } else if (!imageSelector) {
+        }
+        else if (!checkInputPaymentName(payType))
+        {
+            if (payType == 1) //微信
+            {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_pay_err), ToastUtils.ShowType.Fail);
+            }
+            //虚拟币
+            else
+            {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_pay_err), ToastUtils.ShowType.Fail);
+            }
+        }
+        else if (!checkInputPaymentName(payType) )
+        {
+            if (payType == 1) //微信
+            {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_pay_wechat_name_err), ToastUtils.ShowType.Fail);
+            }
+            //虚拟币
+            else
+            {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_pay_err), ToastUtils.ShowType.Fail);
+            }
+        }
+        else if (!checkInputCollectionName(payType))
+        {
+            if (payType == 1) //微信
+            {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_collection_wechat_name_err), ToastUtils.ShowType.Fail);
+            }
+            //虚拟币
+            else
+            {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_payment_agreement), ToastUtils.ShowType.Fail);
+            }
+
+        }
+        else if (!checkInputSaveName(payType))
+        {
+            if (payType == 1) //微信
+            {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_save_number_err), ToastUtils.ShowType.Fail);
+            }
+            //虚拟币
+            else
+            {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_numb_error), ToastUtils.ShowType.Fail);
+            }
+        }
+        else if (!checkInputThirdOrder())
+        {
+            ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_other_order_err), ToastUtils.ShowType.Fail);
+        }
+        else if (!imageSelector)
+        {
             CfLog.i("未上传图片");
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
             }
-            ToastUtils.show("请上传充值明细截图"  , Toast.LENGTH_SHORT , 2);
+            ToastUtils.show(getContext().getString(R.string.txt_feedback_upload_image)  , ToastUtils.ShowType.Fail);
         }
+
     }
 
     /**
@@ -844,7 +899,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
     /**
      * 提交
-     *
      * @param userPic
      */
     private void feedbackAdd(String userPic) {
