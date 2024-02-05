@@ -333,6 +333,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.tvwWithdraw.setClickable(isClickable);
         binding.tvwTrans.setClickable(isClickable);
         binding.tvwMember.setClickable(isClickable);
+        binding.llMenu.setClickable(!isClickable); // 设置相反的状态
     }
 
     private void smoothToPosition(int pid) {
