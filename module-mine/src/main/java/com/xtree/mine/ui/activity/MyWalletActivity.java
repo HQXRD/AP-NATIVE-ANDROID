@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -38,6 +40,7 @@ import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterActivityPath.Mine.PAGER_MY_WALLET)
 public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWalletViewModel> {
@@ -100,8 +103,9 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         binding.ivwBack.setOnClickListener(v -> finish());
         binding.ivwRefreshBlc.setOnClickListener(v -> {
             viewModel.getBalance();
-            //Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.anim_loading);
-            //binding.ivwRefreshBlc.startAnimation(animation);
+            Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.anim_loading);
+            binding.ivwRefreshBlc.startAnimation(animation);
+            ToastUtils.show(this.getString(R.string.txt_rc_tip_latest_balance), ToastUtils.ShowType.Success);
         });
         binding.ivwGoDeposit.setOnClickListener(v -> {
             CfLog.d("************");
