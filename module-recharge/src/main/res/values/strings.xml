@@ -66,6 +66,7 @@
     <string name="txt_tip_input_usdt_payment_name">* 协议：</string>
     <string name="txt_tip_input_usdt_payment_agreement">请选择协议</string>
     <string name="txt_tip_input_usdt_numb">* 虚拟币数量：</string>
+    <string name="txt_tip_input_usdt_numb_error">虚拟币数量不能为空</string>
     <string name="txt_tip_input_usdt_add">* 收款钱包地址：</string>
     <string name="txt_tip_input_usdt_add_hint">请输入收款钱包地址</string>
     <!--反馈录入页面录入异常提示语言 微信支付宝-->
@@ -133,5 +134,6 @@
     <string name="txt_rc_bind_phone">绑定手机</string>
     <string name="txt_rc_bind_email">绑定邮箱</string>
     <string name="txt_rc_bind_bank_card_pls">您没有绑定银行卡，请先绑定银行卡</string>
-
+    <!--反馈页面提示-->
+    <string name="txt_feedback_upload_image">请上传充值明细截图</string>
 </resources>
