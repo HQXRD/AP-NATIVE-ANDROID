@@ -43,6 +43,7 @@
     <string name="bt_txt_search_record">如需查询历史记录，请访问投注记录</string>
     <string name="bt_txt_bt_right_now">立即投一笔</string>
     <string name="bt_txt_match_ended">盘口已关闭\n当前无法进行投注</string>
+    <string name="bt_txt_tutorial">盘口教程</string>
 
 
 </resources>

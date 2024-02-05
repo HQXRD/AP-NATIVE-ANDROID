@@ -22,6 +22,7 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 import java.util.Arrays;
 
 import me.xtree.mvvmhabit.utils.ConvertUtils;
+import me.xtree.mvvmhabit.utils.StringUtils;
 
 public class KeyboardView extends FrameLayout implements View.OnClickListener {
 
@@ -106,7 +107,9 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
                     }
                     String value = !TextUtils.isEmpty(editText.getText()) ? editText.getText().toString() : "";
                     value += number;
-                    editText.setText(value);
+                    if(isNumeric(value)) {
+                        editText.setText(value);
+                    }
                 });
             }
 
@@ -116,7 +119,9 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
         findViewById(R.id.ll_delete).setOnClickListener(view -> {
             String value = !TextUtils.isEmpty(editText.getText()) ? editText.getText().toString() : " ";
             value = value.substring(0, value.length()-1);
-            editText.setText(value);
+            if(isNumeric(value)) {
+                editText.setText(value);
+            }
         });
         findViewById(R.id.tv_max).setOnClickListener(view -> {
             if(!editText.isEnabled()){
@@ -125,7 +130,9 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
             CharSequence hint = editText.getHint();
             String hintStr = !TextUtils.isEmpty(hint) ? hint.toString() : "-";
             hintStr = hintStr.substring(hintStr.indexOf("-") + 1, hintStr.length());
-            editText.setText(hintStr);
+            if(isNumeric(hintStr)) {
+                editText.setText(hintStr);
+            }
         });
     }
 
@@ -141,6 +148,18 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
 
     public boolean isShowing() {
         return isShow;
+    }
+
+    private boolean isNumeric(String value){
+        if (TextUtils.isEmpty(value)) {
+            return true;
+        }
+        try {
+            Double.parseDouble(value);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
     }
 
     @Override

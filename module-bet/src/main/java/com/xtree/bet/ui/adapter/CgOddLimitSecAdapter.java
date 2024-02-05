@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseActivity;
+import me.xtree.mvvmhabit.utils.StringUtils;
 
 public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
     private boolean flag;
@@ -179,7 +180,7 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
             return;
         }
 
-        if (charSequence != null && !TextUtils.isEmpty(charSequence.toString())) {
+        if (charSequence != null && !TextUtils.isEmpty(charSequence.toString()) && StringUtils.isNumeric(charSequence.toString())) {
             double amount;
             if (charSequence.toString().startsWith(".")) {
                 etAmount.setText("0");
