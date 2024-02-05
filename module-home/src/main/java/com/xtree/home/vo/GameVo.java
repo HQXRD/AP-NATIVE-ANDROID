@@ -16,6 +16,7 @@ public class GameVo implements Parcelable {
     public String playURL; // aggame/fishplay?autoThrad
     public boolean isH5 = false; // true:跳H5, false:原生的
     public String imageName; //
+    public boolean twoImage = false; // 是否两张图片(左右不一样)
     public String gameId; //
 
     public String title; //
@@ -39,6 +40,7 @@ public class GameVo implements Parcelable {
                 ", playURL='" + playURL + '\'' +
                 ", isH5=" + isH5 +
                 ", imageName='" + imageName + '\'' +
+                ", twoImage=" + twoImage +
                 ", gameId='" + gameId + '\'' +
                 ", title='" + title + '\'' +
                 ", picture='" + picture + '\'' +
@@ -58,6 +60,7 @@ public class GameVo implements Parcelable {
         playURL = in.readString();
         isH5 = in.readByte() != 0;
         imageName = in.readString();
+        twoImage = in.readByte() != 0;
         gameId = in.readString();
         title = in.readString();
         picture = in.readString();
@@ -77,6 +80,7 @@ public class GameVo implements Parcelable {
         dest.writeString(playURL);
         dest.writeByte((byte) (isH5 ? 1 : 0));
         dest.writeString(imageName);
+        dest.writeByte((byte) (twoImage ? 1 : 0));
         dest.writeString(gameId);
         dest.writeString(title);
         dest.writeString(picture);
