@@ -490,5 +490,5 @@ public interface HttpApiService {
     Flowable<QuestionVo> getQuestionWeb();
     /** 获取流水*/
     @GET("/api/activity/awardrecord?&client=m")
-    Flowable<BaseResponse<AwardsRecordVo>> getAwardrecord();
+    Flowable<BaseResponse<AwardsRecordVo>> getAwardRecord();
 }

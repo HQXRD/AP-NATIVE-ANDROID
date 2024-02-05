@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
@@ -21,9 +19,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.ProfileVo;
-import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -32,6 +28,7 @@ import com.xtree.mine.ui.fragment.AccountMgmtDialog;
 import com.xtree.mine.ui.fragment.MyWalletAdapter;
 import com.xtree.mine.ui.viewmodel.MyWalletViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.GameMenusVo;
 
@@ -57,6 +54,8 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
     private BasePopupView ppw2 = null; // 底部弹窗
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
 
+    private AwardsRecordVo awardsRecordVo ;//礼物流水
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +63,8 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         viewModel.readCache(); // 读取缓存
 
         viewModel.getBalance(); // 平台中心余额
+
+        viewModel.getAwardRecord();//获取礼物流水
 
         viewModel.getTransThirdGameType(this);
     }
@@ -128,6 +129,18 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
             CfLog.d("************");
             //goWebView(v, Constant.URL_DW_RECORD);
             startContainerFragment(RouterFragmentPath.Mine.PAGER_RECHARGE_WITHDRAW); // 充提记录
+        });
+
+        binding.tvwBalance.setOnClickListener(v->{
+            //账号已登出，请重新登录
+
+        });
+        //显示钱包流水
+        binding.llAwardRecord.setOnClickListener(v -> {
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
+        });
+        binding.ivwAwardRecord.setOnClickListener(v -> {
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
         });
 
         int spanCount = 4; // 每行的列数
@@ -195,6 +208,19 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
             // 某个场馆的余额
             mHandler.sendEmptyMessage(MSG_GAME_BALANCE);
         });
+
+        //获取礼物流水
+        viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
+            awardsRecordVo = vo;
+            if (awardsRecordVo != null && awardsRecordVo.list.size() > 0)
+            {
+                binding.tvwAwardRecord.setText(awardsRecordVo.locked_award_sum);
+            }
+            else
+            {
+                binding.tvwAwardRecord.setText("0.0000");
+            }
+        });
     }
 
    /* private void goWebView(View v, String path) {
@@ -225,6 +251,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
             toBindPhoneOrCard();
 
         } else {
+            CfLog.i("RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW");
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
         }
     }
