@@ -180,7 +180,7 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
             return;
         }
 
-        if (charSequence != null && !TextUtils.isEmpty(charSequence.toString()) && StringUtils.isNumeric(charSequence.toString())) {
+        if (charSequence != null && !TextUtils.isEmpty(charSequence.toString())) {
             double amount;
             if (charSequence.toString().startsWith(".")) {
                 etAmount.setText("0");
