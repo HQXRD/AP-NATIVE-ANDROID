@@ -276,6 +276,7 @@
                         </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
+                            android:id="@+id/tvw_tip_name"
                             style="@style/style_cm_tip_small_orange"
                             android:drawableStart="@mipmap/cm_ic_hint_red"
                             android:drawablePadding="2dp"
@@ -315,6 +316,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/tvw_tip_amount"
                         style="@style/style_cm_tip_small_orange"
                         android:drawableStart="@mipmap/cm_ic_hint_red"
                         android:drawablePadding="2dp"
@@ -407,6 +409,7 @@
                         style="@style/style_rc_tip_small_grey"
                         android:layout_marginBottom="36dp"
                         android:text="温馨提示" />
+
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
