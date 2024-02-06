@@ -636,7 +636,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
         } else {
             for (Match match : mChampionMatchList) {
-                if(!match.isHead()) {
+                if(!match.isHead() && match.isExpand()) {
                     matchIdList.add(match.getId());
                 }
             }
