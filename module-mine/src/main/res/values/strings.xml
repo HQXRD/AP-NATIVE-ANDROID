@@ -309,5 +309,8 @@
     <string name="txt_vip_title">VIP特权</string>
     <string name="txt_tip_unfinished_activity">未完成活动流水</string>
     <string name="txt_tip_wallet">钱包</string>
-
+    <string name="txt_tip_report">*所有平台查询不包括彩票,查询彩票请下拉筛选单独查询</string>
+    <string name="txt_tip_number">笔数</string>
+    <string name="txt_tip_effective">有效投注额</string>
+    <string name="txt_tip_profit">盈亏</string>
 </resources>
