@@ -199,6 +199,10 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     binding.srlLeague.resetNoMoreData();
                     searchDatePos = 0;
                     playMethodType = playMethodTypeList.get(tab.getPosition());
+                    if(playMethodPos == 4) {
+                        BtCarManager.clearBtCar();
+                        setCgBtCar();
+                    }
                     showSearchDate();
                     playMethodPos = tab.getPosition();
                     if (playMethodPos == 4) {
@@ -254,8 +258,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     searchDatePos = 0;
                     mIsChange = true;
                     showSearchDate();
-                    /*BtCarManager.clearBtCar();
-                    setCgBtCar();*/
                     sportTypePos = tab.getPosition();
                     mLeagueGoingOnList.clear();
                     mLeagueList.clear();
@@ -634,7 +636,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
         } else {
             for (Match match : mChampionMatchList) {
-                matchIdList.add(match.getId());
+                if(!match.isHead()) {
+                    matchIdList.add(match.getId());
+                }
             }
         }
         if (!matchIdList.isEmpty()) {
