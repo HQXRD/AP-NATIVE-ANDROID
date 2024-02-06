@@ -25,10 +25,10 @@ public class HelpCenterFragment extends BaseFragment<FragmentHelpCenterBinding, 
     @Override
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
-        binding.clLotteryInfo.setOnClickListener(v -> goWebView(getString(R.string.txt_lottery_info), Constant.URL_LOTTERY_INFO, false));
+        binding.clLotteryInfo.setOnClickListener(v -> goWebView(getString(R.string.txt_lottery_info), Constant.URL_LOTTERY_INFO, true));
         binding.clQuestion.setOnClickListener(v -> startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION));
-        binding.clPlayIntro.setOnClickListener(v -> goWebView(getString(R.string.txt_play_intro), Constant.URL_PLAY_INTRO, false));
-        binding.clLotteryTutorial.setOnClickListener(v -> goWebView(getString(R.string.txt_tutorial), Constant.URL_TUTORIAL, false));
+        binding.clPlayIntro.setOnClickListener(v -> goWebView(getString(R.string.txt_play_intro), Constant.URL_PLAY_INTRO, true));
+        binding.clLotteryTutorial.setOnClickListener(v -> goWebView(getString(R.string.txt_tutorial), Constant.URL_TUTORIAL, true));
     }
 
     @Override

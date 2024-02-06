@@ -638,6 +638,9 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     private List<Option> getMatchOptionList(List<Match> matchList) {
         List<Option> optionList = new ArrayList<>();
         for (Match match : matchList) {
+            if(match.isHead()){
+                continue;
+            }
             PlayGroup newPlayGroup = new PlayGroupFb(match.getPlayTypeList());
             newPlayGroup.getPlayGroupList(match.getSportId());
 
