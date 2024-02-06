@@ -6,7 +6,11 @@ import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 import android.app.Application;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +26,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.tabs.TabLayout;
+import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BtRecordTime;
@@ -98,6 +103,21 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
             }
         });
         binding.tvClose.setOnClickListener(this);
+        initToRecordText();
+    }
+
+    private void initToRecordText() {
+        binding.llEmpty.tvToRecord.setOnClickListener(this);
+        SpannableString spannableString = new SpannableString(getActivity().getResources().getString(R.string.bt_txt_search_record));
+        int startIndex = 12; // "这"的索引值
+        int endIndex = spannableString.length();   // "是"的索引值 + 1
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(getResources().getColor(R.color.bt_color_car_dialog_hight_line2));
+        spannableString.setSpan(colorSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        UnderlineSpan underlineSpan = new UnderlineSpan();
+        spannableString.setSpan(underlineSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        binding.llEmpty.tvToRecord.setText(spannableString);
     }
 
     private void initLeagueListView() {
@@ -210,6 +230,8 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
         int id = view.getId();
         if (id == R.id.tv_close || id == R.id.tv_bt_now) {
             dismiss();
+        } else if (id == R.id.tv_to_record) {
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_BT_REPORT);
         }
     }
 
