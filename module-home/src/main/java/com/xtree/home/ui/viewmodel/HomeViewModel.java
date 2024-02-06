@@ -225,7 +225,10 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         for (GameVo vo : a) {
             for (GameStatusVo vo2 : b) {
                 if (vo.cid == vo2.cid) {
-                    vo.name = vo2.name;
+                    // cid=3时,是"AG娱乐",包含 AG真人,AG电子,AG捕鱼,AG街机
+                    if (vo.cid != 3) {
+                        vo.name = vo2.name;
+                    }
                     vo.alias = vo2.alias;
                     vo.status = vo2.status;
                     vo.maintenance_start = vo2.maintenance_start;
