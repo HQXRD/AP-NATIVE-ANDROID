@@ -328,8 +328,8 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     /**
      * 获取流水
      */
-    public void getAwardrecord() {
-        Disposable disposable = (Disposable) model.getApiService().getAwardrecord()
+    public void getAwardRecord() {
+        Disposable disposable = (Disposable) model.getApiService().getAwardRecord()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<AwardsRecordVo>() {

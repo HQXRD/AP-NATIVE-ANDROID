@@ -286,9 +286,11 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@mipmap/me_shengri_lijin" />
+                            android:src="@mipmap/me_shengri_lijin"
+                            android:visibility="gone"/>
 
-                        <TextView style="@style/style_wallet_space" />
+                        <TextView style="@style/style_wallet_space"
+                            android:visibility="gone"/>
 
                         <ImageView
                             android:layout_width="wrap_content"

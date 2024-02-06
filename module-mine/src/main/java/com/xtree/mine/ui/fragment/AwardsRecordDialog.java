@@ -16,6 +16,7 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
+import com.xtree.base.utils.CfLog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogChooseWithdrawaBinding;
@@ -46,6 +47,8 @@ public class AwardsRecordDialog extends BottomPopupView {
     BasePopupView ppw = null; // 底部弹窗
     private AwardsRecordVo awardsRecordVo ;
 
+    private int viewType;//根据awardsRecordVo 显示页面 0 不显示数据 ；1 显示数据
+
     @Override
     protected int getImplLayoutId() {
         return R.layout.dialog_choose_withdrawa;
@@ -59,7 +62,7 @@ public class AwardsRecordDialog extends BottomPopupView {
     private AwardsRecordDialog(@NonNull Context context) {
         super(context);
     }
-    public static AwardsRecordDialog newInstance(Context context, LifecycleOwner owner , AwardsRecordVo  awardsRecordVo,IAwardsDialogBack callBack)
+    public static AwardsRecordDialog newInstance(Context context, LifecycleOwner owner , AwardsRecordVo  awardsRecordVo, IAwardsDialogBack callBack )
     {
         AwardsRecordDialog dialog = new AwardsRecordDialog(context);
         context = context ;
@@ -67,8 +70,22 @@ public class AwardsRecordDialog extends BottomPopupView {
         dialog.owner =owner ;
         dialog.awardsRecordVo = awardsRecordVo ;
         dialog.callBack = callBack ;
+        dialog.viewType = 1;
         return dialog;
     }
+
+    public static AwardsRecordDialog newInstance(Context context, LifecycleOwner owner , AwardsRecordVo  awardsRecordVo,int viewType , IAwardsDialogBack callBack )
+    {
+        AwardsRecordDialog dialog = new AwardsRecordDialog(context);
+        context = context ;
+        dialog.context = context ;
+        dialog.owner =owner ;
+        dialog.awardsRecordVo = awardsRecordVo ;
+        dialog.callBack = callBack ;
+        dialog.viewType = viewType;
+        return dialog;
+    }
+
     @Override
     protected void onCreate() {
         super.onCreate();
@@ -80,36 +97,79 @@ public class AwardsRecordDialog extends BottomPopupView {
     private void initView()
     {
         binding = DialogChooseWithdrawaBinding.bind(findViewById(R.id.ll_root));
+        if (viewType ==1)
+        {
+            CfLog.i("viewType ==1)");
+            binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_unfinished_activity));
+        }
+        else
+        {
+            binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_wallet));
+            CfLog.i("viewType ==0)");
+        }
+
         binding.ivwClose.setOnClickListener(v->{
             dismiss();
             callBack.closeAwardsDialog();
 
         });
-        binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_unfinished_activity));
+        if (viewType == 0)
+        {
 
-        bottomPopupContainer.dismissOnTouchOutside(true);
-        bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
-            @Override
-            public void onClose() {
-                if (callBack!=null)
-                {
-                    callBack.closeAwardsDialog();
+
+            bottomPopupContainer.dismissOnTouchOutside(true);
+            bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
+                @Override
+                public void onClose() {
+                    if (callBack!=null)
+                    {
+                        callBack.closeAwardsDialog();
+                    }
                 }
-            }
 
-            @Override
-            public void onDrag(int y, float percent, boolean isScrollUp) {
+                @Override
+                public void onDrag(int y, float percent, boolean isScrollUp) {
 
-            }
+                }
 
-            @Override
-            public void onOpen() {
+                @Override
+                public void onOpen() {
 
-            }
-        });
+                }
+            });
+            binding.lvChoose.setVisibility(View.GONE);
+            binding.llChooseTutorial.setVisibility(View.GONE);
+            binding.llChooseTip.setVisibility(View.VISIBLE);
 
-        ChooseAdapter adapter = new ChooseAdapter(getContext() ,awardsRecordVo.list);
-        binding.lvChoose.setAdapter(adapter);
+
+        } else if (viewType ==1)
+        {
+            bottomPopupContainer.dismissOnTouchOutside(true);
+            bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
+                @Override
+                public void onClose() {
+                    if (callBack!=null)
+                    {
+                        callBack.closeAwardsDialog();
+                    }
+                }
+
+                @Override
+                public void onDrag(int y, float percent, boolean isScrollUp) {
+
+                }
+
+                @Override
+                public void onOpen() {
+
+                }
+            });
+
+            ChooseAdapter adapter = new ChooseAdapter(getContext() ,awardsRecordVo.list);
+            binding.lvChoose.setVisibility(View.VISIBLE);
+            binding.lvChoose.setAdapter(adapter);
+        }
+
 
     }
 
