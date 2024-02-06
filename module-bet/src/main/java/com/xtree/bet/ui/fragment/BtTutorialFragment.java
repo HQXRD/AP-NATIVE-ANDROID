@@ -62,6 +62,7 @@ public class BtTutorialFragment extends BaseFragment<BtFragmentTutorialBinding, 
 
         binding.ivCs.setOnClickListener(this);
         binding.ivMsg.setOnClickListener(this);
+        binding.ivwBack.setOnClickListener(this);
 
         for (int i = 0; i < tabName.length; i++) {
             View view = LayoutInflater.from(getContext()).inflate(R.layout.bt_layout_tutorial_tab_item, null);
@@ -133,6 +134,8 @@ public class BtTutorialFragment extends BaseFragment<BtFragmentTutorialBinding, 
             new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
         } else if (id == R.id.iv_msg) {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG);
+        } else if (id == R.id.ivw_back) {
+            viewModel.finish();
         }
     }
 }
