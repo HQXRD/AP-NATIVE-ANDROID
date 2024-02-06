@@ -349,7 +349,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                 binding.clAlreadyLogin.setVisibility(View.INVISIBLE);
                 mProfileVo = null;
                 ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
-                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
                         .navigation();
             }
         });

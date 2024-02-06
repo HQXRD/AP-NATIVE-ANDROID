@@ -87,6 +87,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                     CfLog.i("$host")
                     NetConfig.host = host
                     DomainUtil.setDomainUrl(host)
+                    RetrofitClient.init() // 重置URL
                     viewModel?.reNewViewModel?.postValue(null)
                     data
                 }
@@ -104,6 +105,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
         val url = getString(R.string.domain_url)
         if (url.startsWith("http://") || url.startsWith("https://")) {
             DomainUtil.setDomainUrl(url)
+            RetrofitClient.init() // 重置URL
         }
     }
 
