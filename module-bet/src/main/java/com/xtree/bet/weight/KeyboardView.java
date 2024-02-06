@@ -32,6 +32,7 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
     private NestedScrollView parent;
     private int parentY;
     private View itemView;
+    private int currentPos = -1;
 
     public void setEditText(EditText editText, View itemView) {
         this.editText = editText;
@@ -81,11 +82,20 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
             @Override
             protected void convert(ViewHolder holder, Integer i, int position) {
                 holder.setText(R.id.tv_item, String.valueOf(i));
+                holder.setTextColor(R.id.tv_item, getResources().getColor(R.color.bt_color_keyboard_quick));
+                holder.getView(R.id.tv_item).setBackgroundResource(R.drawable.bt_bg_keyboard_quick_item_selector);
+                if(currentPos == position){
+                    holder.getView(R.id.tv_item).setSelected(true);
+                }else{
+                    holder.getView(R.id.tv_item).setSelected(false);
+                }
                 holder.itemView.setOnClickListener(view -> {
                     if(!editText.isEnabled()){
                         return;
                     }
                     editText.setText(String.valueOf(i));
+                    currentPos = position;
+                    notifyDataSetChanged();
                 });
             }
 
@@ -109,6 +119,8 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
                     value += number;
                     if(isNumeric(value)) {
                         editText.setText(value);
+                        currentPos = -1;
+                        rvDefaultAmount.getAdapter().notifyDataSetChanged();
                     }
                 });
             }
@@ -132,6 +144,8 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
             hintStr = hintStr.substring(hintStr.indexOf("-") + 1, hintStr.length());
             if(isNumeric(hintStr)) {
                 editText.setText(hintStr);
+                currentPos = -1;
+                rvDefaultAmount.getAdapter().notifyDataSetChanged();
             }
         });
     }

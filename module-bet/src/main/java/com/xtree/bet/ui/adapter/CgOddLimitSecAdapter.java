@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.xtree.base.utils.NumberUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.CgOddLimit;
 import com.xtree.bet.databinding.BtLayoutCarCgItemBinding;
@@ -202,8 +203,9 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
                         ((BaseActivity) mContext).runOnUiThread(() -> {
                             etAmount.setText(String.valueOf(minValue));
                             etAmount.setSelection(String.valueOf(minValue).length());
-                            tvWin.setText(mContext.getResources().getString(winResStringId, String.valueOf(odd * minValue)));
-                            tvPay.setText(mContext.getResources().getString(payResStringId, String.valueOf(minValue * cgOddLimit.getBtCount())));
+
+                            tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * minValue, 2)));
+                            tvPay.setText(mContext.getResources().getString(payResStringId, NumberUtils.format(minValue * cgOddLimit.getBtCount(), 2)));
                             flag = false;
                         });
 
@@ -213,11 +215,11 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
             } else if (amount > maxValue) {
                 etAmount.setText(String.valueOf(maxValue));
                 etAmount.setSelection(String.valueOf(maxValue).length());
-                tvWin.setText(mContext.getResources().getString(winResStringId, String.valueOf(odd * maxValue)));
-                tvPay.setText(mContext.getResources().getString(payResStringId, String.valueOf(maxValue * cgOddLimit.getBtCount())));
+                tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * maxValue, 2)));
+                tvPay.setText(mContext.getResources().getString(payResStringId, NumberUtils.format(maxValue * cgOddLimit.getBtCount(), 2)));
             } else {
-                tvWin.setText(mContext.getResources().getString(winResStringId, String.valueOf(odd * amount)));
-                tvPay.setText(mContext.getResources().getString(payResStringId, String.valueOf(amount * cgOddLimit.getBtCount())));
+                tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * amount, 2)));
+                tvPay.setText(mContext.getResources().getString(payResStringId, NumberUtils.format(amount * cgOddLimit.getBtCount(), 2)));
             }
             cslWin.setVisibility(View.VISIBLE);
             cgOddLimit.setBtAmount(TextUtils.isEmpty(etAmount.getText()) ? 0 : Double.valueOf(etAmount.getText().toString()));
@@ -242,13 +244,13 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
                 method = cls.getMethod("setShowSoftInputOnFocus", boolean.class);
                 method.setAccessible(true);
                 method.invoke(editText, false);
-            } catch (Exception e) {//TODO: handle exception
+            } catch (Exception e) {
             }
             try {
                 method = cls.getMethod("setSoftInputShownOnFocus", boolean.class);
                 method.setAccessible(true);
                 method.invoke(editText, false);
-            } catch (Exception e) {//TODO: handle exception
+            } catch (Exception e) {
             }
         }
     }

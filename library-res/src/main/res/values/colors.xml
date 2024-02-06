@@ -137,10 +137,17 @@
     <!-- 投注确认页赛事关闭提示背景颜色 -->
     <color name="bt_color_match_close">#FFE3DF</color>
 
+    <!-- 投注键盘点击背景颜色 -->
+    <color name="bt_color_keyboard_pressed">#E8E0F2</color>
+
     <!-- 投注确认页赛事关闭提示字体颜色 -->
     <color name="bt_color_text_match_close">#B85F53</color>
     <!-- 谷歌动态口令顶部颜色 -->
     <color name="min_google_top_color">#F5F5F5</color>
+
+    <!-- 投注键盘快速金额字体颜色 -->
+    <color name="bt_color_keyboard_quick">#9396E4</color>
+
     <!-- 投注模块 end-->
 
     <!-- 首页模块 begin -->

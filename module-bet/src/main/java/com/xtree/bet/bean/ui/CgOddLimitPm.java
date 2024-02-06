@@ -113,7 +113,7 @@ public class CgOddLimitPm implements CgOddLimit{
     @Override
     public int getBtCount() {
         if(cgOddLimitInfo == null || TextUtils.isEmpty(getCgName())){
-            return 0;
+            return 1;
         }
         String cgName = getCgName();
         if(TextUtils.equals("1", getCgType())){

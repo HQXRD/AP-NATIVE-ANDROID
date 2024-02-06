@@ -3,12 +3,10 @@ package com.xtree.bet.ui.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 
-import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.MultiItemTypeAdapter;
 import com.zhy.adapter.recyclerview.base.ItemViewDelegate;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class BaseAdapter<T> extends MultiItemTypeAdapter<T> {

@@ -107,7 +107,7 @@ public class CgOddLimitFb implements CgOddLimit{
     @Override
     public int getBtCount() {
         if(cgOddLimitInfo == null){
-            return 0;
+            return 1;
         }
         return cgOddLimitInfo.in;
     }
