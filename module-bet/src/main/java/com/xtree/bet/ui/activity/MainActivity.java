@@ -569,6 +569,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         } else if (index == 1) {
             BtSettingDialogFragment btSettingDialogFragment = BtSettingDialogFragment.getInstance(mLeagueIdList);
             btSettingDialogFragment.show(getSupportFragmentManager(), "BtSettingDialogFragment");
+        } else if (index == 0) {
+            startContainerFragment(RouterFragmentPath.Bet.PAGER_BET_TUTORIAL);
         }
     }
 

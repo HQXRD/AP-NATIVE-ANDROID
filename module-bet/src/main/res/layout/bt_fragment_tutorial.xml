@@ -19,7 +19,7 @@
             <TextView
                 android:id="@+id/tvw_info_title"
                 style="@style/style_cm_title"
-                android:text="@string/txt_question"
+                android:text="@string/bt_txt_tutorial"
                 app:layout_constraintBaseline_toBaselineOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -33,8 +33,48 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/iv_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBaseline_toBaselineOf="parent"
+                android:background="@mipmap/cm_ic_msg"
+                android:layout_marginEnd="10dp"/>
+            <ImageView
+                android:id="@+id/iv_cs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/iv_msg"
+                app:layout_constraintBaseline_toBaselineOf="parent"
+                android:background="@mipmap/cm_ic_cs"
+                android:layout_marginEnd="10dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tab_tutorial_type"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="38dp"
+            android:layout_marginEnd="38dp"
+            android:layout_marginBottom="15dp"
+            app:tabMaxWidth="0dp"
+            app:tabGravity="fill"
+            android:layout_toLeftOf="@+id/iv_expand"
+            android:textSize="@dimen/bt_text_13sp"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="0dp"
+            app:tabMode="fixed"
+            app:tabPaddingEnd="0dp"
+            app:tabPaddingStart="0dp"
+            app:tabRippleColor="@android:color/transparent" />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_tutorial"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 </layout>
