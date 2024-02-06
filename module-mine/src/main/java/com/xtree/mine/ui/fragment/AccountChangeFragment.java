@@ -204,7 +204,7 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportBinding, R
         HashMap<String, String> map = new HashMap<>();
         map.put("starttime", starttime);
         map.put("endtime", endtime);
-        map.put("typeId", typeId);
+        map.put("ordertype", typeId);
         map.put("status", status);
         map.put("p", "" + page);
         map.put("pn", "20");
