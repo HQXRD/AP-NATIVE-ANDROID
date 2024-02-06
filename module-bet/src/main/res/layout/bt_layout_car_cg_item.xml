@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:background="@drawable/bt_bg_car_add_match"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/csl_dg_top"
@@ -130,8 +130,9 @@
 
                 <EditText
                     android:id="@+id/et_bt_amount_dan"
-                    android:layout_width="120dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="30dp"
                     android:background="@null"
                     android:gravity="left|center_vertical"
                     tools:hint="限额5.00-2600"
