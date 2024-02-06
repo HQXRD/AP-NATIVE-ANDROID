@@ -42,13 +42,13 @@ public class ChooseInfoVo {
                 ", okpaychanneluse_msg='" + okpaychanneluse_msg + '\'' +
                 ", bankchanneluse=" + bankchanneluse +
                 ", bankchanneluse_msg='" + bankchanneluse_msg + '\'' +
-                ", user=" + user +
+                /*", user=" + user +
                 ", usdtInfo=" + usdtInfo +
                 ", ebpayInfo=" + ebpayInfo +
                 ", topayInfo=" + topayInfo +
                 ", hiwalletInfo=" + hiwalletInfo +
                 ", okpayInfo=" + okpayInfo +
-                ", wdChannelList=" + wdChannelList +
+                ", wdChannelList=" + wdChannelList +*/
                 '}';
     }
 
@@ -114,8 +114,11 @@ public class ChooseInfoVo {
     "bankchanneluse":1,
     "bankchanneluse_msg":"",
      */
-    public User user ;
+   /* ;
     public Info usdtInfo ,ebpayInfo ,topayInfo ,hiwalletInfo,okpayInfo;
+    */
+    public Info usdtInfo ;
+    public User user ;
     /**
      * 可使用支付渠道list
      */
@@ -234,7 +237,7 @@ public class ChooseInfoVo {
             return "Info{" +
                     "status=" + status +
                     ", nedusdt=" + nedusdt +
-                    ", nocard=" + nocard +
+                 /*   ", nocard=" + nocard +*/
                     ", quota=" + quota +
                     ", relquota='" + relquota + '\'' +
                     ", formula='" + formula + '\'' +
@@ -259,15 +262,15 @@ public class ChooseInfoVo {
                 "blebalance":0*/
         public boolean status ;
         public boolean nedusdt ;
-        public boolean nocard;
-        public  int quota ;
+        //public boolean nocard;
+        public  String quota ;
         public  String relquota ;
         public String formula ;
         public String error_code;
         public String intype ;
-        public int vip_level ;
+        public String vip_level ;
         public String vip_virtual_currency_quota;
-        public int blebalance ;
+        public String blebalance ;
         public Info()
         {
 

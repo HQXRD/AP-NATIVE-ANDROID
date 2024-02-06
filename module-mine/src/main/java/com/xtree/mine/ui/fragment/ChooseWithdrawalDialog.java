@@ -144,6 +144,12 @@ public class ChooseWithdrawalDialog  extends BottomPopupView {
     }
     private void  referUI()
     {
+        for (int i = 0; i < chooseInfoVo.wdChannelList.size(); i++)
+        {
+            ChooseInfoVo.ChannelInfo  info = chooseInfoVo.wdChannelList.get(i);
+            CfLog.i("ChooseInfoVo.ChannelInfo =" + info.toString() );
+        }
+
         if (chooseInfoVo.wdChannelList !=null)
         {
             if (chooseInfoVo.wdChannelList.size() > 0)
@@ -155,7 +161,6 @@ public class ChooseWithdrawalDialog  extends BottomPopupView {
                         ChooseInfoVo.ChannelInfo channel = channelInfo;
                         if (channel.channeluse == 0)//显示弹窗
                         {
-
                             if (TextUtils.isEmpty(channelInfo.channeluseMessage))
                             {
                                 String errorMessage = "请先绑"+channelInfo.configkey.toUpperCase()+"后才可提款";
@@ -183,6 +188,7 @@ public class ChooseWithdrawalDialog  extends BottomPopupView {
                         }
                     }
                 });
+                binding.lvChoose.setVisibility(View.VISIBLE);
                 binding.lvChoose.setAdapter(adapter);
                 binding.llChooseTutorial.setVisibility(View.VISIBLE);
                 binding.tvChooseTutorial.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -198,7 +204,7 @@ public class ChooseWithdrawalDialog  extends BottomPopupView {
                 String tipAvail ;
                 String usdtAcail;
                 tipAvail = "可用提款余额: "+ StringUtils.formatToSeparate(Float.valueOf(chooseInfoVo.user.availablebalance));
-                if (chooseInfoVo.usdtInfo.blebalance == 0)
+                if ((chooseInfoVo.usdtInfo.blebalance.equals("0.00")) || (chooseInfoVo.usdtInfo.blebalance.equals("0")))
                 {
                     usdtAcail = "其中0.0可以使用虚拟币提款取出" ;
                 }
@@ -212,7 +218,6 @@ public class ChooseWithdrawalDialog  extends BottomPopupView {
 
             }
         }
-
     }
 
 
