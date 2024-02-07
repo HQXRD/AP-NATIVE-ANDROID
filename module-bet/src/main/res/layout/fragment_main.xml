@@ -11,8 +11,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/bt_page_bg"
             android:layout_above="@+id/pager_bottom_tab"
+            android:background="@color/bt_page_bg"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -35,7 +35,7 @@
                     android:id="@+id/tab_play_method"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:layout_toLeftOf="@+id/tv_amount"
+                    android:layout_toLeftOf="@+id/tv_balance"
                     android:layout_toRightOf="@+id/iv_back"
                     android:textSize="18sp"
                     app:tabIndicatorHeight="0dp"
@@ -120,6 +120,7 @@
                 app:tabRippleColor="@android:color/transparent" />
 
             <androidx.core.widget.NestedScrollView
+                android:id="@+id/nsv_league"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="true">
@@ -156,9 +157,9 @@
                             android:id="@+id/rl_league"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/bt_bg_league_top"
                             android:layout_marginStart="2dp"
                             android:layout_marginEnd="2dp"
+                            android:background="@drawable/bt_bg_league_top"
                             android:visibility="gone"
                             app:layout_constraintTop_toTopOf="parent">
 
@@ -193,6 +194,10 @@
 
                 </com.scwang.smart.refresh.layout.SmartRefreshLayout>
             </androidx.core.widget.NestedScrollView>
+
+            <include
+                android:id="@+id/ll_empty"
+                layout="@layout/bt_layout_match_list_empty" />
 
         </LinearLayout>
 
@@ -232,15 +237,15 @@
             android:layout_width="match_parent"
             android:layout_height="76dp"
             android:layout_alignParentBottom="true"
-            android:background="@drawable/bt_bg_main_menu"/>
+            android:background="@drawable/bt_bg_main_menu" />
 
         <ImageView
             android:id="@+id/iv_loading"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:visibility="gone"
+            android:layout_centerInParent="true"
             android:background="@mipmap/bt_icon_loading"
-            android:layout_centerInParent="true"/>
+            android:visibility="gone" />
     </RelativeLayout>
 
 

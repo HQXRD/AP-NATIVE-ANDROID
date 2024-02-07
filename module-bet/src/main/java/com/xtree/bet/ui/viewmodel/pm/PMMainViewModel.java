@@ -18,6 +18,7 @@ import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
 import com.xtree.bet.bean.response.pm.MenuInfo;
 import com.xtree.bet.bean.ui.League;
+import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.ui.LeaguePm;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
@@ -214,7 +215,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                         if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
                             sportIds += subMenu.menuId + ",";
                         } else {
-                            if (TextUtils.equals(SPORT_NAMES[sportPos], subMenu.menuName)) {
+                            if (subMenu.menuName.contains(SPORT_NAMES[sportPos])) {
                                 isFound = true;
                                 pmListReq.setEuid(String.valueOf(subMenu.menuId));
                                 break;
@@ -300,8 +301,13 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 @Override
                 public void onResult(List<MatchInfo> data) {
                     if (isTimerRefresh) {
-                        setOptionOddChange(data);
-                        leagueGoingOnTimerListData.postValue(mLeagueList);
+                        if (data.size() != matchidList.size()) {
+                            List<Long> matchIdList = new ArrayList<>();
+                            getLeagueList(sportPos, sportId, orderBy, leagueIds, matchIdList, playMethodType, searchDatePos, oddType, false, true);
+                        } else {
+                            setOptionOddChange(data);
+                            leagueGoingOnTimerListData.postValue(mLeagueList);
+                        }
                         return;
                     }
                     if (finalType == 1) { // 滚球
@@ -615,8 +621,8 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @return
      */
     private void leagueAdapterList(List<MatchInfo> matchInfoList) {
-
-        buildNoLiveHeaderLeague(new LeaguePm());
+        int noLiveMatchSize = matchInfoList == null ? 0 : matchInfoList.size();
+        buildNoLiveHeaderLeague(new LeaguePm(), noLiveMatchSize);
 
         Map<String, League> mapLeague = new HashMap<>();
         for (MatchInfo matchInfo : matchInfoList) {
@@ -656,14 +662,15 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @return
      */
     private void championLeagueList(List<MatchInfo> matchInfoList) {
-        Match header = new MatchFb();
-        header.setHead(true);
-        mChampionMatchList.add(header);
-        for (MatchInfo matchInfo : matchInfoList) {
-            Match match = new MatchPm(matchInfo);
-            mChampionMatchList.add(match);
+        if(!matchInfoList.isEmpty()) {
+            Match header = new MatchFb();
+            header.setHead(true);
+            mChampionMatchList.add(header);
+            for (MatchInfo matchInfo : matchInfoList) {
+                Match match = new MatchPm(matchInfo);
+                mChampionMatchList.add(match);
+            }
         }
-
     }
 
     /**

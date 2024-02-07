@@ -102,6 +102,7 @@ public class PMListReq {
 
     public void setMids(List<Long> mids) {
         if(mids != null){
+            this.mids = "";
             for (Long mid :
                     mids) {
                 this.mids += mid + ",";

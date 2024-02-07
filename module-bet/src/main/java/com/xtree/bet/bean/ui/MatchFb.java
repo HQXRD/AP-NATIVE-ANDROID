@@ -340,6 +340,9 @@ public class MatchFb implements Match{
      */
     @Override
     public boolean isBasketBallDouble() {
+        if(matchInfo == null || matchInfo.mc == null){
+            return false;
+        }
         return matchInfo.mc.pe == 3002 || matchInfo.mc.pe == 3003 || matchInfo.mc.pe == 3004;
     }
 

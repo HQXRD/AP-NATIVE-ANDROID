@@ -5,6 +5,7 @@ import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
@@ -241,6 +243,13 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                 binding.tvSportName.setVisibility(View.GONE);
                 binding.ivExpand.setSelected(league.isExpand());
                 binding.tvHeaderName.setText(league.getLeagueName());
+                if(league.getLeagueName().equals(mContext.getResources().getString(R.string.bt_game_going_on))){
+                    binding.ivHeader.setBackgroundResource(R.mipmap.bt_icon_going_on);
+                } else if (league.getLeagueName().equals(mContext.getResources().getString(R.string.bt_game_waiting))) {
+                    binding.ivHeader.setBackgroundResource(R.mipmap.bt_icon_waiting);
+                } else if (league.getLeagueName().equals(mContext.getResources().getString(R.string.bt_all_league))) {
+                    binding.ivHeader.setBackgroundResource(R.mipmap.bt_icon_all_league);
+                }
                 binding.rlHeader.setOnClickListener(view -> {
                     binding.ivExpand.setSelected(!league.isExpand());
                     int start;

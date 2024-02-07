@@ -34,7 +34,6 @@ public class FBHeaderInterceptor implements Interceptor {
         } else {
             token = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
         }
-        CfLog.e("========token======"+  token);
         builder.addHeader("Content-Type", "application/json; charset=utf-8");
         if (!TextUtils.isEmpty(token)) {
             builder.addHeader("Authorization", token);
