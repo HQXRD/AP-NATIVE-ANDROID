@@ -32,9 +32,9 @@ import java.util.Objects;
 import me.xtree.mvvmhabit.base.BaseFragment;
 
 public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, HomeViewModel> {
-    ArrayList<AugVo.DataDTO> mList;
+    ArrayList<AugVo> mList;
 
-    public AugChildFragment(ArrayList<AugVo.DataDTO> arrayList) {
+    public AugChildFragment(ArrayList<AugVo> arrayList) {
         mList = arrayList;
     }
 
@@ -59,7 +59,7 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
     public void initView() {
         binding.rvAugChild.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.rvAugChild.addItemDecoration(new SpacesItemDecoration(10));
-        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<AugVo.DataDTO>() {
+        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<AugVo>() {
             @NonNull
             @Override
             public CacheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -69,7 +69,7 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
             @Override
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 AugItemBinding binding2 = AugItemBinding.bind(holder.itemView);
-                AugVo.DataDTO vo = get(position);
+                AugVo vo = get(position);
                 Glide.with(AugChildFragment.this.getContext())
                         .load(DomainUtil.getDomain() + "webx/images/chess/aug/" + vo.getCode() + ".jpg")
                         .into(binding2.ibGame);
@@ -109,9 +109,6 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
             outRect.left = spaces;
             outRect.top = 0;
             outRect.bottom = spaces * 2;
-//            if (parent.getChildLayoutPosition(view) == 0 && parent.getChildLayoutPosition(view) == 1) {
-//                outRect.top = 0;
-//            }
         }
     }
 

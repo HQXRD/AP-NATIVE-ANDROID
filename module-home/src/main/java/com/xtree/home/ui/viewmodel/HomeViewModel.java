@@ -61,10 +61,11 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>();
     public MutableLiveData<VipInfoVo> liveDataVipInfo = new MutableLiveData<>();
     public MutableLiveData<SettingsVo> liveDataSettings = new MutableLiveData<>();
-    public MutableLiveData<AugVo> liveDataAug = new MutableLiveData<>();
+    public MutableLiveData<HashMap<String, ArrayList<AugVo>>> liveDataAug = new MutableLiveData<HashMap<String, ArrayList<AugVo>>>();
+
+    HashMap<String, ArrayList<AugVo>> augMap = new HashMap<>();
 
     String public_key;
-    private BasePopupView load;
 
     public HomeViewModel(@NonNull Application application, HomeRepository repository) {
         super(application, repository);
@@ -397,29 +398,34 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     }
 
     public void getAugList(Context context) {
-        load = new XPopup.Builder(context).asCustom(new LoadingDialog(context));
+        BasePopupView load = new XPopup.Builder(context).asCustom(new LoadingDialog(context));
         load.show();
         Disposable disposable = (Disposable) model.getApiService().getAugList()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<AugVo>() {
+                .subscribeWith(new HttpCallBack<List<AugVo>>() {
                     @Override
-                    public void onResult(AugVo vo) {
-                        CfLog.i(vo.toString());
-                        liveDataAug.setValue(vo);
+                    public void onResult(List<AugVo> list) {
+                        CfLog.i(list.toString());
+
+                        for (AugVo value : list) {
+                            if (!augMap.containsKey(value.getOne_level())) {
+                                augMap.put(value.getOne_level(), new ArrayList<AugVo>());
+                            }
+                            augMap.get(value.getOne_level()).add(value);
+                        }
+                        Gson gson = new Gson();
+                        SPUtils.getInstance().put(SPKeyGlobal.AUG_LIST, gson.toJson(augMap));
+                        liveDataAug.setValue(augMap);
+                        load.dismiss();
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        //ToastUtils.showLong("请求失败");
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        super.onComplete();
                         load.dismiss();
+                        //ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
