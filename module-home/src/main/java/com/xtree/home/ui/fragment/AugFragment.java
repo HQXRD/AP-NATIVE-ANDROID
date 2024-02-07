@@ -34,7 +34,7 @@ public class AugFragment extends BaseFragment<FragmentAugBinding, HomeViewModel>
 
     @Override
     public void initView() {
-        binding.tvwTitle.setText("AUG棋牌");
+        binding.tvwTitle.setText(getString(R.string.txt_venue_aug));
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         mAdapter = new FragmentStateAdapter(getChildFragmentManager(), getLifecycle()) {
             @NonNull
@@ -87,7 +87,7 @@ public class AugFragment extends BaseFragment<FragmentAugBinding, HomeViewModel>
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.getAugList();
+        viewModel.getAugList(getContext());
     }
 
     @Override

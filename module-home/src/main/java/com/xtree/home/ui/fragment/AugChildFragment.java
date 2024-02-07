@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.home.BR;
@@ -26,6 +27,7 @@ import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.home.vo.AugVo;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 
@@ -71,14 +73,26 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
                 Glide.with(AugChildFragment.this.getContext())
                         .load(DomainUtil.getDomain() + "webx/images/chess/aug/" + vo.getCode() + ".jpg")
                         .into(binding2.ibGame);
-                binding2.ibGame.setOnClickListener(v ->
-                        BrowserActivity.start(getContext(), "AUG棋牌",
-                                DomainUtil.getDomain() + "api/game/au/playurl?autoThrad=0&h5judge=1&id=" + vo.getId()));
+
+                binding2.ibGame.setOnClickListener(v -> {
+                    viewModel.getPlayUrl("au", vo.getId());
+                });
             }
 
         };
         adapter.addAll(mList);
         binding.rvAugChild.setAdapter(adapter);
+    }
+
+    @Override
+    public void initViewObservable() {
+        super.initViewObservable();
+        viewModel.liveDataPlayUrl.observe(getViewLifecycleOwner(), map -> {
+            String url = Objects.requireNonNull(map.get("url")).toString();
+            // 跳转到游戏H5
+            CfLog.i("URL: " + url);
+            BrowserActivity.start(getContext(), getString(R.string.txt_venue_aug), url);
+        });
     }
 
     private static class SpacesItemDecoration extends RecyclerView.ItemDecoration {

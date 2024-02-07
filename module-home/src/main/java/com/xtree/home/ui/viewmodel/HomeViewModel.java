@@ -9,6 +9,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
@@ -16,6 +18,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.home.R;
 import com.xtree.home.data.HomeRepository;
 import com.xtree.home.vo.AugVo;
@@ -61,6 +64,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     public MutableLiveData<AugVo> liveDataAug = new MutableLiveData<>();
 
     String public_key;
+    private BasePopupView load;
 
     public HomeViewModel(@NonNull Application application, HomeRepository repository) {
         super(application, repository);
@@ -392,7 +396,9 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         addSubscribe(disposable);
     }
 
-    public void getAugList() {
+    public void getAugList(Context context) {
+        load = new XPopup.Builder(context).asCustom(new LoadingDialog(context));
+        load.show();
         Disposable disposable = (Disposable) model.getApiService().getAugList()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
@@ -400,7 +406,6 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onResult(AugVo vo) {
                         CfLog.i(vo.toString());
-                        SPUtils.getInstance().put(SPKeyGlobal.HOME_VIP_INFO, new Gson().toJson(vo));
                         liveDataAug.setValue(vo);
                     }
 
@@ -409,6 +414,12 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
                         //ToastUtils.showLong("请求失败");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                        load.dismiss();
                     }
                 });
         addSubscribe(disposable);
