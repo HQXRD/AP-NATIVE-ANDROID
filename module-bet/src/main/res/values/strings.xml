@@ -39,6 +39,7 @@
     <string name="bt_bt_menu_refresh">刷新</string>
     <string name="bt_bt_match_not_runing">比赛尚未开始</string>
     <string name="bt_bt_champion_match_deadline">%1$s截止</string>
+    <string name="bt_txt_match_empty">暂无数据</string>
     <string name="bt_txt_record_empty">暂无投注记录</string>
     <string name="bt_txt_search_record">如需查询历史记录，请访问投注记录</string>
     <string name="bt_txt_bt_right_now">立即投一笔</string>

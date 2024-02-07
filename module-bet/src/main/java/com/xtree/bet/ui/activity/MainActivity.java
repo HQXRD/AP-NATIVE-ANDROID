@@ -199,7 +199,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     binding.srlLeague.resetNoMoreData();
                     searchDatePos = 0;
                     playMethodType = playMethodTypeList.get(tab.getPosition());
-                    if(playMethodPos == 4) {
+                    if (playMethodPos == 4) {
                         BtCarManager.clearBtCar();
                         setCgBtCar();
                     }
@@ -612,8 +612,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    refreshLeague();
-                    viewModel.statistical(playMethodType);
+                    /*refreshLeague();
+                    viewModel.statistical(playMethodType);*/
                 });
         viewModel.addSubscribe(timerDisposable);
     }
@@ -636,7 +636,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
         } else {
             for (Match match : mChampionMatchList) {
-                if(!match.isHead() && match.isExpand()) {
+                if (!match.isHead() && match.isExpand()) {
                     matchIdList.add(match.getId());
                 }
             }
@@ -988,6 +988,13 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 mLastLeagueSize = mLeagueList.size();
             }, 150);
         }
+        if (mLeagueList.isEmpty()) {
+            binding.nsvLeague.setVisibility(View.GONE);
+            binding.llEmpty.llEmpty.setVisibility(View.VISIBLE);
+        } else {
+            binding.nsvLeague.setVisibility(View.VISIBLE);
+            binding.llEmpty.llEmpty.setVisibility(View.GONE);
+        }
 
         mIsShowLoading = true;
     }
@@ -1149,7 +1156,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             btCarDialogFragment.show(MainActivity.this.getSupportFragmentManager(), "btCarDialogFragment");
         } else if (id == R.id.iv_back) {
             finish();
-        } else if (id == R.id.tv_balance){
+        } else if (id == R.id.tv_balance) {
             Bundle bundle = new Bundle();
             bundle.putBoolean("isShowBack", true);
             startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);

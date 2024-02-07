@@ -18,6 +18,7 @@ import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
 import com.xtree.bet.bean.response.pm.MenuInfo;
 import com.xtree.bet.bean.ui.League;
+import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.ui.LeaguePm;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
@@ -620,8 +621,8 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @return
      */
     private void leagueAdapterList(List<MatchInfo> matchInfoList) {
-
-        buildNoLiveHeaderLeague(new LeaguePm());
+        int noLiveMatchSize = matchInfoList == null ? 0 : matchInfoList.size();
+        buildNoLiveHeaderLeague(new LeaguePm(), noLiveMatchSize);
 
         Map<String, League> mapLeague = new HashMap<>();
         for (MatchInfo matchInfo : matchInfoList) {

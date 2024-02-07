@@ -498,8 +498,8 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @return
      */
     private void leagueAdapterList(List<MatchInfo> matchInfoList) {
-
-        buildNoLiveHeaderLeague(new LeagueFb());
+        int noLiveMatchSize = matchInfoList == null ? 0 : matchInfoList.size();
+        buildNoLiveHeaderLeague(new LeagueFb(), noLiveMatchSize);
 
         Map<String, League> mapLeague = new HashMap<>();
         for (MatchInfo matchInfo : matchInfoList) {

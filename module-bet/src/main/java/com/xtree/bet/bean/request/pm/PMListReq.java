@@ -54,7 +54,7 @@ public class PMListReq {
     /**
      * 赛事id，多个用逗号分隔
      */
-    private String mids = "";
+    private String mids;
 
     public void setEuid(String euid) {
         this.euid = euid;
@@ -102,6 +102,7 @@ public class PMListReq {
 
     public void setMids(List<Long> mids) {
         if(mids != null){
+            this.mids = "";
             for (Long mid :
                     mids) {
                 this.mids += mid + ",";

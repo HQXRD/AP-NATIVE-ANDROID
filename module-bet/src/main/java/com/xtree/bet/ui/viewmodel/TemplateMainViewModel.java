@@ -11,6 +11,7 @@ import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.HotLeagueInfo;
 import com.xtree.bet.bean.response.fb.LeagueItem;
+import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.ui.Match;
@@ -33,7 +34,7 @@ import me.xtree.mvvmhabit.utils.RxUtils;
  * Created by goldze on 2018/6/21.
  */
 
-public abstract class TemplateMainViewModel extends BaseBtViewModel implements MainViewModel{
+public abstract class TemplateMainViewModel extends BaseBtViewModel implements MainViewModel {
     public static String[] PLAY_METHOD_NAMES = new String[]{"今日", "滚球", "早盘", "串关", "冠军"};
     public static String[] SPORT_NAMES;
     public static String[] SPORT_NAMES_NOMAL = new String[]{"足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
@@ -95,16 +96,16 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     public abstract void setSportIds(int playMethodPos);
 
     public void setSportItems(int playMethodPos) {
-        if(playMethodPos == 0 || playMethodPos == 3){
-            if(SPORT_NAMES != SPORT_NAMES_TODAY_CG) {
+        if (playMethodPos == 0 || playMethodPos == 3) {
+            if (SPORT_NAMES != SPORT_NAMES_TODAY_CG) {
                 SPORT_NAMES = SPORT_NAMES_TODAY_CG;
             }
         } else if (playMethodPos == 1) {
-            if(SPORT_NAMES != SPORT_NAMES_LIVE) {
+            if (SPORT_NAMES != SPORT_NAMES_LIVE) {
                 SPORT_NAMES = SPORT_NAMES_LIVE;
             }
         } else {
-            if(SPORT_NAMES != SPORT_NAMES_NOMAL) {
+            if (SPORT_NAMES != SPORT_NAMES_NOMAL) {
                 SPORT_NAMES = SPORT_NAMES_NOMAL;
             }
         }
@@ -113,7 +114,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     }
 
     public void setSportIcons(int playMethodPos) {
-        if(playMethodPos == 0 || playMethodPos == 3){
+        if (playMethodPos == 0 || playMethodPos == 3) {
             Constants.SPORT_ICON = Constants.SPORT_ICON_TODAY_CG;
         } else if (playMethodPos == 1) {
             Constants.SPORT_ICON = Constants.SPORT_ICON_LIVE;
@@ -149,7 +150,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     /**
      * 获取热门联赛
      */
-    public void getHotLeague(String platform){
+    public void getHotLeague(String platform) {
         Map<String, String> map = new HashMap<>();
         map.put("fields", !TextUtils.equals(platform, PLATFORM_PM) ? "fbxc_popular_leagues" : "obg_popular_leagues");
 
@@ -176,6 +177,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
 
     /**
      * 新建进行中的联赛分类信息
+     *
      * @param liveheaderLeague
      */
     public void buildLiveHeaderLeague(League liveheaderLeague) {
@@ -187,40 +189,43 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
 
     /**
      * 新建未开赛联赛分类信息
+     *
      * @param league
      */
-    public void buildNoLiveHeaderLeague(League league) {
-        if(!mGoingOnLeagueList.isEmpty() && mLeagueList.isEmpty()){
+    public void buildNoLiveHeaderLeague(League league, int noLiveMatchSize) {
+        if (!mGoingOnLeagueList.isEmpty() && mLeagueList.isEmpty()) {
             mLeagueList.addAll(mGoingOnLeagueList);
             noLiveheaderLeague = league;
             noLiveheaderLeague.setHead(true);
             noLiveheaderLeague.setHeadType(League.HEAD_TYPE_LIVE_OR_NOLIVE);
             noLiveheaderLeague.setLeagueName("未开赛");
             mLeagueList.add(noLiveheaderLeague);
-
             mGoingOnLeagueList.clear();
-        }else if(noLiveheaderLeague == null){
-            noLiveheaderLeague = new LeagueFb();
-            noLiveheaderLeague.setHead(true);
-            noLiveheaderLeague.setHeadType(League.HEAD_TYPE_LIVE_OR_NOLIVE);
-            if(noLiveMatch) {
-                noLiveheaderLeague.setLeagueName("未开赛");
-            }else {
-                noLiveheaderLeague.setLeagueName("全部联赛");
+        } else if (noLiveheaderLeague == null) {
+            if(noLiveMatchSize > 0) {
+                noLiveheaderLeague = league;
+                noLiveheaderLeague.setHead(true);
+                noLiveheaderLeague.setHeadType(League.HEAD_TYPE_LIVE_OR_NOLIVE);
+                if (noLiveMatch) {
+                    noLiveheaderLeague.setLeagueName("未开赛");
+                } else {
+                    noLiveheaderLeague.setLeagueName("全部联赛");
+                }
+                mLeagueList.add(noLiveheaderLeague);
             }
             noLiveMatch = false;
-            mLeagueList.add(noLiveheaderLeague);
         }
     }
 
     /**
      * 新建进行中比赛种类头部信息，足球、篮球等
+     *
      * @param mapSportType
      * @param match
      */
     public void buildLiveSportHeader(Map<String, League> mapSportType, Match match, League league) {
         League sportHeader = mapSportType.get(match.getSportId());
-        if(sportHeader == null){
+        if (sportHeader == null) {
             League sportHeaderLeague = league;
             sportHeaderLeague.setHead(true);
             sportHeaderLeague.setHeadType(League.HEAD_TYPE_SPORT_NAME);
@@ -228,19 +233,20 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
             sportHeaderLeague.setMatchCount(1);
             mGoingOnLeagueList.add(sportHeaderLeague);
             mapSportType.put(match.getSportId(), sportHeaderLeague);
-        }else {
+        } else {
             sportHeader.setMatchCount(1);
         }
     }
 
     /**
      * 新建未开赛比赛种类头部信息，足球、篮球等
+     *
      * @param match
      * @param league
      */
     public void buildNoLiveSportHeader(Match match, League league) {
         League sportHeader = mMapSportType.get(match.getSportId());
-        if(sportHeader == null){
+        if (sportHeader == null) {
             League sportHeaderLeague = league;
             sportHeaderLeague.setHead(true);
             sportHeaderLeague.setHeadType(League.HEAD_TYPE_SPORT_NAME);
@@ -248,11 +254,11 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
             sportHeaderLeague.setMatchCount(1);
             if (!mGoingOnLeagueList.isEmpty() && mLeagueList.isEmpty()) { // 进行中
                 mGoingOnLeagueList.add(sportHeaderLeague);
-            }else{  // 未开赛
+            } else {  // 未开赛
                 mLeagueList.add(sportHeaderLeague);
             }
             mMapSportType.put(match.getSportId(), sportHeaderLeague);
-        }else{
+        } else {
             sportHeader.setMatchCount(1);
         }
     }
