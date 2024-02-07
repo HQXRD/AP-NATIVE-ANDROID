@@ -62,11 +62,13 @@ public class ListMsgInfoDialog extends BottomPopupView {
         if (msgInfoVo != null) {
             tvwTitle.setText(msgInfoVo.title);
             tvwMsgTitle.setText(msgInfoVo.title);
-            tvwMsgContent.setText(HtmlCompat.fromHtml(msgInfoVo.content, HtmlCompat.FROM_HTML_MODE_LEGACY));
+            String txt = msgInfoVo.content.replace("\n", "");
+            tvwMsgContent.setText(HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_LEGACY));
         } else if (msgPersonInfoVo != null) {
             tvwTitle.setText(msgPersonInfoVo.title);
             tvwMsgTitle.setText(msgPersonInfoVo.title);
-            tvwMsgContent.setText(HtmlCompat.fromHtml(msgPersonInfoVo.content, HtmlCompat.FROM_HTML_MODE_LEGACY));
+            String txt = msgPersonInfoVo.content.replace("\n", "");
+            tvwMsgContent.setText(HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_LEGACY));
         }
 
     }

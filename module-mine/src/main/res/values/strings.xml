@@ -313,4 +313,11 @@
     <string name="txt_tip_number">笔数</string>
     <string name="txt_tip_effective">有效投注额</string>
     <string name="txt_tip_profit">盈亏</string>
+    <string name="txt_select_all">全选本页</string>
+    <string name="txt_delete_all">删除所有</string>
+    <string name="txt_delete_selected">批量删除已选</string>
+    <string name="txt_delete_all_msg">您确定要删除所有的消息吗? 已删除的消息将不可再恢复</string>
+    <string name="txt_delete_part_msg">您确定要删除选中的消息吗? 已删除的消息将不可再恢复</string>
+    <string name="txt_confirm_deltet">确认删除</string>
+    <string name="txt_delete_msg_title">删除站内信?</string>
 </resources>

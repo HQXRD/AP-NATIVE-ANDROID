@@ -40,9 +40,9 @@ public class MsgListAdapter extends CachedAutoRefreshAdapter<MsgVo> {
 
         binding = ItemMsgInfoBinding.bind(holder.itemView);
 
-        binding.msgCheck.setVisibility(View.GONE);
-        binding.msgTitle.setText(vo.title);
-        binding.msgDate.setText(vo.created_at);
+        binding.ckbMsgCheck.setVisibility(View.GONE);
+        binding.tvwMsgTitle.setText(vo.title);
+        binding.tvwMsgDate.setText(vo.created_at);
 
         binding.clItem.setOnClickListener(v -> mCallBack.onClick(vo));
     }
