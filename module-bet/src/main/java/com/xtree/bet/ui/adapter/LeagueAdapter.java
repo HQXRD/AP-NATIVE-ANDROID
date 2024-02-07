@@ -194,7 +194,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup viewGroup) {
-        Log.e("test", "=====groupPosition======" + groupPosition);
+        //Log.e("test", "=====groupPosition======" + groupPosition);
         if (mDatas == null || mDatas.isEmpty() || mDatas.size() <= groupPosition) {
             if (convertView == null) {
                 convertView = View.inflate(mContext, R.layout.bt_fb_league_group, null);

@@ -215,7 +215,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                         if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
                             sportIds += subMenu.menuId + ",";
                         } else {
-                            if (TextUtils.equals(SPORT_NAMES[sportPos], subMenu.menuName)) {
+                            if (subMenu.menuName.contains(SPORT_NAMES[sportPos])) {
                                 isFound = true;
                                 pmListReq.setEuid(String.valueOf(subMenu.menuId));
                                 break;
