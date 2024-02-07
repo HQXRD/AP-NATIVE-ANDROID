@@ -110,6 +110,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             // 转账
             startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER);
         });
+        //投注记录
         binding.tvwBet.setOnClickListener(v -> {
             CfLog.i("****** ");
             startContainerFragment(RouterFragmentPath.Mine.PAGER_BT_REPORT); // 投注记录

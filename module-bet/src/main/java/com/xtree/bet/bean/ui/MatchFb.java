@@ -334,9 +334,47 @@ public class MatchFb implements Match{
         return matchInfo.ne == 1;
     }
 
+    /**
+     * 是否篮球上下半场赛节配置
+     * @return
+     */
+    @Override
+    public boolean isBasketBallDouble() {
+        return matchInfo.mc.pe == 3002 || matchInfo.mc.pe == 3003 || matchInfo.mc.pe == 3004;
+    }
+
+    /**
+     * 是否主队发球
+     * @return
+     */
     @Override
     public String getFormat() {
         return CHINESE_DIGITS[matchInfo.fid] + (matchInfo.sid == 5 ? "盘" : "局") + CHINESE_DIGITS[(matchInfo.fid / 2 + 1)] + "胜";
+    }
+
+    /**
+     * 是否主队发球
+     * @return
+     */
+    @Override
+    public boolean isHomeSide() {
+        return matchInfo.ssi == 1;
+    }
+
+    /**
+     * 是否需要显示发球方图标
+     * @return
+     */
+    @Override
+    public boolean needCheckHomeSide() {
+        return matchInfo.sid == Integer.valueOf(FBConstants.SPORT_ID_WQ)
+                || matchInfo.sid == Integer.valueOf(FBConstants.SPORT_ID_PQ)
+                || matchInfo.sid == Integer.valueOf(FBConstants.SPORT_ID_STPQ)
+                || matchInfo.sid == Integer.valueOf(FBConstants.SPORT_ID_YMQ)
+                || matchInfo.sid == Integer.valueOf(FBConstants.SPORT_ID_BBQ)
+                || matchInfo.sid == Integer.valueOf(FBConstants.SPORT_ID_SNK)
+                || matchInfo.sid == Integer.valueOf(FBConstants.SPORT_ID_BQ)
+                || matchInfo.sid == Integer.valueOf(FBConstants.SPORT_ID_MSZQ);
     }
 
     @Override

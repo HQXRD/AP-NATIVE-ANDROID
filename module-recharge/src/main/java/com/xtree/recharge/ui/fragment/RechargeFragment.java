@@ -165,13 +165,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                CfLog.i ("onTextChanged name: " + s);
-                if (TextUtils.isEmpty(s.toString().trim()))
-                {
+                CfLog.i("onTextChanged name: " + s);
+                if (TextUtils.isEmpty(s.toString().trim())) {
                     binding.tvwTipName.setVisibility(View.VISIBLE);
-                }
-                else
-                {
+                } else {
                     binding.tvwTipName.setVisibility(View.INVISIBLE);
                 }
             }
@@ -199,12 +196,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 if (curRechargeVo != null && !TextUtils.isEmpty(curRechargeVo.usdtrate)) {
                     setUsdtRate(curRechargeVo);
                 }
-                if (!TextUtils.isEmpty(s.toString().trim()))
-                {
+                if (!TextUtils.isEmpty(s.toString().trim())) {
                     binding.tvwTipAmount.setVisibility(View.INVISIBLE);
-                }
-                else
-                {
+                } else {
                     binding.tvwTipAmount.setVisibility(View.VISIBLE);
                 }
             }
@@ -219,10 +213,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             // 下一步
             goNext();
         });
-        //默认显示温馨提示
-        RechargeVo  vo = new RechargeVo();
-        vo.title = "温馨提示";
-        setTipBottom(vo); // 设置底部的文字提示
+
+        setTipBottom(new RechargeVo()); // 设置底部的文字提示
 
     }
 
@@ -267,6 +259,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         dr.setLevel(Integer.parseInt(vo.bid));
         binding.ivwCurPmt.setImageDrawable(dr);
         binding.llDown.setVisibility(View.GONE); // 默认隐藏
+        setTipBottom(vo); // 设置底部的文字提示
 
         if (vo.op_thiriframe_use && vo.phone_needbind && vo.view_bank_card && vo.userBankList.isEmpty()) {
             // 绑定手机或者YHK
@@ -355,7 +348,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         loadMin = Double.parseDouble(vo.loadmin);
         loadMax = Double.parseDouble(vo.loadmax);
         setRate(vo); // 设置汇率提示信息
-        setTipBottom(vo); // 设置底部的文字提示
 
     }
 
@@ -573,56 +565,51 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         String payCodes = "icbc,ccb,abc,cmb";
 
-        if (vo.title.equals("温馨提示"))
-        {
-            tmp= "银行卡";
-            html += fontLine + getString(R.string.txt_rc_tip_yhk_1 ,tmp);
-            html += fontLine + getString(R.string.txt_rc_tip_yhk_2a);
-
+        List<String> payCodeList = Arrays.asList(payCodes.split(","));
+        if (payCodeList.contains(vo.paycode)) {
+            binding.tvwTipChannel.setVisibility(View.VISIBLE);
         }
-        else
-        {
-            List<String> payCodeList = Arrays.asList(payCodes.split(","));
-            if (payCodeList.contains(vo.paycode)) {
-                binding.tvwTipChannel.setVisibility(View.VISIBLE);
+
+        if (TextUtils.isEmpty(vo.paycode)) {
+            // 进入充值页时,底部 默认的提示文字 2024-02-06
+            binding.tvwTipSameAmount.setVisibility(View.INVISIBLE);
+            tmp = getString(R.string.txt_bank_card);
+            html += fontLine + getString(R.string.txt_rc_tip_yhk_1, tmp);
+            html += fontLine + getString(R.string.txt_rc_tip_yhk_2a, "");
+        } else if (vo.isusdt) {
+            binding.tvwTipSameAmount.setVisibility(View.GONE);
+            // ['jxpayusdt','cryptohqppay1','jxpaytokenerc','jxpaytokenerc3','cryptohqppay2'].includes(xx.paycode)? 'ERC20_USDT':'TRC20_USDT'
+            tmp = fontStart + vo.udtType + "_USDT" + fontEnd; // 要修改
+            html += fontLine + getString(R.string.txt_rc_tip_usdt_1);
+            html += fontLine + getString(R.string.txt_rc_tip_usdt_2, tmp);
+
+        } else if (vo.paycode.equals("ebpay")) {
+            html += fontLine + getString(R.string.txt_rc_tip_ebpay_1);
+            html += fontLine + getString(R.string.txt_rc_tip_ebpay_2);
+
+        } else if (!vo.title.contains(getString(R.string.txt_alipay)) && !vo.title.contains(getString(R.string.txt_wechat))) {
+            tmp = vo.paycode.equals("ecnyhqppay") ? getString(R.string.txt_ecny) : getString(R.string.txt_bank_card);
+            //tmp = fontStart + tmp + fontEnd;
+            html += fontLine + getString(R.string.txt_rc_tip_yhk_1, tmp);
+
+            if (vo.randturnauto == 1) {
+                html += fontLine + getString(R.string.txt_rc_tip_yhk_2);
+            }
+            if (vo.paycode.equals("ecnyhqppay")) {
+                tmp = vo.randturnauto == 1 ? "3、" : "2、";
+                html += fontLine + tmp + getString(R.string.txt_rc_tip_yhk_3);
+            }
+            if (vo.randturnauto != 1 && !vo.paycode.equals("ecnyhqppay")) {
+                // 2、本通道只接受线上网银转账及手机银行转账。
+                tmp = fontStart + vo.title + fontEnd;
+                html += fontLine + getString(R.string.txt_rc_tip_yhk_2a, tmp);
             }
 
-            if (vo.isusdt)
-            {
-                binding.tvwTipSameAmount.setVisibility(View.GONE);
-                // ['jxpayusdt','cryptohqppay1','jxpaytokenerc','jxpaytokenerc3','cryptohqppay2'].includes(xx.paycode)? 'ERC20_USDT':'TRC20_USDT'
-                tmp = fontStart + vo.udtType + "_USDT" + fontEnd; // 要修改
-                html += fontLine + getString(R.string.txt_rc_tip_usdt_1);
-                html += fontLine + getString(R.string.txt_rc_tip_usdt_2, tmp);
-
-            } else if (vo.paycode.equals("ebpay")) {
-                html += fontLine + getString(R.string.txt_rc_tip_ebpay_1);
-                html += fontLine + getString(R.string.txt_rc_tip_ebpay_2);
-
-            } else if (!vo.title.contains(getString(R.string.txt_alipay)) && !vo.title.contains(getString(R.string.txt_wechat))) {
-                tmp = vo.paycode.equals("ecnyhqppay") ? getString(R.string.txt_ecny) : getString(R.string.txt_bank_card);
-                //tmp = fontStart + tmp + fontEnd;
-                html += fontLine + getString(R.string.txt_rc_tip_yhk_1, tmp);
-
-                if (vo.randturnauto == 1) {
-                    html += fontLine + getString(R.string.txt_rc_tip_yhk_2);
-                }
-                if (vo.paycode.equals("ecnyhqppay")) {
-                    tmp = vo.randturnauto == 1 ? "3、" : "2、";
-                    html += fontLine + tmp + getString(R.string.txt_rc_tip_yhk_3);
-                }
-                if (vo.randturnauto != 1 && !vo.paycode.equals("ecnyhqppay")) {
-                    // 2、本通道只接受线上网银转账及手机银行转账。
-                    tmp = fontStart + vo.title + fontEnd;
-                    html += fontLine + getString(R.string.txt_rc_tip_yhk_2a, tmp);
-                }
-
-            } else {
-                // title 包含'支付宝'或'微信'
-                html += fontLine + getString(R.string.txt_rc_tip_alipay_wechat);
-            }
-
+        } else {
+            // title 包含'支付宝'或'微信'
+            html += fontLine + getString(R.string.txt_rc_tip_alipay_wechat);
         }
+
         binding.tvwTipBottom.setVisibility(View.VISIBLE);
         binding.tvwTipBottom.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
@@ -652,6 +639,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             setRecommendList(); // 推荐的充值列表
             setMainList(vo.chongzhiList); // 显示充值列表九宫格
             showProcessDialog(vo.processingData); // 检查弹窗 充值次数
+            setTipBottom(new RechargeVo()); // 恢复底部的默认提示
         });
         viewModel.liveDataRechargeList.observe(getViewLifecycleOwner(), list -> {
             setRecommendList(); // 推荐的充值列表

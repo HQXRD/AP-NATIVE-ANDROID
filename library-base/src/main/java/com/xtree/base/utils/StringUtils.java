@@ -1,6 +1,11 @@
 package com.xtree.base.utils;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.view.View;
+
+import com.xtree.base.R;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 
@@ -12,6 +17,9 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import me.xtree.mvvmhabit.utils.ToastUtils;
+import me.xtree.mvvmhabit.utils.Utils;
 
 public class StringUtils {
     public static String[] getPinYinInitials(String chinese) {
@@ -71,5 +79,12 @@ public class StringUtils {
         DecimalFormat df = new DecimalFormat("#,###.00");
         return df.format(data);
         
+    }
+    public static void copy(String txt) {
+        CfLog.d(txt);
+        ClipboardManager cm = (ClipboardManager) Utils.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData cd = ClipData.newPlainText("txt", txt);
+        cm.setPrimaryClip(cd);
+        ToastUtils.showLong(R.string.txt_copied);
     }
 }

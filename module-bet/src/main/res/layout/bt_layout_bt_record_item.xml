@@ -129,13 +129,13 @@
             android:id="@+id/tv_bt_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/iv_line_2"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_result_id"
+            app:layout_constraintStart_toStartOf="parent"
             android:text="@string/bt_bt_result_bt_time"
             android:textColor="@color/bt_text_color_primary_3"
             android:textSize="@dimen/bt_text_12sp"
             android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginStart="10dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -83,7 +83,7 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
 
             if ((mProfileVo != null)&&(mProfileVo.twofa == 1))//已完成谷歌动态口令绑定
             {
-                showOverBindGoogle("温馨提示","您已经绑定谷歌验证无法进行重复绑定");
+                showOverBindGoogle("已绑定","您已经绑定谷歌验证无法进行重复绑定");
             }
             else
             {
@@ -179,7 +179,7 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
      * @param messgae
      */
     private void showOverBindGoogle(String title , String messgae) {
-        basePopupView = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, messgae, new MsgDialog.ICallBack() {
+        basePopupView = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, messgae, true, new MsgDialog.ICallBack() {
             @Override
             public void onClickLeft() {
 

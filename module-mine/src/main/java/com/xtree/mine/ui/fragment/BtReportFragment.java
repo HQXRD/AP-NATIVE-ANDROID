@@ -64,6 +64,8 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
         binding.fvMain.setData(listType, listStatus);
         //binding.fvMain.setVisibility(View.VISIBLE, View.GONE, View.VISIBLE);
         binding.fvMain.setTypeTitle(getString(R.string.txt_bt_platform), null, getString(R.string.txt_status));
+        binding.llValidBet.setVisibility(View.GONE);
+
         requestType();
         //requestData(1);
     }
@@ -85,6 +87,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
             CfLog.i("****** load more");
             requestData(curPage + 1);
         });
+
 
         mAdapter = new CachedAutoRefreshAdapter<BtOrderVo>() {
 
