@@ -177,8 +177,24 @@ public interface Match extends BaseBean {
     boolean isNeutrality();
 
     /**
+     * 是否篮球上下半场赛节配置
+     * @return
+     */
+    boolean isBasketBallDouble();
+    /**
      * 获取赛制
      * @return
      */
     String getFormat();
+    /**
+     * 是否主队发球
+     * @return
+     */
+    boolean isHomeSide();
+
+    /**
+     * 是否需要显示发球方图标
+     * @return
+     */
+    boolean needCheckHomeSide();
 }

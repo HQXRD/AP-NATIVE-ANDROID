@@ -19,7 +19,12 @@ public class BasketDataView extends BaseDetailDataView {
         super(context);
         LayoutInflater.from(context).inflate(R.layout.bt_layout_basket_data, this);
         root = findViewById(R.id.ll_root);
-        periods = new String[]{"3005", "3006", "3007", "3008", "3009"};
+
+        if(match.isBasketBallDouble()){
+            periods = new String[]{"3003", "3004", "3010"};
+        }else{
+            periods = new String[]{"3005", "3006", "3007", "3008", "3009", "3011"};
+        }
         scoreType = new String[]{String.valueOf(FBConstants.SCORE_TYPE_SCORE)};
         setMatch(match, isMatchList);
     }

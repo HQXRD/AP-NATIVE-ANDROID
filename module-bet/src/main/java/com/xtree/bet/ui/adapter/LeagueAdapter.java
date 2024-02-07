@@ -298,6 +298,18 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
         binding.tvTeamNameMain.setText(match.getTeamMain());
         binding.tvTeamNameVisitor.setText(match.getTeamVistor());
+        if(match.needCheckHomeSide() && match.isGoingon()) {
+            if (match.isHomeSide()) {
+                binding.tvTeamNameMain.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.bt_bg_server), null);
+                binding.tvTeamNameVisitor.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            } else {
+                binding.tvTeamNameMain.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+                binding.tvTeamNameVisitor.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.bt_bg_server), null);
+            }
+        }else{
+            binding.tvTeamNameMain.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            binding.tvTeamNameVisitor.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+        }
 
         List<Integer> scoreList = match.getScore(Constants.getScoreType());
 

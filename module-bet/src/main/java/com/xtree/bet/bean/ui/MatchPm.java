@@ -9,7 +9,6 @@ import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
 import com.xtree.bet.bean.response.pm.VideoInfo;
-import com.xtree.bet.constant.FBMatchPeriod;
 import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.constant.PMMatchPeriod;
 
@@ -416,9 +415,43 @@ public class MatchPm implements Match {
         return matchInfo.mng == 1;
     }
 
+    /**
+     * 获取赛制
+     * @return
+     */
     @Override
     public String getFormat() {
         return matchInfo.mfo;
+    }
+
+    @Override
+    public boolean isHomeSide() {
+        return TextUtils.equals(matchInfo.mat, "home");
+    }
+
+    /**
+     * 是否需要显示发球方图标
+     * @return
+     */
+    @Override
+    public boolean needCheckHomeSide() {
+        return TextUtils.equals(matchInfo.csid, PMConstants.SPORT_ID_WQ)
+                || TextUtils.equals(matchInfo.csid, PMConstants.SPORT_ID_PQ)
+                || TextUtils.equals(matchInfo.csid, PMConstants.SPORT_ID_STPQ)
+                || TextUtils.equals(matchInfo.csid, PMConstants.SPORT_ID_YMQ)
+                || TextUtils.equals(matchInfo.csid, PMConstants.SPORT_ID_BBQ)
+                || TextUtils.equals(matchInfo.csid, PMConstants.SPORT_ID_SNK)
+                || TextUtils.equals(matchInfo.csid, PMConstants.SPORT_ID_BQ)
+                || TextUtils.equals(matchInfo.csid, PMConstants.SPORT_ID_MSZQ);
+    }
+
+    /**
+     * 是否篮球上下半场赛节配置
+     * @return
+     */
+    @Override
+    public boolean isBasketBallDouble() {
+        return matchInfo.mle == 17;
     }
 
     @Override
