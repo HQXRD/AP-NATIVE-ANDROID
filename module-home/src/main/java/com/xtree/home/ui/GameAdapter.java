@@ -34,7 +34,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
     public final static String PLATFORM_FB = "fb";
 
     public interface ICallBack {
-        void onClick(String gameAlias, String gameId);
+        void onClick(GameVo vo); // String gameAlias, String gameId
     }
 
     public GameAdapter(Context ctx, ICallBack mCallBack) {
@@ -101,6 +101,11 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             return;
         }
 
+        if (vo.cid == 7) {
+            mCallBack.onClick(vo);
+            return;
+        }
+
         if (vo.twoImage) {
             if (isLeft) {
                 goApp(vo);
@@ -123,7 +128,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         if (TextUtils.isEmpty(vo.playURL)) {
             // 去请求网络接口
             CfLog.d("request api...");
-            mCallBack.onClick(vo.alias, vo.gameId);
+            mCallBack.onClick(vo); // vo.alias, vo.gameId
         } else {
             // 拼装URL
             playGame(DomainUtil.getDomain() + vo.playURL);

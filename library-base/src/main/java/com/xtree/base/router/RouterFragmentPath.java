@@ -16,6 +16,7 @@ public class RouterFragmentPath {
         public static final String PAGER_HOME = HOME + "/Home";
 
         public static final String AD = HOME + "/ad";
+        public static final String AUG = HOME + "/Aug";
 
     }
 

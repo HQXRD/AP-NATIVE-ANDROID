@@ -70,7 +70,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private LinearLayoutManager manager;
     private String token;
 
-    public  static  String CHOOSE_TYPE = "";
+    public static String CHOOSE_TYPE = "";
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -284,11 +284,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             //new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url, true)).show();
         });
 
-        GameAdapter.ICallBack mCallBack = new GameAdapter.ICallBack() {
-            @Override
-            public void onClick(String gameAlias, String gameId) {
-                viewModel.getPlayUrl(gameAlias, gameId);
+        GameAdapter.ICallBack mCallBack = vo -> {
+            CfLog.i(vo.toString());
+            if (vo.cid == 7) {
+                startContainerFragment(RouterFragmentPath.Home.AUG);
+                return;
             }
+            viewModel.getPlayUrl(vo.alias, vo.gameId);
         };
 
         gameAdapter = new GameAdapter(getContext(), mCallBack);

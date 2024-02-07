@@ -84,6 +84,7 @@
     <string name="txt_venue_obgqp">DB棋牌</string>
     <string name="txt_venue_obgdj">DB电竞</string>
     <string name="txt_venue_yy">云游棋牌</string>
+    <string name="txt_venue_aug">AUG棋牌</string>
 
     <string name="txt_query_type">查询类型</string>
     <string name="txt_record_recharge">充值记录</string>
