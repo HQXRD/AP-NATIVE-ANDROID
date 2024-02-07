@@ -18,6 +18,7 @@ import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.home.R;
 import com.xtree.home.data.HomeRepository;
+import com.xtree.home.vo.AugVo;
 import com.xtree.home.vo.BannersVo;
 import com.xtree.home.vo.CookieVo;
 import com.xtree.home.vo.DataVo;
@@ -57,6 +58,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>();
     public MutableLiveData<VipInfoVo> liveDataVipInfo = new MutableLiveData<>();
     public MutableLiveData<SettingsVo> liveDataSettings = new MutableLiveData<>();
+    public MutableLiveData<AugVo> liveDataAug = new MutableLiveData<>();
 
     String public_key;
 
@@ -375,6 +377,28 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         CfLog.i(vo.toString());
                         SPUtils.getInstance().put(SPKeyGlobal.HOME_VIP_INFO, new Gson().toJson(vo));
                         liveDataVipInfo.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                        //ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getAugList() {
+        Disposable disposable = (Disposable) model.getApiService().getAugList()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<AugVo>() {
+                    @Override
+                    public void onResult(AugVo vo) {
+                        CfLog.i(vo.toString());
+                        SPUtils.getInstance().put(SPKeyGlobal.HOME_VIP_INFO, new Gson().toJson(vo));
+                        liveDataAug.setValue(vo);
                     }
 
                     @Override

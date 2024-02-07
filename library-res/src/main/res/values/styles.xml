@@ -64,8 +64,8 @@
     <style name="style_ic_title_back">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">12dp</item>
-        <item name="android:padding">4dp</item>
+        <item name="android:layout_marginStart">6dp</item>
+        <item name="android:padding">10dp</item>
         <item name="android:src">@mipmap/cm_ic_back</item>
     </style>
 
@@ -805,6 +805,11 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">2dp</item>
         <item name="android:layout_centerInParent">true</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <!--  首页 aug棋牌 -->
+    <style name="style_aug_tab">
         <item name="android:textSize">16sp</item>
     </style>
 
