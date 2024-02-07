@@ -55,6 +55,7 @@ import java.util.Map;
 import io.reactivex.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 import me.xtree.mvvmhabit.http.BaseResponse;
+import me.xtree.mvvmhabit.http.BaseResponse2;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -488,7 +489,17 @@ public interface HttpApiService {
 
     @GET("/help/answer?client=m")
     Flowable<QuestionVo> getQuestionWeb();
-    /** 获取流水*/
+
+    /**
+     * 获取流水
+     */
     @GET("/api/activity/awardrecord?&client=m")
     Flowable<BaseResponse<AwardsRecordVo>> getAwardRecord();
+
+    @POST("/?controller=user&action=messages&tag=deleteselect&client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse2> deletePartPersonInfo(@Body Map<String, Object> map);
+
+    @GET("/user/messages?tag=deleteall&client=m")
+    Flowable<BaseResponse2> deleteAllPersonInfo();
 }

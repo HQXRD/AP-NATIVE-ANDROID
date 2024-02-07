@@ -92,7 +92,7 @@ public class MsgListFragment extends BaseFragment<FragmentMsgListBinding, MsgVie
                 return;
             }
             msgVoList.addAll(list);
-            mMsgListAdapter.addAll(msgVoList);
+            mMsgListAdapter.addAll(list);
             CfLog.d("msgVoList.size() : " + msgVoList.size());
             if (msgVoList.size() == 0) {
                 binding.refreshLayout.setEnableLoadMore(false);
