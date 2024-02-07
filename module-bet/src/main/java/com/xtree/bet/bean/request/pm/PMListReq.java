@@ -54,7 +54,7 @@ public class PMListReq {
     /**
      * 赛事id，多个用逗号分隔
      */
-    private String mids;
+    private String mids = "";
 
     public void setEuid(String euid) {
         this.euid = euid;

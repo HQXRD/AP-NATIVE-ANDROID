@@ -451,6 +451,9 @@ public class MatchPm implements Match {
      */
     @Override
     public boolean isBasketBallDouble() {
+        if(matchInfo == null){
+            return false;
+        }
         return matchInfo.mle == 17;
     }
 

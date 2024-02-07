@@ -13,7 +13,7 @@ import java.math.RoundingMode;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
 
-public class OptionFb implements Option{
+public class OptionFb implements Option {
     private int change;
     private OptionInfo optionInfo;
 
@@ -21,11 +21,11 @@ public class OptionFb implements Option{
 
     private OptionDataListInfo optionList;
 
-    public OptionFb(OptionInfo optionInfo){
+    public OptionFb(OptionInfo optionInfo) {
         this.optionInfo = optionInfo;
     }
 
-    public OptionFb(OptionInfo optionInfo, OptionDataListInfo optionList){
+    public OptionFb(OptionInfo optionInfo, OptionDataListInfo optionList) {
         this.optionInfo = optionInfo;
         this.optionList = optionList;
     }
@@ -39,7 +39,7 @@ public class OptionFb implements Option{
      * 选项全称，投注框一般用全称展示
      */
     public String getName() {
-        if(optionInfo == null){
+        if (optionInfo == null) {
             return "";
         }
         return optionInfo.na;
@@ -54,6 +54,7 @@ public class OptionFb implements Option{
 
     /**
      * 选项类型，主、客、大、小等，投注时需要提交该字段作为选中的选项参数
+     *
      * @return
      */
     public String getOptionType() {
@@ -64,7 +65,7 @@ public class OptionFb implements Option{
      * 欧盘赔率，目前我们只提供欧洲盘赔率，投注是请提交该字段赔率值作为选项赔率，赔率小于0代表锁盘
      */
     public double getOdd() {
-        if(isHongKongMarket()){
+        if (isHongKongMarket()) {
             BigDecimal bg = new BigDecimal(optionInfo.od - 1);
             return bg.setScale(2, RoundingMode.HALF_UP).doubleValue();
         }
@@ -92,11 +93,18 @@ public class OptionFb implements Option{
 
     /**
      * 是否香港盘
+     *
      * @return
      */
     @Override
     public boolean isHongKongMarket() {
-        return SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE) == 2;
+        try {
+            return SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE) == 2;
+        } catch (Exception e) {
+            return false;
+        } catch (Throwable e) {
+            return false;
+        }
     }
 
     /**
@@ -113,6 +121,7 @@ public class OptionFb implements Option{
 
     /**
      * 是否选中
+     *
      * @return
      */
     @Override
@@ -121,31 +130,38 @@ public class OptionFb implements Option{
     }
 
     /**
-     * 	line值，带线玩法的线，例如大小球2.5线，部分玩法展示可用该字段进行分组展示
+     * line值，带线玩法的线，例如大小球2.5线，部分玩法展示可用该字段进行分组展示
+     *
      * @return
      */
     @Override
     public String getLine() {
         return optionInfo.li;
     }
+
     /**
      * 设置投注选择唯一标识
+     *
      * @param code
      */
     @Override
     public void setCode(String code) {
         this.code = code;
     }
+
     /**
      * 获取投注选择唯一标识
+     *
      * @return
      */
     @Override
     public String getCode() {
         return code;
     }
+
     /**
      * 设置投注项赔率的变化
+     *
      * @return
      */
     @Override
@@ -154,16 +170,20 @@ public class OptionFb implements Option{
         //Log.e("test", "===========" + change);
         optionInfo.change = change;
     }
+
     /**
      * 赔率是否上升
+     *
      * @return
      */
     @Override
     public boolean isUp() {
         return optionInfo.change == 1;
     }
+
     /**
      * 赔率是否下降
+     *
      * @return
      */
     @Override
@@ -175,13 +195,15 @@ public class OptionFb implements Option{
     public void reset() {
         optionInfo.change = 0;
     }
+
     /**
      * 获取投注选项所属的投注线
+     *
      * @return
      */
     @Override
     public OptionList getOptionList() {
-        if(optionList == null){
+        if (optionList == null) {
             return null;
         }
         return new OptionListFb(optionList);

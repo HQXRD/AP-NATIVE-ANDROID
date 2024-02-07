@@ -300,8 +300,13 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 @Override
                 public void onResult(List<MatchInfo> data) {
                     if (isTimerRefresh) {
-                        setOptionOddChange(data);
-                        leagueGoingOnTimerListData.postValue(mLeagueList);
+                        if (data.size() != matchidList.size()) {
+                            List<Long> matchIdList = new ArrayList<>();
+                            getLeagueList(sportPos, sportId, orderBy, leagueIds, matchIdList, playMethodType, searchDatePos, oddType, false, true);
+                        } else {
+                            setOptionOddChange(data);
+                            leagueGoingOnTimerListData.postValue(mLeagueList);
+                        }
                         return;
                     }
                     if (finalType == 1) { // 滚球
