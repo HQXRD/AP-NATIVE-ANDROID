@@ -63,11 +63,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/iv_header"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
                 android:layout_marginStart="10dp"
                 android:layout_centerVertical="true"
-                android:background="@mipmap/bt_icon_going_on" />
+                tools:background="@mipmap/bt_icon_going_on" />
 
             <TextView
                 android:id="@+id/tv_header_name"

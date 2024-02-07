@@ -113,6 +113,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private View mHeader;
     private ImageView ivHeaderExpand;
     private TextView tvHeaderName;
+    private ImageView ivHeaderName;
     private int mHotMatchCount;
 
     public List<League> getSettingLeagueList() {
@@ -397,6 +398,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         ivHeaderExpand = mHeader.findViewById(R.id.iv_expand);
         ivHeaderExpand.setSelected(isGoingOnAllExpand());
         tvHeaderName = mHeader.findViewById(R.id.tv_header_name);
+        ivHeaderName = mHeader.findViewById(R.id.iv_header);
         binding.rvLeague.addHeader(mHeader);
         binding.rvLeague.setOnHeaderClick(() -> {
             if (playMethodPos == 4) {
@@ -486,6 +488,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         if (mChampionMatchList.get(firstGroup).isHead()) {
             ivHeaderExpand.setSelected(isChampionAllExpand());
             tvHeaderName.setText(getResources().getString(R.string.bt_all_league));
+            ivHeaderName.setBackgroundResource(R.mipmap.bt_icon_all_league);
         }
     }
 
@@ -514,14 +517,22 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         } else {
             mHeader.layout(0, 0, measuredWidth, measuredHeight);
         }
+        League league = mLeagueList.get(firstGroup);
 
-        if (mLeagueList.get(firstGroup).isHead() && mLeagueList.get(firstGroup).getHeadType() == League.HEAD_TYPE_LIVE_OR_NOLIVE) {
+        if (league.isHead() && league.getHeadType() == League.HEAD_TYPE_LIVE_OR_NOLIVE) {
             ivHeaderExpand.setSelected(isWaitingAllExpand());
-            tvHeaderName.setText(mLeagueList.get(firstGroup).getLeagueName());
+            tvHeaderName.setText(league.getLeagueName());
+            if(league.getLeagueName().equals(getResources().getString(R.string.bt_game_going_on))){
+                ivHeaderName.setBackgroundResource(R.mipmap.bt_icon_going_on);
+            } else if (league.getLeagueName().equals(getResources().getString(R.string.bt_game_waiting))) {
+                ivHeaderName.setBackgroundResource(R.mipmap.bt_icon_waiting);
+            } else if (league.getLeagueName().equals(getResources().getString(R.string.bt_all_league))) {
+                ivHeaderName.setBackgroundResource(R.mipmap.bt_icon_all_league);
+            }
         }
         if (mLeagueAdapter.getNoLiveHeaderPosition() > firstGroup) {
             ivHeaderExpand.setSelected(isGoingOnAllExpand());
-            tvHeaderName.setText("进行中");
+            tvHeaderName.setText(getResources().getString(R.string.bt_game_going_on));
         }
     }
 
@@ -1012,6 +1023,13 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     binding.rvLeague.setAdapter(mChampionMatchAdapter);
                 }
                 mChampionMatchAdapter.setData(mChampionMatchList);
+            }
+            if (mChampionMatchList.isEmpty()) {
+                binding.nsvLeague.setVisibility(View.GONE);
+                binding.llEmpty.llEmpty.setVisibility(View.VISIBLE);
+            } else {
+                binding.nsvLeague.setVisibility(View.VISIBLE);
+                binding.llEmpty.llEmpty.setVisibility(View.GONE);
             }
         }, 10);
 

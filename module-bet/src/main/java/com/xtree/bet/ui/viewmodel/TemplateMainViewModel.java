@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 
 import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
+import com.xtree.bet.R;
 import com.xtree.bet.bean.response.HotLeagueInfo;
 import com.xtree.bet.bean.response.fb.LeagueItem;
 import com.xtree.bet.bean.response.fb.MatchInfo;
@@ -29,6 +30,7 @@ import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.Utils;
 
 /**
  * Created by goldze on 2018/6/21.
@@ -183,7 +185,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     public void buildLiveHeaderLeague(League liveheaderLeague) {
         liveheaderLeague.setHead(true);
         liveheaderLeague.setHeadType(League.HEAD_TYPE_LIVE_OR_NOLIVE);
-        liveheaderLeague.setLeagueName("进行中");
+        liveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_game_going_on));
         mGoingOnLeagueList.add(liveheaderLeague);
     }
 
@@ -198,7 +200,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
             noLiveheaderLeague = league;
             noLiveheaderLeague.setHead(true);
             noLiveheaderLeague.setHeadType(League.HEAD_TYPE_LIVE_OR_NOLIVE);
-            noLiveheaderLeague.setLeagueName("未开赛");
+            noLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_game_waiting));
             mLeagueList.add(noLiveheaderLeague);
             mGoingOnLeagueList.clear();
         } else if (noLiveheaderLeague == null) {
@@ -207,9 +209,9 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
                 noLiveheaderLeague.setHead(true);
                 noLiveheaderLeague.setHeadType(League.HEAD_TYPE_LIVE_OR_NOLIVE);
                 if (noLiveMatch) {
-                    noLiveheaderLeague.setLeagueName("未开赛");
+                    noLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_game_waiting));
                 } else {
-                    noLiveheaderLeague.setLeagueName("全部联赛");
+                    noLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_all_league));
                 }
                 mLeagueList.add(noLiveheaderLeague);
             }

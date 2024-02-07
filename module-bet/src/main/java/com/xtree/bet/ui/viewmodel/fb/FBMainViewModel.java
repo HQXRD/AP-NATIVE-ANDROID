@@ -537,15 +537,16 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @return
      */
     private void championLeagueList(List<MatchInfo> matchInfoList) {
-        Match header = new MatchFb();
-        header.setHead(true);
-        mChampionMatchList.add(header);
-        for (MatchInfo matchInfo : matchInfoList) {
-            Match match = new MatchFb(matchInfo);
-            mChampionMatchList.add(match);
-            mChampionMatchMap.put(String.valueOf(match.getId()), match);
+        if(!matchInfoList.isEmpty()) {
+            Match header = new MatchFb();
+            header.setHead(true);
+            mChampionMatchList.add(header);
+            for (MatchInfo matchInfo : matchInfoList) {
+                Match match = new MatchFb(matchInfo);
+                mChampionMatchList.add(match);
+                mChampionMatchMap.put(String.valueOf(match.getId()), match);
+            }
         }
-
     }
 
     /**
