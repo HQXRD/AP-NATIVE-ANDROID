@@ -15,11 +15,14 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.gson.Gson;
+import com.lxj.xpopup.XPopup;
 import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.widget.BrowserDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentSecurityVerificationBinding;
@@ -53,6 +56,19 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
     @Override
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
+
+        binding.ivwCs.setOnClickListener(v -> {
+            // 客服
+            String title = getString(R.string.txt_custom_center);
+            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
+            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+        });
+
+        binding.ivwMsg.setOnClickListener(v -> {
+            // 消息
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG);
+        });
+
         mAdapter = new FragmentStateAdapter(getChildFragmentManager(), getLifecycle()) {
             @NonNull
             @Override
