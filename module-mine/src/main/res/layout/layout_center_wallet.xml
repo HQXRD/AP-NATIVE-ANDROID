@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -38,21 +39,39 @@
             android:layout_height="12dp"
             android:layout_weight="1" />
 
-        <CheckBox
-            android:id="@+id/ckb_auto"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:background="@mipmap/me_ic_auto_trans"
-            android:button="@null"
-            android:drawableEnd="@drawable/cm_ic_switch_selector"
-            android:drawablePadding="6dp"
-            android:gravity="center_vertical"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:text="@string/txt_auto_transfer"
-            android:textColor="@color/clr_white"
-            android:textSize="12sp" />
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/ckb_auto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/me_ic_auto_trans"
+                android:button="@null"
+                android:drawableEnd="@drawable/cm_ic_switch_selector"
+                android:drawablePadding="6dp"
+                android:gravity="center_vertical"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/txt_auto_transfer"
+                android:textColor="@color/clr_white"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivw_auto"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/clr_transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
     <TextView

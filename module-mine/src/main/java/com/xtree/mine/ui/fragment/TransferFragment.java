@@ -58,7 +58,7 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     private final static int MSG_UPDATE_RCV = 1003;
     private int count = 0;
     private boolean filterNoMoney = false;
-    private boolean isAutoTransfer = false;
+    private boolean isAutoTransfer = false; // 调用接口前标记/接口返回后使用
 
     HashMap<String, GameBalanceVo> map = new HashMap<>();
     ArrayList<GameBalanceVo> listGameBalance = new ArrayList<>();
@@ -138,16 +138,14 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
 
         binding.llCenterWallet.tvw1kRecycle.setOnClickListener(v -> showDialog1kAutoRecycle());
 
-        binding.llCenterWallet.ckbAuto.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                if(!isAutoTransfer) {
-                    showDialogAutoTrans();
-                }
+        binding.llCenterWallet.ivwAuto.setOnClickListener(v -> {
+            if (!binding.llCenterWallet.ckbAuto.isChecked()) {
+                showDialogAutoTrans();
             } else {
                 // 关闭自动免转, 不用弹窗提示
-                if(isAutoTransfer) {
-                    doAutoTransfer(false);
-                }
+                isAutoTransfer = false;
+                binding.llCenterWallet.ckbAuto.setChecked(false);
+                doAutoTransfer(false);
             }
         });
 
@@ -264,6 +262,8 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
 
             @Override
             public void onClickRight() {
+                isAutoTransfer = true;
+                binding.llCenterWallet.ckbAuto.setChecked(true);
                 doAutoTransfer(true);
                 ppw.dismiss();
             }
@@ -384,19 +384,23 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         });
 
         viewModel.liveDataAutoTrans.observe(this, isSuccess -> {
+            CfLog.i("isSuccess: " + isSuccess);
             if (isSuccess) {
                 ToastUtils.showLong(R.string.txt_set_succ);
                 binding.llTransfer.setVisibility(View.GONE);
-                binding.llCenterWallet.ckbAuto.setChecked(!isAutoTransfer);
-                if (!isAutoTransfer) {
+                if (isAutoTransfer) {
                     binding.llTransfer.setVisibility(View.GONE);
                 } else {
                     binding.llTransfer.setVisibility(View.VISIBLE);
                 }
-                isAutoTransfer = !isAutoTransfer;
                 refreshBalance();
+                // 加入缓存
+                int auto_thrad_status = binding.llCenterWallet.ckbAuto.isChecked() ? 1 : 0; // 1-开启,2-关闭
+                SPUtils.getInstance().put(SPKeyGlobal.USER_AUTO_THRAD_STATUS, auto_thrad_status);
             } else {
                 ToastUtils.showLong(R.string.txt_set_fail);
+                // 设置失败,退回去
+                isAutoTransfer = !isAutoTransfer;
                 binding.llCenterWallet.ckbAuto.setChecked(isAutoTransfer);
                 if (isAutoTransfer) {
                     binding.llTransfer.setVisibility(View.GONE);
