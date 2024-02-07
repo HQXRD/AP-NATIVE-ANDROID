@@ -3,6 +3,7 @@ package com.xtree.home.data.source;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.home.vo.AugVo;
 import com.xtree.home.vo.BannersVo;
 import com.xtree.home.vo.CookieVo;
 import com.xtree.home.vo.DataVo;
@@ -108,5 +109,11 @@ public interface HomeApiService {
     @POST("/api/sports/obg/getToken")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<PMService>> getPMGameTokenApi();
+
+    /**
+     * 获取 AUG LIST
+     */
+    @GET("/augame/list")
+    Flowable<AugVo> getAugList();
 
 }
