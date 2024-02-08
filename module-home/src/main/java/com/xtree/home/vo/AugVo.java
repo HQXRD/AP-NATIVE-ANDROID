@@ -1,103 +1,87 @@
 package com.xtree.home.vo;
 
-import com.xtree.mine.vo.BaseReportVo;
+public class AugVo {
 
-import java.util.List;
+    private String id;
+    private String cid;
+    private String code;
+    private String project_code;
+    private String cn_name;
+    private String pt_name;
+    private String effective_ratio;
+    private String flash_url;
+    private String one_level;
 
-public class AugVo extends BaseReportVo {
-
-    private List<DataDTO> data;
-
-
-    public List<DataDTO> getData() {
-        return data;
+    public String getId() {
+        return id;
     }
 
-    public void setData(List<DataDTO> data) {
-        this.data = data;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public static class DataDTO {
-        private String id;
-        private String cid;
-        private String code;
-        private String project_code;
-        private String cn_name;
-        private String pt_name;
-        private String effective_ratio;
-        private String flash_url;
-        private String one_level;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getCid() {
-            return cid;
-        }
-
-        public void setCid(String cid) {
-            this.cid = cid;
-        }
-
-        public String getCode() {
-            return code;
-        }
-
-        public void setCode(String code) {
-            this.code = code;
-        }
-
-        public String getProject_code() {
-            return project_code;
-        }
-
-        public void setProject_code(String project_code) {
-            this.project_code = project_code;
-        }
-
-        public String getCn_name() {
-            return cn_name;
-        }
-
-        public void setCn_name(String cn_name) {
-            this.cn_name = cn_name;
-        }
-
-        public String getPt_name() {
-            return pt_name;
-        }
-
-        public void setPt_name(String pt_name) {
-            this.pt_name = pt_name;
-        }
-
-        public String getEffective_ratio() {
-            return effective_ratio;
-        }
-
-        public void setEffective_ratio(String effective_ratio) {
-            this.effective_ratio = effective_ratio;
-        }
-
-        public String getFlash_url() {
-            return flash_url;
-        }
-
-        public void setFlash_url(String flash_url) {
-            this.flash_url = flash_url;
-        }
-
-        public String getOne_level() {
-            return one_level;
-        }
-
-        public void setOne_level(String one_level) {
-            this.one_level = one_level;
-        }
+    public String getCid() {
+        return cid;
     }
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getProject_code() {
+        return project_code;
+    }
+
+    public void setProject_code(String project_code) {
+        this.project_code = project_code;
+    }
+
+    public String getCn_name() {
+        return cn_name;
+    }
+
+    public void setCn_name(String cn_name) {
+        this.cn_name = cn_name;
+    }
+
+    public String getPt_name() {
+        return pt_name;
+    }
+
+    public void setPt_name(String pt_name) {
+        this.pt_name = pt_name;
+    }
+
+    public String getEffective_ratio() {
+        return effective_ratio;
+    }
+
+    public void setEffective_ratio(String effective_ratio) {
+        this.effective_ratio = effective_ratio;
+    }
+
+    public String getFlash_url() {
+        return flash_url;
+    }
+
+    public void setFlash_url(String flash_url) {
+        this.flash_url = flash_url;
+    }
+
+    public String getOne_level() {
+        return one_level;
+    }
+
+    public void setOne_level(String one_level) {
+        this.one_level = one_level;
+    }
+
 }
