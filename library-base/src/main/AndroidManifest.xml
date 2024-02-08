@@ -25,6 +25,7 @@
     <application>
         <activity
             android:name=".widget.BrowserActivity"
+            android:launchMode="singleTop"
             android:exported="false" />
     </application>
 
