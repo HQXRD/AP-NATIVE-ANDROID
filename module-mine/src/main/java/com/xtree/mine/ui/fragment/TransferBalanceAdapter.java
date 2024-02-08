@@ -39,10 +39,10 @@ public class TransferBalanceAdapter extends CachedAutoRefreshAdapter<GameBalance
 
         binding.tvwName.setText(vo.gameName);
         binding.tvwBlc.setText(vo.balance);
-
-        if (Double.parseDouble(vo.balance) > 0) {
-            binding.tvwBlc.setSelected(true);
-        } else {
+        try {
+            // 这里是为了颜色
+            binding.tvwBlc.setSelected(Double.parseDouble(vo.balance) > 0);
+        } catch (NumberFormatException e) {
             binding.tvwBlc.setSelected(false); // 这里是为了颜色
         }
 
