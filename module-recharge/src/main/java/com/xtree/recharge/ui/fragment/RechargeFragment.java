@@ -660,6 +660,14 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     }
 
+    @Override
+    public void onDestroyView() {
+        viewModel.liveDataPayment.observe(getViewLifecycleOwner(), vo -> {
+            // 修复频繁点击充值页和其它页时 有时会出现两个弹窗
+        });
+        super.onDestroyView();
+    }
+
     private void goPay(RechargePayVo vo) {
         String payCodes = "alipay,alipay2,alipaysm,weixin,juxinpay,juxinpay1,juxinpay2,juxinwx1"
                 + ",juxinwex2,juxinzfb1,juxinzfb2,hqppay,ebpay,cryptohqppay2,cryptotrchqppay2"
