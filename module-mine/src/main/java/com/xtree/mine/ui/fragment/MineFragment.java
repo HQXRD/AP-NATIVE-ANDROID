@@ -25,6 +25,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserActivity;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -95,10 +96,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
         binding.tvw1kRecycle.setOnClickListener(v -> {
             CfLog.i("****** ");
+            LoadingDialog.show(getActivity());
             viewModel.do1kAutoRecycle();
         });
         binding.ivwRefreshBlc.setOnClickListener(v -> {
             CfLog.i("****** ");
+            LoadingDialog.show(getActivity());
             viewModel.getBalance();
         });
 
