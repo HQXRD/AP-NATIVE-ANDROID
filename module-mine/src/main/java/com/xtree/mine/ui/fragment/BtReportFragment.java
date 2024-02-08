@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.FilterView;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
@@ -57,6 +59,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
     private String status = "0";
     private String userId = "";
     private String userName = "";
+    private ProfileVo mProfileVo;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -66,7 +69,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
         //binding.fvMain.setVisibility(View.VISIBLE, View.GONE, View.VISIBLE);
         binding.fvMain.setTypeTitle(getString(R.string.txt_bt_platform), null, getString(R.string.txt_status));
         binding.llValidBet.setVisibility(View.GONE);
-
+        LoadingDialog.show(getContext());
         requestType();
         //requestData(1);
     }

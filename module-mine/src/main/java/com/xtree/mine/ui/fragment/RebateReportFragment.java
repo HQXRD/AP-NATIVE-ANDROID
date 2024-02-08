@@ -16,6 +16,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.widget.FilterView;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentReportRebateBinding;
@@ -58,6 +59,7 @@ public class RebateReportFragment extends BaseFragment<FragmentReportRebateBindi
         binding.fvMain.setData(listType, listStatus);
         //binding.fvMain.setVisibility(View.VISIBLE, View.GONE, View.VISIBLE);
         //binding.fvMain.setTypeTitle(getString(R.string.txt_type), null, getString(R.string.txt_status));
+        LoadingDialog.show(getContext());
         requestData(1);
     }
 
