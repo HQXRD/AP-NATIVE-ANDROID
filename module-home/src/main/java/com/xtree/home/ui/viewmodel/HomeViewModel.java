@@ -269,39 +269,39 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     public void getPlayUrl(String gameAlias, String gameId) {
         // 限制多次点击，禁止重复启动BrowserActivity
         long currentTime = System.currentTimeMillis();
-        if (currentTime - lastClickTime > MIN_CLICK_DELAY_TIME) {// 两次点击的时间间隔大于最小限制时间，则触发点击事件
-            lastClickTime = currentTime;
-
-            if (TextUtils.isEmpty(gameId)) {
-                gameId = "1";
-            }
-            int autoThrad = SPUtils.getInstance().getInt(SPKeyGlobal.USER_AUTO_THRAD_STATUS);
-
-            HashMap<String, String> map = new HashMap();
-            map.put("autoThrad", autoThrad + "");
-            map.put("h5judge", "1");
-            map.put("id", gameId);
-
-            Disposable disposable = (Disposable) model.getApiService().getPlayUrl(gameAlias, map)
-                    .compose(RxUtils.schedulersTransformer())
-                    .compose(RxUtils.exceptionTransformer())
-                    .subscribeWith(new HttpCallBack<Map<String, String>>() {
-                        @Override
-                        public void onResult(Map<String, String> vo) {
-                            // "url": "https://user-h5-bw3.d91a21f.com?token=7c9c***039a"
-                            //CfLog.i(vo.toString());
-                            liveDataPlayUrl.setValue(vo);
-                        }
-
-                        @Override
-                        public void onError(Throwable t) {
-                            CfLog.e("error, " + t.toString());
-                            super.onError(t);
-                            ToastUtils.showLong("请求失败");
-                        }
-                    });
-            addSubscribe(disposable);
+        if (currentTime - lastClickTime < MIN_CLICK_DELAY_TIME) {// 两次点击的时间间隔小于最小限制时间，不触发点击事件
+            return;
         }
+        lastClickTime = currentTime;
+        if (TextUtils.isEmpty(gameId)) {
+            gameId = "1";
+        }
+        int autoThrad = SPUtils.getInstance().getInt(SPKeyGlobal.USER_AUTO_THRAD_STATUS);
+
+        HashMap<String, String> map = new HashMap();
+        map.put("autoThrad", autoThrad + "");
+        map.put("h5judge", "1");
+        map.put("id", gameId);
+
+        Disposable disposable = (Disposable) model.getApiService().getPlayUrl(gameAlias, map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<Map<String, String>>() {
+                    @Override
+                    public void onResult(Map<String, String> vo) {
+                        // "url": "https://user-h5-bw3.d91a21f.com?token=7c9c***039a"
+                        //CfLog.i(vo.toString());
+                        liveDataPlayUrl.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                        ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
     }
 
     public void getSettings() {
