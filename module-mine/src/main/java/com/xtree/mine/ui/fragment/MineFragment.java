@@ -279,30 +279,27 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             binding.tvwName.setText(mProfileVo.username);
             setBalance();
         }
-        if (mVipInfoVo != null)
-        {
+        if (mVipInfoVo != null) {
             binding.ivwVip.setImageLevel(mVipInfoVo.display_level);
             binding.ivwLevel.setImageLevel(mVipInfoVo.display_level);
-            if (mVipInfoVo.display_level >= 10)
-            {
+            if (mVipInfoVo.display_level >= 10) {
                 binding.ivwLevel.setVisibility(View.GONE);
                 //binding.ivwLevel10.setVisibility(View.VISIBLE);
                 binding.middleArea.setBackgroundResource(R.mipmap.me_bg_top_10);
             }
 
-            binding.pbrLevel.setProgress(mVipInfoVo.display_level * 10);
-
             if (mVipInfoVo.vip_upgrade != null) {
                 if (mVipInfoVo.display_level < mVipInfoVo.vip_upgrade.size()) {
-                    VipInfoVo.VipUpgradeVo vo1 = mVipInfoVo.vip_upgrade.get(mVipInfoVo.display_level);
-                    VipInfoVo.VipUpgradeVo vo2 = mVipInfoVo.vip_upgrade.get(mVipInfoVo.display_level + 1);
-                    int point = vo2.active - vo1.active;
+                    VipInfoVo.VipUpgradeVo vo = mVipInfoVo.vip_upgrade.get(mVipInfoVo.display_level + 1);
+                    int point = vo.active - mVipInfoVo.current_activity;
                     int level = mVipInfoVo.display_level + 1;
                     String txt = getString(R.string.txt_level_hint_00);
                     txt = String.format(txt, point, level);
                     binding.tvwLevelHint.setText(txt);
+                    binding.pbrLevel.setProgress((int)(((double)mVipInfoVo.current_activity /(double) vo.active) * 100));
                 } else {
                     binding.tvwLevelHint.setText(R.string.txt_level_hint_10);
+                    binding.pbrLevel.setProgress(100);
                 }
             }
         }
