@@ -96,8 +96,23 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
         binding.tvw1kRecycle.setOnClickListener(v -> {
             CfLog.i("****** ");
-            LoadingDialog.show(getActivity());
-            viewModel.do1kAutoRecycle();
+            String title = getString(R.string.txt_is_1k_recycle_all_title);
+            String msg = getString(R.string.txt_is_1k_recycle_all);
+            String txtRight = getString(R.string.text_confirm);
+            ppw = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, msg, "", txtRight, new MsgDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    ppw.dismiss();
+                }
+
+                @Override
+                public void onClickRight() {
+                    LoadingDialog.show(getActivity());
+                    viewModel.do1kAutoRecycle();
+                    ppw.dismiss();
+                }
+            }));
+            ppw.show();
         });
         binding.ivwRefreshBlc.setOnClickListener(v -> {
             CfLog.i("****** ");
