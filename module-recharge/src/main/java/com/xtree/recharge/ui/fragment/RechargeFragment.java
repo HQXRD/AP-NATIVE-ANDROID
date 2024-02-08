@@ -57,6 +57,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, RechargeViewModel> {
 
     RechargeAdapter rechargeAdapter;
+    AmountAdapter mAmountAdapter;
     double loadMin;
     double loadMax;
     PaymentVo mPaymentVo;
@@ -116,6 +117,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         binding.rcvPmt.setLayoutManager(new GridLayoutManager(getContext(), 3));
         binding.rcvPmt.setAdapter(rechargeAdapter);
         binding.rcvPmt.setNestedScrollingEnabled(false); // 禁止滑动
+
+        mAmountAdapter = new AmountAdapter(getContext(), str -> binding.edtAmount.setText(str));
+        binding.rcvAmount.setAdapter(mAmountAdapter);
+        binding.rcvAmount.setLayoutManager(new GridLayoutManager(getContext(), 4));
 
         binding.ivwCs.setOnClickListener(v -> {
             // 客服
@@ -498,10 +503,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void setAmountGrid(RechargeVo vo) {
-        AmountAdapter adapter = new AmountAdapter(getContext(), str -> binding.edtAmount.setText(str));
-        binding.rcvAmount.setAdapter(adapter);
-        binding.rcvAmount.setLayoutManager(new GridLayoutManager(getContext(), 4));
-        adapter.addAll(Arrays.asList(vo.fixedamount_info));
+        mAmountAdapter.clear();
+        mAmountAdapter.addAll(Arrays.asList(vo.fixedamount_info));
     }
 
     private void showBankCardDialog(RechargeVo vo) {
