@@ -60,7 +60,9 @@ public class ActivityViewModel extends BaseViewModel<ActivityRepository> {
         ArrayList list = gson.fromJson(json, new TypeToken<ArrayList<NewVo>>() {
         }.getType());
 
-        liveDataNewList.setValue(list);
+        if(list.size() != 0) {
+            liveDataNewList.setValue(list);
+        }
     }
 
 }
