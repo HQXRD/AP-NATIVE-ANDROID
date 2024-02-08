@@ -72,6 +72,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     public static String CHOOSE_TYPE = "";
 
+    // 两次点击之间的最小点击间隔时间(单位:ms)
+    private static final int MIN_CLICK_DELAY_TIME = 1500;
+    // 最后一次点击的时间
+    private long lastClickTime;
+
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return R.layout.fragment_home;
@@ -186,7 +191,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             CfLog.d("*** " + vo.toString());
             binding.ivwVip.setImageLevel(vo.display_level); // display_level
         });
-
     }
 
     public void initView() {
@@ -268,7 +272,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
            /* String title = getString(R.string.txt_withdraw);
             String url = DomainUtil.getDomain2() + Constant.URL_WITHDRAW;
             BrowserActivity.start(getContext(), title, url, true);*/
-
+            // 限制多次点击
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastClickTime < MIN_CLICK_DELAY_TIME) {// 两次点击的时间间隔小于最小限制时间，不触发点击事件
+                return;
+            }
+            lastClickTime = currentTime;
             showChoose();
 
         });
@@ -387,7 +396,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         } else if (mProfileVo.is_binding_card == false) {
             toBindPhoneOrCard();
         } else {
-           // ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
+            // ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
             CfLog.i("RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW");
 
 //            startContainerActivity(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW, bundle);
@@ -481,7 +490,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         bundle.putString("type", type);
         startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
     }
-
 
     private void smoothToPositionTop(int position) {
         this.position = position;
