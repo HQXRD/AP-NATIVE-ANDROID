@@ -28,6 +28,7 @@ import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.ListDialog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -209,20 +210,7 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
             return;
         }
 
-        double a = Double.parseDouble(money); // 想要转出的金额
-        double b = 0; // 实际可用的余额
-        if ("lottery".equals(from)) {
-            b = Double.parseDouble(mBalanceVo.balance);
-        } else if (map.containsKey(from)) {
-            b = Double.parseDouble(map.get(from).balance);
-        } else {
-            CfLog.e("****** error, balance is 0...");
-        }
-        if (a > b) {
-            ToastUtils.showLong(binding.tvwFrom.getText() + getString(R.string.txt_insufficient_balance));
-            return;
-        }
-
+        LoadingDialog.show(getActivity());
         HashMap map = new HashMap();
         map.put("from", from);
         map.put("to", to);
@@ -447,7 +435,11 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         listGameBalance.addAll(map.values());
 
         for (int i = listGameBalance.size() - 1; i >= 0; i--) {
-            if (Double.parseDouble(listGameBalance.get(i).balance) == 0.0d) {
+            try {
+                if (Double.parseDouble(listGameBalance.get(i).balance) == 0.0d) {
+                    listGameBalance.remove(i);
+                }
+            } catch (NumberFormatException e) {
                 listGameBalance.remove(i);
             }
         }
@@ -457,8 +449,12 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     private void showGameBlc() {
         hasMoneyGame = new ArrayList<>();
         for (int i = 0; i < transGameBalanceList.size(); i++) {
-            if (Double.parseDouble(transGameBalanceList.get(i).balance) > 0) {
-                hasMoneyGame.add(transGameBalanceList.get(i));
+            try {
+                if (Double.parseDouble(transGameBalanceList.get(i).balance) > 0) {
+                    hasMoneyGame.add(transGameBalanceList.get(i));
+                }
+            } catch (NumberFormatException e) {
+
             }
         }
         Collections.sort(hasMoneyGame);

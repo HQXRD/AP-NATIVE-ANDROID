@@ -139,9 +139,9 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
 
                     @Override
                     public void onFail(BusinessException t) {
-                        map.put(gameAlias, getFullGame(gameAlias, "0.0000"));
+                        map.put(gameAlias, getFullGame(gameAlias, t.message));
                         SPUtils.getInstance().put(SPKeyGlobal.WLT_GAME_ROOM_BLC, new Gson().toJson(map.values()));
-                        liveDataGameBalance.setValue(getFullGame(gameAlias, "0.0000"));
+                        liveDataGameBalance.setValue(getFullGame(gameAlias, t.message));
                     }
                 });
         addSubscribe(disposable);
