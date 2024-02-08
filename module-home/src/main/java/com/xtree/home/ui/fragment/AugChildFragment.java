@@ -34,11 +34,6 @@ import me.xtree.mvvmhabit.base.BaseFragment;
 public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, HomeViewModel> {
     ArrayList<AugVo> mList;
 
-    // 两次点击按钮之间的最小点击间隔时间(单位:ms)
-    private static final int MIN_CLICK_DELAY_TIME = 1500;
-    // 最后一次点击的时间
-    private long lastClickTime;
-
     public AugChildFragment(ArrayList<AugVo> arrayList) {
         mList = arrayList;
     }
@@ -80,12 +75,7 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
                         .into(binding2.ibGame);
 
                 binding2.ibGame.setOnClickListener(v -> {
-                    // 限制多次点击
-                    long currentTime = System.currentTimeMillis();
-                    if (currentTime - lastClickTime > MIN_CLICK_DELAY_TIME) {// 两次点击的时间间隔大于最小限制时间，则触发点击事件
-                        lastClickTime = currentTime;
-                        viewModel.getPlayUrl("au", vo.getId());
-                    }
+                    viewModel.getPlayUrl("au", vo.getId());
                 });
             }
 
