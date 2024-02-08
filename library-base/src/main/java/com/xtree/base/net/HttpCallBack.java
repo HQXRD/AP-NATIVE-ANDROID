@@ -3,6 +3,7 @@ package com.xtree.base.net;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
+import com.xtree.base.widget.LoadingDialog;
 
 import io.reactivex.subscribers.DisposableSubscriber;
 import me.xtree.mvvmhabit.base.AppManager;
@@ -18,7 +19,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
 
     @Override
     public void onNext(T o) {
-
+        LoadingDialog.finish();
         if (!(o instanceof BaseResponse)) {
             KLog.w("json is not normal");
             onResult(o);
@@ -114,6 +115,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
 
     @Override
     public void onError(Throwable t) {
+        LoadingDialog.finish();
         KLog.e("error: " + t.toString());
         //t.printStackTrace();
         if (t instanceof ResponseThrowable) {
@@ -130,6 +132,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
     }
 
     public void onFail(BusinessException t) {
+        LoadingDialog.finish();
         KLog.e("error: " + t.toString());
         ToastUtils.showShort(t.message);
     }
