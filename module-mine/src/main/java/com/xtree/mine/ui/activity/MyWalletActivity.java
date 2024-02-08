@@ -143,9 +143,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         binding.llAwardRecord.setOnClickListener(v -> {
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
         });
-        binding.ivwAwardRecord.setOnClickListener(v -> {
-            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
-        });
+
 
         int spanCount = 4; // 每行的列数
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);

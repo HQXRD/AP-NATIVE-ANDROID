@@ -293,6 +293,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     }
 
     private void resetView() {
+        CfLog.i("resetView = " +mProfileVo.toString());
         if (mProfileVo != null) {
             binding.tvwName.setText(mProfileVo.username);
             setBalance();
@@ -390,5 +391,15 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             }
         });
 
+    }
+
+    /** 判断用户是否登陆*/
+    private boolean isLogin()
+    {
+        if (mProfileVo == null || TextUtils.isEmpty(mProfileVo.userid) || TextUtils.isEmpty(token)) {
+            CfLog.i("****** not login");
+            return false ;
+        }
+        return  true ;
     }
 }
