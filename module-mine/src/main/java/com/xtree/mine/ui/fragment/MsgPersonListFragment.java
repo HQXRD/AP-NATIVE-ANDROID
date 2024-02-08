@@ -14,6 +14,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -98,6 +99,7 @@ public class MsgPersonListFragment extends BaseFragment<FragmentMsgPersonListBin
 
                 @Override
                 public void onClickRight() {
+                    LoadingDialog.show(getActivity());
                     viewModel.deletePartPersonInfo(strings);
                     ppw.dismiss();
                 }
@@ -117,6 +119,7 @@ public class MsgPersonListFragment extends BaseFragment<FragmentMsgPersonListBin
 
                 @Override
                 public void onClickRight() {
+                    LoadingDialog.show(getActivity());
                     viewModel.deleteAllPersonInfo();
                     ppw.dismiss();
                 }

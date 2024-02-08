@@ -62,8 +62,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginTop="40dp"
-            android:ellipsize="end"
-            android:maxEms="10"
             android:singleLine="true"
             android:textColor="@color/clr_grey_80"
             android:textSize="25sp"

@@ -38,7 +38,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  * new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
  */
 public class BrowserDialog extends BottomPopupView {
-
+    Context mContext;
     TextView tvwTitle;
     View vTitle;
     ImageView ivwClose;
@@ -53,22 +53,26 @@ public class BrowserDialog extends BottomPopupView {
 
     public BrowserDialog(@NonNull Context context) {
         super(context);
+        mContext = context;
     }
 
     public BrowserDialog(@NonNull Context context, String title, String url) {
         super(context);
+        mContext = context;
         this.title = title;
         this.url = url;
     }
 
     public BrowserDialog(@NonNull Context context, int resTitle, String url) {
         super(context);
+        mContext = context;
         this.title = context.getString(resTitle);
         this.url = url;
     }
 
     public BrowserDialog(@NonNull Context context, String title, String url, boolean isContainTitle) {
         super(context);
+        mContext = context;
         this.title = title;
         this.url = url;
         this.isContainTitle = isContainTitle;
@@ -126,7 +130,7 @@ public class BrowserDialog extends BottomPopupView {
 
         mWebView.setFitsSystemWindows(true);
         setWebView(mWebView);
-
+        LoadingDialog.show(mContext);
         // 下载文件
         mWebView.setDownloadListener(new DownloadListener() {
             @Override
@@ -158,6 +162,7 @@ public class BrowserDialog extends BottomPopupView {
             public void onPageFinished(WebView view, String url) {
                 CfLog.d("onPageFinished url: " + url);
                 //Log.d("---", "onPageFinished url: " + url);
+                LoadingDialog.finish();
                 hideLoading();
             }
 
