@@ -73,7 +73,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     public static String CHOOSE_TYPE = "";
 
     // 两次点击之间的最小点击间隔时间(单位:ms)
-    private static final int MIN_CLICK_DELAY_TIME = 1500;
+    private static final int MIN_CLICK_DELAY_TIME = 1000;
     // 最后一次点击的时间
     private long lastClickTime;
 

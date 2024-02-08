@@ -409,8 +409,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     }
 
     public void getAugList(Context context) {
-        BasePopupView load = new XPopup.Builder(context).asCustom(new LoadingDialog(context));
-        load.show();
+        LoadingDialog.show(context);
         Disposable disposable = (Disposable) model.getApiService().getAugList()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
@@ -428,14 +427,12 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         Gson gson = new Gson();
                         SPUtils.getInstance().put(SPKeyGlobal.AUG_LIST, gson.toJson(augMap));
                         liveDataAug.setValue(augMap);
-                        load.dismiss();
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        load.dismiss();
                         //ToastUtils.showLong("请求失败");
                     }
                 });
