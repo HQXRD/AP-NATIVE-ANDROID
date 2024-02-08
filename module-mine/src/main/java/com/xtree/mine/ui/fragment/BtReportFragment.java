@@ -18,6 +18,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.widget.FilterView;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentReportBinding;
@@ -26,9 +27,9 @@ import com.xtree.mine.ui.activity.BtDetailDialog;
 import com.xtree.mine.ui.viewmodel.ReportViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.BtOrderVo;
+import com.xtree.mine.vo.BtPlatformVo;
 import com.xtree.mine.vo.BtReportVo;
 import com.xtree.mine.vo.StatusVo;
-import com.xtree.mine.vo.BtPlatformVo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -239,6 +240,8 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
 
     private void requestData(int page) {
         CfLog.i();
+        LoadingDialog.show(getActivity());
+
         starttime = binding.fvMain.getStartTime();
         endtime = binding.fvMain.getEndTime();
         typeId = binding.fvMain.getTypeId(""); //
