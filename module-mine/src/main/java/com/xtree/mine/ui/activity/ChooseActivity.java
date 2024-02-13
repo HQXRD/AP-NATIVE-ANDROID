@@ -11,6 +11,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentChooseWithdrawBinding;
@@ -27,7 +28,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
     private BasePopupView basePopupView = null;
     private AwardsRecordVo awardsRecordVo;
-    private   int viewType ;
+    private int viewType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,22 +66,20 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         if (viewModel == null) {
             CfLog.i("ChooseActivity viewModel  null");
         } else {
+            LoadingDialog.show(this);
             viewModel.getAwardRecord();
         }
 
     }
 
     @Override
-    public void initViewObservable()
-    {
+    public void initViewObservable() {
         if (viewModel != null) {
             viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
                 awardsRecordVo = vo;
                 if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
                     showAwardsRecord();
-                }
-                else
-                {
+                } else {
                     showChoose();
                 }
             });
@@ -100,14 +99,14 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
         basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
-                .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo ,new AwardsRecordDialog.IAwardsDialogBack() {
+                .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, new AwardsRecordDialog.IAwardsDialogBack() {
                     @Override
                     public void closeAwardsDialog() {
                         basePopupView.dismiss();
                         finish();
                         CfLog.i("AwardsRecordDialog  dismiss");
                     }
-                }) );
+                }));
 
         basePopupView.show();
 

@@ -78,7 +78,10 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 0;
 
                                 } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("bank") ||
-                                        chooseInfoVo.wdChannelList.get(i).configkey.contains("hipaytx")) {
+                                        chooseInfoVo.wdChannelList.get(i).configkey.contains("hipaytx") ||
+                                        chooseInfoVo.wdChannelList.get(i).configkey.contains("generalchannel") ||
+                                        chooseInfoVo.wdChannelList.get(i).configkey.contains("银行卡")) {
+                                    //对应银行卡提款字段匹配
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.bankchanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_card_type);
                                     if (chooseInfoVo.bankcardstatus_rmb) {

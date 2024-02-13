@@ -126,6 +126,12 @@ public class VirtualWithdrawalDialog extends BottomPopupView
         //USDT提款设置提款请求 返回model
         viewModel.virtualCashVoMutableLiveData.observe(owner, vo -> {
             usdtCashVo = vo ;
+            if (usdtCashVo.msg_type == 1 || usdtCashVo.msg_type ==2 )
+            {
+                ToastUtils.showError(usdtCashVo.message);
+                dismiss();
+                return;
+            }
             selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
             refreshSetUI();
         });

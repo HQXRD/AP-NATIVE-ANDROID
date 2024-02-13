@@ -170,7 +170,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
         });
         //VIP中心
-        binding.ivwLevel.setOnClickListener(v->{
+        binding.ivwLevel.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
         });
         binding.tvwFanhuiBaobiao.setOnClickListener(v -> {
@@ -293,7 +293,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     }
 
     private void resetView() {
-        CfLog.i("resetView = " +mProfileVo.toString());
+        CfLog.i("resetView = " + mProfileVo.toString());
         if (mProfileVo != null) {
             binding.tvwName.setText(mProfileVo.username);
             setBalance();
@@ -308,14 +308,14 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             }
 
             if (mVipInfoVo.vip_upgrade != null) {
-                if (mVipInfoVo.display_level < mVipInfoVo.vip_upgrade.size()) {
+                if (mVipInfoVo.display_level < mVipInfoVo.vip_upgrade.size() - 1) {
                     VipInfoVo.VipUpgradeVo vo = mVipInfoVo.vip_upgrade.get(mVipInfoVo.display_level + 1);
                     int point = vo.active - mVipInfoVo.current_activity;
                     int level = mVipInfoVo.display_level + 1;
                     String txt = getString(R.string.txt_level_hint_00);
                     txt = String.format(txt, point, level);
                     binding.tvwLevelHint.setText(txt);
-                    binding.pbrLevel.setProgress((int)(((double)mVipInfoVo.current_activity /(double) vo.active) * 100));
+                    binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.active) * 100));
                 } else {
                     binding.tvwLevelHint.setText(R.string.txt_level_hint_10);
                     binding.pbrLevel.setProgress(100);
@@ -393,13 +393,14 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
     }
 
-    /** 判断用户是否登陆*/
-    private boolean isLogin()
-    {
+    /**
+     * 判断用户是否登陆
+     */
+    private boolean isLogin() {
         if (mProfileVo == null || TextUtils.isEmpty(mProfileVo.userid) || TextUtils.isEmpty(token)) {
             CfLog.i("****** not login");
-            return false ;
+            return false;
         }
-        return  true ;
+        return true;
     }
 }

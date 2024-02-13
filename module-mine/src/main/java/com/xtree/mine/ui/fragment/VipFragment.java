@@ -108,18 +108,31 @@ public class VipFragment extends BaseFragment<FragmentVipBinding, MineViewModel>
             vipUpgradeItems = vo.vip_upgrade;
             level = vo.level;
 
-            binding.tvwNowProgress.setText("当前流水 : " + vo.current_activity + " (" + vo.current_activity + "/" + vo.vip_upgrade.get(vo.level + 1).active + ")");
-            binding.tvwVipNowLevelNum.setText("" + vo.level);
-            binding.tvwVipNowLevelStart.setText("VIP" + vo.level);
-            binding.tvwVipNextLevelEnd.setText("VIP" + (vo.level + 1));
+            if (vo.level < vo.vip_upgrade.size() - 1) {
+                binding.tvwNowProgress.setText("当前流水 : " + vo.current_activity + " (" + vo.current_activity + "/" + vo.vip_upgrade.get(vo.level + 1).active + ")");
+                binding.tvwVipNowLevelNum.setText("" + vo.level);
+                binding.tvwVipNowLevelStart.setText("VIP" + vo.level);
+                binding.tvwVipNextLevelEnd.setText("VIP" + (vo.level + 1));
 
-            double progress = ((double)vo.current_activity / (double)vo.vip_upgrade.get(vo.level + 1).active) * 100;
-            CfLog.e("vo.current_activity : " + vo.current_activity + " vo.vip_upgrade.get(vo.level + 1).active : " + vo.vip_upgrade.get(vo.level + 1).active +" progress : " + progress);
-            binding.pbVip.setProgress((int) (progress));
+                double progress = ((double) vo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).active) * 100;
+                CfLog.e("vo.current_activity : " + vo.current_activity + " vo.vip_upgrade.get(vo.level + 1).active : " + vo.vip_upgrade.get(vo.level + 1).active + " progress : " + progress);
+                binding.pbVip.setProgress((int) (progress));
 
-            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.ivwVipPeople.getLayoutParams();
-            params.setMarginStart((int) (binding.pbVip.getWidth() * (progress/100)));
-            binding.ivwVipPeople.setLayoutParams(params);
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.ivwVipPeople.getLayoutParams();
+                params.setMarginStart((int) (binding.pbVip.getWidth() * (progress / 100)));
+                binding.ivwVipPeople.setLayoutParams(params);
+            } else {
+                binding.tvwNowProgress.setText("当前流水 : " + vo.current_activity + " (" + vo.current_activity + "/" + vo.vip_upgrade.get(vo.level).active + ")");
+                binding.tvwVipNowLevelNum.setText("" + vo.level);
+                binding.tvwVipNowLevelStart.setText("VIP" + vo.level);
+                binding.tvwVipNextLevelEnd.setText("VIP" + vo.level);
+
+                binding.pbVip.setProgress(100);
+
+                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.ivwVipPeople.getLayoutParams();
+                params.setMarginStart((int) (binding.pbVip.getWidth() * 0.9));
+                binding.ivwVipPeople.setLayoutParams(params);
+            }
 
             if (fragmentList.isEmpty()) {
                 fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(0).level, vo.vip_upgrade.get(0).active, vo.vip_upgrade.get(0).new_active));
