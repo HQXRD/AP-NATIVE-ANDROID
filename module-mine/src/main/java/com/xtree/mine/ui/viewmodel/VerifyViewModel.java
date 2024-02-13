@@ -382,11 +382,14 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
 
     public void doLogout() {
 
-        SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN, "");
-        SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, "");
-        SPUtils.getInstance().put(SPKeyGlobal.HOME_PROFILE, "");
-        SPUtils.getInstance().put(SPKeyGlobal.HOME_VIP_INFO, "");
-        SPUtils.getInstance().put(SPKeyGlobal.HOME_NOTICE_LIST, "[]");
+        SPUtils.getInstance().remove(SPKeyGlobal.USER_TOKEN);
+        SPUtils.getInstance().remove(SPKeyGlobal.USER_SHARE_SESSID);
+        SPUtils.getInstance().remove(SPKeyGlobal.HOME_PROFILE);
+        SPUtils.getInstance().remove(SPKeyGlobal.HOME_VIP_INFO);
+        SPUtils.getInstance().remove(SPKeyGlobal.HOME_NOTICE_LIST);
+        SPUtils.getInstance().remove(SPKeyGlobal.USER_ID);
+        SPUtils.getInstance().remove(SPKeyGlobal.USER_NAME);
+        SPUtils.getInstance().remove(SPKeyGlobal.MSG_PERSON_INFO);
         RetrofitClient.init();
 
     }
