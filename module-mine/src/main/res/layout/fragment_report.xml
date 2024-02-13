@@ -64,6 +64,7 @@
             app:type2Visibility="8"
             app:typeName1="@string/txt_acc_change_type" />
         <TextView
+            android:id="@+id/tvw_tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"

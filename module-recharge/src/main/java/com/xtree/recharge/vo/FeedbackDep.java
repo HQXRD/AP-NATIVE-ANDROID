@@ -6,8 +6,8 @@ public class FeedbackDep
       /*"id": "5165",
 				"key": "d3901759",
 				"money": "100.00",
-				"bank_id": "166",
-				"created": "2024-01-30 16:22:57",
+				"bank_id": "166", 对应banksInfo中支付渠道号
+				"created": "2024-01-30 16:22:57", 对应创建时间
 				"currency_type": "1",
 				"currency_money": "0.0000",
 				"sysparam_prefix": "cryptotrchqppay1"*/
