@@ -33,15 +33,11 @@ import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
 /**
- * Created by goldze on 2018/6/21.
+ * Created by marquis
  */
 
 public abstract class TemplateMainViewModel extends BaseBtViewModel implements MainViewModel {
     public static String[] PLAY_METHOD_NAMES = new String[]{"今日", "滚球", "早盘", "串关", "冠军"};
-    public static String[] SPORT_NAMES;
-    public static String[] SPORT_NAMES_NOMAL = new String[]{"足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
-    public static String[] SPORT_NAMES_LIVE = new String[]{"全部", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
-    public static String[] SPORT_NAMES_TODAY_CG = new String[]{"热门", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
     /**
      * 体育分类ID，与SPORT_NAMES一一对应
      */
@@ -79,9 +75,9 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
 
     public TemplateMainViewModel(@NonNull Application application, BetRepository model) {
         super(application, model);
-        SPORT_NAMES = SPORT_NAMES_TODAY_CG;
+        //SPORT_NAMES = SPORT_NAMES_TODAY_CG;
         Constants.SPORT_ICON = Constants.SPORT_ICON_TODAY_CG;
-        sportItemData.postValue(SPORT_NAMES);
+        //sportItemData.postValue(SPORT_NAMES);
     }
 
     public void setPlayMethodTabData() {
@@ -97,22 +93,8 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
 
     public abstract void setSportIds(int playMethodPos);
 
-    public void setSportItems(int playMethodPos) {
-        if (playMethodPos == 0 || playMethodPos == 3) {
-            if (SPORT_NAMES != SPORT_NAMES_TODAY_CG) {
-                SPORT_NAMES = SPORT_NAMES_TODAY_CG;
-            }
-        } else if (playMethodPos == 1) {
-            if (SPORT_NAMES != SPORT_NAMES_LIVE) {
-                SPORT_NAMES = SPORT_NAMES_LIVE;
-            }
-        } else {
-            if (SPORT_NAMES != SPORT_NAMES_NOMAL) {
-                SPORT_NAMES = SPORT_NAMES_NOMAL;
-            }
-        }
-        setSportIds(playMethodPos);
-        sportItemData.postValue(SPORT_NAMES);
+    public void setSportItems(int playMethodPos, int playMethodType) {
+
     }
 
     public void setSportIcons(int playMethodPos) {

@@ -1,5 +1,10 @@
 package com.xtree.bet.ui.viewmodel.pm;
 
+import static com.xtree.bet.constant.PMConstants.SPORT_NAMES;
+import static com.xtree.bet.constant.PMConstants.SPORT_NAMES_LIVE;
+import static com.xtree.bet.constant.PMConstants.SPORT_NAMES_NOMAL;
+import static com.xtree.bet.constant.PMConstants.SPORT_NAMES_TODAY_CG;
+
 import android.app.Application;
 import android.text.TextUtils;
 import android.util.Log;
@@ -45,7 +50,7 @@ import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
- * Created by goldze on 2018/6/21.
+ * Created by marquis
  */
 
 public class PMMainViewModel extends TemplateMainViewModel implements MainViewModel {
@@ -67,7 +72,9 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     public PMMainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
+        SPORT_NAMES = SPORT_NAMES_TODAY_CG;
         PMConstants.SPORT_IDS = new String[14];
+        sportItemData.postValue(SPORT_NAMES);
     }
 
     @Override
@@ -92,6 +99,24 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 }
             }
         }
+    }
+
+    public void setSportItems(int playMethodPos, int playMethodType) {
+        if (playMethodPos == 0 || playMethodPos == 3) {
+            if (SPORT_NAMES != SPORT_NAMES_TODAY_CG) {
+                SPORT_NAMES = SPORT_NAMES_TODAY_CG;
+            }
+        } else if (playMethodPos == 1) {
+            if (SPORT_NAMES != SPORT_NAMES_LIVE) {
+                SPORT_NAMES = SPORT_NAMES_LIVE;
+            }
+        } else {
+            if (SPORT_NAMES != SPORT_NAMES_NOMAL) {
+                SPORT_NAMES = SPORT_NAMES_NOMAL;
+            }
+        }
+        setSportIds(playMethodPos);
+        sportItemData.postValue(SPORT_NAMES);
     }
 
     /**
@@ -743,7 +768,9 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         Map<String, Match> map = new HashMap<>();
 
         for (Match match : mChampionMatchList) {
-            map.put(String.valueOf(match.getId()), match);
+            if(!match.isHead()) {
+                map.put(String.valueOf(match.getId()), match);
+            }
         }
 
         for (MatchInfo matchInfo : matchInfoList) {

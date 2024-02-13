@@ -146,8 +146,6 @@ public class ChampionMatchAdapter extends AnimatedExpandableListViewMax.Animated
         binding.tvTitle.setText(playType.getPlayTypeName());
         binding.tvDeadline.setText(mContext.getResources().getString(R.string.bt_bt_champion_match_deadline, playType.getMatchDeadLine()));
 
-        List<Option> optionList = new ArrayList<>();
-        optionList.addAll(playType.getChampionOptionList());
         binding.rvOptionList.setLayoutManager(new GridLayoutManager(mContext, 2));
         binding.rvOptionList.setAdapter(new OptionChampionAdapter(mContext, (Match) getGroup(groupPosition), playType, playType.getChampionOptionList()));
         binding.vSpace.setVisibility(childPosition == getRealChildrenCount(groupPosition) - 1 ? View.VISIBLE : View.GONE);
