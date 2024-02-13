@@ -43,7 +43,6 @@ public class BankCardCashVo extends BaseResponse2 {
 
     public UserInfo user;
 
-
     /**
      * 用户信息  用户名【username】 提款类型 可提款金额【availablebalance】
      */
@@ -172,18 +171,18 @@ public class BankCardCashVo extends BaseResponse2 {
      * 提款渠道
      */
     public static class ChannelVo {
-        public int isShowErrorView ;//1 展示错误提示信息 2展示数据信息
-        public int  isWebView ;//1 是需要展示web网页 ; 2 需要展示原生页面
+        public int isShowErrorView;//1 展示错误提示信息 2展示数据信息
+        public int isWebView;//1 是需要展示web网页 ; 2 需要展示原生页面
         //是否选中标志位 true 被选中；false 未被选中
         public boolean flag;
         public String typenum;
         public String name;
         public int thiriframe_use;
         public int thiriframe_status;
-        public String thiriframe_msg ;//顶部提现消息[银行维护中，请联系客服]
+        public String thiriframe_msg;//顶部提现消息[银行维护中，请联系客服]
         public String thiriframe_url;//第三方展示网页
         //        public int channel_amount_use;
-       public int fixamount_list_status ; // 1状态表示有多个金额选择按钮 ;0状态表示没有多金额选择按钮
+        public int fixamount_list_status; // 1状态表示有多个金额选择按钮 ;0状态表示没有多金额选择按钮
         public Object fixamount_list;//多个金额选择按钮 "[]", ["100", "200"]
         public List<String> fixamountList = new ArrayList<>(); // 自己加的
         //        public int fixamount_list_status1 ;
@@ -199,7 +198,6 @@ public class BankCardCashVo extends BaseResponse2 {
         public int min_money;
         public int max_money;
 //        public String recommend;
-
 
         @Override
         public boolean equals(Object o) {
@@ -274,7 +272,6 @@ public class BankCardCashVo extends BaseResponse2 {
             "max_money":20000,
             "recommend":"0"
         */
-
 
     }
     /*
@@ -554,6 +551,5 @@ public class BankCardCashVo extends BaseResponse2 {
     "exchangerate":"7.2"
 }
     * */
-
 
 }

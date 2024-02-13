@@ -57,7 +57,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
     private BasePopupView ppw2 = null; // 底部弹窗
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
 
-    private AwardsRecordVo awardsRecordVo ;//礼物流水
+    private AwardsRecordVo awardsRecordVo;//礼物流水
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +135,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
             startContainerFragment(RouterFragmentPath.Mine.PAGER_RECHARGE_WITHDRAW); // 充提记录
         });
 
-        binding.tvwBalance.setOnClickListener(v->{
+        binding.tvwBalance.setOnClickListener(v -> {
             //账号已登出，请重新登录
 
         });
@@ -143,7 +143,6 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         binding.llAwardRecord.setOnClickListener(v -> {
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
         });
-
 
         int spanCount = 4; // 每行的列数
         GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
@@ -214,12 +213,9 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         //获取礼物流水
         viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
             awardsRecordVo = vo;
-            if (awardsRecordVo != null && awardsRecordVo.list.size() > 0)
-            {
+            if (awardsRecordVo != null && awardsRecordVo.list.size() > 0) {
                 binding.tvwAwardRecord.setText(awardsRecordVo.locked_award_sum);
-            }
-            else
-            {
+            } else {
                 binding.tvwAwardRecord.setText("0.0000");
             }
         });
@@ -271,12 +267,10 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
                 ppw.dismiss();
             }
         });
-        ppw = new XPopup.Builder(this)
-                .dismissOnTouchOutside(true)
-                .dismissOnBackPressed(true)
-                .asCustom(dialog);
+        ppw = new XPopup.Builder(this).dismissOnTouchOutside(true).dismissOnBackPressed(true).asCustom(dialog);
         ppw.show();
     }
+
     private void toBindPhoneNumber() {
 
         String msg = getString(R.string.txt_rc_bind_phone_email_pls);
@@ -295,10 +289,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
                 ppw2.dismiss();
             }
         });
-        ppw2 = new XPopup.Builder(this)
-                .dismissOnTouchOutside(true)
-                .dismissOnBackPressed(true)
-                .asCustom(dialog);
+        ppw2 = new XPopup.Builder(this).dismissOnTouchOutside(true).dismissOnBackPressed(true).asCustom(dialog);
         ppw2.show();
     }
 
@@ -319,10 +310,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
                 ppw2.dismiss();
             }
         });
-        ppw2 = new XPopup.Builder(this)
-                .dismissOnTouchOutside(false)
-                .dismissOnBackPressed(false)
-                .asCustom(dialog);
+        ppw2 = new XPopup.Builder(this).dismissOnTouchOutside(false).dismissOnBackPressed(false).asCustom(dialog);
         ppw2.show();
 
     }

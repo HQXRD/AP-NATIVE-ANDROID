@@ -21,14 +21,14 @@ public class PlatWithdrawConfirmVo extends BaseResponse2 {
         "nickname":"tst033",
         "messages":"1"
          */
-        public String parentid ;
-        public String usertype ;
-        public double iscreditaccount ;
-        public String userrank ;
-        public String relavailablebalance ;
-        public String availablebalance ;
-        public String preinfo ;
-        public String nickname ;
-        public String message ;
+        public String parentid;
+        public String usertype;
+        public double iscreditaccount;
+        public String userrank;
+        public String relavailablebalance;
+        public String availablebalance;
+        public String preinfo;
+        public String nickname;
+        public String message;
     }
 }
