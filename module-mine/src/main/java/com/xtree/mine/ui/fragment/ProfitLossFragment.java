@@ -57,7 +57,7 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportBinding, Repo
         binding.fvMain.setData(listType);
         binding.fvMain.setVisibility(View.VISIBLE, View.GONE, View.GONE);
         binding.fvMain.setTypeTitle(getString(R.string.txt_bt_platform), null, null);
-        LoadingDialog.show(getContext());
+        //LoadingDialog.show(getContext());
         requestType();
         //requestData(1);
     }
@@ -67,6 +67,7 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportBinding, Repo
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
 
         binding.fvMain.setQueryListener(v -> {
+            LoadingDialog.show(getContext());
             curPage = 0;
             requestData(1);
         });

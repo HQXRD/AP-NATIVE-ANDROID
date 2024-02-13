@@ -1,6 +1,5 @@
 package com.xtree.mine.ui.fragment;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -70,6 +69,7 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportBinding, R
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
 
         binding.fvMain.setQueryListener(v -> {
+            LoadingDialog.show(getContext());
             curPage = 0;
             requestData(1);
         });
@@ -100,10 +100,13 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportBinding, R
                 // 1,3 失败; 其它成功
                 int status = "1".equals(vo.transferstatus) || "3".equals(vo.transferstatus) ? R.string.txt_fail : R.string.txt_succ;
                 String operations = "1".equals(vo.operations) ? "+" : "-";
-                if ("1".equals(vo.operations)) {
-                    binding2.tvwAmount.setSelected(true); // +
+                // 收入:绿色, 支出:红色
+                if (!"1".equals(vo.operations)) {
+                    binding2.tvwAmount.setSelected(true); // -
+                    binding2.tvwInOut.setText(R.string.txt_outlay); // 支出
                 } else {
-                    binding2.tvwAmount.setSelected(false); // -
+                    binding2.tvwAmount.setSelected(false); // +
+                    binding2.tvwInOut.setText(R.string.txt_income); // 收入
                 }
                 String notes = TextUtils.isEmpty(vo.notes) ? "--" : vo.notes;
 
@@ -111,17 +114,7 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportBinding, R
                 binding2.tvwTimes.setText(vo.times);
                 binding2.tvwCntitle.setText(vo.cntitle);
                 binding2.tvwAmount.setText(operations + vo.amount); // + -
-               //收入 绿色 支出 红色
-                if (operations.equals("+"))
-                {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        binding2.tvwAmount.setTextColor(getContext().getColor(R.color.clr_green_01));
-                    }
-                } else if (operations.equals("-")) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        binding2.tvwAmount.setTextColor(getContext().getColor(R.color.red));
-                    }
-                }
+
                 binding2.tvwBalance.setText(vo.availablebalance);
                 binding2.tvwStatus.setText(status); //
                 binding2.tvwOrderno.setText(vo.orderno);

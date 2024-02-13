@@ -20,6 +20,10 @@ public class NewAdapter extends CachedAutoRefreshAdapter<NewVo> {
 
     Context ctx;
     ItemNewBinding binding;
+    // 两次点击之间的最小点击间隔时间(单位:ms)
+    private static final int MIN_CLICK_DELAY_TIME = 1000;
+    // 最后一次点击的时间
+    private long lastClickTime;
 
     public NewAdapter(Context ctx) {
         this.ctx = ctx;
@@ -46,6 +50,13 @@ public class NewAdapter extends CachedAutoRefreshAdapter<NewVo> {
     }
 
     private void getDetail(NewVo vo) {
+        // 限制多次点击
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - lastClickTime < MIN_CLICK_DELAY_TIME) {// 两次点击的时间间隔小于最小限制时间，不触发点击事件
+            return;
+        }
+        lastClickTime = currentTime;
+
         String url = DomainUtil.getDomain2() + "/webapp/#" + vo.url;
         new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, vo.title, url, true)).show();
 

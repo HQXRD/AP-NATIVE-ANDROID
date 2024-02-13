@@ -229,6 +229,15 @@
         <item name="android:textSize">14sp</item>
     </style>
     <!--反馈录入页面提示语言风格-->
+    <style name="style_tx_info_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:minEms">7</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--反馈录入页面提示语言风格-->
     <style name="style_fb_tip_title">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>

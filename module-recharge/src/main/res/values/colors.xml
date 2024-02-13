@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <!--反馈页面错误提示语颜色-->
     <color name="clr_red_feedback_err">#FF2E00</color>
+    <color name="clr_item_lottery_bg">#F8F8F8</color>
 </resources>

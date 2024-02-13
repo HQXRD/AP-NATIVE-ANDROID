@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +41,7 @@ import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.DateTimePickerDialog;
 import com.xtree.base.widget.ListDialog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
@@ -69,6 +71,8 @@ import project.tqyb.com.library_res.databinding.ItemTextBinding;
 @Route(path = RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK)
 public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, RechargeViewModel> implements DateTimePickerDialog.ICallBack {
 
+    private   String finalThreedID ;//支付渠道
+    private  String receive_bank ;//支付渠道ID
     private int feedbackType = 1; //1 微信 2 usdt
     private boolean isNext = false;//是否提交过
     private String imageRealPathString;//选择的图片地址
@@ -87,6 +91,28 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
     private ArrayList<FeedbackDep> last3DepList = new ArrayList<FeedbackDep>();//反馈中订单信息
 
+    private BasePopupView loadPopView ;//loadView
+
+    private void showLoadView()
+    {
+        if (loadPopView == null)
+        {
+            loadPopView =  new XPopup.Builder(getContext()).asCustom(new LoadingDialog(getContext()));
+        }
+        else
+        {
+            loadPopView.dismiss();
+        }
+        loadPopView.show();
+    }
+    private void  dismissLoadView()
+    {
+        if (loadPopView != null)
+        {
+            loadPopView.dismiss();
+        }
+    }
+
     public FeedbackFragment() {
 
     }
@@ -100,15 +126,12 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
             nextCheckInputWithPayWay(feedbackType);
         });
-
-        binding.tvUnorderSelectorPayway.setOnClickListener(v -> {
-            showUnReceivedDep(last3DepList);
-        });
-        binding.tvwUnOrderSelector.setOnClickListener(v -> {
+        //未到账订单点击
+        binding.tvwUnreceivedOrders.setOnClickListener(v -> {
             showUnReceivedDep(last3DepList);
         });
         //未到账订单点击
-        binding.llUnorder.setOnClickListener(v -> {
+        binding.llUnreceivedOrders.setOnClickListener(v -> {
             showUnReceivedDep(last3DepList);
         });
 
@@ -129,35 +152,33 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG);
         });
         //图片选择
-        binding.llSelectorTipImage.setOnClickListener(v -> {
+        binding.llRemittanceScreenshot.setOnClickListener(v -> {
             gotoSelectMedia();
         });
         //注册Edittex监听
         initEditListener();
         //付款方式点击事件
-        binding.tvwType.setOnClickListener(v -> {
+        binding.tvPaymentMethod.setOnClickListener(v -> {
             // CfLog.i("付款方式点击事件  获取页面数据=" + feedbackVo.modeInfo.get(1).name);
             showPayWay(feedbackVo);
         });
-        //
-        binding.llWechatPayway.setOnClickListener(v -> {
-            // CfLog.i("付款方式点击事件  获取页面数据=" + feedbackVo.modeInfo.get(1).name);
+        binding.tvwPaymentMethod.setOnClickListener(v->{
             showPayWay(feedbackVo);
         });
-
         //时间选择器
-        binding.tvSelectorRightSavetime.setOnClickListener(v -> {
+        binding.tvDepositTime.setOnClickListener(v -> {
             showTimeSelector();
         });
         //点击支付渠道
-        binding.tvSelectorRightPayway.setOnClickListener(v -> {
+        binding.tvwPaymentChannel.setOnClickListener(v -> {
             showPayReceive(feedbackVo);
         });
         //虚拟币反馈时候 协议选择点击
-        binding.tvwCollectiontNameAgreement.setOnClickListener(v -> {
+        binding.edProtocol.setOnClickListener(v -> {
             showVirtualProtocol(feedbackVo);
         });
-        binding.llCollectionNameAgreement.setOnClickListener(v -> {
+        //虚拟币 协议
+        binding.llPaymentWalletProtocol.setOnClickListener(v -> {
             showVirtualProtocol(feedbackVo);
         });
 
@@ -187,6 +208,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         HashMap<String, String> map = new HashMap<>();
         map.put("starttime", startTime);
         map.put("endtime", endTime);
+        showLoadView();
         viewModel.feedbackInfo(map);
     }
 
@@ -194,6 +216,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
     public void initViewObservable() {
         //获取进入反馈页面回去的数据
         viewModel.feedbackVoSingleLiveData.observe(this, o -> {
+            dismissLoadView();
             feedbackVo = o;
 
             CfLog.i("未到账订单 = " + feedbackVo.list.size());
@@ -207,6 +230,8 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
         //获取上传图片后的 服务器返回的图片地址
         viewModel.imageUploadVoSingleLiveData.observe(this, o -> {
+            dismissLoadView();
+
             FeedbackImageUploadVo imageUploadVo = o;
             CfLog.i("上传后 获取的图片地址是 =" + imageUploadVo.url);
             //获得图片上传地址后 再将数据拼接 进行反馈
@@ -214,6 +239,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         });
         //获取上传数据后服务器状态
         viewModel.feedbackAddSingleLiveData.observe(this, o -> {
+            dismissLoadView();
             showNextDialog();
         });
     }
@@ -264,10 +290,35 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 binding2 = ItemTextBinding.bind(holder.itemView);
                 FeedbackDep vo = get(position);
                 String showMessage = "订单号: " + vo.id + " 金额: " + vo.money;
+                String save = vo.money ;
+                String threedID = null ;
+                String time = vo.created ;
+                for (int i = 0; i < feedbackVo.banksInfo.size(); i++)
+                {
+                    FeedbackVo.FeedbackBankInfo  info = feedbackVo.banksInfo.get(i);
+                    if (String.valueOf(info.id).equals(vo.bank_id))
+                    {
+                        threedID = info.name;
+                        receive_bank = String.valueOf(info.id) ;
+                    }
+                }
                 CfLog.i("未到账订单信息是 ：" + showMessage);
                 binding2.tvwTitle.setText(showMessage);
+                finalThreedID = threedID;
                 binding2.tvwTitle.setOnClickListener(v -> {
-                    binding.tvwUnOrderSelector.setText(showMessage);
+                    binding.tvwUnreceivedOrders.setText(showMessage);
+                    binding.tvDepositTime.setText(time); //存款准确时间
+
+                    binding.tvwPaymentChannel.setText(finalThreedID); //支付渠道
+                    if (feedbackType ==1 ) //微信
+                    {
+                        binding.etDepositAmount.setText(save);
+                    }
+                    //虚拟币
+                    else
+                        binding.etVirtualAmount.setText(save);
+
+
                     ppw.dismiss();
                 });
             }
@@ -301,7 +352,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 CfLog.i("未到账订单信息是 ：" + showMessage);
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
-                    binding.tvwUnOrderSelector.setText(showMessage);
+                    binding.tvwUnreceivedOrders.setText(showMessage);
                     ppw.dismiss();
                 });
 
@@ -333,7 +384,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 binding2.tvwTitle.setText(vo.name);
                 binding2.tvwTitle.setOnClickListener(v -> {
                     CfLog.i("feedbackVo " + vo);
-                    binding.tvwType.setText(vo.name);
+                    binding.tvwPaymentMethod.setText(vo.name);
                     //feedbackType = 1; //1 微信 2 usdt
                     if (vo.name.equals("虚拟货币")) {
                         feedbackType = 2;
@@ -379,7 +430,8 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 binding2.tvwTitle.setOnClickListener(v -> {
                     CfLog.i("****** " + voBankInfo.toString());
                     //et_selector_right_payway;
-                    binding.tvSelectorRightPayway.setText(voBankInfo.name);
+                    binding.tvwPaymentChannel.setText(voBankInfo.name);
+                    receive_bank = String.valueOf(voBankInfo.id);
                     ppw.dismiss();
                 });
             }
@@ -415,7 +467,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 binding2.tvwTitle.setText(voProtoclInfo.name);
                 binding2.tvwTitle.setOnClickListener(v -> {
                     CfLog.i("****** " + voProtoclInfo.toString());
-                    binding.tvwCollectiontNameAgreement.setText(voProtoclInfo.name);
+                    binding.etVirtualAmount.setText(voProtoclInfo.name);
                     ppw.dismiss();
                 });
             }
@@ -443,7 +495,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
      */
     @Override
     public void setDate(String date) {
-        binding.tvSelectorRightSavetime.setText(date);
+        binding.tvDepositTime.setText(date);
     }
 
     /**
@@ -457,121 +509,38 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         //微信、支付宝
         if (uiType == "wechat") {
 
-            //隐藏未到账View
-            binding.llUnorder.setVisibility(View.VISIBLE);
-            //付款方式
-            binding.llWechatPayway.setVisibility(View.VISIBLE);
-            binding.tvSelectorPayWay.setText(R.string.txt_tip_select_pay);
-            binding.tvwType.setText(R.string.txt_tip_select_pay_wechat);
-
-            //付款账户
-            binding.llPaymentAccount.setVisibility(View.VISIBLE);
-            binding.tvSelectorLeftPaymentAccount.setText(R.string.txt_tip_select_pay);
-            binding.etSelectorRightPaymentAccount.setHint(R.string.txt_tip_input_wechat_bank_name);
-            binding.ivSelectorTipPayWayAccount.setVisibility(View.VISIBLE);
-            binding.ivSelectorTipPayWayAccount.setBackgroundResource(R.mipmap.cm_ic_hint_purple);
-            binding.tvSelectorTipPaywayAccount.setVisibility(View.VISIBLE);
-            binding.tvSelectorTipPaywayAccount.setText(R.string.txt_tip_input_wechat_pay);
-            //付款人姓名
-            binding.tvSelectorLeftPaymentName.setText(R.string.txt_tip_input_wechat_payment_name);
-            binding.etSelectorRightPaymentName.setHint(R.string.txt_tip_input_wechat_pay_name);
-            binding.ivSelectorTipPaywayName.setBackgroundResource(R.mipmap.cm_ic_hint_purple);
-            binding.tvSelectorTipPaywayName.setText(R.string.txt_tip_input_pay_wechat_name);
-            binding.ivSelectorTipPaywayName.setVisibility(View.VISIBLE);
-            binding.tvSelectorTipPaywayName.setVisibility(View.VISIBLE);
-            //收款人
-            binding.tvSelectorLeftCollectionName.setText(R.string.txt_tip_input_wechat_collection_name);
-
-            binding.etSelectorRightCollectiontName.setVisibility(View.VISIBLE);
-            binding.tvwCollectiontNameAgreement.setVisibility(View.GONE); //协议
-            binding.tvwCollectiontNameAgreement.setHint(R.string.txt_tip_input_usdt_payment_agreement);
-
-            binding.etSelectorRightCollectiontName.setHint(R.string.txt_tip_input_wechat_pay_name);
-            binding.ivSelectorTipCollectionName.setBackgroundResource(R.mipmap.cm_ic_hint_purple);
-            binding.tvSelectorTipCollectiontName.setText(R.string.txt_tip_input_collection_wechat_name);
-            binding.ivSelectorTipCollectionName.setVisibility(View.VISIBLE);
-            binding.tvSelectorTipCollectiontName.setVisibility(View.VISIBLE);
-
-            //存款金额
-            binding.tvSelectorLeftSavename.setText(R.string.txt_tip_input_wechat_payment_numb);
-            binding.etSelectorRightSavename.setHint(R.string.txt_tip_input_wechat_save_numb);
-            binding.ivSelectorTipSavename.setBackgroundResource(R.mipmap.cm_ic_hint_purple);
-            binding.tvSelectorTipSavename.setText(R.string.txt_tip_input_wechat_save_number);
-            binding.ivSelectorTipSavename.setVisibility(View.VISIBLE);
-            binding.tvSelectorTipSavename.setVisibility(View.VISIBLE);
-            //存款时间
-            binding.tvSelectorLeftSavetime.setText(R.string.txt_tip_input_wechat_payment_time);
-            binding.ivSelectorTipSavetime.setVisibility(View.INVISIBLE); //占位隐藏
-            binding.tvSelectorTipSavetime.setVisibility(View.INVISIBLE);
-            //支付渠道
-            binding.tvSelectorLeftPayway.setText(R.string.txt_tip_input_wechat_pay_way);
-            binding.tvSelectorRightPayway.setHint(R.string.txt_tip_input_wechat_select_pay_way);
-            //收款钱包地址
-            binding.llInputUsdtAdd.setVisibility(View.GONE);
-            binding.tvSelectorLeftAdd.setText(R.string.txt_tip_input_usdt_add);
-            binding.etSelectorRightAdd.setHint(R.string.txt_tip_input_usdt_add_hint);
-
+            binding.llPaymentAccount.setVisibility(View.VISIBLE);//付款账户
+            //ll_payment_wallet_address
+            binding.llPaymentWalletAddress.setVisibility(View.GONE);//付款钱包地址隐藏
+            binding.llPaymentName.setVisibility(View.VISIBLE);//付款人姓名
+            binding.llCollectionName.setVisibility(View.VISIBLE);//收款人姓名
+            binding.llPaymentWalletProtocol.setVisibility(View.GONE);//协议隐藏
+            binding.llDepositAmount.setVisibility(View.VISIBLE);//存款金额
+            binding.llVirtualAmount.setVisibility(View.GONE);//虚拟币数量隐藏
+            binding.llCollectionWalletAddress.setVisibility(View.GONE);//收款钱包地址隐藏
         }
         //虚拟币
-        else if (uiType == "usdt") {
-            //隐藏未到账View
-            binding.llUnorder.setVisibility(View.VISIBLE);
-            //付款方式 隐藏付款方式
-            //binding.llWechatPayway.setVisibility(View.GONE);
-            binding.tvSelectorPayWay.setText(R.string.txt_tip_select_pay);
-            binding.llPaymentAccount.setVisibility(View.GONE);
-            binding.tvSelectorLeftPaymentAccount.setText(R.string.txt_tip_select_pay);
-            binding.etSelectorRightPaymentAccount.setHint(R.string.txt_tip_input_wechat_bank_name);
-            binding.ivSelectorTipPayWayAccount.setBackgroundResource(R.mipmap.cm_ic_hint_purple);
-            binding.tvSelectorTipPaywayAccount.setText(R.string.txt_tip_select_pay_bottom);
-            //钱包地址
-            binding.tvSelectorLeftPaymentName.setText(R.string.txt_tip_input_usdt_payment_account);
-            binding.etSelectorRightPaymentName.setHint(R.string.txt_tip_input_usdt_selector_payment_account);
-            binding.ivSelectorTipPaywayName.setBackgroundResource(R.mipmap.cm_ic_hint_purple);
-            binding.ivSelectorTipPaywayName.setVisibility(View.INVISIBLE);
-            binding.tvSelectorTipPaywayName.setText(R.string.txt_tip_input_pay_wechat_name);
-            binding.tvSelectorTipPaywayName.setVisibility(View.INVISIBLE);
-            //协议
-            binding.tvSelectorLeftCollectionName.setText(R.string.txt_tip_input_usdt_payment_name);
-            binding.etSelectorRightCollectiontName.setHint(R.string.txt_tip_input_usdt_payment_agreement);
-
-            binding.etSelectorRightCollectiontName.setVisibility(View.GONE);
-            binding.tvwCollectiontNameAgreement.setVisibility(View.VISIBLE); //协议
-            binding.tvwCollectiontNameAgreement.setHint(R.string.txt_tip_input_usdt_payment_agreement);
-
-            binding.ivSelectorTipCollectionName.setBackgroundResource(R.mipmap.cm_ic_hint_purple);
-            binding.ivSelectorTipCollectionName.setVisibility(View.INVISIBLE);
-            binding.tvSelectorTipCollectiontName.setText(R.string.txt_tip_input_collection_wechat_name);
-            binding.tvSelectorTipCollectiontName.setVisibility(View.INVISIBLE);
-            //虚拟币数量
-            binding.tvSelectorLeftSavename.setText(R.string.txt_tip_input_usdt_numb);
-            binding.etSelectorRightSavename.setHint(R.string.txt_tip_input_wechat_save_numb);
-            binding.ivSelectorTipSavename.setBackgroundResource(R.mipmap.cm_ic_hint_purple);
-            binding.ivSelectorTipSavename.setVisibility(View.INVISIBLE);
-            binding.tvSelectorTipSavename.setText(R.string.txt_tip_input_wechat_save_number);
-            binding.tvSelectorTipSavename.setVisibility(View.INVISIBLE);
-            //存款时间
-            binding.tvSelectorLeftSavetime.setText(R.string.txt_tip_input_wechat_payment_time);
-            binding.ivSelectorTipSavetime.setVisibility(View.INVISIBLE); //占位隐藏
-            binding.tvSelectorTipSavetime.setVisibility(View.INVISIBLE);
-
-            //第三方订单号 提示语不显示
-            binding.ivSelectorTipThree.setVisibility(View.INVISIBLE);
-            binding.tvSelectorTipThree.setVisibility(View.INVISIBLE);
-
-            //支付渠道
-            binding.tvSelectorLeftPayway.setText(R.string.txt_tip_input_wechat_pay_way);
-            binding.tvSelectorRightPayway.setHint(R.string.txt_tip_input_wechat_select_pay_way);
-            //收款钱包地址
-            binding.llInputUsdtAdd.setVisibility(View.VISIBLE);
-            binding.tvSelectorLeftAdd.setText(R.string.txt_tip_input_usdt_add);
-            binding.etSelectorRightAdd.setHint(R.string.txt_tip_input_usdt_add_hint);
-            binding.ivSelectorTipAdd.setVisibility(View.INVISIBLE);
-            binding.ivSelectorTipAdd.setBackgroundResource(R.mipmap.cm_ic_hint_red);
-            binding.tvSelectorTipAdd.setVisibility(View.INVISIBLE);
-            binding.tvSelectorTipAdd.setText(R.string.txt_tip_input_usdt_collection_name_err);
-
+        else if (uiType == "usdt")
+        {
+            binding.llPaymentAccount.setVisibility(View.GONE);//付款账户
+            binding.llPaymentWalletAddress.setVisibility(View.VISIBLE);//付款钱包地址隐藏
+            binding.llPaymentName.setVisibility(View.GONE);//付款人姓名
+            binding.llCollectionName.setVisibility(View.GONE);//收款人姓名
+            binding.llPaymentWalletProtocol.setVisibility(View.VISIBLE);//协议隐藏
+            binding.llDepositAmount.setVisibility(View.GONE);//存款金额
+            binding.llVirtualAmount.setVisibility(View.VISIBLE);//虚拟币数量隐藏
+            binding.llCollectionWalletAddress.setVisibility(View.VISIBLE);//收款钱包地址隐藏
         }
+    }
+
+    /** 判断Text是否为空*/
+    private boolean isEmpty(TextView textView)
+    {
+        if (textView.getText().toString().trim().isEmpty()){
+            return true ;
+        }
+
+        return false ;
     }
 
     /**
@@ -579,158 +548,244 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
      */
     private boolean checkInputPaymentAccount(int feedbackType) {
 
-        if (TextUtils.isEmpty(binding.etSelectorRightPaymentAccount.getText().toString())) //付款账户
+        if (feedbackType ==1 && TextUtils.isEmpty(binding.etPaymentAccount.getText().toString().trim())) //微信
         {
-            binding.ivSelectorTipPayWayAccount.setBackgroundResource(R.mipmap.cm_ic_hint_red);
-            if (feedbackType == 1) //微信
-            {
-                binding.tvSelectorTipPaywayAccount.setText(R.string.txt_tip_input_wechat_pay_err);
-            } else if (feedbackType == 2) //虚拟币
-            {
-                if (TextUtils.isEmpty(binding.etSelectorRightPaymentName.getText().toString())) {
-                    binding.llPaymentAccount.setVisibility(View.GONE);
-                    binding.ivSelectorTipPaywayName.setVisibility(View.VISIBLE);
-                    binding.ivSelectorTipPayWayAccount.setVisibility(View.VISIBLE);
-                    binding.tvSelectorTipPaywayAccount.setVisibility(View.VISIBLE);
-                    binding.tvSelectorTipPaywayAccount.setText(R.string.txt_tip_input_usdt_pay_err);
-                    binding.ivSelectorTipPaywayName.setBackgroundResource(R.mipmap.cm_ic_hint_red);
-                    binding.tvSelectorTipPaywayName.setVisibility(View.VISIBLE);
-                    binding.tvSelectorTipPaywayName.setText(R.string.txt_tip_input_usdt_pay_err);
-                    return false;
-                }
-
+            binding.ivPaymentAccount.setBackgroundResource(R.mipmap.cm_ic_hint_red);
+            binding.tvPaymentAccountInfo.setText(R.string.txt_tip_input_wechat_pay_err);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.tvPaymentAccountInfo.setTextColor(getContext().getColor(R.color.red));
             }
+            return  true;
+        }
+        else if (isEmpty(binding.etPaymentAddress))
+        {
+            binding.ivPaymentAddress.setBackgroundResource(R.mipmap.cm_ic_hint_red);
+            binding.tvPaymentAddressInfo.setText(R.string.txt_tip_input_usdt_pay_err);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.tvPaymentAddressInfo.setTextColor(getContext().getColor(R.color.red));
+            }
+            return true ;
+        }
+
             return false;
-        } else return true;
     }
 
     /**
-     * 检测付款人//协议
+     * 检测付款人姓名
      */
-    private boolean checkInputPaymentName(int feedbackType) {
-        if (TextUtils.isEmpty(binding.etSelectorRightPaymentName.getText().toString())) //付款人
+    private boolean checkInputPaymentName() {
+        CfLog.i("checkInputPaymentName 付款人姓名 ： " +binding.etPaymentName.getText().toString().trim());
+        if (TextUtils.isEmpty(binding.etPaymentName.getText().toString().trim())) //付款人姓名
         {
-            if (feedbackType == 1) {
-                binding.ivSelectorTipPaywayName.setBackgroundResource(R.mipmap.cm_ic_hint_red);
-                binding.tvSelectorTipPaywayName.setText(R.string.txt_tip_input_pay_wechat_name_err);
-            } else if (feedbackType == 2) {
-
+            binding.ivPaymentNameInfo.setBackgroundResource(R.mipmap.cm_ic_hint_red);
+            binding.tvPaymentNameInfo.setText(R.string.txt_tip_input_pay_wechat_name_err);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.tvPaymentNameInfo.setTextColor(getContext().getColor(R.color.red));
             }
-
+            return true;
+        }
+        else
+        {
             return false;
-        } else return true;
+        }
     }
-
     /**
      * 检测收款人姓名/
      */
-    private boolean checkInputCollectionName(int feedbackType) {
-        if (TextUtils.isEmpty(binding.etSelectorRightCollectiontName.getText().toString())) //收款人
+    private boolean checkInputCollectionName() {
+        if (isEmpty(binding.etCollectionName)) //收款人
         {
-            if (feedbackType == 1) {
-                binding.ivSelectorTipCollectionName.setBackgroundResource(R.mipmap.cm_ic_hint_red);
-                binding.tvSelectorTipCollectiontName.setText(R.string.txt_tip_input_collection_wechat_name_err);
+            binding.ivCollectionName.setBackgroundResource(R.mipmap.cm_ic_hint_red);
+            binding.tvtCollectionName.setText(R.string.txt_tip_input_collection_wechat_name_err);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.tvtCollectionName.setTextColor(getContext().getColor(R.color.red));
             }
-            return false;
-        } else return true;
-    }
 
+            return true;
+        } else return false;
+    }
     /**
      * 检查存款金额/虚拟币数量
      */
     private boolean checkInputSaveName(int feedbackType) {
-        if (TextUtils.isEmpty(binding.etSelectorRightSavename.getText().toString()))//存款金额
+        if (feedbackType == 1 && isEmpty(binding.etDepositAmount))//微信存款金额
         {
-            binding.ivSelectorTipSavename.setBackgroundResource(R.mipmap.cm_ic_hint_red);
-            binding.tvSelectorTipSavename.setText(R.string.txt_tip_input_wechat_save_number_err);
-            return false;
+            binding.ivDepositAmount.setBackgroundResource(R.mipmap.cm_ic_hint_red);
+            binding.tvDepositAmountInfo.setText(R.string.txt_tip_input_wechat_save_number_err);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.tvDepositAmountInfo.setTextColor(getContext().getColor(R.color.red));
+            }
+            return true;
         }
-        return true;
+        //虚拟币
+        if (isEmpty(binding.etVirtualAmount))//存款金额
+        {
+            binding.ivVirtualAmount.setBackgroundResource(R.mipmap.cm_ic_hint_red);
+            binding.tvVirtualAmountInfo.setText(R.string.txt_tip_input_wechat_save_number_err);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.tvVirtualAmountInfo.setTextColor(getContext().getColor(R.color.red));
+            }
+            return true;
+        }
+        return false;
     }
 
+    /** 检测存款时间*/
+    private boolean checkInputTime()
+    {
+        if (isEmpty(binding.tvDepositTime))
+        {
+            binding.ivDepositTime.setBackgroundResource(R.mipmap.cm_ic_hint_red);
+            binding.ivDepositTime.setVisibility(View.VISIBLE);
+            binding.tvDepositTimeInfo.setVisibility(View.VISIBLE);
+            binding.tvDepositTimeInfo.setText(R.string.txt_tip_input_usdt_save_number_time_err);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.tvDepositTimeInfo.setTextColor(getContext().getColor(R.color.red));
+            }
+            return true;
+        }
+        return false;
+    }
     /**
      * 检查第三方订单
      */
     private boolean checkInputThirdOrder() {
-        if (TextUtils.isEmpty(binding.tvSelectorRightThree.getText().toString()))//第三方订单号
+        if (isEmpty(binding.edThirdOrderNumber))//第三方订单号
         {
-            binding.ivSelectorTipThree.setVisibility(View.VISIBLE);
-            binding.ivSelectorTipThree.setBackgroundResource(R.mipmap.cm_ic_hint_red);
-            binding.tvSelectorTipThree.setVisibility(View.VISIBLE);
-            binding.tvSelectorTipThree.setText(R.string.txt_tip_input_wechat_other_order_err);
-            return false;
-        } else return true;
+            binding.ivThirdOrderNumber.setVisibility(View.VISIBLE);
+            binding.ivThirdOrderNumber.setBackgroundResource(R.mipmap.cm_ic_hint_red);
+            binding.tvThirdOrderNumberInfo.setVisibility(View.VISIBLE);
+            binding.tvThirdOrderNumberInfo.setText(R.string.txt_tip_input_wechat_other_order_err);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.tvThirdOrderNumberInfo.setTextColor(getContext().getColor(R.color.red));
+            }
+            return true;
+        } else return false;
+    }
+    /** 检测支付渠道*/
+    private boolean checkInputPayChannel()
+    {
+        if (isEmpty(binding.tvwPaymentChannel))
+        {
+            binding.ivPaymentChannel.setVisibility(View.VISIBLE);
+            binding.ivPaymentChannel.setBackgroundResource(R.mipmap.cm_ic_hint_red);
+            binding.tvPaymentChannelInfo.setVisibility(View.VISIBLE);
+            binding.tvPaymentChannelInfo.setText(R.string.txt_tip_input_wechat_select_pay_way);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.tvPaymentChannelInfo.setTextColor(getContext().getColor(R.color.red));
+            }
+            return true ;
+        }
+        return false;
     }
 
-    private void nextCheckInputWithPayWay(int payType) {
-        //1 支付宝 微信 2 虚拟币
-
-        if (checkInputPaymentAccount(payType) && checkInputPaymentName(payType) &&
-                checkInputCollectionName(payType) && checkInputSaveName(payType) &&
-                checkInputThirdOrder() && imageSelector) {
-            //提交图片
-            uploadImage(imageRealPathString);
-        }
-        else if (!checkInputPaymentName(payType))
+    /** 检测协议*/
+    private boolean checkAgreement()
+    {
+        if (TextUtils.isEmpty(binding.edProtocol.getText().toString()))
         {
-            if (payType == 1) //微信
-            {
+            return true;
+        }
+        else  return false;
+    }
+
+    /** 收款钱包地址*/
+    private boolean checkWalletAddress()
+    {
+        if (isEmpty(binding.etCollectionWalletAddress))
+        {
+           // iv_collection_wallet_address
+            binding.ivCollectionWalletAddress.setVisibility(View.VISIBLE);
+            binding.ivCollectionWalletAddress.setBackgroundResource(R.mipmap.cm_ic_hint_red);
+            binding.tvCollectionWalletAddressInfo.setVisibility(View.VISIBLE);
+            binding.tvCollectionWalletAddressInfo.setText(R.string.txt_tip_input_usdt_pay_err);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.tvCollectionWalletAddressInfo.setTextColor(getContext().getColor(R.color.red));
+            }
+            return true;
+        }
+        return false ;
+    }
+
+
+
+
+    private void nextCheckInputWithPayWay(int payType) {
+        CfLog.i("nextCheckInputWithPayWay payType = " +payType);
+        //1 支付宝 微信 2 虚拟币
+        if (payType ==1 )
+        {
+            if (TextUtils.isEmpty(binding.etPaymentAccount.getText().toString().trim())) {
+                String t = binding.etPaymentAccount.getText().toString().trim();
+                    CfLog.i("nextCheckInputWithPayWay = " +t);
+
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_pay_err), ToastUtils.ShowType.Fail);
             }
-            //虚拟币
-            else
-            {
-                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_pay_err), ToastUtils.ShowType.Fail);
-            }
-        }
-        else if (!checkInputPaymentName(payType) )
-        {
-            if (payType == 1) //微信
-            {
+
+            else if (checkInputPaymentName()) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_pay_wechat_name_err), ToastUtils.ShowType.Fail);
-            }
-            //虚拟币
-            else
-            {
-                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_pay_err), ToastUtils.ShowType.Fail);
-            }
-        }
-        else if (!checkInputCollectionName(payType))
-        {
-            if (payType == 1) //微信
-            {
+
+            } else if ( checkInputCollectionName()) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_collection_wechat_name_err), ToastUtils.ShowType.Fail);
-            }
-            //虚拟币
-            else
-            {
-                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_payment_agreement), ToastUtils.ShowType.Fail);
-            }
 
-        }
-        else if (!checkInputSaveName(payType))
-        {
-            if (payType == 1) //微信
-            {
+            } else if (TextUtils.isEmpty(binding.etDepositAmount.getText().toString().trim())) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_save_number_err), ToastUtils.ShowType.Fail);
-            }
-            //虚拟币
-            else
-            {
-                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_numb_error), ToastUtils.ShowType.Fail);
-            }
-        }
-        else if (!checkInputThirdOrder())
-        {
-            ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_other_order_err), ToastUtils.ShowType.Fail);
-        }
-        else if (!imageSelector)
-        {
-            CfLog.i("未上传图片");
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            } else if (checkInputTime()) {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_save_number_time_err), ToastUtils.ShowType.Fail);
+
+            } else if (checkInputThirdOrder()) {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_other_order_err), ToastUtils.ShowType.Fail);
+
+            } else if (TextUtils.isEmpty(binding.tvwPaymentChannel.getText().toString().trim())) {
+                CfLog.i("tvwPaymentChannel = " + binding.tvwPaymentChannel.getText().toString().trim());
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_pay_way_err), ToastUtils.ShowType.Fail);
 
             }
-            ToastUtils.show(getContext().getString(R.string.txt_feedback_upload_image)  , ToastUtils.ShowType.Fail);
+            else if (!imageSelector)
+            {
+                ToastUtils.show(getContext().getString(R.string.txt_feedback_upload_image)  , ToastUtils.ShowType.Fail);
+            }
+            else
+            {
+                //提交图片
+                uploadImage(imageRealPathString);
+            }
+
+        } else if (payType ==2) {
+            if (TextUtils.isEmpty( binding.etPaymentAddress.getText().toString().trim()))
+            {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_pay_err), ToastUtils.ShowType.Fail);      return;
+            } else if (checkAgreement()) {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_payment_agreement), ToastUtils.ShowType.Fail);
+            } else if (TextUtils.isEmpty(binding.etVirtualAmount.getText().toString().trim())) {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_numb_error), ToastUtils.ShowType.Fail);
+
+            } else if (checkInputTime())
+            {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_save_number_time_err), ToastUtils.ShowType.Fail);
+
+            } else if (checkInputThirdOrder()) {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_other_order_err), ToastUtils.ShowType.Fail);
+
+            } else if (checkInputPayChannel()) {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_pay_way_err), ToastUtils.ShowType.Fail);
+
+            } else if (checkWalletAddress()) {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_pay_err), ToastUtils.ShowType.Fail);
+            } else if (!imageSelector)
+            {
+                CfLog.i("未上传图片");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                }
+                ToastUtils.show(getContext().getString(R.string.txt_feedback_upload_image)  , ToastUtils.ShowType.Fail);
+            }
+            else
+            {
+                //提交图片
+                uploadImage(imageRealPathString);
+            }
         }
 
     }
@@ -740,20 +795,48 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
      */
     private void initEditListener() {
         TextChange textChange = new TextChange();
-        textChange.setArrayList(binding.etSelectorRightPaymentAccount);//付款账户
-        binding.etSelectorRightPaymentAccount.addTextChangedListener(textChange);
+        textChange.setArrayList(binding.etPaymentAccount);//付款账户
+        binding.etPaymentAccount.addTextChangedListener(textChange);
+        //et_payment_name 付款人姓名
+        textChange.setArrayList(binding.etPaymentName);
+        binding.etPaymentName.addTextChangedListener(textChange);
+        ////收款人 et_collection_name
+        textChange.setArrayList(binding.etCollectionName);
+        binding.etCollectionName.addTextChangedListener(textChange);
+        //存款金额 et_deposit_amount
+        textChange.setArrayList(binding.etDepositAmount);
+        binding.etDepositAmount.addTextChangedListener(textChange);
+        //第三方单号
+        textChange.setArrayList(binding.edThirdOrderNumber);
+        binding.edThirdOrderNumber.addTextChangedListener(textChange);
+        //准确时间
+        binding.tvDepositTime.addTextChangedListener(new TextWatcher(){
 
-        textChange.setArrayList(binding.etSelectorRightPaymentName);//付款人
-        binding.etSelectorRightPaymentName.addTextChangedListener(textChange);
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        textChange.setArrayList(binding.etSelectorRightCollectiontName);//收款人
-        binding.etSelectorRightCollectiontName.addTextChangedListener(textChange);
+            }
 
-        textChange.setArrayList(binding.etSelectorRightSavename);//存款金额
-        binding.etSelectorRightSavename.addTextChangedListener(textChange);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        textChange.setArrayList(binding.tvSelectorRightThree);//第三方单号
-        binding.tvSelectorRightThree.addTextChangedListener(textChange);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s.toString()))
+                {
+                    binding.ivDepositTime.setVisibility(View.VISIBLE);
+                    binding.tvDepositTimeInfo.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    binding.ivDepositTime.setVisibility(View.INVISIBLE);
+                    binding.tvDepositTimeInfo.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
     }
 
     /**
@@ -780,63 +863,64 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         public void afterTextChanged(Editable s) {
             for (int i = 0; i < arrayList.size(); i++) {
                 EditText e = arrayList.get(i);
-                if (e == binding.etSelectorRightPaymentAccount)
+                if (e ==  binding.etPaymentAccount) //付款账户
                 {
-                    CfLog.i("binding.etSelectorRightPaymentAccount---");
-                    //监听付款账户Ed
-                    if (binding.etSelectorRightPaymentAccount.getText().length() > 0) {
-                        binding.ivSelectorTipPayWayAccount.setVisibility(View.INVISIBLE);
-                        binding.tvSelectorTipPaywayAccount.setVisibility(View.INVISIBLE);
-                    } else if (binding.etSelectorRightPaymentAccount.getText().length() == 0) {
-                        binding.ivSelectorTipPayWayAccount.setVisibility(View.VISIBLE);
-                        binding.tvSelectorTipPaywayAccount.setVisibility(View.VISIBLE);
+                    if (isEmpty( binding.etPaymentAccount))
+                    {
+                        binding.ivPaymentAccount.setVisibility(View.VISIBLE);
+                        binding.tvPaymentAccountInfo.setVisibility(View.VISIBLE);
                     }
+                    else
+                    {
+                        binding.ivPaymentAccount.setVisibility(View.INVISIBLE);
+                        binding.tvPaymentAccountInfo.setVisibility(View.INVISIBLE);
+                    }
+
                 }
                 //付款人姓名
-                else if (e == binding.etSelectorRightPaymentName) {
-                    CfLog.i("binding.etSelectorRightPaymentName---");
-                    if (binding.etSelectorRightPaymentName.getText().length() > 0) {
-                        binding.ivSelectorTipPaywayName.setVisibility(View.INVISIBLE);
-                        binding.tvSelectorTipPaywayName.setVisibility(View.INVISIBLE);
-
-                    } else if (binding.etSelectorRightPaymentName.getText().length() == 0) {
-                        binding.ivSelectorTipPaywayName.setVisibility(View.VISIBLE);
-                        binding.tvSelectorTipPaywayName.setVisibility(View.VISIBLE);
+                else if (e == binding.etPaymentName) {
+                    if (isEmpty(binding.etPaymentName))
+                    {
+                        binding.ivPaymentNameInfo.setVisibility(View.VISIBLE);
+                        binding.tvPaymentNameInfo.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        binding.ivPaymentNameInfo.setVisibility(View.INVISIBLE);
+                        binding.tvPaymentNameInfo.setVisibility(View.INVISIBLE);
                     }
                 }
                 //收款人姓名
-                else if (e == binding.etSelectorRightCollectiontName) {
-                    if (feedbackType == 1) //wechat反馈模式
-                    {
-                        if (binding.etSelectorRightCollectiontName.getText().length() > 0) {
-                            binding.ivSelectorTipCollectionName.setVisibility(View.INVISIBLE);
-                            binding.tvSelectorTipCollectiontName.setVisibility(View.INVISIBLE);
-                        } else if (binding.etSelectorRightCollectiontName.getText().length() == 0) {
-                            binding.ivSelectorTipCollectionName.setVisibility(View.VISIBLE);
-                            binding.tvSelectorTipCollectiontName.setVisibility(View.VISIBLE);
-                        }
-                    } else if (feedbackType == 2) {
-
+                else if (e ==binding.etCollectionName ){
+                    if(isEmpty(binding.etCollectionName)){
+                        binding.ivCollectionName.setVisibility(View.VISIBLE);
+                        binding.tvtCollectionName.setVisibility(View.VISIBLE);
                     }
-
-                } else if (e == binding.etSelectorRightSavename) {
-                    if (binding.etSelectorRightSavename.getText().length() > 0) {
-                        binding.ivSelectorTipSavename.setVisibility(View.INVISIBLE);
-                        binding.tvSelectorTipSavename.setVisibility(View.INVISIBLE);
-                    } else if (binding.etSelectorRightSavename.getText().length() == 0) {
-                        binding.ivSelectorTipSavename.setVisibility(View.VISIBLE);
-                        binding.tvSelectorTipSavename.setVisibility(View.VISIBLE);
+                    else {
+                        binding.ivCollectionName.setVisibility(View.INVISIBLE);
+                        binding.tvtCollectionName.setVisibility(View.INVISIBLE);
                     }
                 }
-                //第三方单号
-                else if (e == binding.tvSelectorRightThree) {
-
-                    if (binding.tvSelectorRightThree.getText().length() > 0) {
-                        binding.ivSelectorTipThree.setVisibility(View.INVISIBLE);
-                        binding.tvSelectorTipThree.setVisibility(View.INVISIBLE);
-                    } else if (binding.tvSelectorRightThree.getText().length() == 0) {
-                        binding.ivSelectorTipThree.setVisibility(View.VISIBLE);
-                        binding.tvSelectorTipThree.setVisibility(View.VISIBLE);
+                //存款金额
+                else if (e ==binding.etDepositAmount )
+                {
+                    if(isEmpty(binding.etDepositAmount)){
+                        binding.ivDepositAmount.setVisibility(View.VISIBLE);
+                        binding.tvDepositAmountInfo.setVisibility(View.VISIBLE);
+                    }else {
+                        binding.ivDepositAmount.setVisibility(View.INVISIBLE);
+                        binding.tvDepositAmountInfo.setVisibility(View.INVISIBLE);
+                    }
+                }
+                //第三方订单号
+                else if (e ==  binding.edThirdOrderNumber) {
+                    if (isEmpty(binding.edThirdOrderNumber))
+                    {
+                        binding.ivThirdOrderNumber.setVisibility(View.VISIBLE);
+                        binding.tvThirdOrderNumberInfo.setVisibility(View.VISIBLE);
+                    }
+                    else {
+                        binding.ivThirdOrderNumber.setVisibility(View.INVISIBLE);
+                        binding.tvThirdOrderNumberInfo.setVisibility(View.INVISIBLE);
                     }
                 }
             }
@@ -908,48 +992,40 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             uploadMap.put("nonce", UuidUtil.getID16());//传入UUID);
 
             uploadMap.put("userpay_mode", "1");//微信
-            uploadMap.put("userpay_bank", binding.etSelectorRightPaymentAccount.getText().toString());//付款账户
-            uploadMap.put("userpay_amount", binding.etSelectorRightSavename.getText().toString());//存款金额
-            uploadMap.put("userpay_time", binding.tvSelectorRightSavetime.getText().toString());//存款准确时间
-            uploadMap.put("third_orderid", binding.tvSelectorRightThree.getText().toString()); //三方订单号
+            uploadMap.put("userpay_bank", binding.etPaymentAccount.getText().toString());//付款账户
+            uploadMap.put("userpay_amount", binding.etDepositAmount.getText().toString());//存款金额
+            uploadMap.put("userpay_time", binding.tvDepositTime.getText().toString());//存款准确时间
+            uploadMap.put("third_orderid", binding.edThirdOrderNumber.getText().toString()); //三方订单号
             uploadMap.put("userpay_picture", userPic); //上传图片三方地址
-            String receiverBank = "";
-            for (int i = 0; i < bankInfoArrayList.size(); i++) {
-                if (bankInfoArrayList.get(i).name.equals(binding.tvSelectorRightPayway.getText().toString())) {
-                    receiverBank = String.valueOf(bankInfoArrayList.get(i).id);
-                }
-            }
+
+            String receiverBank = receive_bank; //支付渠道
             uploadMap.put("receive_bank", receiverBank);//支付渠道
             uploadMap.put("userpay_virtual_protocol", "1");//用户支付协议 微信默认为1
-            uploadMap.put("userpay_name", binding.etSelectorRightPaymentAccount.getText().toString()); //付款人
-            uploadMap.put("receive_name", binding.etSelectorRightCollectiontName.getText().toString());//收款人
+            uploadMap.put("userpay_name", binding.etPaymentAccount.getText().toString()); //付款人
+            uploadMap.put("receive_name", binding.etPaymentName.getText().toString());//收款人
 
             CfLog.i("微信状态提交反馈  " + uploadMap.toString());
-
+            showLoadView();
             viewModel.feedbackCustomAdd(uploadMap);
         } else {
             HashMap<String, String> uploadMap = new HashMap<String, String>();
             uploadMap.put("nonce", UuidUtil.getID16());//传入UUID);
 
             uploadMap.put("userpay_mode", "2");//虚拟币
-            uploadMap.put("userpay_bank", binding.etSelectorRightPaymentAccount.getText().toString());//付款钱包地址
-            uploadMap.put("userpay_amount", binding.etSelectorRightSavename.getText().toString());//存款金额
-            uploadMap.put("userpay_time", binding.tvSelectorRightSavetime.getText().toString());//存款准确时间
-            uploadMap.put("third_orderid", binding.tvSelectorRightThree.getText().toString()); //三方订单号
+            uploadMap.put("userpay_bank", binding.etPaymentAddress.getText().toString());//付款钱包地址
+            uploadMap.put("userpay_amount", binding.etVirtualAmount.getText().toString());//存款金额
+            uploadMap.put("userpay_time", binding.tvDepositTime.getText().toString());//存款准确时间
+            uploadMap.put("third_orderid", binding.edThirdOrderNumber.getText().toString()); //三方订单号
             uploadMap.put("userpay_picture", userPic); //上传图片三方地址
-            String receiverBank = "";
-            for (int i = 0; i < bankInfoArrayList.size(); i++) {
-                if (bankInfoArrayList.get(i).name.equals(binding.tvSelectorRightPayway.getText().toString())) {
-                    receiverBank = String.valueOf(bankInfoArrayList.get(i).id);
-                }
-            }
+            String receiverBank = finalThreedID; //支付渠道
+
             uploadMap.put("receive_bank", receiverBank);//支付渠道
             uploadMap.put("userpay_virtual_protocol", "2");//用户支付协议 虚拟币默认为1
-            uploadMap.put("userpay_name", binding.etSelectorRightPaymentAccount.getText().toString()); //付款人
-            uploadMap.put("receive_name", binding.etSelectorRightCollectiontName.getText().toString());//收款钱包地址
+            uploadMap.put("userpay_name", binding.etPaymentAddress.getText().toString()); //付款钱包地址
+            uploadMap.put("receive_name", binding.etCollectionWalletAddress.getText().toString());//收款钱包地址
 
             CfLog.i("虚拟币状态提交反馈  " + uploadMap.toString());
-
+            showLoadView();
             viewModel.feedbackCustomAdd(uploadMap);
         }
 

@@ -236,7 +236,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 child.setSelected(false); // 已选中的取消掉,刷新等待时间有点长
             }
 
-            curRechargeVo = null;
+            //curRechargeVo = null; // 如果为空,连续点击x.bid会空指针
             viewModel.getPayments(); // 绑定回来,刷新数据
         }
     }
@@ -636,6 +636,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         });
 
         viewModel.liveDataPayment.observe(getViewLifecycleOwner(), vo -> {
+            curRechargeVo = null;
             mPaymentVo = vo;
             tutorialUrl = vo.bankdirect_url; // 充值教程
 

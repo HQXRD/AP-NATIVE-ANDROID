@@ -208,6 +208,7 @@
     <string name="txt_balance_after">余额（转后）</string>
     <string name="txt_order_s">单号：</string>
     <string name="txt_income">收入</string>
+    <string name="txt_outlay">支出</string>
     <string name="txt_balance">余额</string>
     <string name="txt_acc_change_order_s">账变编号：</string>
     <string name="txt_note_s">备注：</string>

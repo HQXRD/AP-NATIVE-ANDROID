@@ -123,6 +123,14 @@ public class USDTWithdrawalDialog extends BottomPopupView
         //USDT提款设置提款请求 返回model
         viewModel.usdtCashVoMutableLiveData.observe(owner, vo -> {
             usdtCashVo = vo ;
+            //异常
+            if (usdtCashVo.msg_type== 2 || usdtCashVo.msg_type== 1 )
+            {
+                ToastUtils.show(usdtCashVo.message ,ToastUtils.ShowType.Fail);
+                dismiss();
+                return;
+            }
+
             for (int i = 0; i < usdtCashVo.usdtinfo.size(); i++)
             {
                 if (usdtCashVo.usdtinfo.get(i).usdt_type.contains("TRC20"))

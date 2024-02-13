@@ -59,6 +59,7 @@
     <string name="txt_tip_input_wechat_three_numb_err">第三方订单号不能为空</string>
     <string name="txt_tip_input_wechat_pay_way">* 支付渠道：</string>
     <string name="txt_tip_input_wechat_select_pay_way">请选择支付渠道</string>
+    <string name="txt_tip_input_wechat_pay_way_err">*支付渠道不能为空</string>
 
 
     <string name="txt_tip_input_usdt_payment_account">* 付款钱包地址：</string>
