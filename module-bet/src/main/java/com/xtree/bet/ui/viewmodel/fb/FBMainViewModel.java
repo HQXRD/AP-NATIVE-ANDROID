@@ -151,16 +151,11 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         fBListReq.setOddType(oddType);
 
         if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
-            /*String sportIds = "";
-            for (int i = 1; i < FBConstants.SPORT_IDS.length; i++) {
-                sportIds += FBConstants.SPORT_IDS[i] + ",";
-            }*/
             fBListReq.setSportId(null);
         }
 
         String startTime;
         String endTime;
-
 
         if (type != 1 && type != 3) {
             if (searchDatePos == dateList.size() - 1) {

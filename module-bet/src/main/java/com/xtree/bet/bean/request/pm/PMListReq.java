@@ -56,6 +56,10 @@ public class PMListReq {
      */
     private String mids;
 
+    public String getEuid() {
+        return euid;
+    }
+
     public void setEuid(String euid) {
         this.euid = euid;
     }

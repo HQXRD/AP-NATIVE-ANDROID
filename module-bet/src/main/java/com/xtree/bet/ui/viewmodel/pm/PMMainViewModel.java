@@ -102,7 +102,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     @Override
     public void getHotMatchCount(int playMethodType, List<Long> leagueIds) {
 
-        if(leagueIds.isEmpty()){
+        if (leagueIds.isEmpty()) {
             return;
         }
         PMListReq pmListReq = new PMListReq();
@@ -111,7 +111,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         String sportIds = "";
         if (mMenuInfoList.isEmpty()) {
             for (String sportId : PMConstants.SPORT_IDS_SPECAIL) {
-                if(!TextUtils.equals("0", sportId)) {
+                if (!TextUtils.equals("0", sportId)) {
                     sportIds += sportId + ",";
                 }
             }
@@ -437,9 +437,10 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         } else {
             for (MenuInfo menuInfo : mMenuInfoList) {
                 boolean isFound = false;
-                for (MenuInfo subMenu : menuInfo.subList) {
-                    if (playMethodType == menuInfo.menuType) {
-                        if (TextUtils.equals(SPORT_NAMES[sportPos], subMenu.menuName)) {
+                if (playMethodType == menuInfo.menuType) {
+                    for (MenuInfo subMenu : menuInfo.subList) {
+
+                        if (subMenu.menuName.contains(SPORT_NAMES[sportPos])) {
                             isFound = true;
                             pmListReq.setEuid(String.valueOf(subMenu.menuId));
                             break;
@@ -456,8 +457,13 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             mChampionMatchList.clear();
         }
 
+        if(TextUtils.isEmpty(pmListReq.getEuid())){
+            championMatchListData.postValue(new ArrayList<>());
+            return;
+        }
+
         Disposable disposable = (Disposable) model.getPMApiService().noLiveMatchesPagePB(pmListReq)
-                .compose(RxUtils.schedulersTransformer()) //&#x7EBF;&#x7A0B;&#x8C03;&#x5EA6;
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new PMHttpCallBack<MatchListRsp>() {
                     @Override
@@ -529,7 +535,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                             if (playMethodType == menuInfo.menuType) {
                                 for (MenuInfo subMenu : menuInfo.subList) {
                                     sslMap.put(String.valueOf(subMenu.menuId), subMenu.count);
-
                                     int index = Arrays.asList(SPORT_NAMES).indexOf(subMenu.menuName);
                                     if (index != -1) {
                                         PMConstants.SPORT_IDS[index] = String.valueOf(subMenu.menuId);
@@ -662,7 +667,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @return
      */
     private void championLeagueList(List<MatchInfo> matchInfoList) {
-        if(!matchInfoList.isEmpty()) {
+        if (!matchInfoList.isEmpty()) {
             Match header = new MatchFb();
             header.setHead(true);
             mChampionMatchList.add(header);
