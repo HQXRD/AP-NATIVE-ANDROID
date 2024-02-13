@@ -16,6 +16,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.widget.FilterView;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentReportBinding;
@@ -63,6 +64,7 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
         binding.fvMain.setData(listType, null, null);
         binding.fvMain.setVisibility(View.VISIBLE, View.GONE, View.GONE);
         binding.fvMain.setTypeTitle(getString(R.string.txt_query_type), "", "");
+        LoadingDialog.show(getContext());
         requestData(1);
     }
 
@@ -71,6 +73,7 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
 
         binding.fvMain.setQueryListener(v -> {
+            LoadingDialog.show(getContext());
             curPage = 0;
             requestData(1);
         });
