@@ -8,11 +8,15 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.xtree.base.R;
 
 public class LoadingDialog extends BottomPopupView {
     private Context mContext;
+
+    private static BasePopupView ppw;
 
     public LoadingDialog(@NonNull Context context) {
         super(context);
@@ -26,6 +30,25 @@ public class LoadingDialog extends BottomPopupView {
         initView();
     }
 
+    public static BasePopupView show(Context context) {
+        if (ppw == null || ppw.isDismiss()) {
+            LoadingDialog dialog = new LoadingDialog(context);
+            ppw = new XPopup.Builder(context)
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(dialog)
+                    .show();
+
+        }
+        return ppw;
+    }
+
+    public static void finish() {
+        if (ppw != null && ppw.isShow()) {
+            ppw.dismiss();
+        }
+    }
+
     private void initView() {
         ImageView ivwLoading = findViewById(R.id.ivw_loading);
         ConstraintLayout clLoading = findViewById(R.id.cl_loading);
@@ -33,7 +56,7 @@ public class LoadingDialog extends BottomPopupView {
         clLoading.setOnClickListener(v -> {
         });
 
-        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.anim_loading);
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.anim_loading_normal);
         animation.setRepeatMode(Animation.RESTART);
         animation.setDuration(1500);
         ivwLoading.startAnimation(animation);

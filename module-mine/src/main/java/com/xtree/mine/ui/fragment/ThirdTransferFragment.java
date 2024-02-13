@@ -16,6 +16,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.widget.FilterView;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentReportBinding;
@@ -60,6 +61,7 @@ public class ThirdTransferFragment extends BaseFragment<FragmentReportBinding, R
         binding.fvMain.setData(listType, listType, listStatus);
         binding.fvMain.setVisibility(View.VISIBLE, View.VISIBLE, View.VISIBLE);
         binding.fvMain.setTypeTitle(getString(R.string.txt_platform_trans_out), getString(R.string.txt_platform_trans_in), getString(R.string.txt_status));
+        LoadingDialog.show(getContext());
         requestData(1);
     }
 

@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.UuidUtil;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.MsgInfoVo;
 import com.xtree.mine.vo.MsgListVo;
@@ -24,6 +25,7 @@ import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.http.BaseResponse2;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -35,6 +37,8 @@ public class MsgViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<Integer> liveDataMsgPersonCount = new MutableLiveData<>();
     public MutableLiveData<MsgInfoVo> liveDataMsgInfo = new MutableLiveData<>();
     public MutableLiveData<MsgPersonInfoVo> liveDataMsgPersonInfo = new MutableLiveData<>();
+    public MutableLiveData<Boolean> liveDataDeletePart = new MutableLiveData<>();
+    public MutableLiveData<Boolean> liveDataDeleteAll = new MutableLiveData<>();
     Gson gson = new Gson();
 
     public MsgViewModel(@NonNull Application application, MineRepository model) {
@@ -156,6 +160,60 @@ public class MsgViewModel extends BaseViewModel<MineRepository> {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
                         ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void deletePartPersonInfo(List<String> info) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("checkboxes", info);
+        map.put("nonce", UuidUtil.getID16());
+
+        Disposable disposable = (Disposable) model.getApiService().deletePartPersonInfo(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<BaseResponse2>() {
+                    @Override
+                    public void onResult(BaseResponse2 vo) {
+                        ToastUtils.showLong(vo.message);
+                        if (vo.msg_type == 1 || vo.msg_type == 2) {
+                            return;
+                        }
+                        liveDataDeletePart.setValue(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                        ToastUtils.showLong("删除失败");
+                        liveDataDeletePart.setValue(false);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void deleteAllPersonInfo() {
+        Disposable disposable = (Disposable) model.getApiService().deleteAllPersonInfo()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<BaseResponse2>() {
+                    @Override
+                    public void onResult(BaseResponse2 vo) {
+                        ToastUtils.showLong(vo.message);
+                        if (vo.msg_type == 1 || vo.msg_type == 2) {
+                            return;
+                        }
+                        liveDataDeleteAll.setValue(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                        ToastUtils.showLong("删除失败");
+                        liveDataDeleteAll.setValue(false);
                     }
                 });
         addSubscribe(disposable);

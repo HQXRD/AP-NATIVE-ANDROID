@@ -114,6 +114,6 @@ public interface HomeApiService {
      * 获取 AUG LIST
      */
     @GET("/augame/list")
-    Flowable<AugVo> getAugList();
+    Flowable<BaseResponse<List<AugVo>>> getAugList();
 
 }

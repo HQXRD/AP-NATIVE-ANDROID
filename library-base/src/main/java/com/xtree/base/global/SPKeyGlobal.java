@@ -38,4 +38,5 @@ public class SPKeyGlobal {
     public static final String MSG_PERSON_INFO = "msg_person_info";
     public static final String VIP_INFO = "vip_info";
     public static final String QUESTION_WEB = "questions_web";
+    public static final String AUG_LIST = "aug_list";
 }

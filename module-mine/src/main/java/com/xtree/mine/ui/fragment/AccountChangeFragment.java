@@ -1,5 +1,6 @@
 package com.xtree.mine.ui.fragment;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.widget.FilterView;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentReportBinding;
@@ -59,6 +61,7 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportBinding, R
         binding.fvMain.setData(listType, listStatus);
         binding.fvMain.setVisibility(View.VISIBLE, View.GONE, View.VISIBLE);
         binding.fvMain.setTypeTitle(getString(R.string.txt_acc_change_type), null, getString(R.string.txt_acc_change_status));
+        LoadingDialog.show(getContext());
         requestData(1);
     }
 
@@ -108,6 +111,17 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportBinding, R
                 binding2.tvwTimes.setText(vo.times);
                 binding2.tvwCntitle.setText(vo.cntitle);
                 binding2.tvwAmount.setText(operations + vo.amount); // + -
+               //收入 绿色 支出 红色
+                if (operations.equals("+"))
+                {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        binding2.tvwAmount.setTextColor(getContext().getColor(R.color.clr_green_01));
+                    }
+                } else if (operations.equals("-")) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        binding2.tvwAmount.setTextColor(getContext().getColor(R.color.red));
+                    }
+                }
                 binding2.tvwBalance.setText(vo.availablebalance);
                 binding2.tvwStatus.setText(status); //
                 binding2.tvwOrderno.setText(vo.orderno);

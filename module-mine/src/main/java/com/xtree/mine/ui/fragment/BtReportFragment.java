@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,9 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.FilterView;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentReportBinding;
@@ -26,9 +29,9 @@ import com.xtree.mine.ui.activity.BtDetailDialog;
 import com.xtree.mine.ui.viewmodel.ReportViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.BtOrderVo;
+import com.xtree.mine.vo.BtPlatformVo;
 import com.xtree.mine.vo.BtReportVo;
 import com.xtree.mine.vo.StatusVo;
-import com.xtree.mine.vo.BtPlatformVo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +59,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
     private String status = "0";
     private String userId = "";
     private String userName = "";
+    private ProfileVo mProfileVo;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -65,7 +69,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
         //binding.fvMain.setVisibility(View.VISIBLE, View.GONE, View.VISIBLE);
         binding.fvMain.setTypeTitle(getString(R.string.txt_bt_platform), null, getString(R.string.txt_status));
         binding.llValidBet.setVisibility(View.GONE);
-
+        LoadingDialog.show(getContext());
         requestType();
         //requestData(1);
     }
@@ -239,6 +243,8 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
 
     private void requestData(int page) {
         CfLog.i();
+        LoadingDialog.show(getActivity());
+
         starttime = binding.fvMain.getStartTime();
         endtime = binding.fvMain.getEndTime();
         typeId = binding.fvMain.getTypeId(""); //

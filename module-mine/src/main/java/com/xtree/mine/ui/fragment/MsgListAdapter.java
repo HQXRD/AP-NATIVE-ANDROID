@@ -18,6 +18,11 @@ public class MsgListAdapter extends CachedAutoRefreshAdapter<MsgVo> {
     ItemMsgInfoBinding binding;
     ICallBack mCallBack;
 
+    // 两次点击之间的最小点击间隔时间(单位:ms)
+    private static final int MIN_CLICK_DELAY_TIME = 2000;
+    // 最后一次点击的时间
+    private long lastClickTime;
+
     public interface ICallBack {
         void onClick(MsgVo vo);
     }
@@ -40,10 +45,18 @@ public class MsgListAdapter extends CachedAutoRefreshAdapter<MsgVo> {
 
         binding = ItemMsgInfoBinding.bind(holder.itemView);
 
-        binding.msgCheck.setVisibility(View.GONE);
-        binding.msgTitle.setText(vo.title);
-        binding.msgDate.setText(vo.created_at);
+        binding.ckbMsgCheck.setVisibility(View.GONE);
+        binding.tvwMsgTitle.setText(vo.title);
+        binding.tvwMsgDate.setText(vo.created_at);
 
-        binding.clItem.setOnClickListener(v -> mCallBack.onClick(vo));
+        binding.clItem.setOnClickListener(v ->
+        { // 限制多次点击
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastClickTime < MIN_CLICK_DELAY_TIME) {// 两次点击的时间间隔小于最小限制时间，不触发点击事件
+                return;
+            }
+            lastClickTime = currentTime;
+            mCallBack.onClick(vo);
+        });
     }
 }

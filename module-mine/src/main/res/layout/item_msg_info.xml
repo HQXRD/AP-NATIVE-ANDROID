@@ -6,7 +6,7 @@
     android:layout_height="80dp">
 
     <CheckBox
-        android:id="@+id/msg_check"
+        android:id="@+id/ckb_msg_check"
         style="@style/PwdCheckboxStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,17 +16,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/msg_icon"
+        android:id="@+id/ivw_msg_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:src="@mipmap/me_icon_name"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@id/msg_check"
+        app:layout_constraintStart_toEndOf="@id/ckb_msg_check"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/msg_title"
+        android:id="@+id/tvw_msg_title"
         style="@style/style_bind_confirm_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,19 +35,19 @@
         android:maxEms="10"
         android:singleLine="true"
         android:text="13测试"
-        app:layout_constraintStart_toEndOf="@id/msg_icon"
-        app:layout_constraintTop_toTopOf="@id/msg_icon" />
+        app:layout_constraintStart_toEndOf="@id/ivw_msg_icon"
+        app:layout_constraintTop_toTopOf="@id/ivw_msg_icon" />
 
     <TextView
-        android:id="@+id/msg_date"
+        android:id="@+id/tvw_msg_date"
         style="@style/style_bind_confirm_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:text="2023-10-13 16:08:33"
         android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="@id/msg_icon"
-        app:layout_constraintStart_toEndOf="@id/msg_icon" />
+        app:layout_constraintBottom_toBottomOf="@id/ivw_msg_icon"
+        app:layout_constraintStart_toEndOf="@id/ivw_msg_icon" />
 
     <ImageView
         android:layout_width="wrap_content"
