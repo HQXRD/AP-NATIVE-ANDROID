@@ -70,6 +70,7 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportBinding, R
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
 
         binding.fvMain.setQueryListener(v -> {
+            LoadingDialog.show(getContext());
             curPage = 0;
             requestData(1);
         });
