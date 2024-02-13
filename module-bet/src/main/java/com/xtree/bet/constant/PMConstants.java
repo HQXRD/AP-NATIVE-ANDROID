@@ -22,11 +22,24 @@ public class PMConstants {
      * 默认冠军体育分类ID，与sportNames一一对应
      */
     public static String[] SPORT_IDS_CHAMPION_SPECAIL = new String[]{"40603", "40604", "40606", "40607", "40612", "40610", "40608", "40613", "40609", "40611", "40216", "40211", "40215"};
+    public static String[] SPORT_IDS_ADDITIONAL = new String[8];
+    public static Integer[] SPORT_TYPES_ADDITIONAL = new Integer[]{22, 52, 20037, 20038, 24, 51, 20033, 20018};
 
     public static String[] SPORT_NAMES;
     public static String[] SPORT_NAMES_NOMAL = new String[]{"足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
     public static String[] SPORT_NAMES_LIVE = new String[]{"全部", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
     public static String[] SPORT_NAMES_TODAY_CG = new String[]{"热门", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
+    public static String[] SPORT_NAMES_ADDITIONAL = new String[]{"橄榄球", "高尔夫球", "玩板球", "飞镖", "水球", "自行车", "F1赛车", /*"橄榄球", */"娱乐"};
+
+    public static int[] SPORT_ICON_ADDITIONAL = new int[]{
+            project.tqyb.com.library_res.R.drawable.bt_match_item_glq_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_golf_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_wbq_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_darts_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_water_ball_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_cycling_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_f1_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_yl_selector};
 
     /**
      * 玩法ID，与PLAY_METHOD_NAMES一一对应
