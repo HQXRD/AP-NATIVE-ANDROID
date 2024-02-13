@@ -45,9 +45,10 @@ public class BrowserActivity extends AppCompatActivity {
     TextView tvwTitle;
     ImageView ivwBack;
     WebView mWebView;
-    ImageView ivwLoading;
     ImageView ivwLaunch;
     int sslErrorCount = 0;
+
+    boolean isLottery = false;
 
     String title = "";
     String url = "";
@@ -87,6 +88,7 @@ public class BrowserActivity extends AppCompatActivity {
         //header.put("UUID", TagUtils.getDeviceId(Utils.getContext()));
         CfLog.d("header: " + header); // new Gson().toJson(header)
         url = getIntent().getStringExtra("url");
+        isLottery = getIntent().getBooleanExtra("isLottery", false);
         //setCookie(cookie, url); // 设置 cookie
         Uri uri = getIntent().getData();
         if (uri != null && TextUtils.isEmpty(url)) {
@@ -102,7 +104,6 @@ public class BrowserActivity extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_loading);
         animation.setRepeatMode(Animation.RESTART);
         animation.setDuration(20 * 1000);
-        ivwLoading.startAnimation(animation);
     }
 
     private void initView() {
@@ -110,7 +111,6 @@ public class BrowserActivity extends AppCompatActivity {
         tvwTitle = findViewById(R.id.tvw_title);
         ivwBack = findViewById(R.id.ivw_back);
         mWebView = findViewById(R.id.wv_main);
-        ivwLoading = findViewById(R.id.ivw_loading);
         ivwLaunch = findViewById(R.id.ivw_launch);
 
         ivwBack.setOnClickListener(v -> finish());
@@ -142,7 +142,11 @@ public class BrowserActivity extends AppCompatActivity {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 CfLog.d("onPageStarted url:  " + url);
                 //Log.d("---", "onPageStarted url:  " + url);
-                setCookieInside();
+                if (isLottery) {
+                    setLotteryCookieInside();
+                } else {
+                    setCookieInside();
+                }
             }
 
             @Override
@@ -176,8 +180,6 @@ public class BrowserActivity extends AppCompatActivity {
     }
 
     private void hideLoading() {
-        ivwLoading.setVisibility(View.GONE);
-        ivwLoading.clearAnimation();
         ivwLaunch.setVisibility(View.GONE);
     }
 
@@ -253,6 +255,52 @@ public class BrowserActivity extends AppCompatActivity {
         String js = "";
         js += "(function() {" + "\n";
         js += "const d = new Date();" + "\n";
+        js += "d.setTime(d.getTime() + (24*60*60*1000));" + "\n";
+        js += "let expires = \"expires=\"+ d.toUTCString();" + "\n";
+        js += "document.cookie = \"auth=" + token + ";\" + expires + \";path=/\";" + "\n";
+        js += "document.cookie = \"_sessionHandler=" + sessid + ";\" + expires + \";path=/\";" + "\n";
+        js += "localStorage.setItem('USER-PROFILE', '" + userProfile + "');" + "\n";
+        js += "localStorage.setItem('AUTH', '" + auth + "');" + "\n";
+        js += "})()" + "\n";
+
+        CfLog.i(js.replace("\n", " \t"));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            mWebView.evaluateJavascript(js, null);
+        } else {
+            mWebView.loadUrl("javascript:" + js);
+        }
+    }
+
+    private void setLotteryCookieInside() {
+        // auth, _sessionHandler 是验证类业务用的,比如绑USDT/绑YHK
+        // AUTH, USER-PROFILE 是给VIP中心/报表 用的
+
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        String sessid = SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID);
+
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        HashMap mProfileVo = new Gson().fromJson(json, new TypeToken<HashMap>() {
+        }.getType());
+
+        long expires = System.currentTimeMillis() + 24 * 60 * 60 * 1000;
+        HashMap map = new HashMap<>();
+        map.put("data", mProfileVo);
+        map.put("expires", expires);
+        String userProfile = new Gson().toJson(map);
+
+        map.clear();
+        map.put("data", token);
+        map.put("expires", expires);
+        String auth = new Gson().toJson(map);
+
+        String js = "";
+        js += "(function() {" + "\n";
+        js += "const d = new Date();" + "\n";
+        js += "const style = document.createElement('style');" + "\n";
+        js += "style.type = 'text/css';" + "\n";
+        js += "style.id = 'iOS_inject';" + "\n";
+        js += "document.head.appendChild(style);" + "\n";
+        js += "document.querySelector('#iOS_inject').innerHTML = '.headerH5{display: none !important;} .all-lottery-all{ margin-top: 0 !important;} .msg{ display: none !important;} .menu{ display: none !important;} .countdown{ margin-right: .8rem;}';" + "\n";
         js += "d.setTime(d.getTime() + (24*60*60*1000));" + "\n";
         js += "let expires = \"expires=\"+ d.toUTCString();" + "\n";
         js += "document.cookie = \"auth=" + token + ";\" + expires + \";path=/\";" + "\n";
