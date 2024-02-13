@@ -29,6 +29,7 @@
     <LinearLayout style="@style/style_item_ll_row">
 
         <TextView
+            android:id="@+id/tvw_in_out"
             style="@style/style_item_report_title"
             android:text="@string/txt_income" />
 
