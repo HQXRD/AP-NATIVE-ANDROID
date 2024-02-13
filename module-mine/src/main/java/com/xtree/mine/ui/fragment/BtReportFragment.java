@@ -68,8 +68,8 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
         binding.fvMain.setData(listType, listStatus);
         //binding.fvMain.setVisibility(View.VISIBLE, View.GONE, View.VISIBLE);
         binding.fvMain.setTypeTitle(getString(R.string.txt_bt_platform), null, getString(R.string.txt_status));
-        binding.llValidBet.setVisibility(View.GONE);
-        LoadingDialog.show(getContext());
+        //binding.llValidBet.setVisibility(View.GONE);  // 统计汇总
+        //LoadingDialog.show(getContext());
         requestType();
         //requestData(1);
     }
@@ -79,6 +79,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
 
         binding.fvMain.setQueryListener(v -> {
+            LoadingDialog.show(getActivity());
             curPage = 0;
             requestData(1);
         });
@@ -91,7 +92,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
             CfLog.i("****** load more");
             requestData(curPage + 1);
         });
-
+        binding.tvwTip.setVisibility(View.VISIBLE); // 投注记录独有的提示语
 
         mAdapter = new CachedAutoRefreshAdapter<BtOrderVo>() {
 
@@ -243,8 +244,6 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
 
     private void requestData(int page) {
         CfLog.i();
-        LoadingDialog.show(getActivity());
-
         starttime = binding.fvMain.getStartTime();
         endtime = binding.fvMain.getEndTime();
         typeId = binding.fvMain.getTypeId(""); //
