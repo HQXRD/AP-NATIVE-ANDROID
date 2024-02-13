@@ -242,19 +242,15 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
      * 显示提款页面
      */
     private void showChoose() {
-
-        if (mProfileVo.is_binding_phone == false) {
+        if (!mProfileVo.is_binding_phone || !mProfileVo.is_binding_email) {
+            CfLog.i("未绑定手机/邮箱");
             toBindPhoneNumber();
-
-        } else if (mProfileVo.is_binding_email == false) {
-            toBindPhoneNumber();
-
-        } else if (mProfileVo.is_binding_card == false) {
+        } else if (!mProfileVo.is_binding_card) {
+            CfLog.i("未绑定银行卡");
             toBindPhoneOrCard();
-
         } else {
-            CfLog.i("RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW");
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
+
         }
     }
 
