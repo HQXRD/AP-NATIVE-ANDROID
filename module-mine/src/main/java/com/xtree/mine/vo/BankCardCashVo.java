@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import me.xtree.mvvmhabit.http.BaseResponse2;
+
 /**
  * 银行卡取现
  */
-public class BankCardCashVo {
+public class BankCardCashVo extends BaseResponse2 {
     public String exchangerate;
     public String withdraw_rand_on;
     public int freeWithDrawTimes;

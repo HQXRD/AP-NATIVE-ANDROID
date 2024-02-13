@@ -2,7 +2,9 @@ package com.xtree.mine.vo;
 
 import java.util.ArrayList;
 
-public class VirtualCashVo {
+import me.xtree.mvvmhabit.http.BaseResponse2;
+
+public class VirtualCashVo extends BaseResponse2 {
     public String count;//今日提款次数
     public String rest;//今日提款额度
     public String id ;

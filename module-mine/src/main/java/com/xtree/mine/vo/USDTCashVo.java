@@ -2,10 +2,12 @@ package com.xtree.mine.vo;
 
 import java.util.ArrayList;
 
+import me.xtree.mvvmhabit.http.BaseResponse2;
+
 /**
  * USDT 提款请求返回体
  */
-public class USDTCashVo {
+public class USDTCashVo extends BaseResponse2 {
     public String count;//今日提款次数
     public String rest;//今日提款额度
     public String id ;
