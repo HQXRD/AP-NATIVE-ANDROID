@@ -118,16 +118,6 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 params.bottomMargin = binding.cslBottom.getMeasuredHeight();
                 binding.llKeyboard.setLayoutParams(params);
             }
-
-            /*ViewGroup.MarginLayoutParams optionParams = (ViewGroup.MarginLayoutParams)binding.nsvOption.getLayoutParams();
-            int topHeight = binding.cslTop.getMeasuredHeight();
-            int bottomHeight = binding.cslBottom.getMeasuredHeight();
-            int optionHeight = binding.nsvOption.getMeasuredHeight();
-            if(topHeight + bottomHeight + optionHeight > ConvertUtils.getScreenHeight(getContext()) * 0.85){
-                int height = (int) (ConvertUtils.getScreenHeight(getContext()) * 0.85 - topHeight - bottomHeight);
-                optionParams.height = height;
-                binding.nsvOption.setLayoutParams(optionParams);
-            }*/
         });
 
         if (BtCarManager.isCg() && !BtCarManager.isEmpty()) { // 串关
@@ -225,8 +215,10 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
 
             if(hasCloseOption){
                 binding.ivConfirm.setEnabled(false);
+                binding.rlConfirm.setEnabled(false);
             }else{
                 binding.ivConfirm.setEnabled(true);
+                binding.rlConfirm.setEnabled(true);
             }
 
             if (betConfirmOptionAdapter == null) {
@@ -237,10 +229,6 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             }
         });
         viewModel.cgOddLimitDate.observe(this, cgOddLimits -> {
-
-            if(!this.cgOddLimitList.isEmpty()){
-                CfLog.e("更新前this.cgOddLimitList===============" + this.cgOddLimitList.get(0).getBtAmount());
-            }
             if (cgOddLimitAdapter == null) {
                 this.cgOddLimitList = cgOddLimits;
                 cgOddLimitAdapter = new CgOddLimitSecAdapter(getContext(), cgOddLimits);
@@ -253,9 +241,6 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                     cgOddLimits.get(i).setBtAmount(cgOddLimitList.get(i).getBtAmount());
                 }
                 this.cgOddLimitList = cgOddLimits;
-                if(!this.cgOddLimitList.isEmpty()){
-                    CfLog.e("更新后this.cgOddLimitList===============" + this.cgOddLimitList.get(0).getBtAmount());
-                }
                 cgOddLimitAdapter.setNewData(this.cgOddLimitList);
             }
         });

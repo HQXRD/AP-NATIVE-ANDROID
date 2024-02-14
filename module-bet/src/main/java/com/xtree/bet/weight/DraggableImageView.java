@@ -12,6 +12,8 @@ import android.view.animation.TranslateAnimation;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import me.xtree.mvvmhabit.utils.ConvertUtils;
+
 public class DraggableImageView extends androidx.appcompat.widget.AppCompatImageView {
     private int lastX;
     private int lastLeft;
@@ -80,7 +82,7 @@ public class DraggableImageView extends androidx.appcompat.widget.AppCompatImage
                 if(lastRight == maxRight) {
                     callBack.onActionUp();
                 }
-                layout(0, getTop(), getWidth(), getBottom());
+                layout(ConvertUtils.dp2px(5), getTop(), getWidth() + ConvertUtils.dp2px(5), getBottom());
                 Animation translateAnimation = new TranslateAnimation(lastRight - getWidth(), 0, 0, 0);//设置平移的起点和终点
                 translateAnimation.setDuration(300);//动画持续的时间为10s
                 translateAnimation.setFillEnabled(true);//使其可以填充效果从而不回到原地
