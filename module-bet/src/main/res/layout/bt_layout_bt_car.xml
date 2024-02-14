@@ -100,8 +100,7 @@
                 android:layout_marginTop="8dp"
                 android:background="@mipmap/bt_bg_dialog_bt"
                 android:minHeight="300dp"
-                android:paddingTop="10dp"
-                android:visibility="visible">
+                android:paddingTop="10dp">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -157,7 +156,7 @@
                         <View
                             android:id="@+id/v_space"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
                             android:orientation="vertical" />
 
                     </LinearLayout>
@@ -228,10 +227,11 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_toLeftOf="@+id/iv_bt"
-                        android:layout_toRightOf="@+id/iv_delete"
-                        android:background="@drawable/bt_btn_bg_cg_selector"
-                        android:paddingStart="5dp">
-
+                        android:layout_toRightOf="@+id/iv_delete">
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bt_btn_bg_cg_selector"/>
                         <TextView
                             android:id="@+id/tv_bt_opton"
                             android:layout_width="wrap_content"
@@ -259,8 +259,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="2dp"
-                            android:layout_marginEnd="0dp"
+                            android:layout_marginEnd="15dp"
                             android:background="@mipmap/bt_ic_confirmation_group" />
 
                         <com.xtree.bet.weight.DraggableImageView
@@ -268,6 +267,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
+                            android:layout_marginStart="5dp"
                             android:background="@mipmap/bt_ic_confirmation_arrow" />
                     </RelativeLayout>
 
