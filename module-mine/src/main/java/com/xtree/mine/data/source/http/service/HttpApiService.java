@@ -19,6 +19,8 @@ import com.xtree.mine.vo.ForgetPasswordVerifyVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.GooglePswVO;
 import com.xtree.mine.vo.LoginResultVo;
+import com.xtree.mine.vo.LotteryDetailVo;
+import com.xtree.mine.vo.LotteryReportVo;
 import com.xtree.mine.vo.MsgInfoVo;
 import com.xtree.mine.vo.MsgListVo;
 import com.xtree.mine.vo.MsgPersonInfoVo;
@@ -340,12 +342,27 @@ public interface HttpApiService {
     Flowable<BtReportVo> getBtReport(@QueryMap Map<String, String> map);
 
     /**
+     * 投注记录-列表(彩票)
+     * ?controller=gameinfo&action=newgamelist&starttime=2023-09-13 00:00:00&endtime=2024-02-13 23:59:59
+     * &lotteryid=0&methodid=0&p=1&pn=20&ischild=0&client=m
+     */
+    @GET("/gameinfo")
+    Flowable<LotteryReportVo> getCpReport(@QueryMap Map<String, String> map);
+
+    /**
      * 投注记录-详情
      * platform=FBXC,project_id=10950255273****7510,nonce=***
      */
     @POST("/api/game/projectDetail?")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<BtDetailVo>> getBtOrderDetail(@Body Map<String, String> map);
+
+    /**
+     * 投注记录-详情(彩票)
+     * platform=FBXC,project_id=10950255273****7510,nonce=***
+     */
+    @GET("/gameinfo/newgamedetail/{id}?client=m")
+    Flowable<LotteryDetailVo> getBtCpOrderDetail(@Path("id") String id);
 
     /**
      * 获取 FB体育请求服务地址
@@ -464,7 +481,6 @@ public interface HttpApiService {
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<USDTConfirmVo> postConfirmWithdrawUSDT(@Body Map<String, String> map);
-
 
     /**
      * USDT获取提款方式

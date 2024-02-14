@@ -223,6 +223,7 @@
     <string name="txt_action_time_s">处理时间：</string>
     <string name="txt_income_time_s">到账时间：</string>
     <string name="txt_bt_amount2">投注金额</string>
+    <string name="txt_bt_play_type">投注玩法</string>
     <string name="txt_sprize_amount">中奖金额</string>
     <string name="txt_efficient_bt">有效投注</string>
     <string name="txt_member_win_fail">会员输赢</string>
@@ -242,6 +243,30 @@
     <string name="txt_game_code_s">注单号：</string>
     <string name="txt_bt_date_s">投注日期：</string>
     <string name="txt_bt_time_s">投注时间：</string>
+    <string name="txt_user_name_s">用户名：</string>
+    <string name="txt_cp_time_s">注单时间：</string>
+    <string name="txt_cp_id_s">注单编号：</string>
+    <string name="txt_cp_acc_s">投注账号：</string>
+    <string name="txt_lottery_name_s">彩种：</string>
+    <string name="txt_method_name_s">玩法：</string>
+    <string name="txt_bt_issue_s">投注期号：</string>
+    <string name="txt_bt_status_s">注单状态：</string>
+    <string name="txt_prizes_code_s">中奖号码：</string>
+    <string name="txt_bt_total_s">投注总额：</string>
+    <string name="txt_prizes_s">奖金：</string>
+    <string name="txt_multiple_s">倍数：</string>
+    <string name="txt_modes_s">模式：</string>
+    <string name="txt_bt_content_s">投注内容：</string>
+
+    <string name="txt_cancel_by_self">本人撤单</string>
+    <string name="txt_cancel_by_platform">平台撤单</string>
+    <string name="txt_cancel_by_error">错开撤单</string>
+    <string name="txt_cancel_no_status">暂无状态</string>
+    <string name="txt_prizes_not_open">未开奖</string>
+    <string name="txt_prizes_not_win">未中奖</string>
+    <string name="txt_prizes_not_distributed">未派奖</string>
+    <string name="txt_prizes_distributed">已派奖</string>
+
     <string name="txt_detail">详情</string>
     <string name="txt_get_otp">获取验证码</string>
     <string name="txt_otp_can_not_null">验证码不能为空</string>

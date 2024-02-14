@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/clr_transparent"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_dialog_top_purple"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvw_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="投注详情"
+            android:textColor="@color/clr_white"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivw_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="close"
+            android:padding="4dp"
+            android:src="@mipmap/ic_pop_close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="0dp"
+        android:background="@color/clr_white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/layout_margin">
+
+            <View
+                style="@style/style_filter_info_dividing"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:visibility="invisible" />
+
+            <LinearLayout style="@style/style_item_ll_row">
+
+                <TextView
+                    style="@style/style_item_report_title_end2"
+                    android:text="@string/txt_cp_time_s" />
+
+                <TextView
+                    android:id="@+id/tvw_write_time"
+                    style="@style/style_item_report_value"
+                    tools:text="2024-01-13 13:53:53" />
+            </LinearLayout>
+
+            <View
+                style="@style/style_filter_info_dividing"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp" />
+
+            <LinearLayout style="@style/style_item_ll_row">
+
+                <TextView
+                    style="@style/style_item_report_title_end2"
+                    android:text="@string/txt_cp_id_s" />
+
+                <TextView
+                    android:id="@+id/tvw_project_id"
+                    style="@style/style_item_report_value"
+                    tools:text="D20240130-141***EEF" />
+            </LinearLayout>
+
+            <View
+                style="@style/style_filter_info_dividing"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp" />
+
+            <LinearLayout style="@style/style_item_ll_row">
+
+                <TextView
+                    style="@style/style_item_report_title_end2"
+                    android:text="@string/txt_cp_acc_s" />
+
+                <TextView
+                    android:id="@+id/tvw_username"
+                    style="@style/style_item_report_value"
+                    tools:text="testkite" />
+            </LinearLayout>
+
+            <View
+                style="@style/style_filter_info_dividing"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp" />
+
+            <LinearLayout style="@style/style_item_ll_row">
+
+                <TextView
+                    style="@style/style_item_report_title_end2"
+                    android:text="@string/txt_lottery_name_s" />
+
+                <TextView
+                    android:id="@+id/tvw_lottery_name"
+                    style="@style/style_item_report_value"
+                    tools:text="河内5分彩" />
+            </LinearLayout>
+
+            <View
+                style="@style/style_filter_info_dividing"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp" />
+
+            <LinearLayout style="@style/style_item_ll_row">
+
+                <TextView
+                    style="@style/style_item_report_title_end2"
+                    android:text="@string/txt_bt_issue_s" />
+
+                <TextView
+                    android:id="@+id/tvw_issue"
+                    style="@style/style_item_report_value"
+                    tools:text="20240130-141" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_item_ll_row">
+
+                <TextView
+                    style="@style/style_item_report_title_end2"
+                    android:text="@string/txt_bt_status_s" />
+
+                <TextView
+                    android:id="@+id/tvw_status"
+                    style="@style/style_item_report_value"
+                    tools:text="未中奖" />
+            </LinearLayout>
+
+            <View
+                style="@style/style_filter_info_dividing"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp" />
+
+            <LinearLayout style="@style/style_item_ll_row">
+
+                <TextView
+                    style="@style/style_item_report_title_end2"
+                    android:text="@string/txt_method_name_s" />
+
+                <TextView
+                    android:id="@+id/tvw_method_name"
+                    style="@style/style_item_report_value"
+                    tools:text="后三码后三直选" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_item_ll_row">
+
+                <TextView
+                    style="@style/style_item_report_title_end2"
+                    android:text="@string/txt_prizes_code_s" />
+
+                <TextView
+                    android:id="@+id/tvw_no_code"
+                    style="@style/style_item_report_value"
+                    tools:text="30176" />
+            </LinearLayout>
+
+            <View
+                style="@style/style_filter_info_dividing"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp" />
+
+            <LinearLayout style="@style/style_item_ll_row">
+
+                <TextView
+                    style="@style/style_item_report_title_end2"
+                    android:text="@string/txt_bt_total_s" />
+
+                <TextView
+                    android:id="@+id/tvw_total_price"
+                    style="@style/style_item_report_value"
+                    android:textColor="@color/clr_red_01"
+                    tools:text="0.0000" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_item_ll_row">
+
+                <TextView
+                    style="@style/style_item_report_title_end2"
+                    android:text="@string/txt_prizes_s" />
+
+                <TextView
+                    android:id="@+id/tvw_bonus"
+                    style="@style/style_item_report_value"
+                    android:textColor="@color/clr_red_01"
+                    tools:text="0.0000" />
+            </LinearLayout>
+
+            <View
+                style="@style/style_filter_info_dividing"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp" />
+
+            <LinearLayout style="@style/style_item_ll_row">
+
+                <TextView
+                    style="@style/style_item_report_title_end2"
+                    android:text="@string/txt_multiple_s" />
+
+                <TextView
+                    android:id="@+id/tvw_multiple"
+                    style="@style/style_item_report_value"
+                    tools:text="1" />
+            </LinearLayout>
+
+            <LinearLayout style="@style/style_item_ll_row">
+
+                <TextView
+                    style="@style/style_item_report_title_end2"
+                    android:text="@string/txt_modes_s" />
+
+                <TextView
+                    android:id="@+id/tvw_modes"
+                    style="@style/style_item_report_value"
+                    tools:text="厘" />
+            </LinearLayout>
+
+            <View
+                style="@style/style_filter_info_dividing"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                style="@style/style_item_report_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/txt_bt_content_s"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvw_code"
+                style="@style/style_item_report_value"
+                tools:text="1,1,1" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>
