@@ -7,8 +7,8 @@ import me.xtree.mvvmhabit.http.BaseResponse2;
  */
 public class PlatWithdrawConfirmVo extends BaseResponse2 {
     public User user;
-    public String msg_detail;//"账户提款申请成功" "请刷新后重试！
-    public int msg_type;//2 账户提款申请成功
+  /*  public String msg_detail;//"账户提款申请成功" "请刷新后重试！
+    public int msg_type;//2 账户提款申请成功*/
 
     public static class User {
         /*
