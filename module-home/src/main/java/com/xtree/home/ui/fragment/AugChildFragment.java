@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.home.BR;
@@ -75,6 +76,9 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
                         .into(binding2.ibGame);
 
                 binding2.ibGame.setOnClickListener(v -> {
+                    if (ClickUtil.isFastClick()) {
+                        return;
+                    }
                     viewModel.getPlayUrl("au", vo.getId());
                 });
             }

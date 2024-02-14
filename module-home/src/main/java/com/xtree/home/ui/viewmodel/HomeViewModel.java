@@ -9,13 +9,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
@@ -263,10 +260,6 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     }
 
     public void getPlayUrl(String gameAlias, String gameId) {
-        // 限制多次点击，禁止重复启动BrowserActivity
-        if (ClickUtil.isFastClick()) {
-            return;
-        }
         if (TextUtils.isEmpty(gameId)) {
             gameId = "1";
         }

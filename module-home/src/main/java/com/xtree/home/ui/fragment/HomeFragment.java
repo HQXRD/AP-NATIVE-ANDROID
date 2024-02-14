@@ -293,6 +293,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 startContainerFragment(RouterFragmentPath.Home.AUG);
                 return;
             }
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             viewModel.getPlayUrl(vo.alias, vo.gameId);
         };
 
