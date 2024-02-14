@@ -1,12 +1,17 @@
 package com.xtree.base.utils;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
+import com.microsoft.appcenter.AppCenter;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
 
 import org.json.JSONException;
@@ -32,21 +37,24 @@ public class TagUtils {
     private static String MEDIA_SOURCE = ""; // 旧包的渠道名,就是升级到最新官方安装包前的渠道名。
     private static boolean IS_TAG = false; // 是否开启打点统计, true:开启, false:关闭
     private static String MIXPANEL_TOKEN = "******";
+    private static String MS_SECRET_KEY = "******";
     private static String USER_ID = "";
     private static String deviceId;
 
     private static Map<String, Long> mapCache = new HashMap<>(); // 记录打点事件对应的时间,防重复
 
-    public static void init(Context ctx, String token, String channel, String userId) {
+    public static void init(Context ctx, String[] token, String channel, String userId) {
         init(ctx, token, channel, userId, true);
     }
 
-    public static void init(Context ctx, String token, String channel, String userId, boolean isTag) {
-        MIXPANEL_TOKEN = token;
+    public static void init(Context ctx, String[] token, String channel, String userId, boolean isTag) {
+        MIXPANEL_TOKEN = token[0];
+        MS_SECRET_KEY = token[1];
         CHANNEL_NAME = channel;
         USER_ID = userId;
         IS_TAG = isTag;
         initMixpanel(ctx);
+        initAppCenter(ctx);
     }
 
     public static void initMixpanel(Context ctx) {
@@ -56,8 +64,12 @@ public class TagUtils {
             props.put("name", channelName);
         } catch (JSONException e) {
         }
-
         initMixpanel(ctx, props);
+    }
+
+    public static void initAppCenter(Context ctx) {
+        AppCenter.start((Application) ctx.getApplicationContext(), MS_SECRET_KEY, Analytics.class, Crashes.class);
+        AppCenter.setLogLevel(Log.VERBOSE);
     }
 
     public static void initMixpanel(Context ctx, JSONObject props) {
@@ -107,7 +119,7 @@ public class TagUtils {
             map.put("uid", USER_ID);
         }
         tagAppsFlyer(ctx, event, map);
-
+        Analytics.trackEvent(event);
         tagMixpanel(ctx, event, getJson(map));
     }
 
@@ -143,6 +155,7 @@ public class TagUtils {
         if (date != curDate) {
             CfLog.d("event: tagDaily, " + curDate);
             ctx.getSharedPreferences("myPrefs", Context.MODE_PRIVATE).edit().putInt("lastTagDate", curDate).commit();
+            Analytics.trackEvent("tagDaily");
             tagAppsFlyer(ctx, "tagDaily", null);
             tagMixpanel(ctx, "tagDaily", null);
         }

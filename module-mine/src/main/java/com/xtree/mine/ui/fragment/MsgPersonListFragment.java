@@ -197,6 +197,9 @@ public class MsgPersonListFragment extends BaseFragment<FragmentMsgPersonListBin
         viewModel.liveDataMsgPersonCount.observe(this, count -> this.count = count);
 
         viewModel.liveDataMsgPersonInfo.observe(this, vo -> {
+            if (mListMsgInfoDialog != null && mListMsgInfoDialog.isShow()) {
+                return;
+            }
             mListMsgInfoDialog = (ListMsgInfoDialog) new XPopup.Builder(getContext()).asCustom(new ListMsgInfoDialog(getContext(), null, vo, 80));
             mListMsgInfoDialog.show();
         });

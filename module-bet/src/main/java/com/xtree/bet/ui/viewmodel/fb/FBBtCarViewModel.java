@@ -42,7 +42,7 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
     /**
      * 投注前查询指定玩法赔率
      */
-    public void batchBetMatchMarketOfJumpLine(List<BetConfirmOption> betConfirmOptionList){
+    public void batchBetMatchMarketOfJumpLine(List<BetConfirmOption> betConfirmOptionList) {
         BtCarReq btCarReq = new BtCarReq();
         btCarReq.setLanguageType("CMN");
         btCarReq.setCurrencyId(1);
@@ -71,12 +71,12 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
                         btConfirmInfoDate.postValue(betConfirmOptionList);
 
                         List<CgOddLimit> cgOddLimitInfoList = new ArrayList<>();
-                        if(!btConfirmInfo.sos.isEmpty()) {
+                        if (!btConfirmInfo.sos.isEmpty()) {
                             int index = 0;
                             for (CgOddLimitInfo cgOddLimitInfo : btConfirmInfo.sos) {
                                 cgOddLimitInfoList.add(new CgOddLimitFb(cgOddLimitInfo, btConfirmInfo.bms.get(index++), btConfirmInfo.bms.size()));
                             }
-                        }else{
+                        } else {
                             cgOddLimitInfoList.add(new CgOddLimitFb(null, btConfirmInfo.bms.get(0), 0));
                         }
                         cgOddLimitDate.postValue(cgOddLimitInfoList);
@@ -93,27 +93,30 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
     /**
      * 单关投注
      */
-    public void singleBet(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList){
-        int index = 0;
-        if(betConfirmOptionList.isEmpty() || cgOddLimitList.isEmpty()){
+    public void singleBet(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList) {
+        //int index = 0;
+        if (betConfirmOptionList.isEmpty() || cgOddLimitList.isEmpty()) {
             return;
         }
         SingleBtListReq singleBetListReq = new SingleBtListReq();
-        for(BetConfirmOption betConfirmOption : betConfirmOptionList){
+        BetConfirmOption betConfirmOption = betConfirmOptionList.get(0);
 
-            BtCgReq singleBetReq = new BtCgReq();
-            singleBetReq.setOddsChange(1);
-            singleBetReq.setUnitStake(cgOddLimitList.get(index ++).getBtAmount());
+        BtCgReq singleBetReq = new BtCgReq();
+        singleBetReq.setOddsChange(1);
+        singleBetReq.setUnitStake(cgOddLimitList.get(0).getBtAmount());
 
-            BtOptionReq betOptionReq = new BtOptionReq();
-            betOptionReq.setOptionType(betConfirmOption.getOptionType());
-            betOptionReq.setOdds(betConfirmOption.getOption().getRealOdd());
-            betOptionReq.setMarketId(betConfirmOption.getOptionList().getId());
-            betOptionReq.setOddsFormat(1);
+        BtOptionReq betOptionReq = new BtOptionReq();
+        betOptionReq.setOptionType(betConfirmOption.getOptionType());
+        betOptionReq.setOdds(betConfirmOption.getOption().getRealOdd());
+        betOptionReq.setMarketId(betConfirmOption.getOptionList().getId());
+        betOptionReq.setOddsFormat(1);
 
-            singleBetReq.addBetOptionList(betOptionReq);
+        singleBetReq.addBetOptionList(betOptionReq);
+        singleBetListReq.addSingleBetList(singleBetReq);
 
-            singleBetListReq.addSingleBetList(singleBetReq);
+        if(singleBetReq.getUnitStake() <= 0){
+            noBetAmountDate.call();
+            return;
         }
 
         Disposable disposable = (Disposable) model.getApiService().singlePass(singleBetListReq)
@@ -140,12 +143,12 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
     /**
      * 串关投注
      */
-    public void betMultiple(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList){
-        if(betConfirmOptionList.isEmpty() || cgOddLimitList.isEmpty()){
+    public void betMultiple(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList) {
+        if (betConfirmOptionList.isEmpty() || cgOddLimitList.isEmpty()) {
             return;
         }
         BtMultipleListReq btMultipleListReq = new BtMultipleListReq();
-        for(BetConfirmOption betConfirmOption : betConfirmOptionList){
+        for (BetConfirmOption betConfirmOption : betConfirmOptionList) {
 
             BtOptionReq betOptionReq = new BtOptionReq();
             betOptionReq.setOptionType(betConfirmOption.getOptionType());
@@ -156,13 +159,18 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
         }
 
         for (CgOddLimit cgOddLimit : cgOddLimitList) {
-            if(cgOddLimit.getBtAmount() > 0) {
+            if (cgOddLimit.getBtAmount() > 0) {
                 BtCgReq btCgReq = new BtCgReq();
                 btCgReq.setOddsChange(1);
                 btCgReq.setUnitStake(cgOddLimit.getBtAmount());
                 btCgReq.setSeriesValue(cgOddLimit.getCgCount());
                 btMultipleListReq.addBtMultipleData(btCgReq);
             }
+        }
+
+        if (btMultipleListReq.getBetMultipleData().isEmpty()) {
+            noBetAmountDate.call();
+            return;
         }
 
         Disposable disposable = (Disposable) model.getApiService().betMultiple(btMultipleListReq)

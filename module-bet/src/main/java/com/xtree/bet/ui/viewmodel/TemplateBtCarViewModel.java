@@ -21,6 +21,7 @@ public abstract class TemplateBtCarViewModel extends BaseBtViewModel implements 
     public SingleLiveData<List<BetConfirmOption>> btConfirmInfoDate = new SingleLiveData<>();
     public SingleLiveData<List<CgOddLimit>> cgOddLimitDate = new SingleLiveData<>();
     public SingleLiveData<List<BtResult>> btResultInfoDate = new SingleLiveData<>();
+    public SingleLiveData<Void> noBetAmountDate = new SingleLiveData<>();
 
     public TemplateBtCarViewModel(@NonNull Application application, BetRepository model) {
         super(application, model);

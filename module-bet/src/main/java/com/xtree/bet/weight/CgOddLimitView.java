@@ -33,9 +33,9 @@ public class CgOddLimitView extends LinearLayout {
             adapter.convert(itemView, adapter.getItemData(position), position);
             addView(itemView);
             viewList.add(itemView);
-            adapter.setViewList(viewList);
-            adapter.setParent(this);
         }
+        adapter.setViewList(viewList);
+        adapter.setParent(this);
     }
 
     public abstract static class Adapter<T> {
@@ -74,9 +74,9 @@ public class CgOddLimitView extends LinearLayout {
                     viewList.remove(i);
                     parent.removeViewAt(i);
                 }
-                mDatas.clear();
-                mDatas.addAll(datas);
             }
+            mDatas.clear();
+            mDatas.addAll(datas);
             notifyDataSetChanged();
             sizeChange = false;
         }
