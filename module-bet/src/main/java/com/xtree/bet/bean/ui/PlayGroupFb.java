@@ -2,13 +2,10 @@ package com.xtree.bet.bean.ui;
 
 import com.xtree.bet.bean.response.fb.PlayTypeInfo;
 import com.xtree.bet.constant.FBConstants;
-import com.xtree.bet.constant.SPKey;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class PlayGroupFb implements PlayGroup {
 
@@ -36,7 +33,9 @@ public class PlayGroupFb implements PlayGroup {
         String[] playTypeIds = FBConstants.getPlayTypeId(sportId);
         String[] playTypeNames = FBConstants.getPlayTypeName(sportId);
 
-
+        if (playTypeIds == null) {
+            playTypeIds = new String[]{};
+        }
         playTypeList = new ArrayList<>(playTypeIds.length);
         for (int i = 0; i < playTypeIds.length; i++) {
             playTypeList.add(null);
