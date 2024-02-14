@@ -209,6 +209,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<PlatWithdrawVo>() {
                     @Override
                     public void onResult(PlatWithdrawVo platwithdrawVo) {
+                        CfLog.i("PlatWithdrawVo = " + platwithdrawVo.toString());
                         platwithdrawVoMutableLiveData.setValue(platwithdrawVo);
                     }
                 });

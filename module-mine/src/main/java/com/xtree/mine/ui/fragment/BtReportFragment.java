@@ -1,7 +1,6 @@
 package com.xtree.mine.ui.fragment;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +24,15 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentReportBinding;
 import com.xtree.mine.databinding.ItemReportBtBinding;
+import com.xtree.mine.databinding.ItemReportCpBinding;
+import com.xtree.mine.ui.activity.BtCpDetailDialog;
 import com.xtree.mine.ui.activity.BtDetailDialog;
 import com.xtree.mine.ui.viewmodel.ReportViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.BtOrderVo;
 import com.xtree.mine.vo.BtPlatformVo;
 import com.xtree.mine.vo.BtReportVo;
+import com.xtree.mine.vo.LotteryOrderVo;
 import com.xtree.mine.vo.StatusVo;
 
 import java.util.ArrayList;
@@ -46,7 +48,9 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 @Route(path = RouterFragmentPath.Mine.PAGER_BT_REPORT)
 public class BtReportFragment extends BaseFragment<FragmentReportBinding, ReportViewModel> {
 
+    private final String KEY_LOTTERY = "CAIPAO"; // 彩票的代号
     CachedAutoRefreshAdapter<BtOrderVo> mAdapter; // 主列表
+    CachedAutoRefreshAdapter<LotteryOrderVo> mAdapter2; // 主列表(彩票)
     int curPage = 0;
     BtReportVo mReportVo;
 
@@ -82,6 +86,17 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
             LoadingDialog.show(getActivity());
             curPage = 0;
             requestData(1);
+        });
+        binding.fvMain.setTypeCallBack(vo -> {
+            if (KEY_LOTTERY.equalsIgnoreCase(vo.getShowId())) {
+                curPage = 0;
+                mAdapter2.clear();
+                binding.rcvMain.setAdapter(mAdapter2);
+            } else {
+                curPage = 0;
+                mAdapter.clear();
+                binding.rcvMain.setAdapter(mAdapter);
+            }
         });
 
         binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
@@ -148,6 +163,37 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
         };
         binding.rcvMain.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rcvMain.setAdapter(mAdapter);
+
+        mAdapter2 = new CachedAutoRefreshAdapter<LotteryOrderVo>() {
+
+            @NonNull
+            @Override
+            public CacheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                CacheViewHolder holder = new CacheViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.item_report_cp, parent, false));
+                return holder;
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
+                ItemReportCpBinding binding2 = ItemReportCpBinding.bind(holder.itemView);
+                LotteryOrderVo vo = get(position);
+
+                binding2.tvwLotteryName.setText(vo.lotteryname);
+                binding2.tvwBet.setText(vo.totalprice);
+                binding2.tvwMethodName.setText(vo.methodname);
+                binding2.tvwBonus.setText(vo.bonus);
+                binding2.tvwUsername.setText(vo.username);
+                binding2.tvwStatus.setText(viewModel.getLotteryStatus(getContext(), vo));
+
+                binding2.tvwDetail.setOnClickListener(v -> {
+                    CfLog.i("****** ");
+                    BtCpDetailDialog dialog = BtCpDetailDialog.newInstance(getActivity(), getViewLifecycleOwner(), vo.projectid);
+                    new XPopup.Builder(getContext()).asCustom(dialog).show();
+                });
+
+            }
+        };
+
     }
 
     private String getPlatformName(String code) {
@@ -236,6 +282,35 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
             }
         });
 
+        viewModel.liveDataCpReport.observe(this, vo -> {
+            CfLog.i("******");
+            binding.refreshLayout.finishRefresh();
+            binding.refreshLayout.finishLoadMore();
+            if (vo == null) {
+                binding.refreshLayout.setEnableLoadMore(false);
+                return;
+            }
+
+            curPage = vo.mobile_page.p;
+            int total_page = vo.mobile_page.total_page.equals("false") ? 0 : Integer.parseInt(vo.mobile_page.total_page);
+            if (vo.mobile_page.p < total_page) {
+                binding.refreshLayout.setEnableLoadMore(true);
+            } else {
+                binding.refreshLayout.setEnableLoadMore(false);
+            }
+            if (curPage == 1) {
+                mAdapter2.clear();
+            }
+            mAdapter2.addAll(vo.aProject);
+
+            if (mAdapter2.isEmpty()) {
+                binding.tvwNoData.setVisibility(View.VISIBLE);
+            } else {
+                binding.tvwNoData.setVisibility(View.GONE);
+            }
+
+        });
+
     }
 
     private void requestType() {
@@ -243,6 +318,38 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
     }
 
     private void requestData(int page) {
+        typeId = binding.fvMain.getTypeId(""); //
+        if (KEY_LOTTERY.equalsIgnoreCase(typeId)) {
+            requestDataCP(page);
+        } else {
+            requestDataDef(page);
+        }
+    }
+
+    private void requestDataCP(int page) {
+        CfLog.i();
+        starttime = binding.fvMain.getStartTime();
+        endtime = binding.fvMain.getEndTime();
+        //typeId = binding.fvMain.getTypeId(""); //
+        status = binding.fvMain.getStatusId("0");
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("controller", "gameinfo");
+        map.put("action", "newgamelist");
+        map.put("starttime", starttime);
+        map.put("endtime", endtime);
+        map.put("lotteryid", "0");
+        map.put("methodid", "0");
+        map.put("ischild", "0");
+        map.put("p", "" + page);
+        map.put("pn", "20");
+        map.put("client", "m");
+
+        CfLog.i(map.toString());
+        viewModel.getCpReport(map);
+    }
+
+    private void requestDataDef(int page) {
         CfLog.i();
         starttime = binding.fvMain.getStartTime();
         endtime = binding.fvMain.getEndTime();

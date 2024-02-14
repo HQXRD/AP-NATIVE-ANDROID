@@ -87,4 +87,9 @@ public class StringUtils {
         cm.setPrimaryClip(cd);
         ToastUtils.showLong(R.string.txt_copied);
     }
+
+    public static boolean isStartHttp(final String txt)
+    {
+        return  txt.startsWith("https:") ;
+    }
 }

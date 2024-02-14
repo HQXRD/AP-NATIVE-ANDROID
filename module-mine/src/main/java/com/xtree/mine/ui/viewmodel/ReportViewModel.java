@@ -1,17 +1,22 @@
 package com.xtree.mine.ui.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
+import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.BtDetailVo;
 import com.xtree.mine.vo.BtPlatformVo;
 import com.xtree.mine.vo.BtReportVo;
+import com.xtree.mine.vo.LotteryDetailVo;
+import com.xtree.mine.vo.LotteryOrderVo;
+import com.xtree.mine.vo.LotteryReportVo;
 import com.xtree.mine.vo.ProfitLossReportVo;
 import com.xtree.mine.vo.RebateReportVo;
 import com.xtree.mine.vo.RechargeReportVo;
@@ -44,6 +49,8 @@ public class ReportViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<List<BtPlatformVo>> liveDataBtPlatform = new MutableLiveData<>(); // 投注记录-平台列表
     public MutableLiveData<BtReportVo> liveDataBtReport = new MutableLiveData<>(); // 投注记录-列表
     public MutableLiveData<BtDetailVo> liveDataBtDetail = new MutableLiveData<>(); // 投注记录-详情
+    public MutableLiveData<LotteryReportVo> liveDataCpReport = new MutableLiveData<>(); // 投注记录-列表(彩票)
+    public MutableLiveData<LotteryDetailVo> liveDataBtCpDetail = new MutableLiveData<>(); // 投注记录-详情(彩票)
 
     public ReportViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
@@ -274,6 +281,77 @@ public class ReportViewModel extends BaseViewModel<MineRepository> {
                     }
                 });
         addSubscribe(disposable);
+    }
+
+    public void getCpReport(HashMap map) {
+        Disposable disposable = (Disposable) model.getApiService().getCpReport(map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<LotteryReportVo>() {
+                    @Override
+                    public void onResult(LotteryReportVo vo) {
+                        CfLog.d("******");
+                        liveDataCpReport.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getBtCpOrderDetail(String id) {
+        Disposable disposable = (Disposable) model.getApiService().getBtCpOrderDetail(id)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<LotteryDetailVo>() {
+                    @Override
+                    public void onResult(LotteryDetailVo vo) {
+                        CfLog.d("******");
+                        liveDataBtCpDetail.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取彩票的状态
+     */
+    public String getLotteryStatus(Context ctx, LotteryOrderVo vo) {
+        if (vo.iscancel.equalsIgnoreCase("1")) {
+            return ctx.getString(R.string.txt_cancel_by_self);
+        }
+        if (vo.iscancel.equals("2")) {
+            return ctx.getString(R.string.txt_cancel_by_platform);
+        }
+        if (vo.iscancel.equals("3")) {
+            return ctx.getString(R.string.txt_cancel_by_error);
+        }
+        if (!vo.iscancel.equals("0")) {
+            return ctx.getString(R.string.txt_cancel_no_status);
+        }
+        if (vo.isgetprize.equals("0")) {
+            return ctx.getString(R.string.txt_prizes_not_open);
+        }
+        if (vo.isgetprize.equals("2")) {
+            return ctx.getString(R.string.txt_prizes_not_win);
+        }
+        if (vo.isgetprize.equals("1")) {
+            if (vo.prizestatus == "0") {
+                return ctx.getString(R.string.txt_prizes_not_distributed);
+            }
+            return ctx.getString(R.string.txt_prizes_distributed);
+        }
+        return "---";
     }
 
 }

@@ -14,6 +14,7 @@ android {
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
+            resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
             resValue "string", "domain_url_list", "https://app.cpmuseumdimsum.com:16801" +
                     ";https://app.zgntcpgxds.com:16801" +
                     ";https://app.jyuelab.com:16801" +
@@ -35,6 +36,7 @@ android {
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
+            resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
             resValue "string", "domain_url_list", "https://ap3sport.oxldkm.com/"
 
             multiDexEnabled true
