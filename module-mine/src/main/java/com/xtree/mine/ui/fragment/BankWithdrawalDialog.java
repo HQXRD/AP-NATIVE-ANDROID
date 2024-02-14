@@ -214,7 +214,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         //下一步
         binding.tvActualWithdrawalNextMore.setOnClickListener(v -> {
             String inputString = binding.tvActualWithdrawalAmountShowMore.getText().toString();
-            String bankInfo = binding.tvActualWithdrawalAmountBankShowMore.getText().toString();
             String typeNumber = selectChanneVo.typenum;
             if (TextUtils.isEmpty(inputString)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
@@ -343,8 +342,11 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
             binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
             binding.wvH5View.setBackground(getContext().getDrawable(R.color.red));
-            String h5URl = DomainUtil.getDomain2() + bankCardCashVo.channel_list.get(0).thiriframe_url;
-            binding.wvH5View.loadUrl(h5URl, getHeader());
+            String url = bankCardCashVo.channel_list.get(0).thiriframe_url;
+            if (!StringUtils.isStartHttp(url)) {
+                url = DomainUtil.getDomain2() + url;
+            }
+            binding.wvH5View.loadUrl(url, getHeader());
             binding.wvH5View.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -587,8 +589,11 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
                 binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
                 binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
-                String h5URL = DomainUtil.getDomain2() + bankCardCashVo.channel_list.get(0).thiriframe_url;
-                binding.wvH5View.loadUrl(h5URL, getHeader());
+                String url = bankCardCashVo.channel_list.get(0).thiriframe_url;
+                if (!StringUtils.isStartHttp(url)) {
+                    url = DomainUtil.getDomain2() + url;
+                }
+                binding.wvH5View.loadUrl(url, getHeader());
                 binding.wvH5View.setWebViewClient(new WebViewClient() {
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -738,7 +743,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         map.put("flag", "confirm");
         map.put("check", "");
         map.put("money", money);
-        map.put("handing_fee", "0.00");
+        map.put("handing_fee", platWithdrawVo.datas.handing_fee);
         map.put("cardid", cardid);
         map.put("usdtType", "1"); //列表也选择的取款类型
         map.put("play_source", String.valueOf(1));
@@ -746,6 +751,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         map.put("channel_child", channel_child);
         map.put("smscode", "");
         map.put("smstype", "");
+        CfLog.i("确定提交requestConfirmWithdraw --> " + map.toString());
         viewModel.postConfirmWithdraw(map);
 
     }

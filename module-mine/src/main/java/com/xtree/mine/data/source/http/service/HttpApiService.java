@@ -440,6 +440,9 @@ public interface HttpApiService {
 
     /**
      * 银行卡确认提交
+     *
+     * @POST("/security/platwithdraw?1=1&client=m") https://ap3sport.oxldkm.com/security/index.php
+     * @POST("/security/index.php?1=1&client=m")
      */
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
@@ -464,7 +467,6 @@ public interface HttpApiService {
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<USDTConfirmVo> postConfirmWithdrawUSDT(@Body Map<String, String> map);
-
 
     /**
      * USDT获取提款方式
