@@ -149,7 +149,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
     }
 
     private fun initTag() {
-        val token = getString(R.string.mixpanel_token)
+        val token = arrayOfNulls<String>(2)
+        token[0] = getString(R.string.mixpanel_token)
+        token[1] = getString(R.string.ms_secret_key)
         val channel = getString(R.string.channel_name)
         val userId = SPUtils.getInstance().getString(SPKeyGlobal.USER_ID)
         TagUtils.init(baseContext, token, channel, userId)

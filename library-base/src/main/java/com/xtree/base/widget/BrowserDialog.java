@@ -15,6 +15,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class BrowserDialog extends BottomPopupView {
     WebView mWebView;
     ImageView ivwLoading;
     ImageView ivwLaunch;
+    LinearLayout llBackground;
     int sslErrorCount = 0;
 
     String title;
@@ -86,6 +88,7 @@ public class BrowserDialog extends BottomPopupView {
 
         if (isContainTitle) {
             vTitle.setVisibility(View.GONE);
+            llBackground.setBackground(getContext().getDrawable(R.drawable.bg_web_radius));
         }
 
         tvwTitle.setText(title);
@@ -123,6 +126,7 @@ public class BrowserDialog extends BottomPopupView {
         tvwTitle = findViewById(R.id.tvw_title);
         vTitle = findViewById(R.id.v_title);
         ivwClose = findViewById(R.id.ivw_close);
+        llBackground = findViewById(R.id.ll_background);
 
         mWebView = findViewById(R.id.wv_main);
         ivwLoading = findViewById(R.id.ivw_loading);
