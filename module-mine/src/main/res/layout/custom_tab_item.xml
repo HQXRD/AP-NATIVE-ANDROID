@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvw_item"
+    android:layout_width="60dp"
+    android:layout_height="30dp"
+    android:layout_centerInParent="true"
+    android:background="@drawable/ic_vip_unselect"
+    android:elevation="1dp"
+    android:gravity="center"
+    android:text="VIP 0"
+    android:textAppearance="?attr/textAppearanceBody1"
+    android:textColor="@color/clr_white"
+    android:textSize="14sp"
+    android:textStyle="bold" />

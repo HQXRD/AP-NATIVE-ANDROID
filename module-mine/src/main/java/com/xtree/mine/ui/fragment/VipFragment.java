@@ -2,7 +2,9 @@ package com.xtree.mine.ui.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,6 +38,7 @@ public class VipFragment extends BaseFragment<FragmentVipBinding, MineViewModel>
     private int level;
     private FragmentStateAdapter mAdapter;
     private VipBackPercentDialog ppw = null;
+    private TextView tvwItem[] = new TextView[11];
 
     @Override
     public void initView() {
@@ -57,7 +60,13 @@ public class VipFragment extends BaseFragment<FragmentVipBinding, MineViewModel>
         binding.vpMain.setUserInputEnabled(true); // ViewPager2 左右滑动
 
         new TabLayoutMediator(binding.tblType, binding.vpMain, (tab, position) -> {
-            tab.setText(tabList.get(position));
+            View customView = LayoutInflater.from(getContext()).inflate(R.layout.custom_tab_item, null);
+            TextView tvwItem = customView.findViewById(R.id.tvw_item);
+            tvwItem.setText(tabList.get(position));
+
+            this.tvwItem[position] = tvwItem;
+
+            tab.setCustomView(customView);
         }).attach();
 
         binding.vpMain.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -71,6 +80,13 @@ public class VipFragment extends BaseFragment<FragmentVipBinding, MineViewModel>
                 binding.tvwVipBirthdayNum.setText(vipUpgradeItems.get(position).birthday_gift);
                 binding.tvwVipGiftNum.setText(vipUpgradeItems.get(position).week_red);
 
+                for (int i = 0; i < tvwItem.length; i++) {
+                    if (i == position) {
+                        tvwItem[i].setBackground(getResources().getDrawable(R.drawable.ic_vip_select));
+                    } else {
+                        tvwItem[i].setBackground(getResources().getDrawable(R.drawable.ic_vip_unselect));
+                    }
+                }
             }
         });
 
@@ -164,6 +180,7 @@ public class VipFragment extends BaseFragment<FragmentVipBinding, MineViewModel>
             mAdapter.notifyDataSetChanged();
 
             binding.vpMain.setCurrentItem(level);
+            tvwItem[level].setBackground(getResources().getDrawable(R.drawable.ic_vip_select));
         });
 
         viewModel.liveDataProfile.observe(this, vo -> {
