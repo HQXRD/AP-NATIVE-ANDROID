@@ -67,6 +67,11 @@ public class TagUtils {
         initMixpanel(ctx, props);
     }
 
+    public static void initAppCenter(Context ctx) {
+        AppCenter.start((Application) ctx.getApplicationContext(), MS_SECRET_KEY, Analytics.class, Crashes.class);
+        AppCenter.setLogLevel(Log.VERBOSE);
+    }
+
     public static void initMixpanel(Context ctx, JSONObject props) {
         CfLog.i("******");
         if (!IS_TAG) {
