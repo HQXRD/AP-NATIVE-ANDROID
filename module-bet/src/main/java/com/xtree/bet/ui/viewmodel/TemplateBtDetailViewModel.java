@@ -22,7 +22,7 @@ import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 
 /**
- * Created by goldze on 2018/6/21.
+ * Created by marquis
  */
 
 public abstract class TemplateBtDetailViewModel extends BaseViewModel<BetRepository> implements BtDetailViewModel {

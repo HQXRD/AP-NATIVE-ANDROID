@@ -33,7 +33,7 @@ import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
- * Created by goldze on 2018/6/21.
+ * Created by marquis
  */
 
 public class PmBtDetailViewModel extends TemplateBtDetailViewModel {

@@ -28,7 +28,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
- * Created by goldze on 2018/6/21.
+ * Created by marquis
  */
 public class MineViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<Boolean> liveDataLogout = new SingleLiveData<>();

@@ -1,5 +1,16 @@
 package com.xtree.bet.ui.viewmodel.fb;
 
+import static com.xtree.bet.constant.FBConstants.SPORT_ICON_ADDITIONAL;
+import static com.xtree.bet.constant.FBConstants.SPORT_IDS;
+import static com.xtree.bet.constant.FBConstants.SPORT_IDS_ADDITIONAL;
+import static com.xtree.bet.constant.FBConstants.SPORT_IDS_ALL;
+import static com.xtree.bet.constant.FBConstants.SPORT_IDS_NOMAL;
+import static com.xtree.bet.constant.FBConstants.SPORT_NAMES;
+import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_ADDITIONAL;
+import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_LIVE;
+import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_NOMAL;
+import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_TODAY_CG;
+
 import android.app.Application;
 import android.text.TextUtils;
 
@@ -19,13 +30,17 @@ import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.response.fb.MatchListRsp;
 import com.xtree.bet.bean.ui.Option;
+import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayGroup;
 import com.xtree.bet.bean.ui.PlayGroupFb;
 import com.xtree.bet.bean.ui.PlayType;
+import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.FBConstants;
+import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.data.BetRepository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +55,7 @@ import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
- * Created by goldze on 2018/6/21.
+ * Created by marquis
  */
 
 public class FBMainViewModel extends TemplateMainViewModel implements MainViewModel {
@@ -51,7 +66,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     private List<Match> mChampionMatchList = new ArrayList<>();
     private Map<String, Match> mChampionMatchMap = new HashMap<>();
-
+    private StatisticalInfo mStatisticalInfo;
     private Map<String, List<Integer>> sportCountMap = new HashMap<>();
     private int currentPage = 1;
     private int goingOnPageSize = 300;
@@ -63,16 +78,78 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     public FBMainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
-        FBConstants.SPORT_IDS = FBConstants.SPORT_IDS_ALL;
+        SPORT_NAMES = SPORT_NAMES_TODAY_CG;
+        SPORT_IDS = SPORT_IDS_ALL;
+        sportItemData.postValue(SPORT_NAMES);
     }
 
     @Override
     public void setSportIds(int playMethodPos) {
         if (playMethodPos == 0 || playMethodPos == 3 || playMethodPos == 1) {
-            FBConstants.SPORT_IDS = FBConstants.SPORT_IDS_ALL;
+            SPORT_IDS = SPORT_IDS_ALL;
         } else {
-            FBConstants.SPORT_IDS = FBConstants.SPORT_IDS_NOMAL;
+            SPORT_IDS = SPORT_IDS_NOMAL;
         }
+    }
+
+    public void setSportItems(int playMethodPos, int playMethodType) {
+        if (playMethodPos == 0 || playMethodPos == 3) {
+            if (SPORT_NAMES != SPORT_NAMES_TODAY_CG) {
+                SPORT_NAMES = SPORT_NAMES_TODAY_CG;
+            }
+        } else if (playMethodPos == 1) {
+            if (SPORT_NAMES != SPORT_NAMES_LIVE) {
+                SPORT_NAMES = SPORT_NAMES_LIVE;
+            }
+        } else {
+            if (SPORT_NAMES != SPORT_NAMES_NOMAL) {
+                SPORT_NAMES = SPORT_NAMES_NOMAL;
+            }
+        }
+        setSportIds(playMethodPos);
+        if(playMethodPos == 4) {
+            MatchTypeInfo matchTypeInfo;
+            Map<String, MatchTypeStatisInfo> mapMatchTypeStatisInfo = new HashMap<>();
+            List<String> additionalIds = new ArrayList<>();
+            List<String> additionalNames = new ArrayList<>();
+            List<Integer> additionalIcons = new ArrayList<>();
+            for (int i = 0; i < SPORT_IDS.length; i++) {
+                additionalIds.add(SPORT_IDS[i]);
+                additionalNames.add(FBConstants.SPORT_NAMES[i]);
+                additionalIcons.add(Constants.SPORT_ICON[i]);
+            }
+            for (MatchTypeInfo typeInfo : mStatisticalInfo.sl) {
+                if(typeInfo.ty == playMethodType){
+                    matchTypeInfo = typeInfo;
+                    for (MatchTypeStatisInfo matchTypeStatisInfo :
+                            matchTypeInfo.ssl) {
+                        mapMatchTypeStatisInfo.put(String.valueOf(matchTypeStatisInfo.sid), matchTypeStatisInfo);
+                    }
+                    break;
+                }
+            }
+
+            for (int i = 0; i < SPORT_IDS_ADDITIONAL.length; i++) {
+                MatchTypeStatisInfo matchTypeStatisInfo = mapMatchTypeStatisInfo.get(SPORT_IDS_ADDITIONAL[i]);
+                if(matchTypeStatisInfo != null && matchTypeStatisInfo.c > 0){
+                    additionalIds.add(SPORT_IDS_ADDITIONAL[i]);
+                    additionalNames.add(SPORT_NAMES_ADDITIONAL[i]);
+                    additionalIcons.add(SPORT_ICON_ADDITIONAL[i]);
+                }
+            }
+            String[] ids = new String[additionalIds.size()];
+            String[] names = new String[additionalNames.size()];
+            int[] icons = new int[additionalIcons.size()];
+            additionalIds.toArray(ids);
+            additionalNames.toArray(names);
+            for (int i = 0; i < additionalIcons.size(); i++) {
+                icons[i] = additionalIcons.get(i);
+            }
+            SPORT_IDS = ids;
+            SPORT_NAMES = names;
+            Constants.SPORT_ICON = icons;
+        }
+        sportItemData.postValue(SPORT_NAMES);
     }
 
     /**
@@ -151,16 +228,11 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         fBListReq.setOddType(oddType);
 
         if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
-            /*String sportIds = "";
-            for (int i = 1; i < FBConstants.SPORT_IDS.length; i++) {
-                sportIds += FBConstants.SPORT_IDS[i] + ",";
-            }*/
             fBListReq.setSportId(null);
         }
 
         String startTime;
         String endTime;
-
 
         if (type != 1 && type != 3) {
             if (searchDatePos == dateList.size() - 1) {
@@ -306,8 +378,8 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
         if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
             String sportIds = "";
-            for (int i = 1; i < FBConstants.SPORT_IDS.length; i++) {
-                sportIds += FBConstants.SPORT_IDS[i] + ",";
+            for (int i = 1; i < SPORT_IDS.length; i++) {
+                sportIds += SPORT_IDS[i] + ",";
             }
             FBListReq.setSportId(sportIds);
         }
@@ -386,13 +458,14 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                 .subscribeWith(new FBHttpCallBack<StatisticalInfo>() {
                     @Override
                     public void onResult(StatisticalInfo statisticalInfo) {
+                        mStatisticalInfo = statisticalInfo;
                         for (MatchTypeInfo matchTypeInfo : statisticalInfo.sl) {
                             Map<String, Integer> sslMap = new HashMap<>();
                             for (MatchTypeStatisInfo matchTypeStatisInfo : matchTypeInfo.ssl) {
                                 sslMap.put(String.valueOf(matchTypeStatisInfo.sid), matchTypeStatisInfo.c);
                             }
                             List<Integer> sportCountList = new ArrayList<>();
-                            for (String sportId : FBConstants.SPORT_IDS) {
+                            for (String sportId : SPORT_IDS) {
                                 sportCountList.add(sslMap.get(sportId));
                             }
                             sportCountMap.put(String.valueOf(matchTypeInfo.ty), sportCountList);
@@ -446,7 +519,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     @Override
     public String[] getSportId(int playMethodType) {
-        return FBConstants.SPORT_IDS;
+        return SPORT_IDS;
     }
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {
@@ -618,8 +691,8 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             newMatchList.add(newMatch);
         }
 
-        List<Option> newOptonList = getMatchOptionList(newMatchList);
-        List<Option> oldOptonList = getMatchOptionList(mChampionMatchList);
+        List<Option> newOptonList = getChampionMatchOptionList(newMatchList);
+        List<Option> oldOptonList = getChampionMatchOptionList(mChampionMatchList);
 
         for (Option newOption : newOptonList) {
             for (Option oldOption : oldOptonList) {
@@ -672,6 +745,39 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             }
         }
         return optionList;
+    }
+
+    private List<Option> getChampionMatchOptionList(List<Match> matchList) {
+        List<Option> optionArrayList = new ArrayList<>();
+        for (Match match : matchList) {
+            if (match.isHead()) {
+                continue;
+            }
+
+            for (PlayType playType : match.getPlayTypeList()) {
+                if (playType.getOptionLists() != null) {
+                    for (OptionList optionList : playType.getOptionLists()) {
+                        for (Option option : optionList.getOptionList()) {
+                            if (option != null) {
+                                StringBuffer code = new StringBuffer();
+                                code.append(match.getId());
+                                code.append(playType.getPlayType());
+                                code.append(playType.getPlayPeriod());
+                                code.append(optionList.getId());
+                                code.append(option.getOptionType());
+                                code.append(option.getId());
+                                if (!TextUtils.isEmpty(option.getLine())) {
+                                    code.append(option.getLine());
+                                }
+                                option.setCode(code.toString());
+                            }
+                            optionArrayList.add(option);
+                        }
+                    }
+                }
+            }
+        }
+        return optionArrayList;
     }
 
     public void getFBGameTokenApi() {

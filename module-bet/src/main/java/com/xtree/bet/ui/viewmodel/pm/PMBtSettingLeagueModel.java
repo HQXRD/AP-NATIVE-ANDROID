@@ -26,7 +26,7 @@ import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.utils.RxUtils;
 
 /**
- * Created by goldze on 2018/6/21.
+ * Created by marquis
  */
 
 public class PMBtSettingLeagueModel extends TemplateBtSettingLeagueModel {

@@ -1,33 +1,36 @@
 package com.xtree.bet.ui.viewmodel.pm;
 
+import static com.xtree.bet.constant.PMConstants.SPORT_ICON_ADDITIONAL;
+import static com.xtree.bet.constant.PMConstants.SPORT_IDS;
+import static com.xtree.bet.constant.PMConstants.SPORT_NAMES;
+import static com.xtree.bet.constant.PMConstants.SPORT_NAMES_LIVE;
+import static com.xtree.bet.constant.PMConstants.SPORT_NAMES_NOMAL;
+import static com.xtree.bet.constant.PMConstants.SPORT_NAMES_TODAY_CG;
+
 import android.app.Application;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
-import com.xtree.bet.bean.request.fb.FBListReq;
 import com.xtree.bet.bean.request.pm.PMListReq;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
 import com.xtree.bet.bean.response.pm.MenuInfo;
 import com.xtree.bet.bean.ui.League;
-import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.ui.LeaguePm;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.ui.MatchPm;
 import com.xtree.bet.bean.ui.Option;
+import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayGroup;
 import com.xtree.bet.bean.ui.PlayGroupPm;
 import com.xtree.bet.bean.ui.PlayType;
-import com.xtree.bet.constant.FBConstants;
+import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
@@ -45,7 +48,7 @@ import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
- * Created by goldze on 2018/6/21.
+ * Created by marquis
  */
 
 public class PMMainViewModel extends TemplateMainViewModel implements MainViewModel {
@@ -67,15 +70,17 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     public PMMainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
-        PMConstants.SPORT_IDS = new String[14];
+        SPORT_NAMES = SPORT_NAMES_TODAY_CG;
+        SPORT_IDS = new String[14];
+        sportItemData.postValue(SPORT_NAMES);
     }
 
     @Override
     public void setSportIds(int playMethodPos) {
         if (playMethodPos == 0 || playMethodPos == 3 || playMethodPos == 1) {
-            PMConstants.SPORT_IDS = new String[14];
+            SPORT_IDS = new String[14];
         } else {
-            PMConstants.SPORT_IDS = new String[13];
+            SPORT_IDS = new String[13];
         }
         int playMethodType = Integer.valueOf(getPlayMethodTypes()[playMethodPos]);
         for (MenuInfo menuInfo : mMenuInfoList) {
@@ -86,12 +91,69 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     int index = Arrays.asList(SPORT_NAMES).indexOf(subMenu.menuName);
                     if (index != -1) {
-                        PMConstants.SPORT_IDS[index] = String.valueOf(subMenu.menuId);
+                        SPORT_IDS[index] = String.valueOf(subMenu.menuId);
                     }
 
                 }
             }
         }
+    }
+
+    public void setSportItems(int playMethodPos, int playMethodType) {
+        if (playMethodPos == 0 || playMethodPos == 3) {
+            if (SPORT_NAMES != SPORT_NAMES_TODAY_CG) {
+                SPORT_NAMES = SPORT_NAMES_TODAY_CG;
+            }
+        } else if (playMethodPos == 1) {
+            if (SPORT_NAMES != SPORT_NAMES_LIVE) {
+                SPORT_NAMES = SPORT_NAMES_LIVE;
+            }
+        } else {
+            if (SPORT_NAMES != SPORT_NAMES_NOMAL) {
+                SPORT_NAMES = SPORT_NAMES_NOMAL;
+            }
+        }
+        setSportIds(playMethodPos);
+
+        if(playMethodPos == 4) {
+            List<String> additionalIds = new ArrayList<>();
+            List<String> additionalNames = new ArrayList<>();
+            List<Integer> additionalIcons = new ArrayList<>();
+            for (int i = 0; i < SPORT_IDS.length; i++) {
+                additionalIds.add(SPORT_IDS[i]);
+                additionalNames.add(SPORT_NAMES[i]);
+                additionalIcons.add(Constants.SPORT_ICON[i]);
+            }
+
+            for (MenuInfo menuInfo : mMenuInfoList) {
+                if (playMethodType == menuInfo.menuType) {
+                    for (MenuInfo subMenu : menuInfo.subList) {
+                        int index = Arrays.asList(PMConstants.SPORT_TYPES_ADDITIONAL).indexOf(subMenu.menuType);
+                        if (index != -1 && subMenu.count > 0) {
+                            additionalIds.add(String.valueOf(subMenu.menuId));
+                            additionalNames.add(subMenu.menuName);
+                            additionalIcons.add(SPORT_ICON_ADDITIONAL[index]);
+                        }
+                    }
+                    break;
+                }
+            }
+
+            String[] ids = new String[additionalIds.size()];
+            String[] names = new String[additionalNames.size()];
+            int[] icons = new int[additionalIcons.size()];
+            additionalIds.toArray(ids);
+            additionalNames.toArray(names);
+            for (int i = 0; i < additionalIcons.size(); i++) {
+                icons[i] = additionalIcons.get(i);
+            }
+            PMConstants.SPORT_IDS = ids;
+            PMConstants.SPORT_NAMES = names;
+            Constants.SPORT_ICON = icons;
+        }
+
+
+        sportItemData.postValue(SPORT_NAMES);
     }
 
     /**
@@ -102,7 +164,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     @Override
     public void getHotMatchCount(int playMethodType, List<Long> leagueIds) {
 
-        if(leagueIds.isEmpty()){
+        if (leagueIds.isEmpty()) {
             return;
         }
         PMListReq pmListReq = new PMListReq();
@@ -111,7 +173,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         String sportIds = "";
         if (mMenuInfoList.isEmpty()) {
             for (String sportId : PMConstants.SPORT_IDS_SPECAIL) {
-                if(!TextUtils.equals("0", sportId)) {
+                if (!TextUtils.equals("0", sportId)) {
                     sportIds += sportId + ",";
                 }
             }
@@ -437,9 +499,10 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         } else {
             for (MenuInfo menuInfo : mMenuInfoList) {
                 boolean isFound = false;
-                for (MenuInfo subMenu : menuInfo.subList) {
-                    if (playMethodType == menuInfo.menuType) {
-                        if (TextUtils.equals(SPORT_NAMES[sportPos], subMenu.menuName)) {
+                if (playMethodType == menuInfo.menuType) {
+                    for (MenuInfo subMenu : menuInfo.subList) {
+
+                        if (subMenu.menuName.contains(SPORT_NAMES[sportPos])) {
                             isFound = true;
                             pmListReq.setEuid(String.valueOf(subMenu.menuId));
                             break;
@@ -456,8 +519,13 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             mChampionMatchList.clear();
         }
 
+        if(TextUtils.isEmpty(pmListReq.getEuid())){
+            championMatchListData.postValue(new ArrayList<>());
+            return;
+        }
+
         Disposable disposable = (Disposable) model.getPMApiService().noLiveMatchesPagePB(pmListReq)
-                .compose(RxUtils.schedulersTransformer()) //&#x7EBF;&#x7A0B;&#x8C03;&#x5EA6;
+                .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new PMHttpCallBack<MatchListRsp>() {
                     @Override
@@ -529,10 +597,9 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                             if (playMethodType == menuInfo.menuType) {
                                 for (MenuInfo subMenu : menuInfo.subList) {
                                     sslMap.put(String.valueOf(subMenu.menuId), subMenu.count);
-
                                     int index = Arrays.asList(SPORT_NAMES).indexOf(subMenu.menuName);
                                     if (index != -1) {
-                                        PMConstants.SPORT_IDS[index] = String.valueOf(subMenu.menuId);
+                                        SPORT_IDS[index] = String.valueOf(subMenu.menuId);
                                     }
 
                                 }
@@ -569,7 +636,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     @Override
     public String[] getSportId(int playMethodType) {
-        return PMConstants.SPORT_IDS;
+        return SPORT_IDS;
     }
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {
@@ -662,8 +729,8 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @return
      */
     private void championLeagueList(List<MatchInfo> matchInfoList) {
-        if(!matchInfoList.isEmpty()) {
-            Match header = new MatchFb();
+        if (!matchInfoList.isEmpty()) {
+            Match header = new MatchPm();
             header.setHead(true);
             mChampionMatchList.add(header);
             for (MatchInfo matchInfo : matchInfoList) {
@@ -738,7 +805,9 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         Map<String, Match> map = new HashMap<>();
 
         for (Match match : mChampionMatchList) {
-            map.put(String.valueOf(match.getId()), match);
+            if(!match.isHead()) {
+                map.put(String.valueOf(match.getId()), match);
+            }
         }
 
         for (MatchInfo matchInfo : matchInfoList) {
@@ -746,8 +815,8 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             newMatchList.add(newMatch);
         }
 
-        List<Option> newOptonList = getMatchOptionList(newMatchList);
-        List<Option> oldOptonList = getMatchOptionList(mChampionMatchList);
+        List<Option> newOptonList = getChampionMatchOptionList(newMatchList);
+        List<Option> oldOptonList = getChampionMatchOptionList(mChampionMatchList);
 
         for (Option newOption : newOptonList) {
             for (Option oldOption : oldOptonList) {
@@ -791,6 +860,34 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             }
         }
         return optionList;
+    }
+
+    private List<Option> getChampionMatchOptionList(List<Match> matchList) {
+        List<Option> optionArrayList = new ArrayList<>();
+        for (Match match : matchList) {
+            if (match.isHead()) {
+                continue;
+            }
+
+            for (PlayType playType : match.getPlayTypeList()) {
+                if (playType.getOptionLists() != null) {
+                    for (OptionList optionList : playType.getOptionLists()) {
+                        for (Option option : optionList.getOptionList()) {
+                            if (option != null) {
+                                StringBuffer code = new StringBuffer();
+                                code.append(match.getId());
+                                if (option != null) {
+                                    code.append(option.getId());
+                                }
+                                option.setCode(code.toString());
+                            }
+                            optionArrayList.add(option);
+                        }
+                    }
+                }
+            }
+        }
+        return optionArrayList;
     }
 
     public void getFBGameTokenApi() {

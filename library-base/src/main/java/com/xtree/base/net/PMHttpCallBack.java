@@ -45,7 +45,7 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
                 onError(rError);
                 break;
             default:
-                ToastUtils.showShort(baseResponse.getMsg());
+                //ToastUtils.showShort(baseResponse.getMsg());
                 break;
         }
     }
@@ -55,7 +55,7 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
         KLog.e("error: " + t.toString());
         if (t instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) t;
-            ToastUtils.showShort(rError.message);
+            //ToastUtils.showShort(rError.message);
             return;
         } else if (t instanceof BusinessException) {
             BusinessException rError = (BusinessException) t;

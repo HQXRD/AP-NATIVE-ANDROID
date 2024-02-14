@@ -11,9 +11,31 @@ public class FBConstants {
     /**
      * 体育分类ID，与sportNames一一对应
      */
-    public static String[] SPORT_IDS/* = new String[]{"0", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"}*/;
+    public static String[] SPORT_IDS;
     public static String[] SPORT_IDS_ALL = new String[]{"0", "1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
     public static String[] SPORT_IDS_NOMAL = new String[]{"1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
+    public static String[] SPORT_IDS_ADDITIONAL = new String[]{"4", "10", "12", "14", "17", "18", "20", "21", "24", "25", "92", "93", "100"};
+
+    public static String[] SPORT_NAMES;
+    public static String[] SPORT_NAMES_NOMAL = new String[]{"足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
+    public static String[] SPORT_NAMES_LIVE = new String[]{"全部", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
+    public static String[] SPORT_NAMES_TODAY_CG = new String[]{"热门", "足球", "篮球", "网球", "斯诺克", "棒球", "排球", "羽毛球", "美式足球", "乒乓球", "冰球", "拳击", "沙滩排球", "手球"};
+    public static String[] SPORT_NAMES_ADDITIONAL = new String[]{"橄榄球", "地板球", "高尔夫球", "玩板球", "五人足球", "综合", "飞镖", "草地滚球", "水球", "自行车", "F1赛车", "特殊投注", "奥林匹克"};
+
+    public static int[] SPORT_ICON_ADDITIONAL = new int[]{
+            project.tqyb.com.library_res.R.drawable.bt_match_item_glq_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_dbq_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_golf_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_wbq_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_wrzq_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_zhgd_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_darts_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_cdgq_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_water_ball_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_cycling_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_f1_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_tstz_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_olympic_selector};
 
     /**
      * 体育分类ID-足球
