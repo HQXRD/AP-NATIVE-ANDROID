@@ -19,22 +19,21 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
+        android:id="@+id/ll_background"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@color/clr_white"
-        android:padding="4dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/v_title">
+        app:layout_constraintTop_toBottomOf="@id/v_title" />
 
-        <WebView
-            android:id="@+id/wv_main"
-            android:padding="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </LinearLayout>
+    <WebView
+        android:id="@+id/wv_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_title"
