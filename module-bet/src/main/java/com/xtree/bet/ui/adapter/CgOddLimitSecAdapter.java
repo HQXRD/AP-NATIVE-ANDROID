@@ -31,8 +31,6 @@ import me.xtree.mvvmhabit.utils.StringUtils;
 public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
     private boolean flag;
 
-    private boolean isRefresh;
-
     private KeyboardView keyboardView;
 
     private List<BtLayoutCarCgItemBinding> bindingList = new ArrayList<>();
@@ -45,10 +43,6 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
 
     public void setKeyBoardListener(BtCarDialogFragment.KeyBoardListener keyBoardListener) {
         this.mKeyBoardListener = keyBoardListener;
-    }
-
-    public void setRefresh(boolean refresh) {
-        isRefresh = refresh;
     }
 
     public CgOddLimitSecAdapter(Context context, List<CgOddLimit> datas) {

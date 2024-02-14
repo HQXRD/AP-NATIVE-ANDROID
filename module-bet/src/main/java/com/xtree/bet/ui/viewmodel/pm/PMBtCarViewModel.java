@@ -195,7 +195,9 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
             }
         }
         btReq.setSeriesOrders(seriesOrders);
-
+        if(seriesOrders.isEmpty()){
+            noBetAmountDate.call();
+        }
 
         Disposable disposable = (Disposable) model.getPMApiService().bet(btReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
@@ -222,7 +224,7 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        //super.onError(t);
                         if (t instanceof ResponseThrowable) {
                             if (((ResponseThrowable) t).code == CODE_400467) {
                                 batchBetMatchMarketOfJumpLine(mSearchBetConfirmOptionList);
