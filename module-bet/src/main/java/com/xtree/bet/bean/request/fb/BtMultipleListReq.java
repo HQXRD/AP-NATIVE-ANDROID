@@ -14,4 +14,8 @@ public class BtMultipleListReq {
     public void addBtMultipleData(BtCgReq btCgReq) {
         this.betMultipleData.add(btCgReq);
     }
+
+    public List<BtCgReq> getBetMultipleData() {
+        return betMultipleData;
+    }
 }

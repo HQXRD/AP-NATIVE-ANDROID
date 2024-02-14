@@ -13,9 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.xtree.base.utils.CfLog;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
 import com.xtree.bet.bean.ui.BetConfirmOptionUtil;
@@ -236,6 +238,9 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         });
         viewModel.cgOddLimitDate.observe(this, cgOddLimits -> {
 
+            if(!this.cgOddLimitList.isEmpty()){
+                CfLog.e("更新前this.cgOddLimitList===============" + this.cgOddLimitList.get(0).getBtAmount());
+            }
             if (cgOddLimitAdapter == null) {
                 this.cgOddLimitList = cgOddLimits;
                 cgOddLimitAdapter = new CgOddLimitSecAdapter(getContext(), cgOddLimits);
@@ -243,12 +248,15 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 cgOddLimitAdapter.setKeyboardView(keyboardView);
                 binding.rvBtCg.setAdapter(cgOddLimitAdapter);
             }else{
+
                 for (int i = 0; i < cgOddLimits.size(); i ++) {
                     cgOddLimits.get(i).setBtAmount(cgOddLimitList.get(i).getBtAmount());
                 }
                 this.cgOddLimitList = cgOddLimits;
-                cgOddLimitAdapter.setNewData(cgOddLimits);
-                cgOddLimitAdapter.setRefresh(true);
+                if(!this.cgOddLimitList.isEmpty()){
+                    CfLog.e("更新后this.cgOddLimitList===============" + this.cgOddLimitList.get(0).getBtAmount());
+                }
+                cgOddLimitAdapter.setNewData(this.cgOddLimitList);
             }
         });
         viewModel.btResultInfoDate.observe(this, btResults -> {
@@ -257,6 +265,9 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         });
         viewModel.userBalanceData.observe(this, balance -> {
             binding.tvBalance.setText(balance);
+        });
+        viewModel.noBetAmountDate.observe(this, unused -> {
+            ToastUtils.showShort(R.string.bt_txt_no_amount);
         });
     }
 
