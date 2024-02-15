@@ -9,8 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
@@ -66,11 +64,6 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     HashMap<String, ArrayList<AugVo>> augMap = new HashMap<>();
 
     String public_key;
-
-    // 两次点击之间的最小点击间隔时间(单位:ms)
-    private static final int MIN_CLICK_DELAY_TIME = 1500;
-    // 最后一次点击的时间
-    private long lastClickTime;
 
     public HomeViewModel(@NonNull Application application, HomeRepository repository) {
         super(application, repository);
@@ -267,12 +260,6 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     }
 
     public void getPlayUrl(String gameAlias, String gameId) {
-        // 限制多次点击，禁止重复启动BrowserActivity
-        long currentTime = System.currentTimeMillis();
-        if (currentTime - lastClickTime < MIN_CLICK_DELAY_TIME) {// 两次点击的时间间隔小于最小限制时间，不触发点击事件
-            return;
-        }
-        lastClickTime = currentTime;
         if (TextUtils.isEmpty(gameId)) {
             gameId = "1";
         }

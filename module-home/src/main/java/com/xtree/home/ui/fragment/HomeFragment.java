@@ -26,6 +26,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.ProfileVo;
@@ -71,11 +72,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private String token;
 
     public static String CHOOSE_TYPE = "";
-
-    // 两次点击之间的最小点击间隔时间(单位:ms)
-    private static final int MIN_CLICK_DELAY_TIME = 1000;
-    // 最后一次点击的时间
-    private long lastClickTime;
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -273,11 +269,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             String url = DomainUtil.getDomain2() + Constant.URL_WITHDRAW;
             BrowserActivity.start(getContext(), title, url, true);*/
             // 限制多次点击
-            long currentTime = System.currentTimeMillis();
-            if (currentTime - lastClickTime < MIN_CLICK_DELAY_TIME) {// 两次点击的时间间隔小于最小限制时间，不触发点击事件
+            if (ClickUtil.isFastClick()) {
                 return;
             }
-            lastClickTime = currentTime;
             showChoose();
 
         });
@@ -297,6 +291,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             CfLog.i(vo.toString());
             if (vo.cid == 7) {
                 startContainerFragment(RouterFragmentPath.Home.AUG);
+                return;
+            }
+            if (ClickUtil.isFastClick()) {
                 return;
             }
             viewModel.getPlayUrl(vo.alias, vo.gameId);

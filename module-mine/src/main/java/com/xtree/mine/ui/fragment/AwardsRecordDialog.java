@@ -56,7 +56,7 @@ public class AwardsRecordDialog extends BottomPopupView {
 
     @Override
     protected int getMaxHeight() {
-        return (XPopupUtils.getScreenHeight(getContext()) * 75 / 100);
+        return (XPopupUtils.getScreenHeight(getContext()) * 80 / 100);
     }
 
     private AwardsRecordDialog(@NonNull Context context) {
@@ -138,7 +138,6 @@ public class AwardsRecordDialog extends BottomPopupView {
                 }
             });
             binding.lvChoose.setVisibility(View.GONE);
-            binding.llChooseTutorial.setVisibility(View.GONE);
             binding.llChooseTip.setVisibility(View.VISIBLE);
 
 
