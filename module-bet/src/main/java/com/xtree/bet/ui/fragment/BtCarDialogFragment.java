@@ -155,12 +155,18 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     @Override
     public void initData() {
         viewModel.getUserBalance();
-        if (!BtCarManager.getBtCarList().isEmpty()) {
+        if(BtCarManager.isCg()){
+            betConfirmOptionList = BtCarManager.getBtCarList();
+        }else {
+            BetConfirmOption betConfirmOption = getArguments().getParcelable(KEY_BT_OPTION);
+            betConfirmOptionList.add(betConfirmOption);
+        }
+        /*if (!BtCarManager.getBtCarList().isEmpty()) {
             betConfirmOptionList = BtCarManager.getBtCarList();
         } else {
             BetConfirmOption betConfirmOption = getArguments().getParcelable(KEY_BT_OPTION);
             betConfirmOptionList.add(betConfirmOption);
-        }
+        }*/
         if(betConfirmOptionList.size() > 1){
             binding.ivDelete.setVisibility(View.VISIBLE);
         }else {
@@ -171,7 +177,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         betConfirmOptionAdapter.setBtCarDialogFragment(this);
         binding.tvTimer.setText(String.valueOf(countdown));
         viewModel.batchBetMatchMarketOfJumpLine(betConfirmOptionList);
-        if (BtCarManager.getBtCarList().isEmpty()) {
+        if (!BtCarManager.isCg()) {
             binding.tvTimer.setVisibility(View.VISIBLE);
             runnable = () -> {
                 binding.tvTimer.setText(String.valueOf(countdown--));
@@ -278,7 +284,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     }
 
     public void batchBetMatchMarketOfJumpLine() {
-        if (!BtCarManager.getBtCarList().isEmpty()) {
+        if (BtCarManager.isCg()) {
             betConfirmOptionList = BtCarManager.getBtCarList();
         }
         viewModel.batchBetMatchMarketOfJumpLine(betConfirmOptionList);
