@@ -189,7 +189,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.addSubscribe(Observable.interval(5, 5, TimeUnit.SECONDS)
+        viewModel.addSubscribe(Observable.interval(6, 6, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
@@ -234,9 +234,11 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             if (hasCloseOption) {
                 binding.ivConfirm.setEnabled(false);
                 binding.ivBtBg.setEnabled(false);
+                binding.ivBt.setEnabled(false);
             } else {
                 binding.ivConfirm.setEnabled(true);
                 binding.ivBtBg.setEnabled(true);
+                binding.ivBt.setEnabled(true);
             }
 
             if (betConfirmOptionAdapter == null) {

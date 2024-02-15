@@ -23,13 +23,15 @@ import me.xtree.mvvmhabit.utils.Utils;
 
 public class StringUtils {
     public static String[] getPinYinInitials(String chinese) {
-        String[] pinyinArray = PinyinHelper.toHanyuPinyinStringArray(chinese.charAt(0));
-        String[] initials = new String[pinyinArray.length];
+        String[] initials = new String[]{String.valueOf(chinese.charAt(0))};
+        if(isChinese(String.valueOf(chinese.charAt(0)))) {
+            String[] pinyinArray = PinyinHelper.toHanyuPinyinStringArray(chinese.charAt(0));
+            initials = new String[pinyinArray.length];
 
-        for (int i = 0; i < pinyinArray.length; i++) {
-            initials[i] = pinyinArray[i].substring(0, 1).toUpperCase();
+            for (int i = 0; i < pinyinArray.length; i++) {
+                initials[i] = pinyinArray[i].substring(0, 1).toUpperCase();
+            }
         }
-
         return initials;
     }
 
@@ -91,5 +93,14 @@ public class StringUtils {
     public static boolean isStartHttp(final String txt)
     {
         return  txt.startsWith("https:") ;
+    }
+
+    /**
+     * 是否中文
+     * @param str
+     * @return
+     */
+    public static boolean isChinese(String str) {
+        return str.matches("[\\u4e00-\\u9fa5]+");
     }
 }

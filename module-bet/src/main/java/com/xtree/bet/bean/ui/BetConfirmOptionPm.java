@@ -125,8 +125,6 @@ public class BetConfirmOptionPm implements BetConfirmOption {
             optionInfo.ov = btConfirmInfo.marketOddsList.get(0).oddsValue;
             mOption = new OptionPm(optionInfo);
             if(oldOdd > 0) {
-                CfLog.e("========oldodd======" + oldOdd);
-                CfLog.e("========newodd======" + mOption.getRealOdd());
                 mOption.setChange(oldOdd);
             }
         }

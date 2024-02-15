@@ -118,8 +118,6 @@ public class BetConfirmOptionFb implements BetConfirmOption{
         if(btConfirmOptionInfo != null && btConfirmOptionInfo.op != null) {
             mOption = new OptionFb(btConfirmOptionInfo.op);
             if(oldOdd > 0) {
-                CfLog.e("========oldodd======" + oldOdd);
-                CfLog.e("========newodd======" + mOption.getRealOdd());
                 mOption.setChange(oldOdd);
             }
         }
