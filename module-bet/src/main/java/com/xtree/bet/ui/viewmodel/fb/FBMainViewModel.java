@@ -574,6 +574,9 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
         Map<String, League> mapLeague = new HashMap<>();
         for (MatchInfo matchInfo : matchInfoList) {
+            if(FBConstants.getPlayTypeId(String.valueOf(matchInfo.sid)) == null){
+                continue;
+            }
             Match match = new MatchFb(matchInfo);
             buildNoLiveSportHeader(match, new LeagueFb());
 
