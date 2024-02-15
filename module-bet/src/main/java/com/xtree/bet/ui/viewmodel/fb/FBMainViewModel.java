@@ -10,12 +10,17 @@ import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_ADDITIONAL;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_LIVE;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_NOMAL;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_TODAY_CG;
+import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
 
 import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.fb.LeagueInfo;
@@ -38,6 +43,7 @@ import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.data.BetRepository;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +54,7 @@ import io.reactivex.disposables.Disposable;
 import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
+import com.xtree.bet.util.MatchDeserializer;
 
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -105,7 +112,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             }
         }
         setSportIds(playMethodPos);
-        if(playMethodPos == 4) {
+        if (playMethodPos == 4) {
             MatchTypeInfo matchTypeInfo;
             Map<String, MatchTypeStatisInfo> mapMatchTypeStatisInfo = new HashMap<>();
             List<String> additionalIds = new ArrayList<>();
@@ -117,7 +124,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                 additionalIcons.add(Constants.SPORT_ICON[i]);
             }
             for (MatchTypeInfo typeInfo : mStatisticalInfo.sl) {
-                if(typeInfo.ty == playMethodType){
+                if (typeInfo.ty == playMethodType) {
                     matchTypeInfo = typeInfo;
                     for (MatchTypeStatisInfo matchTypeStatisInfo :
                             matchTypeInfo.ssl) {
@@ -129,7 +136,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
             for (int i = 0; i < SPORT_IDS_ADDITIONAL.length; i++) {
                 MatchTypeStatisInfo matchTypeStatisInfo = mapMatchTypeStatisInfo.get(SPORT_IDS_ADDITIONAL[i]);
-                if(matchTypeStatisInfo != null && matchTypeStatisInfo.c > 0){
+                if (matchTypeStatisInfo != null && matchTypeStatisInfo.c > 0) {
                     additionalIds.add(SPORT_IDS_ADDITIONAL[i]);
                     additionalNames.add(SPORT_NAMES_ADDITIONAL[i]);
                     additionalIcons.add(SPORT_ICON_ADDITIONAL[i]);
@@ -197,11 +204,29 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @param isRefresh      是否刷新 true-是, false-否
      */
     public void getLeagueList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int searchDatePos, int oddType, boolean isTimerRefresh, boolean isRefresh) {
-        int type;
-        boolean flag = false;
         if (!isStepSecond) {
             mPlayMethodType = playMethodType;
         }
+        boolean hasCache = false;
+
+        if (currentPage == 1 && !isTimerRefresh) {
+            String json = SPUtils.getInstance().getString(BT_LEAGUE_LIST_CACHE + mPlayMethodType + sportId, "[]");
+            Gson gson = new GsonBuilder().serializeNulls().registerTypeAdapter(Match.class, new MatchDeserializer()).create();
+            Type listType = new TypeToken<List<LeagueFb>>() {
+            }.getType();
+            List<League> leagueList = (List<League>) gson.fromJson(json, listType);
+            hasCache = !leagueList.isEmpty();
+            if (playMethodType == 1) { // 滚球
+                leagueGoingOnListData.postValue(leagueList);
+            }else{
+                leagueWaitingListData.postValue(leagueList);
+            }
+        }
+
+        final boolean hasCacheFinal = hasCache;
+
+        int type;
+        boolean flag = false;
         mSportPos = sportPos;
 
         if (isRefresh) {
@@ -269,7 +294,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                     @Override
                     protected void onStart() {
                         super.onStart();
-                        if (!isTimerRefresh) {
+                        if (!isTimerRefresh && !hasCacheFinal) {
                             getUC().getShowDialogEvent().postValue("");
                         }
                     }
@@ -313,13 +338,17 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                             } else {
                                 leagueAdapterList(matchListRsp.records);
                                 leagueGoingOnListData.postValue(mLeagueList);
+                                if (currentPage == 1) {
+                                    SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + sportId, new Gson().toJson(mLeagueList));
+                                }
                             }
                         } else {
                             leagueAdapterList(matchListRsp.records);
                             leagueWaitingListData.postValue(mLeagueList);
+                            if (currentPage == 1) {
+                                SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + sportId, new Gson().toJson(mLeagueList));
+                            }
                         }
-
-
                     }
 
                     @Override
@@ -364,6 +393,20 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             currentPage++;
         }
 
+        boolean hasCache = false;
+
+        if (currentPage == 1 && !isTimerRefresh) {
+            String json = SPUtils.getInstance().getString(BT_LEAGUE_LIST_CACHE + playMethodType + sportId, "[]");
+            Gson gson = new GsonBuilder().serializeNulls().registerTypeAdapter(Match.class, new MatchDeserializer()).create();
+            Type listType = new TypeToken<List<MatchFb>>() {
+            }.getType();
+            List<Match> matchList = (List<Match>) new Gson().fromJson(json, listType);
+            hasCache = !matchList.isEmpty();
+            championMatchListData.postValue(matchList);
+        }
+
+        final boolean hasCacheFinal = hasCache;
+
         FBListReq FBListReq = new FBListReq();
         FBListReq.setSportId(sportId);
         FBListReq.setType(playMethodType);
@@ -394,7 +437,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                     @Override
                     protected void onStart() {
                         super.onStart();
-                        if (!isTimerRefresh) {
+                        if (!isTimerRefresh && !hasCacheFinal) {
                             getUC().getShowDialogEvent().postValue("");
                         }
                     }
@@ -425,6 +468,9 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                         championLeagueList(matchListRsp.records);
                         championMatchListData.postValue(mChampionMatchList);
+                        if (currentPage == 1) {
+                            SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + playMethodType + sportId, new Gson().toJson(mChampionMatchList));
+                        }
                     }
 
                     @Override
@@ -574,7 +620,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
         Map<String, League> mapLeague = new HashMap<>();
         for (MatchInfo matchInfo : matchInfoList) {
-            if(FBConstants.getPlayTypeId(String.valueOf(matchInfo.sid)) == null){
+            if (FBConstants.getPlayTypeId(String.valueOf(matchInfo.sid)) == null) {
                 continue;
             }
             Match match = new MatchFb(matchInfo);
@@ -611,7 +657,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @return
      */
     private void championLeagueList(List<MatchInfo> matchInfoList) {
-        if(!matchInfoList.isEmpty()) {
+        if (!matchInfoList.isEmpty()) {
             Match header = new MatchFb();
             header.setHead(true);
             mChampionMatchList.add(header);

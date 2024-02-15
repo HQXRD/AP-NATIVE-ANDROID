@@ -21,6 +21,7 @@ import java.util.Objects;
  * 赛事列表UI显示需要用的比赛信息结构
  */
 public class MatchFb implements Match{
+    private String className;
     private static final String[] CHINESE_DIGITS = {"0", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
     MatchInfo matchInfo;
 
@@ -29,10 +30,11 @@ public class MatchFb implements Match{
     private boolean isExpand;
 
     public MatchFb(){
-
+        this.className = getClass().getSimpleName();
     }
 
     public MatchFb(MatchInfo matchInfo){
+        this.className = getClass().getSimpleName();
         this.matchInfo = matchInfo;
     }
 

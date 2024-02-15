@@ -21,6 +21,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  * 赛事列表UI显示需要用的比赛信息结构
  */
 public class MatchPm implements Match {
+    private String className;
     MatchInfo matchInfo;
 
     List<PlayType> playTypeList = new ArrayList<>();
@@ -34,10 +35,11 @@ public class MatchPm implements Match {
     private boolean isExpand;
 
     public MatchPm(){
-
+        this.className = getClass().getSimpleName();
     }
 
     public MatchPm(MatchInfo matchInfo) {
+        this.className = getClass().getSimpleName();
         this.matchInfo = matchInfo;
     }
 
