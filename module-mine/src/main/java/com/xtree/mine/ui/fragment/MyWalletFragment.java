@@ -1,13 +1,16 @@
-package com.xtree.mine.ui.activity;
+package com.xtree.mine.ui.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -25,9 +28,7 @@ import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
-import com.xtree.mine.databinding.ActivityMyWalletBinding;
-import com.xtree.mine.ui.fragment.AccountMgmtDialog;
-import com.xtree.mine.ui.fragment.MyWalletAdapter;
+import com.xtree.mine.databinding.FragmentMyWalletBinding;
 import com.xtree.mine.ui.viewmodel.MyWalletViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.AwardsRecordVo;
@@ -38,12 +39,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import me.xtree.mvvmhabit.base.BaseActivity;
+import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
-@Route(path = RouterActivityPath.Mine.PAGER_MY_WALLET)
-public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWalletViewModel> {
+@Route(path = RouterFragmentPath.Mine.PAGER_MY_WALLET)
+public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWalletViewModel> {
     private final static int MSG_GAME_BALANCE = 1004;
     private List<GameMenusVo> walletGameList = new ArrayList<>();
     private List<GameBalanceVo> transGameBalanceList = new ArrayList<>();
@@ -58,19 +59,6 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
 
     private AwardsRecordVo awardsRecordVo;//礼物流水
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        viewModel.readCache(); // 读取缓存
-
-        viewModel.getBalance(); // 平台中心余额
-
-        viewModel.getAwardRecord();//获取礼物流水
-
-        viewModel.getTransThirdGameType(this);
-    }
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -89,46 +77,48 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
     };
 
     @Override
-    public int initContentView(Bundle savedInstanceState) {
-        return R.layout.activity_my_wallet;
-    }
-
-    @Override
     public int initVariableId() {
         return BR.viewModel;
     }
 
     @Override
     public void initView() {
-        binding.ivwBack.setOnClickListener(v -> finish());
+        binding.ivwBack.setOnClickListener(v -> getActivity().finish());
+
         binding.ivwRefreshBlc.setOnClickListener(v -> {
             viewModel.getBalance();
-            Animation animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.anim_loading);
+            Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_loading_normal);
             binding.ivwRefreshBlc.startAnimation(animation);
             ToastUtils.show(this.getString(R.string.txt_rc_tip_latest_balance), ToastUtils.ShowType.Success);
         });
+
         binding.ivwGoDeposit.setOnClickListener(v -> {
             CfLog.d("************");
             goRecharge();
         });
+
         binding.tvwDeposit.setOnClickListener(v -> {
             CfLog.d("************");
             goRecharge();
         });
+
         binding.tvwTrans.setOnClickListener(v -> {
             CfLog.d("************");
             startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER);
         });
+
         //取款
         binding.tvwWithdraw.setOnClickListener(v -> {
             CfLog.d("************");
             showChoose(); // 显示提款方式
 
         });
+
         binding.tvwMgmt.setOnClickListener(v -> {
             CfLog.d("************");
-            new XPopup.Builder(this).asCustom(new AccountMgmtDialog(this)).show();
+            new XPopup.Builder(getContext()).asCustom(new AccountMgmtDialog(getContext())).show();
         });
+
         binding.tvwRecord.setOnClickListener(v -> {
             CfLog.d("************");
             //goWebView(v, Constant.URL_DW_RECORD);
@@ -139,13 +129,14 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
             //账号已登出，请重新登录
 
         });
+
         //显示钱包流水
-        binding.llAwardRecord.setOnClickListener(v -> {
+        binding.tvwAwardRecord.setOnClickListener(v -> {
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
         });
 
         int spanCount = 4; // 每行的列数
-        GridLayoutManager layoutManager = new GridLayoutManager(this, spanCount);
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
         binding.rcvWalletDetails.setLayoutManager(layoutManager);
 
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
@@ -153,15 +144,28 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
     }
 
     @Override
+    public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return R.layout.fragment_my_wallet;
+    }
+
+    @Override
     public MyWalletViewModel initViewModel() {
         // return super.initViewModel();
-        AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
+        AppViewModelFactory factory = AppViewModelFactory.getInstance(getActivity().getApplication());
         return new ViewModelProvider(this, factory).get(MyWalletViewModel.class);
     }
 
     @Override
     public void initData() {
         //super.initData();
+
+        viewModel.readCache(); // 读取缓存
+
+        viewModel.getBalance(); // 平台中心余额
+
+        viewModel.getAwardRecord();//获取礼物流水
+
+        viewModel.getTransThirdGameType(getContext());
     }
 
     @Override
@@ -178,7 +182,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
             CfLog.d("count : " + count + " walletGameList.size() : " + walletGameList.size());
             if (count >= walletGameList.size()) {
                 Collections.sort(transGameBalanceList);
-                myWalletAdapter = new MyWalletAdapter(this);
+                myWalletAdapter = new MyWalletAdapter(getContext());
                 binding.rcvWalletDetails.setAdapter(myWalletAdapter);
                 myWalletAdapter.setData(transGameBalanceList);
             }
@@ -190,14 +194,14 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
 
             if (count >= walletGameList.size()) {
                 Collections.sort(transGameBalanceList);
-                myWalletAdapter = new MyWalletAdapter(this);
+                myWalletAdapter = new MyWalletAdapter(getContext());
                 binding.rcvWalletDetails.setAdapter(myWalletAdapter);
                 myWalletAdapter.setData(transGameBalanceList);
             }
         });
 
         viewModel.listSingleLiveData.observe(this, vo -> {
-            myWalletAdapter = new MyWalletAdapter(this);
+            myWalletAdapter = new MyWalletAdapter(getContext());
             binding.rcvWalletDetails.setAdapter(myWalletAdapter);
             Collections.sort(vo);
             myWalletAdapter.setData(vo);
@@ -221,17 +225,10 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         });
     }
 
-   /* private void goWebView(View v, String path) {
-        String title = ((TextView) v).getText().toString();
-        String url = DomainUtil.getDomain2() + path;
-        BrowserActivity.start(this, title, url, true);
-    }*/
-
     private void goRecharge() {
         Bundle bundle = new Bundle();
         bundle.putBoolean("isShowBack", true);
         startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
-
     }
 
     /**
@@ -246,7 +243,6 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
             toBindPhoneOrCard();
         } else {
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
-
         }
     }
 
@@ -254,7 +250,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         String msg = getString(R.string.txt_rc_bind_personal_info);
         String left = getString(R.string.txt_rc_bind_phone_now);
         String right = getString(R.string.txt_rc_bind_bank_card_now);
-        MsgDialog dialog = new MsgDialog(this, null, msg, left, right, new MsgDialog.ICallBack() {
+        MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
             @Override
             public void onClickLeft() {
                 toBindPhoneNumber();
@@ -267,7 +263,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
                 ppw.dismiss();
             }
         });
-        ppw = new XPopup.Builder(this).dismissOnTouchOutside(true).dismissOnBackPressed(true).asCustom(dialog);
+        ppw = new XPopup.Builder(getContext()).dismissOnTouchOutside(true).dismissOnBackPressed(true).asCustom(dialog);
         ppw.show();
     }
 
@@ -276,7 +272,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         String msg = getString(R.string.txt_rc_bind_phone_email_pls);
         String left = getString(R.string.txt_rc_bind_phone);
         String right = getString(R.string.txt_rc_bind_email);
-        MsgDialog dialog = new MsgDialog(this, null, msg, left, right, new MsgDialog.ICallBack() {
+        MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
             @Override
             public void onClickLeft() {
                 toBindPhoneOrEmail(Constant.BIND_PHONE);
@@ -289,14 +285,13 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
                 ppw2.dismiss();
             }
         });
-        ppw2 = new XPopup.Builder(this).dismissOnTouchOutside(true).dismissOnBackPressed(true).asCustom(dialog);
+        ppw2 = new XPopup.Builder(getContext()).asCustom(dialog);
         ppw2.show();
     }
 
     private void toBindCard() {
-
         String msg = getString(R.string.txt_rc_bind_bank_card_pls);
-        MsgDialog dialog = new MsgDialog(this, null, msg, true, new MsgDialog.ICallBack() {
+        MsgDialog dialog = new MsgDialog(getContext(), null, msg, true, new MsgDialog.ICallBack() {
             @Override
             public void onClickLeft() {
             }
@@ -310,7 +305,7 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
                 ppw2.dismiss();
             }
         });
-        ppw2 = new XPopup.Builder(this).dismissOnTouchOutside(false).dismissOnBackPressed(false).asCustom(dialog);
+        ppw2 = new XPopup.Builder(getContext()).asCustom(dialog);
         ppw2.show();
 
     }
@@ -321,5 +316,4 @@ public class MyWalletActivity extends BaseActivity<ActivityMyWalletBinding, MyWa
         bundle.putString("type", type);
         startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
     }
-
 }

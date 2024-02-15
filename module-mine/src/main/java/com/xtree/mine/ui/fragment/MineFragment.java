@@ -31,7 +31,6 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMineBinding;
 import com.xtree.mine.ui.activity.LoginRegisterActivity;
-import com.xtree.mine.ui.activity.MyWalletActivity;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.VipInfoVo;
@@ -121,8 +120,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
 
         binding.tvwWallet.setOnClickListener(view -> {
-            Intent toMyWallet = new Intent(getContext(), MyWalletActivity.class);
-            startActivity(toMyWallet);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_MY_WALLET);
         });
         binding.tvwTrans.setOnClickListener(v -> {
             // 转账
