@@ -205,6 +205,18 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/tv_top_win"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="@dimen/bt_text_12sp"
+                    tools:text="@string/bt_bt_top_win"
+                    android:textColor="@color/bt_text_color_primary_2"/>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -218,7 +230,7 @@
                         android:layout_height="40dp"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
+                        android:visibility="gone"
                         android:background="@mipmap/bt_ic_bt_delete" />
 
                     <RelativeLayout
@@ -226,9 +238,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
+                        android:layout_marginStart="15dp"
                         android:layout_toLeftOf="@+id/iv_bt"
                         android:layout_toRightOf="@+id/iv_delete">
                         <ImageView
+                            android:id="@+id/iv_bt_bg"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@drawable/bt_btn_bg_cg_selector"/>
@@ -248,9 +262,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_marginStart="2dp"
+                            android:layout_marginStart="5dp"
                             android:layout_toRightOf="@+id/tv_bt_opton"
-                            android:textColor="@color/bt_color_under_bg_primary_text"
+                            android:textColor="@color/bt_color_bt_pay"
                             android:textSize="@dimen/bt_text_12sp"
                             tools:text="合计999" />
 
@@ -276,7 +290,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_alignParentRight="true"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="15dp"
                         android:layout_marginEnd="10dp"
                         android:background="@mipmap/bt_ic_bt_dan" />
                 </RelativeLayout>

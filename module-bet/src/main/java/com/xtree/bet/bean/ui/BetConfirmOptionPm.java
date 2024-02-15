@@ -17,6 +17,7 @@ public class BetConfirmOptionPm implements BetConfirmOption {
     private OptionList optionList;
     private Option option;
     private String teamName;
+    private double oldOdd;
 
     public BetConfirmOptionPm(BtConfirmInfo btConfirmInfo, String teamName) {
         this.btConfirmInfo = btConfirmInfo;
@@ -29,6 +30,7 @@ public class BetConfirmOptionPm implements BetConfirmOption {
         this.match = match;
         this.playType = playType;
         teamName = match.getTeamMain() + " VS " + match.getTeamVistor();
+        oldOdd = option.getRealOdd();
     }
 
     /**
@@ -92,8 +94,8 @@ public class BetConfirmOptionPm implements BetConfirmOption {
 
     @Override
     public String getOptionName() {
-        if(!TextUtils.isEmpty(getOption().getSortName())){
-            return getOption().getSortName();
+        if(!TextUtils.isEmpty(getmOption().getSortName())){
+            return getmOption().getSortName();
         }else if(btConfirmInfo != null && !TextUtils.isEmpty(btConfirmInfo.marketValue)){
             return btConfirmInfo.marketValue;
         }else {
@@ -113,7 +115,7 @@ public class BetConfirmOptionPm implements BetConfirmOption {
     }
 
     @Override
-    public Option getOption() {
+    public Option getmOption() {
         if(btConfirmInfo != null && btConfirmInfo.marketOddsList != null && !btConfirmInfo.marketOddsList.isEmpty()){
             OptionInfo optionInfo = new OptionInfo();
             optionInfo.oid = btConfirmInfo.marketOddsList.get(0).id;

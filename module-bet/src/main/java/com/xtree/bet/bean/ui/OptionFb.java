@@ -1,11 +1,9 @@
 package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
-import android.util.Log;
 
 import com.xtree.bet.bean.response.fb.OptionDataListInfo;
 import com.xtree.bet.bean.response.fb.OptionInfo;
-import com.xtree.bet.bean.response.fb.PlayTypeInfo;
 import com.xtree.bet.constant.SPKey;
 
 import java.math.BigDecimal;
@@ -15,18 +13,18 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class OptionFb implements Option {
     private int change;
-    private OptionInfo optionInfo;
+    private OptionInfo mOptionInfo;
 
     private String code;
 
     private OptionDataListInfo optionList;
 
     public OptionFb(OptionInfo optionInfo) {
-        this.optionInfo = optionInfo;
+        this.mOptionInfo = optionInfo;
     }
 
     public OptionFb(OptionInfo optionInfo, OptionDataListInfo optionList) {
-        this.optionInfo = optionInfo;
+        this.mOptionInfo = optionInfo;
         this.optionList = optionList;
     }
 
@@ -39,17 +37,17 @@ public class OptionFb implements Option {
      * 选项全称，投注框一般用全称展示
      */
     public String getName() {
-        if (optionInfo == null) {
+        if (mOptionInfo == null) {
             return "";
         }
-        return optionInfo.na;
+        return mOptionInfo.na;
     }
 
     /**
      * 选项简称(全名or简名，订单相关为全名，否则为简名)， 赔率列表一般都用简称展示
      */
     public String getSortName() {
-        return optionInfo.nm;
+        return mOptionInfo.nm;
     }
 
     /**
@@ -58,7 +56,7 @@ public class OptionFb implements Option {
      * @return
      */
     public String getOptionType() {
-        return String.valueOf(optionInfo.ty);
+        return String.valueOf(mOptionInfo.ty);
     }
 
     /**
@@ -66,29 +64,29 @@ public class OptionFb implements Option {
      */
     public double getOdd() {
         if (isHongKongMarket()) {
-            BigDecimal bg = new BigDecimal(optionInfo.od - 1);
+            BigDecimal bg = new BigDecimal(mOptionInfo.od - 1);
             return bg.setScale(2, RoundingMode.HALF_UP).doubleValue();
         }
-        return optionInfo.od;
+        return mOptionInfo.od;
     }
 
     @Override
     public double getRealOdd() {
-        return optionInfo.od;
+        return mOptionInfo.od;
     }
 
     /**
      * 赔率
      */
     public double getBodd() {
-        return optionInfo.bod;
+        return mOptionInfo.bod;
     }
 
     /**
      * 赔率类型
      */
     public int getOddType() {
-        return optionInfo.odt;
+        return mOptionInfo.odt;
     }
 
     /**
@@ -111,12 +109,12 @@ public class OptionFb implements Option {
      * 选项结算结果，仅虚拟体育展示
      */
     public int getSettlementResult() {
-        return optionInfo.otcm;
+        return mOptionInfo.otcm;
     }
 
     @Override
     public boolean setSelected(boolean isSelected) {
-        return optionInfo.isSelected = isSelected;
+        return mOptionInfo.isSelected = isSelected;
     }
 
     /**
@@ -126,7 +124,7 @@ public class OptionFb implements Option {
      */
     @Override
     public boolean isSelected() {
-        return optionInfo.isSelected;
+        return mOptionInfo.isSelected;
     }
 
     /**
@@ -136,7 +134,7 @@ public class OptionFb implements Option {
      */
     @Override
     public String getLine() {
-        return optionInfo.li;
+        return mOptionInfo.li;
     }
 
     /**
@@ -168,7 +166,7 @@ public class OptionFb implements Option {
     public void setChange(double oldOdd) {
         change = oldOdd < getOdd() ? 1 : oldOdd > getOdd() ? -1 : 0;
         //Log.e("test", "===========" + change);
-        optionInfo.change = change;
+        mOptionInfo.change = change;
     }
 
     /**
@@ -178,7 +176,7 @@ public class OptionFb implements Option {
      */
     @Override
     public boolean isUp() {
-        return optionInfo.change == 1;
+        return mOptionInfo.change == 1;
     }
 
     /**
@@ -188,12 +186,12 @@ public class OptionFb implements Option {
      */
     @Override
     public boolean isDown() {
-        return optionInfo.change == -1;
+        return mOptionInfo.change == -1;
     }
 
     @Override
     public void reset() {
-        optionInfo.change = 0;
+        mOptionInfo.change = 0;
     }
 
     /**
@@ -238,15 +236,15 @@ public class OptionFb implements Option {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable(this.optionInfo, flags);
+        dest.writeParcelable(this.mOptionInfo, flags);
     }
 
     public void readFromParcel(Parcel source) {
-        this.optionInfo = source.readParcelable(OptionInfo.class.getClassLoader());
+        this.mOptionInfo = source.readParcelable(OptionInfo.class.getClassLoader());
     }
 
     protected OptionFb(Parcel in) {
-        this.optionInfo = in.readParcelable(OptionInfo.class.getClassLoader());
+        this.mOptionInfo = in.readParcelable(OptionInfo.class.getClassLoader());
     }
 
     public static final Creator<OptionFb> CREATOR = new Creator<OptionFb>() {

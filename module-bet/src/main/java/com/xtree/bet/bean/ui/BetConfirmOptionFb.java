@@ -3,6 +3,7 @@ package com.xtree.bet.bean.ui;
 import android.os.Parcel;
 import android.text.TextUtils;
 
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.BaseBean;
 import com.xtree.bet.bean.response.fb.BtConfirmOptionInfo;
 
@@ -14,8 +15,9 @@ public class BetConfirmOptionFb implements BetConfirmOption{
     private Match match;
     private PlayType playType;
     private OptionList optionList;
-    private Option option;
+    private Option mOption;
     private String teamName;
+    private double oldOdd;
 
     public BetConfirmOptionFb(BtConfirmOptionInfo btConfirmOptionInfo, String teamName){
         this.btConfirmOptionInfo = btConfirmOptionInfo;
@@ -24,10 +26,11 @@ public class BetConfirmOptionFb implements BetConfirmOption{
 
     public BetConfirmOptionFb(Match match, PlayType playType, OptionList optionList, Option option){
         this.optionList = optionList;
-        this.option = option;
+        this.mOption = option;
         this.match = match;
         this.playType = playType;
         teamName = match.getTeamMain() + " VS " + match.getTeamVistor();
+        oldOdd = option.getRealOdd();
     }
     /**
      * 设置比赛及投注信息
@@ -35,7 +38,7 @@ public class BetConfirmOptionFb implements BetConfirmOption{
      */
     public void setData(Match match, PlayType playType, OptionList optionList, Option option){
         this.optionList = optionList;
-        this.option = option;
+        this.mOption = option;
         this.match = match;
         this.playType = playType;
         teamName = match.getTeamMain() + " VS " + match.getTeamVistor();
@@ -60,9 +63,9 @@ public class BetConfirmOptionFb implements BetConfirmOption{
         code.append(playType.getPlayType());
         code.append(playType.getPlayPeriod());
         code.append(optionList.getId());
-        code.append(option.getOptionType());
-        if(!TextUtils.isEmpty(option.getLine())){
-            code.append(option.getLine());
+        code.append(mOption.getOptionType());
+        if(!TextUtils.isEmpty(mOption.getLine())){
+            code.append(mOption.getLine());
         }
         return code.toString();
     }
@@ -95,7 +98,7 @@ public class BetConfirmOptionFb implements BetConfirmOption{
                 optionName = sortName;
             }
         }else{
-            optionName = option.getName() + " " + option.getLine() == null ? "" : option.getLine();
+            optionName = mOption.getName() + " " + mOption.getLine() == null ? "" : mOption.getLine();
         }
 
         return optionName;
@@ -111,12 +114,16 @@ public class BetConfirmOptionFb implements BetConfirmOption{
     }
 
     @Override
-    public Option getOption() {
+    public Option getmOption() {
         if(btConfirmOptionInfo != null && btConfirmOptionInfo.op != null) {
-            return new OptionFb(btConfirmOptionInfo.op);
-        }else{
-            return option;
+            mOption = new OptionFb(btConfirmOptionInfo.op);
+            if(oldOdd > 0) {
+                CfLog.e("========oldodd======" + oldOdd);
+                CfLog.e("========newodd======" + mOption.getRealOdd());
+                mOption.setChange(oldOdd);
+            }
         }
+        return mOption;
     }
 
     /**
@@ -167,7 +174,7 @@ public class BetConfirmOptionFb implements BetConfirmOption{
         if(btConfirmOptionInfo != null && btConfirmOptionInfo.op != null) {
             return String.valueOf(btConfirmOptionInfo.op.ty);
         }else{
-            return option.getOptionType();
+            return mOption.getOptionType();
         }
     }
 
@@ -186,7 +193,13 @@ public class BetConfirmOptionFb implements BetConfirmOption{
      */
     @Override
     public void setRealData(BaseBean data) {
+        if(btConfirmOptionInfo != null && btConfirmOptionInfo.op != null) {
+            oldOdd = btConfirmOptionInfo.op.od;
+            CfLog.e("oldodd======" + oldOdd);
+        }
         this.btConfirmOptionInfo = (BtConfirmOptionInfo) data;
+        if(btConfirmOptionInfo.op != null)
+        CfLog.e("newodd======" + btConfirmOptionInfo.op.od);
     }
 
     /**
@@ -212,21 +225,21 @@ public class BetConfirmOptionFb implements BetConfirmOption{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeParcelable(this.btConfirmOptionInfo, flags);
         dest.writeParcelable(this.optionList, flags);
-        dest.writeParcelable(this.option, flags);
+        dest.writeParcelable(this.mOption, flags);
         dest.writeString(this.teamName);
     }
 
     public void readFromParcel(Parcel source) {
         this.btConfirmOptionInfo = source.readParcelable(BtConfirmOptionInfo.class.getClassLoader());
         this.optionList = source.readParcelable(OptionList.class.getClassLoader());
-        this.option = source.readParcelable(Option.class.getClassLoader());
+        this.mOption = source.readParcelable(Option.class.getClassLoader());
         this.teamName = source.readString();
     }
 
     protected BetConfirmOptionFb(Parcel in) {
         this.btConfirmOptionInfo = in.readParcelable(BtConfirmOptionInfo.class.getClassLoader());
         this.optionList = in.readParcelable(OptionList.class.getClassLoader());
-        this.option = in.readParcelable(Option.class.getClassLoader());
+        this.mOption = in.readParcelable(Option.class.getClassLoader());
         this.teamName = in.readString();
     }
 

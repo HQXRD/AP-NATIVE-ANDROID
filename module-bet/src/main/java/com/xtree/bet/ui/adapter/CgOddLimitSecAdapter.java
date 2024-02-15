@@ -33,12 +33,15 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
 
     private KeyboardView keyboardView;
 
-    private List<BtLayoutCarCgItemBinding> bindingList = new ArrayList<>();
-
     private BtCarDialogFragment.KeyBoardListener mKeyBoardListener;
+    private TextChangedListener mTextChangedListener;
 
     public void setKeyboardView(KeyboardView keyboardView) {
         this.keyboardView = keyboardView;
+    }
+
+    public void setTextChangedListener(TextChangedListener textChangedListener) {
+        this.mTextChangedListener = textChangedListener;
     }
 
     public void setKeyBoardListener(BtCarDialogFragment.KeyBoardListener keyBoardListener) {
@@ -225,6 +228,10 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
             tvWin.setText(mContext.getResources().getString(winResStringId, "0"));
             tvPay.setText(mContext.getResources().getString(payResStringId, "0"));
         }
+
+        if(mTextChangedListener != null) {
+            mTextChangedListener.onTextChanged();
+        }
     }
 
 
@@ -247,5 +254,9 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
             } catch (Exception e) {
             }
         }
+    }
+
+    public interface TextChangedListener{
+        void onTextChanged();
     }
 }
