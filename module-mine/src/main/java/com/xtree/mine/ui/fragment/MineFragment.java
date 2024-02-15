@@ -380,6 +380,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         viewModel.liveDataBalance.observe(this, vo -> {
             mProfileVo.availablebalance = vo.balance;
             setBalance();
+            ToastUtils.show(this.getString(R.string.txt_rc_tip_latest_balance), ToastUtils.ShowType.Success);
         });
         viewModel.liveData1kRecycle.observe(this, isSuccess -> {
             if (isSuccess) {
