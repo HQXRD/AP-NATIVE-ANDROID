@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -63,7 +64,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
     @Override
     protected int getMaxHeight() {
-        return (XPopupUtils.getScreenHeight(getContext()) * 75 / 100);
+        return (XPopupUtils.getScreenHeight(getContext()) * 80 / 100);
     }
 
     private ChooseWithdrawalDialog(@NonNull Context context) {
@@ -176,7 +177,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 });
                 binding.lvChoose.setVisibility(View.VISIBLE);
                 binding.lvChoose.setAdapter(adapter);
-                binding.llChooseTutorial.setVisibility(View.VISIBLE);
+                binding.llChooseTip.setVisibility(View.VISIBLE);
                 binding.tvChooseTutorial.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
                 //下划线TextView 点击事件
                 binding.tvChooseTutorial.setOnClickListener(v -> {
@@ -185,7 +186,6 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     intent.putExtra(BrowserActivity.ARG_URL, DomainUtil.getDomain2() + "/static/usdt-description/as/usdt_m.html");
                     getContext().startActivity(intent);
                 });
-                binding.llChooseTip.setVisibility(View.VISIBLE);
 
                 String tipAvail;
                 String usdtAcail;
@@ -198,6 +198,9 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 String showChooseTip = tipAvail + usdtAcail;
                 binding.tvChooseTip.setVisibility(View.VISIBLE);
                 binding.tvChooseTip.setText(showChooseTip);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    binding.tvChooseTip.setTextColor(getContext().getColor(R.color.red));
+                }
 
             }
         }
