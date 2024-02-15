@@ -4,20 +4,20 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
-public class ChooseListViewForScrllview  extends ListView {
-    public ChooseListViewForScrllview(Context context) {
+public class ChooseListViewForScrollview extends ListView {
+    public ChooseListViewForScrollview(Context context) {
         super(context);
     }
 
-    public ChooseListViewForScrllview(Context context, AttributeSet attrs) {
+    public ChooseListViewForScrollview(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ChooseListViewForScrllview(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ChooseListViewForScrollview(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
-    public ChooseListViewForScrllview(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public ChooseListViewForScrollview(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 

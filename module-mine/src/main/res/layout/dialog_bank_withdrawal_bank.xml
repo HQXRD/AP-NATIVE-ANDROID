@@ -336,7 +336,7 @@
                                 android:layout_marginLeft="18dp"
                                 android:hint="@string/txt_input_money"
                                 android:imeOptions="actionDone"
-                                android:inputType="number"
+                                android:inputType="numberDecimal"
                                 android:focusable="false"
                                 android:numeric="integer"/>
                         </RelativeLayout>
@@ -618,75 +618,11 @@
         android:background="@color/white"
         android:visibility="gone">
         <!--显示状态 3 确认提款信息View-->
-        <LinearLayout
+        <include
             android:id="@+id/ll_over_view_apply"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-           >
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="1000dp"
-                android:background="@color/white">
-
-                <ImageView
-                    android:id="@+id/iv_over_view_apply"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="100dp"
-                    android:layout_centerHorizontal="true"
-                    android:background="@mipmap/ic_over_apply" />
-                <TextView
-                    android:id="@+id/tv_over_view_message1"
-                    android:layout_below="@id/iv_over_view_apply"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="@string/txt_account_successful"
-                    android:textSize="16sp"
-                    android:textColor="@color/cl_over_tip"/>
-                <TextView
-                    android:layout_below="@id/tv_over_view_message1"
-                    android:layout_centerInParent="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="@string/txt_account_suc_message"
-                    android:textSize="16sp"
-                    android:textColor="@color/cl_over_tip"/>
-                <LinearLayout
-                    android:id="@+id/ll_over_view_previous"
-                    android:layout_below="@id/tv_over_view_message1"
-                    android:layout_marginTop="60dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        >
-                        <ImageView
-                            android:id="@+id/iv_over_view_next"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@mipmap/ic_continue" />
-                        <ImageView
-                            android:id="@+id/iv_over_view_previous"
-                            android:layout_below="@id/iv_over_view_next"
-                            android:layout_width="match_parent"
-                            android:layout_marginTop="20dp"
-                            android:layout_height="wrap_content"
-                            android:background="@mipmap/cm_btn_withdrawal_previous"/>
-
-                    </RelativeLayout>
+            layout="@layout/dialog_withdraw_money_confirm"/>
 
 
-                </LinearLayout>
-            </RelativeLayout>
-
-        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
 

@@ -1,43 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_bank_root"
-    android:background="@color/bg_main"
-    style="@style/style_item_ll_row"
+    android:id="@+id/ll_confirm_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/clr_transparent"
     android:orientation="vertical"
-    android:padding="8dp"
+    android:layout_marginTop="2dp"
+    android:padding="10dp"
+    android:visibility="visible"
     tools:ignore="MissingDefaultResource">
 
     <!--显示状态 2 确认提款信息View-->
-    <LinearLayout
-        android:id="@+id/ll_virtual_confirm_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:orientation="vertical"
-        android:visibility="visible">
         <!--确认提款信息-->
-
         <LinearLayout style="@style/style_withdraw_confirm_ll">
-
             <TextView
                 style="@style/style_withdraw_show_title"
                 android:text="@string/txt_withdrawal_user_name" />
-
             <TextView
                 android:id="@+id/tv_confirm_user_name_show"
                 style="@style/style_withdraw_confirm_value"
-                tools:text="DEMO" />
+                tools:text="" />
         </LinearLayout>
-
         <View style="@style/style_withdraw_dividing_line" />
-
         <LinearLayout style="@style/style_withdraw_confirm_ll">
-
             <TextView
                 style="@style/style_withdraw_show_title"
                 android:text="@string/txt_confirm_withdrawal_amount" />
-
             <TextView
                 android:id="@+id/tv_confirm_withdrawal_type_show"
                 style="@style/style_withdraw_confirm_value"
@@ -50,7 +40,7 @@
 
             <TextView
                 style="@style/style_withdraw_show_title"
-                android:text="@string/txt_withdrawal_method" />
+                android:text="@string/txt_confirm_amount" />
 
             <TextView
                 android:id="@+id/tv_confirm_amount_show"
@@ -64,7 +54,7 @@
 
             <TextView
                 style="@style/style_withdraw_show_title"
-                android:text="@string/txt_actual_withdrawal_amount" />
+                android:text="@string/txt_withdrawal_type" />
 
             <TextView
                 android:id="@+id/tv_withdrawal_amount_type_show"
@@ -78,7 +68,21 @@
 
             <TextView
                 style="@style/style_withdraw_show_title"
-                android:text="@string/txt_bank_name_open" />
+                android:text="@string/txt_virtual_type" />
+
+            <TextView
+                android:id="@+id/tv_withdrawal_virtual_type_show"
+                style="@style/style_withdraw_confirm_value"
+                tools:text="" />
+        </LinearLayout>
+
+        <View style="@style/style_withdraw_dividing_line" />
+
+        <LinearLayout style="@style/style_withdraw_confirm_ll">
+
+            <TextView
+                style="@style/style_withdraw_show_title"
+                android:text="@string/txt_actual_arrival" />
 
             <TextView
                 android:id="@+id/tv_withdrawal_actual_arrival_show"
@@ -92,7 +96,7 @@
 
             <TextView
                 style="@style/style_withdraw_show_title"
-                android:text="@string/txt_bank_name_location" />
+                android:text="@string/txt_rate_tip" />
 
             <TextView
                 android:id="@+id/tv_withdrawal_exchange_rate_show"
@@ -106,7 +110,7 @@
 
             <TextView
                 style="@style/style_withdraw_show_title"
-                android:text="@string/txt_account_name" />
+                android:text="@string/txt_withdrawal_address" />
 
             <TextView
                 android:id="@+id/tv_withdrawal_address_show"
@@ -120,7 +124,7 @@
 
             <TextView
                 style="@style/style_withdraw_show_title"
-                android:text="@string/txt_bank_account" />
+                android:text="@string/txt_handling_fee" />
 
             <TextView
                 android:id="@+id/tv_withdrawal_handling_fee_show"
@@ -134,7 +138,7 @@
             android:id="@+id/iv_confirm_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:background="@mipmap/cm_btn_withdrawal_next" />
 
         <ImageView
@@ -142,21 +146,5 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_confirm_next"
-            android:layout_marginTop="10dp"
             android:background="@mipmap/cm_btn_withdrawal_previous" />
-
-    </LinearLayout>
-
-    <include
-        android:id="@+id/ll_over_apply"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:visibility="visible"
-        layout="@layout/dialog_withdraw_money_confirm"/>
-    <!--显示状态 3 确认提款信息View-->
-
-
 </LinearLayout>
