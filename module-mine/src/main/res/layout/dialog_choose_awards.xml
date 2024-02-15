@@ -59,7 +59,7 @@
        <RelativeLayout
            android:layout_width="match_parent"
            android:layout_height="match_parent" >
-           <com.xtree.mine.ui.viewmodel.ChooseListViewForScrllview
+           <com.xtree.mine.ui.viewmodel.ChooseListViewForScrollview
                android:id="@+id/lv_choose"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
