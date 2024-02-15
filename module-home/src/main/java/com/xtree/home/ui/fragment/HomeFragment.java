@@ -53,6 +53,7 @@ import java.util.List;
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 首页
@@ -72,6 +73,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private String token;
 
     public static String CHOOSE_TYPE = "";
+    private boolean selectUpdate;//手动更新余额
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -182,6 +184,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
             binding.tvwName.setText(vo.username);
             binding.tvwBalance.setText("￥" + vo.availablebalance); // creditwallet.balance_RMB
+            if (selectUpdate) {
+                ToastUtils.show(this.getString(R.string.txt_rc_tip_latest_balance), ToastUtils.ShowType.Success);
+                selectUpdate = false;
+            }
+
         });
         viewModel.liveDataVipInfo.observe(getViewLifecycleOwner(), vo -> {
             CfLog.d("*** " + vo.toString());
@@ -190,7 +197,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
 
     public void initView() {
-
+        //用户余额点击
+        binding.clLoginYet.setOnClickListener(v -> {
+            selectUpdate = true;
+            viewModel.getProfile(); // 获取个人信息（刷新用户余额）
+        });
         binding.bnrTop.setIndicator(new CircleIndicator(getContext())); // 增加小圆点
         //binding.bnrTop.setBannerGalleryEffect(20, 12, 0.8f);// 画廊效果
         //binding.bnrTop.setBannerRound2(20);

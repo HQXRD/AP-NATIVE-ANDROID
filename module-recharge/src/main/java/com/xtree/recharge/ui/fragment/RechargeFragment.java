@@ -92,6 +92,14 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // 未登录状态下,直接跳到登录页,并关闭当前页
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        if (TextUtils.isEmpty(token)) {
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+            getActivity().finish();
+            return;
+        }
+
         viewModel.readCache(); // 先读取缓存数据
         viewModel.getPayments(); // 调用接口
         viewModel.get1kEntry(); // 一键进入

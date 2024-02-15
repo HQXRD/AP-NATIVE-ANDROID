@@ -296,6 +296,13 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        // 用户点返回按钮时,要打开首页(有些页面跳转到登录页的同时,也会关闭自己)
+        goMain();
+    }
+
     private boolean ifAgree() {
         return binding.ckbAgreement.isChecked();
     }

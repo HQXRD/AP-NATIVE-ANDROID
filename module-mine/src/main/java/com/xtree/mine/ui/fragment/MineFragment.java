@@ -270,6 +270,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             CfLog.i("****** not login");
             binding.llLogin.setVisibility(View.VISIBLE);
             binding.clAlreadyLogin.setVisibility(View.INVISIBLE);
+
+            // 未登录状态下,直接跳到登录页,并关闭当前页
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+            getActivity().finish();
         } else {
             CfLog.i("****** already login");
             binding.llLogin.setVisibility(View.GONE);
@@ -380,6 +384,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         viewModel.liveDataBalance.observe(this, vo -> {
             mProfileVo.availablebalance = vo.balance;
             setBalance();
+            ToastUtils.show(this.getString(R.string.txt_rc_tip_latest_balance), ToastUtils.ShowType.Success);
         });
         viewModel.liveData1kRecycle.observe(this, isSuccess -> {
             if (isSuccess) {
