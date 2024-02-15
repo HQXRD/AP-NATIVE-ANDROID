@@ -67,7 +67,7 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
             BtCarReq.BetMatchMarket betMatchMarket = new BtCarReq.BetMatchMarket();
             betMatchMarket.setMatchInfoId(betConfirmOption.getMatch().getId());
             betMatchMarket.setMarketId(Long.valueOf(betConfirmOption.getPlayTypeId()));
-            betMatchMarket.setOddsId(betConfirmOption.getmOption().getId());
+            betMatchMarket.setOddsId(betConfirmOption.getOption().getId());
             betMatchMarket.setPlayId(betConfirmOption.getPlayType().getId());
             betMatchMarket.setMatchType(betConfirmOption.getOptionList().getMatchType());
             betMatchMarket.setSportId(Integer.valueOf(betConfirmOption.getMatch().getSportId()));
@@ -110,11 +110,11 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
             BtCarCgReq.OrderMaxBetMoney orderMaxBetMoney = new BtCarCgReq.OrderMaxBetMoney();
             orderMaxBetMoney.setOpenMiltSingle(0);
             orderMaxBetMoney.setPlayId(betConfirmOption.getPlayType().getId());
-            orderMaxBetMoney.setPlayOptionId(betConfirmOption.getmOption().getId());
+            orderMaxBetMoney.setPlayOptionId(betConfirmOption.getOption().getId());
             orderMaxBetMoney.setMatchType(betConfirmOption.getOptionList().getMatchType());
             orderMaxBetMoney.setMarketId(betConfirmOption.getPlayTypeId());
             orderMaxBetMoney.setMatchId(betConfirmOption.getMatch().getId());
-            orderMaxBetMoney.setOddsValue(betConfirmOption.getmOption().getRealOdd() * 100000);
+            orderMaxBetMoney.setOddsValue(betConfirmOption.getOption().getRealOdd() * 100000);
             orderMaxBetMonieList.add(orderMaxBetMoney);
         }
         btCarCgReq.setOrderMaxBetMoney(orderMaxBetMonieList);
@@ -129,7 +129,7 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
                         List<CgOddLimit> cgOddLimitInfoList = new ArrayList<>();
                         if (betConfirmOptionList.size() == 1) {
                             CgOddLimitInfo cgOddLimitInfo = cgOddLimitInfos.get(0);
-                            cgOddLimitInfo.seriesOdds = String.valueOf(betConfirmOptionList.get(0).getmOption().getRealOdd());
+                            cgOddLimitInfo.seriesOdds = String.valueOf(betConfirmOptionList.get(0).getOption().getRealOdd());
                             cgOddLimitInfo.type = "1";
                             cgOddLimitInfoList.add(new CgOddLimitPm(cgOddLimitInfo));
                         } else {
@@ -182,10 +182,10 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
                     orderDetail.setMarketId(betConfirmOption.getPlayTypeId());
                     orderDetail.setMatchId(Long.valueOf(betConfirmOption.getMatchId()));
                     orderDetail.setMatchType(betConfirmOption.getOptionList().getMatchType());
-                    orderDetail.setOddFinally(String.valueOf(betConfirmOption.getmOption().getRealOdd()));
-                    orderDetail.setOdds((long) betConfirmOption.getmOption().getBodd());
+                    orderDetail.setOddFinally(String.valueOf(betConfirmOption.getOption().getRealOdd()));
+                    orderDetail.setOdds((long) betConfirmOption.getOption().getBodd());
                     orderDetail.setPlayId(Long.valueOf(betConfirmOption.getPlayType().getId()));
-                    orderDetail.setPlayOptionsId(betConfirmOption.getmOption().getId());
+                    orderDetail.setPlayOptionsId(betConfirmOption.getOption().getId());
                     orderDetail.setPlaceNum(betConfirmOption.getPlaceNum());
                     orderDetailList.add(orderDetail);
                 }

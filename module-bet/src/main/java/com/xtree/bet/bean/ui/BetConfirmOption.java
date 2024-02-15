@@ -35,7 +35,7 @@ public interface BetConfirmOption extends BaseBean {
      * 获取投注项信息
      * @return
      */
-    Option getmOption();
+    Option getOption();
 
     /**
      * 玩法销售状态是否关闭，0暂停，1开售，-1未开售

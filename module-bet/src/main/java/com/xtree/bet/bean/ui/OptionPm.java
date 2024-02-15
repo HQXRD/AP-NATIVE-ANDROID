@@ -2,9 +2,7 @@ package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.xtree.base.utils.NumberUtils;
 import com.xtree.bet.bean.response.pm.OptionDataListInfo;
 import com.xtree.bet.bean.response.pm.OptionInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
@@ -76,7 +74,7 @@ public class OptionPm implements Option{
     /**
      * 欧盘赔率，目前我们只提供欧洲盘赔率，投注是请提交该字段赔率值作为选项赔率，赔率小于0代表锁盘
      */
-    public double getOdd() {
+    public double getUiShowOdd() {
         if(isHongKongMarket()){
             BigDecimal bg = new BigDecimal(getRealOdd() - 1);
             return bg.setScale(2, RoundingMode.HALF_UP).doubleValue();
@@ -163,7 +161,7 @@ public class OptionPm implements Option{
      */
     @Override
     public void setChange(double oldOdd) {
-        change = oldOdd < getOdd() ? 1 : oldOdd > getOdd() ? -1 : 0;
+        change = oldOdd < getRealOdd() ? 1 : oldOdd > getRealOdd() ? -1 : 0;
         //Log.e("test", "===========" + change);
         optionInfo.change = change;
     }

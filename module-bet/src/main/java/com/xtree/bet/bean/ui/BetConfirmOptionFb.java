@@ -114,7 +114,7 @@ public class BetConfirmOptionFb implements BetConfirmOption{
     }
 
     @Override
-    public Option getmOption() {
+    public Option getOption() {
         if(btConfirmOptionInfo != null && btConfirmOptionInfo.op != null) {
             mOption = new OptionFb(btConfirmOptionInfo.op);
             if(oldOdd > 0) {
@@ -195,11 +195,8 @@ public class BetConfirmOptionFb implements BetConfirmOption{
     public void setRealData(BaseBean data) {
         if(btConfirmOptionInfo != null && btConfirmOptionInfo.op != null) {
             oldOdd = btConfirmOptionInfo.op.od;
-            CfLog.e("oldodd======" + oldOdd);
         }
         this.btConfirmOptionInfo = (BtConfirmOptionInfo) data;
-        if(btConfirmOptionInfo.op != null)
-        CfLog.e("newodd======" + btConfirmOptionInfo.op.od);
     }
 
     /**

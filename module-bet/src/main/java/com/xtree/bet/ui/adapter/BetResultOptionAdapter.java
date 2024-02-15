@@ -40,7 +40,7 @@ public class BetResultOptionAdapter extends BaseAdapter<BetConfirmOption> {
         binding.ivPlayType.setText(playTypeName);
         binding.ivMatchTeam.setText(option.getTeamName());
         binding.tvLeagueName.setText(option.getMatch().getLeague().getLeagueName());
-        binding.ivOdd.setText("@" + option.getmOption().getOdd());
+        binding.ivOdd.setText("@" + option.getOption().getUiShowOdd());
         binding.ivOptionDelete.setVisibility(View.GONE);
 
     }

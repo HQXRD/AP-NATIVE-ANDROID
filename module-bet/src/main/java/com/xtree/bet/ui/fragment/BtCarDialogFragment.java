@@ -310,7 +310,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                     BetConfirmOption betConfirmOption = BetConfirmOptionUtil.getInstance(betConfirmOptionList.get(0).getMatch(),
                             betConfirmOptionList.get(0).getPlayType(),
                             betConfirmOptionList.get(0).getPlayType().getOptionLists().get(0),
-                            betConfirmOptionList.get(0).getmOption());
+                            betConfirmOptionList.get(0).getOption());
                     betConfirmOption.setRealData(betConfirmOptionList.get(0).getRealData());
                     binding.btnAddMatch.setVisibility(View.VISIBLE);
                     viewModel.gotoCg(betConfirmOption);

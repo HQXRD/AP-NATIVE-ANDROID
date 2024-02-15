@@ -36,11 +36,9 @@ import com.xtree.bet.bean.ui.PlayGroupFb;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.FBConstants;
-import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.data.BetRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -641,9 +639,9 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         for (Option newOption : newOptonList) {
             for (Option oldOption : oldOptonList) {
                 if (oldOption != null && newOption != null
-                        && oldOption.getOdd() != newOption.getOdd()
+                        && oldOption.getRealOdd() != newOption.getRealOdd()
                         && TextUtils.equals(oldOption.getCode(), newOption.getCode())) {
-                    newOption.setChange(oldOption.getOdd());
+                    newOption.setChange(oldOption.getRealOdd());
                     break;
                 }
             }
@@ -697,9 +695,9 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         for (Option newOption : newOptonList) {
             for (Option oldOption : oldOptonList) {
                 if (oldOption != null && newOption != null
-                        && oldOption.getOdd() != newOption.getOdd()
+                        && oldOption.getRealOdd() != newOption.getRealOdd()
                         && TextUtils.equals(oldOption.getCode(), newOption.getCode())) {
-                    newOption.setChange(oldOption.getOdd());
+                    newOption.setChange(oldOption.getRealOdd());
                     break;
                 }
             }

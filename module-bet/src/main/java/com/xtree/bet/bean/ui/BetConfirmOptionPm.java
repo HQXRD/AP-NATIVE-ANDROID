@@ -3,6 +3,7 @@ package com.xtree.bet.bean.ui;
 import android.os.Parcel;
 import android.text.TextUtils;
 
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.BaseBean;
 import com.xtree.bet.bean.response.pm.BtConfirmInfo;
 import com.xtree.bet.bean.response.pm.OptionInfo;
@@ -15,7 +16,7 @@ public class BetConfirmOptionPm implements BetConfirmOption {
     private Match match;
     private PlayType playType;
     private OptionList optionList;
-    private Option option;
+    private Option mOption;
     private String teamName;
     private double oldOdd;
 
@@ -26,7 +27,7 @@ public class BetConfirmOptionPm implements BetConfirmOption {
 
     public BetConfirmOptionPm(Match match, PlayType playType, OptionList optionList, Option option) {
         this.optionList = optionList;
-        this.option = option;
+        this.mOption = option;
         this.match = match;
         this.playType = playType;
         teamName = match.getTeamMain() + " VS " + match.getTeamVistor();
@@ -40,7 +41,7 @@ public class BetConfirmOptionPm implements BetConfirmOption {
      */
     public void setData(Match match, PlayType playType, OptionList optionList, Option option) {
         this.optionList = optionList;
-        this.option = option;
+        this.mOption = option;
         this.match = match;
         this.playType = playType;
         teamName = match.getTeamMain() + " VS " + match.getTeamVistor();
@@ -76,10 +77,10 @@ public class BetConfirmOptionPm implements BetConfirmOption {
         if (!TextUtils.isEmpty(option.getLine())) {
             code.append(option.getLine());
         }*/
-        if(TextUtils.isEmpty(option.getCode())){
-            return getMatchId() + option.getId();
+        if(TextUtils.isEmpty(mOption.getCode())){
+            return getMatchId() + mOption.getId();
         }else{
-            return option.getCode();
+            return mOption.getCode();
         }
     }
 
@@ -94,12 +95,12 @@ public class BetConfirmOptionPm implements BetConfirmOption {
 
     @Override
     public String getOptionName() {
-        if(!TextUtils.isEmpty(getmOption().getSortName())){
-            return getmOption().getSortName();
+        if(!TextUtils.isEmpty(getOption().getSortName())){
+            return getOption().getSortName();
         }else if(btConfirmInfo != null && !TextUtils.isEmpty(btConfirmInfo.marketValue)){
             return btConfirmInfo.marketValue;
         }else {
-            return option.isBtHome() ? match.getTeamMain() : match.getTeamVistor();
+            return mOption.isBtHome() ? match.getTeamMain() : match.getTeamVistor();
         }
     }
 
@@ -115,17 +116,21 @@ public class BetConfirmOptionPm implements BetConfirmOption {
     }
 
     @Override
-    public Option getmOption() {
+    public Option getOption() {
         if(btConfirmInfo != null && btConfirmInfo.marketOddsList != null && !btConfirmInfo.marketOddsList.isEmpty()){
             OptionInfo optionInfo = new OptionInfo();
             optionInfo.oid = btConfirmInfo.marketOddsList.get(0).id;
-            optionInfo.onb = TextUtils.isEmpty(option.getSortName()) ? option.isBtHome() ? btConfirmInfo.home : btConfirmInfo.away : option.getSortName();
-            optionInfo.on = TextUtils.isEmpty(option.getSortName()) ? option.isBtHome() ? btConfirmInfo.home : btConfirmInfo.away : option.getSortName();
+            optionInfo.onb = TextUtils.isEmpty(mOption.getSortName()) ? mOption.isBtHome() ? btConfirmInfo.home : btConfirmInfo.away : mOption.getSortName();
+            optionInfo.on = TextUtils.isEmpty(mOption.getSortName()) ? mOption.isBtHome() ? btConfirmInfo.home : btConfirmInfo.away : mOption.getSortName();
             optionInfo.ov = btConfirmInfo.marketOddsList.get(0).oddsValue;
-            return new OptionPm(optionInfo);
-        }else {
-            return option;
+            mOption = new OptionPm(optionInfo);
+            if(oldOdd > 0) {
+                CfLog.e("========oldodd======" + oldOdd);
+                CfLog.e("========newodd======" + mOption.getRealOdd());
+                mOption.setChange(oldOdd);
+            }
         }
+        return mOption;
     }
 
     /**
@@ -178,7 +183,7 @@ public class BetConfirmOptionPm implements BetConfirmOption {
         if (btConfirmInfo != null && btConfirmInfo.marketOddsList != null && !btConfirmInfo.marketOddsList.isEmpty()) {
             return String.valueOf(btConfirmInfo.marketOddsList.get(0).oddsType);
         } else {
-            return option.getOptionType();
+            return mOption.getOptionType();
         }
     }
 
@@ -199,6 +204,9 @@ public class BetConfirmOptionPm implements BetConfirmOption {
      */
     @Override
     public void setRealData(BaseBean data) {
+        if(btConfirmInfo != null && btConfirmInfo.marketOddsList != null && !btConfirmInfo.marketOddsList.isEmpty()) {
+            oldOdd = btConfirmInfo.marketOddsList.get(0).oddsValue / 100000;
+        }
         this.btConfirmInfo = (BtConfirmInfo) data;
     }
 
@@ -228,7 +236,7 @@ public class BetConfirmOptionPm implements BetConfirmOption {
         dest.writeParcelable(this.match, flags);
         dest.writeParcelable(this.playType, flags);
         dest.writeParcelable(this.optionList, flags);
-        dest.writeParcelable(this.option, flags);
+        dest.writeParcelable(this.mOption, flags);
         dest.writeString(this.teamName);
     }
 
@@ -237,7 +245,7 @@ public class BetConfirmOptionPm implements BetConfirmOption {
         this.match = source.readParcelable(Match.class.getClassLoader());
         this.playType = source.readParcelable(PlayType.class.getClassLoader());
         this.optionList = source.readParcelable(OptionList.class.getClassLoader());
-        this.option = source.readParcelable(Option.class.getClassLoader());
+        this.mOption = source.readParcelable(Option.class.getClassLoader());
         this.teamName = source.readString();
     }
 
@@ -246,7 +254,7 @@ public class BetConfirmOptionPm implements BetConfirmOption {
         this.match = in.readParcelable(Match.class.getClassLoader());
         this.playType = in.readParcelable(PlayType.class.getClassLoader());
         this.optionList = in.readParcelable(OptionList.class.getClassLoader());
-        this.option = in.readParcelable(Option.class.getClassLoader());
+        this.mOption = in.readParcelable(Option.class.getClassLoader());
         this.teamName = in.readString();
     }
 

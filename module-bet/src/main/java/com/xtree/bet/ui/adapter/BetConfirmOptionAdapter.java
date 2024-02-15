@@ -50,7 +50,8 @@ public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
         }
         binding.ivMatchTeam.setText(betConfirmOption.getTeamName());
         binding.tvLeagueName.setText(betConfirmOption.getMatch().getLeague().getLeagueName());
-        binding.ivOdd.setOptionOdd(betConfirmOption.getmOption());
+        binding.ivOdd.setBtCar(true);
+        binding.ivOdd.setOptionOdd(betConfirmOption.getOption());
         String oldScore = ((TextView)holder.getView(R.id.iv_play_type)).getText().toString();
         if(oldScore.indexOf("[") > -1 && oldScore.indexOf("]") > -1) {
             oldScore = oldScore.substring(betConfirmOption.getPlayType().getPlayTypeName().length() + 1, oldScore.length() - 1);

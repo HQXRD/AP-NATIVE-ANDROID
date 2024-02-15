@@ -23,7 +23,6 @@ import com.xtree.bet.bean.response.pm.MenuInfo;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeaguePm;
 import com.xtree.bet.bean.ui.Match;
-import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.ui.MatchPm;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.OptionList;
@@ -759,9 +758,9 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         for (Option newOption : newOptonList) {
             for (Option oldOption : oldOptonList) {
                 if (oldOption != null && newOption != null
-                        && oldOption.getOdd() != newOption.getOdd()
+                        && oldOption.getRealOdd() != newOption.getRealOdd()
                         && TextUtils.equals(oldOption.getCode(), newOption.getCode())) {
-                    newOption.setChange(oldOption.getOdd());
+                    newOption.setChange(oldOption.getRealOdd());
                     break;
                 }
             }
@@ -821,9 +820,9 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         for (Option newOption : newOptonList) {
             for (Option oldOption : oldOptonList) {
                 if (oldOption != null && newOption != null
-                        && oldOption.getOdd() != newOption.getOdd()
+                        && oldOption.getRealOdd() != newOption.getRealOdd()
                         && TextUtils.equals(oldOption.getCode(), newOption.getCode())) {
-                    newOption.setChange(oldOption.getOdd());
+                    newOption.setChange(oldOption.getRealOdd());
                     break;
                 }
             }

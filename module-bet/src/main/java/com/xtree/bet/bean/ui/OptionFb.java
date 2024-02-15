@@ -62,7 +62,7 @@ public class OptionFb implements Option {
     /**
      * 欧盘赔率，目前我们只提供欧洲盘赔率，投注是请提交该字段赔率值作为选项赔率，赔率小于0代表锁盘
      */
-    public double getOdd() {
+    public double getUiShowOdd() {
         if (isHongKongMarket()) {
             BigDecimal bg = new BigDecimal(mOptionInfo.od - 1);
             return bg.setScale(2, RoundingMode.HALF_UP).doubleValue();
@@ -164,7 +164,7 @@ public class OptionFb implements Option {
      */
     @Override
     public void setChange(double oldOdd) {
-        change = oldOdd < getOdd() ? 1 : oldOdd > getOdd() ? -1 : 0;
+        change = oldOdd < getRealOdd() ? 1 : oldOdd > getRealOdd() ? -1 : 0;
         //Log.e("test", "===========" + change);
         mOptionInfo.change = change;
     }
