@@ -10,20 +10,15 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.activity.MyWalletActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.activity.ChooseActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/style_trans_theme"
-         />
+            android:theme="@style/style_trans_theme" />
         <activity
             android:name=".ui.activity.ActivityFlow"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/style_trans_theme"
-            />
+            android:theme="@style/style_trans_theme" />
     </application>
 
 </manifest>
