@@ -32,7 +32,7 @@ public class BtConfirmOptionInfo implements BaseBean {
     /**
      *  投注项赔率(对应ofv)
      */
-    public int oddsValue;
+    public double oddsValue;
     /**
      * 投注项名称(投注时下注的玩法选项)
      */
@@ -48,7 +48,7 @@ public class BtConfirmOptionInfo implements BaseBean {
         dest.writeString(this.id);
         dest.writeInt(this.oddsStatus);
         dest.writeString(this.oddsType);
-        dest.writeInt(this.oddsValue);
+        dest.writeDouble(this.oddsValue);
         dest.writeString(this.playOptions);
     }
 
@@ -56,7 +56,7 @@ public class BtConfirmOptionInfo implements BaseBean {
         this.id = source.readString();
         this.oddsStatus = source.readInt();
         this.oddsType = source.readString();
-        this.oddsValue = source.readInt();
+        this.oddsValue = source.readDouble();
         this.playOptions = source.readString();
     }
 
@@ -67,7 +67,7 @@ public class BtConfirmOptionInfo implements BaseBean {
         this.id = in.readString();
         this.oddsStatus = in.readInt();
         this.oddsType = in.readString();
-        this.oddsValue = in.readInt();
+        this.oddsValue = in.readDouble();
         this.playOptions = in.readString();
     }
 

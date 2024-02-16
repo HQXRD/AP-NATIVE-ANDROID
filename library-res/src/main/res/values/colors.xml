@@ -148,6 +148,9 @@
     <!-- 投注键盘快速金额字体颜色 -->
     <color name="bt_color_keyboard_quick">#9396E4</color>
 
+    <!-- 投注拖动按钮合计投注金额颜色 -->
+    <color name="bt_color_bt_pay">#80FFFFFF</color>
+
     <!-- 投注模块 end-->
 
     <!-- 首页模块 begin -->

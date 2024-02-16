@@ -92,6 +92,14 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // 未登录状态下,直接跳到登录页,并关闭当前页
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        if (TextUtils.isEmpty(token)) {
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+            getActivity().finish();
+            return;
+        }
+
         viewModel.readCache(); // 先读取缓存数据
         viewModel.getPayments(); // 调用接口
         viewModel.get1kEntry(); // 一键进入
@@ -228,12 +236,14 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         super.onResume();
         if (isBinding) {
             isBinding = false;
-            View child = binding.rcvPmt.findViewWithTag(curRechargeVo.bid);
             binding.tvwCurPmt.setText("");
             binding.ivwCurPmt.setImageDrawable(null);
             binding.llDown.setVisibility(View.GONE);
-            if (child != null) {
-                child.setSelected(false); // 已选中的取消掉,刷新等待时间有点长
+            if (curRechargeVo != null) {
+                View child = binding.rcvPmt.findViewWithTag(curRechargeVo.bid);
+                if (child != null) {
+                    child.setSelected(false); // 已选中的取消掉,刷新等待时间有点长
+                }
             }
 
             //curRechargeVo = null; // 如果为空,连续点击x.bid会空指针

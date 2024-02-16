@@ -145,7 +145,14 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     @Override
     public void initParam() {
         mPlatform = getIntent().getStringExtra(KEY_PLATFORM);
-        mPlatformName = getIntent().getStringExtra(KEY_PLATFORM_NAME);
+        if(TextUtils.equals(mPlatform, PLATFORM_FBXC)){
+            mPlatformName = getString(R.string.bt_platform_name_fbxc);
+        } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+            mPlatformName = getString(R.string.bt_platform_name_fb);
+        } else {
+            mPlatformName = getString(R.string.bt_platform_name_pm);
+        }
+
         SPUtils.getInstance().put(KEY_PLATFORM, mPlatform);
         SPUtils.getInstance().put(KEY_PLATFORM_NAME, mPlatformName);
     }

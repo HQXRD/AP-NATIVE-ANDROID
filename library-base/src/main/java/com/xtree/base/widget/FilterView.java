@@ -143,6 +143,24 @@ public class FilterView extends LinearLayout {
         }
     }
 
+    public void setDefType(IBaseVo vo) {
+        binding.tvwType.setText(vo.getShowName());
+        binding.tvwType.setTag(vo);
+    }
+
+    public void setDefStatus(IBaseVo vo) {
+        binding.tvwStatus.setText(vo.getShowName());
+        binding.tvwStatus.setTag(vo);
+    }
+
+    public void setDayStart(String startDay) {
+        binding.tvwDayStart.setText(startDay);
+    }
+
+    public void setDayEnd(String endDay) {
+        binding.tvwDayEnd.setText(endDay);
+    }
+
     public void setTypeCallBack(ICallBack mTypeCallBack) {
         this.mCallBackType = mTypeCallBack;
     }

@@ -23,7 +23,6 @@ import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -126,9 +125,9 @@ public class FbBtDetailViewModel extends TemplateBtDetailViewModel {
         for (Option newOption : newOptonList) {
             for (Option oldOption : oldOptonList) {
                 if (oldOption != null && newOption != null
-                        && oldOption.getOdd() != newOption.getOdd()
+                        && oldOption.getRealOdd() != newOption.getRealOdd()
                         && TextUtils.equals(oldOption.getCode(), newOption.getCode())) {
-                    newOption.setChange(oldOption.getOdd());
+                    newOption.setChange(oldOption.getRealOdd());
                     break;
                 }
             }

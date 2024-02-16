@@ -13,11 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.NumberUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
 import com.xtree.bet.bean.ui.BetConfirmOptionUtil;
@@ -69,7 +68,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     private int countdown = 5;
     private String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
 
-    private KeyBoardListener mListener = new KeyBoardListener() {
+    private KeyBoardListener mKeyBoardListener = new KeyBoardListener() {
         @Override
         public void showKeyBoard(boolean isShow) {
             showOrHideKeyBoard(isShow);
@@ -81,17 +80,29 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         }
     };
 
-    public void showOrHideKeyBoard(boolean isShow){
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams)binding.vSpace.getLayoutParams();
-        if(isShow) {
+    private CgOddLimitSecAdapter.TextChangedListener mTextChangedListener = () -> {
+        double btAmount = 0;
+        double btWin = 0;
+        for (CgOddLimit cgOddLimit : cgOddLimitList) {
+            btAmount += cgOddLimit.getBtAmount();
+            double odd = cgOddLimitList.size() > 1 ? cgOddLimit.getCOdd() : cgOddLimit.getDOdd();
+            btWin += odd * cgOddLimit.getBtAmount();
+        }
+        binding.tvBtAmount.setText(getString(R.string.bt_bt_pay_1, NumberUtils.format(btAmount, 2)));
+        binding.tvTopWin.setText(getString(R.string.bt_bt_top_win, NumberUtils.format(btWin, 2)));
+    };
+
+    public void showOrHideKeyBoard(boolean isShow) {
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.vSpace.getLayoutParams();
+        if (isShow) {
             keyboardView.show();
-            if(BtCarManager.isCg()) {
+            if (BtCarManager.isCg()) {
                 binding.llKeyboard.postDelayed(() -> {
                     params.height = binding.llKeyboard.getMeasuredHeight() + ConvertUtils.dp2px(10);
                     binding.vSpace.setLayoutParams(params);
                 }, 100);
             }
-        }else{
+        } else {
             keyboardView.hide();
             params.height = 0;
             binding.vSpace.setLayoutParams(params);
@@ -104,13 +115,13 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         //binding.rvBtCg.setLayoutManager(new LinearLayoutManager(this.getContext()));
         keyboardView = new KeyboardView(getContext(), null);
         keyboardView.setVisibility(View.GONE);
-        keyboardView.setKeyBoardListener(mListener);
+        keyboardView.setKeyBoardListener(mKeyBoardListener);
         keyboardView.setParent(binding.nsvOption);
         binding.ivConfirm.setCallBack(() -> {
             viewModel.bet(betConfirmOptionList, cgOddLimitList);
         });
         binding.llRoot.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
-            if(BtCarManager.isCg()) {
+            if (BtCarManager.isCg()) {
                 ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.llKeyboard.getLayoutParams();
                 if (params == null) {
                     params = new ViewGroup.MarginLayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -144,18 +155,29 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     @Override
     public void initData() {
         viewModel.getUserBalance();
-        if(!BtCarManager.getBtCarList().isEmpty()) {
+        if(BtCarManager.isCg()){
             betConfirmOptionList = BtCarManager.getBtCarList();
         }else {
             BetConfirmOption betConfirmOption = getArguments().getParcelable(KEY_BT_OPTION);
             betConfirmOptionList.add(betConfirmOption);
+        }
+        /*if (!BtCarManager.getBtCarList().isEmpty()) {
+            betConfirmOptionList = BtCarManager.getBtCarList();
+        } else {
+            BetConfirmOption betConfirmOption = getArguments().getParcelable(KEY_BT_OPTION);
+            betConfirmOptionList.add(betConfirmOption);
+        }*/
+        if(betConfirmOptionList.size() > 1){
+            binding.ivDelete.setVisibility(View.VISIBLE);
+        }else {
+            binding.ivDelete.setVisibility(View.GONE);
         }
         betConfirmOptionAdapter = new BetConfirmOptionAdapter(getContext(), betConfirmOptionList);
         binding.rvBtOption.setAdapter(betConfirmOptionAdapter);
         betConfirmOptionAdapter.setBtCarDialogFragment(this);
         binding.tvTimer.setText(String.valueOf(countdown));
         viewModel.batchBetMatchMarketOfJumpLine(betConfirmOptionList);
-        if(BtCarManager.getBtCarList().isEmpty()) {
+        if (!BtCarManager.isCg()) {
             binding.tvTimer.setVisibility(View.VISIBLE);
             runnable = () -> {
                 binding.tvTimer.setText(String.valueOf(countdown--));
@@ -167,16 +189,18 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             binding.tvTimer.postDelayed(runnable, 1000);
         }
     }
+
     int index = 0;
+
     @Override
     public void onResume() {
         super.onResume();
-        viewModel.addSubscribe(Observable.interval(5, 5, TimeUnit.SECONDS)
+        viewModel.addSubscribe(Observable.interval(6, 6, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     //if(index == 0) {
-                        batchBetMatchMarketOfJumpLine();
+                    batchBetMatchMarketOfJumpLine();
                     //}
                     //index ++;
                 })
@@ -197,15 +221,15 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     public void initViewObservable() {
         viewModel.btConfirmInfoDate.observe(this, betConfirmOptions -> {
             hasCloseOption = false;
-            for (int i = 0; i < betConfirmOptionList.size(); i ++){
-                if(!hasCloseOption){
+            for (int i = 0; i < betConfirmOptionList.size(); i++) {
+                if (!hasCloseOption) {
                     hasCloseOption = betConfirmOptionList.get(i).isClose();
                 }
                 if (!TextUtils.equals(platform, PLATFORM_PM)) {
                     betConfirmOptionList.get(i).setRealData(betConfirmOptions.get(i).getRealData());
-                }else{
-                    for (BetConfirmOption option : betConfirmOptions){
-                        if(TextUtils.equals(((BetConfirmOption)betConfirmOptionList.get(i)).getMatchId(), ((BetConfirmOption)option).getMatchId())){
+                } else {
+                    for (BetConfirmOption option : betConfirmOptions) {
+                        if (TextUtils.equals(((BetConfirmOption) betConfirmOptionList.get(i)).getMatchId(), ((BetConfirmOption) option).getMatchId())) {
                             betConfirmOptionList.get(i).setRealData(option.getRealData());
                             break;
                         }
@@ -213,18 +237,20 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 }
             }
 
-            if(hasCloseOption){
+            if (hasCloseOption) {
                 binding.ivConfirm.setEnabled(false);
-                binding.rlConfirm.setEnabled(false);
-            }else{
+                binding.ivBtBg.setEnabled(false);
+                binding.ivBt.setEnabled(false);
+            } else {
                 binding.ivConfirm.setEnabled(true);
-                binding.rlConfirm.setEnabled(true);
+                binding.ivBtBg.setEnabled(true);
+                binding.ivBt.setEnabled(true);
             }
 
             if (betConfirmOptionAdapter == null) {
                 betConfirmOptionAdapter = new BetConfirmOptionAdapter(getContext(), betConfirmOptionList);
                 binding.rvBtOption.setAdapter(betConfirmOptionAdapter);
-            }else{
+            } else {
                 betConfirmOptionAdapter.setNewData(betConfirmOptionList);
             }
         });
@@ -232,12 +258,13 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             if (cgOddLimitAdapter == null) {
                 this.cgOddLimitList = cgOddLimits;
                 cgOddLimitAdapter = new CgOddLimitSecAdapter(getContext(), cgOddLimits);
-                cgOddLimitAdapter.setKeyBoardListener(mListener);
+                cgOddLimitAdapter.setKeyBoardListener(mKeyBoardListener);
+                cgOddLimitAdapter.setTextChangedListener(mTextChangedListener);
                 cgOddLimitAdapter.setKeyboardView(keyboardView);
                 binding.rvBtCg.setAdapter(cgOddLimitAdapter);
-            }else{
+            } else {
 
-                for (int i = 0; i < cgOddLimits.size(); i ++) {
+                for (int i = 0; i < cgOddLimits.size(); i++) {
                     cgOddLimits.get(i).setBtAmount(cgOddLimitList.get(i).getBtAmount());
                 }
                 this.cgOddLimitList = cgOddLimits;
@@ -256,33 +283,34 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         });
     }
 
-    public void batchBetMatchMarketOfJumpLine(){
-        if(!BtCarManager.getBtCarList().isEmpty()) {
+    public void batchBetMatchMarketOfJumpLine() {
+        if (BtCarManager.isCg()) {
             betConfirmOptionList = BtCarManager.getBtCarList();
         }
         viewModel.batchBetMatchMarketOfJumpLine(betConfirmOptionList);
     }
 
-    public interface KeyBoardListener{
+    public interface KeyBoardListener {
         void showKeyBoard(boolean isShow);
+
         void scroll(int height);
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if(id == R.id.iv_bt){
-            if(BtCarManager.isCg() && !BtCarManager.isEmpty()){
-                if(getContext() instanceof BtDetailActivity){
+        if (id == R.id.iv_bt) {
+            if (BtCarManager.isCg() && !BtCarManager.isEmpty()) {
+                if (getContext() instanceof BtDetailActivity) {
                     BtCarManager.setIsCg(false);
                     BtCarManager.clearBtCar();
-                }else {
+                } else {
                     viewModel.gotoToday();
                 }
                 binding.btnAddMatch.setVisibility(View.GONE);
                 dismiss();
-            }else{
-                if(!betConfirmOptionList.isEmpty()) {
+            } else {
+                if (!betConfirmOptionList.isEmpty()) {
                     if (!betConfirmOptionList.get(0).getOptionList().isAllowCrossover()) {
                         ToastUtils.showShort(getContext().getResources().getText(R.string.bt_bt_is_not_allow_crossover));
                         return;
@@ -294,19 +322,18 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                     betConfirmOption.setRealData(betConfirmOptionList.get(0).getRealData());
                     binding.btnAddMatch.setVisibility(View.VISIBLE);
                     viewModel.gotoCg(betConfirmOption);
-                    if(getContext() instanceof BtDetailActivity){
+                    if (getContext() instanceof BtDetailActivity) {
                         viewModel.finish();
                     }
                     dismiss();
                 }
             }
-        }else if(id == R.id.iv_delete){
+        } else if (id == R.id.iv_delete) {
             BtCarManager.clearBtCar();
             dismiss();
-        }else if(id == R.id.btn_add_match){
+        } else if (id == R.id.btn_add_match) {
             dismiss();
-        }
-        else if(id == R.id.iv_reflesh){
+        } else if (id == R.id.iv_reflesh) {
             ObjectAnimator.ofFloat(binding.ivReflesh, "rotation", 0f, 360f).setDuration(700).start();
 
             /*ObjectAnimator animator = ObjectAnimator.ofFloat(binding.ivReflesh, "rotation", 0f, 359f).setDuration(700);

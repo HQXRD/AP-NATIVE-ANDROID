@@ -4,19 +4,16 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
-import com.xtree.bet.bean.ui.BetConfirmOptionFb;
 import com.xtree.bet.bean.ui.BetConfirmOptionUtil;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.databinding.BtFbChampionPlayTypeItemOptionBinding;
-import com.xtree.bet.databinding.BtFbListItemPlayTypeItemOptionBinding;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.weight.DiscolourTextView;
@@ -50,7 +47,7 @@ public class OptionChampionAdapter extends BaseAdapter<Option> {
         DiscolourTextView oddTextView = binding.tvOptionOdd;
         LinearLayout optionView = binding.getRoot();
 
-        if (option == null || option.getOdd() < 0) {
+        if (option == null || option.getRealOdd() < 0) {
             uavailableTextView.setVisibility(View.VISIBLE);
             oddTextView.setVisibility(View.GONE);
             nameTextView.setVisibility(View.GONE);

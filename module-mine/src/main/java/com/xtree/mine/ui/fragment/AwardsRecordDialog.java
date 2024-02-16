@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
-import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
@@ -22,30 +21,25 @@ import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogChooseWithdrawaBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.AwardsRecordVo;
-import com.xtree.mine.vo.ChooseInfoVo;
 
 import java.util.ArrayList;
 
 import me.xtree.mvvmhabit.utils.Utils;
-
 
 /**
  * 奖项流水
  */
 public class AwardsRecordDialog extends BottomPopupView {
 
-    public interface IAwardsDialogBack{
-        public void  closeAwardsDialog();
+    public interface IAwardsDialogBack {
+        void closeAwardsDialog();
     }
-    private IAwardsDialogBack callBack ;
-    private BasePopupView basePopupView = null;
-    DialogChooseWithdrawaBinding binding ;
-    ChooseWithdrawViewModel viewModel ;
+
+    private IAwardsDialogBack callBack;
+    DialogChooseWithdrawaBinding binding;
+    ChooseWithdrawViewModel viewModel;
     LifecycleOwner owner;
-    Context context ;
-    ChooseInfoVo chooseInfoVo ;
-    BasePopupView ppw = null; // 底部弹窗
-    private AwardsRecordVo awardsRecordVo ;
+    private AwardsRecordVo awardsRecordVo;
 
     private int viewType;//根据awardsRecordVo 显示页面 0 不显示数据 ；1 显示数据
 
@@ -56,32 +50,27 @@ public class AwardsRecordDialog extends BottomPopupView {
 
     @Override
     protected int getMaxHeight() {
-        return (XPopupUtils.getScreenHeight(getContext()) * 75 / 100);
+        return (XPopupUtils.getScreenHeight(getContext()) * 80 / 100);
     }
 
     private AwardsRecordDialog(@NonNull Context context) {
         super(context);
     }
-    public static AwardsRecordDialog newInstance(Context context, LifecycleOwner owner , AwardsRecordVo  awardsRecordVo, IAwardsDialogBack callBack )
-    {
+
+    public static AwardsRecordDialog newInstance(Context context, LifecycleOwner owner, AwardsRecordVo awardsRecordVo, IAwardsDialogBack callBack) {
         AwardsRecordDialog dialog = new AwardsRecordDialog(context);
-        context = context ;
-        dialog.context = context ;
-        dialog.owner =owner ;
-        dialog.awardsRecordVo = awardsRecordVo ;
-        dialog.callBack = callBack ;
+        dialog.owner = owner;
+        dialog.awardsRecordVo = awardsRecordVo;
+        dialog.callBack = callBack;
         dialog.viewType = 1;
         return dialog;
     }
 
-    public static AwardsRecordDialog newInstance(Context context, LifecycleOwner owner , AwardsRecordVo  awardsRecordVo,int viewType , IAwardsDialogBack callBack )
-    {
+    public static AwardsRecordDialog newInstance(Context context, LifecycleOwner owner, AwardsRecordVo awardsRecordVo, int viewType, IAwardsDialogBack callBack) {
         AwardsRecordDialog dialog = new AwardsRecordDialog(context);
-        context = context ;
-        dialog.context = context ;
-        dialog.owner =owner ;
-        dialog.awardsRecordVo = awardsRecordVo ;
-        dialog.callBack = callBack ;
+        dialog.owner = owner;
+        dialog.awardsRecordVo = awardsRecordVo;
+        dialog.callBack = callBack;
         dialog.viewType = viewType;
         return dialog;
     }
@@ -94,35 +83,28 @@ public class AwardsRecordDialog extends BottomPopupView {
         initViewObservable();
 
     }
-    private void initView()
-    {
+
+    private void initView() {
         binding = DialogChooseWithdrawaBinding.bind(findViewById(R.id.ll_root));
-        if (viewType ==1)
-        {
+        if (viewType == 1) {
             CfLog.i("viewType ==1)");
             binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_unfinished_activity));
-        }
-        else
-        {
+        } else {
             binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_wallet));
             CfLog.i("viewType ==0)");
         }
 
-        binding.ivwClose.setOnClickListener(v->{
+        binding.ivwClose.setOnClickListener(v -> {
             dismiss();
             callBack.closeAwardsDialog();
 
         });
-        if (viewType == 0)
-        {
-
-
+        if (viewType == 0) {
             bottomPopupContainer.dismissOnTouchOutside(true);
             bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
                 @Override
                 public void onClose() {
-                    if (callBack!=null)
-                    {
+                    if (callBack != null) {
                         callBack.closeAwardsDialog();
                     }
                 }
@@ -138,18 +120,14 @@ public class AwardsRecordDialog extends BottomPopupView {
                 }
             });
             binding.lvChoose.setVisibility(View.GONE);
-            binding.llChooseTutorial.setVisibility(View.GONE);
             binding.llChooseTip.setVisibility(View.VISIBLE);
 
-
-        } else if (viewType ==1)
-        {
+        } else if (viewType == 1) {
             bottomPopupContainer.dismissOnTouchOutside(true);
             bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
                 @Override
                 public void onClose() {
-                    if (callBack!=null)
-                    {
+                    if (callBack != null) {
                         callBack.closeAwardsDialog();
                     }
                 }
@@ -165,49 +143,31 @@ public class AwardsRecordDialog extends BottomPopupView {
                 }
             });
 
-            ChooseAdapter adapter = new ChooseAdapter(getContext() ,awardsRecordVo.list);
+            ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
             binding.lvChoose.setVisibility(View.VISIBLE);
             binding.lvChoose.setAdapter(adapter);
         }
-
+        binding.tvChooseTutorial.setVisibility(View.GONE);
 
     }
 
-    private void initData()
-    {
+    private void initData() {
         viewModel = new ChooseWithdrawViewModel((Application) Utils.getContext(), Injection.provideHomeRepository());
     }
 
-    private void initViewObservable()
-    {
+    private void initViewObservable() {
 
     }
 
-    /**
-     * 请求网络数据
-     */
-    private void  requestData()
-    {
-        viewModel.getChooseWithdrawInfo();
-    }
-    private void  referUI()
-    {
-    }
+    private class ChooseAdapter extends BaseAdapter {
+        private Context context;
+        private ArrayList<AwardsRecordVo.AwardsRecordInfo> awardsRecordInfoArrayList;
 
-
-    private class ChooseAdapter extends BaseAdapter
-    {
-        private LayoutInflater mInflater ;
-        private IChooseCallback  callBack ;
-        private Context context ;
-        private ArrayList<AwardsRecordVo.AwardsRecordInfo> awardsRecordInfoArrayList ;
-
-        public ChooseAdapter(Context context , ArrayList<AwardsRecordVo.AwardsRecordInfo>  list )
-        {
-            this.context = context ;
-            this.awardsRecordInfoArrayList = list ;
-            this.callBack = callBack ;
+        public ChooseAdapter(Context context, ArrayList<AwardsRecordVo.AwardsRecordInfo> list) {
+            this.context = context;
+            this.awardsRecordInfoArrayList = list;
         }
+
         @Override
         public int getCount() {
             return this.awardsRecordInfoArrayList.size();
@@ -226,9 +186,8 @@ public class AwardsRecordDialog extends BottomPopupView {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             ChooseAdapterViewHolder holder = null;
-            if (convertView == null)
-            {
-                convertView =  LayoutInflater.from(context).inflate(R.layout.dialog_choose_awards_item ,parent,false);
+            if (convertView == null) {
+                convertView = LayoutInflater.from(context).inflate(R.layout.dialog_choose_awards_item, parent, false);
                 holder = new ChooseAdapterViewHolder();
                 holder.showInfoName = (TextView) convertView.findViewById(R.id.tvw_title);
                 holder.showBonus = (TextView) convertView.findViewById(R.id.tvw_title_bonus);
@@ -236,28 +195,24 @@ public class AwardsRecordDialog extends BottomPopupView {
                 holder.showContent = (TextView) convertView.findViewById(R.id.tvw_title_content);
                 holder.showInfoLinear = convertView.findViewById(R.id.ll_root);
                 convertView.setTag(holder);
-             }
-            else
-            {
-                holder = (ChooseAdapterViewHolder) convertView.getTag() ;
+            } else {
+                holder = (ChooseAdapterViewHolder) convertView.getTag();
             }
-            AwardsRecordVo.AwardsRecordInfo info = awardsRecordInfoArrayList.get(position) ;
+            AwardsRecordVo.AwardsRecordInfo info = awardsRecordInfoArrayList.get(position);
 
             holder.showInfoName.setText(info.title);
-            holder.showBonus.setText("需求流水"+info.money);
-            holder.showTurnover.setText("剩余流水:"+info.deducted_turnover);
+            holder.showBonus.setText("需求流水" + info.money);
+            holder.showTurnover.setText("剩余流水:" + info.deducted_turnover);
             holder.showContent.setText(info.bet_source_trans);
 
-            return  convertView;
+            return convertView;
         }
 
-
-        public  class ChooseAdapterViewHolder
-        {
-            public TextView showInfoName ;
-            public TextView showBonus ;//奖金
+        public class ChooseAdapterViewHolder {
+            public TextView showInfoName;
+            public TextView showBonus;//奖金
             public TextView showTurnover;//流水
-            public TextView showContent ;//内容
+            public TextView showContent;//内容
             public LinearLayout showInfoLinear;
         }
     }

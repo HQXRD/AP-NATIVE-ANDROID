@@ -9,7 +9,9 @@
     <string name="bt_car_add_match">增加赛事</string>
     <string name="bt_bt_confirm_option">投注</string>
     <string name="bt_bt_win">预计可赢：%1$sRMB</string>
+    <string name="bt_bt_top_win">最高可赢：%1$s</string>
     <string name="bt_bt_pay">小计：%1$sRMB</string>
+    <string name="bt_bt_pay_1">合计%1$s</string>
     <string name="bt_bt_keyboadr_max">最大</string>
     <string name="bt_bt_is_not_allow_crossover">该玩法不支持串关</string>
     <string name="bt_bt_must_have_two_match">至少选择两场比赛</string>
@@ -46,5 +48,8 @@
     <string name="bt_txt_match_ended">盘口已关闭\n当前无法进行投注</string>
     <string name="bt_txt_tutorial">盘口教程</string>
     <string name="bt_txt_no_amount">请输入投注金额</string>
+    <string name="bt_platform_name_fbxc">杏彩体育</string>
+    <string name="bt_platform_name_fb">FB体育</string>
+    <string name="bt_platform_name_pm">熊猫体育</string>
 
 </resources>

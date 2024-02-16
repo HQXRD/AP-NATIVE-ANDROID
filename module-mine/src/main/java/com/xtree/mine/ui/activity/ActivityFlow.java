@@ -10,6 +10,7 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentChooseWithdrawBinding;
@@ -31,6 +32,8 @@ public class ActivityFlow extends BaseActivity<FragmentChooseWithdrawBinding, Ch
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        LoadingDialog.show(this);
+        viewModel.getAwardRecord();
     }
 
     @Override
@@ -45,11 +48,7 @@ public class ActivityFlow extends BaseActivity<FragmentChooseWithdrawBinding, Ch
 
     @Override
     public void initView() {
-        if (viewModel == null) {
-            CfLog.i("ChooseActivity viewModel  null");
-        } else {
-            initViewModel();
-        }
+
     }
 
     @Override
@@ -60,26 +59,19 @@ public class ActivityFlow extends BaseActivity<FragmentChooseWithdrawBinding, Ch
 
     @Override
     public void initData() {
-        if (viewModel == null) {
-            CfLog.i("ChooseActivity viewModel  null");
-        } else {
-            viewModel.getAwardRecord();
-        }
 
     }
 
     @Override
-    public void initViewObservable()
-    {
+    public void initViewObservable() {
         if (viewModel != null) {
             viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
                 awardsRecordVo = vo;
                 if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
                     showAwardsRecord();
-                }
-                else
-                {
-                    showAwardsRecord();
+                } else {
+                    CfLog.e("awardsRecordVo is null ");
+                    showWallet();
                 }
             });
         }
@@ -95,36 +87,28 @@ public class ActivityFlow extends BaseActivity<FragmentChooseWithdrawBinding, Ch
      * 显示资金流水
      */
     private void showAwardsRecord() {
-        CfLog.i("awardsRecordVo.locked_award_sum = " +awardsRecordVo.locked_award_sum);
-        if(awardsRecordVo != null && !awardsRecordVo.locked_award_sum.equals("0.00"))
-        {
-            basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
-                    .dismissOnTouchOutside(false)
-                    .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, 1 ,new AwardsRecordDialog.IAwardsDialogBack() {
-                        @Override
-                        public void closeAwardsDialog() {
-                            basePopupView.dismiss();
-                            finish();
-                            CfLog.i("AwardsRecordDialog  dismiss");
-                        }
-                    }) );
-        }
-        else
-        {
-            basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
-                    .dismissOnTouchOutside(false)
-                    .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, 0 ,new AwardsRecordDialog.IAwardsDialogBack() {
-                        @Override
-                        public void closeAwardsDialog() {
-                            basePopupView.dismiss();
-                            finish();
-                            CfLog.i("AwardsRecordDialog  dismiss");
-                        }
-                    }));
-        }
-
+        basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, 1, () -> {
+                    CfLog.i("AwardsRecordDialog  dismiss");
+                    basePopupView.dismiss();
+                    finish();
+                }));
         basePopupView.show();
 
     }
 
+    /**
+     * 显示钱包
+     */
+    private void showWallet() {
+        basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, 0, () -> {
+                    CfLog.i("AwardsRecordDialog  dismiss");
+                    basePopupView.dismiss();
+                    finish();
+                }));
+        basePopupView.show();
+    }
 }

@@ -134,7 +134,7 @@
                 android:layout_below="@id/ll_virtual_top"
                 android:orientation="vertical"
                 android:visibility="gone"
-                tools:visibility="gone">
+                tools:visibility="visible">
                 <!--显示USDT 嗨钱包 以及注意事项-->
                 <LinearLayout
                     android:id="@+id/ll_virtual_usdt_selector"
@@ -233,102 +233,107 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_virtual_usdt_selector"
                     android:layout_marginTop="20dp"
-                    android:layout_weight="1"
                     android:orientation="vertical">
 
-
                     <LinearLayout style="@style/style_withdraw_confirm_ll">
+
                         <TextView
                             style="@style/style_withdraw_show_title"
                             android:text="@string/txt_withdrawal_user_name" />
+
                         <TextView
                             android:id="@+id/tv_user_name_show"
                             style="@style/style_withdraw_confirm_value"
                             tools:text="" />
                     </LinearLayout>
+
                     <View style="@style/style_withdraw_dividing_line" />
+
                     <LinearLayout style="@style/style_withdraw_confirm_ll">
+
                         <TextView
                             style="@style/style_withdraw_show_title"
                             android:text="@string/txt_withdrawal_type" />
+
                         <TextView
                             android:id="@+id/tv_withdrawal_type_show"
                             style="@style/style_withdraw_confirm_value"
                             tools:text="" />
                     </LinearLayout>
+
                     <View style="@style/style_withdraw_dividing_line" />
 
                     <LinearLayout style="@style/style_withdraw_confirm_ll">
+
                         <TextView
                             style="@style/style_withdraw_show_title"
                             android:text="@string/txt_withdrawal_enm" />
+
                         <TextView
                             android:id="@+id/tv_withdrawal_amount_method"
                             style="@style/style_withdraw_confirm_value"
                             tools:text="" />
                     </LinearLayout>
+
                     <View style="@style/style_withdraw_dividing_line" />
 
                     <LinearLayout style="@style/style_withdraw_confirm_ll">
+
                         <TextView
                             style="@style/style_withdraw_show_title"
                             android:text="@string/txt_confirm_withdrawal_amount" />
+
                         <TextView
                             android:id="@+id/tv_withdrawal_amount_show"
                             style="@style/style_withdraw_confirm_value"
                             tools:text="" />
                     </LinearLayout>
+
                     <View style="@style/style_withdraw_dividing_line" />
 
                 </LinearLayout>
                 <!--显示提款提示-->
-                <LinearLayout
-                    android:id="@+id/ll_virtual_hint"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_below="@id/ll_virtual_account_info"
+
+                <TextView
+                    style="@style/style_withdraw_show_title"
                     android:layout_marginTop="@dimen/bt_text_10sp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <TextView
-                        style="@style/style_withdraw_show_title"
-                        android:text="@string/txt_withdrawal_method_tip" />
-                    <LinearLayout
+                    android:text="@string/txt_withdrawal_method_tip" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_height="match_parent">
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                        <TextView
+                            android:id="@+id/tv_mini_single_withdrawal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="@string/txt_withdrawal_min"
+                            android:textColor="@color/red"
+                            android:textSize="12sp" />
 
-                            <TextView
-                                android:id="@+id/tv_mini_single_withdrawal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:text="@string/txt_withdrawal_min"
-                                android:textColor="@color/red"
-                                android:textSize="12sp" />
+                        <TextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="" />
 
-                            <TextView
-                                android:id="@+id/textView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="" />
-
-                            <TextView
-                                android:id="@+id/tv_withdrawal_type_show1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="1dp"
-                                android:layout_toRightOf="@id/tv_mini_single_withdrawal"
-                                android:text=""
-                                android:textColor="@color/red"
-                                android:textSize="12sp" />
-                        </RelativeLayout>
-                    </LinearLayout>
-
+                        <TextView
+                            android:id="@+id/tv_withdrawal_type_show1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="1dp"
+                            android:layout_toRightOf="@id/tv_mini_single_withdrawal"
+                            android:text=""
+                            android:textColor="@color/red"
+                            android:textSize="12sp" />
+                    </RelativeLayout>
                 </LinearLayout>
+
                 <!--输入提款信息-->
                 <LinearLayout
                     android:id="@+id/ll_virtual_input"
@@ -336,30 +341,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_virtual_hint"
-                    android:layout_marginTop="4dp">
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_withdraw_money_input"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/bg_withdraw_money_input">
-
-                        <ImageView
-                            android:id="@+id/iv_input_money"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="10dp"
-                            android:background="@mipmap/me_icon_wlt_bank" />
-
-                        <EditText
-                            android:id="@+id/et_input_money"
-                            style="@style/style_bank_edit"
-                            android:layout_alignLeft="@id/iv_input_money"
-                            android:layout_marginLeft="10dp"
-                            android:digits="1234567890."
-                            android:hint="@string/txt_input_money"
-                            android:singleLine="true" />
-                    </RelativeLayout>
+                    <EditText
+                        android:id="@+id/et_input_money"
+                        style="@style/style_bank_edit"
+                        android:layout_marginLeft="10dp"
+                        android:drawableLeft="@mipmap/me_icon_wlt_bank"
+                        android:hint="@string/txt_input_money"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true" />
 
                 </LinearLayout>
                 <!--显示提款金额、汇率、实际到账信息-->
@@ -405,8 +399,8 @@
                             android:id="@+id/tv_info_actual_number"
                             style="@style/style_virtual_text"
                             android:layout_below="@id/tv_info_exchange_rate_show"
-                            android:text="@string/txt_actual_number"
-                            />
+                            android:text="@string/txt_actual_number" />
+
                         <TextView
                             android:id="@+id/tv_info_actual_number_show"
                             style="@style/style_virtual_text"
@@ -494,242 +488,77 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_collection_usdt"
                     android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <RelativeLayout
+                    <ImageView
+                        android:id="@+id/iv_next"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="@mipmap/cm_btn_withdrawal_next" />
 
-                        <ImageView
-                            android:id="@+id/iv_next"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@mipmap/cm_btn_withdrawal_next" />
-
-                        <ImageView
-                            android:id="@+id/iv_previous"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/iv_next"
-                            android:background="@mipmap/cm_btn_withdrawal_previous" />
-
-                    </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/iv_previous"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:background="@mipmap/cm_btn_withdrawal_previous" />
 
                 </LinearLayout>
 
             </LinearLayout>
             <!--显示状态 2 确认提款信息View-->
-            <LinearLayout
+            <include
                 android:id="@+id/ll_virtual_confirm_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/ll_virtual_top"
-                android:orientation="vertical"
+                layout="@layout/dialog_withdrawal_usdt_confirm"
                 android:visibility="gone"
-                tools:visibility="visible">
-                <!--确认提款信息-->
-                <LinearLayout
-                    android:id="@+id/ll_virtual_confirm_info"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/ll_virtual_top"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <LinearLayout style="@style/style_withdraw_confirm_ll">
-                        <TextView
-                            style="@style/style_withdraw_show_title"
-                            android:text="@string/txt_withdrawal_user_name" />
-                        <TextView
-                            android:id="@+id/tv_confirm_user_name_show"
-                            style="@style/style_withdraw_confirm_value"
-                            tools:text="" />
-                    </LinearLayout>
-                    <View style="@style/style_withdraw_dividing_line" />
-
-                    <LinearLayout style="@style/style_withdraw_confirm_ll">
-                        <TextView
-                            style="@style/style_withdraw_show_title"
-                            android:text="@string/txt_confirm_withdrawal_amount" />
-                        <TextView
-                            android:id="@+id/tv_confirm_withdrawal_type_show"
-                            style="@style/style_withdraw_confirm_value"
-                            tools:text="" />
-                    </LinearLayout>
-                    <View style="@style/style_withdraw_dividing_line" />
-
-                    <LinearLayout style="@style/style_withdraw_confirm_ll">
-                        <TextView
-                            style="@style/style_withdraw_show_title"
-                            android:text="@string/txt_confirm_amount" />
-                        <TextView
-                            android:id="@+id/tv_confirm_amount_show"
-                            style="@style/style_withdraw_confirm_value"
-                            tools:text="" />
-                    </LinearLayout>
-                    <View style="@style/style_withdraw_dividing_line" />
-
-                    <LinearLayout style="@style/style_withdraw_confirm_ll">
-                        <TextView
-                            style="@style/style_withdraw_show_title"
-                            android:text="@string/txt_withdrawal_type" />
-                        <TextView
-                            android:id="@+id/tv_withdrawal_amount_type_show"
-                            style="@style/style_withdraw_confirm_value"
-                            tools:text="" />
-                    </LinearLayout>
-                    <View style="@style/style_withdraw_dividing_line" />
-
-                    <LinearLayout style="@style/style_withdraw_confirm_ll">
-                        <TextView
-                            style="@style/style_withdraw_show_title"
-                            android:text="@string/txt_virtual_type" />
-                        <TextView
-                            android:id="@+id/tv_withdrawal_virtual_type_show"
-                            style="@style/style_withdraw_confirm_value"
-                            tools:text="" />
-                    </LinearLayout>
-                    <View style="@style/style_withdraw_dividing_line" />
-                    <LinearLayout style="@style/style_withdraw_confirm_ll">
-                        <TextView
-                            style="@style/style_withdraw_show_title"
-                            android:text="@string/txt_actual_arrival" />
-                        <TextView
-                            android:id="@+id/tv_withdrawal_actual_arrival_show"
-                            style="@style/style_withdraw_confirm_value"
-                            tools:text="" />
-                    </LinearLayout>
-                    <View style="@style/style_withdraw_dividing_line" />
-                    <LinearLayout style="@style/style_withdraw_confirm_ll">
-                        <TextView
-                            style="@style/style_withdraw_show_title"
-                            android:text="@string/txt_rate_tip" />
-                        <TextView
-                            android:id="@+id/tv_withdrawal_exchange_rate_show"
-                            style="@style/style_withdraw_confirm_value"
-                            tools:text="" />
-                    </LinearLayout>
-                    <View style="@style/style_withdraw_dividing_line" />
-
-                    <LinearLayout style="@style/style_withdraw_confirm_ll">
-                        <TextView
-                            style="@style/style_withdraw_show_title"
-                            android:text="@string/txt_withdrawal_address" />
-                        <TextView
-                            android:id="@+id/tv_withdrawal_address_show"
-                            style="@style/style_withdraw_confirm_value"
-                            tools:text="" />
-                    </LinearLayout>
-                    <View style="@style/style_withdraw_dividing_line" />
-                    <LinearLayout style="@style/style_withdraw_confirm_ll">
-                        <TextView
-                            style="@style/style_withdraw_show_title"
-                            android:text="@string/txt_handling_fee" />
-                        <TextView
-                            android:id="@+id/tv_withdrawal_handling_fee_show"
-                            style="@style/style_withdraw_confirm_value"
-                            tools:text="" />
-                    </LinearLayout>
-                    <View style="@style/style_withdraw_dividing_line" />
-                    
-
-                    <LinearLayout
-                        android:id="@+id/ll_next_confirm_previous"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/ll_collection_usdt"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <ImageView
-                                android:id="@+id/iv_confirm_next"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@mipmap/cm_btn_withdrawal_next" />
-
-                            <ImageView
-                                android:id="@+id/iv_confirm_previous"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/iv_confirm_next"
-                                android:background="@mipmap/cm_btn_withdrawal_previous" />
-
-                        </RelativeLayout>
-
-                    </LinearLayout>-->
-                </LinearLayout>
-            </LinearLayout>
+                tools:visibility="visible" />
             <!--显示状态 3 确认提款信息View-->
             <LinearLayout
                 android:id="@+id/ll_over_apply"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:layout_below="@id/ll_virtual_top"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
                 android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:visibility="gone"
                 tools:visibility="visible">
 
-                <RelativeLayout
+                <ImageView
+                    android:id="@+id/iv_over_apply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@mipmap/ic_over_apply" />
+
+                <TextView
+                    android:id="@+id/tv_over_msg"
+                    style="@style/style_withdraw_text_value"
+                    android:layout_below="@id/iv_over_apply"
+                    android:layout_gravity="center"
+                    android:text="@string/txt_account_successful"
+                    android:textColor="@color/cl_over_tip" />
+
+                <TextView
+                    android:id="@+id/tv_over_detail"
+                    style="@style/style_withdraw_bottom_text_value"
+                    android:layout_below="@id/tv_over_msg"
+                    android:layout_gravity="center"
+                    android:text="@string/txt_account_suc_message"
+                    android:textColor="@color/cl_over_tip" />
+
+                <ImageView
+                    android:id="@+id/iv_continue_confirm_next"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:background="@mipmap/ic_continue" />
 
-                    <ImageView
-                        android:id="@+id/iv_over_apply"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:background="@mipmap/ic_over_apply" />
-
-                    <TextView
-                        android:id="@+id/tv_over_messgae1"
-                        android:layout_below="@id/iv_over_apply"
-                        android:text="@string/txt_account_successful"
-                        android:textColor="@color/cl_over_tip"
-                        style="@style/style_withdraw_text_value"
-                  />
-
-                    <TextView
-                        android:id="@+id/tv_over_detail"
-                        android:layout_below="@id/tv_over_messgae1"
-                        android:text="@string/txt_account_suc_message"
-                        android:textColor="@color/cl_over_tip"
-                        style="@style/style_withdraw_bottom_text_value" />
-
-                    <LinearLayout
-                        android:id="@+id/ll_continue_confirm_previous"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/tv_over_messgae1"
-                        android:layout_marginTop="80dp"
-                        android:orientation="horizontal">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <ImageView
-                                android:id="@+id/iv_continue_confirm_next"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@mipmap/ic_continue" />
-
-                            <ImageView
-                                android:id="@+id/iv_continue_confirm_previous"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/iv_continue_confirm_next"
-                                android:background="@mipmap/cm_btn_withdrawal_previous" />
-
-                        </RelativeLayout>
-
-                    </LinearLayout>
-                </RelativeLayout>
+                <ImageView
+                    android:id="@+id/iv_continue_confirm_previous"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_continue_confirm_next"
+                    android:background="@mipmap/cm_btn_withdrawal_previous" />
 
             </LinearLayout>
 

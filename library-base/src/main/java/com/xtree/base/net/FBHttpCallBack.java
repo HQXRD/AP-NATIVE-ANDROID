@@ -87,7 +87,7 @@ public abstract class FBHttpCallBack<T> extends DisposableSubscriber<T> {
                 //ToastUtils.showShort("请重新登录");
                 ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
                 break;
-            case FBHttpCallBack.FBCodeRule.PB_CODE_14010:
+            case FBHttpCallBack.FBCodeRule.FB_CODE_14010:
                 //账号已登出，请重新登录
                 ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
                 break;
@@ -154,6 +154,6 @@ public abstract class FBHttpCallBack<T> extends DisposableSubscriber<T> {
     }
 
     public static final class FBCodeRule {
-        static final int PB_CODE_14010 = 14010;
+        static final int FB_CODE_14010 = 14010;
     }
 }

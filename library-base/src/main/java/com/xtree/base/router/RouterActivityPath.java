@@ -39,13 +39,11 @@ public class RouterActivityPath {
      */
     public static class Mine {
         private static final String MINE = "/mine";
-
         /*登录注册*/
         public static final String PAGER_LOGIN_REGISTER = MINE + "/loginRegister";
-        public static final String PAGER_MY_WALLET = MINE + "/wallet";
         public static final String PAGER_WITHDRAW = MINE + "/withdraw";
         public static final String PAGER_CHOOSE_WITHDRAW = MINE + "/choose";
-        public static final String PAGER_MY_WALLET_FLOW =MINE+"/flow" ;//活动流水
+        public static final String PAGER_MY_WALLET_FLOW = MINE + "/flow";//活动流水
     }
 
     /**

@@ -359,42 +359,45 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         }
         List<PlayGroup> playGroupList = playGroup.getPlayGroupList(match.getSportId());
 
-        for (int i = 0; i < firstPagePlayType.getChildCount(); i++) {
-            setPlayTypeGroup(match, parent, (LinearLayout) firstPagePlayType.getChildAt(i), playGroupList.get(0).getOriginalPlayTypeList().get(i));
-        }
-        binding.llPointer.removeAllViews();
-        LinearLayout sencondPagePlayType = (LinearLayout) llTypeGroup.getChildAt(1);
-        if (playGroupList.size() > 1) {
-            sencondPagePlayType.setVisibility(View.VISIBLE);
-            binding.hsvPlayTypeGroup.setChildCount(2);
-            List<PlayType> playTypeList = playGroupList.get(1).getOriginalPlayTypeList();
-            for (int i = 0; i < sencondPagePlayType.getChildCount(); i++) {
-                setPlayTypeGroup(match, parent, (LinearLayout) sencondPagePlayType.getChildAt(i), playTypeList.get(i));
+        if(!playGroupList.isEmpty()) {
+
+            for (int i = 0; i < firstPagePlayType.getChildCount(); i++) {
+                setPlayTypeGroup(match, parent, (LinearLayout) firstPagePlayType.getChildAt(i), playGroupList.get(0).getOriginalPlayTypeList().get(i));
             }
-            binding.llPointer.setVisibility(View.VISIBLE);
-            binding.llScoreData.setVisibility(View.GONE);
-            initPointer(binding);
-        } else {
-            sencondPagePlayType.setVisibility(View.GONE);
-            binding.llPointer.setVisibility(View.GONE);
-            binding.llScoreData.removeAllViews();
-            if (match.isGoingon()) {
-                binding.llScoreData.setVisibility(View.VISIBLE);
-                BaseDetailDataView mScoreDataView = BaseDetailDataView.getInstance(mContext, match, true);
-                if (mScoreDataView != null) {
-                    binding.llScoreData.addView(mScoreDataView);
+            binding.llPointer.removeAllViews();
+            LinearLayout sencondPagePlayType = (LinearLayout) llTypeGroup.getChildAt(1);
+            if (playGroupList.size() > 1) {
+                sencondPagePlayType.setVisibility(View.VISIBLE);
+                binding.hsvPlayTypeGroup.setChildCount(2);
+                List<PlayType> playTypeList = playGroupList.get(1).getOriginalPlayTypeList();
+                for (int i = 0; i < sencondPagePlayType.getChildCount(); i++) {
+                    setPlayTypeGroup(match, parent, (LinearLayout) sencondPagePlayType.getChildAt(i), playTypeList.get(i));
+                }
+                binding.llPointer.setVisibility(View.VISIBLE);
+                binding.llScoreData.setVisibility(View.GONE);
+                initPointer(binding);
+            } else {
+                sencondPagePlayType.setVisibility(View.GONE);
+                binding.llPointer.setVisibility(View.GONE);
+                binding.llScoreData.removeAllViews();
+                if (match.isGoingon()) {
+                    binding.llScoreData.setVisibility(View.VISIBLE);
+                    BaseDetailDataView mScoreDataView = BaseDetailDataView.getInstance(mContext, match, true);
+                    if (mScoreDataView != null) {
+                        binding.llScoreData.addView(mScoreDataView);
+                    }
                 }
             }
+
+
+            binding.llRoot.setOnClickListener(view -> {
+                BtDetailActivity.start(mContext, match);
+            });
+
+
+            binding.vSpace.setVisibility(childPosition == getRealChildrenCount(groupPosition) - 1 ? View.VISIBLE : View.GONE);
+            binding.cslRoot.setBackgroundResource(childPosition == getRealChildrenCount(groupPosition) - 1 ? R.drawable.bt_bg_match_item_bottom : R.drawable.bt_bg_match_item);
         }
-
-
-        binding.llRoot.setOnClickListener(view -> {
-            BtDetailActivity.start(mContext, match);
-        });
-
-
-        binding.vSpace.setVisibility(childPosition == getRealChildrenCount(groupPosition) - 1 ? View.VISIBLE : View.GONE);
-        binding.cslRoot.setBackgroundResource(childPosition == getRealChildrenCount(groupPosition) - 1 ? R.drawable.bt_bg_match_item_bottom : R.drawable.bt_bg_match_item);
         return convertView;
     }
 

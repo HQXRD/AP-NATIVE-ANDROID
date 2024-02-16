@@ -1,7 +1,6 @@
 package com.xtree.bet.ui.adapter;
 
 import android.content.Context;
-import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -16,11 +15,6 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
     private BtCarDialogFragment btCarDialogFragment;
@@ -56,7 +50,8 @@ public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
         }
         binding.ivMatchTeam.setText(betConfirmOption.getTeamName());
         binding.tvLeagueName.setText(betConfirmOption.getMatch().getLeague().getLeagueName());
-        binding.ivOdd.setText("@" + betConfirmOption.getOption().getOdd());
+        binding.ivOdd.setBtCar(true);
+        binding.ivOdd.setOptionOdd(betConfirmOption.getOption());
         String oldScore = ((TextView)holder.getView(R.id.iv_play_type)).getText().toString();
         if(oldScore.indexOf("[") > -1 && oldScore.indexOf("]") > -1) {
             oldScore = oldScore.substring(betConfirmOption.getPlayType().getPlayTypeName().length() + 1, oldScore.length() - 1);

@@ -1,37 +1,27 @@
 package com.xtree.bet.ui.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Path;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
-import com.xtree.bet.bean.ui.BetConfirmOptionFb;
 import com.xtree.bet.bean.ui.BetConfirmOptionUtil;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.OptionList;
 import com.xtree.bet.bean.ui.PlayType;
-import com.xtree.bet.contract.BetContract;
-import com.xtree.bet.databinding.BtFbDetailOptionListOptionItemBinding;
 import com.xtree.bet.databinding.BtFbListItemPlayTypeItemOptionBinding;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.weight.DiscolourTextView;
-import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
-import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.bus.RxBus;
-import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class OptionAdapter extends BaseAdapter<Option> {
@@ -59,7 +49,7 @@ public class OptionAdapter extends BaseAdapter<Option> {
         DiscolourTextView oddTextView = binding.tvOptionOdd;
         LinearLayout optionView = binding.getRoot();
 
-        if (option == null || option.getOdd() < 0) {
+        if (option == null || option.getRealOdd() < 0) {
             uavailableTextView.setVisibility(View.VISIBLE);
             oddTextView.setVisibility(View.GONE);
             nameTextView.setVisibility(View.GONE);

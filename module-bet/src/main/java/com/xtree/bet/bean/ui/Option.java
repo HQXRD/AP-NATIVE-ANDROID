@@ -25,9 +25,10 @@ public interface Option extends BaseBean {
      String getOptionType();
 
     /**
+     * 页面显示的赔率，分欧盘和香港盘
      * 欧盘赔率，目前我们只提供欧洲盘赔率，投注是请提交该字段赔率值作为选项赔率，赔率小于0代表锁盘，此方法用于显示
      */
-     double getOdd();
+     double getUiShowOdd();
 
     /**
      * 真实欧盘赔率，目前我们只提供欧洲盘赔率，投注是请提交该字段赔率值作为选项赔率，赔率小于0代表锁盘，此方法用于投注

@@ -68,6 +68,11 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<LoginResultVo>() {
                     @Override
                     public void onResult(LoginResultVo vo) {
+                        if (vo == null || TextUtils.isEmpty(vo.token)) {
+                            //后台对登录增加了某些新功能,可能异常返回为空(短时间登录多次/多次输错密码)
+                            ToastUtils.showLong("登录异常，请稍候再试");
+                            return;
+                        }
                         KLog.i(vo.toString());
                         //ToastUtils.showLong("登录成功");
                         vo.userName = userName;

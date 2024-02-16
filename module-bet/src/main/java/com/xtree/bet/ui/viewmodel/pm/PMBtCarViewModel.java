@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
-import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
 
