@@ -82,6 +82,12 @@ public class PlayTypeFb implements PlayType{
                 optionList.add(null);
             }
         }
+        if(playTypeInfo.nm.contains("独赢")){
+            Option optionDraw = optionList.get(1);
+            Option optionVister = optionList.get(2);
+            optionList.set(1, optionVister);
+            optionList.set(2, optionDraw);
+        }
         return optionList;
     }
 
