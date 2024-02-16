@@ -26,6 +26,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.gyf.immersionbar.ImmersionBar;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
@@ -35,6 +37,7 @@ import com.xtree.bet.BR;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.Match;
+import com.xtree.bet.bean.ui.MatchFb;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
 import com.xtree.bet.contract.BetContract;
@@ -46,6 +49,7 @@ import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.fb.FbBtDetailViewModel;
 import com.xtree.bet.ui.viewmodel.pm.PmBtDetailViewModel;
+import com.xtree.bet.util.MatchDeserializer;
 import com.xtree.bet.weight.BaseDetailDataView;
 
 import java.util.ArrayList;
@@ -107,7 +111,8 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
 
     public static void start(Context context, Match match) {
         Intent intent = new Intent(context, BtDetailActivity.class);
-        intent.putExtra(KEY_MATCH, match);
+        SPUtils.getInstance().put(KEY_MATCH, new Gson().toJson(match));
+        //intent.putExtra(KEY_MATCH, match);
         context.startActivity(intent);
     }
 
@@ -181,7 +186,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
 
     @Override
     public void initData() {
-        mMatch = getIntent().getParcelableExtra(KEY_MATCH);
+        //mMatch = getIntent().getParcelableExtra(KEY_MATCH);
+        Gson gson = new GsonBuilder().serializeNulls().registerTypeAdapter(Match.class, new MatchDeserializer()).create();
+        mMatch = gson.fromJson(SPUtils.getInstance().getString(KEY_MATCH), Match.class);
         viewModel.getMatchDetail(mMatch.getId());
         viewModel.getCategoryList(String.valueOf(mMatch.getId()), mMatch.getSportId());
         viewModel.addSubscription();

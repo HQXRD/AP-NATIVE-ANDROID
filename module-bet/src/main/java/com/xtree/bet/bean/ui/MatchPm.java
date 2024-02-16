@@ -24,8 +24,6 @@ public class MatchPm implements Match {
     private String className;
     MatchInfo matchInfo;
 
-    List<PlayType> playTypeList = new ArrayList<>();
-
     LeaguePm mLeague;
     /**
      * 播放器请求头
@@ -466,20 +464,30 @@ public class MatchPm implements Match {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.className);
         dest.writeParcelable(this.matchInfo, flags);
-        dest.writeList(this.playTypeList);
+        dest.writeParcelable(this.mLeague, flags);
+        dest.writeString(this.referUrl);
+        dest.writeByte(this.isHead ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isExpand ? (byte) 1 : (byte) 0);
     }
 
     public void readFromParcel(Parcel source) {
+        this.className = source.readString();
         this.matchInfo = source.readParcelable(MatchInfo.class.getClassLoader());
-        this.playTypeList = new ArrayList<>();
-        source.readList(this.playTypeList, PlayType.class.getClassLoader());
+        this.mLeague = source.readParcelable(LeaguePm.class.getClassLoader());
+        this.referUrl = source.readString();
+        this.isHead = source.readByte() != 0;
+        this.isExpand = source.readByte() != 0;
     }
 
     protected MatchPm(Parcel in) {
+        this.className = in.readString();
         this.matchInfo = in.readParcelable(MatchInfo.class.getClassLoader());
-        this.playTypeList = new ArrayList<>();
-        in.readList(this.playTypeList, PlayType.class.getClassLoader());
+        this.mLeague = in.readParcelable(LeaguePm.class.getClassLoader());
+        this.referUrl = in.readString();
+        this.isHead = in.readByte() != 0;
+        this.isExpand = in.readByte() != 0;
     }
 
     public static final Creator<MatchPm> CREATOR = new Creator<MatchPm>() {
