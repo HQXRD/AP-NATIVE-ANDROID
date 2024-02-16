@@ -93,6 +93,7 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewModel.betRecord(tab.getPosition() != 0);
+                isSettled = tab.getPosition() != 0;
             }
 
             @Override
