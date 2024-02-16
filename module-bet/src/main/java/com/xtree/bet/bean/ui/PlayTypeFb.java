@@ -82,7 +82,7 @@ public class PlayTypeFb implements PlayType{
                 optionList.add(null);
             }
         }
-        if(playTypeInfo.nm.contains("独赢")){
+        if(playTypeInfo.nm.contains("独赢") && optionList.size() > 2){
             Option optionDraw = optionList.get(1);
             Option optionVister = optionList.get(2);
             optionList.set(1, optionVister);

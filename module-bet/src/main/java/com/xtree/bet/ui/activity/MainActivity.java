@@ -982,7 +982,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 binding.rvLeague.setAdapter(mLeagueAdapter);
             }
             mLeagueAdapter.setData(mLeagueList);
-            binding.rvLeague.postDelayed(() -> {
+            /*binding.rvLeague.postDelayed(() -> {
                 if (mIsChange) {
                     setGoingOnAllExpand(true);
                     setWaitingAllExpand(true);
@@ -997,7 +997,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     }
                 }
                 mLastLeagueSize = mLeagueList.size();
-            }, 150);
+            }, 150);*/
         }
         if (mLeagueList.isEmpty()) {
             binding.nsvLeague.setVisibility(View.GONE);
