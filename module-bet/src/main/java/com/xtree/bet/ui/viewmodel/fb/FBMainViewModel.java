@@ -11,6 +11,7 @@ import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_LIVE;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_NOMAL;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_TODAY_CG;
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -20,7 +21,6 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.fb.LeagueInfo;
@@ -207,23 +207,16 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         if (!isStepSecond) {
             mPlayMethodType = playMethodType;
         }
-        boolean hasCache = false;
 
-        if (currentPage == 1 && !isTimerRefresh) {
-            String json = SPUtils.getInstance().getString(BT_LEAGUE_LIST_CACHE + mPlayMethodType + sportId, "[]");
-            Gson gson = new GsonBuilder().serializeNulls().registerTypeAdapter(Match.class, new MatchDeserializer()).create();
-            Type listType = new TypeToken<List<LeagueFb>>() {
-            }.getType();
-            List<League> leagueList = (List<League>) gson.fromJson(json, listType);
-            hasCache = !leagueList.isEmpty();
-            if (playMethodType == 1) { // 滚球
-                leagueGoingOnListData.postValue(leagueList);
-            }else{
-                leagueWaitingListData.postValue(leagueList);
-            }
+        if (isRefresh) {
+            currentPage = 1;
+        } else {
+            currentPage++;
         }
 
-        final boolean hasCacheFinal = hasCache;
+        if (currentPage == 1 && !isTimerRefresh && !isStepSecond) {
+            showCache(sportId, mPlayMethodType, searchDatePos);
+        }
 
         int type;
         boolean flag = false;
@@ -232,14 +225,12 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         if (isRefresh) {
             type = playMethodType == 6 || (playMethodType == 2 && searchDatePos == 0) ? 1 : playMethodType;
             flag = playMethodType == 6 || (playMethodType == 2 && searchDatePos == 0) ? true : false;
-            currentPage = 1;
         } else {
             type = playMethodType == 6 || (playMethodType == 2 && searchDatePos == 0) ? 3 : playMethodType;
-            currentPage++;
         }
 
         final int finalType = type;
-        final boolean finalFlag = flag;
+        final boolean needSecondStep = flag;
 
         FBListReq fBListReq = new FBListReq();
         fBListReq.setSportId(sportId);
@@ -294,7 +285,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                     @Override
                     protected void onStart() {
                         super.onStart();
-                        if (!isTimerRefresh && !hasCacheFinal) {
+                        if (!isTimerRefresh && !mHasCache) {
                             getUC().getShowDialogEvent().postValue("");
                         }
                     }
@@ -312,7 +303,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                             return;
                         }
 
-                        if (!finalFlag) {
+                        if (!needSecondStep) {
                             getUC().getDismissDialogEvent().call();
                             if (isRefresh) {
                                 if (matchListRsp != null && currentPage == matchListRsp.getPages()) {
@@ -330,44 +321,38 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         }
 
                         if (finalType == 1) { // 滚球
-                            if (finalFlag) {
+                            if (needSecondStep) {
                                 isStepSecond = true;
                                 leagueGoingList(matchListRsp.records);
-
                                 getLeagueList(sportPos, sportId, orderBy, leagueIds, matchids, 3, searchDatePos, oddType, false, isRefresh);
                             } else {
                                 leagueAdapterList(matchListRsp.records);
                                 leagueGoingOnListData.postValue(mLeagueList);
                                 if (currentPage == 1) {
-                                    SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + sportId, new Gson().toJson(mLeagueList));
+                                    SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + searchDatePos + sportId, new Gson().toJson(mLeagueList));
                                 }
                             }
                         } else {
                             leagueAdapterList(matchListRsp.records);
                             leagueWaitingListData.postValue(mLeagueList);
                             if (currentPage == 1) {
-                                SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + sportId, new Gson().toJson(mLeagueList));
+                                SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + searchDatePos + sportId, new Gson().toJson(mLeagueList));
                             }
+                            isStepSecond = false;
                         }
+                        mHasCache = false;
+
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        //super.onError(t);
                         getLeagueList(sportPos, sportId, orderBy, leagueIds, matchids, playMethodType, searchDatePos, oddType, isTimerRefresh, isRefresh);
-                        getUC().getDismissDialogEvent().call();
-                        if (isRefresh) {
+                        /*if (isRefresh) {
                             finishRefresh(false);
                         } else {
                             finishLoadMore(false);
-                        }
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        super.onComplete();
-                        isStepSecond = false;
+                        }*/
                     }
                 });
         addSubscribe(disposable);
@@ -393,19 +378,9 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             currentPage++;
         }
 
-        boolean hasCache = false;
-
         if (currentPage == 1 && !isTimerRefresh) {
-            String json = SPUtils.getInstance().getString(BT_LEAGUE_LIST_CACHE + playMethodType + sportId, "[]");
-            Gson gson = new GsonBuilder().serializeNulls().registerTypeAdapter(Match.class, new MatchDeserializer()).create();
-            Type listType = new TypeToken<List<MatchFb>>() {
-            }.getType();
-            List<Match> matchList = (List<Match>) new Gson().fromJson(json, listType);
-            hasCache = !matchList.isEmpty();
-            championMatchListData.postValue(matchList);
+            showChampionCache(sportId, playMethodType);
         }
-
-        final boolean hasCacheFinal = hasCache;
 
         FBListReq FBListReq = new FBListReq();
         FBListReq.setSportId(sportId);
@@ -437,7 +412,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                     @Override
                     protected void onStart() {
                         super.onStart();
-                        if (!isTimerRefresh && !hasCacheFinal) {
+                        if (!isTimerRefresh && !mHasCache) {
                             getUC().getShowDialogEvent().postValue("");
                         }
                     }
@@ -471,18 +446,18 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         if (currentPage == 1) {
                             SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + playMethodType + sportId, new Gson().toJson(mChampionMatchList));
                         }
+                        mHasCache = false;
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         //super.onError(t);
                         getChampionList(sportPos, sportId, orderBy, leagueIds, matchids, playMethodType, oddType, isTimerRefresh, isRefresh);
-                        getUC().getDismissDialogEvent().call();
-                        if (isRefresh) {
+                        /*if (isRefresh) {
                             finishRefresh(false);
                         } else {
                             finishLoadMore(false);
-                        }
+                        }*/
                     }
                 });
         addSubscribe(disposable);
