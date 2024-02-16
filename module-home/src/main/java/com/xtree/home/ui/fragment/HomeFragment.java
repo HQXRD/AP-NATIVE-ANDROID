@@ -299,12 +299,18 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
 
         GameAdapter.ICallBack mCallBack = vo -> {
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             CfLog.i(vo.toString());
             if (vo.cid == 7) {
                 startContainerFragment(RouterFragmentPath.Home.AUG);
                 return;
             }
-            if (ClickUtil.isFastClick()) {
+            if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1 ) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("vo", vo);
+                startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
                 return;
             }
             viewModel.getPlayUrl(vo.alias, vo.gameId);

@@ -7,6 +7,7 @@ public class GameVo implements Parcelable {
 
     public String id; //
     public int cid = 0; // 41
+    public String cateId = "";
     public String name; // FB自营体育
     public String alias; // fbxc
     public int status = 1; // 0是维护, 1是正常, 2是下架
@@ -32,6 +33,7 @@ public class GameVo implements Parcelable {
         return "GameVo{" +
                 "id='" + id + '\'' +
                 ", cid=" + cid +
+                ", cateId=" + cateId +
                 ", name='" + name + '\'' +
                 ", alias='" + alias + '\'' +
                 ", status=" + status +
@@ -52,6 +54,7 @@ public class GameVo implements Parcelable {
     protected GameVo(Parcel in) {
         id = in.readString();
         cid = in.readInt();
+        cateId = in.readString();
         name = in.readString();
         alias = in.readString();
         status = in.readInt();
@@ -72,6 +75,7 @@ public class GameVo implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeInt(cid);
+        dest.writeString(cateId);
         dest.writeString(name);
         dest.writeString(alias);
         dest.writeInt(status);
