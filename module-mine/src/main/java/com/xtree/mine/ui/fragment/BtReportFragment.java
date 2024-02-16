@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.FilterView;
 import com.xtree.base.widget.LoadingDialog;
@@ -36,6 +38,7 @@ import com.xtree.mine.vo.LotteryOrderVo;
 import com.xtree.mine.vo.StatusVo;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -196,16 +199,6 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
 
     }
 
-    private String getPlatformName(String code) {
-        for (FilterView.IBaseVo vo : listType) {
-            if (vo.getShowId().equals(code)) {
-                return vo.getShowName();
-            }
-        }
-
-        return "--";
-    }
-
     @Override
     public void initData() {
         super.initData();
@@ -242,6 +235,8 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
             //listType.add(new BtPlatformVo("0", getString(R.string.txt_all)));
             listType.addAll(list);
             binding.fvMain.setData(listType);
+
+            queryByVenue(); // 针对从场馆跳过来,需要查询某个平台的
         });
 
         viewModel.liveDataBtReport.observe(this, vo -> {
@@ -303,6 +298,55 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
 
         });
 
+    }
+
+    private String getPlatformName(String code) {
+        for (FilterView.IBaseVo vo : listType) {
+            if (vo.getShowId().equals(code)) {
+                return vo.getShowName();
+            }
+        }
+
+        return "--";
+    }
+
+    private void queryByVenue() {
+        if (getArguments() == null) {
+            return;
+        }
+
+        String typeId = getArguments().getString("typeId");
+        String typeName = getArguments().getString("typeName");
+        int status = getArguments().getInt("status", 0); // 0-全部, 1-已结算, 2-未结算
+        CfLog.i("typeId: " + typeId + ", typeName: " + typeName + ", status: " + status);
+
+        if (TextUtils.isEmpty(typeId)) {
+            return;
+        }
+
+        // 设置选中的类型
+        BtPlatformVo typeVo = new BtPlatformVo("", typeId, typeName);
+        binding.fvMain.setDefType(typeVo);
+
+        // 设置选中的状态
+        StatusVo statusVo;
+        if (status == 1) {
+            statusVo = new StatusVo("1", getResources().getString(R.string.txt_settled));
+        } else if (status == 2) {
+            statusVo = new StatusVo("2", getResources().getString(R.string.txt_unsettle));
+        } else {
+            statusVo = new StatusVo("0", getResources().getString(R.string.txt_all));
+        }
+        binding.fvMain.setDefStatus(statusVo);
+
+        // 设置选中的日期
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) - 1); // 1个月前
+        String txtDayStart = TimeUtils.longFormatString(calendar.getTimeInMillis(), "yyyy-MM-dd");
+        binding.fvMain.setDayStart(txtDayStart);
+
+        LoadingDialog.show(getContext());
+        requestData(1);
     }
 
     private void requestType() {
