@@ -23,6 +23,7 @@ import com.xtree.home.vo.AugVo;
 import com.xtree.home.vo.BannersVo;
 import com.xtree.home.vo.CookieVo;
 import com.xtree.home.vo.DataVo;
+import com.xtree.home.vo.EleVo;
 import com.xtree.home.vo.GameStatusVo;
 import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
@@ -59,9 +60,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>();
     public MutableLiveData<VipInfoVo> liveDataVipInfo = new MutableLiveData<>();
     public MutableLiveData<SettingsVo> liveDataSettings = new MutableLiveData<>();
-    public MutableLiveData<HashMap<String, ArrayList<AugVo>>> liveDataAug = new MutableLiveData<HashMap<String, ArrayList<AugVo>>>();
-
-    HashMap<String, ArrayList<AugVo>> augMap = new HashMap<>();
+    public MutableLiveData<HashMap<String, ArrayList<AugVo>>> liveDataAug = new MutableLiveData<>();
+    public MutableLiveData<EleVo> liveDataEle = new MutableLiveData<>();
 
     String public_key;
 
@@ -404,16 +404,46 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onResult(List<AugVo> list) {
                         CfLog.i(list.toString());
-
+                        HashMap<String, ArrayList<AugVo>> augMap = new HashMap<>();
                         for (AugVo value : list) {
                             if (!augMap.containsKey(value.getOne_level())) {
-                                augMap.put(value.getOne_level(), new ArrayList<AugVo>());
+                                augMap.put(value.getOne_level(), new ArrayList<>());
                             }
                             augMap.get(value.getOne_level()).add(value);
                         }
                         Gson gson = new Gson();
                         SPUtils.getInstance().put(SPKeyGlobal.AUG_LIST, gson.toJson(augMap));
                         liveDataAug.setValue(augMap);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                        //ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getEle(Context context, int id, int page, int pageSize, String cateId, int isHot) {
+        LoadingDialog.show(context);
+        HashMap map = new HashMap<>();
+        map.put("platform_id", id);
+        map.put("page", page);
+        map.put("per_page", pageSize);
+        map.put("cate_id", cateId);
+        map.put("is_hot", isHot);
+        Disposable disposable = (Disposable) model.getApiService().getEle(map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<EleVo>() {
+                    @Override
+                    public void onResult(EleVo vo) {
+                        CfLog.i(vo.toString().toString());
+                        Gson gson = new Gson();
+                        SPUtils.getInstance().put(String.valueOf(id), gson.toJson(vo));
+                        liveDataEle.setValue(vo);
                     }
 
                     @Override
