@@ -56,7 +56,7 @@ public class BaseResponse2 {
     public String username; // "",
 
     // 失败/不通过,返回错误信息 msg_detail,msg_type,message
-    //public String msg_detail;
+    public String msg_detail;
     public int msg_type; // 1 (异常/失败的时候) 1,2-失败, 3-成功
     @SerializedName(value = "message", alternate = {"msg", "sMsg"})
     @Expose

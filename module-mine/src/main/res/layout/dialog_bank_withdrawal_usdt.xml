@@ -342,7 +342,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_virtual_hint"
                     android:layout_marginTop="4dp"
-                    android:background="@drawable/bg_withdraw_money_input">
+                    android:background="@drawable/bg_withdraw_money_input"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <EditText
                         android:id="@+id/et_input_money"
@@ -507,9 +509,9 @@
             <!--显示状态 2 确认提款信息View-->
             <include
                 android:id="@+id/ll_virtual_confirm_view"
+                layout="@layout/dialog_withdrawal_usdt_confirm"
                 android:visibility="gone"
-                tools:visibility="visible"
-                layout="@layout/dialog_withdrawal_usdt_confirm" />
+                tools:visibility="visible" />
             <!--显示状态 3 确认提款信息View-->
             <LinearLayout
                 android:id="@+id/ll_over_apply"

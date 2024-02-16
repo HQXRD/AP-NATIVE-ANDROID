@@ -236,12 +236,14 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         super.onResume();
         if (isBinding) {
             isBinding = false;
-            View child = binding.rcvPmt.findViewWithTag(curRechargeVo.bid);
             binding.tvwCurPmt.setText("");
             binding.ivwCurPmt.setImageDrawable(null);
             binding.llDown.setVisibility(View.GONE);
-            if (child != null) {
-                child.setSelected(false); // 已选中的取消掉,刷新等待时间有点长
+            if (curRechargeVo != null) {
+                View child = binding.rcvPmt.findViewWithTag(curRechargeVo.bid);
+                if (child != null) {
+                    child.setSelected(false); // 已选中的取消掉,刷新等待时间有点长
+                }
             }
 
             //curRechargeVo = null; // 如果为空,连续点击x.bid会空指针
