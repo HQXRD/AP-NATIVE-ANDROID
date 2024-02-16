@@ -264,14 +264,6 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
             }
 
             if (curPage == 1) {
-                listType.clear();
-                listType.add(new BtPlatformVo("", "", getString(R.string.txt_all)));
-                listType.addAll(vo.fromgameArr);
-
-                binding.fvMain.reSetData(listType);
-            }
-
-            if (curPage == 1) {
                 mAdapter.clear();
             }
             mAdapter.addAll(vo.aProject.list);
