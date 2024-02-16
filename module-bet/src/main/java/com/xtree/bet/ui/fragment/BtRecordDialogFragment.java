@@ -1,6 +1,8 @@
 package com.xtree.bet.ui.fragment;
 
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
 import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.app.Application;
@@ -63,6 +65,7 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
     private List<BtRecordTime> btRecordTimes;
 
     private String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+    private String mPlatformName;
     private View mHeader;
     private TextView tvHeaderName;
 
@@ -231,7 +234,18 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
         if (id == R.id.tv_close || id == R.id.tv_bt_now) {
             dismiss();
         } else if (id == R.id.tv_to_record) {
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_BT_REPORT);
+            Bundle bundle = new Bundle();
+            bundle.putString("typeId", mPlatform);
+            if(TextUtils.equals(mPlatform, PLATFORM_FBXC)){
+                mPlatformName = getString(R.string.bt_platform_name_fbxc);
+            } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+                mPlatformName = getString(R.string.bt_platform_name_fb);
+            } else {
+                mPlatformName = getString(R.string.bt_platform_name_pm);
+            }
+            bundle.putString("typeName", mPlatformName);
+            bundle.putInt("status", isSettled ? 1 : 2);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_BT_REPORT, bundle);
         }
     }
 
