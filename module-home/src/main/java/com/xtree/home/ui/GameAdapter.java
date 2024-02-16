@@ -101,7 +101,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             return;
         }
 
-        if (vo.cid == 7) {
+        if (vo.cid == 7 || vo.cid == 19 || vo.cid == 34 || (vo.cid == 1 && vo.cateId.equals("4"))) {
             mCallBack.onClick(vo);
             return;
         }
