@@ -228,6 +228,14 @@
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textSize">14sp</item>
     </style>
+    <!--反馈查看详情页面linearlayout风格-->
+    <style name="style_ll_row_feedback">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
     <!--反馈录入页面提示语言风格-->
     <style name="style_tx_info_title">
         <item name="android:layout_width">wrap_content</item>
@@ -366,6 +374,20 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>
         <item name="android:background">@mipmap/cm_bg_input</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">50</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--反馈详情输入框风格-->
+    <style name="style_feedback_edit_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@color/clr_white</item>
         <item name="android:hint"></item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
