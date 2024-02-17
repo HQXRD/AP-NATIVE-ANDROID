@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.utils.NumberUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
@@ -26,11 +28,11 @@ import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.xtree.bet.ui.adapter.BetConfirmOptionAdapter;
 import com.xtree.bet.ui.adapter.CgOddLimitSecAdapter;
-import com.xtree.bet.ui.viewmodel.fb.FBBtCarViewModel;
-import com.xtree.bet.ui.viewmodel.pm.PMBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
+import com.xtree.bet.ui.viewmodel.fb.FBBtCarViewModel;
+import com.xtree.bet.ui.viewmodel.pm.PMBtCarViewModel;
 import com.xtree.bet.weight.KeyboardView;
 
 import java.util.ArrayList;
@@ -67,6 +69,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     private Runnable runnable;
     private int countdown = 5;
     private String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+    private BasePopupView basePopupView;
 
     private KeyBoardListener mKeyBoardListener = new KeyBoardListener() {
         @Override
@@ -150,14 +153,16 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         binding.ivDelete.setOnClickListener(this);
         binding.btnAddMatch.setOnClickListener(this);
         binding.ivReflesh.setOnClickListener(this);
+        binding.ivTip.setOnClickListener(this);
+
     }
 
     @Override
     public void initData() {
         viewModel.getUserBalance();
-        if(BtCarManager.isCg()){
+        if (BtCarManager.isCg()) {
             betConfirmOptionList = BtCarManager.getBtCarList();
-        }else {
+        } else {
             BetConfirmOption betConfirmOption = getArguments().getParcelable(KEY_BT_OPTION);
             betConfirmOptionList.add(betConfirmOption);
         }
@@ -167,9 +172,9 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             BetConfirmOption betConfirmOption = getArguments().getParcelable(KEY_BT_OPTION);
             betConfirmOptionList.add(betConfirmOption);
         }*/
-        if(betConfirmOptionList.size() > 1){
+        if (betConfirmOptionList.size() > 1) {
             binding.ivDelete.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             binding.ivDelete.setVisibility(View.GONE);
         }
         betConfirmOptionAdapter = new BetConfirmOptionAdapter(getContext(), betConfirmOptionList);
@@ -342,7 +347,21 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             animator.start();*/
 
             viewModel.getUserBalance();
+        } else if (id == R.id.iv_tip) {
+            showTip();
         }
+    }
+
+    /**
+     * 启动自动接受更好赔率提示
+     */
+    private void showTip() {
+        if (basePopupView == null) {
+            basePopupView = new XPopup.Builder(getContext())
+                    .dismissOnTouchOutside(false)
+                    .asCustom(new TipOddsDialog(getContext(), () -> basePopupView.dismiss()));
+        }
+        basePopupView.show();
     }
 
     @Override

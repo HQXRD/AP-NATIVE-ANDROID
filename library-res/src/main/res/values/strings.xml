@@ -48,6 +48,7 @@
     <string name="txt_back">返回</string>
     <string name="txt_submit">提交</string>
     <string name="txt_note_asterisks_cannot_empty">说明：*为必填信息！</string>
+    <string name="txt_i_know">我知道了</string>
 
     <string name="txt_type">类型</string>
     <string name="txt_status">状态</string>
