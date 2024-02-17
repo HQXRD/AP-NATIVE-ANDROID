@@ -29,6 +29,7 @@ import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.ListDialog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
@@ -71,6 +72,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     HashMap<String, RechargeVo> mapRechargeVo = new HashMap<>(); // 跳转第三方链接的充值渠道
     boolean isShowedProcessPendCount = false; // 是否显示过 "订单未到账" 的提示
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
+    boolean isShowBack = false; // 是否显示返回按钮
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -107,7 +109,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     @Override
     public void initView() {
-        boolean isShowBack = getArguments().getBoolean("isShowBack");
+        isShowBack = getArguments().getBoolean("isShowBack");
         if (isShowBack) {
             binding.ivwBack.setVisibility(View.VISIBLE);
         } else {
@@ -477,6 +479,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
+        LoadingDialog.show(getContext()); // Loading
         Map<String, String> map = new HashMap<>();
         map.put("alipayName", ""); //
         map.put("amount", txt); //
@@ -708,7 +711,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         new XPopup.Builder(getContext())
                 .dismissOnTouchOutside(false)
                 .dismissOnBackPressed(false)
-                .asCustom(new RechargeOrderWebDialog(getContext(), vo))
+                .asCustom(new RechargeOrderWebDialog(getContext(), vo, () -> {
+                    if (isShowBack) {
+                        getActivity().finish();
+                    }
+                }))
                 .show();
     }
 
