@@ -67,14 +67,18 @@
     <string name="txt_tip_input_usdt_payment_name">* 协议：</string>
     <string name="txt_tip_input_usdt_payment_agreement">请选择协议</string>
     <string name="txt_tip_input_usdt_numb">* 虚拟币数量：</string>
-    <string name="txt_tip_input_usdt_numb_error">虚拟币数量不能为空</string>
+    <string name="txt_tip_input_usdt_numb_error">*虚拟币数量不能为空</string>
+    <string name="txt_tip_input_usdt_numb_error_tip">*请输入正确的数量</string>
     <string name="txt_tip_input_usdt_add">* 收款钱包地址：</string>
     <string name="txt_tip_input_usdt_add_hint">请输入收款钱包地址</string>
     <!--反馈录入页面录入异常提示语言 微信支付宝-->
     <string name="txt_tip_input_wechat_pay_err">付款账户不能为空</string>
     <string name="txt_tip_input_pay_wechat_name_err">付款人姓名不能为空</string>
+    <string name="txt_tip_input_pay_wechat_name_err_tip">请输入正确的付款人姓名 , 例如:张三</string>
     <string name="txt_tip_input_collection_wechat_name_err">收款人姓名不能为空</string>
+    <string name="txt_tip_input_collection_wechat_name_err_tip">请输入正确的收款人姓名 , 例如:李四</string>
     <string name="txt_tip_input_wechat_save_number_err">存款金额不能为空</string>
+    <string name="txt_tip_input_wechat_save_number_err_tip">请输入正确的存款金额 , 例如：5000.00</string>
     <string name="txt_tip_input_wechat_other_order_err">第三方订单号不能为空</string>
     <!--反馈录入页面录入异常提示语言 虚拟币-->
     <string name="txt_tip_input_usdt_pay_err">付款钱包地址不能为空</string>
