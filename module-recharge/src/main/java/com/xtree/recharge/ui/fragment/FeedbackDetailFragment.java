@@ -19,8 +19,8 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
-import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.BrowserDialog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.FragmentFeedbackDetailBinding;
@@ -82,6 +82,7 @@ public class FeedbackDetailFragment extends BaseFragment<FragmentFeedbackDetailB
             feedbackId = getArguments().getString("id");
         }
         CfLog.i("从上级页面穿过的id = " + feedbackId);
+        LoadingDialog.show(getContext());
         viewModel.getFeedbackCheckDetailInfo(feedbackId);
     }
 
@@ -110,9 +111,9 @@ public class FeedbackDetailFragment extends BaseFragment<FragmentFeedbackDetailB
         {
             binding.tvSelectorRightPaymentAccount.setText(info.userpay_bank);
             binding.tvSelectorRightPaymentName.setText(info.userpay_name);//付款人姓名
-            binding.tvwCollectiontNameAgreement.setText(info.receive_name);//收款人姓名
+            binding.tvwPayeeName.setText(info.receive_name);//收款人姓名
             binding.etSelectorRightSavename.setText(info.userpay_amount);//存款金额
-            binding.tvSelectorRightSavetime.setText(info.add_time);//存款精确时间
+            binding.tvwDepositTime.setText(info.add_time);//存款精确时间
             binding.tvSelectorRightThree.setText(info.third_orderid);//第三单号
             binding.tvSelectorRightPayway.setText(info.receive_bank_text);//支付渠道
             binding.llInputUsdtAdd.setVisibility(View.GONE); //隐藏收款钱包地址
@@ -131,9 +132,9 @@ public class FeedbackDetailFragment extends BaseFragment<FragmentFeedbackDetailB
             }
             binding.tvSelectorLeftPaymentName.setText(R.string.txt_tip_input_usdt_payment_name);//协议
             binding.tvSelectorLeftCollectionName.setText(R.string.txt_tip_input_usdt_numb);//虚拟币数量
-            binding.tvwCollectiontNameAgreement.setText(info.userpay_amount);
+            binding.tvwPayeeName.setText(info.userpay_amount);
             binding.llSave.setVisibility(View.GONE);
-            binding.tvSelectorRightSavetime.setText(info.userpay_time);//存款准确时间
+            binding.tvwDepositTime.setText(info.userpay_time);//存款准确时间
             binding.tvSelectorRightThree.setText(info.third_orderid);
             binding.tvSelectorRightPayway.setText(info.receive_bank_text);//支付渠道
             binding.llInputUsdtAdd.setVisibility(View.VISIBLE);//显示收款钱包地址
@@ -155,7 +156,6 @@ public class FeedbackDetailFragment extends BaseFragment<FragmentFeedbackDetailB
                 .addHeader("Cookie", cookie)
                 .addHeader("UUID", TagUtils.getDeviceId(getContext()))
                 .build());
-        Glide.with(getContext()).load(glideUrl).placeholder(R.mipmap.ic_loading).error(R.mipmap.me_icon_name).into(binding.ivSelectorTipImage);
-
+       Glide.with(getContext()).load(glideUrl).placeholder(R.mipmap.ic_loading).error(R.mipmap.me_icon_name).into(binding.ivSelectorTipImage);
     }
 }

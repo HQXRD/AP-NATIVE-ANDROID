@@ -10,7 +10,7 @@ public class BannersVo implements Parcelable {
 
     public String title; // "虚拟体育 惊喜不断"
     public String ad_id; // "465"
-    public String link; // "#/newactivity/detail/225"
+    public String link = ""; // "#/newactivity/detail/225"
     public String start_time; // "2023-11-16"
     public String end_time; // "2023-12-01"
     public String sort; // "2"

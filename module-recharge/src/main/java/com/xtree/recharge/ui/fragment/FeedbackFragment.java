@@ -34,20 +34,19 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.ImageUploadUtil;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
-import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.DateTimePickerDialog;
+import com.xtree.base.widget.GlideEngine;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.FragmentFeedbackBinding;
-import com.xtree.base.widget.GlideEngine;
-import com.xtree.base.utils.ImageUploadUtil;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.recharge.vo.FeedbackDep;
@@ -71,18 +70,14 @@ import project.tqyb.com.library_res.databinding.ItemTextBinding;
 @Route(path = RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK)
 public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, RechargeViewModel> implements DateTimePickerDialog.ICallBack {
 
-    private   String finalThreedID ;//支付渠道
-    private  String receive_bank ;//支付渠道ID
+    private String finalThreeID;//支付渠道
+    private String receive_bank;//支付渠道ID
     private int feedbackType = 1; //1 微信 2 usdt
     private boolean isNext = false;//是否提交过
     private String imageRealPathString;//选择的图片地址
     private boolean imageSelector = false;//是否已选择图片
     private Uri imageUri;
-
     private FeedbackVo feedbackVo;//进入反馈页面回去的数据
-    private boolean dataIsOk = false;
-
-    private DateTimePickerDialog timePickerDialog;//时间选择器
     private ArrayList<OrderFeedbackVo> orderFeedbackVoArrayList = new ArrayList<>();//反馈中的订单
     private ArrayList<FeedbackVo.FeedbackModeInfo> modeInfoArrayList = new ArrayList<>();//存储支付方式List
     private ArrayList<FeedbackVo.FeedbackBankInfo> bankInfoArrayList = new ArrayList<>();//支付渠道
@@ -91,24 +86,19 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
     private ArrayList<FeedbackDep> last3DepList = new ArrayList<FeedbackDep>();//反馈中订单信息
 
-    private BasePopupView loadPopView ;//loadView
+    private BasePopupView loadPopView;//loadView
 
-    private void showLoadView()
-    {
-        if (loadPopView == null)
-        {
-            loadPopView =  new XPopup.Builder(getContext()).asCustom(new LoadingDialog(getContext()));
-        }
-        else
-        {
+    private void showLoadView() {
+        if (loadPopView == null) {
+            loadPopView = new XPopup.Builder(getContext()).asCustom(new LoadingDialog(getContext()));
+        } else {
             loadPopView.dismiss();
         }
         loadPopView.show();
     }
-    private void  dismissLoadView()
-    {
-        if (loadPopView != null)
-        {
+
+    private void dismissLoadView() {
+        if (loadPopView != null) {
             loadPopView.dismiss();
         }
     }
@@ -159,10 +149,9 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         initEditListener();
         //付款方式点击事件
         binding.tvPaymentMethod.setOnClickListener(v -> {
-            // CfLog.i("付款方式点击事件  获取页面数据=" + feedbackVo.modeInfo.get(1).name);
             showPayWay(feedbackVo);
         });
-        binding.tvwPaymentMethod.setOnClickListener(v->{
+        binding.tvwPaymentMethod.setOnClickListener(v -> {
             showPayWay(feedbackVo);
         });
         //时间选择器
@@ -290,34 +279,27 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 binding2 = ItemTextBinding.bind(holder.itemView);
                 FeedbackDep vo = get(position);
                 String showMessage = "订单号: " + vo.id + " 金额: " + vo.money;
-                String save = vo.money ;
-                String threedID = null ;
-                String time = vo.created ;
-                for (int i = 0; i < feedbackVo.banksInfo.size(); i++)
-                {
-                    FeedbackVo.FeedbackBankInfo  info = feedbackVo.banksInfo.get(i);
-                    if (String.valueOf(info.id).equals(vo.bank_id))
-                    {
-                        threedID = info.name;
-                        receive_bank = String.valueOf(info.id) ;
+                String save = vo.money;
+                String time = vo.created;
+                for (int i = 0; i < feedbackVo.banksInfo.size(); i++) {
+                    FeedbackVo.FeedbackBankInfo info = feedbackVo.banksInfo.get(i);
+                    if (String.valueOf(info.id).equals(vo.bank_id)) {
+                        receive_bank = String.valueOf(info.id);
                     }
                 }
                 CfLog.i("未到账订单信息是 ：" + showMessage);
                 binding2.tvwTitle.setText(showMessage);
-                finalThreedID = threedID;
                 binding2.tvwTitle.setOnClickListener(v -> {
                     binding.tvwUnreceivedOrders.setText(showMessage);
                     binding.tvDepositTime.setText(time); //存款准确时间
 
-                    binding.tvwPaymentChannel.setText(finalThreedID); //支付渠道
-                    if (feedbackType ==1 ) //微信
+                    binding.tvwPaymentChannel.setText(finalThreeID); //支付渠道
+                    if (feedbackType == 1) //微信
                     {
                         binding.etDepositAmount.setText(save);
                     }
                     //虚拟币
-                    else
-                        binding.etVirtualAmount.setText(save);
-
+                    else binding.etVirtualAmount.setText(save);
 
                     ppw.dismiss();
                 });
@@ -462,12 +444,12 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             @Override
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
-                FeedbackVo.FeedbackProtocolInfo voProtoclInfo = get(position);
+                FeedbackVo.FeedbackProtocolInfo voProtocolInfo = get(position);
 
-                binding2.tvwTitle.setText(voProtoclInfo.name);
+                binding2.tvwTitle.setText(voProtocolInfo.name);
                 binding2.tvwTitle.setOnClickListener(v -> {
-                    CfLog.i("****** " + voProtoclInfo.toString());
-                    binding.etVirtualAmount.setText(voProtoclInfo.name);
+                    CfLog.i("****** " + voProtocolInfo.toString());
+                    binding.edProtocol.setText(voProtocolInfo.name);
                     ppw.dismiss();
                 });
             }
@@ -483,9 +465,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
      * 显示存款时间选择器
      */
     private void showTimeSelector() {
-        new XPopup.Builder(getContext()).
-                asCustom(DateTimePickerDialog.newInstance(getContext(), "*存款准确时间:", 6, "yyyy-MM-dd HH:mm:ss", this)).
-                show();
+        new XPopup.Builder(getContext()).asCustom(DateTimePickerDialog.newInstance(getContext(), "*存款准确时间:", 6, "yyyy-MM-dd HH:mm:ss", this)).show();
     }
 
     /**
@@ -508,9 +488,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
     private void referFeedbackUI(String uiType) {
         //微信、支付宝
         if (uiType == "wechat") {
-
             binding.llPaymentAccount.setVisibility(View.VISIBLE);//付款账户
-            //ll_payment_wallet_address
             binding.llPaymentWalletAddress.setVisibility(View.GONE);//付款钱包地址隐藏
             binding.llPaymentName.setVisibility(View.VISIBLE);//付款人姓名
             binding.llCollectionName.setVisibility(View.VISIBLE);//收款人姓名
@@ -520,8 +498,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             binding.llCollectionWalletAddress.setVisibility(View.GONE);//收款钱包地址隐藏
         }
         //虚拟币
-        else if (uiType == "usdt")
-        {
+        else if (uiType == "usdt") {
             binding.llPaymentAccount.setVisibility(View.GONE);//付款账户
             binding.llPaymentWalletAddress.setVisibility(View.VISIBLE);//付款钱包地址隐藏
             binding.llPaymentName.setVisibility(View.GONE);//付款人姓名
@@ -533,14 +510,15 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         }
     }
 
-    /** 判断Text是否为空*/
-    private boolean isEmpty(TextView textView)
-    {
-        if (textView.getText().toString().trim().isEmpty()){
-            return true ;
+    /**
+     * 判断Text是否为空
+     */
+    private boolean isEmpty(TextView textView) {
+        if (textView.getText().toString().trim().isEmpty()) {
+            return true;
         }
 
-        return false ;
+        return false;
     }
 
     /**
@@ -548,33 +526,31 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
      */
     private boolean checkInputPaymentAccount(int feedbackType) {
 
-        if (feedbackType ==1 && TextUtils.isEmpty(binding.etPaymentAccount.getText().toString().trim())) //微信
+        if (feedbackType == 1 && TextUtils.isEmpty(binding.etPaymentAccount.getText().toString().trim())) //微信
         {
             binding.ivPaymentAccount.setBackgroundResource(R.mipmap.cm_ic_hint_red);
             binding.tvPaymentAccountInfo.setText(R.string.txt_tip_input_wechat_pay_err);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 binding.tvPaymentAccountInfo.setTextColor(getContext().getColor(R.color.red));
             }
-            return  true;
-        }
-        else if (isEmpty(binding.etPaymentAddress))
-        {
+            return true;
+        } else if (isEmpty(binding.etPaymentAddress)) {
             binding.ivPaymentAddress.setBackgroundResource(R.mipmap.cm_ic_hint_red);
             binding.tvPaymentAddressInfo.setText(R.string.txt_tip_input_usdt_pay_err);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 binding.tvPaymentAddressInfo.setTextColor(getContext().getColor(R.color.red));
             }
-            return true ;
+            return true;
         }
 
-            return false;
+        return false;
     }
 
     /**
      * 检测付款人姓名
      */
     private boolean checkInputPaymentName() {
-        CfLog.i("checkInputPaymentName 付款人姓名 ： " +binding.etPaymentName.getText().toString().trim());
+        CfLog.i("checkInputPaymentName 付款人姓名 ： " + binding.etPaymentName.getText().toString().trim());
         if (TextUtils.isEmpty(binding.etPaymentName.getText().toString().trim())) //付款人姓名
         {
             binding.ivPaymentNameInfo.setBackgroundResource(R.mipmap.cm_ic_hint_red);
@@ -583,12 +559,11 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 binding.tvPaymentNameInfo.setTextColor(getContext().getColor(R.color.red));
             }
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
+
     /**
      * 检测收款人姓名/
      */
@@ -604,6 +579,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             return true;
         } else return false;
     }
+
     /**
      * 检查存款金额/虚拟币数量
      */
@@ -630,11 +606,11 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         return false;
     }
 
-    /** 检测存款时间*/
-    private boolean checkInputTime()
-    {
-        if (isEmpty(binding.tvDepositTime))
-        {
+    /**
+     * 检测存款时间
+     */
+    private boolean checkInputTime() {
+        if (isEmpty(binding.tvDepositTime)) {
             binding.ivDepositTime.setBackgroundResource(R.mipmap.cm_ic_hint_red);
             binding.ivDepositTime.setVisibility(View.VISIBLE);
             binding.tvDepositTimeInfo.setVisibility(View.VISIBLE);
@@ -646,6 +622,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         }
         return false;
     }
+
     /**
      * 检查第三方订单
      */
@@ -662,11 +639,12 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             return true;
         } else return false;
     }
-    /** 检测支付渠道*/
-    private boolean checkInputPayChannel()
-    {
-        if (isEmpty(binding.tvwPaymentChannel))
-        {
+
+    /**
+     * 检测支付渠道
+     */
+    private boolean checkInputPayChannel() {
+        if (isEmpty(binding.tvwPaymentChannel)) {
             binding.ivPaymentChannel.setVisibility(View.VISIBLE);
             binding.ivPaymentChannel.setBackgroundResource(R.mipmap.cm_ic_hint_red);
             binding.tvPaymentChannelInfo.setVisibility(View.VISIBLE);
@@ -674,27 +652,25 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 binding.tvPaymentChannelInfo.setTextColor(getContext().getColor(R.color.red));
             }
-            return true ;
+            return true;
         }
         return false;
     }
 
-    /** 检测协议*/
-    private boolean checkAgreement()
-    {
-        if (TextUtils.isEmpty(binding.edProtocol.getText().toString()))
-        {
+    /**
+     * 检测协议
+     */
+    private boolean checkAgreement() {
+        if (TextUtils.isEmpty(binding.edProtocol.getText().toString())) {
             return true;
-        }
-        else  return false;
+        } else return false;
     }
 
-    /** 收款钱包地址*/
-    private boolean checkWalletAddress()
-    {
-        if (isEmpty(binding.etCollectionWalletAddress))
-        {
-           // iv_collection_wallet_address
+    /**
+     * 收款钱包地址
+     */
+    private boolean checkWalletAddress() {
+        if (isEmpty(binding.etCollectionWalletAddress)) {
             binding.ivCollectionWalletAddress.setVisibility(View.VISIBLE);
             binding.ivCollectionWalletAddress.setBackgroundResource(R.mipmap.cm_ic_hint_red);
             binding.tvCollectionWalletAddressInfo.setVisibility(View.VISIBLE);
@@ -704,85 +680,59 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             }
             return true;
         }
-        return false ;
+        return false;
     }
 
-
-
-
     private void nextCheckInputWithPayWay(int payType) {
-        CfLog.i("nextCheckInputWithPayWay payType = " +payType);
+        CfLog.i("nextCheckInputWithPayWay payType = " + payType);
         //1 支付宝 微信 2 虚拟币
-        if (payType ==1 )
-        {
+        if (payType == 1) {
             if (TextUtils.isEmpty(binding.etPaymentAccount.getText().toString().trim())) {
                 String t = binding.etPaymentAccount.getText().toString().trim();
-                    CfLog.i("nextCheckInputWithPayWay = " +t);
-
+                CfLog.i("nextCheckInputWithPayWay = " + t);
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_pay_err), ToastUtils.ShowType.Fail);
-            }
-
-            else if (checkInputPaymentName()) {
+            } else if (checkInputPaymentName()) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_pay_wechat_name_err), ToastUtils.ShowType.Fail);
-
-            } else if ( checkInputCollectionName()) {
+            } else if (checkInputCollectionName()) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_collection_wechat_name_err), ToastUtils.ShowType.Fail);
-
             } else if (TextUtils.isEmpty(binding.etDepositAmount.getText().toString().trim())) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_save_number_err), ToastUtils.ShowType.Fail);
-
             } else if (checkInputTime()) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_save_number_time_err), ToastUtils.ShowType.Fail);
-
             } else if (checkInputThirdOrder()) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_other_order_err), ToastUtils.ShowType.Fail);
-
             } else if (TextUtils.isEmpty(binding.tvwPaymentChannel.getText().toString().trim())) {
                 CfLog.i("tvwPaymentChannel = " + binding.tvwPaymentChannel.getText().toString().trim());
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_pay_way_err), ToastUtils.ShowType.Fail);
-
-            }
-            else if (!imageSelector)
-            {
-                ToastUtils.show(getContext().getString(R.string.txt_feedback_upload_image)  , ToastUtils.ShowType.Fail);
-            }
-            else
-            {
+            } else if (!imageSelector) {
+                ToastUtils.show(getContext().getString(R.string.txt_feedback_upload_image), ToastUtils.ShowType.Fail);
+            } else {
                 //提交图片
                 uploadImage(imageRealPathString);
             }
 
-        } else if (payType ==2) {
-            if (TextUtils.isEmpty( binding.etPaymentAddress.getText().toString().trim()))
-            {
-                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_pay_err), ToastUtils.ShowType.Fail);      return;
+        } else if (payType == 2) {
+            if (TextUtils.isEmpty(binding.etPaymentAddress.getText().toString().trim())) {
+                ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_pay_err), ToastUtils.ShowType.Fail);
+                return;
             } else if (checkAgreement()) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_payment_agreement), ToastUtils.ShowType.Fail);
             } else if (TextUtils.isEmpty(binding.etVirtualAmount.getText().toString().trim())) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_numb_error), ToastUtils.ShowType.Fail);
-
-            } else if (checkInputTime())
-            {
+            } else if (checkInputTime()) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_save_number_time_err), ToastUtils.ShowType.Fail);
-
             } else if (checkInputThirdOrder()) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_other_order_err), ToastUtils.ShowType.Fail);
-
             } else if (checkInputPayChannel()) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_pay_way_err), ToastUtils.ShowType.Fail);
-
-            } else if (checkWalletAddress()) {
+            } else if (TextUtils.isEmpty(binding.etCollectionWalletAddress.getText().toString().trim())) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_usdt_pay_err), ToastUtils.ShowType.Fail);
-            } else if (!imageSelector)
-            {
+            } else if (!imageSelector) {
                 CfLog.i("未上传图片");
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
+                    ToastUtils.show(getContext().getString(R.string.txt_feedback_upload_image), ToastUtils.ShowType.Fail);
                 }
-                ToastUtils.show(getContext().getString(R.string.txt_feedback_upload_image)  , ToastUtils.ShowType.Fail);
-            }
-            else
-            {
+            } else {
                 //提交图片
                 uploadImage(imageRealPathString);
             }
@@ -797,20 +747,20 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         TextChange textChange = new TextChange();
         textChange.setArrayList(binding.etPaymentAccount);//付款账户
         binding.etPaymentAccount.addTextChangedListener(textChange);
-        //et_payment_name 付款人姓名
+        //付款人姓名
         textChange.setArrayList(binding.etPaymentName);
         binding.etPaymentName.addTextChangedListener(textChange);
-        ////收款人 et_collection_name
+        //收款人
         textChange.setArrayList(binding.etCollectionName);
         binding.etCollectionName.addTextChangedListener(textChange);
-        //存款金额 et_deposit_amount
+        //存款金额
         textChange.setArrayList(binding.etDepositAmount);
         binding.etDepositAmount.addTextChangedListener(textChange);
         //第三方单号
         textChange.setArrayList(binding.edThirdOrderNumber);
         binding.edThirdOrderNumber.addTextChangedListener(textChange);
         //准确时间
-        binding.tvDepositTime.addTextChangedListener(new TextWatcher(){
+        binding.tvDepositTime.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -824,13 +774,10 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(s.toString()))
-                {
+                if (TextUtils.isEmpty(s.toString())) {
                     binding.ivDepositTime.setVisibility(View.VISIBLE);
                     binding.tvDepositTimeInfo.setVisibility(View.VISIBLE);
-                }
-                else
-                {
+                } else {
                     binding.ivDepositTime.setVisibility(View.INVISIBLE);
                     binding.tvDepositTimeInfo.setVisibility(View.INVISIBLE);
                 }
@@ -863,15 +810,12 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         public void afterTextChanged(Editable s) {
             for (int i = 0; i < arrayList.size(); i++) {
                 EditText e = arrayList.get(i);
-                if (e ==  binding.etPaymentAccount) //付款账户
+                if (e == binding.etPaymentAccount) //付款账户
                 {
-                    if (isEmpty( binding.etPaymentAccount))
-                    {
+                    if (isEmpty(binding.etPaymentAccount)) {
                         binding.ivPaymentAccount.setVisibility(View.VISIBLE);
                         binding.tvPaymentAccountInfo.setVisibility(View.VISIBLE);
-                    }
-                    else
-                    {
+                    } else {
                         binding.ivPaymentAccount.setVisibility(View.INVISIBLE);
                         binding.tvPaymentAccountInfo.setVisibility(View.INVISIBLE);
                     }
@@ -879,46 +823,40 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 }
                 //付款人姓名
                 else if (e == binding.etPaymentName) {
-                    if (isEmpty(binding.etPaymentName))
-                    {
+                    if (isEmpty(binding.etPaymentName)) {
                         binding.ivPaymentNameInfo.setVisibility(View.VISIBLE);
                         binding.tvPaymentNameInfo.setVisibility(View.VISIBLE);
-                    }
-                    else {
+                    } else {
                         binding.ivPaymentNameInfo.setVisibility(View.INVISIBLE);
                         binding.tvPaymentNameInfo.setVisibility(View.INVISIBLE);
                     }
                 }
                 //收款人姓名
-                else if (e ==binding.etCollectionName ){
-                    if(isEmpty(binding.etCollectionName)){
+                else if (e == binding.etCollectionName) {
+                    if (isEmpty(binding.etCollectionName)) {
                         binding.ivCollectionName.setVisibility(View.VISIBLE);
                         binding.tvtCollectionName.setVisibility(View.VISIBLE);
-                    }
-                    else {
+                    } else {
                         binding.ivCollectionName.setVisibility(View.INVISIBLE);
                         binding.tvtCollectionName.setVisibility(View.INVISIBLE);
                     }
                 }
                 //存款金额
-                else if (e ==binding.etDepositAmount )
-                {
-                    if(isEmpty(binding.etDepositAmount)){
+                else if (e == binding.etDepositAmount) {
+                    if (isEmpty(binding.etDepositAmount)) {
                         binding.ivDepositAmount.setVisibility(View.VISIBLE);
                         binding.tvDepositAmountInfo.setVisibility(View.VISIBLE);
-                    }else {
+                    } else {
                         binding.ivDepositAmount.setVisibility(View.INVISIBLE);
                         binding.tvDepositAmountInfo.setVisibility(View.INVISIBLE);
                     }
                 }
                 //第三方订单号
-                else if (e ==  binding.edThirdOrderNumber) {
-                    if (isEmpty(binding.edThirdOrderNumber))
-                    {
+                else if (e == binding.edThirdOrderNumber) {
+                    if (isEmpty(binding.edThirdOrderNumber)) {
                         binding.ivThirdOrderNumber.setVisibility(View.VISIBLE);
                         binding.tvThirdOrderNumberInfo.setVisibility(View.VISIBLE);
-                    }
-                    else {
+                    } else {
                         binding.ivThirdOrderNumber.setVisibility(View.INVISIBLE);
                         binding.tvThirdOrderNumberInfo.setVisibility(View.INVISIBLE);
                     }
@@ -932,15 +870,17 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
      * 图片选择
      */
     private void gotoSelectMedia() {
-        PictureSelector.create(getActivity()).openGallery(SelectMimeType.ofImage()).isDisplayCamera(false).
-                setMaxSelectNum(1).setImageEngine(GlideEngine.createGlideEngine()).forResult(new OnResultCallbackListener<LocalMedia>() {
+        PictureSelector.create(getActivity()).openGallery(SelectMimeType.ofImage())
+                .isDisplayCamera(false)
+                .setMaxSelectNum(1)
+                .setImageEngine(GlideEngine.createGlideEngine())
+                .forResult(new OnResultCallbackListener<LocalMedia>() {
                     @Override
                     public void onResult(ArrayList<LocalMedia> result) {
                         if (result != null) {
                             for (int i = 0; i < result.size(); i++) {
                                 imageRealPathString = result.get(i).getRealPath();
                                 File imageRealPath = new File(imageRealPathString);
-
                                 if (imageRealPath.exists()) {
                                     CfLog.i("获取图片地址Base64 ===== " + ImageUploadUtil.bitmapToString(imageRealPathString));
                                     Bitmap bitmap = BitmapFactory.decodeFile(imageRealPathString);
@@ -951,7 +891,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                                 } else {
                                     CfLog.i("获取图片地址不存在是 ====== " + result.get(i).getRealPath());
                                 }
-
                                 if (PictureMimeType.isContent(imageRealPathString)) {
                                     imageUri = Uri.parse(imageRealPathString);
                                 } else {
@@ -983,51 +922,42 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
     /**
      * 提交
+     *
      * @param userPic
      */
     private void feedbackAdd(String userPic) {
+        HashMap<String, String> uploadMap = new HashMap<String, String>();
         if (feedbackType == 1)//微信
         {
-            HashMap<String, String> uploadMap = new HashMap<String, String>();
             uploadMap.put("nonce", UuidUtil.getID16());//传入UUID);
-
             uploadMap.put("userpay_mode", "1");//微信
             uploadMap.put("userpay_bank", binding.etPaymentAccount.getText().toString());//付款账户
             uploadMap.put("userpay_amount", binding.etDepositAmount.getText().toString());//存款金额
             uploadMap.put("userpay_time", binding.tvDepositTime.getText().toString());//存款准确时间
             uploadMap.put("third_orderid", binding.edThirdOrderNumber.getText().toString()); //三方订单号
             uploadMap.put("userpay_picture", userPic); //上传图片三方地址
-
-            String receiverBank = receive_bank; //支付渠道
-            uploadMap.put("receive_bank", receiverBank);//支付渠道
+            uploadMap.put("receive_bank", receive_bank);//支付渠道
             uploadMap.put("userpay_virtual_protocol", "1");//用户支付协议 微信默认为1
             uploadMap.put("userpay_name", binding.etPaymentAccount.getText().toString()); //付款人
             uploadMap.put("receive_name", binding.etPaymentName.getText().toString());//收款人
-
             CfLog.i("微信状态提交反馈  " + uploadMap.toString());
-            showLoadView();
-            viewModel.feedbackCustomAdd(uploadMap);
-        } else {
-            HashMap<String, String> uploadMap = new HashMap<String, String>();
-            uploadMap.put("nonce", UuidUtil.getID16());//传入UUID);
 
+        } else {
+            uploadMap.put("nonce", UuidUtil.getID16());//传入UUID);
             uploadMap.put("userpay_mode", "2");//虚拟币
             uploadMap.put("userpay_bank", binding.etPaymentAddress.getText().toString());//付款钱包地址
             uploadMap.put("userpay_amount", binding.etVirtualAmount.getText().toString());//存款金额
             uploadMap.put("userpay_time", binding.tvDepositTime.getText().toString());//存款准确时间
             uploadMap.put("third_orderid", binding.edThirdOrderNumber.getText().toString()); //三方订单号
             uploadMap.put("userpay_picture", userPic); //上传图片三方地址
-            String receiverBank = finalThreedID; //支付渠道
-
-            uploadMap.put("receive_bank", receiverBank);//支付渠道
+            uploadMap.put("receive_bank", receive_bank);//支付渠道
             uploadMap.put("userpay_virtual_protocol", "2");//用户支付协议 虚拟币默认为1
-            uploadMap.put("userpay_name", binding.etPaymentAddress.getText().toString()); //付款钱包地址
-            uploadMap.put("receive_name", binding.etCollectionWalletAddress.getText().toString());//收款钱包地址
+            uploadMap.put("receive_banknum", binding.etCollectionWalletAddress.getText().toString());//收款钱包地址
 
-            CfLog.i("虚拟币状态提交反馈  " + uploadMap.toString());
-            showLoadView();
-            viewModel.feedbackCustomAdd(uploadMap);
+            CfLog.i("虚拟币状态提交反馈  " + uploadMap);
         }
+        LoadingDialog.show(getContext());
+        viewModel.feedbackCustomAdd(uploadMap);
 
     }
 }
