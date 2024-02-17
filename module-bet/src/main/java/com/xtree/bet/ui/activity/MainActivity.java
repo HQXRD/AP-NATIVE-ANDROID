@@ -961,11 +961,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             mLeagueAdapter = new LeagueAdapter(MainActivity.this, mLeagueList);
             initLeagueListView();
             binding.rvLeague.setAdapter(mLeagueAdapter);
-            binding.rvLeague.postDelayed(() -> {
-                goingOnExpandOrCollapseGroup();
-                waitingExpandOrCollapseGroup();
-                mLastLeagueSize = mLeagueList.size();
-            }, 150);
+            setGoingOnAllExpand(true);
+            setWaitingAllExpand(true);
+            goingOnExpandOrCollapseGroup();
+            waitingExpandOrCollapseGroup();
+            mLastLeagueSize = mLeagueList.size();
             mLeagueAdapter.setOnScrollListener(new PageHorizontalScrollView.OnScrollListener() {
                 @Override
                 public void onScrolled() {
@@ -982,6 +982,13 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 binding.rvLeague.setAdapter(mLeagueAdapter);
             }
             mLeagueAdapter.setData(mLeagueList);
+            if (mIsChange) {
+                setGoingOnAllExpand(true);
+                setWaitingAllExpand(true);
+                goingOnExpandOrCollapseGroup();
+                waitingExpandOrCollapseGroup();
+                mIsChange = false;
+            }
             /*binding.rvLeague.postDelayed(() -> {
                 if (mIsChange) {
                     setGoingOnAllExpand(true);
