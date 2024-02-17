@@ -44,6 +44,15 @@ public class MsgPersonListFragment extends BaseFragment<FragmentMsgPersonListBin
             @Override
             public void onClick(MsgPersonVo vo) {
                 viewModel.getMessagePerson(changeIdType(vo.id));
+                for (MsgPersonVo msgPersonVo : msgPersonVoList) {
+                    if (msgPersonVo.id == vo.id) {
+                        msgPersonVo.is_unread = false;
+                        mMsgPersonListAdapter.clear();
+                        mMsgPersonListAdapter.addAll(msgPersonVoList);
+                        mMsgPersonListAdapter.notifyDataSetChanged();
+                        break;
+                    }
+                }
             }
 
             @Override
