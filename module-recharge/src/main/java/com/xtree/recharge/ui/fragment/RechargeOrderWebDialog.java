@@ -28,14 +28,20 @@ public class RechargeOrderWebDialog extends BottomPopupView {
     DialogRcOrderWebBinding binding;
     BasePopupView ppw;
     BasePopupView ppw2;
+    ICallBack mCallBack;
+
+    interface ICallBack {
+        void onCallBack();
+    }
 
     public RechargeOrderWebDialog(@NonNull Context context) {
         super(context);
     }
 
-    public RechargeOrderWebDialog(@NonNull Context context, RechargePayVo mRechargePayVo) {
+    public RechargeOrderWebDialog(@NonNull Context context, RechargePayVo mRechargePayVo, ICallBack mCallBack) {
         super(context);
         this.mRechargePayVo = mRechargePayVo;
+        this.mCallBack = mCallBack;
     }
 
     @Override
@@ -115,7 +121,8 @@ public class RechargeOrderWebDialog extends BottomPopupView {
                     @Override
                     public void onClickRight() {
                         ppw2.dismiss();
-                        dismiss();
+                        ppw.dismiss(); // 上层dialog也要关闭 2024-02-17
+                        mCallBack.onCallBack(); // 如果是从其它页跳过来的,要关闭 2024-02-17
                     }
                 }));
         ppw2.show();
