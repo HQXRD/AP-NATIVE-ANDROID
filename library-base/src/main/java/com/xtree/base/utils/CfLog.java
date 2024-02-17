@@ -40,10 +40,12 @@ public class CfLog {
     private static String createLog(String log) {
 
         StringBuffer buffer = new StringBuffer();
-        buffer.append("[");
-        buffer.append(methodName);
+        buffer.append("[(");
+        buffer.append(className);
         buffer.append(":");
         buffer.append(lineNumber);
+        buffer.append(")#");
+        buffer.append(methodName);
         buffer.append("]--- ");
         buffer.append(log);
 
