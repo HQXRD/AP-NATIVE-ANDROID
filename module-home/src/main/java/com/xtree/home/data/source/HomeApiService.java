@@ -7,6 +7,7 @@ import com.xtree.home.vo.AugVo;
 import com.xtree.home.vo.BannersVo;
 import com.xtree.home.vo.CookieVo;
 import com.xtree.home.vo.DataVo;
+import com.xtree.home.vo.EleVo;
 import com.xtree.home.vo.GameStatusVo;
 import com.xtree.home.vo.LoginResultVo;
 import com.xtree.home.vo.NoticeVo;
@@ -25,6 +26,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface HomeApiService {
@@ -115,5 +117,12 @@ public interface HomeApiService {
      */
     @GET("/augame/list")
     Flowable<BaseResponse<List<AugVo>>> getAugList();
+
+
+    /**
+     * 获取 电子 LIST
+     */
+    @GET("/api/game/h5list")
+    Flowable<BaseResponse<EleVo>> getEle(@QueryMap Map<String, String> filters);
 
 }

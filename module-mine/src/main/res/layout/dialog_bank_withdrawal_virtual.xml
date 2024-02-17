@@ -364,7 +364,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_virtual_hint"
-                    android:layout_marginTop="4dp">
+                    android:layout_marginTop="4dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -586,19 +588,25 @@
                     <View style="@style/style_withdraw_dividing_line" />
 
                     <LinearLayout style="@style/style_withdraw_confirm_ll">
+
                         <TextView
                             style="@style/style_withdraw_show_title"
                             android:text="@string/txt_confirm_withdrawal_amount" />
+
                         <TextView
                             android:id="@+id/tv_confirm_withdrawal_type_show"
                             style="@style/style_withdraw_confirm_value"
                             tools:text="123123" />
                     </LinearLayout>
+
                     <View style="@style/style_withdraw_dividing_line" />
+
                     <LinearLayout style="@style/style_withdraw_confirm_ll">
+
                         <TextView
                             style="@style/style_withdraw_show_title"
                             android:text="@string/txt_confirm_amount" />
+
                         <TextView
                             android:id="@+id/tv_confirm_amount_show"
                             style="@style/style_withdraw_confirm_value"
@@ -682,6 +690,7 @@
                         <TextView
                             style="@style/style_withdraw_show_title"
                             android:text="@string/txt_handling_fee" />
+
                         <TextView
                             android:id="@+id/tv_withdrawal_handling_fee_show"
                             style="@style/style_withdraw_confirm_value"

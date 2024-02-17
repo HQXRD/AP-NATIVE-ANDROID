@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/clr_transparent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
     <!--银行卡提款-->
@@ -48,7 +50,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/clr_gap_bg"/>
+        android:background="@color/clr_gap_bg" />
     <!--顶部显示设置提款请求 以及 通用体现、注意信息-->
     <LinearLayout
         android:layout_width="match_parent"
@@ -123,7 +125,6 @@
                         android:background="@color/clr_gap_bg" />
                 </RelativeLayout>
 
-
             </LinearLayout>
             <!--显示选项卡-->
             <LinearLayout
@@ -133,8 +134,7 @@
                 android:layout_below="@id/ll_set_request_view"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:visibility="visible"
-                >
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -165,8 +165,7 @@
                 android:layout_marginTop="0dp"
                 android:background="@drawable/bg_dialog_withdraw_hint"
                 android:orientation="horizontal"
-                android:visibility="visible"
-                >
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -182,8 +181,7 @@
                             android:layout_height="wrap_content"
                             android:text=""
                             android:textColor="@color/red"
-                            android:visibility="visible"
-                            />
+                            android:visibility="visible" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -198,19 +196,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
-       android:background="@color/clr_white"
+        android:background="@color/clr_white"
         android:visibility="gone"
-        tools:visibility="visible"
-        >
-    <!--   大额提款View-->
-           <include
-               android:id="@+id/bank_withdrawal_view"
-               android:visibility="visible"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:padding="8dp"
-                layout="@layout/dialog_bank_withdrawal_bank_security" />
+        tools:visibility="visible">
 
+        <include
+            android:id="@+id/bank_withdrawal_view"
+            layout="@layout/dialog_bank_withdrawal_bank_security"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:visibility="visible" />
 
     </androidx.core.widget.NestedScrollView>
     <!--多金额View-->
@@ -221,8 +217,7 @@
         android:layout_marginBottom="0dp"
         android:background="@color/clr_white"
         android:visibility="gone"
-        tools:visibility="visible"
-        >
+        tools:visibility="visible">
         <!--大额提款View-->
         <LinearLayout
             android:id="@+id/ll_bank_withdrawal_view_more"
@@ -241,42 +236,52 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:visibility="visible">
+
                     <LinearLayout style="@style/style_withdraw_confirm_ll">
+
                         <TextView
                             style="@style/style_withdraw_show_title"
                             android:text="@string/txt_withdrawal_user_name" />
+
                         <TextView
                             android:id="@+id/tv_user_name_show_more"
                             style="@style/style_withdraw_confirm_value"
                             tools:text="" />
                     </LinearLayout>
+
                     <View style="@style/style_withdraw_dividing_line" />
+
                     <LinearLayout style="@style/style_withdraw_confirm_ll">
+
                         <TextView
                             style="@style/style_withdraw_show_title"
                             android:text="@string/txt_withdrawal_type" />
+
                         <TextView
                             android:id="@+id/tv_withdrawal_type_show_more"
                             style="@style/style_withdraw_confirm_value"
                             tools:text="" />
                     </LinearLayout>
+
                     <View style="@style/style_withdraw_dividing_line" />
+
                     <LinearLayout style="@style/style_withdraw_confirm_ll">
+
                         <TextView
                             style="@style/style_withdraw_show_title"
                             android:text="@string/txt_withdrawal_method" />
+
                         <TextView
                             android:id="@+id/tv_withdrawal_amount_method_more"
                             style="@style/style_withdraw_confirm_value"
                             tools:text="" />
                     </LinearLayout>
-                    <View style="@style/style_withdraw_dividing_line" />
 
+                    <View style="@style/style_withdraw_dividing_line" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -284,14 +289,14 @@
 
                             <TextView
                                 android:id="@+id/tv_withdrawal_amount_more"
-                                android:text="@string/txt_withdrawal_method_tip"
-                                style="@style/style_withdraw_show_title"/>
+                                style="@style/style_withdraw_show_title"
+                                android:text="@string/txt_withdrawal_method_tip" />
 
                             <TextView
                                 android:id="@+id/tv_withdrawal_amount_show_more"
-                                android:layout_below="@id/tv_withdrawal_amount_more"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
+                                android:layout_below="@id/tv_withdrawal_amount_more"
                                 android:text=""
                                 android:textColor="@color/red"
                                 android:textSize="14sp" />
@@ -334,11 +339,11 @@
                                 style="@style/style_bank_edit"
                                 android:layout_alignLeft="@id/iv_input_money_more"
                                 android:layout_marginLeft="18dp"
+                                android:focusable="false"
                                 android:hint="@string/txt_input_money"
                                 android:imeOptions="actionDone"
                                 android:inputType="numberDecimal"
-                                android:focusable="false"
-                                android:numeric="integer"/>
+                                android:numeric="integer" />
                         </RelativeLayout>
 
                     </LinearLayout>
@@ -386,12 +391,12 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
+
                             <TextView
                                 android:id="@+id/tv_actual_withdrawal_amount_more"
                                 style="@style/style_withdraw_title"
                                 android:layout_marginTop="4dp"
-                                android:text="@string/txt_actual_withdrawal_amount"
-                               />
+                                android:text="@string/txt_actual_withdrawal_amount" />
 
                             <TextView
                                 android:id="@+id/tv_actual_withdrawal_amount_show_more"
@@ -401,8 +406,8 @@
                                 android:layout_marginTop="8dp"
                                 android:text=""
                                 android:textColor="@color/clr_txt_withdraw_money"
-                                android:textStyle="bold"
-                                android:textSize="15sp" />
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
 
                             <View
                                 android:layout_width="match_parent"
@@ -415,8 +420,7 @@
                     <LinearLayout
                         android:id="@+id/ll_actual_withdrawal_amount_bank_show_more"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -429,8 +433,8 @@
                                 android:layout_marginTop="1dp"
                                 android:text="@string/txt_payee_bank_card"
                                 android:textColor="@color/clr_txt_withdraw_money"
-                                android:textStyle="bold"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
 
                             <TextView
                                 android:id="@+id/tv_actual_withdrawal_amount_bank_show_more"
@@ -506,30 +510,29 @@
         android:layout_marginBottom="0dp"
         android:background="@color/white"
         android:visibility="gone">
+
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:id="@+id/ll_h5_view"
                 android:layout_width="match_parent"
                 android:layout_height="1000dp"
-                android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
                 android:background="@color/white"
                 android:padding="8dp">
 
                 <WebView
                     android:id="@+id/wv_h5_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
+                    android:layout_height="match_parent" />
 
             </LinearLayout>
         </RelativeLayout>
-
 
     </androidx.core.widget.NestedScrollView>
     <!--错误提示-->
@@ -539,8 +542,8 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
         android:background="@color/clr_white"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
+
         <LinearLayout
             android:id="@+id/ll_bank_withdrawal_error"
             android:layout_width="match_parent"
@@ -553,16 +556,15 @@
                 android:layout_height="match_parent">
                 <!--显示错误信息-->
 
-                    <TextView
-                        android:id="@+id/tv_show_error_message"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="0dp"
-                        android:gravity="center_horizontal"
-                        android:text=""
-                        android:textSize="20sp"
-                        android:textColor="@color/red"
-                        />
+                <TextView
+                    android:id="@+id/tv_show_error_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="0dp"
+                    android:gravity="center_horizontal"
+                    android:text=""
+                    android:textColor="@color/red"
+                    android:textSize="20sp" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -576,11 +578,13 @@
         android:layout_marginBottom="0dp"
         android:background="@color/white"
         android:visibility="gone">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="8dp">
+
             <include
                 android:id="@+id/bank_confirm_view"
                 layout="@layout/dialog_bank_withdrawal_bank_confirm" />
@@ -595,8 +599,8 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
         android:background="@color/clr_white"
-        android:visibility="visible"
-        >
+        android:visibility="visible">
+
         <LinearLayout
             android:id="@+id/ll_bank_withdrawal_default"
             android:layout_width="match_parent"
@@ -606,11 +610,11 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </RelativeLayout>
+                android:layout_height="match_parent"></RelativeLayout>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/ns_over_view"
         android:layout_width="match_parent"
@@ -620,11 +624,8 @@
         <!--显示状态 3 确认提款信息View-->
         <include
             android:id="@+id/ll_over_view_apply"
-            layout="@layout/dialog_withdraw_money_confirm"/>
-
+            layout="@layout/dialog_withdraw_money_confirm" />
 
     </androidx.core.widget.NestedScrollView>
-
-
 
 </LinearLayout>

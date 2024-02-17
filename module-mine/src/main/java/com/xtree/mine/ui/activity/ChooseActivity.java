@@ -34,6 +34,8 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        LoadingDialog.show(this);
+        viewModel.getAwardRecord();
     }
 
     @Override
@@ -48,11 +50,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
     @Override
     public void initView() {
-        if (viewModel == null) {
-            CfLog.i("ChooseActivity viewModel  null");
-        } else {
-            initViewModel();
-        }
+
     }
 
     @Override
@@ -63,12 +61,6 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
     @Override
     public void initData() {
-        if (viewModel == null) {
-            CfLog.i("ChooseActivity viewModel  null");
-        } else {
-            LoadingDialog.show(this);
-            viewModel.getAwardRecord();
-        }
 
     }
 
@@ -96,7 +88,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
      * 显示资金流水
      */
     private void showAwardsRecord() {
-
+        LoadingDialog.show(this);
         basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
                 .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, new AwardsRecordDialog.IAwardsDialogBack() {

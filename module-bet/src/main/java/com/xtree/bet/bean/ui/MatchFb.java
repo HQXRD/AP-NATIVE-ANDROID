@@ -21,18 +21,19 @@ import java.util.Objects;
  * 赛事列表UI显示需要用的比赛信息结构
  */
 public class MatchFb implements Match{
+    private String className;
     private static final String[] CHINESE_DIGITS = {"0", "一", "二", "三", "四", "五", "六", "七", "八", "九"};
     MatchInfo matchInfo;
 
-    List<PlayType> playTypeList = new ArrayList<>();
     private boolean isHead; //
     private boolean isExpand;
 
     public MatchFb(){
-
+        this.className = getClass().getSimpleName();
     }
 
     public MatchFb(MatchInfo matchInfo){
+        this.className = getClass().getSimpleName();
         this.matchInfo = matchInfo;
     }
 
@@ -397,6 +398,7 @@ public class MatchFb implements Match{
         return Objects.hashCode(String.valueOf(getId()));
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -404,20 +406,24 @@ public class MatchFb implements Match{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.className);
         dest.writeParcelable(this.matchInfo, flags);
-        dest.writeList(this.playTypeList);
+        dest.writeByte(this.isHead ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isExpand ? (byte) 1 : (byte) 0);
     }
 
     public void readFromParcel(Parcel source) {
+        this.className = source.readString();
         this.matchInfo = source.readParcelable(MatchInfo.class.getClassLoader());
-        this.playTypeList = new ArrayList<>();
-        source.readList(this.playTypeList, PlayType.class.getClassLoader());
+        this.isHead = source.readByte() != 0;
+        this.isExpand = source.readByte() != 0;
     }
 
     protected MatchFb(Parcel in) {
+        this.className = in.readString();
         this.matchInfo = in.readParcelable(MatchInfo.class.getClassLoader());
-        this.playTypeList = new ArrayList<>();
-        in.readList(this.playTypeList, PlayType.class.getClassLoader());
+        this.isHead = in.readByte() != 0;
+        this.isExpand = in.readByte() != 0;
     }
 
     public static final Creator<MatchFb> CREATOR = new Creator<MatchFb>() {

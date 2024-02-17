@@ -307,6 +307,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                 binding.ivwLevel.setVisibility(View.GONE);
                 //binding.ivwLevel10.setVisibility(View.VISIBLE);
                 binding.middleArea.setBackgroundResource(R.mipmap.me_bg_top_10);
+                binding.ivwVip10.setVisibility(View.VISIBLE);
+                binding.ivwVip10.setOnClickListener(v -> binding.ivwLevel.performClick());
             }
 
             if (mVipInfoVo.vip_upgrade != null) {

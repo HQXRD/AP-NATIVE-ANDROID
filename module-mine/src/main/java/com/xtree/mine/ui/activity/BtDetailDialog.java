@@ -13,6 +13,7 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.UuidUtil;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBtDetailBinding;
@@ -26,37 +27,20 @@ import me.xtree.mvvmhabit.utils.Utils;
 
 public class BtDetailDialog extends BottomPopupView {
 
-    private Context ctx;
     LifecycleOwner owner;
     private String gameCode;
     private String platform; // 平台编码 OBGQP (请求接口用)
     private String platformName; // 平台名 (显示用)
 
-    ReportViewModel viewModel;
-    DialogBtDetailBinding binding;
+    private ReportViewModel viewModel;
+    private DialogBtDetailBinding binding;
 
     private BtDetailDialog(@NonNull Context context) {
         super(context);
     }
 
-    //public BtDetailDialog(@NonNull Context context, Context ctx, String gameCode, String platform) {
-    //    super(context);
-    //    this.ctx = ctx;
-    //    this.gameCode = gameCode;
-    //    this.platform = platform;
-    //}
-
-    /**
-     * @param ctx
-     * @param owner
-     * @param gameCode
-     * @param code
-     * @param platformName
-     * @return
-     */
     public static BtDetailDialog newInstance(Context ctx, LifecycleOwner owner, String gameCode, String code, String platformName) {
         BtDetailDialog dialog = new BtDetailDialog(ctx);
-        dialog.ctx = ctx;
         dialog.owner = owner;
         dialog.gameCode = gameCode;
         dialog.platform = code;
@@ -73,6 +57,7 @@ public class BtDetailDialog extends BottomPopupView {
         initData();
         initViewObservable();
 
+        LoadingDialog.show(getContext());
         requestData();
     }
 
@@ -98,19 +83,15 @@ public class BtDetailDialog extends BottomPopupView {
         if (vo.project_BetResult.equals("T")) {
             binding.tvwBtResult.setText(R.string.txt_rst_tie);
             binding.tvwBtResult.setActivated(true);
-            //binding.tvwSum.setActivated(true);
         } else if (vo.project_BetResult.equals("L")) {
             binding.tvwBtResult.setText(R.string.txt_rst_lose);
             binding.tvwBtResult.setSelected(false);
-            //binding.tvwSum.setSelected(false);
         } else if (vo.project_BetResult.equals("W")) {
             binding.tvwBtResult.setText(R.string.txt_rst_win);
             binding.tvwBtResult.setSelected(true);
-            //binding.tvwSum.setSelected(true);
         } else {
             binding.tvwBtResult.setText(R.string.txt_unsettle); // 未结算
             binding.tvwBtResult.setActivated(true);
-            //binding.tvwSum.setActivated(true);
         }
         //String win = vo.project_win.equals("0") ? "--" : vo.project_win;
 

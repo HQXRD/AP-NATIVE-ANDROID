@@ -23,6 +23,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.widget.ListDialog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalUsdtBinding;
@@ -87,6 +88,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
     protected void onCreate() {
         super.onCreate();
         initView();
+        hideKeyBoard();
         initData();
         initViewObservable();
         requestData();
@@ -97,6 +99,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         binding = DialogBankWithdrawalUsdtBinding.bind(findViewById(R.id.ll_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
         binding.tvwTitle.setText(channelInfo.title);
+
         //显示设置请求View
         if (binding.llVirtualTop.getVisibility() == View.VISIBLE) {
             //点击嗨钱包
@@ -149,6 +152,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
     }
 
     private void requestData() {
+        LoadingDialog.show(getContext());
         HashMap<String, String> map = new HashMap<>();
         map.put("usdt_type", channelInfo.type);
         CfLog.i("requestData =" + channelInfo.toString());
@@ -177,13 +181,19 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         binding.tvWithdrawalTypeShow1.setText(temp);
         binding.tvInfoExchangeRateShow.setText(usdtCashVo.exchangerate);
         binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
-
+       //关闭软键盘弹起
+        binding.etInputMoney.clearFocus();
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(binding.etInputMoney.getWindowToken(), 0);
+        }
         //注册监听
         initListener();
 
     }
 
     private void initListener() {
+        hideKeyBoard();
         binding.llUsdt.setOnClickListener(v -> {
             binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
             binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
@@ -230,7 +240,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             @Override
             public void afterTextChanged(Editable s) {
                 binding.tvInfoWithdrawalAmountShow.setText(s.toString());
-                //换算到账个数 tv_info_actual_number_show
+                //换算到账个数
                 String temp = s.toString();
                 if (temp != null && !TextUtils.isEmpty(temp)) {
                     Double f1 = Double.parseDouble(temp);
@@ -290,8 +300,6 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         binding.tvUserNameShow.setText(usdtCashVo.user.username);
         binding.llVirtualConfirmView.llConfirmView.setVisibility(View.VISIBLE);
         DialogWithdrawalUsdtConfirmBinding bindView = binding.llVirtualConfirmView;
-        //tv_confirm_user_name_show
-
         binding.llVirtualConfirmView.tvConfirmUserNameShow.setText(usdtSecurityVo.user.username);
         bindView.tvConfirmWithdrawalTypeShow.setText(usdtCashVo.user.availablebalance);
         bindView.tvConfirmAmountShow.setText(usdtSecurityVo.usdt_type);
@@ -324,6 +332,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         }
         binding.llVirtualConfirmView.llConfirmView.setVisibility(View.GONE);
         binding.llOverApply.setVisibility(View.VISIBLE);
+        //msg_type 为2 或者msg_detail为账户提款申请成功
         if (usdtConfirmVo.msg_detail.equals("账户提款申请成功") && usdtConfirmVo.msg_type.equals("2")) {
             binding.ivOverApply.setBackgroundResource(R.mipmap.ic_over_apply);
         } else if (usdtConfirmVo.error != null) {
@@ -412,15 +421,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         } else {
             map.put("name", "TRC20_USDT");
         }
-        String usdtid = null;
-        if (selectUsdtInfo == null) {
-            CfLog.i("requestWithdrawUSDT ==== selectUsdtInfo == null> ");
-        } else {
-            usdtid = selectUsdtInfo.id;
-        }
-
-        map.put("usdtid", usdtid);
-
+        map.put("usdtid", selectUsdtInfo.id);
+        CfLog.i("requestWithdrawUSDT = " + map);
         viewModel.postPlatWithdrawUSDT(map);
     }
 
@@ -444,17 +446,11 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         map.put("cardid", "");
         map.put("play_source", "");
         map.put("usdt_type", usdtSecurityVo.usdt_type);
-        String usdtid = null;
-        if (selectUsdtInfo == null) {
-            CfLog.i("requestWithdrawUSDT ==== selectUsdtInfo == null> ");
-        } else {
-            usdtid = selectUsdtInfo.id;
-        }
-        map.put("plot_id", usdtid);
+        map.put("plot_id", selectUsdtInfo.id);
         map.put("channel_child", usdtSecurityVo.usdt_type);
         map.put("smscode", "");
         map.put("smstype", "");
-        CfLog.i("requestConfirmUSDT = " + map.toString());
+        CfLog.i("requestConfirmUSDT = " + map);
 
         viewModel.postConfirmWithdrawUSDT(map);
 
