@@ -124,6 +124,6 @@
     <string name="txt_rc_bind_email">绑定邮箱</string>
     <string name="txt_rc_bind_bank_card_pls">您没有绑定银行卡，请先绑定银行卡</string>
     <string name="txt_rc_tip_latest_balance">已更新到最新余额</string>
-
+    <string name="txt_update">版本更新</string>
 
 </resources>
