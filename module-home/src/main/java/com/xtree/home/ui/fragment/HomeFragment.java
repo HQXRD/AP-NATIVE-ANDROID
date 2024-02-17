@@ -47,6 +47,8 @@ import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
 import com.youth.banner.listener.OnBannerListener;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -213,6 +215,15 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
 
         binding.bnrTop.setOnBannerListener((OnBannerListener<BannersVo>) (data, position) -> {
+            if (data.link.equals("")) {
+                EventBus.getDefault().post("");
+                return;
+            }
+            char lastChar = data.link.charAt(data.link.length() - 1);
+            if (!Character.isDigit(lastChar)) {
+                EventBus.getDefault().post("");
+                return;
+            }
             String aid = "aid=";
             String noAid = "detail/";
             String result = "";
@@ -307,7 +318,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 startContainerFragment(RouterFragmentPath.Home.AUG);
                 return;
             }
-            if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1 ) {
+            if (vo.cid == 19 || vo.cid == 34 || vo.cid == 1) {
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("vo", vo);
                 startContainerFragment(RouterFragmentPath.Home.ELE, bundle);

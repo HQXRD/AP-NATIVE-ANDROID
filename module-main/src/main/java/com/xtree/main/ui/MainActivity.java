@@ -2,6 +2,7 @@ package com.xtree.main.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -15,6 +16,10 @@ import com.xtree.base.widget.SpecialMenuItemView;
 import com.xtree.main.BR;
 import com.xtree.main.R;
 import com.xtree.main.databinding.ActivityMainBinding;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +36,8 @@ import me.xtree.mvvmhabit.base.BaseViewModel;
 @Route(path = RouterActivityPath.Main.PAGER_MAIN)
 public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewModel> {
     private List<Fragment> mFragments;
+
+    private NavigationController navigationController;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -63,6 +70,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
         initFragment();
         //初始化底部Button
         initBottomTab();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initFragment() {
@@ -110,7 +129,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     }
 
     private void initBottomTab() {
-        NavigationController navigationController = binding.pagerBottomTab.custom()
+        navigationController = binding.pagerBottomTab.custom()
                 .addItem(newItem(R.mipmap.yingyong_unselected, R.mipmap.yingyong_selected, getString(R.string.txt_pg_home)))
                 .addItem(newItem(R.mipmap.huanzhe_unselected, R.mipmap.huanzhe_selected, getString(R.string.txt_pg_discount)))
                 .addItem(newRoundItem(R.mipmap.ic_tab_main))
@@ -133,5 +152,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
             public void onRepeat(int index) {
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(String event) {
+        navigationController.setSelect(1);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.frameLayout, mFragments.get(1));
+        transaction.commitAllowingStateLoss();
     }
 }
