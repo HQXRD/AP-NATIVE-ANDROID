@@ -679,6 +679,11 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         return SPORT_IDS;
     }
 
+    @Override
+    public String[] getSportName(int playMethodType) {
+        return SPORT_NAMES;
+    }
+
     private void leagueGoingList(List<MatchInfo> matchInfoList) {
         if (matchInfoList.isEmpty()) {
             noLiveMatch = true;
