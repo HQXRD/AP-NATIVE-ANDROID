@@ -22,6 +22,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.MenuItemView;
 import com.xtree.bet.BR;
@@ -29,6 +30,7 @@ import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.constant.Constants;
+import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.FragmentMainBinding;
@@ -127,19 +129,25 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     public int getSportId() {
         String[] sportIds = viewModel.getSportId(playMethodType);
         String sportId = null;
-        if(sportTypePos < sportIds.length){
+        if (sportTypePos < sportIds.length) {
             sportId = sportIds[sportTypePos];
+
         }
 
-        if (sportId == null) {
-            if (playMethodPos == 2 || playMethodPos == 4) {
-                sportTypePos = 0;
-                sportId = sportIds[0];
-            }else {
-                sportTypePos = 1;
-                sportId = sportIds[1];
+        if (playMethodPos != 4) {
+            if (sportId == null) {
+                if (playMethodPos == 2) {
+                    sportTypePos = 0;
+                    sportId = sportIds[0];
+                } else {
+                    sportTypePos = 1;
+                    sportId = sportIds[1];
+                }
+                mSportName = viewModel.getSportName(playMethodType)[sportTypePos];
             }
-            mSportName = viewModel.getSportName(playMethodType)[sportTypePos];
+        }
+        if (sportId == null) {
+            sportId = playMethodPos == 4 ? "-1" : PMConstants.SPORT_IDS_DEFAULT[1];
         }
         return Integer.valueOf(sportId);
     }
@@ -157,7 +165,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     @Override
     public void initParam() {
         mPlatform = getIntent().getStringExtra(KEY_PLATFORM);
-        if(TextUtils.equals(mPlatform, PLATFORM_FBXC)){
+        if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
             mPlatformName = getString(R.string.bt_platform_name_fbxc);
         } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
             mPlatformName = getString(R.string.bt_platform_name_fb);
@@ -539,7 +547,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         if (league.isHead() && league.getHeadType() == League.HEAD_TYPE_LIVE_OR_NOLIVE) {
             ivHeaderExpand.setSelected(isWaitingAllExpand());
             tvHeaderName.setText(league.getLeagueName());
-            if(league.getLeagueName().equals(getResources().getString(R.string.bt_game_going_on))){
+            if (league.getLeagueName().equals(getResources().getString(R.string.bt_game_going_on))) {
                 ivHeaderName.setBackgroundResource(R.mipmap.bt_icon_going_on);
             } else if (league.getLeagueName().equals(getResources().getString(R.string.bt_game_waiting))) {
                 ivHeaderName.setBackgroundResource(R.mipmap.bt_icon_waiting);
@@ -769,7 +777,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 TextView tvName = view.findViewById(R.id.tab_item_name);
                 TextView tvMatchCount = view.findViewById(R.id.iv_match_count);
                 ImageView ivIcon = view.findViewById(R.id.iv_icon);
-                if(i < Constants.SPORT_ICON.length) {
+                if (i < Constants.SPORT_ICON.length) {
                     ivIcon.setBackgroundResource(Constants.SPORT_ICON[i]);
                 }
                 tvName.setText(matchitemList[i]);
@@ -782,7 +790,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
             String[] sportNameArray = viewModel.getSportName(playMethodType);
 
-            if(!TextUtils.isEmpty(mSportName)) {
+            if (!TextUtils.isEmpty(mSportName)) {
                 int index = 0;
                 if (playMethodPos != 4) {
                     index = 1;
@@ -797,7 +805,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 final int fIndex = index;
                 binding.tabSportType.post(() -> binding.tabSportType.getTabAt(fIndex).select());
 
-            }else {
+            } else {
                 binding.tabSportType.getTabAt(1).select();
             }
 
@@ -1070,12 +1078,18 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             View view = binding.tabSportType.getTabAt(0).getCustomView();
             tvAllCount = view.findViewById(R.id.iv_match_count);
         }
+
         if (mStatisticalData != null) {
             int tabCount = binding.tabSportType.getTabCount();
             for (int i = 0; i < tabCount; i++) {
                 View view = binding.tabSportType.getTabAt(i).getCustomView();
                 TextView tvCount = view.findViewById(R.id.iv_match_count);
+                int size = mStatisticalData.get(String.valueOf(playMethodType)).size();
+                if (i == size) {
+                    break;
+                }
                 Integer count = mStatisticalData.get(String.valueOf(playMethodType)).get(i);
+
                 if (count != null) {
                     tvCount.setText(String.valueOf(count));
                 } else {
@@ -1089,6 +1103,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         if (tvAllCount != null) {
             tvAllCount.setText(String.valueOf(allCount));
         }
+
     }
 
     private boolean isGoingOnAllExpand() {
