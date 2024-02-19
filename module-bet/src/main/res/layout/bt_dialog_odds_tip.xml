@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivw_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:padding="4dp"
+        android:src="@mipmap/bg_rc_tip_dialog"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivw_empty"
+        android:layout_width="24dp"
+        android:layout_height="16dp"
+        android:background="@color/clr_transparent"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg" />
+
+    <ImageView
+        android:id="@+id/ivw_bell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/cm_dialog_bell"
+        android:visibility="visible"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivw_empty" />
+
+    <TextView
+        android:id="@+id/tvw_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:text="@string/txt_kind_tips"
+        android:textColor="@color/clr_black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg"
+        app:layout_constraintTop_toTopOf="@id/ivw_bg" />
+
+    <TextView
+        android:id="@+id/tvw_msg2"
+        style="@style/style_cm_tip_small_orange"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        android:textColor="@color/bt_color_car_dialog_hight_line2"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg"
+        app:layout_constraintTop_toBottomOf="@id/tvw_title"
+        tools:text="@string/bt_txt_odds" />
+
+    <TextView
+        android:id="@+id/tvw_msg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="32dp"
+        android:textColor="@color/bt_text_color_primary_2"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_msg2" />
+
+    <TextView
+        android:id="@+id/tvw_know"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="66dp"
+        android:layout_marginEnd="66dp"
+        android:layout_marginBottom="40dp"
+        android:gravity="center"
+        android:text="@string/txt_i_know"
+        android:textColor="@color/clr_text_code_selector"
+        android:textSize="14sp"
+        android:background="@drawable/bg_btn_selector"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@+id/ivw_bg"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_msg" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

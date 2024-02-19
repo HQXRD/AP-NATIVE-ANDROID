@@ -291,7 +291,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         mProfileVo = new Gson().fromJson(json, ProfileVo.class);
         json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_VIP_INFO);
         mVipInfoVo = new Gson().fromJson(json, VipInfoVo.class);
-
+        viewModel.getVipUpgradeInfo();
     }
 
     private void resetView() {
@@ -301,29 +301,19 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             setBalance();
         }
         if (mVipInfoVo != null) {
-            binding.ivwVip.setImageLevel(mVipInfoVo.display_level);
-            binding.ivwLevel.setImageLevel(mVipInfoVo.display_level);
-            if (mVipInfoVo.display_level >= 10) {
+            if (mVipInfoVo.sp.equals("1")) {
+                binding.tvwVip.setText("VIP " + mVipInfoVo.display_level);
+                binding.ivwLevel.setImageLevel(mVipInfoVo.display_level);
+            } else {
+                binding.tvwVip.setText("VIP " + mVipInfoVo.level);
+                binding.ivwLevel.setImageLevel(mVipInfoVo.level);
+            }
+            if (mVipInfoVo.level >= 10) {
                 binding.ivwLevel.setVisibility(View.GONE);
                 //binding.ivwLevel10.setVisibility(View.VISIBLE);
                 binding.middleArea.setBackgroundResource(R.mipmap.me_bg_top_10);
                 binding.ivwVip10.setVisibility(View.VISIBLE);
                 binding.ivwVip10.setOnClickListener(v -> binding.ivwLevel.performClick());
-            }
-
-            if (mVipInfoVo.vip_upgrade != null) {
-                if (mVipInfoVo.display_level < mVipInfoVo.vip_upgrade.size() - 1) {
-                    VipInfoVo.VipUpgradeVo vo = mVipInfoVo.vip_upgrade.get(mVipInfoVo.display_level + 1);
-                    int point = vo.active - mVipInfoVo.current_activity;
-                    int level = mVipInfoVo.display_level + 1;
-                    String txt = getString(R.string.txt_level_hint_00);
-                    txt = String.format(txt, point, level);
-                    binding.tvwLevelHint.setText(txt);
-                    binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.active) * 100));
-                } else {
-                    binding.tvwLevelHint.setText(R.string.txt_level_hint_10);
-                    binding.pbrLevel.setProgress(100);
-                }
             }
         }
     }
@@ -396,6 +386,39 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             }
         });
 
+        viewModel.liveDataVipUpgrade.observe(this, vo -> {
+            if (vo.sp.equals("1")) {
+                if (vo.level < vo.vip_upgrade.size() - 1) {
+                    int point = vo.vip_upgrade.get(vo.level).display_active - mVipInfoVo.current_activity;
+                    int level = vo.vip_upgrade.get(vo.level + 1).display_level;
+                    String txt = getString(R.string.txt_level_hint_00);
+                    txt = String.format(txt, point, level);
+                    CfLog.e("txt " + txt);
+                    binding.tvwLevelHint.setText(txt);
+                    binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).display_active) * 100));
+                } else {
+                    String txt = getString(R.string.txt_level_hint_10);
+                    txt = String.format(txt, vo.display_level);
+                    binding.tvwLevelHint.setText(txt);
+                    binding.pbrLevel.setProgress(100);
+                }
+            } else {
+                if (vo.level < vo.vip_upgrade.size() - 1) {
+                    int point = vo.vip_upgrade.get(vo.level).active - mVipInfoVo.current_activity;
+                    int level = vo.level + 1;
+                    String txt = getString(R.string.txt_level_hint_00);
+                    txt = String.format(txt, point, level);
+                    CfLog.e("txt " + txt);
+                    binding.tvwLevelHint.setText(txt);
+                    binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).active) * 100));
+                } else {
+                    String txt = getString(R.string.txt_level_hint_10);
+                    txt = String.format(txt, vo.level);
+                    binding.tvwLevelHint.setText(txt);
+                    binding.pbrLevel.setProgress(100);
+                }
+            }
+        });
     }
 
     /**

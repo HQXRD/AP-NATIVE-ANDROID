@@ -9,12 +9,15 @@ import com.xtree.bet.manager.BtCarManager;
 import java.util.HashMap;
 import java.util.Map;
 
-
-public class CgOddLimitPm implements CgOddLimit{
+/**
+ * 熊猫体育
+ */
+public class CgOddLimitPm implements CgOddLimit {
     private double btCount;
     private CgOddLimitInfo cgOddLimitInfo;
     private Map<String, String> cgName = new HashMap<>();
-    public CgOddLimitPm(CgOddLimitInfo cgOddLimitInfo){
+
+    public CgOddLimitPm(CgOddLimitInfo cgOddLimitInfo) {
         this.cgOddLimitInfo = cgOddLimitInfo;
         cgName.put("1", "单关");
         cgName.put("2001", "2串1");
@@ -38,7 +41,19 @@ public class CgOddLimitPm implements CgOddLimit{
 
     @Override
     public int getCgCount() {
-        return 0;
+        //串关子单选项个数，如：投注4场比赛的3串1，此字段为3，如果是全串关（4串11×11），则为0；
+        if (cgOddLimitInfo == null || TextUtils.isEmpty(getCgName())) {
+            return 1;
+        }
+        if (TextUtils.equals("1", getCgType())) {
+            return 1;
+        }
+        String[] ints = getCgName().split("串");
+        int sn = Integer.parseInt(ints[0]);
+        if (!ints[1].equals("1")) {
+            sn = 0;
+        }
+        return sn;
     }
 
     /*串关类型 1：单关，2001：2串1，3001：3串1，3004：3串4，4001：4串1， 40011：4串11，5001：5串1，50026：5串26，6001：6串1， 60057：6串57

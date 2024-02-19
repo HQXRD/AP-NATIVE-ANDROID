@@ -195,15 +195,24 @@
                     android:id="@+id/cb_accept"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:button="@drawable/bt_checkbox_selector"
                     android:checked="true"
-                    android:text="自动接受更好赔率"
+                    android:text="@string/bt_txt_odds"
                     android:textColor="@color/bt_color_hine_color"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/iv_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/bt_ic_tip"
+                    android:padding="4dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/cb_accept"
+                    app:layout_constraintStart_toEndOf="@+id/cb_accept"
+                    app:layout_constraintTop_toTopOf="@+id/cb_accept" />
 
                 <TextView
                     android:id="@+id/tv_top_win"

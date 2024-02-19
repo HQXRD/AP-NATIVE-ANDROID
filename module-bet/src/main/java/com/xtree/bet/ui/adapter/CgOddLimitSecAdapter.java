@@ -5,7 +5,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,20 +12,17 @@ import android.widget.TextView;
 import com.xtree.base.utils.NumberUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.CgOddLimit;
-import com.xtree.bet.databinding.BtLayoutCarCgItemBinding;
 import com.xtree.bet.ui.fragment.BtCarDialogFragment;
 import com.xtree.bet.weight.CgOddLimitView;
 import com.xtree.bet.weight.KeyboardView;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseActivity;
-import me.xtree.mvvmhabit.utils.StringUtils;
 
 public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
     private boolean flag;
@@ -35,6 +31,7 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
 
     private BtCarDialogFragment.KeyBoardListener mKeyBoardListener;
     private TextChangedListener mTextChangedListener;
+    ICallBack mCallBack;
 
     public void setKeyboardView(KeyboardView keyboardView) {
         this.keyboardView = keyboardView;
@@ -48,8 +45,9 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
         this.mKeyBoardListener = keyBoardListener;
     }
 
-    public CgOddLimitSecAdapter(Context context, List<CgOddLimit> datas) {
+    public CgOddLimitSecAdapter(Context context, List<CgOddLimit> datas, ICallBack mCallBack) {
         super(context, datas);
+        this.mCallBack = mCallBack;
     }
 
     @Override
@@ -67,12 +65,18 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
             EditText etAmount = itemView.findViewById(R.id.et_bt_amount_cc);
             etAmount.setHint("限制" + cgOddLimit.getCMin() + "-" + cgOddLimit.getCMax());
             etAmount.setEnabled(cgOddLimit.getCMin() > 0 && cgOddLimit.getCMax() > 0);
-            if(sizeChange) {
+            if (sizeChange) {
                 itemView.findViewById(R.id.csl_win_cc).setVisibility(View.GONE);
                 etAmount.setText("");
             }
-            ((TextView)itemView.findViewById(R.id.iv_name)).setText(cgOddLimit.getCgName());
-            ((TextView)itemView.findViewById(R.id.iv_zs_amount)).setText("x" + cgOddLimit.getBtCount());
+            ((TextView) itemView.findViewById(R.id.iv_name)).setText(cgOddLimit.getCgName());
+            ((TextView) itemView.findViewById(R.id.iv_name)).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mCallBack.onClick(cgOddLimit);
+                }
+            });
+            ((TextView) itemView.findViewById(R.id.iv_zs_amount)).setText("x" + cgOddLimit.getBtCount());
 
             etAmount.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -256,7 +260,11 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
         }
     }
 
-    public interface TextChangedListener{
+    public interface TextChangedListener {
         void onTextChanged();
+    }
+
+    public interface ICallBack {
+        void onClick(CgOddLimit vo);
     }
 }

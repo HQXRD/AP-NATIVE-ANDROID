@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_root"
+    android:id="@+id/ll_root_update"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/clr_transparent">
@@ -16,8 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
-            android:padding="4dp"
-            android:src="@mipmap/cm_dialog_bg"
+            android:background="@mipmap/cm_dialog_update_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,9 +35,11 @@
             android:id="@+id/ivw_bell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/cm_dialog_bell"
+            android:layout_marginTop="40dp"
+            android:src="@mipmap/cm_dialog_update_bell"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/ivw_empty" />
 
@@ -46,9 +47,9 @@
             android:id="@+id/tvw_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="120dp"
             android:gravity="center"
-            android:text="@string/txt_kind_tips"
+            android:text="@string/txt_update"
             android:textColor="@color/clr_black"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -56,44 +57,50 @@
             app:layout_constraintStart_toStartOf="@id/ivw_bg"
             app:layout_constraintTop_toTopOf="@id/ivw_bg" />
 
-        <TextView
-            android:id="@+id/tvw_msg"
+        <LinearLayout
+            android:id="@+id/linearLayoutS"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="52dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginBottom="46dp"
             android:gravity="center"
-            android:textColor="@color/clr_grey_60"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="@id/ivw_bg"
-            app:layout_constraintStart_toStartOf="@id/ivw_bg"
-            app:layout_constraintTop_toBottomOf="@id/tvw_title"
-            tools:text="这是内容  这是内容这是内容这是内容这是内容这是内容" />
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="@id/ivw_bg"
+            app:layout_constraintRight_toRightOf="@id/ivw_bg"
+            app:layout_constraintTop_toBottomOf="@id/tvw_title">
 
-        <TextView
-            android:id="@+id/tvw_msg2"
-            style="@style/style_cm_tip_small_orange"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="24dp"
-            android:scrollbars="vertical"
-            android:fadeScrollbars="false"
-            android:gravity="center"
-            android:textColor="@color/clr_grey_60"
-            android:textSize="14sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/layout_tvw"
-            app:layout_constraintEnd_toEndOf="@id/ivw_bg"
-            app:layout_constraintStart_toStartOf="@id/ivw_bg"
-            app:layout_constraintTop_toBottomOf="@id/tvw_title"
-            tools:text="这是内容 长的4行52字"
-            tools:visibility="gone" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tvw_update_version"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_update"
+                    android:textColor="@color/bt_color_car_dialog_hight_line2"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvw_upgrade_tips"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvw_update_version"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/clr_grey_60"
+                    android:textSize="12sp"
+                    tools:text="iOS自5.0.9版本开始，正式包具有强制升级功能；
+所有版本正式包均有升级提醒功能。
+新打包的客户端默认都在无需升级版本里，
+可将需要升级的版本移动至对应的提示升级版本框和强制升级版本框中。" />
+
+            </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_tvw"
+            android:id="@+id/linearLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
@@ -104,18 +111,18 @@
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
             app:layout_constraintStart_toStartOf="@id/ivw_bg">
 
-            <TextView
-                android:id="@+id/tvw_left"
-                style="@style/style_btn_back"
-                android:text="@string/txt_cancel"
-                android:textSize="14sp"
-                android:textColor="@color/clr_txt_grey_04" />
+            <ImageView
+                android:id="@+id/dialog_update_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/cm_dialog_update_cancel" />
 
-            <TextView
-                android:id="@+id/tvw_right"
-                style="@style/style_btn"
-                android:textSize="14sp"
-                android:text="@string/txt_confirm" />
+            <ImageView
+                android:id="@+id/dialog_update_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@mipmap/cm_dialog_update_confirm" />
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
