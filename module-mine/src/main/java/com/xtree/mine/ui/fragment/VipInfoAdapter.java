@@ -18,10 +18,12 @@ public class VipInfoAdapter extends CachedAutoRefreshAdapter<VipUpgradeItemVo> {
     Context ctx;
     ItemVipBinding binding;
     int level;
+    String sp;
 
-    public VipInfoAdapter(Context ctx, int level) {
+    public VipInfoAdapter(Context ctx, int level, String sp) {
         this.ctx = ctx;
         this.level = level;
+        this.sp = sp;
     }
 
     @NonNull
@@ -42,7 +44,11 @@ public class VipInfoAdapter extends CachedAutoRefreshAdapter<VipUpgradeItemVo> {
         if (position != 0) {
             binding.llTitle.setVisibility(View.GONE);
         }
-        binding.tvwVipLevel1.setText("VIP" + vo.level);
+        if (sp.equals("0")) {
+            binding.tvwVipLevel1.setText("VIP" + vo.level);
+        } else {
+            binding.tvwVipLevel1.setText("VIP" + vo.display_level);
+        }
         binding.tvwVipSport1.setText(vo.sports_ratio + "%");
         binding.tvwVipReal1.setText(vo.esport_ratio + "%");
         binding.tvwVipElectronic1.setText(vo.esport_ratio + "%");
