@@ -18,24 +18,23 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.lxj.xpopup.XPopup;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentVipBinding;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.mine.vo.VipUpgradeItemVo;
+import com.xtree.mine.vo.VipUpgradeInfoVo;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 
 @Route(path = RouterFragmentPath.Mine.PAGER_VIP_UPGRADE)
 public class VipFragment extends BaseFragment<FragmentVipBinding, MineViewModel> {
-    private List<VipUpgradeItemVo> vipUpgradeItems = new ArrayList<>();
     private ArrayList<Fragment> fragmentList = new ArrayList<>();
     private ArrayList<String> tabList = new ArrayList<>();
-    private int level;
+    private VipUpgradeInfoVo mVipUpgradeInfoVo;
     private FragmentStateAdapter mAdapter;
     private VipBackPercentDialog ppw = null;
     private TextView tvwItem[] = new TextView[11];
@@ -73,12 +72,16 @@ public class VipFragment extends BaseFragment<FragmentVipBinding, MineViewModel>
             @Override
             public void onPageSelected(int position) {
                 CfLog.d("position : " + position);
-                binding.tvwLevelName.setText("VIP" + vipUpgradeItems.get(position).level + "尊享");
-                binding.tvwVipCardNum.setText(vipUpgradeItems.get(position).upgrade_bonus);
-                binding.tvwVipWithdrawNum.setText(vipUpgradeItems.get(position).withdrawals_limit);
-                binding.tvwVipWithdrawTimeNum.setText(vipUpgradeItems.get(position).withdrawals_num);
-                binding.tvwVipBirthdayNum.setText(vipUpgradeItems.get(position).birthday_gift);
-                binding.tvwVipGiftNum.setText(vipUpgradeItems.get(position).week_red);
+                if (mVipUpgradeInfoVo.sp.equals("0")) {
+                    binding.tvwLevelName.setText("VIP" + mVipUpgradeInfoVo.vip_upgrade.get(position).level + "尊享");
+                } else {
+                    binding.tvwLevelName.setText("VIP" + mVipUpgradeInfoVo.vip_upgrade.get(position).display_level + "尊享");
+                }
+                binding.tvwVipCardNum.setText(mVipUpgradeInfoVo.vip_upgrade.get(position).upgrade_bonus);
+                binding.tvwVipWithdrawNum.setText(mVipUpgradeInfoVo.vip_upgrade.get(position).withdrawals_limit);
+                binding.tvwVipWithdrawTimeNum.setText(mVipUpgradeInfoVo.vip_upgrade.get(position).withdrawals_num);
+                binding.tvwVipBirthdayNum.setText(mVipUpgradeInfoVo.vip_upgrade.get(position).birthday_gift);
+                binding.tvwVipGiftNum.setText(mVipUpgradeInfoVo.vip_upgrade.get(position).week_red);
 
                 for (int i = 0; i < tvwItem.length; i++) {
                     if (i == position) {
@@ -91,7 +94,7 @@ public class VipFragment extends BaseFragment<FragmentVipBinding, MineViewModel>
         });
 
         binding.btnVipDetail.setOnClickListener(v -> {
-            ppw = (VipBackPercentDialog) new XPopup.Builder(getContext()).asCustom(new VipBackPercentDialog(getContext(), vipUpgradeItems, level, 80));
+            ppw = (VipBackPercentDialog) new XPopup.Builder(getContext()).asCustom(new VipBackPercentDialog(getContext(), mVipUpgradeInfoVo, 80));
             ppw.show();
         });
     }
@@ -99,6 +102,7 @@ public class VipFragment extends BaseFragment<FragmentVipBinding, MineViewModel>
     @Override
     public void initData() {
         viewModel.readVipCache();
+        LoadingDialog.show(getContext());
         viewModel.getVipUpgradeInfo();
     }
 
@@ -121,66 +125,124 @@ public class VipFragment extends BaseFragment<FragmentVipBinding, MineViewModel>
     @Override
     public void initViewObservable() {
         viewModel.liveDataVipUpgrade.observe(this, vo -> {
-            vipUpgradeItems = vo.vip_upgrade;
-            level = vo.level;
+            mVipUpgradeInfoVo = vo;
+            if (vo.sp.equals("0")) {
+                if (vo.level < vo.vip_upgrade.size() - 1) {
+                    binding.tvwNowProgress.setText("当前流水 : " + vo.current_activity + " (" + vo.current_activity + "/" + vo.vip_upgrade.get(vo.level + 1).active + ")");
+                    binding.tvwVipNowLevelNum.setText("" + vo.level);
+                    binding.tvwVipNowLevelStart.setText("VIP" + vo.level);
+                    binding.tvwVipNextLevelEnd.setText("VIP" + (vo.level + 1));
 
-            if (vo.level < vo.vip_upgrade.size() - 1) {
-                binding.tvwNowProgress.setText("当前流水 : " + vo.current_activity + " (" + vo.current_activity + "/" + vo.vip_upgrade.get(vo.level + 1).active + ")");
-                binding.tvwVipNowLevelNum.setText("" + vo.level);
-                binding.tvwVipNowLevelStart.setText("VIP" + vo.level);
-                binding.tvwVipNextLevelEnd.setText("VIP" + (vo.level + 1));
+                    double progress = ((double) vo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).active) * 100;
+                    CfLog.e("vo.current_activity : " + vo.current_activity + " vo.vip_upgrade.get(vo.level + 1).active : " + vo.vip_upgrade.get(vo.level + 1).active + " progress : " + progress);
+                    binding.pbVip.setProgress((int) (progress));
 
-                double progress = ((double) vo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).active) * 100;
-                CfLog.e("vo.current_activity : " + vo.current_activity + " vo.vip_upgrade.get(vo.level + 1).active : " + vo.vip_upgrade.get(vo.level + 1).active + " progress : " + progress);
-                binding.pbVip.setProgress((int) (progress));
+                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.ivwVipPeople.getLayoutParams();
+                    params.setMarginStart((int) (binding.pbVip.getWidth() * (progress / 100)));
+                    binding.ivwVipPeople.setLayoutParams(params);
+                } else {
+                    binding.tvwNowProgress.setText("当前流水 : " + vo.current_activity + " (" + vo.current_activity + "/" + vo.vip_upgrade.get(vo.level).active + ")");
+                    binding.tvwVipNowLevelNum.setText("" + vo.level);
+                    binding.tvwVipNowLevelStart.setText("VIP" + vo.level);
+                    binding.tvwVipNextLevelEnd.setText("VIP" + vo.level);
 
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.ivwVipPeople.getLayoutParams();
-                params.setMarginStart((int) (binding.pbVip.getWidth() * (progress / 100)));
-                binding.ivwVipPeople.setLayoutParams(params);
+                    binding.pbVip.setProgress(100);
+
+                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.ivwVipPeople.getLayoutParams();
+                    params.setMarginStart((int) (binding.pbVip.getWidth() * 0.9));
+                    binding.ivwVipPeople.setLayoutParams(params);
+                }
+
+                if (fragmentList.isEmpty()) {
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(0).level, vo.vip_upgrade.get(0).active, vo.vip_upgrade.get(0).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(1).level, vo.vip_upgrade.get(1).active, vo.vip_upgrade.get(1).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(2).level, vo.vip_upgrade.get(2).active, vo.vip_upgrade.get(2).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(3).level, vo.vip_upgrade.get(3).active, vo.vip_upgrade.get(3).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(4).level, vo.vip_upgrade.get(4).active, vo.vip_upgrade.get(4).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(5).level, vo.vip_upgrade.get(5).active, vo.vip_upgrade.get(5).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(6).level, vo.vip_upgrade.get(6).active, vo.vip_upgrade.get(6).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(7).level, vo.vip_upgrade.get(7).active, vo.vip_upgrade.get(7).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(8).level, vo.vip_upgrade.get(8).active, vo.vip_upgrade.get(8).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(9).level, vo.vip_upgrade.get(9).active, vo.vip_upgrade.get(9).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(10).level, vo.vip_upgrade.get(10).active, vo.vip_upgrade.get(10).new_active));
+                }
+
+                if (tabList.isEmpty()) {
+                    tabList.add("VIP " + vo.vip_upgrade.get(0).level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(1).level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(2).level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(3).level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(4).level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(5).level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(6).level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(7).level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(8).level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(9).level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(10).level);
+                }
+                mAdapter.notifyDataSetChanged();
+
+                binding.vpMain.setCurrentItem(vo.level);
+                tvwItem[vo.level].setBackground(getResources().getDrawable(R.drawable.ic_vip_select));
             } else {
-                binding.tvwNowProgress.setText("当前流水 : " + vo.current_activity + " (" + vo.current_activity + "/" + vo.vip_upgrade.get(vo.level).active + ")");
-                binding.tvwVipNowLevelNum.setText("" + vo.level);
-                binding.tvwVipNowLevelStart.setText("VIP" + vo.level);
-                binding.tvwVipNextLevelEnd.setText("VIP" + vo.level);
+                if (vo.level < vo.vip_upgrade.size() - 1) {
+                    binding.tvwNowProgress.setText("当前流水 : " + vo.current_activity + " (" + vo.current_activity + "/" + vo.vip_upgrade.get(vo.level + 1).display_active + ")");
+                    binding.tvwVipNowLevelNum.setText("" + vo.display_level);
+                    binding.tvwVipNowLevelStart.setText("VIP" + vo.vip_upgrade.get(vo.level).display_level);
+                    binding.tvwVipNextLevelEnd.setText("VIP" + vo.vip_upgrade.get(vo.level + 1).display_level);
 
-                binding.pbVip.setProgress(100);
+                    double progress = ((double) vo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).display_active) * 100;
+                    CfLog.e("vo.current_activity : " + vo.current_activity + " vo.vip_upgrade.get(vo.level + 1).display_active : " + vo.vip_upgrade.get(vo.level + 1).display_active + " progress : " + progress);
+                    binding.pbVip.setProgress((int) (progress));
 
-                ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.ivwVipPeople.getLayoutParams();
-                params.setMarginStart((int) (binding.pbVip.getWidth() * 0.9));
-                binding.ivwVipPeople.setLayoutParams(params);
+                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.ivwVipPeople.getLayoutParams();
+                    params.setMarginStart((int) (binding.pbVip.getWidth() * (progress / 100)));
+                    binding.ivwVipPeople.setLayoutParams(params);
+                } else {
+                    binding.tvwNowProgress.setText("当前流水 : " + vo.current_activity + " (" + vo.current_activity + "/" + vo.vip_upgrade.get(vo.level).display_active + ")");
+                    binding.tvwVipNowLevelNum.setText("" + vo.display_level);
+                    binding.tvwVipNowLevelStart.setText("VIP" + vo.display_level);
+                    binding.tvwVipNextLevelEnd.setText("VIP" + vo.display_level);
+
+                    binding.pbVip.setProgress(100);
+
+                    ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) binding.ivwVipPeople.getLayoutParams();
+                    params.setMarginStart((int) (binding.pbVip.getWidth() * 0.9));
+                    binding.ivwVipPeople.setLayoutParams(params);
+                }
+
+                if (fragmentList.isEmpty()) {
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(0).display_level, vo.vip_upgrade.get(0).display_active, vo.vip_upgrade.get(0).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(1).display_level, vo.vip_upgrade.get(1).display_active, vo.vip_upgrade.get(1).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(2).display_level, vo.vip_upgrade.get(2).display_active, vo.vip_upgrade.get(2).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(3).display_level, vo.vip_upgrade.get(3).display_active, vo.vip_upgrade.get(3).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(4).display_level, vo.vip_upgrade.get(4).display_active, vo.vip_upgrade.get(4).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(5).display_level, vo.vip_upgrade.get(5).display_active, vo.vip_upgrade.get(5).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(6).display_level, vo.vip_upgrade.get(6).display_active, vo.vip_upgrade.get(6).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(7).display_level, vo.vip_upgrade.get(7).display_active, vo.vip_upgrade.get(7).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(8).display_level, vo.vip_upgrade.get(8).display_active, vo.vip_upgrade.get(8).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(9).display_level, vo.vip_upgrade.get(9).display_active, vo.vip_upgrade.get(9).new_active));
+                    fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(10).display_level, vo.vip_upgrade.get(10).display_active, vo.vip_upgrade.get(10).new_active));
+                }
+
+                if (tabList.isEmpty()) {
+                    tabList.add("VIP " + vo.vip_upgrade.get(0).display_level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(1).display_level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(2).display_level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(3).display_level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(4).display_level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(5).display_level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(6).display_level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(7).display_level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(8).display_level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(9).display_level);
+                    tabList.add("VIP " + vo.vip_upgrade.get(10).display_level);
+                }
+                mAdapter.notifyDataSetChanged();
+
+                binding.vpMain.setCurrentItem(vo.level);
+                tvwItem[vo.level].setBackground(getResources().getDrawable(R.drawable.ic_vip_select));
             }
-
-            if (fragmentList.isEmpty()) {
-                fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(0).level, vo.vip_upgrade.get(0).active, vo.vip_upgrade.get(0).new_active));
-                fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(1).level, vo.vip_upgrade.get(1).active, vo.vip_upgrade.get(1).new_active));
-                fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(2).level, vo.vip_upgrade.get(2).active, vo.vip_upgrade.get(2).new_active));
-                fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(3).level, vo.vip_upgrade.get(3).active, vo.vip_upgrade.get(3).new_active));
-                fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(4).level, vo.vip_upgrade.get(4).active, vo.vip_upgrade.get(4).new_active));
-                fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(5).level, vo.vip_upgrade.get(5).active, vo.vip_upgrade.get(5).new_active));
-                fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(6).level, vo.vip_upgrade.get(6).active, vo.vip_upgrade.get(6).new_active));
-                fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(7).level, vo.vip_upgrade.get(7).active, vo.vip_upgrade.get(7).new_active));
-                fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(8).level, vo.vip_upgrade.get(8).active, vo.vip_upgrade.get(8).new_active));
-                fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(9).level, vo.vip_upgrade.get(9).active, vo.vip_upgrade.get(9).new_active));
-                fragmentList.add(new VipInfoFragment(vo.vip_upgrade.get(10).level, vo.vip_upgrade.get(10).active, vo.vip_upgrade.get(10).new_active));
-            }
-
-            if (tabList.isEmpty()) {
-                tabList.add("VIP 0");
-                tabList.add("VIP 1");
-                tabList.add("VIP 2");
-                tabList.add("VIP 3");
-                tabList.add("VIP 4");
-                tabList.add("VIP 5");
-                tabList.add("VIP 6");
-                tabList.add("VIP 7");
-                tabList.add("VIP 8");
-                tabList.add("VIP 9");
-                tabList.add("VIP 10");
-            }
-            mAdapter.notifyDataSetChanged();
-
-            binding.vpMain.setCurrentItem(level);
-            tvwItem[level].setBackground(getResources().getDrawable(R.drawable.ic_vip_select));
         });
 
         viewModel.liveDataProfile.observe(this, vo -> {
