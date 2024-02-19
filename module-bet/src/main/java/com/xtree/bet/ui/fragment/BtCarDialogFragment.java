@@ -9,6 +9,7 @@ import android.animation.ObjectAnimator;
 import android.app.Application;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -404,10 +405,11 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         int i = vo.getCgCount() == 0 ? vo.getBtCount() : 1;
         String title = "什么是" + vo.getCgName();
         String msg;
-        if (orderCount == vo.getCgCount()) {
-            msg = vo.getCgName() + "是有" + n + "场比赛组成的一个注单\n" +
+        Log.i("count",orderCount+"   "+vo.getCgCount());
+        if (orderCount == vo.getCgCount()) {// 全部串成一个
+            msg = vo.getCgName() + "是有" + n + "场比赛组成的1个注单\n" +
                     "选择" + orderCount + "场赛事投注" + n + "串" + i + "时，系统将所选的" + orderCount + "场赛事合并为一个注单，" + orderCount + "场赛事必须全赢才可获得盈利";
-        } else {
+        } else {// 拆分
             if (vo.getCgCount() == 0) {
                 // 全串关
                 // 比如 选了 4个选项，全串关 则是
@@ -420,7 +422,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                         "选择" + orderCount + "场赛事投注" + n + "串" + i + "时，系统将从" + orderCount + "场赛事中拆出" + String.join("，", tempStrArr)
                 +"，一个串关为1单，一共" + i + "个注单 ";
 
-            } else {
+            } else {// n 串 1
                 msg = vo.getCgName() + "是有" + n + "场比赛组成的一个注单\n" +
                         "选择" + orderCount + "场赛事投注" + n + "串" + i + "时，系统将所选的" + orderCount + "场赛事中拆出" + n + "个串关为1单，一共"
                         + vo.getBtCount() + "个注单";

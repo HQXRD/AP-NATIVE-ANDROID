@@ -5,6 +5,9 @@ import android.os.Parcel;
 import com.xtree.bet.bean.response.fb.BtConfirmOptionInfo;
 import com.xtree.bet.bean.response.fb.CgOddLimitInfo;
 
+/**
+ * 杏彩体育（FB）
+ */
 public class CgOddLimitFb implements CgOddLimit{
     /**
      * 比赛场数

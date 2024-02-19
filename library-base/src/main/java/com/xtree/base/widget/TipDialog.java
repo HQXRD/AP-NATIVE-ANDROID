@@ -1,13 +1,9 @@
 package com.xtree.base.widget;
 
-import static me.xtree.mvvmhabit.utils.ConvertUtils.getScreenWidth;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
