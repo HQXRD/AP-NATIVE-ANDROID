@@ -72,6 +72,7 @@ public class PMBtSettingLeagueModel extends TemplateBtSettingLeagueModel {
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
+                        getOnSaleLeagues(sportId, type, leagueIdList);
                     }
                 });
         addSubscribe(disposable);

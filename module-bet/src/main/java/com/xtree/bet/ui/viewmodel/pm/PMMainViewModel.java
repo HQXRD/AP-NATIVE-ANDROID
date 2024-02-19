@@ -336,10 +336,10 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             } else if (searchDatePos > 0) {
                 String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
                 pmListReq.setMd(String.valueOf(TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
-            } else {
+            } /*else {
                 String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
                 pmListReq.setMd(String.valueOf(TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
-            }
+            }*/
         }
 
         Flowable flowable = model.getPMApiService().noLiveMatchesPagePB(pmListReq);
@@ -420,7 +420,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 @Override
                 public void onError(Throwable t) {
                     super.onError(t);
-                    if(!isTimerRefresh) {
+                    if (!isTimerRefresh) {
                         getLeagueList(sportPos, sportId, orderBy, leagueIds, matchidList, playMethodType, searchDatePos, oddType, isTimerRefresh, isRefresh);
                     }
                     //getUC().getDismissDialogEvent().call();
@@ -628,21 +628,23 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                         mMenuInfoList = menuInfoList;
                         for (MenuInfo menuInfo : menuInfoList) {
                             Map<String, Integer> sslMap = new HashMap<>();
-                            if (playMethodType == menuInfo.menuType) {
-                                for (MenuInfo subMenu : menuInfo.subList) {
-                                    sslMap.put(String.valueOf(subMenu.menuId), subMenu.count);
+
+                            for (MenuInfo subMenu : menuInfo.subList) {
+                                sslMap.put(String.valueOf(subMenu.menuId), subMenu.count);
+                                if (playMethodType == menuInfo.menuType) {
                                     int index = Arrays.asList(SPORT_NAMES).indexOf(subMenu.menuName);
                                     if (index != -1) {
                                         SPORT_IDS[index] = String.valueOf(subMenu.menuId);
                                     }
-
                                 }
+                                List<Integer> sportCountList = new ArrayList<>();
+                                String[] sportArr = getSportId(playMethodType);
+                                for (String sportId : sportArr) {
+                                    sportCountList.add(sslMap.get(sportId));
+                                }
+                                sportCountMap.put(String.valueOf(menuInfo.menuType), sportCountList);
                             }
-                            List<Integer> sportCountList = new ArrayList<>();
-                            for (String sportId : getSportId(playMethodType)) {
-                                sportCountList.add(sslMap.get(sportId));
-                            }
-                            sportCountMap.put(String.valueOf(menuInfo.menuType), sportCountList);
+
                         }
 
                         statisticalData.postValue(sportCountMap);

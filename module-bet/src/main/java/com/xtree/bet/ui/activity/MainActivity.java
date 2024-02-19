@@ -648,8 +648,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    refreshLeague();
-                    viewModel.statistical(playMethodType);
+                    /*refreshLeague();
+                    viewModel.statistical(playMethodType);*/
                 });
         viewModel.addSubscribe(timerDisposable);
     }
