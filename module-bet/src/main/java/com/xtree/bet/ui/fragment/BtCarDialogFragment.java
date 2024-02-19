@@ -3,6 +3,7 @@ package com.xtree.bet.ui.fragment;
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM_NAME;
 import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
+import static java.io.File.separator;
 
 import android.animation.ObjectAnimator;
 import android.app.Application;
@@ -19,10 +20,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.utils.NumberUtils;
+import com.xtree.base.widget.MsgDialog;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
 import com.xtree.bet.bean.ui.BetConfirmOptionUtil;
 import com.xtree.bet.bean.ui.CgOddLimit;
+import com.xtree.bet.bean.ui.CgOddLimitFb;
 import com.xtree.bet.databinding.BtLayoutBtCarBinding;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.BtDetailActivity;
@@ -38,6 +41,7 @@ import com.xtree.bet.weight.KeyboardView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -70,6 +74,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     private int countdown = 5;
     private String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
     private BasePopupView basePopupView;
+    private BasePopupView ppw;
 
     private KeyBoardListener mKeyBoardListener = new KeyBoardListener() {
         @Override
@@ -262,13 +267,17 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         viewModel.cgOddLimitDate.observe(this, cgOddLimits -> {
             if (cgOddLimitAdapter == null) {
                 this.cgOddLimitList = cgOddLimits;
-                cgOddLimitAdapter = new CgOddLimitSecAdapter(getContext(), cgOddLimits);
+                cgOddLimitAdapter = new CgOddLimitSecAdapter(getContext(), cgOddLimits, new CgOddLimitSecAdapter.ICallBack() {
+                    @Override
+                    public void onClick(CgOddLimit vo) {
+                        showCollusionTip(vo);
+                    }
+                });
                 cgOddLimitAdapter.setKeyBoardListener(mKeyBoardListener);
                 cgOddLimitAdapter.setTextChangedListener(mTextChangedListener);
                 cgOddLimitAdapter.setKeyboardView(keyboardView);
                 binding.rvBtCg.setAdapter(cgOddLimitAdapter);
             } else {
-
                 for (int i = 0; i < cgOddLimits.size(); i++) {
                     cgOddLimits.get(i).setBtAmount(cgOddLimitList.get(i).getBtAmount());
                 }
@@ -373,5 +382,83 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             PMAppViewModelFactory factory = PMAppViewModelFactory.getInstance((Application) Utils.getContext());
             return new ViewModelProvider(this, factory).get(PMBtCarViewModel.class);
         }
+    }
+
+    /**
+     * // 串关子单个数，如 投注4场比赛的3串1*4，此字段为4，全串关（4串11×11），则为11
+     * var in: Int = 0
+     * // 串关子单选项个数，如：投注4场比赛的3串1，此字段为3，如果是全串关（4串11×11），则为0
+     * var sn: Int = 0
+     * // 串关，最小投注额
+     * var mi: String = ""
+     * // 串关，最大投注额
+     * var mx: String = ""
+     * // 串关对应的赔率
+     * var sodd: String = ""
+     * //vo.getCgCount();sn
+     * //vo.getBtCount();in
+     */
+    private void showCollusionTip(CgOddLimit vo) {
+        int orderCount = betConfirmOptionList.size();
+        int n = vo.getCgCount() == 0 ? orderCount : vo.getCgCount();
+        int i = vo.getCgCount() == 0 ? vo.getBtCount() : 1;
+        String title = "什么是" + vo.getCgName();
+        String msg;
+        if (orderCount == vo.getCgCount()) {
+            msg = vo.getCgName() + "是有" + n + "场比赛组成的一个注单\n" +
+                    "选择" + orderCount + "场赛事投注" + n + "串" + i + "时，系统将所选的" + orderCount + "场赛事合并为一个注单，" + orderCount + "场赛事必须全赢才可获得盈利";
+        } else {
+            if (vo.getCgCount() == 0) {
+                // 全串关
+                // 比如 选了 4个选项，全串关 则是
+                // 有 c 个2串一，有 d 个3串一，有 e 个4串一，有 f 个5串一，有 g 个6串一，有 h 个7串一，有 i 个8串一，有 j 个9串一，有 k 个10串一
+                ArrayList<String> tempStrArr = new ArrayList<>();
+                for (int j = 2; j <= n; j++) {
+                    tempStrArr.add(combination(n, n - j + 2) + "个" + (n - j + 2) + "串1");
+                }
+                msg = vo.getCgName() + "是有" + n + "场比赛组成的" + i + "个注单    " +
+                        "选择" + orderCount + "场赛事投注" + n + "串" + i + "时，系统将从" + orderCount + "场赛事中拆出" + String.join("，", tempStrArr)
+                +"，一个串关为1单，一共" + i + "个注单 ";
+
+            } else {
+                msg = vo.getCgName() + "是有" + n + "场比赛组成的一个注单\n" +
+                        "选择" + orderCount + "场赛事投注" + n + "串" + i + "时，系统将所选的" + orderCount + "场赛事中拆出" + n + "个串关为1单，一共"
+                        + vo.getBtCount() + "个注单";
+            }
+        }
+
+
+        MsgDialog dialog = new MsgDialog(getContext(), title, msg, true, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+            }
+
+            @Override
+            public void onClickRight() {
+                ppw.dismiss();
+            }
+        });
+        ppw = new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(true)
+                .dismissOnBackPressed(true)
+                .asCustom(dialog);
+        ppw.show();
+    }
+
+    // 计算阶乘
+    public static int factorial(int n) {
+        if (n == 0 || n == 1) {
+            return 1;
+        }
+        int result = 1;
+        for (int i = 1; i <= n; i++) {
+            result *= i;
+        }
+        return result;
+    }
+
+    // 计算组合数 C(n, k)
+    public static int combination(int n, int k) {
+        return factorial(n) / (factorial(k) * factorial(n - k));
     }
 }
