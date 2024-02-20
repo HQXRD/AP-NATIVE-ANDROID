@@ -21,8 +21,8 @@ public class BtRecordReq {
     private int size = 100;
     private int current = 1;
     private int timeType = 1;
-    private long startTime = 1705939200000L;
-    private long endTime = 1706004803395L;
+    /*private long startTime = 1705939200000L;
+    private long endTime = 1706004803395L;*/
 
     public boolean isSettled() {
         return isSettled;
@@ -65,12 +65,4 @@ public class BtRecordReq {
     public void setTimeType(int timeType) {
         this.timeType = timeType;
     }
-
-    /*public String getCurrencyId() {
-        return currencyId;
-    }
-
-    public void setCurrencyId(String currencyId) {
-        this.currencyId = currencyId;
-    }*/
 }

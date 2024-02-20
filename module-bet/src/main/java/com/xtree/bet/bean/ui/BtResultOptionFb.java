@@ -2,6 +2,7 @@ package com.xtree.bet.bean.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Parcel;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -64,10 +65,13 @@ public class BtResultOptionFb implements BtResultOption {
 
     @Override
     public String getScore() {
-        if(btResultOptionInfo.scs == null || btResultOptionInfo.scs.size() < 1){
+        if(btResultOptionInfo == null || TextUtils.isEmpty(btResultOptionInfo.bsc)){
             return "";
         }
-        return btResultOptionInfo.scs.get(0) + "-" + btResultOptionInfo.scs.get(1);
+        if (btResultOptionInfo.bsc.startsWith("S:")){
+            return btResultOptionInfo.bsc.substring(2).trim();
+        }
+        return btResultOptionInfo.bsc;
     }
 
     @Override
