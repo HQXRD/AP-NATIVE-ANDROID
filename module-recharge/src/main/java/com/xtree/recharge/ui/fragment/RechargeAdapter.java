@@ -25,6 +25,7 @@ public class RechargeAdapter extends CachedAutoRefreshAdapter<RechargeVo> {
     ItemRechargeBinding binding;
 
     View curView;
+    String curBid; // 当前选中的充值渠道bid, (解决网络请求的数据回来,选中的渠道被取消问题)
 
     public interface ICallBack {
         void onClick(RechargeVo vo);
@@ -50,6 +51,10 @@ public class RechargeAdapter extends CachedAutoRefreshAdapter<RechargeVo> {
         binding = ItemRechargeBinding.bind(holder.itemView);
         binding.tvwTitle.setText(vo.title);
         binding.tvwTitle.setTag(vo.bid); // 弹窗时会用到
+        if (vo.bid.equals(curBid)) {
+            curView = binding.tvwTitle;
+            curView.setSelected(true);
+        }
 
         // 存款加赠5.00%
         if (vo.depositfee_disabled && !TextUtils.isEmpty(vo.depositfee_rate)) {
@@ -78,6 +83,7 @@ public class RechargeAdapter extends CachedAutoRefreshAdapter<RechargeVo> {
 
             v.setSelected(true);
             curView = v;
+            curBid = vo.bid;
             mCallBack.onClick(vo);
         });
     }
