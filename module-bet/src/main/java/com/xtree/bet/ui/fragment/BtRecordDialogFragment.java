@@ -79,6 +79,7 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
 
     @Override
     public void initView() {
+        isSettled = getArguments().getBoolean(KEY_ISSETTLED);
         for (int i = 0; i < TAB_TITLE.length; i++) {
             TextView textView = new TextView(getContext());
             textView.setText(TAB_TITLE[i]);
@@ -86,6 +87,11 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
             textView.setTextColor(colorStateList);
             textView.setTextSize(16);
             binding.tabTitle.addTab(binding.tabTitle.newTab().setCustomView(textView));
+        }
+        if (isSettled) {
+            binding.tabTitle.getTabAt(1).select();
+        } else {
+            binding.tabTitle.getTabAt(0).select();
         }
         initLeagueListView();
         binding.rvRecord.setOnGroupClickListener((parent, v, groupPosition, id) -> true);
@@ -181,7 +187,6 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
 
     @Override
     public void initData() {
-        isSettled = getArguments().getBoolean(KEY_ISSETTLED);
         viewModel.betRecord(isSettled);
     }
 
@@ -237,7 +242,7 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
         } else if (id == R.id.tv_to_record) {
             Bundle bundle = new Bundle();
             bundle.putString("typeId", mPlatform);
-            if(TextUtils.equals(mPlatform, PLATFORM_FBXC)){
+            if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
                 mPlatformName = getString(R.string.bt_platform_name_fbxc);
             } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
                 mPlatformName = getString(R.string.bt_platform_name_fb);
