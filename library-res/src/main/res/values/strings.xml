@@ -61,6 +61,17 @@
     <string name="txt_settled">已结算</string>
     <string name="txt_unsettle">未结算</string>
 
+    <string name="txt_bank_process">银行处理中</string>
+    <string name="txt_wait_review">等待风控审核</string>
+    <string name="txt_in_operation">操作中</string>
+    <string name="txt_timeout_manual_process">处理超时人工处理中</string>
+    <string name="txt_withdrawing">出款中</string>
+    <string name="txt_others">其他</string>
+    <string name="txt_reviewed">已审核</string>
+    <string name="txt_rc_succ">充值成功</string>
+    <string name="txt_rc_fail">充值失败</string>
+    <string name="txt_confiscated">已没收</string>
+
     <string name="txt_all_status">所有状态</string>
     <string name="txt_received">已到账</string>
     <string name="txt_unreceived">未到账</string>
@@ -111,10 +122,10 @@
     <string name="txt_set_withdrawal_request">1.设置提款请求</string>
     <string name="text_confirm_withdrawal_message">2.确认提款消息</string>
     <string name="text_over_withdrawal_request">3.完成申请</string>
-	<string name="txt_lottery_info">彩种信息</string>
-	<string name="txt_question">常见问题</string>
-	<string name="txt_play_intro">玩法介绍</string>
-	<string name="txt_tutorial">教程</string>
+    <string name="txt_lottery_info">彩种信息</string>
+    <string name="txt_question">常见问题</string>
+    <string name="txt_play_intro">玩法介绍</string>
+    <string name="txt_tutorial">教程</string>
 
     <string name="txt_rc_bind_personal_info">请先绑定个人信息</string>
     <string name="txt_rc_bind_phone_now">立即绑定手机号</string>
@@ -126,4 +137,11 @@
     <string name="txt_rc_tip_latest_balance">已更新到最新余额</string>
     <string name="txt_update">版本更新</string>
 
+    <string name="domain_url">http</string>
+    <string name="domain_url_list">http;http</string>
+    <string name="channel_name">xingcai</string>
+    <string name="build_time">20240112</string>
+    <string name="mixpanel_token">abc123</string>
+    <string name="ms_secret_key">abc123</string>
+    <bool name="is_tag">false</bool>
 </resources>

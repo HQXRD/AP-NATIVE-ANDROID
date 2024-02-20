@@ -100,16 +100,6 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 ItemReportReachargeBinding binding2 = ItemReportReachargeBinding.bind(holder.itemView);
                 RechargeOrderVo vo = get(position);
-                int status;
-                if ("0".equals(vo.status)) {
-                    status = R.string.txt_to_process;
-                } else if ("2".equals(vo.status)) {
-                    status = R.string.txt_succ;
-                } else if ("4".equals(vo.status)) {
-                    status = R.string.txt_expired;
-                } else {
-                    status = R.string.txt_to_process;
-                }
 
                 String amount = vo.amount == null ? "--" : vo.amount;
                 String fee = vo.fee == null ? "--" : vo.fee;
@@ -117,7 +107,7 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
 
                 binding2.tvwId.setText(vo.id);
                 binding2.tvwPayportNickname.setText(vo.payport_nickname);
-                binding2.tvwStatus.setText(status);
+                binding2.tvwStatus.setText(getStatus(vo)); // 状态
                 binding2.tvwMoney.setText(vo.money);
                 binding2.tvwAmount.setText(amount);
                 binding2.tvwFee.setText(fee);
@@ -141,11 +131,10 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
                 ItemReportWithdrawBinding binding2 = ItemReportWithdrawBinding.bind(holder.itemView);
                 WithdrawOrderVo vo = get(position);
 
-                int status = "2".equals(vo.status) ? R.string.txt_succ : R.string.txt_fail;
                 String fee = vo.fee > 0 ? String.valueOf(vo.fee) : "--";
                 binding2.tvwEntry.setText(vo.entry);
                 binding2.tvwBankName.setText(vo.bankname);
-                binding2.tvwStatus.setText(status);
+                binding2.tvwStatus.setText(getStatus(vo)); // 状态
                 binding2.tvwAmount.setText(vo.amount);
                 binding2.tvwFee.setText(fee);
                 binding2.tvwAcceptTime.setText(vo.accepttime);
@@ -174,7 +163,7 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
                 binding2.tvwAddTime.setText(vo.add_time);
 
                 binding2.tvwDetail.setOnClickListener(v -> {
-                    CfLog.i("****** " +vo.id);
+                    CfLog.i("****** " + vo.id);
                     Bundle bundle = new Bundle();
                     bundle.putString("id", vo.id);
                     startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK_DETAIL, bundle);
@@ -182,12 +171,10 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
                 if (vo.order_status.equals("4")) //订单超时只能查看，不能修改
                 {
                     binding2.tvwEdit.setVisibility(View.GONE);
-                }
-                else
-                {
+                } else {
                     binding2.tvwEdit.setVisibility(View.VISIBLE);
                     binding2.tvwEdit.setOnClickListener(v -> {
-                        CfLog.i("****** " +vo.id);
+                        CfLog.i("****** " + vo.id);
                         Bundle bundle = new Bundle();
                         bundle.putString("id", vo.id);
                         startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK_EDIT, bundle);
@@ -332,6 +319,52 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
                 binding.tvwNoData.setVisibility(View.GONE);
             }
         });
+
+    }
+
+    private String getStatus(RechargeOrderVo vo) {
+        // 0:待处理, 1:已审核, 2:充值成功, 3:充值失败, 4:超时无效, 5:已没收
+        switch (vo.status) {
+            case "0":
+                return getString(R.string.txt_to_process); //"待处理";
+            case "1":
+                return getString(R.string.txt_reviewed); // 已审核
+            case "2":
+                return getString(R.string.txt_rc_succ); // 充值成功
+            case "3":
+                return getString(R.string.txt_rc_fail); // 充值失败
+            case "4":
+                return getString(R.string.txt_expired); // 超时无效
+            case "5":
+                return getString(R.string.txt_confiscated); //已没收
+            default:
+                return getString(R.string.txt_others); // 其他
+        }
+    }
+
+    private String getStatus(WithdrawOrderVo vo) {
+        // status 0:待处理, 1:失败, 2:成功, 3:银行处理中,
+        // 4:等待风控审核, 5:操作中, 6:处理超时人工处理中, 20:出款中,
+        switch (vo.status) {
+            case "0":
+                return getString(R.string.txt_to_process); //"待处理";
+            case "1":
+                return getString(R.string.txt_fail); // "失败";
+            case "2":
+                return getString(R.string.txt_succ); // "成功";
+            case "3":
+                return getString(R.string.txt_bank_process); // 银行处理中
+            case "4":
+                return getString(R.string.txt_wait_review); // 等待风控审核
+            case "5":
+                return getString(R.string.txt_in_operation); // 操作中
+            case "6":
+                return getString(R.string.txt_timeout_manual_process); // 处理超时人工处理中
+            case "20":
+                return getString(R.string.txt_withdrawing); // 出款中
+            default:
+                return getString(R.string.txt_others); // 其他
+        }
 
     }
 
