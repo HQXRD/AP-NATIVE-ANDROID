@@ -419,7 +419,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                 @Override
                 public void onError(Throwable t) {
-                    super.onError(t);
                     if (!isTimerRefresh) {
                         if (t instanceof ResponseThrowable) {
                             ResponseThrowable error = (ResponseThrowable) t;
