@@ -121,11 +121,15 @@ public class RechargeOrderWebDialog extends BottomPopupView {
                     @Override
                     public void onClickRight() {
                         ppw2.dismiss();
-                        ppw.dismiss(); // 上层dialog也要关闭 2024-02-17
+                        dismissParent(); //ppw.dismiss(); // 上层dialog也要关闭 2024-02-17
                         mCallBack.onCallBack(); // 如果是从其它页跳过来的,要关闭 2024-02-17
                     }
                 }));
         ppw2.show();
+    }
+
+    private void dismissParent() {
+        dismiss();
     }
 
     private void goPay() {
