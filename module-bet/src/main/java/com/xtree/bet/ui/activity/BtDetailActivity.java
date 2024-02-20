@@ -32,6 +32,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.BR;
 import com.xtree.bet.R;
@@ -511,6 +512,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
         if (id == R.id.rl_cg) {
             if (BtCarManager.size() <= 1) {
                 ToastUtils.showLong(getText(R.string.bt_bt_must_have_two_match));
+                return;
+            }
+            if(ClickUtil.isFastClick()){
                 return;
             }
             BtCarDialogFragment btCarDialogFragment = new BtCarDialogFragment();
