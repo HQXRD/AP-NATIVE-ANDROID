@@ -27,6 +27,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.widget.BrowserActivity;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
@@ -138,6 +139,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 请求网络数据
      */
     private void requestData() {
+        LoadingDialog.show(getContext());
         viewModel.getChooseWithdrawInfo();
     }
 

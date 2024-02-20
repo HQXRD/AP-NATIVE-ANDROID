@@ -154,7 +154,7 @@
         android:layout_marginTop="80dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:visibility="gone"
         layout="@layout/dialog_withdraw_money_confirm"/>
     <!--显示状态 3 确认提款信息View-->
 
