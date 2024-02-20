@@ -7,5 +7,10 @@
     <string name="hm_txt_trans">转账</string>
     <string name="hm_txt_member">会员</string>
     <string name="hm_txt_maintaining">平台于: %1$s\n维护至: %2$s</string>
-
+    <string name="txt_floating_title">待处理</string>
+    <string name="txt_floating_record">充提记录</string>
+    <string name="txt_floating_way">充值渠道</string>
+    <string name="txt_floating_money">充值金额</string>
+    <string name="txt_floating_time">剩余时间</string>
+    <string name="txt_floating_no_data">暂无待处理订单</string>
 </resources>
