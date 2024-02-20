@@ -1,4 +1,4 @@
-package com.xtree.home.ui;
+package com.xtree.home.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -131,7 +131,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             mCallBack.onClick(vo); // vo.alias, vo.gameId
         } else {
             // 拼装URL
-            if(vo.id.equals("601")){
+            if (vo.id.equals("601")) {
                 playGame(DomainUtil.getDomain() + vo.playURL, vo.name, vo.id.equals("601"));
             } else {
                 playGame(DomainUtil.getDomain() + vo.playURL, vo.name);

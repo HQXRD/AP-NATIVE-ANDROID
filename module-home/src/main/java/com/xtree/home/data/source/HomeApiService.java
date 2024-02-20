@@ -11,6 +11,7 @@ import com.xtree.home.vo.EleVo;
 import com.xtree.home.vo.GameStatusVo;
 import com.xtree.home.vo.LoginResultVo;
 import com.xtree.home.vo.NoticeVo;
+import com.xtree.home.vo.RechargeReportVo;
 import com.xtree.home.vo.SettingsVo;
 import com.xtree.home.vo.VipInfoVo;
 
@@ -26,7 +27,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface HomeApiService {
@@ -37,7 +37,7 @@ public interface HomeApiService {
 
     /**
      * 获取 banner列表
-     *d @return
+     * d @return
      */
     @GET("/api/bns/4/banners?limit=20")
     Flowable<BaseResponse<List<BannersVo>>> getBanners();
@@ -125,4 +125,10 @@ public interface HomeApiService {
     @GET("/api/game/h5list")
     Flowable<BaseResponse<EleVo>> getEle(@QueryMap Map<String, String> filters);
 
+    /**
+     * 充值记录
+     * ?starttime=2024-01-10 00:00:00&endtime=2024-01-11 23:59:59&p=1&pn=10&client=m
+     */
+    @GET("/report/emailreport?")
+    Flowable<RechargeReportVo> getRechargeReport(@QueryMap Map<String, String> map);
 }
