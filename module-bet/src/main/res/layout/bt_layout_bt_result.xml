@@ -3,20 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:background="@mipmap/bt_car_pop_top">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@mipmap/bt_bg_dialog_bt"
+            app:layout_constraintBottom_toBottomOf="@+id/ll_root"
+            app:layout_constraintTop_toTopOf="@+id/ll_root" />
 
         <LinearLayout
             android:id="@+id/ll_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@mipmap/bt_bg_dialog_bt"
             android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
@@ -99,8 +104,8 @@
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="center"
                     android:background="@mipmap/cm_bg_btn"
-                    android:paddingTop="6dp"
                     android:gravity="center_horizontal"
+                    android:paddingTop="6dp"
                     android:text="@string/bt_bt_btn_comfirm"
                     android:textColor="@color/bt_color_under_bg_primary_text"
                     android:textSize="@dimen/bt_text_16sp"
@@ -113,5 +118,5 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
