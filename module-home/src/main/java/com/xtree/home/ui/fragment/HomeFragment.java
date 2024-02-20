@@ -36,7 +36,8 @@ import com.xtree.base.widget.MsgDialog;
 import com.xtree.home.BR;
 import com.xtree.home.R;
 import com.xtree.home.databinding.FragmentHomeBinding;
-import com.xtree.home.ui.GameAdapter;
+import com.xtree.home.ui.CustomFloatWindows;
+import com.xtree.home.ui.adapter.GameAdapter;
 import com.xtree.home.ui.viewmodel.HomeViewModel;
 import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.home.vo.BannersVo;
@@ -62,7 +63,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 @Route(path = RouterFragmentPath.Home.PAGER_HOME)
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
-
+    CustomFloatWindows customFloatWindows;
     GameAdapter gameAdapter;
     private int curPId = 0; // 当前选中的游戏大类型 1体育,2真人,3电子,4电竞,5棋牌,6彩票
     private ProfileVo mProfileVo; //最新的用戶信息
@@ -73,6 +74,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private int position;
     private LinearLayoutManager manager;
     private String token;
+    private boolean isFloating = false;
 
     public static String CHOOSE_TYPE = "";
     private boolean selectUpdate;//手动更新余额
@@ -203,6 +205,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
 
     public void initView() {
+        CfLog.e(String.valueOf(getActivity().getClass()));
+        if (!isFloating) {
+            CfLog.e("customFloatWindows.show");
+            customFloatWindows = new CustomFloatWindows(getActivity());
+            customFloatWindows.show();
+            isFloating = true;
+        }
         //用户余额点击
         binding.clLoginYet.setOnClickListener(v -> {
             selectUpdate = true;
@@ -536,6 +545,5 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (diff >= 0 && diff < binding.rcvList.getChildCount()) {
             binding.rcvList.smoothScrollBy(0, binding.rcvList.getChildAt(diff).getTop());
         }
-
     }
 }
