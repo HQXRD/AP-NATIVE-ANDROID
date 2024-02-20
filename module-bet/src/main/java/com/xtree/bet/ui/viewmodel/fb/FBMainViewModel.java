@@ -1,5 +1,7 @@
 package com.xtree.bet.ui.viewmodel.fb;
 
+import static com.xtree.base.net.FBHttpCallBack.CodeRule.CODE_14010;
+import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_400467;
 import static com.xtree.bet.constant.FBConstants.SPORT_ICON_ADDITIONAL;
 import static com.xtree.bet.constant.FBConstants.SPORT_IDS;
 import static com.xtree.bet.constant.FBConstants.SPORT_IDS_ADDITIONAL;
@@ -11,6 +13,9 @@ import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_LIVE;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_NOMAL;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_TODAY_CG;
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -18,8 +23,11 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
+import com.xtree.base.vo.FBService;
+import com.xtree.bet.R;
 import com.xtree.bet.bean.response.fb.LeagueInfo;
 import com.xtree.bet.bean.response.fb.MatchTypeInfo;
 import com.xtree.bet.bean.response.fb.MatchTypeStatisInfo;
@@ -45,12 +53,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 
 import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 
+import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+import me.xtree.mvvmhabit.http.BaseResponse;
+import me.xtree.mvvmhabit.http.BusinessException;
+import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -72,9 +85,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     private int goingOnPageSize = 300;
     private int pageSize = 50;
     private int mPlayMethodType;
-    private int mSportPos;
     private boolean isStepSecond;
-    private int mGoingonMatchCount;
 
     public FBMainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
@@ -118,7 +129,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                 additionalNames.add(FBConstants.SPORT_NAMES[i]);
                 additionalIcons.add(Constants.SPORT_ICON[i]);
             }
-            if(mStatisticalInfo != null) {
+            if (mStatisticalInfo != null) {
                 for (MatchTypeInfo typeInfo : mStatisticalInfo.sl) {
                     if (typeInfo.ty == playMethodType) {
                         matchTypeInfo = typeInfo;
@@ -217,7 +228,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
         int type;
         boolean flag = false;
-        mSportPos = sportPos;
 
         if (isRefresh) {
             type = playMethodType == 6 || (playMethodType == 2 && searchDatePos == 0) ? 1 : playMethodType;
@@ -242,23 +252,16 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             fBListReq.setSportId(null);
         }
 
-        String startTime;
-        String endTime;
-
         if (type != 1 && type != 3) {
             if (searchDatePos == dateList.size() - 1) {
                 fBListReq.setBeginTime(dateList.get(dateList.size() - 1).getTime() + "");
                 fBListReq.setEndTime(TimeUtils.addDays(dateList.get(dateList.size() - 1), 30).getTime() + "");
-                startTime = TimeUtils.longFormatString(Long.valueOf(fBListReq.getBeginTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
-                endTime = TimeUtils.longFormatString(Long.valueOf(fBListReq.getEndTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
             } else if (searchDatePos != 0) {
                 String start = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
                 String end = TimeUtils.parseTime(TimeUtils.addDays(dateList.get(searchDatePos), 1), TimeUtils.FORMAT_YY_MM_DD) + " 11:59:59";
 
                 fBListReq.setBeginTime(TimeUtils.strFormatDate(start, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime() + "");
                 fBListReq.setEndTime(TimeUtils.strFormatDate(end, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime() + "");
-                /*startTime = TimeUtils.longFormatString(Long.valueOf(pbListReq.getBeginTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
-                endTime = TimeUtils.longFormatString(Long.valueOf(pbListReq.getEndTime()), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);*/
             }
         }
 
@@ -343,8 +346,13 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onError(Throwable t) {
-                        //super.onError(t);
-                        getLeagueList(sportPos, sportId, orderBy, leagueIds, matchids, playMethodType, searchDatePos, oddType, isTimerRefresh, isRefresh);
+                        if (t instanceof ResponseThrowable) {
+                            if (((ResponseThrowable) t).code == CODE_14010) {
+                                getGameTokenApi();
+                            }else {
+                                getLeagueList(sportPos, sportId, orderBy, leagueIds, matchids, playMethodType, searchDatePos, oddType, isTimerRefresh, isRefresh);
+                            }
+                        }
                         /*if (isRefresh) {
                             finishRefresh(false);
                         } else {
@@ -448,8 +456,13 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onError(Throwable t) {
-                        //super.onError(t);
-                        getChampionList(sportPos, sportId, orderBy, leagueIds, matchids, playMethodType, oddType, isTimerRefresh, isRefresh);
+                        if (t instanceof ResponseThrowable) {
+                            if (((ResponseThrowable) t).code == CODE_14010) {
+                                getGameTokenApi();
+                            }else {
+                                getChampionList(sportPos, sportId, orderBy, leagueIds, matchids, playMethodType, oddType, isTimerRefresh, isRefresh);
+                            }
+                        }
                         /*if (isRefresh) {
                             finishRefresh(false);
                         } else {
@@ -537,6 +550,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     public String[] getSportId(int playMethodType) {
         return SPORT_IDS;
     }
+
     @Override
     public String[] getSportName(int playMethodType) {
         return SPORT_NAMES;
@@ -803,14 +817,23 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         return optionArrayList;
     }
 
-    public void getFBGameTokenApi() {
-        Disposable disposable = (Disposable) model.getApiService().getFBGameTokenApi()
+    public void getGameTokenApi() {
+        Flowable<BaseResponse<FBService>> flowable = null;
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
+            flowable = model.getApiService().getFBXCGameTokenApi();
+        } else {
+            flowable = model.getApiService().getFBGameTokenApi();
+        }
+        Disposable disposable = (Disposable) flowable
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new FBHttpCallBack<String>() {
+                .subscribeWith(new FBHttpCallBack<FBService>() {
                     @Override
-                    public void onResult(String vo) {
-                        SPUtils.getInstance().put("customer_service_url", vo);
+                    public void onResult(FBService fbService) {
+                        SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
+                        SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                        tokenInvalidEvent.call();
                     }
 
                     @Override

@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.router.RouterFragmentPath;
@@ -40,6 +41,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class CustomFloatWindows extends RelativeLayout {
     private Context ctx;
@@ -206,6 +208,11 @@ public class CustomFloatWindows extends RelativeLayout {
                                     }
                                 }
                             }
+                            if (SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).equals("")) {
+                                rechargeOrderVoList.clear();
+                                rechargeReportAdapter.clear();
+                            }
+
                             if (rechargeOrderVoList.size() > 0) {
                                 rechargeReportAdapter.addAll(rechargeOrderVoList);
                                 floatView.findViewById(R.id.rcv_data).setVisibility(View.VISIBLE);

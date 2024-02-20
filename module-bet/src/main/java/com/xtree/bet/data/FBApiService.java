@@ -1,5 +1,6 @@
 package com.xtree.bet.data;
 
+import com.xtree.base.vo.FBService;
 import com.xtree.bet.bean.request.fb.BtMultipleListReq;
 import com.xtree.bet.bean.request.fb.BtRecordReq;
 import com.xtree.bet.bean.request.fb.SingleBtListReq;
@@ -32,9 +33,16 @@ public interface FBApiService {
      * 获取 FB体育请求服务地址
      * @return
      */
-    @POST("/api/sports/fb/getToken?cachedToken=1")
+    @POST("/api/sports/fb/getToken")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse<String>> getFBGameTokenApi();
+    Flowable<BaseResponse<FBService>> getFBGameTokenApi();
+    /**
+     * 获取 FB杏彩体育请求服务地址
+     * @return
+     */
+    @POST("/api/sports/fbxc/getToken")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<FBService>> getFBXCGameTokenApi();
 
     /**
      * 获取 FB体育请求服务地址
