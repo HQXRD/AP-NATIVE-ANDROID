@@ -810,22 +810,22 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             // 有订单还未到账，为了能您的充值快速到账，请您进行反馈！
             CfLog.i("****** 有订单还未到账，为了能您的充值快速到账，请您进行反馈！");
             String msg = getString(R.string.txt_rc_order_not_received_contact_pls);
-            //showRecommendDialog(msg, null);
-            BasePopupView dialog = new MsgDialog(getContext(), "", msg, true, new MsgDialog.ICallBack() {
+
+            MsgDialog dialog = new MsgDialog(getContext(), "", msg, true, new MsgDialog.ICallBack() {
                 @Override
                 public void onClickLeft() {
                 }
 
                 @Override
                 public void onClickRight() {
-                    ppw.dismiss();
+                    ppw2.dismiss();
                 }
             });
-            ppw = new XPopup.Builder(getContext())
+            ppw2 = new XPopup.Builder(getContext())
                     .dismissOnTouchOutside(false)
-                    .dismissOnBackPressed(false)
+                    .dismissOnBackPressed(true)
                     .asCustom(dialog);
-            ppw.show();
+            ppw2.show();
 
         } else if (vo.userProcessCount > 0) {
             // 您已经连续充值 次, 为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！

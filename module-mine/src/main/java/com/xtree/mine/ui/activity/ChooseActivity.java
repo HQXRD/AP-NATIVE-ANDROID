@@ -108,6 +108,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
      * 显示提款页面
      */
     private void showChoose() {
+        LoadingDialog.show(this);
         basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
                 .asCustom(ChooseWithdrawalDialog.newInstance(this, this, () -> {

@@ -85,6 +85,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
     private ArrayList<FeedbackVo.FeedbackProtocolInfo> protocolInfoArrayList = new ArrayList<>();//虚拟币支付协议
 
     private ArrayList<FeedbackDep> last3DepList = new ArrayList<FeedbackDep>();//反馈中订单信息
+    private FeedbackDep feedbackDep ;
 
     private BasePopupView loadPopView;//loadView
 
@@ -277,7 +278,9 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             @Override
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
+
                 FeedbackDep vo = get(position);
+
                 String showMessage = "订单号: " + vo.id + " 金额: " + vo.money;
                 String save = vo.money;
                 String time = vo.created;
@@ -287,19 +290,30 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                         receive_bank = String.valueOf(info.id);
                     }
                 }
-                CfLog.i("未到账订单信息是 ：" + showMessage);
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
+                    feedbackDep = vo ;
+                    CfLog.i("未到账订单信息是 ：" + showMessage + "feedbackDep = " +feedbackDep);
                     binding.tvwUnreceivedOrders.setText(showMessage);
                     binding.tvDepositTime.setText(time); //存款准确时间
-
+                    //bank_id 支付渠道
+                   // ;
+                    for (int i = 0; i < bankInfoArrayList.size(); i++) {
+                        if (bankInfoArrayList.get(i).id == Integer.valueOf(feedbackDep.bank_id)){
+                            CfLog.i("未到账订单信息是 ：" + showMessage + "feedbackDep = " +feedbackDep + "|支付渠道 =" + bankInfoArrayList.get(i).name);
+                            finalThreeID =bankInfoArrayList.get(i).name ;
+                        }
+                    }
                     binding.tvwPaymentChannel.setText(finalThreeID); //支付渠道
                     if (feedbackType == 1) //微信
                     {
                         binding.etDepositAmount.setText(save);
                     }
                     //虚拟币
-                    else binding.etVirtualAmount.setText(save);
+                    else
+                    {
+                        binding.etVirtualAmount.setText(save);
+                    }
 
                     ppw.dismiss();
                 });
@@ -507,6 +521,11 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             binding.llDepositAmount.setVisibility(View.GONE);//存款金额
             binding.llVirtualAmount.setVisibility(View.VISIBLE);//虚拟币数量隐藏
             binding.llCollectionWalletAddress.setVisibility(View.VISIBLE);//收款钱包地址隐藏
+            //et_virtual_amount
+            CfLog.e("referFeedbackUI = feedbackDep = " +feedbackDep);
+            if (feedbackDep != null){
+                binding.etVirtualAmount.setText(feedbackDep.money);
+            }
         }
     }
 

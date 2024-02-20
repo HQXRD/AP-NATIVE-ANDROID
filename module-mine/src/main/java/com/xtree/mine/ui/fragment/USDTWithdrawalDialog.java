@@ -181,7 +181,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         binding.tvWithdrawalTypeShow1.setText(temp);
         binding.tvInfoExchangeRateShow.setText(usdtCashVo.exchangerate);
         binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
-       //关闭软键盘弹起
+        //关闭软键盘弹起
         binding.etInputMoney.clearFocus();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -404,7 +404,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
      * 设置提款 请求 下一步
      */
     private void requestWithdrawUSDT() {
-        //et_input_money
+        LoadingDialog.show(getContext());
         String money = binding.etInputMoney.getText().toString();
         HashMap<String, String> map = new HashMap<>();
         map.put("action", "platwithdraw");
@@ -430,6 +430,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
      * 设置提款 完成申请
      */
     private void requestConfirmUSDT() {
+        LoadingDialog.show(getContext());
         HashMap<String, String> map = new HashMap<>();
         map.put("controller", "security");
         map.put("action", "platwithdraw");

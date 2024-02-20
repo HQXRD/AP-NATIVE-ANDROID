@@ -140,6 +140,7 @@
     <string name="txt_enter_new_pwd">请输入新的登录密码</string>
     <string name="txt_user_name_should_6_12">用户名为6到12位</string>
     <string name="txt_pwd_should_6_12">密码为6到12位</string>
+    <string name="txt_pwd_should_6_16">请输入由字母和数字组成的6-16位字符</string>
     <string name="txt_enter_pwd_again">请再次输入密码</string>
     <string name="txt_pwd_should_same">两次输入密码不一致</string>
 

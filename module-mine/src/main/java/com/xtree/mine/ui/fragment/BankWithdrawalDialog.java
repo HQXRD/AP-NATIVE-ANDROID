@@ -715,7 +715,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      * @param bankinfo        选中的收款银行卡的id
      */
     private void requestNext(String channel_typenum, String channel_child, String money, String bankinfo) {
-
+        LoadingDialog.show(getContext());
         HashMap<String, String> map = new HashMap<>();
         map.put("action", "platwithdraw");
         map.put("bankinfo", bankinfo);
@@ -735,7 +735,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      * 确定提交
      */
     private void requestConfirmWithdraw(String money, String cardid, String channel_child) {
-
+        LoadingDialog.show(getContext());
         HashMap<String, String> map = new HashMap<>();
         map.put("controller", "security");
         map.put("action", "platwithdraw");

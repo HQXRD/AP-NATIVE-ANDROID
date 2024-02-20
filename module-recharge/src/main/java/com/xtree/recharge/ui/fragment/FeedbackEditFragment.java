@@ -371,6 +371,7 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
         //下载图片
         loadImage(info.userpay_picture);
     }
+
     /**
      * 付款账户检测//付款錢包地址
      */

@@ -13,8 +13,8 @@ public class FeedbackDep
 				"sysparam_prefix": "cryptotrchqppay1"*/
         public String id;
         public String key ;
-        public String money ;
-        public String bank_id ;
+        public String money ;//充值金额/虚拟币数量
+        public String bank_id ; // 对应banksInfo中支付渠道号
         public String created ;
         public String currency_type ;
 
