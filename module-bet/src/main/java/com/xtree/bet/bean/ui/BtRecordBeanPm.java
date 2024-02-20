@@ -16,7 +16,7 @@ public class BtRecordBeanPm implements BtResult {
     private static Map<String, String> statusMap = new HashMap<>();
 
     static {
-        statusMap.put("0", "未结算");
+        statusMap.put("0", "投注成功");
         statusMap.put("1", "已结算");
         statusMap.put("2", "注单取消");
         statusMap.put("3", "确认中");

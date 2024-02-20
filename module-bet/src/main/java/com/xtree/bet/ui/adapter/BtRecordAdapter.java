@@ -145,7 +145,6 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         }else{
             binding.tvName.setText(cg);
         }
-        binding.tvBtResult.setText(btResult.getStatusDesc());
         binding.rvMatch.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rvMatch.setAdapter(new BtResultOptionAdapter(mContext, btResult.getBetResultOption()));
         binding.tvAmount.setText(mContext.getResources().getString(R.string.bt_bt_result_bt_amount_1, String.valueOf(btResult.getBtAmount())));
