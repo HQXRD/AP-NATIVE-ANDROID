@@ -345,7 +345,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
      * 设置提款 请求 下一步
      */
     private void requestWithdrawVirtual() {
-        //et_input_money
+        LoadingDialog.show(getContext());
         String money = binding.etInputMoney.getText().toString();
         HashMap<String, String> map = new HashMap<>();
         map.put("action", "platwithdraw");
@@ -367,6 +367,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
      * 设置提款 完成申请
      */
     private void requestConfirmVirtual() {
+        LoadingDialog.show(getContext());
         HashMap<String, String> map = new HashMap<>();
         map.put("controller", "security");
         map.put("action", "platwithdraw");
