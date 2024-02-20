@@ -387,6 +387,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
 
         viewModel.liveDataVipUpgrade.observe(this, vo -> {
+            if (mVipInfoVo == null) {
+                binding.tvwLevelHint.setVisibility(View.GONE);
+                binding.pbrLevel.setProgress(0);
+                return;
+            }
             if (vo.sp.equals("1")) {
                 if (vo.level < vo.vip_upgrade.size() - 1) {
                     int point = vo.vip_upgrade.get(vo.level).display_active - mVipInfoVo.current_activity;
