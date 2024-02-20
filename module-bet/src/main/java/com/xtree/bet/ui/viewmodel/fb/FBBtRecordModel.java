@@ -42,7 +42,8 @@ public class FBBtRecordModel extends TemplateBtRecordModel {
         BtRecordReq btRecordReq = new BtRecordReq();
         btRecordReq.setSettled(isSettled);
 
-        Disposable disposable = (Disposable) model.getApiService().betRecord(btRecordReq)
+        Disposable disposable = (Disposable) model.getApiService().
+                betRecord(btRecordReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new FBHttpCallBack<BtRecordRsp>() {

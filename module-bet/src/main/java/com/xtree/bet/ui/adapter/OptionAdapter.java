@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
 import com.xtree.bet.bean.ui.BetConfirmOptionUtil;
@@ -111,6 +112,9 @@ public class OptionAdapter extends BaseAdapter<Option> {
                 }
                 option.setSelected(BtCarManager.has(betConfirmOption));
             } else {
+                if(ClickUtil.isFastClick()){
+                    return;
+                }
                 BtCarDialogFragment btCarDialogFragment = new BtCarDialogFragment();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(BtCarDialogFragment.KEY_BT_OPTION, (BetConfirmOption) view1.getTag());

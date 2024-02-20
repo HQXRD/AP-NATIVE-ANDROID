@@ -29,7 +29,7 @@ public interface BtResultOption extends BaseBean {
      */
     String getPlayType();
     /**
-     * 获取投注当时的比分
+     * 获取下注时的比分
      * @return
      */
     String getScore();

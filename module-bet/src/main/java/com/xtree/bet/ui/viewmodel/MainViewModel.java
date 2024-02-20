@@ -60,6 +60,12 @@ public interface MainViewModel {
     String[] getSportId(int playMethodType);
 
     /**
+     * 获取体育赛事类型名称，如足球，篮球等
+     * @return
+     */
+    String[] getSportName(int playMethodType);
+
+    /**
      * 获取用户余额
      */
     void getUserBalance();

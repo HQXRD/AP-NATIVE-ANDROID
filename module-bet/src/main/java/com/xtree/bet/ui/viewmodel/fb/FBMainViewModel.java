@@ -11,7 +11,6 @@ import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_LIVE;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_NOMAL;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_TODAY_CG;
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -19,8 +18,6 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.fb.LeagueInfo;
@@ -43,7 +40,6 @@ import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.data.BetRepository;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +50,6 @@ import io.reactivex.disposables.Disposable;
 import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
-import com.xtree.bet.util.MatchDeserializer;
 
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -123,14 +118,16 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                 additionalNames.add(FBConstants.SPORT_NAMES[i]);
                 additionalIcons.add(Constants.SPORT_ICON[i]);
             }
-            for (MatchTypeInfo typeInfo : mStatisticalInfo.sl) {
-                if (typeInfo.ty == playMethodType) {
-                    matchTypeInfo = typeInfo;
-                    for (MatchTypeStatisInfo matchTypeStatisInfo :
-                            matchTypeInfo.ssl) {
-                        mapMatchTypeStatisInfo.put(String.valueOf(matchTypeStatisInfo.sid), matchTypeStatisInfo);
+            if(mStatisticalInfo != null) {
+                for (MatchTypeInfo typeInfo : mStatisticalInfo.sl) {
+                    if (typeInfo.ty == playMethodType) {
+                        matchTypeInfo = typeInfo;
+                        for (MatchTypeStatisInfo matchTypeStatisInfo :
+                                matchTypeInfo.ssl) {
+                            mapMatchTypeStatisInfo.put(String.valueOf(matchTypeStatisInfo.sid), matchTypeStatisInfo);
+                        }
+                        break;
                     }
-                    break;
                 }
             }
 
@@ -539,6 +536,10 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     @Override
     public String[] getSportId(int playMethodType) {
         return SPORT_IDS;
+    }
+    @Override
+    public String[] getSportName(int playMethodType) {
+        return SPORT_NAMES;
     }
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {

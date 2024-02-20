@@ -2,6 +2,7 @@ package com.xtree.base.widget;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -77,6 +78,7 @@ public class TipDialog extends CenterPopupView {
 
         binding.tvwMsg.setText(msg);
         if (msg.length() > 39) {
+            binding.tvwMsg2.setMovementMethod(ScrollingMovementMethod.getInstance());
             binding.tvwMsg.setVisibility(View.GONE);
             binding.tvwMsg2.setText(msg);
             binding.tvwMsg2.setVisibility(View.VISIBLE);

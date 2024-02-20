@@ -4,6 +4,7 @@ import android.os.Parcel;
 
 import com.xtree.base.vo.BaseBean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BtResultOptionInfo implements BaseBean {
@@ -127,7 +128,10 @@ public class BtResultOptionInfo implements BaseBean {
      * 比赛时钟信息，滚球走表信息
      */
     public MatchTimeInfo mc;
-
+    /**
+     * 下注时比分
+     */
+    public String bsc;
 
     @Override
     public int describeContents() {
@@ -142,6 +146,31 @@ public class BtResultOptionInfo implements BaseBean {
         dest.writeString(this.bod);
         dest.writeString(this.tr);
         dest.writeString(this.rid);
+        dest.writeInt(this.sid);
+        dest.writeString(this.mn);
+        dest.writeString(this.ln);
+        dest.writeLong(this.bt);
+        dest.writeInt(this.pe);
+        dest.writeInt(this.mty);
+        dest.writeString(this.on);
+        dest.writeString(this.onm);
+        dest.writeString(this.ip);
+        dest.writeTypedList(this.te);
+        dest.writeString(this.rs);
+        dest.writeInt(this.sr);
+        dest.writeString(this.bo);
+        dest.writeString(this.li);
+        dest.writeString(this.rmk);
+        dest.writeString(this.re);
+        dest.writeInt(this.mrid);
+        dest.writeInt(this.ty);
+        dest.writeString(this.mgn);
+        dest.writeString(this.cr);
+        dest.writeInt(this.mtp);
+        dest.writeInt(this.ms);
+        dest.writeList(this.scs);
+        dest.writeParcelable(this.mc, flags);
+        dest.writeString(this.bsc);
     }
 
     public void readFromParcel(Parcel source) {
@@ -151,6 +180,32 @@ public class BtResultOptionInfo implements BaseBean {
         this.bod = source.readString();
         this.tr = source.readString();
         this.rid = source.readString();
+        this.sid = source.readInt();
+        this.mn = source.readString();
+        this.ln = source.readString();
+        this.bt = source.readLong();
+        this.pe = source.readInt();
+        this.mty = source.readInt();
+        this.on = source.readString();
+        this.onm = source.readString();
+        this.ip = source.readString();
+        this.te = source.createTypedArrayList(TeamInfo.CREATOR);
+        this.rs = source.readString();
+        this.sr = source.readInt();
+        this.bo = source.readString();
+        this.li = source.readString();
+        this.rmk = source.readString();
+        this.re = source.readString();
+        this.mrid = source.readInt();
+        this.ty = source.readInt();
+        this.mgn = source.readString();
+        this.cr = source.readString();
+        this.mtp = source.readInt();
+        this.ms = source.readInt();
+        this.scs = new ArrayList<Integer>();
+        source.readList(this.scs, Integer.class.getClassLoader());
+        this.mc = source.readParcelable(MatchTimeInfo.class.getClassLoader());
+        this.bsc = source.readString();
     }
 
     public BtResultOptionInfo() {
@@ -163,6 +218,32 @@ public class BtResultOptionInfo implements BaseBean {
         this.bod = in.readString();
         this.tr = in.readString();
         this.rid = in.readString();
+        this.sid = in.readInt();
+        this.mn = in.readString();
+        this.ln = in.readString();
+        this.bt = in.readLong();
+        this.pe = in.readInt();
+        this.mty = in.readInt();
+        this.on = in.readString();
+        this.onm = in.readString();
+        this.ip = in.readString();
+        this.te = in.createTypedArrayList(TeamInfo.CREATOR);
+        this.rs = in.readString();
+        this.sr = in.readInt();
+        this.bo = in.readString();
+        this.li = in.readString();
+        this.rmk = in.readString();
+        this.re = in.readString();
+        this.mrid = in.readInt();
+        this.ty = in.readInt();
+        this.mgn = in.readString();
+        this.cr = in.readString();
+        this.mtp = in.readInt();
+        this.ms = in.readInt();
+        this.scs = new ArrayList<Integer>();
+        in.readList(this.scs, Integer.class.getClassLoader());
+        this.mc = in.readParcelable(MatchTimeInfo.class.getClassLoader());
+        this.bsc = in.readString();
     }
 
     public static final Creator<BtResultOptionInfo> CREATOR = new Creator<BtResultOptionInfo>() {

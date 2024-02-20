@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
@@ -527,6 +528,9 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                 //option.setSelected(BtCarManager.has(betConfirmOption));
                 RxBus.getDefault().post(new BetContract(BetContract.ACTION_OPEN_CG));
             } else {
+                if(ClickUtil.isFastClick()){
+                    return;
+                }
                 BtCarDialogFragment btCarDialogFragment = new BtCarDialogFragment();
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(BtCarDialogFragment.KEY_BT_OPTION, (BetConfirmOption) view1.getTag());

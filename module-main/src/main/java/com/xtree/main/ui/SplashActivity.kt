@@ -79,7 +79,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurDomainList.map { host ->
                 Get<String>(
-                    "$host",
+                    "$host/point.bmp",
                     absolutePath = true,
                     tag = RESPONSE,
                     uid = "the_fastest_line"

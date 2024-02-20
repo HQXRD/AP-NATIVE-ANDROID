@@ -22,6 +22,8 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.MenuItemView;
 import com.xtree.bet.BR;
@@ -29,6 +31,7 @@ import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.constant.Constants;
+import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.FragmentMainBinding;
@@ -79,7 +82,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private String mPlatformName;
     private boolean mIsShowLoading = true;
     private boolean mIsChange;
-    private int mLastLeagueSize;
     /**
      * 赛事统计数据
      */
@@ -115,6 +117,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private TextView tvHeaderName;
     private ImageView ivHeaderName;
     private int mHotMatchCount;
+    private String mSportName;
 
     public List<League> getSettingLeagueList() {
         return settingLeagueList;
@@ -125,9 +128,27 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     }
 
     public int getSportId() {
-        String sportId = viewModel.getSportId(playMethodType)[sportTypePos];
+        String[] sportIds = viewModel.getSportId(playMethodType);
+        String sportId = null;
+        if (sportTypePos < sportIds.length) {
+            sportId = sportIds[sportTypePos];
+
+        }
+
+        if (playMethodPos != 4) {
+            if (sportId == null) {
+                if (playMethodPos == 2) {
+                    sportTypePos = 0;
+                    sportId = sportIds[0];
+                } else {
+                    sportTypePos = 1;
+                    sportId = sportIds[1];
+                }
+                mSportName = viewModel.getSportName(playMethodType)[sportTypePos];
+            }
+        }
         if (sportId == null) {
-            return 0;
+            sportId = playMethodPos == 4 ? "-1" : PMConstants.SPORT_IDS_DEFAULT[1];
         }
         return Integer.valueOf(sportId);
     }
@@ -145,7 +166,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     @Override
     public void initParam() {
         mPlatform = getIntent().getStringExtra(KEY_PLATFORM);
-        if(TextUtils.equals(mPlatform, PLATFORM_FBXC)){
+        if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
             mPlatformName = getString(R.string.bt_platform_name_fbxc);
         } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
             mPlatformName = getString(R.string.bt_platform_name_fb);
@@ -202,7 +223,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             public void onTabSelected(TabLayout.Tab tab) {
                 ((TextView) tab.getCustomView()).setTextSize(16);
                 mIsChange = true;
-                sportTypePos = 0;
+
+                //sportTypePos = 0;
                 if (playMethodPos != tab.getPosition()) {
                     binding.srlLeague.resetNoMoreData();
                     searchDatePos = 0;
@@ -236,12 +258,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     viewModel.statistical(playMethodType);
                     initTimer();
                     if (playMethodPos == 2 || playMethodPos == 4) {
-                        getMatchData(viewModel.getSportId(playMethodType)[sportTypePos], mOrderBy, mLeagueIdList, null,
+                        getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
                                 playMethodType, searchDatePos, false, true);
                     } else if (playMethodPos == 0 || playMethodPos == 3) {
                         viewModel.getHotMatchCount(playMethodType, viewModel.hotLeagueList);
                     }
-                    //viewModel.getOnSaleLeagues(Integer.valueOf(viewModel.getSportId(playMethodType)[sportTypePos]), playMethodType);
                 }
             }
 
@@ -264,11 +285,12 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     mIsChange = true;
                     showSearchDate();
                     sportTypePos = tab.getPosition();
+                    mSportName = viewModel.getSportName(playMethodType)[sportTypePos];
                     mLeagueGoingOnList.clear();
                     mLeagueList.clear();
                     viewModel.statistical(playMethodType);
                     initTimer();
-                    String sportId = viewModel.getSportId(playMethodType)[sportTypePos];
+                    String sportId = String.valueOf(getSportId());
                     getMatchData(sportId, mOrderBy, mLeagueIdList, null,
                             playMethodType, searchDatePos, false, true);
                     if ((sportId == null || TextUtils.equals("0", sportId)) && (playMethodPos == 0 || playMethodPos == 3)) {
@@ -299,7 +321,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                         searchDatePos = tab.getPosition();
                         viewModel.statistical(playMethodType);
                         initTimer();
-                        getMatchData(viewModel.getSportId(playMethodType)[sportTypePos], mOrderBy, mLeagueIdList, null,
+                        getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
                                 playMethodType, searchDatePos, false, true);
                     }
                 }
@@ -489,7 +511,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             return;
         }
         int firstGroup = binding.rvLeague.getPackedPositionGroup(binding.rvLeague.getExpandableListPosition(firstVisibleItem));
-        if (mChampionMatchList.get(firstGroup).isHead()) {
+        if (firstGroup >= 0 && mChampionMatchList.get(firstGroup).isHead()) {
             ivHeaderExpand.setSelected(isChampionAllExpand());
             tvHeaderName.setText(getResources().getString(R.string.bt_all_league));
             ivHeaderName.setBackgroundResource(R.mipmap.bt_icon_all_league);
@@ -526,7 +548,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         if (league.isHead() && league.getHeadType() == League.HEAD_TYPE_LIVE_OR_NOLIVE) {
             ivHeaderExpand.setSelected(isWaitingAllExpand());
             tvHeaderName.setText(league.getLeagueName());
-            if(league.getLeagueName().equals(getResources().getString(R.string.bt_game_going_on))){
+            if (league.getLeagueName().equals(getResources().getString(R.string.bt_game_going_on))) {
                 ivHeaderName.setBackgroundResource(R.mipmap.bt_icon_going_on);
             } else if (league.getLeagueName().equals(getResources().getString(R.string.bt_game_waiting))) {
                 ivHeaderName.setBackgroundResource(R.mipmap.bt_icon_waiting);
@@ -657,7 +679,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
         }
         if (!matchIdList.isEmpty()) {
-            getMatchData(viewModel.getSportId(playMethodType)[sportTypePos], mOrderBy, null, matchIdList,
+            getMatchData(String.valueOf(getSportId()), mOrderBy, null, matchIdList,
                     playMethodType, searchDatePos, true, false);
         }
     }
@@ -756,7 +778,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 TextView tvName = view.findViewById(R.id.tab_item_name);
                 TextView tvMatchCount = view.findViewById(R.id.iv_match_count);
                 ImageView ivIcon = view.findViewById(R.id.iv_icon);
-                if(i < Constants.SPORT_ICON.length) {
+                if (i < Constants.SPORT_ICON.length) {
                     ivIcon.setBackgroundResource(Constants.SPORT_ICON[i]);
                 }
                 tvName.setText(matchitemList[i]);
@@ -765,14 +787,29 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 tvName.setTextColor(colorStateList);
                 tvMatchCount.setTextColor(colorStateList);
 
-                binding.tabSportType.addTab(binding.tabSportType.newTab().setCustomView(view));
+                binding.tabSportType.addTab(binding.tabSportType.newTab().setCustomView(view), false);
             }
-            //viewModel.setSportIds(playMethodPos);
-            if (playMethodPos == 0 || playMethodPos == 1 || playMethodPos == 3) {
-                binding.tabSportType.selectTab(binding.tabSportType.getTabAt(1));
+            String[] sportNameArray = viewModel.getSportName(playMethodType);
+
+            if (!TextUtils.isEmpty(mSportName)) {
+                int index = 0;
+                if (playMethodPos != 4) {
+                    index = 1;
+                }
+                for (int i = 0; i < sportNameArray.length; i++) {
+                    if (TextUtils.equals(mSportName, sportNameArray[i])) {
+                        index = i;
+                        break;
+                    }
+                }
+
+                final int fIndex = index;
+                binding.tabSportType.post(() -> binding.tabSportType.getTabAt(fIndex).select());
+
             } else {
-                binding.tabSportType.selectTab(binding.tabSportType.getTabAt(0));
+                binding.tabSportType.getTabAt(1).select();
             }
+
         });
         viewModel.leagueItemData.observe(this, leagueItem -> {
             for (int i = 0; i < leagueItem.getLeagueNameList().length; i++) {
@@ -843,14 +880,14 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 }
             } else if (betContract.action == BetContract.ACTION_SORT_CHANGE) {
                 mOrderBy = (int) betContract.getData();
-                getMatchData(viewModel.getSportId(playMethodType)[sportTypePos], mOrderBy, mLeagueIdList, null,
+                getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
                         playMethodType, searchDatePos, false, true);
             } else if (betContract.action == BetContract.ACTION_MARKET_CHANGE) {
                 mOddType = (int) betContract.getData();
                 updateData();
             } else if (betContract.action == BetContract.ACTION_CHECK_SEARCH_BY_LEAGUE) {
                 mLeagueIdList = (List<Long>) betContract.getData();
-                getMatchData(viewModel.getSportId(playMethodType)[sportTypePos], mOrderBy, mLeagueIdList, null,
+                getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
                         playMethodType, searchDatePos, false, true);
             }
 
@@ -965,7 +1002,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             setWaitingAllExpand(true);
             goingOnExpandOrCollapseGroup();
             waitingExpandOrCollapseGroup();
-            mLastLeagueSize = mLeagueList.size();
             mLeagueAdapter.setOnScrollListener(new PageHorizontalScrollView.OnScrollListener() {
                 @Override
                 public void onScrolled() {
@@ -989,22 +1025,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 waitingExpandOrCollapseGroup();
                 mIsChange = false;
             }
-            /*binding.rvLeague.postDelayed(() -> {
-                if (mIsChange) {
-                    setGoingOnAllExpand(true);
-                    setWaitingAllExpand(true);
-                    goingOnExpandOrCollapseGroup();
-                    waitingExpandOrCollapseGroup();
-                    mIsChange = false;
-                } else {
-                    if (mLeagueList.size() > mLastLeagueSize) {
-                        for (int i = mLastLeagueSize; i < mLeagueList.size(); i++) {
-                            binding.rvLeague.expandGroup(i);
-                        }
-                    }
-                }
-                mLastLeagueSize = mLeagueList.size();
-            }, 150);*/
         }
         if (mLeagueList.isEmpty()) {
             binding.nsvLeague.setVisibility(View.GONE);
@@ -1059,12 +1079,18 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             View view = binding.tabSportType.getTabAt(0).getCustomView();
             tvAllCount = view.findViewById(R.id.iv_match_count);
         }
+
         if (mStatisticalData != null) {
             int tabCount = binding.tabSportType.getTabCount();
             for (int i = 0; i < tabCount; i++) {
                 View view = binding.tabSportType.getTabAt(i).getCustomView();
                 TextView tvCount = view.findViewById(R.id.iv_match_count);
+                int size = mStatisticalData.get(String.valueOf(playMethodType)).size();
+                if (i == size) {
+                    break;
+                }
                 Integer count = mStatisticalData.get(String.valueOf(playMethodType)).get(i);
+
                 if (count != null) {
                     tvCount.setText(String.valueOf(count));
                 } else {
@@ -1078,6 +1104,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         if (tvAllCount != null) {
             tvAllCount.setText(String.valueOf(allCount));
         }
+
     }
 
     private boolean isGoingOnAllExpand() {
@@ -1177,6 +1204,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 ToastUtils.showLong(getText(R.string.bt_bt_must_have_two_match));
                 return;
             }
+            if(ClickUtil.isFastClick()){
+                return;
+            }
             BtCarDialogFragment btCarDialogFragment = new BtCarDialogFragment();
             btCarDialogFragment.show(MainActivity.this.getSupportFragmentManager(), "btCarDialogFragment");
         } else if (id == R.id.iv_back) {
@@ -1191,14 +1221,14 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     @Override
     public void onRefresh(@NonNull RefreshLayout refreshLayout) {
         mIsShowLoading = false;
-        getMatchData(viewModel.getSportId(playMethodType)[sportTypePos], mOrderBy, mLeagueIdList, null,
+        getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
                 playMethodType, searchDatePos, false, true);
     }
 
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         mIsShowLoading = false;
-        getMatchData(viewModel.getSportId(playMethodType)[sportTypePos], mOrderBy, mLeagueIdList, null,
+        getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
                 playMethodType, searchDatePos, false, false);
     }
 }

@@ -568,6 +568,19 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     }
 
+    /**
+     * 重新设置选中的充值渠道 (加载缓存后,选中某个渠道,接口返回的数据回来,重设)
+     */
+    private void resetCheckedChannel(PaymentVo vo) {
+        if (curRechargeVo != null) {
+            for (RechargeVo t : vo.chongzhiList) {
+                if (curRechargeVo.bid.equals(t.bid)) {
+                    curRechargeVo = t;
+                }
+            }
+        }
+    }
+
     private void setTipBottom(RechargeVo vo) {
 
         binding.tvwTipSameAmount.setVisibility(View.VISIBLE); // 默认显示
@@ -649,7 +662,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         });
 
         viewModel.liveDataPayment.observe(getViewLifecycleOwner(), vo -> {
-            curRechargeVo = null;
+            resetCheckedChannel(vo); // 重新设置选中充值渠道 curRechargeVo
             mPaymentVo = vo;
             tutorialUrl = vo.bankdirect_url; // 充值教程
 
