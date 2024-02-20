@@ -2,12 +2,12 @@ package com.xtree.bet.ui.viewmodel.pm;
 
 import static com.xtree.bet.constant.PMConstants.SPORT_ICON_ADDITIONAL;
 import static com.xtree.bet.constant.PMConstants.SPORT_IDS;
+import static com.xtree.bet.constant.PMConstants.SPORT_IDS_DEFAULT;
 import static com.xtree.bet.constant.PMConstants.SPORT_NAMES;
 import static com.xtree.bet.constant.PMConstants.SPORT_NAMES_LIVE;
 import static com.xtree.bet.constant.PMConstants.SPORT_NAMES_NOMAL;
 import static com.xtree.bet.constant.PMConstants.SPORT_NAMES_TODAY_CG;
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -15,11 +15,8 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.PMHttpCallBack;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.request.pm.PMListReq;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
@@ -27,7 +24,6 @@ import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
 import com.xtree.bet.bean.response.pm.MenuInfo;
 import com.xtree.bet.bean.ui.League;
-import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.ui.LeaguePm;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchPm;
@@ -41,9 +37,7 @@ import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
-import com.xtree.bet.util.MatchDeserializer;
 
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -79,7 +73,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     public PMMainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
         SPORT_NAMES = SPORT_NAMES_TODAY_CG;
-        SPORT_IDS = new String[14];
+        SPORT_IDS = SPORT_IDS_DEFAULT;
         sportItemData.postValue(SPORT_NAMES);
     }
 
@@ -103,6 +97,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                     }
 
                 }
+                break;
             }
         }
     }
@@ -180,7 +175,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         pmListReq.setCps(goingOnPageSize);
         String sportIds = "";
         if (mMenuInfoList.isEmpty()) {
-            for (String sportId : PMConstants.SPORT_IDS_SPECAIL) {
+            for (String sportId : SPORT_IDS_DEFAULT) {
                 if (!TextUtils.equals("0", sportId)) {
                     sportIds += sportId + ",";
                 }
@@ -283,7 +278,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
 
         if (mMenuInfoList.isEmpty()) {
-            pmListReq.setEuid(PMConstants.SPORT_IDS_SPECAIL[sportPos]);
+            pmListReq.setEuid(SPORT_IDS_DEFAULT[sportPos]);
         } else {
             for (MenuInfo menuInfo : mMenuInfoList) {
                 boolean isFound = false;
@@ -341,10 +336,10 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             } else if (searchDatePos > 0) {
                 String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
                 pmListReq.setMd(String.valueOf(TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
-            } else {
+            } /*else {
                 String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
                 pmListReq.setMd(String.valueOf(TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
-            }
+            }*/
         }
 
         Flowable flowable = model.getPMApiService().noLiveMatchesPagePB(pmListReq);
@@ -425,7 +420,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 @Override
                 public void onError(Throwable t) {
                     super.onError(t);
-                    if(!isTimerRefresh) {
+                    if (!isTimerRefresh) {
                         getLeagueList(sportPos, sportId, orderBy, leagueIds, matchidList, playMethodType, searchDatePos, oddType, isTimerRefresh, isRefresh);
                     }
                     //getUC().getDismissDialogEvent().call();
@@ -512,6 +507,10 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @param isRefresh
      */
     public void getChampionList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int oddType, boolean isTimerRefresh, boolean isRefresh) {
+        if (TextUtils.equals("-1", sportId)) {
+            championMatchListData.postValue(new ArrayList<>());
+            return;
+        }
 
         if (isRefresh) {
             currentPage = 1;
@@ -553,11 +552,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
         if (isRefresh) {
             mChampionMatchList.clear();
-        }
-
-        if (TextUtils.isEmpty(pmListReq.getEuid())) {
-            championMatchListData.postValue(new ArrayList<>());
-            return;
         }
 
         Disposable disposable = (Disposable) model.getPMApiService().noLiveMatchesPagePB(pmListReq)
@@ -634,21 +628,23 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                         mMenuInfoList = menuInfoList;
                         for (MenuInfo menuInfo : menuInfoList) {
                             Map<String, Integer> sslMap = new HashMap<>();
-                            if (playMethodType == menuInfo.menuType) {
-                                for (MenuInfo subMenu : menuInfo.subList) {
-                                    sslMap.put(String.valueOf(subMenu.menuId), subMenu.count);
+
+                            for (MenuInfo subMenu : menuInfo.subList) {
+                                sslMap.put(String.valueOf(subMenu.menuId), subMenu.count);
+                                if (playMethodType == menuInfo.menuType) {
                                     int index = Arrays.asList(SPORT_NAMES).indexOf(subMenu.menuName);
                                     if (index != -1) {
                                         SPORT_IDS[index] = String.valueOf(subMenu.menuId);
                                     }
-
                                 }
+                                List<Integer> sportCountList = new ArrayList<>();
+                                String[] sportArr = getSportId(playMethodType);
+                                for (String sportId : sportArr) {
+                                    sportCountList.add(sslMap.get(sportId));
+                                }
+                                sportCountMap.put(String.valueOf(menuInfo.menuType), sportCountList);
                             }
-                            List<Integer> sportCountList = new ArrayList<>();
-                            for (String sportId : getSportId(playMethodType)) {
-                                sportCountList.add(sslMap.get(sportId));
-                            }
-                            sportCountMap.put(String.valueOf(menuInfo.menuType), sportCountList);
+
                         }
 
                         statisticalData.postValue(sportCountMap);
@@ -677,6 +673,11 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     @Override
     public String[] getSportId(int playMethodType) {
         return SPORT_IDS;
+    }
+
+    @Override
+    public String[] getSportName(int playMethodType) {
+        return SPORT_NAMES;
     }
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {
