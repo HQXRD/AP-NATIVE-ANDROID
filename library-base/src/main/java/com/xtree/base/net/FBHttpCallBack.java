@@ -3,6 +3,7 @@ package com.xtree.base.net;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
+import com.xtree.base.widget.LoadingDialog;
 
 import io.reactivex.subscribers.DisposableSubscriber;
 import me.xtree.mvvmhabit.base.AppManager;
@@ -25,7 +26,7 @@ public abstract class FBHttpCallBack<T> extends DisposableSubscriber<T> {
             return;
         }
         BaseResponse baseResponse = (BaseResponse) o;
-        BusinessException ex = new BusinessException(baseResponse.getStatus(), baseResponse.getMessage());
+        ResponseThrowable ex = new ResponseThrowable(baseResponse.getStatus(), baseResponse.getMessage());
         int status = baseResponse.getStatus() == -1 ? baseResponse.getCode() : baseResponse.getStatus();
         switch (status) {
             case FBHttpCallBack.CodeRule.CODE_0:
@@ -37,59 +38,9 @@ public abstract class FBHttpCallBack<T> extends DisposableSubscriber<T> {
                 //请求成功, 正确的操作方式
                 onResult((T) baseResponse.getData());
                 break;
-            case FBHttpCallBack.CodeRule.CODE_300:
-                //请求失败，不打印Message
-                KLog.e("请求失败");
-                ToastUtils.showShort("错误代码:", baseResponse.getStatus());
-                break;
-            case FBHttpCallBack.CodeRule.CODE_330:
-                //请求失败，打印Message
-                ToastUtils.showShort(baseResponse.getMessage());
-                break;
-            case FBHttpCallBack.CodeRule.CODE_500:
-                //服务器内部异常
-                ToastUtils.showShort("错误代码:", baseResponse.getStatus());
-                break;
-            case FBHttpCallBack.CodeRule.CODE_503:
-                //参数为空
-                KLog.e("参数为空");
-                break;
-            case FBHttpCallBack.CodeRule.CODE_502:
-                //没有数据
-                KLog.e("没有数据");
-                break;
-            case FBHttpCallBack.CodeRule.CODE_510:
-                //无效的Token，提示跳入登录页
-                ToastUtils.showShort("token已过期，请重新登录");
-                //关闭所有页面
-                AppManager.getAppManager().finishAllActivity();
-                //跳入登录界面
-                //*****该类仅供参考，实际业务Code, 根据需求来定义，******//
-                break;
-            case FBHttpCallBack.CodeRule.CODE_530:
-                ToastUtils.showShort("请先登录");
-                break;
-            case FBHttpCallBack.CodeRule.CODE_551:
-            case FBHttpCallBack.CodeRule.CODE_20203:
-                ToastUtils.showShort(baseResponse.getMessage());
-                break;
-            case FBHttpCallBack.CodeRule.CODE_20101:
-            case FBHttpCallBack.CodeRule.CODE_20102:
-            case FBHttpCallBack.CodeRule.CODE_20103:
-            case FBHttpCallBack.CodeRule.CODE_20217:
-            case FBHttpCallBack.CodeRule.CODE_20111:
-            case FBHttpCallBack.CodeRule.CODE_30018:
-            case FBHttpCallBack.CodeRule.CODE_30003:
-            case FBHttpCallBack.CodeRule.CODE_30713:
-                KLog.e("登出状态,销毁token. " + baseResponse);
-                SPUtils.getInstance().put("user_token", "");
-                SPUtils.getInstance().put("user_sessid", "");
-                //ToastUtils.showShort("请重新登录");
-                ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
-                break;
-            case FBHttpCallBack.FBCodeRule.FB_CODE_14010:
-                //账号已登出，请重新登录
-                ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+            case FBHttpCallBack.CodeRule.CODE_14010:
+                //TOKEN失效
+                onError(ex);
                 break;
             default:
                 KLog.e("status is not normal: " + baseResponse);
@@ -101,13 +52,8 @@ public abstract class FBHttpCallBack<T> extends DisposableSubscriber<T> {
     @Override
     public void onError(Throwable t) {
         KLog.e("error: " + t.toString());
-        //t.printStackTrace();
         if (t instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) t;
-            ToastUtils.showShort(rError.message);
-            return;
-        } else if (t instanceof BusinessException) {
-            BusinessException rError = (BusinessException) t;
             ToastUtils.showShort(rError.message);
             return;
         }
@@ -124,36 +70,7 @@ public abstract class FBHttpCallBack<T> extends DisposableSubscriber<T> {
         //请求成功, 正确的操作方式
         static final int CODE_0 = 0;
         static final int CODE_10000 = 10000;
-        //请求失败，不打印Message
-        static final int CODE_300 = 300;
-        //请求失败，打印Message
-        static final int CODE_330 = 330;
-        //服务器内部异常
-        static final int CODE_500 = 500;
-        //参数为空
-        static final int CODE_503 = 503;
-        //没有数据
-        static final int CODE_502 = 502;
-        //无效的Token
-        static final int CODE_510 = 510;
-        //未登录
-        static final int CODE_530 = 530;
-        //请求的操作异常终止：未知的页面类型
-        static final int CODE_551 = 551;
-        // 登出状态,销毁当前 token
-        static final int CODE_20101 = 20101;
-        static final int CODE_20102 = 20102;
-        static final int CODE_20103 = 20103;
-        static final int CODE_20111 = 20111;
-        static final int CODE_30018 = 30018;
-        static final int CODE_30003 = 30003;
-        static final int CODE_30713 = 30713;
-        //用户名或密码错误
-        static final int CODE_20203 = 20203;
-        static final int CODE_20217 = 20217; //已修改密码或被踢出
+        public static final int CODE_14010 = 14010;
     }
 
-    public static final class FBCodeRule {
-        static final int FB_CODE_14010 = 14010;
-    }
 }

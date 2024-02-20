@@ -1,5 +1,7 @@
 package com.xtree.bet.ui.viewmodel.pm;
 
+import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401013;
+import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401026;
 import static com.xtree.bet.constant.PMConstants.SPORT_ICON_ADDITIONAL;
 import static com.xtree.bet.constant.PMConstants.SPORT_IDS;
 import static com.xtree.bet.constant.PMConstants.SPORT_IDS_DEFAULT;
@@ -18,6 +20,7 @@ import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
+import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.request.pm.PMListReq;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
@@ -46,6 +49,7 @@ import java.util.Map;
 
 import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
+import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -326,7 +330,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             pmListReq.setTid(leagueids.substring(0, leagueids.length() - 1));
         }
         pmListReq.setCpn(currentPage);
-        //pmListReq.setOddType(oddType);
         pmListReq.setDevice("v2_h5_st");
 
         if (!dateList.isEmpty()) {
@@ -336,10 +339,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             } else if (searchDatePos > 0) {
                 String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
                 pmListReq.setMd(String.valueOf(TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
-            } /*else {
-                String time = TimeUtils.parseTime(dateList.get(searchDatePos), TimeUtils.FORMAT_YY_MM_DD) + " 12:00:00";
-                pmListReq.setMd(String.valueOf(TimeUtils.strFormatDate(time, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS).getTime()));
-            }*/
+            }
         }
 
         Flowable flowable = model.getPMApiService().noLiveMatchesPagePB(pmListReq);
@@ -421,7 +421,14 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 public void onError(Throwable t) {
                     super.onError(t);
                     if (!isTimerRefresh) {
-                        getLeagueList(sportPos, sportId, orderBy, leagueIds, matchidList, playMethodType, searchDatePos, oddType, isTimerRefresh, isRefresh);
+                        if (t instanceof ResponseThrowable) {
+                            ResponseThrowable error = (ResponseThrowable) t;
+                            if (error.code == CODE_401026 || error.code == CODE_401013) {
+                                getGameTokenApi();
+                            }else {
+                                getLeagueList(sportPos, sportId, orderBy, leagueIds, matchidList, playMethodType, searchDatePos, oddType, isTimerRefresh, isRefresh);
+                            }
+                        }
                     }
                     //getUC().getDismissDialogEvent().call();
                 }
@@ -480,9 +487,14 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                 @Override
                 public void onError(Throwable t) {
-                    super.onError(t);
-                    getLeagueList(sportPos, sportId, orderBy, leagueIds, matchidList, playMethodType, searchDatePos, oddType, isTimerRefresh, isRefresh);
-                    //getUC().getDismissDialogEvent().call();
+                    if (t instanceof ResponseThrowable) {
+                        ResponseThrowable error = (ResponseThrowable) t;
+                        if (error.code == CODE_401026 || error.code == CODE_401013) {
+                            getGameTokenApi();
+                        }else {
+                            getLeagueList(sportPos, sportId, orderBy, leagueIds, matchidList, playMethodType, searchDatePos, oddType, isTimerRefresh, isRefresh);
+                        }
+                    }
                 }
             };
         }
@@ -599,13 +611,19 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onError(Throwable t) {
-                        getChampionList(sportPos, sportId, orderBy, leagueIds, matchids, playMethodType, oddType, isTimerRefresh, isRefresh);
-                        getUC().getDismissDialogEvent().call();
-                        if (isRefresh) {
+                        if (t instanceof ResponseThrowable) {
+                            ResponseThrowable error = (ResponseThrowable) t;
+                            if (error.code == CODE_401026 || error.code == CODE_401013) {
+                                getGameTokenApi();
+                            }else {
+                                getChampionList(sportPos, sportId, orderBy, leagueIds, matchids, playMethodType, oddType, isTimerRefresh, isRefresh);
+                            }
+                        }
+                        /*if (isRefresh) {
                             finishRefresh(false);
                         } else {
                             finishLoadMore(false);
-                        }
+                        }*/
                     }
                 });
         addSubscribe(disposable);
@@ -931,14 +949,18 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         return optionArrayList;
     }
 
-    public void getFBGameTokenApi() {
-        Disposable disposable = (Disposable) model.getApiService().getFBGameTokenApi()
+    public void getGameTokenApi() {
+        Disposable disposable = (Disposable) model.getPMApiService().getPMGameTokenApi()
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new PMHttpCallBack<String>() {
+                .subscribeWith(new PMHttpCallBack<PMService>() {
                     @Override
-                    public void onResult(String vo) {
-                        SPUtils.getInstance().put("customer_service_url", vo);
+                    public void onResult(PMService pmService) {
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
+                        tokenInvalidEvent.call();
                     }
 
                     @Override

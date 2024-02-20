@@ -26,7 +26,7 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
             return;
         }
         PMBaseResponse baseResponse = (PMBaseResponse) o;
-        BusinessException ex = new BusinessException(baseResponse.getCode(), baseResponse.getMsg());
+        ResponseThrowable ex = new ResponseThrowable(baseResponse.getCode(), baseResponse.getMsg());
         int code = baseResponse.getCode();
         switch (code) {
             case PMHttpCallBack.CodeRule.CODE_0:
@@ -34,18 +34,13 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
                 //请求成功, 正确的操作方式
                 onResult((T) baseResponse.getData());
                 break;
-            case PMHttpCallBack.CodeRule.CODE_401013:
-            case PMHttpCallBack.CodeRule.CODE_401026:
-                //账号已登出，请重新登录
-                ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+            case PMHttpCallBack.CodeRule.CODE_401013://账号已登出，请重新登录
+            case PMHttpCallBack.CodeRule.CODE_401026://账号已登出，请重新登录
+            case PMHttpCallBack.CodeRule.CODE_400467:
                 onError(ex);
                 break;
-            case PMHttpCallBack.CodeRule.CODE_400467:
-                ResponseThrowable rError = new ResponseThrowable(PMHttpCallBack.CodeRule.CODE_400467, baseResponse.getMsg());
-                onError(rError);
-                break;
             default:
-                //ToastUtils.showShort(baseResponse.getMsg());
+                ToastUtils.showShort(baseResponse.getMsg());
                 break;
         }
     }
@@ -55,10 +50,6 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
         KLog.e("error: " + t.toString());
         if (t instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) t;
-            //ToastUtils.showShort(rError.message);
-            return;
-        } else if (t instanceof BusinessException) {
-            BusinessException rError = (BusinessException) t;
             ToastUtils.showShort(rError.message);
             return;
         }

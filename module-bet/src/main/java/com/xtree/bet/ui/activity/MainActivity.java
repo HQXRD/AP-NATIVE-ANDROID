@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -929,6 +930,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     tvHotCount.setText(String.valueOf(mHotMatchCount));
                 }
             }
+        });
+
+        viewModel.tokenInvalidEvent.observe(this, unused -> {
+            getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
+                    playMethodType, searchDatePos, false, true);
         });
     }
 

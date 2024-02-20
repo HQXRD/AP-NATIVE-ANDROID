@@ -1,5 +1,6 @@
 package com.xtree.bet.data;
 
+import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.request.pm.BtCarCgReq;
 import com.xtree.bet.bean.request.pm.BtCarReq;
 import com.xtree.bet.bean.request.pm.BtRecordReq;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
+import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.PMBaseResponse;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -34,6 +36,13 @@ import retrofit2.http.QueryMap;
  */
 
 public interface PMApiService {
+    /**
+     * 获取 PM体育请求服务地址
+     * @return
+     */
+    @POST("/api/sports/obg/getToken")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<PMService>> getPMGameTokenApi();
     /**
      * 获取 PM赛事列表
      * @return
