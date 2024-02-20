@@ -3,6 +3,7 @@ package com.xtree.mine.ui.activity;
 import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBtDetailBinding;
+import com.xtree.mine.databinding.LayoutBtDetailMatchBinding;
 import com.xtree.mine.ui.viewmodel.ReportViewModel;
 import com.xtree.mine.vo.BtDetailVo;
 
@@ -116,8 +118,10 @@ public class BtDetailDialog extends BottomPopupView {
         if (vo.content instanceof Map) {
             BtDetailVo.BtContentVo mBtContentVo = new Gson().fromJson(new Gson().toJson(vo.content), BtDetailVo.BtContentVo.class);
             if (!mBtContentVo.list.isEmpty()) {
-                BtDetailVo.BtContentItemVo t = mBtContentVo.list.get(0);
-                setBtContent(t);
+                for (int i = 0; i < mBtContentVo.list.size(); i++) {
+                    BtDetailVo.BtContentItemVo t = mBtContentVo.list.get(i);
+                    setBtContent(t);
+                }
             }
         } else if (vo.content instanceof String) {
             CfLog.i(vo.content.toString());
@@ -133,22 +137,36 @@ public class BtDetailDialog extends BottomPopupView {
         if (TextUtils.isEmpty(t.SportsName)) {
             // 有4个字段
             binding.llBetContent.setVisibility(View.VISIBLE); // 显示出来
-            binding.tvwBetContent.setText(t.bet_content + "\n" + t.competition_name + "\n" + t.game_type + "\n" + t.match_name);
+            binding.tvwBetContent.append(t.bet_content + "\n" + t.competition_name + "\n" + t.game_type + "\n" + t.match_name + "\n\n");
             //binding.tvwBetContent.setText(t.bet_content);
             //binding.tvwCompetitionName.setText(t.competition_name);
             //binding.tvwGameType.setText(t.game_type);
             //binding.tvwMatchName.setText(t.match_name);
         } else {
             // 比赛类 有8个字段
-            binding.llDetail.llRoot.setVisibility(View.VISIBLE); // 显示出来
-            binding.llDetail.tvwSportsName.setText(t.SportsName);
-            binding.llDetail.tvwCompetitionName.setText(t.competition_name);
-            binding.llDetail.tvwTeam.setText(t.team);
-            binding.llDetail.tvwEventDateTime.setText(t.EventDateTime);
-            binding.llDetail.tvwBetType.setText(t.BetType);
-            binding.llDetail.tvwPlaycontent.setText(t.playcontent);
-            binding.llDetail.tvwBetContent.setText(t.bet_content);
-            binding.llDetail.tvwOdds.setText(t.Odds);
+            //binding.llDetail.llRoot.setVisibility(View.VISIBLE); // 显示出来
+            //binding.llDetail.tvwSportsName.setText(t.SportsName);
+            //binding.llDetail.tvwCompetitionName.setText(t.competition_name);
+            //binding.llDetail.tvwTeam.setText(t.team);
+            //binding.llDetail.tvwEventDateTime.setText(t.EventDateTime);
+            //binding.llDetail.tvwBetType.setText(t.BetType);
+            //binding.llDetail.tvwPlaycontent.setText(t.playcontent);
+            //binding.llDetail.tvwBetContent.setText(t.bet_content);
+            //binding.llDetail.tvwOdds.setText(t.Odds);
+
+            LayoutBtDetailMatchBinding binding2 = LayoutBtDetailMatchBinding.inflate(LayoutInflater.from(getContext()));
+            binding2.llRoot.setVisibility(View.VISIBLE); // 显示出来
+            binding2.tvwSportsName.setText(t.SportsName);
+            binding2.tvwCompetitionName.setText(t.competition_name);
+            binding2.tvwTeam.setText(t.team);
+            binding2.tvwEventDateTime.setText(t.EventDateTime);
+            binding2.tvwBetType.setText(t.BetType);
+            binding2.tvwPlaycontent.setText(t.playcontent);
+            binding2.tvwBetContent.setText(t.bet_content);
+            binding2.tvwOdds.setText(t.Odds);
+
+            binding.llMain.addView(binding2.getRoot());
+
         }
 
     }
