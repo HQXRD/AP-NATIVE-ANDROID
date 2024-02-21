@@ -1,5 +1,8 @@
 package com.xtree.home.ui.fragment;
 
+import static com.xtree.base.global.SPKeyGlobal.APP_INTERVAL_TIME;
+import static com.xtree.base.global.SPKeyGlobal.APP_LAST_CHECK_TIME;
+
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,6 +31,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserActivity;
@@ -43,6 +47,7 @@ import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.home.vo.BannersVo;
 import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
+import com.xtree.home.vo.UpdateVo;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
@@ -78,7 +83,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     public static String CHOOSE_TYPE = "";
     private boolean selectUpdate;//手动更新余额
-
+    private UpdateVo updateVo;//更新
+    private int updateInterval = 30;//App请求更新接口时间间隔默认 30分钟
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -94,6 +100,18 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     public void onResume() {
         super.onResume();
         TagUtils.tagDailyEvent(getContext());
+        long intervalTime = Long.valueOf(SPUtils.getInstance().getInt(APP_INTERVAL_TIME, 30));
+        long lastCheckTime = Long.valueOf(SPUtils.getInstance().getLong(APP_LAST_CHECK_TIME, 0));
+
+        if (intervalTime == updateInterval) {
+            //第一次获取更新
+            viewModel.getUpdate();
+        } else {
+            if (System.currentTimeMillis() - lastCheckTime >= (intervalTime * 60 * 1000)) {
+                viewModel.getUpdate();
+            }
+        }
+
     }
 
     @Override
@@ -122,6 +140,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.getSettings(); // 获取公钥,配置信息
         viewModel.getBanners(); // 获取banner
         viewModel.getGameStatus(getContext()); // 获取游戏状态列表
+      /*  //app更新
+        viewModel.getUpdate();*/
 
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         if (!TextUtils.isEmpty(token)) {
@@ -203,6 +223,32 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 binding.tvwVip.setText("VIP " + vo.level); // level
             }
         });
+        //App更新
+        viewModel.liveDataUpdate.observe(getViewLifecycleOwner(), vo -> {
+            CfLog.i("viewModel.liveDataUpdate App更新 ");
+            updateVo = vo;
+            //存储服务器设置时间间隔
+            SPUtils.getInstance().put(APP_INTERVAL_TIME, Integer.valueOf(updateVo.interval_duration));
+            updateInterval = Integer.valueOf(updateVo.interval_duration);
+            //请求更新服务时间
+            SPUtils.getInstance().put(APP_LAST_CHECK_TIME, System.currentTimeMillis());
+
+            final String versionCode = StringUtils.getVersionCode(getContext());
+            CfLog.e("本机version = " + versionCode);
+            if (Double.valueOf(updateVo.version_code) > Double.valueOf(versionCode)) {
+                //线上版本大于本机版本
+                if (updateVo.type == 0) {
+                    //弱更
+                    showUpdate(true, updateVo);
+                } else if (updateVo.type == 1) {
+                    //强更
+                    showUpdate(false, updateVo);
+                } else if (updateVo.type == 2) {
+                    //热更
+                }
+            }
+
+        });
     }
 
     public void initView() {
@@ -212,10 +258,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             customFloatWindows = new CustomFloatWindows(getActivity());
             customFloatWindows.show();
             isFloating = true;
-        }
-        if (SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).equals("")) {
-            customFloatWindows.removeView();
-            isFloating = false;
         }
         //用户余额点击
         binding.clLoginYet.setOnClickListener(v -> {
@@ -524,6 +566,26 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
         startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
+    }
+
+    /**
+     * 显示更新
+     */
+    private void showUpdate(final boolean isWeakUpdate, final UpdateVo vo) {
+        UpdateDialog dialog = new UpdateDialog(getContext(), isWeakUpdate, vo, new UpdateDialog.ICallBack() {
+            @Override
+            public void onUpdateCancel() {
+                ppw.dismiss();
+            }
+            @Override
+            public void onUpdateForce() {
+            }
+        });
+        ppw = new XPopup.Builder(getContext())
+                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asCustom(dialog);
+        ppw.show();
     }
 
     private void smoothToPositionTop(int position) {
