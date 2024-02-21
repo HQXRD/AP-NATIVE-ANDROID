@@ -1,5 +1,7 @@
 package com.xtree.bet.ui.viewmodel.fb;
 
+import static com.xtree.base.net.FBHttpCallBack.CodeRule.CODE_14010;
+
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
+import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
 
 /**
@@ -84,7 +87,11 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        if (t instanceof ResponseThrowable) {
+                            if (((ResponseThrowable) t).code == CODE_14010) {
+                                batchBetMatchMarketOfJumpLine(betConfirmOptionList);
+                            }
+                        }
                     }
                 });
         addSubscribe(disposable);

@@ -1,6 +1,9 @@
 package com.xtree.bet.ui.viewmodel.pm;
 
+import static com.xtree.base.net.FBHttpCallBack.CodeRule.CODE_14010;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_400467;
+import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401013;
+import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401026;
 
 import android.app.Application;
 
@@ -94,7 +97,13 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        //super.onError(t);
+                        if (t instanceof ResponseThrowable) {
+                            ResponseThrowable error = (ResponseThrowable) t;
+                            if (error.code == CODE_401026 || error.code == CODE_401013) {
+                                batchBetMatchMarketOfJumpLine(betConfirmOptionList);
+                            }
+                        }
                     }
                 });
         addSubscribe(disposable);
@@ -146,7 +155,7 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        //super.onError(t);
                     }
                 });
         addSubscribe(disposable);

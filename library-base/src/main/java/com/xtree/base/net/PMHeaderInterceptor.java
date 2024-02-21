@@ -27,6 +27,7 @@ public class PMHeaderInterceptor implements Interceptor {
         String token = SPUtils.getInstance().getString(SPKeyGlobal.PM_TOKEN);
         builder.addHeader("Content-Type", "application/json; charset=utf-8");
         if (!TextUtils.isEmpty(token)) {
+            builder.removeHeader("Authorization");
             builder.addHeader("Authorization", "bearer" + token);
         }
         builder.addHeader("lang", "zh"); //
