@@ -39,4 +39,7 @@ public class SPKeyGlobal {
     public static final String VIP_INFO = "vip_info";
     public static final String QUESTION_WEB = "questions_web";
     public static final String AUG_LIST = "aug_list";
+
+    public static final String APP_INTERVAL_TIME = "app_interval_time";//App请求更新时间初始时间
+    public static final String APP_LAST_CHECK_TIME = "app_last_check_time";//App请求更新时间
 }
