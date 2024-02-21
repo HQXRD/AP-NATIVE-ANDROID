@@ -101,11 +101,6 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 // 谷歌验证
                 onFail(ex);
                 break;
-            case HttpCallBack.FBCodeRule.PB_CODE_14010:
-                //账号已登出，请重新登录
-                ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
-                onError(ex);
-                break;
             default:
                 KLog.e("status is not normal: " + baseResponse);
                 onFail(ex);

@@ -29,13 +29,16 @@ public class FBHeaderInterceptor implements Interceptor {
                 .newBuilder();
         String platform = SPUtils.getInstance().getString("KEY_PLATFORM");
         String token;
+
         if(TextUtils.equals(platform, "fbxc")) {
             token = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_TOKEN);
         } else {
             token = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
         }
+
         builder.addHeader("Content-Type", "application/json; charset=utf-8");
         if (!TextUtils.isEmpty(token)) {
+            builder.removeHeader("Authorization");
             builder.addHeader("Authorization", token);
         }
         builder.addHeader("App-RNID", "87jumkljo"); //

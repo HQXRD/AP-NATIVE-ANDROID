@@ -76,7 +76,6 @@ public class FBRetrofitClient {
         } else {
             baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.FB_API_SERVICE_URL);
         }
-        CfLog.e("=========baseUrl======" + baseUrl);
 
         if (httpCacheDirectory == null) {
             httpCacheDirectory = new File(mContext.getCacheDir(), "goldze_cache");

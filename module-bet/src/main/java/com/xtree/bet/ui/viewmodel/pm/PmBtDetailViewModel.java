@@ -1,5 +1,9 @@
 package com.xtree.bet.ui.viewmodel.pm;
 
+import static com.xtree.base.net.FBHttpCallBack.CodeRule.CODE_14010;
+import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401013;
+import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401026;
+
 import android.app.Application;
 import android.text.TextUtils;
 
@@ -7,6 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.PMHttpCallBack;
+import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.PlayTypeInfo;
 import com.xtree.bet.bean.response.pm.VideoAnimationInfo;
@@ -28,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
+import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -41,13 +47,15 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
     private boolean isFirst = true;
     private List<PlayType> mPlayTypeList;
     private MatchInfo mMatchInfo;
+    private long mMatchId;
+    private String mSportId;
 
     public PmBtDetailViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
     }
 
     public void getMatchDetail(long matchId) {
-
+        mMatchId = matchId;
         Map<String, String> map = new HashMap<>();
         map.put("mid", String.valueOf(matchId));
 
@@ -68,7 +76,10 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        ResponseThrowable error = (ResponseThrowable) t;
+                        if (error.code == CODE_401026 || error.code == CODE_401013) {
+                            getGameTokenApi();
+                        }
                     }
                 });
         addSubscribe(disposable);
@@ -125,7 +136,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
 
     @Override
     public void getCategoryList(String matchId, String sportId) {
-
+        mSportId = sportId;
         Map<String, String> map = new HashMap<>();
         map.put("mid", matchId);
         map.put("sportId", sportId);
@@ -154,7 +165,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+
                     }
                 });
         addSubscribe(disposable);
@@ -231,7 +242,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+
                     }
                 });
         addSubscribe(disposable);
@@ -274,6 +285,31 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
             }
         }
         return optionList;
+    }
+
+    public void getGameTokenApi() {
+        Disposable disposable = (Disposable) model.getPMApiService().getPMGameTokenApi()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new PMHttpCallBack<PMService>() {
+                    @Override
+                    public void onResult(PMService pmService) {
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
+                        SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
+                        getMatchDetail(mMatchId);
+                        if(TextUtils.isEmpty(mSportId)) {
+                            getCategoryList(String.valueOf(mMatchId), mSportId);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
     }
 
 }
