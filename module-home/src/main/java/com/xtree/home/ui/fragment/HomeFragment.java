@@ -77,8 +77,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private LinearLayoutManager manager;
     private String token;
     private boolean isFloating = false;
-
-    public static String CHOOSE_TYPE = "";
+    private int clickCount = 0; // 点击次数 debug model
     private boolean selectUpdate;//手动更新余额
     private UpdateVo updateVo;//更新
 
@@ -245,6 +244,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             customFloatWindows.show();
             isFloating = true;
         }
+        if(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).equals("")) {
+            customFloatWindows.removeView();
+            isFloating = false;
+        }
         //用户余额点击
         binding.clLoginYet.setOnClickListener(v -> {
             selectUpdate = true;
@@ -322,7 +325,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             // 未登录时,点击登录右边的4个菜单
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
         });
-
+        binding.tvwDebug.setOnClickListener(v -> {
+            if (clickCount++ > 5) {
+                clickCount = 0;
+                startContainerFragment(RouterFragmentPath.Home.PG_DEBUG);
+            }
+        });
         binding.tvwDeposit.setOnClickListener(view -> {
             // 存款
             KLog.i("**************");
