@@ -43,6 +43,8 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     public static final int LOGIN_TYPE = 0x1001;
     public static final int REGISTER_TYPE = 0x1002;
 
+    private int clickCount = 0; // 点击次数 debug model
+
     @Override
     public int initContentView(Bundle savedInstanceState) {
         return R.layout.activity_login;
@@ -61,6 +63,13 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     @Override
     public void initView() {
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
+        binding.loginSubHeader.setOnClickListener(v -> {
+            if (clickCount++ > 5) {
+                clickCount = 0;
+                startContainerFragment(RouterFragmentPath.Home.PG_DEBUG);
+            }
+        });
+
         Intent intent = getIntent();
         int viewType = intent.getIntExtra(ENTER_TYPE, LOGIN_TYPE);
         if (viewType == LOGIN_TYPE) {

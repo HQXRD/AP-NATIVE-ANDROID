@@ -18,6 +18,7 @@ public class RouterFragmentPath {
         public static final String AD = HOME + "/ad";
         public static final String AUG = HOME + "/Aug";
         public static final String ELE = HOME + "/Ele";
+        public static final String PG_DEBUG = HOME + "/PageDebug";
 
     }
 
