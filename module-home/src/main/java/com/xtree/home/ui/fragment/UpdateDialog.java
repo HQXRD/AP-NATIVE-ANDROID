@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.View;
 
@@ -21,16 +22,13 @@ import com.xtree.home.vo.UpdateVo;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
-import java.security.SecureRandom;
-import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -39,34 +37,29 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  * 更新Dialog
  */
 public class UpdateDialog extends CenterPopupView {
+    private static final int DOWN_UPDATE = 1;
+    private static final int DOWN_OVER = 2;
+    private static final int DOWN_START = 3;
+    private static final int DOWN_FAIL = 4;
+
     private Context context;
-    private String updateVersion;
-    private String updateMessage;
     private boolean isWeakUpdate;//是否弱更新标志位 yes:若更新；NO:强更新
     private UpdateVo vo;
     ICallBack mCallBack;
 
     private static int progress;//下载进度
-    private static final int DOWN_UPDATE = 1;
-    private static final int DOWN_OVER = 2;
-    private static final int DOWN_START = 3;
     private static boolean intercept = false;
     private static Thread downLoadThread;//下载线程
     private static File apkFile;
-    private static final String saveFileName = "xingcai.apk";
+    private static String saveFileName = "tmp.apk";
     private static String downLoadUrl;
 
     DialogUpdateBinding binding;
 
     public interface ICallBack {
         void onUpdateCancel();
-        void onUpdateForce(); //强制更新
-    }
 
-    public UpdateDialog(@NonNull Context context, UpdateVo vo, ICallBack mCallBack) {
-        super(context);
-        this.vo = vo;
-        this.mCallBack = mCallBack;
+        void onUpdateForce(); //强制更新
     }
 
     public UpdateDialog(@NonNull Context context, boolean isWeakUpdate, UpdateVo vo, ICallBack mCallBack) {
@@ -94,19 +87,20 @@ public class UpdateDialog extends CenterPopupView {
     }
 
     private void initView() {
-        CfLog.e("UpdateDialog initView ");
+        CfLog.i("****** ");
+        saveFileName = vo.version_name + ".apk";
         apkFile = new File(this.context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), saveFileName);
+        apkFile.deleteOnExit(); //删除旧的文件,重新下载
 
-        CfLog.e("UpdateDialog initView  apkFile = " + apkFile);
+        CfLog.i("apkFile: " + apkFile.getAbsolutePath());
         binding = DialogUpdateBinding.bind(findViewById(R.id.ll_root_update));
         if (!isWeakUpdate) {
             //强更新
             binding.dialogUpdateCancel.setVisibility(View.GONE);
         }
-        updateVersion = vo.version_code;
-        updateMessage = vo.content;
-        binding.tvwUpdateVersion.setText(getContext().getString(R.string.txt_update) + updateVersion);
-        binding.tvwUpgradeTips.setText(updateMessage);
+
+        binding.tvwUpdateVersion.setText(getContext().getString(R.string.txt_update) + " " + vo.version_name);
+        binding.tvwUpgradeTips.setText(vo.content);
         binding.dialogUpdateCancel.setOnClickListener(v -> {
             mCallBack.onUpdateCancel();
         });
@@ -133,7 +127,7 @@ public class UpdateDialog extends CenterPopupView {
         downLoadThread.start();
     }
 
-    private Handler mHandler = new Handler() {
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what) {
@@ -148,6 +142,12 @@ public class UpdateDialog extends CenterPopupView {
                     ToastUtils.show(getContext().getString(R.string.txt_update_down_over_tip), ToastUtils.ShowType.Success);
                     installAPK();
                     break;
+                case DOWN_FAIL:
+                    ToastUtils.showSuccess(getContext().getString(R.string.txt_update_down_fail_tip));
+                    dismiss();
+                    break;
+                default:
+                    break;
             }
         }
     };
@@ -155,18 +155,23 @@ public class UpdateDialog extends CenterPopupView {
         @Override
         public void run() {
             URL url;
+            HttpURLConnection connection = null;
+            InputStream inputStream = null;
+            FileOutputStream fileOutputStream = null;
             try {
-                SSLContext sslContext = SSLContext.getInstance("SSL");
-                TrustManager[] trustManagers = {new DownUpdateManager()};
-                sslContext.init(null, trustManagers, new SecureRandom());
-                SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-                CfLog.e("initView downApkWork downLoadUrl = " + downLoadUrl + " \n apkFile = " + apkFile);
+                //SSLContext sslContext = SSLContext.getInstance("SSL");
+                //TrustManager[] trustManagers = {new DownUpdateManager()};
+                //sslContext.init(null, trustManagers, new SecureRandom());
+                //SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+                CfLog.i("initView downApkWork downLoadUrl = " + downLoadUrl + " \n apkFile = " + apkFile);
                 url = new URL(downLoadUrl);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setReadTimeout(8000);
+                connection.setConnectTimeout(180 * 1000);
                 connection.connect();
                 int length = connection.getContentLength();
-                InputStream inputStream = connection.getInputStream();
-                FileOutputStream fileOutputStream = new FileOutputStream(apkFile);
+                inputStream = connection.getInputStream();
+                fileOutputStream = new FileOutputStream(apkFile);
                 int count = 0;
                 byte[] buf = new byte[1024];
                 while (!intercept) {
@@ -183,8 +188,27 @@ public class UpdateDialog extends CenterPopupView {
                 }
                 fileOutputStream.close();
                 inputStream.close();
-            } catch (Exception exception) {
-                CfLog.e("APK下载失败");
+            } catch (SocketTimeoutException e) {
+                CfLog.e("APK download timeout: " + e);
+                mHandler.sendEmptyMessage(DOWN_FAIL);
+            } catch (Exception e) {
+                CfLog.e("APK download error: " + e);
+                mHandler.sendEmptyMessage(DOWN_FAIL);
+            } finally {
+                try {
+                    if (fileOutputStream != null) {
+                        fileOutputStream.close();
+                    }
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
+                    if (connection != null) {
+                        connection.disconnect();
+                    }
+                } catch (IOException e) {
+                    CfLog.e(e.toString());
+                }
+
             }
         }
     };
@@ -193,23 +217,21 @@ public class UpdateDialog extends CenterPopupView {
      * 安装APK
      */
     public void installAPK() {
+        CfLog.i("******");
+        if (apkFile == null || !apkFile.exists()) {
+            return;
+        }
+
         try {
-            if (!apkFile.exists()) {
-                return;
-            }
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             Uri uri = Uri.fromFile(apkFile);
-            CfLog.e("1uri = " + uri);
+            CfLog.i(uri.toString()); //
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-           /*     CfLog.e("Build.VERSION.SDK_INT >= Build.VERSION_CODES.M");
-                String packageName = this.context.getApplicationContext().getPackageName();
-                String authority = new StringBuilder(packageName).append(".fileProvider").toString();
-                Uri apkUri = FileProvider.getUriForFile(this.context , authority , apkFile);
-                intent.setDataAndType(apkUri, "application/vnd.android.package-archive");*/
-                uri = FileProvider.getUriForFile(this.context, "com.itcast.fileprovider", apkFile);
-                CfLog.e("2uri = " + uri);
+                uri = FileProvider.getUriForFile(this.context, getContext().getPackageName(), apkFile);
+                CfLog.i(uri.toString()); //
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 intent.setDataAndType(uri, "application/vnd.android.package-archive");
             } else {
@@ -217,20 +239,20 @@ public class UpdateDialog extends CenterPopupView {
             }
             context.startActivity(intent);
             android.os.Process.killProcess(android.os.Process.myPid());
-        } catch (Exception exception) {
-
+        } catch (Exception e) {
+            CfLog.e(e.toString());
         }
     }
 
     private static class DownUpdateManager implements X509TrustManager {
 
         @Override
-        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        public void checkClientTrusted(X509Certificate[] chain, String authType) {
 
         }
 
         @Override
-        public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+        public void checkServerTrusted(X509Certificate[] chain, String authType) {
 
         }
 
