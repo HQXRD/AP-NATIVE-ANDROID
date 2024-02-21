@@ -81,6 +81,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                             // 没有数据时,banner会占满手机屏幕/白屏;加2条数据显示默认图片
                             list.add(new BannersVo("default"));
                             list.add(new BannersVo("default"));
+                        } else if (list.size() == 1) {
+                            list.add(new BannersVo("default"));
                         }
                         SPUtils.getInstance().put(SPKeyGlobal.HOME_BANNER_LIST, new Gson().toJson(list));
                         liveDataBanner.setValue(list);
@@ -465,6 +467,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         if (list.isEmpty()) {
             // 没有数据时,banner会占满手机屏幕/白屏;加2条数据显示默认图片
             list.add(new BannersVo("default"));
+            list.add(new BannersVo("default"));
+        } else if (list.size() == 1) {
             list.add(new BannersVo("default"));
         }
         liveDataBanner.setValue(list);
