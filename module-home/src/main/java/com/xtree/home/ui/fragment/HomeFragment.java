@@ -212,6 +212,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             customFloatWindows.show();
             isFloating = true;
         }
+        if (SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).equals("")) {
+            customFloatWindows.removeView();
+            isFloating = false;
+        }
         //用户余额点击
         binding.clLoginYet.setOnClickListener(v -> {
             selectUpdate = true;
