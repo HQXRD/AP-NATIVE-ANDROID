@@ -295,7 +295,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     }
 
     private void resetView() {
-        CfLog.i("resetView = " + mProfileVo.toString());
+        CfLog.i("******");
         if (mProfileVo != null) {
             binding.tvwName.setText(mProfileVo.username);
             setBalance();
@@ -401,11 +401,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                     CfLog.e("txt " + txt);
                     binding.tvwLevelHint.setText(txt);
                     binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).display_active) * 100));
+                    binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar));
                 } else {
                     String txt = getString(R.string.txt_level_hint_10);
                     txt = String.format(txt, vo.display_level);
                     binding.tvwLevelHint.setText(txt);
                     binding.pbrLevel.setProgress(100);
+                    binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar_100));
                 }
             } else {
                 if (vo.level < vo.vip_upgrade.size() - 1) {
@@ -416,11 +418,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                     CfLog.e("txt " + txt);
                     binding.tvwLevelHint.setText(txt);
                     binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).active) * 100));
+                    binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar));
                 } else {
                     String txt = getString(R.string.txt_level_hint_10);
                     txt = String.format(txt, vo.level);
                     binding.tvwLevelHint.setText(txt);
                     binding.pbrLevel.setProgress(100);
+                    binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar_100));
                 }
             }
         });

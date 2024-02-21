@@ -1,7 +1,6 @@
 package com.xtree.base.utils;
 
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -25,8 +24,6 @@ public class TimeUtils {
     public final static String FORMAT_YY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
     public final static String FORMAT_YY_MM_DD_HH_MM = "yyyy-MM-dd HH:mm";
     public final static String FORMAT_YY_MM_DD_HH_MM_1 = "yyyy年MM月dd日 HH:mm";
-
-
 
     /**
      * 时间转换
@@ -213,7 +210,7 @@ public class TimeUtils {
         return formatter.format(date);
     }
 
-    public static Date strFormatDate(String time, String format){
+    public static Date strFormatDate(String time, String format) {
         DateFormat dateFormat = new SimpleDateFormat(format);
         try {
             return dateFormat.parse(time);
@@ -222,7 +219,7 @@ public class TimeUtils {
         }
     }
 
-    public static String longFormatString(long time, String format){
+    public static String longFormatString(long time, String format) {
         DateFormat dateFormat = new SimpleDateFormat(format);
         Date date = new Date(time);
         return dateFormat.format(date);
@@ -281,11 +278,12 @@ public class TimeUtils {
 
     /**
      * 获取指定时间N天后的时间
+     *
      * @param date
      * @param n
      * @return
      */
-    public static Date addDays(Date date, int n){
+    public static Date addDays(Date date, int n) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_YEAR, n);
@@ -294,10 +292,11 @@ public class TimeUtils {
 
     /**
      * 秒数转换成分秒
+     *
      * @param s
      * @return
      */
-    public static String sToMs(int s){
+    public static String sToMs(int s) {
         long milliseconds = s * 1000;
         long minutes = (milliseconds / 1000) / 60;
         long seconds = (milliseconds / 1000) % 60;
@@ -305,11 +304,10 @@ public class TimeUtils {
         String strMinutes = String.valueOf(minutes);
         String strSeconds = String.valueOf(seconds);
 
-
-        if(minutes < 10){
+        if (minutes < 10) {
             strMinutes = "0" + minutes;
         }
-        if(seconds < 10){
+        if (seconds < 10) {
             strSeconds = "0" + seconds;
         }
         return String.format("%s : %s", strMinutes, strSeconds);

@@ -157,12 +157,11 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
                 CfLog.i("****** 这是列表");
                 mAdapter.clear();
                 mAdapter.addAll(vo.banklist);
-
-                if (vo.banklist.get(0).status.equals("3")) {
-                    binding.tvwLock.setVisibility(View.GONE);
-                    binding.tvwAdd.setVisibility(View.GONE);
-                } else {
-                    binding.tvwLock.setVisibility(View.VISIBLE);
+                for (int i = 0; i < vo.banklist.size(); i++) {
+                    if (vo.banklist.get(i).status.equals("3")) {
+                        binding.tvwLock.setVisibility(View.GONE);
+                        binding.tvwAdd.setVisibility(View.GONE);
+                    }
                 }
             }
 
@@ -174,7 +173,7 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
                 int max = Integer.parseInt(vo.num);
                 int count = Integer.parseInt(vo.binded);
                 if (count < max) {
-                    binding.tvwAdd.setVisibility(View.VISIBLE);
+                    //binding.tvwAdd.setVisibility(View.VISIBLE); // 锁定时不要显示
                 } else {
                     binding.tvwAdd.setVisibility(View.GONE);
                 }

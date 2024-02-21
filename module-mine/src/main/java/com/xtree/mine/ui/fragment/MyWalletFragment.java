@@ -240,31 +240,10 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
             toBindPhoneNumber();
         } else if (!mProfileVo.is_binding_card) {
             CfLog.i("未绑定银行卡");
-            toBindPhoneOrCard();
+            toBindCard();
         } else {
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
         }
-    }
-
-    private void toBindPhoneOrCard() {
-        String msg = getString(R.string.txt_rc_bind_personal_info);
-        String left = getString(R.string.txt_rc_bind_phone_now);
-        String right = getString(R.string.txt_rc_bind_bank_card_now);
-        MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
-            @Override
-            public void onClickLeft() {
-                toBindPhoneNumber();
-                ppw.dismiss();
-            }
-
-            @Override
-            public void onClickRight() {
-                toBindCard();
-                ppw.dismiss();
-            }
-        });
-        ppw = new XPopup.Builder(getContext()).dismissOnTouchOutside(true).dismissOnBackPressed(true).asCustom(dialog);
-        ppw.show();
     }
 
     private void toBindPhoneNumber() {
