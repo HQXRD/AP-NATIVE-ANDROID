@@ -240,7 +240,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
             toBindPhoneNumber();
         } else if (!mProfileVo.is_binding_card) {
             CfLog.i("未绑定银行卡");
-            toBindPhoneOrCard();
+            toBindCard();
         } else {
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
         }
