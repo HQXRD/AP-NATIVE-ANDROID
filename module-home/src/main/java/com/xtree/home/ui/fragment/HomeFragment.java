@@ -79,6 +79,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     public static String CHOOSE_TYPE = "";
     private boolean selectUpdate;//手动更新余额
 
+
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return R.layout.fragment_home;
@@ -436,7 +437,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             toBindPhoneNumber();
         } else if (!mProfileVo.is_binding_card) {
             CfLog.i("未绑定银行卡");
-            toBindPhoneOrCard();
+            toBindCard();
         } else {
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW)
                     .navigation();
@@ -550,4 +551,5 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             binding.rcvList.smoothScrollBy(0, binding.rcvList.getChildAt(diff).getTop());
         }
     }
+
 }
