@@ -137,12 +137,16 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                         String vipInfoJson = SPUtils.getInstance().getString(SPKeyGlobal.HOME_VIP_INFO, "");
                         if (!vipInfoJson.isEmpty()) {
                             VipInfoVo vipInfoVo = new Gson().fromJson(vipInfoJson, VipInfoVo.class);
-                            liveDataVipInfo.setValue(vipInfoVo);
+                            if (vipInfoVo != null) {
+                                liveDataVipInfo.setValue(vipInfoVo);
+                            }
                         }
                         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
                         if (!vipInfoJson.isEmpty()) {
                             ProfileVo mProfileVo = new Gson().fromJson(json, ProfileVo.class);
-                            liveDataProfile.setValue(mProfileVo);
+                            if (mProfileVo != null) {
+                                liveDataProfile.setValue(mProfileVo);
+                            }
                         }
                     }
 
@@ -202,12 +206,16 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
             String vipInfoJson = SPUtils.getInstance().getString(SPKeyGlobal.HOME_VIP_INFO, "");
             if (!vipInfoJson.isEmpty()) {
                 VipInfoVo vipInfoVo = new Gson().fromJson(vipInfoJson, VipInfoVo.class);
-                liveDataVipInfo.setValue(vipInfoVo);
+                if (vipInfoVo != null) {
+                    liveDataVipInfo.setValue(vipInfoVo);
+                }
             }
             String homeJson = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
             if (!vipInfoJson.isEmpty()) {
                 ProfileVo mProfileVo = new Gson().fromJson(homeJson, ProfileVo.class);
-                liveDataProfile.setValue(mProfileVo);
+                if (mProfileVo != null) {
+                    liveDataProfile.setValue(mProfileVo);
+                }
             }
         }
     }
