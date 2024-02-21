@@ -246,27 +246,6 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
         }
     }
 
-    private void toBindPhoneOrCard() {
-        String msg = getString(R.string.txt_rc_bind_personal_info);
-        String left = getString(R.string.txt_rc_bind_phone_now);
-        String right = getString(R.string.txt_rc_bind_bank_card_now);
-        MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
-            @Override
-            public void onClickLeft() {
-                toBindPhoneNumber();
-                ppw.dismiss();
-            }
-
-            @Override
-            public void onClickRight() {
-                toBindCard();
-                ppw.dismiss();
-            }
-        });
-        ppw = new XPopup.Builder(getContext()).dismissOnTouchOutside(true).dismissOnBackPressed(true).asCustom(dialog);
-        ppw.show();
-    }
-
     private void toBindPhoneNumber() {
 
         String msg = getString(R.string.txt_rc_bind_phone_email_pls);
