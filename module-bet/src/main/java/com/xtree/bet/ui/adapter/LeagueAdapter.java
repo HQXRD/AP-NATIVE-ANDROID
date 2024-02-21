@@ -334,7 +334,12 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             binding.tvMatchTime.setText(TimeUtils.longFormatString(match.getMatchTime(), TimeUtils.FORMAT_MM_DD_HH_MM));
         } else {
             if (TextUtils.equals(Constants.getFbSportId(), match.getSportId()) || TextUtils.equals(Constants.getBsbSportId(), match.getSportId())) { // 足球和篮球
-                binding.tvMatchTime.setText(match.getStage() + " " + match.getTime());
+                String mc = match.getStage();
+                if (mc.contains("休息") || mc.contains("结束")) {
+                    binding.tvMatchTime.setText(match.getStage());
+                } else {
+                    binding.tvMatchTime.setText(mc + " " + match.getTime());
+                }
             } else {
                 binding.tvMatchTime.setText(match.getStage());
             }
