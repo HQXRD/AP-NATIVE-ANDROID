@@ -213,6 +213,10 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
         if (isRefresh) {
             currentPage = 1;
+            mLeagueList.clear();
+            mMapLeague.clear();
+            mMapSportType.clear();
+            noLiveheaderLeague = null;
         } else {
             currentPage++;
         }
@@ -264,13 +268,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             fBListReq.setSize(goingOnPageSize);
         } else {
             fBListReq.setSize(pageSize);
-        }
-
-        if (isRefresh) {
-            mLeagueList.clear();
-            mMapLeague.clear();
-            mMapSportType.clear();
-            noLiveheaderLeague = null;
         }
 
         Disposable disposable = (Disposable) model.getApiService().getFBList(fBListReq)
@@ -374,6 +371,8 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
         if (isRefresh) {
             currentPage = 1;
+            mChampionMatchList.clear();
+            mChampionMatchMap.clear();
         } else {
             currentPage++;
         }
@@ -400,10 +399,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             FBListReq.setSportId(sportIds);
         }
 
-        if (isRefresh) {
-            mChampionMatchList.clear();
-            mChampionMatchMap.clear();
-        }
+
 
         Disposable disposable = (Disposable) model.getApiService().getFBList(FBListReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
@@ -419,7 +415,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onResult(MatchListRsp matchListRsp) {
-                        CfLog.e(FBListReq.toString());
                         if (isTimerRefresh) {
                             setChampionOptionOddChange(matchListRsp.records);
                             championMatchTimerListData.postValue(mChampionMatchList);
@@ -442,6 +437,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         }
 
                         championLeagueList(matchListRsp.records);
+                        CfLog.e("=========mChampionMatchList=========" + mChampionMatchList.size());
                         championMatchListData.postValue(mChampionMatchList);
                         if (currentPage == 1) {
                             SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + playMethodType + sportId, new Gson().toJson(mChampionMatchList));
