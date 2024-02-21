@@ -295,7 +295,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     }
 
     private void resetView() {
-        CfLog.i("resetView = " + mProfileVo.toString());
+        CfLog.i("******");
         if (mProfileVo != null) {
             binding.tvwName.setText(mProfileVo.username);
             setBalance();

@@ -136,6 +136,8 @@
     <string name="txt_rc_bind_bank_card_pls">您没有绑定银行卡，请先绑定银行卡</string>
     <string name="txt_rc_tip_latest_balance">已更新到最新余额</string>
     <string name="txt_update">版本更新</string>
+    <string name="txt_update_tip">更新中，请稍候...</string>
+    <string name="txt_update_down_over_tip">下载完成</string>
 
     <string name="domain_url">http</string>
     <string name="domain_url_list">http;http</string>

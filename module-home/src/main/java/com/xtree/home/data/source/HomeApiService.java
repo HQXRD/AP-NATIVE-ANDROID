@@ -13,6 +13,7 @@ import com.xtree.home.vo.LoginResultVo;
 import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.RechargeReportVo;
 import com.xtree.home.vo.SettingsVo;
+import com.xtree.home.vo.UpdateVo;
 import com.xtree.home.vo.VipInfoVo;
 
 import java.util.List;
@@ -27,6 +28,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface HomeApiService {
@@ -118,7 +120,6 @@ public interface HomeApiService {
     @GET("/augame/list")
     Flowable<BaseResponse<List<AugVo>>> getAugList();
 
-
     /**
      * 获取 电子 LIST
      */
@@ -131,4 +132,11 @@ public interface HomeApiService {
      */
     @GET("/report/emailreport?")
     Flowable<RechargeReportVo> getRechargeReport(@QueryMap Map<String, String> map);
+
+    /**
+     * 获取更新
+     */
+    @GET("/api/app/version?platform=android")
+    Flowable<BaseResponse<UpdateVo>> getUpdate();
+
 }
