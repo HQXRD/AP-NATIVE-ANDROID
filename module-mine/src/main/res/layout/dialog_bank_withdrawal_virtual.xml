@@ -773,7 +773,7 @@
                     android:id="@+id/iv_continue_confirm_previous"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/cm_btn_withdrawal_previous" />
+                    android:background="@mipmap/cm_btn_withdrawal_closure" />
 
             </LinearLayout>
 

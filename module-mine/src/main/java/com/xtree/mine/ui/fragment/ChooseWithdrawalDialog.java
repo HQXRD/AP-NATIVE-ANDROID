@@ -58,6 +58,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     ChooseInfoVo chooseInfoVo;
     BasePopupView ppw = null; // 底部弹窗
 
+    private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose ;
+
     @Override
     protected int getImplLayoutId() {
         return R.layout.dialog_choose_withdrawa;
@@ -72,12 +74,13 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         super(context);
     }
 
-    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack) {
+    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack ,BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose) {
         ChooseWithdrawalDialog dialog = new ChooseWithdrawalDialog(context);
         context = context;
         dialog.context = context;
         dialog.owner = owner;
         dialog.callBack = callBack;
+        dialog.bankWithdrawalClose = bankWithdrawalClose ;
         return dialog;
     }
 
@@ -275,7 +278,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 跳转银行卡提款页面
      */
     private void showBankWithdrawalDialog(ChooseInfoVo.ChannelInfo channelInfo) {
-        basePopupView = new XPopup.Builder(getContext()).asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, channelInfo));
+        basePopupView = new XPopup.Builder(getContext()).asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, channelInfo ,  bankWithdrawalClose));
         basePopupView.show();
     }
 
@@ -284,9 +287,9 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      */
     private void showUSDTWithdrawalDialog(ChooseInfoVo.ChannelInfo channelInfo) {
         if (channelInfo.title.contains("USDT")) {
-            basePopupView = new XPopup.Builder(getContext()).asCustom(USDTWithdrawalDialog.newInstance(getContext(), owner, channelInfo));
+            basePopupView = new XPopup.Builder(getContext()).asCustom(USDTWithdrawalDialog.newInstance(getContext(), owner, channelInfo ,bankWithdrawalClose));
         } else {
-            basePopupView = new XPopup.Builder(getContext()).asCustom(VirtualWithdrawalDialog.newInstance(getContext(), owner, channelInfo));
+            basePopupView = new XPopup.Builder(getContext()).asCustom(VirtualWithdrawalDialog.newInstance(getContext(), owner, channelInfo,bankWithdrawalClose));
         }
 
         basePopupView.show();

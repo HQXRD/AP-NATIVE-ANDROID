@@ -57,6 +57,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
 
     private USDTSecurityVo usdtSecurityVo;
     private USDTConfirmVo usdtConfirmVo;
+    private BankWithdrawalDialog.BankWithdrawalClose bankClose ;
+    private
     @NonNull
     DialogBankWithdrawalUsdtBinding binding;
 
@@ -64,12 +66,13 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         super(context);
     }
 
-    public static USDTWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo) {
+    public static USDTWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo , BankWithdrawalDialog.BankWithdrawalClose bankClose) {
         USDTWithdrawalDialog dialog = new USDTWithdrawalDialog(context);
         context = context;
         dialog.context = context;
         dialog.owner = owner;
         dialog.channelInfo = channelInfo;
+        dialog.bankClose = bankClose ;
         CfLog.i("USDTWithdrawalDialog");
         return dialog;
     }
@@ -351,6 +354,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         //关闭
         binding.ivContinueConfirmPrevious.setOnClickListener(v -> {
             dismiss();
+            bankClose.closeBankWithdrawal();
         });
     }
 

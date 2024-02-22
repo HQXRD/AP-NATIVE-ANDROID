@@ -125,6 +125,19 @@ public class MatchFb implements Match{
     }
 
     /**
+     * 获取走表时间秒
+     * @return
+     */
+    @Override
+    public int getTimeS() {
+        if(matchInfo != null && matchInfo.mc != null && matchInfo.mc.s >= 0) {
+            return matchInfo.mc.s;
+        }else {
+            return 0;
+        }
+    }
+
+    /**
      * 获取实时比分信息
      * @param type 比分类型，例如角球、黄牌等
      * @return
