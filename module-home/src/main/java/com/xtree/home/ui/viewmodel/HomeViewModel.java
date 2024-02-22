@@ -92,8 +92,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
-                        ToastUtils.showLong("请求失败");
+                        CfLog.e(t.toString());
+                        //super.onError(t);
                     }
                 });
         addSubscribe(disposable);
@@ -150,8 +150,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
-                        super.onError(t);
-                        ToastUtils.showLong("请求失败");
+                        //super.onError(t);
+                        //ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -223,7 +223,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        //super.onError(t);
                     }
                 });
         addSubscribe(disposable);
@@ -337,8 +337,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
-                        super.onError(t);
-                        ToastUtils.showLong("请求失败");
+                        //super.onError(t);
+                        //ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -361,8 +361,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
-                        super.onError(t);
-                        ToastUtils.showLong("请求失败");
+                        //super.onError(t);
+                        //ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -386,8 +386,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
-                        super.onError(t);
-                        ToastUtils.showLong("请求失败");
+                        //super.onError(t);
+                        //ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -408,7 +408,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
-                        super.onError(t);
+                        //super.onError(t);
                         //ToastUtils.showLong("请求失败");
                     }
                 });
