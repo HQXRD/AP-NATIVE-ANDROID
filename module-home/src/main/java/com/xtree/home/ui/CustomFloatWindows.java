@@ -103,8 +103,10 @@ public class CustomFloatWindows extends RelativeLayout {
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        float density = displayMetrics.density;
+
         floatLp.gravity = Gravity.TOP;
-        floatLp.x = displayMetrics.widthPixels / 2;
+        floatLp.x = displayMetrics.widthPixels / 2 - 100;
         floatLp.y = displayMetrics.heightPixels / 2;
 
         floatView.findViewById(R.id.ivw_close).setOnClickListener(v -> {
