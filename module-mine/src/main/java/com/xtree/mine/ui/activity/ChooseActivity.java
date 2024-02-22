@@ -16,6 +16,7 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentChooseWithdrawBinding;
 import com.xtree.mine.ui.fragment.AwardsRecordDialog;
+import com.xtree.mine.ui.fragment.BankWithdrawalDialog;
 import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
@@ -24,7 +25,7 @@ import com.xtree.mine.vo.AwardsRecordVo;
 import me.xtree.mvvmhabit.base.BaseActivity;
 
 @Route(path = PAGER_CHOOSE_WITHDRAW)
-public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel> {
+public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel > {
 
     private BasePopupView basePopupView = null;
     private AwardsRecordVo awardsRecordVo;
@@ -111,7 +112,12 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         LoadingDialog.show(this);
         basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
-                .asCustom(ChooseWithdrawalDialog.newInstance(this, this, () -> {
+                .asCustom(ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
+                    @Override
+                    public void closeDialog() {
+                        finish();
+                    }
+                }, () -> {
                     basePopupView.dismiss();
                     finish();
                     CfLog.i("closeDialog");
@@ -119,5 +125,6 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         basePopupView.show();
 
     }
+
 
 }
