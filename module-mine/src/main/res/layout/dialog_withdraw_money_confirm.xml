@@ -56,11 +56,11 @@
             android:background="@mipmap/ic_continue" />
 
         <ImageView
-            android:id="@+id/iv_continue_confirm_previous"
+            android:id="@+id/iv_continue_confirm_close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/iv_continue_confirm_next"
-            android:background="@mipmap/cm_btn_withdrawal_previous" />
+            android:background="@mipmap/cm_btn_withdrawal_closure" />
 
     </LinearLayout>
 

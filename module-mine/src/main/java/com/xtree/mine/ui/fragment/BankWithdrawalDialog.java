@@ -56,6 +56,11 @@ import project.tqyb.com.library_res.databinding.ItemTextBinding;
  * 银行卡提款Dialog
  */
 public class BankWithdrawalDialog extends BottomPopupView implements IAmountCallback, IFruitHorCallback {
+
+    public interface  BankWithdrawalClose{
+        void  closeBankWithdrawal () ;
+    }
+
     private String typenum;//上一级界面传递过来的typenum
     private Context context;
     private ChooseInfoVo.ChannelInfo channelInfo;
@@ -68,18 +73,21 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     private PlatWithdrawVo platWithdrawVo;//提交订单后返回model
     private PlatWithdrawConfirmVo platWithdrawConfirmVo;//确认订单后返回的model
 
+    private BankWithdrawalClose bankClose ;//关闭提现
+
     ChooseWithdrawViewModel viewModel;
 
     DialogBankWithdrawalBankBinding binding;
 
     private FruitHorRecyclerViewAdapter recyclerViewAdapter;
 
-    public static BankWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo) {
+    public static BankWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo , BankWithdrawalClose bankClose) {
         BankWithdrawalDialog dialog = new BankWithdrawalDialog(context);
         context = context;
         dialog.context = context;
         dialog.owner = owner;
         dialog.channelInfo = channelInfo;
+        dialog.bankClose = bankClose ;
         return dialog;
     }
 
@@ -181,8 +189,9 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             dismiss();
         });
         //关闭提现
-        binding.llOverViewApply.ivContinueConfirmPrevious.setOnClickListener(V -> {
+        binding.llOverViewApply.ivContinueConfirmClose.setOnClickListener(V -> {
             dismiss();
+            bankClose.closeBankWithdrawal();
         });
 
     }
