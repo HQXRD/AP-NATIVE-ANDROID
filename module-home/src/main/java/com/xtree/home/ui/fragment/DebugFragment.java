@@ -23,6 +23,7 @@ import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.home.BR;
+import com.xtree.home.BuildConfig;
 import com.xtree.home.R;
 import com.xtree.home.databinding.FragmentDebugBinding;
 import com.xtree.home.ui.viewmodel.HomeViewModel;
@@ -33,9 +34,17 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 
 @Route(path = RouterFragmentPath.Home.PG_DEBUG)
 public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewModel> {
+
+    private int clickCount = 0; // 点击次数 debug model
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        setView();
+    }
+
+    private void setView() {
 
         int width = 0;
         int height = 0;
@@ -63,10 +72,12 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
             versionCode = pi.versionCode + "";
         }
 
+        binding.tvwVersion.setText("v" + pi.versionName + " (" + versionCode + ")");
         binding.tvwVersionName.setText(pi.versionName);
         binding.tvwVersionCode.setText(versionCode);
         binding.tvwBuildTime.setText(R.string.build_time); // 202402191635
         binding.tvwPkgName.setText(getActivity().getPackageName());
+        binding.tvwRelease.setText(!BuildConfig.DEBUG + "");
         binding.tvwChannel.setText(R.string.channel_name);
         binding.tvwApi.setText(DomainUtil.getDomain());
         binding.tvwUsername.setText(SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME, ""));
@@ -77,6 +88,8 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
         binding.tvwManufacturer.setText(Build.MANUFACTURER);
         binding.tvwModel.setText(Build.MODEL);
         binding.tvwScreen.setText(width + " x " + height);
+        binding.tvwTag.setText(TagUtils.isTag() + "");
+        binding.tvwApiList.setText(getString(R.string.domain_url_list).replace(";", "\n").trim());
 
     }
 
@@ -90,6 +103,14 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         binding.ivwCs.setOnClickListener(v -> goCustomerService());
+
+        binding.ivwLogo.setOnClickListener(v -> {
+            if (clickCount++ > 5) {
+                clickCount = 0;
+                binding.llMain.setVisibility(View.VISIBLE);
+            }
+        });
+
     }
 
     @Override

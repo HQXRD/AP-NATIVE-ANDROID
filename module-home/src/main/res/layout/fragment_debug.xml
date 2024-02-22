@@ -51,9 +51,11 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
+            android:id="@+id/ivw_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="80dp"
             android:src="@mipmap/ic_launcher" />
 
         <TextView
@@ -63,18 +65,31 @@
             android:gravity="center_horizontal"
             android:text="@string/app_name" />
 
+        <TextView
+            android:id="@+id/tvw_version"
+            style="@style/style_item_report_value"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/layout_margin"
+            android:layout_weight="0"
+            android:gravity="center_horizontal"
+            tools:text="v1.0.0 (100)" />
+
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/ll_main"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
 
                 <LinearLayout
                     style="@style/style_item_ll_row"
-                    android:layout_marginTop="24dp">
+                    android:layout_marginTop="24dp"
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/style_item_report_title"
@@ -87,7 +102,9 @@
                         android:text="@string/app_name" />
                 </LinearLayout>
 
-                <LinearLayout style="@style/style_item_ll_row">
+                <LinearLayout
+                    style="@style/style_item_ll_row"
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/style_item_report_title"
@@ -101,7 +118,9 @@
                         tools:text="Demo" />
                 </LinearLayout>
 
-                <LinearLayout style="@style/style_item_ll_row">
+                <LinearLayout
+                    style="@style/style_item_ll_row"
+                    android:visibility="gone">
 
                     <TextView
                         style="@style/style_item_report_title"
@@ -149,6 +168,20 @@
                         style="@style/style_item_report_title"
                         android:layout_marginStart="@dimen/layout_margin"
                         android:layout_weight="0"
+                        android:text="Release：" />
+
+                    <TextView
+                        android:id="@+id/tvw_release"
+                        style="@style/style_item_report_value"
+                        tools:text="true" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/style_item_ll_row">
+
+                    <TextView
+                        style="@style/style_item_report_title"
+                        android:layout_marginStart="@dimen/layout_margin"
+                        android:layout_weight="0"
                         android:text="渠道编号：" />
 
                     <TextView
@@ -169,6 +202,20 @@
                         android:id="@+id/tvw_api"
                         style="@style/style_item_report_value"
                         tools:text="Demo" />
+                </LinearLayout>
+
+                <LinearLayout style="@style/style_item_ll_row">
+
+                    <TextView
+                        style="@style/style_item_report_title"
+                        android:layout_marginStart="@dimen/layout_margin"
+                        android:layout_weight="0"
+                        android:text="TAG：" />
+
+                    <TextView
+                        android:id="@+id/tvw_tag"
+                        style="@style/style_item_report_value"
+                        tools:text="true" />
                 </LinearLayout>
 
                 <LinearLayout style="@style/style_item_ll_row">
@@ -288,6 +335,23 @@
                     android:layout_weight="0"
                     tools:text="Demo" />
 
+                <LinearLayout style="@style/style_item_ll_row">
+
+                    <TextView
+                        style="@style/style_item_report_title"
+                        android:layout_marginStart="@dimen/layout_margin"
+                        android:layout_weight="0"
+                        android:text="API列表：" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvw_api_list"
+                    style="@style/style_item_report_value"
+                    android:layout_width="match_parent"
+                    android:layout_marginStart="@dimen/layout_margin"
+                    android:layout_marginEnd="@dimen/layout_margin"
+                    android:layout_weight="0"
+                    tools:text="Demo" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
