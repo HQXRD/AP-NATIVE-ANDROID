@@ -126,6 +126,19 @@ public class MatchPm implements Match {
     }
 
     /**
+     * 获取走表时间秒
+     * @return
+     */
+    @Override
+    public int getTimeS() {
+        if(matchInfo != null && matchInfo.mst != null) {
+            return Integer.valueOf(matchInfo.mst);
+        }else {
+            return 0;
+        }
+    }
+
+    /**
      * 获取实时比分信息
      *
      * @param type 比分类型，例如角球、黄牌等

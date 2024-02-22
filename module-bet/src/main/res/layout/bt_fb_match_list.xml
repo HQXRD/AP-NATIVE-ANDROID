@@ -132,7 +132,7 @@
             android:background="@color/bt_bg_color_time"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
+            <com.xtree.bet.ui.TimeTextView
                 android:id="@+id/tv_match_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
