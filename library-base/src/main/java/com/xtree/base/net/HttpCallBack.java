@@ -6,7 +6,6 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.widget.LoadingDialog;
 
 import io.reactivex.subscribers.DisposableSubscriber;
-import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
@@ -59,24 +58,28 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 //没有数据
                 KLog.e("没有数据");
                 break;
-            case HttpCallBack.CodeRule.CODE_510:
-                //无效的Token，提示跳入登录页
-                ToastUtils.showShort("token已过期，请重新登录");
-                //关闭所有页面
-                AppManager.getAppManager().finishAllActivity();
-                //跳入登录界面
-                //*****该类仅供参考，实际业务Code, 根据需求来定义，******//
-                break;
-            case HttpCallBack.CodeRule.CODE_530:
-                ToastUtils.showShort("请先登录");
-                break;
-            case HttpCallBack.CodeRule.CODE_551:
-            case HttpCallBack.CodeRule.CODE_20203:
+            case CodeRule.CODE_10003:
+            case CodeRule.CODE_10039:
+            case CodeRule.CODE_20203:
+            case CodeRule.CODE_30004:
                 ToastUtils.showShort(baseResponse.getMessage());
                 break;
+            //case HttpCallBack.CodeRule.CODE_510:
+            //    //无效的Token，提示跳入登录页
+            //    ToastUtils.showShort("token已过期，请重新登录");
+            //    //关闭所有页面
+            //    AppManager.getAppManager().finishAllActivity();
+            //    //跳入登录界面
+            //    //*****该类仅供参考，实际业务Code, 根据需求来定义，******//
+            //    break;
+            //case HttpCallBack.CodeRule.CODE_530:
+            //    ToastUtils.showShort("请先登录");
+            //    break;
+            //case HttpCallBack.CodeRule.CODE_551:
             case HttpCallBack.CodeRule.CODE_20101:
             case HttpCallBack.CodeRule.CODE_20102:
             case HttpCallBack.CodeRule.CODE_20103:
+            case HttpCallBack.CodeRule.CODE_20106:
             case HttpCallBack.CodeRule.CODE_20107:
             case HttpCallBack.CodeRule.CODE_20217:
             case HttpCallBack.CodeRule.CODE_20111:
@@ -152,20 +155,25 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         //没有数据
         static final int CODE_502 = 502;
         //无效的Token
-        static final int CODE_510 = 510;
+        //static final int CODE_510 = 510;
         //未登录
-        static final int CODE_530 = 530;
+        //static final int CODE_530 = 530;
         //请求的操作异常终止：未知的页面类型
-        static final int CODE_551 = 551;
+        //static final int CODE_551 = 551;
+
+        static final int CODE_10003 = 10003; // TOO_MANY_REQ = '请求太频繁',
+        static final int CODE_10039 = 10039; // SAME_REQ = '重复提交',
         // 登出状态,销毁当前 token
         static final int CODE_20101 = 20101;
         static final int CODE_20102 = 20102;
         static final int CODE_20103 = 20103;
+        static final int CODE_20106 = 20106; // KICKED = '账号已在其他地方登录，请重新登录',
         static final int CODE_20107 = 20107; // 长时间未操作，请重新登录
         static final int CODE_20111 = 20111;
         public static final int CODE_20208 = 20208; // 异地登录(本次登录并非常用设备或地区， 需要进行安全验证)
         public static final int CODE_30018 = 30018; // 谷歌验证
         static final int CODE_30003 = 30003;
+        static final int CODE_30004 = 30004; // 被踢下线, 禁止登录
         static final int CODE_30713 = 30713;
         static final int CODE_20203 = 20203; //用户名或密码错误
         static final int CODE_20217 = 20217; //已修改密码或被踢出
