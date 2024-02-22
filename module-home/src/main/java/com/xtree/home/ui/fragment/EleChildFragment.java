@@ -79,6 +79,7 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
                 Ele vo1 = get(position);
                 Glide.with(EleChildFragment.this.getContext())
                         .load(DomainUtil.getDomain2() + vo1.getPicture())
+                        .placeholder(R.mipmap.me_icon_name)
                         .into(binding.ibGame);
                 binding.tvGame.setText(vo1.getName());
 
