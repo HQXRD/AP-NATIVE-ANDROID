@@ -25,6 +25,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentBindEmailBinding;
@@ -89,7 +90,10 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
     @Override
     public void initView() {
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
-        binding.tvwCode.setOnClickListener(v -> getCode());
+        binding.tvwCode.setOnClickListener(v -> {
+            LoadingDialog.show(getContext());
+            getCode();
+        });
         binding.ivwOk.setOnClickListener(v -> submit());
     }
 
