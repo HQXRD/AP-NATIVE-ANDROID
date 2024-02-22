@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import androidx.lifecycle.ViewModelProvider
+import com.drake.net.BuildConfig
 import com.drake.net.Get
 import com.drake.net.NetConfig
 import com.drake.net.tag.RESPONSE
@@ -16,7 +17,6 @@ import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.DomainUtil
 import com.xtree.base.utils.TagUtils
 import com.xtree.main.BR
-import com.xtree.main.BuildConfig
 import com.xtree.main.R
 import com.xtree.main.databinding.ActivitySplashBinding
 import com.xtree.main.ui.viewmodel.SplashViewModel
@@ -154,7 +154,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
         token[1] = getString(R.string.ms_secret_key)
         val channel = getString(R.string.channel_name)
         val userId = SPUtils.getInstance().getString(SPKeyGlobal.USER_ID)
-        TagUtils.init(baseContext, token, channel, userId)
+        var isTag = resources.getBoolean(R.bool.is_tag) && !BuildConfig.DEBUG
+        TagUtils.init(baseContext, token, channel, userId, isTag)
         TagUtils.tagDailyEvent(baseContext)
     }
 

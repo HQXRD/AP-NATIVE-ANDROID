@@ -53,8 +53,15 @@ public class TagUtils {
         CHANNEL_NAME = channel;
         USER_ID = userId;
         IS_TAG = isTag;
+        if (!IS_TAG) {
+            return;
+        }
         initMixpanel(ctx);
         initAppCenter(ctx);
+    }
+
+    public static boolean isTag() {
+        return IS_TAG;
     }
 
     public static void initMixpanel(Context ctx) {
@@ -149,13 +156,16 @@ public class TagUtils {
      */
     public static synchronized void tagDailyEvent(Context ctx) {
         CfLog.d(ctx.getClass().getSimpleName() + ", event: tagDaily");
+        if (!IS_TAG) {
+            return;
+        }
 
         int date = ctx.getSharedPreferences("myPrefs", Context.MODE_PRIVATE).getInt("lastTagDate", 0);
         int curDate = Integer.parseInt(TimeUtils.getCurDate());
         if (date != curDate) {
             CfLog.d("event: tagDaily, " + curDate);
             ctx.getSharedPreferences("myPrefs", Context.MODE_PRIVATE).edit().putInt("lastTagDate", curDate).commit();
-            Analytics.trackEvent("tagDaily");
+            Analytics.trackEvent("tagDaily"); // AppCenter MS
             tagAppsFlyer(ctx, "tagDaily", null);
             tagMixpanel(ctx, "tagDaily", null);
         }
@@ -303,10 +313,6 @@ public class TagUtils {
         if (!dvcId.isEmpty()) {
             return dvcId;
         }
-//        if (dvcId.isEmpty()) {
-//            dvcId = TimeUtils.getCurDate() + "-" + UUID.randomUUID().toString().substring(0, 4);
-//            sp.edit().putString("dvcId", dvcId).commit();
-//        }
 
         String str = "";
         try {
