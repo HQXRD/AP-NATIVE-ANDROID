@@ -138,6 +138,7 @@
     <string name="txt_update">版本更新</string>
     <string name="txt_update_tip">更新中，请稍候...</string>
     <string name="txt_update_down_over_tip">下载完成</string>
+    <string name="txt_update_down_fail_tip">下载失败，请稍候重试</string>
 
     <string name="domain_url">http</string>
     <string name="domain_url_list">http;http</string>

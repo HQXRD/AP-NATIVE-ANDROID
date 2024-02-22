@@ -37,13 +37,6 @@ import retrofit2.http.QueryMap;
 
 public interface PMApiService {
     /**
-     * 获取 PM体育请求服务地址
-     * @return
-     */
-    @POST("/api/sports/obg/getToken")
-    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse<PMService>> getPMGameTokenApi();
-    /**
      * 获取 PM赛事列表
      * @return
      */

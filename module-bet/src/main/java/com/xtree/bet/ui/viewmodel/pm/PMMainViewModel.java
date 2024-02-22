@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.vo.PMService;
@@ -69,8 +70,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     private int currentPage = 1;
     private int goingOnPageSize = 300;
     private int pageSize = 20;
-    private int mGoingonMatchCount;
-    private int mSportPos;
     private int mPlayMethodType;
     private boolean isStepSecond;
 
@@ -214,7 +213,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
             @Override
             public void onError(Throwable t) {
-                getHotMatchCount(playMethodType, leagueIds);
+
             }
         };
 
@@ -258,7 +257,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             showCache(sportId, mPlayMethodType, searchDatePos);
         }
 
-        mSportPos = sportPos;
         PMListReq pmListReq = new PMListReq();
         pmListReq.setEuid(String.valueOf(sportId));
         pmListReq.setMids(matchidList);
@@ -669,7 +667,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+
                     }
                 });
         addSubscribe(disposable);
@@ -949,10 +947,10 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     }
 
     public void getGameTokenApi() {
-        Disposable disposable = (Disposable) model.getPMApiService().getPMGameTokenApi()
+        Disposable disposable = (Disposable) model.getBaseApiService().getPMGameTokenApi()
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new PMHttpCallBack<PMService>() {
+                .subscribeWith(new HttpCallBack<PMService>() {
                     @Override
                     public void onResult(PMService pmService) {
                         SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
@@ -964,7 +962,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        //super.onError(t);
                     }
                 });
         addSubscribe(disposable);

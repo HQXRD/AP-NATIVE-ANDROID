@@ -224,8 +224,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             public void onTabSelected(TabLayout.Tab tab) {
                 ((TextView) tab.getCustomView()).setTextSize(16);
                 mIsChange = true;
-
-                //sportTypePos = 0;
                 if (playMethodPos != tab.getPosition()) {
                     binding.srlLeague.resetNoMoreData();
                     searchDatePos = 0;
@@ -245,8 +243,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     binding.rlCg.setVisibility(!BtCarManager.isCg() ? View.GONE : BtCarManager.isEmpty() ? View.GONE : View.VISIBLE);
                     mLeagueGoingOnList.clear();
                     mLeagueList.clear();
-                    updateStatisticalData();
-
                     viewModel.setSportIcons(playMethodPos);
                     viewModel.setSportItems(playMethodPos, playMethodType);
 
@@ -256,14 +252,14 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     } else {
                         binding.tabSearchDate.setVisibility(View.GONE);
                     }
-                    viewModel.statistical(playMethodType);
+                    /*viewModel.statistical(playMethodType);
                     initTimer();
                     if (playMethodPos == 2 || playMethodPos == 4) {
                         getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
                                 playMethodType, searchDatePos, false, true);
                     } else if (playMethodPos == 0 || playMethodPos == 3) {
                         viewModel.getHotMatchCount(playMethodType, viewModel.hotLeagueList);
-                    }
+                    }*/
                 }
             }
 
@@ -289,6 +285,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     mSportName = viewModel.getSportName(playMethodType)[sportTypePos];
                     mLeagueGoingOnList.clear();
                     mLeagueList.clear();
+                    updateStatisticalData();
                     viewModel.statistical(playMethodType);
                     initTimer();
                     String sportId = String.valueOf(getSportId());
@@ -1047,24 +1044,22 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 更新冠军赛事
      */
     private void updateChampionMatchData() {
-        binding.rvLeague.postDelayed(() -> {
-            if (mChampionMatchAdapter == null) {
-                mChampionMatchAdapter = new ChampionMatchAdapter(MainActivity.this, mChampionMatchList);
+        if (mChampionMatchAdapter == null) {
+            mChampionMatchAdapter = new ChampionMatchAdapter(MainActivity.this, mChampionMatchList);
+            binding.rvLeague.setAdapter(mChampionMatchAdapter);
+        } else {
+            if (!(binding.rvLeague.getExpandableListAdapter() instanceof ChampionMatchAdapter)) {
                 binding.rvLeague.setAdapter(mChampionMatchAdapter);
-            } else {
-                if (!(binding.rvLeague.getExpandableListAdapter() instanceof ChampionMatchAdapter)) {
-                    binding.rvLeague.setAdapter(mChampionMatchAdapter);
-                }
-                mChampionMatchAdapter.setData(mChampionMatchList);
             }
-            if (mChampionMatchList.isEmpty()) {
-                binding.nsvLeague.setVisibility(View.GONE);
-                binding.llEmpty.llEmpty.setVisibility(View.VISIBLE);
-            } else {
-                binding.nsvLeague.setVisibility(View.VISIBLE);
-                binding.llEmpty.llEmpty.setVisibility(View.GONE);
-            }
-        }, 10);
+            mChampionMatchAdapter.setData(mChampionMatchList);
+        }
+        if (mChampionMatchList.isEmpty()) {
+            binding.nsvLeague.setVisibility(View.GONE);
+            binding.llEmpty.llEmpty.setVisibility(View.VISIBLE);
+        } else {
+            binding.nsvLeague.setVisibility(View.VISIBLE);
+            binding.llEmpty.llEmpty.setVisibility(View.GONE);
+        }
 
     }
 

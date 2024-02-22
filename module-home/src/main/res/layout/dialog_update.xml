@@ -92,10 +92,9 @@
                     android:textColor="@color/clr_grey_60"
                     android:textSize="12sp"
                     android:visibility="visible"
-                    tools:text="iOS自5.0.9版本开始，正式包具有强制升级功能；
-所有版本正式包均有升级提醒功能。
-新打包的客户端默认都在无需升级版本里，
-可将需要升级的版本移动至对应的提示升级版本框和强制升级版本框中。" />
+                    tools:text="iOS自5.0.9版本开始，正式包具有强制升级功能；所有版本正式包均有升级提醒功能。
+                    新打包的客户端默认都在无需升级版本里，
+                    可将需要升级的版本移动至对应的提示升级版本框和强制升级版本框中。" />
 
                 <include
                     android:id="@+id/dialog_update_progressbar"
@@ -124,6 +123,7 @@
                 android:id="@+id/dialog_update_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
                 android:background="@mipmap/cm_dialog_update_cancel"
                 android:visibility="visible"
                 tools:visibility="visible" />
@@ -132,6 +132,7 @@
                 android:id="@+id/dialog_update_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
                 android:background="@mipmap/cm_dialog_update_confirm"
                 android:visibility="visible"
                 tools:visibility="visible" />

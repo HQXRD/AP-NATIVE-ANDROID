@@ -277,12 +277,28 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         Disposable disposable = (Disposable) model.getApiService().getPlayUrl(gameAlias, map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<Map<String, String>>() {
+                .subscribeWith(new HttpCallBack<Map<String, Object>>() {
                     @Override
-                    public void onResult(Map<String, String> vo) {
+                    public void onResult(Map<String, Object> vo) {
                         // "url": "https://user-h5-bw3.d91a21f.com?token=7c9c***039a"
+                        // "url": { "launch_url": "https://cdn-ali.***.com/h5V01/h5.html?sn=dy12&xxx" }
                         //CfLog.i(vo.toString());
-                        liveDataPlayUrl.setValue(vo);
+                        if (!vo.containsKey("url")) {
+                            return;
+                        }
+
+                        Object obj = vo.get("url");
+                        if (obj instanceof String) {
+                            liveDataPlayUrl.setValue(vo);
+                        } else if (obj instanceof Map) {
+                            // BG真人 又包了一层
+                            if (((Map<String, ?>) obj).containsKey("launch_url")) {
+                                String launch_url = ((Map<String, String>) obj).get("launch_url");
+                                vo.put("url", launch_url);
+                                liveDataPlayUrl.setValue(vo);
+                            }
+                        }
+
                     }
 
                     @Override

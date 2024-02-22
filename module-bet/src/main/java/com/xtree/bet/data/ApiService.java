@@ -1,5 +1,7 @@
 package com.xtree.bet.data;
 
+import com.xtree.base.vo.FBService;
+import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.response.HotLeagueInfo;
 
 import java.util.Map;
@@ -7,6 +9,8 @@ import java.util.Map;
 import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
 
 /**
@@ -22,4 +26,27 @@ public interface ApiService {
     @GET("/api/settings/?")
     Flowable<BaseResponse<HotLeagueInfo>> getSettings(@QueryMap Map<String, String> filters);
 
+    /**
+     * 获取 FB体育请求服务地址
+     * @return
+     */
+    @POST("/api/sports/fb/getToken")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<FBService>> getFBGameTokenApi();
+
+    /**
+     * 获取 FB杏彩体育请求服务地址
+     * @return
+     */
+    @POST("/api/sports/fbxc/getToken")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<FBService>> getFBXCGameTokenApi();
+
+    /**
+     * 获取 PM体育请求服务地址
+     * @return
+     */
+    @POST("/api/sports/obg/getToken")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<PMService>> getPMGameTokenApi();
 }

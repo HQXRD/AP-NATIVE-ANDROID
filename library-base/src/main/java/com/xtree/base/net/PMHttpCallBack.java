@@ -1,17 +1,9 @@
 package com.xtree.base.net;
 
-import com.alibaba.android.arouter.launcher.ARouter;
-import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.router.RouterActivityPath;
-
 import io.reactivex.subscribers.DisposableSubscriber;
-import me.xtree.mvvmhabit.base.AppManager;
-import me.xtree.mvvmhabit.http.BaseResponse;
-import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.http.PMBaseResponse;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.KLog;
-import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
@@ -65,8 +57,13 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
     public static final class CodeRule {
         //请求成功, 正确的操作方式
         static final int CODE_0 = 0;
-
+        /**
+         * token失效
+         */
         public static final int CODE_401026 = 401026;
+        /**
+         * token失效
+         */
         public static final int CODE_401013 = 401013;
         public static final int CODE_400467 = 400467;
 

@@ -1,12 +1,19 @@
 package com.xtree.bet.ui.viewmodel.fb;
 
 
+import static com.xtree.base.net.FBHttpCallBack.CodeRule.CODE_14010;
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
+
 import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.FBHttpCallBack;
+import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.vo.FBService;
 import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.response.fb.PlayTypeInfo;
 import com.xtree.bet.bean.ui.Category;
@@ -26,21 +33,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
+import me.xtree.mvvmhabit.http.BaseResponse;
+import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * Created by marquis
  */
 
 public class FbBtDetailViewModel extends TemplateBtDetailViewModel {
+    private long mMatchId;
 
     public FbBtDetailViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
     }
 
     public void getMatchDetail(long matchId) {
-
+        mMatchId = matchId;
         Map<String, String> map = new HashMap<>();
         map.put("languageType", "CMN");
         map.put("matchId", String.valueOf(matchId));
@@ -62,7 +74,9 @@ public class FbBtDetailViewModel extends TemplateBtDetailViewModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        if (((ResponseThrowable) t).code == CODE_14010) {
+                            getGameTokenApi();
+                        }
                     }
                 });
         addSubscribe(disposable);
@@ -162,6 +176,39 @@ public class FbBtDetailViewModel extends TemplateBtDetailViewModel {
             }
         }
         return optionArrayList;
+    }
+
+    public void getGameTokenApi() {
+        Flowable<BaseResponse<FBService>> flowable;
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
+            flowable = model.getBaseApiService().getFBXCGameTokenApi();
+        } else {
+            flowable = model.getBaseApiService().getFBGameTokenApi();
+        }
+        Disposable disposable = (Disposable) flowable
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<FBService>() {
+                    @Override
+                    public void onResult(FBService fbService) {
+                        if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
+                            SPUtils.getInstance().put(SPKeyGlobal.FBXC_TOKEN, fbService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                        } else {
+                            SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                        }
+
+                        getMatchDetail(mMatchId);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
     }
 
 }

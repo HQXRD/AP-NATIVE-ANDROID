@@ -1,7 +1,6 @@
 package com.xtree.bet.ui.viewmodel.fb;
 
 import static com.xtree.base.net.FBHttpCallBack.CodeRule.CODE_14010;
-import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_400467;
 import static com.xtree.bet.constant.FBConstants.SPORT_ICON_ADDITIONAL;
 import static com.xtree.bet.constant.FBConstants.SPORT_IDS;
 import static com.xtree.bet.constant.FBConstants.SPORT_IDS_ADDITIONAL;
@@ -14,7 +13,6 @@ import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_NOMAL;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_TODAY_CG;
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
 import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
 
 import android.app.Application;
@@ -24,6 +22,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.vo.FBService;
@@ -60,9 +59,7 @@ import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 
-import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.http.BaseResponse;
-import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -185,14 +182,12 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onResult(MatchListRsp matchListRsp) {
-                        CfLog.e(fBListReq.toString());
                         hotMatchCountData.postValue(matchListRsp.getTotal());
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
-                        getHotMatchCount(playMethodType, leagueIds);
+
                     }
                 });
         addSubscribe(disposable);
@@ -218,6 +213,10 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
         if (isRefresh) {
             currentPage = 1;
+            mLeagueList.clear();
+            mMapLeague.clear();
+            mMapSportType.clear();
+            noLiveheaderLeague = null;
         } else {
             currentPage++;
         }
@@ -271,13 +270,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             fBListReq.setSize(pageSize);
         }
 
-        if (isRefresh) {
-            mLeagueList.clear();
-            mMapLeague.clear();
-            mMapSportType.clear();
-            noLiveheaderLeague = null;
-        }
-
         Disposable disposable = (Disposable) model.getApiService().getFBList(fBListReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
@@ -302,6 +294,8 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                             }
                             return;
                         }
+
+                        CfLog.e("=========getLeagueList========" + sportId);
 
                         if (!needSecondStep) {
                             getUC().getDismissDialogEvent().call();
@@ -379,6 +373,8 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
         if (isRefresh) {
             currentPage = 1;
+            mChampionMatchList.clear();
+            mChampionMatchMap.clear();
         } else {
             currentPage++;
         }
@@ -405,10 +401,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             FBListReq.setSportId(sportIds);
         }
 
-        if (isRefresh) {
-            mChampionMatchList.clear();
-            mChampionMatchMap.clear();
-        }
+
 
         Disposable disposable = (Disposable) model.getApiService().getFBList(FBListReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
@@ -424,7 +417,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onResult(MatchListRsp matchListRsp) {
-                        CfLog.e(FBListReq.toString());
                         if (isTimerRefresh) {
                             setChampionOptionOddChange(matchListRsp.records);
                             championMatchTimerListData.postValue(mChampionMatchList);
@@ -447,6 +439,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         }
 
                         championLeagueList(matchListRsp.records);
+                        CfLog.e("=========mChampionMatchList=========" + mChampionMatchList.size());
                         championMatchListData.postValue(mChampionMatchList);
                         if (currentPage == 1) {
                             SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + playMethodType + sportId, new Gson().toJson(mChampionMatchList));
@@ -504,7 +497,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        //super.onError(t);
                     }
                 });
         addSubscribe(disposable);
@@ -818,27 +811,33 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     }
 
     public void getGameTokenApi() {
-        Flowable<BaseResponse<FBService>> flowable = null;
+        Flowable<BaseResponse<FBService>> flowable;
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
         if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
-            flowable = model.getApiService().getFBXCGameTokenApi();
+            flowable = model.getBaseApiService().getFBXCGameTokenApi();
         } else {
-            flowable = model.getApiService().getFBGameTokenApi();
+            flowable = model.getBaseApiService().getFBGameTokenApi();
         }
         Disposable disposable = (Disposable) flowable
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new FBHttpCallBack<FBService>() {
+                .subscribeWith(new HttpCallBack<FBService>() {
                     @Override
                     public void onResult(FBService fbService) {
-                        SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
-                        SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                        if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
+                            SPUtils.getInstance().put(SPKeyGlobal.FBXC_TOKEN, fbService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                        } else {
+                            SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                        }
+
                         tokenInvalidEvent.call();
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        //super.onError(t);
                     }
                 });
         addSubscribe(disposable);

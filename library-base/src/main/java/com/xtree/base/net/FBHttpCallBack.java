@@ -1,14 +1,9 @@
 package com.xtree.base.net;
 
-import com.alibaba.android.arouter.launcher.ARouter;
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.router.RouterActivityPath;
-import com.xtree.base.widget.LoadingDialog;
 
 import io.reactivex.subscribers.DisposableSubscriber;
-import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.http.BaseResponse;
-import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -26,8 +21,8 @@ public abstract class FBHttpCallBack<T> extends DisposableSubscriber<T> {
             return;
         }
         BaseResponse baseResponse = (BaseResponse) o;
-        ResponseThrowable ex = new ResponseThrowable(baseResponse.getStatus(), baseResponse.getMessage());
         int status = baseResponse.getStatus() == -1 ? baseResponse.getCode() : baseResponse.getStatus();
+        ResponseThrowable ex = new ResponseThrowable(status, baseResponse.getMessage());
         switch (status) {
             case FBHttpCallBack.CodeRule.CODE_0:
             case FBHttpCallBack.CodeRule.CODE_10000:

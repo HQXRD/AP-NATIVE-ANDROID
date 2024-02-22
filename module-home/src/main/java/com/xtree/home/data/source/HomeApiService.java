@@ -60,7 +60,7 @@ public interface HomeApiService {
      * 获取 游戏的链接
      */
     @GET("/api/game/{gameAlias}/playurl")
-    Flowable<BaseResponse<Map<String, String>>> getPlayUrl(@Path("gameAlias") String gameAlias, @QueryMap Map<String, String> filters);
+    Flowable<BaseResponse<Map<String, Object>>> getPlayUrl(@Path("gameAlias") String gameAlias, @QueryMap Map<String, String> map);
 
     /**
      * 获取 配置信息（主要是公钥,客服链接）

@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.xtree.base.net.FBHttpCallBack;
+import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
@@ -156,7 +157,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         Disposable disposable = (Disposable) model.getBaseApiService().getSettings(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new FBHttpCallBack<HotLeagueInfo>() {
+                .subscribeWith(new HttpCallBack<HotLeagueInfo>() {
                     @Override
                     public void onResult(HotLeagueInfo hotLeagueInfo) {
                         List<String> hotLeagues = !TextUtils.equals(platform, PLATFORM_PM) ? hotLeagueInfo.fbxc_popular_leagues : hotLeagueInfo.obg_popular_leagues;
@@ -168,7 +169,8 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        //super.onError(t);
+                        getHotLeague(platform);
                     }
                 });
         addSubscribe(disposable);
@@ -276,8 +278,10 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         } else {
             leagueWaitingListData.postValue(leagueList);
         }
-
         CfLog.e("=========mHasCache=========" + mHasCache);
+        /*if(!mHasCache) {
+            CfLog.e("=========mHasCache=========" + mHasCache);
+        }*/
     }
 
     public void showChampionCache(String sportId, int playMethodType) {

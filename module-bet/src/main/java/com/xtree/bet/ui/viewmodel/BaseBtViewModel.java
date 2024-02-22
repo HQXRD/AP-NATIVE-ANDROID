@@ -57,7 +57,8 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        //super.onError(t);
+                        getUserBalanceFb();
                     }
                 });
         addSubscribe(disposable);
@@ -78,7 +79,8 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        //super.onError(t);
+                        getUserBalancePm();
                     }
                 });
         addSubscribe(disposable);
