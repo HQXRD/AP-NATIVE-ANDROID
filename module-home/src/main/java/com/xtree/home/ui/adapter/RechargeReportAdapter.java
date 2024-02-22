@@ -3,6 +3,7 @@ package com.xtree.home.ui.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -30,20 +31,23 @@ public class RechargeReportAdapter extends CachedAutoRefreshAdapter<RechargeOrde
     @Override
     public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
         RechargeOrderVo vo = get(position);
-        binding = ItemRechargeServiceBinding.bind(holder.itemView);
 
-        binding.itemMoney.setText(vo.money);
-        binding.itemWay.setText(vo.payport_nickname);
-        binding.itemTime.setText(vo.timeout);
+        TextView itemMoney = holder.itemView.findViewById(R.id.item_money);
+        TextView itemWay = holder.itemView.findViewById(R.id.item_way);
+        TextView itemTime = holder.itemView.findViewById(R.id.item_time);
+
+        itemMoney.setText(vo.money);
+        itemWay.setText(vo.payport_nickname);
+        itemTime.setText(vo.timeout);
 
         if (position % 2 == 1) {
-            binding.itemMoney.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_white));
-            binding.itemWay.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_white));
-            binding.itemTime.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_white));
+            itemMoney.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_white, ctx.getResources().newTheme()));
+            itemWay.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_white, ctx.getResources().newTheme()));
+            itemTime.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_white, ctx.getResources().newTheme()));
         } else {
-            binding.itemMoney.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_purple));
-            binding.itemWay.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_purple));
-            binding.itemTime.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_purple));
+            itemMoney.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_purple, ctx.getResources().newTheme()));
+            itemWay.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_purple, ctx.getResources().newTheme()));
+            itemTime.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_purple, ctx.getResources().newTheme()));
         }
     }
 }

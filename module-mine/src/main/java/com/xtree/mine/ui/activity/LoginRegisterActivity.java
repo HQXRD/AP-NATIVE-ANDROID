@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 
@@ -18,6 +19,7 @@ import com.xtree.base.global.Constant;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AESUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.SPUtil;
@@ -32,6 +34,9 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.LoginResultVo;
 
 import java.util.HashMap;
+
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -87,7 +92,11 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
         boolean isRememberPwd = SPUtil.get(getApplication()).get(Spkey.REMEMBER_PWD, false);
         if (isRememberPwd) {
-            binding.edtPwd.setText(SPUtil.get(getApplication()).get(Spkey.PWD, ""));
+            try {
+                binding.edtPwd.setText(AESUtil.decryptData(SPUtil.get(getApplication()).get(Spkey.PWD, ""), checkSecretKey()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             binding.edtAccount.setText(SPUtil.get(getApplication()).get(Spkey.ACCOUNT, ""));
             binding.ckbRememberPwd.setChecked(true);
         } else {
@@ -99,19 +108,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         binding.ckbEye.setOnCheckedChangeListener((buttonView, isChecked) -> setEdtPwd(isChecked, binding.edtPwd));
         binding.ckbPwd1.setOnCheckedChangeListener((buttonView, isChecked) -> setEdtPwd(isChecked, binding.edtPwd1));
         binding.ckbPwd2.setOnCheckedChangeListener((buttonView, isChecked) -> setEdtPwd(isChecked, binding.edtPwd2));
-
-        binding.ckbRememberPwd.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SPUtil.get(getApplication()).put(Spkey.REMEMBER_PWD, isChecked);
-            if (isChecked) {
-                if (!TextUtils.isEmpty(binding.edtPwd.getText().toString())) {
-                    SPUtil.get(getApplication()).put(Spkey.PWD, binding.edtPwd.getText().toString());
-                    SPUtil.get(getApplication()).put(Spkey.ACCOUNT, binding.edtAccount.getText().toString());
-                }
-            } else {
-                SPUtil.get(getApplication()).put(Spkey.PWD, "");
-                SPUtil.get(getApplication()).put(Spkey.ACCOUNT, "");
-            }
-        });
 
         binding.tvwForgetPwd.setOnClickListener(v -> goForgetPassword());
 
@@ -267,6 +263,16 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     @Override
     public void initViewObservable() {
         viewModel.liveDataLogin.observe(this, vo -> {
+            SPUtil.get(getApplication()).put(Spkey.REMEMBER_PWD, binding.ckbRememberPwd.isChecked());
+            if (binding.ckbRememberPwd.isChecked()) {
+                try {
+                    SPUtil.get(getApplication()).put(Spkey.PWD, AESUtil.encryptData(binding.edtPwd.getText().toString(), checkSecretKey()));
+                } catch (Exception e) {
+                    CfLog.e(String.valueOf(e));
+                }
+                SPUtil.get(getApplication()).put(Spkey.ACCOUNT, binding.edtAccount.getText().toString());
+            }
+
             if (vo.twofa_required == 0) {
                 //viewModel.setLoginSucc(vo);
                 goMain();
@@ -342,4 +348,13 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         startContainerFragment(RouterFragmentPath.Mine.PAGER_FORGET_PASSWORD); // 三方转账
     }
 
+    private SecretKey checkSecretKey() throws Exception {
+        // 不将key存入Keystore中主要是没有权限拿取私钥，这会导致取得的值都是空的，如果以后要快速登入使用指纹解锁就能使用keystore
+        String key = SPUtil.get(getApplication()).get(Spkey.KEY, "");
+        if (SPUtil.get(getApplication()).get(Spkey.KEY, "").isEmpty()) {
+            key = Base64.encodeToString(AESUtil.getRSAKeyPair().getEncoded(), Base64.DEFAULT);
+            SPUtil.get(getApplication()).put(Spkey.KEY, key);
+        }
+        return new SecretKeySpec(Base64.decode(key, Base64.DEFAULT), "AES");
+    }
 }

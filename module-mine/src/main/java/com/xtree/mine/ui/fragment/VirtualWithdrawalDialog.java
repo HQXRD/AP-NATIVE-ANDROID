@@ -58,17 +58,19 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     private VirtualConfirmVo usdtConfirmVo;
     @NonNull
     DialogBankWithdrawalVirtualBinding binding;
+    private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose ;
 
     public VirtualWithdrawalDialog(@NonNull Context context) {
         super(context);
     }
 
-    public static VirtualWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo) {
+    public static VirtualWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo,BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose) {
         VirtualWithdrawalDialog dialog = new VirtualWithdrawalDialog(context);
         context = context;
         dialog.context = context;
         dialog.owner = owner;
         dialog.channelInfo = channelInfo;
+        dialog.bankWithdrawalClose = bankWithdrawalClose ;
         CfLog.i("VirtualWithdrawalDialog");
         return dialog;
     }

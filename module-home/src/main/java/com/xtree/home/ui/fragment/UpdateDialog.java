@@ -243,7 +243,7 @@ public class UpdateDialog extends CenterPopupView {
             CfLog.e(e.toString());
         }
     }
-
+    /** 用于验证与信任SSL/TLS证书的管理器*/
     private static class DownUpdateManager implements X509TrustManager {
 
         @Override

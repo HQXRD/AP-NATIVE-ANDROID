@@ -103,8 +103,10 @@ public class CustomFloatWindows extends RelativeLayout {
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        float density = displayMetrics.density;
+
         floatLp.gravity = Gravity.TOP;
-        floatLp.x = displayMetrics.widthPixels / 2;
+        floatLp.x = displayMetrics.widthPixels / 2 - 100;
         floatLp.y = displayMetrics.heightPixels / 2;
 
         floatView.findViewById(R.id.ivw_close).setOnClickListener(v -> {
@@ -152,7 +154,7 @@ public class CustomFloatWindows extends RelativeLayout {
         floatView.findViewById(R.id.ivw_icon).setOnClickListener(v -> {
             floatView.findViewById(R.id.cl_floating_window).setVisibility(View.VISIBLE);
             if (!isSearch) {
-                CfLog.e("search the data");
+                CfLog.i("search the data");
                 getReportData();
                 isSearch = true;
             }
@@ -201,6 +203,7 @@ public class CustomFloatWindows extends RelativeLayout {
                             CfLog.d("******");
                             isSearch = false;
                             List<RechargeOrderVo> rechargeOrderVoList = new ArrayList<>();
+                            rechargeReportAdapter.clear();
                             if (vo.result != null) {
                                 for (RechargeOrderVo rechargeOrderVo : vo.result) {
                                     if (rechargeOrderVo.status.equals("0")) {

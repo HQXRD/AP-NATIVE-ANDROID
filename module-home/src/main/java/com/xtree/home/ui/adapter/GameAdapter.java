@@ -17,6 +17,7 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.widget.BrowserActivity;
+import com.xtree.home.BuildConfig;
 import com.xtree.home.R;
 import com.xtree.home.databinding.HmItemGameBinding;
 import com.xtree.home.vo.GameVo;
@@ -90,9 +91,10 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
 
     private void jump(GameVo vo, boolean isLeft) {
         CfLog.d(vo.toString());
-        if (vo.status != 1) {
+        // 非正常状态 (且 非debug模式下 方便调试),不跳转
+        if (vo.status != 1 && !BuildConfig.DEBUG) {
             // 0是维护, 1是正常, 2是下架
-            //return;
+            return;
         }
 
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
