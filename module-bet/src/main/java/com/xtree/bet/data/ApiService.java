@@ -1,6 +1,7 @@
 package com.xtree.bet.data;
 
 import com.xtree.base.vo.FBService;
+import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.response.HotLeagueInfo;
 
 import java.util.Map;
@@ -40,4 +41,12 @@ public interface ApiService {
     @POST("/api/sports/fbxc/getToken")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<FBService>> getFBXCGameTokenApi();
+
+    /**
+     * 获取 PM体育请求服务地址
+     * @return
+     */
+    @POST("/api/sports/obg/getToken")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<PMService>> getPMGameTokenApi();
 }

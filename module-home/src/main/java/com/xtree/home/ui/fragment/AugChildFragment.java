@@ -73,6 +73,7 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
                 AugVo vo = get(position);
                 Glide.with(AugChildFragment.this.getContext())
                         .load(DomainUtil.getDomain() + "webx/images/chess/aug/" + vo.getCode() + ".jpg")
+                        .placeholder(R.mipmap.me_icon_name)
                         .into(binding2.ibGame);
 
                 binding2.ibGame.setOnClickListener(v -> {

@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.response.pm.MatchInfo;
@@ -288,10 +289,10 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
     }
 
     public void getGameTokenApi() {
-        Disposable disposable = (Disposable) model.getPMApiService().getPMGameTokenApi()
+        Disposable disposable = (Disposable) model.getBaseApiService().getPMGameTokenApi()
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new PMHttpCallBack<PMService>() {
+                .subscribeWith(new HttpCallBack<PMService>() {
                     @Override
                     public void onResult(PMService pmService) {
                         SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());

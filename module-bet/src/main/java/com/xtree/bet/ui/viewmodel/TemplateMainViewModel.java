@@ -278,10 +278,10 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         } else {
             leagueWaitingListData.postValue(leagueList);
         }
-
-        if(!mHasCache) {
-            //CfLog.e("=========mHasCache=========" + mHasCache);
-        }
+        CfLog.e("=========mHasCache=========" + mHasCache);
+        /*if(!mHasCache) {
+            CfLog.e("=========mHasCache=========" + mHasCache);
+        }*/
     }
 
     public void showChampionCache(String sportId, int playMethodType) {
@@ -294,7 +294,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
 
         championMatchListData.postValue(matchList);
 
-        //CfLog.e("=========mHasCache=========" + mHasCache);
+        CfLog.e("=========mHasCache=========" + mHasCache);
     }
 
 }
