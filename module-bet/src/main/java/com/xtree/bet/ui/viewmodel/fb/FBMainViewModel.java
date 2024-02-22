@@ -295,6 +295,8 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                             return;
                         }
 
+                        CfLog.e("=========getLeagueList========" + sportId);
+
                         if (!needSecondStep) {
                             getUC().getDismissDialogEvent().call();
                             if (isRefresh) {

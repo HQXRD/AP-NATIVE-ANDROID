@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.vo.PMService;
@@ -946,10 +947,10 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     }
 
     public void getGameTokenApi() {
-        Disposable disposable = (Disposable) model.getPMApiService().getPMGameTokenApi()
+        Disposable disposable = (Disposable) model.getBaseApiService().getPMGameTokenApi()
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new PMHttpCallBack<PMService>() {
+                .subscribeWith(new HttpCallBack<PMService>() {
                     @Override
                     public void onResult(PMService pmService) {
                         SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
