@@ -245,6 +245,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     @Override
     public void onResume() {
         super.onResume();
+        refresh();
+    }
+
+    private void refresh() {
         if (isBinding) {
             isBinding = false;
             binding.tvwCurPmt.setText("");
@@ -270,8 +274,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         } else {  // 第一次可见，不会执行到这里，只会执行onResume
             //网络数据刷新
-
-            initImmersion();
+            refresh();
         }
     }
 

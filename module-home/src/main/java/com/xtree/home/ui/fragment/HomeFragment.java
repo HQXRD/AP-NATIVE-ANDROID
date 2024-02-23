@@ -99,23 +99,27 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     @Override
     public void onResume() {
         super.onResume();
+        refresh();
+
+        Log.i("测试显示隐藏", "onResumeHome");
+    }
+
+    private void refresh() {
         TagUtils.tagDailyEvent(getContext());
         checkUpdate(); // 检查更新
 
         initImmersion();
-        //Log.i("测试显示隐藏", "onResumeHome");
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {   // 隐藏
-            //Log.i("测试显示隐藏", "HideonHiddenChangedHome");
+            Log.i("测试显示隐藏", "HideOnHiddenChangedHome");
         } else {  // 第一次可见，不会执行到这里，只会执行onResume
             //网络数据刷新
-
-           // Log.i("测试显示隐藏", "onHiddenChangedHome");
-            initImmersion();
+            Log.i("测试显示隐藏", "ShowOnHiddenChangedHome");
+            refresh();
         }
     }
 

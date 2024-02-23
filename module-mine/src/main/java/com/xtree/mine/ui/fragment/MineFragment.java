@@ -56,6 +56,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     @Override
     public void onResume() {
         super.onResume();
+        refresh();
+    }
+
+    private void refresh() {
         if (TextUtils.isEmpty(token)) {
             binding.ivwSetting.setClickable(false);
             binding.ivwMsg.setClickable(false);
@@ -83,8 +87,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
         } else {  // 第一次可见，不会执行到这里，只会执行onResume
             //网络数据刷新
-
-            initImmersion();
+            refresh();
         }
     }
 

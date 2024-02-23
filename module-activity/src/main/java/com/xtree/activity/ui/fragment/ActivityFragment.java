@@ -87,11 +87,10 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {   // 隐藏
-            //Log.i("测试显示隐藏", "HideonHiddenChangedAcitivity");
+            //Log.i("测试显示隐藏", "HideOnHiddenChangedAcitivity");
         } else {  // 第一次可见，不会执行到这里，只会执行onResume
             //网络数据刷新
-
-            //Log.i("测试显示隐藏", "onHiddenChangedAcitivity");
+            //Log.i("测试显示隐藏", "ShowOnHiddenChangedAcitivity");
             initImmersion();
         }
     }
