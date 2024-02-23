@@ -265,7 +265,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             customFloatWindows.show();
             isFloating = true;
         }
-        if(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).equals("")) {
+        if (SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).equals("")) {
             customFloatWindows.removeView();
             isFloating = false;
         }
@@ -321,7 +321,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.ivwCs.setOnClickListener(view -> {
             String title = getString(R.string.txt_custom_center);
             String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url, 70)).show();
         });
         binding.ivwClose.setOnClickListener(view -> {
             binding.llNotice.setVisibility(View.GONE);
