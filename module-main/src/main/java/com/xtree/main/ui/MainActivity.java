@@ -144,6 +144,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
                 if (currentFragment != null) {
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.frameLayout, currentFragment);
+                    transaction.addToBackStack(null);
                     transaction.commitAllowingStateLoss();
                 }
             }
