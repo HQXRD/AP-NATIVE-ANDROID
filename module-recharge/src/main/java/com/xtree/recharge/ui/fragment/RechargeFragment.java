@@ -18,6 +18,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
@@ -82,6 +83,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     @Override
     public int initVariableId() {
         return BR.viewModel;
+    }
+
+    @Override
+    protected void initImmersionBar() {
     }
 
     @Override
@@ -208,6 +213,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     binding.tvwRealAmount.setText(s);
                 }
 
+                // 获取 实际充值金额 (测试环境 银行卡充值3)
+                if (curRechargeVo.isrecharge_additional && s.length() >= 3) {
+                    // 调用提交接口, 增加 perOrder=true
+                    //getRealMoney();
+                }
+
                 if (curRechargeVo != null && !TextUtils.isEmpty(curRechargeVo.usdtrate)) {
                     setUsdtRate(curRechargeVo);
                 }
@@ -233,9 +244,17 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     }
 
+    /**
+     * 使用hide和show后，可见不可见切换时，不再执行fragment生命周期方法，
+     * 需要刷新时，使用onHiddenChanged代替
+     */
     @Override
     public void onResume() {
         super.onResume();
+        refresh();
+    }
+
+    private void refresh() {
         if (isBinding) {
             isBinding = false;
             binding.tvwCurPmt.setText("");
@@ -251,6 +270,26 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             //curRechargeVo = null; // 如果为空,连续点击x.bid会空指针
             viewModel.getPayments(); // 绑定回来,刷新数据
         }
+        initImmersion();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {   // 不在最前端显示 相当于调用了onPause();
+
+        } else {  // 第一次可见，不会执行到这里，只会执行onResume
+            //网络数据刷新
+            refresh();
+        }
+    }
+
+    private void initImmersion() {
+        ImmersionBar.with(this)
+                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
+                .fitsSystemWindows(true)
+                .statusBarDarkFont(true)
+                .init();
     }
 
     private void onClickPayment(RechargeVo vo) {
@@ -352,9 +391,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 有一组金额按钮需要显示出来 (固额和非固额)
         if (vo.fixedamount_channelshow && vo.fixedamount_info.length > 0) {
             binding.edtAmount.setEnabled(false);
+            binding.edtAmount.setHint(R.string.txt_choose_recharge_amount); // 请选择金额
             setAmountGrid(vo);
         } else {
             binding.edtAmount.setEnabled(true);
+            String hint = getString(R.string.txt_enter_recharge_amount, vo.loadmin, vo.loadmax);
+            binding.edtAmount.setHint(hint); // 请输入充值金额(最低%1$s元，最高%2$s元)
             List<String> list = getFastMoney(vo.loadmin, vo.loadmax);
             vo.fixedamount_info = list.toArray(new String[list.size()]);
             setAmountGrid(vo);
@@ -449,6 +491,26 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
     }
 
+    /**
+     * 获取 实际充值金额
+     */
+    private void getRealMoney() {
+        String txt = binding.tvwRealAmount.getText().toString();
+        String realName = binding.edtName.getText().toString().trim();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("alipayName", ""); //
+        map.put("amount", txt); //
+        map.put("nonce", UuidUtil.getID16());
+        map.put("rechRealname", realName); //
+        map.put("bankid", bankId);
+        map.put("perOrder", "true");
+        map.put("orderKey", "");
+
+        CfLog.i("****** " + map);
+        viewModel.getRealMoney(curRechargeVo.bid, map);
+    }
+
     private void goNext() {
         CfLog.i("******");
         if (curRechargeVo == null) {
@@ -471,7 +533,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             }
         }
 
-        String txt = binding.edtAmount.getText().toString();
+        String txt = binding.tvwRealAmount.getText().toString();
         double amount = Double.parseDouble(0 + txt);
         if (amount < loadMin || amount > loadMax) {
             txt = String.format(getString(R.string.txt_recharge_range), curRechargeVo.loadmin, curRechargeVo.loadmax);

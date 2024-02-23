@@ -42,18 +42,14 @@ public class AmountAdapter extends CachedAutoRefreshAdapter<String> {
         String str = get(position);
         binding = ItemAmountBinding.bind(holder.itemView);
         binding.tvwTitle.setText(str);
-        binding.tvwTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CfLog.i(str);
-
-                if (curView != null) {
-                    curView.setSelected(false);
-                }
-                v.setSelected(true);
-                curView = v;
-                mCallBack.onClick(str);
+        binding.tvwTitle.setOnClickListener(v -> {
+            CfLog.i(str);
+            if (curView != null) {
+                curView.setSelected(false);
             }
+            v.setSelected(true);
+            curView = v;
+            mCallBack.onClick(str);
         });
     }
 }

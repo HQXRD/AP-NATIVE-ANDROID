@@ -49,9 +49,17 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     String token;
     BasePopupView ppw;
 
+    /**
+     * 使用hide和show后，可见不可见切换时，不再执行fragment生命周期方法，
+     * 需要刷新时，使用onHiddenChanged代替
+     */
     @Override
     public void onResume() {
         super.onResume();
+        refresh();
+    }
+
+    private void refresh() {
         if (TextUtils.isEmpty(token)) {
             binding.ivwSetting.setClickable(false);
             binding.ivwMsg.setClickable(false);
@@ -69,6 +77,26 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             setChildClickable(binding.llMenu01, true);
             setChildClickable(binding.llMenu02, true);
         }
+        initImmersion();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {   // 可见
+
+        } else {  // 第一次可见，不会执行到这里，只会执行onResume
+            //网络数据刷新
+            refresh();
+        }
+    }
+
+    private void initImmersion() {
+        ImmersionBar.with(this)
+                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
+                .fitsSystemWindows(false)
+                .statusBarDarkFont(true)
+                .init();
     }
 
     private void setChildClickable(ViewGroup vgp, boolean isClickable) {
@@ -240,12 +268,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
     @Override
     protected void initImmersionBar() {
-        //设置共同沉浸式样式
-        ImmersionBar.with(this)
-                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
-                .fitsSystemWindows(false)
-                .statusBarDarkFont(false)
-                .init();
     }
 
     @Override

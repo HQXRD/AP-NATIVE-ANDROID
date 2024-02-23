@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.widget.MenuItemView;
@@ -52,12 +51,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
 
     @Override
     protected void initImmersionBar() {
-        //设置共同沉浸式样式
-        ImmersionBar.with(this)
-                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
-                .fitsSystemWindows(false)
-                .statusBarDarkFont(true)
-                .init();
     }
 
     @Override
@@ -148,8 +141,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
                     if (!currentFragment.isAdded()) {
                         transaction.add(R.id.frameLayout, currentFragment);
                     }
+                    //使用hide和show后，不再执行fragment生命周期方法
+                    //需要刷新时，使用onHiddenChanged代替
                     transaction.hide(showFragment).show(currentFragment);
                     showFragment = currentFragment;
+                    //transaction.addToBackStack(null);
                     transaction.commit();
                 }
             }
