@@ -194,6 +194,7 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
     private void resetList(FilterView.IBaseVo vo) {
         CfLog.i(vo.toString());
         curPage = 0;
+        binding.tvwNoData.setVisibility(View.GONE); // 没有数据图文 隐藏掉
 
         switch (vo.getShowId()) {
             case TYPE_WITHDRAW:
