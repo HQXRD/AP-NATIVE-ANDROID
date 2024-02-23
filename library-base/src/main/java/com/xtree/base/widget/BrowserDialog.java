@@ -132,6 +132,7 @@ public class BrowserDialog extends BottomPopupView {
         ivwLoading = findViewById(R.id.ivw_loading);
         ivwLaunch = findViewById(R.id.ivw_launch);
 
+
         mWebView.setFitsSystemWindows(true);
         setWebView(mWebView);
         LoadingDialog.show(mContext);
@@ -232,6 +233,7 @@ public class BrowserDialog extends BottomPopupView {
         settings.setLoadWithOverviewMode(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setLoadsImagesAutomatically(true);
+        settings.setSupportZoom(true);
     }
 
     @Override
@@ -242,7 +244,7 @@ public class BrowserDialog extends BottomPopupView {
     @Override
     protected int getMaxHeight() {
         //return super.getMaxHeight();
-        return (XPopupUtils.getScreenHeight(getContext()) * 85 / 100);
+        return (XPopupUtils.getScreenHeight(getContext()) * 70 / 100);
     }
 
     private void setCookieInside() {
