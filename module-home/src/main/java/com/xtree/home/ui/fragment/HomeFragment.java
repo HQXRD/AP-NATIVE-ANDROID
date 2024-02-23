@@ -3,6 +3,7 @@ package com.xtree.home.ui.fragment;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,22 +92,46 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         return BR.viewModel;
     }
 
+    /**
+     * 使用hide和show后，可见不可见切换时，不再执行fragment生命周期方法，
+     * 需要刷新时，使用onHiddenChanged代替
+     */
     @Override
     public void onResume() {
         super.onResume();
         TagUtils.tagDailyEvent(getContext());
         checkUpdate(); // 检查更新
+
+        initImmersion();
+        //Log.i("测试显示隐藏", "onResumeHome");
     }
 
     @Override
-    protected void initImmersionBar() {
-        //设置共同沉浸式样式
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {   // 隐藏
+            //Log.i("测试显示隐藏", "HideonHiddenChangedHome");
+        } else {  // 第一次可见，不会执行到这里，只会执行onResume
+            //网络数据刷新
+
+           // Log.i("测试显示隐藏", "onHiddenChangedHome");
+            initImmersion();
+        }
+    }
+
+    private void initImmersion() {
         ImmersionBar.with(this)
                 .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
                 .fitsSystemWindows(false)
                 .statusBarDarkFont(true)
                 .init();
     }
+
+    @Override
+    protected void initImmersionBar() {
+        //不实现父类方法
+    }
+
 
     @Override
     public HomeViewModel initViewModel() {
@@ -135,10 +160,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         }
     }
 
-    @Override
-    public void initData() {
-
-    }
 
     @Override
     public void initViewObservable() {

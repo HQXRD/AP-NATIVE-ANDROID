@@ -1,6 +1,7 @@
 package com.xtree.activity.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.activity.BR;
 import com.xtree.activity.R;
 import com.xtree.activity.databinding.FragmentActivityBinding;
@@ -61,10 +63,45 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
     }
 
     @Override
+    protected void initImmersionBar() {}
+
+    @Override
     public ActivityViewModel initViewModel() {
         //使用自定义的ViewModelFactory来创建ViewModel，如果不重写该方法，则默认会调用LoginViewModel(@NonNull Application application)构造方法
         AppViewModelFactory factory = AppViewModelFactory.getInstance(getActivity().getApplication());
         return new ViewModelProvider(this, factory).get(ActivityViewModel.class);
+    }
+
+    /**
+     * 使用hide和show后，可见不可见切换时，不再执行fragment生命周期方法，
+     * 需要刷新时，使用onHiddenChanged代替
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        initImmersion();
+        //Log.i("测试显示隐藏", "onResumeActivity");
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {   // 隐藏
+            //Log.i("测试显示隐藏", "HideonHiddenChangedAcitivity");
+        } else {  // 第一次可见，不会执行到这里，只会执行onResume
+            //网络数据刷新
+
+            //Log.i("测试显示隐藏", "onHiddenChangedAcitivity");
+            initImmersion();
+        }
+    }
+
+    private void initImmersion() {
+        ImmersionBar.with(this)
+                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
+                .fitsSystemWindows(true)
+                .statusBarDarkFont(true)
+                .init();
     }
 
     @Override

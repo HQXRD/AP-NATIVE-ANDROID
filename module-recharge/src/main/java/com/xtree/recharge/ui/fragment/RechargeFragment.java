@@ -18,6 +18,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
@@ -82,6 +83,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     @Override
     public int initVariableId() {
         return BR.viewModel;
+    }
+
+    @Override
+    protected void initImmersionBar() {
     }
 
     @Override
@@ -233,6 +238,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     }
 
+    /**
+     * 使用hide和show后，可见不可见切换时，不再执行fragment生命周期方法，
+     * 需要刷新时，使用onHiddenChanged代替
+     */
     @Override
     public void onResume() {
         super.onResume();
@@ -251,6 +260,27 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             //curRechargeVo = null; // 如果为空,连续点击x.bid会空指针
             viewModel.getPayments(); // 绑定回来,刷新数据
         }
+        initImmersion();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {   // 不在最前端显示 相当于调用了onPause();
+
+        } else {  // 第一次可见，不会执行到这里，只会执行onResume
+            //网络数据刷新
+
+            initImmersion();
+        }
+    }
+
+    private void initImmersion() {
+        ImmersionBar.with(this)
+                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
+                .fitsSystemWindows(true)
+                .statusBarDarkFont(true)
+                .init();
     }
 
     private void onClickPayment(RechargeVo vo) {
