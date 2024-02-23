@@ -352,9 +352,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 有一组金额按钮需要显示出来 (固额和非固额)
         if (vo.fixedamount_channelshow && vo.fixedamount_info.length > 0) {
             binding.edtAmount.setEnabled(false);
+            binding.edtAmount.setHint(R.string.txt_choose_recharge_amount); // 请选择金额
             setAmountGrid(vo);
         } else {
             binding.edtAmount.setEnabled(true);
+            String hint = getString(R.string.txt_enter_recharge_amount, vo.loadmin, vo.loadmax);
+            binding.edtAmount.setHint(hint); // 请输入充值金额(最低%1$s元，最高%2$s元)
             List<String> list = getFastMoney(vo.loadmin, vo.loadmax);
             vo.fixedamount_info = list.toArray(new String[list.size()]);
             setAmountGrid(vo);
@@ -471,7 +474,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             }
         }
 
-        String txt = binding.edtAmount.getText().toString();
+        String txt = binding.tvwRealAmount.getText().toString();
         double amount = Double.parseDouble(0 + txt);
         if (amount < loadMin || amount > loadMax) {
             txt = String.format(getString(R.string.txt_recharge_range), curRechargeVo.loadmin, curRechargeVo.loadmax);

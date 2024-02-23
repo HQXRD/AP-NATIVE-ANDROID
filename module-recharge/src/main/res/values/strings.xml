@@ -22,7 +22,8 @@
     <string name="txt_bind_bank_card">立刻绑定银行卡</string>
     <string name="txt_deposit_name">存款人姓名</string>
     <string name="txt_enter_real_name_pls">*请如实填写支付账户中文姓名!</string>
-    <string name="txt_enter_recharge_amount">请输入充值金额</string>
+    <string name="txt_enter_recharge_amount">请输入充值金额(最低%1$s元，最高%2$s元)</string>
+    <string name="txt_choose_recharge_amount">请选择金额</string>
     <string name="txt_enter_correct_amount">*请输入正确的金额!</string>
     <string name="txt_ref_exchange_rate">参考汇率</string>
     <string name="txt_real_recharge_amount">实际充值金额：</string>
