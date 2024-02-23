@@ -42,7 +42,6 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initParam();
-        initImmersionBar();
     }
 
     @Override
@@ -86,6 +85,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initImmersionBar();
         //私有的初始化Databinding和ViewModel方法
         initViewDataBinding();
         //私有的ViewModel与View的契约事件回调逻辑
