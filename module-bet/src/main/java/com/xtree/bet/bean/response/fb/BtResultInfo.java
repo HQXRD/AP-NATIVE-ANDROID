@@ -79,7 +79,7 @@ public class BtResultInfo implements BaseBean {
     /**
      * 单笔投注金额，单关时和总投注额相等，串关为子单投注额
      */
-    public int us;
+    public double us;
     /**
      * 串关类型，(例:3x1*3)
      */
@@ -146,7 +146,7 @@ public class BtResultInfo implements BaseBean {
         dest.writeLong(this.ct);
         dest.writeLong(this.mt);
         dest.writeString(this.rmk);
-        dest.writeInt(this.us);
+        dest.writeDouble(this.us);
         dest.writeString(this.bt);
         dest.writeInt(this.ic);
         dest.writeInt(this.sv);
@@ -177,7 +177,7 @@ public class BtResultInfo implements BaseBean {
         this.ct = source.readInt();
         this.mt = source.readInt();
         this.rmk = source.readString();
-        this.us = source.readInt();
+        this.us = source.readDouble();
         this.bt = source.readString();
         this.ic = source.readInt();
         this.sv = source.readInt();
