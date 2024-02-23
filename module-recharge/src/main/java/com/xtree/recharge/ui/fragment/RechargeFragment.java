@@ -213,6 +213,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     binding.tvwRealAmount.setText(s);
                 }
 
+                // 获取 实际充值金额 (测试环境 银行卡充值3)
+                if (curRechargeVo.isrecharge_additional && s.length() >= 3) {
+                    // 调用提交接口, 增加 perOrder=true
+                    //getRealMoney();
+                }
+
                 if (curRechargeVo != null && !TextUtils.isEmpty(curRechargeVo.usdtrate)) {
                     setUsdtRate(curRechargeVo);
                 }
@@ -483,6 +489,26 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
         startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
+    }
+
+    /**
+     * 获取 实际充值金额
+     */
+    private void getRealMoney() {
+        String txt = binding.tvwRealAmount.getText().toString();
+        String realName = binding.edtName.getText().toString().trim();
+
+        Map<String, String> map = new HashMap<>();
+        map.put("alipayName", ""); //
+        map.put("amount", txt); //
+        map.put("nonce", UuidUtil.getID16());
+        map.put("rechRealname", realName); //
+        map.put("bankid", bankId);
+        map.put("perOrder", "true");
+        map.put("orderKey", "");
+
+        CfLog.i("****** " + map);
+        viewModel.getRealMoney(curRechargeVo.bid, map);
     }
 
     private void goNext() {

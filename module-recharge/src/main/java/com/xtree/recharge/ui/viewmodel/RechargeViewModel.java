@@ -26,6 +26,7 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -181,6 +182,36 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     }
 
     /**
+     * 获取 实际充值金额
+     * { "status": 30405, "msg": "操作失败 (#06，请您联系在线客服。)", "data": [], "timestamp": 1708661879 }
+     *
+     * @param bid bid
+     * @param map 充值参数
+     */
+    public void getRealMoney(String bid, Map<String, String> map) {
+        Disposable disposable = (Disposable) model.getApiService().getRealMoney(bid, map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<Object>() {
+                    @Override
+                    public void onResult(Object vo) {
+                        CfLog.d("********"); // RechargePayVo
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        CfLog.e("error, " + t.toString());
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
      * 提交充值请求
      *
      * @param bid bid
@@ -230,7 +261,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
 
     }
 
-    public void feedbackInfo(HashMap<String  , String> map) {
+    public void feedbackInfo(HashMap<String, String> map) {
 
         Disposable disposable = (Disposable) model.getApiService().getFeedback(map).
                 compose(RxUtils.schedulersTransformer()).
@@ -246,9 +277,10 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
 
     }
 
-    /** 查询获取修改反馈页面信息*/
-    public void  getEditFeedback(HashMap<String , String> map)
-    {
+    /**
+     * 查询获取修改反馈页面信息
+     */
+    public void getEditFeedback(HashMap<String, String> map) {
         Disposable disposable = (Disposable) model.getApiService().getEditFeedback(map).
                 compose(RxUtils.schedulersTransformer()).
                 compose(RxUtils.exceptionTransformer()).
@@ -262,7 +294,9 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
         addSubscribe(disposable);
     }
 
-    /**上传图片*/
+    /**
+     * 上传图片
+     */
     public void feedbackImageUp(Map<String, String> uploadMap) {
         Disposable disposable = (Disposable) model.getApiService().feedbackFileUpLoad(uploadMap).
                 compose(RxUtils.schedulersTransformer()).
@@ -277,7 +311,9 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
         addSubscribe(disposable);
     }
 
-    /**反馈提交确认*/
+    /**
+     * 反馈提交确认
+     */
     public void feedbackCustomAdd(Map<String, String> addMap) {
         Disposable disposable = (Disposable) model.getApiService().feedbackCustomAdd(addMap).
                 compose(RxUtils.schedulersTransformer()).

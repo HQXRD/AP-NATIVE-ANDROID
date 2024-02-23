@@ -53,6 +53,16 @@ public interface ApiService {
     @GET("/api/deposit/payments?")
     Flowable<BaseResponse<RechargeVo>> getPayment(@Query("bid") String bid);
 
+    /**
+     * 获取 实际充值金额 (接口和充值一样,参数不一样)
+     */
+    @POST("/api/deposit/rechargepay/{bid}")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<Object>> getRealMoney(@Path("bid") String bid, @Body Map<String, String> map);
+
+    /**
+     * 提交充值
+     */
     @POST("/api/deposit/rechargepay/{bid}")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<Object>> rechargePay(@Path("bid") String bid, @Body Map<String, String> map);
@@ -61,10 +71,14 @@ public interface ApiService {
      * 获取反馈页面基本数据
      */
     @GET("/api/deposit/customerinfos?")
-    Flowable<BaseResponse<FeedbackVo>> getFeedback(@QueryMap Map<String , String> map);
-    /** 查看反馈详情*/
+    Flowable<BaseResponse<FeedbackVo>> getFeedback(@QueryMap Map<String, String> map);
+
+    /**
+     * 查看反馈详情
+     */
     @GET("/api/deposit/customerinfos?")
-    Flowable<BaseResponse<FeedbackCheckVo>> getEditFeedback(@QueryMap Map<String , String> map);
+    Flowable<BaseResponse<FeedbackCheckVo>> getEditFeedback(@QueryMap Map<String, String> map);
+
     /**
      * 反馈页面上传图片接口
      */
@@ -81,11 +95,10 @@ public interface ApiService {
     /**
      * 查询获取反馈页面详情数据（充值记录->查看）
      *
-     * @param id     选择反馈记录id
+     * @param id 选择反馈记录id
      */
     @GET("/api/deposit/customerinfos?client=m")
     Flowable<BaseResponse<FeedbackCheckVo>> feedbackCheckDetailsInfo(@Query("id") String id);
-
 
     /**
      * 反馈页面上传
