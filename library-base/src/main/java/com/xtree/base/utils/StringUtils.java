@@ -86,7 +86,7 @@ public class StringUtils {
     }
 
     public static boolean isStartHttp(final String txt) {
-        return txt.startsWith("https:");
+        return txt.startsWith("http");
     }
 
     /**
