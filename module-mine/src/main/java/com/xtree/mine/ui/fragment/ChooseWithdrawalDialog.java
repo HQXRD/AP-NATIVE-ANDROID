@@ -250,14 +250,14 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
             holder.showInfoName.setText(chooseInfoVoArrayList.get(position).title);
             holder.showInfoLinear.setOnClickListener(view -> {
-                if (this.callBack != null && ClickUtil.isFastClick()) {
+                if (this.callBack != null && !ClickUtil.isFastClick()) {
                     this.callBack.onClick(chooseInfoVoArrayList.get(position).title, chooseInfoVoArrayList.get(position));
                 }
             });
             holder.showInfoLinear.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (callBack != null && ClickUtil.isFastClick()) {
+                    if (callBack != null && !ClickUtil.isFastClick()) {
                         callBack.onClick(chooseInfoVoArrayList.get(position).title, chooseInfoVoArrayList.get(position));
                     }
                 }

@@ -82,6 +82,7 @@ public class USDTCashVo extends BaseResponse2 {
         public String username;
         public String min_money;
         public String max_money;
+        public String quota ;//虚拟币提款余额
 
         /*"id": "3212",
                 "user_name": "tst033@as",
