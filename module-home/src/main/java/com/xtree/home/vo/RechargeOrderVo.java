@@ -13,5 +13,8 @@ public class RechargeOrderVo {
     public String amount; // null,
     public String fee; // null,
     public String recharge_json_channel; // false
+    public String orderurl;
+    public String recharge_json_exporetime;
+    public String cancel_reason;
     public String timeout; // 0
 }

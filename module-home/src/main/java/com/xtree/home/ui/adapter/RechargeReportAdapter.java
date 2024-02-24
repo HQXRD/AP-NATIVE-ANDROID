@@ -13,6 +13,10 @@ import com.xtree.home.R;
 import com.xtree.home.databinding.ItemRechargeServiceBinding;
 import com.xtree.home.vo.RechargeOrderVo;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
 public class RechargeReportAdapter extends CachedAutoRefreshAdapter<RechargeOrderVo> {
     Context ctx;
     ItemRechargeServiceBinding binding;
@@ -31,6 +35,13 @@ public class RechargeReportAdapter extends CachedAutoRefreshAdapter<RechargeOrde
     @Override
     public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
         RechargeOrderVo vo = get(position);
+        long minutes = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            LocalDateTime localDateTimeNow = LocalDateTime.now();
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime localDateTimeEnd = LocalDateTime.parse(vo.timeout, dtf);
+            minutes = ChronoUnit.MINUTES.between(localDateTimeNow, localDateTimeEnd);
+        }
 
         TextView itemMoney = holder.itemView.findViewById(R.id.item_money);
         TextView itemWay = holder.itemView.findViewById(R.id.item_way);
@@ -38,7 +49,7 @@ public class RechargeReportAdapter extends CachedAutoRefreshAdapter<RechargeOrde
 
         itemMoney.setText(vo.money);
         itemWay.setText(vo.payport_nickname);
-        itemTime.setText(vo.timeout);
+        itemTime.setText(minutes + "分");
 
         if (position % 2 == 1) {
             itemMoney.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_white, ctx.getResources().newTheme()));

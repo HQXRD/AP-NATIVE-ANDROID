@@ -187,11 +187,13 @@ public class CustomFloatWindows extends RelativeLayout {
                 startTime = year + "-" + month + "-" + day + " 00:00:00";
             }
 
+            CfLog.e(SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
+
             HashMap<String, String> map = new HashMap<>();
-            map.put("startTime", startTime);
-            map.put("endTime", endTime);
+            map.put("userid", SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
             map.put("p", "1");
-            map.put("pn", "30");
+            map.put("page_size", "30");
+            map.put("recharge_json", "true");
             map.put("client", "m");
 
             Disposable disposable = (Disposable) httpDataSource.getApiService().getRechargeReport(map)
