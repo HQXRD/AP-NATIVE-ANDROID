@@ -10,12 +10,11 @@ public class ClickUtil {
      * 限制快速点击
      */
     public static boolean isFastClick() {
-        boolean flag = false;
         long curClickTime = System.currentTimeMillis();
         if ((curClickTime - lastClickTime) < MIN_CLICK_DELAY_TIME) {
-            flag = true;
+            return true;
         }
         lastClickTime = curClickTime;
-        return flag;
+        return false;
     }
 }
