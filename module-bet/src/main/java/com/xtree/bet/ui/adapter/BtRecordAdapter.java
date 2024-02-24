@@ -1,5 +1,7 @@
 package com.xtree.bet.ui.adapter;
 
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM_NAME;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 import java.util.List;
 
 import me.xtree.mvvmhabit.utils.ConvertUtils;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpandableListAdapter {
     private List<BtRecordTime> mDatas;
@@ -141,7 +144,7 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
 
         String cg = btResult.getBetResultOption().size() > 1 ? "串关" : "单关";
         if(btResult.getBetResultOption().size() > 1) {
-            binding.tvName.setText(mContext.getResources().getString(R.string.bt_bt_result_record_cg, cg, btResult.getCgName()));
+            binding.tvName.setText(mContext.getResources().getString(R.string.bt_bt_result_record_cg, cg, btResult.getCgName(), SPUtils.getInstance().getString(KEY_PLATFORM_NAME)));
         }else{
             binding.tvName.setText(cg);
         }
