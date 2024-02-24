@@ -52,7 +52,7 @@ public class NewAdapter extends CachedAutoRefreshAdapter<NewVo> {
         }
 
         String url = DomainUtil.getDomain2() + "/webapp/#" + vo.url;
-        new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, vo.title, url, true)).show();
+        new XPopup.Builder(ctx).moveUpToKeyboard(false).asCustom(new BrowserDialog(ctx, vo.title, url, true)).show();
 
         //Intent it = new Intent(ctx, BrowserActivity.class);
         //it.putExtra("url", url);
