@@ -784,6 +784,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     private void goPayWeb(RechargePayVo vo) {
         new XPopup.Builder(getContext())
+                .moveUpToKeyboard(false)
                 .dismissOnTouchOutside(false)
                 .dismissOnBackPressed(false)
                 .asCustom(new RechargeOrderWebDialog(getContext(), vo, () -> {
