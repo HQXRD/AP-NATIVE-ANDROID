@@ -14,7 +14,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.activity.BR;
 import com.xtree.activity.R;
 import com.xtree.activity.databinding.FragmentActivityBinding;
@@ -79,7 +78,6 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
     @Override
     public void onResume() {
         super.onResume();
-        initImmersion();
         //Log.i("测试显示隐藏", "onResumeActivity");
     }
 
@@ -91,16 +89,7 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
         } else {  // 第一次可见，不会执行到这里，只会执行onResume
             //网络数据刷新
             //Log.i("测试显示隐藏", "ShowOnHiddenChangedAcitivity");
-            initImmersion();
         }
-    }
-
-    private void initImmersion() {
-        ImmersionBar.with(this)
-                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
-                .fitsSystemWindows(true)
-                .statusBarDarkFont(true)
-                .init();
     }
 
     @Override

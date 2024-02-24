@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.widget.MenuItemView;
@@ -51,6 +52,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
 
     @Override
     protected void initImmersionBar() {
+        ImmersionBar.with(MainActivity.this)
+                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
+                .fitsSystemWindows(false)
+                .statusBarDarkFont(true)
+                .init();
     }
 
     @Override

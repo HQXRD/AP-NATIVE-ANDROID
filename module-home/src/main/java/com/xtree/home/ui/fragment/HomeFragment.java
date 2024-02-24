@@ -19,7 +19,6 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
@@ -107,8 +106,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private void refresh() {
         TagUtils.tagDailyEvent(getContext());
         checkUpdate(); // 检查更新
-
-        initImmersion();
     }
 
     @Override
@@ -121,14 +118,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             Log.i("测试显示隐藏", "ShowOnHiddenChangedHome");
             refresh();
         }
-    }
-
-    private void initImmersion() {
-        ImmersionBar.with(this)
-                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
-                .fitsSystemWindows(false)
-                .statusBarDarkFont(true)
-                .init();
     }
 
     @Override

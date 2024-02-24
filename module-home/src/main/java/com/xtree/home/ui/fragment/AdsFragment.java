@@ -18,7 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
@@ -55,7 +54,6 @@ public class AdsFragment extends BaseFragment<FragmentAdsBinding, HomeViewModel>
     @Override
     public void onResume() {
         super.onResume();
-        initImmersion();
     }
 
     @Override
@@ -66,15 +64,7 @@ public class AdsFragment extends BaseFragment<FragmentAdsBinding, HomeViewModel>
         } else {  // 第一次可见，不会执行到这里，只会执行onResume
             //网络数据刷新
 
-            initImmersion();
         }
-    }
-    private void initImmersion() {
-        ImmersionBar.with(this)
-                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
-                .fitsSystemWindows(false)
-                .statusBarDarkFont(true)
-                .init();
     }
 
     public void initWebView() {

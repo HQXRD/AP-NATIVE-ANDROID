@@ -77,7 +77,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             setChildClickable(binding.llMenu01, true);
             setChildClickable(binding.llMenu02, true);
         }
-        initImmersion();
     }
 
     @Override
@@ -89,14 +88,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             //网络数据刷新
             refresh();
         }
-    }
-
-    private void initImmersion() {
-        ImmersionBar.with(this)
-                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
-                .fitsSystemWindows(false)
-                .statusBarDarkFont(true)
-                .init();
     }
 
     private void setChildClickable(ViewGroup vgp, boolean isClickable) {

@@ -270,7 +270,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             //curRechargeVo = null; // 如果为空,连续点击x.bid会空指针
             viewModel.getPayments(); // 绑定回来,刷新数据
         }
-        initImmersion();
     }
 
     @Override
@@ -282,14 +281,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             //网络数据刷新
             refresh();
         }
-    }
-
-    private void initImmersion() {
-        ImmersionBar.with(this)
-                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
-                .fitsSystemWindows(true)
-                .statusBarDarkFont(true)
-                .init();
     }
 
     private void onClickPayment(RechargeVo vo) {
