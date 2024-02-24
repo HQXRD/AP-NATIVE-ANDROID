@@ -24,6 +24,7 @@ import java.util.Map;
 import me.xtree.mvvmhabit.R;
 import me.xtree.mvvmhabit.base.BaseViewModel.ParameterField;
 import me.xtree.mvvmhabit.bus.Messenger;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.MaterialDialogUtils;
 
 
@@ -41,6 +42,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        KLog.i("****** " + getClass().getSimpleName());
         //页面接受的参数方法
         initParam();
         //初始化沉浸式
@@ -59,8 +61,21 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        KLog.i("****** " + getClass().getSimpleName());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        KLog.i("****** " + getClass().getSimpleName());
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
+        KLog.i("****** " + getClass().getSimpleName());
         //解除Messenger注册
         Messenger.getDefault().unregister(viewModel);
         if (viewModel != null) {

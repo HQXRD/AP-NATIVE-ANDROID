@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class AutoRefreshAdapter<VH : RecyclerView.ViewHolder, E> : MutableListAdapter<VH, E>() {
 
-    fun refresh(elements: Collection<E>, callback : DiffUtil.Callback?): Boolean {
-        return if (callback != null) DiffUtil.calculateDiff(object : DiffUtil.Callback(){
+    fun refresh(elements: Collection<E>, callback: DiffUtil.Callback?): Boolean {
+        return if (callback != null) DiffUtil.calculateDiff(object : DiffUtil.Callback() {
             override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                 return callback.areItemsTheSame(oldItemPosition, newItemPosition)
             }
@@ -50,14 +50,20 @@ abstract class AutoRefreshAdapter<VH : RecyclerView.ViewHolder, E> : MutableList
     }
 
     override fun addAll(elements: Collection<E>): Boolean {
+        if (elements.isNullOrEmpty()) {
+            return true
+        }
         return size.let {
-            super.addAll(elements).also {
-                add -> if (add) notifyItemRangeInserted(it, elements.size)
+            super.addAll(elements).also { add ->
+                if (add) notifyItemRangeInserted(it, elements.size)
             }
         }
     }
 
     override fun addAll(index: Int, elements: Collection<E>): Boolean {
+        if (elements.isNullOrEmpty()) {
+            return true
+        }
         return super.addAll(index, elements).also {
             if (it) notifyItemRangeInserted(index, elements.size)
         }
@@ -73,8 +79,8 @@ abstract class AutoRefreshAdapter<VH : RecyclerView.ViewHolder, E> : MutableList
 
     override fun remove(element: E): Boolean {
         return indexOf(element).let {
-            super.remove(element).also {
-                remove -> if (remove) notifyItemRemoved(it)
+            super.remove(element).also { remove ->
+                if (remove) notifyItemRemoved(it)
             }
         }
     }

@@ -16,6 +16,7 @@ import androidx.core.content.FileProvider;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.home.R;
 import com.xtree.home.databinding.DialogUpdateBinding;
 import com.xtree.home.vo.UpdateVo;
@@ -91,6 +92,10 @@ public class UpdateDialog extends CenterPopupView {
         saveFileName = vo.version_name + ".apk";
         apkFile = new File(this.context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), saveFileName);
         apkFile.deleteOnExit(); //删除旧的文件,重新下载
+        if (!vo.download_url.startsWith("http")) {
+            vo.download_url = DomainUtil.getDomain2() + vo.download_url;
+        }
+        CfLog.i("download_url: " + vo.download_url);
 
         CfLog.i("apkFile: " + apkFile.getAbsolutePath());
         binding = DialogUpdateBinding.bind(findViewById(R.id.ll_root_update));
@@ -222,28 +227,28 @@ public class UpdateDialog extends CenterPopupView {
             return;
         }
 
-        try {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            Uri uri = Uri.fromFile(apkFile);
-            CfLog.i(uri.toString()); //
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        Uri uri = Uri.fromFile(apkFile);
+        CfLog.i(uri.toString()); //
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                uri = FileProvider.getUriForFile(this.context, getContext().getPackageName(), apkFile);
-                CfLog.i(uri.toString()); //
-                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-                intent.setDataAndType(uri, "application/vnd.android.package-archive");
-            } else {
-                intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
-            }
-            context.startActivity(intent);
-            android.os.Process.killProcess(android.os.Process.myPid());
-        } catch (Exception e) {
-            CfLog.e(e.toString());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            uri = FileProvider.getUriForFile(this.context, getContext().getPackageName(), apkFile);
+            CfLog.i(uri.toString()); //
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            intent.setDataAndType(uri, "application/vnd.android.package-archive");
+        } else {
+            intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
         }
+        context.startActivity(intent);
+        android.os.Process.killProcess(android.os.Process.myPid());
+
     }
-    /** 用于验证与信任SSL/TLS证书的管理器*/
+
+    /**
+     * 用于验证与信任SSL/TLS证书的管理器
+     */
     private static class DownUpdateManager implements X509TrustManager {
 
         @Override

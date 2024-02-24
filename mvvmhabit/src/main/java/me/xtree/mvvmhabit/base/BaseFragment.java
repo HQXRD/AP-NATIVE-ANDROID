@@ -27,6 +27,7 @@ import java.util.Map;
 import me.xtree.mvvmhabit.R;
 import me.xtree.mvvmhabit.base.BaseViewModel.ParameterField;
 import me.xtree.mvvmhabit.bus.Messenger;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.MaterialDialogUtils;
 
 /**
@@ -41,12 +42,25 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        KLog.i("****** " + getClass().getSimpleName());
         initParam();
-        initImmersionBar();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        KLog.i("****** " + getClass().getSimpleName());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        KLog.i("****** " + getClass().getSimpleName());
     }
 
     @Override
     public void onDestroy() {
+        KLog.i("****** " + getClass().getSimpleName());
         super.onDestroy();
     }
 
@@ -73,6 +87,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        KLog.i("****** " + getClass().getSimpleName());
         //解除Messenger注册
         Messenger.getDefault().unregister(viewModel);
         if (viewModel != null) {
@@ -86,6 +101,8 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        KLog.i("****** " + getClass().getSimpleName());
+        initImmersionBar();
         //私有的初始化Databinding和ViewModel方法
         initViewDataBinding();
         //私有的ViewModel与View的契约事件回调逻辑
@@ -103,6 +120,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
      * 注入绑定
      */
     private void initViewDataBinding() {
+        KLog.i("****** " + getClass().getSimpleName());
         viewModelId = initVariableId();
         viewModel = initViewModel();
         if (viewModel == null) {

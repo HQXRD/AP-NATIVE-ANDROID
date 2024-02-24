@@ -41,7 +41,9 @@ public class MsgFragment extends BaseFragment<FragmentMsgBinding, MsgViewModel> 
         binding.ivwCs.setOnClickListener(view -> {
             String title = getString(R.string.txt_custom_center);
             String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+            new XPopup.Builder(getContext())
+                    .moveUpToKeyboard(false)
+                    .asCustom(new BrowserDialog(getContext(), title, url)).show();
         });
 
         mAdapter = new FragmentStateAdapter(getChildFragmentManager(), getLifecycle()) {

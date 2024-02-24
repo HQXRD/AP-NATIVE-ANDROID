@@ -51,6 +51,7 @@ public class BrowserDialog extends BottomPopupView {
 
     String title;
     String url;
+    int maxHeight = 85; // 最大高度百分比 10-100
     boolean isContainTitle = false; // 网页自身是否包含标题(少数情况下会包含)
 
     public BrowserDialog(@NonNull Context context) {
@@ -78,6 +79,14 @@ public class BrowserDialog extends BottomPopupView {
         this.title = title;
         this.url = url;
         this.isContainTitle = isContainTitle;
+    }
+
+    public BrowserDialog(@NonNull Context context, String title, String url, int maxHeight) {
+        super(context);
+        mContext = context;
+        this.title = title;
+        this.url = url;
+        this.maxHeight = maxHeight;
     }
 
     @Override
@@ -232,6 +241,7 @@ public class BrowserDialog extends BottomPopupView {
         settings.setLoadWithOverviewMode(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setLoadsImagesAutomatically(true);
+        settings.setSupportZoom(true);
     }
 
     @Override
@@ -241,8 +251,10 @@ public class BrowserDialog extends BottomPopupView {
 
     @Override
     protected int getMaxHeight() {
-        //return super.getMaxHeight();
-        return (XPopupUtils.getScreenHeight(getContext()) * 85 / 100);
+        if (maxHeight < 5 || maxHeight > 100) {
+            maxHeight = 40;
+        }
+        return (XPopupUtils.getScreenHeight(getContext()) * maxHeight / 100);
     }
 
     private void setCookieInside() {

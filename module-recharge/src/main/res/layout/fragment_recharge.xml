@@ -19,6 +19,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:paddingTop="12dp"
             android:paddingBottom="12dp">
 
@@ -303,7 +304,7 @@
                         android:background="@mipmap/cm_bg_input_wht"
                         android:hint="@string/txt_enter_recharge_amount"
                         android:imeOptions="actionDone"
-                        android:inputType="numberDecimal"
+                        android:inputType="number"
                         android:lines="1"
                         android:maxLength="9"
                         android:padding="8dp"

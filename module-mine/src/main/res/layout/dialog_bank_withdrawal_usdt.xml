@@ -423,7 +423,8 @@
                             android:layout_marginLeft="4dp"
                             android:layout_toRightOf="@id/tv_info_actual_usdt"
                             android:gravity="right"
-                            android:text="@string/txt_bind_usdt" />
+                            android:text="@string/txt_bind_usdt"
+                            android:visibility="gone"/>
                     </RelativeLayout>
 
                 </LinearLayout>

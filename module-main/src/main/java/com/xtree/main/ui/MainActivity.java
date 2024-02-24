@@ -36,6 +36,7 @@ import me.xtree.mvvmhabit.base.BaseViewModel;
 @Route(path = RouterActivityPath.Main.PAGER_MAIN)
 public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewModel> {
     private List<Fragment> mFragments;
+    private Fragment showFragment;
 
     private NavigationController navigationController;
 
@@ -51,8 +52,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
 
     @Override
     protected void initImmersionBar() {
-        //设置共同沉浸式样式
-        ImmersionBar.with(this)
+        ImmersionBar.with(MainActivity.this)
                 .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
                 .fitsSystemWindows(false)
                 .statusBarDarkFont(true)
@@ -97,11 +97,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
         mFragments.add(adFragment);
         mFragments.add(rechargeFragment);
         mFragments.add(mineFragment);
-        if (homeFragment != null) {
+        showFragment = mFragments.get(0);
+        if (showFragment != null) {
             //默认选中第一个
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.add(R.id.frameLayout, homeFragment);
-            transaction.commitAllowingStateLoss();
+            transaction.replace(R.id.frameLayout, showFragment);
+            transaction.commitNow();
         }
     }
 
@@ -143,8 +144,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
                 Fragment currentFragment = mFragments.get(index);
                 if (currentFragment != null) {
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.frameLayout, currentFragment);
-                    transaction.commitAllowingStateLoss();
+                    if (!currentFragment.isAdded()) {
+                        transaction.add(R.id.frameLayout, currentFragment);
+                    }
+                    //使用hide和show后，不再执行fragment生命周期方法
+                    //需要刷新时，使用onHiddenChanged代替
+                    transaction.hide(showFragment).show(currentFragment);
+                    showFragment = currentFragment;
+                    //transaction.addToBackStack(null);
+                    transaction.commit();
                 }
             }
 
@@ -158,7 +166,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     public void onMessageEvent(String event) {
         navigationController.setSelect(1);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frameLayout, mFragments.get(1));
+        transaction.hide(showFragment).show(mFragments.get(1));
+        showFragment = mFragments.get(1);
         transaction.commitAllowingStateLoss();
     }
 }

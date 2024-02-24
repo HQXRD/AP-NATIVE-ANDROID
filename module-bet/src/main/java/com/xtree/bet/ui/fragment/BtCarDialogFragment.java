@@ -94,8 +94,10 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             double odd = cgOddLimitList.size() > 1 ? cgOddLimit.getCOdd() : cgOddLimit.getDOdd();
             btWin += odd * cgOddLimit.getBtAmount();
         }
-        binding.tvBtAmount.setText(getString(R.string.bt_bt_pay_1, NumberUtils.format(btAmount, 2)));
-        binding.tvTopWin.setText(getString(R.string.bt_bt_top_win, NumberUtils.format(btWin, 2)));
+        if (isAdded()) {//BtCarDialogFragment消失后，禁止调用binding
+            binding.tvBtAmount.setText(getString(R.string.bt_bt_pay_1, NumberUtils.format(btAmount, 2)));
+            binding.tvTopWin.setText(getString(R.string.bt_bt_top_win, NumberUtils.format(btWin, 2)));
+        }
     };
 
     public void showOrHideKeyBoard(boolean isShow) {

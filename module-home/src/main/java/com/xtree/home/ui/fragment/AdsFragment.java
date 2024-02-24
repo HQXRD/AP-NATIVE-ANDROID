@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
@@ -45,13 +45,26 @@ public class AdsFragment extends BaseFragment<FragmentAdsBinding, HomeViewModel>
     }
 
     @Override
-    protected void initImmersionBar() {
-        //设置共同沉浸式样式
-        ImmersionBar.with(this)
-                .navigationBarColor(me.xtree.mvvmhabit.R.color.default_navigation_bar_color)
-                .fitsSystemWindows(false)
-                .statusBarDarkFont(true)
-                .init();
+    protected void initImmersionBar() {}
+
+    /**
+     * 使用hide和show后，可见不可见切换时，不再执行fragment生命周期方法，
+     * 需要刷新时，使用onHiddenChanged代替
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {   // 显示
+
+        } else {  // 第一次可见，不会执行到这里，只会执行onResume
+            //网络数据刷新
+
+        }
     }
 
     public void initWebView() {

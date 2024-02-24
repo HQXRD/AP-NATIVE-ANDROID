@@ -58,6 +58,11 @@ public class NewsFragment extends BaseFragment<FragmentNewsBinding, ActivityView
     }
 
     @Override
+    protected void initImmersionBar() {
+        //重写  不实现父类沉浸式
+    }
+
+    @Override
     public void initView() {
         mAdapter = new NewAdapter(getContext());
         binding.rcvMain.setAdapter(mAdapter);

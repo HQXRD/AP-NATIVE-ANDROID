@@ -31,29 +31,61 @@ public class VirtualCashVo extends BaseResponse2 {
     public ArrayList<UsdtInfo> usdtinfo;
 
     public class UsdtInfo {
+
         public String id;
         public String user_name;
         public String usdt_type;
         public String userid;
         public String usdt_card;
         public String status;
-        //public String atime;
-        //public String utime;
-        //public String user_quota;
-        //public String restrictions_quota;
-        //public String restrictions_teamquota;
-        //public String userlimitswitch;
-        //public String teamlinitswitch;
-        //public String uinuout_uptime;
-        //public String effective_quota;
-        //public String effective_data;
-        //public String cnybank_backblance;
-        //public String card_type;
-        //public String vip_virtual_currency_quota;
-        //public String vvcq_updated_at;
+        public String atime;
+        public String utime;
+        public String user_quota;
+        public String restrictions_quota;
+        public String restrictions_teamquota;
+        public String userlimitswitch;
+        public String teamlinitswitch;
+        public String uinuout_uptime;
+        public String effective_quota;
+        public String effective_data;
+        public String cnybank_backblance;
+        public String card_type;
+        public String vip_virtual_currency_quota;
+        public String vvcq_updated_at;
         public String username;
         public String min_money;
         public String max_money;
+        public String quota;//虚拟币提款余额
+
+        @Override
+        public String toString() {
+            return "UsdtInfo{" +
+                    "id='" + id + '\'' +
+                    ", user_name='" + user_name + '\'' +
+                    ", usdt_type='" + usdt_type + '\'' +
+                    ", userid='" + userid + '\'' +
+                    ", usdt_card='" + usdt_card + '\'' +
+                    ", status='" + status + '\'' +
+                    ", atime='" + atime + '\'' +
+                    ", utime='" + utime + '\'' +
+                    ", user_quota='" + user_quota + '\'' +
+                    ", restrictions_quota='" + restrictions_quota + '\'' +
+                    ", restrictions_teamquota='" + restrictions_teamquota + '\'' +
+                    ", userlimitswitch='" + userlimitswitch + '\'' +
+                    ", teamlinitswitch='" + teamlinitswitch + '\'' +
+                    ", uinuout_uptime='" + uinuout_uptime + '\'' +
+                    ", effective_quota='" + effective_quota + '\'' +
+                    ", effective_data='" + effective_data + '\'' +
+                    ", cnybank_backblance='" + cnybank_backblance + '\'' +
+                    ", card_type='" + card_type + '\'' +
+                    ", vip_virtual_currency_quota='" + vip_virtual_currency_quota + '\'' +
+                    ", vvcq_updated_at='" + vvcq_updated_at + '\'' +
+                    ", username='" + username + '\'' +
+                    ", min_money='" + min_money + '\'' +
+                    ", max_money='" + max_money + '\'' +
+                    ", quota='" + quota + '\'' +
+                    '}';
+        }
     }
 
     public User user;
@@ -62,11 +94,25 @@ public class VirtualCashVo extends BaseResponse2 {
         public String userid;
         public String username;
         public String availablebalance; //可提款金额
-        //public String registertime;
-        //public String relavailablebalance;
-        //public String formula;
-        //public String cafAvailableBalance;
-        //public String unSportActivityAward;
+        public String registertime;
+        public String relavailablebalance;
+        public String formula;
+        public String cafAvailableBalance;
+        public String unSportActivityAward;
+
+        @Override
+        public String toString() {
+            return "User{" +
+                    "userid='" + userid + '\'' +
+                    ", username='" + username + '\'' +
+                    ", availablebalance='" + availablebalance + '\'' +
+                    ", registertime='" + registertime + '\'' +
+                    ", relavailablebalance='" + relavailablebalance + '\'' +
+                    ", formula='" + formula + '\'' +
+                    ", cafAvailableBalance='" + cafAvailableBalance + '\'' +
+                    ", unSportActivityAward='" + unSportActivityAward + '\'' +
+                    '}';
+        }
     }
 
 }

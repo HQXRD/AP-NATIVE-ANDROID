@@ -24,6 +24,7 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.widget.BrowserActivity;
@@ -58,7 +59,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     ChooseInfoVo chooseInfoVo;
     BasePopupView ppw = null; // 底部弹窗
 
-    private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose ;
+    private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
 
     @Override
     protected int getImplLayoutId() {
@@ -74,13 +75,13 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         super(context);
     }
 
-    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack ,BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose) {
+    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose) {
         ChooseWithdrawalDialog dialog = new ChooseWithdrawalDialog(context);
         context = context;
         dialog.context = context;
         dialog.owner = owner;
         dialog.callBack = callBack;
-        dialog.bankWithdrawalClose = bankWithdrawalClose ;
+        dialog.bankWithdrawalClose = bankWithdrawalClose;
         return dialog;
     }
 
@@ -147,16 +148,12 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     }
 
     private void referUI() {
-        for (int i = 0; i < chooseInfoVo.wdChannelList.size(); i++) {
-            ChooseInfoVo.ChannelInfo info = chooseInfoVo.wdChannelList.get(i);
-            CfLog.i("ChooseInfoVo.ChannelInfo =" + info.toString());
-        }
-
         if (chooseInfoVo.wdChannelList != null) {
             if (chooseInfoVo.wdChannelList.size() > 0) {
                 ChooseAdapter adapter = new ChooseAdapter(getContext(), chooseInfoVo.wdChannelList, new IChooseCallback() {
                     @Override
                     public void onClick(String txt, ChooseInfoVo.ChannelInfo channelInfo) {
+
                         ChooseInfoVo.ChannelInfo channel = channelInfo;
                         if (channel.channeluse == 0)//显示弹窗
                         {
@@ -176,9 +173,9 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                             else if (chooseInfoVo.bankchanneluse == 1 && !txt.equals("银行卡提款")) {
                                 showUSDTWithdrawalDialog(channelInfo);
                             }
-
                         }
                     }
+
                 });
                 binding.lvChoose.setVisibility(View.VISIBLE);
                 binding.lvChoose.setAdapter(adapter);
@@ -253,14 +250,14 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
             holder.showInfoName.setText(chooseInfoVoArrayList.get(position).title);
             holder.showInfoLinear.setOnClickListener(view -> {
-                if (this.callBack != null) {
+                if (this.callBack != null && !ClickUtil.isFastClick()) {
                     this.callBack.onClick(chooseInfoVoArrayList.get(position).title, chooseInfoVoArrayList.get(position));
                 }
             });
             holder.showInfoLinear.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (callBack != null) {
+                    if (callBack != null && !ClickUtil.isFastClick()) {
                         callBack.onClick(chooseInfoVoArrayList.get(position).title, chooseInfoVoArrayList.get(position));
                     }
                 }
@@ -278,7 +275,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 跳转银行卡提款页面
      */
     private void showBankWithdrawalDialog(ChooseInfoVo.ChannelInfo channelInfo) {
-        basePopupView = new XPopup.Builder(getContext()).asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, channelInfo ,  bankWithdrawalClose));
+        basePopupView = new XPopup.Builder(getContext()).asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose));
         basePopupView.show();
     }
 
@@ -287,9 +284,9 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      */
     private void showUSDTWithdrawalDialog(ChooseInfoVo.ChannelInfo channelInfo) {
         if (channelInfo.title.contains("USDT")) {
-            basePopupView = new XPopup.Builder(getContext()).asCustom(USDTWithdrawalDialog.newInstance(getContext(), owner, channelInfo ,bankWithdrawalClose));
+            basePopupView = new XPopup.Builder(getContext()).asCustom(USDTWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose));
         } else {
-            basePopupView = new XPopup.Builder(getContext()).asCustom(VirtualWithdrawalDialog.newInstance(getContext(), owner, channelInfo,bankWithdrawalClose));
+            basePopupView = new XPopup.Builder(getContext()).asCustom(VirtualWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose));
         }
 
         basePopupView.show();

@@ -40,7 +40,7 @@ public class RechargeVo {
     //public int addcreditminsec; // 0,
     public String PayCardId; // "2350",
     //public boolean namountdecimal; // false,
-    //public boolean nalipayname; // false,
+    public boolean nalipayname; // false,
     public boolean fixedamount_channelshow; // false, true
     public String[] fixedamount_info; // [], ["100","200","300","500","1000","2000","3000","5000","10000","20000","30000","50000"]
     public boolean phone_needbind; // true,
@@ -54,7 +54,7 @@ public class RechargeVo {
     public boolean recharge_json_channel; // false,
     //public int recharge_json_count_once; // 5,
     //public int recharge_json_day_notsucc; // 3,
-    //public boolean isrecharge_additional; // false,
+    public boolean isrecharge_additional; // false, 是否需要预先获取实际充值金额
     public String low_rate_hint; // "1", 当前渠道【{detail.title}】充值到账成功率较低，为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！
     public String accountname; // "",
     public int tips_recommended; // 0,
@@ -106,6 +106,7 @@ public class RechargeVo {
                 ", starttime='" + starttime + '\'' +
                 ", endtime='" + endtime + '\'' +
                 ", PayCardId='" + PayCardId + '\'' +
+                ", nalipayname=" + nalipayname +
                 ", fixedamount_channelshow=" + fixedamount_channelshow +
                 ", fixedamount_info=" + Arrays.toString(fixedamount_info) +
                 ", phone_needbind=" + phone_needbind +
@@ -113,6 +114,8 @@ public class RechargeVo {
                 ", op_thiriframe_status=" + op_thiriframe_status +
                 ", op_thiriframe_msg='" + op_thiriframe_msg + '\'' +
                 ", op_thiriframe_url='" + op_thiriframe_url + '\'' +
+                ", recharge_json_channel=" + recharge_json_channel +
+                ", isrecharge_additional=" + isrecharge_additional +
                 ", low_rate_hint='" + low_rate_hint + '\'' +
                 ", accountname='" + accountname + '\'' +
                 ", tips_recommended=" + tips_recommended +

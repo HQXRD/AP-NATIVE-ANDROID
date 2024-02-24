@@ -84,6 +84,7 @@ public class RechargeOrderWebDialog extends BottomPopupView {
         String title = getContext().getString(R.string.txt_tip);
         String msg = getContext().getString(R.string.txt_rc_browser_continue);
         ppw = new XPopup.Builder(getContext())
+                .moveUpToKeyboard(false)
                 .dismissOnTouchOutside(false)
                 .dismissOnBackPressed(false)
                 .asCustom(new MsgDialog(getContext(), title, msg, null, null, new MsgDialog.ICallBack() {
@@ -110,6 +111,7 @@ public class RechargeOrderWebDialog extends BottomPopupView {
         String txtRight = getContext().getString(R.string.txt_rc_succ);
 
         ppw2 = new XPopup.Builder(getContext())
+                .moveUpToKeyboard(false)
                 .dismissOnTouchOutside(false)
                 .dismissOnBackPressed(false)
                 .asCustom(new MsgDialog(getContext(), title, msg, txtLeft, txtRight, new MsgDialog.ICallBack() {
@@ -151,7 +153,8 @@ public class RechargeOrderWebDialog extends BottomPopupView {
     private void goCustomerService() {
         String title = getContext().getString(R.string.txt_custom_center);
         String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-        new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+        new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BrowserDialog(getContext(), title, url)).show();
+
     }
 
     @Override

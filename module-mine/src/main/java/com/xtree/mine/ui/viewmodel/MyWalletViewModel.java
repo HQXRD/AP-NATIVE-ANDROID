@@ -24,15 +24,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
-import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import retrofit2.http.GET;
 
 public class MyWalletViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<BalanceVo> liveDataBalance = new SingleLiveData<>(); // 中心钱包
@@ -134,7 +131,8 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
-                        super.onError(t);
+                        //super.onError(t);
+                        liveDataGameBalance.setValue(getFullGame("gameAlias", "维护中"));
                     }
 
                     @Override
@@ -163,6 +161,13 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                         CfLog.e("error, " + t.toString());
                         liveData1kRecycle.setValue(false);
                         super.onError(t);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        CfLog.e("error, " + t.toString());
+                        liveData1kRecycle.setValue(false);
+                        super.onFail(t);
                     }
                 });
         addSubscribe(disposable);
