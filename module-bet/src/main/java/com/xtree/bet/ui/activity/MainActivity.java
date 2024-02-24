@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -23,7 +22,6 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.MenuItemView;
@@ -107,7 +105,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      */
     private int playMethodType = 6;
     private int playMethodPos;
-    private int sportTypePos;
+    private int sportTypePos = -1;
     private int mOrderBy = 1;
     private int mOddType = 1;
 
@@ -132,8 +130,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         String[] sportIds = viewModel.getSportId(playMethodType);
         String sportId = null;
         if (sportTypePos < sportIds.length) {
-            sportId = sportIds[sportTypePos];
-
+            sportId = sportIds[sportTypePos == -1 ? 0 : sportTypePos];
         }
 
         if (playMethodPos != 4) {
@@ -251,6 +248,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                         binding.tabSearchDate.setVisibility(View.VISIBLE);
                     } else {
                         binding.tabSearchDate.setVisibility(View.GONE);
+                    }
+                    if (playMethodPos == 0 || playMethodPos == 3) {
+                        viewModel.getHotMatchCount(playMethodType, viewModel.hotLeagueList);
                     }
                     /*viewModel.statistical(playMethodType);
                     initTimer();
@@ -647,8 +647,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    refreshLeague();
-                    viewModel.statistical(playMethodType);
+                    /*refreshLeague();
+                    viewModel.statistical(playMethodType);*/
                 });
         viewModel.addSubscribe(timerDisposable);
     }
@@ -770,7 +770,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         });
         viewModel.sportItemData.observe(this, matchitemList -> {
             binding.tabSportType.removeAllTabs();
-            sportTypePos = 0;
+            sportTypePos = -1;
             for (int i = 0; i < matchitemList.length; i++) {
                 View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_match_item_tab_item, null);
                 TextView tvName = view.findViewById(R.id.tab_item_name);
@@ -827,24 +827,24 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
         });
 
-        viewModel.leagueGoingOnListData.observe(this, leagueAdapters -> {
+        viewModel.leagueLiveListData.observe(this, leagueAdapters -> {
             this.mLeagueList = leagueAdapters;
             if (playMethodType == 1) {
                 updateData();
             }
         });
 
-        viewModel.leagueGoingOnTimerListData.observe(this, leagueList -> {
+        viewModel.leagueLiveTimerListData.observe(this, leagueList -> {
             this.mLeagueList = leagueList;
             updateData();
         });
 
-        viewModel.leagueWaitingListData.observe(this, leagueAdapters -> {
+        viewModel.leagueNoLiveListData.observe(this, leagueAdapters -> {
             this.mLeagueList = leagueAdapters;
             updateData();
         });
 
-        viewModel.leagueWaitingTimerListData.observe(this, leagueAdapters -> {
+        viewModel.leagueNoLiveTimerListData.observe(this, leagueAdapters -> {
             this.mLeagueList = leagueAdapters;
             updateData();
         });
@@ -932,6 +932,17 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         viewModel.tokenInvalidEvent.observe(this, unused -> {
             getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
                     playMethodType, searchDatePos, false, true);
+        });
+
+        viewModel.tooManyRequestsEvent.observe(this, unused -> {
+            getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
+                    playMethodType, searchDatePos, false, true);
+            binding.tabSportType.setEnabled(false);
+            binding.tabPlayMethod.setEnabled(false);
+            binding.tabSearchDate.setEnabled(false);
+            binding.rvLeague.postDelayed(() -> {
+
+            }, 1000);
         });
     }
 

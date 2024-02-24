@@ -26,7 +26,6 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.vo.FBService;
-import com.xtree.bet.R;
 import com.xtree.bet.bean.response.fb.LeagueInfo;
 import com.xtree.bet.bean.response.fb.MatchTypeInfo;
 import com.xtree.bet.bean.response.fb.MatchTypeStatisInfo;
@@ -58,6 +57,7 @@ import io.reactivex.disposables.Disposable;
 import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
+import com.xtree.bet.ui.viewmodel.callback.LeagueListCallBack;
 
 import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
@@ -69,7 +69,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  */
 
 public class FBMainViewModel extends TemplateMainViewModel implements MainViewModel {
-
+    private LeagueListCallBack mLeagueListCallBack;
     private Map<String, League> mMapLeague = new HashMap<>();
     private List<Match> mMatchList = new ArrayList<>();
     private Map<String, Match> mMapMatch = new HashMap<>();
@@ -78,11 +78,58 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     private Map<String, Match> mChampionMatchMap = new HashMap<>();
     private StatisticalInfo mStatisticalInfo;
     private Map<String, List<Integer>> sportCountMap = new HashMap<>();
-    private int currentPage = 1;
     private int goingOnPageSize = 300;
     private int pageSize = 50;
-    private int mPlayMethodType;
-    private boolean isStepSecond;
+
+    public void saveLeague(LeagueListCallBack leagueListCallBack){
+        mLeagueList = leagueListCallBack.getLeagueList();
+        mGoingOnLeagueList = leagueListCallBack.getGoingOnLeagueList();
+        mMapLeague = leagueListCallBack.getMapLeague();
+        mMatchList = leagueListCallBack.getMatchList();
+        mMapMatch = leagueListCallBack.getMapMatch();
+        mMapSportType = leagueListCallBack.getMapSportType();
+        mNoLiveheaderLeague = leagueListCallBack.getNoLiveheaderLeague();
+    }
+
+    public Map<String, League> getMapLeague() {
+        return mMapLeague;
+    }
+
+    public void setMapLeague(Map<String, League> mMapLeague) {
+        this.mMapLeague = mMapLeague;
+    }
+
+    public List<Match> getMatchList() {
+        return mMatchList;
+    }
+
+    public void setMatchList(List<Match> mMatchList) {
+        this.mMatchList = mMatchList;
+    }
+
+    public Map<String, Match> getMapMatch() {
+        return mMapMatch;
+    }
+
+    public void setMapMatch(Map<String, Match> mMapMatch) {
+        this.mMapMatch = mMapMatch;
+    }
+
+    public List<League> getmLeagueList() {
+        return mLeagueList;
+    }
+
+    public void setmLeagueList(List<League> mLeagueList) {
+        this.mLeagueList = mLeagueList;
+    }
+
+    public List<League> getGoingOnLeagueList() {
+        return mGoingOnLeagueList;
+    }
+
+    public void setGoingOnLeagueList(List<League> mGoingOnLeagueList) {
+        this.mGoingOnLeagueList = mGoingOnLeagueList;
+    }
 
     public FBMainViewModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);
@@ -207,21 +254,23 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @param isRefresh      是否刷新 true-是, false-否
      */
     public void getLeagueList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int searchDatePos, int oddType, boolean isTimerRefresh, boolean isRefresh) {
+        getLeagueList(sportPos, sportId, orderBy, leagueIds, matchids, playMethodType, searchDatePos, oddType, isTimerRefresh, isRefresh, false);
+    }
+
+    public void getLeagueList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int searchDatePos, int oddType,
+                              boolean isTimerRefresh, boolean isRefresh, boolean isStepSecond) {
         if (!isStepSecond) {
             mPlayMethodType = playMethodType;
         }
 
         if (isRefresh) {
-            currentPage = 1;
-            mLeagueList.clear();
-            mMapLeague.clear();
-            mMapSportType.clear();
-            noLiveheaderLeague = null;
+            mCurrentPage = 1;
+            mNoLiveheaderLeague = null;
         } else {
-            currentPage++;
+            mCurrentPage++;
         }
 
-        if (currentPage == 1 && !isTimerRefresh && !isStepSecond) {
+        if (mCurrentPage == 1 && !isTimerRefresh && !isStepSecond) {
             showCache(sportId, mPlayMethodType, searchDatePos);
         }
 
@@ -244,7 +293,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         fBListReq.setOrderBy(orderBy);
         fBListReq.setLeagueIds(leagueIds);
         fBListReq.setMatchIds(matchids);
-        fBListReq.setCurrent(currentPage);
+        fBListReq.setCurrent(mCurrentPage);
         fBListReq.setOddType(oddType);
 
         if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
@@ -270,10 +319,15 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             fBListReq.setSize(pageSize);
         }
 
+        LeagueListCallBack leagueListCallBack = new LeagueListCallBack(this, getUC(), mHasCache, isTimerRefresh, isRefresh, mCurrentPage, mPlayMethodType, sportPos, sportId,
+                orderBy, leagueIds, searchDatePos, oddType, matchids,
+                needSecondStep, finalType, isStepSecond);
+
         Disposable disposable = (Disposable) model.getApiService().getFBList(fBListReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new FBHttpCallBack<MatchListRsp>() {
+                .subscribeWith(leagueListCallBack);
+                /*.subscribeWith(new FBHttpCallBack<MatchListRsp>() {
                     @Override
                     protected void onStart() {
                         super.onStart();
@@ -284,6 +338,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onResult(MatchListRsp matchListRsp) {
+
                         if (isTimerRefresh) {
                             if (matchListRsp.records.size() != matchids.size()) {
                                 List<Long> matchIdList = new ArrayList<>();
@@ -294,47 +349,55 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                             }
                             return;
                         }
+                        synchronized (this) {
+                            CfLog.e("Thread.currentThread().getName()========" + Thread.currentThread().getName());
+                            if (isRefresh && !needSecondStep) {
+                                mLeagueList.clear();
+                                mMapLeague.clear();
+                                mMapSportType.clear();
+                            }
 
-                        CfLog.e("=========getLeagueList========" + sportId);
-
-                        if (!needSecondStep) {
-                            getUC().getDismissDialogEvent().call();
-                            if (isRefresh) {
-                                if (matchListRsp != null && currentPage == matchListRsp.getPages()) {
-                                    loadMoreWithNoMoreData();
+                            if (!needSecondStep) {
+                                getUC().getDismissDialogEvent().call();
+                                if (isRefresh) {
+                                    if (matchListRsp != null && mCurrentPage == matchListRsp.getPages()) {
+                                        loadMoreWithNoMoreData();
+                                    } else {
+                                        finishRefresh(true);
+                                    }
                                 } else {
-                                    finishRefresh(true);
-                                }
-                            } else {
-                                if (matchListRsp != null && currentPage == matchListRsp.getPages()) {
-                                    loadMoreWithNoMoreData();
-                                } else {
-                                    finishLoadMore(true);
+                                    if (matchListRsp != null && mCurrentPage == matchListRsp.getPages()) {
+                                        loadMoreWithNoMoreData();
+                                    } else {
+                                        finishLoadMore(true);
+                                    }
                                 }
                             }
-                        }
 
-                        if (finalType == 1) { // 滚球
-                            if (needSecondStep) {
-                                isStepSecond = true;
-                                leagueGoingList(matchListRsp.records);
-                                getLeagueList(sportPos, sportId, orderBy, leagueIds, matchids, 3, searchDatePos, oddType, false, isRefresh);
+                            if (finalType == 1) { // 滚球
+                                if (needSecondStep) {
+                                    mIsStepSecond = true;
+                                    leagueGoingList(matchListRsp.records);
+                                    getLeagueList(sportPos, sportId, orderBy, leagueIds, matchids, 3, searchDatePos, oddType, false, isRefresh);
+                                } else {
+                                    leagueAdapterList(matchListRsp.records);
+                                    leagueGoingOnListData.postValue(mLeagueList);
+                                    if (mCurrentPage == 1) {
+                                        SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + searchDatePos + sportId, new Gson().toJson(mLeagueList));
+                                    }
+                                }
                             } else {
                                 leagueAdapterList(matchListRsp.records);
-                                leagueGoingOnListData.postValue(mLeagueList);
-                                if (currentPage == 1) {
+                                leagueWaitingListData.postValue(mLeagueList);
+                                if (mCurrentPage == 1) {
                                     SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + searchDatePos + sportId, new Gson().toJson(mLeagueList));
                                 }
+                                mIsStepSecond = false;
                             }
-                        } else {
-                            leagueAdapterList(matchListRsp.records);
-                            leagueWaitingListData.postValue(mLeagueList);
-                            if (currentPage == 1) {
-                                SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + searchDatePos + sportId, new Gson().toJson(mLeagueList));
-                            }
-                            isStepSecond = false;
+                            mHasCache = false;
+
+                            //CfLog.e("=========getLeagueList========" + sportId + "========" + mLeagueList.size());
                         }
-                        mHasCache = false;
 
                     }
 
@@ -343,17 +406,17 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         if (t instanceof ResponseThrowable) {
                             if (((ResponseThrowable) t).code == CODE_14010) {
                                 getGameTokenApi();
-                            }else {
+                            } else {
                                 getLeagueList(sportPos, sportId, orderBy, leagueIds, matchids, playMethodType, searchDatePos, oddType, isTimerRefresh, isRefresh);
                             }
                         }
-                        /*if (isRefresh) {
+                        *//*if (isRefresh) {
                             finishRefresh(false);
                         } else {
                             finishLoadMore(false);
-                        }*/
+                        }*//*
                     }
-                });
+                });*/
         addSubscribe(disposable);
     }
 
@@ -372,14 +435,12 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     public void getChampionList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int oddType, boolean isTimerRefresh, boolean isRefresh) {
 
         if (isRefresh) {
-            currentPage = 1;
-            mChampionMatchList.clear();
-            mChampionMatchMap.clear();
+            mCurrentPage = 1;
         } else {
-            currentPage++;
+            mCurrentPage++;
         }
 
-        if (currentPage == 1 && !isTimerRefresh) {
+        if (mCurrentPage == 1 && !isTimerRefresh) {
             showChampionCache(sportId, playMethodType);
         }
 
@@ -389,7 +450,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         FBListReq.setOrderBy(orderBy);
         FBListReq.setLeagueIds(leagueIds);
         FBListReq.setMatchIds(matchids);
-        FBListReq.setCurrent(currentPage);
+        FBListReq.setCurrent(mCurrentPage);
         FBListReq.setSize(300);
         FBListReq.setOddType(oddType);
 
@@ -400,7 +461,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             }
             FBListReq.setSportId(sportIds);
         }
-
 
 
         Disposable disposable = (Disposable) model.getApiService().getFBList(FBListReq)
@@ -425,13 +485,15 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                         getUC().getDismissDialogEvent().call();
                         if (isRefresh) {
-                            if (matchListRsp != null && currentPage == matchListRsp.getPages()) {
+                            mChampionMatchList.clear();
+                            mChampionMatchMap.clear();
+                            if (matchListRsp != null && mCurrentPage == matchListRsp.getPages()) {
                                 loadMoreWithNoMoreData();
                             } else {
                                 finishRefresh(true);
                             }
                         } else {
-                            if (matchListRsp != null && currentPage == matchListRsp.getPages()) {
+                            if (matchListRsp != null && mCurrentPage == matchListRsp.getPages()) {
                                 loadMoreWithNoMoreData();
                             } else {
                                 finishLoadMore(true);
@@ -441,7 +503,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         championLeagueList(matchListRsp.records);
                         CfLog.e("=========mChampionMatchList=========" + mChampionMatchList.size());
                         championMatchListData.postValue(mChampionMatchList);
-                        if (currentPage == 1) {
+                        if (mCurrentPage == 1) {
                             SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + playMethodType + sportId, new Gson().toJson(mChampionMatchList));
                         }
                         mHasCache = false;
@@ -452,7 +514,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         if (t instanceof ResponseThrowable) {
                             if (((ResponseThrowable) t).code == CODE_14010) {
                                 getGameTokenApi();
-                            }else {
+                            } else {
                                 getChampionList(sportPos, sportId, orderBy, leagueIds, matchids, playMethodType, oddType, isTimerRefresh, isRefresh);
                             }
                         }
@@ -551,7 +613,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {
         if (matchInfoList.isEmpty()) {
-            noLiveMatch = true;
+            mNoLiveMatch = true;
             return;
         }
 
@@ -562,7 +624,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         Map<String, League> mapSportType = new HashMap<>();
         for (MatchInfo matchInfo : matchInfoList) {
             Match match = new MatchFb(matchInfo);
-
             buildLiveSportHeader(mapSportType, match, new LeagueFb());
 
             League league = mapLeague.get(String.valueOf(matchInfo.lg.id));
@@ -600,7 +661,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     private void leagueAdapterList(List<MatchInfo> matchInfoList) {
         int noLiveMatchSize = matchInfoList == null ? 0 : matchInfoList.size();
         buildNoLiveHeaderLeague(new LeagueFb(), noLiveMatchSize);
-
         Map<String, League> mapLeague = new HashMap<>();
         for (MatchInfo matchInfo : matchInfoList) {
             if (FBConstants.getPlayTypeId(String.valueOf(matchInfo.sid)) == null) {
@@ -608,7 +668,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             }
             Match match = new MatchFb(matchInfo);
             buildNoLiveSportHeader(match, new LeagueFb());
-
             League league = mMapLeague.get(String.valueOf(matchInfo.lg.id));
             if (league == null) {
                 league = new LeagueFb(matchInfo.lg);
@@ -619,7 +678,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             }
 
             league.getMatchList().add(match);
-
 
             if (mMapMatch.get(String.valueOf(match.getId())) == null) {
                 mMapMatch.put(String.valueOf(match.getId()), match);
@@ -657,7 +715,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
      *
      * @param matchInfoList
      */
-    private void setOptionOddChange(List<MatchInfo> matchInfoList) {
+    public void setOptionOddChange(List<MatchInfo> matchInfoList) {
         List<Match> newMatchList = new ArrayList<>();
 
         for (MatchInfo matchInfo : matchInfoList) {

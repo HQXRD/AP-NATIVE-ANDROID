@@ -170,4 +170,10 @@ public class LeagueFb implements League{
     public void writeToParcel(@NonNull Parcel dest, int flags) {
 
     }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "leagueName--" + getLeagueName();
+    }
 }
