@@ -107,6 +107,14 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         return mNoLiveheaderLeague;
     }
 
+    public List<League> getmLeagueList() {
+        return mLeagueList;
+    }
+
+    public List<League> getGoingOnLeagueList() {
+        return mGoingOnLeagueList;
+    }
+
     public TemplateMainViewModel(@NonNull Application application, BetRepository model) {
         super(application, model);
         //SPORT_NAMES = SPORT_NAMES_TODAY_CG;

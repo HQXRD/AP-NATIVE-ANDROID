@@ -33,7 +33,6 @@ import me.xtree.mvvmhabit.utils.Utils;
 
 public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
     private FBMainViewModel mViewModel;
-    private BaseViewModel.UIChangeLiveData mUIChangeLiveData;
     private boolean mHasCache;
     private boolean mIsTimerRefresh;
     private boolean mIsRefresh;
@@ -59,64 +58,35 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
     private Map<String, League> mMapLeague = new HashMap<>();
     private Map<String, Match> mMapMatch = new HashMap<>();
     private List<Match> mMatchList = new ArrayList<>();
+    private League mNoLiveheaderLeague;
 
     public Map<String, League> getMapSportType() {
         return mMapSportType;
-    }
-
-    public void setMapSportType(Map<String, League> mMapSportType) {
-        this.mMapSportType = mMapSportType;
     }
 
     public List<League> getLeagueList() {
         return mLeagueList;
     }
 
-    public void setLeagueList(List<League> mLeagueList) {
-        this.mLeagueList = mLeagueList;
-    }
-
     public List<League> getGoingOnLeagueList() {
         return mGoingOnLeagueList;
-    }
-
-    public void setGoingOnLeagueList(List<League> mGoingOnLeagueList) {
-        this.mGoingOnLeagueList = mGoingOnLeagueList;
     }
 
     public Map<String, League> getMapLeague() {
         return mMapLeague;
     }
 
-    public void setMapLeague(Map<String, League> mMapLeague) {
-        this.mMapLeague = mMapLeague;
-    }
-
     public Map<String, Match> getMapMatch() {
         return mMapMatch;
-    }
-
-    public void setMapMatch(Map<String, Match> mMapMatch) {
-        this.mMapMatch = mMapMatch;
     }
 
     public List<Match> getMatchList() {
         return mMatchList;
     }
 
-    public void setMatchList(List<Match> mMatchList) {
-        this.mMatchList = mMatchList;
-    }
-
     public League getNoLiveheaderLeague() {
         return mNoLiveheaderLeague;
     }
-
-    public void setNoLiveheaderLeague(League mNoLiveheaderLeague) {
-        this.mNoLiveheaderLeague = mNoLiveheaderLeague;
-    }
-
-    private League mNoLiveheaderLeague;
 
     public void saveLeague() {
         if (!mIsRefresh || mIsStepSecond) {
@@ -130,12 +100,11 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
         }
     }
 
-    public LeagueListCallBack(FBMainViewModel viewModel, BaseViewModel.UIChangeLiveData uiChangeLiveData, boolean hasCache, boolean isTimerRefresh, boolean isRefresh,
+    public LeagueListCallBack(FBMainViewModel viewModel, boolean hasCache, boolean isTimerRefresh, boolean isRefresh,
                               int currentPage, int playMethodType, int sportPos, String sportId,
                               int orderBy, List<Long> leagueIds, int searchDatePos, int oddType, List<Long> matchids,
                               boolean needSecondStep, int finalType, boolean isStepSecond) {
         mViewModel = viewModel;
-        mUIChangeLiveData = uiChangeLiveData;
         mHasCache = hasCache;
         mIsTimerRefresh = isTimerRefresh;
         mIsRefresh = isRefresh;
@@ -158,7 +127,7 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
     protected void onStart() {
         super.onStart();
         if (!mIsTimerRefresh && !mHasCache) {
-            mUIChangeLiveData.getShowDialogEvent().postValue("");
+            mViewModel.getUC().getShowDialogEvent().postValue("");
         }
     }
 
@@ -185,7 +154,7 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
             }
 
             if (!mNeedSecondStep) {
-                mUIChangeLiveData.getDismissDialogEvent().call();
+                mViewModel.getUC().getDismissDialogEvent().call();
                 if (mIsRefresh) {
                     if (matchListRsp != null && mCurrentPage == matchListRsp.getPages()) {
                         mViewModel.loadMoreWithNoMoreData();
@@ -248,7 +217,7 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {
         if (matchInfoList.isEmpty()) {
-            mNoLiveMatch = true;
+            mViewModel.mNoLiveMatch = true;
             return;
         }
 
@@ -320,14 +289,14 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
                 mNoLiveheaderLeague = league;
                 mNoLiveheaderLeague.setHead(true);
                 mNoLiveheaderLeague.setHeadType(League.HEAD_TYPE_LIVE_OR_NOLIVE);
-                if (mNoLiveMatch) {
+                if (mViewModel.mNoLiveMatch) {
                     mNoLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_game_waiting));
                 } else {
                     mNoLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_all_league));
                 }
                 mLeagueList.add(mNoLiveheaderLeague);
             }
-            mNoLiveMatch = false;
+            mViewModel.mNoLiveMatch = false;
         } /*else if(mCurrentPage == 1){
             if (noLiveMatch) {
                 noLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_game_waiting));

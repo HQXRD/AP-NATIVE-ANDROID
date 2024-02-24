@@ -95,40 +95,12 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         return mMapLeague;
     }
 
-    public void setMapLeague(Map<String, League> mMapLeague) {
-        this.mMapLeague = mMapLeague;
-    }
-
     public List<Match> getMatchList() {
         return mMatchList;
     }
 
-    public void setMatchList(List<Match> mMatchList) {
-        this.mMatchList = mMatchList;
-    }
-
     public Map<String, Match> getMapMatch() {
         return mMapMatch;
-    }
-
-    public void setMapMatch(Map<String, Match> mMapMatch) {
-        this.mMapMatch = mMapMatch;
-    }
-
-    public List<League> getmLeagueList() {
-        return mLeagueList;
-    }
-
-    public void setmLeagueList(List<League> mLeagueList) {
-        this.mLeagueList = mLeagueList;
-    }
-
-    public List<League> getGoingOnLeagueList() {
-        return mGoingOnLeagueList;
-    }
-
-    public void setGoingOnLeagueList(List<League> mGoingOnLeagueList) {
-        this.mGoingOnLeagueList = mGoingOnLeagueList;
     }
 
     public FBMainViewModel(@NonNull Application application, BetRepository repository) {
@@ -319,7 +291,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             fBListReq.setSize(pageSize);
         }
 
-        LeagueListCallBack leagueListCallBack = new LeagueListCallBack(this, getUC(), mHasCache, isTimerRefresh, isRefresh, mCurrentPage, mPlayMethodType, sportPos, sportId,
+        LeagueListCallBack leagueListCallBack = new LeagueListCallBack(this, mHasCache, isTimerRefresh, isRefresh, mCurrentPage, mPlayMethodType, sportPos, sportId,
                 orderBy, leagueIds, searchDatePos, oddType, matchids,
                 needSecondStep, finalType, isStepSecond);
 
