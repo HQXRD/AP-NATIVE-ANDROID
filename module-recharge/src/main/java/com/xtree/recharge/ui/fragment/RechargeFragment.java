@@ -141,7 +141,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             // 客服
             String title = getString(R.string.txt_custom_center);
             String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+            new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BrowserDialog(getContext(), title, url)).show();
         });
         binding.ivwRule.setOnClickListener(v -> {
             // 反馈
