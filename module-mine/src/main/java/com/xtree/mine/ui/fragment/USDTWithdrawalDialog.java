@@ -57,7 +57,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
 
     private USDTSecurityVo usdtSecurityVo;
     private USDTConfirmVo usdtConfirmVo;
-    private BankWithdrawalDialog.BankWithdrawalClose bankClose ;
+    private BankWithdrawalDialog.BankWithdrawalClose bankClose;
     private
     @NonNull
     DialogBankWithdrawalUsdtBinding binding;
@@ -66,13 +66,13 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         super(context);
     }
 
-    public static USDTWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo , BankWithdrawalDialog.BankWithdrawalClose bankClose) {
+    public static USDTWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo, BankWithdrawalDialog.BankWithdrawalClose bankClose) {
         USDTWithdrawalDialog dialog = new USDTWithdrawalDialog(context);
         context = context;
         dialog.context = context;
         dialog.owner = owner;
         dialog.channelInfo = channelInfo;
-        dialog.bankClose = bankClose ;
+        dialog.bankClose = bankClose;
         CfLog.i("USDTWithdrawalDialog");
         return dialog;
     }
@@ -178,8 +178,13 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         binding.tvUserNameShow.setText(usdtCashVo.user.username);
         binding.tvWithdrawalTypeShow.setText("USDT提款");
         binding.tvWithdrawalAmountMethod.setText(usdtCashVo.channel_list.get(0).title);//设置收款USDT账户
-        String showMoney = StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.user.availablebalance));
-        binding.tvWithdrawalAmountShow.setText(showMoney);
+        String quota;
+        if (usdtCashVo.usdtinfo.get(0).quota == null) {
+            quota = "0.00";
+        } else {
+            quota = usdtCashVo.usdtinfo.get(0).quota;
+        }
+        binding.tvWithdrawalAmountShow.setText(quota);//提款余额
         String temp = usdtCashVo.usdtinfo.get(0).min_money + "元,最高" + usdtCashVo.usdtinfo.get(0).max_money + "元";
         binding.tvWithdrawalTypeShow1.setText(temp);
         binding.tvInfoExchangeRateShow.setText(usdtCashVo.exchangerate);
@@ -365,7 +370,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
      * 显示USDT收款地址
      */
     private void showAllCollectionDialog(String type) {
-        if (type.contains("TRC")) {
+        if (type.contains("TRC") || type.contains("trc")) {
             showCollectionDialog(usdtinfoTRC);
         } else {
             showCollectionDialog(usdtCashVo.usdtinfo);

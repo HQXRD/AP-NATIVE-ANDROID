@@ -58,19 +58,19 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     private VirtualConfirmVo usdtConfirmVo;
     @NonNull
     DialogBankWithdrawalVirtualBinding binding;
-    private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose ;
+    private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
 
     public VirtualWithdrawalDialog(@NonNull Context context) {
         super(context);
     }
 
-    public static VirtualWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo,BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose) {
+    public static VirtualWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose) {
         VirtualWithdrawalDialog dialog = new VirtualWithdrawalDialog(context);
         context = context;
         dialog.context = context;
         dialog.owner = owner;
         dialog.channelInfo = channelInfo;
-        dialog.bankWithdrawalClose = bankWithdrawalClose ;
+        dialog.bankWithdrawalClose = bankWithdrawalClose;
         CfLog.i("VirtualWithdrawalDialog");
         return dialog;
     }
@@ -131,6 +131,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
                 return;
             }
             selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
+
+            CfLog.e("initViewObservable  selectUsdtInfo = " + selectUsdtInfo.toString());
             refreshSetUI();
         });
         //USDT确认提款信息
@@ -164,7 +166,13 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         binding.tvNotice.setText(notice);
         binding.tvUserNameShow.setText(usdtCashVo.user.username);
         binding.tvWithdrawalTypeShow.setText(channelInfo.title);
-        binding.tvWithdrawalAmountShow.setText(usdtCashVo.user.availablebalance);
+        String quota;
+        if (usdtCashVo.usdtinfo.get(0).quota == null) {
+            quota = "0.00";
+        } else {
+            quota = usdtCashVo.usdtinfo.get(0).quota;
+        }
+        binding.tvWithdrawalAmountShow.setText(quota);//虚拟币 提款金额
         String temp = usdtCashVo.usdtinfo.get(0).min_money + "元,最高" + usdtCashVo.usdtinfo.get(0).max_money + "元";
         binding.tvWithdrawalTypeShow1.setText(temp);
         binding.tvInfoExchangeRateShow.setText(usdtCashVo.exchangerate);
