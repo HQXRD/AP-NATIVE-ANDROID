@@ -21,7 +21,7 @@ public class VirtualCashVo extends BaseResponse2 {
     public String min_money;//单笔提款范围 min
     public String usdt_type; //已经提款次数
     public WrapTime wraptime;
-
+    public String availablebalance; //可提款金额
     public class WrapTime {
         public String starttime;
         public String endtime;
@@ -56,6 +56,7 @@ public class VirtualCashVo extends BaseResponse2 {
         public String min_money;
         public String max_money;
         public String quota;//虚拟币提款余额
+
 
         @Override
         public String toString() {

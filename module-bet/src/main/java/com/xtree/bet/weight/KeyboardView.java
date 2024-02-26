@@ -21,9 +21,6 @@ import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.Arrays;
 
-import me.xtree.mvvmhabit.utils.ConvertUtils;
-import me.xtree.mvvmhabit.utils.StringUtils;
-
 public class KeyboardView extends FrameLayout implements View.OnClickListener {
 
     private EditText editText;
@@ -90,7 +87,7 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
                     holder.getView(R.id.tv_item).setSelected(false);
                 }
                 holder.itemView.setOnClickListener(view -> {
-                    if(!editText.isEnabled()){
+                    if(editText != null && !editText.isEnabled()){
                         return;
                     }
                     editText.setText(String.valueOf(i));
