@@ -26,6 +26,8 @@
             android:layout_marginLeft="4dp"
             android:gravity="center|left"
             android:text=""
+            tools:text="我是测试文案朝辞白帝彩云间，千里江陵一日还。
+两岸猿声啼不住，轻舟已过万重山。"
             android:textColor="@color/white"
             android:textSize="14dp" />
     </LinearLayout>

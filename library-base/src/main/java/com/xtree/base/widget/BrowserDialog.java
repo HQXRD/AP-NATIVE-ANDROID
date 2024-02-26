@@ -252,7 +252,7 @@ public class BrowserDialog extends BottomPopupView {
     @Override
     protected int getMaxHeight() {
         if (maxHeight < 5 || maxHeight > 100) {
-            maxHeight = 40;
+            maxHeight = 85;
         }
         return (XPopupUtils.getScreenHeight(getContext()) * maxHeight / 100);
     }

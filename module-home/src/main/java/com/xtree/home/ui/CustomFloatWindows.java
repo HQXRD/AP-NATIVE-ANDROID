@@ -6,7 +6,6 @@ import static android.content.Context.WINDOW_SERVICE;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
-import android.icu.util.Calendar;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -19,12 +18,15 @@ import android.widget.RelativeLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.lxj.xpopup.XPopup;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
+import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.widget.BrowserDialog;
 import com.xtree.home.R;
 import com.xtree.home.data.source.HomeApiService;
 import com.xtree.home.data.source.HttpDataSource;
@@ -81,7 +83,14 @@ public class CustomFloatWindows extends RelativeLayout {
         floatView = inflater.inflate(R.layout.floating_icon, null);
 
         RecyclerView rcvData = floatView.findViewById(R.id.rcv_data);
-        rechargeReportAdapter = new RechargeReportAdapter(ctx);
+        rechargeReportAdapter = new RechargeReportAdapter(ctx, vo -> {
+            floatView.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);
+            if (vo.orderurl.isEmpty()) {
+                new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, vo.payport_nickname, DomainUtil.getDomain2() + "/webapp/#/depositetail/" + vo.id)).show();
+            } else {
+                new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, vo.payport_nickname, vo.orderurl)).show();
+            }
+        });
         rcvData.setAdapter(rechargeReportAdapter);
         LinearLayoutManager manager = new LinearLayoutManager(ctx);
         rcvData.setLayoutManager(manager);
@@ -167,28 +176,6 @@ public class CustomFloatWindows extends RelativeLayout {
 
     private void getReportData() {
         new Thread(() -> {
-            String startTime = "";
-            String endTime = "";
-            Calendar calendar;
-            int year;
-            int month;
-            int day;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-                calendar = Calendar.getInstance();
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH) + 1;
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-                endTime = year + "-" + month + "-" + day + " 23:59:59";
-
-                calendar.add(Calendar.DAY_OF_MONTH, -1);
-                year = calendar.get(Calendar.YEAR);
-                month = calendar.get(Calendar.MONTH) + 1;
-                day = calendar.get(Calendar.DAY_OF_MONTH);
-                startTime = year + "-" + month + "-" + day + " 00:00:00";
-            }
-
-            CfLog.e(SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
-
             HashMap<String, String> map = new HashMap<>();
             map.put("userid", SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
             map.put("p", "1");
@@ -205,24 +192,25 @@ public class CustomFloatWindows extends RelativeLayout {
                             CfLog.d("******");
                             isSearch = false;
                             List<RechargeOrderVo> rechargeOrderVoList = new ArrayList<>();
-                            rechargeReportAdapter.clear();
                             if (vo.result != null) {
                                 for (RechargeOrderVo rechargeOrderVo : vo.result) {
-                                    if (rechargeOrderVo.status.equals("0")) {
+                                    if (rechargeOrderVo.status.equals("0") && !rechargeOrderVo.recharge_json_exporetime.equals("-1")) {
                                         rechargeOrderVoList.add(rechargeOrderVo);
                                     }
                                 }
                             }
+
                             if (SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).equals("")) {
-                                rechargeOrderVoList.clear();
                                 rechargeReportAdapter.clear();
                             }
 
                             if (rechargeOrderVoList.size() > 0) {
+                                rechargeReportAdapter.clear();
                                 rechargeReportAdapter.addAll(rechargeOrderVoList);
                                 floatView.findViewById(R.id.rcv_data).setVisibility(View.VISIBLE);
                                 floatView.findViewById(R.id.tvw_no_data).setVisibility(View.GONE);
                             } else {
+                                rechargeReportAdapter.clear();
                                 floatView.findViewById(R.id.tvw_no_data).setVisibility(View.VISIBLE);
                                 floatView.findViewById(R.id.rcv_data).setVisibility(View.GONE);
                             }
