@@ -70,6 +70,8 @@ dependencies {
     api rootProject.ext.dependencies["zxingcreat"]
     //增加最新图片选择器
     api rootProject.ext.dependencies["PictureSelectorNew"]
+    api rootProject.ext.dependencies["PictureCompress"]
+
     api rootProject.ext.dependencies["appcenter-analytics"]
     api rootProject.ext.dependencies["appcenter-crashes"]
     api rootProject.ext.dependencies["event-bus"]

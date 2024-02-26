@@ -81,6 +81,7 @@ ext {
             "zxing"                                : "com.google.zxing:core:3.2.1",
             "zxingcreat"                           : "com.journeyapps:zxing-android-embedded:3.3.0",
             "PictureSelectorNew"                   : "io.github.lucksiege:pictureselector:v3.11.1",
+            "PictureCompress"                      : "io.github.lucksiege:compress:v3.10.4",
             "appcenter-analytics"                  : "com.microsoft.appcenter:appcenter-analytics:5.0.4",
             "appcenter-crashes"                    : "com.microsoft.appcenter:appcenter-crashes:5.0.4",
             "event-bus"                            : "org.greenrobot:eventbus:3.3.1"
