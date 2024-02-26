@@ -46,11 +46,11 @@ public abstract class TemplateBtCarViewModel extends BaseBtViewModel implements 
     /**
      * 单关投注
      */
-    public void bet(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList){
+    public void bet(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList, int acceptOdds){
         if(betConfirmOptionList.size() > 1){
-            betMultiple(betConfirmOptionList, cgOddLimitList);
+            betMultiple(betConfirmOptionList, cgOddLimitList, acceptOdds);
         }else{
-            singleBet(betConfirmOptionList, cgOddLimitList);
+            singleBet(betConfirmOptionList, cgOddLimitList, acceptOdds);
         }
     }
 

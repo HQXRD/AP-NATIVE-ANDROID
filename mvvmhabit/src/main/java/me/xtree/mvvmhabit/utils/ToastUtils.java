@@ -38,7 +38,7 @@ public final class ToastUtils {
          */
         Success  /**正确状态*/
     }
-
+    private static final int K_TEXT_LENGTH = 26 ;//默认文本长度
     public ShowType showType;
     private static final int DEFAULT_COLOR = 0x12000000;
     private static Toast sToast;
@@ -460,7 +460,11 @@ public final class ToastUtils {
      */
     public static void show(CharSequence text, ShowType showType) {
         cancel();
-        setView(R.layout.custom_toast);
+        if (text.length() < K_TEXT_LENGTH){
+            setView(R.layout.custom_toast);
+        }else {
+            setView(R.layout.custom_multi_line_toast);
+        }
         if (sViewWeakReference != null) {
             final View view = sViewWeakReference.get();
             TextView textView = sViewWeakReference.get().findViewById(R.id.tv_toast);
@@ -502,7 +506,11 @@ public final class ToastUtils {
      */
     public static void show(CharSequence text, int duration, int flag) {
         cancel();
-        setView(R.layout.custom_toast);
+        if (text.length() < K_TEXT_LENGTH){
+            setView(R.layout.custom_toast);
+        }else {
+            setView(R.layout.custom_multi_line_toast);
+        }
         if (sViewWeakReference != null) {
             final View view = sViewWeakReference.get();
             TextView textView = sViewWeakReference.get().findViewById(R.id.tv_toast);

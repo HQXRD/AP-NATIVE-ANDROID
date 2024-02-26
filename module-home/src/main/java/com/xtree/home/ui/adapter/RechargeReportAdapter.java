@@ -1,6 +1,7 @@
 package com.xtree.home.ui.adapter;
 
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -9,20 +10,25 @@ import androidx.annotation.NonNull;
 
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.utils.CfLog;
 import com.xtree.home.R;
-import com.xtree.home.databinding.ItemRechargeServiceBinding;
 import com.xtree.home.vo.RechargeOrderVo;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
 public class RechargeReportAdapter extends CachedAutoRefreshAdapter<RechargeOrderVo> {
     Context ctx;
-    ItemRechargeServiceBinding binding;
+    ICallBack callBack;
 
     public RechargeReportAdapter(Context ctx) {
         this.ctx = ctx;
+    }
+
+    public RechargeReportAdapter(Context ctx, ICallBack callBack) {
+        this.ctx = ctx;
+        this.callBack = callBack;
+    }
+
+    public interface ICallBack {
+        void onCallBack(RechargeOrderVo vo);
     }
 
     @NonNull
@@ -33,23 +39,52 @@ public class RechargeReportAdapter extends CachedAutoRefreshAdapter<RechargeOrde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
-        RechargeOrderVo vo = get(position);
-        long minutes = 0;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            LocalDateTime localDateTimeNow = LocalDateTime.now();
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            LocalDateTime localDateTimeEnd = LocalDateTime.parse(vo.timeout, dtf);
-            minutes = ChronoUnit.MINUTES.between(localDateTimeNow, localDateTimeEnd);
+    public void onViewRecycled(@NonNull CacheViewHolder holder) {
+        super.onViewRecycled(holder);
+        // 在項目被回收時，停止或重置倒數計時器
+        CfLog.i("holder.countDownTimer check");
+        if (holder.countDownTimer != null) {
+            CfLog.i("holder.countDownTimer is cancel");
+            holder.countDownTimer.cancel();
+            holder.countDownTimer = null;
         }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
+        RechargeOrderVo vo = getData().get(position);
 
         TextView itemMoney = holder.itemView.findViewById(R.id.item_money);
         TextView itemWay = holder.itemView.findViewById(R.id.item_way);
         TextView itemTime = holder.itemView.findViewById(R.id.item_time);
 
+        itemTime.setTextColor(ctx.getResources().getColor(R.color.black));
         itemMoney.setText(vo.money);
         itemWay.setText(vo.payport_nickname);
-        itemTime.setText(minutes + "分");
+
+        if (holder.countDownTimer != null) {
+            holder.countDownTimer.cancel();
+        }
+
+        holder.countDownTimer = new CountDownTimer(Integer.parseInt(vo.recharge_json_exporetime) * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                long seconds = millisUntilFinished / 1000;
+                String message = (String.valueOf(seconds / 60).length() == 2 ? String.valueOf((seconds / 60)) : "0" + (seconds / 60)) + ":"
+                        + (String.valueOf(seconds % 60).length() == 2 ? (seconds % 60) : "0" + (seconds % 60));
+
+                CfLog.i(message);
+                itemTime.setText(message);
+            }
+
+            @Override
+            public void onFinish() {
+                itemTime.setTextColor(ctx.getResources().getColor(R.color.red));
+                itemTime.setText("支付超时");
+            }
+        };
+
+        holder.countDownTimer.start();
 
         if (position % 2 == 1) {
             itemMoney.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_white, ctx.getResources().newTheme()));
@@ -60,5 +95,9 @@ public class RechargeReportAdapter extends CachedAutoRefreshAdapter<RechargeOrde
             itemWay.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_purple, ctx.getResources().newTheme()));
             itemTime.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_purple, ctx.getResources().newTheme()));
         }
+
+        itemWay.setOnClickListener(v -> {
+            callBack.onCallBack(vo);
+        });
     }
 }

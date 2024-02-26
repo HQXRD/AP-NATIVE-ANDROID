@@ -100,7 +100,7 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
     /**
      * 单关投注
      */
-    public void singleBet(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList) {
+    public void singleBet(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList, int acceptOdds) {
         //int index = 0;
         if (betConfirmOptionList.isEmpty() || cgOddLimitList.isEmpty()) {
             return;
@@ -109,7 +109,7 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
         BetConfirmOption betConfirmOption = betConfirmOptionList.get(0);
 
         BtCgReq singleBetReq = new BtCgReq();
-        singleBetReq.setOddsChange(1);
+        singleBetReq.setOddsChange(acceptOdds);
         singleBetReq.setUnitStake(cgOddLimitList.get(0).getBtAmount());
 
         BtOptionReq betOptionReq = new BtOptionReq();
@@ -150,7 +150,7 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
     /**
      * 串关投注
      */
-    public void betMultiple(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList) {
+    public void betMultiple(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList, int acceptOdds) {
         if (betConfirmOptionList.isEmpty() || cgOddLimitList.isEmpty()) {
             return;
         }
@@ -168,7 +168,7 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
         for (CgOddLimit cgOddLimit : cgOddLimitList) {
             if (cgOddLimit.getBtAmount() > 0) {
                 BtCgReq btCgReq = new BtCgReq();
-                btCgReq.setOddsChange(1);
+                btCgReq.setOddsChange(acceptOdds);
                 btCgReq.setUnitStake(cgOddLimit.getBtAmount());
                 btCgReq.setSeriesValue(cgOddLimit.getCgCount());
                 btMultipleListReq.addBtMultipleData(btCgReq);

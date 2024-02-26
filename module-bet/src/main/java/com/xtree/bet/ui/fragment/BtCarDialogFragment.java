@@ -126,7 +126,8 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         keyboardView.setKeyBoardListener(mKeyBoardListener);
         keyboardView.setParent(binding.nsvOption);
         binding.ivConfirm.setCallBack(() -> {
-            viewModel.bet(betConfirmOptionList, cgOddLimitList);
+            int acceptOdds = binding.cbAccept.isChecked() ? 1 : 2;
+            viewModel.bet(betConfirmOptionList, cgOddLimitList, acceptOdds);
         });
         binding.llRoot.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
             if (BtCarManager.isCg()) {
