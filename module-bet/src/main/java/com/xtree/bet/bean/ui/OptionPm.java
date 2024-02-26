@@ -79,7 +79,8 @@ public class OptionPm implements Option{
             BigDecimal bg = new BigDecimal(getRealOdd() - 1);
             return bg.setScale(2, RoundingMode.HALF_UP).doubleValue();
         }
-        return getRealOdd();
+        BigDecimal bg = new BigDecimal(getRealOdd());
+        return bg.setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
     @Override

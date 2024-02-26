@@ -2,7 +2,6 @@ package com.xtree.bet.ui.viewmodel;
 
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
 import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.app.Application;
@@ -13,14 +12,12 @@ import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.response.HotLeagueInfo;
 import com.xtree.bet.bean.response.fb.LeagueItem;
-import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.ui.LeaguePm;
@@ -67,15 +64,19 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     public SingleLiveData<List<Date>> playSearchData = new SingleLiveData<>();
     public SingleLiveData<String[]> sportItemData = new SingleLiveData<>();
     public SingleLiveData<LeagueItem> leagueItemData = new SingleLiveData<>();
-    public SingleLiveData<List<League>> leagueWaitingListData = new SingleLiveData<>();
-    public SingleLiveData<List<League>> leagueWaitingTimerListData = new SingleLiveData<>();
-    public SingleLiveData<List<League>> leagueGoingOnListData = new SingleLiveData<>();
-    public SingleLiveData<List<League>> leagueGoingOnTimerListData = new SingleLiveData<>();
+    public SingleLiveData<List<League>> leagueNoLiveListData = new SingleLiveData<>();
+    public SingleLiveData<List<League>> leagueNoLiveTimerListData = new SingleLiveData<>();
+    public SingleLiveData<List<League>> leagueLiveListData = new SingleLiveData<>();
+    public SingleLiveData<List<League>> leagueLiveTimerListData = new SingleLiveData<>();
     public SingleLiveData<List<Match>> championMatchTimerListData = new SingleLiveData<>();
     public SingleLiveData<List<Match>> championMatchListData = new SingleLiveData<>();
     public SingleLiveData<BetContract> betContractListData = new SingleLiveData<>();
     public SingleLiveData<Integer> hotMatchCountData = new SingleLiveData<>();
     public SingleLiveData<Void> tokenInvalidEvent = new SingleLiveData<>();
+    /**
+     * 请求量过多
+     */
+    public SingleLiveData<Void> tooManyRequestsEvent = new SingleLiveData<>();
 
     /**
      * 赛事统计数据
@@ -83,11 +84,36 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     public SingleLiveData<Map<String, List<Integer>>> statisticalData = new SingleLiveData<>();
     public SingleLiveData<List<League>> settingLeagueData = new SingleLiveData<>();
     public Map<String, League> mMapSportType = new HashMap<>();
-    public boolean noLiveMatch;
+    public boolean mNoLiveMatch;
     public List<League> mLeagueList = new ArrayList<>();
     public List<League> mGoingOnLeagueList = new ArrayList<>();
-    public League noLiveheaderLeague;
+    public League mNoLiveheaderLeague;
     public boolean mHasCache;
+    public int mCurrentPage = 1;
+    /**
+     * 是否获取今日中未开赛比赛列表
+     */
+    public boolean mIsStepSecond;
+    /**
+     * 当前选择的玩法
+     */
+    public int mPlayMethodType;
+
+    public Map<String, League> getMapSportType() {
+        return mMapSportType;
+    }
+
+    public League getNoLiveheaderLeague() {
+        return mNoLiveheaderLeague;
+    }
+
+    public List<League> getmLeagueList() {
+        return mLeagueList;
+    }
+
+    public List<League> getGoingOnLeagueList() {
+        return mGoingOnLeagueList;
+    }
 
     public TemplateMainViewModel(@NonNull Application application, BetRepository model) {
         super(application, model);
@@ -196,26 +222,35 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     public void buildNoLiveHeaderLeague(League league, int noLiveMatchSize) {
         if (!mGoingOnLeagueList.isEmpty() && mLeagueList.isEmpty()) {
             mLeagueList.addAll(mGoingOnLeagueList);
-            noLiveheaderLeague = league;
-            noLiveheaderLeague.setHead(true);
-            noLiveheaderLeague.setHeadType(League.HEAD_TYPE_LIVE_OR_NOLIVE);
-            noLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_game_waiting));
-            mLeagueList.add(noLiveheaderLeague);
+            mNoLiveheaderLeague = league;
+            mNoLiveheaderLeague.setHead(true);
+            mNoLiveheaderLeague.setHeadType(League.HEAD_TYPE_LIVE_OR_NOLIVE);
+            mNoLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_game_waiting));
+            mLeagueList.add(mNoLiveheaderLeague);
             mGoingOnLeagueList.clear();
-        } else if (noLiveheaderLeague == null) {
+        } else if (mNoLiveheaderLeague == null) {
             if (noLiveMatchSize > 0) {
-                noLiveheaderLeague = league;
-                noLiveheaderLeague.setHead(true);
-                noLiveheaderLeague.setHeadType(League.HEAD_TYPE_LIVE_OR_NOLIVE);
-                if (noLiveMatch) {
-                    noLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_game_waiting));
+                mNoLiveheaderLeague = league;
+                mNoLiveheaderLeague.setHead(true);
+                mNoLiveheaderLeague.setHeadType(League.HEAD_TYPE_LIVE_OR_NOLIVE);
+                if (mNoLiveMatch) {
+                    mNoLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_game_waiting));
                 } else {
-                    noLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_all_league));
+                    mNoLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_all_league));
                 }
-                mLeagueList.add(noLiveheaderLeague);
+                mLeagueList.add(mNoLiveheaderLeague);
             }
-            noLiveMatch = false;
-        }
+            mNoLiveMatch = false;
+        } /*else if(mCurrentPage == 1){
+            if (noLiveMatch) {
+                noLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_game_waiting));
+            } else {
+                noLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_all_league));
+            }
+            mLeagueList.add(noLiveheaderLeague);
+            CfLog.e("======noLiveheaderLeague == null========");
+            //noLiveMatch = false;
+        }*/
     }
 
     /**
@@ -274,11 +309,11 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         List<League> leagueList = gson.fromJson(json, listType);
 
         if (playMethodType == 1) { // 滚球
-            leagueGoingOnListData.postValue(leagueList);
+            leagueLiveListData.postValue(leagueList);
         } else {
-            leagueWaitingListData.postValue(leagueList);
+            leagueNoLiveListData.postValue(leagueList);
         }
-        CfLog.e("=========mHasCache=========" + mHasCache);
+        //CfLog.e("=========mHasCache=========" + mHasCache);
         /*if(!mHasCache) {
             CfLog.e("=========mHasCache=========" + mHasCache);
         }*/

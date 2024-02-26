@@ -29,6 +29,7 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
             case PMHttpCallBack.CodeRule.CODE_401013://账号已登出，请重新登录
             case PMHttpCallBack.CodeRule.CODE_401026://账号已登出，请重新登录
             case PMHttpCallBack.CodeRule.CODE_400467:
+            case PMHttpCallBack.CodeRule.CODE_401038:
                 onError(ex);
                 break;
             default:
@@ -66,6 +67,6 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
          */
         public static final int CODE_401013 = 401013;
         public static final int CODE_400467 = 400467;
-
+        public static final int CODE_401038 = 401038;
     }
 }

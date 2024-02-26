@@ -25,7 +25,7 @@
     <string name="bt_bt_result_win">可赢金额</string>
     <string name="bt_bt_result_win_1">可赢金额：%1$s元</string>
     <string name="bt_bt_result_record">流水：%1$s元</string>
-    <string name="bt_bt_result_record_cg">%1$s(%2$s)-杏彩体育</string>
+    <string name="bt_bt_result_record_cg">%1$s(%2$s)-%3$s</string>
     <string name="bt_bt_result_record_match_time">比赛时间：%1$s</string>
     <string name="bt_bt_result_id">注单号</string>
     <string name="bt_bt_result_id_1">订单号：%1$s</string>

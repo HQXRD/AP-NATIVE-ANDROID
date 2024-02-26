@@ -400,6 +400,9 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
                 BtDetailActivity.start(mContext, match);
             });
 
+            binding.rlPlayCount.setOnClickListener(view -> {
+                BtDetailActivity.start(mContext, match);
+            });
 
             binding.vSpace.setVisibility(childPosition == getRealChildrenCount(groupPosition) - 1 ? View.VISIBLE : View.GONE);
             binding.cslRoot.setBackgroundResource(childPosition == getRealChildrenCount(groupPosition) - 1 ? R.drawable.bt_bg_match_item_bottom : R.drawable.bt_bg_match_item);
