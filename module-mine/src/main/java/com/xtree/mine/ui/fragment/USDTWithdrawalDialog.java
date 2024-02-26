@@ -179,10 +179,10 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         binding.tvWithdrawalTypeShow.setText("USDT提款");
         binding.tvWithdrawalAmountMethod.setText(usdtCashVo.channel_list.get(0).title);//设置收款USDT账户
         String quota;
-        if (usdtCashVo.usdtinfo.get(0).quota == null) {
+        if (usdtCashVo.availablebalance == null) {
             quota = "0.00";
         } else {
-            quota = usdtCashVo.usdtinfo.get(0).quota;
+            quota = usdtCashVo.availablebalance;
         }
         binding.tvWithdrawalAmountShow.setText(quota);//提款余额
         String temp = usdtCashVo.usdtinfo.get(0).min_money + "元,最高" + usdtCashVo.usdtinfo.get(0).max_money + "元";

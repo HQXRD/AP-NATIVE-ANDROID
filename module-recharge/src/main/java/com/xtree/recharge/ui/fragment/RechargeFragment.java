@@ -345,7 +345,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                         url = DomainUtil.getDomain2() + t2.op_thiriframe_url;
                     }
                     CfLog.d(vo.title + ", jump: " + url);
-                    new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), vo.title, url)).show();
+                    new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BrowserDialog(getContext(), vo.title, url)).show();
                 } else {
                     CfLog.e(vo.title + ", op_thiriframe_url is null...");
                 }
@@ -797,9 +797,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 }
             }
             CfLog.i(vo.payname + ", jump: " + url);
+
             // 弹窗
             //getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
             new XPopup.Builder(getContext())
+                    .moveUpToKeyboard(true)
                     .dismissOnTouchOutside(false)
                     .dismissOnBackPressed(false)
                     .asCustom(new BrowserDialog(getContext(), vo.payname, url))
@@ -834,7 +836,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
      */
     private void queryThirdDetail(List<RechargeVo> list) {
         for (RechargeVo vo : list) {
-            if (!mapRechargeVo.containsKey(vo.bid) && vo.op_thiriframe_use && !vo.phone_needbind) {
+            if (vo.op_thiriframe_use && !vo.phone_needbind) {
                 CfLog.d(vo.title + ", jump: " + vo.op_thiriframe_url);
                 // 调详情接口获取 跳转链接
                 viewModel.getPayment(vo.bid);

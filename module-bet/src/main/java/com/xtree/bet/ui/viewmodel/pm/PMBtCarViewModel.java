@@ -164,18 +164,19 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
     /**
      * 单关投注
      */
-    public void singleBet(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList) {
-        betMultiple(betConfirmOptionList, cgOddLimitList);
+    public void singleBet(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList, int acceptOdds) {
+        betMultiple(betConfirmOptionList, cgOddLimitList, acceptOdds);
     }
 
     /**
      * 串关投注
      */
-    public void betMultiple(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList) {
+    public void betMultiple(List<BetConfirmOption> betConfirmOptionList, List<CgOddLimit> cgOddLimitList, int acceptOdds) {
         if (betConfirmOptionList.isEmpty() || cgOddLimitList.isEmpty()) {
             return;
         }
         BtReq btReq = new BtReq();
+        btReq.setAcceptOdds(acceptOdds);
         List<SeriesOrder> seriesOrders = new ArrayList<>();
         for (CgOddLimit cgOddLimit : cgOddLimitList) {
             if(cgOddLimit.getBtAmount() > 0) {
