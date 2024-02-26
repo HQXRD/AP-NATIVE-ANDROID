@@ -167,10 +167,10 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         binding.tvUserNameShow.setText(usdtCashVo.user.username);
         binding.tvWithdrawalTypeShow.setText(channelInfo.title);
         String quota;
-        if (usdtCashVo.usdtinfo.get(0).quota == null) {
+        if (usdtCashVo.availablebalance == null) {
             quota = "0.00";
         } else {
-            quota = usdtCashVo.usdtinfo.get(0).quota;
+            quota = usdtCashVo.availablebalance;
         }
         binding.tvWithdrawalAmountShow.setText(quota);//虚拟币 提款金额
         String temp = usdtCashVo.usdtinfo.get(0).min_money + "元,最高" + usdtCashVo.usdtinfo.get(0).max_money + "元";
