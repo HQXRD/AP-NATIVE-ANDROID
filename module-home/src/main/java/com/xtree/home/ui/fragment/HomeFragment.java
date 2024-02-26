@@ -100,7 +100,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         super.onResume();
         refresh();
 
-        Log.i("测试显示隐藏", "onResumeHome");
+        KLog.i("测试显示隐藏", "onResumeHome");
     }
 
     private void refresh() {
@@ -112,10 +112,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {   // 隐藏
-            Log.i("测试显示隐藏", "HideOnHiddenChangedHome");
+            KLog.i("测试显示隐藏", "HideOnHiddenChangedHome");
         } else {  // 第一次可见，不会执行到这里，只会执行onResume
             //网络数据刷新
-            Log.i("测试显示隐藏", "ShowOnHiddenChangedHome");
+            KLog.i("测试显示隐藏", "ShowOnHiddenChangedHome");
             refresh();
         }
     }

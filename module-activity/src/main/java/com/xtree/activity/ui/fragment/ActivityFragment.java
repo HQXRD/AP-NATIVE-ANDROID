@@ -1,7 +1,6 @@
 package com.xtree.activity.ui.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,17 +77,17 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
     @Override
     public void onResume() {
         super.onResume();
-        //Log.i("测试显示隐藏", "onResumeActivity");
+        //KLog.i("测试显示隐藏", "onResumeActivity");
     }
 
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden) {   // 隐藏
-            //Log.i("测试显示隐藏", "HideOnHiddenChangedAcitivity");
+            //KLog.i("测试显示隐藏", "HideOnHiddenChangedAcitivity");
         } else {  // 第一次可见，不会执行到这里，只会执行onResume
             //网络数据刷新
-            //Log.i("测试显示隐藏", "ShowOnHiddenChangedAcitivity");
+            //KLog.i("测试显示隐藏", "ShowOnHiddenChangedAcitivity");
         }
     }
 
