@@ -3,6 +3,7 @@ package me.xtree.mvvmhabit.utils;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -459,6 +460,9 @@ public final class ToastUtils {
      * 依据ShowType不同状态显示不同Toast
      */
     public static void show(CharSequence text, ShowType showType) {
+        if(TextUtils.isEmpty(text)){
+            return;
+        }
         cancel();
         if (text.length() < K_TEXT_LENGTH){
             setView(R.layout.custom_toast);
