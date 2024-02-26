@@ -16,6 +16,8 @@ import android.view.animation.AnimationUtils;
 import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
 import android.webkit.SslErrorHandler;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -27,10 +29,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.luck.picture.lib.basic.PictureSelector;
+import com.luck.picture.lib.config.SelectMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 import com.xtree.base.R;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,6 +61,9 @@ public class BrowserActivity extends AppCompatActivity {
     String title = "";
     String url = "";
     boolean isContainTitle = false; // 网页自身是否包含标题(少数情况下会包含)
+
+    ValueCallback<Uri> mUploadCallbackBelow;
+    ValueCallback<Uri[]> mUploadCallbackAboveL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +148,35 @@ public class BrowserActivity extends AppCompatActivity {
             }
         });
 
+        // 上传文件
+        mWebView.setWebChromeClient(new WebChromeClient() {
+
+            /**
+             * For Android >= 4.1
+             * 16(Android 4.1.2) <= API <= 20(Android 4.4W.2)回调此方法
+             */
+            public void openFileChooser(ValueCallback<Uri> valueCallback, String acceptType, String capture) {
+                CfLog.i("*********");
+                mUploadCallbackBelow = valueCallback;
+                //openImageChooserActivity();
+                gotoSelectMedia();
+            }
+
+            /**
+             * For Android >= 5.0
+             * API >= 21(Android 5.0.1)回调此方法
+             */
+            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+                CfLog.i("*********");
+                // (1)该方法回调时说明版本API >= 21，此时将结果赋值给 mUploadCallbackAboveL，使之 != null
+                mUploadCallbackAboveL = filePathCallback;
+                //openImageChooserActivity();
+                gotoSelectMedia();
+                return true;
+            }
+
+        });
+
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -216,6 +256,46 @@ public class BrowserActivity extends AppCompatActivity {
         settings.setLoadWithOverviewMode(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setLoadsImagesAutomatically(true);
+    }
+
+    /**
+     * 图片选择
+     */
+    private void gotoSelectMedia() {
+        PictureSelector.create(this)
+                .openGallery(SelectMimeType.ofImage())
+                .setMaxSelectNum(1)
+                .setImageEngine(GlideEngine.createGlideEngine())
+                .setCompressEngine(ImageFileCompressEngine.create())
+                .forResult(new OnResultCallbackListener<LocalMedia>() {
+                    @Override
+                    public void onResult(ArrayList<LocalMedia> list) {
+
+                        ArrayList<Uri> results = new ArrayList<>();
+                        for (LocalMedia t : list) {
+                            Uri mUri = null;
+                            if (t.getWatermarkPath() != null && !t.getWatermarkPath().isEmpty()) {
+                                // 水印 /storage/emulated/0/Android/data/com.xxx.xxx/files/Mark/Mark_20220609xxx.jpg
+                                mUri = Uri.fromFile(new File(t.getWatermarkPath()));
+                            } else if (t.isCompressed()) {
+                                // 压缩后的 /storage/emulated/0/Android/data/com.xxx.xxx/cache/luban_disk_cache/CMP_20220609xxx.jpg
+                                mUri = Uri.fromFile(new File(t.getCompressPath()));
+                                //mUri = Uri.fromFile(new File(t.getPath())); // content://media/external/images/media/29003
+                            } else {
+                                // 实际路径,压缩前的 /storage/emulated/0/Pictures/Screenshots/Screenshot_20220609_xx.jpg
+                                mUri = Uri.fromFile(new File(t.getRealPath()));
+                            }
+                            CfLog.i(mUri.toString());
+                            results.add(mUri);
+                        }
+                        mUploadCallbackAboveL.onReceiveValue(results.toArray(new Uri[results.size()]));
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
     }
 
     private void setCookie(String cookie, String url) {
