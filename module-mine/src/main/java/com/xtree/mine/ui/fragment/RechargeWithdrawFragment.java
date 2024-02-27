@@ -338,6 +338,8 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
                 return getString(R.string.txt_expired); // 超时无效
             case "5":
                 return getString(R.string.txt_confiscated); //已没收
+            case "7":
+                return getString(R.string.txt_cancel); // 取消
             default:
                 return getString(R.string.txt_others); // 其他
         }
