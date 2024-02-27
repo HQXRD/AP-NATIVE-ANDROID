@@ -166,7 +166,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         binding.tvNotice.setText(notice);
         binding.tvUserNameShow.setText(virtualCashVo.user.username);
         binding.tvWithdrawalTypeShow.setText(channelInfo.title);
-        String quota = virtualCashVo.user.cafAvailableBalance;
+        String quota = virtualCashVo.availablebalance;
 
         binding.tvWithdrawalAmountShow.setText(quota);//虚拟币 提款金额
         String temp = virtualCashVo.usdtinfo.get(0).min_money + "元,最高" + virtualCashVo.usdtinfo.get(0).max_money + "元";
