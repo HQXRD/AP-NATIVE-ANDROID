@@ -30,10 +30,12 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
     private int parentY;
     private View itemView;
     private int currentPos = -1;
+    private double maxValue;
 
-    public void setEditText(EditText editText, View itemView) {
+    public void setEditText(EditText editText, View itemView, double maxValue) {
         this.editText = editText;
         this.itemView = itemView;
+        this.maxValue = maxValue;
         postDelayed(() -> {
 
             int[] outLocation = new int[2];
@@ -77,8 +79,8 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
         Integer[] defaultAmount = new Integer[]{100, 500, 1000, 2000, 5000};
         rvDefaultAmount.setAdapter(new CommonAdapter<Integer>(context, R.layout.bt_layout_keyboard_item, Arrays.asList(defaultAmount)) {
             @Override
-            protected void convert(ViewHolder holder, Integer i, int position) {
-                holder.setText(R.id.tv_item, String.valueOf(i));
+            protected void convert(ViewHolder holder, Integer textValue, int position) {
+                holder.setText(R.id.tv_item, String.valueOf(textValue));
                 holder.setTextColor(R.id.tv_item, getResources().getColor(R.color.bt_color_keyboard_quick));
                 holder.getView(R.id.tv_item).setBackgroundResource(R.drawable.bt_bg_keyboard_quick_item_selector);
                 if(currentPos == position){
@@ -90,8 +92,8 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
                     if(editText != null && !editText.isEnabled()){
                         return;
                     }
-                    editText.setText(String.valueOf(i));
-                    currentPos = position;
+                    editText.setText(String.valueOf(textValue));
+                    currentPos = textValue > maxValue ? -1 : position;
                     notifyDataSetChanged();
                 });
             }
@@ -130,6 +132,10 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
             value = value.substring(0, value.length()-1);
             if(isNumeric(value)) {
                 editText.setText(value);
+            }
+            if(TextUtils.isEmpty(value)){
+                currentPos = -1;
+                rvDefaultAmount.getAdapter().notifyDataSetChanged();
             }
         });
         findViewById(R.id.tv_max).setOnClickListener(view -> {

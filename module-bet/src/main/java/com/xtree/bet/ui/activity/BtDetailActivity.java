@@ -462,13 +462,21 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                     }
                 }else{
                     for (int i = 0; i < categories.size(); i++) {
-                        if(categories.get(i) == null){
-                            binding.tabCategoryType.removeTabAt(i);
-                            if(binding.tabCategoryType.getTabCount() == 0){
-                                binding.rlPlayMethod.setVisibility(View.GONE);
-                                binding.flOption.setVisibility(View.GONE);
-                                binding.llEnd.llEmpty.setVisibility(View.VISIBLE);
+                        try {
+                            if (binding.tabCategoryType == null) {
+                                CfLog.e("=========binding.tabCategoryType == null=========");
                             }
+                            if (categories.get(i) == null && binding.tabCategoryType != null) {
+                                binding.tabCategoryType.removeTabAt(i);
+                                if (binding.tabCategoryType.getTabCount() == 0) {
+                                    binding.rlPlayMethod.setVisibility(View.GONE);
+                                    binding.flOption.setVisibility(View.GONE);
+                                    binding.llEnd.llEmpty.setVisibility(View.VISIBLE);
+                                }
+                            }
+                        }catch (Exception e){
+                            CfLog.e("binding.tabCategoryType.getTabCount()-------" + binding.tabCategoryType.getTabCount() + "-----" + i);
+                            CfLog.e(e.getMessage());
                         }
                     }
                     viewModel.updateCategoryData();
