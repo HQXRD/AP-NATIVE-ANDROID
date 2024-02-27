@@ -38,27 +38,22 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.ImageUploadUtil;
-import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
-import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
-import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.DateTimePickerDialog;
 import com.xtree.base.widget.GlideEngine;
+import com.xtree.base.widget.ImageFileCompressEngine;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
-
 import com.xtree.recharge.databinding.FragmentFeedbackEditBinding;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.recharge.vo.FeedbackCheckVo;
-
-import com.xtree.recharge.vo.FeedbackDep;
 import com.xtree.recharge.vo.FeedbackImageUploadVo;
 import com.xtree.recharge.vo.FeedbackProtocolInfo;
 
@@ -713,12 +708,18 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
      * 图片选择
      */
     private void gotoSelectMedia() {
-        PictureSelector.create(getActivity()).openGallery(SelectMimeType.ofImage()).isDisplayCamera(false).setMaxSelectNum(1).setImageEngine(GlideEngine.createGlideEngine()).forResult(new OnResultCallbackListener<LocalMedia>() {
+        PictureSelector.create(getActivity())
+                .openGallery(SelectMimeType.ofImage())
+                .isDisplayCamera(false)
+                .setMaxSelectNum(1)
+                .setImageEngine(GlideEngine.createGlideEngine())
+                .setCompressEngine(ImageFileCompressEngine.create())
+                .forResult(new OnResultCallbackListener<LocalMedia>() {
             @Override
             public void onResult(ArrayList<LocalMedia> result) {
                 if (result != null) {
                     for (int i = 0; i < result.size(); i++) {
-                        imageRealPathString = result.get(i).getRealPath();
+                        imageRealPathString = result.get(i).getCompressPath();
                         File imageRealPath = new File(imageRealPathString);
 
                         if (imageRealPath.exists()) {
