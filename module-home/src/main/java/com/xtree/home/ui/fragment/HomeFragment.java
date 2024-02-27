@@ -3,10 +3,10 @@ package com.xtree.home.ui.fragment;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
@@ -125,7 +125,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         //不实现父类方法
     }
 
-
     @Override
     public HomeViewModel initViewModel() {
         //使用自定义的ViewModelFactory来创建ViewModel，如果不重写该方法，则默认会调用LoginViewModel(@NonNull Application application)构造方法
@@ -152,7 +151,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             viewModel.getPMGameTokenApi();
         }
     }
-
 
     @Override
     public void initViewObservable() {
@@ -273,6 +271,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.bnrTop.setAdapter(new BannerImageAdapter<BannersVo>(new ArrayList<>()) {
             @Override
             public void onBindView(BannerImageHolder holder, BannersVo data, int position, int size) {
+                holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
                 Glide.with(getContext()).load(data.picture).placeholder(R.mipmap.hm_bnr_01).into(holder.imageView);
             }
         });
