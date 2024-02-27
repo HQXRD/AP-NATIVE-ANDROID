@@ -138,11 +138,10 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         binding.ivwCs.setOnClickListener(v -> {
             String title = getString(R.string.txt_custom_center);
             String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+            new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BrowserDialog(getContext(), title, url)).show();
         });
 
         binding.llCenterWallet.tvw1kRecycle.setOnClickListener(v -> {
-            ;
             showDialog1kAutoRecycle();
         });
 
