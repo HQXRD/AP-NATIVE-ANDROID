@@ -189,16 +189,11 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     getContext().startActivity(intent);
                 });
 
-                String tipAvail;
-                String usdtAcail;
-
-                tipAvail = "可用提款余额: " + StringUtils.formatToSeparate(Float.valueOf(chooseInfoVo.user.availablebalance));
-                if ((chooseInfoVo.usdtInfo.quota.equals("0.00")) || (chooseInfoVo.usdtInfo.relquota.equals("0"))) {
-                    usdtAcail = "其中0.0可以使用虚拟币提款取出";
-                } else {
-                    usdtAcail = "其中" + StringUtils.formatToSeparate(Float.valueOf(chooseInfoVo.usdtInfo.quota)) + "可以使用虚拟币提款取出";
-                }
-                String showChooseTip = tipAvail + usdtAcail;
+                String tipAvail = null;
+                String usdtAvail;
+                tipAvail = "可用提款余额: " + StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance)));
+                usdtAvail = "其中" + StringUtils.formatToSeparate(Float.valueOf(chooseInfoVo.usdtInfo.quota)) + "可以使用虚拟币提款取出";
+                String showChooseTip = tipAvail + usdtAvail;
                 binding.tvChooseTip.setVisibility(View.VISIBLE);
                 binding.tvChooseTip.setText(showChooseTip);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

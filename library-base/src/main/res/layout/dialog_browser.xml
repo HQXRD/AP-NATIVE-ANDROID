@@ -11,7 +11,7 @@
     <View
         android:id="@+id/v_title"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="38dp"
         android:background="@color/clr_transparent"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -19,12 +19,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/ll_background"
+        android:id="@+id/ll_margin"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/clr_white"
+        android:layout_height="10dp"
+        android:layout_marginTop="0dp"
+        android:background="@color/clr_transparent"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/v_title" />
@@ -32,13 +33,16 @@
     <WebView
         android:id="@+id/wv_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="4dp" />
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ll_margin" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/bg_dialog_top_purple"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"

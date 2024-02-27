@@ -41,6 +41,7 @@ import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.DateTimePickerDialog;
 import com.xtree.base.widget.GlideEngine;
+import com.xtree.base.widget.ImageFileCompressEngine;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
@@ -893,12 +894,13 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 .isDisplayCamera(false)
                 .setMaxSelectNum(1)
                 .setImageEngine(GlideEngine.createGlideEngine())
+                .setCompressEngine(ImageFileCompressEngine.create())
                 .forResult(new OnResultCallbackListener<LocalMedia>() {
                     @Override
                     public void onResult(ArrayList<LocalMedia> result) {
                         if (result != null) {
                             for (int i = 0; i < result.size(); i++) {
-                                imageRealPathString = result.get(i).getRealPath();
+                                imageRealPathString = result.get(i).getCompressPath();
                                 File imageRealPath = new File(imageRealPathString);
                                 if (imageRealPath.exists()) {
                                     CfLog.i("获取图片地址Base64 ===== " + ImageUploadUtil.bitmapToString(imageRealPathString));

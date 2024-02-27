@@ -173,17 +173,13 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         }
         //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
         String showRest = StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.rest));
-        String notice = "注意：每天限制提款" + usdtCashVo.count + "次，提款时间为" + usdtCashVo.wraptime.starttime + "至" + usdtCashVo.wraptime.endtime + ",您今日剩余提款额度为 " + showRest + "元";
+        String notice = "注意：每天限制提款" + usdtCashVo.times + "次，提款时间为" + usdtCashVo.wraptime.starttime + "至" + usdtCashVo.wraptime.endtime + ",您今日剩余提款额度为 " + showRest + "元";
         binding.tvNotice.setText(notice);
         binding.tvUserNameShow.setText(usdtCashVo.user.username);
         binding.tvWithdrawalTypeShow.setText("USDT提款");
         binding.tvWithdrawalAmountMethod.setText(usdtCashVo.channel_list.get(0).title);//设置收款USDT账户
-        String quota;
-        if (usdtCashVo.availablebalance == null) {
-            quota = "0.00";
-        } else {
-            quota = usdtCashVo.availablebalance;
-        }
+        String quota = usdtCashVo.user.cafAvailableBalance;
+
         binding.tvWithdrawalAmountShow.setText(quota);//提款余额
         String temp = usdtCashVo.usdtinfo.get(0).min_money + "元,最高" + usdtCashVo.usdtinfo.get(0).max_money + "元";
         binding.tvWithdrawalTypeShow1.setText(temp);

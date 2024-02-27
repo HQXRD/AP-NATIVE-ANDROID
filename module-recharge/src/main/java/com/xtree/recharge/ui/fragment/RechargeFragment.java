@@ -70,7 +70,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     String hiWalletUrl; // 一键进入 HiWallet钱包
     String tutorialUrl; // 充值教程
     List<RechargeVo> mRecommendList = new ArrayList<>(); // 推荐的充值渠道列表
-    HashMap<String, RechargeVo> mapRechargeVo = new HashMap<>(); // 跳转第三方链接的充值渠道
+    //HashMap<String, RechargeVo> mapRechargeVo = new HashMap<>(); // 跳转第三方链接的充值渠道
     boolean isShowedProcessPendCount = false; // 是否显示过 "订单未到账" 的提示
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
     boolean isShowBack = false; // 是否显示返回按钮
@@ -337,18 +337,21 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), vo.title, url)).show();
             } else {
                 // 如果没有链接,调详情接口获取
-                //viewModel.getPayment(vo.bid);
-                if (mapRechargeVo.containsKey(vo.bid)) {
+                viewModel.getPayment(vo.bid);
+                LoadingDialog.show(getContext()); // Loading
+                /*if (mapRechargeVo.containsKey(vo.bid)) {
                     RechargeVo t2 = mapRechargeVo.get(vo.bid);
                     String url = t2.op_thiriframe_url;
                     if (!url.startsWith("http")) {
                         url = DomainUtil.getDomain2() + t2.op_thiriframe_url;
                     }
                     CfLog.d(vo.title + ", jump: " + url);
+                    mapRechargeVo.remove(vo.bid); // 移除掉已经使用的
                     new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BrowserDialog(getContext(), vo.title, url)).show();
                 } else {
                     CfLog.e(vo.title + ", op_thiriframe_url is null...");
-                }
+                    viewModel.getPayment(vo.bid);
+                }*/
             }
 
             return;
@@ -596,9 +599,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
-        String json = SPUtils.getInstance().getString(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, "{}");
-        mapRechargeVo = new Gson().fromJson(json, new TypeToken<HashMap<String, RechargeVo>>() {
-        }.getType());
+        //String json = SPUtils.getInstance().getString(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, "{}");
+        //mapRechargeVo = new Gson().fromJson(json, new TypeToken<HashMap<String, RechargeVo>>() {
+        //}.getType());
 
     }
 
@@ -732,8 +735,14 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         viewModel.liveDataRecharge.observe(getViewLifecycleOwner(), vo -> {
             CfLog.d(vo.toString());
-            mapRechargeVo.put(vo.bid, vo);
-            SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
+            //mapRechargeVo.put(vo.bid, vo);
+            //SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
+            String url = vo.op_thiriframe_url;
+            if (!url.startsWith("http")) {
+                url = DomainUtil.getDomain2() + url;
+            }
+            CfLog.d(vo.title + ", jump: " + url);
+            new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BrowserDialog(getContext(), vo.title, url)).show();
         });
 
         viewModel.liveDataRechargePay.observe(getViewLifecycleOwner(), vo -> {
@@ -828,7 +837,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     private void setMainList(List<RechargeVo> list) {
         rechargeAdapter.clear();
         rechargeAdapter.addAll(list);
-        queryThirdDetail(list);
+        //queryThirdDetail(list);
     }
 
     /**
