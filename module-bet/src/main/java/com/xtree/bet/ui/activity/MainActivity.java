@@ -930,7 +930,15 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         });
 
         viewModel.tokenInvalidEvent.observe(this, unused -> {
-            getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
+            String sportId = String.valueOf(getSportId());
+            if (sportTypePos != -1) {
+                if(playMethodPos == 2 || playMethodPos == 4){
+                    sportTypePos = 0;
+                }else{
+                    sportTypePos = 1;
+                }
+            }
+            getMatchData(sportId, mOrderBy, mLeagueIdList, null,
                     playMethodType, searchDatePos, false, true);
         });
 
