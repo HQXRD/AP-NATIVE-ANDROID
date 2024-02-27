@@ -143,11 +143,37 @@ public class CgOddLimitPm implements CgOddLimit {
         return btCount;
     }
 
-    public int calculate(int n, int m) {
-        if (m == 0 || n == m) {
+//    public int calculate(int n, int m) {
+//        try {
+//            if (m == 0 || n == m) {
+//                return 1;
+//            }
+//            return calculate(n - 1, m - 1) + calculate(n - 1, m);
+//        }catch (Throwable e){
+//            e.printStackTrace();
+//        }
+//        return 1;
+//    }
+
+    /**
+     * 计算组合数 C(n, k)
+     */
+    public int calculate(int n, int k) {
+        return factorial(n) / (factorial(k) * factorial(n - k));
+    }
+
+    /**
+     * 计算阶乘
+     */
+    public static int factorial(int n) {
+        if (n == 0 || n == 1) {
             return 1;
         }
-        return calculate(n - 1, m - 1) + calculate(n - 1, m);
+        int num = 1;
+        for (int i = 1; i <= n; i++) {
+            num = num * i;
+        }
+        return num;
     }
 
     /**
