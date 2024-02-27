@@ -502,7 +502,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:background="@mipmap/cm_btn_withdrawal_previous" />
+                        android:background="@mipmap/cm_btn_withdrawal_previous"
+                        android:visibility="invisible"/>
 
                 </LinearLayout>
 
