@@ -99,7 +99,7 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
 
             etAmount.setOnFocusChangeListener((v, hasFocus) -> {
                 if(hasFocus) {
-                    keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_cc));
+                    keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_cc), cgOddLimit.getCMax());
                     itemView.findViewById(R.id.csl_win_cc).setVisibility(View.VISIBLE);
                 }else{
                     itemView.findViewById(R.id.csl_win_cc).setVisibility(View.GONE);
@@ -112,7 +112,7 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
 
             etAmount.setOnClickListener(view -> {
                 if(!etAmount.hasFocus()) {
-                    keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_cc));
+                    keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_cc), cgOddLimit.getCMax());
                 }
                 itemView.findViewById(R.id.csl_win_cc).setVisibility(View.VISIBLE);
                 if(!keyboardView.isShowing()) {
@@ -147,17 +147,17 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
 
             etAmount.setOnFocusChangeListener((view, b) -> {
                 mKeyBoardListener.showKeyBoard(keyboardView.isShowing());
-                keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_dan));
+                keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_dan), cgOddLimit.getDMax());
             });
             etAmount.setFocusable(true);
             etAmount.setFocusableInTouchMode(true);
             etAmount.requestFocus();
             etAmount.findFocus();
-            keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_dan));
+            keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_dan), cgOddLimit.getDMax());
 
             etAmount.setOnClickListener(view -> {
                 mKeyBoardListener.showKeyBoard(true);
-                keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_dan));
+                keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_dan), cgOddLimit.getDMax());
             });
         }
     }
