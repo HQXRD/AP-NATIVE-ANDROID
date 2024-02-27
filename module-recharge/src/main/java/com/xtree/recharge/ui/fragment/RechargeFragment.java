@@ -117,8 +117,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         isShowBack = getArguments().getBoolean("isShowBack");
         if (isShowBack) {
             binding.ivwBack.setVisibility(View.VISIBLE);
+            binding.vTop.setVisibility(View.GONE);
         } else {
             binding.ivwBack.setVisibility(View.GONE);
+            binding.vTop.setVisibility(View.VISIBLE);
         }
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
