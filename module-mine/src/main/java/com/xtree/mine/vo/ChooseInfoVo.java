@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * 可选择的提款方式
  */
 public class ChooseInfoVo {
-
+    public int  networkStatus ;//1 网络链接超时 ；2 网络链接异常 ；0 网络链接正常
     @Override
     public String toString() {
         return "ChooseInfoVo{" +
