@@ -55,6 +55,16 @@ public class USDTCashVo extends BaseResponse2 {
         public String id;
         public String title;
         public String type;
+
+        @Override
+        public String toString() {
+            return "Channel{" +
+                    "name='" + name + '\'' +
+                    ", id='" + id + '\'' +
+                    ", title='" + title + '\'' +
+                    ", type='" + type + '\'' +
+                    '}';
+        }
     }
 
     public class Usdtinfo {
