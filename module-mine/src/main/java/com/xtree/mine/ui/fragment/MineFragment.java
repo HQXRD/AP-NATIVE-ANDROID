@@ -204,7 +204,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
         });
         binding.tvwUsdtJiaocheng.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_TUTORIAL);
+            goWebView(v, Constant.URL_TUTORIAL, false);
         });
         binding.textViewLogin.setOnClickListener(v -> {
             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
