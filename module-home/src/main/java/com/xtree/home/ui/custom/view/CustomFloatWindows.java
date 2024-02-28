@@ -53,7 +53,7 @@ public class CustomFloatWindows extends RelativeLayout {
     private boolean isShow = false;
     RechargeReportAdapter rechargeReportAdapter;
     HomeApiService apiService = RetrofitClient.getInstance().create(HomeApiService.class);
-    HttpDataSource httpDataSource = HttpDataSourceImpl.getInstance(apiService, false);
+    HttpDataSource httpDataSource = HttpDataSourceImpl.getInstance(apiService);
     WindowManager.LayoutParams floatLp;
 
     public CustomFloatWindows(Context context) {
