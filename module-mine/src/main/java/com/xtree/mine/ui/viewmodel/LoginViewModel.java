@@ -14,6 +14,7 @@ import com.xtree.base.utils.RSAEncrypt;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.SettingsVo;
@@ -117,6 +118,8 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
         SPUtils.getInstance().put(SPKeyGlobal.USER_NAME, vo.userName); // 用户名
+        // 解决登录后,首页显示为未登录,过2秒才显示登录名和金额的问题
+        SPUtils.getInstance().put(SPKeyGlobal.HOME_PROFILE, new Gson().toJson(new ProfileVo(vo.userName, "***")));
         RetrofitClient.init();
     }
 
