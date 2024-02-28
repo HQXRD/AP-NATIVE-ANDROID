@@ -232,6 +232,10 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
                 binding.rvRecord.scroll(0);
             }
         });
+
+        viewModel.tokenInvalidEvent.observe(this, unused -> {
+            viewModel.betRecord(isSettled);
+        });
     }
 
     @Override

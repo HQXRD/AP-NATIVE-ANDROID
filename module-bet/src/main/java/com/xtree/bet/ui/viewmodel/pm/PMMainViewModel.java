@@ -1017,28 +1017,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         return optionArrayList;
     }
 
-    public void getGameTokenApi() {
-        Disposable disposable = (Disposable) model.getBaseApiService().getPMGameTokenApi()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<PMService>() {
-                    @Override
-                    public void onResult(PMService pmService) {
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
-                        tokenInvalidEvent.call();
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        //super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
