@@ -104,6 +104,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
 
     private void refresh() {
+        viewModel.readCache(); // 读取缓存,用户信息可能发生了变更
         TagUtils.tagDailyEvent(getContext());
         checkUpdate(); // 检查更新
     }
@@ -481,7 +482,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (mProfileVo == null) {
             return;
         }
-        if (!mProfileVo.is_binding_phone || !mProfileVo.is_binding_email) {
+        if (!mProfileVo.is_binding_phone && !mProfileVo.is_binding_email) {
             CfLog.i("未绑定手机/邮箱");
             toBindPhoneNumber();
         } else if (!mProfileVo.is_binding_card) {
