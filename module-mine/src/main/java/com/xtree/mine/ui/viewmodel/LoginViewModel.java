@@ -89,7 +89,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         KLog.e(t.toString());
                         //super.onError(t);
-                        //ToastUtils.showLong("登录失败");
+                        ToastUtils.showLong("登录异常，请重试");
                     }
 
                     @Override
