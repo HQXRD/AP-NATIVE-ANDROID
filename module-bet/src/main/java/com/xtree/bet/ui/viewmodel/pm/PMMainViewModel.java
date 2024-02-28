@@ -116,6 +116,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     public void setSportIds(int playMethodPos) {
         if (playMethodPos == 0 || playMethodPos == 3 || playMethodPos == 1) {
             SPORT_IDS = new String[14];
+            SPORT_IDS[0] = "0";
         } else {
             SPORT_IDS = new String[13];
         }
@@ -584,7 +585,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @param isRefresh
      */
     public void getChampionList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int oddType, boolean isTimerRefresh, boolean isRefresh) {
-        if (TextUtils.equals("-1", sportId)) {
+        if (TextUtils.equals("0", sportId)) {
             championMatchListData.postValue(new ArrayList<>());
             return;
         }
