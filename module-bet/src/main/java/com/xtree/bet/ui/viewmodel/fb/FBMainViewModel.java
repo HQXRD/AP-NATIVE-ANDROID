@@ -840,39 +840,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         return optionArrayList;
     }
 
-    public void getGameTokenApi() {
-        Flowable<BaseResponse<FBService>> flowable;
-        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
-            flowable = model.getBaseApiService().getFBXCGameTokenApi();
-        } else {
-            flowable = model.getBaseApiService().getFBGameTokenApi();
-        }
-        Disposable disposable = (Disposable) flowable
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<FBService>() {
-                    @Override
-                    public void onResult(FBService fbService) {
-                        if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
-                            SPUtils.getInstance().put(SPKeyGlobal.FBXC_TOKEN, fbService.getToken());
-                            SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
-                        } else {
-                            SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
-                            SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
-                        }
-
-                        tokenInvalidEvent.call();
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        //super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();

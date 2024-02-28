@@ -1,5 +1,7 @@
 package com.xtree.bet.ui.viewmodel.fb;
 
+import static com.xtree.base.net.FBHttpCallBack.CodeRule.CODE_14010;
+
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -22,7 +24,9 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by marquis
@@ -69,7 +73,14 @@ public class FBBtRecordModel extends TemplateBtRecordModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        if (t instanceof ResponseThrowable) {
+                            ResponseThrowable error = (ResponseThrowable) t;
+                            if (error.code == CODE_14010) {
+                                getGameTokenApi();
+                            }else {
+                                super.onError(t);
+                            }
+                        }
                     }
                 });
         addSubscribe(disposable);

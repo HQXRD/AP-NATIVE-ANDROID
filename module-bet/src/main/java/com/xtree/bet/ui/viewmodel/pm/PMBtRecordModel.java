@@ -1,5 +1,7 @@
 package com.xtree.bet.ui.viewmodel.pm;
 
+import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401013;
+import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401026;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401038;
 
 import android.app.Application;
@@ -68,6 +70,8 @@ public class PMBtRecordModel extends TemplateBtRecordModel {
                             ResponseThrowable error = (ResponseThrowable) t;
                             if (error.code == CODE_401038) {
                                 ToastUtils.showShort("请求速度太快，请稍候重试");
+                            } else if (error.code == CODE_401026 || error.code == CODE_401013) {
+                                getGameTokenApi();
                             }
                         }
                     }
