@@ -144,6 +144,11 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
         });
         viewModel.liveDataBindCardResult.observe(this, vo -> {
             CfLog.i("******");
+            //getActivity().finish();
+            viewModel.getProfile();
+        });
+        viewModel.liveDataProfile.observe(this, vo -> {
+            CfLog.i("******");
             getActivity().finish();
         });
 
