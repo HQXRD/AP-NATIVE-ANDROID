@@ -137,7 +137,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
 
     @Override
     public void onComplete() {
-
+        LoadingDialog.finish();
     }
 
     public static final class CodeRule {

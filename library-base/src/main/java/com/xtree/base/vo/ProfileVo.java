@@ -121,6 +121,14 @@ public class ProfileVo {
                 '}';
     }
 
+    public ProfileVo() {
+    }
+
+    public ProfileVo(String username, String availablebalance) {
+        this.username = username;
+        this.availablebalance = availablebalance;
+    }
+
     public class CreditWalletVo {
         public boolean credit_USDT_enable; // false,
         public boolean credit_RMB_enable; // false,
