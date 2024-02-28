@@ -9,6 +9,7 @@ import androidx.core.text.HtmlCompat;
 
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.xtree.base.utils.CfLog;
 import com.xtree.mine.R;
 import com.xtree.mine.vo.MsgInfoVo;
 import com.xtree.mine.vo.MsgPersonInfoVo;
@@ -62,13 +63,18 @@ public class ListMsgInfoDialog extends BottomPopupView {
         if (msgInfoVo != null) {
             tvwTitle.setText(msgInfoVo.title);
             tvwMsgTitle.setText(msgInfoVo.title);
-            String txt = msgInfoVo.content.replace("\n", "");
-            tvwMsgContent.setText(HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_LEGACY));
+            String txt = msgInfoVo.content.replace("<\\ span><\\ div><br\\/>", "<\\ div>");
+            txt = txt.replace("<br/>", "<\\ div>");
+            CfLog.i(txt);
+            tvwMsgContent.setText(HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_COMPACT));
         } else if (msgPersonInfoVo != null) {
             tvwTitle.setText(msgPersonInfoVo.title);
             tvwMsgTitle.setText(msgPersonInfoVo.title);
-            String txt = msgPersonInfoVo.content.replace("\n", "");
-            tvwMsgContent.setText(HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_LEGACY));
+            CfLog.i(msgInfoVo.content);
+            String txt = msgInfoVo.content.replace("<\\ span><\\ div><br\\/>", "<\\ div>");
+            txt = txt.replace("<br/>", "");
+            CfLog.i(txt);
+            tvwMsgContent.setText(HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_COMPACT));
         }
 
     }
