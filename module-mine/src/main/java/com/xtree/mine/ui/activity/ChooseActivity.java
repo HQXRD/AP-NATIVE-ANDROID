@@ -23,6 +23,7 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.AwardsRecordVo;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = PAGER_CHOOSE_WITHDRAW)
 public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel > {
@@ -117,6 +118,12 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                     public void closeDialog() {
                         finish();
                     }
+
+                    @Override
+                    public void closeDialogByError() {
+                        showNetError();
+                        finish();
+                    }
                 }, () -> {
                     basePopupView.dismiss();
                     finish();
@@ -126,5 +133,9 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
     }
 
+    /*显示网络异常Toast*/
+    private void showNetError() {
+        ToastUtils.showError(this.getString(R.string.txt_network_error));
+    }
 
 }
