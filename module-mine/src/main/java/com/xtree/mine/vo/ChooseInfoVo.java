@@ -167,9 +167,13 @@ public class ChooseInfoVo {
 
         @Override
         public String toString() {
-            return "ChooseInfoVo{" +
-                    "id='" + id + '\'' +
+            return "ChannelInfo{" +
+                    "bindType='" + bindType + '\'' +
+                    ", channeluse=" + channeluse +
+                    ", channeluseMessage='" + channeluseMessage + '\'' +
+                    ", id='" + id + '\'' +
                     ", type='" + type + '\'' +
+                    ", title='" + title + '\'' +
                     ", method_sort='" + method_sort + '\'' +
                     ", recommend='" + recommend + '\'' +
                     ", configkey='" + configkey + '\'' +
@@ -182,6 +186,7 @@ public class ChooseInfoVo {
                     ", userid='" + userid + '\'' +
                     ", min_limit='" + min_limit + '\'' +
                     ", max_limit='" + max_limit + '\'' +
+                    ", flag=" + flag +
                     '}';
         }
     }
