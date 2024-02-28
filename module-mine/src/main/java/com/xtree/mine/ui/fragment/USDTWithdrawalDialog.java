@@ -53,6 +53,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
     private ChooseInfoVo.ChannelInfo channelInfo;
     ArrayList<USDTCashVo.Usdtinfo> usdtinfoTRC = new ArrayList<>(); //TRC20地址
     private USDTCashVo.Usdtinfo selectUsdtInfo;//选中的支付
+    private USDTCashVo.Channel firstChannel  , secondChannel;
+
     private USDTCashVo usdtCashVo;
 
     private USDTSecurityVo usdtSecurityVo;
@@ -104,18 +106,20 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         binding.tvwTitle.setText(channelInfo.title);
 
         //显示设置请求View
-        if (binding.llVirtualTop.getVisibility() == View.VISIBLE) {
+        /*if (binding.llVirtualTop.getVisibility() == View.VISIBLE) {
             //点击嗨钱包
             binding.llOtherUsdt.setOnClickListener(v -> {
                 binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
                 binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
+                binding.tvWithdrawalTypeShow.setText("USDT");//提款类型
             });
             //点击usdt
             binding.llUsdt.setOnClickListener(v -> {
                 binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
                 binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
+                binding.tvWithdrawalTypeShow.setText("USDT");//提款类型
             });
-        }
+        }*/
     }
 
     private void initData() {
@@ -170,14 +174,18 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         if (usdtCashVo.channel_list.size() == 2) {
             binding.tvVirtualUsdt.setText(usdtCashVo.channel_list.get(0).title);
             binding.tvVirtualOther.setText(usdtCashVo.channel_list.get(1).title);
+            firstChannel = usdtCashVo.channel_list.get(0) ;
+            secondChannel = usdtCashVo.channel_list.get(1);
         }
         //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
         String showRest = StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.rest));
         String notice = "注意：每天限制提款" + usdtCashVo.times + "次，提款时间为" + usdtCashVo.wraptime.starttime + "至" + usdtCashVo.wraptime.endtime + ",您今日剩余提款额度为 " + showRest + "元";
         binding.tvNotice.setText(notice);
         binding.tvUserNameShow.setText(usdtCashVo.user.username);
-        binding.tvWithdrawalTypeShow.setText("USDT提款");
-        binding.tvWithdrawalAmountMethod.setText(usdtCashVo.channel_list.get(0).title);//设置收款USDT账户
+        binding.tvWithdrawalTypeShow.setText("USDT");//提款类型
+
+       // binding.tvWithdrawalAmountMethod.setText(usdtCashVo.channel_list.get(0).title);//设置收款USDT账户 firstChannel
+        binding.tvWithdrawalAmountMethod.setText(firstChannel.title);//提款方式
         String quota = usdtCashVo.availablebalance;
 
         binding.tvWithdrawalAmountShow.setText(quota);//提款余额
@@ -198,27 +206,29 @@ public class USDTWithdrawalDialog extends BottomPopupView {
 
     private void initListener() {
         hideKeyBoard();
-        binding.llUsdt.setOnClickListener(v -> {
+       /* binding.llUsdt.setOnClickListener(v -> {
             binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
             binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
             type = "USDT";
         });
         binding.tvVirtualUsdt.setOnClickListener(v -> {
+            binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
+            binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
+            type = "USDT";
+        });*/
+        //选中非USDT提款 提币地址更换为支持TRC20
+        binding.tvVirtualUsdt.setOnClickListener(v -> {
             binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
             binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
             type = "USDT";
-        });
-        //选中非USDT提款 提币地址更换为支持TRC20
-        binding.llOtherUsdt.setOnClickListener(v -> {
-            binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
-            binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
-            type = "TRC";
             //显示TRC地址
             String collection = usdtinfoTRC.get(0).usdt_type + " " + usdtinfoTRC.get(0).usdt_card;
             selectUsdtInfo = usdtinfoTRC.get(0);
             String temp = selectUsdtInfo.min_money + "元,最高" + selectUsdtInfo.max_money + "元";
             binding.tvWithdrawalTypeShow1.setText(temp);
             binding.tvCollectionUsdt.setText(collection);
+            binding.tvWithdrawalAmountMethod.setText( firstChannel.title);//提款方式
+            CfLog.e("点击 USDT firstChannel.title = " +firstChannel.toString());
         });
         binding.tvVirtualOther.setOnClickListener(v -> {
             binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
@@ -230,6 +240,9 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             String temp = selectUsdtInfo.min_money + "元,最高" + selectUsdtInfo.max_money + "元";
             binding.tvWithdrawalTypeShow1.setText(temp);
             binding.tvCollectionUsdt.setText(collection);
+            binding.tvWithdrawalAmountMethod.setText( secondChannel.title);//提款方式
+            CfLog.e("点击 USDT secondChannel.title = " +secondChannel.toString());
+
         });
         //提款金额输入框与提款金额显示View
         binding.etInputMoney.addTextChangedListener(new TextWatcher() {
