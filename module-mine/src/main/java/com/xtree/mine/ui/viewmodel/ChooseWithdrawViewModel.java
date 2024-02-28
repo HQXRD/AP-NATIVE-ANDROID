@@ -26,6 +26,7 @@ import java.util.HashMap;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 
 /**
@@ -62,6 +63,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
         Disposable disposable = (Disposable) model.getApiService().getChooseWithdrawInfo()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
+
                 .subscribeWith(new HttpCallBack<ChooseInfoVo>() {
 
                     @Override
@@ -141,11 +143,32 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 0;
                                 }
 
-                            }
-                        } else {
-
                         }
+                        chooseInfoVoMutableLiveData.setValue(chooseInfoVo);
+                    }
 
+                    //增加网络异常抓取
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);  ex.message = "连接超时";
+                        Throwable throwable = t;
+                        String message = throwable.getMessage();
+                        CfLog.e("onError message =  " + message);
+                        ChooseInfoVo chooseInfoVo = new ChooseInfoVo();
+                        //链接超时
+                        chooseInfoVo.networkStatus = 1; //链接超时
+                        chooseInfoVoMutableLiveData.setValue(chooseInfoVo);
+
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        // super.onFail(t);
+                        Throwable throwable = t;
+                        String message = throwable.getMessage();
+                        CfLog.e("onFail message =  " + message);
+                        ChooseInfoVo chooseInfoVo = new ChooseInfoVo();
+                        chooseInfoVo.networkStatus = 1; //链接超时
                         chooseInfoVoMutableLiveData.setValue(chooseInfoVo);
                     }
                 });
@@ -344,12 +367,31 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                             CfLog.i("awardrecordVo IS NULL ");
                         }
                     }
-
+                    //增加网络异常抓取
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
-                        //ToastUtils.showLong("请求失败");
+                        //super.onError(t);  ex.message = "连接超时";
+                        Throwable throwable = t;
+                        String message = throwable.getMessage();
+                        CfLog.e("onError message =  " + message);
+                        AwardsRecordVo awardrecordVo = new AwardsRecordVo();
+                        //链接超时
+                        awardrecordVo.networkStatus = 1; //链接超时
+                        awardrecordVoMutableLiveData.setValue(awardrecordVo);
+
                     }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        // super.onFail(t);
+                        String message = t.getMessage();
+                        CfLog.e("onError message =  " + message);
+                        AwardsRecordVo awardrecordVo = new AwardsRecordVo();
+                        //链接超时
+                        awardrecordVo.networkStatus = 1; //链接超时
+                        awardrecordVoMutableLiveData.setValue(awardrecordVo);
+                    }
+
                 });
         addSubscribe(disposable);
     }

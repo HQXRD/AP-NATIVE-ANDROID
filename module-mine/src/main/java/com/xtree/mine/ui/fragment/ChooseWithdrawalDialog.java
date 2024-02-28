@@ -90,6 +90,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         super.onCreate();
         initView();
         initData();
+        LoadingDialog.show(getContext());
         initViewObservable();
         requestData();
     }
@@ -131,11 +132,17 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     private void initViewObservable() {
         viewModel.chooseInfoVoMutableLiveData.observe(owner, vo -> {
             chooseInfoVo = vo;
-            if (TextUtils.isEmpty(chooseInfoVo.error) || chooseInfoVo.error == null) {
-                referUI();
+            if (chooseInfoVo.networkStatus == 1 && callBack != null) {
+                //网络异常
+                callBack.closeDialogByError();
             } else {
-                showErrorDialog(chooseInfoVo.message);
+                if (TextUtils.isEmpty(chooseInfoVo.error) || chooseInfoVo.error == null) {
+                    referUI();
+                } else {
+                    showErrorDialog(chooseInfoVo.message);
+                }
             }
+
         });
     }
 
