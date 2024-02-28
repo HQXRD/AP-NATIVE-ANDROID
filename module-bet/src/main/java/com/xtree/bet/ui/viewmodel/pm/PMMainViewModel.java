@@ -116,6 +116,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     public void setSportIds(int playMethodPos) {
         if (playMethodPos == 0 || playMethodPos == 3 || playMethodPos == 1) {
             SPORT_IDS = new String[14];
+            SPORT_IDS[0] = "0";
         } else {
             SPORT_IDS = new String[13];
         }
@@ -584,7 +585,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @param isRefresh
      */
     public void getChampionList(int sportPos, String sportId, int orderBy, List<Long> leagueIds, List<Long> matchids, int playMethodType, int oddType, boolean isTimerRefresh, boolean isRefresh) {
-        if (TextUtils.equals("-1", sportId)) {
+        if (TextUtils.equals("0", sportId)) {
             championMatchListData.postValue(new ArrayList<>());
             return;
         }
@@ -1015,28 +1016,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             }
         }
         return optionArrayList;
-    }
-
-    public void getGameTokenApi() {
-        Disposable disposable = (Disposable) model.getBaseApiService().getPMGameTokenApi()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<PMService>() {
-                    @Override
-                    public void onResult(PMService pmService) {
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
-                        tokenInvalidEvent.call();
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        //super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);
     }
 
     @Override

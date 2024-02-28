@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.xtree.mvvmhabit.utils.KLog;
+
 public class CgOddLimitView extends LinearLayout {
 
     private List<View> viewList = new ArrayList<>();
@@ -66,11 +68,14 @@ public class CgOddLimitView extends LinearLayout {
 
         protected abstract void convert(View view, T t, int position);
 
-        public void setNewData(List<T> datas){
-
-            if(datas.size() < mDatas.size()){
+        public void setNewData(List<T> datas) {
+            if (datas.size() < mDatas.size()) {
                 sizeChange = true;
+                KLog.e("viewList", viewList.size() + "   " + mDatas.size() + "   " + datas.size());
                 for (int i = 0; i < mDatas.size() - datas.size(); i++) {
+                    if (i >= viewList.size()) {
+                        break;
+                    }
                     viewList.remove(i);
                     parent.removeViewAt(i);
                 }

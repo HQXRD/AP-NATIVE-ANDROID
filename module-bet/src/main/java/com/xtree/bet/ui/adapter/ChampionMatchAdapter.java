@@ -42,7 +42,7 @@ public class ChampionMatchAdapter extends AnimatedExpandableListViewMax.Animated
 
     @Override
     public int getRealChildrenCount(int groupPosition) {
-        if (mDatas.isEmpty() || mDatas.get(groupPosition).isHead() || mDatas.get(groupPosition).getPlayTypeList().isEmpty()) {
+        if (mDatas.isEmpty() || groupPosition >= mDatas.size() || mDatas.get(groupPosition).isHead() || mDatas.get(groupPosition).getPlayTypeList().isEmpty()) {
             return 0;
         }
         return mDatas.get(groupPosition).getPlayTypeList().size();

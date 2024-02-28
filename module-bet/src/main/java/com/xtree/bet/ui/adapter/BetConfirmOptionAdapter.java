@@ -1,6 +1,8 @@
 package com.xtree.bet.ui.adapter;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +20,9 @@ import java.util.List;
 
 public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
     private BtCarDialogFragment btCarDialogFragment;
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private Runnable mRunnable;
+
     @Override
     public int layoutId() {
         return R.layout.bt_layout_car_bt_match_item;
@@ -71,7 +76,14 @@ public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
             List<BetConfirmOption> newData = new ArrayList<>();
             newData.addAll(BtCarManager.getBtCarList());
             setNewData(newData);
-            btCarDialogFragment.batchBetMatchMarketOfJumpLine();
+
+            //快速点击删除时，只执行最后一次
+            if (mRunnable != null) {
+                mHandler.removeCallbacks(mRunnable);
+            }
+            mRunnable = () -> btCarDialogFragment.batchBetMatchMarketOfJumpLine();
+            mHandler.postDelayed(mRunnable, 400);
+
         });
         holder.setVisible(R.id.iv_option_delete, getItemCount() > 1);
         holder.setVisible(R.id.ll_close_tip, betConfirmOption.isClose());

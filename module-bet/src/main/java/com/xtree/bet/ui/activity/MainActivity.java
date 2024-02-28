@@ -132,9 +132,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         if (sportTypePos < sportIds.length) {
             sportId = sportIds[sportTypePos == -1 ? 0 : sportTypePos];
         }
-
-        if (playMethodPos != 4) {
-            if (sportId == null) {
+        // 以下规则只用于PM体育
+        if (playMethodPos != 4) { // 刚开始进入PM体育场馆时，会有sportId为空的情况
+            if (sportId == null) { // 获取相应玩法中默认的球种
                 if (playMethodPos == 2) {
                     sportTypePos = 0;
                     sportId = sportIds[0];
@@ -146,7 +146,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
         }
         if (sportId == null) {
-            sportId = playMethodPos == 4 ? "-1" : PMConstants.SPORT_IDS_DEFAULT[1];
+            sportId = playMethodPos == 4 ? "0" : PMConstants.SPORT_IDS_DEFAULT[1];
         }
         return Integer.valueOf(sportId);
     }
@@ -931,26 +931,26 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
         viewModel.tokenInvalidEvent.observe(this, unused -> {
             String sportId = String.valueOf(getSportId());
-            if (sportTypePos != -1) {
+            /*if (sportTypePos != -1) {
                 if(playMethodPos == 2 || playMethodPos == 4){
                     sportTypePos = 0;
                 }else{
                     sportTypePos = 1;
                 }
-            }
+            }*/
             getMatchData(sportId, mOrderBy, mLeagueIdList, null,
                     playMethodType, searchDatePos, false, true);
         });
 
         viewModel.tooManyRequestsEvent.observe(this, unused -> {
-            getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
+            /*getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
                     playMethodType, searchDatePos, false, true);
             binding.tabSportType.setEnabled(false);
             binding.tabPlayMethod.setEnabled(false);
             binding.tabSearchDate.setEnabled(false);
             binding.rvLeague.postDelayed(() -> {
 
-            }, 1000);
+            }, 1000);*/
         });
     }
 
@@ -1047,6 +1047,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 if(!mLeagueList.isEmpty()) {
                     mIsChange = false;
                 }
+            }else {
+
             }
         }
         if (mLeagueList.isEmpty()) {

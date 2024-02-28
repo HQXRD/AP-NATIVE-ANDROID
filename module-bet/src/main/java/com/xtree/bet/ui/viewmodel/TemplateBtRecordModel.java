@@ -27,7 +27,7 @@ import me.xtree.mvvmhabit.utils.RxUtils;
  * Created by marquis
  */
 
-public abstract class TemplateBtRecordModel extends BaseViewModel<BetRepository> implements BtRecordModel{
+public abstract class TemplateBtRecordModel extends BaseBtViewModel implements BtRecordModel{
     public SingleLiveData<List<BtRecordTime>> btRecordTimeDate = new SingleLiveData<>();
 
     public TemplateBtRecordModel(@NonNull Application application, BetRepository repository) {
