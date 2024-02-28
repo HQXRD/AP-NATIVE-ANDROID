@@ -1,16 +1,16 @@
 package com.xtree.bet.ui.viewmodel.pm;
 
+import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401038;
+
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 
 import com.xtree.base.net.PMHttpCallBack;
-import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.request.pm.BtRecordReq;
 import com.xtree.bet.bean.response.pm.BtRecordRsp;
 import com.xtree.bet.bean.ui.BtRecordBeanPm;
 import com.xtree.bet.bean.ui.BtRecordTime;
-import com.xtree.bet.bean.ui.BtResultPm;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.TemplateBtRecordModel;
 
@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
-import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class PMBtRecordModel extends TemplateBtRecordModel {
     public PMBtRecordModel(@NonNull Application application, BetRepository repository) {
@@ -64,6 +64,12 @@ public class PMBtRecordModel extends TemplateBtRecordModel {
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
+                        if (t instanceof ResponseThrowable) {
+                            ResponseThrowable error = (ResponseThrowable) t;
+                            if (error.code == CODE_401038) {
+                                ToastUtils.showShort("请求速度太快，请稍候重试");
+                            }
+                        }
                     }
                 });
         addSubscribe(disposable);

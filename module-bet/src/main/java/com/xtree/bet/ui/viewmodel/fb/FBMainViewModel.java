@@ -81,7 +81,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     private int goingOnPageSize = 300;
     private int pageSize = 50;
 
-    public void saveLeague(LeagueListCallBack leagueListCallBack){
+    public void saveLeague(LeagueListCallBack leagueListCallBack) {
         mLeagueList = leagueListCallBack.getLeagueList();
         mGoingOnLeagueList = leagueListCallBack.getGoingOnLeagueList();
         mMapLeague = leagueListCallBack.getMapLeague();
@@ -238,7 +238,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         if (isRefresh) {
             mCurrentPage = 1;
             mNoLiveheaderLeague = null;
-        } else {
+        } else if (!isTimerRefresh) {
             mCurrentPage++;
         }
 

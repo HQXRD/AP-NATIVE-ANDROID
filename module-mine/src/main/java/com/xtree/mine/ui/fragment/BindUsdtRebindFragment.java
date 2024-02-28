@@ -161,6 +161,11 @@ public class BindUsdtRebindFragment extends BaseFragment<FragmentBindUsdtRebindB
         });
         viewModel.liveDataRebindCard04.observe(this, vo -> {
             CfLog.i("****** 4 ");
+            //getActivity().finish();
+            viewModel.getProfile();
+        });
+        viewModel.liveDataProfile.observe(this, vo -> {
+            CfLog.i("******");
             getActivity().finish();
         });
 

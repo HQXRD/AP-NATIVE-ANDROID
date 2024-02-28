@@ -16,13 +16,13 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentChooseWithdrawBinding;
 import com.xtree.mine.ui.fragment.AwardsRecordDialog;
-import com.xtree.mine.ui.fragment.BankWithdrawalDialog;
 import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.AwardsRecordVo;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = PAGER_CHOOSE_WITHDRAW)
 public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel > {
@@ -72,12 +72,16 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                 awardsRecordVo = vo;
                 if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
                     showAwardsRecord();
+                } else if (awardsRecordVo.networkStatus == 1) {
+                    //链接超时
+                    showNetError();
+                    finish();
+                    return;
                 } else {
                     showChoose();
                 }
             });
         }
-
     }
 
     @Override
@@ -117,6 +121,12 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                     public void closeDialog() {
                         finish();
                     }
+
+                    @Override
+                    public void closeDialogByError() {
+                        showNetError();
+                        finish();
+                    }
                 }, () -> {
                     basePopupView.dismiss();
                     finish();
@@ -126,5 +136,9 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
     }
 
+    /*显示网络异常Toast*/
+    private void showNetError() {
+        ToastUtils.showError(this.getString(R.string.txt_network_error));
+    }
 
 }

@@ -377,6 +377,8 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_SESSID, vo.cookie.sessid);
         SPUtils.getInstance().put(SPKeyGlobal.USER_SHARE_COOKIE_NAME, vo.cookie.cookie_name);
         SPUtils.getInstance().put(SPKeyGlobal.USER_NAME, vo.userName); // 用户名
+        // 解决登录后,首页显示为未登录,过2秒才显示登录名和金额的问题
+        SPUtils.getInstance().put(SPKeyGlobal.HOME_PROFILE, new Gson().toJson(new ProfileVo(vo.userName, "***")));
         RetrofitClient.init();
     }
 

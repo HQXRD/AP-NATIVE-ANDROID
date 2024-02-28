@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private String mPlatform = PLATFORM_FBXC;
     private String mPlatformName;
     private boolean mIsShowLoading = true;
-    private boolean mIsChange;
+    private boolean mIsChange = true;
     /**
      * 赛事统计数据
      */
@@ -1016,7 +1016,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      */
     private void updateLeagueData() {
         if (mLeagueAdapter == null) {
-            mIsChange = false;
             mLeagueAdapter = new LeagueAdapter(MainActivity.this, mLeagueList);
             initLeagueListView();
             binding.rvLeague.setAdapter(mLeagueAdapter);
@@ -1045,7 +1044,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 setWaitingAllExpand(true);
                 goingOnExpandOrCollapseGroup();
                 waitingExpandOrCollapseGroup();
-                mIsChange = false;
+                if(!mLeagueList.isEmpty()) {
+                    mIsChange = false;
+                }
             }
         }
         if (mLeagueList.isEmpty()) {

@@ -3,9 +3,13 @@ package com.xtree.mine.ui.viewmodel;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
+import com.google.gson.Gson;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.BankCardVo;
 import com.xtree.mine.vo.UserBankConfirmVo;
@@ -20,6 +24,7 @@ import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class BindCardViewModel extends BaseViewModel<MineRepository> {
@@ -31,6 +36,7 @@ public class BindCardViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<UserBankConfirmVo> liveDataBindCardResult = new SingleLiveData<>(); // 绑定银行卡结果
     public SingleLiveData<UserBankConfirmVo> liveDataDelCardCheck = new SingleLiveData<>(); // 锁定银行卡-检查
     public SingleLiveData<UserBankConfirmVo> liveDataDelCardResult = new SingleLiveData<>(); // 锁定银行卡结果
+    public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>(); // 个人信息
 
     public BindCardViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
@@ -200,6 +206,26 @@ public class BindCardViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getProfile() {
+        Disposable disposable = (Disposable) model.getApiService().getProfile()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<ProfileVo>() {
+                    @Override
+                    public void onResult(ProfileVo vo) {
+                        CfLog.i(vo.toString());
+                        SPUtils.getInstance().put(SPKeyGlobal.HOME_PROFILE, new Gson().toJson(vo));
+                        liveDataProfile.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
                     }
                 });
         addSubscribe(disposable);

@@ -322,8 +322,9 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
             binding.llPaymentName.setVisibility(View.GONE);//付款人姓名
             binding.llCollectionName.setVisibility(View.GONE);//收款人姓名
             binding.llPaymentWalletProtocol.setVisibility(View.VISIBLE);//协议
+            //查询付款协议
             for (int i = 0; i < feedbackCheckVo.protocolInfo.size(); i++) {
-                if (info.receive_banknum.equals(String.valueOf(feedbackCheckVo.protocolInfo.get(i).id))) {
+                if (info.userpay_virtual_protocol.equals(String.valueOf(feedbackCheckVo.protocolInfo.get(i).id))) {
                     binding.edProtocol.setText(feedbackCheckVo.protocolInfo.get(i).name);
                 }
             }

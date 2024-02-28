@@ -137,6 +137,11 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         });
         viewModel.liveDataBindCardResult.observe(this, vo -> {
             CfLog.i("******");
+            //getActivity().finish();
+            viewModel.getProfile();
+        });
+        viewModel.liveDataProfile.observe(this, vo -> {
+            CfLog.i("******");
             getActivity().finish();
         });
 

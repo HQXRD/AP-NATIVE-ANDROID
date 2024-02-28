@@ -298,7 +298,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
         if (isRefresh) {
             mCurrentPage = 1;
-        } else {
+        } else if (!isTimerRefresh) {
             mCurrentPage++;
         }
 
