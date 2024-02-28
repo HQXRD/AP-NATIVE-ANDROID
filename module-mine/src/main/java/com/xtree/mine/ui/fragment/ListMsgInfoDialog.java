@@ -64,7 +64,7 @@ public class ListMsgInfoDialog extends BottomPopupView {
             tvwTitle.setText(msgInfoVo.title);
             tvwMsgTitle.setText(msgInfoVo.title);
             String txt = msgInfoVo.content.replace("<\\ span><\\ div><br\\/>", "<\\ div>");
-            txt = txt.replace("<br/>", "<\\ div>");
+            txt = txt.replace("<br/>", "");
             CfLog.i(txt);
             tvwMsgContent.setText(HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_COMPACT));
         } else if (msgPersonInfoVo != null) {
