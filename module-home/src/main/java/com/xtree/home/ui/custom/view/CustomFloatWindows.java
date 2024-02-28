@@ -1,4 +1,4 @@
-package com.xtree.home.ui;
+package com.xtree.home.ui.custom.view;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static android.content.Context.WINDOW_SERVICE;
@@ -6,7 +6,6 @@ import static android.content.Context.WINDOW_SERVICE;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
-import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -51,9 +50,10 @@ public class CustomFloatWindows extends RelativeLayout {
     private View floatView;
     private CompositeDisposable mCompositeDisposable;
     private boolean isSearch = true;
+    private boolean isShow = false;
     RechargeReportAdapter rechargeReportAdapter;
     HomeApiService apiService = RetrofitClient.getInstance().create(HomeApiService.class);
-    HttpDataSource httpDataSource = HttpDataSourceImpl.getInstance(apiService);
+    HttpDataSource httpDataSource = HttpDataSourceImpl.getInstance(apiService, false);
     WindowManager.LayoutParams floatLp;
 
     public CustomFloatWindows(Context context) {
@@ -68,13 +68,19 @@ public class CustomFloatWindows extends RelativeLayout {
     }
 
     public void removeView() {
-        if (floatView != null) {
+        CfLog.e("Close floatView start");
+        if (windowManager != null && floatView != null && isShow) {
+            CfLog.e("Close floatView");
             windowManager.removeView(floatView);
+            isShow = false;
         }
     }
 
     public void show() {
-        windowManager.addView(floatView, floatLp);
+        if(!isShow) {
+            windowManager.addView(floatView, floatLp);
+            isShow = true;
+        }
     }
 
     private void initView() {
@@ -95,28 +101,20 @@ public class CustomFloatWindows extends RelativeLayout {
         LinearLayoutManager manager = new LinearLayoutManager(ctx);
         rcvData.setLayoutManager(manager);
 
-        int layoutType;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            layoutType = WindowManager.LayoutParams.TYPE_APPLICATION;
-        } else {
-            layoutType = WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY;
-        }
-
         floatLp = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
-                layoutType,
+                WindowManager.LayoutParams.TYPE_APPLICATION,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT
         );
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-        float density = displayMetrics.density;
 
         floatLp.gravity = Gravity.TOP;
         floatLp.x = displayMetrics.widthPixels / 2 - 100;
-        floatLp.y = displayMetrics.heightPixels / 2;
+        floatLp.y = displayMetrics.heightPixels / 2 + 100;
 
         floatView.findViewById(R.id.ivw_close).setOnClickListener(v -> {
             floatView.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);

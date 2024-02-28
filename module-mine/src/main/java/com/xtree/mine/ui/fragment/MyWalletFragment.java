@@ -16,11 +16,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
-import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
@@ -40,7 +38,6 @@ import java.util.Collections;
 import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterFragmentPath.Mine.PAGER_MY_WALLET)
@@ -139,8 +136,6 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
         binding.rcvWalletDetails.setLayoutManager(layoutManager);
 
-        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
-        mProfileVo = new Gson().fromJson(json, ProfileVo.class);
     }
 
     @Override
@@ -170,6 +165,10 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
 
     @Override
     public void initViewObservable() {
+        viewModel.liveDataProfile.observe(this, vo -> {
+            mProfileVo = vo;
+        });
+
         viewModel.liveDataBalance.observe(this, vo -> {
             binding.tvwBalance.setText(vo.balance);
             binding.ivwRefreshBlc.clearAnimation();
@@ -180,18 +179,6 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
             count++;
 
             CfLog.d("count : " + count + " walletGameList.size() : " + walletGameList.size());
-            if (count >= walletGameList.size()) {
-                Collections.sort(transGameBalanceList);
-                myWalletAdapter = new MyWalletAdapter(getContext());
-                binding.rcvWalletDetails.setAdapter(myWalletAdapter);
-                myWalletAdapter.setData(transGameBalanceList);
-            }
-        });
-
-        viewModel.liveDataGameBalance.observe(this, vo -> {
-            transGameBalanceList.add(vo);
-            count++;
-
             if (count >= walletGameList.size()) {
                 Collections.sort(transGameBalanceList);
                 myWalletAdapter = new MyWalletAdapter(getContext());
@@ -225,6 +212,12 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewModel.readCache();
+    }
+
     private void goRecharge() {
         Bundle bundle = new Bundle();
         bundle.putBoolean("isShowBack", true);
@@ -235,7 +228,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
      * 显示提款页面
      */
     private void showChoose() {
-        if (!mProfileVo.is_binding_phone || !mProfileVo.is_binding_email) {
+        if (!mProfileVo.is_binding_phone && !mProfileVo.is_binding_email) {
             CfLog.i("未绑定手机/邮箱");
             toBindPhoneNumber();
         } else if (!mProfileVo.is_binding_card) {

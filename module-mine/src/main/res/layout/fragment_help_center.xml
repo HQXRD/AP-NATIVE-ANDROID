@@ -50,8 +50,8 @@
 
             <ImageView
                 android:id="@+id/ivw_lottery_info"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@mipmap/me_lottery_info"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +63,7 @@
                 android:layout_marginStart="3dp"
                 android:text="@string/txt_lottery_info"
                 android:textColor="@color/clr_txt_black_03"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivw_lottery_info"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -93,8 +93,8 @@
 
             <ImageView
                 android:id="@+id/ivw_question"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@mipmap/me_question"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +106,7 @@
                 android:layout_marginStart="3dp"
                 android:text="@string/txt_question"
                 android:textColor="@color/clr_txt_black_03"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivw_question"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -136,8 +136,8 @@
 
             <ImageView
                 android:id="@+id/ivw_play_intro"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@mipmap/me_play_intro"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -149,7 +149,7 @@
                 android:layout_marginStart="3dp"
                 android:text="@string/txt_play_intro"
                 android:textColor="@color/clr_txt_black_03"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivw_play_intro"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -179,8 +179,8 @@
 
             <ImageView
                 android:id="@+id/ivw_tutorial"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@mipmap/me_tutorial"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -192,7 +192,7 @@
                 android:layout_marginStart="3dp"
                 android:text="@string/txt_tutorial"
                 android:textColor="@color/clr_txt_black_03"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivw_tutorial"
                 app:layout_constraintTop_toTopOf="parent" />
