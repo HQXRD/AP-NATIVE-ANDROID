@@ -8,7 +8,6 @@ import android.animation.ObjectAnimator;
 import android.app.Application;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +45,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
@@ -279,8 +279,10 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 cgOddLimitAdapter.setKeyboardView(keyboardView);
                 binding.rvBtCg.setAdapter(cgOddLimitAdapter);
             } else {
-                for (int i = 0; i < cgOddLimits.size(); i++) {
-                    cgOddLimits.get(i).setBtAmount(cgOddLimitList.get(i).getBtAmount());
+                if (cgOddLimitList.size() == cgOddLimits.size()) {
+                    for (int i = 0; i < cgOddLimits.size(); i++) {
+                        cgOddLimits.get(i).setBtAmount(cgOddLimitList.get(i).getBtAmount());
+                    }
                 }
                 this.cgOddLimitList = cgOddLimits;
                 cgOddLimitAdapter.setNewData(this.cgOddLimitList);

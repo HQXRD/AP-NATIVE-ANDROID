@@ -76,17 +76,12 @@ public class BetConfirmOptionAdapter extends BaseAdapter<BetConfirmOption> {
             List<BetConfirmOption> newData = new ArrayList<>();
             newData.addAll(BtCarManager.getBtCarList());
             setNewData(newData);
+
+            //快速点击删除时，只执行最后一次
             if (mRunnable != null) {
                 mHandler.removeCallbacks(mRunnable);
             }
-
-            mRunnable = new Runnable() {
-                @Override
-                public void run() {
-                    btCarDialogFragment.batchBetMatchMarketOfJumpLine();
-                }
-            };
-
+            mRunnable = () -> btCarDialogFragment.batchBetMatchMarketOfJumpLine();
             mHandler.postDelayed(mRunnable, 400);
 
         });

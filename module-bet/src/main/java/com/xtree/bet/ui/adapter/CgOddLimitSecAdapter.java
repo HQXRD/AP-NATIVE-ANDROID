@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseActivity;
+import me.xtree.mvvmhabit.utils.KLog;
 
 public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
     private boolean flag;
@@ -57,8 +58,11 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
 
     @Override
     protected void convert(View itemView, CgOddLimit cgOddLimit, int position) {
-
-        if (getItemCount() > 1 || !TextUtils.equals("单关", cgOddLimit.getCgName())) { // 串关
+        KLog.i("cgOddLimit",(cgOddLimit == null) +"   "+position);
+        if (cgOddLimit == null) {
+            return;
+        }
+        if (getItemCount() > 1 ||  !TextUtils.equals("单关", cgOddLimit.getCgName())) { // 串关
 
             itemView.findViewById(R.id.csl_cg_dan).setVisibility(View.GONE);
             itemView.findViewById(R.id.csl_cg_cc).setVisibility(View.VISIBLE);
