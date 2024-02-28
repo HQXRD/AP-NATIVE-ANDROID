@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
@@ -40,13 +41,12 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<Boolean> liveDataTransfer = new SingleLiveData<>(); // 转账
     public MutableLiveData<List<GameMenusVo>> liveDataTransGameType = new MutableLiveData<>(); // 可转账的平台
     public MutableLiveData<AwardsRecordVo> awardrecordVoMutableLiveData = new MutableLiveData<>();//流水
-
+    public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>(); // 个人信息
     private HashMap<String, GameBalanceVo> map = new HashMap<>();
 
     public MyWalletViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
     }
-
 
     /**
      * 获取流水
@@ -229,10 +229,16 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
         liveDataBalance.setValue(new BalanceVo(balance));
 
         String json = SPUtils.getInstance().getString(SPKeyGlobal.WLT_GAME_ROOM_BLC, "[]");
-        CfLog.e("json: " + json);
+        CfLog.i("json: " + json);
         List<GameBalanceVo> list = gson.fromJson(json, new TypeToken<List<GameBalanceVo>>() {
         }.getType());
         listSingleLiveData.setValue(list);
+
+        json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        ProfileVo vo = gson.fromJson(json, ProfileVo.class);
+        if (vo != null) {
+            liveDataProfile.setValue(vo);
+        }
 
     }
 
