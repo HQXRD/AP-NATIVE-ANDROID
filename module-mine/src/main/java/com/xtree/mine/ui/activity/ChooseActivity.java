@@ -16,7 +16,6 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentChooseWithdrawBinding;
 import com.xtree.mine.ui.fragment.AwardsRecordDialog;
-import com.xtree.mine.ui.fragment.BankWithdrawalDialog;
 import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
@@ -73,12 +72,16 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                 awardsRecordVo = vo;
                 if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
                     showAwardsRecord();
+                } else if (awardsRecordVo.networkStatus == 1) {
+                    //链接超时
+                    showNetError();
+                    finish();
+                    return;
                 } else {
                     showChoose();
                 }
             });
         }
-
     }
 
     @Override

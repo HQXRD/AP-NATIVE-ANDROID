@@ -47,7 +47,10 @@ import me.xtree.mvvmhabit.utils.Utils;
 public class ChooseWithdrawalDialog extends BottomPopupView {
 
     public interface IChooseDialogBack {
-        public void closeDialog();
+        void closeDialog();
+
+        /*网络异常关闭Dialog*/
+        void closeDialogByError();
     }
 
     private IChooseDialogBack callBack;
@@ -77,6 +80,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
     public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose) {
         ChooseWithdrawalDialog dialog = new ChooseWithdrawalDialog(context);
+
         context = context;
         dialog.context = context;
         dialog.owner = owner;
@@ -88,6 +92,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
+
         initView();
         initData();
         LoadingDialog.show(getContext());
@@ -103,7 +108,6 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
         });
         binding.tvwTitle.setText(getContext().getString(R.string.txt_choose_withdrawal_method));
-
         bottomPopupContainer.dismissOnTouchOutside(true);
         bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
             @Override
@@ -130,6 +134,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     }
 
     private void initViewObservable() {
+        LoadingDialog.show(dialog.getContext());
         viewModel.chooseInfoVoMutableLiveData.observe(owner, vo -> {
             chooseInfoVo = vo;
             if (chooseInfoVo.networkStatus == 1 && callBack != null) {
@@ -150,63 +155,59 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 请求网络数据
      */
     private void requestData() {
-        LoadingDialog.show(getContext());
         viewModel.getChooseWithdrawInfo();
     }
 
     private void referUI() {
-        if (chooseInfoVo.wdChannelList != null) {
-            if (chooseInfoVo.wdChannelList.size() > 0) {
-                ChooseAdapter adapter = new ChooseAdapter(getContext(), chooseInfoVo.wdChannelList, new IChooseCallback() {
-                    @Override
-                    public void onClick(String txt, ChooseInfoVo.ChannelInfo channelInfo) {
+        if (chooseInfoVo.wdChannelList.size() > 0) {
+            ChooseAdapter adapter = new ChooseAdapter(context, chooseInfoVo.wdChannelList, new IChooseCallback() {
+                @Override
+                public void onClick(String txt, ChooseInfoVo.ChannelInfo channelInfo) {
 
-                        ChooseInfoVo.ChannelInfo channel = channelInfo;
-                        if (channel.channeluse == 0)//显示弹窗
-                        {
-                            if (TextUtils.isEmpty(channelInfo.channeluseMessage)) {
-                                String errorMessage = "请先绑" + channelInfo.configkey.toUpperCase() + "后才可提款";
-                                showMessageDialog(channelInfo, errorMessage);
-                            } else {
-                                showMessageDialog(channelInfo, channelInfo.channeluseMessage);
-                            }
-                            CfLog.i("conClick" + channelInfo.channeluseMessage);
-
+                    ChooseInfoVo.ChannelInfo channel = channelInfo;
+                    if (channel.channeluse == 0)//显示弹窗
+                    {
+                        if (TextUtils.isEmpty(channelInfo.channeluseMessage)) {
+                            String errorMessage = "请先绑" + channelInfo.configkey.toUpperCase() + "后才可提款";
+                            showMessageDialog(channelInfo, errorMessage);
                         } else {
-                            if (chooseInfoVo.bankchanneluse == 1 && txt.equals("银行卡提款")) {
-                                showBankWithdrawalDialog(channelInfo);
-                            }
-                            //银行卡提现通达打开，但点击的不是银行卡提款
-                            else if (chooseInfoVo.bankchanneluse == 1 && !txt.equals("银行卡提款")) {
-                                showUSDTWithdrawalDialog(channelInfo);
-                            }
+                            showMessageDialog(channelInfo, channelInfo.channeluseMessage);
+                        }
+                        CfLog.i("conClick" + channelInfo.channeluseMessage);
+
+                    } else {
+                        if (chooseInfoVo.bankchanneluse == 1 && txt.equals("银行卡提款")) {
+                            showBankWithdrawalDialog(channelInfo);
+                        }
+                        //银行卡提现通达打开，但点击的不是银行卡提款
+                        else if (chooseInfoVo.bankchanneluse == 1 && !txt.equals("银行卡提款")) {
+                            showUSDTWithdrawalDialog(channelInfo);
                         }
                     }
-
-                });
-                binding.lvChoose.setVisibility(View.VISIBLE);
-                binding.lvChoose.setAdapter(adapter);
-                binding.llChooseTip.setVisibility(View.VISIBLE);
-                binding.tvChooseTutorial.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-                //下划线TextView 点击事件
-                binding.tvChooseTutorial.setOnClickListener(v -> {
-                    Intent intent = new Intent(getContext(), BrowserActivity.class);
-                    intent.putExtra(BrowserActivity.ARG_TITLE, "USDT教程");
-                    intent.putExtra(BrowserActivity.ARG_URL, DomainUtil.getDomain2() + "/static/usdt-description/as/usdt_m.html");
-                    getContext().startActivity(intent);
-                });
-
-                String tipAvail = null;
-                String usdtAvail;
-                tipAvail = "可用提款余额: " + StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance)));
-                usdtAvail = "其中" + StringUtils.formatToSeparate(Float.valueOf(chooseInfoVo.usdtInfo.quota)) + "可以使用虚拟币提款取出";
-                String showChooseTip = tipAvail + usdtAvail;
-                binding.tvChooseTip.setVisibility(View.VISIBLE);
-                binding.tvChooseTip.setText(showChooseTip);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    binding.tvChooseTip.setTextColor(getContext().getColor(R.color.red));
                 }
 
+            });
+            binding.lvChoose.setVisibility(View.VISIBLE);
+            binding.lvChoose.setAdapter(adapter);
+            binding.llChooseTip.setVisibility(View.VISIBLE);
+            binding.tvChooseTutorial.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+            //下划线TextView 点击事件
+            binding.tvChooseTutorial.setOnClickListener(v -> {
+                Intent intent = new Intent(getContext(), BrowserActivity.class);
+                intent.putExtra(BrowserActivity.ARG_TITLE, "USDT教程");
+                intent.putExtra(BrowserActivity.ARG_URL, DomainUtil.getDomain2() + "/static/usdt-description/as/usdt_m.html");
+                getContext().startActivity(intent);
+            });
+
+            String tipAvail = null;
+            String usdtAvail;
+            tipAvail = "可用提款余额: " + StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance)));
+            usdtAvail = "其中" + chooseInfoVo.usdtInfo.quota + "可以使用虚拟币提款取出";
+            String showChooseTip = tipAvail + usdtAvail;
+            binding.tvChooseTip.setVisibility(View.VISIBLE);
+            binding.tvChooseTip.setText(showChooseTip);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.tvChooseTip.setTextColor(getContext().getColor(R.color.red));
             }
         }
     }
@@ -338,5 +339,4 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         }));
         ppw.show();
     }
-
 }

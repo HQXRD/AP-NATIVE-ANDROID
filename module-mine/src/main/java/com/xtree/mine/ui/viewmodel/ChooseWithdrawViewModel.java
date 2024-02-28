@@ -69,79 +69,65 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onResult(ChooseInfoVo chooseInfoVo) {
                         CfLog.i("ChooseInfoVo = " + chooseInfoVo.toString());
-                        if (chooseInfoVo.wdChannelList != null) {
-                            for (int i = 0; i < chooseInfoVo.wdChannelList.size(); i++) {
-                                if (chooseInfoVo.wdChannelList.get(i).configkey.contains("usdt")) {
-                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gcnyt_type);
-                                    chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.usdtchanneluse_msg;
-                                    if (chooseInfoVo.bankcardstatus_usdt) {
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                        for (int i = 0; i < chooseInfoVo.wdChannelList.size(); i++) {
+                            if (chooseInfoVo.wdChannelList.get(i).configkey.contains("usdt")) {
+                                chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gcnyt_type);
+                                chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.usdtchanneluse_msg;
+                                if (chooseInfoVo.bankcardstatus_usdt) {
+                                    chooseInfoVo.wdChannelList.get(i).channeluse = 1;
+                                } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
 
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("bank") ||
-                                        chooseInfoVo.wdChannelList.get(i).configkey.contains("hipaytx") ||
-                                        chooseInfoVo.wdChannelList.get(i).configkey.contains("generalchannel") ||
-                                        chooseInfoVo.wdChannelList.get(i).configkey.contains("银行卡")) {
-                                    //对应银行卡提款字段匹配
-                                    chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.bankchanneluse_msg;
-                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_card_type);
-                                    if (chooseInfoVo.bankcardstatus_rmb) {
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("ebpay")) {
-                                    chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.ebpaychanneluse_msg;
-                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_ebpay_type);
-                                    if (chooseInfoVo.bankcardstatus_ebpay) {
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("topay")) {
-                                    chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.topaychanneluse_msg;
-                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_topay_type);
-                                    if (chooseInfoVo.bankcardstatus_topay) {
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("hiwallet")) {
-                                    chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.hiwalletchanneluse_msg;
-                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gcnyt_type);
-                                    if (chooseInfoVo.bankcardstatus_hiwallet) {
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gopay")) {
-                                    chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.gopaychanneluse_msg;
-                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gopay_type);
-                                    if (chooseInfoVo.bankcardstatus_gopay) {
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("mpay")) {
-                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_mpay_type);
-                                    chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.mpaychanneluse_msg;
-                                    if (chooseInfoVo.bankcardstatus_mpay) {
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gobao")
-                                ) {
-                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gobao_type);
-                                    chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.gobaochanneluse_msg;
-                                    if (chooseInfoVo.bankcardstatus_gobao) {
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("okpay")) {
-                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_okpay_type);
-                                    chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.okpaychanneluse_msg;
-                                    CfLog.i("okpaychanneluse_msg = " + chooseInfoVo.okpaychanneluse_msg + " | = channeluseMessage =  " + chooseInfoVo.wdChannelList.get(i).channeluseMessage);
-                                    if (chooseInfoVo.bankcardstatus_okpay) {
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else
-                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                }
+                            } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("bank") || chooseInfoVo.wdChannelList.get(i).configkey.contains("hipaytx") || chooseInfoVo.wdChannelList.get(i).configkey.contains("generalchannel") || chooseInfoVo.wdChannelList.get(i).configkey.contains("银行卡")) {
+                                //对应银行卡提款字段匹配
+                                chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.bankchanneluse_msg;
+                                chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_card_type);
+                                if (chooseInfoVo.bankcardstatus_rmb) {
+                                    chooseInfoVo.wdChannelList.get(i).channeluse = 1;
+                                } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                            } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("ebpay")) {
+                                chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.ebpaychanneluse_msg;
+                                chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_ebpay_type);
+                                if (chooseInfoVo.bankcardstatus_ebpay) {
+                                    chooseInfoVo.wdChannelList.get(i).channeluse = 1;
+                                } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                            } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("topay")) {
+                                chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.topaychanneluse_msg;
+                                chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_topay_type);
+                                if (chooseInfoVo.bankcardstatus_topay) {
+                                    chooseInfoVo.wdChannelList.get(i).channeluse = 1;
+                                } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                            } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("hiwallet")) {
+                                chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.hiwalletchanneluse_msg;
+                                chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gcnyt_type);
+                                if (chooseInfoVo.bankcardstatus_hiwallet) {
+                                    chooseInfoVo.wdChannelList.get(i).channeluse = 1;
+                                } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                            } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gopay")) {
+                                chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.gopaychanneluse_msg;
+                                chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gopay_type);
+                                if (chooseInfoVo.bankcardstatus_gopay) {
+                                    chooseInfoVo.wdChannelList.get(i).channeluse = 1;
+                                } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                            } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("mpay")) {
+                                chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_mpay_type);
+                                chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.mpaychanneluse_msg;
+                                if (chooseInfoVo.bankcardstatus_mpay) {
+                                    chooseInfoVo.wdChannelList.get(i).channeluse = 1;
+                                } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                            } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gobao")) {
+                                chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gobao_type);
+                                chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.gobaochanneluse_msg;
+                                if (chooseInfoVo.bankcardstatus_gobao) {
+                                    chooseInfoVo.wdChannelList.get(i).channeluse = 1;
+                                } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                            } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("okpay")) {
+                                chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_okpay_type);
+                                chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.okpaychanneluse_msg;
+                                CfLog.i("okpaychanneluse_msg = " + chooseInfoVo.okpaychanneluse_msg + " | = channeluseMessage =  " + chooseInfoVo.wdChannelList.get(i).channeluseMessage);
+                                if (chooseInfoVo.bankcardstatus_okpay) {
+                                    chooseInfoVo.wdChannelList.get(i).channeluse = 1;
+                                } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                            }
 
                         }
                         chooseInfoVoMutableLiveData.setValue(chooseInfoVo);
