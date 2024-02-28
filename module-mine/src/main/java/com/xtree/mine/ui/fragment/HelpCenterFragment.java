@@ -28,7 +28,7 @@ public class HelpCenterFragment extends BaseFragment<FragmentHelpCenterBinding, 
         binding.clLotteryInfo.setOnClickListener(v -> goWebView(getString(R.string.txt_lottery_info), Constant.URL_LOTTERY_INFO, true));
         binding.clQuestion.setOnClickListener(v -> startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION));
         binding.clPlayIntro.setOnClickListener(v -> goWebView(getString(R.string.txt_play_intro), Constant.URL_PLAY_INTRO, true));
-        binding.clLotteryTutorial.setOnClickListener(v -> goWebView(getString(R.string.txt_tutorial), Constant.URL_TUTORIAL, true));
+        binding.clLotteryTutorial.setOnClickListener(v -> goWebView(getString(R.string.txt_tutorial), Constant.URL_TUTORIAL, false));
     }
 
     @Override
