@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
-import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
@@ -76,6 +75,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             setChildClickable(binding.llMenu, true);
             setChildClickable(binding.llMenu01, true);
             setChildClickable(binding.llMenu02, true);
+            viewModel.readCache(); // 读取缓存
         }
     }
 
@@ -277,7 +277,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (mProfileVo == null || TextUtils.isEmpty(mProfileVo.userid) || TextUtils.isEmpty(token)) {
+        if (mProfileVo == null || TextUtils.isEmpty(token)) {
             CfLog.i("****** not login");
             binding.llLogin.setVisibility(View.VISIBLE);
             binding.clAlreadyLogin.setVisibility(View.INVISIBLE);
@@ -383,6 +383,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             mProfileVo = vo;
             resetView();
         });
+        viewModel.liveDataVipInfo.observe(this, vo -> {
+            // 个人信息
+            mVipInfoVo = vo;
+            resetView();
+        });
 
         viewModel.liveDataBalance.observe(this, vo -> {
             mProfileVo.availablebalance = vo.balance;
@@ -411,7 +416,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                     int level = vo.vip_upgrade.get(vo.level + 1).display_level;
                     String txt = getString(R.string.txt_level_hint_00);
                     txt = String.format(txt, point, level);
-                    CfLog.e("txt " + txt);
+                    CfLog.i("txt " + txt);
                     binding.tvwLevelHint.setText(txt);
                     binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).display_active) * 100));
                     binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar));
@@ -428,7 +433,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                     int level = vo.level + 1;
                     String txt = getString(R.string.txt_level_hint_00);
                     txt = String.format(txt, point, level);
-                    CfLog.e("txt " + txt);
+                    CfLog.d("txt " + txt);
                     binding.tvwLevelHint.setText(txt);
                     binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).active) * 100));
                     binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar));

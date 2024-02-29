@@ -193,6 +193,10 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
         if (vo != null) {
             liveDataProfile.setValue(vo);
         }
+
+        json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_VIP_INFO);
+        VipInfoVo mVipInfoVo = new Gson().fromJson(json, VipInfoVo.class);
+        liveDataVipInfo.setValue(mVipInfoVo);
     }
 
     public void readVipCache() {
