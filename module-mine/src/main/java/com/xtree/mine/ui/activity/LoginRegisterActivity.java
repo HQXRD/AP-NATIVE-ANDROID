@@ -23,6 +23,7 @@ import com.xtree.base.utils.AESUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.SPUtil;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -275,12 +276,14 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
             if (vo.twofa_required == 0) {
                 //viewModel.setLoginSucc(vo);
+                TagUtils.tagEvent(getBaseContext(), TagUtils.EVENT_LOGIN);
                 goMain();
 
             } else if (vo.twofa_required == 1) {
                 CfLog.i("*********** 去谷歌验证...");
                 GoogleAuthDialog dialog = new GoogleAuthDialog(this, this, () -> {
                     viewModel.setLoginSucc(vo);
+                    TagUtils.tagEvent(getBaseContext(), TagUtils.EVENT_LOGIN);
                     goMain();
                 });
                 new XPopup.Builder(this)
@@ -291,11 +294,15 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             }
         });
 
-        viewModel.liveDataReg.observe(this, vo -> goMain());
+        viewModel.liveDataReg.observe(this, vo -> {
+            TagUtils.tagEvent(getBaseContext(), "reg");
+            goMain();
+        });
 
         viewModel.liveDataLoginFail.observe(this, vo -> {
             CfLog.d(vo.toString());
             if (vo.code == HttpCallBack.CodeRule.CODE_20208) {
+                TagUtils.tagEvent(getBaseContext(), TagUtils.EVENT_LOGIN);
                 String acc = binding.edtAccount.getText().toString().trim();
                 HashMap<String, Object> map = (HashMap<String, Object>) vo.data;
                 LoginResultVo vo2 = (LoginResultVo) map.get("data");

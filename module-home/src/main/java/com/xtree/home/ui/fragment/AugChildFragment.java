@@ -18,6 +18,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.home.BR;
 import com.xtree.home.R;
@@ -71,12 +72,15 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 AugItemBinding binding2 = AugItemBinding.bind(holder.itemView);
                 AugVo vo = get(position);
+                CfLog.i(vo.toString());
                 Glide.with(AugChildFragment.this.getContext())
                         .load(DomainUtil.getDomain() + "webx/images/chess/aug/" + vo.getCode() + ".jpg")
                         .placeholder(R.mipmap.me_icon_name)
                         .into(binding2.ibGame);
 
                 binding2.ibGame.setOnClickListener(v -> {
+                    CfLog.i(vo.toString());
+                    TagUtils.tagEvent(getContext(), "AUG", vo.getId()); // 打点
                     if (ClickUtil.isFastClick()) {
                         return;
                     }

@@ -142,7 +142,10 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 //网络异常
                 callBack.closeDialogByError();
             } else {
-                if (TextUtils.isEmpty(chooseInfoVo.error) || chooseInfoVo.error == null) {
+                if (!TextUtils.isEmpty(chooseInfoVo.msg_type) &&chooseInfoVo.msg_type.equals("2")) {
+                    //异常状态
+                    showErrorDialog(chooseInfoVo.message);
+                } else if (TextUtils.isEmpty(chooseInfoVo.error) || chooseInfoVo.error == null) {
                     referUI();
                 } else {
                     showErrorDialog(chooseInfoVo.message);
@@ -396,8 +399,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
                     @Override
                     public void onClickRight() {
-                        //dismiss();
                         ppw.dismiss();
+                        dismiss();
                     }
                 }));
         ppw.show();

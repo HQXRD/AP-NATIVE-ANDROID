@@ -16,6 +16,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.home.BuildConfig;
 import com.xtree.home.R;
@@ -102,6 +103,9 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
             return;
         }
+        // alias 为空时是 杏彩彩票, 为ag时分4个类型
+        String gameId = vo.alias == null ? "xccp" : vo.alias.equals("ag") ? "ag_" + vo.id : vo.alias;
+        TagUtils.tagEvent(ctx, "gm", gameId);
 
         if (vo.cid == 7 || vo.cid == 19 || vo.cid == 34 || (vo.cid == 1 && vo.cateId.equals("4"))) {
             mCallBack.onClick(vo);
