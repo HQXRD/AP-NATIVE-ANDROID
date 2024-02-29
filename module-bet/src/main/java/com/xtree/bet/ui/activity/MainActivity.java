@@ -677,7 +677,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
         }
         if (!matchIdList.isEmpty()) {
-            getMatchData(String.valueOf(getSportId()), mOrderBy, null, matchIdList,
+            getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, matchIdList,
                     playMethodType, searchDatePos, true, false);
         }
     }

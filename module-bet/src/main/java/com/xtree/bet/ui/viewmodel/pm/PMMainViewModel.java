@@ -19,10 +19,8 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.utils.TimeUtils;
-import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.request.pm.PMListReq;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
@@ -42,7 +40,6 @@ import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
-import com.xtree.bet.ui.viewmodel.callback.LeagueListCallBack;
 import com.xtree.bet.ui.viewmodel.callback.PMLeagueListCallBack;
 import com.xtree.bet.ui.viewmodel.callback.PMListCallBack;
 
@@ -57,7 +54,6 @@ import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by marquis

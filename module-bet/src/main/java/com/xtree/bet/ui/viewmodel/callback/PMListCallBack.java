@@ -117,8 +117,8 @@ public class PMListCallBack extends PMHttpCallBack<List<MatchInfo>> {
     public void onResult(List<MatchInfo> data) {
         if (mIsTimerRefresh) { // 定时刷新赔率变更
             if (data.size() != mMatchids.size()) {
-                List<Long> matchIdList = new ArrayList<>();
-                mViewModel.getLeagueList(mSportPos, mSportId, mOrderBy, mLeagueIds, matchIdList, mPlayMethodType, mSearchDatePos, mOddType, false, true);
+                //List<Long> matchIdList = new ArrayList<>();
+                mViewModel.getLeagueList(mSportPos, mSportId, mOrderBy, mLeagueIds, null, mPlayMethodType, mSearchDatePos, mOddType, false, true);
             } else {
                 setOptionOddChange(data);
                 mViewModel.leagueLiveTimerListData.postValue(mLeagueList);
