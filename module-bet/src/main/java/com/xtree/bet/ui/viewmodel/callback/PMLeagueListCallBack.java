@@ -172,7 +172,7 @@ public class PMLeagueListCallBack extends PMHttpCallBack<MatchListRsp> {
             if (error.code == CODE_401026 || error.code == CODE_401013) {
                 mViewModel.getGameTokenApi();
             } else if (error.code == CODE_401038) {
-                ToastUtils.showShort(error.getMessage());
+                super.onError(t);
                 mViewModel.tooManyRequestsEvent.call();
             } else {
                 mViewModel.getLeagueList(mSportPos, mSportId, mOrderBy, mLeagueIds, mMatchids, mPlayMethodType, mSearchDatePos, mOddType, mIsTimerRefresh, mIsRefresh);

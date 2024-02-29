@@ -13,7 +13,7 @@ public interface MainApiService {
      * 获取 FB体育请求服务地址
      * @return
      */
-    @POST("/api/sports/fb/getToken")
+    @POST("/api/sports/fb/getToken?cachedToken=1")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<FBService>> getFBGameTokenApi();
 
@@ -21,7 +21,7 @@ public interface MainApiService {
      * 获取 FB杏彩体育请求服务地址
      * @return
      */
-    @POST("/api/sports/fbxc/getToken")
+    @POST("/api/sports/fbxc/getToken?cachedToken=1")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<FBService>> getFBXCGameTokenApi();
 
@@ -29,7 +29,7 @@ public interface MainApiService {
      * 获取 PM体育请求服务地址
      * @return
      */
-    @POST("/api/sports/obg/getToken")
+    @POST("/api/sports/obg/getToken?cachedToken=1")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<PMService>> getPMGameTokenApi();
 }
