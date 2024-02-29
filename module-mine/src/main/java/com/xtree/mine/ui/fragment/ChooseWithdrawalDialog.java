@@ -372,7 +372,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     @Override
                     public void onClickRight() {
                         //跳转绑定流程
-                        Bundle bundle = new Bundle();
+                        /*Bundle bundle = new Bundle();
                         bundle.putString("type", channelInfo.bindType);
 
                         String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
@@ -380,7 +380,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         intent.putExtra(ContainerActivity.ROUTER_PATH, path);
                         intent.putExtra(ContainerActivity.BUNDLE, bundle);
                         getContext().startActivity(intent);
-                        dismiss();
+                        dismiss();*/
                         ppw.dismiss();
                     }
                 }));
@@ -391,16 +391,17 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 显示异常Dialog
      */
     private void showErrorDialog(String showMessage) {
+
         ppw = new XPopup.Builder(getContext())
-                .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), showMessage, true, new MsgDialog.ICallBack() {
+                .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), showMessage, false, new MsgDialog.ICallBack() {
                     @Override
                     public void onClickLeft() {
+                        ppw.dismiss();
                     }
 
                     @Override
                     public void onClickRight() {
                         ppw.dismiss();
-                        dismiss();
                     }
                 }));
         ppw.show();
