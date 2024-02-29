@@ -242,7 +242,7 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
             CfLog.i("******");
             binding.refreshLayout.finishRefresh();
             binding.refreshLayout.finishLoadMore();
-            if (vo == null) {
+            if (vo == null || vo.result == null) {
                 binding.refreshLayout.setEnableLoadMore(false);
                 return;
             }
@@ -270,7 +270,7 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
             CfLog.i("******");
             binding.refreshLayout.finishRefresh();
             binding.refreshLayout.finishLoadMore();
-            if (vo == null) {
+            if (vo == null || vo.aProject == null) {
                 binding.refreshLayout.setEnableLoadMore(false);
                 return;
             }
@@ -298,7 +298,7 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
             CfLog.i("******");
             binding.refreshLayout.finishRefresh();
             binding.refreshLayout.finishLoadMore();
-            if (vo == null) {
+            if (vo == null || vo.list == null) {
                 binding.refreshLayout.setEnableLoadMore(false);
                 return;
             }
