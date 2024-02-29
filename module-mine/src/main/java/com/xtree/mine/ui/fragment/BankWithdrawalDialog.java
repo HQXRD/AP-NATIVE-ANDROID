@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.BaseAdapter;
@@ -369,6 +370,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 url = DomainUtil.getDomain2() + url;
             }
             binding.wvH5View.loadUrl(url, getHeader());
+            setWebView( binding.wvH5View);
             binding.wvH5View.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -861,4 +863,18 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         return header;
     }
 
+    private void setWebView(WebView webView) {
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+        //settings.setAppCacheEnabled(true);
+        settings.setUseWideViewPort(true);
+        //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+        settings.setLoadWithOverviewMode(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setLoadsImagesAutomatically(true);
+        settings.setSupportZoom(true);
+    }
 }
