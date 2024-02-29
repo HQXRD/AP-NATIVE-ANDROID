@@ -79,11 +79,9 @@ public class TagUtils {
         AppCenter.setLogLevel(Log.VERBOSE);
     }
 
-    public static void initMixpanel(Context ctx, JSONObject props) {
+    private static void initMixpanel(Context ctx, JSONObject props) {
         CfLog.i("******");
-        if (!IS_TAG) {
-            return;
-        }
+
         MixpanelAPI.getInstance(ctx, MIXPANEL_TOKEN, props, true);
         if (USER_ID != null && !USER_ID.isEmpty()) {
             MixpanelAPI.getInstance(ctx, MIXPANEL_TOKEN, true).identify(USER_ID);
@@ -104,24 +102,39 @@ public class TagUtils {
         CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event);
         tagAppsFlyer(ctx, event, getMap(null, null));
         tagMixpanel(ctx, event, null);
+        tagAppCenter(event);
+    }
+    public static void tagEvent(Context ctx, String event) {
+        CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event);
+        tagAppsFlyer(ctx, event, getMap(null, null));
+        tagMixpanel(ctx, event, null);
+        tagAppCenter(event);
     }
 
-    /*public static void logEvent(Context ctx, String event, Object value) {
+    public static void logEvent(Context ctx, String event, Object value) {
         CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", value: " + value);
-        AppsFlyerLib.getInstance().logEvent(ctx, event, getMap(event, value));
-
-        tagMixpanel(ctx, event, value);
-    }*/
-
-    public static void logEvent(Context ctx, String event, String key, Object value) {
-        CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", key: " + key + ", value: " + value);
-        tagAppsFlyer(ctx, event, getMap(key, value));
-
-        tagMixpanel(ctx, event, key, value);
+        tagEvent(ctx, event, event, String.valueOf(value));
+    }
+    public static void tagEvent(Context ctx, String event, Object value) {
+        CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", value: " + value);
+        tagEvent(ctx, event, event, String.valueOf(value));
     }
 
-    public static void logEvent(Context ctx, String event, HashMap<String, Object> map) {
+    public static void tagEvent(Context ctx, String event, String key, String value) {
+        CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", key: " + key + ", value: " + value);
+        if (!IS_TAG) {
+            return;
+        }
+        tagAppsFlyer(ctx, event, getMap(key, value));
+        tagMixpanel(ctx, event, key, value);
+        tagAppCenter(event, getMap(key, value));
+    }
+
+    public static void tagEvent(Context ctx, String event, HashMap<String, Object> map) {
         CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", map: " + new Gson().toJson(map));
+        if (!IS_TAG) {
+            return;
+        }
         if (!map.containsKey("uid")) {
             map.put("uid", USER_ID);
         }
@@ -139,14 +152,16 @@ public class TagUtils {
      */
     public static void loginEvent(Context ctx, String event, String uid) {
         CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", uid: " + uid);
+        if (!IS_TAG) {
+            return;
+        }
         USER_ID = uid;
         //HashMap<String, Object> map = new HashMap<>();
         //map.put("uid", uid);
-        tagAppsFlyer(ctx, event, getMap("uid", uid));
-
+        //tagAppsFlyer(ctx, event, getMap("uid", uid));
         MixpanelAPI.getInstance(ctx, MIXPANEL_TOKEN, true).identify(uid);
-
-        tagMixpanel(ctx, event, "uid", uid);
+        //tagMixpanel(ctx, event, "uid", uid);
+        tagEvent(ctx, event, "uid", uid);
     }
 
     /**
@@ -165,7 +180,7 @@ public class TagUtils {
         if (date != curDate) {
             CfLog.d("event: tagDaily, " + curDate);
             ctx.getSharedPreferences("myPrefs", Context.MODE_PRIVATE).edit().putInt("lastTagDate", curDate).commit();
-            Analytics.trackEvent("tagDaily"); // AppCenter MS
+            tagAppCenter("tagDaily"); // AppCenter MS
             tagAppsFlyer(ctx, "tagDaily", null);
             tagMixpanel(ctx, "tagDaily", null);
         }
@@ -196,6 +211,20 @@ public class TagUtils {
         MixpanelAPI.getInstance(ctx, MIXPANEL_TOKEN, true).track(event, props);
     }
 
+    private static void tagAppCenter(String event) {
+        if (!IS_TAG || isFrequent(event)) {
+            return;
+        }
+        Analytics.trackEvent(event); // AppCenter MS
+    }
+
+    private static void tagAppCenter(String event, Map<String, String> map) {
+        if (!IS_TAG || isFrequent(event)) {
+            return;
+        }
+        Analytics.trackEvent(event, map); // AppCenter MS
+    }
+
     /**
      * 某个事件 是否频繁 (true-频繁,可以return掉,防止某个事件短时间内重复多次)
      *
@@ -212,7 +241,7 @@ public class TagUtils {
         return false;
     }
 
-    private static HashMap getMap(String key, Object value) {
+    private static HashMap getMap(String key, String value) {
         HashMap<String, Object> map = new HashMap<>();
         if (!TextUtils.isEmpty(key)) {
             map.put(key, value);
