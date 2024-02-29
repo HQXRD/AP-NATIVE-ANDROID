@@ -2,6 +2,7 @@ package com.xtree.bet.bean.ui;
 
 import android.annotation.SuppressLint;
 import android.os.Parcel;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -52,6 +53,9 @@ public class LeaguePm implements League{
     @Override
     public String getIcon() {
         String domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);
+        if(TextUtils.isEmpty(leagueInfo.picUrlthumb)){
+            return "";
+        }
         if(domain.endsWith("/") && leagueInfo.picUrlthumb.startsWith("/")){
             return domain.substring(domain.indexOf("/")) + leagueInfo.picUrlthumb;
         } else if (!domain.endsWith("/") && !leagueInfo.picUrlthumb.startsWith("/")) {
