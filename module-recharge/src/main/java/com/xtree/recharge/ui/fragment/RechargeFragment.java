@@ -16,9 +16,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
@@ -27,6 +24,7 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.ListDialog;
@@ -333,6 +331,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         if (vo.op_thiriframe_use && !vo.phone_needbind) {
             CfLog.d(vo.title + ", jump: " + vo.op_thiriframe_url);
+            TagUtils.tagEvent(getContext(), "rc", vo.bid); // 打点
             binding.llDown.setVisibility(View.GONE); // 下面的部分隐藏
             if (!TextUtils.isEmpty(vo.op_thiriframe_url)) {
                 String url = DomainUtil.getDomain2() + vo.op_thiriframe_url;
@@ -536,6 +535,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             ToastUtils.showLong(txt);
             return;
         }
+        TagUtils.tagEvent(getContext(), "rc", curRechargeVo.bid); // 打点
 
         LoadingDialog.show(getContext()); // Loading
         Map<String, String> map = new HashMap<>();

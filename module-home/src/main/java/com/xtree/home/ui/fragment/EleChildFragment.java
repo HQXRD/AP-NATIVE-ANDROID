@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.home.BR;
 import com.xtree.home.R;
@@ -77,6 +79,7 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 EleItemBinding binding = EleItemBinding.bind(holder.itemView);
                 Ele vo1 = get(position);
+                CfLog.i(vo1.toString());
                 Glide.with(EleChildFragment.this.getContext())
                         .load(DomainUtil.getDomain2() + vo1.getPicture())
                         .placeholder(R.mipmap.me_icon_name)
@@ -87,6 +90,9 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
                     if (ClickUtil.isFastClick()) {
                         return;
                     }
+                    CfLog.i(vo1.toString());
+                    String eventName = gameVo.name.length() > 2 ? gameVo.name.substring(0, 2) : "gm2";
+                    TagUtils.tagEvent(getContext(), eventName, vo1.getId()); // 打点
                     BrowserActivity.start(getContext(), gameVo.name, DomainUtil.getDomain() + gameVo.playURL + vo1.getId());
                 });
             }

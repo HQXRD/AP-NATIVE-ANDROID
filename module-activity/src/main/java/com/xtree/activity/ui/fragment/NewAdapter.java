@@ -13,8 +13,10 @@ import com.xtree.activity.databinding.ItemNewBinding;
 import com.xtree.activity.vo.NewVo;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserDialog;
 
 public class NewAdapter extends CachedAutoRefreshAdapter<NewVo> {
@@ -47,10 +49,11 @@ public class NewAdapter extends CachedAutoRefreshAdapter<NewVo> {
     }
 
     private void getDetail(NewVo vo) {
+        CfLog.i(vo.toString());
         if (ClickUtil.isFastClick()) {
             return;
         }
-
+        TagUtils.tagEvent(ctx, "dc", vo.id);
         String url = DomainUtil.getDomain2() + "/webapp/#" + vo.url;
         new XPopup.Builder(ctx).moveUpToKeyboard(false).asCustom(new BrowserDialog(ctx, vo.title, url, true)).show();
 

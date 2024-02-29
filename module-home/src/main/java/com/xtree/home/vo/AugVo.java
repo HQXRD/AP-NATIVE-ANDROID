@@ -12,6 +12,23 @@ public class AugVo {
     private String flash_url;
     private String one_level;
 
+    @Override
+    public String toString() {
+        // AugVo{id='979', cid='7', code='675', project_code='ZhaoCaiJinBaoBT', cn_name='招財進寶',
+        // pt_name='Zhao Cai Jin Bao ITP AUG', effective_ratio='100.0', flash_url='/', one_level='老虎机'}
+        return "AugVo{" +
+                "id='" + id + '\'' +
+                ", cid='" + cid + '\'' +
+                ", code='" + code + '\'' +
+                ", project_code='" + project_code + '\'' +
+                ", cn_name='" + cn_name + '\'' +
+                ", pt_name='" + pt_name + '\'' +
+                ", effective_ratio='" + effective_ratio + '\'' +
+                ", flash_url='" + flash_url + '\'' +
+                ", one_level='" + one_level + '\'' +
+                '}';
+    }
+
     public String getId() {
         return id;
     }
