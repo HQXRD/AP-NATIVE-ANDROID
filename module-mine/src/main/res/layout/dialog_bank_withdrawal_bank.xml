@@ -198,7 +198,7 @@
         android:layout_marginBottom="0dp"
         android:background="@color/clr_white"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <include
             android:id="@+id/bank_withdrawal_view"
@@ -217,7 +217,7 @@
         android:layout_marginBottom="0dp"
         android:background="@color/clr_white"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
         <!--大额提款View-->
         <LinearLayout
             android:id="@+id/ll_bank_withdrawal_view_more"
@@ -509,30 +509,26 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
         android:background="@color/white"
-        android:visibility="gone">
+        android:fillViewport="true"
+        android:visibility="gone"
+        tools:visibility="visible">
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/ll_h5_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white">
 
-            <LinearLayout
-                android:id="@+id/ll_h5_view"
+            <com.xtree.mine.ui.fragment.ScrollWebView
+                android:id="@+id/wv_h5_view"
                 android:layout_width="match_parent"
-                android:layout_height="1000dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:background="@color/white"
-                android:padding="8dp">
+                android:layout_height="match_parent" />
 
-                <WebView
-                    android:id="@+id/wv_h5_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-            </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
     <!--错误提示-->
@@ -610,7 +606,9 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"></RelativeLayout>
+                android:layout_height="match_parent">
+
+            </RelativeLayout>
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

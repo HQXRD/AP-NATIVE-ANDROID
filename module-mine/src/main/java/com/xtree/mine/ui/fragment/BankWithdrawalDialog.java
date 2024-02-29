@@ -370,7 +370,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 url = DomainUtil.getDomain2() + url;
             }
             binding.wvH5View.loadUrl(url, getHeader());
-            setWebView( binding.wvH5View);
+            // setWebView( binding.wvH5View);
             binding.wvH5View.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -868,6 +868,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
+        settings.setSupportZoom(true);
+
         //settings.setAppCacheEnabled(true);
         settings.setUseWideViewPort(true);
         //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
