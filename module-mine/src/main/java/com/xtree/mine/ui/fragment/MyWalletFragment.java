@@ -231,9 +231,6 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
         if (!mProfileVo.is_binding_phone && !mProfileVo.is_binding_email) {
             CfLog.i("未绑定手机/邮箱");
             toBindPhoneNumber();
-        } else if (!mProfileVo.is_binding_card) {
-            CfLog.i("未绑定银行卡");
-            toBindCard();
         } else {
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
         }
