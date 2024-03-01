@@ -60,6 +60,7 @@ public abstract class BaseDialogFragment<V extends ViewDataBinding, VM extends B
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        getDialog().getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         binding = DataBindingUtil.inflate(inflater, initContentView(inflater, container, savedInstanceState), container, false);
         return binding.getRoot();
     }
