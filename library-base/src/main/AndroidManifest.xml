@@ -33,7 +33,8 @@
         <activity
             android:name=".widget.BrowserActivity"
             android:exported="false"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
         <!--APP更新对应文件-->
         <provider
             android:name="androidx.core.content.FileProvider"
