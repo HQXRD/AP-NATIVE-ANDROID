@@ -16,82 +16,80 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.youth.banner.Banner
+            android:id="@+id/bnr_top"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            app:banner_auto_loop="true"
+            app:banner_indicator_normal_color="@color/white"
+            app:banner_indicator_selected_color="@color/clr_hm_purple_03"
+            app:banner_infinite_loop="true"
+            app:banner_loop_time="2500"
+            app:banner_orientation="horizontal">
 
-            <com.youth.banner.Banner
-                android:id="@+id/bnr_top"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:banner_auto_loop="true"
-                app:banner_indicator_normal_color="@color/white"
-                app:banner_indicator_selected_color="@color/clr_hm_purple_03"
-                app:banner_infinite_loop="true"
-                app:banner_loop_time="2500"
-                app:banner_orientation="horizontal"
-                app:layout_constraintDimensionRatio="100:48"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/hm_bnr_01"
+                android:visibility="invisible"
+                tools:visibility="visible" />
 
-                <ImageView
-                    android:id="@+id/ivw_cs"
-                    style="@style/style_ic_title_right"
-                    android:layout_gravity="end|top"
-                    android:layout_marginTop="36dp"
-                    android:layout_marginEnd="16dp"
-                    android:src="@mipmap/cm_ic_cs" />
+            <ImageView
+                android:id="@+id/ivw_cs"
+                style="@style/style_ic_title_right"
+                android:layout_gravity="end|top"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="16dp"
+                android:src="@mipmap/cm_ic_cs" />
 
-                <ImageView
-                    android:id="@+id/ivw_notice"
+            <ImageView
+                android:id="@+id/ivw_notice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|bottom"
+                android:layout_marginStart="4dp"
+                android:src="@mipmap/hm_btn_notice"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/ll_notice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|bottom"
+                android:layout_marginEnd="@dimen/page_margin"
+                android:background="@mipmap/hm_bg_msg"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <com.xtree.base.widget.MarqueeTextView
+                    android:id="@+id/tvw_notice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|bottom"
-                    android:layout_marginStart="4dp"
-                    android:src="@mipmap/hm_btn_notice"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="1"
+                    android:drawableStart="@mipmap/hm_notice"
+                    android:drawablePadding="6dp"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:singleLine="true"
+                    android:text=""
+                    android:textColor="@color/clr_hm_txt_grey_03"
+                    tools:text="Demo" />
 
-                <LinearLayout
-                    android:id="@+id/ll_notice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|bottom"
-                    android:layout_marginEnd="@dimen/page_margin"
-                    android:background="@mipmap/hm_bg_msg"
-                    android:gravity="center_vertical"
-                    android:visibility="gone"
-                    tools:visibility="visible">
-
-                    <com.xtree.base.widget.MarqueeTextView
-                        android:id="@+id/tvw_notice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_weight="1"
-                        android:drawableStart="@mipmap/hm_notice"
-                        android:drawablePadding="6dp"
-                        android:ellipsize="marquee"
-                        android:focusable="true"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:singleLine="true"
-                        android:text=""
-                        android:textColor="@color/clr_hm_txt_grey_03"
-                        tools:text="Demo" />
-
-                    <ImageView
-                        android:id="@+id/ivw_close"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="24dp"
-                        android:layout_marginEnd="12dp"
-                        android:drawablePadding="6dp"
-                        android:padding="4dp"
-                        android:src="@mipmap/hm_close" />
-                </LinearLayout>
-            </com.youth.banner.Banner>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <ImageView
+                    android:id="@+id/ivw_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="12dp"
+                    android:drawablePadding="6dp"
+                    android:padding="4dp"
+                    android:src="@mipmap/hm_close" />
+            </LinearLayout>
+        </com.youth.banner.Banner>
 
         <LinearLayout
             android:id="@+id/ll_menu"
@@ -166,11 +164,12 @@
 
             <TextView
                 android:id="@+id/tvw_debug"
-                android:layout_width="20dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginStart="0dp"
+                android:layout_weight="1"
                 android:background="@color/clr_transparent"
-                android:text="" />
+                android:text=" " />
 
             <TextView
                 android:id="@+id/tvw_deposit"
