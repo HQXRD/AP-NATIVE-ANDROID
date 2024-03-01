@@ -42,7 +42,7 @@ public class SplashViewModel extends BaseViewModel<MainRepository> {
 
                     @Override
                     public void onError(Throwable t) {
-
+                        CfLog.e(t.toString());
                     }
                 });
         addSubscribe(disposable);
@@ -61,7 +61,7 @@ public class SplashViewModel extends BaseViewModel<MainRepository> {
 
                     @Override
                     public void onError(Throwable t) {
-                        //super.onError(t);
+                        CfLog.e(t.toString());
                     }
                 });
         addSubscribe(disposable);
@@ -83,7 +83,8 @@ public class SplashViewModel extends BaseViewModel<MainRepository> {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        CfLog.e(t.toString());
+                        inMainData.setValue(null);
                     }
                 });
         addSubscribe(disposable);
