@@ -64,7 +64,7 @@ public class TagUtils {
         return IS_TAG;
     }
 
-    public static void initMixpanel(Context ctx) {
+    private static void initMixpanel(Context ctx) {
         String channelName = CHANNEL_NAME; // 渠道号
         JSONObject props = new JSONObject();
         try {
@@ -74,7 +74,7 @@ public class TagUtils {
         initMixpanel(ctx, props);
     }
 
-    public static void initAppCenter(Context ctx) {
+    private static void initAppCenter(Context ctx) {
         AppCenter.start((Application) ctx.getApplicationContext(), MS_SECRET_KEY, Analytics.class, Crashes.class);
         AppCenter.setLogLevel(Log.VERBOSE);
     }
@@ -99,11 +99,9 @@ public class TagUtils {
     }
 
     public static void logEvent(Context ctx, String event) {
-        CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event);
-        tagAppsFlyer(ctx, event, getMap(null, null));
-        tagMixpanel(ctx, event, null);
-        tagAppCenter(event);
+        tagEvent(ctx, event);
     }
+
     public static void tagEvent(Context ctx, String event) {
         CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event);
         tagAppsFlyer(ctx, event, getMap(null, null));
@@ -111,18 +109,13 @@ public class TagUtils {
         tagAppCenter(event);
     }
 
-    public static void logEvent(Context ctx, String event, Object value) {
-        CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", value: " + value);
-        tagEvent(ctx, event, event, String.valueOf(value));
-    }
     public static void tagEvent(Context ctx, String event, Object value) {
-        CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", value: " + value);
         tagEvent(ctx, event, event, String.valueOf(value));
     }
 
     public static void tagEvent(Context ctx, String event, String key, String value) {
         CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", key: " + key + ", value: " + value);
-        if (!IS_TAG) {
+        if (!IS_TAG || isFrequent(event)) {
             return;
         }
         tagAppsFlyer(ctx, event, getMap(key, value));
@@ -132,7 +125,7 @@ public class TagUtils {
 
     public static void tagEvent(Context ctx, String event, HashMap<String, Object> map) {
         CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", map: " + new Gson().toJson(map));
-        if (!IS_TAG) {
+        if (!IS_TAG || isFrequent(event)) {
             return;
         }
         if (!map.containsKey("uid")) {
@@ -152,7 +145,7 @@ public class TagUtils {
      */
     public static void loginEvent(Context ctx, String event, String uid) {
         CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", uid: " + uid);
-        if (!IS_TAG) {
+        if (!IS_TAG || isFrequent(event)) {
             return;
         }
         USER_ID = uid;
