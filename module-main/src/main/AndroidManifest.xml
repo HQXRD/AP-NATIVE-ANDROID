@@ -15,6 +15,7 @@
         <!--在自己组件中注册Activity-->
         <activity android:name="com.xtree.main.ui.MainActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop"
+            android:exported="true"></activity>
     </application>
 </manifest>
