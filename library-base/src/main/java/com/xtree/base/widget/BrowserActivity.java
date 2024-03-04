@@ -33,15 +33,21 @@ import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
+import com.lxj.xpopup.XPopup;
 import com.xtree.base.R;
+import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.xtree.mvvmhabit.base.ContainerActivity;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class BrowserActivity extends AppCompatActivity {
@@ -54,6 +60,12 @@ public class BrowserActivity extends AppCompatActivity {
     ImageView ivwBack;
     WebView mWebView;
     ImageView ivwLaunch;
+    ImageView ivwCs;
+    ImageView ivwMsg;
+    ImageView ivwRecharge;
+    ImageView ivwJump;
+    View layoutRight;
+
     int sslErrorCount = 0;
 
     boolean isLottery = false;
@@ -77,6 +89,7 @@ public class BrowserActivity extends AppCompatActivity {
             tvwTitle.setText(title);
         }
         if (isContainTitle) {
+            layoutRight.setVisibility(View.GONE);
             vTitle.setVisibility(View.GONE);
         }
 
@@ -111,6 +124,7 @@ public class BrowserActivity extends AppCompatActivity {
         } else {
             mWebView.loadUrl(url, header);
         }
+        initRight();
 
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_loading);
         animation.setRepeatMode(Animation.RESTART);
@@ -123,6 +137,11 @@ public class BrowserActivity extends AppCompatActivity {
         ivwBack = findViewById(R.id.ivw_back);
         mWebView = findViewById(R.id.wv_main);
         ivwLaunch = findViewById(R.id.ivw_launch);
+        ivwCs = findViewById(R.id.ivw_cs);
+        ivwMsg = findViewById(R.id.ivw_msg);
+        ivwRecharge = findViewById(R.id.ivw_recharge);
+        ivwJump = findViewById(R.id.ivw_jump);
+        layoutRight = findViewById(R.id.layout_right);
 
         ivwBack.setOnClickListener(v -> finish());
 
@@ -217,6 +236,43 @@ public class BrowserActivity extends AppCompatActivity {
 
         });
 
+    }
+
+    private void initRight() {
+        ivwCs.setOnClickListener(v -> {
+            // 客服
+            String title = getString(R.string.txt_custom_center);
+            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
+            new XPopup.Builder(this).moveUpToKeyboard(false).asCustom(new BrowserDialog(this, title, url)).show();
+        });
+        ivwMsg.setOnClickListener(v -> {
+            // 消息
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG, null);
+        });
+        ivwRecharge.setOnClickListener(v -> {
+            // 充值
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("isShowBack", true);
+            startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
+        });
+        ivwJump.setOnClickListener(v -> {
+            // 跳至外部浏览器
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            try {
+                startActivity(intent);
+            } catch (Exception e) {
+                KLog.w("jump", "链接错误或无浏览器");
+            }
+        });
+    }
+
+    public void startContainerFragment(String path, Bundle bundle) {
+        Intent intent = new Intent(this, ContainerActivity.class);
+        intent.putExtra(ContainerActivity.ROUTER_PATH, path);
+        if (bundle != null) {
+            intent.putExtra(ContainerActivity.BUNDLE, bundle);
+        }
+        startActivity(intent);
     }
 
     private void hideLoading() {
