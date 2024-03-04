@@ -60,12 +60,11 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -73,23 +72,37 @@
             <ImageView
                 android:id="@+id/ivw_cs"
                 style="@style/style_ic_title_right"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintEnd_toStartOf="@+id/ivw_msg"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:src="@mipmap/cm_ic_cs" />
 
             <ImageView
                 android:id="@+id/ivw_msg"
                 style="@style/style_ic_title_right"
+                app:layout_constraintEnd_toStartOf="@+id/ivw_recharge"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:src="@mipmap/cm_ic_msg" />
 
             <ImageView
                 android:id="@+id/ivw_recharge"
                 style="@style/style_ic_title_right"
+                app:layout_constraintEnd_toStartOf="@+id/ivw_jump"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:src="@mipmap/cm_ic_recharge" />
+
             <ImageView
                 android:id="@+id/ivw_jump"
                 style="@style/style_ic_title_right"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:src="@mipmap/cm_ic_jump" />
 
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
