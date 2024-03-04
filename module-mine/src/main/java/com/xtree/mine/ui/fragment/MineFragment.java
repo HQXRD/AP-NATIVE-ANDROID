@@ -184,11 +184,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
         //VIP中心
         binding.tvwVipZhongxin.setOnClickListener(v -> {
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
+//            startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
+            BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true);
         });
         //VIP中心
         binding.ivwLevel.setOnClickListener(v -> {
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
+//            startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
+            BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true);
         });
         binding.tvwFanhuiBaobiao.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_REPORT); // 返水报表
