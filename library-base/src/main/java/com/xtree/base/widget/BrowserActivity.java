@@ -54,6 +54,7 @@ public class BrowserActivity extends AppCompatActivity {
     public static final String ARG_TITLE = "title";
     public static final String ARG_URL = "url";
     public static final String ARG_IS_CONTAIN_TITLE = "isContainTitle";
+    public static final String ARG_IS_GAME = "isGame";
 
     View vTitle;
     TextView tvwTitle;
@@ -89,9 +90,9 @@ public class BrowserActivity extends AppCompatActivity {
             tvwTitle.setText(title);
         }
         if (isContainTitle) {
-            layoutRight.setVisibility(View.GONE);
             vTitle.setVisibility(View.GONE);
         }
+
 
         String cookie = "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN)
                 + ";" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME)
@@ -124,7 +125,11 @@ public class BrowserActivity extends AppCompatActivity {
         } else {
             mWebView.loadUrl(url, header);
         }
-        initRight();
+        boolean isGame = getIntent().getBooleanExtra(ARG_IS_GAME, false);
+        if(isGame){
+            layoutRight.setVisibility(View.VISIBLE);
+            initRight();
+        }
 
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_loading);
         animation.setRepeatMode(Animation.RESTART);
@@ -474,6 +479,16 @@ public class BrowserActivity extends AppCompatActivity {
         it.putExtra(BrowserActivity.ARG_TITLE, title);
         it.putExtra(BrowserActivity.ARG_URL, url);
         it.putExtra(BrowserActivity.ARG_IS_CONTAIN_TITLE, false);
+        ctx.startActivity(it);
+    }
+
+    public static void start(Context ctx, String title, String url, boolean isContainTitle, boolean isGame) {
+        CfLog.i(title + ", isContainTitle: " + false + ", url: " + url);
+        Intent it = new Intent(ctx, BrowserActivity.class);
+        it.putExtra(BrowserActivity.ARG_TITLE, title);
+        it.putExtra(BrowserActivity.ARG_URL, url);
+        it.putExtra(BrowserActivity.ARG_IS_CONTAIN_TITLE, isContainTitle);
+        it.putExtra(BrowserActivity.ARG_IS_GAME, isGame);
         ctx.startActivity(it);
     }
 
