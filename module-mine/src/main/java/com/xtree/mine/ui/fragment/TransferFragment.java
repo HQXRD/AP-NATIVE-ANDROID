@@ -65,7 +65,6 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     ArrayList<GameBalanceVo> listGameBalance = new ArrayList<>();
     BalanceVo mBalanceVo = new BalanceVo("0"); // 中心钱包
     BasePopupView ppw = null; // 底部弹窗
-    BasePopupView loading = null;
     TransferBalanceAdapter mTransferBalanceAdapter;
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
@@ -77,9 +76,6 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
                     setGameBalanceNoZero();
                     break;
                 case MSG_GAME_BALANCE:
-                    if (loading == null || !loading.isShow()) {
-                        showLoading();
-                    }
                     for (GameMenusVo vo : transGameList) {
                         viewModel.getGameBalance(vo.key);
                     }
@@ -165,15 +161,19 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         });
 
         binding.tvwFrom.setOnClickListener(v -> {
-            String title = getString(R.string.txt_choose_trans_out);
-            String alias = v.getTag() + "";
-            showDialogChoose(title, alias, (TextView) v);
+            if (transGameBalanceWithOwnList.size() > transGameList.size()) {
+                String title = getString(R.string.txt_choose_trans_out);
+                String alias = v.getTag() + "";
+                showDialogChoose(title, alias, (TextView) v);
+            }
         });
 
         binding.tvwTo.setOnClickListener(v -> {
-            String title = getString(R.string.txt_choose_trans_in);
-            String alias = v.getTag() + "";
-            showDialogChoose(title, alias, (TextView) v);
+            if (transGameBalanceWithOwnList.size() > transGameList.size()) {
+                String title = getString(R.string.txt_choose_trans_in);
+                String alias = v.getTag() + "";
+                showDialogChoose(title, alias, (TextView) v);
+            }
         });
 
         binding.ivwSwitch.setOnClickListener(v -> {
@@ -203,6 +203,7 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     }
 
     private void doTransfer() {
+        LoadingDialog.show(getActivity());
         String from = binding.tvwFrom.getTag().toString();
         String to = binding.tvwTo.getTag().toString();
         String money = binding.edtAmount.getText().toString();
@@ -216,7 +217,6 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
             return;
         }
 
-        showLoading();
         HashMap map = new HashMap();
         map.put("from", from);
         map.put("to", to);
@@ -239,7 +239,6 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
             public void onClickRight() {
                 viewModel.do1kAutoRecycle();
                 ppw.dismiss();
-                showLoading();
             }
         }));
         ppw.show();
@@ -345,7 +344,6 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
                 mTransferBalanceAdapter = new TransferBalanceAdapter(getContext());
                 binding.rcvAllGameBalance.setAdapter(mTransferBalanceAdapter);
                 mTransferBalanceAdapter.setData(transGameBalanceList);
-                loading.dismiss();
             }
 
             // 这里是要处理转账前,如果勾选了'隐藏无余额场馆'这种情况
@@ -413,7 +411,6 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
                 refreshBalance();
             } else {
                 ToastUtils.showLong(R.string.txt_recycle_fail);
-                loading.dismiss();
             }
         });
 
@@ -469,10 +466,5 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         Collections.sort(hasMoneyGame);
         filterNoMoney = !filterNoMoney;
         mHandler.sendEmptyMessage(MSG_UPDATE_RCV);
-    }
-
-    private void showLoading() {
-        loading = new XPopup.Builder(getContext()).asCustom(new LoadingDialog(getContext()));
-        loading.show();
     }
 }
