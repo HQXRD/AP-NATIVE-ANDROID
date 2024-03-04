@@ -307,7 +307,7 @@
     <string name="txt_vip_back_need_three_month">保级流水3个月</string>
     <string name="txt_withdrawal_type">提款类型：</string>
     <string name="txt_withdrawal_enm">提款方式：</string>
-    <string name="txt_withdrawal_method">提款金额：</string>
+    <string name="txt_withdrawal_method">可提款金额：</string>
     <string name="txt_withdrawal_method_tip">提款金额</string>
     <string name="txt_confirm_withdrawal_amount">可提款金额：</string>
     <string name="txt_virtual_type">虚拟币类型：</string>
