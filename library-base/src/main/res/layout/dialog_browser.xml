@@ -11,7 +11,7 @@
     <View
         android:id="@+id/v_title"
         android:layout_width="match_parent"
-        android:layout_height="38dp"
+        android:layout_height="48dp"
         android:background="@color/clr_transparent"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,7 +21,7 @@
     <LinearLayout
         android:id="@+id/ll_margin"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="0dp"
         android:layout_marginTop="0dp"
         android:background="@color/clr_transparent"
         android:orientation="horizontal"
@@ -34,7 +34,7 @@
         android:id="@+id/wv_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ll_margin" />
 
@@ -42,8 +42,8 @@
         android:id="@+id/cl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_dialog_top_purple"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/bg_dialog_top_white"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/clr_white"
+            android:textColor="@color/clr_black"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="close"
             android:padding="4dp"
-            android:src="@mipmap/ic_pop_close"
+            android:src="@mipmap/ic_choose_pop_close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
