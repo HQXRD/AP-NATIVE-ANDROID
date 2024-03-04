@@ -2,6 +2,7 @@ package com.xtree.mine.ui.fragment;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -32,6 +33,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
@@ -105,7 +107,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     @Override
     protected int getMaxHeight() {
         //return super.getMaxHeight();
-        return (XPopupUtils.getScreenHeight(getContext()) * 80 / 100);
+        return (XPopupUtils.getScreenHeight(getContext()) * 90 / 100);
     }
 
     @Override
@@ -159,14 +161,14 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         //提交订单 下一步
         binding.bankWithdrawalView.tvActualWithdrawalNext.setOnClickListener(v -> {
 
-            String inputString = binding.bankWithdrawalView.tvActualWithdrawalAmountShow.getText().toString();
-            String bankInfo = binding.bankWithdrawalView.tvActualWithdrawalAmountBankShow.getText().toString();
+            String inputString = binding.bankWithdrawalView.tvActualWithdrawalAmountShow.getText().toString().trim();
+
             String typeNumber = selectChanneVo.typenum;
             if (TextUtils.isEmpty(inputString)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
-            } else if (Integer.valueOf(inputString) > Integer.valueOf(channeBankVo.max_money)) {
+            }  else if (Double.valueOf(inputString) > Double.valueOf(channeBankVo.max_money)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
-            } else if (Integer.valueOf(inputString) < Integer.valueOf(channeBankVo.min_money)) {
+            } else if (Double.valueOf(inputString) < Double.valueOf(channeBankVo.min_money)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
             } else {
                 hideKeyBoard();
@@ -364,18 +366,31 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
             binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
             binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
-            binding.wvH5View.setBackground(getContext().getDrawable(R.color.red));
+            binding.nsH5View.setBackground(getContext().getDrawable(R.color.red));
+
             String url = bankCardCashVo.channel_list.get(0).thiriframe_url;
             if (!StringUtils.isStartHttp(url)) {
                 url = DomainUtil.getDomain2() + url;
             }
-            binding.wvH5View.loadUrl(url, getHeader());
-            // setWebView( binding.wvH5View);
-            binding.wvH5View.setWebViewClient(new WebViewClient() {
+            binding.nsH5View.scrollWebViewLoadUrl(url, getHeader());
+
+            binding.nsH5View.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                   // LoadingDialog.show(getContext());
                     view.loadUrl(url);
                     return true;
+                }
+
+                @Override
+                public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    LoadingDialog.show(getContext());
+                }
+
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    super.onPageFinished(view, url);
+                    LoadingDialog.finish();
                 }
             });
         }
@@ -500,11 +515,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         if (channelVo.fixamountList.size() > 0) {
             CfLog.i("刷新 多金额选择区域 size = " + channelVo.fixamountList.size());
             if (adapter == null) {
-                CfLog.i("adapter  == null 刷新 多金额选择区域 size = " + channelVo.fixamountList.size());
-
                 adapter = new GridViewViewAdapter(context, (ArrayList<String>) channelVo.fixamountList, this);
-            } else {
-                CfLog.i("adapter  != null 刷新 多金额选择区域 size = " + channelVo.fixamountList.size());
             }
             binding.gvSelectAmountMore.setAdapter(adapter);
         } else {
@@ -618,13 +629,25 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 if (!StringUtils.isStartHttp(url)) {
                     url = DomainUtil.getDomain2() + url;
                 }
-                binding.wvH5View.loadUrl(url, getHeader());
-                binding.wvH5View.setWebViewClient(new WebViewClient() {
+                binding.nsH5View.loadUrl(url, getHeader());
+                binding.nsH5View.setWebViewClient(new WebViewClient() {
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
                         view.loadUrl(url);
                         return true;
                     }
+
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                        LoadingDialog.show(getContext());
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        LoadingDialog.finish();
+                    }
+
                 });
             } else if (selectVO.fixamount_list_status == 0) {
                 selectType = 1;//选中单独金额选项View
