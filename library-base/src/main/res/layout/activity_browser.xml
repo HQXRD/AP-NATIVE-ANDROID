@@ -40,10 +40,14 @@
 
         <TextView
             android:id="@+id/tvw_title"
-            style="@style/style_cm_title"
-            app:layout_constraintBaseline_toBaselineOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="17sp"
+            android:textColor="@color/clr_txt_black_01"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="标题" />
 
         <ImageView
@@ -56,6 +60,35 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
 
+        <LinearLayout
+            android:id="@+id/layout_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/ivw_cs"
+                style="@style/style_ic_title_right"
+                android:src="@mipmap/cm_ic_cs" />
+
+            <ImageView
+                android:id="@+id/ivw_msg"
+                style="@style/style_ic_title_right"
+                android:src="@mipmap/cm_ic_msg" />
+
+            <ImageView
+                android:id="@+id/ivw_recharge"
+                style="@style/style_ic_title_right"
+                android:src="@mipmap/cm_ic_recharge" />
+            <ImageView
+                android:id="@+id/ivw_jump"
+                style="@style/style_ic_title_right"
+                android:src="@mipmap/cm_ic_jump" />
+
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
