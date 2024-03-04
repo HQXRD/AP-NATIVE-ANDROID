@@ -342,6 +342,7 @@
                                 android:focusable="false"
                                 android:hint="@string/txt_input_money"
                                 android:imeOptions="actionDone"
+                                android:maxLength="16"
                                 android:inputType="numberDecimal"
                                 android:numeric="integer" />
                         </RelativeLayout>
@@ -503,34 +504,11 @@
 
     </androidx.core.widget.NestedScrollView>
     <!--h5view-->
-    <androidx.core.widget.NestedScrollView
+    <com.xtree.mine.ui.fragment.ScrollWebView
         android:id="@+id/ns_h5_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="0dp"
-        android:background="@color/white"
-        android:fillViewport="true"
-        android:visibility="gone"
-        tools:visibility="visible">
-
-        <LinearLayout
-            android:id="@+id/ll_h5_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:background="@color/white">
-
-            <com.xtree.mine.ui.fragment.ScrollWebView
-                android:id="@+id/wv_h5_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-    </androidx.core.widget.NestedScrollView>
+        android:background="@color/white" />
     <!--错误提示-->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/ns_error_view"

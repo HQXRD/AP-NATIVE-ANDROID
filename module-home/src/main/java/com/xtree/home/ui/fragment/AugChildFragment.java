@@ -100,7 +100,7 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
             String url = Objects.requireNonNull(map.get("url")).toString();
             // 跳转到游戏H5
             CfLog.i("URL: " + url);
-            BrowserActivity.start(getContext(), getString(R.string.txt_venue_aug), url);
+            BrowserActivity.start(getContext(), getString(R.string.txt_venue_aug), url, false, true);
         });
     }
 

@@ -93,7 +93,7 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
                     CfLog.i(vo1.toString());
                     String eventName = gameVo.name.length() > 2 ? gameVo.name.substring(0, 2) : "gm2";
                     TagUtils.tagEvent(getContext(), eventName, vo1.getId()); // 打点
-                    BrowserActivity.start(getContext(), gameVo.name, DomainUtil.getDomain() + gameVo.playURL + vo1.getId());
+                    BrowserActivity.start(getContext(), gameVo.name, DomainUtil.getDomain() + gameVo.playURL + vo1.getId(), false, true);
                 });
             }
 

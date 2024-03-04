@@ -167,6 +167,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         it.putExtra("url", playUrl);
         it.putExtra("isLottery", isLottery);
         it.putExtra("title", title);
+        it.putExtra(BrowserActivity.ARG_IS_GAME, true);
         ctx.startActivity(it);
     }
 
@@ -175,6 +176,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         Intent it = new Intent(ctx, BrowserActivity.class);
         it.putExtra("url", playUrl);
         it.putExtra("title", title);
+        it.putExtra(BrowserActivity.ARG_IS_GAME, true);
         ctx.startActivity(it);
     }
 
@@ -182,6 +184,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         CfLog.i("URL: " + playUrl);
         Intent it = new Intent(ctx, BrowserActivity.class);
         it.putExtra("url", playUrl);
+        it.putExtra(BrowserActivity.ARG_IS_GAME, true);
         ctx.startActivity(it);
     }
 }
