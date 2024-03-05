@@ -203,7 +203,6 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     }
 
     private void doTransfer() {
-        LoadingDialog.show(getActivity());
         String from = binding.tvwFrom.getTag().toString();
         String to = binding.tvwTo.getTag().toString();
         String money = binding.edtAmount.getText().toString();
@@ -222,6 +221,7 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         map.put("to", to);
         map.put("money", money);
         map.put("nonce", UuidUtil.getID16());
+        LoadingDialog.show(getActivity());
         viewModel.doTransfer(map);
     }
 
