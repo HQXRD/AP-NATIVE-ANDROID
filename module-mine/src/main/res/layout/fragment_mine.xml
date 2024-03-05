@@ -474,7 +474,7 @@
                         <TextView
                             android:id="@+id/tvw_fanhui_baobiao"
                             style="@style/style_menu_black"
-                            android:drawableTop="@mipmap/me_fanhui_baobiao"
+                            android:drawableTop="@mipmap/me_ic_rebate"
                             android:text="@string/me_fanhui_baobiao" />
 
                         <TextView style="@style/style_wallet_space" />
@@ -516,7 +516,7 @@
                         <TextView
                             android:id="@+id/tvw_bangzhu_zhongxin"
                             style="@style/style_menu_black"
-                            android:drawableTop="@mipmap/me_invite_friend"
+                            android:drawableTop="@mipmap/me_ic_help"
                             android:text="@string/me_bangzhu_zhongxin" />
 
                     </LinearLayout>
