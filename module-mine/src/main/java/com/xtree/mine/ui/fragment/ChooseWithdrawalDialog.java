@@ -397,11 +397,14 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     @Override
                     public void onClickLeft() {
                         ppw.dismiss();
+                        callBack.closeDialog();
+
                     }
 
                     @Override
                     public void onClickRight() {
                         ppw.dismiss();
+                        callBack.closeDialog();
                     }
                 }));
         ppw.show();
