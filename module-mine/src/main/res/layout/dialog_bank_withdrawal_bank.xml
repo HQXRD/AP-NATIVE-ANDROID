@@ -503,8 +503,8 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-    <!--h5view-->
-    <com.xtree.mine.ui.fragment.ScrollWebView
+    <!--h5view com.xtree.mine.ui.fragment.ScrollWebView-->
+    <WebView
         android:id="@+id/ns_h5_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

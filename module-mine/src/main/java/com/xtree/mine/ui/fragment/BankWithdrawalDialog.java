@@ -366,14 +366,15 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
             binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
             binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
-            binding.nsH5View.setBackground(getContext().getDrawable(R.color.red));
+            binding.nsH5View.setBackground(getContext().getDrawable(R.color.black));
 
             String url = bankCardCashVo.channel_list.get(0).thiriframe_url;
             if (!StringUtils.isStartHttp(url)) {
                 url = DomainUtil.getDomain2() + url;
             }
-            binding.nsH5View.scrollWebViewLoadUrl(url, getHeader());
-
+            //binding.nsH5View.scrollWebViewLoadUrl(url, getHeader());
+            binding.nsH5View.loadUrl(url,getHeader());
+            initWebView();
             binding.nsH5View.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -415,6 +416,25 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             }
         }
 
+    }
+
+    private void initWebView(){
+        CfLog.e("ScrollWebView ------------------init ");
+        WebSettings settings = binding.nsH5View.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+        settings.setSupportZoom(true);
+
+
+        //settings.setAppCacheEnabled(true);
+        settings.setUseWideViewPort(true);
+        //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+        settings.setLoadWithOverviewMode(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setLoadsImagesAutomatically(true);
+        settings.setSupportZoom(true);
     }
 
     private void refreshTopUI(BankCardCashVo bankCardCashVo) {
@@ -630,6 +650,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                     url = DomainUtil.getDomain2() + url;
                 }
                 binding.nsH5View.loadUrl(url, getHeader());
+                initWebView();
                 binding.nsH5View.setWebViewClient(new WebViewClient() {
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
