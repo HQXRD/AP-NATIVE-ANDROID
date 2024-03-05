@@ -8,540 +8,537 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@mipmap/cm_bg_dark">
-
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/headArea"
             android:layout_width="match_parent"
-            android:layout_height="296dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:background="@mipmap/cm_bg_dark">
 
-            <LinearLayout
-                android:id="@+id/topArea"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/headArea"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginRight="16dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
+                android:layout_height="296dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/icon_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/me_icon_name" />
-
-                <TextView
-                    android:id="@+id/tvw_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/me_user_name_hint"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tvw_vip"
-                    android:layout_width="40dp"
-                    android:layout_height="15dp"
-                    android:layout_marginStart="4dp"
-                    android:background="@drawable/bg_home_vip"
-                    android:gravity="center"
-                    android:text="VIP 0"
-                    android:textColor="@color/clr_yellow"
-                    android:textSize="10sp" />
-
-                <View
-                    android:layout_width="wrap_content"
-                    android:layout_height="16dp"
-                    android:layout_weight="1" />
-
-                <ImageView
-                    android:id="@+id/ivw_setting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:padding="8dp"
-                    android:src="@mipmap/me_icon_setting"
-                    android:visibility="invisible" />
-
-                <ImageView
-                    android:id="@+id/ivw_msg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:src="@mipmap/me_icon_message" />
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/middle_area"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="20dp"
-                android:background="@mipmap/me_bg_top_00"
-                app:layout_constraintLeft_toLeftOf="@+id/topArea"
-                app:layout_constraintRight_toRightOf="@+id/topArea"
-                app:layout_constraintTop_toBottomOf="@+id/topArea">
-
                 <LinearLayout
-                    android:id="@+id/ll_login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:visibility="gone"
-                    tools:visibility="visible">
-
-                    <TextView
-                        android:id="@+id/textView_login"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/visitor_hint"
-                        android:layout_alignRight="@+id/visitor_hint"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:background="@drawable/me_login_btn_bg"
-                        android:paddingLeft="45dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="45dp"
-                        android:paddingBottom="5dp"
-                        android:text="@string/me_login_hint"
-                        android:textSize="@dimen/mine_text_size" />
-
-                    <TextView
-                        android:id="@+id/textView_register"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/textView_login"
-                        android:layout_alignLeft="@+id/visitor_hint"
-                        android:layout_alignRight="@+id/visitor_hint"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/me_login_btn_bg"
-                        android:gravity="center"
-                        android:paddingLeft="45dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="45dp"
-                        android:paddingBottom="5dp"
-                        android:text="@string/me_register_hint"
-                        android:textSize="@dimen/mine_text_size" />
-
-                    <TextView
-                        android:id="@+id/visitor_hint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/textView_register"
-                        android:layout_marginTop="10dp"
-                        android:text="@string/me_visit_hint"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/mine_text_size" />
-
-                </LinearLayout>
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_already_login"
+                    android:id="@+id/topArea"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:visibility="visible">
-
-                    <TextView
-                        android:id="@+id/total_money_hint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/me_money_total"
-                        android:textColor="@color/me_text_color"
-                        android:textSize="@dimen/mine_text_size"
-                        app:layout_constraintBottom_toBottomOf="@+id/tvw_1k_recycle"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/tvw_1k_recycle" />
-
-                    <TextView
-                        android:id="@+id/tvw_1k_recycle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="13dp"
-                        android:background="@drawable/me_login_btn_bg"
-                        android:paddingLeft="15dp"
-                        android:paddingTop="5dp"
-                        android:paddingRight="15dp"
-                        android:paddingBottom="5dp"
-                        android:text="@string/me_get_all_money"
-                        android:textColor="@color/clr_txt_black02"
-                        android:textSize="12sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <CheckBox
-                        android:id="@+id/ckb_eye"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_margin"
-                        android:button="@drawable/ic_eye_gold_selector"
-                        android:checked="true"
-                        android:paddingEnd="@dimen/layout_margin"
-                        app:layout_constraintBottom_toBottomOf="@+id/total_money_hint"
-                        app:layout_constraintLeft_toRightOf="@+id/total_money_hint"
-                        app:layout_constraintTop_toTopOf="@+id/total_money_hint" />
-
-                    <LinearLayout
-                        android:id="@+id/money_area"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        app:layout_constraintLeft_toLeftOf="@+id/total_money_hint"
-                        app:layout_constraintTop_toBottomOf="@+id/total_money_hint">
-
-                        <TextView
-                            android:id="@+id/tvw_balance"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0.00"
-                            android:textColor="@color/me_text_color"
-                            android:textSize="32sp"
-                            android:textStyle="bold"
-                            tools:text="1000,000.00" />
-
-                        <ImageView
-                            android:id="@+id/ivw_refresh_blc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="5dp"
-                            android:padding="6dp"
-                            android:src="@mipmap/me_refresh_icon" />
-
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/level_area"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        app:layout_constraintLeft_toLeftOf="@+id/total_money_hint"
-                        app:layout_constraintTop_toBottomOf="@+id/money_area">
-
-                        <TextView
-                            android:id="@+id/tvw_level_hint"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentTop="true"
-                            android:text="@string/me_level_hint"
-                            android:textColor="@color/me_level_color"
-                            android:textSize="10sp" />
-
-                        <ProgressBar
-                            android:id="@+id/pbr_level"
-                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                            android:layout_width="200dp"
-                            android:layout_height="5dp"
-                            android:layout_below="@+id/tvw_level_hint"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginTop="3dp"
-                            android:background="@drawable/me_level_progressbar_bg"
-                            android:max="100"
-                            android:progress="10"
-                            android:progressDrawable="@drawable/me_level_progressbar" />
-
-                        <ImageView
-                            android:id="@+id/ivw_level"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginLeft="5dp"
-                            android:src="@drawable/me_vip_level" />
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintLeft_toLeftOf="@+id/level_area"
-                        app:layout_constraintTop_toBottomOf="@+id/level_area">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/me_jinji_lijin" />
-
-                        <TextView style="@style/style_wallet_space" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/me_meiyue_hongbao" />
-
-                        <TextView style="@style/style_wallet_space" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/me_shengri_lijin"
-                            android:visibility="gone" />
-
-                        <TextView
-                            style="@style/style_wallet_space"
-                            android:visibility="gone" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/me_zhuanshu_huodong" />
-                    </LinearLayout>
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
-                        android:id="@+id/ivw_vip_10"
-                        android:layout_width="84dp"
-                        android:layout_height="72dp"
-                        android:layout_marginBottom="12dp"
-                        android:background="@color/clr_transparent"
+                        android:id="@+id/icon_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/me_icon_name" />
+
+                    <TextView
+                        android:id="@+id/tvw_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/me_user_name_hint"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvw_vip"
+                        android:layout_width="40dp"
+                        android:layout_height="15dp"
+                        android:layout_marginStart="4dp"
+                        android:background="@drawable/bg_home_vip"
+                        android:gravity="center"
+                        android:text="VIP 0"
+                        android:textColor="@color/clr_yellow"
+                        android:textSize="10sp" />
+
+                    <View
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:id="@+id/ivw_setting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:padding="8dp"
+                        android:src="@mipmap/me_icon_setting"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:id="@+id/ivw_msg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:src="@mipmap/me_icon_message" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/middle_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@mipmap/me_bg_top_00"
+                    app:layout_constraintLeft_toLeftOf="@+id/topArea"
+                    app:layout_constraintRight_toRightOf="@+id/topArea"
+                    app:layout_constraintTop_toBottomOf="@+id/topArea">
+
+                    <LinearLayout
+                        android:id="@+id/ll_login"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:orientation="vertical"
                         android:visibility="gone"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        tools:visibility="visible" />
+                        tools:visibility="visible">
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </RelativeLayout>
+                        <TextView
+                            android:id="@+id/textView_login"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@+id/visitor_hint"
+                            android:layout_alignRight="@+id/visitor_hint"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/me_login_btn_bg"
+                            android:paddingLeft="45dp"
+                            android:paddingTop="5dp"
+                            android:paddingRight="45dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/me_login_hint"
+                            android:textSize="@dimen/mine_text_size" />
 
-            <LinearLayout
-                android:id="@+id/ll_menu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="@+id/middle_area"
-                app:layout_constraintTop_toBottomOf="@+id/middle_area">
+                        <TextView
+                            android:id="@+id/textView_register"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textView_login"
+                            android:layout_alignLeft="@+id/visitor_hint"
+                            android:layout_alignRight="@+id/visitor_hint"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/me_login_btn_bg"
+                            android:gravity="center"
+                            android:paddingLeft="45dp"
+                            android:paddingTop="5dp"
+                            android:paddingRight="45dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/me_register_hint"
+                            android:textSize="@dimen/mine_text_size" />
 
-                <TextView
-                    android:id="@+id/tvw_wallet"
-                    style="@style/style_menu_white"
-                    android:drawableTop="@mipmap/me_my_pocket"
-                    android:text="@string/me_my_pocket" />
+                        <TextView
+                            android:id="@+id/visitor_hint"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textView_register"
+                            android:layout_marginTop="10dp"
+                            android:text="@string/me_visit_hint"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/mine_text_size" />
 
-                <TextView style="@style/style_wallet_space" />
+                    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tvw_trans"
-                    style="@style/style_menu_white"
-                    android:drawableTop="@mipmap/me_transfer"
-                    android:text="@string/me_transfer" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/cl_already_login"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:visibility="visible">
 
-                <TextView style="@style/style_wallet_space" />
+                        <TextView
+                            android:id="@+id/total_money_hint"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/me_money_total"
+                            android:textColor="@color/me_text_color"
+                            android:textSize="@dimen/mine_text_size"
+                            app:layout_constraintBottom_toBottomOf="@+id/tvw_1k_recycle"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/tvw_1k_recycle" />
 
-                <TextView
-                    android:id="@+id/tvw_bet"
-                    style="@style/style_menu_white"
-                    android:drawableTop="@mipmap/me_betting_record"
-                    android:text="@string/me_betting_record" />
+                        <TextView
+                            android:id="@+id/tvw_1k_recycle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="13dp"
+                            android:background="@drawable/me_login_btn_bg"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="5dp"
+                            android:paddingRight="15dp"
+                            android:paddingBottom="5dp"
+                            android:text="@string/me_get_all_money"
+                            android:textColor="@color/clr_txt_black02"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView style="@style/style_wallet_space" />
+                        <CheckBox
+                            android:id="@+id/ckb_eye"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/layout_margin"
+                            android:button="@drawable/ic_eye_gold_selector"
+                            android:checked="true"
+                            android:paddingEnd="@dimen/layout_margin"
+                            app:layout_constraintBottom_toBottomOf="@+id/total_money_hint"
+                            app:layout_constraintLeft_toRightOf="@+id/total_money_hint"
+                            app:layout_constraintTop_toTopOf="@+id/total_money_hint" />
 
-                <TextView
-                    android:id="@+id/tvw_trans_record"
-                    style="@style/style_menu_white"
-                    android:drawableTop="@mipmap/me_account_record"
-                    android:text="@string/me_account_record" />
+                        <LinearLayout
+                            android:id="@+id/money_area"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            app:layout_constraintLeft_toLeftOf="@+id/total_money_hint"
+                            app:layout_constraintTop_toBottomOf="@+id/total_money_hint">
 
-                <TextView style="@style/style_wallet_space" />
+                            <TextView
+                                android:id="@+id/tvw_balance"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0.00"
+                                android:textColor="@color/me_text_color"
+                                android:textSize="32sp"
+                                android:textStyle="bold"
+                                tools:text="1000,000.00" />
 
-                <TextView
-                    android:id="@+id/tvw_safe"
-                    style="@style/style_menu_white"
-                    android:drawableTop="@mipmap/me_account_safty"
-                    android:text="@string/me_account_safety" />
+                            <ImageView
+                                android:id="@+id/ivw_refresh_blc"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="5dp"
+                                android:padding="6dp"
+                                android:src="@mipmap/me_refresh_icon" />
 
-            </LinearLayout>
+                        </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/level_area"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            app:layout_constraintLeft_toLeftOf="@+id/total_money_hint"
+                            app:layout_constraintTop_toBottomOf="@+id/money_area">
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:src="@mipmap/me_second_bg"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ll_menu2" />
+                            <TextView
+                                android:id="@+id/tvw_level_hint"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/me_level_hint"
+                                android:textColor="@color/me_level_color"
+                                android:textSize="10sp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/ll_menu2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:paddingBottom="20dp"
-            app:layout_constraintEnd_toEndOf="@+id/headArea"
-            app:layout_constraintStart_toStartOf="@+id/headArea"
-            app:layout_constraintTop_toBottomOf="@+id/headArea">
+                            <ProgressBar
+                                android:id="@+id/pbr_level"
+                                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                android:layout_width="0dp"
+                                android:layout_height="5dp"
+                                android:layout_below="@+id/tvw_level_hint"
+                                android:layout_marginTop="3dp"
+                                android:layout_marginEnd="48dp"
+                                android:background="@drawable/me_level_progressbar_bg"
+                                android:max="100"
+                                android:progress="10"
+                                android:progressDrawable="@drawable/me_level_progressbar"
+                                app:layout_constraintEnd_toStartOf="@id/ivw_level"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@id/tvw_level_hint" />
 
-            <TextView
-                android:id="@+id/more_service_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:text="@string/me_more_service"
-                android:textColor="@color/me_more_service_color"
-                android:textSize="15sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                            <ImageView
+                                android:id="@+id/ivw_level"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/me_vip_level"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal"
+                            app:layout_constraintLeft_toLeftOf="@+id/level_area"
+                            app:layout_constraintTop_toBottomOf="@+id/level_area">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/me_jinji_lijin" />
+
+                            <TextView style="@style/style_wallet_space" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/me_meiyue_hongbao" />
+
+                            <TextView style="@style/style_wallet_space" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/me_shengri_lijin"
+                                android:visibility="gone" />
+
+                            <TextView
+                                style="@style/style_wallet_space"
+                                android:visibility="gone" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/me_zhuanshu_huodong" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/ivw_vip_10"
+                            android:layout_width="84dp"
+                            android:layout_height="72dp"
+                            android:layout_marginBottom="12dp"
+                            android:background="@color/clr_transparent"
+                            android:visibility="gone"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:visibility="visible" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="@+id/middle_area"
+                    app:layout_constraintTop_toBottomOf="@+id/middle_area">
+
+                    <TextView
+                        android:id="@+id/tvw_wallet"
+                        style="@style/style_menu_white"
+                        android:drawableTop="@mipmap/me_my_pocket"
+                        android:text="@string/me_my_pocket" />
+
+                    <TextView style="@style/style_wallet_space" />
+
+                    <TextView
+                        android:id="@+id/tvw_trans"
+                        style="@style/style_menu_white"
+                        android:drawableTop="@mipmap/me_transfer"
+                        android:text="@string/me_transfer" />
+
+                    <TextView style="@style/style_wallet_space" />
+
+                    <TextView
+                        android:id="@+id/tvw_bet"
+                        style="@style/style_menu_white"
+                        android:drawableTop="@mipmap/me_betting_record"
+                        android:text="@string/me_betting_record" />
+
+                    <TextView style="@style/style_wallet_space" />
+
+                    <TextView
+                        android:id="@+id/tvw_trans_record"
+                        style="@style/style_menu_white"
+                        android:drawableTop="@mipmap/me_account_record"
+                        android:text="@string/me_account_record" />
+
+                    <TextView style="@style/style_wallet_space" />
+
+                    <TextView
+                        android:id="@+id/tvw_safe"
+                        style="@style/style_menu_white"
+                        android:drawableTop="@mipmap/me_account_safty"
+                        android:text="@string/me_account_safety" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="6dp"
-                android:src="@mipmap/me_more_icon"
-                app:layout_constraintLeft_toRightOf="@+id/more_service_hint"
-                app:layout_constraintTop_toBottomOf="@+id/more_service_hint"
-                app:layout_constraintTop_toTopOf="@+id/more_service_hint" />
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/me_second_bg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="@id/ll_menu2" />
 
             <LinearLayout
-                android:id="@+id/more_service_area"
+                android:id="@+id/ll_menu2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginTop="12dp"
                 android:orientation="vertical"
-                app:layout_constraintLeft_toLeftOf="@+id/more_service_hint"
-                app:layout_constraintTop_toBottomOf="@+id/more_service_hint">
+                android:paddingBottom="20dp"
+                app:layout_constraintEnd_toEndOf="@+id/headArea"
+                app:layout_constraintStart_toStartOf="@+id/headArea"
+                app:layout_constraintTop_toBottomOf="@+id/headArea">
+
+                <TextView
+                    android:id="@+id/more_service_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+                    android:drawableEnd="@mipmap/me_more_icon"
+                    android:drawablePadding="8dp"
+                    android:text="@string/me_more_service"
+                    android:textColor="@color/me_more_service_color"
+                    android:textSize="15sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <LinearLayout
-                    android:id="@+id/ll_menu_01"
-                    style="@style/style_ll_row">
+                    android:id="@+id/more_service_area"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical"
+                    app:layout_constraintLeft_toLeftOf="@+id/more_service_hint"
+                    app:layout_constraintTop_toBottomOf="@+id/more_service_hint">
 
-                    <TextView
-                        android:id="@+id/tvw_invite_friend"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_invite_friend"
-                        android:text="@string/me_invite_friend" />
+                    <LinearLayout
+                        android:id="@+id/ll_menu_01"
+                        style="@style/style_ll_row_2">
 
-                    <TextView style="@style/style_wallet_space" />
+                        <TextView
+                            android:id="@+id/tvw_invite_friend"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_invite_friend"
+                            android:text="@string/me_invite_friend" />
 
-                    <TextView
-                        android:id="@+id/tvw_guanfangheyin"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_guanfangheyin"
-                        android:text="@string/me_guanfang_heyin" />
+                        <TextView style="@style/style_wallet_space" />
 
-                    <TextView style="@style/style_wallet_space" />
+                        <TextView
+                            android:id="@+id/tvw_guanfangheyin"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_guanfangheyin"
+                            android:text="@string/me_guanfang_heyin" />
 
-                    <TextView
-                        android:id="@+id/tvw_yinkui_baobiao"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_yinkui_baobiao"
-                        android:text="@string/me_yinkui_baobiao" />
+                        <TextView style="@style/style_wallet_space" />
 
-                    <TextView style="@style/style_wallet_space" />
+                        <TextView
+                            android:id="@+id/tvw_yinkui_baobiao"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_yinkui_baobiao"
+                            android:text="@string/me_yinkui_baobiao" />
 
-                    <TextView
-                        android:id="@+id/tvw_sanfang_zhuanzhang"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_sanfang_zhuanzhang"
-                        android:text="@string/me_sanfang_zhuanzhang" />
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_sanfang_zhuanzhang"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_sanfang_zhuanzhang"
+                            android:text="@string/me_sanfang_zhuanzhang" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_menu_02"
+                        style="@style/style_ll_row_2">
+
+                        <TextView
+                            android:id="@+id/tvw_security_center"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_anquan_zhongxin"
+                            android:text="@string/me_anquan_zhongxin" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_zhanghu_shezhi"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_zhanghu_shezhi"
+                            android:text="@string/me_zhanghu_shezhi" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_fanhui_baobiao"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_fanhui_baobiao"
+                            android:text="@string/me_fanhui_baobiao" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_vip_zhongxin"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_vip_zhongxin"
+                            android:text="@string/me_vip_zhongxin" />
+
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/style_ll_row_2">
+
+                        <TextView
+                            android:id="@+id/tvw_tiyu_guize"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_tiyu_guize"
+                            android:text="@string/me_tiyu_guize" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_changjian_wenti"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_changjian_wenti"
+                            android:text="@string/me_changjian_wenti" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_usdt_jiaocheng"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_usdt_jiaocheng"
+                            android:text="@string/me_usdt_jiaocheng" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_bangzhu_zhongxin"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_invite_friend"
+                            android:text="@string/me_bangzhu_zhongxin" />
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/ll_menu_02"
-                    style="@style/style_ll_row">
-
-                    <TextView
-                        android:id="@+id/tvw_security_center"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_anquan_zhongxin"
-                        android:text="@string/me_anquan_zhongxin" />
-
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView
-                        android:id="@+id/tvw_zhanghu_shezhi"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_zhanghu_shezhi"
-                        android:text="@string/me_zhanghu_shezhi" />
-
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView
-                        android:id="@+id/tvw_fanhui_baobiao"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_fanhui_baobiao"
-                        android:text="@string/me_fanhui_baobiao" />
-
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView
-                        android:id="@+id/tvw_vip_zhongxin"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_vip_zhongxin"
-                        android:text="@string/me_vip_zhongxin" />
-
-                </LinearLayout>
-
-                <LinearLayout style="@style/style_ll_row">
-
-                    <TextView
-                        android:id="@+id/tvw_tiyu_guize"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_tiyu_guize"
-                        android:text="@string/me_tiyu_guize" />
-
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView
-                        android:id="@+id/tvw_changjian_wenti"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_changjian_wenti"
-                        android:text="@string/me_changjian_wenti" />
-
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView
-                        android:id="@+id/tvw_usdt_jiaocheng"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_usdt_jiaocheng"
-                        android:text="@string/me_usdt_jiaocheng" />
-
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView
-                        android:id="@+id/tvw_bangzhu_zhongxin"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_invite_friend"
-                        android:text="@string/me_bangzhu_zhongxin" />
-
-                </LinearLayout>
+                <Button
+                    android:id="@+id/btn_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@mipmap/me_logout_login_bg"
+                    android:text="@string/me_logout_login"
+                    app:layout_constraintLeft_toLeftOf="@+id/more_service_hint"
+                    app:layout_constraintRight_toRightOf="@+id/more_service_area"
+                    app:layout_constraintTop_toBottomOf="@+id/more_service_area" />
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/btn_logout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="20dp"
-                android:background="@mipmap/me_logout_login_bg"
-                android:text="@string/me_logout_login"
-                app:layout_constraintLeft_toLeftOf="@+id/more_service_hint"
-                app:layout_constraintRight_toRightOf="@+id/more_service_area"
-                app:layout_constraintTop_toBottomOf="@+id/more_service_area" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

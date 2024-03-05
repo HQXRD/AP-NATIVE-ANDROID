@@ -290,6 +290,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         });
         viewModel.btResultInfoDate.observe(this, btResults -> {
             BtResultDialogFragment.getInstance(betConfirmOptionList, cgOddLimitList, btResults).show(getParentFragmentManager(), "BtResultDialogFragment");
+            BtCarManager.clearBtCar();
             dismiss();
         });
         viewModel.userBalanceData.observe(this, balance -> {
