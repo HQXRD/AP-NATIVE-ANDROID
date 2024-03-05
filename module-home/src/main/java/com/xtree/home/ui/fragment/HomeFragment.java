@@ -107,7 +107,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.readCache(); // 读取缓存,用户信息可能发生了变更
         TagUtils.tagDailyEvent(getContext());
         checkUpdate(); // 检查更新
-        checkRedPocket();
+        if(!TextUtils.isEmpty(token)) {
+            checkRedPocket();
+        }
     }
 
     @Override
@@ -144,7 +146,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.getBanners(); // 获取banner
         viewModel.getGameStatus(getContext()); // 获取游戏状态列表
 
-        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         if (!TextUtils.isEmpty(token)) {
             setViewClickable(true);
             viewModel.getCookie();
