@@ -107,6 +107,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.readCache(); // 读取缓存,用户信息可能发生了变更
         TagUtils.tagDailyEvent(getContext());
         checkUpdate(); // 检查更新
+        checkRedPocket();
     }
 
     @Override
@@ -246,6 +247,15 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 }
             }
 
+        });
+
+        viewModel.liveDataRedPocket.observe(getViewLifecycleOwner(), vo -> {
+            CfLog.e("Check has money : " + vo.money);
+            if (vo.status == 0) {
+                binding.tvwMember.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.hm_ic_member_has_red, 0, 0);
+            } else {
+                binding.tvwMember.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.hm_ic_member, 0, 0);
+            }
         });
     }
 
@@ -580,6 +590,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (System.currentTimeMillis() - lastCheckTime >= (intervalTime * 60 * 1000)) {
             viewModel.getUpdate();
         }
+    }
+
+    private void checkRedPocket() {
+        viewModel.getRedPocket();
     }
 
     /**
