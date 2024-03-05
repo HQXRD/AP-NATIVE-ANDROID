@@ -227,6 +227,10 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <style name="style_ll_row_2" parent="style_ll_row">
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
     <style name="style_fb_info_title">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
