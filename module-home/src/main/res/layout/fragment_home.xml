@@ -154,7 +154,7 @@
                     android:id="@+id/tvw_member"
                     style="@style/style_hm_recharge"
                     android:drawableTop="@mipmap/hm_ic_member"
-                    android:text="@string/hm_txt_member" />
+                    android:text="@string/hm_txt_vip" />
 
             </LinearLayout>
 

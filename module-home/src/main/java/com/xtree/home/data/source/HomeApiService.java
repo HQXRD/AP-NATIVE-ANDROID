@@ -12,6 +12,7 @@ import com.xtree.home.vo.GameStatusVo;
 import com.xtree.home.vo.LoginResultVo;
 import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.RechargeReportVo;
+import com.xtree.home.vo.RedPocketVo;
 import com.xtree.home.vo.SettingsVo;
 import com.xtree.home.vo.UpdateVo;
 import com.xtree.home.vo.VipInfoVo;
@@ -28,7 +29,6 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface HomeApiService {
@@ -138,5 +138,11 @@ public interface HomeApiService {
      */
     @GET("/api/app/version?platform=android")
     Flowable<BaseResponse<UpdateVo>> getUpdate();
+
+    /**
+     * 获取是否有红包
+     */
+    @GET("/api/activity/vip/redenvelope")
+    Flowable<BaseResponse<RedPocketVo>> getRedPocket();
 
 }
