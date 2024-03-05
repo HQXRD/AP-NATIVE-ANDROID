@@ -6,6 +6,7 @@
     <string name="hm_txt_withdraw">提现</string>
     <string name="hm_txt_trans">转账</string>
     <string name="hm_txt_member">会员</string>
+    <string name="hm_txt_vip">VIP</string>
     <string name="hm_txt_maintaining">平台于: %1$s\n维护至: %2$s</string>
     <string name="txt_floating_title">待处理</string>
     <string name="txt_floating_record">充提记录</string>
