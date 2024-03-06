@@ -54,6 +54,7 @@ public class BrowserActivity extends AppCompatActivity {
     public static final String ARG_TITLE = "title";
     public static final String ARG_URL = "url";
     public static final String ARG_IS_CONTAIN_TITLE = "isContainTitle";
+    public static final String ARG_IS_SHOW_LOADING = "isShowLoading";
     public static final String ARG_IS_GAME = "isGame";
 
     View vTitle;
@@ -70,6 +71,7 @@ public class BrowserActivity extends AppCompatActivity {
     int sslErrorCount = 0;
 
     boolean isLottery = false;
+    boolean isShowLoading = false; // 展示loading弹窗
 
     String title = "";
     String url = "";
@@ -86,6 +88,7 @@ public class BrowserActivity extends AppCompatActivity {
         initView();
         title = getIntent().getStringExtra(ARG_TITLE);
         isContainTitle = getIntent().getBooleanExtra(ARG_IS_CONTAIN_TITLE, false);
+        isShowLoading = getIntent().getBooleanExtra(ARG_IS_SHOW_LOADING, false);
         if (!TextUtils.isEmpty(title)) {
             tvwTitle.setText(title);
         }
@@ -122,11 +125,13 @@ public class BrowserActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(url)) {
             finish();
         } else {
-            LoadingDialog.show(this);
+            if (isShowLoading) {
+                LoadingDialog.show(this);
+            }
             mWebView.loadUrl(url, header);
         }
         boolean isGame = getIntent().getBooleanExtra(ARG_IS_GAME, false);
-        if(isGame){
+        if (isGame) {
             layoutRight.setVisibility(View.VISIBLE);
             initRight();
         }
@@ -490,6 +495,17 @@ public class BrowserActivity extends AppCompatActivity {
         it.putExtra(BrowserActivity.ARG_URL, url);
         it.putExtra(BrowserActivity.ARG_IS_CONTAIN_TITLE, isContainTitle);
         it.putExtra(BrowserActivity.ARG_IS_GAME, isGame);
+        ctx.startActivity(it);
+    }
+
+    public static void start(Context ctx, String title, String url, boolean isContainTitle, boolean isGame, boolean isShowLoading) {
+        CfLog.i(title + ", isContainTitle: " + false + ", url: " + url);
+        Intent it = new Intent(ctx, BrowserActivity.class);
+        it.putExtra(BrowserActivity.ARG_TITLE, title);
+        it.putExtra(BrowserActivity.ARG_URL, url);
+        it.putExtra(BrowserActivity.ARG_IS_CONTAIN_TITLE, isContainTitle);
+        it.putExtra(BrowserActivity.ARG_IS_GAME, isGame);
+        it.putExtra(BrowserActivity.ARG_IS_SHOW_LOADING, isShowLoading);
         ctx.startActivity(it);
     }
 
