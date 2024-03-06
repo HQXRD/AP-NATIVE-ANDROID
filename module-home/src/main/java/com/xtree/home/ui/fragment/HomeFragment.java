@@ -387,7 +387,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             // 会员
             KLog.i("**************");
 //            startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
-            BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true);
+            BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
             //new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url, true)).show();
         });
 
