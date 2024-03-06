@@ -230,8 +230,18 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
 
         String json = SPUtils.getInstance().getString(SPKeyGlobal.WLT_GAME_ROOM_BLC, "[]");
         CfLog.i("json: " + json);
-        List<GameBalanceVo> list = gson.fromJson(json, new TypeToken<List<GameBalanceVo>>() {
-        }.getType());
+        List<GameBalanceVo> list = new ArrayList<>();
+        if (json.equals("[]")) {
+            list.add(new GameBalanceVo("pt", "PT娱乐", 1, " "));
+            list.add(new GameBalanceVo("bbin", "BBIN娱乐", 2, " "));
+            list.add(new GameBalanceVo("ag", "AG街机捕鱼", 4, " "));
+            list.add(new GameBalanceVo("obgdj", "DB电竞", 40, " "));
+            list.add(new GameBalanceVo("yy", "云游棋牌", 20, " "));
+            list.add(new GameBalanceVo("obgqp", "DB棋牌", 32, " "));
+        } else {
+            list = gson.fromJson(json, new TypeToken<List<GameBalanceVo>>() {
+            }.getType());
+        }
         listSingleLiveData.setValue(list);
 
         json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);

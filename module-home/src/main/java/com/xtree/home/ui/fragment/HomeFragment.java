@@ -54,6 +54,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.KLog;
@@ -197,7 +198,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.liveDataPlayUrl.observe(getViewLifecycleOwner(), map -> {
             CfLog.d("*** " + new Gson().toJson(map));
             // 跳转到游戏H5
-            gameAdapter.playGame(map.get("url").toString());
+            gameAdapter.playGame(map.get("url").toString(), Objects.requireNonNull(map.get("name")).toString());
         });
         viewModel.liveDataProfile.observe(getViewLifecycleOwner(), vo -> {
             CfLog.d("*** " + new Gson().toJson(vo));
@@ -405,7 +406,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
                 return;
             }
-            viewModel.getPlayUrl(vo.alias, vo.gameId);
+            viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
         };
 
         gameAdapter = new GameAdapter(getContext(), mCallBack);
