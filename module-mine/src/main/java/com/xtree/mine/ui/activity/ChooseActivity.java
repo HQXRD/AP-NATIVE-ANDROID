@@ -116,6 +116,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         LoadingDialog.show(this);
         basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
+                .moveUpToKeyboard(false)
                 .asCustom(ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
                     @Override
                     public void closeDialog() {

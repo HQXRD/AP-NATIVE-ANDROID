@@ -33,7 +33,6 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
-import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
@@ -126,6 +125,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         binding = DialogBankWithdrawalBankBinding.bind(findViewById(R.id.ll_bank_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
         binding.tvwTitle.setText("银行卡提款");
+        hideKeyBoard();
 
     }
 
@@ -166,7 +166,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             String typeNumber = selectChanneVo.typenum;
             if (TextUtils.isEmpty(inputString)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
-            }  else if (Double.valueOf(inputString) > Double.valueOf(channeBankVo.max_money)) {
+            } else if (Double.valueOf(inputString) > Double.valueOf(channeBankVo.max_money)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
             } else if (Double.valueOf(inputString) < Double.valueOf(channeBankVo.min_money)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
@@ -325,7 +325,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     }
 
     private void requestData() {
-        LoadingDialog.show(getContext());
+        showMaskLoading();
         viewModel.getChooseWithdrawBankDetailInfo("1");
 
     }
@@ -366,32 +366,35 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
             binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
             binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
-            binding.nsH5View.setBackground(getContext().getDrawable(R.color.black));
+            //  binding.nsH5View.setBackground(getContext().getDrawable(R.color.white));
+            binding.nsH5View.setBackgroundResource(android.R.color.transparent);
+            binding.maskH5View.setVisibility(View.VISIBLE);
 
             String url = bankCardCashVo.channel_list.get(0).thiriframe_url;
             if (!StringUtils.isStartHttp(url)) {
                 url = DomainUtil.getDomain2() + url;
             }
             //binding.nsH5View.scrollWebViewLoadUrl(url, getHeader());
-            binding.nsH5View.loadUrl(url,getHeader());
+            binding.nsH5View.loadUrl(url, getHeader());
             initWebView();
             binding.nsH5View.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                   // LoadingDialog.show(getContext());
+                    // LoadingDialog.show(getContext());
                     view.loadUrl(url);
                     return true;
                 }
 
                 @Override
                 public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                    LoadingDialog.show(getContext());
+
                 }
 
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
-                    LoadingDialog.finish();
+                    dismissLoading();
+                    binding.maskH5View.setVisibility(View.GONE);
                 }
             });
         }
@@ -418,14 +421,13 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     }
 
-    private void initWebView(){
+    private void initWebView() {
         CfLog.e("ScrollWebView ------------------init ");
         WebSettings settings = binding.nsH5View.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
         settings.setSupportZoom(true);
-
 
         //settings.setAppCacheEnabled(true);
         settings.setUseWideViewPort(true);
@@ -660,13 +662,13 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        LoadingDialog.show(getContext());
+                        // LoadingDialog.show(getContext());
                     }
 
                     @Override
                     public void onPageFinished(WebView view, String url) {
                         super.onPageFinished(view, url);
-                        LoadingDialog.finish();
+                        //LoadingDialog.finish();
                     }
 
                 });
@@ -923,4 +925,19 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         settings.setLoadsImagesAutomatically(true);
         settings.setSupportZoom(true);
     }
+
+    /*显示銀行卡提款loading */
+    private void showMaskLoading() {
+        if (ppw2 == null) {
+            ppw2 = new XPopup.Builder(getContext()).asCustom(new LoadingDialog(getContext()));
+        }
+
+        ppw2.show();
+    }
+
+    /*关闭loading*/
+    private void dismissLoading() {
+        ppw2.dismiss();
+    }
+
 }
