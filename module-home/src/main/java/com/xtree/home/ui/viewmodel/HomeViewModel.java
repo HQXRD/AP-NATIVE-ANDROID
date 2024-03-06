@@ -265,7 +265,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         return mList;
     }
 
-    public void getPlayUrl(String gameAlias, String gameId) {
+    public void getPlayUrl(String gameAlias, String gameId, String name) {
         if (TextUtils.isEmpty(gameId)) {
             gameId = "1";
         }
@@ -289,6 +289,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                             return;
                         }
 
+                        vo.put("name", name);
                         Object obj = vo.get("url");
                         if (obj instanceof String) {
                             liveDataPlayUrl.setValue(vo);

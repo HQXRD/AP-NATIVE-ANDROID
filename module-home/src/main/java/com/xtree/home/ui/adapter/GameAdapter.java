@@ -180,11 +180,4 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         ctx.startActivity(it);
     }
 
-    public void playGame(String playUrl) {
-        CfLog.i("URL: " + playUrl);
-        Intent it = new Intent(ctx, BrowserActivity.class);
-        it.putExtra("url", playUrl);
-        it.putExtra(BrowserActivity.ARG_IS_GAME, true);
-        ctx.startActivity(it);
-    }
 }

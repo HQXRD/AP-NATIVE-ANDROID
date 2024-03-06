@@ -84,7 +84,7 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
                     if (ClickUtil.isFastClick()) {
                         return;
                     }
-                    viewModel.getPlayUrl("au", vo.getId());
+                    viewModel.getPlayUrl("au", vo.getId(), getString(R.string.txt_venue_aug));
                 });
             }
 
@@ -98,9 +98,10 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
         super.initViewObservable();
         viewModel.liveDataPlayUrl.observe(getViewLifecycleOwner(), map -> {
             String url = Objects.requireNonNull(map.get("url")).toString();
+            String name = Objects.requireNonNull(map.get("name")).toString();
             // 跳转到游戏H5
             CfLog.i("URL: " + url);
-            BrowserActivity.start(getContext(), getString(R.string.txt_venue_aug), url, false, true);
+            BrowserActivity.start(getContext(), name, url, false, true);
         });
     }
 
