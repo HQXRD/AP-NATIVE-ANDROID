@@ -29,6 +29,7 @@ import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
 import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.utils.ConvertUtils;
 
 /**
  * Created by goldze on 2018/6/21
@@ -114,8 +115,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
         normalItemView.setSelectedDrawable(getResources().getDrawable(drawableSelect));
         normalItemView.setTextDefaultColor(getResources().getColor(R.color.textColorVice));
         normalItemView.setTextCheckedColor(getResources().getColor(R.color.colorPrimary));
-        normalItemView.setIconTopMargin(90);
-        normalItemView.setTextTopMarginOnIcon(4);
+        normalItemView.setIconTopMargin(ConvertUtils.dp2px(35f));
+        normalItemView.setTextTopMarginOnIcon(ConvertUtils.dp2px(1.5f));
         return normalItemView;
     }
 

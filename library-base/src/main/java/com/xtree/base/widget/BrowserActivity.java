@@ -60,7 +60,7 @@ public class BrowserActivity extends AppCompatActivity {
     TextView tvwTitle;
     ImageView ivwBack;
     WebView mWebView;
-    ImageView ivwLaunch;
+    //ImageView ivwLaunch;
     ImageView ivwCs;
     ImageView ivwMsg;
     ImageView ivwRecharge;
@@ -93,7 +93,6 @@ public class BrowserActivity extends AppCompatActivity {
             vTitle.setVisibility(View.GONE);
         }
 
-
         String cookie = "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN)
                 + ";" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME)
                 + "=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID)
@@ -123,6 +122,7 @@ public class BrowserActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(url)) {
             finish();
         } else {
+            LoadingDialog.show(this);
             mWebView.loadUrl(url, header);
         }
         boolean isGame = getIntent().getBooleanExtra(ARG_IS_GAME, false);
@@ -141,7 +141,7 @@ public class BrowserActivity extends AppCompatActivity {
         tvwTitle = findViewById(R.id.tvw_title);
         ivwBack = findViewById(R.id.ivw_back);
         mWebView = findViewById(R.id.wv_main);
-        ivwLaunch = findViewById(R.id.ivw_launch);
+        //ivwLaunch = findViewById(R.id.ivw_launch);
         ivwCs = findViewById(R.id.ivw_cs);
         ivwMsg = findViewById(R.id.ivw_msg);
         ivwRecharge = findViewById(R.id.ivw_recharge);
@@ -281,7 +281,8 @@ public class BrowserActivity extends AppCompatActivity {
     }
 
     private void hideLoading() {
-        ivwLaunch.setVisibility(View.GONE);
+        //ivwLaunch.setVisibility(View.GONE);
+        LoadingDialog.finish();
     }
 
     private void tipSsl(WebView view, SslErrorHandler handler) {

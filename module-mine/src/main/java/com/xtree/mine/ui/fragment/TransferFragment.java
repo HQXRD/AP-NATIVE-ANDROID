@@ -23,6 +23,7 @@ import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
@@ -161,6 +162,9 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         });
 
         binding.tvwFrom.setOnClickListener(v -> {
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             if (transGameBalanceWithOwnList.size() > transGameList.size()) {
                 String title = getString(R.string.txt_choose_trans_out);
                 String alias = v.getTag() + "";
@@ -169,6 +173,9 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         });
 
         binding.tvwTo.setOnClickListener(v -> {
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             if (transGameBalanceWithOwnList.size() > transGameList.size()) {
                 String title = getString(R.string.txt_choose_trans_in);
                 String alias = v.getTag() + "";
