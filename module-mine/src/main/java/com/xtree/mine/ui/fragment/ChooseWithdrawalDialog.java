@@ -142,7 +142,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 //网络异常
                 callBack.closeDialogByError();
             } else {
-                if (!TextUtils.isEmpty(chooseInfoVo.msg_type) &&chooseInfoVo.msg_type.equals("2")) {
+                if (!TextUtils.isEmpty(chooseInfoVo.msg_type) && chooseInfoVo.msg_type.equals("2")) {
                     //异常状态
                     showErrorDialog(chooseInfoVo.message);
                 } else if (TextUtils.isEmpty(chooseInfoVo.error) || chooseInfoVo.error == null) {
@@ -317,7 +317,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 跳转银行卡提款页面
      */
     private void showBankWithdrawalDialog(ChooseInfoVo.ChannelInfo channelInfo) {
-        basePopupView = new XPopup.Builder(getContext()).asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose));
+        basePopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose));
         basePopupView.show();
     }
 

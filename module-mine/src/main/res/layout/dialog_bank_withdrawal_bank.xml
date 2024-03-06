@@ -51,11 +51,11 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/clr_gap_bg" />
-    <!--顶部显示设置提款请求 以及 通用体现、注意信息-->
+
+    <!--   android:layout_marginTop="2dp"顶部显示设置提款请求 以及 通用体现、注意信息-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:background="@color/white"
         android:orientation="vertical"
         android:padding="10dp">
@@ -136,24 +136,12 @@
                 android:orientation="horizontal"
                 android:visibility="visible">
 
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_show_choose_card"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="30dp">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_show_choose_card"
-                            android:layout_width="match_parent"
-                            android:layout_height="30dp">
-
-                        </androidx.recyclerview.widget.RecyclerView>
-
-                    </RelativeLayout>
-
-                </LinearLayout>
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
             <!--显示注意事项-->
@@ -167,24 +155,13 @@
                 android:orientation="horizontal"
                 android:visibility="visible">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/tv_show_notice_info"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textColor="@color/red"
-                            android:visibility="visible" />
-                    </RelativeLayout>
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/tv_show_notice_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/red"
+                    android:visibility="visible" />
 
             </LinearLayout>
         </RelativeLayout>
@@ -342,8 +319,8 @@
                                 android:focusable="false"
                                 android:hint="@string/txt_input_money"
                                 android:imeOptions="actionDone"
-                                android:maxLength="16"
                                 android:inputType="numberDecimal"
+                                android:maxLength="14"
                                 android:numeric="integer" />
                         </RelativeLayout>
 
@@ -504,11 +481,22 @@
 
     </androidx.core.widget.NestedScrollView>
     <!--h5view com.xtree.mine.ui.fragment.ScrollWebView-->
+    <LinearLayout
+        android:id="@+id/mask_h5_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/clr_white"
+        android:orientation="vertical"
+        android:visibility="visible"></LinearLayout>
+
     <WebView
         android:id="@+id/ns_h5_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white" />
+        android:background="@color/white"
+        android:layerType="software"
+        android:visibility="invisible" />
+
     <!--错误提示-->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/ns_error_view"
