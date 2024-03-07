@@ -328,6 +328,30 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             binding.tvScoreVisitor.setText(String.valueOf(scoreList.get(1)));
         }
 
+        List<Integer> redCardScoreList = match.getScore(Constants.getRedCardType());
+
+        if (redCardScoreList != null && redCardScoreList.size() > 1) {
+            binding.tvRedCardMain.setVisibility(View.VISIBLE);
+            binding.tvRedCardVisisor.setVisibility(View.VISIBLE);
+            binding.tvRedCardMain.setText(String.valueOf(redCardScoreList.get(0)));
+            binding.tvRedCardVisisor.setText(String.valueOf(redCardScoreList.get(1)));
+        } else {
+            binding.tvRedCardMain.setVisibility(View.GONE);
+            binding.tvRedCardVisisor.setVisibility(View.GONE);
+        }
+
+        List<Integer> redYellowScoreList = match.getScore(Constants.getYellowCardType());
+
+        if (redYellowScoreList != null && redYellowScoreList.size() > 1) {
+            binding.tvYellowCardMain.setVisibility(View.VISIBLE);
+            binding.tvYellowCardVisisor.setVisibility(View.VISIBLE);
+            binding.tvYellowCardMain.setText(String.valueOf(redYellowScoreList.get(0)));
+            binding.tvYellowCardVisisor.setText(String.valueOf(redYellowScoreList.get(1)));
+        } else {
+            binding.tvYellowCardMain.setVisibility(View.GONE);
+            binding.tvYellowCardVisisor.setVisibility(View.GONE);
+        }
+
         binding.tvPlaytypeCount.setText(match.getPlayTypeCount() + "+>");
         // 比赛未开始
         if (!match.isGoingon()) {

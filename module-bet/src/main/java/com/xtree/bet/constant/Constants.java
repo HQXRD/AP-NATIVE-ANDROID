@@ -61,12 +61,42 @@ public class Constants {
             project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector};
 
+    /**
+     * 获取比分类型
+     * @return
+     */
     public static String getScoreType(){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
         if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
             return String.valueOf(FBConstants.SCORE_TYPE_SCORE);
         }else {
             return PMConstants.SCORE_TYPE_SCORE;
+        }
+    }
+
+    /**
+     * 获取红牌比分类型
+     * @return
+     */
+    public static String getRedCardType(){
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            return String.valueOf(FBConstants.SCORE_TYPE_RED_CARD);
+        }else {
+            return PMConstants.SCORE_TYPE_RED_CARD;
+        }
+    }
+
+    /**
+     * 获取黄牌比分类型
+     * @return
+     */
+    public static String getYellowCardType(){
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            return String.valueOf(FBConstants.SCORE_TYPE_YELLOW_CARD);
+        }else {
+            return PMConstants.SCORE_TYPE_YELLOW_CARD;
         }
     }
 

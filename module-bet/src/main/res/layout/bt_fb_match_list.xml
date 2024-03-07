@@ -53,6 +53,33 @@
                         tools:text="多拉多斯" />
 
                     <TextView
+                        android:id="@+id/tv_red_card_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/tv_team_name_main"
+                        android:paddingStart="1dp"
+                        android:paddingEnd="1dp"
+                        android:background="@color/red"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/bt_text_10sp"
+                        android:text="1"/>
+
+                    <TextView
+                        android:id="@+id/tv_yellow_card_main"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/tv_red_card_main"
+                        android:layout_marginStart="5dp"
+                        android:paddingStart="1dp"
+                        android:paddingEnd="1dp"
+                        android:background="@color/yellow"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/bt_text_10sp"
+                        android:text="1"/>
+
+                    <TextView
                         android:id="@+id/tv_score_main"
                         android:layout_width="30dp"
                         android:layout_height="wrap_content"
@@ -83,6 +110,33 @@
                         android:drawablePadding="2dp"
                         android:layout_marginEnd="30dp"
                         tools:text="多拉多斯" />
+
+                    <TextView
+                        android:id="@+id/tv_red_card_visisor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/tv_team_name_visitor"
+                        android:paddingStart="1dp"
+                        android:paddingEnd="1dp"
+                        android:background="@color/red"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/bt_text_10sp"
+                        android:text="1"/>
+
+                    <TextView
+                        android:id="@+id/tv_yellow_card_visisor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/tv_red_card_visisor"
+                        android:layout_marginStart="5dp"
+                        android:paddingStart="1dp"
+                        android:paddingEnd="1dp"
+                        android:background="@color/yellow"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/bt_text_10sp"
+                        android:text="1"/>
 
                     <TextView
                         android:id="@+id/tv_score_visitor"
