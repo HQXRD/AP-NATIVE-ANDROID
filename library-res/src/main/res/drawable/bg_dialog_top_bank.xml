@@ -4,8 +4,8 @@
 
     <gradient
         android:angle="0"
-        android:endColor="@color/clr_red_01"
-        android:startColor="@color/clr_red_01" />
+        android:endColor="@color/cl_bank_withdraw"
+        android:startColor="@color/cl_bank_withdraw" />
     <corners
         android:topLeftRadius="10dp"
         android:topRightRadius="10dp" />
