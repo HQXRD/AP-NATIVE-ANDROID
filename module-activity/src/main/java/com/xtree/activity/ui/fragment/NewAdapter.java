@@ -55,7 +55,7 @@ public class NewAdapter extends CachedAutoRefreshAdapter<NewVo> {
         }
         TagUtils.tagEvent(ctx, "dc", vo.id);
         String url = getString(vo);
-        new XPopup.Builder(ctx).moveUpToKeyboard(false).asCustom(new BrowserDialog(ctx, vo.title, url, true)).show();
+        new XPopup.Builder(ctx).moveUpToKeyboard(false).asCustom(new BrowserDialog(ctx, vo.title, url, true, true)).show();
 
         //Intent it = new Intent(ctx, BrowserActivity.class);
         //it.putExtra("url", url);
