@@ -1,12 +1,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="76dp"
+    android:layout_height="60dp"
     android:background="@color/clr_transparent">
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="75dp"
-        android:layout_height="76dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal" />
 
     <TextView
@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="4dp"
+        android:layout_marginBottom="5dp"
         android:maxLines="1"
         android:textSize="12sp" />
 

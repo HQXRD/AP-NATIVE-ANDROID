@@ -2,7 +2,8 @@
     <string name="main_name">魔域体育</string>
     <string name="txt_pg_home">首页</string>
     <string name="txt_pg_discount">活动</string>
-    <string name="txt_pg_recharge">充值</string>
+    <string name="txt_main_game">热门赛事</string>
+    <string name="txt_pg_service">客服</string>
     <string name="txt_pg_mine">我的</string>
 
     <string name="app_name">杏彩体育</string>
