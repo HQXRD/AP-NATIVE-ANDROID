@@ -280,18 +280,20 @@
                                 android:layout_height="wrap_content"
                                 android:src="@mipmap/me_jinji_lijin" />
 
-                            <TextView style="@style/style_wallet_space" />
+                            <!--<TextView style="@style/style_wallet_space" />-->
 
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:src="@mipmap/me_meiyue_hongbao" />
+                                android:layout_marginStart="@dimen/layout_margin"
+                                android:src="@mipmap/me_ic_week_red_pkg" />
 
-                            <TextView style="@style/style_wallet_space" />
+                            <!--<TextView style="@style/style_wallet_space" />-->
 
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/layout_margin"
                                 android:src="@mipmap/me_shengri_lijin"
                                 android:visibility="gone" />
 
@@ -302,6 +304,7 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/layout_margin"
                                 android:src="@mipmap/me_zhuanshu_huodong" />
                         </LinearLayout>
 
