@@ -85,6 +85,9 @@ public class OptionPm implements Option{
 
     @Override
     public double getRealOdd() {
+        if(optionInfo == null){
+            return 0;
+        }
         return optionInfo.ov / 100000;
     }
 

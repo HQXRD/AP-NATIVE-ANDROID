@@ -4,6 +4,6 @@
     tools:ignore="MissingDefaultResource">
 
     <item android:color="#BEE0FF" android:state_selected="true" />
-    <item android:color="@color/bt_color_botton" />
+    <item android:color="@color/bt_option_bg_default" />
 
 </selector>

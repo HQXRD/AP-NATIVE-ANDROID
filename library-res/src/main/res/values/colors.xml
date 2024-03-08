@@ -99,7 +99,7 @@
     <color name="bt_option_bg_selected">#CE9CE5</color>
 
     <!-- 主题色背景下（项目中是蓝色）的字体颜色 -->
-    <color name="bt_color_under_bg_primary_text">#121B47</color>
+    <color name="bt_color_under_bg_primary_text">#FFFFFF</color>
 
     <!-- 投注模块弹窗顶部金额背景颜色 -->
     <color name="bt_color_car_dialog_top_acount">#54D8CAFF</color>

@@ -74,8 +74,8 @@
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="0dp"
             app:tabMode="fixed"
-            app:tabPaddingEnd="0dp"
-            app:tabPaddingStart="0dp"
+            app:tabPaddingEnd="5dp"
+            app:tabPaddingStart="5dp"
             app:tabRippleColor="@android:color/transparent" />
 
         <androidx.viewpager2.widget.ViewPager2

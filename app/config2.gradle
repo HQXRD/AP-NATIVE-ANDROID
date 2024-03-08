@@ -8,7 +8,7 @@ android {
             versionName "1.0.0"
             versionCode 100
             //resValue "string", "app_name", "${name}"
-            resValue "string", "app_name", "杏彩体育"
+            resValue "string", "app_name", "摩域体育"
             resValue "string", "domain_url", "https://www.weres.bar/"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
