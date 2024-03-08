@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.utils.NumberUtils;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
@@ -45,7 +46,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
-import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
@@ -289,6 +289,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             }
         });
         viewModel.btResultInfoDate.observe(this, btResults -> {
+            TagUtils.tagEvent(getContext(), "bt", platform);
             BtResultDialogFragment.getInstance(betConfirmOptionList, cgOddLimitList, btResults).show(getParentFragmentManager(), "BtResultDialogFragment");
             BtCarManager.clearBtCar();
             dismiss();
@@ -432,7 +433,6 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                         + vo.getBtCount() + "个注单";
             }
         }
-
 
         MsgDialog dialog = new MsgDialog(getContext(), title, msg, true, new MsgDialog.ICallBack() {
             @Override
