@@ -408,7 +408,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
         viewModel.liveDataVipUpgrade.observe(this, vo -> {
             if (mVipInfoVo == null) {
-                binding.tvwLevelHint.setVisibility(View.GONE);
+                //binding.tvwLevelHint.setVisibility(View.INVISIBLE);
                 binding.pbrLevel.setProgress(0);
                 return;
             }
