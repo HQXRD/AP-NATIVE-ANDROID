@@ -10,6 +10,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.UuidUtil;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.recharge.data.RechargeRepository;
 import com.xtree.recharge.vo.BankCardVo;
 import com.xtree.recharge.vo.FeedbackCheckVo;
@@ -46,6 +47,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<FeedbackImageUploadVo> imageUploadVoSingleLiveData = new SingleLiveData<>();//feedback图片上传
     public SingleLiveData<Object> feedbackAddSingleLiveData = new SingleLiveData<>();//feedback 下一步接口
     public SingleLiveData<FeedbackCheckVo> feedbackCheckVoSingleLiveData = new SingleLiveData<>();//feedbackCheck 反馈查看页面
+    public SingleLiveData<ProfileVo> liveDataProfile = new SingleLiveData<>();
 
     public RechargeViewModel(@NonNull Application application, RechargeRepository repository) {
         super(application, repository);
@@ -257,6 +259,12 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
             //liveDataPayment.setValue(vo);
             liveDataRechargeList.setValue(vo.chongzhiList);
             liveDataTutorial.setValue(vo.bankdirect_url);
+        }
+
+        json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        ProfileVo mProfileVo = gson.fromJson(json, ProfileVo.class);
+        if (vo != null) {
+            liveDataProfile.setValue(mProfileVo);
         }
 
     }

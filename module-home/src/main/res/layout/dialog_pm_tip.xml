@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/ivw_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="410dp"
+        android:layout_marginTop="60dp"
+        android:padding="4dp"
+        android:background="@mipmap/bg_rc_tip_dialog"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivw_bell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/cm_dialog_bell"
+        android:visibility="visible"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/tvw_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivw_bg" />
+
+    <TextView
+        android:id="@+id/tvw_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:gravity="center"
+        android:text="重要提示"
+        android:textColor="@color/clr_black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg"
+        app:layout_constraintTop_toTopOf="@id/ivw_bg" />
+
+    <TextView
+        android:id="@+id/tvw_msg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="32dp"
+        android:textColor="@color/textColor"
+        android:text="熊猫体育结算波动较为频繁，为保证您的最佳体验，推荐您至”杏彩体育“进行游戏。"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_title" />
+
+    <TextView
+        android:id="@+id/tvw_pm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="70dp"
+        android:theme="@style/style_btn_back"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="继续进入熊猫体育"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@+id/ivw_bg"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_msg" />
+
+    <TextView
+        android:id="@+id/tvw_fb"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="70dp"
+        android:background="@drawable/bg_btn_selector"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="进入杏彩体育"
+        android:textColor="@color/clr_text_code_selector"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@+id/ivw_bg"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_pm" />
+
+    <CheckBox
+        android:id="@+id/cb_tip_pm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="今日不再提示"
+        android:theme="@style/PMTipCheckBoxTheme"
+        android:textSize="12sp"
+        android:textColor="@color/clr_purple_01"
+        app:layout_constraintEnd_toEndOf="@+id/tvw_msg"
+        app:layout_constraintStart_toStartOf="@+id/tvw_msg"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_fb" />
+
+    <TextView
+        android:id="@+id/tvw_cs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@mipmap/cm_ic_cs2"
+        android:layout_marginBottom="30dp"
+        android:drawablePadding="3dp"
+        android:text="@string/txt_contact_custom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/tvw_msg" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

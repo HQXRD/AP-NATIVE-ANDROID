@@ -93,6 +93,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
      * 显示资金流水
      */
     private void showAwardsRecord() {
+
         LoadingDialog.show(this);
         basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)

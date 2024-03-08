@@ -93,7 +93,7 @@
                     style="@style/style_usdt_tutorial"
                     android:gravity="center"
                     android:layout_marginTop="6dp"
-                    android:text="您未参加任何活动，暂无礼金"
+                    android:text="@string/txt_awards_no_money_tip"
                     android:textColor="@color/black"
                     android:textSize="15dp"
                     android:visibility="visible" />
@@ -102,3 +102,4 @@
 
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>
+
