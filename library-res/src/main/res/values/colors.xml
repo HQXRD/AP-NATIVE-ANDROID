@@ -207,6 +207,8 @@
     <color name="clr_filter_txt_gray">#A1A1A1</color>
     <!-- 筛选框 黑色 值 -->
     <color name="clr_filter_txt_black">#1E1E1E</color>
+    <!--提款流水 项目名称 黑色 值 -->
+    <color name="clr_awards_txt_black">#0C0319</color>
 
     <color name="clr_grey_menu">#767677</color>
 
@@ -285,6 +287,9 @@
     <color name="clr_hint">#F4F4F4</color>
     <!-- 通用 end-->
     <color name="clr_toast">#808080</color>
+    <color name="clr_8080ff">#8080ff</color>
+
+
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -303,5 +308,6 @@
     <color name="cl_withdrawal_amount">#6D6C72</color>
     <color name="cl_withdrawal_tip">#D24859</color>
     <color name="cl_over_tip">#8F8F8F</color>
-
+    <color name="cl_awards_end">#ECE6F9</color>
+    <color name="cl_awards_start">#ECEFF9</color>
 </resources>

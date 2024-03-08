@@ -2,11 +2,11 @@ package com.xtree.mine.ui.fragment;
 
 import android.app.Application;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,7 +18,7 @@ import com.lxj.xpopup.widget.SmartDragLayout;
 import com.xtree.base.utils.CfLog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
-import com.xtree.mine.databinding.DialogChooseWithdrawaBinding;
+import com.xtree.mine.databinding.DialogChooseAwardsBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.AwardsRecordVo;
 
@@ -36,7 +36,7 @@ public class AwardsRecordDialog extends BottomPopupView {
     }
 
     private IAwardsDialogBack callBack;
-    DialogChooseWithdrawaBinding binding;
+    DialogChooseAwardsBinding binding;
     ChooseWithdrawViewModel viewModel;
     LifecycleOwner owner;
     private AwardsRecordVo awardsRecordVo;
@@ -45,7 +45,7 @@ public class AwardsRecordDialog extends BottomPopupView {
 
     @Override
     protected int getImplLayoutId() {
-        return R.layout.dialog_choose_withdrawa;
+        return R.layout.dialog_choose_awards;
     }
 
     @Override
@@ -78,14 +78,14 @@ public class AwardsRecordDialog extends BottomPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
-        initView();
+
         initData();
         initViewObservable();
-
+        initView();
     }
 
     private void initView() {
-        binding = DialogChooseWithdrawaBinding.bind(findViewById(R.id.ll_root));
+        binding = DialogChooseAwardsBinding.bind(findViewById(R.id.ll_root));
         if (viewType == 1) {
             CfLog.i("viewType ==1)");
             binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_unfinished_activity));
@@ -99,55 +99,46 @@ public class AwardsRecordDialog extends BottomPopupView {
             callBack.closeAwardsDialog();
 
         });
-        if (viewType == 0) {
-            bottomPopupContainer.dismissOnTouchOutside(true);
-            bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
-                @Override
-                public void onClose() {
-                    if (callBack != null) {
-                        callBack.closeAwardsDialog();
-                    }
-                }
 
-                @Override
-                public void onDrag(int y, float percent, boolean isScrollUp) {
-
-                }
-
-                @Override
-                public void onOpen() {
-
-                }
-            });
-            binding.lvChoose.setVisibility(View.GONE);
-            binding.llChooseTip.setVisibility(View.VISIBLE);
-
-        } else if (viewType == 1) {
-            bottomPopupContainer.dismissOnTouchOutside(true);
-            bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
-                @Override
-                public void onClose() {
-                    if (callBack != null) {
-                        callBack.closeAwardsDialog();
-                    }
-                }
-
-                @Override
-                public void onDrag(int y, float percent, boolean isScrollUp) {
-
-                }
-
-                @Override
-                public void onOpen() {
-
-                }
-            });
-
-            ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
-            binding.lvChoose.setVisibility(View.VISIBLE);
-            binding.lvChoose.setAdapter(adapter);
+        binding.llChooseTip.setVisibility(View.VISIBLE);
+        String tipText = "";
+        if (TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) ||
+                awardsRecordVo.withdraw_dispensing_money.equals("0") ||
+                awardsRecordVo.withdraw_dispensing_money.equals("0.00")) {
+            tipText = getContext().getString(R.string.txt_awards_no_money_tip);
+        } else {
+            tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
         }
-        binding.tvChooseTutorial.setVisibility(View.GONE);
+        binding.tvChooseTip.setText(tipText);
+        bottomPopupContainer.dismissOnTouchOutside(true);
+        bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
+            @Override
+            public void onClose() {
+                if (callBack != null) {
+                    callBack.closeAwardsDialog();
+                }
+            }
+
+            @Override
+            public void onDrag(int y, float percent, boolean isScrollUp) {
+
+            }
+
+            @Override
+            public void onOpen() {
+
+            }
+        });
+
+        if (awardsRecordVo.list.size() > 1) {
+            binding.lvChoose.setVisibility(View.VISIBLE);
+            ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
+            binding.lvChoose.setAdapter(adapter);
+        } else {
+            binding.llChooseTip.setVisibility(View.VISIBLE);
+            binding.tvWithdrawalAwardsTitle.setVisibility(View.GONE);
+
+        }
 
     }
 
@@ -187,13 +178,12 @@ public class AwardsRecordDialog extends BottomPopupView {
         public View getView(int position, View convertView, ViewGroup parent) {
             ChooseAdapterViewHolder holder = null;
             if (convertView == null) {
-                convertView = LayoutInflater.from(context).inflate(R.layout.dialog_choose_awards_item, parent, false);
+                convertView = LayoutInflater.from(context).inflate(R.layout.dialog_awards_item, parent, false);
                 holder = new ChooseAdapterViewHolder();
                 holder.showInfoName = (TextView) convertView.findViewById(R.id.tvw_title);
                 holder.showBonus = (TextView) convertView.findViewById(R.id.tvw_title_bonus);
                 holder.showTurnover = (TextView) convertView.findViewById(R.id.tvw_required_turnover);
                 holder.showContent = (TextView) convertView.findViewById(R.id.tvw_title_content);
-                holder.showInfoLinear = convertView.findViewById(R.id.ll_root);
                 convertView.setTag(holder);
             } else {
                 holder = (ChooseAdapterViewHolder) convertView.getTag();
@@ -201,9 +191,17 @@ public class AwardsRecordDialog extends BottomPopupView {
             AwardsRecordVo.AwardsRecordInfo info = awardsRecordInfoArrayList.get(position);
 
             holder.showInfoName.setText(info.title);
-            holder.showBonus.setText("需求流水" + info.money);
-            holder.showTurnover.setText("剩余流水:" + info.deducted_turnover);
-            holder.showContent.setText(info.bet_source_trans);
+            String bonusTip = String.format(getContext().getString(R.string.txt_awards_bonus_tip), info.money);
+            holder.showBonus.setText(bonusTip);
+            String reTurnover = String.format(getContext().getString(R.string.txt_awards_required_turnover_tip), info.deducted_turnover);
+            holder.showTurnover.setText(reTurnover);
+
+            if (TextUtils.isEmpty(info.dispensing_money_left) || info.dispensing_money_left.equals("0")) {
+                holder.showContent.setText(getContext().getString(R.string.txt_awards_remain_turnover_default_tip));
+            } else {
+                String remainTurnover = String.format(getContext().getString(R.string.txt_awards_remain_turnover_tip), info.dispensing_money_left);
+                holder.showContent.setText(remainTurnover);
+            }
 
             return convertView;
         }
@@ -213,7 +211,6 @@ public class AwardsRecordDialog extends BottomPopupView {
             public TextView showBonus;//奖金
             public TextView showTurnover;//流水
             public TextView showContent;//内容
-            public LinearLayout showInfoLinear;
         }
     }
 

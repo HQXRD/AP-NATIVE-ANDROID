@@ -27,12 +27,11 @@
             android:text="请选择提款方式"
             android:textColor="@color/clr_filter_txt_black"
             android:textSize="15sp"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            android:visibility="visible"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/ivw_close"
@@ -45,62 +44,108 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:background="@color/clr_gap_bg"/>
+        android:background="@color/clr_gap_bg" />
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/clr_white"
         android:layout_marginBottom="0dp"
-      >
+        android:background="@color/clr_white">
 
-       <RelativeLayout
-           android:layout_width="match_parent"
-           android:layout_height="match_parent" >
-           <com.xtree.mine.ui.viewmodel.ChooseListViewForScrollview
-               android:id="@+id/lv_choose"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:divider="@null"
-               android:listSelector="@android:color/transparent"
-               />
-           <LinearLayout
-               android:id="@+id/ll_choose_tutorial"
-               android:layout_marginTop="20dp"
-               android:layout_below="@id/lv_choose"
-               android:layout_width="match_parent"
-               android:layout_height="40dp"
-               android:visibility="invisible"
-               >
-               <TextView
-                   android:id="@+id/tv_choose_tutorial"
-                   android:text="USDT介绍及提款教程"
-                   style="@style/style_usdt_tutorial"
-                   android:autoLink="all"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--<androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_loading"
+                android:layout_width="100dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:background="@drawable/bg_loading_black">
 
-                   />
-           </LinearLayout>
-           <LinearLayout
-               android:id="@+id/ll_choose_tip"
-               android:layout_below="@id/ll_choose_tutorial"
-               android:layout_width="match_parent"
-               android:layout_height="40dp"
-               android:layout_marginTop="10dp"
-               android:layout_marginLeft="@dimen/bt_text_20sp"
-               android:layout_marginRight="@dimen/bt_text_20sp"
-               >
-               <TextView
-                   android:id="@+id/tv_choose_tip"
-                   android:gravity="left"
-                   android:textColor="@color/clr_red_choose"
-                   android:text=""
-                   style="@style/style_usdt_tutorial"
-                   android:visibility="invisible"
-                   />
-           </LinearLayout>
-       </RelativeLayout>
+                <ImageView
+                    android:id="@+id/ivw_loading_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/bg_loading_white"
+                    android:src="@mipmap/loading_icon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvw_loading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="杏彩体育"
+                    android:textColor="@color/clr_white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/ivw_loading_icon" />
+
+                <ImageView
+                    android:id="@+id/ivw_loading"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="10dp"
+                    android:src="@mipmap/loading"
+                    android:textColor="@color/clr_white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvw_loading" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>-->
+
+            <LinearLayout
+                android:id="@+id/ll_choose_tip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bt_text_20sp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="@dimen/bt_text_20sp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tv_choose_tip"
+                    style="@style/style_usdt_tutorial"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:text="@string/txt_awards_no_money_tip"
+                    android:textColor="@color/black"
+                    android:textSize="15dp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_withdrawal_awards_title"
+                style="@style/style_usdt_tutorial"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="100dp"
+                android:gravity="center|left"
+                android:text="@string/txt_unfinished_activity_flow"
+                android:textColor="@color/clr_awards_txt_black"
+                android:textSize="18dp"
+                android:visibility="visible" />
+
+            <com.xtree.mine.ui.viewmodel.ChooseListViewForScrollview
+                android:id="@+id/lv_choose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:divider="@null"
+                android:listSelector="@android:color/transparent"
+                android:visibility="gone"
+                tools:visibility="visible" />
+        </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>
