@@ -1,6 +1,7 @@
 plugins {
     //id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 apply plugin: 'com.android.library'
@@ -75,6 +76,10 @@ dependencies {
     api rootProject.ext.dependencies["appcenter-analytics"]
     api rootProject.ext.dependencies["appcenter-crashes"]
     api rootProject.ext.dependencies["event-bus"]
+
+    api rootProject.ext.dependencies["brv"]
+    api rootProject.ext.dependencies["kotlin-stdlib"]
+    api rootProject.ext.dependencies["kotlin-reflect"]
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
