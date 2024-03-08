@@ -414,7 +414,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             }
             if (vo.sp.equals("1")) {
                 if (vo.level < vo.vip_upgrade.size() - 1) {
-                    int point = vo.vip_upgrade.get(vo.level).display_active - mVipInfoVo.current_activity;
+                    int point = vo.vip_upgrade.get(vo.level + 1).display_active - mVipInfoVo.current_activity;
                     int level = vo.vip_upgrade.get(vo.level + 1).display_level;
                     String txt = getString(R.string.txt_level_hint_00);
                     txt = String.format(txt, point, level);
@@ -431,7 +431,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                 }
             } else {
                 if (vo.level < vo.vip_upgrade.size() - 1) {
-                    int point = vo.vip_upgrade.get(vo.level).active - mVipInfoVo.current_activity;
+                    int point = vo.vip_upgrade.get(vo.level + 1).active - mVipInfoVo.current_activity;
                     int level = vo.level + 1;
                     String txt = getString(R.string.txt_level_hint_00);
                     txt = String.format(txt, point, level);

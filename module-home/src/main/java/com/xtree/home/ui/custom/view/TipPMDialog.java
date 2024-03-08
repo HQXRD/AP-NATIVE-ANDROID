@@ -9,7 +9,6 @@ import com.lxj.xpopup.core.CenterPopupView;
 import com.xtree.base.global.Constant;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.SPUtil;
-import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.home.R;
 import com.xtree.home.databinding.DialogPmTipBinding;

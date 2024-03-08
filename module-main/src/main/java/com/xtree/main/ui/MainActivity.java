@@ -132,11 +132,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
 
     private void initBottomTab() {
         navigationController = binding.pagerBottomTab.custom()
-                .addItem(newItem(R.mipmap.yingyong_unselected, R.mipmap.yingyong_selected, getString(R.string.txt_pg_home)))
-                .addItem(newItem(R.mipmap.huanzhe_unselected, R.mipmap.huanzhe_selected, getString(R.string.txt_pg_discount)))
+                .addItem(newItem(R.mipmap.mn_hm_unselected, R.mipmap.mn_hm_selected, getString(R.string.txt_pg_home)))
+                .addItem(newItem(R.mipmap.mn_dc_unselected, R.mipmap.mn_dc_selected, getString(R.string.txt_pg_discount)))
                 .addItem(newRoundItem(R.mipmap.ic_tab_main))
-                .addItem(newItem(R.mipmap.xiaoxi_unselected, R.mipmap.xiaoxi_selected, getString(R.string.txt_pg_recharge)))
-                .addItem(newItem(R.mipmap.wode_unselected, R.mipmap.wode_selected, getString(R.string.txt_pg_mine)))
+                .addItem(newItem(R.mipmap.mn_rc_unselected, R.mipmap.mn_rc_selected, getString(R.string.txt_pg_recharge)))
+                .addItem(newItem(R.mipmap.mn_psn_unselected, R.mipmap.mn_psn_selected, getString(R.string.txt_pg_mine)))
                 .build();
         //底部按钮的点击事件监听
         navigationController.addTabItemSelectedListener(new OnTabItemSelectedListener() {

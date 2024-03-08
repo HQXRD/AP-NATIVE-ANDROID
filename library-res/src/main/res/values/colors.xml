@@ -11,7 +11,6 @@
     <color name="appBackColor">#F4F3F3</color>
     <color name="viewLineColor">#E0E0E0</color>
 
-
     <color name="me_text_color">#FCE5DE</color>
     <color name="me_level_color">#D5D7DB</color>
     <color name="me_progress_bar_bg">#3E414B</color>
@@ -208,6 +207,8 @@
     <color name="clr_filter_txt_gray">#A1A1A1</color>
     <!-- 筛选框 黑色 值 -->
     <color name="clr_filter_txt_black">#1E1E1E</color>
+    <!--提款流水 项目名称 黑色 值 -->
+    <color name="clr_awards_txt_black">#0C0319</color>
 
     <color name="clr_grey_menu">#767677</color>
 
@@ -290,4 +291,23 @@
 
 
 
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <!--反馈页面错误提示语颜色-->
+    <color name="clr_red_feedback_err">#FF2E00</color>
+    <color name="clr_item_lottery_bg">#F8F8F8</color>
+
+    <color name="red">#DA0000</color>
+    <color name="cl_gap">#EBEBEB</color>
+    <color name="cl_set_request">#FF4A4D</color>
+    <color name="cl_bank_withdraw">#F4F4F4</color>
+    <color name="cl_withdrawal">#846E7B</color>
+    <!--136 -->
+    <color name="cl_amount_bt_53">#88F0EAFF</color>
+    <color name="cl_amount_bt">#ECE8FF</color>
+    <color name="cl_withdrawal_amount">#6D6C72</color>
+    <color name="cl_withdrawal_tip">#D24859</color>
+    <color name="cl_over_tip">#8F8F8F</color>
+    <color name="cl_awards_end">#ECE6F9</color>
+    <color name="cl_awards_start">#ECEFF9</color>
 </resources>

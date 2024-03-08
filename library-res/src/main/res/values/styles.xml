@@ -94,6 +94,40 @@
         <item name="android:button">@drawable/hm_game_type_selector</item>
     </style>
 
+    <style name="style_hm_txt_bold">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">XXX</item>
+        <item name="android:textColor">@color/clr_hm_txt_black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="style_hm_txt_normal_12">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">XXX</item>
+        <item name="android:textColor">@color/clr_hm_txt_black</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_hm_recharge">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:textColor">@color/clr_hm_txt_grey_01</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_item_img">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+    </style>
+
     <!-- 我的-5个菜单 白色字 -->
     <style name="style_menu_white">
         <item name="android:layout_width">wrap_content</item>
@@ -143,6 +177,15 @@
         <item name="android:layout_marginEnd">12dp</item>
         <item name="android:layout_marginTop">2dp</item>
         <item name="android:background">@color/clr_grey_080</item>
+    </style>
+    <!-- 取款-提款流水-未完成活动流水 -->
+    <style name="style_awards_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:background">@color/bt_color_botton</item>
     </style>
     <!-- 我的-安全中心-验证 获取验证码 -->
     <style name="style_get_code">
@@ -539,7 +582,7 @@
         <item name="android:layout_marginStart">@dimen/layout_margin</item>
         <item name="android:gravity">start</item>
         <item name="android:textColor">@color/clr_grey_00</item>
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <!-- 转账页 灰色区 -->
@@ -788,7 +831,7 @@
         <item name="android:layout_marginStart">2dp</item>
         <item name="android:layout_marginEnd">2dp</item>
         <item name="android:layout_marginTop">2dp</item>
-        <item name="android:background">@color/clr_grey_080</item>
+        <item name="android:background">@color/clr_gap_bg</item>
     </style>
 
     <style name="style_withdraw_confirm_ll">
@@ -861,6 +904,119 @@
     <style name="PMTipCheckBoxTheme">
         <item name="colorAccent">@color/clr_purple_01</item>
         <item name="colorControlNormal">@color/clr_purple_01</item>
+    </style>
+    <!-- 我的钱包-5个菜单 -->
+    <style name="style_wallet_menu">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_wallet_space">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <!-- 提款页-上半部分-彩色按钮 -->
+    <style name="style_rdo_wd_menu">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_rdo_wd_selector</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_menu_text_selector</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 提款页-下半部分灰色区-灰色框 -->
+    <style name="style_wd_info_area">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/layout_margin</item>
+        <item name="android:background">@color/clr_grey_03</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingBottom">4dp</item>
+    </style>
+
+    <!-- 提款页-下半部分灰色区-行框 -->
+    <style name="style_wd_info_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <!-- 提款页-下半部分灰色区-标题 -->
+    <style name="style_wd_info_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:minEms">7</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_wd_info_title2">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:minEms">7</item>
+        <item name="android:textColor">@color/clr_grey_40</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 提款页-下半部分灰色区-值(紫色) -->
+    <style name="style_wd_info_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textColor">@color/clr_purple_02</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!--谷歌动态口令密钥提示语风格-->
+    <style name="style_google_key">
+        <item name="android:textColor">@color/clr_orange_01</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!--谷歌动态口令提示语风格-->
+    <style name="style_google_prompt">
+        <item name="android:textColor">@color/clr_grey_00</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!--谷歌动态口令提示语风格-->
+    <style name="style_google_prompt_bottom">
+        <item name="android:textColor">@color/bt_text_color_primary_3</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_virtual_text">
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginLeft">1dp</item>
+    </style>
+
+    <!--activity背景透明-->
+    <style name="style_trans_theme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowTranslucentStatus">true</item>
     </style>
 
 </resources>

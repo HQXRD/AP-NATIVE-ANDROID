@@ -17,7 +17,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,6 +60,7 @@ public class BrowserDialog extends BottomPopupView {
     String url;
     int maxHeight = 85; // 最大高度百分比 10-100
     boolean isContainTitle = false; // 网页自身是否包含标题(少数情况下会包含)
+    boolean isActivity = false; // 是否来自活动页面
     ValueCallback<Uri> mUploadCallbackBelow;
     ValueCallback<Uri[]> mUploadCallbackAboveL;
 
@@ -89,6 +89,15 @@ public class BrowserDialog extends BottomPopupView {
         this.title = title;
         this.url = url;
         this.isContainTitle = isContainTitle;
+    }
+
+    public BrowserDialog(@NonNull Context context, String title, String url, boolean isContainTitle, boolean isActivity) {
+        super(context);
+        mContext = context;
+        this.title = title;
+        this.url = url;
+        this.isContainTitle = isContainTitle;
+        this.isActivity = isActivity;
     }
 
     public BrowserDialog(@NonNull Context context, String title, String url, int maxHeight) {
@@ -360,6 +369,13 @@ public class BrowserDialog extends BottomPopupView {
         String js = "";
         js += "(function() {" + "\n";
         js += "const d = new Date();" + "\n";
+        if (isActivity) {
+            // title:隐藏标题 transform:隐藏由下而上动画
+            js += "var style = document.createElement('style'); style.innerHTML = " +
+                    "'.popup-wrapper > .title{ visibility: hidden !important} " +
+                    ".popup-wrapper{transform: translate3d(0, 0, 0) !important; animation: none !important}'; " +
+                    "document.head.appendChild(style);" + "\n";
+        }
         js += "d.setTime(d.getTime() + (24*60*60*1000));" + "\n";
         js += "let expires = \"expires=\"+ d.toUTCString();" + "\n";
         js += "document.cookie = \"auth=" + token + ";\" + expires + \";path=/\";" + "\n";
