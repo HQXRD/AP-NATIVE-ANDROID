@@ -858,4 +858,9 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="PMTipCheckBoxTheme">
+        <item name="colorAccent">@color/clr_purple_01</item>
+        <item name="colorControlNormal">@color/clr_purple_01</item>
+    </style>
+
 </resources>

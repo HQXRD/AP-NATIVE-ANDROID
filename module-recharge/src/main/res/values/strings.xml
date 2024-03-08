@@ -15,7 +15,6 @@
     <string name="txt_is_to_open_hiwallet_wallet">是否打开HiWallet钱包</string>
     <string name="txt_pls_select_payment_card">请选择付款银行卡</string>
     <string name="txt_pls_enter_ur_real_name">请输入支付账户真实姓名</string>
-    <string name="txt_recharge_tutorial">充值教程</string>
     <string name="txt_cur_recharge_channel">当前充值渠道：</string>
     <string name="txt_bind_personal_info">请先绑定个人信息</string>
     <string name="txt_bind_phone">立刻绑定手机</string>
