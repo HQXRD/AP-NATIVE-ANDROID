@@ -73,7 +73,9 @@
                 android:textSize="10sp"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/rl_play_method"
-                app:tabIndicatorHeight="0dp"
+                app:tabIndicatorHeight="2dp"
+                app:tabIndicatorFullWidth="false"
+                app:tabIndicatorColor="#247BF4"
                 app:tabMaxWidth="60dp"
                 app:tabMinWidth="20dp"
                 app:tabMode="scrollable"
@@ -204,8 +206,8 @@
 
         <RelativeLayout
             android:id="@+id/rl_cg"
-            android:layout_width="74dp"
-            android:layout_height="74dp"
+            android:layout_width="58dp"
+            android:layout_height="63dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="17dp"
@@ -220,8 +222,8 @@
 
             <TextView
                 android:id="@+id/tv_cg_count"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="10dp"
@@ -229,8 +231,8 @@
                 android:background="@mipmap/bt_bg_text_cg"
                 android:gravity="center"
                 android:text="2"
-                android:textColor="@color/bt_color_under_bg_primary_text"
-                android:textSize="12sp" />
+                android:textColor="@android:color/white"
+                android:textSize="10sp" />
         </RelativeLayout>
 
         <me.majiajie.pagerbottomtabstrip.PageNavigationView

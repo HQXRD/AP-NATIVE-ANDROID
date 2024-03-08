@@ -70,7 +70,7 @@ public class SideBar extends View {
         characterPaint = new Paint();
         characterPaint.setColor(context.getResources().getColor(R.color.bt_text_color_primary_2));
         characterSelectedPaint = new Paint();
-        characterSelectedPaint.setColor(context.getResources().getColor(R.color.bt_color_car_dialog_hight_line2));
+        characterSelectedPaint.setColor(context.getResources().getColor(R.color.colorPrimary));
         height = ConvertUtils.dp2px(25) * characterList.size();
     }
 

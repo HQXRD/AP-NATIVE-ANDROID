@@ -10,7 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/bt_page_bg">
+        android:background="@color/bt_color_league_group">
 
         <ImageView
             android:id="@+id/group_indicator"

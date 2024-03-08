@@ -328,7 +328,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
             binding.tvScoreVisitor.setText(String.valueOf(scoreList.get(1)));
         }
 
-        List<Integer> redCardScoreList = match.getScore(Constants.getRedCardType());
+        /*List<Integer> redCardScoreList = match.getScore(Constants.getRedCardType());
 
         if (redCardScoreList != null && redCardScoreList.size() > 1) {
             binding.tvRedCardMain.setVisibility(View.VISIBLE);
@@ -350,7 +350,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         } else {
             binding.tvYellowCardMain.setVisibility(View.GONE);
             binding.tvYellowCardVisisor.setVisibility(View.GONE);
-        }
+        }*/
 
         binding.tvPlaytypeCount.setText(match.getPlayTypeCount() + "+>");
         // 比赛未开始

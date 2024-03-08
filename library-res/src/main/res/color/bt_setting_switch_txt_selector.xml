@@ -5,6 +5,6 @@
     <item android:color="#FFFFFF" android:state_selected="false" />
 
     <!-- 选中时的字体颜色 -->
-    <item android:color="#9D46C6" android:state_selected="true" />
+    <item android:color="#121B47" android:state_selected="true" />
 
 </selector>

@@ -4,6 +4,6 @@
     tools:ignore="MissingDefaultResource">
 
     <item android:color="@color/bt_tab_match_textcolor_selected" android:state_selected="true" />
-    <item android:color="@color/bt_text_color_primary" />
+    <item android:color="@color/bt_text_color_primary_4" />
 
 </selector>

@@ -85,10 +85,9 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
         }
         if(mLeagueIdList == null || mLeagueIdList.isEmpty()){
             binding.llLeague.setVisibility(View.VISIBLE);
-            binding.tvHaschoised.setVisibility(View.GONE);
+            binding.tvHaschoised.setText("【全部】");
         }else{
             binding.llLeague.setVisibility(View.GONE);
-            binding.tvHaschoised.setVisibility(View.VISIBLE);
             binding.tvHaschoised.setText("(已选" + mLeagueIdList.size() + ")");
         }
 
