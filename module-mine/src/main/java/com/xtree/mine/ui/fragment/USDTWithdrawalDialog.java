@@ -22,6 +22,7 @@ import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.StringUtils;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
@@ -152,6 +153,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         });
         //USDT完成申请
         viewModel.usdtConfirmVoMutableLiveData.observe(owner, vo -> {
+            TagUtils.tagEvent(getContext(), "wd");
             usdtConfirmVo = vo;
             refreshConfirmUI();
         });

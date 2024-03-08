@@ -34,6 +34,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
@@ -308,6 +309,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
         });
         viewModel.platWithdrawConfirmVoMutableLiveData.observe(this.owner, ov -> {
+            TagUtils.tagEvent(getContext(), "wd");
             platWithdrawConfirmVo = ov;
             refreshWithdrawConfirmView(platWithdrawConfirmVo);
         });
