@@ -143,7 +143,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         });
         //USDT完成申请
         viewModel.virtualConfirmVoMutableLiveData.observe(owner, vo -> {
-            TagUtils.tagEvent(getContext(), "wd");
+            TagUtils.tagEvent(getContext(), "wd", "vc");
             usdtConfirmVo = vo;
             refreshConfirmUI();
         });

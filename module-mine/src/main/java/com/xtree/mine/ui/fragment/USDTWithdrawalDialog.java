@@ -153,7 +153,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         });
         //USDT完成申请
         viewModel.usdtConfirmVoMutableLiveData.observe(owner, vo -> {
-            TagUtils.tagEvent(getContext(), "wd");
+            TagUtils.tagEvent(getContext(), "wd", "ut");
             usdtConfirmVo = vo;
             refreshConfirmUI();
         });

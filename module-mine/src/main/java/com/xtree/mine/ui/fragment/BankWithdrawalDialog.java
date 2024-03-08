@@ -309,7 +309,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
         });
         viewModel.platWithdrawConfirmVoMutableLiveData.observe(this.owner, ov -> {
-            TagUtils.tagEvent(getContext(), "wd");
+            TagUtils.tagEvent(getContext(), "wd", "bkc");
             platWithdrawConfirmVo = ov;
             refreshWithdrawConfirmView(platWithdrawConfirmVo);
         });
