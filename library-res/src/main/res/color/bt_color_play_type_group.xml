@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingDefaultResource">
 
-    <item android:color="#A17DF5" android:state_selected="true" />
+    <item android:color="#BEE0FF" android:state_selected="true" />
     <item android:color="@color/bt_color_botton" />
 
 </selector>
