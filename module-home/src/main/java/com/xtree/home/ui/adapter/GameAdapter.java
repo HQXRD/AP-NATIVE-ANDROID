@@ -10,17 +10,22 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.SPUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.home.BuildConfig;
 import com.xtree.home.R;
 import com.xtree.home.databinding.HmItemGameBinding;
+import com.xtree.home.ui.custom.view.TipPMDialog;
 import com.xtree.home.vo.GameVo;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -34,6 +39,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
 
     public final static String PLATFORM_FBXC = "fbxc";
     public final static String PLATFORM_FB = "fb";
+    private BasePopupView basePopupView;
 
     public interface ICallBack {
         void onClick(GameVo vo); // String gameAlias, String gameId
@@ -154,11 +160,58 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         } else {
             cgToken = SPUtils.getInstance().getString(SPKeyGlobal.PM_TOKEN);
         }
+
         if (TextUtils.isEmpty(cgToken)) {
             ToastUtils.showShort("场馆初始化中，请稍候...");
         } else {
-            ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).withString("KEY_PLATFORM", vo.alias).withString("KEY_PLATFORM_NAME", vo.name).navigation();
+            if (TextUtils.equals(vo.alias, PLATFORM_FBXC) || TextUtils.equals(vo.alias, PLATFORM_FB)) {
+                ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).withString("KEY_PLATFORM", vo.alias).navigation();
+            } else {
+                if (ClickUtil.isFastClick()) {
+                    return;
+                }
+                boolean todayIsCheck = SPUtil.get(ctx).get("todayIsCheck", false);
+                long oneDayMillis = 86400000L;//一天的时间（毫秒）
+                long lastToadyTime = SPUtil.get(ctx).getLong("todayTime", 0L);
+                //lastToadyTime == 0L代表第一次点击熊猫场馆或者 今日不再提示CheckBox不选中
+                if (!todayIsCheck) {
+                    showPopup(vo);
+                } else if (todayIsCheck && System.currentTimeMillis() - lastToadyTime > oneDayMillis) {
+                    showPopup(vo);
+                } else {
+                    //直接跳转熊猫场馆
+                    ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
+                            withString("KEY_PLATFORM", vo.alias).navigation();
+                }
+            }
+
         }
+    }
+
+    public void showPopup(GameVo vo) {
+        //点击熊猫体育，弹出弹窗
+        basePopupView = new XPopup.Builder(ctx)
+                .dismissOnTouchOutside(false)
+                .asCustom(new TipPMDialog(ctx, new TipPMDialog.ICallBack() {
+                    @Override
+                    public void onClickPM() {
+                        ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
+                                withString("KEY_PLATFORM", vo.alias).navigation();
+                        basePopupView.dismiss();
+                    }
+
+                    @Override
+                    public void onClickFB() {
+                        if (TextUtils.isEmpty(SPUtils.getInstance().getString(SPKeyGlobal.FBXC_TOKEN))) {
+                            ToastUtils.showShort("场馆初始化中，请稍候...");
+                        } else {
+                            ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
+                                    withString("KEY_PLATFORM", PLATFORM_FBXC).navigation();
+                        }
+                        basePopupView.dismiss();
+                    }
+                }));
+        basePopupView.show();
     }
 
     public void playGame(String playUrl, String title, Boolean isLottery) {

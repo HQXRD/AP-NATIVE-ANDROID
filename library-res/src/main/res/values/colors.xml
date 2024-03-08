@@ -287,6 +287,9 @@
     <color name="clr_hint">#F4F4F4</color>
     <!-- 通用 end-->
     <color name="clr_toast">#808080</color>
+    <color name="clr_8080ff">#8080ff</color>
+
+
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

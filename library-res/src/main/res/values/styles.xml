@@ -901,6 +901,10 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="PMTipCheckBoxTheme">
+        <item name="colorAccent">@color/clr_purple_01</item>
+        <item name="colorControlNormal">@color/clr_purple_01</item>
+    </style>
     <!-- 我的钱包-5个菜单 -->
     <style name="style_wallet_menu">
         <item name="android:layout_width">wrap_content</item>
