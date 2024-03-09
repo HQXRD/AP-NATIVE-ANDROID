@@ -41,15 +41,12 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
             int[] outLocation = new int[2];
             itemView.getLocationInWindow(outLocation);
             int editAreaY = outLocation[1];
-            Log.e("test", itemView + "======editAreaY=======" + editAreaY);
-            Log.e("test", "======parentY=======" + parentY);
 
             int[] outLocation1 = new int[2];
             getLocationInWindow(outLocation1);
             int keyBoardY = outLocation1[1];
 
             int editAreaHeight = itemView.getMeasuredHeight();
-            Log.e("test", "======editAreaHeight=======" + editAreaHeight);
 
             if(editAreaY + editAreaHeight > keyBoardY){
                 int y = editAreaY + editAreaHeight * 2 - keyBoardY;

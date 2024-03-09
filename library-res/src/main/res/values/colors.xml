@@ -87,7 +87,7 @@
     <color name="bt_color_blurred_2">#AEAEAE</color>
 
     <!-- 赛事列表进行时间背影颜色 -->
-    <color name="bt_bg_color_time">#F0F0F0</color>
+    <color name="bt_bg_color_time">#FBFBFB</color>
 
     <!-- 赛事列表玩法名称背影颜色 -->
     <color name="bt_bg_color_playtype">#BEE0FF</color>
@@ -108,7 +108,7 @@
     <color name="bt_color_car_dialog_hight_line">#C1C4F2</color>
 
     <!-- 投注确认页高亮颜色2 -->
-    <color name="bt_color_car_dialog_hight_line2">#A17DF5</color>
+    <color name="bt_color_car_dialog_hight_line2">#247BF4</color>
 
     <!-- 投注确认页提示高亮颜色(如比分已更改) -->
     <color name="bt_color_car_dialog_tip_hight_line">#FF7A00</color>
@@ -120,7 +120,7 @@
     <color name="bt_color_shadow">#1AA797F0</color>
 
     <!-- 键盘背景颜色 -->
-    <color name="bt_bg_color_keyboard">#F6F4FF</color>
+    <color name="bt_bg_color_keyboard">#E7ECF5</color>
 
     <!-- 赛事详情页顶部栏背景颜色 -->
     <color name="bt_color_detail_top_toolbar">#4D000000</color>
@@ -158,7 +158,7 @@
     <color name="min_google_top_color">#F5F5F5</color>
 
     <!-- 投注键盘快速金额字体颜色 -->
-    <color name="bt_color_keyboard_quick">#9396E4</color>
+    <color name="bt_color_keyboard_quick">#70B2FD</color>
 
     <!-- 投注拖动按钮合计投注金额颜色 -->
     <color name="bt_color_bt_pay">#80FFFFFF</color>
@@ -233,7 +233,7 @@
 
     <color name="clr_white_14">#24FFFFFF</color>
 
-    <color name="clr_purple_01">#9987E2</color>
+    <color name="clr_purple_01">#247BF4</color>
     <color name="clr_purple_02">#9981F5</color>
     <color name="clr_purple_03">#CE9CE5</color>
     <color name="clr_purple_08">#EFE9FF</color>
@@ -289,6 +289,7 @@
     <color name="clr_blue_07">#D3E6FC</color>
     <color name="clr_blue_08">#FCFCFF</color>
     <color name="clr_blue_09">#DEE1F4</color>
+    <color name="clr_blue_10">#247BF4</color>
 
     <color name="clr_green_03">#5BBA5B</color>
     <color name="clr_green_06">#E7E7E7</color>
@@ -325,4 +326,7 @@
     <color name="cl_over_tip">#8F8F8F</color>
     <color name="cl_awards_end">#ECE6F9</color>
     <color name="cl_awards_start">#ECEFF9</color>
+    <color name="clt_ccffffff">#CCFFFFFF</color>
+    <color name="clr_e5e7f3">#E5E7F3</color>
+
 </resources>

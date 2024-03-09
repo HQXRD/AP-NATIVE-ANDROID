@@ -620,8 +620,8 @@
 
     <!-- 登录页 账号输入框 -->
     <style name="style_cm_edt_account">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@null</item>
@@ -655,12 +655,8 @@
 
     <!-- 登录页 复选框 -->
     <style name="style_cm_ckb_normal">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingHorizontal" tools:targetApi="o">6dp</item>
-        <item name="android:button">@drawable/checkbox_bg_selector</item>
-        <item name="android:textSize">12sp</item>
+        <item name="colorAccent">@color/clr_purple_01</item>
+        <item name="colorControlNormal">@color/clr_purple_01</item>
     </style>
 
     <!-- 我的-账户管理-绑定-新增页 标题 -->
@@ -1017,6 +1013,14 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="login_tv_style" >
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
 </resources>

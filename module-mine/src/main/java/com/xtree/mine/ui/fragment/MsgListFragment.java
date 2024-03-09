@@ -35,7 +35,18 @@ public class MsgListFragment extends BaseFragment<FragmentMsgListBinding, MsgVie
 
     @Override
     public void initView() {
-        mMsgListAdapter = new MsgListAdapter(getContext(), vo -> viewModel.getMessage(changeIdType(vo.id)));
+        mMsgListAdapter = new MsgListAdapter(getContext(), vo -> {
+            viewModel.getMessage(changeIdType(vo.id));
+            for (MsgVo msgPersonVo : msgVoList) {
+                if (msgPersonVo.id == vo.id) {
+                    msgPersonVo.is_read = true;
+                    mMsgListAdapter.clear();
+                    mMsgListAdapter.addAll(msgVoList);
+                    mMsgListAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+        });
         binding.rvMsgList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvMsgList.setAdapter(mMsgListAdapter);
 

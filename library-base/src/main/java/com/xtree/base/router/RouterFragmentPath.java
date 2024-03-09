@@ -60,6 +60,7 @@ public class RouterFragmentPath {
         public static final String PAGER_FORGET_PASSWORD = MINE + "/ForgetPassword"; // 忘记密码
         public static final String PAGER_MSG = MINE + "/Msg"; // 忘记密码
         public static final String PAGER_MSG_LIST = MINE + "/MsgList"; // 忘记密码
+        public static final String PAGER_MSG_CHAT = MINE + "/MsgChat"; // 上下级聊天
         public static final String PAGER_MSG_PERSON_LIST = MINE + "/MsgPersonList"; // 忘记密码
         public static final String PAGER_VIP_UPGRADE = MINE + "/VipUpgrade"; // VIP升级资讯
         public static final String PAGER_VIP_INFO = MINE + "/VipInfo"; // VIP资讯

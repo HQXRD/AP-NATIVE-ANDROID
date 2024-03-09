@@ -29,7 +29,7 @@
         android:id="@+id/ivw_msg_point"
         android:layout_width="6dp"
         android:layout_height="6dp"
-        android:visibility="gone"
+        android:visibility="visible"
         android:src="@drawable/ic_red_point"
         app:layout_constraintEnd_toEndOf="@id/ivw_msg_icon"
         app:layout_constraintTop_toTopOf="@id/ivw_msg_icon" />

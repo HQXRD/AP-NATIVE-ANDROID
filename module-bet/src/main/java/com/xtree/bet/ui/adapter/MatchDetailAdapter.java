@@ -135,11 +135,7 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
         }
 
         BtFbDetailItemPlayTypeGroupBinding binding = BtFbDetailItemPlayTypeGroupBinding.bind(holder.itemView);
-        if(groupPosition == 0){
-            binding.vSpace.setVisibility(View.GONE);
-        }else {
-            binding.vSpace.setVisibility(View.VISIBLE);
-        }
+
         binding.tvPlaytypeName.setText(playType.getPlayTypeName());
         binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
         binding.rlPlayMethod.setBackgroundResource(isExpanded ? R.drawable.bt_bg_expand_group : R.drawable.bt_bg_expand_group_collapse);

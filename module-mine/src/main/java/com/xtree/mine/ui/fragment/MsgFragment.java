@@ -68,14 +68,19 @@ public class MsgFragment extends BaseFragment<FragmentMsgBinding, MsgViewModel> 
 
         MsgListFragment bindMsgFragment = new MsgListFragment();
         MsgPersonListFragment bindMsgPersonFragment = new MsgPersonListFragment();
+        MsgChatFragment bindMsgChatFragment = new MsgChatFragment();
 
         String txtMsg = getString(R.string.txt_msg_message);
         String txtMsgPerson = getString(R.string.txt_msg_message_person);
+        String txtMsgChat = getString(R.string.txt_msg_message_talk);
 
         fragmentList.add(bindMsgFragment);
         fragmentList.add(bindMsgPersonFragment);
+        fragmentList.add(bindMsgChatFragment);
+
         tabList.add(txtMsg);
         tabList.add(txtMsgPerson);
+        tabList.add(txtMsgChat);
 
         mAdapter.notifyDataSetChanged();
     }

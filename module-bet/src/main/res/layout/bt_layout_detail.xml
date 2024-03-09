@@ -291,20 +291,23 @@
                 <RelativeLayout
                     android:id="@+id/rl_play_method"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="60dp"
+                    android:background="@color/bt_page_up_bg">
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tab_category_type"
                         android:layout_width="match_parent"
-                        android:layout_height="32dp"
-                        android:layout_margin="15dp"
+                        android:layout_height="38dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
                         android:layout_toLeftOf="@+id/iv_expand"
                         android:textSize="10sp"
                         app:tabIndicatorFullWidth="false"
                         app:tabIndicatorHeight="0dp"
                         app:tabMode="scrollable"
-                        app:tabPaddingEnd="5dp"
-                        app:tabPaddingStart="5dp"
+                        app:tabPaddingEnd="0dp"
+                        app:tabPaddingStart="0dp"
                         app:tabRippleColor="@android:color/transparent" />
 
                     <ImageView
