@@ -36,6 +36,8 @@ public class Constant {
 
     public static final String URL_DEPOSIT_FEEDBACK = "/webapp/#/depositFeedback"; // 充值—反馈
     public static final String URL_MY_MESSAGES = "/webapp/#/my/messages"; // 消息中心
+    public static final String URL_MY_MESSAGES_CHAT = "/chat?version=x"; // 上下级聊天
+
     public static final String URL_CUSTOMER_SERVICE = "/webapp/#/customerService"; // 客服中心
     public static final String URL_VIP_CENTER = "/webapp/#/vipcenter"; // VIP中心
     public static final String URL_WITHDRAW = "/webapp/#/withdraw"; // 提现
