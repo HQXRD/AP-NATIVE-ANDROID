@@ -209,13 +209,11 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 getContext().startActivity(intent);
             });
 
-            String tipAvail = null;
-            String usdtAvail;
-            tipAvail = "可用提款余额: " + StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance)));
-            usdtAvail = "其中" + chooseInfoVo.usdtInfo.quota + "可以使用虚拟币提款取出";
-            String showChooseTip = tipAvail + usdtAvail;
+            String tip =
+                    String.format(getContext().getString(R.string.txt_choose_withdrawal_tip) ,
+                            StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))) , chooseInfoVo.usdtInfo.quota);
             binding.tvChooseTip.setVisibility(View.VISIBLE);
-            binding.tvChooseTip.setText(showChooseTip);
+            binding.tvChooseTip.setText(tip);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 binding.tvChooseTip.setTextColor(getContext().getColor(R.color.red));
             }

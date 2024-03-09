@@ -19,11 +19,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="23dp"
             android:gravity="center"
             android:textColor="@color/bt_text_color_primary"
             android:textSize="@dimen/bt_text_11sp"
             app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/bt_bg_league_top_playtype"
             tools:text="让球" />
 
         <LinearLayout
@@ -142,11 +143,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="23dp"
             android:gravity="center"
             android:textColor="@color/bt_text_color_primary"
             android:textSize="@dimen/bt_text_11sp"
             app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/bt_bg_league_top_playtype"
             tools:text="让球" />
 
         <LinearLayout
@@ -230,11 +232,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="23dp"
             android:gravity="center"
             android:textColor="@color/bt_text_color_primary"
             android:textSize="@dimen/bt_text_11sp"
             app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/bt_bg_league_top_playtype"
             tools:text="让球" />
 
         <LinearLayout

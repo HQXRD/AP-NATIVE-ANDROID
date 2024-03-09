@@ -7,12 +7,14 @@
     <item android:drawable="@mipmap/rc_ic_pmt_wykc" android:maxLevel="151" />
     <item android:drawable="@mipmap/rc_ic_pmt_usdt" android:maxLevel="169" />
     <item android:drawable="@mipmap/rc_ic_pmt_usdt" android:maxLevel="170" />
+    <item android:drawable="@mipmap/rc_ic_pmt_jisuchongzhi" android:maxLevel="189" />
     <item android:drawable="@mipmap/rc_ic_pmt_ebkc" android:maxLevel="191" />
     <item android:drawable="@mipmap/rc_ic_pmt_ucybf" android:maxLevel="205" />
     <item android:drawable="@mipmap/rc_ic_pmt_ucybf" android:maxLevel="206" />
     <item android:drawable="@mipmap/rc_ic_pmt_topay" android:maxLevel="208" />
     <item android:drawable="@mipmap/rc_ic_pmt_cn" android:maxLevel="210" />
     <item android:drawable="@mipmap/rc_ic_pmt_yhk" android:maxLevel="211" />
+    <item android:drawable="@mipmap/rc_ic_pmt_yhk" android:maxLevel="217" />
     <item android:drawable="@mipmap/rc_ic_pmt_gobao" android:maxLevel="223" />
     <item android:drawable="@mipmap/rc_ic_pmt_yhk" android:maxLevel="226" />
     <item android:drawable="@mipmap/rc_ic_pmt_gopay" android:maxLevel="227" />

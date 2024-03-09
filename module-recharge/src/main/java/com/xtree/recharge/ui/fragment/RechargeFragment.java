@@ -26,6 +26,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.UuidUtil;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
@@ -72,6 +73,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     boolean isShowedProcessPendCount = false; // 是否显示过 "订单未到账" 的提示
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
     boolean isShowBack = false; // 是否显示返回按钮
+    ProfileVo mProfileVo = null; // 个人信息
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -214,7 +216,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 }
 
                 // 获取 实际充值金额 (测试环境 银行卡充值3)
-                if (curRechargeVo.isrecharge_additional && s.length() >= 3) {
+                if (curRechargeVo != null && curRechargeVo.isrecharge_additional && s.length() >= 3) {
                     // 调用提交接口, 增加 perOrder=true
                     //getRealMoney();
                 }
@@ -308,13 +310,14 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         binding.llDown.setVisibility(View.GONE); // 默认隐藏
         setTipBottom(vo); // 设置底部的文字提示
 
-        if (vo.op_thiriframe_use && vo.phone_needbind && vo.view_bank_card && vo.userBankList.isEmpty()) {
-            // 绑定手机或者YHK
-            CfLog.i("****** 绑定手机或者YHK");
-            toBindPhoneOrCard();
-            return;
-        }
-        if (vo.op_thiriframe_use && vo.phone_needbind && (!vo.view_bank_card || (vo.view_bank_card && !vo.userBankList.isEmpty()))) {
+        //if (vo.op_thiriframe_use && vo.phone_needbind && vo.view_bank_card && vo.userBankList.isEmpty()) {
+        //    // 绑定手机或者YHK
+        //    CfLog.i("****** 绑定手机或者YHK");
+        //    toBindPhoneOrCard();
+        //    return;
+        //}
+        //if (vo.op_thiriframe_use && vo.phone_needbind && (!vo.view_bank_card || (vo.view_bank_card && !vo.userBankList.isEmpty()))) {
+        if (vo.op_thiriframe_use && vo.phone_needbind ) {
             // 绑定手机
             CfLog.i("****** 绑定手机");
             toBindPhoneNumber();
@@ -431,19 +434,23 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     private void toBindPhoneNumber() {
 
-        String msg = getString(R.string.txt_rc_bind_phone_email_pls);
-        String left = getString(R.string.txt_rc_bind_phone);
-        String right = getString(R.string.txt_rc_bind_email);
+        String msg = getString(R.string.txt_rc_bind_phone_pls);
+        String left = getString(R.string.txt_cancel);
+        String right = getString(R.string.txt_rc_bind_phone);
         MsgDialog dialog = new MsgDialog(getContext(), null, msg, left, right, new MsgDialog.ICallBack() {
             @Override
             public void onClickLeft() {
-                toBindPhoneOrEmail(Constant.BIND_PHONE);
+
                 ppw2.dismiss();
             }
 
             @Override
             public void onClickRight() {
-                toBindPhoneOrEmail(Constant.BIND_EMAIL);
+                String type = Constant.BIND_PHONE; // VERIFY_BIND_PHONE
+                if (mProfileVo.is_binding_email) {
+                    type = Constant.VERIFY_BIND_PHONE;
+                }
+                toBindPhoneOrEmail(type);
                 ppw2.dismiss();
             }
         });
@@ -750,6 +757,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         viewModel.liveDataRechargePay.observe(getViewLifecycleOwner(), vo -> {
             CfLog.i(vo.payname + ", bankcode: " + vo.bankcode + ", money: " + vo.money);
             goPay(vo);
+        });
+
+        viewModel.liveDataProfile.observe(this, vo -> {
+            mProfileVo = vo;
         });
 
     }

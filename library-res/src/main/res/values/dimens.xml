@@ -7,7 +7,6 @@
     <dimen name="text_margin">16dp</dimen>
 
     <dimen name="bt_match_list_height">142dp</dimen>
-    <dimen name="bt_match_list_height_2">118dp</dimen>
     <dimen name="bt_text_7sp">7sp</dimen>
     <dimen name="bt_text_8sp">8sp</dimen>
     <dimen name="bt_text_10sp">10sp</dimen>
@@ -20,9 +19,9 @@
     <dimen name="bt_text_18sp">18sp</dimen>
     <dimen name="bt_text_20sp">20sp</dimen>
 
-
     <dimen name="me_test_size">12sp</dimen>
     <dimen name="me_text_sp20">20sp</dimen>
     <dimen name="me_text_size_sp12sp">12sp</dimen>
+    <dimen name="mine_text_size">12sp</dimen>
 
 </resources>

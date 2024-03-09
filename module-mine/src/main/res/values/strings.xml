@@ -337,7 +337,7 @@
     <string name="txt_select_withdrawal_address">请选择提币地址</string>
 
     <string name="txt_vip_title">VIP特权</string>
-    <string name="txt_tip_unfinished_activity">未完成活动流水</string>
+    <string name="txt_tip_unfinished_activity">提款流水</string>
     <string name="txt_tip_wallet">钱包</string>
     <string name="txt_tip_report">*所有平台查询不包括彩票,查询彩票请下拉筛选单独查询</string>
     <string name="txt_tip_number">笔数</string>
@@ -350,4 +350,14 @@
     <string name="txt_delete_part_msg">您确定要删除选中的消息吗? 已删除的消息将不可再恢复</string>
     <string name="txt_confirm_deltet">确认删除</string>
     <string name="txt_delete_msg_title">删除站内信?</string>
+    <string name="txt_awards_flow_title">抱歉，您的有效流水不足，仍需%s才可提款</string>
+    <string name="txt_awards_bonus_tip">奖金： %s</string>
+    <string name="txt_awards_required_turnover_tip">所需流水:%s</string>
+    <string name="txt_awards_remain_turnover_tip">剩余流水:%s</string>
+    <string name="txt_awards_remain_turnover_default_tip">剩余流水:0.00</string>
+    <string name="txt_unfinished_activity_flow">未完成活动流水</string>
+    <string name="txt_awards_no_money_tip">您未参加任何活动，暂无礼金</string>
+    <string name="txt_choose_withdrawal_tip">可用提款余额:%s其中%s可以使用虚拟币提款取出</string>
+    <string name="txt_cny_balance">￥</string>
+
 </resources>

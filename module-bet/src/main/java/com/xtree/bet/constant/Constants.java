@@ -6,6 +6,8 @@ import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 
+import com.xtree.bet.R;
+
 import java.util.Map;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -26,7 +28,7 @@ public class Constants {
             project.tqyb.com.library_res.R.drawable.bt_match_item_bbq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_iceq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_qj_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_stpq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector};
 
     public static int[] SPORT_ICON_LIVE = new int[]{
@@ -42,7 +44,7 @@ public class Constants {
             project.tqyb.com.library_res.R.drawable.bt_match_item_bbq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_iceq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_qj_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_stpq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector};
 
     public static int[] SPORT_ICON_TODAY_CG = new int[]{
@@ -58,7 +60,7 @@ public class Constants {
             project.tqyb.com.library_res.R.drawable.bt_match_item_bbq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_iceq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_qj_selector,
-            project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
+            project.tqyb.com.library_res.R.drawable.bt_match_item_stpq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector};
 
     /**

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class AwardsRecordVo {
     public int  networkStatus ;//1 网络链接超时 ；2 网络链接异常 ；0 网络链接正常
     public String locked_award_sum;
-    public String withdraw_dispensing_money;
+    public String withdraw_dispensing_money; //仍需要XXX才可提
     public ArrayList<AwardsRecordInfo> list;
 
     public boolean isShow; //false 不展示资金流水 true 展示资金流水
@@ -35,10 +35,10 @@ public class AwardsRecordVo {
         public String id;
         public String aid; // "168",
         public String userid;
-        public String dispensing_money;
+        public String dispensing_money;//所需流水
 
         public String deducted_turnover;
-        public String money; // "50.00",
+        public String money; // "50.00",奖金
         public String is_bet_source;
         public String c_time;
 

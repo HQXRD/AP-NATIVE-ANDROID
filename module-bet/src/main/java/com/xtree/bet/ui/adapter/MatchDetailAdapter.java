@@ -54,7 +54,6 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
         TextView tvPlayTypeCount;
         ImageView ivCourt;
         ImageView ivLive;
-        XBanner xbPlayTypeGroup;
         LinearLayout llRoot;
         PageHorizontalScrollView hsvPlayTypeGroup;
         LinearLayout llPointer;
@@ -70,7 +69,6 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
             tvPlayTypeCount = view.findViewById(R.id.tv_playtype_count);
             ivCourt = view.findViewById(R.id.iv_court);
             ivLive = view.findViewById(R.id.iv_live);
-            xbPlayTypeGroup = view.findViewById(R.id.play_type_banner);
             llRoot = view.findViewById(R.id.ll_root);
             hsvPlayTypeGroup = view.findViewById(R.id.hsv_play_type_group);
             llPointer = view.findViewById(R.id.ll_pointer);
@@ -137,7 +135,11 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
         }
 
         BtFbDetailItemPlayTypeGroupBinding binding = BtFbDetailItemPlayTypeGroupBinding.bind(holder.itemView);
-
+        if(groupPosition == 0){
+            binding.vSpace.setVisibility(View.GONE);
+        }else {
+            binding.vSpace.setVisibility(View.VISIBLE);
+        }
         binding.tvPlaytypeName.setText(playType.getPlayTypeName());
         binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
         binding.rlPlayMethod.setBackgroundResource(isExpanded ? R.drawable.bt_bg_expand_group : R.drawable.bt_bg_expand_group_collapse);
