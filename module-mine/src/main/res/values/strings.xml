@@ -358,5 +358,6 @@
     <string name="txt_unfinished_activity_flow">未完成活动流水</string>
     <string name="txt_awards_no_money_tip">您未参加任何活动，暂无礼金</string>
     <string name="txt_choose_withdrawal_tip">可用提款余额:%s其中%s可以使用虚拟币提款取出</string>
+    <string name="txt_cny_balance">￥</string>
 
 </resources>
