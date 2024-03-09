@@ -233,7 +233,7 @@
 
     <color name="clr_white_14">#24FFFFFF</color>
 
-    <color name="clr_purple_01">#9987E2</color>
+    <color name="clr_purple_01">#247BF4</color>
     <color name="clr_purple_02">#9981F5</color>
     <color name="clr_purple_03">#CE9CE5</color>
     <color name="clr_purple_08">#EFE9FF</color>
@@ -326,4 +326,7 @@
     <color name="cl_over_tip">#8F8F8F</color>
     <color name="cl_awards_end">#ECE6F9</color>
     <color name="cl_awards_start">#ECEFF9</color>
+    <color name="clt_ccffffff">#CCFFFFFF</color>
+    <color name="clr_e5e7f3">#E5E7F3</color>
+
 </resources>

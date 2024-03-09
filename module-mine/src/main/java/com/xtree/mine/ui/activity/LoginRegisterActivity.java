@@ -79,15 +79,11 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         Intent intent = getIntent();
         int viewType = intent.getIntExtra(ENTER_TYPE, LOGIN_TYPE);
         if (viewType == LOGIN_TYPE) {
-            binding.toRegisterArea.setVisibility(View.VISIBLE);
             binding.loginArea.setVisibility(View.VISIBLE);
-            binding.toLoginArea.setVisibility(View.GONE);
             binding.meRegisterArea.setVisibility(View.GONE);
         }
         if (viewType == REGISTER_TYPE) {
-            binding.toLoginArea.setVisibility(View.VISIBLE);
             binding.meRegisterArea.setVisibility(View.VISIBLE);
-            binding.toRegisterArea.setVisibility(View.GONE);
             binding.loginArea.setVisibility(View.GONE);
         }
 
@@ -134,20 +130,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 return;
             }
             viewModel.login(acc, pwd);
-        });
-
-        binding.toRegisterArea.setOnClickListener(v -> {
-            //显示注册页面，隐藏登录界面
-            binding.toLoginArea.setVisibility(View.VISIBLE);
-            binding.meRegisterArea.setVisibility(View.VISIBLE);
-            binding.toRegisterArea.setVisibility(View.GONE);
-            binding.loginArea.setVisibility(View.GONE);
-        });
-        binding.toLoginArea.setOnClickListener(v -> {
-            binding.toRegisterArea.setVisibility(View.VISIBLE);
-            binding.loginArea.setVisibility(View.VISIBLE);
-            binding.toLoginArea.setVisibility(View.GONE);
-            binding.meRegisterArea.setVisibility(View.GONE);
         });
 
         binding.edtAccReg.addTextChangedListener(new TextWatcher() {
