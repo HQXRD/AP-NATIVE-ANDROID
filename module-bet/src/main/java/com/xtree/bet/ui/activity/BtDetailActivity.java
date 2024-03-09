@@ -159,7 +159,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 tabPos = tab.getPosition();
                 for(int i = 0; i < binding.tabCategoryType.getTabCount(); i ++){
                     if(tabPos == i){
-                        binding.tabCategoryType.getTabAt(i).getCustomView().setBackgroundResource(R.drawable.bt_bg_category_tab_selected);
+                        binding.tabCategoryType.getTabAt(i).getCustomView().setBackgroundResource(R.mipmap.bt_bg_category_tab_selected);
                     }else {
                         binding.tabCategoryType.getTabAt(i).getCustomView().setBackgroundResource(R.drawable.bt_bg_category_tab);
                     }
@@ -456,13 +456,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                         tvName.setText(name);
                         ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_category_tab_text);
                         tvName.setTextColor(colorStateList);
-                        if(i != 0){
-                            view.setBackgroundResource(R.drawable.bt_bg_category_tab);
-                        }
                         binding.tabCategoryType.addTab(binding.tabCategoryType.newTab().setCustomView(view));
 
                     }
-
                 }else{
                     for (int i = 0; i < categories.size(); i++) {
                         try {

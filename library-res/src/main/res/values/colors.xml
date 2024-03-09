@@ -87,7 +87,7 @@
     <color name="bt_color_blurred_2">#AEAEAE</color>
 
     <!-- 赛事列表进行时间背影颜色 -->
-    <color name="bt_bg_color_time">#F0F0F0</color>
+    <color name="bt_bg_color_time">#FBFBFB</color>
 
     <!-- 赛事列表玩法名称背影颜色 -->
     <color name="bt_bg_color_playtype">#BEE0FF</color>
