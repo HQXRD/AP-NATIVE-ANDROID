@@ -108,7 +108,7 @@
     <color name="bt_color_car_dialog_hight_line">#C1C4F2</color>
 
     <!-- 投注确认页高亮颜色2 -->
-    <color name="bt_color_car_dialog_hight_line2">#A17DF5</color>
+    <color name="bt_color_car_dialog_hight_line2">#247BF4</color>
 
     <!-- 投注确认页提示高亮颜色(如比分已更改) -->
     <color name="bt_color_car_dialog_tip_hight_line">#FF7A00</color>
@@ -120,7 +120,7 @@
     <color name="bt_color_shadow">#1AA797F0</color>
 
     <!-- 键盘背景颜色 -->
-    <color name="bt_bg_color_keyboard">#F6F4FF</color>
+    <color name="bt_bg_color_keyboard">#E7ECF5</color>
 
     <!-- 赛事详情页顶部栏背景颜色 -->
     <color name="bt_color_detail_top_toolbar">#4D000000</color>
@@ -158,7 +158,7 @@
     <color name="min_google_top_color">#F5F5F5</color>
 
     <!-- 投注键盘快速金额字体颜色 -->
-    <color name="bt_color_keyboard_quick">#9396E4</color>
+    <color name="bt_color_keyboard_quick">#70B2FD</color>
 
     <!-- 投注拖动按钮合计投注金额颜色 -->
     <color name="bt_color_bt_pay">#80FFFFFF</color>
