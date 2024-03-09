@@ -128,11 +128,11 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
         });
 
         //显示钱包流水
-        binding.tvwAwardRecord.setOnClickListener(v -> {
-            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
-        });
+        //binding.tvwAwardRecord.setOnClickListener(v -> {
+        //    ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
+        //});
 
-        int spanCount = 4; // 每行的列数
+        int spanCount = 3; // 每行的列数
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
         binding.rcvWalletDetails.setLayoutManager(layoutManager);
 
@@ -202,14 +202,14 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
         });
 
         //获取礼物流水
-        viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
-            awardsRecordVo = vo;
-            if (awardsRecordVo != null && awardsRecordVo.list.size() > 0) {
-                binding.tvwAwardRecord.setText(awardsRecordVo.locked_award_sum);
-            } else {
-                binding.tvwAwardRecord.setText("0.0000");
-            }
-        });
+        //viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
+        //    awardsRecordVo = vo;
+        //    if (awardsRecordVo != null && awardsRecordVo.list.size() > 0) {
+        //        binding.tvwAwardRecord.setText(awardsRecordVo.locked_award_sum);
+        //    } else {
+        //        binding.tvwAwardRecord.setText("0.0000");
+        //    }
+        //});
     }
 
     @Override

@@ -211,6 +211,7 @@
     <color name="clr_gray_3">#EFF1F8</color>
     <color name="clr_gray_4">#EEEEED</color>
     <color name="clr_gray_5">#DAD5E2</color>
+    <color name="clr_gray_6">#E7ECF5</color>
     <color name="clr_choose_20">#915783</color>
 
     <!-- 筛选框 灰色 标题 -->
@@ -282,8 +283,12 @@
     <color name="clr_green_01">#20B56E</color>
 
     <color name="clr_blue_03">#119BFF</color>
+    <color name="clr_blue_04">#C7E3FF</color>
     <color name="clr_blue_05">#376CAA</color>
     <color name="clr_blue_06">#CEE4FE</color>
+    <color name="clr_blue_07">#D3E6FC</color>
+    <color name="clr_blue_08">#FCFCFF</color>
+    <color name="clr_blue_09">#DEE1F4</color>
 
     <color name="clr_green_03">#5BBA5B</color>
     <color name="clr_green_06">#E7E7E7</color>
