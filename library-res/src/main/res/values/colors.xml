@@ -328,5 +328,7 @@
     <color name="cl_awards_start">#ECEFF9</color>
     <color name="clt_ccffffff">#CCFFFFFF</color>
     <color name="clr_e5e7f3">#E5E7F3</color>
+    <color name="clr_4ecfff">#4ECFFF</color>
+    <color name="clr_bee5fc">#BEE5FC</color>
 
 </resources>
