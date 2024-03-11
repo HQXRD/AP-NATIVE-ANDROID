@@ -4,9 +4,9 @@ import com.xtree.base.mvvm.recyclerview.BindModel;
 
 /**
  * Created by KAKA on 2024/3/8.
- * Describe:
+ * Describe: 返水契约列表数据
  */
-public class RebateAreegmentData extends BindModel {
+public class RebateAreegmentModel extends BindModel {
 
 
 }

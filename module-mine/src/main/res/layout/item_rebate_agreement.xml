@@ -6,7 +6,7 @@
 
         <variable
             name="m"
-            type="com.xtree.mine.ui.rebateagrt.model.RebateAreegmentData" />
+            type="com.xtree.mine.ui.rebateagrt.model.RebateAreegmentModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"

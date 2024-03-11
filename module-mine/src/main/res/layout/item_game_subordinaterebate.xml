@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+
+    </data>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:translationZ="1dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.3" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/guide1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="1"
+                app:layout_constraintHorizontal_bias="0">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="14dp"
+                    android:background="@color/color_247BF4"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="用户001"
+                    android:textSize="14sp"
+                    android:textColor="@color/color_1E1E1E"
+                    android:layout_marginStart="2dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="start"
+                app:layout_constraintTop_toTopOf="@id/guide1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="投注额"
+                    android:textSize="12sp"
+                    android:textColor="@color/color_5B5B6A"
+                    android:layout_marginTop="12dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="26.0000"
+                    android:textSize="10sp"
+                    android:textColor="@color/color_1E1E1E"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="返水金额"
+                    android:textSize="12sp"
+                    android:textColor="@color/color_5B5B6A"
+                    android:layout_marginTop="12dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="26.0000"
+                    android:textSize="10sp"
+                    android:textColor="@color/color_1E1E1E"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2023-25-54"
+                    android:textSize="12sp"
+                    android:textColor="@color/color_5B5B6A"
+                    android:layout_marginTop="12dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="@id/guide1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0.5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="有效投注额"
+                    android:textSize="12sp"
+                    android:textColor="@color/color_5B5B6A"
+                    android:layout_marginTop="12dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="26.0000"
+                    android:textSize="10sp"
+                    android:textColor="@color/color_1E1E1E"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="下级返水"
+                    android:textSize="12sp"
+                    android:textColor="@color/color_5B5B6A"
+                    android:layout_marginTop="12dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="26.0000"
+                    android:textSize="10sp"
+                    android:textColor="@color/color_1E1E1E"
+                    android:layout_marginTop="10dp"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="end"
+                app:layout_constraintTop_toTopOf="@id/guide1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="返水比例"
+                    android:textSize="12sp"
+                    android:textColor="@color/color_5B5B6A"
+                    android:layout_marginTop="12dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="26.0000"
+                    android:textSize="10sp"
+                    android:textColor="@color/color_1E1E1E"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="个人返水"
+                    android:textSize="12sp"
+                    android:textColor="@color/color_5B5B6A"
+                    android:layout_marginTop="12dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="26.0000"
+                    android:textSize="10sp"
+                    android:textColor="@color/color_1E1E1E"
+                    android:layout_marginTop="10dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="发放状态"
+                    android:textSize="12sp"
+                    android:textColor="@color/color_5B5B6A"
+                    android:layout_marginTop="12dp"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="未到账"
+                    android:textSize="10sp"
+                    android:textColor="@color/color_1E1E1E"
+                    android:layout_marginTop="10dp"
+                    />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
