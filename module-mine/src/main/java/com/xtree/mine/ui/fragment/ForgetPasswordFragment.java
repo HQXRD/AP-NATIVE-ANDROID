@@ -36,7 +36,7 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
     private String mPhoneOPT = "";
     private String mUsername = "";
     private String mSendType = "";
-    private String mEmail = "";
+
     private String mPhone = "";
     private boolean mIsFinished = false;
 
@@ -94,19 +94,8 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
             }
         });
 
-        binding.llCheckOtp.twvResetPasswordMail.setOnClickListener(v -> {
-            binding.llCheckOtp.twvResetPasswordMail.setTextColor(getResources().getColor(R.color.clr_purple_bg01));
-            binding.llCheckOtp.twvResetPasswordPhone.setTextColor(getResources().getColor(R.color.clr_grey_menu));
-            binding.llCheckOtp.twvResetPasswordInfo.setText(mEmailOPT);
-            mSendType = "email";
-        });
-
-        binding.llCheckOtp.twvResetPasswordPhone.setOnClickListener(v -> {
-            binding.llCheckOtp.twvResetPasswordMail.setTextColor(getResources().getColor(R.color.clr_grey_menu));
-            binding.llCheckOtp.twvResetPasswordPhone.setTextColor(getResources().getColor(R.color.clr_purple_bg01));
-            binding.llCheckOtp.twvResetPasswordInfo.setText(mPhoneOPT);
-            mSendType = "phone";
-        });
+        binding.llCheckOtp.twvResetPasswordInfo.setText(mPhoneOPT);
+        mSendType = "phone";
 
         binding.llCheckOtp.btnGetOtp.setOnClickListener(v -> {
             CfLog.d("sendMessage");
@@ -283,26 +272,11 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
     @Override
     public void initViewObservable() {
         viewModel.liveDataUserInfo.observe(this, vo -> {
-            mEmail = vo.email;
             mPhone = vo.phone;
-            mEmailOPT = String.format(getResources().getString(R.string.txt_check_your_email), mUsername, mEmail);
             mPhoneOPT = String.format(getResources().getString(R.string.txt_check_your_phone), mUsername, mPhone);
-            if (!vo.email.isEmpty() && !vo.phone.isEmpty()) {
-                binding.llCheckOtp.twvResetPasswordMail.setVisibility(View.VISIBLE);
-                binding.llCheckOtp.twvResetPasswordPhone.setVisibility(View.VISIBLE);
-                mSendType = "email";
-                binding.llCheckOtp.twvResetPasswordInfo.setText(mEmailOPT);
-            } else {
-                binding.llCheckOtp.twvResetPasswordMail.setVisibility(View.GONE);
-                binding.llCheckOtp.twvResetPasswordPhone.setVisibility(View.GONE);
-                if (!vo.email.isEmpty()) {
-                    mSendType = "email";
-                    binding.llCheckOtp.twvResetPasswordInfo.setText(mEmailOPT);
-                } else {
-                    mSendType = "phone";
-                    binding.llCheckOtp.twvResetPasswordInfo.setText(mPhoneOPT);
-                }
-            }
+            mSendType = "phone";
+            binding.llCheckOtp.twvResetPasswordInfo.setText(mPhoneOPT);
+
             binding.llCheckUsername.clCheckUsername.setVisibility(View.GONE);
             binding.llCheckOtp.clCheckOtp.setVisibility(View.VISIBLE);
         });
