@@ -7,6 +7,8 @@ import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter
 import com.xtree.base.mvvm.recyclerview.BindModel
+import com.xtree.base.widget.FilterView
+import com.xtree.base.widget.impl.FilterViewOnClickListerner
 
 /**
  *Created by KAKA on 2024/3/8.
@@ -66,4 +68,17 @@ fun RecyclerView.initData(
             adapter = this
         }
     }
+}
+
+@BindingAdapter(
+    value = ["typeData", "statuData", "queryListener"],
+    requireAll = false
+)
+fun FilterView.initData(
+    typeData: List<FilterView.IBaseVo>?,
+    statuData: List<FilterView.IBaseVo>,
+    queryListener: FilterViewOnClickListerner?
+) {
+    setData(typeData, statuData)
+    queryListener?.let { setQueryListener(it) }
 }
