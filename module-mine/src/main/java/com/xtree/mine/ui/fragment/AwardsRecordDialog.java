@@ -57,6 +57,14 @@ public class AwardsRecordDialog extends BottomPopupView {
         super(context);
     }
 
+    public static AwardsRecordDialog newInstance(Context context, LifecycleOwner owner, IAwardsDialogBack callBack) {
+        AwardsRecordDialog dialog = new AwardsRecordDialog(context);
+        dialog.owner = owner;
+        dialog.callBack = callBack;
+        dialog.viewType = 3;
+        return dialog;
+    }
+
     public static AwardsRecordDialog newInstance(Context context, LifecycleOwner owner, AwardsRecordVo awardsRecordVo, IAwardsDialogBack callBack) {
         AwardsRecordDialog dialog = new AwardsRecordDialog(context);
         dialog.owner = owner;
@@ -86,7 +94,7 @@ public class AwardsRecordDialog extends BottomPopupView {
 
     private void initView() {
         binding = DialogChooseAwardsBinding.bind(findViewById(R.id.ll_root));
-        if (viewType == 1) {
+        if (viewType == 1 ||viewType == 3) {
             CfLog.i("viewType ==1)");
             binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_unfinished_activity));
         } else {
@@ -102,13 +110,20 @@ public class AwardsRecordDialog extends BottomPopupView {
 
         binding.llChooseTip.setVisibility(View.VISIBLE);
         String tipText = "";
-        if (TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) ||
-                awardsRecordVo.withdraw_dispensing_money.equals("0") ||
-                awardsRecordVo.withdraw_dispensing_money.equals("0.00")) {
-            tipText = getContext().getString(R.string.txt_awards_no_money_tip);
-        } else {
-            tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
+        if (viewType ==3)
+        {
+            tipText = "您今日没有可用提款次数";
         }
+        else{
+            if (TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) ||
+                    awardsRecordVo.withdraw_dispensing_money.equals("0") ||
+                    awardsRecordVo.withdraw_dispensing_money.equals("0.00")) {
+                tipText = getContext().getString(R.string.txt_awards_no_money_tip);
+            } else {
+                tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
+            }
+        }
+
         binding.tvChooseTip.setText(tipText);
         bottomPopupContainer.dismissOnTouchOutside(true);
         bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
@@ -130,7 +145,7 @@ public class AwardsRecordDialog extends BottomPopupView {
             }
         });
 
-        if (awardsRecordVo.list.size() > 1) {
+        if (awardsRecordVo !=null && awardsRecordVo.list.size() > 1) {
             binding.lvChoose.setVisibility(View.VISIBLE);
             ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
             binding.lvChoose.setAdapter(adapter);

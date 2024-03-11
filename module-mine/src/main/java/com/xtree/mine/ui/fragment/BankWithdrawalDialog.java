@@ -39,7 +39,7 @@ import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
-import com.xtree.mine.databinding.DialogBankWithdrawalBankBinding;
+import com.xtree.mine.databinding.DialogBankWithdrawalBankNewBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.BankCardCashVo;
 import com.xtree.mine.vo.ChooseInfoVo;
@@ -62,6 +62,13 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     public interface BankWithdrawalClose {
         void closeBankWithdrawal();
+
+        /*由于提现次数到达 关闭页面*/
+        void closeBankByNumber();
+    }
+
+    public interface BankWithdrawaDialogClose {
+        void closeBankByNumber();
     }
 
     private String typenum;//上一级界面传递过来的typenum
@@ -77,21 +84,23 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     private PlatWithdrawConfirmVo platWithdrawConfirmVo;//确认订单后返回的model
 
     private BankWithdrawalClose bankClose;//关闭提现
+    private BankWithdrawaDialogClose dialogClose;
 
     ChooseWithdrawViewModel viewModel;
 
-    DialogBankWithdrawalBankBinding binding;
+    DialogBankWithdrawalBankNewBinding binding;
 
     private FruitHorRecyclerViewAdapter recyclerViewAdapter;
     private BasePopupView ppw2;//绑卡
 
-    public static BankWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo, BankWithdrawalClose bankClose) {
+    public static BankWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo, BankWithdrawalClose bankClose, BankWithdrawaDialogClose dialogClose) {
         BankWithdrawalDialog dialog = new BankWithdrawalDialog(context);
         context = context;
         dialog.context = context;
         dialog.owner = owner;
         dialog.channelInfo = channelInfo;
         dialog.bankClose = bankClose;
+        dialog.dialogClose = dialogClose;
         return dialog;
     }
 
@@ -101,7 +110,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     @Override
     protected int getImplLayoutId() {
-        return R.layout.dialog_bank_withdrawal_bank;
+        return R.layout.dialog_bank_withdrawal_bank_new;
     }
 
     @Override
@@ -123,7 +132,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     }
 
     private void initView() {
-        binding = DialogBankWithdrawalBankBinding.bind(findViewById(R.id.ll_bank_root));
+        binding = DialogBankWithdrawalBankNewBinding.bind(findViewById(R.id.ll_bank_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
         binding.tvwTitle.setText("银行卡提款");
         hideKeyBoard();
@@ -286,17 +295,25 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         //银行卡提现详情model
         viewModel.channelDetailVoMutableLiveData.observe(this.owner, vo -> {
             bankCardCashVo = vo;
-            if (bankCardCashVo.msg_type == 1 || bankCardCashVo.msg_type == 2) {
+            dismissLoading();
+            //"message": "您今天已没有可用提款次数"
+            if (!TextUtils.isEmpty(bankCardCashVo.message) && bankCardCashVo.message.equals(getContext().getString(R.string.txt_no_withdrawals_available_tip))) {
+                refreshErrByNumber(bankCardCashVo.message);
+                return;
+            } else if (bankCardCashVo.msg_type == 1 || bankCardCashVo.msg_type == 2) {
+                dismissLoading();
                 ToastUtils.showError(bankCardCashVo.message);
                 dismiss();
                 return;
+            } else {
+                //1.初始化顶部选项卡
+                refreshTopUI(bankCardCashVo);
+                //2.为注意view设置相关值
+                refreshNoticeView(bankCardCashVo);
+                //3.刷新第一次获取的数据
+                refreshInitView(bankCardCashVo);
             }
-            //1.初始化顶部选项卡
-            refreshTopUI(bankCardCashVo);
-            //2.为注意view设置相关值
-            refreshNoticeView(bankCardCashVo);
-            //3.刷新第一次获取的数据
-            refreshInitView(bankCardCashVo);
+
         });
         //银行卡提现
         viewModel.platwithdrawVoMutableLiveData.observe(this.owner, vo -> {
@@ -316,14 +333,15 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     }
 
     private void showError(String errorMessage) {
-        binding.nsErrorView.setVisibility(View.VISIBLE);
-        binding.tvShowErrorMessage.setText(errorMessage);
+        binding.llBankWithdrawalTop.setVisibility(View.GONE);
+        binding.nsErrorView.setVisibility(View.GONE);
         binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面展示
         binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
         binding.nsH5View.setVisibility(View.GONE);//h5隐藏
         binding.nsOverView.setVisibility(View.GONE); //订单结果页面隐藏
-        binding.nsConfirmWithdrawalRequest.setVisibility(View.VISIBLE); //确认提款页面隐藏
-
+        binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
+        binding.llBankWithdrawalNumberError.setVisibility(View.VISIBLE);//
+        binding.tvShowNumberErrorMessage.setText(errorMessage);
     }
 
     private void requestData() {
@@ -362,7 +380,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         //展示WebView界面
         if (bankCardCashVo.channel_list.get(0).isWebView == 1) {
             CfLog.i("refreshInitView ChannelVo = bankCardCashVo.channel_list.get(0).isWebView == 1");
-            binding.nsDefaultView.setVisibility(View.GONE);
+            binding.nsDefaultView.setVisibility(View.GONE);//原始页面
             binding.nsErrorView.setVisibility(View.GONE);//隐藏错误信息页面
             binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面隐藏
             binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
@@ -610,6 +628,27 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             binding.nsOverView.setVisibility(View.VISIBLE); //订单结果页面展示
             binding.llOverViewApply.tvOverMsg.setText(vo.msg_detail);
         }
+    }
+
+    /**
+     * 刷新显示没有提款次数
+     */
+    private void refreshErrByNumber(String message) {
+
+        binding.llBankWithdrawalTop.setVisibility(View.GONE);
+        binding.nsErrorView.setVisibility(View.GONE);
+        binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面展示
+        binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
+        binding.nsH5View.setVisibility(View.GONE);//h5隐藏
+        binding.nsOverView.setVisibility(View.GONE); //订单结果页面隐藏
+        binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
+        //去除焦点
+        binding.bankWithdrawalView.etInputMoney.clearFocus();
+        binding.etInputMoneyMore.clearFocus();
+
+        binding.llBankWithdrawalNumberError.setVisibility(View.VISIBLE);//显示错误信息
+        binding.tvShowNumberErrorMessage.setText(message);
+        hideKeyBoard();
     }
 
     /**
