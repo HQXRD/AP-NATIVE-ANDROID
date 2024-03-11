@@ -334,7 +334,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     }
 
     private void goForgetPassword() {
-        startContainerFragment(RouterFragmentPath.Mine.PAGER_FORGET_PASSWORD); // 三方转账
+        startContainerFragment(RouterFragmentPath.Mine.PAGER_FORGET_PASSWORD); // 忘记密码
     }
 
     private SecretKey checkSecretKey() throws Exception {
