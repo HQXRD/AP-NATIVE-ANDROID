@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
                 .addItem(newItem(R.mipmap.mn_hm_unselected, R.mipmap.mn_hm_selected, getString(R.string.txt_pg_home)))
                 .addItem(newItem(R.mipmap.mn_dc_unselected, R.mipmap.mn_dc_selected, getString(R.string.txt_pg_discount)))
                 //.addItem(newRoundItem(R.mipmap.ic_tab_main, getString(R.string.txt_main_game)))
-                .addItem(newItem(R.mipmap.mn_sv_unselected, R.mipmap.mn_sv_selected, getString(R.string.txt_pg_service)))
+                .addItem(newItem(R.mipmap.mn_rc_unselected, R.mipmap.mn_rc_selected, getString(R.string.txt_pg_recharge)))
                 .addItem(newItem(R.mipmap.mn_psn_unselected, R.mipmap.mn_psn_selected, getString(R.string.txt_pg_mine)))
                 .build();
         //底部按钮的点击事件监听
