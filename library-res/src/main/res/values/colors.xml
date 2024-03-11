@@ -331,4 +331,16 @@
     <color name="clr_4ecfff">#4ECFFF</color>
     <color name="clr_bee5fc">#BEE5FC</color>
 
+
+
+<!--    通用色值-->
+    <color name="color_1E1E1E">#1E1E1E</color>
+    <color name="color_93B7E5">#93B7E5</color>
+    <color name="color_99A0B1">#99A0B1</color>
+    <color name="color_5B5B6A">#5B5B6A</color>
+    <color name="color_37AA4A">#37AA4A</color>
+    <color name="color_247BF4">#247BF4</color>
+    <color name="color_8BC1FF">#8BC1FF</color>
+    <color name="color_FFFFFF">#FFFFFF</color>
+    <color name="color_50000000">#50000000</color>
 </resources>
