@@ -141,6 +141,7 @@
     <string name="txt_update_down_over_tip">下载完成</string>
     <string name="txt_update_down_fail_tip">下载失败，请稍候重试</string>
     <string name="txt_network_error">网络异常，请稍后重试</string>
+    <string name="txt_no_withdrawals_available_tip">您今天已没有可用提款次数</string>
 
     <string name="domain_url">http</string>
     <string name="domain_url_list">http;http</string>

@@ -52,12 +52,13 @@
         android:layout_height="2dp"
         android:background="@color/clr_gap_bg" />
 
-    <!--   android:layout_marginTop="2dp"顶部显示设置提款请求 以及 通用体现、注意信息-->
+    <!--顶部显示设置提款请求 以及 通用体现、注意信息-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
+        tools:visibility="visible"
         android:padding="10dp">
 
         <RelativeLayout
@@ -480,14 +481,16 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-    <!--h5view com.xtree.mine.ui.fragment.ScrollWebView-->
+    <!--H5遮罩-->
     <LinearLayout
         android:id="@+id/mask_h5_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/clr_white"
         android:orientation="vertical"
-        android:visibility="visible"></LinearLayout>
+        android:visibility="visible">
+
+    </LinearLayout>
 
     <WebView
         android:id="@+id/ns_h5_view"
@@ -503,8 +506,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
-        android:background="@color/clr_white"
-        android:visibility="gone">
+        android:background="@color/white"
+        android:visibility="visible">
 
         <LinearLayout
             android:id="@+id/ll_bank_withdrawal_error"
@@ -525,8 +528,8 @@
                     android:layout_marginBottom="0dp"
                     android:gravity="center_horizontal"
                     android:text=""
-                    android:textColor="@color/red"
-                    android:textSize="20sp" />
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
 
             </RelativeLayout>
         </LinearLayout>
