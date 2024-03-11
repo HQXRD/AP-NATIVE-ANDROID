@@ -36,7 +36,18 @@ class BaseDatabindingAdapter : BindingAdapter() {
             val kType = model.javaClass.kotlin.createType()
             typePool[kType] = { layouts[model.itemType] }
         }
-        models = datas
+
+        datas.filterNot {
+
+            if (it is BindHead || it is BindFooter) {
+                if (it is BindHead) addHeader(it)
+                if (it is BindFooter) addFooter(it)
+                true
+            } else {
+                false
+            }
+        }.let { models = it }
+
     }
 
 }
