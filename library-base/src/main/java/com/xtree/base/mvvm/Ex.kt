@@ -2,9 +2,12 @@ package com.xtree.base.mvvm
 
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.drake.brv.utils.bindingAdapter
 import com.drake.brv.utils.divider
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter
 import com.xtree.base.mvvm.recyclerview.BindModel
 import com.xtree.base.widget.FilterView
@@ -28,7 +31,16 @@ fun RecyclerView.initData(
 ) {
 
     adapter?.run {
-        models = itemData
+
+        if (itemData == models) {
+            models = itemData
+        } else {
+            (bindingAdapter as BaseDatabindingAdapter).run {
+                clearHeader(false)
+                clearFooter(false)
+                initData(itemData, itemViewType)
+            }
+        }
     } ?: run {
         when (layoutManager) {
             null -> linear()
@@ -81,4 +93,12 @@ fun FilterView.initData(
 ) {
     setData(typeData, statuData)
     queryListener?.let { setQueryListener(it) }
+}
+
+@BindingAdapter(
+    value = ["setSelectedListener"],
+    requireAll = false
+)
+fun TabLayout.init(setSelectedListener: OnTabSelectedListener) {
+    addOnTabSelectedListener(setSelectedListener)
 }

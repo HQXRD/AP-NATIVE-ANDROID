@@ -32,7 +32,9 @@ class BaseDatabindingAdapter : BindingAdapter() {
         layouts: List<Int>
     ) {
 
-        datas.distinctBy { it::class }.forEach { model ->
+        datas
+            .distinctBy { it::class } //强制规定数据类型
+            .forEach { model ->
             val kType = model.javaClass.kotlin.createType()
             typePool[kType] = { layouts[model.itemType] }
         }
