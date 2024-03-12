@@ -20,6 +20,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.databinding.LayoutReportFilterBinding;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
+import com.xtree.base.widget.impl.FilterViewOnClickListerner;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -210,6 +211,23 @@ public class FilterView extends LinearLayout {
 
     public void setQueryListener(OnClickListener lsn) {
         binding.tvwSelect.setOnClickListener(lsn);
+    }
+
+    public void setQueryListener(FilterViewOnClickListerner filterViewOnClickListerner) {
+        binding.tvwSelect.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                filterViewOnClickListerner.onClick(
+                        getStartDate(),
+                        getEndDate(),
+                        getStartTime(),
+                        getEndTime(),
+                        getTypeId("0"),
+                        getTypeId2("0"),
+                        getStatusId("0")
+                );
+            }
+        });
     }
 
     public FilterView(Context context) {

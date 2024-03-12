@@ -53,6 +53,8 @@ public class RouterFragmentPath {
         public static final String PAGER_ACCOUNT_CHANGE = MINE + "/AccountChange"; //账变记录
         public static final String PAGER_PROFIT_LOSS = MINE + "/ProfitLoss"; // 盈亏报表
         public static final String PAGER_REBATE_REPORT = MINE + "/RebateReport"; // 返水报表
+        public static final String PAGER_REBATE_AGREEMENT = MINE + "/RebateAgreement"; // 返水契约
+        public static final String PAGER_REBATE_AGREEMENT_GAME = MINE + "/GameRebateAgrt"; // 游戏场馆返水契约
         public static final String PAGER_THIRD_TRANSFER = MINE + "/ThirdTransfer"; // 三方转账
         public static final String PAGER_RECHARGE_WITHDRAW = MINE + "/RechargeWithdraw"; // 充提记录
         public static final String PAGER_BT_REPORT = MINE + "/BtReport"; // 投注记录

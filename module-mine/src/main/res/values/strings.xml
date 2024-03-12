@@ -361,4 +361,9 @@
     <string name="txt_choose_withdrawal_tip">可用提款余额:%s其中%s可以使用虚拟币提款取出</string>
     <string name="txt_cny_balance">￥</string>
 
+
+
+<!--    返水契约-->
+    <string name="rebate_agrt_title">返水契约</string>
+
 </resources>

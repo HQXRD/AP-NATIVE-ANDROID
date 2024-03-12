@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.xtree.mine.ui.rebateagrt.viewmodel.GameRebateAgrtViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/layout_toolbar"
+            layout="@layout/layout_base_toolbar"
+            toolbarModel="@{model}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0"
+            />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:textSize="16sp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            android:tooltipText="@null"
+            android:longClickable="false"
+            app:tabIndicatorHeight="4dp"
+            app:tabIndicatorColor="@color/color_93B7E5"
+            app:tabTextColor="@color/color_99A0B1"
+            app:tabSelectedTextColor="@color/color_1E1E1E"
+            app:tabBackground="@android:color/transparent"
+            app:tabRippleColor="@android:color/transparent"
+            setSelectedListener="@{model}"
+            app:layout_constraintTop_toBottomOf="@id/layout_toolbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="真人返水"
+                />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下级契约"
+                />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="下级返水"
+                />
+        </com.google.android.material.tabs.TabLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:itemData="@{model.datas}"
+            itemViewType="@{model.itemType}"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
