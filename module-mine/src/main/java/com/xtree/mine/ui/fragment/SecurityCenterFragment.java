@@ -28,11 +28,14 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
+/**
+ * 安全中心
+ */
 @Route(path = RouterFragmentPath.Mine.PAGER_SECURITY_CENTER)
 public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterBinding, VerifyViewModel> {
 
     private ProfileVo mProfileVo;
-   private BasePopupView basePopupView = null;
+    private BasePopupView basePopupView = null;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -77,18 +80,23 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
             startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
         });
+
+        binding.tvwFundsPwd.setOnClickListener(v -> {
+            CfLog.i("******");
+        });
+        binding.tvwPwdSafe.setOnClickListener(v -> {
+            CfLog.i("******");
+        });
+
         //跳转Google动态口令绑定页面
         binding.tvwGoogle.setOnClickListener(v -> {
             CfLog.i("****** google");
 
-            if ((mProfileVo != null)&&(mProfileVo.twofa == 1))//已完成谷歌动态口令绑定
+            if ((mProfileVo != null) && (mProfileVo.twofa == 1))//已完成谷歌动态口令绑定
             {
-                showOverBindGoogle("已绑定","您已经绑定谷歌验证无法进行重复绑定");
-            }
-            else
-            {
-                Bundle bundle = new Bundle();
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_GOOGLE_PWD, null);
+                showOverBindGoogle("已绑定", "您已经绑定谷歌验证无法进行重复绑定");
+            } else {
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_GOOGLE_PWD);
             }
         });
 
@@ -175,11 +183,9 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
 
     /**
      * 显示已经绑定谷歌验证码提示
-     * @param title
-     * @param messgae
      */
-    private void showOverBindGoogle(String title , String messgae) {
-        basePopupView = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, messgae, true, new MsgDialog.ICallBack() {
+    private void showOverBindGoogle(String title, String msg) {
+        basePopupView = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, msg, true, new MsgDialog.ICallBack() {
             @Override
             public void onClickLeft() {
 
