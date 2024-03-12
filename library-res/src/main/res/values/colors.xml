@@ -332,7 +332,7 @@
     <color name="clr_purple_bg05">#247BF4</color>
 
     <color name="clr_purple_53">#35F0EAFF</color>
-    <color name="clr_purple_00">#ECE8FF</color>
+    <color name="clr_purple_00">@color/clr_main_08</color>
 
     <!-- 按钮背景 右 -->
     <color name="clr_purple_bg_1">#8BC1FF</color>

@@ -128,19 +128,19 @@
         <item name="android:layout_marginTop">8dp</item>
     </style>
 
-    <!-- 我的-5个菜单 白色字 -->
+    <!-- 我的-5个菜单 文字 -->
     <style name="style_menu_white">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingTop">2dp</item>
-        <item name="android:textColor">@color/me_level_color</item>
+        <item name="android:textColor">@color/clr_txt_01</item>
         <item name="android:textSize">12sp</item>
     </style>
     <!-- 我的-12个菜单 黑色字 -->
     <style name="style_menu_black" parent="style_menu_white">
         <item name="android:minEms">4</item>
-        <item name="android:textColor">@color/clr_black</item>
+        <item name="android:textColor">@color/clr_txt_02</item>
     </style>
 
     <!-- 我的-安全中心-验证 底部提示信息 灰色小字 -->
@@ -271,7 +271,8 @@
     </style>
 
     <style name="style_ll_row_2" parent="style_ll_row">
-        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
     </style>
 
     <style name="style_fb_info_title">
