@@ -11,21 +11,107 @@
     <color name="appBackColor">#F4F3F3</color>
     <color name="viewLineColor">#E0E0E0</color>
 
+    <!-- 主色参考 -->
+    <color name="clr_main_01">#247BF4</color>
+    <color name="clr_main_02">#119BFF</color>
+    <color name="clr_main_03">#4ECFFF</color>
+    <color name="clr_main_04">#8BC1FF</color>
+    <color name="clr_main_05">#BEE0FF</color>
+    <color name="clr_main_06">#C7E3FF</color>
+    <color name="clr_main_07">#CEE4FE</color>
+    <color name="clr_main_08">#D3E6FC</color>
+    <color name="clr_main_09">#DEE1F4</color>
+    <color name="clr_main_10">#FCFCFF</color>
+
+    <!-- ################ 配色 设计师提供 start ################ -->
+    <!-- 主色 -->
+    <color name="clr_main">#247BF4</color>
+    <!-- 主-渐变色 -->
+    <color name="clr_main_start">#247BF4</color>
+    <color name="clr_main_end">#4ECFFF</color>
+
+    <!-- 辅-渐变色 -->
+    <color name="clr_main_21">#0DB4F2</color>
+    <color name="clr_main_22">#16E6D5</color>
+    <!-- 辅色 -->
+    <color name="clr_main_23">#628BC4</color>
+    <!-- 背景色 -->
+    <!--<color name="clr_bg_main">#F5F9FF</color>-->
+
+    <!-- 文字 -->
+    <color name="clr_txt">#628BC4</color>
+    <color name="clr_txt_title">#274875</color>
+    <color name="clr_txt_mouse">#247BF4</color>
+
+    <!-- 点缀色 -->
+    <color name="clr_main_31">#FF6C00</color>
+    <color name="clr_main_32">#FF1388</color>
+    <color name="clr_main_33">#FF3C4A</color>
+    <color name="clr_main_34">#FF4C31</color>
+    <color name="clr_main_35">#18C35D</color>
+    <!-- ################ 配色 设计师提供 end ################ -->
+
+    <!-- ################ 设计图上的颜色 start ################ -->
+    <!-- 通用字颜色 主色/1级字 -->
+    <color name="clr_txt_01">#121B47</color>
+    <!-- 通用字颜色 主色/2级字 -->
+    <color name="clr_txt_02">#5B5B6A</color>
+    <!-- 通用字颜色 主色/3级字 -->
+    <color name="clr_txt_03">#99A0B1</color>
+    <!-- 通用字颜色 主色/4级字 -->
+    <color name="clr_txt_04">#C6C6C6</color>
+    <!-- 通用黑色 1E -->
+    <color name="clr_txt_black_cm">#1E1E1E</color>
+
+    <!-- 警告红 -->
+    <color name="clr_txt_warn">#DA0000</color>
+    <!-- 辅助/浅蓝 -->
+    <color name="clr_bg_light_main">#E7ECF5</color>
+    <!-- 大框 背景色 开始 -->
+    <color name="clr_bg_frame_big">#C7E3FF</color>
+
+    <!-- 小框 背景色 开始/中间/结束 -->
+    <color name="clr_bg_frame_small_1">#D3E6FC</color>
+    <color name="clr_bg_frame_small_2">#DEE1F4</color>
+    <color name="clr_bg_frame_small_3">#FCFCFF</color>
+
+    <!-- 背景框 主 -->
+    <color name="clr_bg_frame_21">#0068FF</color>
+    <color name="clr_bg_frame_22">#4381E9</color>
+    <color name="clr_bg_frame_23">#97C1FF</color>
+
+    <!-- 按钮 主 -->
+    <color name="clr_btn_01">#247BF4</color>
+    <color name="clr_btn_02">#70B2FD</color>
+    <!-- 背景框 主 顶部 浅色 -->
+    <color name="clr_bg_frame_31">#BEE0FF</color>
+    <color name="clr_bg_frame_32">#FFFFFF</color>
+    <!-- 背景框 绿 -->
+    <color name="clr_bg_frame_41">#056A31</color>
+    <color name="clr_bg_frame_42">#03872A</color>
+    <color name="clr_bg_frame_43">#8DFD8E</color>
+    <!-- 背景框 红 -->
+    <color name="clr_bg_frame_75">#B9013C</color>
+    <color name="clr_bg_frame_76">#DF4377</color>
+    <color name="clr_bg_frame_77">#FF97E1</color>
+
+    <!-- ################ 设计图上的颜色 end ################ -->
+
     <color name="me_text_color">#FCE5DE</color>
     <color name="me_level_color">#D5D7DB</color>
     <color name="me_progress_bar_bg">#3E414B</color>
     <color name="me_more_service_color">#534C5B</color>
-    <color name="me_text_forget_pwd">#CC6A74</color>
-    <color name="me_text_agreement">#9C6490</color>
-    <color name="me_account_start_color">#D8A2EB</color>
-    <color name="me_account_end_color">#B097F0</color>
-    <color name="me_wallet_detail_color">#A96B94</color>
+    <color name="me_text_forget_pwd">#119BFF</color>
+    <color name="me_text_agreement">#119BFF</color>
+    <color name="me_account_start_color">#119BFF</color>
+    <color name="me_account_end_color">#8BC1FF</color>
+    <color name="me_wallet_detail_color">#119BFF</color>
     <!-- 更新模块 -->
     <color name="update_progress_bar_bg">#D0C8DC</color>
     <!-- 更新模块 进度条开始颜色 -->
-    <color name="update_progress_start_color">#9179E7</color>
+    <color name="update_progress_start_color">#247BF4</color>
     <!-- 更新模块 进度条结束颜色 -->
-    <color name="update_progress_end_color">#CA9BE6</color>
+    <color name="update_progress_end_color">#8BC1FF</color>
 
     <!-- 投注模块  begin -->
 
@@ -96,7 +182,7 @@
     <color name="bt_option_bg_default">#F2F3F7</color>
 
     <!-- 投注项选中背影颜色 -->
-    <color name="bt_option_bg_selected">#CE9CE5</color>
+    <color name="bt_option_bg_selected">#8BC1FF</color>
 
     <!-- 主题色背景下（项目中是蓝色）的字体颜色 -->
     <color name="bt_color_under_bg_primary_text">#FFFFFF</color>
@@ -175,21 +261,22 @@
     <color name="clr_hm_grey_03">#E9E9E9</color>
     <color name="clr_hm_grey_05">#D1D1D1</color>
 
-    <color name="clr_hm_purple_01">#9987E2</color>
-    <color name="clr_hm_purple_03">#CE9CE5</color>
+    <color name="clr_hm_purple_01">#247BF4</color>
+    <color name="clr_hm_purple_03">#8BC1FF</color>
     <!-- 首页模块 end-->
 
     <!-- 通用 begin -->
     <!-- 通用背景色 -->
-    <color name="clr_bg_main">#F2F3F7</color>
-    <color name="bg_main">#F5F6FB</color>
+    <color name="clr_bg_main">#F5F9FF</color>
+    <color name="bg_main">#F5F9FF</color>
     <color name="clr_white">#FFFFFF</color>
+    <color name="clr_white_t20">#33FFFFFF</color>
     <color name="clr_transparent">#00000000</color>
     <color name="clr_transparent_50">#80000000</color>
 
     <color name="clr_black">#000000</color>
     <color name="clr_txt_black">#000000</color>
-    <color name="clr_txt_black_01">#2F2747</color>
+    <color name="clr_txt_black_01">#121B47</color>
     <color name="clr_txt_black02">#161621</color>
     <color name="clr_txt_black_03">#121B47</color>
     <color name="clr_txt_grey_01">#b1b1b1</color>
@@ -212,7 +299,7 @@
     <color name="clr_gray_4">#EEEEED</color>
     <color name="clr_gray_5">#DAD5E2</color>
     <color name="clr_gray_6">#E7ECF5</color>
-    <color name="clr_choose_20">#915783</color>
+    <color name="clr_choose_20">#247BF4</color>
 
     <!-- 筛选框 灰色 标题 -->
     <color name="clr_filter_txt_gray">#A1A1A1</color>
@@ -234,39 +321,39 @@
     <color name="clr_white_14">#24FFFFFF</color>
 
     <color name="clr_purple_01">#247BF4</color>
-    <color name="clr_purple_02">#9981F5</color>
-    <color name="clr_purple_03">#CE9CE5</color>
-    <color name="clr_purple_08">#EFE9FF</color>
-    <color name="clr_purple_09">#D6CEF9</color>
+    <color name="clr_purple_02">#247BF4</color>
+    <color name="clr_purple_03">#8BC1FF</color>
+    <color name="clr_purple_08">#CEE4FE</color>
+    <color name="clr_purple_09">#D3E6FC</color>
 
     <!-- 按钮背景 左中右/上中下 -->
-    <color name="clr_purple_bg01">#E5BFFC</color>
-    <color name="clr_purple_bg03">#AF8BE6</color>
-    <color name="clr_purple_bg05">#8869E6</color>
+    <color name="clr_purple_bg01">#BEE0FF</color>
+    <color name="clr_purple_bg03">#8BC1FF</color>
+    <color name="clr_purple_bg05">#247BF4</color>
 
     <color name="clr_purple_53">#35F0EAFF</color>
     <color name="clr_purple_00">#ECE8FF</color>
 
     <!-- 按钮背景 右 -->
-    <color name="clr_purple_bg_1">#9179E7</color>
+    <color name="clr_purple_bg_1">#8BC1FF</color>
     <!-- 按钮背景 左 -->
-    <color name="clr_purple_bg_2">#CA9BE6</color>
+    <color name="clr_purple_bg_2">#247BF4</color>
 
-    <color name="clr_purple_bg_021">#9179e7</color>
-    <color name="clr_purple_bg_022">#CA9BE6</color>
-    <color name="clr_purple_bg_023">#F2EFFF</color>
+    <color name="clr_purple_bg_021">#247BF4</color>
+    <color name="clr_purple_bg_022">#8BC1FF</color>
+    <color name="clr_purple_bg_023">#CEE4FE</color>
 
     <!-- 按钮背景 灰色 -->
     <color name="clr_btn_grey01">#D6D5D7</color>
     <color name="clr_btn_grey02">#E1E1E1</color>
 
     <!--  金额已选中  -->
-    <color name="clr_purple_05">#9179E7</color>
+    <color name="clr_purple_05">#247BF4</color>
     <!--  金额未选中  -->
-    <color name="clr_purple_06">#C4B2FF</color>
-    <color name="clr_purple_07">#A882E7</color>
-    <color name="clr_purple_10">#9F4E91</color>
-    <color name="clr_purple_11">#C381B6</color>
+    <color name="clr_purple_06">#8BC1FF</color>
+    <color name="clr_purple_07">#247BF4</color>
+    <color name="clr_purple_10">#247BF4</color>
+    <color name="clr_purple_11">#8BC1FF</color>
 
     <color name="clr_orange_01">#FF804B</color>
     <color name="clr_orange_02">#FF8A00</color>
@@ -282,14 +369,17 @@
     <!-- 报表-盈亏 绿色 -->
     <color name="clr_green_01">#20B56E</color>
 
+    <color name="clr_blue_02">#247BF4</color>
     <color name="clr_blue_03">#119BFF</color>
     <color name="clr_blue_04">#C7E3FF</color>
     <color name="clr_blue_05">#376CAA</color>
+    <color name="clr_blue_05a">#415AB0</color>
     <color name="clr_blue_06">#CEE4FE</color>
     <color name="clr_blue_07">#D3E6FC</color>
     <color name="clr_blue_08">#FCFCFF</color>
     <color name="clr_blue_09">#DEE1F4</color>
     <color name="clr_blue_10">#247BF4</color>
+    <color name="clr_blue_12">#8BC1FF</color>
 
     <color name="clr_green_03">#5BBA5B</color>
     <color name="clr_green_06">#E7E7E7</color>
@@ -297,15 +387,13 @@
     <color name="clr_red_choose">#FF4A4D</color>
     <color name="clr_txt_withdraw_money">#6D6C72</color>
     <color name="clr_gap_bg">#EBEBEB</color>
-    <color name="cl_amount_txt">#C4B2FF</color>
+    <color name="cl_amount_txt">#247BF4</color>
 
     <color name="clr_no_selector">#CDCDCD</color>
     <color name="clr_hint">#F4F4F4</color>
     <!-- 通用 end-->
     <color name="clr_toast">#808080</color>
-    <color name="clr_8080ff">#8080ff</color>
-
-
+    <color name="clr_8080ff">#8BC1FF</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -317,7 +405,7 @@
     <color name="cl_gap">#EBEBEB</color>
     <color name="cl_set_request">#FF4A4D</color>
     <color name="cl_bank_withdraw">#F4F4F4</color>
-    <color name="cl_withdrawal">#846E7B</color>
+    <color name="cl_withdrawal">#8BC1FF</color>
     <!--136 -->
     <color name="cl_amount_bt_53">#88F0EAFF</color>
     <color name="cl_amount_bt">#ECE8FF</color>
