@@ -149,4 +149,21 @@
     <string name="mixpanel_token">abc123</string>
     <string name="ms_secret_key">abc123</string>
     <bool name="is_tag">false</bool>
+
+    <!-- 我的 -->
+    <string name="txt_profit">盈亏报表</string>
+    <string name="txt_team_mgmt">团队管理</string>
+    <string name="txt_3rd_trans">三方转账</string>
+    <string name="txt_rebate_contract">返水契约</string>
+
+    <string name="txt_report">报表</string>
+    <string name="txt_acc_mg">账户管理</string>
+    <string name="txt_security_center">安全中心</string>
+    <string name="txt_reg_prom">注册推广</string>
+
+    <string name="txt_upgrade">检查更新</string>
+    <string name="txt_usdt_tutorial">USDT教程</string>
+    <string name="txt_help">帮助中心</string>
+    <string name="txt_qa">常见问题</string>
+
 </resources>

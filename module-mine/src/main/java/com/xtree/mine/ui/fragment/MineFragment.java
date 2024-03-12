@@ -62,7 +62,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         if (TextUtils.isEmpty(token)) {
             binding.ivwSetting.setClickable(false);
             binding.ivwMsg.setClickable(false);
-            binding.tvwChangjianWenti.setClickable(false);
+            binding.tvwQa.setClickable(false);
             binding.btnLogout.setVisibility(View.INVISIBLE);
             setChildClickable(binding.llMenu, false);
             setChildClickable(binding.llMenu01, false);
@@ -70,7 +70,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         } else {
             binding.ivwSetting.setClickable(true);
             binding.ivwMsg.setClickable(true);
-            binding.tvwChangjianWenti.setClickable(true);
+            binding.tvwQa.setClickable(true);
             binding.btnLogout.setVisibility(View.VISIBLE);
             setChildClickable(binding.llMenu, true);
             setChildClickable(binding.llMenu01, true);
@@ -146,7 +146,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER);
         });
         //投注记录
-        binding.tvwBet.setOnClickListener(v -> {
+        binding.tvwBt.setOnClickListener(v -> {
             CfLog.i("****** ");
             startContainerFragment(RouterFragmentPath.Mine.PAGER_BT_REPORT); // 投注记录
         });
@@ -159,19 +159,19 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
         });
 
-        binding.tvwInviteFriend.setOnClickListener(v -> {
-            CfLog.i("****** ");
-            goWebView(v, Constant.URL_INVITE_FRIEND);
-        });
-        binding.tvwGuanfangheyin.setOnClickListener(v -> {
-            String title = ((TextView) v).getText().toString();
-            // URL 不需要拼装
-            BrowserActivity.start(getContext(), title, Constant.URL_PARTNER, true);
-        });
-        binding.tvwYinkuiBaobiao.setOnClickListener(v -> {
+        //binding.tvwInviteFriend.setOnClickListener(v -> {
+        //    CfLog.i("****** ");
+        //    goWebView(v, Constant.URL_INVITE_FRIEND);
+        //});
+        //binding.tvwGuanfangheyin.setOnClickListener(v -> {
+        //    String title = ((TextView) v).getText().toString();
+        //    // URL 不需要拼装
+        //    BrowserActivity.start(getContext(), title, Constant.URL_PARTNER, true);
+        //});
+        binding.tvwProfit.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_PROFIT_LOSS); // 盈亏报表
         });
-        binding.tvwSanfangZhuanzhang.setOnClickListener(v -> {
+        binding.tvw3rdTrans.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_THIRD_TRANSFER); // 三方转账
         });
 
@@ -179,59 +179,59 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             // 安全中心
             startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
         });
-        binding.tvwZhanghuShezhi.setOnClickListener(v -> {
+        binding.tvwAccMg.setOnClickListener(v -> {
             showAccountMgmt();
         });
         //VIP中心
-        binding.tvwVipZhongxin.setOnClickListener(v -> {
-//            startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
-            BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
-        });
+        //binding.tvwVipZhongxin.setOnClickListener(v -> {
+        //    //startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
+        //    BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
+        //});
         //VIP中心
-        binding.ivwLevel.setOnClickListener(v -> {
-//            startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
-            BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
-        });
-        binding.tvwFanhuiBaobiao.setOnClickListener(v -> {
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_REPORT); // 返水报表
-        });
+        //binding.ivwLevel.setOnClickListener(v -> {
+        //    //startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
+        //    BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
+        //});
+        //binding.tvwFanhuiBaobiao.setOnClickListener(v -> {
+        //    startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_REPORT); // 返水报表
+        //});
 
-        binding.tvwTiyuGuize.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_SPORT_RULES, false);
-        });
-        binding.tvwChangjianWenti.setOnClickListener(v -> {
+        //binding.tvwTiyuGuize.setOnClickListener(v -> {
+        //    goWebView(v, Constant.URL_SPORT_RULES, false);
+        //});
+        binding.tvwQa.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
         });
-        binding.tvwBangzhuZhongxin.setOnClickListener(v -> {
+        binding.tvwHelp.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
         });
-        binding.tvwUsdtJiaocheng.setOnClickListener(v -> {
+        binding.tvwTutorial.setOnClickListener(v -> {
             goWebView(v, Constant.URL_TUTORIAL, false);
         });
-        binding.textViewLogin.setOnClickListener(v -> {
+        binding.tvwLogin.setOnClickListener(v -> {
             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
             toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.LOGIN_TYPE);
             startActivity(toLogin);
         });
-        binding.textViewRegister.setOnClickListener(v -> {
-            Intent toRegister = new Intent(getContext(), LoginRegisterActivity.class);
-            toRegister.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.REGISTER_TYPE);
-            startActivity(toRegister);
-        });
+        //binding.textViewRegister.setOnClickListener(v -> {
+        //    Intent toRegister = new Intent(getContext(), LoginRegisterActivity.class);
+        //    toRegister.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.REGISTER_TYPE);
+        //    startActivity(toRegister);
+        //});
 
         binding.llMenu.setOnClickListener(v -> {
             if (TextUtils.isEmpty(token)) {
-                binding.textViewLogin.performClick();
+                binding.tvwLogin.performClick();
             }
         });
         binding.llMenu01.setOnClickListener(v -> {
             if (TextUtils.isEmpty(token)) {
-                binding.textViewLogin.performClick();
+                binding.tvwLogin.performClick();
             }
         });
         binding.llMenu02.setOnClickListener(v -> {
             if (TextUtils.isEmpty(token)) {
-                binding.textViewLogin.performClick();
+                binding.tvwLogin.performClick();
             }
         });
 
@@ -282,15 +282,20 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         if (mProfileVo == null || TextUtils.isEmpty(token)) {
             CfLog.i("****** not login");
             binding.llLogin.setVisibility(View.VISIBLE);
-            binding.clAlreadyLogin.setVisibility(View.INVISIBLE);
+            binding.clAlreadyLogin.setVisibility(View.GONE);
+            //binding.llMenu.setVisibility(View.GONE);
+            //binding.llMenu2.setVisibility(View.GONE);
+            binding.btnLogout.setVisibility(View.GONE);
+            binding.ivwMsg.setVisibility(View.INVISIBLE);
+            binding.ivwSetting.setVisibility(View.INVISIBLE);
 
             // 未登录状态下,直接跳到登录页,并关闭当前页
-            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
-            getActivity().finish();
+            //ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+            //getActivity().finish();
         } else {
             CfLog.i("****** already login");
-            binding.llLogin.setVisibility(View.GONE);
-            binding.clAlreadyLogin.setVisibility(View.VISIBLE);
+            //binding.llLogin.setVisibility(View.GONE);
+            //binding.clAlreadyLogin.setVisibility(View.VISIBLE);
             resetView();
         }
     }
@@ -315,22 +320,22 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             binding.tvwName.setText(mProfileVo.username);
             setBalance();
         }
-        if (mVipInfoVo != null) {
-            if (mVipInfoVo.sp.equals("1")) {
-                binding.tvwVip.setText("VIP " + mVipInfoVo.display_level);
-                binding.ivwLevel.setImageLevel(mVipInfoVo.display_level);
-            } else {
-                binding.tvwVip.setText("VIP " + mVipInfoVo.level);
-                binding.ivwLevel.setImageLevel(mVipInfoVo.level);
-            }
-            if (mVipInfoVo.level >= 10) {
-                binding.ivwLevel.setVisibility(View.INVISIBLE);
-                //binding.ivwLevel10.setVisibility(View.VISIBLE);
-                binding.middleArea.setBackgroundResource(R.mipmap.me_bg_top_10);
-                binding.ivwVip10.setVisibility(View.VISIBLE);
-                binding.ivwVip10.setOnClickListener(v -> binding.ivwLevel.performClick());
-            }
-        }
+        //if (mVipInfoVo != null) {
+        //    if (mVipInfoVo.sp.equals("1")) {
+        //        binding.tvwVip.setText("VIP " + mVipInfoVo.display_level);
+        //        binding.ivwLevel.setImageLevel(mVipInfoVo.display_level);
+        //    } else {
+        //        binding.tvwVip.setText("VIP " + mVipInfoVo.level);
+        //        binding.ivwLevel.setImageLevel(mVipInfoVo.level);
+        //    }
+        //    if (mVipInfoVo.level >= 10) {
+        //        binding.ivwLevel.setVisibility(View.INVISIBLE);
+        //        //binding.ivwLevel10.setVisibility(View.VISIBLE);
+        //        binding.middleArea.setBackgroundResource(R.mipmap.me_bg_top_10);
+        //        binding.ivwVip10.setVisibility(View.VISIBLE);
+        //        binding.ivwVip10.setOnClickListener(v -> binding.ivwLevel.performClick());
+        //    }
+        //}
     }
 
     private void setBalance() {
@@ -406,48 +411,48 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             }
         });
 
-        viewModel.liveDataVipUpgrade.observe(this, vo -> {
-            if (mVipInfoVo == null) {
-                //binding.tvwLevelHint.setVisibility(View.INVISIBLE);
-                binding.pbrLevel.setProgress(0);
-                return;
-            }
-            if (vo.sp.equals("1")) {
-                if (vo.level < vo.vip_upgrade.size() - 1) {
-                    int point = vo.vip_upgrade.get(vo.level + 1).display_active - mVipInfoVo.current_activity;
-                    int level = vo.vip_upgrade.get(vo.level + 1).display_level;
-                    String txt = getString(R.string.txt_level_hint_00);
-                    txt = String.format(txt, point, level);
-                    CfLog.i("txt " + txt);
-                    binding.tvwLevelHint.setText(txt);
-                    binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).display_active) * 100));
-                    binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar));
-                } else {
-                    String txt = getString(R.string.txt_level_hint_10);
-                    txt = String.format(txt, vo.display_level);
-                    binding.tvwLevelHint.setText(txt);
-                    binding.pbrLevel.setProgress(100);
-                    binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar_100));
-                }
-            } else {
-                if (vo.level < vo.vip_upgrade.size() - 1) {
-                    int point = vo.vip_upgrade.get(vo.level + 1).active - mVipInfoVo.current_activity;
-                    int level = vo.level + 1;
-                    String txt = getString(R.string.txt_level_hint_00);
-                    txt = String.format(txt, point, level);
-                    CfLog.d("txt " + txt);
-                    binding.tvwLevelHint.setText(txt);
-                    binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).active) * 100));
-                    binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar));
-                } else {
-                    String txt = getString(R.string.txt_level_hint_10);
-                    txt = String.format(txt, vo.level);
-                    binding.tvwLevelHint.setText(txt);
-                    binding.pbrLevel.setProgress(100);
-                    binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar_100));
-                }
-            }
-        });
+        //viewModel.liveDataVipUpgrade.observe(this, vo -> {
+        //    if (mVipInfoVo == null) {
+        //        //binding.tvwLevelHint.setVisibility(View.INVISIBLE);
+        //        binding.pbrLevel.setProgress(0);
+        //        return;
+        //    }
+        //    if (vo.sp.equals("1")) {
+        //        if (vo.level < vo.vip_upgrade.size() - 1) {
+        //            int point = vo.vip_upgrade.get(vo.level + 1).display_active - mVipInfoVo.current_activity;
+        //            int level = vo.vip_upgrade.get(vo.level + 1).display_level;
+        //            String txt = getString(R.string.txt_level_hint_00);
+        //            txt = String.format(txt, point, level);
+        //            CfLog.i("txt " + txt);
+        //            binding.tvwLevelHint.setText(txt);
+        //            binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).display_active) * 100));
+        //            binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar));
+        //        } else {
+        //            String txt = getString(R.string.txt_level_hint_10);
+        //            txt = String.format(txt, vo.display_level);
+        //            binding.tvwLevelHint.setText(txt);
+        //            binding.pbrLevel.setProgress(100);
+        //            binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar_100));
+        //        }
+        //    } else {
+        //        if (vo.level < vo.vip_upgrade.size() - 1) {
+        //            int point = vo.vip_upgrade.get(vo.level + 1).active - mVipInfoVo.current_activity;
+        //            int level = vo.level + 1;
+        //            String txt = getString(R.string.txt_level_hint_00);
+        //            txt = String.format(txt, point, level);
+        //            CfLog.d("txt " + txt);
+        //            binding.tvwLevelHint.setText(txt);
+        //            binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).active) * 100));
+        //            binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar));
+        //        } else {
+        //            String txt = getString(R.string.txt_level_hint_10);
+        //            txt = String.format(txt, vo.level);
+        //            binding.tvwLevelHint.setText(txt);
+        //            binding.pbrLevel.setProgress(100);
+        //            binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar_100));
+        //        }
+        //    }
+        //});
     }
 
     /**
