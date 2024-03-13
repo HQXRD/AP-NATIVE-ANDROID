@@ -11,7 +11,9 @@ import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -413,6 +415,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.rcvList.setAdapter(gameAdapter);
         manager = new LinearLayoutManager(getContext());
         binding.rcvList.setLayoutManager(manager);
+        //game图片设置间隔距离10dp
+        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        Drawable dividerDrawable = ContextCompat.getDrawable(getContext(),R.drawable.divider_home);
+        decoration.setDrawable(dividerDrawable);
+        binding.rcvList.addItemDecoration(decoration);
 
         binding.rcvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
