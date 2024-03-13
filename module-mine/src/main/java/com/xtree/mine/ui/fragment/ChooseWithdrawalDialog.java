@@ -72,7 +72,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
     @Override
     protected int getMaxHeight() {
-        return (XPopupUtils.getScreenHeight(getContext()) * 80 / 100);
+        return (XPopupUtils.getScreenHeight(getContext()) * 90 / 100);
     }
 
     private ChooseWithdrawalDialog(@NonNull Context context) {
@@ -210,8 +210,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
             });
 
             String tip =
-                    String.format(getContext().getString(R.string.txt_choose_withdrawal_tip) ,
-                            StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))) , chooseInfoVo.usdtInfo.quota);
+                    String.format(getContext().getString(R.string.txt_choose_withdrawal_tip),
+                            StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))), chooseInfoVo.usdtInfo.quota);
             binding.tvChooseTip.setVisibility(View.VISIBLE);
             binding.tvChooseTip.setText(tip);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -315,7 +315,12 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 跳转银行卡提款页面
      */
     private void showBankWithdrawalDialog(ChooseInfoVo.ChannelInfo channelInfo) {
-        basePopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose));
+        basePopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).moveUpToKeyboard(false).asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose, new BankWithdrawalDialog.BankWithdrawaDialogClose() {
+            @Override
+            public void closeBankByNumber() {
+                basePopupView.dismiss();
+            }
+        }));
         basePopupView.show();
     }
 
@@ -324,9 +329,9 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      */
     private void showUSDTWithdrawalDialog(ChooseInfoVo.ChannelInfo channelInfo) {
         if (channelInfo.title.contains("USDT")) {
-            basePopupView = new XPopup.Builder(getContext()).asCustom(USDTWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose));
+            basePopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(USDTWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose));
         } else {
-            basePopupView = new XPopup.Builder(getContext()).asCustom(VirtualWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose));
+            basePopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(VirtualWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose));
         }
 
         basePopupView.show();

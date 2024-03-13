@@ -16,6 +16,7 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentChooseWithdrawBinding;
 import com.xtree.mine.ui.fragment.AwardsRecordDialog;
+import com.xtree.mine.ui.fragment.BankWithdrawalDialog;
 import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
@@ -28,6 +29,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel > {
 
     private BasePopupView basePopupView = null;
+    private BasePopupView baseMessagePopupView = null ;
     private AwardsRecordVo awardsRecordVo;
     private int viewType;
 
@@ -100,6 +102,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                 .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, new AwardsRecordDialog.IAwardsDialogBack() {
                     @Override
                     public void closeAwardsDialog() {
+                        LoadingDialog.finish();
                         basePopupView.dismiss();
                         finish();
                         CfLog.i("AwardsRecordDialog  dismiss");
@@ -109,31 +112,53 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         basePopupView.show();
 
     }
+    private void  showNumberDialog(final String message){
+        baseMessagePopupView  = new XPopup.Builder(this).dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asCustom(AwardsRecordDialog.newInstance(this, this, new AwardsRecordDialog.IAwardsDialogBack() {
+                    @Override
+                    public void closeAwardsDialog() {
+                        LoadingDialog.finish();
+                        baseMessagePopupView.dismiss();
+                       // finish();
+                        CfLog.i("AwardsRecordDialog  dismiss");
+                    }
+                }));
 
+        baseMessagePopupView.show();
+    }
     /**
      * 显示提款页面
      */
     private void showChoose() {
         LoadingDialog.show(this);
-        basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
-                .dismissOnTouchOutside(false)
-                .moveUpToKeyboard(false)
-                .asCustom(ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
+        basePopupView = new  XPopup.Builder(this).dismissOnBackPressed(false).dismissOnTouchOutside(false)
+                .moveUpToKeyboard(false).asCustom(ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
                     @Override
                     public void closeDialog() {
+                        LoadingDialog.finish();
                         finish();
                     }
 
                     @Override
                     public void closeDialogByError() {
+                        LoadingDialog.finish();
                         showNetError();
                         finish();
                     }
-                }, () -> {
-                    basePopupView.dismiss();
-                    finish();
-                    CfLog.i("closeDialog");
+                }, new BankWithdrawalDialog.BankWithdrawalClose() {
+                    @Override
+                    public void closeBankWithdrawal() {
+
+                    }
+
+                    @Override
+                    public void closeBankByNumber() {
+                        //弹出 提款流水 您今日没有可用提款次数
+                        showNumberDialog("您今日没有可用提款次数");
+                    }
                 }));
+
         basePopupView.show();
 
     }

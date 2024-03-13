@@ -65,6 +65,11 @@ public class ChooseWithdrawFragment extends BaseFragment<FragmentChooseWithdrawB
                 basePopupView.dismiss();
                 getActivity().finish();
             }
+
+            @Override
+            public void closeBankByNumber() {
+
+            }
         }));
         basePopupView.show();
     }

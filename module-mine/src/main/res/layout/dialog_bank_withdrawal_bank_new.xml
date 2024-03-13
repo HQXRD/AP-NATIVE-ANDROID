@@ -54,12 +54,13 @@
 
     <!--顶部显示设置提款请求 以及 通用体现、注意信息-->
     <LinearLayout
+        android:id="@+id/ll_bank_withdrawal_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical"
-        tools:visibility="visible"
-        android:padding="10dp">
+        android:padding="10dp"
+        tools:visibility="gone">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -167,6 +168,29 @@
             </LinearLayout>
         </RelativeLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bank_withdrawal_number_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:padding="8dp">
+        <!--显示错误信息-->
+
+        <TextView
+            android:id="@+id/tv_show_number_error_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="0dp"
+            android:gravity="center_horizontal"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="12312321231231213131我啊啊是啊的" />
     </LinearLayout>
     <!--没有多金额选项View-->
     <androidx.core.widget.NestedScrollView
@@ -297,6 +321,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ll_virtual_hint"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:layout_marginTop="4dp">
 
                         <RelativeLayout
@@ -481,16 +507,14 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-    <!--H5遮罩-->
+    <!--h5view com.xtree.mine.ui.fragment.ScrollWebView-->
     <LinearLayout
         android:id="@+id/mask_h5_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/clr_white"
         android:orientation="vertical"
-        android:visibility="visible">
-
-    </LinearLayout>
+        android:visibility="visible"></LinearLayout>
 
     <WebView
         android:id="@+id/ns_h5_view"
@@ -506,7 +530,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
-        android:background="@color/white"
+        android:background="@color/red"
         android:visibility="visible">
 
         <LinearLayout
@@ -519,7 +543,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <!--显示错误信息-->
 
                 <TextView
                     android:id="@+id/tv_show_error_message"
@@ -527,9 +550,9 @@
                     android:layout_height="match_parent"
                     android:layout_marginBottom="0dp"
                     android:gravity="center_horizontal"
-                    android:text=""
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
+                    android:text="1231232123123121313"
+                    android:textColor="@color/red"
+                    android:textSize="20sp" />
 
             </RelativeLayout>
         </LinearLayout>

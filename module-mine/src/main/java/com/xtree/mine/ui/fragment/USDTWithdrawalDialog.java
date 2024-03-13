@@ -54,7 +54,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
     private ChooseInfoVo.ChannelInfo channelInfo;
     ArrayList<USDTCashVo.Usdtinfo> usdtinfoTRC = new ArrayList<>(); //TRC20地址 仅用于钱包
     private USDTCashVo.Usdtinfo selectUsdtInfo;//选中的支付
-    private USDTCashVo.Channel firstChannel  , secondChannel;
+    private USDTCashVo.Channel firstChannel, secondChannel;
 
     private USDTCashVo usdtCashVo;
 
@@ -87,7 +87,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
 
     @Override
     protected int getMaxHeight() {
-        return (XPopupUtils.getScreenHeight(getContext()) * 80 / 100);
+        return (XPopupUtils.getScreenHeight(getContext()) * 90 / 100);
     }
 
     @Override
@@ -133,8 +133,12 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             usdtCashVo = vo;
             //异常
             if (usdtCashVo.msg_type == 2 || usdtCashVo.msg_type == 1) {
-                ToastUtils.show(usdtCashVo.message, ToastUtils.ShowType.Fail);
-                dismiss();
+                if (usdtCashVo.message.equals(getContext().getString(R.string.txt_no_withdrawals_available_tip))) {
+                    refreshError(usdtCashVo.message);
+                } else {
+                    ToastUtils.show(usdtCashVo.message, ToastUtils.ShowType.Fail);
+                    dismiss();
+                }
                 return;
             }
 
@@ -176,7 +180,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         if (usdtCashVo.channel_list.size() == 2) {
             binding.tvVirtualUsdt.setText(usdtCashVo.channel_list.get(0).title);
             binding.tvVirtualOther.setText(usdtCashVo.channel_list.get(1).title);
-            firstChannel = usdtCashVo.channel_list.get(0) ;
+            firstChannel = usdtCashVo.channel_list.get(0);
             secondChannel = usdtCashVo.channel_list.get(1);
         }
         //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
@@ -186,7 +190,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         binding.tvUserNameShow.setText(usdtCashVo.user.username);
         binding.tvWithdrawalTypeShow.setText("USDT");//提款类型
 
-       // binding.tvWithdrawalAmountMethod.setText(usdtCashVo.channel_list.get(0).title);//设置收款USDT账户 firstChannel
+        // binding.tvWithdrawalAmountMethod.setText(usdtCashVo.channel_list.get(0).title);//设置收款USDT账户 firstChannel
         binding.tvWithdrawalAmountMethod.setText(firstChannel.title);//提款方式
         String quota = usdtCashVo.availablebalance;
 
@@ -228,15 +232,14 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             binding.tvWithdrawalTypeShow1.setText(temp);
             //显示全部地址地址
             binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
-            binding.tvWithdrawalAmountMethod.setText( firstChannel.title);//提款方式
-            CfLog.e("点击 USDT firstChannel.title = " +firstChannel.toString());
+            binding.tvWithdrawalAmountMethod.setText(firstChannel.title);//提款方式
+            CfLog.e("点击 USDT firstChannel.title = " + firstChannel.toString());
         });
         binding.tvVirtualOther.setOnClickListener(v -> {
             binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
             binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
             type = "TRC";
-            if (usdtinfoTRC.size() >0)
-            {
+            if (usdtinfoTRC.size() > 0) {
                 //显示TRC地址
                 String collection = usdtinfoTRC.get(0).usdt_type + " " + usdtinfoTRC.get(0).usdt_card;
                 binding.tvCollectionUsdt.setText(collection);
@@ -244,13 +247,12 @@ public class USDTWithdrawalDialog extends BottomPopupView {
                 String temp = selectUsdtInfo.min_money + "元,最高" + selectUsdtInfo.max_money + "元";
                 binding.tvWithdrawalTypeShow1.setText(temp);
 
-            }
-            else {
+            } else {
                 binding.tvCollectionUsdt.setText("");
                 binding.tvWithdrawalTypeShow1.setText("");
             }
-            binding.tvWithdrawalAmountMethod.setText( secondChannel.title);//提款方式
-            CfLog.e("点击 USDT secondChannel.title = " +secondChannel.toString());
+            binding.tvWithdrawalAmountMethod.setText(secondChannel.title);//提款方式
+            CfLog.e("点击 USDT secondChannel.title = " + secondChannel.toString());
 
         });
         //提款金额输入框与提款金额显示View
@@ -297,7 +299,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
             } else if (Double.valueOf(binding.etInputMoney.getText().toString()) < Double.valueOf(selectUsdtInfo.min_money)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
-            } else if (TextUtils.isEmpty( binding.tvWithdrawalTypeShow1.getText().toString())){
+            } else if (TextUtils.isEmpty(binding.tvWithdrawalTypeShow1.getText().toString())) {
                 ToastUtils.showLong(R.string.txt_select_withdrawal_address);
             } else {
                 hideKeyBoard();
@@ -325,29 +327,26 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             binding.tvConfirmWithdrawalRequest.setTextColor(getContext().getColor(R.color.red));
         }
         binding.llSetRequestView.setVisibility(View.GONE);
-        binding.tvUserNameShow.setText(usdtCashVo.user.username);
-        binding.llVirtualConfirmView.llConfirmView.setVisibility(View.VISIBLE);
-        DialogWithdrawalUsdtConfirmBinding bindView = binding.llVirtualConfirmView;
-        binding.llVirtualConfirmView.tvConfirmUserNameShow.setText(usdtSecurityVo.user.username);
-        bindView.tvConfirmWithdrawalTypeShow.setText(usdtCashVo.user.availablebalance);
-        bindView.tvConfirmAmountShow.setText(usdtSecurityVo.usdt_type);
-        bindView.tvWithdrawalVirtualTypeShow.setText(usdtSecurityVo.usdt_type);
-
-        bindView.tvWithdrawalActualArrivalShow.setText(usdtSecurityVo.datas.arrive);
-        bindView.tvWithdrawalExchangeRateShow.setText(usdtSecurityVo.exchangerate);
-        bindView.tvWithdrawalAddressShow.setText(usdtSecurityVo.usdt_card);
-        // 提款类型
-        bindView.tvWithdrawalAmountTypeShow.setText(usdtSecurityVo.usdt_type);
-        bindView.tvWithdrawalHandlingFeeShow.setText(usdtSecurityVo.datas.handing_fee);
+        binding.llVirtualConfirmView.setVisibility(View.VISIBLE);
+        binding.tvConfirmWithdrawalAmount.setText(usdtCashVo.user.username);
+        binding.tvConfirmWithdrawalTypeShow.setText(StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.user.availablebalance)));
+        binding.tvConfirmAmountShow.setText(usdtSecurityVo.usdt_type);
+        binding.tvWithdrawalVirtualTypeShow.setText(usdtSecurityVo.usdt_type);
+        binding.tvWithdrawalTypeShow.setText(usdtSecurityVo.usdt_type);
+        binding.tvWithdrawalAmountTypeShow.setText(usdtSecurityVo.usdt_type);
+        binding.tvWithdrawalActualArrivalShow.setText(usdtSecurityVo.datas.arrive);
+        binding.tvWithdrawalExchangeRateShow.setText(usdtSecurityVo.exchangerate);
+        binding.tvWithdrawalAddressShow.setText(usdtSecurityVo.usdt_card);
+        binding.tvWithdrawalHandlingFeeShow.setText(usdtSecurityVo.datas.handing_fee);
 
         //下一步
-        bindView.ivConfirmNext.setOnClickListener(v -> {
+        binding.ivConfirmNext.setOnClickListener(v -> {
             requestConfirmUSDT();
         });
         //上一步
-        bindView.ivConfirmPrevious.setOnClickListener(v -> {
+        binding.ivConfirmPrevious.setOnClickListener(v -> {
             binding.llSetRequestView.setVisibility(View.VISIBLE);
-            binding.llVirtualConfirmView.llConfirmView.setVisibility(View.GONE);
+            binding.llVirtualConfirmView.setVisibility(View.GONE);
         });
     }
 
@@ -358,7 +357,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             binding.tvOverWithdrawalRequest.setTextColor(getContext().getColor(R.color.red));
         }
-        binding.llVirtualConfirmView.llConfirmView.setVisibility(View.GONE);
+        binding.llVirtualConfirmView.setVisibility(View.GONE);
         binding.llOverApply.setVisibility(View.VISIBLE);
         //msg_type 为2 或者msg_detail为账户提款申请成功
         if (usdtConfirmVo.msg_detail.equals("账户提款申请成功") && usdtConfirmVo.msg_type.equals("2")) {
@@ -381,6 +380,20 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             dismiss();
             bankClose.closeBankWithdrawal();
         });
+    }
+
+    /*显示错误信息*/
+    private void refreshError(String message) {
+        binding.llTop.setFocusableInTouchMode(true);
+        binding.llVirtualTop.setVisibility(View.GONE);
+        binding.llSetRequestView.setVisibility(View.GONE);
+
+        binding.llVirtualConfirmView.setVisibility(View.GONE);
+        binding.llOverApply.setVisibility(View.GONE);
+        binding.etInputMoney.clearFocus();
+        // hideKeyBoard();
+        binding.tvShowNumberErrorMessage.setVisibility(View.VISIBLE);
+        binding.tvShowNumberErrorMessage.setText(message);
     }
 
     ItemTextBinding binding2;

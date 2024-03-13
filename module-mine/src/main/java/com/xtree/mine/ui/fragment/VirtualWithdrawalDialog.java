@@ -83,7 +83,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
 
     @Override
     protected int getMaxHeight() {
-        return (XPopupUtils.getScreenHeight(getContext()) * 80 / 100);
+        return (XPopupUtils.getScreenHeight(getContext()) * 90 / 100);
     }
 
     @Override
@@ -127,14 +127,21 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         viewModel.virtualCashVoMutableLiveData.observe(owner, vo -> {
             virtualCashVo = vo;
             if (virtualCashVo.msg_type == 1 || virtualCashVo.msg_type == 2) {
-                ToastUtils.showError(virtualCashVo.message);
-                dismiss();
+                if (virtualCashVo.message.equals("您今天已没有可用提款次数"))
+                {
+                    refreshError(virtualCashVo.message);
+                } else {
+                    ToastUtils.showError(virtualCashVo.message);
+                    dismiss();
+                }
+
                 return;
             }
             selectUsdtInfo = virtualCashVo.usdtinfo.get(0);
 
             CfLog.e("initViewObservable  selectUsdtInfo = " + selectUsdtInfo.toString());
             refreshSetUI();
+
         });
         //USDT确认提款信息
         viewModel.virtualSecurityVoMutableLiveData.observe(owner, vo -> {
@@ -306,6 +313,14 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         binding.ivContinueConfirmPrevious.setOnClickListener(v -> {
             dismiss();
         });
+    }
+    private void  refreshError(String  message){
+        binding.llVirtualTop.setVisibility(View.GONE);
+        binding.llSetRequestView.setVisibility(View.GONE);
+        binding.llVirtualConfirmView.setVisibility(View.GONE);
+        binding.llOverApply.setVisibility(View.GONE);
+        binding.tvShowNumberErrorMessage.setVisibility(View.VISIBLE);
+        binding.tvShowNumberErrorMessage.setText(message);
     }
 
     ItemTextBinding binding2;
