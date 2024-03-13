@@ -2,7 +2,6 @@ package com.xtree.mine.ui.fragment;
 
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -12,10 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
-
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -24,7 +21,6 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.ListDialog;
@@ -32,7 +28,6 @@ import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalUsdtBinding;
-import com.xtree.mine.databinding.DialogWithdrawalUsdtConfirmBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.ChooseInfoVo;
 import com.xtree.mine.vo.USDTCashVo;
@@ -50,9 +45,8 @@ import project.tqyb.com.library_res.databinding.ItemTextBinding;
 /**
  * USDT虚拟币提款
  */
-public class USDTWithdrawalDialog extends BottomPopupView   {
+public class USDTWithdrawalDialog extends BottomPopupView {
     private String type = "USDT";//默认选中USDT提款
-    private Context context;
     private LifecycleOwner owner;
     ChooseWithdrawViewModel viewModel;
     private ChooseInfoVo.ChannelInfo channelInfo;
@@ -75,8 +69,6 @@ public class USDTWithdrawalDialog extends BottomPopupView   {
 
     public static USDTWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo, BankWithdrawalDialog.BankWithdrawalClose bankClose) {
         USDTWithdrawalDialog dialog = new USDTWithdrawalDialog(context);
-        context = context;
-        dialog.context = context;
         dialog.owner = owner;
         dialog.channelInfo = channelInfo;
         dialog.bankClose = bankClose;
@@ -145,6 +137,12 @@ public class USDTWithdrawalDialog extends BottomPopupView   {
                 }
                 return;
             }
+            // 提现选项卡不能为空
+            if (usdtCashVo.channel_list == null || usdtCashVo.channel_list.isEmpty() ||
+                    usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()) {
+                refreshError(getContext().getString(R.string.txt_network_error));
+                return;
+            }
 
             for (int i = 0; i < usdtCashVo.usdtinfo.size(); i++) {
                 if (usdtCashVo.usdtinfo.get(i).usdt_type.contains("TRC20")) {
@@ -181,8 +179,7 @@ public class USDTWithdrawalDialog extends BottomPopupView   {
      */
     private void refreshSetUI() {
         binding.llSetRequestView.setVisibility(View.VISIBLE);
-        if (usdtCashVo.channel_list.size() ==1)
-        {
+        if (usdtCashVo.channel_list.size() == 1) {
             binding.tvVirtualUsdt.setText(usdtCashVo.channel_list.get(0).title);
             binding.tvVirtualOther.setVisibility(View.GONE);
             firstChannel = usdtCashVo.channel_list.get(0);
@@ -201,9 +198,9 @@ public class USDTWithdrawalDialog extends BottomPopupView   {
         binding.tvWithdrawalTypeShow.setText("USDT");//提款类型
 
         // binding.tvWithdrawalAmountMethod.setText(usdtCashVo.channel_list.get(0).title);//设置收款USDT账户 firstChannel
-        if (firstChannel !=null && !TextUtils.isEmpty(firstChannel.title)){
+        if (firstChannel != null && !TextUtils.isEmpty(firstChannel.title)) {
             binding.tvWithdrawalAmountMethod.setText(firstChannel.title);//提款方式
-        }else if(!TextUtils.isEmpty(usdtCashVo.usdtinfo.get(0).usdt_type)){
+        } else if (!TextUtils.isEmpty(usdtCashVo.usdtinfo.get(0).usdt_type)) {
             binding.tvWithdrawalAmountMethod.setText(usdtCashVo.usdtinfo.get(0).usdt_type);//提款方式设置为提款类型
         }
         String quota = usdtCashVo.availablebalance;
