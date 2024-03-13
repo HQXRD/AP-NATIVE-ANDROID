@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,25 +10,24 @@
             type="com.xtree.mine.ui.viewmodel.VerifyViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/clr_white"
+        android:orientation="vertical"
         tools:context=".ui.fragment.SecurityCenterFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content">
 
             <TextView
                 style="@style/style_cm_title"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
                 android:text="@string/txt_security_center"
+                android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -40,110 +41,132 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:visibility="visible" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/clr_grey_080"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
-            android:id="@+id/ivw_top"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@mipmap/me_security_center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cl_title" />
+            android:layout_margin="@dimen/layout_margin"
+            android:background="@drawable/bg_main_frame_03"
+            android:orientation="vertical"
+            android:padding="@dimen/layout_margin">
 
-        <TextView
-            android:id="@+id/tvw_space"
-            android:layout_width="64dp"
-            android:layout_height="12dp"
-            android:background="@color/clr_blue_03"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/ivw_top"
-            app:layout_constraintStart_toStartOf="parent" />
+            <ImageView
+                android:id="@+id/ivw_pwd_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/me_sc_pwd_edit"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvw_pwd_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin"
+                android:text="@string/txt_pwd_edit_hint"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/ivw_pwd_edit"
+                app:layout_constraintTop_toTopOf="@id/ivw_pwd_edit" />
+
+            <TextView
+                android:id="@+id/tvw_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="70%" />
+
+            <ProgressBar
+                android:id="@+id/prb_safe"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="4dp"
+                android:layout_marginEnd="@dimen/layout_margin"
+                android:background="@color/clr_bg_light_main"
+                android:max="100"
+                android:progress="10"
+                android:progressDrawable="@drawable/me_level_progressbar"
+                app:layout_constraintBottom_toBottomOf="@id/tvw_percent"
+                app:layout_constraintEnd_toStartOf="@id/tvw_percent"
+                app:layout_constraintStart_toStartOf="@id/tvw_pwd_edit"
+                app:layout_constraintTop_toTopOf="@id/tvw_percent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@drawable/bg_white"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvw_space">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="12dp" />
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tvw_reset_pwd"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/style_sc_title"
                 android:drawableStart="@mipmap/me_sc_pwd"
-                android:drawableEnd="@mipmap/cm_ic_to_right"
-                android:drawablePadding="6dp"
-                android:padding="@dimen/layout_margin"
                 android:text="@string/txt_login_pwd" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/clr_grey_080" />
+            <View style="@style/style_dividing_line" />
+
+            <TextView
+                android:id="@+id/tvw_funds_pwd"
+                style="@style/style_sc_title"
+                android:drawableStart="@mipmap/me_sc_funds_pwd"
+                android:text="@string/txt_funds_pwd" />
+
+            <View style="@style/style_dividing_line" />
+
+            <TextView
+                android:id="@+id/tvw_pwd_safe"
+                style="@style/style_sc_title"
+                android:drawableStart="@mipmap/me_sc_pwd_safe"
+                android:text="@string/txt_pwd_safe" />
+
+            <View style="@style/style_dividing_line" />
 
             <TextView
                 android:id="@+id/tvw_google"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/style_sc_title"
                 android:drawableStart="@mipmap/me_sc_google"
-                android:drawableEnd="@mipmap/cm_ic_to_right"
-                android:drawablePadding="6dp"
-                android:padding="@dimen/layout_margin"
                 android:text="@string/txt_google_code" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/clr_grey_080" />
+            <View style="@style/style_dividing_line" />
 
             <TextView
                 android:id="@+id/tvw_phone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/style_sc_title"
                 android:drawableStart="@mipmap/me_sc_phone"
-                android:drawableEnd="@mipmap/cm_ic_to_right"
-                android:drawablePadding="6dp"
-                android:padding="@dimen/layout_margin"
                 android:text="@string/txt_bind_phone" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/clr_grey_080" />
+            <View style="@style/style_dividing_line" />
 
             <TextView
                 android:id="@+id/tvw_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/style_sc_title"
                 android:drawableStart="@mipmap/me_sc_email"
-                android:drawableEnd="@mipmap/cm_ic_to_right"
-                android:drawablePadding="6dp"
-                android:padding="@dimen/layout_margin"
-                android:text="@string/txt_bind_email" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/clr_grey_080" />
+                android:text="@string/txt_bind_email"
+                android:visibility="gone" />
 
             <!--<TextView
                 android:id="@+id/tvw_usdt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/style_sc_title"
                 android:drawableStart="@mipmap/me_sc_email"
-                android:drawableEnd="@mipmap/cm_ic_to_right"
-                android:drawablePadding="6dp"
-                android:padding="@dimen/layout_margin"
                 android:text="绑定USDT" />-->
 
         </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>

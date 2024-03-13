@@ -108,7 +108,7 @@
                         android:background="@drawable/bg_home_vip"
                         android:gravity="center"
                         android:text="VIP 0"
-                        android:textColor="@color/clr_yellow"
+                        android:textColor="@color/clr_main_02"
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="@id/tvw_name"
                         app:layout_constraintStart_toEndOf="@id/tvw_name"
