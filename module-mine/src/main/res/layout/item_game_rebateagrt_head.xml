@@ -13,8 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:translationZ="3dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:translationZ="5dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
                 android:id="@+id/head_rebate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1,888.88"
+                android:text="@{m.yesterdayRebate}"
                 android:textSize="32sp"
                 android:textColor="@color/color_FFFFFF"
                 android:layout_marginTop="2dp"
@@ -71,20 +71,146 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.xtree.base.widget.FilterView
-            android:id="@+id/fv_main"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:cardCornerRadius="12dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:statusName="@string/txt_status"
-            app:statusVisibility="0"
-            app:type1Visibility="8"
-            app:type2Visibility="8"
-            statuData="@{m.listStatus}"
-            queryListener="@{m.filterViewOnClickListerner}" />
+            android:layout_marginEnd="8dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                android:paddingTop="20dp">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guide1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintGuide_percent="0.222"
+                    android:orientation="vertical" />
+
+                <TextView
+                    android:id="@+id/filter1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="起始日期"
+                    android:textColor="@color/color_99A0B1"
+                    android:textSize="14sp"
+                    android:gravity="bottom|start"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guide1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintVertical_bias="0"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:text="@{m.startDate}"
+                    android:textColor="@color/color_1E1E1E"
+                    android:textSize="14sp"
+                    android:gravity="bottom|start"
+                    android:drawableBottom="@drawable/divider_horizontal"
+                    android:onClick="@{() -> m.selectStartDate()}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/guide1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintVertical_bias="0"/>
+
+                <TextView
+                    android:id="@+id/filter2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="截止日期"
+                    android:textColor="@color/color_99A0B1"
+                    android:textSize="14sp"
+                    android:gravity="bottom|start"
+                    app:layout_constraintTop_toBottomOf="@id/filter1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guide1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintVertical_bias="0"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:text="@{m.endDate}"
+                    android:textColor="@color/color_1E1E1E"
+                    android:textSize="14sp"
+                    android:gravity="bottom|start"
+                    android:drawableBottom="@drawable/divider_horizontal"
+                    android:onClick="@{() -> m.selectEndDate()}"
+                    app:layout_constraintTop_toTopOf="@id/filter2"
+                    app:layout_constraintStart_toStartOf="@id/guide1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintVertical_bias="0"/>
+
+                <TextView
+                    android:id="@+id/filter3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="状态"
+                    android:textColor="@color/color_99A0B1"
+                    android:textSize="14sp"
+                    android:gravity="bottom|start"
+                    app:layout_constraintTop_toBottomOf="@id/filter2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/guide1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintVertical_bias="0"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:hint="请输入要查询的用户名"
+                    android:text="@{m.state.title}"
+                    android:textColor="@color/color_1E1E1E"
+                    android:textSize="14sp"
+                    android:gravity="bottom|start"
+                    android:drawableEnd="@mipmap/bt_icon_expand"
+                    android:drawableBottom="@drawable/divider_horizontal"
+                    android:onClick="@{() -> m.selectStatus()}"
+                    app:layout_constraintTop_toTopOf="@id/filter3"
+                    app:layout_constraintStart_toStartOf="@id/guide1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintVertical_bias="0"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/shape_gradient_247bf4_8bc1ff_corner_10"
+                    android:text="查询"
+                    android:textSize="16dp"
+                    android:textColor="@color/color_FFFFFF"
+                    android:gravity="center"
+                    android:onClick="@{() -> m.check()}"
+                    app:layout_constraintTop_toBottomOf="@id/filter3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias="1"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 

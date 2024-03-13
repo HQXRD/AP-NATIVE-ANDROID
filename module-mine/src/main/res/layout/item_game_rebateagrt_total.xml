@@ -7,12 +7,12 @@
 
         <variable
             name="m"
-            type="com.xtree.mine.ui.rebateagrt.model.GameSubordinateagrtModel" />
+            type="com.xtree.mine.ui.rebateagrt.model.GameRebateAgrtTotalModel" />
     </data>
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="143dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,6 @@
         android:layout_marginTop="12dp"
         android:translationZ="1dp"
         >
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +31,7 @@
             android:layout_marginBottom="12dp">
 
             <LinearLayout
-                android:id="@+id/item_username"
+                android:id="@+id/item_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -53,39 +52,23 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{m.userName}"
+                    android:text="总合计"
                     android:textSize="14sp"
                     android:textColor="@color/color_1E1E1E"
                     android:layout_marginStart="2dp"
                     />
             </LinearLayout>
 
+<!--            团队日投注-->
             <TextView
+                android:id="@+id/item_amout_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="查看"
+                android:text="团队日投注额"
+                android:textSize="12sp"
                 android:textColor="@color/color_5B5B6A"
-                android:textSize="10sp"
                 android:layout_marginTop="12dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="1"
-                />
-
-
-<!--            签订日期-->
-            <TextView
-                android:id="@+id/item_signdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="签订日期"
-                android:textSize="12sp"
-                android:textColor="@color/color_5B5B6A"
-                android:layout_marginTop="13dp"
-                app:layout_constraintTop_toBottomOf="@id/item_username"
+                app:layout_constraintTop_toBottomOf="@id/item_total"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -94,14 +77,14 @@
                 />
 
             <TextView
-                android:id="@+id/item_signdate_content"
+                android:id="@+id/item_amout_day_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.signTime}"
+                android:text="@{m.sum_bet}"
                 android:textSize="10sp"
                 android:textColor="@color/color_1E1E1E"
                 android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@id/item_signdate"
+                app:layout_constraintTop_toBottomOf="@id/item_amout_day"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -109,16 +92,16 @@
                 app:layout_constraintHorizontal_bias="0"
                 />
 
-            <!--            工资比例-->
+<!--            下级工资-->
             <TextView
-                android:id="@+id/item_proportions"
+                android:id="@+id/item_amout_subordinater"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="工资比例"
+                android:text="下级工资"
                 android:textSize="12sp"
                 android:textColor="@color/color_5B5B6A"
-                android:layout_marginTop="13dp"
-                app:layout_constraintTop_toBottomOf="@id/item_signdate_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/item_amout_day_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -127,14 +110,14 @@
                 />
 
             <TextView
-                android:id="@+id/item_proportions_content"
+                android:id="@+id/item_amout_subordinater_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.ruleRatio}"
+                android:text="@{m.sum_sub_money}"
                 android:textSize="10sp"
                 android:textColor="@color/color_1E1E1E"
                 android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@id/item_proportions"
+                app:layout_constraintTop_toBottomOf="@id/item_amout_subordinater"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -142,48 +125,49 @@
                 app:layout_constraintHorizontal_bias="0"
                 />
 
+<!--            有效投注额-->
             <TextView
-                android:id="@+id/item_createdate"
+                android:id="@+id/item_amout_validity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="创建时间"
+                android:text="有效投注额"
                 android:textSize="12sp"
                 android:textColor="@color/color_5B5B6A"
-                android:layout_marginTop="13dp"
-                app:layout_constraintTop_toBottomOf="@id/item_proportions_content"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/item_total"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintHorizontal_bias="0.5"
                 />
 
             <TextView
-                android:id="@+id/item_createdate_content"
+                android:id="@+id/item_amout_validity_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.createTime}"
+                android:text="@{m.sum_effective_bet}"
                 android:textSize="10sp"
                 android:textColor="@color/color_1E1E1E"
                 android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@id/item_createdate"
+                app:layout_constraintTop_toBottomOf="@id/item_amout_validity"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintHorizontal_bias="0.5"
                 />
 
-            <!--            生效日期-->
+<!--            返水总额-->
             <TextView
-                android:id="@+id/item_cmtdate"
+                android:id="@+id/item_amout_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="生效日期"
+                android:text="返水总额"
                 android:textSize="12sp"
                 android:textColor="@color/color_5B5B6A"
-                android:layout_marginTop="13dp"
-                app:layout_constraintTop_toBottomOf="@id/item_username"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/item_total"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -192,14 +176,14 @@
                 />
 
             <TextView
-                android:id="@+id/item_cmtdate_content"
+                android:id="@+id/item_amout_total_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.effectDate}"
+                android:text="@{m.sum_total_money}"
                 android:textSize="10sp"
                 android:textColor="@color/color_1E1E1E"
                 android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@id/item_cmtdate"
+                app:layout_constraintTop_toBottomOf="@id/item_amout_total"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -207,15 +191,16 @@
                 app:layout_constraintHorizontal_bias="1"
                 />
 
-<!--            状态-->
+<!--            自身工资-->
             <TextView
-                android:id="@+id/item_statu"
+                android:id="@+id/item_amout_mine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="状态"
+                android:text="自身工资"
                 android:textSize="12sp"
                 android:textColor="@color/color_5B5B6A"
-                app:layout_constraintTop_toTopOf="@id/item_createdate"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/item_amout_day_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -224,21 +209,20 @@
                 />
 
             <TextView
-                android:id="@+id/item_statu_content"
+                android:id="@+id/item_amout_mine_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.sName}"
-                android:textSize="14sp"
-                android:textColor="@color/color_37AA4A"
+                android:text="@{m.sum_self_money}"
+                android:textSize="10sp"
+                android:textColor="@color/color_1E1E1E"
                 android:layout_marginTop="5dp"
-                app:layout_constraintTop_toBottomOf="@id/item_statu"
+                app:layout_constraintTop_toBottomOf="@id/item_amout_mine"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="1"
                 />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
