@@ -50,7 +50,7 @@ import project.tqyb.com.library_res.databinding.ItemTextBinding;
 /**
  * USDT虚拟币提款
  */
-public class USDTWithdrawalDialog extends BottomPopupView  implements USDTFruitHorRecyclerViewAdapter.IUSDTFruitHorCallback {
+public class USDTWithdrawalDialog extends BottomPopupView   {
     private String type = "USDT";//默认选中USDT提款
     private Context context;
     private LifecycleOwner owner;
@@ -68,7 +68,6 @@ public class USDTWithdrawalDialog extends BottomPopupView  implements USDTFruitH
     private
     @NonNull
     DialogBankWithdrawalUsdtBinding binding;
-    private USDTFruitHorRecyclerViewAdapter recyclerViewAdapter ;
 
     public USDTWithdrawalDialog(@NonNull Context context) {
         super(context);
@@ -512,74 +511,4 @@ public class USDTWithdrawalDialog extends BottomPopupView  implements USDTFruitH
         viewModel.postConfirmWithdrawUSDT(map);
 
     }
-    private USDTCashVo.Channel selectChanneVo ;//
-
-    @Override
-    public void callbackWithFruitHor(USDTCashVo.Channel selectVo) {
-
-        //selectChanneVo = selectVO;//设置选中的channelVo
-        CfLog.i("callbackWithFruitHor == " + selectChanneVo.toString());
-        /*if (selectVO.isShowErrorView == 1) //展示错误信息
-        {
-            binding.nsErrorView.setVisibility(View.VISIBLE);//展示错误信息页面
-            binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//原始数据页面隐藏
-            binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
-            binding.nsH5View.setVisibility(View.GONE);//h5页面隐藏
-            binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
-
-            binding.tvShowErrorMessage.setText(bankCardCashVo.channel_list.get(0).thiriframe_msg);
-        } else if (selectVO.isShowErrorView == 0) {
-            if (selectVO.isWebView == 1)//展示WebView
-            {
-                binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面
-                binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据
-                // 页面隐藏
-                binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
-                binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
-                binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
-                String url = bankCardCashVo.channel_list.get(0).thiriframe_url;
-                if (!StringUtils.isStartHttp(url)) {
-                    url = DomainUtil.getDomain2() + url;
-                }
-                binding.nsH5View.loadUrl(url, getHeader());
-                initWebView();
-                binding.nsH5View.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        view.loadUrl(url);
-                        return true;
-                    }
-
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        // LoadingDialog.show(getContext());
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        //LoadingDialog.finish();
-                    }
-
-                });
-            } else if (selectVO.fixamount_list_status == 0) {
-                selectType = 1;//选中单独金额选项View
-                binding.nsErrorView.setVisibility(View.GONE);//隐藏错误信息页面隐藏
-                binding.nsSetWithdrawalRequest.setVisibility(View.VISIBLE);//单数据页面展示
-                binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
-                binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
-                binding.nsH5View.setVisibility(View.GONE);//h5隐藏
-                refreshRequestView(bankCardCashVo, selectVO);
-            } else if (selectVO.fixamount_list_status == 1) {
-                selectType = 2;//选中多金额选项View
-                binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面隐藏
-                binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面展示隐藏
-                binding.nsSetWithdrawalRequestMore.setVisibility(View.VISIBLE);//多金额页面隐藏
-                binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
-                binding.nsH5View.setVisibility(View.GONE);//h5隐藏
-                refreshRequestMoreView(bankCardCashVo, selectVO);
-
-                refreshSelectAmountUI(selectVO);
-            }*/
-        }
 }
