@@ -172,7 +172,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     CfLog.i("ChooseAdapter channel = " + channel.toString());
                     if (channel.channeluse == 0)//显示弹窗
                     {
-                        if ( (channel.bindType instanceof String)  &&channel.bindType !=null &&channel.bindType.equals("bindcard") && (channel.flag == false)) {
+                        if ("bindcard".equals(channel.bindType) && (channel.flag == false)) {
                             showBankMessageDialog(channel, channel.channeluseMessage);
                         } else if (channel.channeluseMessage.contains("首次提款仅可使用银行卡方式提款")) {
                             showErrorDialog(channel.channeluseMessage);
