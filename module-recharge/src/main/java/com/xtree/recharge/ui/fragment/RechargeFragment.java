@@ -751,7 +751,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 url = DomainUtil.getDomain2() + url;
             }
             CfLog.d(vo.title + ", jump: " + url);
-            new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BrowserDialog(getContext(), vo.title, url)).show();
+            BrowserDialog dialog = new BrowserDialog(getContext(), vo.title, url, false, false, true);
+            new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(dialog).show();
         });
 
         viewModel.liveDataRechargePay.observe(getViewLifecycleOwner(), vo -> {
