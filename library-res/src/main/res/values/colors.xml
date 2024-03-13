@@ -310,4 +310,7 @@
     <color name="cl_over_tip">#8F8F8F</color>
     <color name="cl_awards_end">#ECE6F9</color>
     <color name="cl_awards_start">#ECEFF9</color>
+
+    <color name="clr_f3f5f6">#F3F5F6</color>
+
 </resources>
