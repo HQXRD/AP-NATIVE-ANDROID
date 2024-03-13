@@ -83,7 +83,10 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
                                     } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
 
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("bank") || chooseInfoVo.wdChannelList.get(i).configkey.contains("hipaytx") || chooseInfoVo.wdChannelList.get(i).configkey.contains("generalchannel") || chooseInfoVo.wdChannelList.get(i).configkey.contains("银行卡")) {
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("bank")
+                                        || chooseInfoVo.wdChannelList.get(i).configkey.contains("hipaytx")
+                                        || chooseInfoVo.wdChannelList.get(i).configkey.contains("generalchannel")
+                                        || chooseInfoVo.wdChannelList.get(i).configkey.contains("银行卡")) {
                                     //对应银行卡提款字段匹配
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.bankchanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_card_type);
@@ -129,8 +132,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                                 } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("okpay")) {
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_okpay_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.okpaychanneluse_msg;
-                                    CfLog.i("okpaychanneluse_msg = " + chooseInfoVo.okpaychanneluse_msg + " | = channeluseMessage =  " + chooseInfoVo.wdChannelList.get(i).channeluseMessage);
-                                    if (chooseInfoVo.bankcardstatus_okpay) {
+                                   if (chooseInfoVo.bankcardstatus_okpay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
                                     } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
                                 }
