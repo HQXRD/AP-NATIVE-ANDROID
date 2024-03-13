@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.router.RouterActivityPath;
@@ -29,6 +30,7 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Spkey;
 import com.xtree.mine.databinding.ActivityLoginBinding;
+import com.xtree.mine.ui.fragment.AgreementDialog;
 import com.xtree.mine.ui.fragment.GoogleAuthDialog;
 import com.xtree.mine.ui.viewmodel.LoginViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
@@ -50,6 +52,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     public static final int REGISTER_TYPE = 0x1002;
 
     private int clickCount = 0; // 点击次数 debug model
+    private BasePopupView ppw;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -130,6 +133,12 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 return;
             }
             viewModel.login(acc, pwd);
+        });
+        binding.tvwAgreement.setOnClickListener(v -> {
+            showAgreementDialog();
+        });
+        binding.tvwAgreementRegister.setOnClickListener(v -> {
+            showAgreementDialog();
         });
 
         binding.edtAccReg.addTextChangedListener(new TextWatcher() {
@@ -234,6 +243,14 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
         });
 
+    }
+
+    private void showAgreementDialog() {
+        if (ppw != null && ppw.isShow()) {
+            return;
+        }
+        ppw = new XPopup.Builder(LoginRegisterActivity.this).asCustom(new AgreementDialog(LoginRegisterActivity.this));
+        ppw.show();
     }
 
     @Override
