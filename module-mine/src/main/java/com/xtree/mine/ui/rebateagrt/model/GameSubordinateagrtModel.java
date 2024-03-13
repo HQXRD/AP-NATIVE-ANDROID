@@ -7,15 +7,13 @@ import com.xtree.base.mvvm.recyclerview.BindModel;
  * Created by KAKA on 2024/3/11.
  * Describe: 游戏场馆下级契约列表数据
  */
-public class GameSubordinateagrtModel extends BindModel implements BindHead {
+public class GameSubordinateagrtModel extends BindModel {
 
-    @Override
-    public boolean getItemHover() {
-        return false;
-    }
+    public String sName;
 
-    @Override
-    public void setItemHover(boolean b) {
-
-    }
+    public String userName;
+    public String signTime;
+    public String effectDate;
+    public String ruleRatio ;
+    public String createTime;
 }
