@@ -62,6 +62,10 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         mCompositeDisposable.remove(disposable);
     }
 
+    public CompositeDisposable getmCompositeDisposable() {
+        return mCompositeDisposable;
+    }
+
     /**
      * 注入RxLifecycle生命周期
      *
