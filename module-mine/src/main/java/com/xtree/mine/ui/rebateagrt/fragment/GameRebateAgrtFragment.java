@@ -25,6 +25,7 @@ import me.xtree.mvvmhabit.base.BaseFragment;
 public class GameRebateAgrtFragment extends BaseFragment<FragmentRebateAgreementBinding, GameRebateAgrtViewModel> {
     @Override
     public void initView() {
+        viewModel.setContext(getContext());
     }
 
     @Override

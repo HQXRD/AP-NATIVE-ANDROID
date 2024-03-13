@@ -17,6 +17,8 @@ import com.xtree.mine.vo.ForgetPasswordCheckInfoVo;
 import com.xtree.mine.vo.ForgetPasswordTimeoutVo;
 import com.xtree.mine.vo.ForgetPasswordVerifyVo;
 import com.xtree.mine.vo.GameBalanceVo;
+import com.xtree.mine.vo.request.GameRebateAgrtRequest;
+import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.GooglePswVO;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.LotteryDetailVo;
@@ -58,6 +60,7 @@ import io.reactivex.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.BaseResponse2;
+import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -521,4 +524,10 @@ public interface HttpApiService {
 
     @GET("/user/messages?tag=deleteall&client=m")
     Flowable<BaseResponse2> deleteAllPersonInfo();
+
+    /**
+     * 返水契约
+     */
+    @GET("{url}")
+    Flowable<ResponseBody> get(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) HashMap<String, Object> map);
 }

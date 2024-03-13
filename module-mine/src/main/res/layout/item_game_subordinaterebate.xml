@@ -5,12 +5,14 @@
 
     <data>
 
-
+        <variable
+            name="m"
+            type="com.xtree.mine.ui.rebateagrt.model.GameSubordinaterebateModel" />
     </data>
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="200dp"
         app:cardCornerRadius="12dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,23 +32,18 @@
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="12dp">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guide1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.3" />
-
             <LinearLayout
+                android:id="@+id/item_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center"
+                android:layout_marginTop="12dp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/guide1"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="1"
+                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0">
 
                 <View
@@ -69,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="start"
-                app:layout_constraintTop_toTopOf="@id/guide1"
+                app:layout_constraintTop_toBottomOf="@id/item_username"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -88,10 +85,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="26.0000"
+                    android:text="@{m.bet}"
                     android:textSize="10sp"
                     android:textColor="@color/color_1E1E1E"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     />
 
                 <TextView
@@ -106,16 +103,16 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="26.0000"
+                    android:text="@{m.totalMoney}"
                     android:textSize="10sp"
                     android:textColor="@color/color_1E1E1E"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2023-25-54"
+                    android:text="@{m.createTime}"
                     android:textSize="12sp"
                     android:textColor="@color/color_5B5B6A"
                     android:layout_marginTop="12dp"
@@ -127,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center"
-                app:layout_constraintTop_toTopOf="@id/guide1"
+                app:layout_constraintTop_toBottomOf="@id/item_username"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -146,10 +143,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="26.0000"
+                    android:text="@{m.effectBet}"
                     android:textSize="10sp"
                     android:textColor="@color/color_1E1E1E"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     />
 
                 <TextView
@@ -164,78 +161,72 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="26.0000"
+                    android:text="@{m.subMoney}"
                     android:textSize="10sp"
                     android:textColor="@color/color_1E1E1E"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:gravity="end"
-                app:layout_constraintTop_toTopOf="@id/guide1"
+                android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="1">
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_username"
+                app:layout_constraintVertical_bias="0">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:text="返水比例"
-                    android:textSize="12sp"
                     android:textColor="@color/color_5B5B6A"
-                    android:layout_marginTop="12dp"
-                    />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="26.0000"
+                    android:text="@{m.ratio}"
                     android:textSize="10sp"
                     android:textColor="@color/color_1E1E1E"
-                    android:layout_marginTop="10dp"
-                    />
+                    android:layout_marginTop="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:text="个人返水"
-                    android:textSize="12sp"
                     android:textColor="@color/color_5B5B6A"
-                    android:layout_marginTop="12dp"
-                    />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="26.0000"
+                    android:text="@{m.selfMoney}"
                     android:textSize="10sp"
                     android:textColor="@color/color_1E1E1E"
-                    android:layout_marginTop="10dp"
-                    />
+                    android:layout_marginTop="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:text="发放状态"
-                    android:textSize="12sp"
                     android:textColor="@color/color_5B5B6A"
-                    android:layout_marginTop="12dp"
-                    />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="未到账"
+                    android:text="@{m.type}"
                     android:textSize="10sp"
                     android:textColor="@color/color_1E1E1E"
-                    android:layout_marginTop="10dp"
-                    />
+                    android:layout_marginTop="5dp" />
 
             </LinearLayout>
 

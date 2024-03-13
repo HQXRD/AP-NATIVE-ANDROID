@@ -2,7 +2,14 @@ package com.xtree.mine.data.source;
 
 
 import com.xtree.mine.data.source.http.service.HttpApiService;
+import com.xtree.mine.vo.request.GameRebateAgrtRequest;
+import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
+import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
+import com.xtree.mine.vo.response.GameRebateAgrtResponse;
+import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
+import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
 
+import io.reactivex.Flowable;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observable;
 import me.xtree.mvvmhabit.http.BaseResponse;
@@ -20,5 +27,9 @@ public interface HttpDataSource {
 
     HttpApiService getApiService();
 
+    Flowable<GameRebateAgrtResponse> getGameRebateAgrtData(GameRebateAgrtRequest request);
 
+    Flowable<GameSubordinateAgrteResponse> getGameSubordinateAgrteData(GameSubordinateAgrteRequest request);
+
+    Flowable<GameSubordinateRebateResponse> getGameSubordinateRebateData(GameSubordinateRebateRequest request);
 }

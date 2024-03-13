@@ -6,14 +6,15 @@
 
         <variable
             name="m"
-            type="com.xtree.mine.ui.rebateagrt.model.GameRebateAgrtHeadModel" />
+            type="com.xtree.mine.ui.rebateagrt.model.GameSubordinaterebateHeadModel" />
 
         <import type="android.view.View" />
     </data>
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:translationZ="3dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -45,7 +46,6 @@
                     android:text="起始日期"
                     android:textColor="@color/color_99A0B1"
                     android:textSize="14sp"
-                    android:layout_marginStart="12dp"
                     android:gravity="bottom|start"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -57,11 +57,12 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="30dp"
-                    android:text="2023-07-11"
+                    android:text="@{m.startDate}"
                     android:textColor="@color/color_1E1E1E"
                     android:textSize="14sp"
                     android:gravity="bottom|start"
                     android:drawableBottom="@drawable/divider_horizontal"
+                    android:onClick="@{() -> m.selectStartDate()}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="@id/guide1"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -76,7 +77,6 @@
                     android:text="截止日期"
                     android:textColor="@color/color_99A0B1"
                     android:textSize="14sp"
-                    android:layout_marginStart="12dp"
                     android:gravity="bottom|start"
                     app:layout_constraintTop_toBottomOf="@id/filter1"
                     app:layout_constraintStart_toStartOf="parent"
@@ -88,11 +88,12 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="30dp"
-                    android:text="2023-07-11"
+                    android:text="@{m.endDate}"
                     android:textColor="@color/color_1E1E1E"
                     android:textSize="14sp"
                     android:gravity="bottom|start"
                     android:drawableBottom="@drawable/divider_horizontal"
+                    android:onClick="@{() -> m.selectEndDate()}"
                     app:layout_constraintTop_toTopOf="@id/filter2"
                     app:layout_constraintStart_toStartOf="@id/guide1"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -107,7 +108,6 @@
                     android:text="用户名"
                     android:textColor="@color/color_99A0B1"
                     android:textSize="14sp"
-                    android:layout_marginStart="12dp"
                     android:gravity="bottom|start"
                     app:layout_constraintTop_toBottomOf="@id/filter2"
                     app:layout_constraintStart_toStartOf="parent"
@@ -116,14 +116,16 @@
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintVertical_bias="0"/>
 
-                <TextView
+                <EditText
                     android:layout_width="0dp"
                     android:layout_height="30dp"
                     android:hint="请输入要查询的用户名"
+                    android:text="@={m.userName}"
                     android:textColor="@color/color_1E1E1E"
                     android:textSize="14sp"
                     android:gravity="bottom|start"
                     android:drawableBottom="@drawable/divider_horizontal"
+                    android:background="@null"
                     app:layout_constraintTop_toTopOf="@id/filter3"
                     app:layout_constraintStart_toStartOf="@id/guide1"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -143,6 +145,7 @@
                     android:textSize="16dp"
                     android:textColor="@color/color_FFFFFF"
                     android:gravity="center"
+                    android:onClick="@{() -> m.check()}"
                     app:layout_constraintTop_toBottomOf="@id/filter3"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
