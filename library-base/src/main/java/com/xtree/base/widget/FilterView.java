@@ -334,4 +334,42 @@ public class FilterView extends LinearLayout {
         ppw.show();
     }
 
+
+    private static BasePopupView mpop = null;
+
+    public static void showDialog(Context context, CharSequence title, List<IBaseVo> list, ICallBack callBack) {
+        CfLog.i("****** " + title);
+
+        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<IBaseVo>() {
+
+            @NonNull
+            @Override
+            public CacheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                CacheViewHolder holder = new CacheViewHolder(LayoutInflater.from(context).inflate(R.layout.item_text, parent, false));
+                return holder;
+            }
+
+            @Override
+            public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
+                ItemTextBinding binding2;
+
+                binding2 = ItemTextBinding.bind(holder.itemView);
+                IBaseVo vo = get(position);
+                binding2.tvwTitle.setText(vo.getShowName());
+                binding2.tvwTitle.setOnClickListener(v -> {
+                    CfLog.i(vo.toString());
+                    if (callBack != null) {
+                        callBack.onTypeChanged(vo);
+                    }
+                    if (mpop != null) {
+                        mpop.dismiss();
+                    }
+                });
+
+            }
+        };
+
+        adapter.addAll(list);
+        mpop = new XPopup.Builder(context).asCustom(new ListDialog(context, title.toString(), adapter)).show();
+    }
 }
