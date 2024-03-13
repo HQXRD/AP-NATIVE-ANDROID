@@ -131,6 +131,13 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             }
             viewModel.login(acc, pwd);
         });
+        binding.tvwAgreement.setOnClickListener(v -> {
+
+        });
+        binding.tvwAgreementRegister.setOnClickListener(v -> {
+            //new XPopup.Builder(LoginRegisterActivity.this).asCustom().show();
+        });
+
 
         binding.edtAccReg.addTextChangedListener(new TextWatcher() {
             @Override
