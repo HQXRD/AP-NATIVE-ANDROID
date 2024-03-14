@@ -127,9 +127,13 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         //USDT提款设置提款请求 返回model
         viewModel.usdtCashVoMutableLiveData.observe(owner, vo -> {
             usdtCashVo = vo;
+            if (usdtCashVo == null || usdtCashVo.channel_list == null || usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()) {
+                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                dismiss();
+            }
             //异常
-            if (usdtCashVo.msg_type == 2 || usdtCashVo.msg_type == 1) {
-                if (usdtCashVo.message.equals(getContext().getString(R.string.txt_no_withdrawals_available_tip))) {
+            else if (usdtCashVo.msg_type == 2 || usdtCashVo.msg_type == 1) {
+                if (getContext().getString(R.string.txt_no_withdrawals_available_tip).equals(usdtCashVo.message)) {
                     refreshError(usdtCashVo.message);
                 } else {
                     ToastUtils.show(usdtCashVo.message, ToastUtils.ShowType.Fail);
@@ -138,30 +142,41 @@ public class USDTWithdrawalDialog extends BottomPopupView {
                 return;
             }
             // 提现选项卡不能为空
-            if (usdtCashVo.channel_list == null || usdtCashVo.channel_list.isEmpty() ||
+            else if (usdtCashVo.channel_list == null || usdtCashVo.channel_list.isEmpty() ||
                     usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()) {
                 refreshError(getContext().getString(R.string.txt_network_error));
                 return;
+            } else {
+                for (int i = 0; i < usdtCashVo.usdtinfo.size(); i++) {
+                    if (usdtCashVo.usdtinfo.get(i).usdt_type.contains("TRC20")) {
+                        usdtinfoTRC.add(usdtCashVo.usdtinfo.get(i));
+                    }
+                }
+                selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
+                refreshSetUI();
             }
 
-            for (int i = 0; i < usdtCashVo.usdtinfo.size(); i++) {
-                if (usdtCashVo.usdtinfo.get(i).usdt_type.contains("TRC20")) {
-                    usdtinfoTRC.add(usdtCashVo.usdtinfo.get(i));
-                }
-            }
-            selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
-            refreshSetUI();
         });
         //USDT确认提款信息
         viewModel.usdtSecurityVoMutableLiveData.observe(owner, vo -> {
             usdtSecurityVo = vo;
-            refreshSecurityUI();
+            if (usdtSecurityVo == null || usdtSecurityVo.datas == null || usdtSecurityVo.user == null) {
+                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                dismiss();
+            } else {
+                refreshSecurityUI();
+            }
         });
         //USDT完成申请
         viewModel.usdtConfirmVoMutableLiveData.observe(owner, vo -> {
             TagUtils.tagEvent(getContext(), "wd", "ut");
             usdtConfirmVo = vo;
-            refreshConfirmUI();
+            if (usdtConfirmVo.user == null) {
+                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                dismiss();
+            } else {
+                refreshConfirmUI();
+            }
         });
 
     }

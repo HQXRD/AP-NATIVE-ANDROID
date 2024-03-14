@@ -294,10 +294,13 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     private void initViewObservable() {
         //银行卡提现详情model
         viewModel.channelDetailVoMutableLiveData.observe(this.owner, vo -> {
-            bankCardCashVo = vo;
             dismissLoading();
-            //"message": "您今天已没有可用提款次数"
-            if (!TextUtils.isEmpty(bankCardCashVo.message) && bankCardCashVo.message.equals(getContext().getString(R.string.txt_no_withdrawals_available_tip))) {
+            bankCardCashVo = vo;
+            if (bankCardCashVo == null || bankCardCashVo.banks == null || bankCardCashVo.banks.isEmpty() || bankCardCashVo.channel_list == null || bankCardCashVo.channel_list.isEmpty()) {
+                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                dismiss();
+            } else if (!TextUtils.isEmpty(bankCardCashVo.message) && getContext().getString(R.string.txt_no_withdrawals_available_tip).equals(bankCardCashVo.message)) {
+                //"message": "您今天已没有可用提款次数"
                 refreshErrByNumber(bankCardCashVo.message);
                 return;
             } else if (bankCardCashVo.msg_type == 1 || bankCardCashVo.msg_type == 2) {
@@ -318,7 +321,10 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         //银行卡提现
         viewModel.platwithdrawVoMutableLiveData.observe(this.owner, vo -> {
             platWithdrawVo = vo;
-            if (platWithdrawVo.msg_type == 2) {
+            if (platWithdrawVo == null || platWithdrawVo.user == null || platWithdrawVo.datas == null) {
+                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                dismiss();
+            } else if (platWithdrawVo.msg_type == 2) {
                 showError(platWithdrawVo.message);
             } else {
                 refreshWithdrawView(platWithdrawVo);
@@ -328,7 +334,13 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         viewModel.platWithdrawConfirmVoMutableLiveData.observe(this.owner, ov -> {
             TagUtils.tagEvent(getContext(), "wd", "bkc");
             platWithdrawConfirmVo = ov;
-            refreshWithdrawConfirmView(platWithdrawConfirmVo);
+            if (platWithdrawConfirmVo == null || platWithdrawConfirmVo.user == null) {
+                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                dismiss();
+            } else {
+                refreshWithdrawConfirmView(platWithdrawConfirmVo);
+            }
+
         });
     }
 

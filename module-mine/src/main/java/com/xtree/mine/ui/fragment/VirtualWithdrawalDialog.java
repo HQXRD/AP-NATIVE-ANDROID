@@ -126,33 +126,43 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         //USDT提款设置提款请求 返回model
         viewModel.virtualCashVoMutableLiveData.observe(owner, vo -> {
             virtualCashVo = vo;
-            if (virtualCashVo.msg_type == 1 || virtualCashVo.msg_type == 2) {
-                if (virtualCashVo.message.equals("您今天已没有可用提款次数"))
-                {
+            if (virtualCashVo == null || virtualCashVo.rest == null || virtualCashVo.usdtinfo == null || virtualCashVo.usdtinfo.isEmpty()) {
+                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                dismiss();
+            } else if (virtualCashVo.msg_type == 1 || virtualCashVo.msg_type == 2) {
+                if ("您今天已没有可用提款次数".equals(virtualCashVo.message)) {
                     refreshError(virtualCashVo.message);
                 } else {
                     ToastUtils.showError(virtualCashVo.message);
                     dismiss();
                 }
-
                 return;
+            } else {
+                selectUsdtInfo = virtualCashVo.usdtinfo.get(0);
+                refreshSetUI();
             }
-            selectUsdtInfo = virtualCashVo.usdtinfo.get(0);
-
-            CfLog.e("initViewObservable  selectUsdtInfo = " + selectUsdtInfo.toString());
-            refreshSetUI();
-
         });
         //USDT确认提款信息
         viewModel.virtualSecurityVoMutableLiveData.observe(owner, vo -> {
             usdtSecurityVo = vo;
-            refreshSecurityUI();
+            if (usdtSecurityVo == null || usdtSecurityVo.datas == null || usdtSecurityVo.user == null) {
+                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                dismiss();
+            } else {
+                refreshSecurityUI();
+            }
+
         });
         //USDT完成申请
         viewModel.virtualConfirmVoMutableLiveData.observe(owner, vo -> {
             TagUtils.tagEvent(getContext(), "wd", "vc");
             usdtConfirmVo = vo;
-            refreshConfirmUI();
+            if (usdtConfirmVo == null || usdtConfirmVo.user == null) {
+                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                dismiss();
+            } else {
+                refreshConfirmUI();
+            }
         });
 
     }
@@ -314,7 +324,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
             dismiss();
         });
     }
-    private void  refreshError(String  message){
+
+    private void refreshError(String message) {
         binding.llVirtualTop.setVisibility(View.GONE);
         binding.llSetRequestView.setVisibility(View.GONE);
         binding.llVirtualConfirmView.setVisibility(View.GONE);
