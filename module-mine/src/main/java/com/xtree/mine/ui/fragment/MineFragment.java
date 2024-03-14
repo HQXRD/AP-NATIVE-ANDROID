@@ -174,7 +174,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         binding.tvw3rdTrans.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_THIRD_TRANSFER); // 三方转账
         });
-
+        binding.tvwRebateContract.setOnClickListener(v -> {
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_AGREEMENT); // 返水契约
+        });
         binding.tvwSecurityCenter.setOnClickListener(v -> {
             // 安全中心
             startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
