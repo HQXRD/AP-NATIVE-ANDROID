@@ -79,11 +79,11 @@ public class HttpDataSourceImpl implements HttpDataSource {
     }
 
     @Override
-    public Flowable<GameRebateAgrtResponse> getGameRebateAgrtData(GameRebateAgrtRequest request) {
+    public Flowable<GameRebateAgrtResponse> getGameRebateAgrtData(String url, GameRebateAgrtRequest request) {
         String json = gson.toJson(request);
         HashMap<String, Object> map = gson.fromJson(json, type);
         map.put("", "");
-        return apiService.get(APIManager.GAMEREBATEAGRT_URL, map).map(new Function<ResponseBody, GameRebateAgrtResponse>() {
+        return apiService.get(url, map).map(new Function<ResponseBody, GameRebateAgrtResponse>() {
             @Override
             public GameRebateAgrtResponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), GameRebateAgrtResponse.class);
@@ -92,11 +92,11 @@ public class HttpDataSourceImpl implements HttpDataSource {
     }
 
     @Override
-    public Flowable<GameSubordinateAgrteResponse> getGameSubordinateAgrteData(GameSubordinateAgrteRequest request) {
+    public Flowable<GameSubordinateAgrteResponse> getGameSubordinateAgrteData(String url, GameSubordinateAgrteRequest request) {
         String json = gson.toJson(request);
         HashMap<String, Object> map = gson.fromJson(json, type);
         map.put("", "");
-        return apiService.get(APIManager.GAMESUBORDINATEAGRTE_URL, map).map(new Function<ResponseBody, GameSubordinateAgrteResponse>() {
+        return apiService.get(url, map).map(new Function<ResponseBody, GameSubordinateAgrteResponse>() {
             @Override
             public GameSubordinateAgrteResponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), GameSubordinateAgrteResponse.class);
@@ -105,11 +105,11 @@ public class HttpDataSourceImpl implements HttpDataSource {
     }
 
     @Override
-    public Flowable<GameSubordinateRebateResponse> getGameSubordinateRebateData(GameSubordinateRebateRequest request) {
+    public Flowable<GameSubordinateRebateResponse> getGameSubordinateRebateData(String url, GameSubordinateRebateRequest request) {
         String json = gson.toJson(request);
         HashMap<String, Object> map = gson.fromJson(json, type);
         map.put("", "");
-        return apiService.get(APIManager.GAMESUBORDINATEREBATE_URL, map).map(new Function<ResponseBody, GameSubordinateRebateResponse>() {
+        return apiService.get(url, map).map(new Function<ResponseBody, GameSubordinateRebateResponse>() {
             @Override
             public GameSubordinateRebateResponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), GameSubordinateRebateResponse.class);

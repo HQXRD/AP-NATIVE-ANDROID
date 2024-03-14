@@ -3,27 +3,23 @@ package com.xtree.mine.ui.rebateagrt.viewmodel;
 import static com.xtree.base.mvvm.ExKt.initData;
 
 import android.app.Application;
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
-import com.xtree.base.adapter.CacheViewHolder;
-import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.base.net.HttpCallBack;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.widget.DateTimePickerDialog;
 import com.xtree.base.widget.FilterView;
-import com.xtree.base.widget.ListDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.data.source.APIManager;
+import com.xtree.mine.ui.rebateagrt.fragment.RebateAgrtCreateDialogFragment;
 import com.xtree.mine.ui.rebateagrt.model.GameRebateAgrtHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.GameRebateAgrtModel;
 import com.xtree.mine.ui.rebateagrt.model.GameRebateAgrtTotalModel;
@@ -31,6 +27,7 @@ import com.xtree.mine.ui.rebateagrt.model.GameSubordinateagrtHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.GameSubordinateagrtModel;
 import com.xtree.mine.ui.rebateagrt.model.GameSubordinaterebateHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.GameSubordinaterebateModel;
+import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum;
 import com.xtree.mine.vo.StatusVo;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
@@ -45,8 +42,6 @@ import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.utils.RxUtils;
-import project.tqyb.com.library_res.databinding.ItemTextBinding;
 
 /**
  * Created by KAKA on 2024/3/9.
@@ -61,12 +56,11 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
     public GameRebateAgrtViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
 
-        //init data
-        datas.setValue(gameRebateDatas);
-        getRebatAgrteData();
     }
 
-    private WeakReference<Context> mContext = null;
+    private RebateAreegmentTypeEnum type;
+
+    private WeakReference<FragmentActivity> mActivity = null;
 
     private final MutableLiveData<String> titleData = new MutableLiveData<>(
             getApplication().getString(R.string.rebate_agrt_title)
@@ -87,6 +81,8 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 }
             });
 
+    public MutableLiveData<ArrayList<String>> tabs = new MutableLiveData<>();
+
     private final GameRebateAgrtHeadModel.onCallBack gameRebateAgrtHeadModelCallBack = new GameRebateAgrtHeadModel.onCallBack() {
         @Override
         public void selectStartDate(ObservableField<String> startDate) {
@@ -100,7 +96,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
 
         @Override
         public void selectStatus(ObservableField<StatusVo> state, List<FilterView.IBaseVo> listStatus) {
-            FilterView.showDialog(mContext.get(), getApplication().getString(R.string.status), listStatus, new FilterView.ICallBack() {
+            FilterView.showDialog(mActivity.get(), getApplication().getString(R.string.status), listStatus, new FilterView.ICallBack() {
                 @Override
                 public void onTypeChanged(FilterView.IBaseVo vo) {
                     state.set(new StatusVo(vo.getShowId(), vo.getShowName()));
@@ -117,7 +113,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
     private final GameSubordinateagrtHeadModel.onCallBack gameSubordinateagrtHeadModelCallBack = new GameSubordinateagrtHeadModel.onCallBack() {
         @Override
         public void selectStatus(ObservableField<StatusVo> state, List<FilterView.IBaseVo> listStatus) {
-            FilterView.showDialog(mContext.get(), getApplication().getString(R.string.status), listStatus, new FilterView.ICallBack() {
+            FilterView.showDialog(mActivity.get(), getApplication().getString(R.string.status), listStatus, new FilterView.ICallBack() {
                 @Override
                 public void onTypeChanged(FilterView.IBaseVo vo) {
                     state.set(new StatusVo(vo.getShowId(), vo.getShowName()));
@@ -171,22 +167,72 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         }
     };
 
+    public void initData(RebateAreegmentTypeEnum type) {
+        //init data
+        this.type = type;
+        initTab();
+        datas.setValue(gameRebateDatas);
+        getRebatAgrteData();
+    }
+
+    private void initTab() {
+        ArrayList<String> tabList = new ArrayList<>();
+        switch (type) {
+            case LIVE:
+                titleData.setValue("真人返水契约");
+                tabList.add("真人返水");
+                tabList.add("下级契约");
+                tabList.add("下级返水");
+                tabs.setValue(tabList);
+                break;
+            case SPORT:
+                titleData.setValue("体育返水契约");
+                tabList.add("体育返水");
+                tabList.add("下级契约");
+                tabList.add("下级返水");
+                tabs.setValue(tabList);
+                break;
+            case CHESS:
+                titleData.setValue("棋牌返水契约");
+                tabList.add("棋牌返水");
+                tabList.add("下级契约");
+                tabList.add("下级返水");
+                tabs.setValue(tabList);
+                break;
+            case EGAME:
+                titleData.setValue("电竞返水契约");
+                tabList.add("电竞返水");
+                tabList.add("下级契约");
+                tabs.setValue(tabList);
+                break;
+            case USER:
+                titleData.setValue("时薪");
+                tabList.add("我的时薪");
+                tabList.add("下级契约");
+                tabList.add("下级时薪");
+                tabs.setValue(tabList);
+                break;
+            default:
+                break;
+        }
+    }
+
     private void setStartDate(ObservableField<String> date) {
-        new XPopup.Builder(mContext.get())
-                .asCustom(DateTimePickerDialog.newInstance(mContext.get(), getApplication().getString(R.string.start_date), 3,
+        new XPopup.Builder(mActivity.get())
+                .asCustom(DateTimePickerDialog.newInstance(mActivity.get(), getApplication().getString(R.string.start_date), 3,
                         date::set))
                 .show();
     }
 
     private void setEndDate(ObservableField<String> date) {
-        new XPopup.Builder(mContext.get())
-                .asCustom(DateTimePickerDialog.newInstance(mContext.get(), getApplication().getString(R.string.end_date), 3,
+        new XPopup.Builder(mActivity.get())
+                .asCustom(DateTimePickerDialog.newInstance(mActivity.get(), getApplication().getString(R.string.end_date), 3,
                         date::set))
                 .show();
     }
 
-    public void setContext(Context mContext) {
-        this.mContext = new WeakReference<>(mContext);
+    public void setActivity(FragmentActivity mActivity) {
+        this.mActivity = new WeakReference<>(mActivity);
     }
 
     @Override
@@ -199,6 +245,58 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         return titleData;
     }
 
+    /**
+     * 不同场馆有不同的请求接口
+     * @return URL
+     */
+    private String getRebatAgrteDataURL(){
+        switch (type) {
+            case LIVE:
+                return APIManager.GAMEREBATEAGRT_LIVE_URL;
+            case SPORT:
+                return APIManager.GAMEREBATEAGRT_SPORT_URL;
+            case CHESS:
+                return APIManager.GAMEREBATEAGRT_CHESS_URL;
+            case EGAME:
+                return APIManager.GAMEREBATEAGRT_EGAME_URL;
+            case USER:
+                return APIManager.GAMEREBATEAGRT_USER_URL;
+            default:
+                return "";
+        }
+    }
+
+    private String getSubordinateAgrteDataURL(){
+        switch (type) {
+            case LIVE:
+                return APIManager.GAMESUBORDINATEAGRTE_LIVE_URL;
+            case SPORT:
+                return APIManager.GAMESUBORDINATEAGRTE_SPORT_URL;
+            case CHESS:
+                return APIManager.GAMESUBORDINATEAGRTE_CHESS_URL;
+            case EGAME:
+                return APIManager.GAMESUBORDINATEAGRTE_EGAME_URL;
+            case USER:
+                return APIManager.GAMESUBORDINATEAGRTE_USER_URL;
+            default:
+                return "";
+        }
+    }
+
+    private String getSubordinateRebateDataURL(){
+        switch (type) {
+            case LIVE:
+                return APIManager.GAMESUBORDINATEREBATE_LIVE_URL;
+            case SPORT:
+                return APIManager.GAMESUBORDINATEREBATE_SPORT_URL;
+            case CHESS:
+                return APIManager.GAMESUBORDINATEREBATE_CHESS_URL;
+            case USER:
+                return APIManager.GAMESUBORDINATEREBATE_USER_URL;
+            default:
+                return "";
+        }
+    }
 
     private void getRebatAgrteData() {
         if (getmCompositeDisposable() != null) {
@@ -208,7 +306,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         gameRebateAgrtRequest.starttime = gameRebateAgrtHeadModel.startDate.get();
         gameRebateAgrtRequest.endtime = gameRebateAgrtHeadModel.endDate.get();
         gameRebateAgrtRequest.pstatus = gameRebateAgrtHeadModel.state.get().getShowId();
-        Disposable disposable = (Disposable) model.getGameRebateAgrtData(gameRebateAgrtRequest)
+        Disposable disposable = (Disposable) model.getGameRebateAgrtData(getRebatAgrteDataURL(), gameRebateAgrtRequest)
                 .subscribeWith(new HttpCallBack<GameRebateAgrtResponse>() {
                     @Override
                     public void onResult(GameRebateAgrtResponse vo) {
@@ -260,7 +358,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         GameSubordinateAgrteRequest gameSubordinateAgrteRequest = new GameSubordinateAgrteRequest();
         gameSubordinateAgrteRequest.pstatus = gameSubordinateagrtHeadModel.state.get().getShowId();
         gameSubordinateAgrteRequest.username = gameSubordinateagrtHeadModel.serachName.get();
-        Disposable disposable = (Disposable) model.getGameSubordinateAgrteData(gameSubordinateAgrteRequest)
+        Disposable disposable = (Disposable) model.getGameSubordinateAgrteData(getSubordinateAgrteDataURL(), gameSubordinateAgrteRequest)
                 .subscribeWith(new HttpCallBack<GameSubordinateAgrteResponse>() {
                     @Override
                     public void onResult(GameSubordinateAgrteResponse vo) {
@@ -300,7 +398,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         gameSubordinateRebateRequest.username = gameSubordinaterebateHeadModel.userName.get();
         gameSubordinateRebateRequest.starttime = gameSubordinaterebateHeadModel.startDate.get();
         gameSubordinateRebateRequest.endtime = gameSubordinaterebateHeadModel.endDate.get();
-        Disposable disposable = (Disposable) model.getGameSubordinateRebateData(gameSubordinateRebateRequest)
+        Disposable disposable = (Disposable) model.getGameSubordinateRebateData(getSubordinateRebateDataURL(), gameSubordinateRebateRequest)
                 .subscribeWith(new HttpCallBack<GameSubordinateRebateResponse>() {
                     @Override
                     public void onResult(GameSubordinateRebateResponse vo) {
@@ -359,12 +457,15 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
 
     }
 
+    public void createRebateAgrt() {
+        new RebateAgrtCreateDialogFragment().showNow(mActivity.get().getSupportFragmentManager(), RebateAgrtCreateDialogFragment.class.getName());
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mContext != null) {
-            mContext.clear();
-            mContext = null;
+        if (mActivity != null) {
+            mActivity.clear();
+            mActivity = null;
         }
     }
 }

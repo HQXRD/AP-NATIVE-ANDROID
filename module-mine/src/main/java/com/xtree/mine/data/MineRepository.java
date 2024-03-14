@@ -75,22 +75,22 @@ public class MineRepository extends BaseModel implements HttpDataSource, LocalDa
     }
 
     @Override
-    public Flowable<GameRebateAgrtResponse> getGameRebateAgrtData(GameRebateAgrtRequest request) {
-        return mHttpDataSource.getGameRebateAgrtData(request)
+    public Flowable<GameRebateAgrtResponse> getGameRebateAgrtData(String url, GameRebateAgrtRequest request) {
+        return mHttpDataSource.getGameRebateAgrtData(url, request)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer());
     }
 
     @Override
-    public Flowable<GameSubordinateAgrteResponse> getGameSubordinateAgrteData(GameSubordinateAgrteRequest request) {
-        return mHttpDataSource.getGameSubordinateAgrteData(request)
+    public Flowable<GameSubordinateAgrteResponse> getGameSubordinateAgrteData(String url, GameSubordinateAgrteRequest request) {
+        return mHttpDataSource.getGameSubordinateAgrteData(url, request)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer());
     }
 
     @Override
-    public Flowable<GameSubordinateRebateResponse> getGameSubordinateRebateData(GameSubordinateRebateRequest request) {
-        return mHttpDataSource.getGameSubordinateRebateData(request)
+    public Flowable<GameSubordinateRebateResponse> getGameSubordinateRebateData(String url, GameSubordinateRebateRequest request) {
+        return mHttpDataSource.getGameSubordinateRebateData(url, request)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer());
     }

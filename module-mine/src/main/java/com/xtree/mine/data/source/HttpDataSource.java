@@ -27,9 +27,9 @@ public interface HttpDataSource {
 
     HttpApiService getApiService();
 
-    Flowable<GameRebateAgrtResponse> getGameRebateAgrtData(GameRebateAgrtRequest request);
+    Flowable<GameRebateAgrtResponse> getGameRebateAgrtData(String url, GameRebateAgrtRequest request);
 
-    Flowable<GameSubordinateAgrteResponse> getGameSubordinateAgrteData(GameSubordinateAgrteRequest request);
+    Flowable<GameSubordinateAgrteResponse> getGameSubordinateAgrteData(String url, GameSubordinateAgrteRequest request);
 
-    Flowable<GameSubordinateRebateResponse> getGameSubordinateRebateData(GameSubordinateRebateRequest request);
+    Flowable<GameSubordinateRebateResponse> getGameSubordinateRebateData(String url, GameSubordinateRebateRequest request);
 }
