@@ -61,6 +61,7 @@ public class BaseResponse2 {
     @SerializedName(value = "message", alternate = {"msg", "sMsg"})
     @Expose
     public String message; // "页面超时！请重试。",
+    public AuthVo authorization;
 
     public static class ICountVo {
         public String out; // 465,
@@ -77,4 +78,18 @@ public class BaseResponse2 {
         public int page_size; // 20
     }
 
+    public static class AuthVo {
+        public String token; // "eyJ0eXAiOi***NTViMg"
+        public String token_type; // "bearer"
+        public int expires_in; // 604800 (7 day)
+
+        @Override
+        public String toString() {
+            return "AuthVo{" +
+                    "token='" + token + '\'' +
+                    ", token_type='" + token_type + '\'' +
+                    ", expires_in=" + expires_in +
+                    '}';
+        }
+    }
 }

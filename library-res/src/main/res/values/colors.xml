@@ -379,6 +379,7 @@
     <color name="clr_blue_08">#FCFCFF</color>
     <color name="clr_blue_09">#DEE1F4</color>
     <color name="clr_blue_10">#247BF4</color>
+    <color name="clr_blue_11">#70B2FD</color>
     <color name="clr_blue_12">#8BC1FF</color>
 
     <color name="clr_green_03">#5BBA5B</color>
@@ -420,8 +421,7 @@
     <color name="clr_bee5fc">#BEE5FC</color>
     <color name="clr_f3f5f6">#F3F5F6</color>
 
-
-<!--    通用色值-->
+    <!--    通用色值-->
     <color name="color_1E1E1E">#1E1E1E</color>
     <color name="color_93B7E5">#93B7E5</color>
     <color name="color_99A0B1">#99A0B1</color>

@@ -159,6 +159,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
         });
 
+        binding.tvwTeamMgmt.setOnClickListener(v -> {
+            CfLog.i("****** ");
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_MEMBER_MANAGER);
+        });
+
         //binding.tvwInviteFriend.setOnClickListener(v -> {
         //    CfLog.i("****** ");
         //    goWebView(v, Constant.URL_INVITE_FRIEND);
