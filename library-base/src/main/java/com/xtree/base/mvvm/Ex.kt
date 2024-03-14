@@ -96,9 +96,12 @@ fun FilterView.initData(
 }
 
 @BindingAdapter(
-    value = ["setSelectedListener"],
+    value = ["setSelectedListener", "tabs"],
     requireAll = false
 )
-fun TabLayout.init(setSelectedListener: OnTabSelectedListener) {
+fun TabLayout.init(setSelectedListener: OnTabSelectedListener, tabs: List<String>) {
+    for (tab in tabs) {
+        addTab(newTab().apply { text = tab })
+    }
     addOnTabSelectedListener(setSelectedListener)
 }
