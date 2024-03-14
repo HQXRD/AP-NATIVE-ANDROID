@@ -96,6 +96,7 @@
     <string name="txt_pwd_edit_hint">安全守护 无忧投注</string>
     <string name="txt_login_pwd">登录密码</string>
     <string name="txt_funds_pwd">资金密码</string>
+    <string name="txt_funds_pwd_reset">修改资金密码</string>
     <string name="txt_pwd_safe">密保设定</string>
     <string name="txt_google_code">Google动态口令</string>
     <!--谷歌提示语1-->

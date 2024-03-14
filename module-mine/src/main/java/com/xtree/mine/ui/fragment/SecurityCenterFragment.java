@@ -82,7 +82,7 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
         });
 
         binding.tvwFundsPwd.setOnClickListener(v -> {
-            CfLog.i("******");
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_FUNDS_PWD);
         });
         binding.tvwPwdSafe.setOnClickListener(v -> {
             CfLog.i("******");

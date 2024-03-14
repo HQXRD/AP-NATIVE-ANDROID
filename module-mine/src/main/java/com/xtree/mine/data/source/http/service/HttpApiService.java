@@ -67,6 +67,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
@@ -148,6 +149,10 @@ public interface HttpApiService {
     @POST("/api/account/verifychangepassword")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<Map<String, String>>> changePwd(@Body Map<String, String> map);
+
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    @PUT("/api/account/security-password")
+    Flowable<BaseResponse<Map<String, String>>> changeFundsPwd(@Body Map<String, String> map);
 
     /**
      * 获取谷歌密钥文本格式

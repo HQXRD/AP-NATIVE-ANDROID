@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!--将ActionBar隐藏,这里使用ToolBar-->
@@ -588,6 +588,21 @@
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textColorHint">@color/clr_grey_20</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- 通用 密码输入框 -->
+    <style name="style_edt_pwd">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@drawable/bg_et_pwd</item>
+        <item name="android:drawableStart">@mipmap/ic_pwd_start</item>
+        <item name="android:textColor">@color/bt_text_color_primary</item>
+        <item name="android:textColorHint">@color/clr_txt_04</item>
+        <item name="android:textSize">@dimen/bt_text_14sp</item>
+
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:drawablePadding">10dp</item>
     </style>
 
     <style name="style_wd_info_value2">
