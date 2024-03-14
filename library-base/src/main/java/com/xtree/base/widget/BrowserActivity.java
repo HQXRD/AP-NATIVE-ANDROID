@@ -27,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -107,7 +109,20 @@ public class BrowserActivity extends AppCompatActivity {
             tvwTitle.setText(title);
         }
         if (isContainTitle) {
-            vTitle.setVisibility(View.GONE);
+            //vTitle.setVisibility(View.GONE);
+            // 创建一个 ConstraintLayout 对象
+            ConstraintLayout constraintLayout = findViewById(R.id.cl_root);
+            // 创建一个 ConstraintSet 对象
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(constraintLayout);
+            // 设置某个 View 的 layout_constraintTop_toTopOf 属性
+            constraintSet.connect(R.id.wv_main, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0);
+            // 应用 ConstraintSet 中的设置
+            constraintSet.applyTo(constraintLayout);
+            findViewById(R.id.cl_title).setOnClickListener(v -> {
+                // 解决点击左右上角会触发被遮挡的按钮
+                CfLog.i("******");
+            });
         }
 
         String cookie = "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN)
