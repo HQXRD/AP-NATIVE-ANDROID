@@ -18,6 +18,7 @@ import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.widget.DateTimePickerDialog;
 import com.xtree.base.widget.FilterView;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.data.source.APIManager;
@@ -38,11 +39,14 @@ import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
 
+import org.reactivestreams.Subscription;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.BusinessException;
 
@@ -348,6 +352,15 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         gameRebateAgrtRequest.p = gameRebateAgrtHeadModel.p;
         gameRebateAgrtRequest.pn = gameRebateAgrtHeadModel.pn;
         Disposable disposable = (Disposable) model.getGameRebateAgrtData(getRebatAgrteDataURL(), gameRebateAgrtRequest)
+                .doOnSubscribe(new Consumer<Subscription>() {
+                    @Override
+                    public void accept(Subscription subscription) throws Exception {
+                        //重新加载弹dialog
+                        if (gameRebateAgrtRequest.p <= 1) {
+                            LoadingDialog.show(mActivity.get());
+                        }
+                    }
+                })
                 .subscribeWith(new HttpCallBack<GameRebateAgrtResponse>() {
                     @Override
                     public void onResult(GameRebateAgrtResponse vo) {
@@ -387,8 +400,17 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                     gameRebateDatas.add(model);
                                 }
                             }
+
                             datas.setValue(gameRebateDatas);
-                            finishLoadMore(true);
+
+                            //分页状态
+                            GameRebateAgrtResponse.MobilePageDTO mobilePage = vo.getMobile_page();
+                            if (mobilePage != null &&
+                                    mobilePage.getTotal_page().equals(String.valueOf(gameRebateAgrtRequest.p))) {
+                                loadMoreWithNoMoreData();
+                            } else {
+                                finishLoadMore(true);
+                            }
                         }
                     }
 
@@ -411,7 +433,17 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         gameSubordinateAgrteRequest.username = gameSubordinateagrtHeadModel.serachName.get();
         gameSubordinateAgrteRequest.p = gameSubordinateagrtHeadModel.p;
         gameSubordinateAgrteRequest.pn = gameSubordinateagrtHeadModel.pn;
+
         Disposable disposable = (Disposable) model.getGameSubordinateAgrteData(getSubordinateAgrteDataURL(), gameSubordinateAgrteRequest)
+                .doOnSubscribe(new Consumer<Subscription>() {
+                    @Override
+                    public void accept(Subscription subscription) throws Exception {
+                        //重新加载弹dialog
+                        if (gameSubordinateAgrteRequest.p <= 1) {
+                            LoadingDialog.show(mActivity.get());
+                        }
+                    }
+                })
                 .subscribeWith(new HttpCallBack<GameSubordinateAgrteResponse>() {
                     @Override
                     public void onResult(GameSubordinateAgrteResponse vo) {
@@ -439,6 +471,8 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                             }
                             datas.setValue(subordinateAgrtDatas);
                             finishLoadMore(true);
+                        } else {
+                            finishLoadMore(false);
                         }
                     }
 
@@ -463,6 +497,15 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         gameSubordinateRebateRequest.p = gameSubordinaterebateHeadModel.p;
         gameSubordinateRebateRequest.pn = gameSubordinaterebateHeadModel.pn;
         Disposable disposable = (Disposable) model.getGameSubordinateRebateData(getSubordinateRebateDataURL(), gameSubordinateRebateRequest)
+                .doOnSubscribe(new Consumer<Subscription>() {
+                    @Override
+                    public void accept(Subscription subscription) throws Exception {
+                        //重新加载弹dialog
+                        if (gameSubordinateRebateRequest.p <= 1) {
+                            LoadingDialog.show(mActivity.get());
+                        }
+                    }
+                })
                 .subscribeWith(new HttpCallBack<GameSubordinateRebateResponse>() {
                     @Override
                     public void onResult(GameSubordinateRebateResponse vo) {
@@ -490,7 +533,15 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                 }
                             }
                             datas.setValue(subordinateRebateDatas);
-                            finishLoadMore(true);
+                            GameSubordinateRebateResponse.MobilePageDTO mobilePage = vo.getMobile_page();
+                            if (mobilePage != null &&
+                                    mobilePage.getTotal_page().equals(String.valueOf(gameSubordinateRebateRequest.p))) {
+                                loadMoreWithNoMoreData();
+                            } else {
+                                finishLoadMore(true);
+                            }
+                        } else {
+                            finishLoadMore(false);
                         }
                     }
                     @Override
@@ -505,6 +556,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         tabPosition = tab.getPosition();
+        finishLoadMore(true);
         switch (tab.getPosition()) {
             //真人返水
             case REBATE_AGRT_TAB:

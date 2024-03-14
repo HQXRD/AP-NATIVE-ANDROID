@@ -329,7 +329,7 @@ public class GameRebateAgrtResponse {
 
     public static class MobilePageDTO {
         private int p;
-        private int total_page;
+        private String total_page;
         private int page_size;
 
         public int getP() {
@@ -340,11 +340,11 @@ public class GameRebateAgrtResponse {
             this.p = p;
         }
 
-        public int getTotal_page() {
+        public String getTotal_page() {
             return total_page;
         }
 
-        public void setTotal_page(int total_page) {
+        public void setTotal_page(String total_page) {
             this.total_page = total_page;
         }
 
