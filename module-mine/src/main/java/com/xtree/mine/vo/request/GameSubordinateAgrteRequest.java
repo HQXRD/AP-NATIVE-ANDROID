@@ -8,7 +8,7 @@ public class GameSubordinateAgrteRequest {
     public String username = "";
     public String userid = "";
     public String pstatus = "0";
-    public String p = "1";
-    public String pn = "20";
+    public int p = 1;
+    public int pn = 20;
     public String client = "m";
 }

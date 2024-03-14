@@ -8,6 +8,9 @@ import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
+import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter
 import com.xtree.base.mvvm.recyclerview.BindModel
 import com.xtree.base.widget.FilterView
@@ -104,4 +107,13 @@ fun TabLayout.init(setSelectedListener: OnTabSelectedListener, tabs: List<String
         addTab(newTab().apply { text = tab })
     }
     addOnTabSelectedListener(setSelectedListener)
+}
+
+@BindingAdapter(
+    value = ["onRefreshLoadMoreListener","onLoadMoreListener"],
+    requireAll = false
+)
+fun SmartRefreshLayout.init(onRefreshLoadMoreListener: OnRefreshLoadMoreListener?,onLoadMoreListener: OnLoadMoreListener?) {
+    onRefreshLoadMoreListener?.let { setOnRefreshListener(it) }
+    onLoadMoreListener?.let { setOnLoadMoreListener(it) }
 }

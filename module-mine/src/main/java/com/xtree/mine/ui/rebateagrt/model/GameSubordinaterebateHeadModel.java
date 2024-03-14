@@ -1,19 +1,12 @@
 package com.xtree.mine.ui.rebateagrt.model;
 
 import androidx.databinding.ObservableField;
-import androidx.lifecycle.MutableLiveData;
 
-import com.lxj.xpopup.XPopup;
 import com.xtree.base.mvvm.recyclerview.BindHead;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.base.utils.TimeUtils;
-import com.xtree.base.widget.DateTimePickerDialog;
-import com.xtree.mine.R;
-import com.xtree.mine.vo.StatusVo;
 
 import java.util.Calendar;
-
-import me.xtree.mvvmhabit.base.BaseApplication;
 
 /**
  * Created by KAKA on 2024/3/11.
@@ -46,6 +39,11 @@ public class GameSubordinaterebateHeadModel extends BindModel implements BindHea
 
     //搜索用户名
     public ObservableField<String> userName = new ObservableField<>("");
+
+    //分页索引
+    public int p = 1;
+    //page count
+    public int pn = 20;
 
     public void setOnCallBack(GameSubordinaterebateHeadModel.onCallBack onCallBack) {
         this.onCallBack = onCallBack;
@@ -82,6 +80,7 @@ public class GameSubordinaterebateHeadModel extends BindModel implements BindHea
 
     public void check() {
         if (onCallBack != null) {
+            p = 1;
             onCallBack.check(userName.get(), startDate.get(), endDate.get());
         }
     }

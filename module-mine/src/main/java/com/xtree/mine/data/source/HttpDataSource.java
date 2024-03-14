@@ -27,9 +27,18 @@ public interface HttpDataSource {
 
     HttpApiService getApiService();
 
+    /**
+     * 返水契约-游戏场馆-**返水
+     */
     Flowable<GameRebateAgrtResponse> getGameRebateAgrtData(String url, GameRebateAgrtRequest request);
 
+    /**
+     * 返水契约-游戏场馆-下级契约
+     */
     Flowable<GameSubordinateAgrteResponse> getGameSubordinateAgrteData(String url, GameSubordinateAgrteRequest request);
 
+    /**
+     * 返水契约-游戏场馆-下级返水
+     */
     Flowable<GameSubordinateRebateResponse> getGameSubordinateRebateData(String url, GameSubordinateRebateRequest request);
 }
