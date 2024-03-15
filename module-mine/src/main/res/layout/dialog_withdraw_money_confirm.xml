@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_bank_root"
-    android:background="@color/bg_main"
     style="@style/style_item_ll_row"
+    android:background="@color/bg_main"
     android:orientation="vertical"
     android:padding="8dp"
     tools:ignore="MissingDefaultResource">
@@ -48,19 +48,31 @@
             android:textColor="@color/cl_over_tip"
             android:textSize="16sp" />
 
-        <ImageView
+        <Button
             android:id="@+id/iv_continue_confirm_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:background="@mipmap/ic_continue" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bt_bg_withdrawal_next"
+            android:text="@string/txt_withdraw_confirm_next"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
-        <ImageView
+        <Button
             android:id="@+id/iv_continue_confirm_close"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/iv_continue_confirm_next"
-            android:background="@mipmap/cm_btn_withdrawal_closure" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bg_dialog_withdraw_close"
+            android:text="@string/txt_withdraw_close"
+            android:textColor="@color/update_progress_start_color"
+            android:textSize="16sp" />
 
     </LinearLayout>
 
