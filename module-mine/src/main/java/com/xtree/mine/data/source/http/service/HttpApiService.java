@@ -150,6 +150,9 @@ public interface HttpApiService {
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<Map<String, String>>> changePwd(@Body Map<String, String> map);
 
+    /**
+     * 修改资金密码
+     */
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     @PUT("/api/account/security-password")
     Flowable<BaseResponse<Map<String, String>>> changeFundsPwd(@Body Map<String, String> map);
