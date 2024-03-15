@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/style_cm_title"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="@string/txt_funds_pwd_update"
+                android:textStyle="bold"
+                app:layout_constraintBaseline_toBaselineOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivw_back"
+                style="@style/style_ic_title_back"
+                android:src="@mipmap/cm_ic_back"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/ivw_cs"
+                style="@style/style_ic_title_right"
+                android:src="@mipmap/cm_ic_cs"
+                app:layout_constraintBottom_toBottomOf="@+id/ivw_msg"
+                app:layout_constraintEnd_toStartOf="@+id/ivw_msg"
+                app:layout_constraintTop_toTopOf="@+id/ivw_msg" />
+
+            <ImageView
+                android:id="@+id/ivw_msg"
+                style="@style/style_ic_title_right"
+                android:src="@mipmap/cm_ic_msg"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/clr_grey_080"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <EditText
+            android:id="@+id/et_pwd"
+            style="@style/style_edt_pwd"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="16dp"
+            android:hint="请输入用户资金密码"
+            android:maxLength="18"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_title" />
+
+        <CheckBox
+            android:id="@+id/ckb_eye"
+            style="@style/style_cm_ckb_eye"
+            app:layout_constraintBottom_toBottomOf="@+id/et_pwd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_pwd" />
+
+        <EditText
+            android:id="@+id/et_new_pwd"
+            style="@style/style_edt_pwd"
+            android:layout_marginTop="20dp"
+            android:hint="请输入新的资金密码，密码长度为6位"
+            android:maxLength="6"
+            app:layout_constraintEnd_toEndOf="@+id/et_pwd"
+            app:layout_constraintStart_toStartOf="@+id/et_pwd"
+            app:layout_constraintTop_toBottomOf="@+id/et_pwd" />
+
+        <CheckBox
+            android:id="@+id/ckb_eye_new"
+            style="@style/style_cm_ckb_eye"
+            app:layout_constraintBottom_toBottomOf="@+id/et_new_pwd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_new_pwd" />
+
+        <EditText
+            android:id="@+id/et_again_pwd"
+            style="@style/style_edt_pwd"
+            android:layout_marginTop="20dp"
+            android:hint="请再次输入密码"
+            android:maxLength="6"
+            app:layout_constraintEnd_toEndOf="@+id/et_new_pwd"
+            app:layout_constraintStart_toStartOf="@+id/et_new_pwd"
+            app:layout_constraintTop_toBottomOf="@+id/et_new_pwd" />
+
+        <CheckBox
+            android:id="@+id/ckb_eye_again"
+            style="@style/style_cm_ckb_eye"
+            app:layout_constraintBottom_toBottomOf="@+id/et_again_pwd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/et_again_pwd" />
+
+        <Button
+            android:id="@+id/tvw_confirm"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/bg_btn_selector"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/txt_confirm"
+            android:textColor="@color/clr_text_code_selector"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_again_pwd" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

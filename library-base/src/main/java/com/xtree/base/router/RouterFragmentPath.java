@@ -32,6 +32,7 @@ public class RouterFragmentPath {
         private static final String MINE = "/mine";
         public static final String PAGER_MINE = MINE + "/Mine";
         public static final String PAGER_SECURITY_CENTER = MINE + "/SecurityCenter";
+        public static final String PAGER_FUNDS_PWD = MINE + "/FundsPwd";
         public static final String PAGER_SECURITY_VERIFY = MINE + "/SecurityVerify";
         public static final String PAGER_SECURITY_VERIFY_CHOOSE = MINE + "/SecurityVerifyChoose";
         public static final String PAGER_BIND = MINE + "/Bind";
@@ -69,6 +70,7 @@ public class RouterFragmentPath {
         public static final String PAGER_QUESTION = MINE + "/QUESTION"; // 网页资讯
         public static final String PAGER_CHOOSE = MINE + "/ChooseWithdraw"; // 提款
         public static final String PAGER_MY_WALLET = MINE + "/wallet";
+        public static final String PAGER_MEMBER_MANAGER = MINE + "/MamberManageer"; // 团队管理
     }
 
     public static class Wallet {

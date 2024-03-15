@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
+import com.google.gson.internal.LinkedTreeMap;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
@@ -16,13 +17,18 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.BalanceVo;
+import com.xtree.mine.vo.MemberManagerVo;
 import com.xtree.mine.vo.QuestionVo;
+import com.xtree.mine.vo.SendMoneyVo;
 import com.xtree.mine.vo.VipInfoVo;
 import com.xtree.mine.vo.VipUpgradeInfoVo;
+
+import java.util.HashMap;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -38,6 +44,9 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<VipUpgradeInfoVo> liveDataVipUpgrade = new SingleLiveData<>(); // Vip升级资讯
     public SingleLiveData<VipInfoVo> liveDataVipInfo = new SingleLiveData<>(); // Vip个人资讯
     public SingleLiveData<String> liveDataQuestionWeb = new SingleLiveData<>(); // 常见问题
+    public SingleLiveData<MemberManagerVo> liveDataMemberManager = new SingleLiveData<>(); // 团队管理
+    public SingleLiveData<String> liveDataCheckPassword = new SingleLiveData<>(); // 检查资金密码
+    public SingleLiveData<SendMoneyVo> liveDataSendMoney = new SingleLiveData<>(); // 转账成功
 
     public MineViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
@@ -175,6 +184,80 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
                             finish(); // 关闭页面
                         }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getMemberManager(HashMap<String, String> map) {
+        Disposable disposable = (Disposable) model.getApiService().getMemberManager(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<MemberManagerVo>() {
+                    @Override
+                    public void onResult(MemberManagerVo vo) {
+                        CfLog.d(vo.toString());
+                        liveDataMemberManager.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void checkMoneyPassword(HashMap<String, String> map) {
+        Disposable disposable = (Disposable) model.getApiService().checkMoneyPassword(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<Object>() {
+                    @Override
+                    public void onResult(Object vo) {
+                        CfLog.d(vo.toString());
+                        HashMap<String, Object> map = new HashMap<>((LinkedTreeMap) vo);
+                        if (map.get("msg_type") != null) {
+                            String msgType = map.get("msg_type").toString();
+                            String message = map.get("message").toString();
+                            if (!msgType.isEmpty()) {
+                                onFail(new BusinessException(0, message)); // 先用0代替status
+                                return;
+                            }
+                        }
+                        HashMap<String, Object> checkCode = new HashMap<>((LinkedTreeMap) map.get("msg"));
+                        liveDataCheckPassword.setValue(checkCode.get("checkcode").toString());
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void sendMoney(HashMap<String, String> map) {
+        Disposable disposable = (Disposable) model.getApiService().sendMoney(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<SendMoneyVo>() {
+                    @Override
+                    public void onResult(SendMoneyVo vo) {
+                        CfLog.d(vo.toString());
+                        liveDataSendMoney.setValue(vo);
                     }
 
                     @Override

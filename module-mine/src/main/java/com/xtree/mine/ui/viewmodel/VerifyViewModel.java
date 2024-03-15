@@ -57,6 +57,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<VerifyVo> liveDataBindVerify4 = new MutableLiveData<>(); // 验证验证码
     public MutableLiveData<LoginResultVo> liveDataLogin = new MutableLiveData<>(); // 异地登录/换设备登录
     public MutableLiveData<Map<String, String>> liveDataChangePwd = new MutableLiveData<>(); // 修改密码
+    public MutableLiveData<Map<String, String>> liveDataChangeFundsPwd = new MutableLiveData<>(); // 修改资金密码
 
     public VerifyViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
@@ -323,6 +324,25 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
                         ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void changeFundsPwd(Map<String, String> map) {
+        Disposable disposable = (Disposable) model.getApiService().changeFundsPwd(map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<Map<String, String>>() {
+                    @Override
+                    public void onResult(Map<String, String> vo) {
+                        liveDataChangeFundsPwd.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);

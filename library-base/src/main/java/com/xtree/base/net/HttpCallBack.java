@@ -7,6 +7,7 @@ import com.xtree.base.widget.LoadingDialog;
 
 import io.reactivex.subscribers.DisposableSubscriber;
 import me.xtree.mvvmhabit.http.BaseResponse;
+import me.xtree.mvvmhabit.http.BaseResponse2;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.KLog;
@@ -19,6 +20,16 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
     @Override
     public void onNext(T o) {
         LoadingDialog.finish();
+        if (o instanceof BaseResponse2) {
+            KLog.w("json is not normal (BaseResponse2)");
+            BaseResponse2 rsp2 = (BaseResponse2) o;
+            if (rsp2.authorization != null) {
+                SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN, rsp2.authorization.token);
+                SPUtils.getInstance().put(SPKeyGlobal.USER_TOKEN_TYPE, rsp2.authorization.token_type);
+            }
+            onResult(o);
+            return;
+        }
         if (!(o instanceof BaseResponse)) {
             KLog.w("json is not normal");
             onResult(o);
