@@ -38,7 +38,7 @@ public class ProfileVo {
     public int messages; // 0,
     public String availablebalance; // "0.0000",
     public String rebate_percentage; // "3.0%",
-    public boolean has_securitypwd; // false,
+    public boolean has_securitypwd; // false, //是否设定资金密码
     public boolean solo_challenge; // true,
     //public int set_question; // 0 或 [4,18,2]
     public int twofa; // 0,
