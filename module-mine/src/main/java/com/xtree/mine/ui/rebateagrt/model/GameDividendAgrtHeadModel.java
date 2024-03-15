@@ -37,7 +37,7 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
     public int p = 1;
     //page count
     public int pn = 20;
-    public int type = 1;
+    public String type = "1";
 
     private OnCallBack onCallBack;
 

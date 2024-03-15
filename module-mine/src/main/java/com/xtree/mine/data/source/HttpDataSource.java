@@ -7,11 +7,13 @@ import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
 import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
+import com.xtree.mine.vo.request.RecommendedReportsRequest;
 import com.xtree.mine.vo.response.DividendAutoSendResponse;
 import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
+import com.xtree.mine.vo.response.RecommendedReportsResponse;
 
 import io.reactivex.Flowable;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -55,5 +57,10 @@ public interface HttpDataSource {
      * 返水契约-分红契约-一键发放
      */
     Flowable<DividendAutoSendResponse> getDividendAutoSendData(DividendAutoSendRequest request);
+
+    /**
+     * 返水契约-推荐报表
+     */
+    Flowable<RecommendedReportsResponse> getRecommendedReportsData(RecommendedReportsRequest request);
 
 }

@@ -15,11 +15,13 @@ import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
 import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
+import com.xtree.mine.vo.request.RecommendedReportsRequest;
 import com.xtree.mine.vo.response.DividendAutoSendResponse;
 import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
+import com.xtree.mine.vo.response.RecommendedReportsResponse;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -139,6 +141,18 @@ public class HttpDataSourceImpl implements HttpDataSource {
             @Override
             public DividendAutoSendResponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), DividendAutoSendResponse.class);
+            }
+        });
+    }
+
+    @Override
+    public Flowable<RecommendedReportsResponse> getRecommendedReportsData(RecommendedReportsRequest request) {
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+        return apiService.get(APIManager.GAMEDIVIDENDAGRT_URL, map).map(new Function<ResponseBody, RecommendedReportsResponse>() {
+            @Override
+            public RecommendedReportsResponse apply(ResponseBody responseBody) throws Exception {
+                return gson.fromJson(responseBody.string(), RecommendedReportsResponse.class);
             }
         });
     }

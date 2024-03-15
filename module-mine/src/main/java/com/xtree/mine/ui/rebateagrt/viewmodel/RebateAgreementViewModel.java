@@ -15,6 +15,7 @@ import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.data.source.APIManager;
 import com.xtree.mine.ui.rebateagrt.fragment.GameDividendAgrtFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.GameRebateAgrtFragment;
+import com.xtree.mine.ui.rebateagrt.fragment.RecommendedReportsFragment;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum;
 
@@ -84,6 +85,10 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                     case LOTTERIES:
                     case GAMEREBATE:
                         startContainerActivity(GameDividendAgrtFragment.class.getCanonicalName());
+                        break;
+                    case LOTTERIESREPORTS:
+                    case GAMEREPORTS:
+                        startContainerActivity(RecommendedReportsFragment.class.getCanonicalName());
                         break;
                     default:
                         break;

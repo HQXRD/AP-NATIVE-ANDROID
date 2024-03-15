@@ -51,7 +51,7 @@ import me.xtree.mvvmhabit.utils.StringUtils;
 
 /**
  * Created by KAKA on 2024/3/14.
- * Describe:
+ * Describe: 分红契约 viewmodel
  */
 public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> implements ToolbarModel {
 
@@ -140,11 +140,11 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
         this.type = type;
         switch (type) {
             case LOTTERIES:  //彩票报表
-                headModel.type = 1;
+                headModel.type = "1";
                 titleData.setValue("彩票契约分红");
                 break;
             case GAMEREBATE: //游戏报表
-                headModel.type = 22;
+                headModel.type = "22";
                 titleData.setValue("游戏分红");
                 break;
         }
@@ -178,6 +178,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
         if (headModel.cyclyData.get() != null) {
             gameDividendAgrtRequest.cycle_id = headModel.cyclyData.get().getShowId();
         }
+        gameDividendAgrtRequest.type = headModel.type;
         gameDividendAgrtRequest.username = headModel.userNameData.get();
         gameDividendAgrtRequest.p = headModel.p;
         gameDividendAgrtRequest.pn = headModel.pn;

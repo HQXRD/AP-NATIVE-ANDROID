@@ -10,7 +10,7 @@ import me.xtree.mvvmhabit.base.BaseViewModel;
 
 /**
  * Created by KAKA on 2024/3/13.
- * Describe:
+ * Describe: 返水契约创建弹窗 viewmodel
  */
 public class RebateAgrtCreateViewModel  extends BaseViewModel<MineRepository> {
     public RebateAgrtCreateViewModel(@NonNull Application application) {
