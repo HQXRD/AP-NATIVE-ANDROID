@@ -417,7 +417,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.rcvList.setLayoutManager(manager);
         //game图片设置间隔距离8dp
         DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        Drawable dividerDrawable = ContextCompat.getDrawable(getContext(),R.drawable.divider_home);
+        Drawable dividerDrawable = ContextCompat.getDrawable(getContext(), R.drawable.divider_home);
         decoration.setDrawable(dividerDrawable);
         binding.rcvList.addItemDecoration(decoration);
 
@@ -476,8 +476,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/1?aid=173";
         } else if (result.equals("174")) {
             url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/5?aid=174";
-        //} else if (result.equals("198")) {
-        //    url = DomainUtil.getDomain2() + "#/newactivity/64/5?aid=198";
+            //} else if (result.equals("198")) {
+            //    url = DomainUtil.getDomain2() + "#/newactivity/64/5?aid=198";
         } else {
             url = DomainUtil.getDomain2() + Constant.URL_ACTIVITY + result;
         }
@@ -520,13 +520,20 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (mProfileVo == null) {
             return;
         }
-        if (!mProfileVo.is_binding_phone && !mProfileVo.is_binding_email) {
+     /*   魔域提现 没有限制绑定手机 邮箱 if (!mProfileVo.is_binding_phone && !mProfileVo.is_binding_email) {
             CfLog.i("未绑定手机/邮箱");
             toBindPhoneNumber();
+        }*/
+        else if (mProfileVo.has_securitypwd) {
+            //金额大于0 才可以跳转提款页面
+            if (Double.valueOf(mProfileVo.availablebalance) > 0) {
+                ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
+            } else {
+                ToastUtils.showError(getContext().getString(R.string.txt_withdraw_balance_money));
+            }
         } else {
-            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW)
-                    .navigation();
-
+            //跳转设定资金密码设定页面
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_FUNDS_PWD);
         }
     }
 
