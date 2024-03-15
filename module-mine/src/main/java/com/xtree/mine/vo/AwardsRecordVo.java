@@ -36,7 +36,7 @@ public class AwardsRecordVo {
         public String aid; // "168",
         public String userid;
         public String dispensing_money;//所需流水
-
+        public String dispensing_money_left;//剩余流水
         public String deducted_turnover;
         public String money; // "50.00",奖金
         public String is_bet_source;
@@ -45,7 +45,7 @@ public class AwardsRecordVo {
         public String title;//活动名称 每日累计存勿动
         public String origin_money;//需求流水
 
-        public String dispensing_money_left;//剩余流水
+
         public String bet_source_trans;//显示的具体文案
         /*"id":"26051",
             "aid":"168",

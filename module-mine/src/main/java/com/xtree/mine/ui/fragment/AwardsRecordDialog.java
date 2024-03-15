@@ -193,7 +193,7 @@ public class AwardsRecordDialog extends BottomPopupView {
             holder.showInfoName.setText(info.title);
             String bonusTip = String.format(getContext().getString(R.string.txt_awards_bonus_tip), info.money);
             holder.showBonus.setText(bonusTip);
-            String reTurnover = String.format(getContext().getString(R.string.txt_awards_required_turnover_tip), info.deducted_turnover);
+            String reTurnover = String.format(getContext().getString(R.string.txt_awards_required_turnover_tip), info.dispensing_money);
             holder.showTurnover.setText(reTurnover);
 
             if (TextUtils.isEmpty(info.dispensing_money_left) || info.dispensing_money_left.equals("0")) {
