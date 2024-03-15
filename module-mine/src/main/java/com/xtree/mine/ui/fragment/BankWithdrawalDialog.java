@@ -37,6 +37,8 @@ import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalBankNewBinding;
@@ -62,7 +64,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     public interface BankWithdrawalClose {
         void closeBankWithdrawal();
-
         /*由于提现次数到达 关闭页面*/
         void closeBankByNumber();
     }
@@ -92,6 +93,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     private FruitHorRecyclerViewAdapter recyclerViewAdapter;
     private BasePopupView ppw2;//绑卡
+    private  BasePopupView ppwError = null; // 底部弹窗 (显示错误信息)
 
     public static BankWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo, BankWithdrawalClose bankClose, BankWithdrawaDialogClose dialogClose) {
         BankWithdrawalDialog dialog = new BankWithdrawalDialog(context);
@@ -297,8 +299,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             dismissLoading();
             bankCardCashVo = vo;
             if (bankCardCashVo == null || bankCardCashVo.banks == null || bankCardCashVo.banks.isEmpty() || bankCardCashVo.channel_list == null || bankCardCashVo.channel_list.isEmpty()) {
-                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
-                dismiss();
+                showError();
             } else if (!TextUtils.isEmpty(bankCardCashVo.message) && getContext().getString(R.string.txt_no_withdrawals_available_tip).equals(bankCardCashVo.message)) {
                 //"message": "您今天已没有可用提款次数"
                 refreshErrByNumber(bankCardCashVo.message);
@@ -316,7 +317,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 //3.刷新第一次获取的数据
                 refreshInitView(bankCardCashVo);
             }
-
         });
         //银行卡提现
         viewModel.platwithdrawVoMutableLiveData.observe(this.owner, vo -> {
@@ -991,6 +991,27 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /*关闭loading*/
     private void dismissLoading() {
         ppw2.dismiss();
+    }
+    /* 由于权限原因弹窗*/
+    private void showError(){
+        if (ppwError ==null){
+            final String title = getContext().getString(R.string.txt_kind_tips);
+            final String message = getContext().getString(R.string.txt_withdrawal_not_supported_tip);
+            ppwError = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, message, true, new TipDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    ppwError.dismiss();
+                    dismiss();
+                }
+
+                @Override
+                public void onClickRight() {
+                    ppwError.dismiss();
+                    dismiss();
+                }
+            }));
+        }
+        ppwError.show();
     }
 
 }

@@ -25,6 +25,8 @@ import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalVirtualBinding;
@@ -59,7 +61,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     private VirtualConfirmVo usdtConfirmVo;
     @NonNull
     DialogBankWithdrawalVirtualBinding binding;
-    private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
+    //private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
+    private BasePopupView ppwError = null; // 底部弹窗 (显示错误信息)
 
     public VirtualWithdrawalDialog(@NonNull Context context) {
         super(context);
@@ -71,8 +74,6 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         dialog.context = context;
         dialog.owner = owner;
         dialog.channelInfo = channelInfo;
-        dialog.bankWithdrawalClose = bankWithdrawalClose;
-        CfLog.i("VirtualWithdrawalDialog");
         return dialog;
     }
 
@@ -123,12 +124,11 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
 
     private void initViewObservable() {
         hideKeyBoard();
-        //USDT提款设置提款请求 返回model
+        //虚拟币提款设置提款请求 返回model
         viewModel.virtualCashVoMutableLiveData.observe(owner, vo -> {
             virtualCashVo = vo;
             if (virtualCashVo == null || virtualCashVo.rest == null || virtualCashVo.usdtinfo == null || virtualCashVo.usdtinfo.isEmpty()) {
-                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
-                dismiss();
+                showError();
             } else if (virtualCashVo.msg_type == 1 || virtualCashVo.msg_type == 2) {
                 if ("您今天已没有可用提款次数".equals(virtualCashVo.message)) {
                     refreshError(virtualCashVo.message);
@@ -142,7 +142,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
                 refreshSetUI();
             }
         });
-        //USDT确认提款信息
+        //虚拟币确认提款信息
         viewModel.virtualSecurityVoMutableLiveData.observe(owner, vo -> {
             usdtSecurityVo = vo;
             if (usdtSecurityVo == null || usdtSecurityVo.datas == null || usdtSecurityVo.user == null) {
@@ -153,7 +153,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
             }
 
         });
-        //USDT完成申请
+        //虚拟币完成申请
         viewModel.virtualConfirmVoMutableLiveData.observe(owner, vo -> {
             TagUtils.tagEvent(getContext(), "wd", "vc");
             usdtConfirmVo = vo;
@@ -424,4 +424,27 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         viewModel.postConfirmWithdrawVirtual(map);
 
     }
+
+    /* 由于权限原因弹窗*/
+    private void showError() {
+        if (ppwError == null) {
+            final String title = getContext().getString(R.string.txt_kind_tips);
+            final String message = getContext().getString(R.string.txt_withdrawal_not_supported_tip);
+            ppwError = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, message, true, new TipDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    ppwError.dismiss();
+                    dismiss();
+                }
+
+                @Override
+                public void onClickRight() {
+                    ppwError.dismiss();
+                    dismiss();
+                }
+            }));
+        }
+        ppwError.show();
+    }
+
 }
