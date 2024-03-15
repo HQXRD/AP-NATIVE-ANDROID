@@ -274,6 +274,7 @@
     <color name="clr_blue_03">#119BFF</color>
     <color name="clr_blue_05">#376CAA</color>
     <color name="clr_blue_06">#CEE4FE</color>
+    <color name="clr_blue_31">#159BD5</color>
 
     <color name="clr_green_03">#5BBA5B</color>
     <color name="clr_green_06">#E7E7E7</color>
@@ -288,8 +289,6 @@
     <!-- 通用 end-->
     <color name="clr_toast">#808080</color>
     <color name="clr_8080ff">#8080ff</color>
-
-
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

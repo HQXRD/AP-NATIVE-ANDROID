@@ -128,6 +128,10 @@
     <string name="txt_play_intro">玩法介绍</string>
     <string name="txt_tutorial">教程</string>
 
+    <!-- 充值页 -->
+    <string name="txt_rc_anti_fraud">防骗教程</string>
+    <string name="txt_rc_download">立即下载</string>
+    <string name="txt_rc_tip_hi_wallet">使用嗨钱包支付 0手续费 秒到账</string>
     <string name="txt_rc_bind_personal_info">请先绑定个人信息</string>
     <string name="txt_rc_bind_phone_now">立即绑定手机号</string>
     <string name="txt_rc_bind_bank_card_now">立即绑定银行卡</string>
@@ -136,6 +140,7 @@
     <string name="txt_rc_bind_email">绑定邮箱</string>
     <string name="txt_rc_bind_bank_card_pls">您没有绑定银行卡，请先绑定银行卡</string>
     <string name="txt_rc_tip_latest_balance">已更新到最新余额</string>
+
     <string name="txt_update">版本更新</string>
     <string name="txt_update_tip">更新中，请稍候...</string>
     <string name="txt_update_down_over_tip">下载完成</string>
