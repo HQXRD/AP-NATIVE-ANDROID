@@ -165,9 +165,22 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         //USDT确认提款信息
         viewModel.usdtSecurityVoMutableLiveData.observe(owner, vo -> {
             usdtSecurityVo = vo;
-            if (usdtSecurityVo == null || usdtSecurityVo.datas == null || usdtSecurityVo.user == null) {
-                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
-                dismiss();
+            //|| usdtSecurityVo.user == null
+            if (usdtSecurityVo == null || usdtSecurityVo.datas == null ) {
+                if ("2".equals(usdtSecurityVo.msg_type) &&  "抱歉，您的提款金额低于单笔最低提现金额，请确认后再进行操作".equals(usdtSecurityVo.message)){
+                    ToastUtils.showError(usdtSecurityVo.message);
+                }
+                else {
+                    if (!TextUtils.isEmpty(usdtSecurityVo.message)){
+                        ToastUtils.showError(usdtSecurityVo.message);
+
+                    }else {
+                        ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                        dismiss();
+                    }
+
+                }
+
             } else {
                 refreshSecurityUI();
             }

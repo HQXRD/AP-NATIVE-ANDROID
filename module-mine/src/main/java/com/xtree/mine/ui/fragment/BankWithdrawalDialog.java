@@ -64,6 +64,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     public interface BankWithdrawalClose {
         void closeBankWithdrawal();
+
         /*由于提现次数到达 关闭页面*/
         void closeBankByNumber();
     }
@@ -93,7 +94,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     private FruitHorRecyclerViewAdapter recyclerViewAdapter;
     private BasePopupView ppw2;//绑卡
-    private  BasePopupView ppwError = null; // 底部弹窗 (显示错误信息)
+    private BasePopupView ppwError = null; // 底部弹窗 (显示错误信息)
 
     public static BankWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo, BankWithdrawalClose bankClose, BankWithdrawaDialogClose dialogClose) {
         BankWithdrawalDialog dialog = new BankWithdrawalDialog(context);
@@ -321,9 +322,13 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         //银行卡提现
         viewModel.platwithdrawVoMutableLiveData.observe(this.owner, vo -> {
             platWithdrawVo = vo;
-            if (platWithdrawVo == null || platWithdrawVo.user == null || platWithdrawVo.datas == null) {
-                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
-                dismiss();
+            if (platWithdrawVo == null || platWithdrawVo.user == null) {
+                if (platWithdrawVo.datas == null && "2".equals(platWithdrawVo.msg_type) && !TextUtils.isEmpty(platWithdrawVo.message)) {
+                    ToastUtils.showError(platWithdrawVo.message);
+                } else {
+                    ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                    dismiss();
+                }
             } else if (platWithdrawVo.msg_type == 2) {
                 showError(platWithdrawVo.message);
             } else {
@@ -335,8 +340,12 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             TagUtils.tagEvent(getContext(), "wd", "bkc");
             platWithdrawConfirmVo = ov;
             if (platWithdrawConfirmVo == null || platWithdrawConfirmVo.user == null) {
-                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
-                dismiss();
+                if (!TextUtils.isEmpty(platWithdrawConfirmVo.message)){
+                    ToastUtils.showError(platWithdrawConfirmVo.message);
+                }else {
+                    ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                    dismiss();
+                }
             } else {
                 refreshWithdrawConfirmView(platWithdrawConfirmVo);
             }
@@ -992,9 +1001,10 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     private void dismissLoading() {
         ppw2.dismiss();
     }
+
     /* 由于权限原因弹窗*/
-    private void showError(){
-        if (ppwError ==null){
+    private void showError() {
+        if (ppwError == null) {
             final String title = getContext().getString(R.string.txt_kind_tips);
             final String message = getContext().getString(R.string.txt_withdrawal_not_supported_tip);
             ppwError = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, message, true, new TipDialog.ICallBack() {
