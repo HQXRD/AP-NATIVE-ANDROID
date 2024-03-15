@@ -142,7 +142,7 @@
                     android:id="@+id/tvw_withdraw"
                     style="@style/style_hm_recharge"
                     android:drawableTop="@mipmap/hm_ic_withdraw"
-                    android:text="@string/hm_txt_withdraw" />
+                    android:text="@string/txt_withdraw" />
 
                 <TextView
                     android:id="@+id/tvw_trans"

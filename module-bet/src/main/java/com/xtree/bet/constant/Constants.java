@@ -7,7 +7,9 @@ import android.text.TextUtils;
 import android.util.ArrayMap;
 
 import com.xtree.bet.R;
+import com.xtree.bet.bean.response.fb.HotLeague;
 
+import java.util.List;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -134,6 +136,45 @@ public class Constants {
             return FBConstants.SPORT_ID_BSB;
         }else {
             return PMConstants.SPORT_ID_BSB;
+        }
+    }
+
+    /**
+     * 获取热门联赛icon
+     * @return
+     */
+    public static int getHotLeagueIcon(String code){
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            return FBConstants.getHotLeagueIcon(code);
+        }else {
+            return PMConstants.getHotLeagueIcon(code);
+        }
+    }
+
+    /**
+     * 获取足球热门联赛数据
+     * @return
+     */
+    public static List<HotLeague> getHotFootBallLeagueTopList(){
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            return FBConstants.getHotFootBallLeagueTopList();
+        }else {
+            return PMConstants.getHotFootBallLeagueTopList();
+        }
+    }
+
+    /**
+     * 获取足球热门联赛数据
+     * @return
+     */
+    public static List<HotLeague> getHotBasketBallLeagueTopList(){
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            return FBConstants.getHotBasketFootBallLeagueTopList();
+        }else {
+            return PMConstants.getHotBasketFootBallLeagueTopList();
         }
     }
 

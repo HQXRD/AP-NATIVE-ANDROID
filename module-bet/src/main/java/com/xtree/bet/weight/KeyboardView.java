@@ -86,7 +86,7 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
                     holder.getView(R.id.tv_item).setSelected(false);
                 }
                 holder.itemView.setOnClickListener(view -> {
-                    if(editText != null && !editText.isEnabled()){
+                    if(editText == null || editText.isEnabled()){
                         return;
                     }
                     editText.setText(String.valueOf(textValue));

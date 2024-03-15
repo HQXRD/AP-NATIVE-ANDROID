@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_bank_root"
+    android:id="@+id/ll_withdrawal_bank_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/clr_transparent"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="close"
             android:padding="4dp"
-            android:src="@mipmap/ic_choose_pop_close"
+            android:src="@mipmap/ic_pop_close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -80,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:text="@string/txt_set_withdrawal_request"
-                        android:textColor="@color/red" />
+                        android:textColor="@color/clr_choose_20" />
 
                     <TextView
                         android:id="@+id/tv_confirm_withdrawal_request"
@@ -160,7 +160,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textColor="@color/red"
+                    android:textColor="@color/clr_main_23"
                     android:visibility="visible" />
 
             </LinearLayout>

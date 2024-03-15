@@ -170,5 +170,30 @@
     <string name="txt_usdt_tutorial">USDT教程</string>
     <string name="txt_help">帮助中心</string>
     <string name="txt_qa">常见问题</string>
+    <string name="txt_next_step">下一步</string>
+
+
+    <!--魔域 提款文本-->
+    <string name="txt_withdraw_password">输入资金密码</string>
+    <string name="txt_withdraw_password_tip">请输入资金密码</string>
+    <string name="txt_withdraw_sure">确认</string>
+    <string name="txt_withdraw_cancel">取消</string>
+    <string name="txt_withdraw_tip">请妥善保管好您的资金密码,如遗忘请使用密保功能找回或联系在线客服</string>
+    <string name="txt_withdraw_usdt_tip">USDT介绍及提款教程</string>
+    <string name="txt_withdraw_balance_tip">可用提款余额:%1$s其中%2$s可以使用虚拟币提款取出</string>
+    <string name="txt_withdraw_bank_top_tip">注意：每天限制提款 %1$s 次，您已提款 %2$s 次，提款时间为 %3$s  至 %4$s  您今日剩余提款额度为 %5$s 元</string>
+    <string name="txt_withdraw_bank_bottom_tip">1、为了保证您正常提款，请您在使用银行卡充值时务必使用绑定银行卡或者与绑定银行卡姓名相同的卡进行充值，否则将无法正常提款。/n2、为了您的资金安全，降低被银行冻卡风险，当提款金额为整数(比如10、200、300)时，实际提款金额会在该整数的基础上随机扣减，使其有尾数金额 </string>
+    <string name="txt_withdraw_input_err">资金密码不能为空</string>
+    <string name="txt_withdraw_input_length_err">资金密码长度为6个字符</string>
+    <string name="txt_withdraw_input_char_err">资金密码由6位纯数字组成</string>
+    <string name="txt_withdraw_next">下一步</string>
+    <string name="txt_withdraw_previous">上一步</string>\
+    <string name="txt_withdraw_confirm_next">继续提现</string>
+    <string name="txt_withdraw_close">关闭提现</string>
+    <string name="txt_withdraw_balance_money">您的余额不足，无法提款</string>
+    <string name="txt_withdraw_fun_timeout">资金密码有效期已过期，请重新输入后提款</string>
+
+
+
 
 </resources>

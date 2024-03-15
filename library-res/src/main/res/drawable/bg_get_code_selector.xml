@@ -2,32 +2,29 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <gradient android:angle="270"
-                android:centerColor="@color/clr_purple_00"
-                android:endColor="@color/clr_purple_00"
-                android:startColor="@color/clr_purple_00" />
+            <gradient android:angle="0"
+                android:endColor="@color/clr_bg_frame_23"
+                android:startColor="@color/clr_bg_frame_23" />
             <corners android:radius="6dp" />
-            <solid android:color="@color/clr_purple_bg_023" />
             <stroke android:width="1dp"
-                android:color="@color/clr_purple_08" />
+                android:color="@color/clr_bg_frame_small_2" />
         </shape>
     </item>
 
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
-            <gradient android:angle="270"
-                android:endColor="@color/clr_purple_00"
-                android:startColor="@color/clr_purple_53" />
+            <gradient android:angle="0"
+                android:endColor="@color/clr_bg_frame_31"
+                android:startColor="@color/clr_txt_04" />
             <corners android:radius="6dp" />
         </shape>
     </item>
 
     <item>
         <shape>
-            <gradient android:angle="270"
-                android:centerColor="@color/clr_purple_bg03"
-                android:endColor="@color/clr_purple_bg05"
-                android:startColor="@color/clr_purple_bg01" />
+            <gradient android:angle="0"
+                android:endColor="@color/clr_btn_02"
+                android:startColor="@color/clr_btn_01" />
             <corners android:radius="6dp" />
         </shape>
     </item>
