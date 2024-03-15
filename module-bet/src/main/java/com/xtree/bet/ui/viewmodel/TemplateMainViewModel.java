@@ -17,7 +17,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.response.HotLeagueInfo;
-import com.xtree.bet.bean.response.fb.LeagueItem;
+import com.xtree.bet.bean.response.fb.HotLeague;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.ui.LeaguePm;
@@ -63,7 +63,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     public SingleLiveData<String[]> playMethodTab = new SingleLiveData<>();
     public SingleLiveData<List<Date>> playSearchData = new SingleLiveData<>();
     public SingleLiveData<String[]> sportItemData = new SingleLiveData<>();
-    public SingleLiveData<LeagueItem> leagueItemData = new SingleLiveData<>();
+    public SingleLiveData<List<HotLeague>> leagueItemData = new SingleLiveData<>();
     public SingleLiveData<List<League>> leagueNoLiveListData = new SingleLiveData<>();
     public SingleLiveData<List<League>> leagueNoLiveTimerListData = new SingleLiveData<>();
     public SingleLiveData<List<League>> leagueLiveListData = new SingleLiveData<>();
@@ -136,6 +136,16 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
 
     public void setSportItems(int playMethodPos, int playMethodType) {
 
+    }
+
+    public void setHotLeagueList(String sportName){
+        if(TextUtils.equals("足球", sportName)){
+            leagueItemData.postValue(Constants.getHotFootBallLeagueTopList());
+        }else if(TextUtils.equals("篮球", sportName)){
+            leagueItemData.postValue(Constants.getHotBasketBallLeagueTopList());
+        }else {
+            leagueItemData.postValue(null);
+        }
     }
 
     public void setSportIcons(int playMethodPos) {

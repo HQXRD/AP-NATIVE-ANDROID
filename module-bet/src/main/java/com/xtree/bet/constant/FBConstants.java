@@ -2,8 +2,12 @@ package com.xtree.bet.constant;
 
 import android.util.ArrayMap;
 
+import com.google.gson.Gson;
 import com.xtree.bet.R;
+import com.xtree.bet.bean.response.fb.HotLeague;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class FBConstants {
@@ -237,6 +241,58 @@ public class FBConstants {
     private static Map<String, String[]> mapPlayTypeId = new ArrayMap<>();
     private static Map<String, String[]> mapPlayTypeName = new ArrayMap<>();
     private static Map<String, Integer> mapBgMatchDetailTop = new ArrayMap<>();
+    private static List<HotLeague> hotFootBallLeagueTopList = new ArrayList<>();
+    private static List<HotLeague> hotBasketBallLeagueTopList = new ArrayList<>();
+    private static Map<String, Integer> mapHotLeagueIconTop = new ArrayMap<>();
+
+    public static int getHotLeagueIcon(String code){
+        if(mapHotLeagueIconTop.isEmpty()){
+            mapHotLeagueIconTop.put("allleague", R.drawable.bt_hot_league_item_epl_selector);
+            mapHotLeagueIconTop.put("UCL", R.drawable.bt_hot_league_item_ucl_selector);
+            mapHotLeagueIconTop.put("EPL", R.drawable.bt_hot_league_item_epl_selector);
+            mapHotLeagueIconTop.put("SEA", R.drawable.bt_hot_league_item_sea_selector);
+            mapHotLeagueIconTop.put("LaLiga", R.drawable.bt_hot_league_item_laliga_selector);
+            mapHotLeagueIconTop.put("BVB", R.drawable.bt_hot_league_item_bvb_selector);
+            mapHotLeagueIconTop.put("Ligue1", R.drawable.bt_hot_league_item_ligue1_selector);
+            mapHotLeagueIconTop.put("CSL", R.drawable.bt_hot_league_item_csl_selector);
+            mapHotLeagueIconTop.put("NBA", R.drawable.bt_hot_league_item_nba_selector);
+            mapHotLeagueIconTop.put("NBL", R.drawable.bt_hot_league_item_nbl_selector);
+            mapHotLeagueIconTop.put("CBA", R.drawable.bt_hot_league_item_cba_selector);
+            mapHotLeagueIconTop.put("JB1", R.drawable.bt_hot_league_item_jb1_selector);
+            mapHotLeagueIconTop.put("KBL", R.drawable.bt_hot_league_item_kbl_selector);
+            mapHotLeagueIconTop.put("EL", R.drawable.bt_hot_league_item_el_selector);
+        }
+        return mapHotLeagueIconTop.get(code);
+    }
+
+    public static List<HotLeague> getHotFootBallLeagueTopList(){
+        if(hotFootBallLeagueTopList.isEmpty()){
+            Gson gson = new Gson();
+            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [], code: \"allleague\", name:\"全部\"}", HotLeague.class));
+            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [2,11140], code: \"UCL\", name: \"欧冠\"}", HotLeague.class));
+            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [3,11062,11264], code: \"EPL\", name: \"英超\"}", HotLeague.class));
+            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [4,11018], code: \"SEA\", name: \"意甲\"}", HotLeague.class));
+            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [5,10815], code: \"LaLiga\", name: \"西甲\"}", HotLeague.class));
+            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [6,10807], code: \"BVB\", name: \"德甲\"}", HotLeague.class));
+            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [7,10983], code: \"Ligue1\", name: \"法甲\"}", HotLeague.class));
+            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [8], code: \"CSL\", name: \"中超\"}", HotLeague.class));
+        }
+        return hotFootBallLeagueTopList;
+    }
+
+    public static List<HotLeague> getHotBasketFootBallLeagueTopList(){
+        if(hotBasketBallLeagueTopList.isEmpty()){
+            Gson gson = new Gson();
+            hotBasketBallLeagueTopList.add(gson.fromJson("{ leagueid: [], code: \"allleague\", name: \"全部\"}", HotLeague.class));
+            hotBasketBallLeagueTopList.add(gson.fromJson("{ leagueid: [11274], code: \"NBA\", name: \"NBA\"}", HotLeague.class));
+            hotBasketBallLeagueTopList.add(gson.fromJson("{ leagueid: [11898], code: \"NBL\", name: \"澳洲NBL\"}", HotLeague.class));
+            hotBasketBallLeagueTopList.add(gson.fromJson("{ leagueid: [11276], code: \"CBA\", name: \"CBA\"}", HotLeague.class));
+            hotBasketBallLeagueTopList.add(gson.fromJson("{ leagueid: [11863], code: \"JB1\", name: \"日本B1\"}", HotLeague.class));
+            hotBasketBallLeagueTopList.add(gson.fromJson("{ leagueid: [16250], code: \"KBL\", name: \"韩国KBL\"}", HotLeague.class));
+            hotBasketBallLeagueTopList.add(gson.fromJson("{ leagueid: [11278], code: \"EL\", name: \"欧洲EL\"}", HotLeague.class));
+        }
+        return hotBasketBallLeagueTopList;
+    }
 
     public static int getBgMatchDetailTop(String sportId){
         if(mapBgMatchDetailTop.isEmpty()){
