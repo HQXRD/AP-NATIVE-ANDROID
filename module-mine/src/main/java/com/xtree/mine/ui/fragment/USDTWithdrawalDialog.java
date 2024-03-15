@@ -25,6 +25,8 @@ import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalUsdtBinding;
@@ -59,6 +61,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
     private USDTSecurityVo usdtSecurityVo;
     private USDTConfirmVo usdtConfirmVo;
     private BankWithdrawalDialog.BankWithdrawalClose bankClose;
+
+    private BasePopupView ppwError = null; // 底部弹窗 (显示错误信息)
     private
     @NonNull
     DialogBankWithdrawalUsdtBinding binding;
@@ -127,9 +131,9 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         //USDT提款设置提款请求 返回model
         viewModel.usdtCashVoMutableLiveData.observe(owner, vo -> {
             usdtCashVo = vo;
+
             if (usdtCashVo == null || usdtCashVo.channel_list == null || usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()) {
-                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
-                dismiss();
+                showError();
             }
             //异常
             else if (usdtCashVo.msg_type == 2 || usdtCashVo.msg_type == 1) {
@@ -149,6 +153,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             } else {
                 for (int i = 0; i < usdtCashVo.usdtinfo.size(); i++) {
                     if (usdtCashVo.usdtinfo.get(i).usdt_type.contains("TRC20")) {
+
                         usdtinfoTRC.add(usdtCashVo.usdtinfo.get(i));
                     }
                 }
@@ -260,6 +265,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             binding.tvWithdrawalAmountMethod.setText(firstChannel.title);//提款方式
             CfLog.e("点击 USDT firstChannel.title = " + firstChannel.toString());
         });
+        //飞USDT提款
         binding.tvVirtualOther.setOnClickListener(v -> {
             binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
             binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
@@ -522,5 +528,27 @@ public class USDTWithdrawalDialog extends BottomPopupView {
 
         viewModel.postConfirmWithdrawUSDT(map);
 
+    }
+
+    /* 由于权限原因弹窗*/
+    private void showError() {
+        if (ppwError == null) {
+            final String title = getContext().getString(R.string.txt_kind_tips);
+            final String message = getContext().getString(R.string.txt_withdrawal_not_supported_tip);
+            ppwError = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, message, true, new TipDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    ppwError.dismiss();
+                    dismiss();
+                }
+
+                @Override
+                public void onClickRight() {
+                    ppwError.dismiss();
+                    dismiss();
+                }
+            }));
+        }
+        ppwError.show();
     }
 }

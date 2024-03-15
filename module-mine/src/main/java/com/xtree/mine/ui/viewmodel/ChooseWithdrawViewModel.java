@@ -69,7 +69,6 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
 
                     @Override
                     public void onResult(ChooseInfoVo chooseInfoVo) {
-                        CfLog.i("ChooseInfoVo = " + chooseInfoVo.toString());
                         if (!TextUtils.isEmpty(chooseInfoVo.msg_type) &&Integer.valueOf(chooseInfoVo.msg_type) == 2){
                             //异常状态
                             chooseInfoVoMutableLiveData.setValue(chooseInfoVo);
@@ -182,7 +181,6 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<BankCardCashVo>() {
                     @Override
                     public void onResult(BankCardCashVo bankCardCashVo) {
-                        CfLog.i("BankCardCashVo = " + bankCardCashVo.toString());
                         for (int i = 0; i < bankCardCashVo.channel_list.size(); i++) {
                             BankCardCashVo.ChannelVo cv = bankCardCashVo.channel_list.get(i);
                             if (!(cv.fixamount_list instanceof String)) {
@@ -227,7 +225,6 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<PlatWithdrawVo>() {
                     @Override
                     public void onResult(PlatWithdrawVo platwithdrawVo) {
-                        CfLog.i("PlatWithdrawVo = " + platwithdrawVo.toString());
                         platwithdrawVoMutableLiveData.setValue(platwithdrawVo);
                     }
                 });
