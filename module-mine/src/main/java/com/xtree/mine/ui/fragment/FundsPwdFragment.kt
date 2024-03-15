@@ -19,6 +19,7 @@ import com.xtree.base.utils.DomainUtil
 import com.xtree.base.utils.UuidUtil
 import com.xtree.base.vo.ProfileVo
 import com.xtree.base.widget.BrowserDialog
+import com.xtree.base.widget.LoadingDialog
 import com.xtree.mine.BR
 import com.xtree.mine.R
 import com.xtree.mine.databinding.FragmentFundsPwdBinding
@@ -47,6 +48,8 @@ class FundsPwdFragment : BaseFragment<FragmentFundsPwdBinding, VerifyViewModel>(
                 binding.tvTitle.setText(R.string.txt_funds_pwd_set)
             }
         }
+        binding.ivwBack.setOnClickListener { requireActivity().finish() }
+
         binding.ckbEye.setOnCheckedChangeListener { _, isChecked -> setEdtPwd(isChecked, binding.etPwd) }
         binding.ckbEyeNew.setOnCheckedChangeListener { _, isChecked -> setEdtPwd(isChecked, binding.etNewPwd) }
         binding.ckbEyeAgain.setOnCheckedChangeListener { _, isChecked -> setEdtPwd(isChecked, binding.etAgainPwd) }
@@ -81,12 +84,18 @@ class FundsPwdFragment : BaseFragment<FragmentFundsPwdBinding, VerifyViewModel>(
         viewModel.liveDataChangeFundsPwd.observe(this) {
             if (!mProfileVo.has_securitypwd) {
                 ToastUtils.showLong(R.string.txt_set_funds_pwd_succ)
+                requireActivity().runOnUiThread {
+                    LoadingDialog.show(requireContext())
+                }
+                viewModel.getProfile2()
             } else {
                 ToastUtils.showLong(R.string.txt_change_succ)
+                requireActivity().finish()
             }
+        }
+        viewModel.liveDataProfile2.observe(this) {
             requireActivity().finish()
         }
-
     }
 
     override fun initData() {
