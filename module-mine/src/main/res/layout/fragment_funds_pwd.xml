@@ -14,10 +14,11 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
+                android:id="@+id/tv_title"
                 style="@style/style_cm_title"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
-                android:text="@string/txt_funds_pwd_reset"
+                android:text="@string/txt_funds_pwd_update"
                 android:textStyle="bold"
                 app:layout_constraintBaseline_toBaselineOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

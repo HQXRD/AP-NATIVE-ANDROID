@@ -4,14 +4,17 @@ import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.google.gson.Gson
 import com.lxj.xpopup.XPopup
-import com.lxj.xpopup.core.BasePopupView
 import com.xtree.base.global.Constant
+import com.xtree.base.global.SPKeyGlobal
 import com.xtree.base.router.RouterFragmentPath
+import com.xtree.base.utils.ClickUtil
 import com.xtree.base.utils.DomainUtil
 import com.xtree.base.utils.UuidUtil
 import com.xtree.base.vo.ProfileVo
@@ -22,6 +25,7 @@ import com.xtree.mine.databinding.FragmentFundsPwdBinding
 import com.xtree.mine.ui.viewmodel.VerifyViewModel
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory
 import me.xtree.mvvmhabit.base.BaseFragment
+import me.xtree.mvvmhabit.utils.SPUtils
 import me.xtree.mvvmhabit.utils.ToastUtils
 
 /**
@@ -29,8 +33,20 @@ import me.xtree.mvvmhabit.utils.ToastUtils
  */
 @Route(path = RouterFragmentPath.Mine.PAGER_FUNDS_PWD)
 class FundsPwdFragment : BaseFragment<FragmentFundsPwdBinding, VerifyViewModel>() {
+    private lateinit var mProfileVo: ProfileVo
 
     override fun initView() {
+        val json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE)
+        mProfileVo = Gson().fromJson(json, ProfileVo::class.java)
+        mProfileVo.apply {
+            //如果没有资金密码，旧的输入用户资金密码框不显示
+            //标题为设置资金密码
+            if (!has_securitypwd) {
+                binding.etPwd.visibility = View.INVISIBLE
+                binding.ckbEye.visibility = View.GONE
+                binding.tvTitle.setText(R.string.txt_funds_pwd_set)
+            }
+        }
         binding.ckbEye.setOnCheckedChangeListener { _, isChecked -> setEdtPwd(isChecked, binding.etPwd) }
         binding.ckbEyeNew.setOnCheckedChangeListener { _, isChecked -> setEdtPwd(isChecked, binding.etNewPwd) }
         binding.ckbEyeAgain.setOnCheckedChangeListener { _, isChecked -> setEdtPwd(isChecked, binding.etAgainPwd) }
@@ -46,9 +62,15 @@ class FundsPwdFragment : BaseFragment<FragmentFundsPwdBinding, VerifyViewModel>(
             startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG, null)
         }
         binding.tvwConfirm.setOnClickListener {
+            if (ClickUtil.isFastClick()) {
+                return@setOnClickListener
+            }
             val map = HashMap<String, String>()
             map["nonce"] = UuidUtil.getID16()
-            map["password_original"] = binding.etPwd.text.toString()
+            //有资金密码，才传旧的输入用户资金密码框 内容
+            if (mProfileVo.has_securitypwd) {
+                map["password_original"] = binding.etPwd.text.toString()
+            }
             map["password"] = binding.etNewPwd.text.toString()
             map["password_confirmation"] = binding.etAgainPwd.text.toString()
             viewModel.changeFundsPwd(map)
@@ -56,9 +78,12 @@ class FundsPwdFragment : BaseFragment<FragmentFundsPwdBinding, VerifyViewModel>(
     }
 
     override fun initViewObservable() {
-        super.initViewObservable()
-        viewModel.liveDataChangeFundsPwd.observe(this) { vo: Map<String?, String?>? ->
-            ToastUtils.showLong(R.string.txt_change_succ)
+        viewModel.liveDataChangeFundsPwd.observe(this) {
+            if (!mProfileVo.has_securitypwd) {
+                ToastUtils.showLong(R.string.txt_set_funds_pwd_succ)
+            } else {
+                ToastUtils.showLong(R.string.txt_change_succ)
+            }
             requireActivity().finish()
         }
 
@@ -94,4 +119,3 @@ class FundsPwdFragment : BaseFragment<FragmentFundsPwdBinding, VerifyViewModel>(
         edt.setSelection(edt.length())
     }
 }
-

@@ -82,10 +82,19 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
         });
 
         binding.tvwFundsPwd.setOnClickListener(v -> {
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_FUNDS_PWD);
+            if (mProfileVo != null) {
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_FUNDS_PWD);
+            }
         });
         binding.tvwPwdSafe.setOnClickListener(v -> {
-            CfLog.i("******");
+            if (mProfileVo != null) {
+                if (!mProfileVo.has_securitypwd) {
+                    startContainerFragment(RouterFragmentPath.Mine.PAGER_FUNDS_PWD);
+                } else {
+
+                }
+            }
+
         });
 
         //跳转Google动态口令绑定页面
