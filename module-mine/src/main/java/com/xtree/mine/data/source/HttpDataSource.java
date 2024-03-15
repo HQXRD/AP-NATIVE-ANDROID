@@ -2,9 +2,13 @@ package com.xtree.mine.data.source;
 
 
 import com.xtree.mine.data.source.http.service.HttpApiService;
+import com.xtree.mine.vo.request.DividendAutoSendRequest;
+import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
 import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
+import com.xtree.mine.vo.response.DividendAutoSendResponse;
+import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
@@ -41,4 +45,15 @@ public interface HttpDataSource {
      * 返水契约-游戏场馆-下级返水
      */
     Flowable<GameSubordinateRebateResponse> getGameSubordinateRebateData(String url, GameSubordinateRebateRequest request);
+
+    /**
+     * 返水契约-分红契约
+     */
+    Flowable<GameDividendAgrtResponse> getGameDividendAgrtData(GameDividendAgrtRequest request);
+
+    /**
+     * 返水契约-分红契约-一键发放
+     */
+    Flowable<DividendAutoSendResponse> getDividendAutoSendData(DividendAutoSendRequest request);
+
 }

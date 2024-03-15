@@ -29,7 +29,6 @@ public class GameRebateAgrtResponse {
     private String pageinfo;
     private int isget;
     private TotalDTO total;
-    private CountDTO count;
     private List<DataDTO> data;
     private boolean description;
     private List<String> chineseNum;
@@ -202,14 +201,6 @@ public class GameRebateAgrtResponse {
 
     public void setTotal(TotalDTO total) {
         this.total = total;
-    }
-
-    public CountDTO getCount() {
-        return count;
-    }
-
-    public void setCount(CountDTO count) {
-        this.count = count;
     }
 
     public List<DataDTO> getData() {
@@ -411,63 +402,6 @@ public class GameRebateAgrtResponse {
 
         public void setSum_liushui(double sum_liushui) {
             this.sum_liushui = sum_liushui;
-        }
-    }
-
-    public static class CountDTO {
-        private int bet;
-        private double effective_bet;
-        private double liushui;
-        private int total_money;
-        private int sub_money;
-        private int self_money;
-
-        public int getBet() {
-            return bet;
-        }
-
-        public void setBet(int bet) {
-            this.bet = bet;
-        }
-
-        public double getEffective_bet() {
-            return effective_bet;
-        }
-
-        public void setEffective_bet(double effective_bet) {
-            this.effective_bet = effective_bet;
-        }
-
-        public double getLiushui() {
-            return liushui;
-        }
-
-        public void setLiushui(double liushui) {
-            this.liushui = liushui;
-        }
-
-        public int getTotal_money() {
-            return total_money;
-        }
-
-        public void setTotal_money(int total_money) {
-            this.total_money = total_money;
-        }
-
-        public int getSub_money() {
-            return sub_money;
-        }
-
-        public void setSub_money(int sub_money) {
-            this.sub_money = sub_money;
-        }
-
-        public int getSelf_money() {
-            return self_money;
-        }
-
-        public void setSelf_money(int self_money) {
-            this.self_money = self_money;
         }
     }
 

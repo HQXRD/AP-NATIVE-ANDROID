@@ -13,6 +13,7 @@ import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.data.source.APIManager;
+import com.xtree.mine.ui.rebateagrt.fragment.GameDividendAgrtFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.GameRebateAgrtFragment;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum;
@@ -79,11 +80,15 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                     case EGAME:
                     case USER:
                         startContainerActivity(GameRebateAgrtFragment.class.getCanonicalName());
-                        RxBus.getDefault().postSticky(bindModel);
+                        break;
+                    case LOTTERIES:
+                    case GAMEREBATE:
+                        startContainerActivity(GameDividendAgrtFragment.class.getCanonicalName());
                         break;
                     default:
                         break;
                 }
+                RxBus.getDefault().postSticky(bindModel);
             }
         }
     };

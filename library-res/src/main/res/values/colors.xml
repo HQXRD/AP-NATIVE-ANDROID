@@ -433,4 +433,8 @@
     <color name="color_FFFFFF">#FFFFFF</color>
     <color name="color_50000000">#50000000</color>
     <color name="color_f2f2f2">#f2f2f2</color>
+    <color name="color_EBEEF5">#EBEEF5</color>
+    <color name="color_7D8FB9">#7D8FB9</color>
+    <color name="color_FD5255">#FD5255</color>
+    <color name="color_FEA768">#FEA768</color>
 </resources>

@@ -56,6 +56,7 @@ public class RouterFragmentPath {
         public static final String PAGER_REBATE_REPORT = MINE + "/RebateReport"; // 返水报表
         public static final String PAGER_REBATE_AGREEMENT = MINE + "/RebateAgreement"; // 返水契约
         public static final String PAGER_REBATE_AGREEMENT_GAME = MINE + "/GameRebateAgrt"; // 游戏场馆返水契约
+        public static final String PAGER_DIVIDEND_AGREEMENT_GAME = MINE + "/GameDividendAgrt"; // 游戏场馆分红契约
         public static final String PAGER_REBATEAGRT_CREATE_DIALOG = MINE + "/RebateAgrtCreateDialog"; // 返水契约-创建契约
 
         public static final String PAGER_THIRD_TRANSFER = MINE + "/ThirdTransfer"; // 三方转账

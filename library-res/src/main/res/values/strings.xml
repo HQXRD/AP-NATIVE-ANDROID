@@ -80,6 +80,17 @@
     <string name="txt_signed">已签订</string>
     <string name="txt_discontinued">已终止</string>
     <string name="txt_updated">已更新</string>
+    <string name="txt_uncleared">未结清</string>
+    <string name="txt_cleared">已结清</string>
+    <string name="txt_nodividend">无分红</string>
+    <string name="txt_cancledividend">分红取消</string>
+    <string name="txt_noagrement">无契约/终止</string>
+    <string name="txt_bet_desc">按投注额-从高到低</string>
+    <string name="txt_bet_asc">按投注额-从低到高</string>
+    <string name="txt_self_money_desc">按分红-从多到少</string>
+    <string name="txt_self_money_asc">按分红-从少到多</string>
+    <string name="txt_profitloss_desc">按盈亏-从多到少</string>
+    <string name="txt_profitloss_asc">按盈亏-从少到多</string>
 
     <string name="txt_rebate_ty">体育返水</string>
     <string name="txt_rebate_zr">真人返水</string>

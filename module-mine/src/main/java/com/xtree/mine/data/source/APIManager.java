@@ -29,4 +29,9 @@ public class APIManager {
     public static final String GAMEREBATEAGRT_USER_URL = "/compact/user/";
     public static final String GAMESUBORDINATEAGRTE_USER_URL = "/compact/teamcompact/";
     public static final String GAMESUBORDINATEREBATE_USER_URL = "/compact/teamsalary/";
+
+    //分红契约
+    public static final String GAMEDIVIDENDAGRT_URL = "/pink/index";
+    //分红契约-一键发放
+    public static final String GAMEDIVIDENDAGRT_AUTOSEND_URL = "/pink/ajaxhub/countpink";
 }

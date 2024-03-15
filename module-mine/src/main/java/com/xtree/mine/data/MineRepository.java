@@ -8,9 +8,13 @@ import androidx.annotation.VisibleForTesting;
 import com.xtree.mine.data.source.HttpDataSource;
 import com.xtree.mine.data.source.LocalDataSource;
 import com.xtree.mine.data.source.http.service.HttpApiService;
+import com.xtree.mine.vo.request.DividendAutoSendRequest;
+import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
 import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
+import com.xtree.mine.vo.response.DividendAutoSendResponse;
+import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
@@ -91,6 +95,20 @@ public class MineRepository extends BaseModel implements HttpDataSource, LocalDa
     @Override
     public Flowable<GameSubordinateRebateResponse> getGameSubordinateRebateData(String url, GameSubordinateRebateRequest request) {
         return mHttpDataSource.getGameSubordinateRebateData(url, request)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer());
+    }
+
+    @Override
+    public Flowable<GameDividendAgrtResponse> getGameDividendAgrtData(GameDividendAgrtRequest request) {
+        return mHttpDataSource.getGameDividendAgrtData(request)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer());
+    }
+
+    @Override
+    public Flowable<DividendAutoSendResponse> getDividendAutoSendData(DividendAutoSendRequest request) {
+        return mHttpDataSource.getDividendAutoSendData(request)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer());
     }

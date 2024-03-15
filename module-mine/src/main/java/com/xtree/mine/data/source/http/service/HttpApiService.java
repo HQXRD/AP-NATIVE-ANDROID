@@ -543,5 +543,5 @@ public interface HttpApiService {
      * 返水契约
      */
     @GET("{url}")
-    Flowable<ResponseBody> get(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) HashMap<String, Object> map);
+    Flowable<ResponseBody> get(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) Map<String, Object> map);
 }
