@@ -17,6 +17,7 @@ import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
@@ -87,14 +88,23 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
             }
         });
         binding.tvwPwdSafe.setOnClickListener(v -> {
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             if (mProfileVo != null) {
                 if (!mProfileVo.has_securitypwd) {
                     startContainerFragment(RouterFragmentPath.Mine.PAGER_FUNDS_PWD);
-                } else {
-
+                } else if (mProfileVo.set_question.equals("0")) {
+                    new XPopup.Builder(requireContext()).asCustom(CheckPasswordDialog.newInstance(requireContext(), this, checkCode -> {
+                        //密保问题设置弹窗
+                        new XPopup.Builder(requireContext()).moveUpToKeyboard(false)
+                                .dismissOnBackPressed(false)
+                                .dismissOnTouchOutside(false)
+                                .asCustom(new SetQuestionDialog(requireContext()))
+                                .show();
+                    })).show();
                 }
             }
-
         });
 
         //跳转Google动态口令绑定页面

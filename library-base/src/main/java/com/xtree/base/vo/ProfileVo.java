@@ -40,7 +40,7 @@ public class ProfileVo {
     public String rebate_percentage; // "3.0%",
     public boolean has_securitypwd; // false, //是否设定资金密码
     public boolean solo_challenge; // true,
-    //public int set_question; // 0 或 [4,18,2]
+    public String set_question; // 0 或 [4,18,2]
     public int twofa; // 0,
     public int twofa_login_enabled; // "1",
     public int twofa_withdraw_enabled; // "1",
