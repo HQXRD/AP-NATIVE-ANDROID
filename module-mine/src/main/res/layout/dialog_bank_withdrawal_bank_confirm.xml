@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_bank_root"
-    android:background="@color/bg_main"
     style="@style/style_item_ll_row"
+    android:background="@color/bg_main"
     android:orientation="vertical"
     android:padding="8dp"
     tools:ignore="MissingDefaultResource">
@@ -46,7 +46,9 @@
 
         <View style="@style/style_withdraw_dividing_line" />
 
-        <LinearLayout style="@style/style_withdraw_confirm_ll">
+        <LinearLayout
+            style="@style/style_withdraw_confirm_ll"
+            android:visibility="gone">
 
             <TextView
                 style="@style/style_withdraw_show_title"
@@ -58,7 +60,9 @@
                 tools:text="" />
         </LinearLayout>
 
-        <View style="@style/style_withdraw_dividing_line" />
+        <View
+            style="@style/style_withdraw_dividing_line"
+            android:visibility="gone" />
 
         <LinearLayout style="@style/style_withdraw_confirm_ll">
 
@@ -130,33 +134,50 @@
 
         <View style="@style/style_withdraw_dividing_line" />
 
-        <ImageView
+        <Button
             android:id="@+id/iv_confirm_next"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@mipmap/cm_btn_withdrawal_next" />
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bt_bg_withdrawal_next"
+            android:text="@string/txt_withdraw_next"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
-        <ImageView
+        <Button
             android:id="@+id/iv_confirm_previous"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/iv_confirm_next"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
-            android:background="@mipmap/cm_btn_withdrawal_previous" />
+            android:layout_marginRight="20dp"
+            android:background="@drawable/bg_dialog_withdraw_close"
+            android:text="@string/txt_withdraw_previous"
+            android:textColor="@color/update_progress_start_color"
+            android:textSize="16sp" />
+        <!-- <ImageView
+             android:id="@+id/iv_confirm_previous"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_below="@id/iv_confirm_next"
+             android:layout_marginTop="10dp"
+             android:background="@mipmap/cm_btn_withdrawal_previous" />-->
 
     </LinearLayout>
 
     <include
         android:id="@+id/ll_over_apply"
+        layout="@layout/dialog_withdraw_money_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone"
-        layout="@layout/dialog_withdraw_money_confirm"/>
+        android:visibility="gone" />
     <!--显示状态 3 确认提款信息View-->
-
 
 </LinearLayout>

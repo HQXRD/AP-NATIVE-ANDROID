@@ -420,7 +420,8 @@
     <color name="clr_4ecfff">#4ECFFF</color>
     <color name="clr_bee5fc">#BEE5FC</color>
     <color name="clr_f3f5f6">#F3F5F6</color>
-
+    <!--魔域 提现 金额选择 按钮 字体颜色-->
+    <color name="cl_withdrawal_money">#C4B2FF</color>
     <!--    通用色值-->
     <color name="color_1E1E1E">#1E1E1E</color>
     <color name="color_93B7E5">#93B7E5</color>
