@@ -6,16 +6,19 @@ import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
+import com.xtree.mine.vo.BankCardCashMoYuVo;
 import com.xtree.mine.vo.BankCardCashVo;
 import com.xtree.mine.vo.BankCardVo;
 import com.xtree.mine.vo.BtDetailVo;
 import com.xtree.mine.vo.BtPlatformVo;
 import com.xtree.mine.vo.BtReportVo;
+import com.xtree.mine.vo.ChooseInfoMoYuVo;
 import com.xtree.mine.vo.ChooseInfoVo;
 import com.xtree.mine.vo.CookieVo;
 import com.xtree.mine.vo.ForgetPasswordCheckInfoVo;
 import com.xtree.mine.vo.ForgetPasswordTimeoutVo;
 import com.xtree.mine.vo.ForgetPasswordVerifyVo;
+import com.xtree.mine.vo.FundPassWordVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.GooglePswVO;
 import com.xtree.mine.vo.LoginResultVo;
@@ -26,7 +29,9 @@ import com.xtree.mine.vo.MsgInfoVo;
 import com.xtree.mine.vo.MsgListVo;
 import com.xtree.mine.vo.MsgPersonInfoVo;
 import com.xtree.mine.vo.MsgPersonListVo;
+import com.xtree.mine.vo.PlatWithdrawConfirmMoYuVo;
 import com.xtree.mine.vo.PlatWithdrawConfirmVo;
+import com.xtree.mine.vo.PlatWithdrawMoYuVo;
 import com.xtree.mine.vo.PlatWithdrawVo;
 import com.xtree.mine.vo.ProfitLossReportVo;
 import com.xtree.mine.vo.QuestionVo;
@@ -36,8 +41,11 @@ import com.xtree.mine.vo.SendMoneyVo;
 import com.xtree.mine.vo.SettingsVo;
 import com.xtree.mine.vo.ThirdGameTypeVo;
 import com.xtree.mine.vo.ThirdTransferReportVo;
+import com.xtree.mine.vo.USDTCashMoYuVo;
 import com.xtree.mine.vo.USDTCashVo;
+import com.xtree.mine.vo.USDTConfirmMoYuVo;
 import com.xtree.mine.vo.USDTConfirmVo;
+import com.xtree.mine.vo.USDTSecurityMoYuVo;
 import com.xtree.mine.vo.USDTSecurityVo;
 import com.xtree.mine.vo.UsdtVo;
 import com.xtree.mine.vo.UserBankConfirmVo;
@@ -48,8 +56,11 @@ import com.xtree.mine.vo.UserUsdtTypeVo;
 import com.xtree.mine.vo.VerificationCodeVo;
 import com.xtree.mine.vo.VerifyVo;
 import com.xtree.mine.vo.VipUpgradeInfoVo;
+import com.xtree.mine.vo.VirtualCashMoYuVo;
 import com.xtree.mine.vo.VirtualCashVo;
+import com.xtree.mine.vo.VirtualConfirmMoYuVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
+import com.xtree.mine.vo.VirtualSecurityMoYuVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
 
 import java.util.HashMap;
@@ -463,6 +474,8 @@ public interface HttpApiService {
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<PlatWithdrawVo> postPlatWithdrawBank(@Body Map<String, String> map);
 
+
+
     /**
      * 银行卡确认提交
      *
@@ -480,35 +493,39 @@ public interface HttpApiService {
     Flowable<USDTCashVo> getChooseWithdrawUSDT(@QueryMap Map<String, String> map);
 
     /**
-     * 银行卡提款提交
+     * USDT提款提交
      */
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<USDTSecurityVo> postPlatWithdrawUSDT(@Body Map<String, String> map);
 
     /**
-     * 银行卡确认提交
+     * USDT确认提交
      */
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<USDTConfirmVo> postConfirmWithdrawUSDT(@Body Map<String, String> map);
 
     /**
-     * USDT获取提款方式
+     * 虚拟币获取提款方式
      */
     //https://ap3sport.oxldkm.com/security/platwithdraw/?controller=security&action=platwithdraw&check=&ismobile=true&usdt_type=4&is_tutorial=1&client=m
     @GET("/security/platwithdraw/?controller=security&action=platwithdraw&check=&ismobile=true&is_tutorial=1&client=m")
     Flowable<VirtualCashVo> getChooseWithdrawVirtual(@QueryMap Map<String, String> map);
 
     /**
-     * 银行卡提款提交
+     * 虚拟币提款提交
      */
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<VirtualSecurityVo> postPlatWithdrawVirtual(@Body Map<String, String> map);
 
+    @POST("/security/platwithdraw?1=1&client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<VirtualSecurityVo> postPlatWithdrawVirtual(@QueryMap Map<String, String> queryMap, @Body Map<String, String> map);
+
     /**
-     * 银行卡确认提交
+     * 虚拟币确认提交
      */
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
@@ -538,6 +555,74 @@ public interface HttpApiService {
 
     @POST("user/?controller=user&action=saveup&client=m")
     Flowable<SendMoneyVo> sendMoney(@Body Map<String, String> map);
+
+    /*输入自己密码（魔域）*/
+    @POST("/?controller=security&action=checkpass&client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<FundPassWordVo> getCheckPass(@Body HashMap<String, String> map);
+
+    /*获取提款方式(魔域)*/
+    @GET("/security/platwithdraw?client=m")
+    Flowable<ChooseInfoMoYuVo> getChooseWithdrawInfo(@Query("check") String flag);
+
+    /* 银行卡 获取提款方式（魔域）*/
+    @GET("/security/platwithdraw/?controller=security&action=platwithdraw&ismobile=true&usdt_type=1&is_tutorial=1&client=m")
+    Flowable<BankCardCashMoYuVo> getChooseWithdrawBankDetailsInfo(@Query("check") String flag);;
+
+    /*银行卡提款信息确认 （魔域）*/
+    @POST("/security/platwithdraw?client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<PlatWithdrawMoYuVo> postMoYuPlatWithdrawBank(@Body Map<String, String> map);
+
+    /*
+     * 银行卡确认提交 完成【魔域】
+     */
+    @POST("/security/platwithdraw?1=1&client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<PlatWithdrawConfirmMoYuVo> postMoYuConfirmWithdrawBank(@Body Map<String, String> map);
+
+    /*
+     * USDT获取提款方式【魔域】   private String usdtType ;
+     */
+    @GET("/security/platwithdraw/?controller=security&action=platwithdraw&ismobile=true&is_tutorial=1&client=m")
+    Flowable<USDTCashMoYuVo> getMoYuChooseWithdrawUSDT( @Query("check") String key ,@Query("usdt_type") String usdtType);
+
+    /*
+     * USDT提款提交【魔域】
+     */
+    @POST("/security/platwithdraw?client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<USDTSecurityMoYuVo> postMoYuPlatWithdrawUSDT(@Body Map<String, String> map);
+
+    /*
+     * USDT确认提交【魔域】
+     */
+    @POST("/security/platwithdraw?client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<USDTConfirmMoYuVo> postMoYuConfirmWithdrawUSDT(@Body Map<String, String> map);
+
+    /**
+     * 虚拟币获取提款方式 【魔域】
+     */
+    //https://ap3sport.oxldkm.com/security/platwithdraw/?controller=security&action=platwithdraw&check=&ismobile=true&usdt_type=4&is_tutorial=1&client=m
+
+    @GET("/security/platwithdraw/?controller=security&action=platwithdraw&ismobile=true&is_tutorial=1&client=m")
+    Flowable<VirtualCashMoYuVo> getMoYuChooseWithdrawVirtual(@Query("check") String key ,@Query("usdt_type") String flag);
+
+    /**
+     * 虚拟币提款提交【魔域】
+     */
+    @POST("/security/platwithdraw?1=1&client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<VirtualSecurityMoYuVo> postMoYuPlatWithdrawVirtual(@Body Map<String, String> map);
+
+    /**
+     * 虚拟币确认提交 【魔域】
+     */
+    @POST("/security/platwithdraw?1=1&client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<VirtualConfirmMoYuVo> postMoYuConfirmWithdrawVirtual(@Body Map<String, String> map);
+
 
     /**
      * 返水契约
