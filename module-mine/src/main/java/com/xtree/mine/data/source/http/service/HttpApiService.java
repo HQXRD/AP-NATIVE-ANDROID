@@ -17,12 +17,11 @@ import com.xtree.mine.vo.ForgetPasswordCheckInfoVo;
 import com.xtree.mine.vo.ForgetPasswordTimeoutVo;
 import com.xtree.mine.vo.ForgetPasswordVerifyVo;
 import com.xtree.mine.vo.GameBalanceVo;
-import com.xtree.mine.vo.request.GameRebateAgrtRequest;
-import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.GooglePswVO;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.LotteryDetailVo;
 import com.xtree.mine.vo.LotteryReportVo;
+import com.xtree.mine.vo.MemberManagerVo;
 import com.xtree.mine.vo.MsgInfoVo;
 import com.xtree.mine.vo.MsgListVo;
 import com.xtree.mine.vo.MsgPersonInfoVo;
@@ -33,6 +32,7 @@ import com.xtree.mine.vo.ProfitLossReportVo;
 import com.xtree.mine.vo.QuestionVo;
 import com.xtree.mine.vo.RebateReportVo;
 import com.xtree.mine.vo.RechargeReportVo;
+import com.xtree.mine.vo.SendMoneyVo;
 import com.xtree.mine.vo.SettingsVo;
 import com.xtree.mine.vo.ThirdGameTypeVo;
 import com.xtree.mine.vo.ThirdTransferReportVo;
@@ -529,6 +529,15 @@ public interface HttpApiService {
 
     @GET("/user/messages?tag=deleteall&client=m")
     Flowable<BaseResponse2> deleteAllPersonInfo();
+
+    @GET("/user/list/?frame=show&client=m")
+    Flowable<MemberManagerVo> getMemberManager(@QueryMap Map<String, String> map);
+
+    @POST("/?controller=security&action=checkpass&client=m")
+    Flowable<Object> checkMoneyPassword(@Body Map<String, String> map);
+
+    @POST("user/?controller=user&action=saveup&client=m")
+    Flowable<SendMoneyVo> sendMoney(@Body Map<String, String> map);
 
     /**
      * 返水契约

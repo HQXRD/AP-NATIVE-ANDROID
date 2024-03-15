@@ -287,6 +287,10 @@
         <item name="android:layout_marginTop">16dp</item>
         <item name="android:layout_marginEnd">0dp</item>
     </style>
+    <style name="style_ll_row_3" parent="style_ll_row">
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+    </style>
 
     <style name="style_fb_info_title">
         <item name="android:layout_width">wrap_content</item>
@@ -802,6 +806,37 @@
     <style name="style_item_report_value_end" parent="style_item_report_value">
         <item name="android:gravity">end</item>
     </style>
+
+    <!-- 我的-盈亏报表 title -->
+    <style name="style_item_report_profit_base">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/clr_txt_03</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="style_item_report_profit_t" parent="style_item_report_profit_base">
+        <item name="android:layout_marginTop">6dp</item>
+    </style>
+    <style name="style_item_report_profit_v" parent="style_item_report_profit_base">
+        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:textColor">@color/clr_txt_01</item>
+    </style>
+
+    <style name="style_item_report_profit_sum_t" parent="style_item_report_profit_base">
+        <item name="android:layout_marginTop">0dp</item>
+    </style>
+    <style name="style_item_report_profit_sum_t2" parent="style_item_report_profit_base">
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:gravity">end</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <style name="style_item_report_profit_sum_v" parent="style_item_report_profit_base">
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:hint">--</item>
+        <item name="android:textColor">@color/clr_txt_01</item>
+    </style>
+
     <!-- 选择提款方式文字风格 -->
     <style name="style_choose_withdrawal">
         <item name="android:layout_width">match_parent</item>

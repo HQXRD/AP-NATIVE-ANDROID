@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">library-res</string>
     <string name="txt_vip_center">VIP中心</string>
     <string name="txt_withdraw">提款</string>
@@ -129,6 +129,7 @@
     <string name="text_over_withdrawal_request">3.完成申请</string>
     <string name="txt_lottery_info">彩种信息</string>
     <string name="txt_question">常见问题</string>
+    <string name="txt_member_manager">团队管理</string>
     <string name="txt_play_intro">玩法介绍</string>
     <string name="txt_tutorial">教程</string>
 

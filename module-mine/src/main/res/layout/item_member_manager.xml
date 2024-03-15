@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/layout_margin">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvw_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/layout_margin"
+            android:drawableStart="@mipmap/me_wallet_left_icon"
+            android:padding="@dimen/layout_margin"
+            android:text="moyu00"
+            android:textColor="@color/clr_black"
+            android:textSize="@dimen/bt_text_16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvw_someone_self"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/layout_margin"
+            android:text="@string/txt_account_self"
+            android:textColor="@color/clr_black"
+            android:textSize="@dimen/bt_text_16sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/tvw_user_name"
+            app:layout_constraintEnd_toEndOf="@id/tvw_user_name"
+            app:layout_constraintTop_toTopOf="@id/tvw_user_name" />
+
+        <TextView
+            android:id="@+id/tvw_return_point_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/layout_margin"
+            android:text="@string/txt_teturn_point"
+            app:layout_constraintStart_toStartOf="@id/tvw_user_name"
+            app:layout_constraintTop_toBottomOf="@id/tvw_user_name" />
+
+        <TextView
+            android:id="@+id/tvw_return_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4%"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvw_return_point_title"
+            app:layout_constraintStart_toEndOf="@id/tvw_return_point_title"
+            app:layout_constraintTop_toTopOf="@id/tvw_return_point_title" />
+
+        <TextView
+            android:id="@+id/tvw_member_num_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_member_value"
+            app:layout_constraintEnd_toEndOf="@id/tvw_user_name"
+            app:layout_constraintStart_toEndOf="@id/tvw_return_point_title"
+            app:layout_constraintTop_toTopOf="@id/tvw_return_point_title" />
+
+        <TextView
+            android:id="@+id/tvw_member_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="100"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvw_return_point_title"
+            app:layout_constraintStart_toEndOf="@id/tvw_member_num_title"
+            app:layout_constraintTop_toTopOf="@id/tvw_return_point_title" />
+
+        <TextView
+            android:id="@+id/tvw_user_balance_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:text="@string/txt_people_balance"
+            app:layout_constraintStart_toStartOf="@id/tvw_return_point_title"
+            app:layout_constraintTop_toBottomOf="@id/tvw_return_point_title" />
+
+        <TextView
+            android:id="@+id/tvw_user_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="608545.2805"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvw_member_num_title"
+            app:layout_constraintTop_toTopOf="@+id/tvw_user_balance_title" />
+
+        <TextView
+            android:id="@+id/tvw_member_balance_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:text="@string/txt_group_balance"
+            app:layout_constraintStart_toStartOf="@id/tvw_user_balance_title"
+            app:layout_constraintTop_toBottomOf="@id/tvw_user_balance_title" />
+
+        <TextView
+            android:id="@+id/tvw_member_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0000"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvw_member_num_title"
+            app:layout_constraintTop_toTopOf="@+id/tvw_member_balance_title" />
+
+        <TextView
+            android:id="@+id/tvw_last_time_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:text="@string/txt_last_login_time"
+            app:layout_constraintStart_toStartOf="@id/tvw_member_balance_title"
+            app:layout_constraintTop_toBottomOf="@id/tvw_member_balance_title" />
+
+        <TextView
+            android:id="@+id/tvw_last_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="2024-03-11 13:34:32"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvw_member_num_title"
+            app:layout_constraintTop_toTopOf="@+id/tvw_last_time_title" />
+
+        <TextView
+            android:id="@+id/tvw_register_time_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:text="@string/txt_register_time"
+            app:layout_constraintStart_toStartOf="@id/tvw_last_time_title"
+            app:layout_constraintTop_toBottomOf="@id/tvw_last_time_title" />
+
+        <TextView
+            android:id="@+id/tvw_register_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="2024-01-08 09:34:02"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@+id/tvw_member_num_title"
+            app:layout_constraintTop_toTopOf="@+id/tvw_register_time_title" />
+
+        <LinearLayout
+            android:id="@id/ll_line"
+            style="@style/ViewLineStyle"
+            android:layout_width="0dp"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginEnd="@dimen/layout_margin"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/tvw_user_name"
+            app:layout_constraintStart_toStartOf="@id/tvw_user_name"
+            app:layout_constraintTop_toBottomOf="@id/tvw_register_time" />
+
+        <Button
+            android:id="@+id/btn_transfor"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="@dimen/layout_margin"
+            android:background="@drawable/bg_stroke_main_r24"
+            android:text="@string/txt_transfer_member"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/ll_line"
+            app:layout_constraintTop_toBottomOf="@id/ll_line" />
+
+        <Button
+            android:id="@+id/btn_account"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="@dimen/layout_margin"
+            android:background="@drawable/bg_stroke_main_r24"
+            android:text="@string/txt_account_money_record"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_transfor"
+            app:layout_constraintTop_toBottomOf="@id/ll_line" />
+
+        <Button
+            android:id="@+id/btn_bet"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="@dimen/layout_margin"
+            android:background="@drawable/bg_stroke_main_r24"
+            android:text="@string/me_betting_record"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btn_account"
+            app:layout_constraintTop_toBottomOf="@id/ll_line" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

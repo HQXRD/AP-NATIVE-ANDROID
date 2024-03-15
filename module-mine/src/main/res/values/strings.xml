@@ -80,7 +80,9 @@
     <string name="txt_insufficient_balance">" 余额不足"</string>
     <string name="txt_is_1k_recycle_all_title">一键转回</string>
     <string name="txt_is_1k_recycle_all">一键转回所有平台余额到中心钱包？</string>
+    <string name="txt_check_transfer">确认要为下级转账？ \n转账金额 : %1$s</string>
     <string name="text_confirm">确认</string>
+    <string name="text_cancel">取消</string>
 
     <string name="txt_open_auto_slow">开户免转，进入游戏场馆速度相较于关闭时会有一定降低，如发现第三方场馆进入过慢等问题，请关闭免转后重试</string>
     <string name="txt_confirm_open">确认开启</string>
@@ -370,12 +372,42 @@
     <string name="txt_choose_withdrawal_tip">可用提款余额:%s其中%s可以使用虚拟币提款取出</string>
     <string name="txt_cny_balance">￥</string>
 
+    <string name="txt_userpoint_desc">按返点-从高到底</string>
+    <string name="txt_userpoint_asc">按返点-从低到高</string>
+    <string name="txt_username_desc">按用户名-从Z到0</string>
+    <string name="txt_username_asc">按用户名-从0到Z</string>
+    <string name="txt_children_desc">按团队人数-从高到低</string>
+    <string name="txt_children_asc">按团队人数-从低到高</string>
+    <string name="txt_available_balance_desc">按个人余额-从高到低</string>
+    <string name="txt_available_balance_asc">按个人余额-从低到高</string>
+    <string name="txt_team_balance_desc">按团队余额-从高到低</string>
+    <string name="txt_team_balance_asc">按团队余额-从低到高</string>
 
-
-<!--    返水契约-->
+    <!--    返水契约-->
     <string name="rebate_agrt_title">返水契约</string>
     <string name="status">状态</string>
     <string name="start_date">起始日期</string>
     <string name="end_date">截止日期</string>
+    <string name="txt_input_money_password">输入资金密码</string>
+    <string name="txt_please_input_money_password">请输入资金密码</string>
+    <string name="txt_warning_money_password">请妥善保管好您的资金密码，如遗忘请使用密保功能找回或联系在线客服处理</string>
+    <string name="txt_transfer_member">下级转账</string>
+    <string name="txt_member_account">用户账号:</string>
+    <string name="txt_account_balance">您的余额:</string>
+    <string name="txt_transfer_money">充值金额:</string>
+    <string name="txt_check_money">请仔细核对转账金额后提交</string>
+    <string name="txt_sort">排序</string>
+    <string name="txt_username">用户名</string>
+    <string name="txt_input_search_user">请输入要查询的用户名</string>
+    <string name="txt_search">查询</string>
+    <string name="txt_click_search">点击查询数据</string>
+    <string name="txt_account_self">本人</string>
+    <string name="txt_teturn_point">返点:</string>
+    <string name="txt_member_value">团队人数:</string>
+    <string name="txt_people_balance">个人余额:</string>
+    <string name="txt_group_balance">团队余额:</string>
+    <string name="txt_last_login_time">最后登日:</string>
+    <string name="txt_register_time">注册日期:</string>
+    <string name="txt_account_money_record">帐变记录</string>
 
 </resources>
