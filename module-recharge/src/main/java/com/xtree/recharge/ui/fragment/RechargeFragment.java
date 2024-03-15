@@ -1,6 +1,8 @@
 package com.xtree.recharge.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -167,6 +169,17 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 String title = getString(R.string.txt_recharge_tutorial);
                 new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, tutorialUrl)).show();
             }
+        });
+        binding.tvwAntiFraud.setOnClickListener(v -> {
+            // 防骗教程
+            String title = getString(R.string.txt_rc_anti_fraud);
+            String url = DomainUtil.getDomain2() + Constant.URL_ANTI_FRAUD;
+            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+        });
+        binding.tvwDownload.setOnClickListener(v -> {
+            // 下载嗨钱包
+            String url = Constant.URL_DOWNLOAD_HI_WALLET;
+            getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
         });
 
         binding.tvwBindPhone.setOnClickListener(v -> {
@@ -718,6 +731,16 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         binding.tvwPrePay.setText(usdt);
     }
 
+    private void setHiWallet(PaymentVo vo) {
+        binding.llHiWallet.setVisibility(View.GONE);
+        for (RechargeVo t : vo.chongzhiList) {
+            if ("hiwallet".equals(t.paycode)) {
+                binding.llHiWallet.setVisibility(View.VISIBLE);
+                return;
+            }
+        }
+    }
+
     @Override
     public void initViewObservable() {
 
@@ -735,6 +758,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             setMainList(vo.chongzhiList); // 显示充值列表九宫格
             showProcessDialog(vo.processingData); // 检查弹窗 充值次数
             setTipBottom(new RechargeVo()); // 恢复底部的默认提示
+            setHiWallet(vo); // 显示/隐藏底部的 下载嗨钱包
         });
         viewModel.liveDataRechargeList.observe(getViewLifecycleOwner(), list -> {
             setRecommendList(); // 推荐的充值列表
