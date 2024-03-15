@@ -34,11 +34,13 @@ import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogChooseWithdrawaBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
+import com.xtree.mine.vo.ChooseInfoMoYuVo;
 import com.xtree.mine.vo.ChooseInfoVo;
 
 import java.util.ArrayList;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
 /**
@@ -53,13 +55,16 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         void closeDialogByError();
     }
 
+    private String checkCode;
     private IChooseDialogBack callBack;
     private BasePopupView basePopupView = null;
     DialogChooseWithdrawaBinding binding;
     ChooseWithdrawViewModel viewModel;
+
     LifecycleOwner owner;
     Context context;
-    ChooseInfoVo chooseInfoVo;
+    //ChooseInfoVo chooseInfoVo; 替换成魔域的VO
+    ChooseInfoMoYuVo chooseInfoVo;
     BasePopupView ppw = null; // 底部弹窗
     BasePopupView ppw2 = null;
 
@@ -72,7 +77,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
     @Override
     protected int getMaxHeight() {
-        return (XPopupUtils.getScreenHeight(getContext()) * 80 / 100);
+        return (XPopupUtils.getScreenHeight(getContext()) * 90 / 100);
     }
 
     private ChooseWithdrawalDialog(@NonNull Context context) {
@@ -82,11 +87,22 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose) {
         ChooseWithdrawalDialog dialog = new ChooseWithdrawalDialog(context);
 
-        context = context;
         dialog.context = context;
         dialog.owner = owner;
         dialog.callBack = callBack;
         dialog.bankWithdrawalClose = bankWithdrawalClose;
+        return dialog;
+    }
+
+    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose, final String checkCode) {
+        ChooseWithdrawalDialog dialog = new ChooseWithdrawalDialog(context);
+
+        dialog.context = context;
+        dialog.owner = owner;
+        dialog.callBack = callBack;
+        dialog.bankWithdrawalClose = bankWithdrawalClose;
+        dialog.checkCode = checkCode;
+
         return dialog;
     }
 
@@ -136,22 +152,26 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
     private void initViewObservable() {
         LoadingDialog.show(dialog.getContext());
-        viewModel.chooseInfoVoMutableLiveData.observe(owner, vo -> {
+        viewModel.chooseInfoMoYuVoMutableLiveData.observe(owner, vo -> {
             chooseInfoVo = vo;
             if (chooseInfoVo.networkStatus == 1 && callBack != null) {
                 //网络异常
                 callBack.closeDialogByError();
             } else {
+                //msg_detail='null', msg_type='null', error='null', message='null'
                 if (!TextUtils.isEmpty(chooseInfoVo.msg_type) && chooseInfoVo.msg_type.equals("2")) {
                     //异常状态
                     showErrorDialog(chooseInfoVo.message);
-                } else if (TextUtils.isEmpty(chooseInfoVo.error) || chooseInfoVo.error == null) {
-                    referUI();
-                } else {
+                } else if (!TextUtils.isEmpty(chooseInfoVo.ur_here) && chooseInfoVo.ur_here.equals("资金密码检查")) {
+                    //异常状态 弹出资金密码输入页面
+                    ToastUtils.showError("异常状态 弹出资金密码输入页面");
+                } else if (!TextUtils.isEmpty(chooseInfoVo.error)) {
                     showErrorDialog(chooseInfoVo.message);
+                } else if (TextUtils.isEmpty(chooseInfoVo.error) || chooseInfoVo.error == null) {
+                    checkCode = chooseInfoVo.check;
+                    referUI();
                 }
             }
-
         });
     }
 
@@ -159,7 +179,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 请求网络数据
      */
     private void requestData() {
-        viewModel.getChooseWithdrawInfo();
+        viewModel.getChooseWithdrawInfo(checkCode);
     }
 
     private void referUI() {
@@ -172,7 +192,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     CfLog.i("ChooseAdapter channel = " + channel.toString());
                     if (channel.channeluse == 0)//显示弹窗
                     {
-                        if (channel.bindType.equals("bindcard") && (channel.flag == false)) {
+                        if (("bindcard").equals(channel.bindType) && (channel.flag == false)) {
                             showBankMessageDialog(channel, channel.channeluseMessage);
                         } else if (channel.channeluseMessage.contains("首次提款仅可使用银行卡方式提款")) {
                             showErrorDialog(channel.channeluseMessage);
@@ -184,11 +204,11 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
                     } else {
                         if (chooseInfoVo.bankchanneluse == 1 && txt.equals("银行卡提款")) {
-                            showBankWithdrawalDialog(channelInfo);
+                            showBankWithdrawalDialog(channelInfo, checkCode);
                         }
                         //银行卡提现通打开，但点击的不是银行卡提款
                         else if (chooseInfoVo.bankchanneluse == 1 && !txt.equals("银行卡提款")) {
-                            showUSDTWithdrawalDialog(channelInfo);
+                            showUSDTWithdrawalDialog(channelInfo, checkCode);
                         } else if (chooseInfoVo.bankchanneluse == 0) {
                             //未绑定银行卡 显示绑定银行卡
                             toBindCard();
@@ -210,8 +230,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
             });
 
             String tip =
-                    String.format(getContext().getString(R.string.txt_choose_withdrawal_tip) ,
-                            StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))) , chooseInfoVo.usdtInfo.quota);
+                    String.format(getContext().getString(R.string.txt_choose_withdrawal_tip),
+                            StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))), chooseInfoVo.usdtInfo.quota);
             binding.tvChooseTip.setVisibility(View.VISIBLE);
             binding.tvChooseTip.setText(tip);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -314,19 +334,19 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     /**
      * 跳转银行卡提款页面
      */
-    private void showBankWithdrawalDialog(ChooseInfoVo.ChannelInfo channelInfo) {
-        basePopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose));
+    private void showBankWithdrawalDialog(ChooseInfoVo.ChannelInfo channelInfo, final String checkCode) {
+        basePopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose, checkCode));
         basePopupView.show();
     }
 
     /**
      * 跳转USDT 提款
      */
-    private void showUSDTWithdrawalDialog(ChooseInfoVo.ChannelInfo channelInfo) {
+    private void showUSDTWithdrawalDialog(ChooseInfoVo.ChannelInfo channelInfo, final String checkCode) {
         if (channelInfo.title.contains("USDT")) {
-            basePopupView = new XPopup.Builder(getContext()).asCustom(USDTWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose));
+            basePopupView = new XPopup.Builder(getContext()).asCustom(USDTWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose, checkCode, channelInfo.type));
         } else {
-            basePopupView = new XPopup.Builder(getContext()).asCustom(VirtualWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose));
+            basePopupView = new XPopup.Builder(getContext()).asCustom(VirtualWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose, checkCode, channelInfo.type));
         }
 
         basePopupView.show();

@@ -228,12 +228,24 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
      * 显示提款页面
      */
     private void showChoose() {
-        if (!mProfileVo.is_binding_phone && !mProfileVo.is_binding_email) {
+
+        if (mProfileVo.has_securitypwd  ) {
+            if (Double.valueOf(mProfileVo.availablebalance) > 0){
+                ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
+            }else {
+                ToastUtils.showError(getContext().getString(R.string.txt_withdraw_balance_money));
+            }
+        } else {
+            //跳转设定资金密码设定页面
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_FUNDS_PWD);;
+        }
+
+       /* if (!mProfileVo.is_binding_phone && !mProfileVo.is_binding_email) {
             CfLog.i("未绑定手机/邮箱");
             toBindPhoneNumber();
         } else {
-            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
-        }
+
+        }*/
     }
 
     private void toBindPhoneNumber() {
