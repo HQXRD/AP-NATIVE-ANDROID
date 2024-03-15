@@ -90,21 +90,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
     private BasePopupView loadPopView;//loadView
 
-    private void showLoadView() {
-        if (loadPopView == null) {
-            loadPopView = new XPopup.Builder(getContext()).asCustom(new LoadingDialog(getContext()));
-        } else {
-            loadPopView.dismiss();
-        }
-        loadPopView.show();
-    }
-
-    private void dismissLoadView() {
-        if (loadPopView != null) {
-            loadPopView.dismiss();
-        }
-    }
-
     public FeedbackFragment() {
 
     }
@@ -197,9 +182,11 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         String startTime = TimeUtils.parseTime(new Date(), TimeUtils.FORMAT_YY_MM_DD) + " 00:00";
         String endTime = TimeUtils.parseTime(new Date(), TimeUtils.FORMAT_YY_MM_DD_HH_MM);
         HashMap<String, String> map = new HashMap<>();
+        //starttime=2024-03-11 00:00&endtime=2024-03-11 23:59
         map.put("starttime", startTime);
-        map.put("endtime", endTime);
-        showLoadView();
+        map.put("endtime", "2024-03-11 23:59");
+        CfLog.e("FeedbackFragment = " +map);
+        LoadingDialog.show(getContext());
         viewModel.feedbackInfo(map);
     }
 
@@ -207,7 +194,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
     public void initViewObservable() {
         //获取进入反馈页面回去的数据
         viewModel.feedbackVoSingleLiveData.observe(this, o -> {
-            dismissLoadView();
+
             feedbackVo = o;
 
             CfLog.i("未到账订单 = " + feedbackVo.list.size());
@@ -221,7 +208,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
         //获取上传图片后的 服务器返回的图片地址
         viewModel.imageUploadVoSingleLiveData.observe(this, o -> {
-            dismissLoadView();
+
 
             FeedbackImageUploadVo imageUploadVo = o;
             CfLog.i("上传后 获取的图片地址是 =" + imageUploadVo.url);
@@ -230,7 +217,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         });
         //获取上传数据后服务器状态
         viewModel.feedbackAddSingleLiveData.observe(this, o -> {
-            dismissLoadView();
+
             showNextDialog();
         });
     }
@@ -901,6 +888,9 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                         if (result != null) {
                             for (int i = 0; i < result.size(); i++) {
                                 imageRealPathString = result.get(i).getCompressPath();
+                                if (TextUtils.isEmpty(imageRealPathString)) {
+                                    imageRealPathString = result.get(i).getRealPath();
+                                }
                                 File imageRealPath = new File(imageRealPathString);
                                 if (imageRealPath.exists()) {
                                     CfLog.i("获取图片地址Base64 ===== " + ImageUploadUtil.bitmapToString(imageRealPathString));
