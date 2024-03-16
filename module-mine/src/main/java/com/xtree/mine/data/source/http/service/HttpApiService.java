@@ -403,28 +403,28 @@ public interface HttpApiService {
     /**
      * 获取 用户手机与信箱
      */
-    @POST("/api/account/newforgetpassword")
+    @POST("/api/account/forgetpassword")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<ForgetPasswordCheckInfoVo>> getUserInfoApi(@Body Map<String, String> map);
 
     /**
      * 获取 otp的资讯
      */
-    @POST("/api/account/newforgetpassword")
+    @POST("/api/account/forgetpassword")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<ForgetPasswordTimeoutVo>> getForgetPasswordOTP(@Body Map<String, String> map);
 
     /**
      * 获取 用户资讯正确的token
      */
-    @POST("/api/account/newforgetpassword")
+    @POST("/api/account/forgetpassword")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<ForgetPasswordVerifyVo>> getUserTokenApi(@Body Map<String, String> map);
 
     /**
      * 获取 修改密码
      */
-    @POST("/api/account/newforgetpassword")
+    @POST("/api/account/forgetpassword")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<Object>> getChangePasswordResult(@Body Map<String, String> map);
 
@@ -476,8 +476,6 @@ public interface HttpApiService {
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<PlatWithdrawVo> postPlatWithdrawBank(@Body Map<String, String> map);
-
-
 
     /**
      * 银行卡确认提交
@@ -570,7 +568,7 @@ public interface HttpApiService {
 
     /* 银行卡 获取提款方式（魔域）*/
     @GET("/security/platwithdraw/?controller=security&action=platwithdraw&ismobile=true&usdt_type=1&is_tutorial=1&client=m")
-    Flowable<BankCardCashMoYuVo> getChooseWithdrawBankDetailsInfo(@Query("check") String flag);;
+    Flowable<BankCardCashMoYuVo> getChooseWithdrawBankDetailsInfo(@Query("check") String flag);
 
     /*银行卡提款信息确认 （魔域）*/
     @POST("/security/platwithdraw?client=m")
@@ -588,7 +586,7 @@ public interface HttpApiService {
      * USDT获取提款方式【魔域】   private String usdtType ;
      */
     @GET("/security/platwithdraw/?controller=security&action=platwithdraw&ismobile=true&is_tutorial=1&client=m")
-    Flowable<USDTCashMoYuVo> getMoYuChooseWithdrawUSDT( @Query("check") String key ,@Query("usdt_type") String usdtType);
+    Flowable<USDTCashMoYuVo> getMoYuChooseWithdrawUSDT(@Query("check") String key, @Query("usdt_type") String usdtType);
 
     /*
      * USDT提款提交【魔域】
@@ -608,9 +606,8 @@ public interface HttpApiService {
      * 虚拟币获取提款方式 【魔域】
      */
     //https://ap3sport.oxldkm.com/security/platwithdraw/?controller=security&action=platwithdraw&check=&ismobile=true&usdt_type=4&is_tutorial=1&client=m
-
     @GET("/security/platwithdraw/?controller=security&action=platwithdraw&ismobile=true&is_tutorial=1&client=m")
-    Flowable<VirtualCashMoYuVo> getMoYuChooseWithdrawVirtual(@Query("check") String key ,@Query("usdt_type") String flag);
+    Flowable<VirtualCashMoYuVo> getMoYuChooseWithdrawVirtual(@Query("check") String key, @Query("usdt_type") String flag);
 
     /**
      * 虚拟币提款提交【魔域】
@@ -625,7 +622,6 @@ public interface HttpApiService {
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<VirtualConfirmMoYuVo> postMoYuConfirmWithdrawVirtual(@Body Map<String, String> map);
-
 
     /**
      * 返水契约
