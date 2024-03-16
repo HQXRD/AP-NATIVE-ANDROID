@@ -117,6 +117,7 @@
                     android:id="@+id/et_input_money"
                     style="@style/style_bank_edit"
                     android:layout_marginLeft="1dp"
+                    android:drawablePadding="4dp"
                     android:drawableLeft="@mipmap/me_icon_wlt_bank"
                     android:hint="@string/txt_input_money"
                     android:inputType="numberDecimal" />
