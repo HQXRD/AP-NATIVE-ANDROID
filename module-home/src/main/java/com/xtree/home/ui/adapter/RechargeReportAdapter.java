@@ -91,9 +91,9 @@ public class RechargeReportAdapter extends CachedAutoRefreshAdapter<RechargeOrde
             itemWay.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_white, ctx.getResources().newTheme()));
             itemTime.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_white, ctx.getResources().newTheme()));
         } else {
-            itemMoney.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_purple, ctx.getResources().newTheme()));
-            itemWay.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_purple, ctx.getResources().newTheme()));
-            itemTime.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data_purple, ctx.getResources().newTheme()));
+            itemMoney.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data, ctx.getResources().newTheme()));
+            itemWay.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data, ctx.getResources().newTheme()));
+            itemTime.setBackground(ctx.getResources().getDrawable(R.drawable.bg_floating_data, ctx.getResources().newTheme()));
         }
 
         itemWay.setOnClickListener(v -> {
