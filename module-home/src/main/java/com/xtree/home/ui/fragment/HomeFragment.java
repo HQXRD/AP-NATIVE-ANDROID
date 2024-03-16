@@ -82,6 +82,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private boolean selectUpdate;//手动更新余额
     private UpdateVo updateVo;//更新
     private boolean isSelectedGame = false;
+    private int gameGroup = -1;
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -106,7 +107,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
 
     private void refresh() {
-        viewModel.readCache(); // 读取缓存,用户信息可能发生了变更
+        //viewModel.readCache(); // 读取缓存,用户信息可能发生了变更
         TagUtils.tagDailyEvent(getContext());
         checkUpdate(); // 检查更新
         if (!TextUtils.isEmpty(token)) {
@@ -194,8 +195,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             //KLog.d(list.get(0));
             gameAdapter.clear();
             gameAdapter.addAll(list);
-            RadioButton rBtn = (RadioButton) binding.rgpType.getChildAt(0);
-            rBtn.setChecked(true);
+            //RadioButton rBtn = (RadioButton) binding.rgpType.getChildAt(gameGroup);
+            //rBtn.setChecked(true);
+            //smoothToPosition(gameGroup);
         });
 
         viewModel.liveDataPlayUrl.observe(getViewLifecycleOwner(), map -> {
@@ -442,6 +444,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 if (vo.pId != curPId && !isSelectedGame) {
                     curPId = vo.pId;
                     RadioButton rbtn = binding.rgpType.findViewWithTag("tp_" + curPId);
+                    gameGroup = curPId - 1;
                     rbtn.setChecked(true);
                 }
             }
@@ -462,6 +465,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 isSelectedGame = true;
                 String tag = v.getTag().toString();
                 int pid = Integer.parseInt(tag.replace("tp_", ""));
+                gameGroup = pid - 1;
                 smoothToPosition(pid);
             });
         }
