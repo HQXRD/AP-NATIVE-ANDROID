@@ -14,6 +14,7 @@
         android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@mipmap/cm_bg_page"
         android:orientation="vertical">
 
         <View
@@ -94,7 +95,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/ll_root2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/layout_margin">
 
@@ -107,13 +108,13 @@
                     <TextView
                         style="@style/style_cm_title"
                         android:layout_marginTop="0dp"
-                        android:text="@string/txt_choose_recharge_channel" />
+                        android:text="@string/txt_choose_recharge_channel"
+                        android:textSize="15sp" />
 
                     <ImageView
                         android:id="@+id/ivw_1k"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
                         android:layout_marginEnd="4dp"
                         android:src="@mipmap/rc_ic_1k" />
 
@@ -124,14 +125,23 @@
                         android:visibility="invisible" />
 
                     <TextView
+                        android:id="@+id/tvw_anti_fraud"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:drawableStart="@mipmap/cm_ic_anti_fraud"
+                        android:drawablePadding="4dp"
+                        android:text="@string/txt_rc_anti_fraud"
+                        android:textColor="@color/clr_txt_black_01"
+                        android:textSize="12sp" />
+
+                    <TextView
                         android:id="@+id/tvw_tutorial"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
                         android:layout_marginEnd="@dimen/layout_margin"
                         android:drawableStart="@mipmap/cm_ic_tutorial"
                         android:drawablePadding="4dp"
-                        android:paddingTop="4dp"
                         android:text="@string/txt_recharge_tutorial"
                         android:textColor="@color/clr_txt_black_01"
                         android:textSize="12sp" />
@@ -146,6 +156,7 @@
                     android:id="@+id/ll_down"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
                     android:orientation="vertical"
                     android:visibility="gone"
                     tools:visibility="visible">
@@ -418,6 +429,39 @@
                     style="@style/style_rc_tip_small_grey"
                     android:layout_marginBottom="36dp"
                     tools:text="@string/txt_kind_tips" />
+
+                <LinearLayout
+                    android:id="@+id/ll_hi_wallet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/layout_margin"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/cm_ic_hiwallet" />
+
+                    <TextView
+                        android:id="@+id/tvw_hi_wallet"
+                        style="@style/style_rc_tip_small_grey"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/txt_rc_tip_hi_wallet" />
+
+                    <TextView
+                        android:id="@+id/tvw_download"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_rc_btn_download"
+                        android:padding="4dp"
+                        android:text="@string/txt_rc_download"
+                        android:textColor="@color/clr_white" />
+                </LinearLayout>
+
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
