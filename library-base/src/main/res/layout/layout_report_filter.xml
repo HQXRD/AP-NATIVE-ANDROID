@@ -10,8 +10,42 @@
     android:padding="@dimen/layout_margin">
 
     <LinearLayout
+        android:id="@+id/ll_top"
+        style="@style/style_item_ll_row"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tvw_top_title"
+            style="@style/style_filter_info_title"
+            android:text="@string/txt_user_name" />
+
+        <EditText
+            android:id="@+id/edt_top"
+            style="@style/style_filter_info_value"
+            android:background="@color/white"
+            android:enabled="false"
+            android:lines="1"
+            android:text=""
+            android:textColorHint="@color/clr_gray_1"
+            tools:hint="user name" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_div_top"
+        style="@style/style_filter_info_div_row"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView style="@style/style_filter_info_div_left" />
+
+        <View style="@style/style_filter_info_dividing" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/ll_day_start"
-        style="@style/style_filter_info_row">
+        style="@style/style_item_ll_row"
+        android:layout_marginTop="0dp">
 
         <TextView
             style="@style/style_filter_info_title"
@@ -127,6 +161,37 @@
         <View style="@style/style_filter_info_dividing" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_input"
+        style="@style/style_item_ll_row"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tvw_input_title"
+            style="@style/style_filter_info_title"
+            android:text="@string/txt_user_name" />
+
+        <EditText
+            android:id="@+id/edt_input"
+            style="@style/style_filter_info_value"
+            android:background="@color/white"
+            android:lines="1"
+            android:textColorHint="@color/clr_gray_1"
+            tools:hint="user name" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_div_input"
+        style="@style/style_filter_info_div_row"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView style="@style/style_filter_info_div_left" />
+
+        <View style="@style/style_filter_info_dividing" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/tvw_select"
         style="@style/style_btn_small"
@@ -138,6 +203,7 @@
         android:minEms="3"
         android:text="@string/txt_query"
         android:textSize="14sp" />
+
     <ImageView
         android:id="@+id/iv_select"
         android:layout_width="wrap_content"
@@ -145,6 +211,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/fab_margin"
         android:background="@mipmap/me_inquire_bg"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </LinearLayout>
