@@ -7,7 +7,6 @@ import androidx.databinding.ObservableField;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
-import com.lxj.xpopup.XPopup;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.xtree.base.mvvm.model.ToolbarModel;
@@ -15,23 +14,13 @@ import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.widget.FilterView;
 import com.xtree.base.widget.LoadingDialog;
-import com.xtree.base.widget.MsgDialog;
-import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
-import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtHeadModel;
-import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtModel;
-import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtSubModel;
-import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtTotalModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum;
 import com.xtree.mine.ui.rebateagrt.model.RecommendedReportsHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.RecommendedReportsModel;
 import com.xtree.mine.vo.StatusVo;
-import com.xtree.mine.vo.request.DividendAutoSendRequest;
-import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
-import com.xtree.mine.vo.response.DividendAutoSendResponse;
-import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.RecommendedReportsResponse;
 
 import org.reactivestreams.Subscription;
@@ -89,7 +78,7 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
 
         @Override
         public void check() {
-
+            getRecommendedReportsData();
         }
     });
 

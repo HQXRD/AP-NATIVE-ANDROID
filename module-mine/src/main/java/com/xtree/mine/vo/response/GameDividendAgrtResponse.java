@@ -1,7 +1,5 @@
 package com.xtree.mine.vo.response;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,9 +31,7 @@ public class GameDividendAgrtResponse {
     private String peopleType;
     private HashMap<String,String> billStatus;
     private HashMap<String,CyclesDTO> cycles;
-    private SelfBillDTO selfBill;
     private String iUserid;
-    private CurrentCycleDTO currentCycle;
     private SelfPayStatusDTO selfPayStatus;
     private ChildrenBillDTO childrenBill;
     private String pageinfo;
@@ -219,28 +215,12 @@ public class GameDividendAgrtResponse {
         this.cycles = cycles;
     }
 
-    public SelfBillDTO getSelfBill() {
-        return selfBill;
-    }
-
-    public void setSelfBill(SelfBillDTO selfBill) {
-        this.selfBill = selfBill;
-    }
-
     public String getIUserid() {
         return iUserid;
     }
 
     public void setIUserid(String iUserid) {
         this.iUserid = iUserid;
-    }
-
-    public CurrentCycleDTO getCurrentCycle() {
-        return currentCycle;
-    }
-
-    public void setCurrentCycle(CurrentCycleDTO currentCycle) {
-        this.currentCycle = currentCycle;
     }
 
     public SelfPayStatusDTO getSelfPayStatus() {
@@ -444,102 +424,6 @@ public class GameDividendAgrtResponse {
         }
     }
 
-    public static class SelfBillDTO {
-        private int profitloss;
-
-        public int getProfitloss() {
-            return profitloss;
-        }
-
-        public void setProfitloss(int profitloss) {
-            this.profitloss = profitloss;
-        }
-    }
-
-    public static class CurrentCycleDTO {
-        private String id;
-        private String title;
-        private String type;
-        private String cycle_type;
-        private String cycle_date;
-        private String startDate;
-        private String endDate;
-        private String createTime;
-        private String is_pay;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getCycle_type() {
-            return cycle_type;
-        }
-
-        public void setCycle_type(String cycle_type) {
-            this.cycle_type = cycle_type;
-        }
-
-        public String getCycle_date() {
-            return cycle_date;
-        }
-
-        public void setCycle_date(String cycle_date) {
-            this.cycle_date = cycle_date;
-        }
-
-        public String getStartDate() {
-            return startDate;
-        }
-
-        public void setStartDate(String startDate) {
-            this.startDate = startDate;
-        }
-
-        public String getEndDate() {
-            return endDate;
-        }
-
-        public void setEndDate(String endDate) {
-            this.endDate = endDate;
-        }
-
-        public String getCreateTime() {
-            return createTime;
-        }
-
-        public void setCreateTime(String createTime) {
-            this.createTime = createTime;
-        }
-
-        public String getIs_pay() {
-            return is_pay;
-        }
-
-        public void setIs_pay(String is_pay) {
-            this.is_pay = is_pay;
-        }
-    }
-
     public static class SelfPayStatusDTO {
         private int payoff;
         private int owe;
@@ -619,7 +503,7 @@ public class GameDividendAgrtResponse {
 
         public static class AllTotalDTO {
             private int sum_bet;
-            private int sum_profitloss;
+            private String sum_profitloss;
             private int sum_money;
 
             public int getSum_bet() {
@@ -630,11 +514,11 @@ public class GameDividendAgrtResponse {
                 this.sum_bet = sum_bet;
             }
 
-            public int getSum_profitloss() {
+            public String getSum_profitloss() {
                 return sum_profitloss;
             }
 
-            public void setSum_profitloss(int sum_profitloss) {
+            public void setSum_profitloss(String sum_profitloss) {
                 this.sum_profitloss = sum_profitloss;
             }
 
@@ -648,31 +532,31 @@ public class GameDividendAgrtResponse {
         }
 
         public static class CurTotalDTO {
-            private int sum_bet;
-            private int sum_profitloss;
-            private int sum_money;
+            private String sum_bet;
+            private String sum_profitloss;
+            private String sum_money;
 
-            public int getSum_bet() {
+            public String getSum_bet() {
                 return sum_bet;
             }
 
-            public void setSum_bet(int sum_bet) {
+            public void setSum_bet(String sum_bet) {
                 this.sum_bet = sum_bet;
             }
 
-            public int getSum_profitloss() {
+            public String getSum_profitloss() {
                 return sum_profitloss;
             }
 
-            public void setSum_profitloss(int sum_profitloss) {
+            public void setSum_profitloss(String sum_profitloss) {
                 this.sum_profitloss = sum_profitloss;
             }
 
-            public int getSum_money() {
+            public String getSum_money() {
                 return sum_money;
             }
 
-            public void setSum_money(int sum_money) {
+            public void setSum_money(String sum_money) {
                 this.sum_money = sum_money;
             }
         }
