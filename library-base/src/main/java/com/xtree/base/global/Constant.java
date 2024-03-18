@@ -48,6 +48,7 @@ public class Constant {
     public static final String URL_SPORT_RULES = "/static/activity/sportRules/index.html"; // 体育规则
     public static final String URL_QA = "/webapp/#/my/qa"; // 常见问题
     public static final String URL_TUTORIAL = "/static/vir-tutorial/cnyt.html"; // 充值教程
+    public static final String URL_ANTI_FRAUD = "/static/vir-tutorial/antiScam_m.html"; // 防骗教程
     public static final String URL_HELP = "/webapp/#/my/help"; // 帮助中心
     public static final String URL_BET_RECORD = "/webapp/#/report/bet-record"; // 投注记录
     public static final String URL_ACCOUNT_CHANGE = "/webapp/#/report/account-change"; // 账变记录
@@ -56,11 +57,11 @@ public class Constant {
     public static final String URL_APP_CENTER = "/webapp/#/features"; // 底部几个菜单中间的那个
     public static final String URL_LOTTERY_INFO = "/static/activity/xc/lotteryInfo.html"; // 彩种信息
     public static final String URL_PLAY_INTRO = "/static/activity/xc/rulesInfo.html"; // 玩法介绍
-    public static final String CHOOSEACTIVITY_CHOOSE_ENTER_TYPE ="giftMoney" ;//获取礼金
+
+    public static final String URL_DOWNLOAD_HI_WALLET = "https://www.hiwalletapp.com/download"; // 下载嗨钱包
+    public static final String CHOOSEACTIVITY_CHOOSE_ENTER_TYPE = "giftMoney";//获取礼金
 
     public static final int CHOOSEACTIVITY_CHOOSE_TYPE = 0x1888; //获取礼金
     public static final int CHOOSEACTIVITY_CHOOSE_TYPE_ALL = 0x1999; //获取礼金 获取支付方式
-
-
 
 }

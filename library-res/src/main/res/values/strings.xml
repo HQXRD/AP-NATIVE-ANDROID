@@ -61,6 +61,15 @@
     <string name="txt_expired">超时无效</string>
     <string name="txt_settled">已结算</string>
     <string name="txt_unsettle">未结算</string>
+    <string name="txt_add_game">加入游戏</string>
+    <string name="txt_send_bonus">奖金派送</string>
+    <string name="txt_minus_money">追号扣款</string>
+    <string name="txt_now_return_money">当其追号反款</string>
+    <string name="txt_game_minus">游戏扣款</string>
+    <string name="txt_return_order">撤单返款</string>
+    <string name="txt_special_money">特殊金额处理</string>
+    <string name="txt_over_money_minus">单挑超额扣款</string>
+    <string name="txt_over_money_return">单挑超额返款</string>
 
     <string name="txt_bank_process">银行处理中</string>
     <string name="txt_wait_review">等待风控审核</string>
@@ -83,6 +92,7 @@
     <string name="txt_rebate_dj">电竞返水</string>
 
     <string name="txt_report_acc_change">账变记录</string>
+    <string name="txt_report_game_change">游戏账变记录</string>
     <string name="txt_report_profit">盈亏报表</string>
     <string name="txt_report_rebate">返水报表</string>
     <string name="txt_report_3d">三方转账</string>
@@ -128,6 +138,10 @@
     <string name="txt_play_intro">玩法介绍</string>
     <string name="txt_tutorial">教程</string>
 
+    <!-- 充值页 -->
+    <string name="txt_rc_anti_fraud">防骗教程</string>
+    <string name="txt_rc_download">立即下载</string>
+    <string name="txt_rc_tip_hi_wallet">使用嗨钱包支付 0手续费 秒到账</string>
     <string name="txt_rc_bind_personal_info">请先绑定个人信息</string>
     <string name="txt_rc_bind_phone_now">立即绑定手机号</string>
     <string name="txt_rc_bind_bank_card_now">立即绑定银行卡</string>
@@ -136,12 +150,16 @@
     <string name="txt_rc_bind_email">绑定邮箱</string>
     <string name="txt_rc_bind_bank_card_pls">您没有绑定银行卡，请先绑定银行卡</string>
     <string name="txt_rc_tip_latest_balance">已更新到最新余额</string>
+    <string name="txt_rc_not_tip">今日不再提示</string>
+    <string name="txt_rc_i_know_close">我知道了，关闭弹窗</string>
+
     <string name="txt_update">版本更新</string>
     <string name="txt_update_tip">更新中，请稍候...</string>
     <string name="txt_update_down_over_tip">下载完成</string>
     <string name="txt_update_down_fail_tip">下载失败，请稍候重试</string>
     <string name="txt_network_error">网络异常，请稍后重试</string>
     <string name="txt_no_withdrawals_available_tip">您今天已没有可用提款次数</string>
+    <string name="txt_withdrawal_not_supported_tip">暂不支持该渠道提款，请联系您的上级或客服！</string>
 
     <string name="domain_url">http</string>
     <string name="domain_url_list">http;http</string>

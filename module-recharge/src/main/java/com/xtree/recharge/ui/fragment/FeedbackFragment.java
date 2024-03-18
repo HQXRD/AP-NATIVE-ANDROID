@@ -86,7 +86,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
     private ArrayList<FeedbackVo.FeedbackProtocolInfo> protocolInfoArrayList = new ArrayList<>();//虚拟币支付协议
 
     private ArrayList<FeedbackDep> last3DepList = new ArrayList<FeedbackDep>();//反馈中订单信息
-    private FeedbackDep feedbackDep ;
+    private FeedbackDep feedbackDep;
 
     private BasePopupView loadPopView;//loadView
 
@@ -293,16 +293,16 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 }
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
-                    feedbackDep = vo ;
-                    CfLog.i("未到账订单信息是 ：" + showMessage + "feedbackDep = " +feedbackDep);
+                    feedbackDep = vo;
+                    CfLog.i("未到账订单信息是 ：" + showMessage + "feedbackDep = " + feedbackDep);
                     binding.tvwUnreceivedOrders.setText(showMessage);
                     binding.tvDepositTime.setText(time); //存款准确时间
                     //bank_id 支付渠道
-                   // ;
+                    // ;
                     for (int i = 0; i < bankInfoArrayList.size(); i++) {
-                        if (bankInfoArrayList.get(i).id == Integer.valueOf(feedbackDep.bank_id)){
-                            CfLog.i("未到账订单信息是 ：" + showMessage + "feedbackDep = " +feedbackDep + "|支付渠道 =" + bankInfoArrayList.get(i).name);
-                            finalThreeID =bankInfoArrayList.get(i).name ;
+                        if (bankInfoArrayList.get(i).id == Integer.valueOf(feedbackDep.bank_id)) {
+                            CfLog.i("未到账订单信息是 ：" + showMessage + "feedbackDep = " + feedbackDep + "|支付渠道 =" + bankInfoArrayList.get(i).name);
+                            finalThreeID = bankInfoArrayList.get(i).name;
                         }
                     }
                     binding.tvwPaymentChannel.setText(finalThreeID); //支付渠道
@@ -311,8 +311,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                         binding.etDepositAmount.setText(save);
                     }
                     //虚拟币
-                    else
-                    {
+                    else {
                         binding.etVirtualAmount.setText(save);
                     }
 
@@ -523,8 +522,8 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             binding.llVirtualAmount.setVisibility(View.VISIBLE);//虚拟币数量隐藏
             binding.llCollectionWalletAddress.setVisibility(View.VISIBLE);//收款钱包地址隐藏
             //et_virtual_amount
-            CfLog.e("referFeedbackUI = feedbackDep = " +feedbackDep);
-            if (feedbackDep != null){
+            CfLog.e("referFeedbackUI = feedbackDep = " + feedbackDep);
+            if (feedbackDep != null) {
                 binding.etVirtualAmount.setText(feedbackDep.money);
             }
         }
@@ -901,9 +900,11 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                         if (result != null) {
                             for (int i = 0; i < result.size(); i++) {
                                 imageRealPathString = result.get(i).getCompressPath();
+                                if (TextUtils.isEmpty(imageRealPathString)) {
+                                    imageRealPathString = result.get(i).getRealPath();
+                                }
                                 File imageRealPath = new File(imageRealPathString);
                                 if (imageRealPath.exists()) {
-                                    CfLog.i("获取图片地址Base64 ===== " + ImageUploadUtil.bitmapToString(imageRealPathString));
                                     Bitmap bitmap = BitmapFactory.decodeFile(imageRealPathString);
                                     binding.ivSelectorAdd.setVisibility(View.GONE);
                                     binding.ivSelectorTipImage.setVisibility(View.VISIBLE);

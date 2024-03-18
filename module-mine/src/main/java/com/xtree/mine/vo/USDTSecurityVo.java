@@ -1,9 +1,11 @@
 package com.xtree.mine.vo;
 
+import me.xtree.mvvmhabit.http.BaseResponse2;
+
 /**
  * USDT 提款上一步 返回model
  */
-public class USDTSecurityVo {
+public class USDTSecurityVo extends BaseResponse2 {
 
    /* "usdt_card":"******r123",
             "usdtid":3209,

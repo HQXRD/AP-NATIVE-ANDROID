@@ -25,10 +25,11 @@ import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalUsdtBinding;
-import com.xtree.mine.databinding.DialogWithdrawalUsdtConfirmBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.ChooseInfoVo;
 import com.xtree.mine.vo.USDTCashVo;
@@ -48,7 +49,6 @@ import project.tqyb.com.library_res.databinding.ItemTextBinding;
  */
 public class USDTWithdrawalDialog extends BottomPopupView {
     private String type = "USDT";//默认选中USDT提款
-    private Context context;
     private LifecycleOwner owner;
     ChooseWithdrawViewModel viewModel;
     private ChooseInfoVo.ChannelInfo channelInfo;
@@ -61,6 +61,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
     private USDTSecurityVo usdtSecurityVo;
     private USDTConfirmVo usdtConfirmVo;
     private BankWithdrawalDialog.BankWithdrawalClose bankClose;
+
+    private BasePopupView ppwError = null; // 底部弹窗 (显示错误信息)
     private
     @NonNull
     DialogBankWithdrawalUsdtBinding binding;
@@ -71,8 +73,6 @@ public class USDTWithdrawalDialog extends BottomPopupView {
 
     public static USDTWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo, BankWithdrawalDialog.BankWithdrawalClose bankClose) {
         USDTWithdrawalDialog dialog = new USDTWithdrawalDialog(context);
-        context = context;
-        dialog.context = context;
         dialog.owner = owner;
         dialog.channelInfo = channelInfo;
         dialog.bankClose = bankClose;
@@ -131,9 +131,13 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         //USDT提款设置提款请求 返回model
         viewModel.usdtCashVoMutableLiveData.observe(owner, vo -> {
             usdtCashVo = vo;
+
+            if (usdtCashVo == null || usdtCashVo.channel_list == null || usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()) {
+                showError();
+            }
             //异常
-            if (usdtCashVo.msg_type == 2 || usdtCashVo.msg_type == 1) {
-                if (usdtCashVo.message.equals(getContext().getString(R.string.txt_no_withdrawals_available_tip))) {
+            else if (usdtCashVo.msg_type == 2 || usdtCashVo.msg_type == 1) {
+                if (getContext().getString(R.string.txt_no_withdrawals_available_tip).equals(usdtCashVo.message)) {
                     refreshError(usdtCashVo.message);
                 } else {
                     ToastUtils.show(usdtCashVo.message, ToastUtils.ShowType.Fail);
@@ -141,25 +145,56 @@ public class USDTWithdrawalDialog extends BottomPopupView {
                 }
                 return;
             }
+            // 提现选项卡不能为空
+            else if (usdtCashVo.channel_list == null || usdtCashVo.channel_list.isEmpty() ||
+                    usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()) {
+                refreshError(getContext().getString(R.string.txt_network_error));
+                return;
+            } else {
+                for (int i = 0; i < usdtCashVo.usdtinfo.size(); i++) {
+                    if (usdtCashVo.usdtinfo.get(i).usdt_type.contains("TRC20")) {
 
-            for (int i = 0; i < usdtCashVo.usdtinfo.size(); i++) {
-                if (usdtCashVo.usdtinfo.get(i).usdt_type.contains("TRC20")) {
-                    usdtinfoTRC.add(usdtCashVo.usdtinfo.get(i));
+                        usdtinfoTRC.add(usdtCashVo.usdtinfo.get(i));
+                    }
                 }
+                selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
+                refreshSetUI();
             }
-            selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
-            refreshSetUI();
+
         });
         //USDT确认提款信息
         viewModel.usdtSecurityVoMutableLiveData.observe(owner, vo -> {
             usdtSecurityVo = vo;
-            refreshSecurityUI();
+            //|| usdtSecurityVo.user == null
+            if (usdtSecurityVo == null || usdtSecurityVo.datas == null ) {
+                if ("2".equals(usdtSecurityVo.msg_type) &&  "抱歉，您的提款金额低于单笔最低提现金额，请确认后再进行操作".equals(usdtSecurityVo.message)){
+                    ToastUtils.showError(usdtSecurityVo.message);
+                }
+                else {
+                    if (!TextUtils.isEmpty(usdtSecurityVo.message)){
+                        ToastUtils.showError(usdtSecurityVo.message);
+
+                    }else {
+                        ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                        dismiss();
+                    }
+
+                }
+
+            } else {
+                refreshSecurityUI();
+            }
         });
         //USDT完成申请
         viewModel.usdtConfirmVoMutableLiveData.observe(owner, vo -> {
             TagUtils.tagEvent(getContext(), "wd", "ut");
             usdtConfirmVo = vo;
-            refreshConfirmUI();
+            if (usdtConfirmVo.user == null) {
+                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                dismiss();
+            } else {
+                refreshConfirmUI();
+            }
         });
 
     }
@@ -177,12 +212,17 @@ public class USDTWithdrawalDialog extends BottomPopupView {
      */
     private void refreshSetUI() {
         binding.llSetRequestView.setVisibility(View.VISIBLE);
-        if (usdtCashVo.channel_list.size() == 2) {
+        if (usdtCashVo.channel_list.size() == 1) {
+            binding.tvVirtualUsdt.setText(usdtCashVo.channel_list.get(0).title);
+            binding.tvVirtualOther.setVisibility(View.GONE);
+            firstChannel = usdtCashVo.channel_list.get(0);
+        } else if (usdtCashVo.channel_list.size() == 2) {
             binding.tvVirtualUsdt.setText(usdtCashVo.channel_list.get(0).title);
             binding.tvVirtualOther.setText(usdtCashVo.channel_list.get(1).title);
             firstChannel = usdtCashVo.channel_list.get(0);
             secondChannel = usdtCashVo.channel_list.get(1);
         }
+        ///////
         //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
         String showRest = StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.rest));
         String notice = "注意：每天限制提款" + usdtCashVo.times + "次，提款时间为" + usdtCashVo.wraptime.starttime + "至" + usdtCashVo.wraptime.endtime + ",您今日剩余提款额度为 " + showRest + "元";
@@ -191,9 +231,12 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         binding.tvWithdrawalTypeShow.setText("USDT");//提款类型
 
         // binding.tvWithdrawalAmountMethod.setText(usdtCashVo.channel_list.get(0).title);//设置收款USDT账户 firstChannel
-        binding.tvWithdrawalAmountMethod.setText(firstChannel.title);//提款方式
+        if (firstChannel != null && !TextUtils.isEmpty(firstChannel.title)) {
+            binding.tvWithdrawalAmountMethod.setText(firstChannel.title);//提款方式
+        } else if (!TextUtils.isEmpty(usdtCashVo.usdtinfo.get(0).usdt_type)) {
+            binding.tvWithdrawalAmountMethod.setText(usdtCashVo.usdtinfo.get(0).usdt_type);//提款方式设置为提款类型
+        }
         String quota = usdtCashVo.availablebalance;
-
         binding.tvWithdrawalAmountShow.setText(quota);//提款余额
         String temp = usdtCashVo.usdtinfo.get(0).min_money + "元,最高" + usdtCashVo.usdtinfo.get(0).max_money + "元";
         binding.tvWithdrawalTypeShow1.setText(temp);
@@ -235,6 +278,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             binding.tvWithdrawalAmountMethod.setText(firstChannel.title);//提款方式
             CfLog.e("点击 USDT firstChannel.title = " + firstChannel.toString());
         });
+        //飞USDT提款
         binding.tvVirtualOther.setOnClickListener(v -> {
             binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
             binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
@@ -497,5 +541,27 @@ public class USDTWithdrawalDialog extends BottomPopupView {
 
         viewModel.postConfirmWithdrawUSDT(map);
 
+    }
+
+    /* 由于权限原因弹窗*/
+    private void showError() {
+        if (ppwError == null) {
+            final String title = getContext().getString(R.string.txt_kind_tips);
+            final String message = getContext().getString(R.string.txt_withdrawal_not_supported_tip);
+            ppwError = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, message, true, new TipDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    ppwError.dismiss();
+                    dismiss();
+                }
+
+                @Override
+                public void onClickRight() {
+                    ppwError.dismiss();
+                    dismiss();
+                }
+            }));
+        }
+        ppwError.show();
     }
 }

@@ -27,6 +27,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -51,12 +53,20 @@ import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
+/**
+ * 浏览器页面 <p/>
+ * 默认: (活动,邀请好友/VIP/...) 带header和token; <br/>
+ * 彩票: 带header, 隐藏标题头;
+ * 三方链接: (三方游戏/H5充值) 不带header和token;
+ */
 public class BrowserActivity extends AppCompatActivity {
     public static final String ARG_TITLE = "title";
     public static final String ARG_URL = "url";
     public static final String ARG_IS_CONTAIN_TITLE = "isContainTitle";
     public static final String ARG_IS_SHOW_LOADING = "isShowLoading";
     public static final String ARG_IS_GAME = "isGame";
+    public static final String ARG_IS_LOTTERY = "isLottery";
+    public static final String ARG_IS_3RD_LINK = "is3rdLink";
 
     View vTitle;
     TextView tvwTitle;
@@ -71,13 +81,14 @@ public class BrowserActivity extends AppCompatActivity {
 
     int sslErrorCount = 0;
 
-    boolean isLottery = false;
+    boolean isLottery = false; // 是否彩票, 彩票需要header,需要注入IOS标题头样式
     boolean isShowLoading = false; // 展示loading弹窗
 
     String title = "";
     String url = "";
     boolean isContainTitle = false; // 网页自身是否包含标题(少数情况下会包含)
-
+    boolean isGame = false; // 三方游戏, 不需要header和token
+    boolean is3rdLink = false; // 是否跳转到三方链接(如果是,就不用带header和cookie了)
     ValueCallback<Uri> mUploadCallbackBelow;
     ValueCallback<Uri[]> mUploadCallbackAboveL;
 
@@ -90,11 +101,28 @@ public class BrowserActivity extends AppCompatActivity {
         title = getIntent().getStringExtra(ARG_TITLE);
         isContainTitle = getIntent().getBooleanExtra(ARG_IS_CONTAIN_TITLE, false);
         isShowLoading = getIntent().getBooleanExtra(ARG_IS_SHOW_LOADING, false);
+        isGame = getIntent().getBooleanExtra(ARG_IS_GAME, false);
+        isLottery = getIntent().getBooleanExtra(ARG_IS_LOTTERY, false);
+        is3rdLink = getIntent().getBooleanExtra(ARG_IS_3RD_LINK, false);
+
         if (!TextUtils.isEmpty(title)) {
             tvwTitle.setText(title);
         }
         if (isContainTitle) {
-            vTitle.setVisibility(View.GONE);
+            //vTitle.setVisibility(View.GONE);
+            // 创建一个 ConstraintLayout 对象
+            ConstraintLayout constraintLayout = findViewById(R.id.cl_root);
+            // 创建一个 ConstraintSet 对象
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(constraintLayout);
+            // 设置某个 View 的 layout_constraintTop_toTopOf 属性
+            constraintSet.connect(R.id.wv_main, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP, 0);
+            // 应用 ConstraintSet 中的设置
+            constraintSet.applyTo(constraintLayout);
+            findViewById(R.id.cl_title).setOnClickListener(v -> {
+                // 解决点击左右上角会触发被遮挡的按钮
+                CfLog.i("******");
+            });
         }
 
         String cookie = "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN)
@@ -114,9 +142,13 @@ public class BrowserActivity extends AppCompatActivity {
 
         //header.put("Source", "8");
         //header.put("UUID", TagUtils.getDeviceId(Utils.getContext()));
+        if (isGame || is3rdLink) {
+            CfLog.d("not need header.");
+            header.clear(); // 三方游戏不带header
+        }
         CfLog.d("header: " + header); // new Gson().toJson(header)
         url = getIntent().getStringExtra("url");
-        isLottery = getIntent().getBooleanExtra("isLottery", false);
+
         //setCookie(cookie, url); // 设置 cookie
         Uri uri = getIntent().getData();
         if (uri != null && TextUtils.isEmpty(url)) {
@@ -131,7 +163,7 @@ public class BrowserActivity extends AppCompatActivity {
             }
             mWebView.loadUrl(url, header);
         }
-        boolean isGame = getIntent().getBooleanExtra(ARG_IS_GAME, false);
+
         if (isGame) {
             layoutRight.setVisibility(View.VISIBLE);
             initRight();
@@ -214,6 +246,8 @@ public class BrowserActivity extends AppCompatActivity {
                 //Log.d("---", "onPageStarted url:  " + url);
                 if (isLottery) {
                     setLotteryCookieInside();
+                } else if (isGame || is3rdLink) {
+                    CfLog.d("not need cookie.");
                 } else {
                     setCookieInside();
                 }

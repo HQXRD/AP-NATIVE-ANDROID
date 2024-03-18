@@ -38,6 +38,7 @@
             android:text="@string/txt_balance" />
 
         <TextView
+            android:id="@+id/tvw_status_title"
             style="@style/style_item_report_title_end"
             android:text="@string/txt_status" />
     </LinearLayout>

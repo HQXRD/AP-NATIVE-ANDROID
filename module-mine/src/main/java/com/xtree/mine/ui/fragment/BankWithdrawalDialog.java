@@ -37,6 +37,8 @@ import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalBankNewBinding;
@@ -92,6 +94,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     private FruitHorRecyclerViewAdapter recyclerViewAdapter;
     private BasePopupView ppw2;//绑卡
+    private BasePopupView ppwError = null; // 底部弹窗 (显示错误信息)
 
     public static BankWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo, BankWithdrawalClose bankClose, BankWithdrawaDialogClose dialogClose) {
         BankWithdrawalDialog dialog = new BankWithdrawalDialog(context);
@@ -294,10 +297,12 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     private void initViewObservable() {
         //银行卡提现详情model
         viewModel.channelDetailVoMutableLiveData.observe(this.owner, vo -> {
-            bankCardCashVo = vo;
             dismissLoading();
-            //"message": "您今天已没有可用提款次数"
-            if (!TextUtils.isEmpty(bankCardCashVo.message) && bankCardCashVo.message.equals(getContext().getString(R.string.txt_no_withdrawals_available_tip))) {
+            bankCardCashVo = vo;
+            if (bankCardCashVo == null || bankCardCashVo.banks == null || bankCardCashVo.banks.isEmpty() || bankCardCashVo.channel_list == null || bankCardCashVo.channel_list.isEmpty()) {
+                showError();
+            } else if (!TextUtils.isEmpty(bankCardCashVo.message) && getContext().getString(R.string.txt_no_withdrawals_available_tip).equals(bankCardCashVo.message)) {
+                //"message": "您今天已没有可用提款次数"
                 refreshErrByNumber(bankCardCashVo.message);
                 return;
             } else if (bankCardCashVo.msg_type == 1 || bankCardCashVo.msg_type == 2) {
@@ -313,12 +318,18 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 //3.刷新第一次获取的数据
                 refreshInitView(bankCardCashVo);
             }
-
         });
         //银行卡提现
         viewModel.platwithdrawVoMutableLiveData.observe(this.owner, vo -> {
             platWithdrawVo = vo;
-            if (platWithdrawVo.msg_type == 2) {
+            if (platWithdrawVo == null || platWithdrawVo.user == null) {
+                if (platWithdrawVo.datas == null && "2".equals(platWithdrawVo.msg_type) && !TextUtils.isEmpty(platWithdrawVo.message)) {
+                    ToastUtils.showError(platWithdrawVo.message);
+                } else {
+                    ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                    dismiss();
+                }
+            } else if (platWithdrawVo.msg_type == 2) {
                 showError(platWithdrawVo.message);
             } else {
                 refreshWithdrawView(platWithdrawVo);
@@ -328,7 +339,17 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         viewModel.platWithdrawConfirmVoMutableLiveData.observe(this.owner, ov -> {
             TagUtils.tagEvent(getContext(), "wd", "bkc");
             platWithdrawConfirmVo = ov;
-            refreshWithdrawConfirmView(platWithdrawConfirmVo);
+            if (platWithdrawConfirmVo == null || platWithdrawConfirmVo.user == null) {
+                if (!TextUtils.isEmpty(platWithdrawConfirmVo.message)){
+                    ToastUtils.showError(platWithdrawConfirmVo.message);
+                }else {
+                    ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                    dismiss();
+                }
+            } else {
+                refreshWithdrawConfirmView(platWithdrawConfirmVo);
+            }
+
         });
     }
 
@@ -979,6 +1000,28 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /*关闭loading*/
     private void dismissLoading() {
         ppw2.dismiss();
+    }
+
+    /* 由于权限原因弹窗*/
+    private void showError() {
+        if (ppwError == null) {
+            final String title = getContext().getString(R.string.txt_kind_tips);
+            final String message = getContext().getString(R.string.txt_withdrawal_not_supported_tip);
+            ppwError = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, message, true, new TipDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    ppwError.dismiss();
+                    dismiss();
+                }
+
+                @Override
+                public void onClickRight() {
+                    ppwError.dismiss();
+                    dismiss();
+                }
+            }));
+        }
+        ppwError.show();
     }
 
 }

@@ -142,7 +142,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 //网络异常
                 callBack.closeDialogByError();
             } else {
-                if (!TextUtils.isEmpty(chooseInfoVo.msg_type) && chooseInfoVo.msg_type.equals("2")) {
+                if (!TextUtils.isEmpty(chooseInfoVo.msg_type) && "2".equals(chooseInfoVo.msg_type)) {
                     //异常状态
                     showErrorDialog(chooseInfoVo.message);
                 } else if (TextUtils.isEmpty(chooseInfoVo.error) || chooseInfoVo.error == null) {
@@ -169,18 +169,15 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 public void onClick(String txt, ChooseInfoVo.ChannelInfo channelInfo) {
 
                     ChooseInfoVo.ChannelInfo channel = channelInfo;
-                    CfLog.i("ChooseAdapter channel = " + channel.toString());
                     if (channel.channeluse == 0)//显示弹窗
                     {
-                        if (channel.bindType.equals("bindcard") && (channel.flag == false)) {
+                        if ("bindcard".equals(channel.bindType) && (channel.flag == false)) {
                             showBankMessageDialog(channel, channel.channeluseMessage);
                         } else if (channel.channeluseMessage.contains("首次提款仅可使用银行卡方式提款")) {
                             showErrorDialog(channel.channeluseMessage);
                         } else {
                             showMessageDialog(channelInfo, channel.channeluseMessage);
                         }
-
-                        CfLog.i("conClick" + channelInfo.channeluseMessage);
 
                     } else {
                         if (chooseInfoVo.bankchanneluse == 1 && txt.equals("银行卡提款")) {
@@ -221,7 +218,6 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     }
 
     private class ChooseAdapter extends BaseAdapter {
-        private LayoutInflater mInflater;
         private IChooseCallback callBack;
         private Context context;
         private ArrayList<ChooseInfoVo.ChannelInfo> chooseInfoVoArrayList;
@@ -401,7 +397,6 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     public void onClickLeft() {
                         ppw.dismiss();
                         callBack.closeDialog();
-
                     }
 
                     @Override

@@ -1,6 +1,8 @@
 package com.xtree.recharge.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -25,6 +27,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserDialog;
@@ -168,6 +171,17 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, tutorialUrl)).show();
             }
         });
+        binding.tvwAntiFraud.setOnClickListener(v -> {
+            // 防骗教程
+            String title = getString(R.string.txt_rc_anti_fraud);
+            String url = DomainUtil.getDomain2() + Constant.URL_ANTI_FRAUD;
+            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+        });
+        binding.tvwDownload.setOnClickListener(v -> {
+            // 下载嗨钱包
+            String url = Constant.URL_DOWNLOAD_HI_WALLET;
+            getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        });
 
         binding.tvwBindPhone.setOnClickListener(v -> {
             //
@@ -289,7 +303,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i(vo.toString());
         CfLog.i("****** " + vo.title);
         boolean isRecommend = vo.tips_recommended == 1;
-        if ("1".equals(vo.low_rate_hint) && !isRecommend && !mRecommendList.isEmpty()) {
+        if ("1".equals(vo.low_rate_hint) && !isRecommend && !mRecommendList.isEmpty() && isTipTodayLow()) {
             // 提示成功率低
             CfLog.i("****** 提示成功率低");
             String msg = getString(R.string.txt_rc_channel_low_rate_hint, vo.title);
@@ -718,6 +732,16 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         binding.tvwPrePay.setText(usdt);
     }
 
+    private void setHiWallet(PaymentVo vo) {
+        binding.llHiWallet.setVisibility(View.GONE);
+        for (RechargeVo t : vo.chongzhiList) {
+            if (!TextUtils.isEmpty(t.paycode) && t.paycode.contains("hiwallet")) {
+                binding.llHiWallet.setVisibility(View.VISIBLE);
+                return;
+            }
+        }
+    }
+
     @Override
     public void initViewObservable() {
 
@@ -735,6 +759,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             setMainList(vo.chongzhiList); // 显示充值列表九宫格
             showProcessDialog(vo.processingData); // 检查弹窗 充值次数
             setTipBottom(new RechargeVo()); // 恢复底部的默认提示
+            setHiWallet(vo); // 显示/隐藏底部的 下载嗨钱包
         });
         viewModel.liveDataRechargeList.observe(getViewLifecycleOwner(), list -> {
             setRecommendList(); // 推荐的充值列表
@@ -751,7 +776,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 url = DomainUtil.getDomain2() + url;
             }
             CfLog.d(vo.title + ", jump: " + url);
-            new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BrowserDialog(getContext(), vo.title, url)).show();
+            BrowserDialog dialog = new BrowserDialog(getContext(), vo.title, url, false, false, true);
+            new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(dialog).show();
         });
 
         viewModel.liveDataRechargePay.observe(getViewLifecycleOwner(), vo -> {
@@ -905,12 +931,36 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     .asCustom(dialog);
             ppw2.show();
 
-        } else if (vo.userProcessCount > 0) {
+        } else if (vo.userProcessCount > 0 && isTipTodayCount()) {
             // 您已经连续充值 次, 为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！
             CfLog.i("****** 您已经连续充值 次");
             String msg = getString(R.string.txt_rc_count_low_rate_hint, vo.userProcessCount);
             showRecommendDialog(msg, null);
         }
+    }
+
+    /**
+     * 是否弹窗(充值次数)
+     * 单号: 2684, 2024-03-15
+     *
+     * @return true:默认弹提示, false:今日不弹提示
+     */
+    private boolean isTipTodayCount() {
+        String cacheDay = SPUtils.getInstance().getString(SPKeyGlobal.RC_NOT_TIP_TODAY_COUNT, "");
+        String today = TimeUtils.getCurDate();
+        return !today.equals(cacheDay);
+    }
+
+    /**
+     * 是否弹窗(成功率低)
+     * 单号: 2519, 2024-03-15
+     *
+     * @return true:默认弹提示, false:今日不弹提示
+     */
+    private boolean isTipTodayLow() {
+        String cacheDay = SPUtils.getInstance().getString(SPKeyGlobal.RC_NOT_TIP_TODAY_LOW, "");
+        String today = TimeUtils.getCurDate();
+        return !today.equals(cacheDay);
     }
 
     private void showRecommendDialog(String msg, RechargeVo vo) {

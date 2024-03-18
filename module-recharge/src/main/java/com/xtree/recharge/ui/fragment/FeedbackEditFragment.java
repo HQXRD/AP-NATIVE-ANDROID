@@ -721,6 +721,9 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
                 if (result != null) {
                     for (int i = 0; i < result.size(); i++) {
                         imageRealPathString = result.get(i).getCompressPath();
+                        if (TextUtils.isEmpty(imageRealPathString)) {
+                            imageRealPathString = result.get(i).getRealPath();
+                        }
                         File imageRealPath = new File(imageRealPathString);
 
                         if (imageRealPath.exists()) {
