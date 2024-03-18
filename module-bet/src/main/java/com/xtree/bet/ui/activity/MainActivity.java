@@ -27,6 +27,7 @@ import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.MenuItemView;
 import com.xtree.bet.BR;
 import com.xtree.bet.R;
+import com.xtree.bet.bean.response.fb.HotLeague;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.constant.Constants;
@@ -106,6 +107,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private int playMethodType = 6;
     private int playMethodPos;
     private int sportTypePos = -1;
+    private int hotLeaguePos;
     private int mOrderBy = 1;
     private int mOddType = 1;
 
@@ -117,6 +119,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private ImageView ivHeaderName;
     private int mHotMatchCount;
     private String mSportName;
+    private List<HotLeague> mLeagueItemList;
 
     public List<League> getSettingLeagueList() {
         return settingLeagueList;
@@ -285,6 +288,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     showSearchDate();
                     sportTypePos = tab.getPosition();
                     mSportName = viewModel.getSportName(playMethodType)[sportTypePos];
+                    viewModel.setHotLeagueList(mSportName);
                     mLeagueGoingOnList.clear();
                     mLeagueList.clear();
                     updateStatisticalData();
@@ -312,12 +316,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.tabSearchDate.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mLeagueList.clear();
-                mLeagueGoingOnList.clear();
                 if (searchDatePos != tab.getPosition()) {
+                    mLeagueList.clear();
+                    mLeagueGoingOnList.clear();
                     binding.srlLeague.resetNoMoreData();
                     mIsChange = true;
-                    mLeagueIdList.clear();
                     if (playMethodPos == 2 || playMethodPos == 3) {
                         searchDatePos = tab.getPosition();
                         viewModel.statistical(playMethodType);
@@ -325,6 +328,35 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                         getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
                                 playMethodType, searchDatePos, false, true);
                     }
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        binding.tabFbLeague.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+                if (hotLeaguePos != tab.getPosition()) {
+                    hotLeaguePos = tab.getPosition();
+                    mLeagueList.clear();
+                    mLeagueGoingOnList.clear();
+                    binding.srlLeague.resetNoMoreData();
+                    mIsChange = true;
+                    mLeagueIdList.clear();
+                    mLeagueIdList.addAll(mLeagueItemList.get(hotLeaguePos).leagueid);
+                    viewModel.statistical(playMethodType);
+                    initTimer();
+                    getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
+                            playMethodType, searchDatePos, false, true);
                 }
             }
 
@@ -812,21 +844,29 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
 
         });
-        viewModel.leagueItemData.observe(this, leagueItem -> {
-            for (int i = 0; i < leagueItem.getLeagueNameList().length; i++) {
-                View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_league_tab_item, null);
-                TextView tvName = view.findViewById(R.id.tab_item_name);
-                ImageView ivIcon = view.findViewById(R.id.iv_icon);
-                String name = leagueItem.getLeagueNameList()[i];
-                if (TextUtils.equals(name, "全部")) {
-                    ivIcon.setVisibility(View.GONE);
+        viewModel.leagueItemData.observe(this, leagueItemList -> {
+            mLeagueItemList = leagueItemList;
+            if (leagueItemList == null) {
+                binding.tabFbLeague.setVisibility(View.GONE);
+            } else {
+                binding.tabFbLeague.setVisibility(View.VISIBLE);
+                binding.tabFbLeague.removeAllTabs();
+                for (int i = 0; i < leagueItemList.size(); i++) {
+                    View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_league_tab_item, null);
+                    TextView tvName = view.findViewById(R.id.tab_item_name);
+                    ImageView ivIcon = view.findViewById(R.id.iv_icon);
+                    String name = leagueItemList.get(i).name;
+                    if (TextUtils.equals(name, "全部")) {
+                        ivIcon.setVisibility(View.GONE);
+                    }
+                    ivIcon.setBackgroundResource(Constants.getHotLeagueIcon(leagueItemList.get(i).code));
+
+                    tvName.setText(name);
+                    ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_bet_top_tab_item_text);
+                    tvName.setTextColor(colorStateList);
+
+                    binding.tabFbLeague.addTab(binding.tabFbLeague.newTab().setCustomView(view));
                 }
-
-                tvName.setText(name);
-                ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_bet_top_tab_item_text);
-                tvName.setTextColor(colorStateList);
-
-                binding.tabFbLeague.addTab(binding.tabFbLeague.newTab().setCustomView(view));
             }
         });
 
@@ -1047,10 +1087,10 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 setWaitingAllExpand(true);
                 goingOnExpandOrCollapseGroup();
                 waitingExpandOrCollapseGroup();
-                if(!mLeagueList.isEmpty()) {
+                if (!mLeagueList.isEmpty()) {
                     mIsChange = false;
                 }
-            }else {
+            } else {
 
             }
         }
@@ -1230,7 +1270,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 ToastUtils.showLong(getText(R.string.bt_bt_must_have_two_match));
                 return;
             }
-            if(ClickUtil.isFastClick()){
+            if (ClickUtil.isFastClick()) {
                 return;
             }
             BtCarDialogFragment btCarDialogFragment = new BtCarDialogFragment();

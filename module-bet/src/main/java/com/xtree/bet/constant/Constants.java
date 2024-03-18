@@ -6,6 +6,10 @@ import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 
+import com.xtree.bet.R;
+import com.xtree.bet.bean.response.fb.HotLeague;
+
+import java.util.List;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -61,12 +65,42 @@ public class Constants {
             project.tqyb.com.library_res.R.drawable.bt_match_item_pq_selector,
             project.tqyb.com.library_res.R.drawable.bt_match_item_sq_selector};
 
+    /**
+     * 获取比分类型
+     * @return
+     */
     public static String getScoreType(){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
         if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
             return String.valueOf(FBConstants.SCORE_TYPE_SCORE);
         }else {
             return PMConstants.SCORE_TYPE_SCORE;
+        }
+    }
+
+    /**
+     * 获取红牌比分类型
+     * @return
+     */
+    public static String getRedCardType(){
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            return String.valueOf(FBConstants.SCORE_TYPE_RED_CARD);
+        }else {
+            return PMConstants.SCORE_TYPE_RED_CARD;
+        }
+    }
+
+    /**
+     * 获取黄牌比分类型
+     * @return
+     */
+    public static String getYellowCardType(){
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            return String.valueOf(FBConstants.SCORE_TYPE_YELLOW_CARD);
+        }else {
+            return PMConstants.SCORE_TYPE_YELLOW_CARD;
         }
     }
 
@@ -102,6 +136,45 @@ public class Constants {
             return FBConstants.SPORT_ID_BSB;
         }else {
             return PMConstants.SPORT_ID_BSB;
+        }
+    }
+
+    /**
+     * 获取热门联赛icon
+     * @return
+     */
+    public static int getHotLeagueIcon(String code){
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            return FBConstants.getHotLeagueIcon(code);
+        }else {
+            return PMConstants.getHotLeagueIcon(code);
+        }
+    }
+
+    /**
+     * 获取足球热门联赛数据
+     * @return
+     */
+    public static List<HotLeague> getHotFootBallLeagueTopList(){
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            return FBConstants.getHotFootBallLeagueTopList();
+        }else {
+            return PMConstants.getHotFootBallLeagueTopList();
+        }
+    }
+
+    /**
+     * 获取足球热门联赛数据
+     * @return
+     */
+    public static List<HotLeague> getHotBasketBallLeagueTopList(){
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            return FBConstants.getHotBasketFootBallLeagueTopList();
+        }else {
+            return PMConstants.getHotBasketFootBallLeagueTopList();
         }
     }
 

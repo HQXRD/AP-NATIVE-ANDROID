@@ -466,7 +466,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                             if (binding.tabCategoryType == null) {
                                 CfLog.e("=========binding.tabCategoryType == null=========");
                             }
-                            if (categories.get(i) == null && binding.tabCategoryType != null) {
+                            if (categories.get(i) == null && binding.tabCategoryType != null && i < binding.tabCategoryType.getTabCount()) {
                                 binding.tabCategoryType.removeTabAt(i);
                                 if (binding.tabCategoryType.getTabCount() == 0) {
                                     binding.rlPlayMethod.setVisibility(View.GONE);
