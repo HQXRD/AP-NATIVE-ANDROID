@@ -62,7 +62,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         if (TextUtils.isEmpty(token)) {
             binding.ivwSetting.setClickable(false);
             binding.ivwMsg.setClickable(false);
-            binding.tvwQa.setClickable(false);
+            //binding.tvwQa.setClickable(false);
             binding.btnLogout.setVisibility(View.INVISIBLE);
             setChildClickable(binding.llMenu, false);
             setChildClickable(binding.llMenu01, false);
@@ -70,7 +70,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         } else {
             binding.ivwSetting.setClickable(true);
             binding.ivwMsg.setClickable(true);
-            binding.tvwQa.setClickable(true);
+            //binding.tvwQa.setClickable(true);
             binding.btnLogout.setVisibility(View.VISIBLE);
             setChildClickable(binding.llMenu, true);
             setChildClickable(binding.llMenu01, true);
@@ -180,16 +180,21 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             startContainerFragment(RouterFragmentPath.Mine.PAGER_THIRD_TRANSFER); // 三方转账
         });
 
+        //binding.tvwSecurityCenter.setOnClickListener(v -> {
+        //    // 安全中心
+        //    startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
+        //});
+
         binding.tvwAccMg.setOnClickListener(v -> {
             showAccountMgmt();
         });
 
-        binding.tvwPhyRegular.setOnClickListener(v -> {
+        binding.tvwSportRegular.setOnClickListener(v -> {
             goWebView(v, Constant.URL_SPORT_RULES, false);
         });
 
-        binding.tvwUsdtToturial.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_SPORT_RULES, false);
+        binding.tvwTutorial.setOnClickListener(v -> {
+            goWebView(v, Constant.URL_TUTORIAL, false);
         });
 
         //VIP中心
@@ -205,13 +210,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         //binding.tvwFanhuiBaobiao.setOnClickListener(v -> {
         //    startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_REPORT); // 返水报表
         //});
-
-        //binding.tvwTiyuGuize.setOnClickListener(v -> {
-        //    goWebView(v, Constant.URL_SPORT_RULES, false);
+        //binding.tvwQa.setOnClickListener(v -> {
+        //    startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
         //});
-        binding.tvwQa.setOnClickListener(v -> {
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
-        });
         binding.tvwHelp.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
         });

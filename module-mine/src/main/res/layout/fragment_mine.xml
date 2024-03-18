@@ -299,7 +299,7 @@
                     <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:id="@+id/tvw_phy_regular"
+                        android:id="@+id/tvw_sport_regular"
                         style="@style/style_menu_black"
                         android:drawableTop="@mipmap/me_gr_rule"
                         android:text="@string/me_tiyu_guize" />
@@ -307,7 +307,7 @@
                     <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:id="@+id/tvw_usdt_toturial"
+                        android:id="@+id/tvw_tutorial"
                         style="@style/style_menu_black"
                         android:drawableTop="@mipmap/me_gr_usdt"
                         android:text="@string/txt_usdt_tutorial" />
@@ -332,13 +332,11 @@
                     <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:id="@+id/tvw_tutorial"
                         style="@style/style_menu_black" />
 
                     <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:id="@+id/tvw_qa"
                         style="@style/style_menu_black" />
                 </LinearLayout>
             </LinearLayout>
