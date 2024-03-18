@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xtree.mine.R;
-import com.xtree.mine.vo.BankCardCashVo;
+import com.xtree.mine.vo.BankCardCashMoYuVo;
 
 import java.util.ArrayList;
 
@@ -23,10 +23,10 @@ import java.util.ArrayList;
 public class FruitHorRecyclerViewAdapter extends RecyclerView.Adapter
 {
     private Context context ;
-    private ArrayList<BankCardCashVo.ChannelVo> arrayList ;
+    private ArrayList<BankCardCashMoYuVo.ChannelVo> arrayList ;
     private IFruitHorCallback callback ;
 
-    public FruitHorRecyclerViewAdapter(Context context , ArrayList<BankCardCashVo.ChannelVo> arrayList , IFruitHorCallback callback)
+    public FruitHorRecyclerViewAdapter(Context context , ArrayList<BankCardCashMoYuVo.ChannelVo> arrayList , IFruitHorCallback callback)
     {
         super();
         this.context = context ;
@@ -67,7 +67,7 @@ public class FruitHorRecyclerViewAdapter extends RecyclerView.Adapter
 
         });
     }
-    private void referArray(BankCardCashVo.ChannelVo viewModel , ArrayList<BankCardCashVo.ChannelVo> arrayList)
+    private void referArray(BankCardCashMoYuVo.ChannelVo viewModel , ArrayList<BankCardCashMoYuVo.ChannelVo> arrayList)
     {
         for (int i = 0; i < arrayList.size(); i++)
         {

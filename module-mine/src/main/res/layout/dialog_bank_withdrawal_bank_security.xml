@@ -113,10 +113,11 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true">
 
-                <EditText
+                <com.xtree.base.widget.RegionNumberEditText
                     android:id="@+id/et_input_money"
                     style="@style/style_bank_edit"
-                    android:layout_marginLeft="18dp"
+                    android:layout_marginLeft="1dp"
+                    android:drawablePadding="4dp"
                     android:drawableLeft="@mipmap/me_icon_wlt_bank"
                     android:hint="@string/txt_input_money"
                     android:inputType="numberDecimal" />
@@ -207,13 +208,18 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
-                <ImageView
+                <Button
                     android:id="@+id/tv_actual_withdrawal_next"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:layout_centerHorizontal="true"
-                    android:background="@mipmap/cm_btn_withdrawal_next" />
+                    android:text="下一步"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:background="@drawable/bt_bg_withdrawal_next"
+                    />
 
                 <TextView
                     android:id="@+id/tv_actual_withdrawal_tip"

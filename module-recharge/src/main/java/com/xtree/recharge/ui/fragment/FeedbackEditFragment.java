@@ -716,37 +716,40 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
                 .setImageEngine(GlideEngine.createGlideEngine())
                 .setCompressEngine(ImageFileCompressEngine.create())
                 .forResult(new OnResultCallbackListener<LocalMedia>() {
-            @Override
-            public void onResult(ArrayList<LocalMedia> result) {
-                if (result != null) {
-                    for (int i = 0; i < result.size(); i++) {
-                        imageRealPathString = result.get(i).getCompressPath();
-                        File imageRealPath = new File(imageRealPathString);
+                    @Override
+                    public void onResult(ArrayList<LocalMedia> result) {
+                        if (result != null) {
+                            for (int i = 0; i < result.size(); i++) {
+                                imageRealPathString = result.get(i).getCompressPath();
+                                if (TextUtils.isEmpty(imageRealPathString)) {
+                                    imageRealPathString = result.get(i).getRealPath();
+                                }
+                                File imageRealPath = new File(imageRealPathString);
 
-                        if (imageRealPath.exists()) {
-                            CfLog.i("获取图片地址Base64 ===== " + ImageUploadUtil.bitmapToString(imageRealPathString));
-                            Bitmap bitmap = BitmapFactory.decodeFile(imageRealPathString);
-                            binding.ivSelectorTipImage.setVisibility(View.VISIBLE);
-                            binding.ivSelectorTipImage.setImageBitmap(bitmap);
-                            imageSelector = true;//向界面设置了选中图片
-                        } else {
-                            CfLog.i("获取图片地址不存在是 ====== " + result.get(i).getRealPath());
+                                if (imageRealPath.exists()) {
+                                    CfLog.i("获取图片地址Base64 ===== " + ImageUploadUtil.bitmapToString(imageRealPathString));
+                                    Bitmap bitmap = BitmapFactory.decodeFile(imageRealPathString);
+                                    binding.ivSelectorTipImage.setVisibility(View.VISIBLE);
+                                    binding.ivSelectorTipImage.setImageBitmap(bitmap);
+                                    imageSelector = true;//向界面设置了选中图片
+                                } else {
+                                    CfLog.i("获取图片地址不存在是 ====== " + result.get(i).getRealPath());
+                                }
+                                if (PictureMimeType.isContent(imageRealPathString)) {
+                                    imageUri = Uri.parse(imageRealPathString);
+                                } else {
+                                    imageUri = Uri.fromFile(new File(imageRealPathString));
+                                }
+                                CfLog.i("获取图片地址是 uri ====== " + imageUri);
+                            }
                         }
-                        if (PictureMimeType.isContent(imageRealPathString)) {
-                            imageUri = Uri.parse(imageRealPathString);
-                        } else {
-                            imageUri = Uri.fromFile(new File(imageRealPathString));
-                        }
-                        CfLog.i("获取图片地址是 uri ====== " + imageUri);
                     }
-                }
-            }
 
-            @Override
-            public void onCancel() {
+                    @Override
+                    public void onCancel() {
 
-            }
-        });
+                    }
+                });
     }
 
     /**

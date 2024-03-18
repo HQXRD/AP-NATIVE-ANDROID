@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * 可选择的提款方式
  */
-public class ChooseInfoVo  {
+public class ChooseInfoVo {
     public int  networkStatus ;//1 网络链接超时 ；2 网络链接异常 ；0 网络链接正常
     @Override
     public String toString() {
@@ -61,20 +61,20 @@ public class ChooseInfoVo  {
                 "bankcardstatus_gobao":true,
                 "bankcardstatus_gopay":true,
                 "bankcardstatus_okpay":false,*/
-    public  boolean check ;
-    public String  msg_detail ; // "抱歉，您的有效流水不足，仍需要 1008.54 才可提款",
-    public String msg_type ;//2
-    public String error ;//"error"
-    public String message ;
+    public boolean check;
+    public String msg_detail; // "抱歉，您的有效流水不足，仍需要 1008.54 才可提款",
+    public String msg_type;//2
+    public String error;//"error"
+    public String message;
     public boolean bankcardstatus_okpay;
-    public boolean  bankcardstatus_gopay ;
-    public boolean bankcardstatus_gobao ;
-    public boolean bankcardstatus_mpay ;
-    public boolean bankcardstatus_hiwallet ;
-    public  boolean  bankcardstatus_topay ;
-    public boolean bankcardstatus_ebpay ;
-    public boolean bankcardstatus_rmb ;
-    public  boolean bankcardstatus_usdt ;
+    public boolean bankcardstatus_gopay;
+    public boolean bankcardstatus_gobao;
+    public boolean bankcardstatus_mpay;
+    public boolean bankcardstatus_hiwallet;
+    public boolean bankcardstatus_topay;
+    public boolean bankcardstatus_ebpay;
+    public boolean bankcardstatus_rmb;
+    public boolean bankcardstatus_usdt;
 
     public int usdtchanneluse;
     public String usdtchanneluse_msg;
@@ -117,22 +117,21 @@ public class ChooseInfoVo  {
    /* ;
     public Info usdtInfo ,ebpayInfo ,topayInfo ,hiwalletInfo,okpayInfo;
     */
-    public Info usdtInfo ;
-    public User user ;
+    public Info usdtInfo;
+    public User user;
     /**
      * 可使用支付渠道list
      */
-    public ArrayList<ChannelInfo> wdChannelList ;
+    public ArrayList<ChannelInfo> wdChannelList;
 
     /**
      * 可选择的支付渠道信息
      */
-    public static class ChannelInfo
-    {
-     public String bindType ;// 绑定type 向绑定页面传值
+    public static class ChannelInfo {
+        public String bindType;// 绑定type 向绑定页面传值
 
-        public int  channeluse ;//支付渠道可否跳转状态 1可以跳转下一个页面； 0：不可跳转下一个页面
-        public String channeluseMessage ="" ;//支付渠道不可跳转下一个页面弹出的消息
+        public int channeluse;//支付渠道可否跳转状态 1可以跳转下一个页面； 0：不可跳转下一个页面
+        public String channeluseMessage = "";//支付渠道不可跳转下一个页面弹出的消息
         /*"id":"3",
             "type":"2",
             "title":"USDT提款",
@@ -148,22 +147,22 @@ public class ChooseInfoVo  {
             "userid":"2721239",
             "min_limit":"0.00",
             "max_limit":"0.00"*/
-        public String id ;
-        public String type ;
-        public String title ;
-        public String method_sort ;
-        public String recommend ;
+        public String id;
+        public String type;
+        public String title;
+        public String method_sort;
+        public String recommend;
         public String configkey;
         public String dispay_title;
-        public String channel_sort ;
-        public String channel_name ;
-        public String utime ;
-        public String agent_rate_cost_type ;
-        public String agent_rate_cost ;
-        public String  userid ;
-        public String min_limit ;
-        public String max_limit ;
-        public boolean flag ;//是否点击
+        public String channel_sort;
+        public String channel_name;
+        public String utime;
+        public String agent_rate_cost_type;
+        public String agent_rate_cost;
+        public String userid;
+        public String min_limit;
+        public String max_limit;
+        public boolean flag;//是否点击
 
         @Override
         public String toString() {
@@ -191,8 +190,7 @@ public class ChooseInfoVo  {
         }
     }
 
-    public static  class  User
-    {
+    public static class User {
         /*
         *  "parentid":"2723540",
         "usertype":"1",
@@ -218,16 +216,16 @@ public class ChooseInfoVo  {
                     '}';
         }
 
-        public String  parentid ;
-        public String usertype ;
-        public String iscreditaccount ;
-        public String userrank ;
-        public String availablebalance ;
-        public String preinfo ;
-        public String nickname ;
-        public String messages ;
-        public User()
-        {
+        public String parentid;
+        public String usertype;
+        public String iscreditaccount;
+        public String userrank;
+        public String availablebalance;
+        public String preinfo;
+        public String nickname;
+        public String messages;
+
+        public User() {
 
         }
     }
@@ -235,14 +233,13 @@ public class ChooseInfoVo  {
     /**
      * 虚拟币信息
      */
-    public static class Info
-    {
+    public static class Info {
         @Override
         public String toString() {
             return "Info{" +
                     "status=" + status +
                     ", nedusdt=" + nedusdt +
-                 /*   ", nocard=" + nocard +*/
+                    /*   ", nocard=" + nocard +*/
                     ", quota=" + quota +
                     ", relquota='" + relquota + '\'' +
                     ", formula='" + formula + '\'' +
@@ -265,30 +262,26 @@ public class ChooseInfoVo  {
                 "vip_level":0,
                 "vip_virtual_currency_quota":"0.0000",
                 "blebalance":0*/
-        public boolean status ;
-        public boolean nedusdt ;
+        public boolean status;
+        public boolean nedusdt;
         //public boolean nocard;
-        public  String quota ;
-        public  String relquota ;
-        public String formula ;
+        public String quota;
+        public String relquota;
+        public String formula;
         public String error_code;
-        public String intype ;
-        public String vip_level ;
+        public String intype;
+        public String vip_level;
         public String vip_virtual_currency_quota;
-        public String blebalance ;
-        public Info()
-        {
+        public String blebalance;
+
+        public Info() {
 
         }
 
-
     }
 
-
-    public ChooseInfoVo()
-    {
+    public ChooseInfoVo() {
 
     }
-
 
 }

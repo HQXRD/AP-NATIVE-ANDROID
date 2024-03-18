@@ -16,7 +16,9 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentChooseWithdrawBinding;
 import com.xtree.mine.ui.fragment.AwardsRecordDialog;
+import com.xtree.mine.ui.fragment.BankWithdrawalDialog;
 import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
+import com.xtree.mine.ui.fragment.FundPassWordFragment;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.AwardsRecordVo;
@@ -25,11 +27,13 @@ import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = PAGER_CHOOSE_WITHDRAW)
-public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel > {
+public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel> {
 
     private BasePopupView basePopupView = null;
+    private BasePopupView baseChoosePopupView = null;
     private AwardsRecordVo awardsRecordVo;
     private int viewType;
+    private static String checkCode;//输入资金密码 返回的Code 带入到请求提款列表接口使用
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +82,8 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                     finish();
                     return;
                 } else {
-                    showChoose();
+                    showFundPSWDialog();
+                    // showChoose();
                 }
             });
         }
@@ -113,29 +118,68 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
     /**
      * 显示提款页面
      */
-    private void showChoose() {
-        LoadingDialog.show(this);
-        basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
-                .dismissOnTouchOutside(false)
-                .moveUpToKeyboard(false)
-                .asCustom(ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
-                    @Override
-                    public void closeDialog() {
-                        finish();
-                    }
+    private void showChoose(final String checkCode) {
+        if (baseChoosePopupView == null) {
+            baseChoosePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
+                    .dismissOnTouchOutside(false)
+                    .moveUpToKeyboard(false)
+                    .asCustom(ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
+                        @Override
+                        public void closeDialog() {
+                            finish();
+                        }
 
-                    @Override
-                    public void closeDialogByError() {
-                        showNetError();
-                        finish();
-                    }
-                }, () -> {
-                    basePopupView.dismiss();
-                    finish();
-                    CfLog.i("closeDialog");
-                }));
+                        @Override
+                        public void closeDialogByError() {
+                            showNetError();
+                            finish();
+                        }
+                    }, new BankWithdrawalDialog.BankWithdrawalClose() {
+                        @Override
+                        public void closeBankWithdrawal() {
+                            baseChoosePopupView.dismiss();
+                            finish();
+                            CfLog.i("closeDialog");
+                        }
+
+                        @Override
+                        public void closeBankByPSW() {
+                            baseChoosePopupView.dismiss();
+                            finish();
+                            CfLog.i("closeDialog");
+
+                        }
+                    }, checkCode));
+        }
+
+        baseChoosePopupView.show();
+
+    }
+
+    /*显示魔域资金密码输入页面*/
+    private void showFundPSWDialog() {
+        if (basePopupView == null) {
+            basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
+                    .dismissOnTouchOutside(false)
+                    .moveUpToKeyboard(false)
+                    .asCustom(FundPassWordFragment.newInstance(this, this, new FundPassWordFragment.IFundPassWordCallBack() {
+                        @Override
+                        public void closeFundPWDialog() {
+                            //showNetError();
+                            finish();
+                        }
+
+                        @Override
+                        public void closeFundPWDialogWithCode(String checkCode) {
+
+                            basePopupView.dismiss();
+                            showChoose(checkCode);
+                        }
+
+                    }));
+        }
+
         basePopupView.show();
-
     }
 
     /*显示网络异常Toast*/

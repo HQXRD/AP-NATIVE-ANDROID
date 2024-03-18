@@ -6,33 +6,28 @@ import java.util.List;
  * 进入反馈页面 返回的Model
  */
 public class FeedbackVo {
-    public int nowPaye ;//所在页码
-    public int showRows;//
-    public int count ;//多少条处理中反馈
-    public List<OrderFeedbackVo> list ; //反馈中的信息
-    public List<FeedbackBankInfo> banksInfo ;// 支付渠道选择
+    //public int nowPaye ;//所在页码
+    //public int showRows;// 1 , page_size
+    //public int count ;//多少条处理中反馈
+    public List<OrderFeedbackVo> list; //反馈中的信息
+    public List<FeedbackBankInfo> banksInfo;// 支付渠道选择
 
-    public  List<FeedbackModeInfo>  modeInfo ;//顶部付款方是
+    public List<FeedbackModeInfo> modeInfo;//顶部付款方是
 
-    public List<FeedbackProtocolInfo> protocolInfo ;//虚拟币协议（虚拟币选项 协议选择使用）
+    public List<FeedbackProtocolInfo> protocolInfo;//虚拟币协议（虚拟币选项 协议选择使用）
 
-    public List<FeedbackDep>  last3Deps ;//反馈中的订单
+    public List<FeedbackDep> last3Deps;//反馈中的订单
 
+    public static class FeedbackModeInfo {
+        public int id;
+        public String name;
 
-    public static class FeedbackModeInfo
-    {
-        public   int id ;
-        public  String name ;
-
-
-        public FeedbackModeInfo(int id , String name)
-        {
-            this.id = id ;
+        public FeedbackModeInfo(int id, String name) {
+            this.id = id;
             this.name = name;
         }
 
-
-       public  String toString() {
+        public String toString() {
             return "FeedbackModeInfo{" +
                     "id=" + id +
                     ", name='" + name + '\'' +
@@ -43,14 +38,12 @@ public class FeedbackVo {
     /**
      * 支付渠道
      */
-    public static class FeedbackBankInfo
-    {
-        public   int id ;
-        public  String name ;
+    public static class FeedbackBankInfo {
+        public int id;
+        public String name;
 
-        public FeedbackBankInfo(int id, String name)
-        {
-            this.id = id ;
+        public FeedbackBankInfo(int id, String name) {
+            this.id = id;
             this.name = name;
         }
 
@@ -68,12 +61,11 @@ public class FeedbackVo {
      */
     public static class FeedbackProtocolInfo {
 
-        public int id ;
-        public String name ;
+        public int id;
+        public String name;
 
-        public FeedbackProtocolInfo(int id , String name)
-        {
-            this.id = id ;
+        public FeedbackProtocolInfo(int id, String name) {
+            this.id = id;
             this.name = name;
         }
 
@@ -86,6 +78,5 @@ public class FeedbackVo {
         }
 
     }
-
 
 }
