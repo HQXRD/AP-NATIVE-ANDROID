@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.widget.FilterView;
@@ -34,6 +35,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * 账变记录
@@ -48,6 +50,7 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportBinding, R
     List<FilterView.IBaseVo> listType = new ArrayList<>();
     List<FilterView.IBaseVo> listStatus = new ArrayList<>();
 
+    private String userId;
     private String starttime;
     private String endtime;
     private String typeId = "0";
@@ -60,6 +63,12 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportBinding, R
         binding.fvMain.setData(listType, listStatus);
         binding.fvMain.setVisibility(View.VISIBLE, View.GONE, View.VISIBLE);
         binding.fvMain.setTypeTitle(getString(R.string.txt_acc_change_type), null, getString(R.string.txt_acc_change_status));
+
+        userId = getArguments().getString("userId");
+        if (userId == null || userId.isEmpty()) {
+            userId = SPUtils.getInstance().getString(SPKeyGlobal.USER_ID);
+        }
+        CfLog.i("userId :　" + userId);
         LoadingDialog.show(getContext());
         requestData(1);
     }
@@ -209,6 +218,7 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportBinding, R
         status = binding.fvMain.getStatusId("0");
 
         HashMap<String, String> map = new HashMap<>();
+        map.put("userid", userId);
         map.put("starttime", starttime);
         map.put("endtime", endtime);
         map.put("ordertype", typeId);

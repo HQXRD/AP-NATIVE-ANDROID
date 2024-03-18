@@ -14,6 +14,8 @@ public class ProfitLossCountVo {
     public String sactive_prize; // "0.0000",
     public String wages; // "0.0000",
     public String fee; // "0.0000",
-    public String settlement; // "0.0000"
+    public String settlement; // "0.0000", 90
+    public String deposit; // "0.0000",
+    public String withdraw; // "0.0000"
 
 }

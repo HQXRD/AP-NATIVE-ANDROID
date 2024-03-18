@@ -17,6 +17,7 @@ import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
@@ -76,12 +77,13 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
         adapter = new MemberManagerAdapter(getContext(), (vo, msg) -> {
             Bundle bundle = new Bundle();
             bundle.putString("userId", vo.userid);
+            bundle.putString("userName", vo.username);
+            CfLog.i("vo.userid :　" + vo.userid);
             if (msg.equals(MemberManagerAdapter.BAT_RECORD)) {
                 startContainerFragment(RouterFragmentPath.Mine.PAGER_BT_REPORT, bundle); // 投注记录
             } else if (msg.equals(MemberManagerAdapter.ACCOUNT_RECORD)) {
                 startContainerFragment(RouterFragmentPath.Mine.PAGER_ACCOUNT_CHANGE, bundle); // 账变记录
             } else if (msg.equals(MemberManagerAdapter.TRANSFER_MEMBER)) {
-                //Todo
                 new XPopup.Builder(getContext()).asCustom(CheckPasswordDialog.newInstance(getContext(), this, checkCode ->
                         new XPopup.Builder(getContext()).asCustom(TransferMoneyDialog.newInstance(getContext(), MemberManagerFragment.this, checkCode, vo, () -> {
                             viewModel.getBalance();
