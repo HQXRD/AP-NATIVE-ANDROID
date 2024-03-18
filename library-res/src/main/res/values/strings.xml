@@ -171,7 +171,7 @@
     <string name="txt_help">帮助中心</string>
     <string name="txt_qa">常见问题</string>
     <string name="txt_next_step">下一步</string>
-
+    <string name="txt_all_exclude_lottery">全部（不含彩票）</string>
 
     <!--魔域 提款文本-->
     <string name="txt_withdraw_password">输入资金密码</string>

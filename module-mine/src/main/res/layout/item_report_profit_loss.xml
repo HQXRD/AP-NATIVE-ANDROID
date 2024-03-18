@@ -1,87 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/layout_margin"
+    android:layout_marginStart="@dimen/layout_margin"
+    android:layout_marginTop="@dimen/layout_margin"
+    android:layout_marginEnd="@dimen/layout_margin"
     android:background="@drawable/bg_white_6"
     android:orientation="vertical"
     android:padding="@dimen/layout_margin">
 
-    <LinearLayout style="@style/style_item_ll_row">
+    <TextView
+        android:id="@+id/tvw_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@mipmap/me_wallet_left_icon"
+        android:drawablePadding="4dp"
+        android:text="Demo"
+        android:textColor="@color/clr_txt_black_cm"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            style="@style/style_item_report_title"
-            android:text="@string/txt_bt_amount2" />
+    <TextView
+        android:id="@+id/tvw_myself"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_rpt_myself"
+        android:textColor="@color/clr_txt_black_cm"
+        android:textSize="14sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
-        <TextView
-            style="@style/style_item_report_title_center"
-            android:text="@string/txt_sprize_amount" />
+    <View
+        android:id="@+id/v_center"
+        android:layout_width="1dp"
+        android:layout_height="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvw_user_name" />
 
-        <TextView
-            style="@style/style_item_report_title_end"
-            android:text="@string/txt_efficient_bt" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tvw_t_deposit"
+        style="@style/style_item_report_profit_t"
+        android:text="@string/txt_rpt_recharge"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvw_user_name" />
 
-    <LinearLayout style="@style/style_item_ll_row">
+    <TextView
+        android:id="@+id/tvw_deposit"
+        style="@style/style_item_report_profit_v"
+        android:text="0.0000"
+        app:layout_constraintStart_toEndOf="@+id/tvw_t_deposit"
+        app:layout_constraintTop_toTopOf="@+id/tvw_t_deposit" />
 
-        <TextView
-            android:id="@+id/tvw_sbet"
-            style="@style/style_filter_info_value"
-            android:layout_weight="1"
-            android:minEms="5"
-            tools:text="5.00" />
+    <TextView
+        android:id="@+id/tvw_t_sbet"
+        style="@style/style_item_report_profit_t"
+        android:text="@string/txt_rpt_sbt"
+        app:layout_constraintStart_toStartOf="@+id/tvw_t_deposit"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_t_deposit" />
 
-        <TextView
-            android:id="@+id/tvw_spirze"
-            style="@style/style_filter_info_value"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:minEms="5"
-            tools:text="5.00" />
+    <TextView
+        android:id="@+id/tvw_sbet"
+        style="@style/style_item_report_profit_v"
+        android:textColor="@color/clr_orange_02"
+        app:layout_constraintStart_toEndOf="@+id/tvw_t_sbet"
+        app:layout_constraintTop_toTopOf="@+id/tvw_t_sbet"
+        tools:text="75.2293" />
 
-        <TextView
-            android:id="@+id/tvw_seffective_bet"
-            style="@style/style_filter_info_value"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:minEms="5"
-            tools:text="0.0000" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tvw_t_sprofit_loss"
+        style="@style/style_item_report_profit_t"
+        android:text="@string/txt_rpt_sprofit"
+        app:layout_constraintStart_toStartOf="@+id/tvw_t_sbet"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_t_sbet" />
 
+    <TextView
+        android:id="@+id/tvw_sprofit_loss"
+        style="@style/style_item_report_profit_v"
+        app:layout_constraintStart_toEndOf="@+id/tvw_t_sprofit_loss"
+        app:layout_constraintTop_toTopOf="@+id/tvw_t_sprofit_loss"
+        tools:text="Demo" />
 
-    <LinearLayout style="@style/style_item_ll_row">
+    <TextView
+        android:id="@+id/tvw_t_fee"
+        style="@style/style_item_report_profit_t"
+        android:text="@string/txt_rpt_fee"
+        app:layout_constraintStart_toStartOf="@+id/tvw_t_sprofit_loss"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_t_sprofit_loss" />
 
-        <TextView
-            style="@style/style_item_report_title"
-            android:text="@string/txt_member_win_fail" />
+    <TextView
+        android:id="@+id/tvw_fee"
+        style="@style/style_item_report_profit_v"
+        app:layout_constraintStart_toEndOf="@+id/tvw_t_fee"
+        app:layout_constraintTop_toTopOf="@+id/tvw_t_fee"
+        tools:text="Demo" />
 
-        <TextView
-            style="@style/style_item_report_title_center"
-            android:text="@string/txt_rebate_amount" />
+    <TextView
+        android:id="@+id/tvw_t_wages"
+        style="@style/style_item_report_profit_t"
+        android:text="@string/txt_rpt_wages"
+        app:layout_constraintStart_toStartOf="@+id/tvw_t_sprofit_loss"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_t_fee" />
 
-        <TextView
-            style="@style/style_item_report_title_end"
-            android:text="@string/txt_discount_amount" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tvw_wages"
+        style="@style/style_item_report_profit_v"
+        app:layout_constraintStart_toEndOf="@+id/tvw_t_wages"
+        app:layout_constraintTop_toTopOf="@+id/tvw_t_wages"
+        tools:text="Demo" />
 
-    <LinearLayout style="@style/style_item_ll_row">
+    <TextView
+        android:id="@+id/tvw_t_profit"
+        style="@style/style_item_report_profit_t"
+        android:text="@string/txt_rpt_net_profit"
+        app:layout_constraintStart_toStartOf="@+id/tvw_t_wages"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_t_wages" />
 
-        <TextView
-            android:id="@+id/tvw_sprofit_loss"
-            style="@style/style_item_report_value"
-            android:textColor="@color/clr_text_red_green_selector"
-            tools:text="5.00" />
+    <TextView
+        android:id="@+id/tvw_net_profit"
+        style="@style/style_item_report_profit_v"
+        android:textColor="@color/clr_red_01"
+        app:layout_constraintStart_toEndOf="@+id/tvw_t_profit"
+        app:layout_constraintTop_toTopOf="@+id/tvw_t_profit"
+        tools:text="Demo" />
 
-        <TextView
-            android:id="@+id/tvw_wages"
-            style="@style/style_item_report_value_center"
-            tools:text="5.00" />
+    <TextView
+        android:id="@+id/tvw_t_reg_time"
+        style="@style/style_item_report_profit_t"
+        android:text="@string/txt_rpt_reg_time"
+        app:layout_constraintStart_toStartOf="@+id/tvw_t_profit"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_t_profit" />
 
-        <TextView
-            android:id="@+id/tvw_sactive_prize"
-            style="@style/style_item_report_value_end"
-            tools:text="0.0000" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tvw_reg_time"
+        style="@style/style_item_report_profit_v"
+        app:layout_constraintStart_toEndOf="@+id/tvw_t_reg_time"
+        app:layout_constraintTop_toTopOf="@+id/tvw_t_reg_time"
+        tools:text="2024-01-08 09:34:02" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/tvw_t_withdraw"
+        style="@style/style_item_report_profit_t"
+        android:text="@string/txt_rpt_withdraw"
+        app:layout_constraintStart_toStartOf="@+id/v_center"
+        app:layout_constraintTop_toBottomOf="@id/tvw_user_name" />
+
+    <TextView
+        android:id="@+id/tvw_withdraw"
+        style="@style/style_item_report_profit_v"
+        app:layout_constraintStart_toEndOf="@+id/tvw_t_withdraw"
+        app:layout_constraintTop_toTopOf="@+id/tvw_t_withdraw"
+        tools:text="Demo" />
+
+    <TextView
+        android:id="@+id/tvw_t_sprize"
+        style="@style/style_item_report_profit_t"
+        android:text="@string/txt_rpt_sprize"
+        app:layout_constraintStart_toStartOf="@+id/v_center"
+        app:layout_constraintTop_toBottomOf="@id/tvw_t_withdraw" />
+
+    <TextView
+        android:id="@+id/tvw_sprize"
+        style="@style/style_item_report_profit_v"
+        android:textColor="@color/clr_orange_02"
+        app:layout_constraintStart_toEndOf="@+id/tvw_t_sprize"
+        app:layout_constraintTop_toTopOf="@+id/tvw_t_sprize"
+        tools:text="Demo" />
+
+    <TextView
+        android:id="@+id/tvw_t_spoint"
+        style="@style/style_item_report_profit_t"
+        android:text="@string/txt_rpt_spoint"
+        app:layout_constraintStart_toStartOf="@+id/v_center"
+        app:layout_constraintTop_toBottomOf="@id/tvw_t_sprize" />
+
+    <TextView
+        android:id="@+id/tvw_spoint"
+        style="@style/style_item_report_profit_v"
+        app:layout_constraintStart_toEndOf="@+id/tvw_t_spoint"
+        app:layout_constraintTop_toTopOf="@+id/tvw_t_spoint"
+        tools:text="Demo" />
+
+    <TextView
+        android:id="@+id/tvw_t_seffective_bet"
+        style="@style/style_item_report_profit_t"
+        android:text="@string/txt_rpt_eff_bt"
+        app:layout_constraintStart_toStartOf="@+id/v_center"
+        app:layout_constraintTop_toBottomOf="@id/tvw_t_spoint" />
+
+    <TextView
+        android:id="@+id/tvw_seffective_bet"
+        style="@style/style_item_report_profit_v"
+        app:layout_constraintStart_toEndOf="@+id/tvw_t_seffective_bet"
+        app:layout_constraintTop_toTopOf="@+id/tvw_t_seffective_bet"
+        tools:text="Demo" />
+
+    <TextView
+        android:id="@+id/tvw_t_sactive_prize"
+        style="@style/style_item_report_profit_t"
+        android:text="@string/txt_rpt_sac_prize"
+        app:layout_constraintStart_toStartOf="@+id/v_center"
+        app:layout_constraintTop_toBottomOf="@id/tvw_t_seffective_bet" />
+
+    <TextView
+        android:id="@+id/tvw_sactive_prize"
+        style="@style/style_item_report_profit_v"
+        app:layout_constraintStart_toEndOf="@+id/tvw_t_sactive_prize"
+        app:layout_constraintTop_toTopOf="@+id/tvw_t_sactive_prize"
+        tools:text="Demo" />
+
+    <View
+        android:id="@+id/v_dividing"
+        style="@style/style_filter_info_dividing"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvw_t_reg_time" />
+
+    <TextView
+        android:id="@+id/tvw_bt_record"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/btn_main_stroke_r22"
+        android:paddingStart="12dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="4dp"
+        android:text="投注记录"
+        android:textColor="@color/clr_txt"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/v_dividing" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
