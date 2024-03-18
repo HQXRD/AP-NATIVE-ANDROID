@@ -77,7 +77,7 @@ public class CustomFloatWindows extends RelativeLayout {
     }
 
     public void show() {
-        if(!isShow) {
+        if (!isShow) {
             windowManager.addView(floatView, floatLp);
             isShow = true;
         }
@@ -91,6 +91,7 @@ public class CustomFloatWindows extends RelativeLayout {
         RecyclerView rcvData = floatView.findViewById(R.id.rcv_data);
         rechargeReportAdapter = new RechargeReportAdapter(ctx, vo -> {
             floatView.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);
+            floatView.findViewById(R.id.ll_line).setVisibility(View.GONE);
             if (vo.orderurl.isEmpty()) {
                 new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, vo.payport_nickname, DomainUtil.getDomain2() + "/webapp/#/depositetail/" + vo.id)).show();
             } else {
@@ -118,6 +119,7 @@ public class CustomFloatWindows extends RelativeLayout {
 
         floatView.findViewById(R.id.ivw_close).setOnClickListener(v -> {
             floatView.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);
+            floatView.findViewById(R.id.ll_line).setVisibility(View.GONE);
         });
 
         floatView.findViewById(R.id.tvw_record).setOnClickListener(v -> {
@@ -130,6 +132,7 @@ public class CustomFloatWindows extends RelativeLayout {
             intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_RECHARGE_WITHDRAW);
             ctx.startActivity(intent);
             floatView.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);
+            floatView.findViewById(R.id.ll_line).setVisibility(View.GONE);
         });
 
         floatView.findViewById(R.id.ivw_icon).setOnTouchListener(new View.OnTouchListener() {
@@ -160,6 +163,7 @@ public class CustomFloatWindows extends RelativeLayout {
 
         floatView.findViewById(R.id.ivw_icon).setOnClickListener(v -> {
             floatView.findViewById(R.id.cl_floating_window).setVisibility(View.VISIBLE);
+            floatView.findViewById(R.id.ll_line).setVisibility(View.VISIBLE);
             if (!isSearch) {
                 CfLog.i("search the data");
                 getReportData();
