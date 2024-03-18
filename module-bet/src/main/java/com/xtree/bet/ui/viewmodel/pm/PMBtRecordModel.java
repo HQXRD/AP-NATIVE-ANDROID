@@ -38,6 +38,7 @@ public class PMBtRecordModel extends TemplateBtRecordModel {
 
         BtRecordReq btRecordReq = new BtRecordReq();
         btRecordReq.setOrderStatus(isSettled ? 1 : 0);
+        btRecordReq.setTimeType(isSettled ? 1 : 4);
 
         Disposable disposable = (Disposable) model.getPMApiService().betRecord(btRecordReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
