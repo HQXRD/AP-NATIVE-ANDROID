@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/layout_margin">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_white_14"
+        android:orientation="vertical"
+        android:padding="@dimen/layout_margin">
+
+        <TextView
+            style="@style/style_item_report_profit_sum_v"
+            android:text="@string/txt_rpt_page" />
+
+        <LinearLayout
+            style="@style/style_ll_row_3"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t"
+                android:text="@string/txt_rpt_sbt" />
+
+            <TextView
+                android:id="@+id/tvw_pg_sbet"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0.0000" />
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t2"
+                android:text="@string/txt_rpt_sprize" />
+
+            <TextView
+                android:id="@+id/tvw_pg_sprize"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0.0000" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_ll_row_3"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t"
+                android:text="@string/txt_rpt_sprofit" />
+
+            <TextView
+                android:id="@+id/tvw_pg_sprofit_loss"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0.0000" />
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t2"
+                android:text="@string/txt_rpt_spoint" />
+
+            <TextView
+                android:id="@+id/tvw_pg_spoint"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0.0000" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_ll_row_3"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t"
+                android:layout_height="match_parent"
+                android:text="@string/txt_rpt_fee" />
+
+            <TextView
+                android:id="@+id/tvw_pg_fee"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0" />
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t2"
+                android:text="@string/txt_rpt_eff_bt" />
+
+            <TextView
+                android:id="@+id/tvw_pg_seffective_bet"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0.0000" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_ll_row_3"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t"
+                android:text="@string/txt_rpt_spoint" />
+
+            <TextView
+                android:id="@+id/tvw_pg_wages"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0.0000" />
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t2"
+                android:text="@string/txt_rpt_sac_prize" />
+
+            <TextView
+                android:id="@+id/tvw_pg_sactive_prize"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0.0000" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_ll_row_3"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t"
+                android:text="@string/txt_rpt_net_profit" />
+
+            <TextView
+                android:id="@+id/tvw_pg_net_profit"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_margin"
+        android:background="@drawable/bg_white_14"
+        android:orientation="vertical"
+        android:padding="@dimen/layout_margin">
+
+        <TextView
+            style="@style/style_item_report_profit_sum_v"
+            android:text="@string/txt_rpt_total" />
+
+        <LinearLayout
+            style="@style/style_ll_row_3"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t"
+                android:text="@string/txt_rpt_sbt" />
+
+            <TextView
+                android:id="@+id/tvw_sum_sbet"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0.0000" />
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t2"
+                android:text="@string/txt_rpt_sprize" />
+
+            <TextView
+                android:id="@+id/tvw_sum_sprize"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0.0000" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_ll_row_3"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t"
+                android:text="@string/txt_rpt_sprofit" />
+
+            <TextView
+                android:id="@+id/tvw_sum_sprofit_loss"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0.0000" />
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t2"
+                android:text="@string/txt_rpt_spoint" />
+
+            <TextView
+                android:id="@+id/tvw_sum_spoint"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0.0000" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_ll_row_3"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t"
+                android:text="@string/txt_rpt_fee" />
+
+            <TextView
+                android:id="@+id/tvw_sum_fee"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0" />
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t2"
+                android:text="@string/txt_rpt_eff_bt" />
+
+            <TextView
+                android:id="@+id/tvw_sum_seffective_bet"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0.0000" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_ll_row_3"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t"
+                android:text="@string/txt_rpt_spoint" />
+
+            <TextView
+                android:id="@+id/tvw_sum_wages"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0.0000" />
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t2"
+                android:text="@string/txt_rpt_sac_prize" />
+
+            <TextView
+                android:id="@+id/tvw_sum_sactive_prize"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0.0000" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/style_ll_row_3"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/style_item_report_profit_sum_t"
+                android:text="@string/txt_rpt_net_profit" />
+
+            <TextView
+                android:id="@+id/tvw_sum_net_profit"
+                style="@style/style_item_report_profit_sum_v"
+                tools:text="0" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
