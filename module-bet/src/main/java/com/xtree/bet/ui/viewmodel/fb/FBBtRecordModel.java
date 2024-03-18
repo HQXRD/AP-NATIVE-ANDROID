@@ -45,6 +45,9 @@ public class FBBtRecordModel extends TemplateBtRecordModel {
 
         BtRecordReq btRecordReq = new BtRecordReq();
         btRecordReq.setSettled(isSettled);
+        if(isSettled){
+            btRecordReq.setStartTime(TimeUtils.longFormatDate(System.currentTimeMillis(), TimeUtils.FORMAT_YY_MM_DD));
+        }
 
         Disposable disposable = (Disposable) model.getApiService().
                 betRecord(btRecordReq)
