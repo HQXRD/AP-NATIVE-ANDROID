@@ -180,13 +180,18 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             startContainerFragment(RouterFragmentPath.Mine.PAGER_THIRD_TRANSFER); // 三方转账
         });
 
-        binding.tvwSecurityCenter.setOnClickListener(v -> {
-            // 安全中心
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
-        });
         binding.tvwAccMg.setOnClickListener(v -> {
             showAccountMgmt();
         });
+
+        binding.tvwPhyRegular.setOnClickListener(v -> {
+            goWebView(v, Constant.URL_SPORT_RULES, false);
+        });
+
+        binding.tvwUsdtToturial.setOnClickListener(v -> {
+            goWebView(v, Constant.URL_SPORT_RULES, false);
+        });
+
         //VIP中心
         //binding.tvwVipZhongxin.setOnClickListener(v -> {
         //    //startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);

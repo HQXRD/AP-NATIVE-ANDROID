@@ -274,22 +274,13 @@
                     <TextView
                         android:id="@+id/tvw_rebate_contract"
                         style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_rebate"
+                        android:drawableTop="@mipmap/me_gr_report"
                         android:text="@string/txt_rebate_contract" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_menu_02"
                     style="@style/style_ll_row_2">
-
-                    <TextView
-                        android:id="@+id/tvw_report"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_report"
-                        android:text="@string/txt_report"
-                        android:visibility="visible" />
-
-                    <TextView style="@style/style_wallet_space" />
 
                     <TextView
                         android:id="@+id/tvw_acc_mg"
@@ -300,18 +291,26 @@
                     <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:id="@+id/tvw_security_center"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_safe"
-                        android:text="@string/txt_security_center" />
-
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView
                         android:id="@+id/tvw_reg_prom"
                         style="@style/style_menu_black"
                         android:drawableTop="@mipmap/me_gr_reg"
                         android:text="@string/txt_reg_prom" />
+
+                    <TextView style="@style/style_wallet_space" />
+
+                    <TextView
+                        android:id="@+id/tvw_phy_regular"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_gr_rule"
+                        android:text="@string/me_tiyu_guize" />
+
+                    <TextView style="@style/style_wallet_space" />
+
+                    <TextView
+                        android:id="@+id/tvw_usdt_toturial"
+                        style="@style/style_menu_black"
+                        android:drawableTop="@mipmap/me_gr_usdt"
+                        android:text="@string/txt_usdt_tutorial" />
                 </LinearLayout>
 
                 <LinearLayout style="@style/style_ll_row_2">
@@ -325,26 +324,22 @@
                     <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:id="@+id/tvw_tutorial"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_usdt"
-                        android:text="@string/txt_usdt_tutorial" />
-
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView
                         android:id="@+id/tvw_help"
                         style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_help"
+                        android:drawableTop="@mipmap/me_gr_qa"
                         android:text="@string/txt_help" />
 
                     <TextView style="@style/style_wallet_space" />
 
                     <TextView
+                        android:id="@+id/tvw_tutorial"
+                        style="@style/style_menu_black" />
+
+                    <TextView style="@style/style_wallet_space" />
+
+                    <TextView
                         android:id="@+id/tvw_qa"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_qa"
-                        android:text="@string/txt_qa" />
+                        style="@style/style_menu_black" />
                 </LinearLayout>
             </LinearLayout>
 
