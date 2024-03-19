@@ -965,9 +965,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             if (playMethodPos == 0 || playMethodPos == 3) {
                 mHotMatchCount = hotMatchCount;
                 if (playMethodPos == 0 || playMethodPos == 3) {
-                    View view = binding.tabSportType.getTabAt(0).getCustomView();
-                    TextView tvHotCount = view.findViewById(R.id.iv_match_count);
-                    tvHotCount.setText(String.valueOf(mHotMatchCount));
+                    if(binding.tabSportType.getTabAt(0) != null) {
+                        View view = binding.tabSportType.getTabAt(0).getCustomView();
+                        TextView tvHotCount = view.findViewById(R.id.iv_match_count);
+                        tvHotCount.setText(String.valueOf(mHotMatchCount));
+                    }
                 }
             }
         });
