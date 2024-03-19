@@ -18,6 +18,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.FilterView;
@@ -86,6 +87,9 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
 
         binding.fvMain.setQueryListener(v -> {
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             LoadingDialog.show(getActivity());
             curPage = 0;
             requestData(1);
@@ -262,7 +266,9 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
             if (curPage == 1) {
                 mAdapter.clear();
             }
-            mAdapter.addAll(vo.aProject.list);
+            if (vo.aProject != null && vo.aProject.list != null) {
+                mAdapter.addAll(vo.aProject.list);
+            }
             if (mAdapter.isEmpty()) {
                 binding.tvwNoData.setVisibility(View.VISIBLE);
             } else {
