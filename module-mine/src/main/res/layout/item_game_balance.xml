@@ -2,29 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/style_trans_ll"
-    android:orientation="horizontal">
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:orientation="horizontal"
+    android:paddingTop="8dp">
 
-    <LinearLayout style="@style/style_trans_ll"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp">
+    <LinearLayout
+        android:id="@+id/ll_main"
+        style="@style/style_trans_ll"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/bg_gray_8"
+        android:gravity="top">
 
         <TextView
-            android:id="@+id/tvw_name"
+            android:id="@+id/tvw_third_game_name"
             style="@style/style_trans_name"
-            android:text="@string/me_wallet_dbqp" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:text="@string/me_wallet_bbingame"
+            android:textSize="@dimen/bt_text_12sp" />
 
         <TextView
-            android:id="@+id/tvw_blc"
+            android:id="@+id/tvw_third_game_balance"
             style="@style/style_trans_value"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginEnd="@dimen/layout_margin"
             android:tag="obgqp"
+            android:textSize="@dimen/bt_text_12sp"
             tools:text="0.0000" />
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/iv_line"
-        style="@style/style_trans_dividing_line" />
-
+    <TextView
+        android:id="@+id/tvw_space"
+        android:layout_width="4dp"
+        android:layout_height="wrap_content" />
 </LinearLayout>
-
-
