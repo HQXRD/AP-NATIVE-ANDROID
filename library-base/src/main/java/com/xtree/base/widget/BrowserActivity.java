@@ -50,7 +50,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
-import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
@@ -144,7 +143,7 @@ public class BrowserActivity extends AppCompatActivity {
         //header.put("UUID", TagUtils.getDeviceId(Utils.getContext()));
         if (isGame || is3rdLink) {
             CfLog.d("not need header.");
-            header.clear(); // 三方游戏不带header
+            header.clear(); // 游戏 header和cookie只带其中一个即可; FB只能带cookie
         }
         CfLog.d("header: " + header); // new Gson().toJson(header)
         url = getIntent().getStringExtra("url");
@@ -246,7 +245,7 @@ public class BrowserActivity extends AppCompatActivity {
                 //Log.d("---", "onPageStarted url:  " + url);
                 if (isLottery) {
                     setLotteryCookieInside();
-                } else if (isGame || is3rdLink) {
+                } else if (is3rdLink) {
                     CfLog.d("not need cookie.");
                 } else {
                     setCookieInside();
@@ -305,13 +304,13 @@ public class BrowserActivity extends AppCompatActivity {
             String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
             String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
             String jumpUrl = DomainUtil.getDomain() + "/static/sessionkeeper.html?token=" + token + "&tokenExpires=3600&url=" + urlBase64;
-            KLog.i("jumpUrl", jumpUrl);
+            CfLog.i("jumpUrl: " + jumpUrl);
             // 跳至外部浏览器
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(jumpUrl));
             try {
                 startActivity(intent);
             } catch (Exception e) {
-                KLog.w("jump", "链接错误或无浏览器");
+                CfLog.e("链接错误或无浏览器 " + e);
             }
         });
     }
