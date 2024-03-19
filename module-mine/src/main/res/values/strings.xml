@@ -409,5 +409,7 @@
     <string name="txt_last_login_time">最后登日:</string>
     <string name="txt_register_time">注册日期:</string>
     <string name="txt_account_money_record">帐变记录</string>
+    <string name="txt_create">创建</string>
+    <string name="txt_modify">修改</string>
 
 </resources>

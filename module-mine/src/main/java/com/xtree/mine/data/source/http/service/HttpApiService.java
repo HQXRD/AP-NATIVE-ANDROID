@@ -628,4 +628,10 @@ public interface HttpApiService {
      */
     @GET("{url}")
     Flowable<ResponseBody> get(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) Map<String, Object> map);
+
+    @POST("{url}")
+    Flowable<ResponseBody> post(@Path(value = "url", encoded = true) String url, @Body Map<String, Object> map);
+
+    @POST("{url}")
+    Flowable<ResponseBody> post(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) Map<String, Object> qmap, @Body Map<String, Object> map);
 }

@@ -1,5 +1,6 @@
 package com.xtree.base.mvvm.recyclerview
 
+import android.view.View
 import com.drake.brv.BindingAdapter
 import kotlin.reflect.full.createType
 
@@ -16,7 +17,7 @@ class BaseDatabindingAdapter : BindingAdapter() {
         /**
          * 可操作视图和adapter,最好不用
          */
-        fun onBind(bindingViewHolder: BindingViewHolder)
+        fun onBind(bindingViewHolder: BindingViewHolder, view: View, itemViewType: Int)
 
         /**
          * item点击回调

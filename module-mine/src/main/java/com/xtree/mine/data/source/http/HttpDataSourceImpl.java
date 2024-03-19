@@ -1,12 +1,10 @@
 package com.xtree.mine.data.source.http;
 
 
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.xtree.mine.data.source.APIManager;
 import com.xtree.mine.data.source.HttpDataSource;
 import com.xtree.mine.data.source.http.service.HttpApiService;
@@ -15,16 +13,17 @@ import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
 import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
+import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
+import com.xtree.mine.vo.request.RebateAgrtCreateRuery;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
 import com.xtree.mine.vo.response.DividendAutoSendResponse;
 import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
+import com.xtree.mine.vo.response.RebateAgrtCreateResponse;
 import com.xtree.mine.vo.response.RecommendedReportsResponse;
 
-import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -50,7 +49,8 @@ public class HttpDataSourceImpl implements HttpDataSource {
                 if (INSTANCE == null) {
                     INSTANCE = new HttpDataSourceImpl(apiService);
                     gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().enableComplexMapKeySerialization().create();
-                    type = new TypeReference<Map<String, Object>>() {};
+                    type = new TypeReference<Map<String, Object>>() {
+                    };
                 }
             }
         }
@@ -153,6 +153,23 @@ public class HttpDataSourceImpl implements HttpDataSource {
             @Override
             public RecommendedReportsResponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), RecommendedReportsResponse.class);
+            }
+        });
+    }
+
+    @Override
+    public Flowable<RebateAgrtCreateResponse> getRebateAgrtCreateData(RebateAgrtCreateRuery query, RebateAgrtCreateRequest request) {
+
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+
+        String queryJson = JSON.toJSONString(query);
+        Map<String, Object> queryMap = JSON.parseObject(queryJson, type);
+
+        return apiService.post("", queryMap, map).map(new Function<ResponseBody, RebateAgrtCreateResponse>() {
+            @Override
+            public RebateAgrtCreateResponse apply(ResponseBody responseBody) throws Exception {
+                return gson.fromJson(responseBody.string(), RebateAgrtCreateResponse.class);
             }
         });
     }

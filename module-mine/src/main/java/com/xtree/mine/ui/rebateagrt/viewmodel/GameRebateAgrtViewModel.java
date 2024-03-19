@@ -1,19 +1,21 @@
 package com.xtree.mine.ui.rebateagrt.viewmodel;
 
-import static com.xtree.base.mvvm.ExKt.initData;
-
 import android.app.Application;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableInt;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
+import com.drake.brv.BindingAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.xtree.base.mvvm.model.ToolbarModel;
+import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.widget.DateTimePickerDialog;
@@ -30,6 +32,7 @@ import com.xtree.mine.ui.rebateagrt.model.GameSubordinateagrtHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.GameSubordinateagrtModel;
 import com.xtree.mine.ui.rebateagrt.model.GameSubordinaterebateHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.GameSubordinaterebateModel;
+import com.xtree.mine.ui.rebateagrt.model.RebateAgrtDetailModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum;
 import com.xtree.mine.vo.StatusVo;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
@@ -48,6 +51,7 @@ import java.util.List;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.http.BusinessException;
 
 /**
@@ -66,14 +70,14 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
     }
 
     //真人返水
-    private static final int REBATE_AGRT_TAB = 0;
+    public static final int REBATE_AGRT_TAB = 0;
     //下级契约
-    private static final int Subordinate_Agrte_TAB = 1;
+    public static final int Subordinate_Agrte_TAB = 1;
     //下级返水
-    private static final int Subordinate_Rebate_TAB = 2;
+    public static final int Subordinate_Rebate_TAB = 2;
 
     //选项卡索引
-    private int tabPosition = 0;
+    public ObservableInt tabPosition = new ObservableInt(0);
 
     private RebateAreegmentTypeEnum type;
 
@@ -97,6 +101,32 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                     add(R.layout.item_game_rebateagrt_total);
                 }
             });
+
+    public final BaseDatabindingAdapter.onBindListener onBindListener = new BaseDatabindingAdapter.onBindListener() {
+
+        @Override
+        public void onBind(@NonNull BindingAdapter.BindingViewHolder bindingViewHolder, @NonNull View view, int itemViewType) {
+            if (itemViewType == R.layout.item_game_subordinateagrt) {
+                view.findViewById(R.id.item_check).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int p = bindingViewHolder.getModelPosition() + bindingViewHolder.getAdapter().getHeaderCount();
+                        //查看契约
+                        if (subordinateAgrtDatas.size() > 0) {
+                            GameSubordinateagrtModel bindModel = (GameSubordinateagrtModel) subordinateAgrtDatas.get(p);
+                            checkRebateAgrt(bindModel);
+                        }
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void onItemClick(int modelPosition, int layoutPosition) {
+
+        }
+
+    };
 
     public MutableLiveData<ArrayList<String>> tabs = new MutableLiveData<>();
 
@@ -133,7 +163,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
     public OnLoadMoreListener onLoadMoreListener = new OnLoadMoreListener() {
         @Override
         public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-            switch (tabPosition) {
+            switch (tabPosition.get()) {
                 //真人返水
                 case REBATE_AGRT_TAB:
                     gameRebateAgrtHeadModel.p++;
@@ -209,6 +239,11 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
             add(gameSubordinaterebateHeadModel);
         }
     };
+
+    /**
+     * 下级数据，保存用于创建契约
+     */
+    private GameSubordinateAgrteResponse subData;
 
     public void initData(RebateAreegmentTypeEnum type) {
         //init data
@@ -449,6 +484,8 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                     public void onResult(GameSubordinateAgrteResponse vo) {
                         if (vo != null) {
 
+                            subData = vo;
+
                             if (gameSubordinateAgrteRequest.p <= 1) {
                                 subordinateAgrtDatas.clear();
                                 subordinateAgrtDatas.add(gameSubordinateagrtHeadModel);
@@ -458,6 +495,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                     GameSubordinateagrtModel model = new GameSubordinateagrtModel();
                                     model.setItemType(2);
                                     model.userName = dataDTO.getUsername();
+                                    model.userID = dataDTO.getUserid();
                                     model.signTime = dataDTO.getSign_time();
                                     model.effectDate = dataDTO.getEffect_date();
                                     List<GameSubordinateAgrteResponse.DataDTO.RuleDTO> rule = dataDTO.getRule();
@@ -555,7 +593,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
-        tabPosition = tab.getPosition();
+        tabPosition.set(tab.getPosition());
         finishLoadMore(true);
         switch (tab.getPosition()) {
             //真人返水
@@ -586,9 +624,54 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
 
     }
 
+    /**
+     * 创建契约
+     */
     public void createRebateAgrt() {
-        new RebateAgrtCreateDialogFragment().showNow(mActivity.get().getSupportFragmentManager(), RebateAgrtCreateDialogFragment.class.getName());
+//        new RebateAgrtCreateDialogFragment().showNow(mActivity.get().getSupportFragmentManager(), RebateAgrtCreateDialogFragment.class.getName());
+        //下级契约
+        if (tabPosition.get() == Subordinate_Agrte_TAB) {
+            RebateAgrtDetailModel rebateAgrtDetailModel = new RebateAgrtDetailModel();
+            rebateAgrtDetailModel.setSubData(subData);
+            RxBus.getDefault().postSticky(rebateAgrtDetailModel);
+            startContainerActivity(RebateAgrtCreateDialogFragment.class.getCanonicalName());
+        }
     }
+
+    /**
+     * 查看契约
+     */
+    public void checkRebateAgrt(GameSubordinateagrtModel subordinateagrtModel) {
+//        new RebateAgrtCreateDialogFragment().showNow(mActivity.get().getSupportFragmentManager(), RebateAgrtCreateDialogFragment.class.getName());
+        //下级契约
+        if (tabPosition.get() == Subordinate_Agrte_TAB) {
+            RebateAgrtDetailModel rebateAgrtDetailModel = new RebateAgrtDetailModel();
+            rebateAgrtDetailModel.setSubData(subData);
+            rebateAgrtDetailModel.setCheckUserId(subordinateagrtModel.userID);
+            RxBus.getDefault().postSticky(rebateAgrtDetailModel);
+            startContainerActivity(RebateAgrtCreateDialogFragment.class.getCanonicalName());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        switch (tabPosition.get()) {
+            //真人返水
+            case REBATE_AGRT_TAB:
+                getRebatAgrteData();
+                break;
+            //下级契约
+            case Subordinate_Agrte_TAB:
+                getSubordinateAgrteData();
+                break;
+            //下级返水
+            case Subordinate_Rebate_TAB:
+                getSubordinateRebateData();
+                break;
+        }
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

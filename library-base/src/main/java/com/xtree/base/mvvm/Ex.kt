@@ -1,5 +1,7 @@
 package com.xtree.base.mvvm
 
+import android.text.TextWatcher
+import android.widget.EditText
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.drake.brv.utils.bindingAdapter
@@ -25,13 +27,17 @@ import com.xtree.base.widget.impl.FilterViewOnClickListerner
     value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId"],
     requireAll = false
 )
-fun RecyclerView.initData(
+fun RecyclerView.init(
     layoutManager: RecyclerView.LayoutManager?,
-    itemData: List<BindModel>,
-    itemViewType: List<Int>,
+    itemData: List<BindModel>?,
+    itemViewType: List<Int>?,
     onBindListener: BaseDatabindingAdapter.onBindListener?,
     dividerDrawableId: Int?,
 ) {
+
+    if (itemData == null || itemViewType == null) {
+        return
+    }
 
     adapter?.run {
 
@@ -59,7 +65,7 @@ fun RecyclerView.initData(
         val mAdapter = BaseDatabindingAdapter().run {
             initData(itemData, itemViewType)
             onBind {
-                onBindListener?.onBind(this)
+                onBindListener?.onBind(this,this.itemView.rootView, getItemViewType())
 
                 itemView.rootView.setOnClickListener {
                     onBindListener?.onItemClick(modelPosition, layoutPosition)
@@ -116,4 +122,12 @@ fun TabLayout.init(setSelectedListener: OnTabSelectedListener, tabs: List<String
 fun SmartRefreshLayout.init(onRefreshLoadMoreListener: OnRefreshLoadMoreListener?,onLoadMoreListener: OnLoadMoreListener?) {
     onRefreshLoadMoreListener?.let { setOnRefreshListener(it) }
     onLoadMoreListener?.let { setOnLoadMoreListener(it) }
+}
+
+@BindingAdapter(
+    value = ["textChangedListener"],
+    requireAll = false
+)
+fun EditText.init(textChangedListener:TextWatcher?) {
+    textChangedListener?.let { addTextChangedListener(it) }
 }

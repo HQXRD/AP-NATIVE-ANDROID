@@ -13,12 +13,15 @@ import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
 import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
+import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
+import com.xtree.mine.vo.request.RebateAgrtCreateRuery;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
 import com.xtree.mine.vo.response.DividendAutoSendResponse;
 import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
+import com.xtree.mine.vo.response.RebateAgrtCreateResponse;
 import com.xtree.mine.vo.response.RecommendedReportsResponse;
 
 import io.reactivex.Flowable;
@@ -118,6 +121,13 @@ public class MineRepository extends BaseModel implements HttpDataSource, LocalDa
     @Override
     public Flowable<RecommendedReportsResponse> getRecommendedReportsData(RecommendedReportsRequest request) {
         return mHttpDataSource.getRecommendedReportsData(request)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer());
+    }
+
+    @Override
+    public Flowable<RebateAgrtCreateResponse> getRebateAgrtCreateData(RebateAgrtCreateRuery query, RebateAgrtCreateRequest request) {
+        return mHttpDataSource.getRebateAgrtCreateData(query, request)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer());
     }

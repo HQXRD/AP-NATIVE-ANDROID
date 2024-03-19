@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="m"
+            type="com.xtree.mine.ui.rebateagrt.model.RebateAgrtCreateAddModel" />
+    </data>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="12dp"
+            android:layout_alignParentStart="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_bias="0"
+            app:layout_constraintHorizontal_bias="0">
+
+            <View
+                android:layout_width="5dp"
+                android:layout_height="14dp"
+                android:background="@color/color_5B5B6A"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="契约内容"
+                android:textSize="14sp"
+                android:textColor="@color/color_5B5B6A"
+                android:layout_marginStart="2dp"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="添加规则"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="3dp"
+            android:background="@drawable/shape_stroke_247bf4_1_corner_8"
+            android:layout_alignParentEnd="true"
+            android:onClick="@{() -> m.add()}"
+            />
+    </RelativeLayout>
+</layout>

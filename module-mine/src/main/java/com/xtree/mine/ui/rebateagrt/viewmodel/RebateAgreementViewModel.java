@@ -2,6 +2,7 @@ package com.xtree.mine.ui.rebateagrt.viewmodel;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -9,10 +10,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.drake.brv.BindingAdapter;
 import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
-import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
-import com.xtree.mine.data.source.APIManager;
 import com.xtree.mine.ui.rebateagrt.fragment.GameDividendAgrtFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.GameRebateAgrtFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.RecommendedReportsFragment;
@@ -64,8 +63,9 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
     });
 
     public BaseDatabindingAdapter.onBindListener onBindListener = new BaseDatabindingAdapter.onBindListener() {
+
         @Override
-        public void onBind(@NonNull BindingAdapter.BindingViewHolder bindingViewHolder) {
+        public void onBind(@NonNull BindingAdapter.BindingViewHolder bindingViewHolder, @NonNull View view, int itemViewType) {
 
         }
 
