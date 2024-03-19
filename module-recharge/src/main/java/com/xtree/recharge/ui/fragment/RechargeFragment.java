@@ -378,6 +378,19 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i("****** llDown is visible");
         binding.llDown.setVisibility(View.VISIBLE); // 下面的部分显示
 
+        // 人工充值
+        if (vo.paycode.equals("manual")) {
+            CfLog.i("manual ****** ");
+            binding.llName.setVisibility(View.GONE);
+            binding.llAmount.setVisibility(View.GONE);
+            binding.llManual.setVisibility(View.VISIBLE);
+            return;
+        } else {
+            binding.llName.setVisibility(View.VISIBLE);
+            binding.llAmount.setVisibility(View.VISIBLE);
+            binding.llManual.setVisibility(View.GONE);
+        }
+
         // 显示/隐藏银行卡 userBankList
         if (vo.view_bank_card) {
             binding.tvwChooseBankCard.setVisibility(View.VISIBLE);
@@ -531,6 +544,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i("******");
         if (curRechargeVo == null) {
             ToastUtils.showLong(R.string.pls_choose_recharge_type);
+            return;
+        }
+
+        if (curRechargeVo.paycode.equals("manual")) {
+            LoadingDialog.show(getContext());
+            viewModel.getManualSignal();
             return;
         }
 
@@ -783,6 +802,17 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         viewModel.liveDataRechargePay.observe(getViewLifecycleOwner(), vo -> {
             CfLog.i(vo.payname + ", bankcode: " + vo.bankcode + ", money: " + vo.money);
             goPay(vo);
+        });
+
+        viewModel.liveDataSignal.observe(this, vo -> {
+            if (vo.containsKey("code")) {
+                // 弹窗 人工充值
+                RechargeManualDialog dialog = new RechargeManualDialog(getActivity(), vo.get("code"));
+                ppw2 = new XPopup.Builder(getContext())
+                        .dismissOnTouchOutside(false)
+                        .asCustom(dialog);
+                ppw2.show();
+            }
         });
 
         viewModel.liveDataProfile.observe(this, vo -> {
