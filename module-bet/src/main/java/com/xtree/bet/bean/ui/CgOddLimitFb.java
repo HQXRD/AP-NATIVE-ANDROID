@@ -102,6 +102,9 @@ public class CgOddLimitFb implements CgOddLimit{
     @Override
     public double getWin(double amount) {
         if(cgOddLimitInfo == null){
+            if(betConfirmOption.op == null){
+                return amount;
+            }
             return betConfirmOption.op.od * amount;
         }
         return cgOddLimitInfo.sodd * amount;

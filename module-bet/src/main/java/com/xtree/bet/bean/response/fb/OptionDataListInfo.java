@@ -33,7 +33,6 @@ public class OptionDataListInfo implements BaseBean {
      */
     public List<OptionInfo> op = new ArrayList<>();
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -62,7 +61,7 @@ public class OptionDataListInfo implements BaseBean {
     }
 
     protected OptionDataListInfo(Parcel in) {
-        this.id = in.readInt();
+        this.id = in.readLong();
         this.ss = in.readInt();
         this.au = in.readInt();
         this.mbl = in.readInt();
