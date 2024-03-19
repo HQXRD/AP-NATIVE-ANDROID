@@ -225,6 +225,12 @@ public class TimeUtils {
         return dateFormat.format(date);
     }
 
+    public static long longFormatDate(long time, String format) {
+        DateFormat dateFormat = new SimpleDateFormat(format);
+        Date date = new Date(time);
+        return strFormatDate(dateFormat.format(date), format).getTime();
+    }
+
     /**
      * format格式转换成 format2 格式
      *

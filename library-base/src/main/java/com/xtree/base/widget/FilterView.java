@@ -98,6 +98,13 @@ public class FilterView extends LinearLayout {
         return ((IBaseVo) binding.tvwStatus.getTag()).getShowId();
     }
 
+    public String getEdit(String def) {
+        if (binding.edtInput.getText().toString().trim().length() == 0) {
+            return def;
+        }
+        return binding.edtInput.getText().toString().trim();
+    }
+
     /**
      * 设置类型和状态的标题
      */
@@ -154,6 +161,18 @@ public class FilterView extends LinearLayout {
         binding.tvwStatus.setTag(vo);
     }
 
+    public void setDefTop(String title, String value, String hint) {
+        binding.tvwTopTitle.setText(title);
+        binding.edtTop.setText(value);
+        binding.edtTop.setHint(hint);
+    }
+
+    public void setDefEdit(String title, String value, String hint) {
+        binding.tvwInputTitle.setText(title);
+        binding.edtInput.setText(value);
+        binding.edtInput.setHint(hint);
+    }
+
     public void setDayStart(String startDay) {
         binding.tvwDayStart.setText(startDay);
     }
@@ -201,12 +220,26 @@ public class FilterView extends LinearLayout {
     }
 
     public void setVisibility(int type, int type2, int status) {
+
+        setVisibility(View.GONE, type, type2, status, View.GONE);
+    }
+
+    public void setVisibility(int type, int type2, int status, int input) {
+
+        setVisibility(View.GONE, type, type2, status, input);
+    }
+
+    public void setVisibility(int top, int type, int type2, int status, int input) {
+        binding.llTop.setVisibility(top);
+        binding.llDivTop.setVisibility(top);
         binding.llType.setVisibility(type);
         binding.llDiv.setVisibility(type);
         binding.llType2.setVisibility(type2);
         binding.llDiv2.setVisibility(type2);
         binding.llStatus.setVisibility(status);
         binding.llDivStatus.setVisibility(status);
+        binding.llInput.setVisibility(input);
+        binding.llDivInput.setVisibility(input);
     }
 
     public void setQueryListener(OnClickListener lsn) {
@@ -333,7 +366,6 @@ public class FilterView extends LinearLayout {
         ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), title.toString(), adapter));
         ppw.show();
     }
-
 
     private static BasePopupView mpop = null;
 

@@ -83,6 +83,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private int clickCount = 0; // 点击次数 debug model
     private boolean selectUpdate;//手动更新余额
     private UpdateVo updateVo;//更新
+    private boolean isSelectedGame = false;
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -110,7 +111,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.readCache(); // 读取缓存,用户信息可能发生了变更
         TagUtils.tagDailyEvent(getContext());
         checkUpdate(); // 检查更新
-        if(!TextUtils.isEmpty(token)) {
+        if (!TextUtils.isEmpty(token)) {
             checkRedPocket();
         }
     }
@@ -195,6 +196,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             //KLog.d(list.get(0));
             gameAdapter.clear();
             gameAdapter.addAll(list);
+            RadioButton rBtn = (RadioButton) binding.rgpType.getChildAt(0);
+            rBtn.setChecked(true);
         });
 
         viewModel.liveDataPlayUrl.observe(getViewLifecycleOwner(), map -> {
@@ -425,8 +428,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (needScroll == true && (newState == RecyclerView.SCROLL_STATE_IDLE)) {
+                // 当他划到找到要的item，将此item移到最上方
+                if (needScroll && (newState == RecyclerView.SCROLL_STATE_IDLE)) {
                     scrollRecycleView();
+                }
+                // 当他滑动时才让radioButton可以控制
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    isSelectedGame = false;
                 }
             }
 
@@ -439,7 +447,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                     return;
                 }
                 GameVo vo = gameAdapter.get(position);
-                if (vo.pId != curPId) {
+                if (vo.pId != curPId && !isSelectedGame) {
                     curPId = vo.pId;
                     RadioButton rbtn = binding.rgpType.findViewWithTag("tp_" + curPId);
                     rbtn.setChecked(true);
@@ -459,6 +467,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             rbtn.setButtonDrawable(dr);
 
             rbtn.setOnClickListener(v -> {
+                isSelectedGame = true;
                 String tag = v.getTag().toString();
                 int pid = Integer.parseInt(tag.replace("tp_", ""));
                 smoothToPosition(pid);

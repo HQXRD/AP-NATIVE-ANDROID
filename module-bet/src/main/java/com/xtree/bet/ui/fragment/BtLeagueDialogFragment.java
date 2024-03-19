@@ -308,7 +308,9 @@ public class BtLeagueDialogFragment extends BaseDialogFragment<BtDialogLeagueBin
             for(int i = 0; i < mLeagueList.size(); i ++){
                 mLeagueList.get(i).setSelected(isChecked);
             }
-            settingLeagueAdapter.notifyDataSetChanged();
+            if(settingLeagueAdapter != null) {
+                settingLeagueAdapter.notifyDataSetChanged();
+            }
         }
     }
 
