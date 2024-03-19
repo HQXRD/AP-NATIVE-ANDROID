@@ -451,7 +451,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                     for (int i = 0; i < categories.size(); i++) {
                         View view = LayoutInflater.from(this).inflate(R.layout.bt_layout_bet_catory_tab_item, null);
                         TextView tvName = view.findViewById(R.id.tab_item_name);
-                        String name = categories.get(i).getName();
+                        String name = categories.get(i) == null ? "" : categories.get(i).getName();
 
                         tvName.setText(name);
                         ColorStateList colorStateList = getResources().getColorStateList(R.color.bt_color_category_tab_text);
