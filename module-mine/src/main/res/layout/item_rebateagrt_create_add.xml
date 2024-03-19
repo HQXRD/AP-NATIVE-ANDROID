@@ -6,6 +6,8 @@
         <variable
             name="m"
             type="com.xtree.mine.ui.rebateagrt.model.RebateAgrtCreateAddModel" />
+
+        <import type="android.view.View" />
     </data>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -52,6 +54,7 @@
             android:background="@drawable/shape_stroke_247bf4_1_corner_8"
             android:layout_alignParentEnd="true"
             android:onClick="@{() -> m.add()}"
+            android:visibility="@{m.openAdd==true?View.VISIBLE:View.GONE}"
             />
     </RelativeLayout>
 </layout>

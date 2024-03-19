@@ -8,14 +8,17 @@ import com.google.gson.GsonBuilder;
 import com.xtree.mine.data.source.APIManager;
 import com.xtree.mine.data.source.HttpDataSource;
 import com.xtree.mine.data.source.http.service.HttpApiService;
+import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
 import com.xtree.mine.vo.request.DividendAutoSendRequest;
+import com.xtree.mine.vo.request.DividendAutoSentQuery;
 import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
 import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
 import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
-import com.xtree.mine.vo.request.RebateAgrtCreateRuery;
+import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
+import com.xtree.mine.vo.response.DividendAgrtCheckResponse;
 import com.xtree.mine.vo.response.DividendAutoSendResponse;
 import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
@@ -134,10 +137,13 @@ public class HttpDataSourceImpl implements HttpDataSource {
     }
 
     @Override
-    public Flowable<DividendAutoSendResponse> getDividendAutoSendData(DividendAutoSendRequest request) {
+    public Flowable<DividendAutoSendResponse> getDividendAutoSendData(DividendAutoSentQuery query, DividendAutoSendRequest request) {
         String json = JSON.toJSONString(request);
         Map<String, Object> map = JSON.parseObject(json, type);
-        return apiService.get(APIManager.GAMEDIVIDENDAGRT_AUTOSEND_URL, map).map(new Function<ResponseBody, DividendAutoSendResponse>() {
+
+        String queryJson = JSON.toJSONString(query);
+        Map<String, Object> queryMap = JSON.parseObject(queryJson, type);
+        return apiService.post(APIManager.GAMEDIVIDENDAGRT_AUTOSEND_URL, queryMap, map).map(new Function<ResponseBody, DividendAutoSendResponse>() {
             @Override
             public DividendAutoSendResponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), DividendAutoSendResponse.class);
@@ -158,7 +164,7 @@ public class HttpDataSourceImpl implements HttpDataSource {
     }
 
     @Override
-    public Flowable<RebateAgrtCreateResponse> getRebateAgrtCreateData(RebateAgrtCreateRuery query, RebateAgrtCreateRequest request) {
+    public Flowable<RebateAgrtCreateResponse> getRebateAgrtCreateData(RebateAgrtCreateQuery query, RebateAgrtCreateRequest request) {
 
         String json = JSON.toJSONString(request);
         Map<String, Object> map = JSON.parseObject(json, type);
@@ -170,6 +176,18 @@ public class HttpDataSourceImpl implements HttpDataSource {
             @Override
             public RebateAgrtCreateResponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), RebateAgrtCreateResponse.class);
+            }
+        });
+    }
+
+    @Override
+    public Flowable<DividendAgrtCheckResponse> getDividendAgrtData(DividendAgrtCheckRequest request) {
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+        return apiService.get(APIManager.GAMEDIVIDENDAGRT_DETAIL_URL, map).map(new Function<ResponseBody, DividendAgrtCheckResponse>() {
+            @Override
+            public DividendAgrtCheckResponse apply(ResponseBody responseBody) throws Exception {
+                return gson.fromJson(responseBody.string(), DividendAgrtCheckResponse.class);
             }
         });
     }

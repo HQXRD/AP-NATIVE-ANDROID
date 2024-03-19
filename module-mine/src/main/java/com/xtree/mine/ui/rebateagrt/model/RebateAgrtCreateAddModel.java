@@ -1,5 +1,7 @@
 package com.xtree.mine.ui.rebateagrt.model;
 
+import androidx.databinding.ObservableField;
+
 import com.xtree.base.mvvm.recyclerview.BindHead;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 
@@ -12,6 +14,7 @@ import io.reactivex.functions.Consumer;
 public class RebateAgrtCreateAddModel extends BindModel implements BindHead {
 
     private Consumer<String> consumer = null;
+    public ObservableField<Boolean> openAdd = new ObservableField<>(true);
 
     public RebateAgrtCreateAddModel() {
     }

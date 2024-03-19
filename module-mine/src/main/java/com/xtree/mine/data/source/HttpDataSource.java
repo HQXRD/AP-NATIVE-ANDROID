@@ -2,14 +2,17 @@ package com.xtree.mine.data.source;
 
 
 import com.xtree.mine.data.source.http.service.HttpApiService;
+import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
 import com.xtree.mine.vo.request.DividendAutoSendRequest;
+import com.xtree.mine.vo.request.DividendAutoSentQuery;
 import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
 import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
 import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
-import com.xtree.mine.vo.request.RebateAgrtCreateRuery;
+import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
+import com.xtree.mine.vo.response.DividendAgrtCheckResponse;
 import com.xtree.mine.vo.response.DividendAutoSendResponse;
 import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
@@ -59,7 +62,7 @@ public interface HttpDataSource {
     /**
      * 返水契约-分红契约-一键发放
      */
-    Flowable<DividendAutoSendResponse> getDividendAutoSendData(DividendAutoSendRequest request);
+    Flowable<DividendAutoSendResponse> getDividendAutoSendData(DividendAutoSentQuery query, DividendAutoSendRequest request);
 
     /**
      * 返水契约-推荐报表
@@ -69,6 +72,11 @@ public interface HttpDataSource {
     /**
      * 返水契约-创建契约
      */
-    Flowable<RebateAgrtCreateResponse> getRebateAgrtCreateData(RebateAgrtCreateRuery query, RebateAgrtCreateRequest request);
+    Flowable<RebateAgrtCreateResponse> getRebateAgrtCreateData(RebateAgrtCreateQuery query, RebateAgrtCreateRequest request);
+
+    /**
+     * 返水契约-分红契约规则详情
+     */
+    Flowable<DividendAgrtCheckResponse> getDividendAgrtData(DividendAgrtCheckRequest request);
 
 }

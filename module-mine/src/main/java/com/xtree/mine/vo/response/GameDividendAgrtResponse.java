@@ -350,7 +350,7 @@ public class GameDividendAgrtResponse {
         private String sort;
         private String orderby;
         private String username;
-        private int cycle_id;
+        private String cycle_id;
         private String pay_status;
 
         public String getSort() {
@@ -377,11 +377,11 @@ public class GameDividendAgrtResponse {
             this.username = username;
         }
 
-        public int getCycle_id() {
+        public String getCycle_id() {
             return cycle_id;
         }
 
-        public void setCycle_id(int cycle_id) {
+        public void setCycle_id(String cycle_id) {
             this.cycle_id = cycle_id;
         }
 

@@ -1,5 +1,6 @@
 package com.xtree.mine.ui.rebateagrt.viewmodel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -8,9 +9,10 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
-import com.xtree.base.global.Constant;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.base.net.HttpCallBack;
@@ -20,20 +22,19 @@ import com.xtree.base.widget.MsgDialog;
 import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.ui.rebateagrt.fragment.DividendAgrtCheckDialogFragment;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtModel;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtSubModel;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtTotalModel;
-import com.xtree.mine.ui.rebateagrt.model.GameRebateAgrtModel;
-import com.xtree.mine.ui.rebateagrt.model.GameRebateAgrtTotalModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum;
 import com.xtree.mine.vo.StatusVo;
+import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
 import com.xtree.mine.vo.request.DividendAutoSendRequest;
+import com.xtree.mine.vo.request.DividendAutoSentQuery;
 import com.xtree.mine.vo.request.GameDividendAgrtRequest;
-import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.response.DividendAutoSendResponse;
 import com.xtree.mine.vo.response.GameDividendAgrtResponse;
-import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 
 import org.reactivestreams.Subscription;
 
@@ -46,8 +47,9 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.http.BusinessException;
-import me.xtree.mvvmhabit.utils.StringUtils;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * Created by KAKA on 2024/3/14.
@@ -114,6 +116,14 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
         public void check() {
             getDividendData();
         }
+
+        @Override
+        public void myAgrt() {
+            DividendAgrtCheckRequest dividendAgrtCheckRequest = new DividendAgrtCheckRequest();
+            dividendAgrtCheckRequest.setUserid(SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
+            dividendAgrtCheckRequest.setType(headModel.type);
+            startCheckAgrt(dividendAgrtCheckRequest);
+        }
     });
 
     private final GameDividendAgrtSubModel subModel = new GameDividendAgrtSubModel(new GameDividendAgrtSubModel.OnCallBack() {
@@ -134,6 +144,8 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
 
         add(headModel);
     }};
+
+    private GameDividendAgrtResponse dividendAgrtData = null;
 
     public void initData(RebateAreegmentTypeEnum type) {
         //init data
@@ -163,6 +175,15 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                 value.set(new StatusVo(vo.getShowId(), vo.getShowName()));
             }
         });
+    }
+
+    /**
+     * 跳转契约详情
+     * @param dividendAgrtCheckRequest 请求参数
+     */
+    private void startCheckAgrt(DividendAgrtCheckRequest dividendAgrtCheckRequest) {
+        startContainerActivity(DividendAgrtCheckDialogFragment.class.getCanonicalName());
+        RxBus.getDefault().postSticky(dividendAgrtCheckRequest);
     }
 
     private synchronized void getDividendData() {
@@ -197,6 +218,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                     public void onResult(GameDividendAgrtResponse vo) {
 
                         if (vo != null) {
+                            dividendAgrtData = vo;
 
                             //p<=1说明是第一页数据
                             if (gameDividendAgrtRequest.p <= 1) {
@@ -236,8 +258,15 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                         gameDividendAgrtModel.people = dataDTO.getPeople();
                                         gameDividendAgrtModel.cycle_percent = dataDTO.getCycle_percent();
                                         gameDividendAgrtModel.userName = dataDTO.getUsername();
+                                        gameDividendAgrtModel.userid = dataDTO.getUserid();
                                         gameDividendAgrtModel.subMoney = dataDTO.getSub_money();
                                         gameDividendAgrtModel.cycle = headModel.cyclyData.get().getShowName();
+                                        gameDividendAgrtModel.setCallBack(v ->{
+                                            DividendAgrtCheckRequest dividendAgrtCheckRequest = new DividendAgrtCheckRequest();
+                                            dividendAgrtCheckRequest.setUserid(v.userid);
+                                            dividendAgrtCheckRequest.setType(headModel.type);
+                                            startCheckAgrt(dividendAgrtCheckRequest);
+                                        });
                                         bindModels.add(gameDividendAgrtModel);
                                     }
                                 }
@@ -266,13 +295,20 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
         addSubscribe(disposable);
     }
 
+
     private synchronized void getAutoSend() {
         if (getmCompositeDisposable() != null) {
             getmCompositeDisposable().clear();
         }
-        DividendAutoSendRequest request = new DividendAutoSendRequest();
+        if (dividendAgrtData == null || dividendAgrtData.getGet() == null) {
+            return;
+        }
 
-        Disposable disposable = (Disposable) model.getDividendAutoSendData(request)
+        DividendAutoSentQuery query = new DividendAutoSentQuery();
+        DividendAutoSendRequest request = new DividendAutoSendRequest();
+        request.setType(headModel.type);
+        request.setCycle_id(dividendAgrtData.getGet().getCycle_id());
+        Disposable disposable = (Disposable) model.getDividendAutoSendData(query, request)
                 .doOnSubscribe(new Consumer<Subscription>() {
                     @Override
                     public void accept(Subscription subscription) throws Exception {
@@ -283,46 +319,46 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                     @Override
                     public void onResult(DividendAutoSendResponse vo) {
                         if (vo.getData() == null) {
-                            MsgDialog dialog = new MsgDialog(mActivity.get(), "温馨提示", vo.getMsg(), new TipDialog.ICallBack() {
-                                @Override
-                                public void onClickLeft() {
 
-                                }
-
-                                @Override
-                                public void onClickRight() {
-
-                                }
-                            });
-                            new XPopup.Builder(mActivity.get())
-                                    .dismissOnTouchOutside(true)
-                                    .dismissOnBackPressed(true)
-                                    .asCustom(dialog).show();
+                        } else {
+                            showTipDialog(vo.getMsg());
                         }
                     }
 
                     @Override
                     public void onFail(BusinessException t) {
                         super.onFail(t);
-
-                        MsgDialog dialog = new MsgDialog(mActivity.get(), "温馨提示", t.message, new TipDialog.ICallBack() {
-                            @Override
-                            public void onClickLeft() {
-
-                            }
-
-                            @Override
-                            public void onClickRight() {
-
-                            }
-                        });
-                        new XPopup.Builder(mActivity.get())
-                                .dismissOnTouchOutside(true)
-                                .dismissOnBackPressed(true)
-                                .asCustom(dialog).show();
+                        showTipDialog(t.message);
                     }
                 });
         addSubscribe(disposable);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private BasePopupView pop = null;
+
+    /**
+     * 提示弹窗
+     */
+    private void showTipDialog(String msg) {
+        MsgDialog dialog = new MsgDialog(mActivity.get(), "温馨提示", msg, true, new TipDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+
+            }
+
+            @Override
+            public void onClickRight() {
+                if (pop != null) {
+                    pop.dismiss();
+                }
+            }
+        });
+
+        pop = new XPopup.Builder(mActivity.get())
+                .dismissOnTouchOutside(true)
+                .dismissOnBackPressed(true)
+                .asCustom(dialog).show();
     }
 
     @Override

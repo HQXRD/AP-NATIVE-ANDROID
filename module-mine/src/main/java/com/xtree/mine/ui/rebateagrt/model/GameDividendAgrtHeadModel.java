@@ -26,6 +26,7 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
         void cyclicality(String title, ObservableField<StatusVo> cycly, List<FilterView.IBaseVo> list);
         void status(String title, ObservableField<StatusVo> statu, List<FilterView.IBaseVo> list);
         void check();
+        void myAgrt();
     }
 
     public ObservableField<StatusVo> sortData = new ObservableField<>();
@@ -96,6 +97,13 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
         if (onCallBack != null) {
             p = 1;
             onCallBack.check();
+        }
+    }
+
+    public void myAgrt() {
+        if (onCallBack != null) {
+            p = 1;
+            onCallBack.myAgrt();
         }
     }
 

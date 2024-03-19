@@ -4,16 +4,16 @@ package com.xtree.mine.vo.request;
  * Created by KAKA on 2024/3/19.
  * Describe: 请求拼接参数
  */
-public class RebateAgrtCreateRuery {
+public class RebateAgrtCreateQuery {
     private String controller = "compact";
     private String action = "create";
     private String type = "";
     private String client = "m";
 
-    public RebateAgrtCreateRuery() {
+    public RebateAgrtCreateQuery() {
     }
 
-    public RebateAgrtCreateRuery(String controller, String action, String type, String client) {
+    public RebateAgrtCreateQuery(String controller, String action, String type, String client) {
         this.controller = controller;
         this.action = action;
         this.type = type;

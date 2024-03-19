@@ -23,7 +23,7 @@ import com.xtree.mine.ui.rebateagrt.model.RebateAgrtCreateModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtSearchUserResultModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtDetailModel;
 import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
-import com.xtree.mine.vo.request.RebateAgrtCreateRuery;
+import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 import com.xtree.mine.vo.response.RebateAgrtCreateResponse;
 
@@ -243,7 +243,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
         }
 
         //区分创建或修改
-        RebateAgrtCreateRuery query = new RebateAgrtCreateRuery();
+        RebateAgrtCreateQuery query = new RebateAgrtCreateQuery();
         switch (rebateAgrtDetailModel.getSubData().getType()) {
             case "2": //LIVE
             case "3": //SPORT
