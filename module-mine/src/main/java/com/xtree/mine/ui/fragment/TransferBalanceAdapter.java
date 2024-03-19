@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
@@ -37,19 +38,20 @@ public class TransferBalanceAdapter extends CachedAutoRefreshAdapter<GameBalance
 
         CfLog.d("TransferBalanceAdapter : " + position);
 
-        binding.tvwName.setText(vo.gameName);
-        binding.tvwBlc.setText(vo.balance);
-        try {
-            // 这里是为了颜色
-            binding.tvwBlc.setSelected(Double.parseDouble(vo.balance) > 0);
-        } catch (NumberFormatException e) {
-            binding.tvwBlc.setSelected(false); // 这里是为了颜色
-        }
+        binding.tvwThirdGameName.setText(vo.gameName);
+        binding.tvwThirdGameBalance.setText(vo.balance);
 
         if ((position + 1) % 3 == 0) {
-            binding.ivLine.setVisibility(View.GONE);
+            binding.tvwSpace.setVisibility(View.GONE);
+        }
+
+        CfLog.i("vo.balance : " + vo.balance);
+        if (vo.balance.matches("\\d+\\.\\d{4}")) {
+            binding.llMain.setBackground(ContextCompat.getDrawable(ctx, R.drawable.bg_my_wallet_item));
+            binding.tvwThirdGameBalance.setTextSize(18);
         } else {
-            binding.ivLine.setVisibility(View.VISIBLE);
+            binding.llMain.setBackground(ContextCompat.getDrawable(ctx, R.drawable.bg_gray_8));
+            binding.tvwThirdGameBalance.setTextSize(10);
         }
     }
 }

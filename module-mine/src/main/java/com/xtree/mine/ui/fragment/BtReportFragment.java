@@ -209,8 +209,15 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
         listStatus.add(new StatusVo(1, getString(R.string.txt_settled)));
         listStatus.add(new StatusVo(2, getString(R.string.txt_unsettle)));
 
-        userId = SPUtils.getInstance().getString(SPKeyGlobal.USER_ID);
-        userName = SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME);
+        userId = getArguments().getString("userId");
+        userName = getArguments().getString("userName");
+        if (userId == null || userId.isEmpty()) {
+            userId = SPUtils.getInstance().getString(SPKeyGlobal.USER_ID);
+            userName = SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME);
+        } else {
+            binding.fvMain.setDefTop(getString(R.string.txt_user_name), userName, "");
+            binding.fvMain.setVisibility(View.VISIBLE, View.VISIBLE, View.GONE, View.VISIBLE, View.GONE);
+        }
     }
 
     @Override
@@ -370,11 +377,14 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
         status = binding.fvMain.getStatusId("0");
 
         HashMap<String, String> map = new HashMap<>();
+        map.put("userid", userId); //
+        map.put("username", userName); //
         map.put("controller", "gameinfo");
         map.put("action", "newgamelist");
         map.put("starttime", starttime);
         map.put("endtime", endtime);
         map.put("lotteryid", "0");
+        map.put("bet_result", status); // 0-全部, 1-已结算, 2-未结算
         map.put("methodid", "0");
         map.put("ischild", "0");
         map.put("p", "" + page);

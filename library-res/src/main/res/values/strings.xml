@@ -171,7 +171,7 @@
     <string name="txt_help">帮助中心</string>
     <string name="txt_qa">常见问题</string>
     <string name="txt_next_step">下一步</string>
-
+    <string name="txt_all_exclude_lottery">全部（不含彩票）</string>
 
     <!--魔域 提款文本-->
     <string name="txt_withdraw_password">输入资金密码</string>
@@ -193,7 +193,23 @@
     <string name="txt_withdraw_balance_money">您的余额不足，无法提款</string>
     <string name="txt_withdraw_fun_timeout">资金密码有效期已过期，请重新输入后提款</string>
 
+    <string name="txt_user_name">用户名</string>
 
-
+    <string name="txt_rpt_recharge">充值：</string>
+    <string name="txt_rpt_sbt">总投注：</string>
+    <string name="txt_rpt_sprofit">会员输赢：</string>
+    <string name="txt_rpt_fee">场馆费：</string>
+    <string name="txt_rpt_wages">返水：</string>
+    <string name="txt_rpt_net_profit">会员净输赢：</string>
+    <string name="txt_rpt_reg_time">注册日期：</string>
+    <string name="txt_rpt_withdraw">提款：</string>
+    <string name="txt_rpt_sprize">中奖金额：</string>
+    <string name="txt_rpt_spoint">返点：</string>
+    <string name="txt_rpt_eff_bt">有效投注：</string>
+    <string name="txt_rpt_sac_prize">优惠：</string>
+    <string name="txt_rpt_myself">本人</string>
+    <string name="txt_rpt_page">本页合计</string>
+    <string name="txt_rpt_total">总合计</string>
+    <string name="txt_rpt_level">本级：</string>
 
 </resources>

@@ -125,14 +125,16 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
 
         findViewById(R.id.ll_expand).setOnClickListener(this);
         findViewById(R.id.ll_delete).setOnClickListener(view -> {
-            String value = !TextUtils.isEmpty(editText.getText()) ? editText.getText().toString() : " ";
-            value = value.substring(0, value.length()-1);
-            if(isNumeric(value)) {
-                editText.setText(value);
-            }
-            if(TextUtils.isEmpty(value)){
-                currentPos = -1;
-                rvDefaultAmount.getAdapter().notifyDataSetChanged();
+            if(editText != null){
+                String value = !TextUtils.isEmpty(editText.getText()) ? editText.getText().toString() : " ";
+                value = value.substring(0, value.length()-1);
+                if(isNumeric(value)) {
+                    editText.setText(value);
+                }
+                if(TextUtils.isEmpty(value)){
+                    currentPos = -1;
+                    rvDefaultAmount.getAdapter().notifyDataSetChanged();
+                }
             }
         });
         findViewById(R.id.tv_max).setOnClickListener(view -> {
