@@ -13,7 +13,7 @@ public class AppUtil {
      *
      * @param ctx Context
      */
-    public static void goCustomService(Context ctx) {
+    public static void goCustomerService(Context ctx) {
 
         goBrowser(ctx, DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE);
     }

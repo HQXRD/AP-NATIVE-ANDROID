@@ -36,11 +36,10 @@ import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
-import com.lxj.xpopup.XPopup;
 import com.xtree.base.R;
-import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 
@@ -285,9 +284,7 @@ public class BrowserActivity extends AppCompatActivity {
     private void initRight() {
         ivwCs.setOnClickListener(v -> {
             // 客服
-            String title = getString(R.string.txt_custom_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-            new XPopup.Builder(this).moveUpToKeyboard(false).asCustom(new BrowserDialog(this, title, url)).show();
+            AppUtil.goCustomerService(this);
         });
         ivwMsg.setOnClickListener(v -> {
             // 消息
