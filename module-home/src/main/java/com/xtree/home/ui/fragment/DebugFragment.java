@@ -14,14 +14,12 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.lxj.xpopup.XPopup;
-import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
-import com.xtree.base.widget.BrowserDialog;
 import com.xtree.home.BR;
 import com.xtree.home.BuildConfig;
 import com.xtree.home.R;
@@ -93,19 +91,13 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
 
     }
 
-    private void goCustomerService() {
-        String title = getString(R.string.txt_custom_center);
-        String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-        new XPopup.Builder(getActivity()).asCustom(new BrowserDialog(getActivity(), title, url)).show();
-    }
-
     @Override
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
-        binding.ivwCs.setOnClickListener(v -> goCustomerService());
+        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
 
         binding.ivwLogo.setOnClickListener(v -> {
-            if (clickCount++ > 5) {
+            if (clickCount++ >= 2) {
                 clickCount = 0;
                 binding.llMain.setVisibility(View.VISIBLE);
             }

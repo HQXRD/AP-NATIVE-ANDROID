@@ -19,15 +19,13 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
-import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
-import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
-import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
@@ -132,11 +130,7 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
 
         binding.ivwMsg.setOnClickListener(v -> startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG));
 
-        binding.ivwCs.setOnClickListener(v -> {
-            String title = getString(R.string.txt_custom_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-            new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BrowserDialog(getContext(), title, url)).show();
-        });
+        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
 
         binding.llCenterWallet.tvw1kRecycle.setOnClickListener(v -> {
             showDialog1kAutoRecycle();

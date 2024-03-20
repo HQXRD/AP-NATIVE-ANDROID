@@ -21,11 +21,10 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AESUtil;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.SPUtil;
 import com.xtree.base.utils.TagUtils;
-import com.xtree.base.widget.BrowserDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Spkey;
@@ -117,7 +116,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
         //binding.tvwAgreement.setOnClickListener(v -> goMain());
         binding.tvwSkipLogin.setOnClickListener(v -> goMain());
-        binding.tvwCs.setOnClickListener(v -> goCustomerService());
+        binding.tvwCs.setOnClickListener(v -> AppUtil.goCustomerService(this));
 
         binding.btnLogin.setOnClickListener(v -> {
             if (!ifAgree()) {
@@ -354,12 +353,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             edt.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         }
         edt.setSelection(edt.length());
-    }
-
-    private void goCustomerService() {
-        String title = getString(R.string.txt_custom_center);
-        String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-        new XPopup.Builder(this).asCustom(new BrowserDialog(this, title, url)).show();
     }
 
     private void goMain() {

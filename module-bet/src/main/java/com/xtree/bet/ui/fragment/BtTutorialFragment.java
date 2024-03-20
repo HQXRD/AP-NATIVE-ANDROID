@@ -11,30 +11,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.tabs.TabLayout;
-import com.lxj.xpopup.XPopup;
-import com.xtree.base.global.Constant;
 import com.xtree.base.router.RouterFragmentPath;
-import com.xtree.base.utils.DomainUtil;
-import com.xtree.base.widget.BrowserDialog;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.bet.BR;
 import com.xtree.bet.R;
-import com.xtree.bet.databinding.BtDialogSettingBinding;
 import com.xtree.bet.databinding.BtFragmentTutorialBinding;
 import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.bet.ui.viewmodel.fb.FBBtCarViewModel;
 import com.xtree.bet.ui.viewmodel.fb.FBMainViewModel;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.utils.Utils;
 
 /**
@@ -129,9 +120,7 @@ public class BtTutorialFragment extends BaseFragment<BtFragmentTutorialBinding, 
     public void onClick(View v) {
         int id = v.getId();
         if(id == R.id.iv_cs){
-            String title = getContext().getString(R.string.txt_custom_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+            AppUtil.goCustomerService(getContext());
         } else if (id == R.id.iv_msg) {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG);
         } else if (id == R.id.ivw_back) {

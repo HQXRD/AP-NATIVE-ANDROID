@@ -29,16 +29,14 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
-import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.ImageUploadUtil;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
-import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.DateTimePickerDialog;
 import com.xtree.base.widget.GlideEngine;
 import com.xtree.base.widget.ImageFileCompressEngine;
@@ -134,11 +132,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         }
         referFeedbackUI("wechat");
         //我的客服
-        binding.ivwCs.setOnClickListener(v -> {
-            String title = getContext().getString(R.string.txt_custom_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
-        });
+        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         //消息中心
         binding.ivwMsg.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG);

@@ -25,6 +25,7 @@ import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
@@ -32,7 +33,6 @@ import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserActivity;
-import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.home.BR;
 import com.xtree.home.R;
@@ -329,11 +329,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             }
         });
 
-        binding.ivwCs.setOnClickListener(view -> {
-            String title = getString(R.string.txt_custom_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-            new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BrowserDialog(getContext(), title, url)).show();
-        });
+        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         binding.ivwClose.setOnClickListener(view -> {
             binding.llNotice.setVisibility(View.GONE);
             binding.ivwNotice.setVisibility(View.VISIBLE);

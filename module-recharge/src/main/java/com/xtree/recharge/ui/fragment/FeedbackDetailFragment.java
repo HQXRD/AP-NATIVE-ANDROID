@@ -12,14 +12,12 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
-import com.lxj.xpopup.XPopup;
-import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
-import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
@@ -48,11 +46,7 @@ public class FeedbackDetailFragment extends BaseFragment<FragmentFeedbackDetailB
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         //我的客服
-        binding.ivwCs.setOnClickListener(v -> {
-            String title = getContext().getString(R.string.txt_custom_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
-        });
+        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         //消息中心
         binding.ivwMsg.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG);
