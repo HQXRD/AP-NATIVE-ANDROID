@@ -15,19 +15,25 @@ import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.ui.fragment.SetQuestionDialog;
+import com.xtree.mine.vo.AdduserVo;
 import com.xtree.mine.vo.BalanceVo;
+import com.xtree.mine.vo.MarketingVo;
 import com.xtree.mine.vo.MemberManagerVo;
 import com.xtree.mine.vo.QuestionVo;
 import com.xtree.mine.vo.SendMoneyVo;
 import com.xtree.mine.vo.VipInfoVo;
 import com.xtree.mine.vo.VipUpgradeInfoVo;
+import com.xtree.mine.vo.request.AdduserRequest;
 
 import java.util.HashMap;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+import me.xtree.mvvmhabit.http.BaseResponse2;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -47,6 +53,8 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<MemberManagerVo> liveDataMemberManager = new SingleLiveData<>(); // 团队管理
     public SingleLiveData<String> liveDataCheckPassword = new SingleLiveData<>(); // 检查资金密码
     public SingleLiveData<SendMoneyVo> liveDataSendMoney = new SingleLiveData<>(); // 转账成功
+    public SingleLiveData<MarketingVo> liveDataMarketing = new SingleLiveData<>();
+    public SingleLiveData<AdduserVo> liveDataAdduser = new SingleLiveData<>();
 
     public MineViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
@@ -264,6 +272,48 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void marketing() {
+        Disposable disposable = (Disposable) model.getApiService().marketing()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<MarketingVo>() {
+                    @Override
+                    public void onResult(MarketingVo vo) {
+                        CfLog.d(vo.toString());
+                        liveDataMarketing.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+    public void adduser(AdduserRequest request) {
+        Disposable disposable = (Disposable) model.getApiService().adduser(request)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<BaseResponse2>() {
+                    @Override
+                    public void onResult(BaseResponse2 vo) {
+                        CfLog.d(vo.toString());
+                        ToastUtils.showLong(vo.message);
+                        if (vo.msg_type == 1 || vo.msg_type == 2) {
+                            return;
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);

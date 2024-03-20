@@ -94,16 +94,17 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
             if (mProfileVo != null) {
                 if (!mProfileVo.has_securitypwd) {
                     startContainerFragment(RouterFragmentPath.Mine.PAGER_FUNDS_PWD);
-                } else if (mProfileVo.set_question.equals("0")) {
-                    new XPopup.Builder(requireContext()).asCustom(CheckPasswordDialog.newInstance(requireContext(), this, checkCode -> {
-                        //密保问题设置弹窗
-                        new XPopup.Builder(requireContext()).moveUpToKeyboard(false)
-                                .dismissOnBackPressed(false)
-                                .dismissOnTouchOutside(false)
-                                .asCustom(new SetQuestionDialog(requireContext()))
-                                .show();
-                    })).show();
                 }
+                // else if (mProfileVo.set_question.equals("0")) {
+                //    new XPopup.Builder(requireContext()).asCustom(CheckPasswordDialog.newInstance(requireContext(), this, checkCode -> {
+                //        //密保问题设置弹窗
+                //        new XPopup.Builder(requireContext()).moveUpToKeyboard(false)
+                //                .dismissOnBackPressed(false)
+                //                .dismissOnTouchOutside(false)
+                //                .asCustom(new SetQuestionDialog(requireContext()))
+                //                .show();
+                //    })).show();
+                //}
             }
         });
 

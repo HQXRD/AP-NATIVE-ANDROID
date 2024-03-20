@@ -4,6 +4,7 @@ import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.vo.AccountChangeVo;
+import com.xtree.mine.vo.AdduserVo;
 import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.BankCardCashMoYuVo;
@@ -24,6 +25,7 @@ import com.xtree.mine.vo.GooglePswVO;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.LotteryDetailVo;
 import com.xtree.mine.vo.LotteryReportVo;
+import com.xtree.mine.vo.MarketingVo;
 import com.xtree.mine.vo.MemberManagerVo;
 import com.xtree.mine.vo.MsgInfoVo;
 import com.xtree.mine.vo.MsgListVo;
@@ -62,6 +64,7 @@ import com.xtree.mine.vo.VirtualConfirmMoYuVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
 import com.xtree.mine.vo.VirtualSecurityMoYuVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
+import com.xtree.mine.vo.request.AdduserRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -628,4 +631,16 @@ public interface HttpApiService {
      */
     @GET("{url}")
     Flowable<ResponseBody> get(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) HashMap<String, Object> map);
+
+    /**
+     * 注册推广
+     */
+    @GET("/user/marketing?client=m")
+    Flowable<MarketingVo> marketing();
+
+    /**
+     * 注册推广-创建用户
+     */
+    @POST("/user/adduser?client=m")
+    Flowable<BaseResponse2> adduser(@Body AdduserRequest requestBody);
 }

@@ -188,6 +188,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         binding.tvwAccMg.setOnClickListener(v -> {
             showAccountMgmt();
         });
+        binding.tvwRegProm.setOnClickListener(v -> {
+            //注册推广
+            if (mProfileVo != null) {
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_REGISTER_PROMOTION);
+            }
+        });
 
         binding.tvwSportRegular.setOnClickListener(v -> {
             goWebView(v, Constant.URL_SPORT_RULES, false);
