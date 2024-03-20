@@ -159,6 +159,9 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             //@GET("/api/verify/singlesend")
             if (num.length() == 11) {
                 viewModel.singleSend1("bind", sendtype, num);
+            } else {
+                CfLog.d("phone/email is null or error...");
+                LoadingDialog.finish();
             }
 
         } else if (Constant.RESET_LOGIN_PASSWORD.equals(typeName)) {
