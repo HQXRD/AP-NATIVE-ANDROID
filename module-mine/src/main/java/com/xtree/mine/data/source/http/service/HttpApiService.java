@@ -52,7 +52,6 @@ import com.xtree.mine.vo.UsdtVo;
 import com.xtree.mine.vo.UserBankConfirmVo;
 import com.xtree.mine.vo.UserBankProvinceVo;
 import com.xtree.mine.vo.UserBindBaseVo;
-import com.xtree.mine.vo.UserCheckVo;
 import com.xtree.mine.vo.UserUsdtConfirmVo;
 import com.xtree.mine.vo.UserUsdtTypeVo;
 import com.xtree.mine.vo.VerificationCodeVo;
@@ -623,17 +622,6 @@ public interface HttpApiService {
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<VirtualConfirmMoYuVo> postMoYuConfirmWithdrawVirtual(@Body Map<String, String> map);
-
-    /*推广开新 检查用户名*/
-    @GET("user/usercheck?client=m")
-    Flowable<UserCheckVo> getCheckUserName(@Query("username") String username);
-
-    /*
-      推广开新 注册新用户 【魔域】
-     */
-    @POST("/user/adduser?client=m")
-    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<UserCheckVo> postAddUser(@Body Map<String, String> map);
 
     /**
      * 返水契约
