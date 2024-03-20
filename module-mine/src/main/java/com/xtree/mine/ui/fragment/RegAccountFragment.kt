@@ -1,7 +1,5 @@
 package com.xtree.mine.ui.fragment
 
-import PromoRebateModel
-import PromoRegModel
 import android.os.Bundle
 import android.text.InputType
 import android.view.LayoutInflater
@@ -18,6 +16,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter
 import com.xtree.base.databinding.ItemTextBinding
 import com.xtree.base.global.SPKeyGlobal
 import com.xtree.base.utils.ClickUtil
+import com.xtree.base.utils.NumberUtils
 import com.xtree.base.utils.UuidUtil
 import com.xtree.base.vo.ProfileVo
 import com.xtree.base.widget.ListDialog
@@ -25,7 +24,6 @@ import com.xtree.base.widget.LoadingDialog
 import com.xtree.mine.BR
 import com.xtree.mine.R
 import com.xtree.mine.databinding.FragmentRegAccountBinding
-import com.xtree.mine.databinding.LayoutQuickRebateBinding
 import com.xtree.mine.ui.viewmodel.MineViewModel
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory
 import com.xtree.mine.vo.request.AdduserRequest
@@ -46,7 +44,7 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
     private lateinit var ppwGame: BasePopupView
 
     private lateinit var mProfileVo: ProfileVo
-    val mList = arrayListOf("大招商", "招商", "会员")
+    private val mList = arrayListOf("大招商", "招商", "会员")
 
     //未知
     private val unknown = 0
@@ -81,6 +79,26 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
                 if (ClickUtil.isFastClick()) {
                     return@setOnClickListener
                 }
+                val name = etName.text.toString().trim()
+                val pwd = etLoginPwd.text.toString().trim()
+                val nickname = etUserName.text.toString().trim()
+                if (name.isEmpty() || name.length < 6 || name[0].toString() == "0" || name[0].toString() == "o") {
+                    ToastUtils.showLong("请输入正确格式的用户名")
+                    return@setOnClickListener
+                }
+
+                //由字号和数字组成的6–16个字符，且必须包含字母和数宇
+                val regex2 = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,16}$")
+                if (!regex2.matches(pwd)) {
+                    ToastUtils.showLong("请输入正确格式的登录密码")
+                    return@setOnClickListener
+                }
+
+                if (nickname.isEmpty()) {
+                    ToastUtils.showLong("请输入昵称")
+                    return@setOnClickListener
+                }
+
                 val type: Int
                 val bd = when (binding.tvSelectType.text) {
                     mList[0] -> {
@@ -102,11 +120,12 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
                         return@setOnClickListener
                     }
                 }
+
                 LoadingDialog.show(requireContext())
                 viewModel.adduser(
                     AdduserRequest(
-                        UuidUtil.getID(), "insert", mProfileVo.zhaoshang.toString(), type.toString(), etName.text.toString(),
-                        etLoginPwd.text.toString(), etUserName.text.toString(),
+                        UuidUtil.getID(), "insert", mProfileVo.zhaoshang.toString(), type.toString(),
+                        name, pwd, nickname,
                         bd.typeLottery.removePercentage(), bd.typeReal.removePercentage(), bd.typeSports.removePercentage(),
                         bd.typeChess.removePercentage(), bd.typeGame.removePercentage()
                     )
@@ -126,7 +145,6 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
         viewModel.liveDataAdduser.observe(this) {
             ToastUtils.showLong(it.msg_detail)
         }
-
     }
 
     override fun initContentView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): Int {
@@ -142,6 +160,7 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
         val factory = AppViewModelFactory.getInstance(requireActivity().application)
         return ViewModelProvider(this, factory)[MineViewModel::class.java]
     }
+
     private fun setEdtPwd(isChecked: Boolean, edt: EditText) {
         if (isChecked) {
             edt.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
@@ -218,95 +237,151 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
      * 大招商快速返点设置
      */
     private fun setRebate0() {
-        PromoRegModel.typeRebate[0].let {
-            binding.include0.apply {
-                setQuickRebate(it)
-            }
+        binding.include0.apply {
+            typeLottery.text = mProfileVo.rebate_percentage
+            typeLottery.isEnabled = false
+            tvLotteryRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
 
+            typeReal.text = mProfileVo.maxLivePoint.toString().plus("%")
+            typeReal.isEnabled = false
+            tvRealRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+
+            typeSports.text = mProfileVo.maxSportPoint.toString().plus("%")
+            typeSports.isEnabled = false
+            tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+
+            typeChess.text = mProfileVo.maxEsportsPoint.toString().plus("%")
+            typeChess.isEnabled = false
+            tvChessRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+
+            typeGame.text = mProfileVo.maxPokerPoint.toString().plus("%")
+            typeGame.isEnabled = false
+            tvGameRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
         }
+
+
     }
 
     /**
      * 招商快速返点设置
      */
     private fun setRebate1() {
-        PromoRegModel.typeRebate[1].let { promoRebate ->
-            binding.include1.apply {
-                setQuickRebate(promoRebate)
-                val list = arrayListOf(0.9, 0.8, 0.7, 0.6, 0.5)
-                typeReal.setOnClickListener {
-                    //未初始化，创建ppw
-                    if (!::ppwReal.isInitialized) {
-                        ppwReal = createPpw(promoRebate[1], typeReal, tvRealRebate, list) { ppwReal.dismiss() }
-                    }
-                    ppwReal.show()
-                }
+        binding.include1.apply {
+            typeLottery.text = mProfileVo.rebate_percentage
+            typeLottery.isEnabled = false
+            tvLotteryRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
 
-                typeSports.setOnClickListener {
-                    //未初始化，创建ppw
-                    if (!::ppwSports.isInitialized) {
-                        ppwSports = createPpw(promoRebate[2], typeSports, tvSportsRebate, list) { ppwSports.dismiss() }
-                    }
-                    ppwSports.show()
-                }
-                typeChess.setOnClickListener {
-                    //未初始化，创建ppw
-                    if (!::ppwChess.isInitialized) {
-                        ppwChess = createPpw(promoRebate[3], typeChess, tvChessRebate, list) { ppwChess.dismiss() }
-                    }
-                    ppwChess.show()
-                }
-                typeGame.setOnClickListener {
-                    //未初始化，创建ppw
-                    if (!::ppwGame.isInitialized) {
-                        ppwGame = createPpw(promoRebate[4], typeGame, tvGameRebate, list) { ppwGame.dismiss() }
-                    }
-                    ppwGame.show()
-                }
+            typeReal.text = "0.9%"
+            typeReal.isEnabled = true
+            tvRealRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxLivePoint, 0.9).toString() + "%")
 
+            typeSports.text = "0.9%"
+            typeSports.isEnabled = true
+            tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxSportPoint, 0.9).toString() + "%")
+
+            typeChess.text = "0.9%"
+            typeChess.isEnabled = true
+            tvChessRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxEsportsPoint, 0.9).toString() + "%")
+
+            typeGame.text = "0.9%"
+            typeGame.isEnabled = true
+            tvGameRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxPokerPoint, 0.9).toString() + "%")
+
+
+            val list = arrayListOf(0.9, 0.8, 0.7, 0.6, 0.5)
+            typeReal.setOnClickListener {
+                //未初始化，创建ppw
+                if (!::ppwReal.isInitialized) {
+                    ppwReal = createPpw(mProfileVo.maxLivePoint, typeReal, tvRealRebate, list) { ppwReal.dismiss() }
+                }
+                ppwReal.show()
+            }
+
+            typeSports.setOnClickListener {
+                //未初始化，创建ppw
+                if (!::ppwSports.isInitialized) {
+                    ppwSports = createPpw(mProfileVo.maxSportPoint, typeSports, tvSportsRebate, list) { ppwSports.dismiss() }
+                }
+                ppwSports.show()
+            }
+            typeChess.setOnClickListener {
+                //未初始化，创建ppw
+                if (!::ppwChess.isInitialized) {
+                    ppwChess = createPpw(mProfileVo.maxEsportsPoint, typeChess, tvChessRebate, list) { ppwChess.dismiss() }
+                }
+                ppwChess.show()
+            }
+            typeGame.setOnClickListener {
+                //未初始化，创建ppw
+                if (!::ppwGame.isInitialized) {
+                    ppwGame = createPpw(mProfileVo.maxPokerPoint, typeGame, tvGameRebate, list) { ppwGame.dismiss() }
+                }
+                ppwGame.show()
             }
 
         }
+
+
     }
 
     /**
      * 会员快速返点设置
      */
     private fun setRebate2() {
-        PromoRegModel.typeRebate[2].let { promoRebate ->
-            binding.include2.apply {
-                setQuickRebate(promoRebate)
-                KLog.i("rebate_percentage", mProfileVo.rebate_percentage)
-                if (mProfileVo.rebate_percentage == null) {
-                    return
+        binding.include2.apply {
+            typeLottery.text = mProfileVo.rebate_percentage
+            typeLottery.isEnabled = true
+            tvLotteryRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+
+            typeReal.text = "0.5%"
+            typeReal.isEnabled = true
+            tvRealRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxLivePoint, 0.5).toString() + "%")
+
+            typeSports.text = "0.5%"
+            typeSports.isEnabled = true
+            tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxSportPoint, 0.5).toString() + "%")
+
+            typeChess.text = "0.5%"
+            typeChess.isEnabled = true
+            tvChessRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxEsportsPoint, 0.5).toString() + "%")
+
+            typeGame.text = "0.5%"
+            typeGame.isEnabled = true
+            tvGameRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxPokerPoint, 0.5).toString() + "%")
+
+
+            KLog.i("rebate_percentage", mProfileVo.rebate_percentage)
+            if (mProfileVo.rebate_percentage == null) {
+                return
+            }
+            val max = mProfileVo.rebate_percentage.replace("%", "").toDouble()
+            val start = BigDecimal.valueOf(max)
+            val end = BigDecimal.ZERO
+            val step = BigDecimal.valueOf(0.1)
+
+            val arraySize = ((start - end) / step).toInt() + 1
+
+            val arrayList = ArrayList<Double>()
+            for (i in 0 until arraySize) {
+                val value = start - i.toBigDecimal() * step
+                arrayList.add(value.toDouble())
+            }
+
+            typeLottery.setOnClickListener {
+                //未初始化，创建ppw
+                if (!::ppwLottery.isInitialized) {
+                    ppwLottery = createPpw(max, typeLottery, tvLotteryRebate, arrayList) { ppwLottery.dismiss() }
                 }
-                val start = BigDecimal.valueOf(mProfileVo.rebate_percentage.replace("%", "").toDouble())
-                val end = BigDecimal.ZERO
-                val step = BigDecimal.valueOf(0.1)
-
-                val arraySize = ((start - end) / step).toInt() + 1
-
-                val arrayList = ArrayList<Double>()
-                for (i in 0 until arraySize) {
-                    val value = start - i.toBigDecimal() * step
-                    arrayList.add(value.toDouble())
-                }
-
-                typeLottery.setOnClickListener {
-                    //未初始化，创建ppw
-                    if (!::ppwLottery.isInitialized) {
-                        ppwLottery = createPpw(promoRebate[0], typeLottery, tvLotteryRebate, arrayList) { ppwLottery.dismiss() }
-                    }
-                    ppwLottery.show()
-                }
-
+                ppwLottery.show()
             }
 
         }
+
+
     }
 
     private fun createPpw(
-        pr: PromoRebateModel,
+        max: Double,
         type: TextView,
         rebate: TextView,
         list: List<Double>,
@@ -322,7 +397,8 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
                 binding2.tvwTitle.text = get(position).toString().plus("%")
                 binding2.tvwTitle.setOnClickListener {
                     type.text = get(position).toString().plus("%")
-                    val result = BigDecimal(pr.maxRebate.toString()).subtract(BigDecimal(get(position).toString()))
+
+                    val result = NumberUtils.sub(max, get(position)).toString()
                     rebate.text = getString(R.string.txt_reg_rebate).plus("$result%")
                     dismiss.invoke()
                 }
@@ -333,23 +409,5 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
         return XPopup.Builder(context).asCustom(ListDialog(requireContext(), "", adapter))
     }
 
-
-    private fun LayoutQuickRebateBinding.setQuickRebate(it: List<PromoRebateModel>) {
-        typeLottery.text = it[0].subRebate.toString().plus("%")
-        typeLottery.isEnabled = it[0].status
-        tvLotteryRebate.text = getString(R.string.txt_reg_rebate).plus(it[0].selfRebate.toString() + "%")
-        typeReal.text = it[1].subRebate.toString().plus("%")
-        typeReal.isEnabled = it[1].status
-        tvRealRebate.text = getString(R.string.txt_reg_rebate).plus(it[1].selfRebate.toString() + "%")
-        typeSports.text = it[2].subRebate.toString().plus("%")
-        typeSports.isEnabled = it[2].status
-        tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus(it[2].selfRebate.toString() + "%")
-        typeChess.text = it[3].subRebate.toString().plus("%")
-        typeChess.isEnabled = it[3].status
-        tvChessRebate.text = getString(R.string.txt_reg_rebate).plus(it[3].selfRebate.toString() + "%")
-        typeGame.text = it[4].subRebate.toString().plus("%")
-        typeGame.isEnabled = it[4].status
-        tvGameRebate.text = getString(R.string.txt_reg_rebate).plus(it[4].selfRebate.toString() + "%")
-    }
 
 }
