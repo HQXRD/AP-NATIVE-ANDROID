@@ -71,7 +71,7 @@ public class RebateAgrtSearchUserViewModel extends BaseViewModel<MineRepository>
         }
 
         @Override
-        public void onItemClick(int modelPosition, int layoutPosition) {
+        public void onItemClick(int modelPosition, int layoutPosition, int itemViewType) {
             //计算数量
             if (datas.getValue() != null) {
                 int num = 0;

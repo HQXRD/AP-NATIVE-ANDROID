@@ -29,6 +29,8 @@ public class GameDividendAgrtResponse {
     private MobilePageDTO mobile_page;
     private String billType;
     private String peopleType;
+    private CurrentCycleDTO currentCycle;
+    private SelfBillDTO selfBill;
     private HashMap<String,String> billStatus;
     private HashMap<String,CyclesDTO> cycles;
     private String iUserid;
@@ -221,6 +223,22 @@ public class GameDividendAgrtResponse {
 
     public void setIUserid(String iUserid) {
         this.iUserid = iUserid;
+    }
+
+    public CurrentCycleDTO getCurrentCycle() {
+        return currentCycle;
+    }
+
+    public void setCurrentCycle(CurrentCycleDTO currentCycle) {
+        this.currentCycle = currentCycle;
+    }
+
+    public SelfBillDTO getSelfBill() {
+        return selfBill;
+    }
+
+    public void setSelfBill(SelfBillDTO selfBill) {
+        this.selfBill = selfBill;
     }
 
     public SelfPayStatusDTO getSelfPayStatus() {
@@ -425,22 +443,22 @@ public class GameDividendAgrtResponse {
     }
 
     public static class SelfPayStatusDTO {
-        private int payoff;
-        private int owe;
+        private String payoff;
+        private String owe;
 
-        public int getPayoff() {
+        public String getPayoff() {
             return payoff;
         }
 
-        public void setPayoff(int payoff) {
+        public void setPayoff(String payoff) {
             this.payoff = payoff;
         }
 
-        public int getOwe() {
+        public String getOwe() {
             return owe;
         }
 
-        public void setOwe(int owe) {
+        public void setOwe(String owe) {
             this.owe = owe;
         }
     }
@@ -811,6 +829,381 @@ public class GameDividendAgrtResponse {
 
         public void setIs_pay(String is_pay) {
             this.is_pay = is_pay;
+        }
+    }
+
+    public static class CurrentCycleDTO {
+        private String id;
+        private String title;
+        private String type;
+        private String cycle_type;
+        private String cycle_date;
+        private String startDate;
+        private String endDate;
+        private String createTime;
+        private String is_pay;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getCycle_type() {
+            return cycle_type;
+        }
+
+        public void setCycle_type(String cycle_type) {
+            this.cycle_type = cycle_type;
+        }
+
+        public String getCycle_date() {
+            return cycle_date;
+        }
+
+        public void setCycle_date(String cycle_date) {
+            this.cycle_date = cycle_date;
+        }
+
+        public String getStartDate() {
+            return startDate;
+        }
+
+        public void setStartDate(String startDate) {
+            this.startDate = startDate;
+        }
+
+        public String getEndDate() {
+            return endDate;
+        }
+
+        public void setEndDate(String endDate) {
+            this.endDate = endDate;
+        }
+
+        public String getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(String createTime) {
+            this.createTime = createTime;
+        }
+
+        public String getIs_pay() {
+            return is_pay;
+        }
+
+        public void setIs_pay(String is_pay) {
+            this.is_pay = is_pay;
+        }
+    }
+
+    public static class SelfBillDTO {
+        private String id;
+        private String cycle_id;
+        private String contract_id;
+        private String contract_info_id;
+        private String userid;
+        private String username;
+        private String parentid;
+        private String cycle_percent;
+        private String tmp_tree;
+        private String lvtopid;
+        private String is_lvtop;
+        private String people;
+        private String day_people;
+        private String week_people;
+        private String bet;
+        private String last_remain;
+        private String profitloss;
+        private String netloss;
+        private String ratio;
+        private String self_money;
+        private String sub_money;
+        private String payoff;
+        private String settle_accounts;
+        private String pay_status;
+        private String sub_pay_status;
+        private String pay_time;
+        private String create_time;
+        private String before_frozentype;
+        private String is_start;
+        private String type;
+        private String distribution_type;
+        private String cycle_cli_time;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getCycle_id() {
+            return cycle_id;
+        }
+
+        public void setCycle_id(String cycle_id) {
+            this.cycle_id = cycle_id;
+        }
+
+        public String getContract_id() {
+            return contract_id;
+        }
+
+        public void setContract_id(String contract_id) {
+            this.contract_id = contract_id;
+        }
+
+        public String getContract_info_id() {
+            return contract_info_id;
+        }
+
+        public void setContract_info_id(String contract_info_id) {
+            this.contract_info_id = contract_info_id;
+        }
+
+        public String getUserid() {
+            return userid;
+        }
+
+        public void setUserid(String userid) {
+            this.userid = userid;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getParentid() {
+            return parentid;
+        }
+
+        public void setParentid(String parentid) {
+            this.parentid = parentid;
+        }
+
+        public String getCycle_percent() {
+            return cycle_percent;
+        }
+
+        public void setCycle_percent(String cycle_percent) {
+            this.cycle_percent = cycle_percent;
+        }
+
+        public String getTmp_tree() {
+            return tmp_tree;
+        }
+
+        public void setTmp_tree(String tmp_tree) {
+            this.tmp_tree = tmp_tree;
+        }
+
+        public String getLvtopid() {
+            return lvtopid;
+        }
+
+        public void setLvtopid(String lvtopid) {
+            this.lvtopid = lvtopid;
+        }
+
+        public String getIs_lvtop() {
+            return is_lvtop;
+        }
+
+        public void setIs_lvtop(String is_lvtop) {
+            this.is_lvtop = is_lvtop;
+        }
+
+        public String getPeople() {
+            return people;
+        }
+
+        public void setPeople(String people) {
+            this.people = people;
+        }
+
+        public String getDay_people() {
+            return day_people;
+        }
+
+        public void setDay_people(String day_people) {
+            this.day_people = day_people;
+        }
+
+        public String getWeek_people() {
+            return week_people;
+        }
+
+        public void setWeek_people(String week_people) {
+            this.week_people = week_people;
+        }
+
+        public String getBet() {
+            return bet;
+        }
+
+        public void setBet(String bet) {
+            this.bet = bet;
+        }
+
+        public String getLast_remain() {
+            return last_remain;
+        }
+
+        public void setLast_remain(String last_remain) {
+            this.last_remain = last_remain;
+        }
+
+        public String getProfitloss() {
+            return profitloss;
+        }
+
+        public void setProfitloss(String profitloss) {
+            this.profitloss = profitloss;
+        }
+
+        public String getNetloss() {
+            return netloss;
+        }
+
+        public void setNetloss(String netloss) {
+            this.netloss = netloss;
+        }
+
+        public String getRatio() {
+            return ratio;
+        }
+
+        public void setRatio(String ratio) {
+            this.ratio = ratio;
+        }
+
+        public String getSelf_money() {
+            return self_money;
+        }
+
+        public void setSelf_money(String self_money) {
+            this.self_money = self_money;
+        }
+
+        public String getSub_money() {
+            return sub_money;
+        }
+
+        public void setSub_money(String sub_money) {
+            this.sub_money = sub_money;
+        }
+
+        public String getPayoff() {
+            return payoff;
+        }
+
+        public void setPayoff(String payoff) {
+            this.payoff = payoff;
+        }
+
+        public String getSettle_accounts() {
+            return settle_accounts;
+        }
+
+        public void setSettle_accounts(String settle_accounts) {
+            this.settle_accounts = settle_accounts;
+        }
+
+        public String getPay_status() {
+            return pay_status;
+        }
+
+        public void setPay_status(String pay_status) {
+            this.pay_status = pay_status;
+        }
+
+        public String getSub_pay_status() {
+            return sub_pay_status;
+        }
+
+        public void setSub_pay_status(String sub_pay_status) {
+            this.sub_pay_status = sub_pay_status;
+        }
+
+        public String getPay_time() {
+            return pay_time;
+        }
+
+        public void setPay_time(String pay_time) {
+            this.pay_time = pay_time;
+        }
+
+        public String getCreate_time() {
+            return create_time;
+        }
+
+        public void setCreate_time(String create_time) {
+            this.create_time = create_time;
+        }
+
+        public String getBefore_frozentype() {
+            return before_frozentype;
+        }
+
+        public void setBefore_frozentype(String before_frozentype) {
+            this.before_frozentype = before_frozentype;
+        }
+
+        public String getIs_start() {
+            return is_start;
+        }
+
+        public void setIs_start(String is_start) {
+            this.is_start = is_start;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getDistribution_type() {
+            return distribution_type;
+        }
+
+        public void setDistribution_type(String distribution_type) {
+            this.distribution_type = distribution_type;
+        }
+
+        public String getCycle_cli_time() {
+            return cycle_cli_time;
+        }
+
+        public void setCycle_cli_time(String cycle_cli_time) {
+            this.cycle_cli_time = cycle_cli_time;
         }
     }
 }

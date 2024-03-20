@@ -96,7 +96,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
         }
 
         @Override
-        public void onItemClick(int modelPosition, int layoutPosition) {
+        public void onItemClick(int modelPosition, int layoutPosition, int itemViewType) {
 
         }
 

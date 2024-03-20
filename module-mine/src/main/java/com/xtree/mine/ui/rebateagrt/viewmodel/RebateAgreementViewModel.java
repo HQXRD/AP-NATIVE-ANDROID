@@ -70,7 +70,7 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
         }
 
         @Override
-        public void onItemClick(int modelPosition, int layoutPosition) {
+        public void onItemClick(int modelPosition, int layoutPosition, int itemViewType) {
 
             if (datas.getValue() != null) {
                 RebateAreegmentModel bindModel = datas.getValue().get(modelPosition);

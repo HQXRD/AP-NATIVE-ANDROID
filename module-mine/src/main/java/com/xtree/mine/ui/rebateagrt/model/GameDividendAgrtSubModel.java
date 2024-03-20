@@ -19,6 +19,9 @@ public class GameDividendAgrtSubModel extends BindModel {
         void send();
     }
 
+    private String payoff;
+    private String owe;
+
     private OnCallBack onCallBack;
 
     public GameDividendAgrtSubModel() {
@@ -31,6 +34,23 @@ public class GameDividendAgrtSubModel extends BindModel {
     public void setOnCallBack(OnCallBack onCallBack) {
         this.onCallBack = onCallBack;
     }
+
+    public String getPayoff() {
+        return payoff;
+    }
+
+    public void setPayoff(String payoff) {
+        this.payoff = payoff;
+    }
+
+    public String getOwe() {
+        return owe;
+    }
+
+    public void setOwe(String owe) {
+        this.owe = owe;
+    }
+
 
     /**
      * 一键发放

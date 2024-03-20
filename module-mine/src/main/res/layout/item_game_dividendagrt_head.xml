@@ -42,7 +42,7 @@
                 android:id="@+id/head_rebate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="--"
+                android:text="@{m.self_money}"
                 android:textSize="32sp"
                 android:textColor="@color/color_FFFFFF"
                 android:layout_marginTop="2dp"
@@ -77,7 +77,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="下级应发："
+                android:text="@{m.sub_money}"
                 android:textSize="12sp"
                 android:textColor="@color/color_FFFFFF"
                 android:gravity="center"
@@ -92,7 +92,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="结余："
+                android:text="@{m.settle_accounts}"
                 android:textSize="12sp"
                 android:textColor="@color/color_FFFFFF"
                 android:gravity="center"

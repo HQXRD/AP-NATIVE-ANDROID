@@ -191,4 +191,9 @@ public class HttpDataSourceImpl implements HttpDataSource {
             }
         });
     }
+
+    @Override
+    public Flowable<DividendAgrtCheckResponse> getDividendAgrtSendData(DividendAgrtCheckRequest request) {
+        return null;
+    }
 }

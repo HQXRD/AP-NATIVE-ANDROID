@@ -143,6 +143,13 @@ public class MineRepository extends BaseModel implements HttpDataSource, LocalDa
     }
 
     @Override
+    public Flowable<DividendAgrtCheckResponse> getDividendAgrtSendData(DividendAgrtCheckRequest request) {
+        return mHttpDataSource.getDividendAgrtSendData(request)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer());
+    }
+
+    @Override
     public void saveUserName(String userName) {
         mLocalDataSource.saveUserName(userName);
     }

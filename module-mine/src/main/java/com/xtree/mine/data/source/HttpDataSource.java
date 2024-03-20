@@ -79,4 +79,11 @@ public interface HttpDataSource {
      */
     Flowable<DividendAgrtCheckResponse> getDividendAgrtData(DividendAgrtCheckRequest request);
 
+    /**
+     *
+     * @param request
+     * @return
+     */
+    Flowable<DividendAgrtCheckResponse> getDividendAgrtSendData(DividendAgrtCheckRequest request);
+
 }

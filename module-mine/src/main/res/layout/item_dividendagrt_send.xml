@@ -7,7 +7,7 @@
 
         <variable
             name="m"
-            type="com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtModel" />
+            type="com.xtree.mine.ui.rebateagrt.model.DividendAgrtSendModel" />
     </data>
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
@@ -24,7 +24,6 @@
         android:translationZ="1dp"
         app:cardCornerRadius="12dp"
         >
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,31 +48,24 @@
                 <View
                     android:layout_width="3dp"
                     android:layout_height="14dp"
-                    android:background="@color/color_247BF4"/>
+                    android:background="@color/color_FD5255"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@{m.userName}"
                     android:textSize="14sp"
-                    android:textColor="@color/color_1E1E1E"
+                    android:textColor="@color/color_FD5255"
                     android:layout_marginStart="2dp"
                     />
             </LinearLayout>
 
-            <TextView
+            <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="查看契约"
-                android:textColor="@color/color_5B5B6A"
-                android:textSize="10sp"
-                android:layout_marginTop="12dp"
-                android:paddingTop="2dp"
-                android:paddingBottom="2dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:background="@drawable/shape_ebeef5_corners5"
-                android:onClick="@{() -> m.checkArgt()}"
+                android:layout_marginTop="5dp"
+                android:checked="@{m.checked}"
+                android:clickable="false"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +73,6 @@
                 app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="1"
                 />
-
 
             <!--            周期投注额-->
             <TextView
@@ -149,7 +140,7 @@
                 app:layout_constraintHorizontal_bias="0"
                 />
 
-<!--            周期-->
+            <!--            周期-->
             <TextView
                 android:id="@+id/item_cyclicality"
                 android:layout_width="wrap_content"

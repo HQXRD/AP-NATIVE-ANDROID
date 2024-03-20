@@ -34,6 +34,10 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
     public ObservableField<StatusVo> statuData = new ObservableField<>();
     public ObservableField<String> userNameData = new ObservableField<>();
 
+    private String self_money = "-";
+    private String sub_money = "-";
+    private String settle_accounts = "-";
+
     //分页索引
     public int p = 1;
     //page count
@@ -134,8 +138,37 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
 
     public void setCyclytList(List<FilterView.IBaseVo> cyclytList) {
         if (cyclytList != null && cyclytList.size() > 0) {
-            cyclyData.set(new StatusVo(cyclytList.get(0).getShowId(), cyclytList.get(0).getShowName()));
             this.cyclytList = cyclytList;
+        }
+    }
+
+    public String getSelf_money() {
+        return "¥ " + self_money;
+    }
+
+    public void setSelf_money(String self_money) {
+        if (self_money != null && !self_money.isEmpty()) {
+            this.self_money = self_money;
+        }
+    }
+
+    public String getSub_money() {
+        return "下级应发：" + sub_money;
+    }
+
+    public void setSub_money(String sub_money) {
+        if (sub_money != null && !sub_money.isEmpty()) {
+            this.sub_money = sub_money;
+        }
+    }
+
+    public String getSettle_accounts() {
+        return "结余：" + settle_accounts;
+    }
+
+    public void setSettle_accounts(String settle_accounts) {
+        if (settle_accounts != null && !settle_accounts.isEmpty()) {
+            this.settle_accounts = settle_accounts;
         }
     }
 

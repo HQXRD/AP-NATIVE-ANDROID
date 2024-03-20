@@ -68,7 +68,7 @@ fun RecyclerView.init(
                 onBindListener?.onBind(this,this.itemView.rootView, getItemViewType())
 
                 itemView.rootView.setOnClickListener {
-                    onBindListener?.onItemClick(modelPosition, layoutPosition)
+                    onBindListener?.onItemClick(modelPosition, layoutPosition, getItemViewType())
                 }
 
 //                 itemDifferCallback = object : ItemDifferCallback {

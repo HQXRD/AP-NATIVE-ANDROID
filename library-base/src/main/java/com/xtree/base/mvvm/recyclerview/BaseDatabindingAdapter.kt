@@ -22,7 +22,7 @@ class BaseDatabindingAdapter : BindingAdapter() {
         /**
          * item点击回调
          */
-        fun onItemClick(modelPosition: Int, layoutPosition: Int)
+        fun onItemClick(modelPosition: Int, layoutPosition: Int, itemViewType: Int)
     }
 
     /**

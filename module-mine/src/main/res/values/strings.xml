@@ -412,5 +412,6 @@
     <string name="txt_create">创建</string>
     <string name="txt_modify">修改</string>
     <string name="txt_dividendagrt_title">分红契约</string>
+    <string name="txt_manualdividendpayout_title">手动发放分红</string>
 
 </resources>

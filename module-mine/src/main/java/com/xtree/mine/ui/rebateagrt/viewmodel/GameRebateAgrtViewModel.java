@@ -122,7 +122,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         }
 
         @Override
-        public void onItemClick(int modelPosition, int layoutPosition) {
+        public void onItemClick(int modelPosition, int layoutPosition, int itemViewType) {
 
         }
 
