@@ -4,16 +4,15 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.CenterPopupView;
-import com.xtree.base.global.Constant;
-import com.xtree.base.utils.DomainUtil;
-import com.xtree.base.utils.SPUtil;
-import com.xtree.base.widget.BrowserDialog;
+import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.utils.AppUtil;
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.home.R;
 import com.xtree.home.databinding.DialogPmTipBinding;
 
 import me.xtree.mvvmhabit.utils.KLog;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class TipPMDialog extends CenterPopupView {
 
@@ -49,23 +48,18 @@ public class TipPMDialog extends CenterPopupView {
 
     private void initView() {
         binding = DialogPmTipBinding.bind(findViewById(R.id.ll_root));
-        binding.tvwCs.setOnClickListener(v -> {
-            String title = getContext().getString(R.string.txt_custom_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
-        });
-        binding.tvwPm.setOnClickListener(v -> {
-            mCallBack.onClickPM();
-        });
-        binding.tvwFb.setOnClickListener(v -> {
-            mCallBack.onClickFB();
-        });
-        binding.cbTipPm.setChecked(SPUtil.get(getContext()).get("todayIsCheck", false));
-        SPUtil.get(getContext()).put("todayTime", System.currentTimeMillis());
+        binding.tvwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
+        binding.tvwPm.setOnClickListener(v -> mCallBack.onClickPM());
+        binding.tvwFb.setOnClickListener(v -> mCallBack.onClickFB());
+
+        String key= SPKeyGlobal.PM_NOT_TIP_TODAY;
         binding.cbTipPm.setOnCheckedChangeListener((buttonView, isChecked) -> {
             KLog.i("isChecked", isChecked);
-            SPUtil.get(getContext()).put("todayIsCheck", isChecked);
-            SPUtil.get(getContext()).put("todayTime", System.currentTimeMillis());
+            if (isChecked) {
+                SPUtils.getInstance().put(key, TimeUtils.getCurDate());
+            } else {
+                SPUtils.getInstance().remove(key);
+            }
         });
 
     }

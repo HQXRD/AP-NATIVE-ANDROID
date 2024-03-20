@@ -18,8 +18,8 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
-import com.xtree.base.utils.SPUtil;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.home.BuildConfig;
@@ -120,41 +120,10 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
 
         if (vo.twoImage) {
-            if (vo.alias.equals(PLATFORM_PM)) {//熊猫场馆弹窗判断
-                boolean todayIsCheck = SPUtil.get(ctx).get("todayIsCheck", false);
-                long oneDayMillis = 86400000L;//一天的时间（毫秒）
-                long lastToadyTime = SPUtil.get(ctx).getLong("todayTime", 0L);
-                //todayIsCheck == false代表第一次点击熊猫场馆或者 今日不再提示CheckBox不选中
-                if (!todayIsCheck || (todayIsCheck && System.currentTimeMillis() - lastToadyTime > oneDayMillis)) {
-                    if (basePopupView != null && basePopupView.isShow()) {
-                        return;
-                    }
-                    //点击熊猫体育，弹出弹窗
-                    basePopupView = new XPopup.Builder(ctx)
-                            .dismissOnTouchOutside(false)
-                            .asCustom(new TipPMDialog(ctx, new TipPMDialog.ICallBack() {
-                                @Override
-                                public void onClickPM() {
-                                    if (isLeft) {
-                                        goApp(vo);
-                                    } else {
-                                        LoadingDialog.show(ctx);
-                                        goWeb(vo);
-                                    }
-                                    basePopupView.dismiss();
-
-                                }
-
-                                @Override
-                                public void onClickFB() {
-                                    vo.alias = PLATFORM_FBXC;
-                                    goApp(vo);
-                                    basePopupView.dismiss();
-                                }
-                            }));
-                    basePopupView.show();
-                    return;
-                }
+            //熊猫场馆弹窗判断
+            if (vo.alias.equals(PLATFORM_PM) && isTipToday()) {
+                showPMDialog(vo, isLeft);
+                return;
             }
 
             if (isLeft) {
@@ -172,6 +141,50 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             CfLog.d("跳原生");
             goApp(vo);
         }
+    }
+
+    private void showPMDialog(GameVo vo, boolean isLeft) {
+        if (basePopupView != null && basePopupView.isShow()) {
+            return;
+        }
+        //点击熊猫体育，弹出弹窗
+        basePopupView = new XPopup.Builder(ctx)
+                .dismissOnTouchOutside(false)
+                .asCustom(new TipPMDialog(ctx, new TipPMDialog.ICallBack() {
+                    @Override
+                    public void onClickPM() {
+                        //熊猫体育
+                        if (isLeft) {
+                            goApp(vo);
+                        } else {
+                            LoadingDialog.show(ctx);
+                            goWeb(vo);
+                        }
+                        basePopupView.dismiss();
+
+                    }
+
+                    @Override
+                    public void onClickFB() {
+                        //杏彩体育
+                        GameVo vo1 = new GameVo();
+                        vo1.alias = PLATFORM_FBXC;
+                        goApp(vo1);
+                        basePopupView.dismiss();
+                    }
+                }));
+        basePopupView.show();
+    }
+
+    /**
+     * 今日是否弹窗
+     *
+     * @return true:默认弹提示, false:今日不弹提示
+     */
+    private boolean isTipToday() {
+        String cacheDay = SPUtils.getInstance().getString(SPKeyGlobal.PM_NOT_TIP_TODAY, "");
+        String today = TimeUtils.getCurDate();
+        return !today.equals(cacheDay);
     }
 
     private void goWeb(GameVo vo) {

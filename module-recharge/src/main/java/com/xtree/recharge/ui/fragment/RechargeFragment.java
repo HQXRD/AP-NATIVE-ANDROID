@@ -24,6 +24,7 @@ import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
@@ -142,12 +143,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         binding.rcvAmount.setAdapter(mAmountAdapter);
         binding.rcvAmount.setLayoutManager(new GridLayoutManager(getContext(), 4));
 
-        binding.ivwCs.setOnClickListener(v -> {
-            // 客服
-            String title = getString(R.string.txt_custom_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-            new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BrowserDialog(getContext(), title, url)).show();
-        });
+        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         binding.ivwRule.setOnClickListener(v -> {
             // 反馈
             startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK);
@@ -378,6 +374,19 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i("****** llDown is visible");
         binding.llDown.setVisibility(View.VISIBLE); // 下面的部分显示
 
+        // 人工充值
+        if (vo.paycode.equals("manual")) {
+            CfLog.i("manual ****** ");
+            binding.llName.setVisibility(View.GONE);
+            binding.llAmount.setVisibility(View.GONE);
+            binding.llManual.setVisibility(View.VISIBLE);
+            return;
+        } else {
+            binding.llName.setVisibility(View.VISIBLE);
+            binding.llAmount.setVisibility(View.VISIBLE);
+            binding.llManual.setVisibility(View.GONE);
+        }
+
         // 显示/隐藏银行卡 userBankList
         if (vo.view_bank_card) {
             binding.tvwChooseBankCard.setVisibility(View.VISIBLE);
@@ -531,6 +540,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i("******");
         if (curRechargeVo == null) {
             ToastUtils.showLong(R.string.pls_choose_recharge_type);
+            return;
+        }
+
+        if (curRechargeVo.paycode.equals("manual")) {
+            LoadingDialog.show(getContext());
+            viewModel.getManualSignal();
             return;
         }
 
@@ -783,6 +798,17 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         viewModel.liveDataRechargePay.observe(getViewLifecycleOwner(), vo -> {
             CfLog.i(vo.payname + ", bankcode: " + vo.bankcode + ", money: " + vo.money);
             goPay(vo);
+        });
+
+        viewModel.liveDataSignal.observe(this, vo -> {
+            if (vo.containsKey("code")) {
+                // 弹窗 人工充值
+                RechargeManualDialog dialog = new RechargeManualDialog(getActivity(), vo.get("code"));
+                ppw2 = new XPopup.Builder(getContext())
+                        .dismissOnTouchOutside(false)
+                        .asCustom(dialog);
+                ppw2.show();
+            }
         });
 
         viewModel.liveDataProfile.observe(this, vo -> {

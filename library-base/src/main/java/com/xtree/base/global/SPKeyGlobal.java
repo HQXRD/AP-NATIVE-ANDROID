@@ -25,6 +25,7 @@ public class SPKeyGlobal {
     public static final String RC_PAYMENT_OBJ = "rc_payment_obj";
     public static final String RC_NOT_TIP_TODAY_COUNT = "rc_not_tip_today_count"; // 充值 今日不再提示 次数
     public static final String RC_NOT_TIP_TODAY_LOW = "rc_not_tip_today_low"; // 充值 今日不再提示 低成功率
+    public static final String PM_NOT_TIP_TODAY = "pm_not_tip_today"; // 熊猫体育 今日不再提示
     public static final String RC_PAYMENT_THIRIFRAME = "rc_payment_thiriframe";
     public static final String WLT_CENTRAL_BLC = "wlt_central_blc";
     public static final String WLT_GAME_ROOM_BLC = "wlt_game_room_blc";

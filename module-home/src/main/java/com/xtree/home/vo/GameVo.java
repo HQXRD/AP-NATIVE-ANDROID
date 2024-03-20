@@ -25,7 +25,7 @@ public class GameVo implements Parcelable {
     public int typeId; // 类型(图片level)
     public int pId; // 父类型
 
-    protected GameVo() {
+    public GameVo() {
     }
 
     @Override

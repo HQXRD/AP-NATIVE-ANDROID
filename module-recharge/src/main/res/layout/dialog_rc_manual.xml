@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/clr_transparent">
+
+    <ImageView
+        android:id="@+id/ivw_bg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@mipmap/cm_dialog_update_bg"
+        android:padding="4dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/ivw_empty"
+        android:layout_width="24dp"
+        android:layout_height="16dp"
+        android:background="@color/clr_transparent"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg" />
+
+    <ImageView
+        android:id="@+id/ivw_bell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:src="@mipmap/cm_dialog_bell"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/ivw_empty" />
+
+    <TextView
+        android:id="@+id/tvw_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:gravity="center"
+        android:text="@string/txt_rc_manual_title"
+        android:textColor="@color/clr_black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg"
+        app:layout_constraintTop_toTopOf="@id/ivw_bg" />
+
+    <TextView
+        android:id="@+id/tvw_msg"
+        style="@style/style_cm_tip_small_yellow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        android:text="@string/txt_rc_m_pls_check_signal"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg"
+        app:layout_constraintTop_toBottomOf="@id/tvw_title" />
+
+    <TextView
+        android:id="@+id/tvw_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:gravity="center"
+        android:minEms="6"
+        android:textColor="@color/clr_black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg"
+        app:layout_constraintTop_toBottomOf="@id/tvw_msg"
+        tools:text="1 2 3 4" />
+
+    <TextView
+        android:id="@+id/tvw_msg3"
+        style="@style/style_cm_tip_small_yellow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/txt_rc_m_3"
+        android:textColor="@color/clr_rc_manual_1"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg"
+        app:layout_constraintTop_toBottomOf="@id/tvw_code" />
+
+    <TextView
+        style="@style/style_cm_tip_small_yellow"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/txt_rc_m_5"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg"
+        app:layout_constraintTop_toBottomOf="@id/tvw_msg3" />
+
+    <TextView
+        android:id="@+id/tvw_ok"
+        style="@style/style_btn"
+        android:layout_marginBottom="46dp"
+        android:text="@string/txt_rc_m_ok"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivw_bg"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
