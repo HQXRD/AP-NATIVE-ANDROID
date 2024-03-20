@@ -19,6 +19,12 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/style_trans_theme" />
+        <!--密保设定Activity-->
+        <activity
+            android:name=".ui.activity.SecurityQuestionActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/style_trans_theme" />
     </application>
 
 </manifest>

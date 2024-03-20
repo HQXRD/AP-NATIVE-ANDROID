@@ -44,6 +44,7 @@ public class RouterActivityPath {
         public static final String PAGER_WITHDRAW = MINE + "/withdraw";
         public static final String PAGER_CHOOSE_WITHDRAW = MINE + "/choose";
         public static final String PAGER_MY_WALLET_FLOW = MINE + "/flow";//活动流水
+        public static final String PAGER_ACCOUNT_SECURITY = MINE +"/security";//账户安全 密保相关
     }
 
     /**
