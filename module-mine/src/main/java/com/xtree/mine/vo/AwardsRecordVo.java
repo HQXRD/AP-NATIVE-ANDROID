@@ -6,6 +6,17 @@ import java.util.ArrayList;
  * 流水
  */
 public class AwardsRecordVo {
+    @Override
+    public String toString() {
+        return "AwardsRecordVo{" +
+                "networkStatus=" + networkStatus +
+                ", locked_award_sum='" + locked_award_sum + '\'' +
+                ", withdraw_dispensing_money='" + withdraw_dispensing_money + '\'' +
+                ", list=" + list +
+                ", isShow=" + isShow +
+                '}';
+    }
+
     public int  networkStatus ;//1 网络链接超时 ；2 网络链接异常 ；0 网络链接正常
     public String locked_award_sum;
     public String withdraw_dispensing_money; //仍需要XXX才可提

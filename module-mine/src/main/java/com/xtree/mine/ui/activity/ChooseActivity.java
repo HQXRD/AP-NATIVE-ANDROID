@@ -12,6 +12,8 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentChooseWithdrawBinding;
@@ -26,10 +28,12 @@ import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = PAGER_CHOOSE_WITHDRAW)
-public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel > {
+public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel> {
 
     private BasePopupView basePopupView = null;
-    private BasePopupView baseMessagePopupView = null ;
+    private BasePopupView baseMessagePopupView = null;
+
+    private BasePopupView baseGiftFlowView = null;//礼物流水
     private AwardsRecordVo awardsRecordVo;
     private int viewType;
 
@@ -73,7 +77,8 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
             viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
                 awardsRecordVo = vo;
                 if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
-                    showAwardsRecord();
+                    // showAwardsRecord();
+                    showError(awardsRecordVo);
                 } else if (awardsRecordVo.networkStatus == 1) {
                     //链接超时
                     showNetError();
@@ -110,29 +115,54 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                 }));
 
         basePopupView.show();
+        MsgDialog msgDialog;
 
     }
-    private void  showNumberDialog(final String message){
-        baseMessagePopupView  = new XPopup.Builder(this).dismissOnBackPressed(false)
+
+    /* 流水不足显示弹窗*/
+    private void showError(final AwardsRecordVo awardsRecordVo) {
+        if (baseGiftFlowView == null) {
+            final String title = this.getString(R.string.txt_kind_tips);
+            final String showMessage = String.format(this.getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
+            baseGiftFlowView = new XPopup.Builder(this).asCustom(new MsgDialog(this, title, showMessage, false, new TipDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    baseGiftFlowView.dismiss();
+                    finish();
+                }
+
+                @Override
+                public void onClickRight() {
+                    baseGiftFlowView.dismiss();
+                    finish();
+                }
+            }));
+        }
+        baseGiftFlowView.show();
+    }
+
+    private void showNumberDialog(final String message) {
+        baseMessagePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
                 .asCustom(AwardsRecordDialog.newInstance(this, this, new AwardsRecordDialog.IAwardsDialogBack() {
                     @Override
                     public void closeAwardsDialog() {
                         LoadingDialog.finish();
                         baseMessagePopupView.dismiss();
-                       // finish();
+                        // finish();
                         CfLog.i("AwardsRecordDialog  dismiss");
                     }
                 }));
 
         baseMessagePopupView.show();
     }
+
     /**
      * 显示提款页面
      */
     private void showChoose() {
         LoadingDialog.show(this);
-        basePopupView = new  XPopup.Builder(this).dismissOnBackPressed(false).dismissOnTouchOutside(false)
+        basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false).dismissOnTouchOutside(false)
                 .moveUpToKeyboard(false).asCustom(ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
                     @Override
                     public void closeDialog() {

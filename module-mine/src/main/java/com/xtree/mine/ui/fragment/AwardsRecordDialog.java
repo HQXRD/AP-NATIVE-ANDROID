@@ -78,6 +78,7 @@ public class AwardsRecordDialog extends BottomPopupView {
         AwardsRecordDialog dialog = new AwardsRecordDialog(context);
         dialog.owner = owner;
         dialog.awardsRecordVo = awardsRecordVo;
+
         dialog.callBack = callBack;
         dialog.viewType = viewType;
         return dialog;
@@ -125,6 +126,12 @@ public class AwardsRecordDialog extends BottomPopupView {
         }
 
         binding.tvChooseTip.setText(tipText);
+        //http://jira.lgroup.co/browse/HQAP2-2817
+        //关闭显示列表
+        binding.llChooseTip.setVisibility(View.VISIBLE);
+        binding.tvWithdrawalAwardsTitle.setVisibility(View.GONE);
+
+
         bottomPopupContainer.dismissOnTouchOutside(true);
         bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
             @Override
@@ -145,7 +152,7 @@ public class AwardsRecordDialog extends BottomPopupView {
             }
         });
 
-        if (awardsRecordVo !=null && awardsRecordVo.list.size() > 1) {
+       /* if (awardsRecordVo !=null && awardsRecordVo.list.size() > 1) {
             binding.lvChoose.setVisibility(View.VISIBLE);
             ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
             binding.lvChoose.setAdapter(adapter);
@@ -153,7 +160,7 @@ public class AwardsRecordDialog extends BottomPopupView {
             binding.llChooseTip.setVisibility(View.VISIBLE);
             binding.tvWithdrawalAwardsTitle.setVisibility(View.GONE);
 
-        }
+        }*/
 
     }
 
