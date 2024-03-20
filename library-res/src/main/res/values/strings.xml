@@ -167,6 +167,8 @@
     <string name="txt_network_error">网络异常，请稍后重试</string>
     <string name="txt_no_withdrawals_available_tip">您今天已没有可用提款次数</string>
     <string name="txt_withdrawal_not_supported_tip">暂不支持该渠道提款，请联系您的上级或客服！</string>
+    <!--提款-->
+    <string name="txt_withdrawal_bank">银行卡提款</string>
 
     <string name="domain_url">http</string>
     <string name="domain_url_list">http;http</string>

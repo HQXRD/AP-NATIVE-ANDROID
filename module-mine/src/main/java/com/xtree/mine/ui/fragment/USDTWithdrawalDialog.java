@@ -133,7 +133,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             usdtCashVo = vo;
 
             if (usdtCashVo == null || usdtCashVo.channel_list == null || usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()) {
-                showError();
+                showErrorByChannel();
             }
             //异常
             else if (usdtCashVo.msg_type == 2 || usdtCashVo.msg_type == 1) {
@@ -544,7 +544,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
     }
 
     /* 由于权限原因弹窗*/
-    private void showError() {
+    private void showErrorByChannel() {
         if (ppwError == null) {
             final String title = getContext().getString(R.string.txt_kind_tips);
             final String message = getContext().getString(R.string.txt_withdrawal_not_supported_tip);

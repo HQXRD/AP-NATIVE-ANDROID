@@ -137,7 +137,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     private void initView() {
         binding = DialogBankWithdrawalBankNewBinding.bind(findViewById(R.id.ll_bank_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
-        binding.tvwTitle.setText("银行卡提款");
+        binding.tvwTitle.setText(getContext().getString(R.string.txt_withdrawal_bank));
         hideKeyBoard();
 
     }
@@ -256,7 +256,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             if (TextUtils.isEmpty(inputString)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
             } else {
-                CfLog.i("inputString = " + inputString + " \n typeNumber= " + typeNumber + "\n selectVo=" + selectChanneVo.toString() + "\n channelInfo = " + channelInfo.toString());
                 requestNext(channelInfo.type, typeNumber, inputString, channeBankVo.id);
             }
         });
@@ -463,7 +462,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     }
 
     private void initWebView() {
-        CfLog.e("ScrollWebView ------------------init ");
         WebSettings settings = binding.nsH5View.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
@@ -576,7 +574,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      */
     private void refreshSelectAmountUI(BankCardCashVo.ChannelVo channelVo) {
         if (channelVo.fixamountList.size() > 0) {
-            CfLog.i("刷新 多金额选择区域 size = " + channelVo.fixamountList.size());
             if (adapter == null) {
                 adapter = new GridViewViewAdapter(context, (ArrayList<String>) channelVo.fixamountList, this);
             }
@@ -690,7 +687,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     @Override
     public void callbackWithFruitHor(BankCardCashVo.ChannelVo selectVO) {
         selectChanneVo = selectVO;//设置选中的channelVo
-        CfLog.i("callbackWithFruitHor == " + selectChanneVo.toString());
         if (selectVO.isShowErrorView == 1) //展示错误信息
         {
             binding.nsErrorView.setVisibility(View.VISIBLE);//展示错误信息页面
@@ -782,7 +778,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
                     binding.bankWithdrawalView.tvActualWithdrawalAmountBankShow.setText(showMessage);
-                    CfLog.i("单金额状态 = " + showMessage);
                     ppw.dismiss();
                 });
 
@@ -813,7 +808,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 String showMessage = vo.bank_name + " " + vo.account;
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
-                    CfLog.i("多金额状态 = " + showMessage);
                     binding.tvActualWithdrawalAmountBankShowMore.setText(showMessage);
                     ppw.dismiss();
                 });
