@@ -203,6 +203,37 @@
     <string name="txt_withdraw_close">关闭提现</string>
     <string name="txt_withdraw_balance_money">您的余额不足，无法提款</string>
     <string name="txt_withdraw_fun_timeout">资金密码有效期已过期，请重新输入后提款</string>
+    <!--魔域 提款系统返回文本-->
+    <string name="txt_withdraw_password_check">资金密码检查</string>
+    <string name="txt_exhausted">您今天已没有可用提款次数</string>
+    <string name="txt_fund_account_locked">您的资金账户因为其他操作被锁定，请稍后重试</string>
+    <string name="txt_withdraw_relogin">由于您长时间未操作，请重新登录</string>
+    <!--魔域 密保-->
+    <string name="txt_security_question">密保问题</string>
+    <string name="txt_set_security_question">设置密保</string>
+    <string name="txt_set_security_question_tip">设定密保</string>
+    <string name="txt_set_question1">问题一:</string>
+    <string name="txt_set_question1_tip">请输入问题一答案</string>
+    <string name="txt_set_question1_tip1">请选择问题一</string>
+    <string name="txt_set_Answer1">答案一：</string>
+    <string name="txt_set_question2">问题二:</string>
+    <string name="txt_set_question2_tip">请输入问题二答案</string>
+    <string name="txt_set_question2_tip2">请选择问题二</string>
+    <string name="txt_set_Answer2">答案二：</string>
+    <string name="txt_retrieve_fund_password">找回资金密码</string>
+    <string name="txt_security_question_header">输入密保答案</string>
+    <string name="txt_security_question_tip">请输入密保答案</string>
+    <string name="txt_reset_fund_psw">重置资金密码</string>
+    <string name="txt_reset_fund_psw_tip">请输入新的资金密码</string>
+    <string name="txt_fund_psw_again_tip">请再次输入资金密码</string>
+    <string name="txt_fund_psw_error_tip">两次输入的资金密码不相同</string>
+    <string name="txt_fund_error_tip">请选择和输入密保之后再提交</string>
+    <string name="txt_fund_question_error_tip">问题一与问题二不允许一致！</string>
+    <string name="txt_fund_question_selector_tip">请选择密保问题</string>
+    <string name="txt_set_fund_question_success_tip">设置密保问题成功</string>
+    <string name="txt_retrieve_fund_tip">请输入新的资金密码</string>
+
+
 
     <string name="txt_user_name">用户名</string>
 
