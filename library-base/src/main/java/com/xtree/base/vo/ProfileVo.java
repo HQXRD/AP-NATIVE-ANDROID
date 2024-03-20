@@ -1,5 +1,6 @@
 package com.xtree.base.vo;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ProfileVo {
@@ -40,7 +41,25 @@ public class ProfileVo {
     public String rebate_percentage; // "3.0%",
     public boolean has_securitypwd; // false, //是否设定资金密码
     public boolean solo_challenge; // true,
-    //public int set_question; // 0 或 [4,18,2]
+    public Object set_question; // 0 或 [4,18,2] //用户设置密保
+     /*public ArrayList<Integer> questionList = new ArrayList<>();
+   public void setSet_question(Object set_question) {
+        this.set_question = set_question;
+        if (this.set_question instanceof Integer){
+
+        }else if (this.set_question instanceof List){
+
+            questionList =  (ArrayList<Integer>) this.set_question;
+            for (int i = 0; i <questionList.size(); i++) {
+                CfLog.e("list = " + questionList.get(i).toString());
+            }
+
+        }
+
+    }*/
+
+
+
     public int twofa; // 0,
     public int twofa_login_enabled; // "1",
     public int twofa_withdraw_enabled; // "1",
@@ -82,7 +101,7 @@ public class ProfileVo {
     @Override
     public String toString() {
         return "ProfileVo{" +
-                "userid=" + userid +
+                "userid='" + userid + '\'' +
                 ", username='" + username + '\'' +
                 ", nickname='" + nickname + '\'' +
                 ", agency_model=" + agency_model +
@@ -99,6 +118,7 @@ public class ProfileVo {
                 ", rebate_percentage='" + rebate_percentage + '\'' +
                 ", has_securitypwd=" + has_securitypwd +
                 ", solo_challenge=" + solo_challenge +
+                ", set_question=" + set_question +
                 ", twofa=" + twofa +
                 ", twofa_login_enabled=" + twofa_login_enabled +
                 ", twofa_withdraw_enabled=" + twofa_withdraw_enabled +
