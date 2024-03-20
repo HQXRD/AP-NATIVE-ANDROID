@@ -79,9 +79,9 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="6dp"
             android:layout_marginEnd="24dp"
-            android:scrollbars="vertical"
             android:fadeScrollbars="false"
             android:gravity="center"
+            android:scrollbars="vertical"
             android:textColor="@color/clr_grey_60"
             android:textSize="14sp"
             android:visibility="gone"
@@ -108,14 +108,14 @@
                 android:id="@+id/tvw_left"
                 style="@style/style_btn_back"
                 android:text="@string/txt_cancel"
-                android:textSize="14sp"
-                android:textColor="@color/clr_txt_grey_04" />
+                android:textColor="@color/clr_txt_grey_04"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/tvw_right"
                 style="@style/style_btn"
-                android:textSize="14sp"
-                android:text="@string/txt_confirm" />
+                android:text="@string/txt_confirm"
+                android:textSize="14sp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
