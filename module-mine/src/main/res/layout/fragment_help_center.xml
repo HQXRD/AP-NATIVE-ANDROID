@@ -15,7 +15,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/me_bangzhu_zhongxin"
+                android:text="@string/txt_help"
                 android:textColor="@color/clr_txt_black_01"
                 android:textSize="17sp"
                 android:textStyle="bold"

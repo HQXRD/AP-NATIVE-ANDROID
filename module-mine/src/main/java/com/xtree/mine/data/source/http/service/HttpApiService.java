@@ -13,6 +13,7 @@ import com.xtree.mine.vo.BankCardVo;
 import com.xtree.mine.vo.BtDetailVo;
 import com.xtree.mine.vo.BtPlatformVo;
 import com.xtree.mine.vo.BtReportVo;
+import com.xtree.mine.vo.CheckQuestionVo;
 import com.xtree.mine.vo.ChooseInfoMoYuVo;
 import com.xtree.mine.vo.ChooseInfoVo;
 import com.xtree.mine.vo.CookieVo;
@@ -560,7 +561,7 @@ public interface HttpApiService {
     @POST("user/?controller=user&action=saveup&client=m")
     Flowable<SendMoneyVo> sendMoney(@Body Map<String, String> map);
 
-    /*输入自己密码（魔域）*/
+    /*输入资金密码（魔域）*/
     @POST("/?controller=security&action=checkpass&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<FundPassWordVo> getCheckPass(@Body HashMap<String, String> map);
@@ -586,7 +587,7 @@ public interface HttpApiService {
     Flowable<PlatWithdrawConfirmMoYuVo> postMoYuConfirmWithdrawBank(@Body Map<String, String> map);
 
     /*
-     * USDT获取提款方式【魔域】   private String usdtType ;
+     * USDT获取提款方式【魔域】
      */
     @GET("/security/platwithdraw/?controller=security&action=platwithdraw&ismobile=true&is_tutorial=1&client=m")
     Flowable<USDTCashMoYuVo> getMoYuChooseWithdrawUSDT(@Query("check") String key, @Query("usdt_type") String usdtType);
@@ -608,7 +609,6 @@ public interface HttpApiService {
     /**
      * 虚拟币获取提款方式 【魔域】
      */
-    //https://ap3sport.oxldkm.com/security/platwithdraw/?controller=security&action=platwithdraw&check=&ismobile=true&usdt_type=4&is_tutorial=1&client=m
     @GET("/security/platwithdraw/?controller=security&action=platwithdraw&ismobile=true&is_tutorial=1&client=m")
     Flowable<VirtualCashMoYuVo> getMoYuChooseWithdrawVirtual(@Query("check") String key, @Query("usdt_type") String flag);
 
@@ -631,6 +631,22 @@ public interface HttpApiService {
      */
     @GET("{url}")
     Flowable<ResponseBody> get(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) HashMap<String, Object> map);
+
+    /*魔域 设置密保*/
+    @PUT("/api/account/security-questions")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse2> putSecurityQuestions(@Body Map<String, String> map);
+
+    /*魔域 输入密保问题校验*/
+    @POST("/?controller=user&action=checkquestion&client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<CheckQuestionVo> postCheckQuestion(@Body Map<String, String> map);
+
+    /*魔域 密码找回*/
+    @POST("/?controller=user&action=retrievesepas&client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse2> postRetrievePSW(@Body Map<String, String> map);
+
 
     /**
      * 注册推广

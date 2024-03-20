@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root_set_security_question"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/clr_transparent"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/bg_dialog_top_choose"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvw_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/txt_security_question"
+            android:textColor="@color/clr_filter_txt_black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvw_retrieve_fund_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/txt_retrieve_fund_password"
+            android:textColor="@color/clr_blue_02"
+            android:textSize="14sp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@id/tvw_title"
+            app:layout_constraintLeft_toRightOf="@id/tvw_title" />
+
+        <ImageView
+            android:id="@+id/ivw_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="close"
+            android:padding="4dp"
+            android:src="@mipmap/ic_pop_close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="0dp"
+        android:background="@color/clr_white"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/txt_set_security_question"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/ll_unreceived_orders"
+                style="@style/style_ll_row">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_unreceived_orders"
+                        style="@style/style_set_fund_psw_title"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/txt_set_question1" />
+
+                    <TextView
+                        android:id="@+id/tvw_question1"
+                        style="@style/style_set_fund_psw_edit"
+                        android:layout_toRightOf="@id/tv_unreceived_orders"
+                        android:drawableEnd="@mipmap/bt_icon_expand"
+                        android:hint="@string/txt_set_question1_tip1"
+                        android:singleLine="true"
+                        android:text="" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_unreceived_orders1"
+                style="@style/style_ll_row"
+                app:layout_constraintTop_toBottomOf="@id/ll_unreceived_orders">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_unreceived_orders1"
+                        style="@style/style_set_fund_psw_title"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/txt_set_Answer1" />
+
+                    <EditText
+                        android:id="@+id/et_answer1"
+                        style="@style/style_set_fund_psw_edit"
+                        android:layout_toRightOf="@id/tv_unreceived_orders1"
+
+                        android:hint="@string/txt_set_question1_tip"
+                        android:singleLine="true"
+                        android:text="" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_unreceived_orders3"
+                style="@style/style_ll_row"
+                app:layout_constraintTop_toBottomOf="@id/ll_unreceived_orders1">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_unreceived_orders3"
+                        style="@style/style_set_fund_psw_title"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/txt_set_question2" />
+
+                    <TextView
+                        android:id="@+id/tvw_question2"
+                        style="@style/style_set_fund_psw_edit"
+                        android:layout_toRightOf="@id/tv_unreceived_orders3"
+                        android:drawableEnd="@mipmap/bt_icon_expand"
+                        android:hint="@string/txt_set_question2_tip2"
+                        android:singleLine="true"
+                        android:text="" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_unreceived_orders4"
+                style="@style/style_ll_row"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintTop_toBottomOf="@id/ll_unreceived_orders3">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_unreceived_orders4"
+                        style="@style/style_set_fund_psw_title"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="@string/txt_set_Answer2" />
+
+                    <EditText
+                        android:id="@+id/et_answer2"
+                        style="@style/style_set_fund_psw_edit"
+                        android:layout_toRightOf="@id/tv_unreceived_orders4"
+                        android:hint="@string/txt_set_question2_tip"
+                        android:singleLine="true"
+                        android:text="" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvw_reset_password_next"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/bg_btn_selector"
+                android:gravity="center"
+                android:src="@mipmap/me_reset_password_login"
+                android:text="@string/txt_set_security_question_tip"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>

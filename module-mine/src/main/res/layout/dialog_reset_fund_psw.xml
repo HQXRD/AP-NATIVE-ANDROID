@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_root"
+    android:id="@+id/ll_root_reset_psw"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/clr_transparent">
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:gravity="center"
-            android:text="@string/txt_kind_tips"
+            android:text="@string/txt_reset_fund_psw"
             android:textColor="@color/clr_black"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -56,41 +56,40 @@
             app:layout_constraintStart_toStartOf="@id/ivw_bg"
             app:layout_constraintTop_toTopOf="@id/ivw_bg" />
 
-        <TextView
-            android:id="@+id/tvw_msg"
+        <EditText
+            android:id="@+id/ed_first"
+            style="@style/style_reset_fund_edit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="52dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="14dp"
             android:layout_marginEnd="52dp"
+            android:background="@drawable/bg_withdraw_money_input"
+
             android:gravity="center"
+            android:hint="@string/txt_reset_fund_psw_tip"
             android:textColor="@color/clr_grey_60"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
             app:layout_constraintStart_toStartOf="@id/ivw_bg"
-            app:layout_constraintTop_toBottomOf="@id/tvw_title"
-            tools:text="这是内容  这是内容这是内容这是内容这是内容这是内容" />
+            app:layout_constraintTop_toBottomOf="@id/tvw_title" />
 
-        <TextView
-            android:id="@+id/tvw_msg2"
-            style="@style/style_cm_tip_small_orange"
+        <EditText
+            android:id="@+id/ed_second"
+            style="@style/style_reset_fund_edit"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="24dp"
-            android:fadeScrollbars="false"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="52dp"
+            android:background="@drawable/bg_withdraw_money_input"
             android:gravity="center"
-            android:scrollbars="vertical"
+            android:hint="@string/txt_fund_psw_again_tip"
             android:textColor="@color/clr_grey_60"
-            android:textSize="14sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/layout_tvw"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
             app:layout_constraintStart_toStartOf="@id/ivw_bg"
-            app:layout_constraintTop_toBottomOf="@id/tvw_title"
-            tools:text="这是内容 长的4行52字"
-            tools:visibility="gone" />
+            app:layout_constraintTop_toBottomOf="@id/ed_first" />
 
         <LinearLayout
             android:id="@+id/layout_tvw"
