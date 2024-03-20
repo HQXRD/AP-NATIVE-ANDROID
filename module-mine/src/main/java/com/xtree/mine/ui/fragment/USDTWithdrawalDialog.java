@@ -30,6 +30,8 @@ import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalUsdtBinding;
@@ -70,6 +72,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
     private String checkCode;
     private String usdtType;
     private FruitHorUSDTRecyclerViewAdapter recyclerViewAdapter;
+    private BasePopupView ppwError = null; // 底部弹窗 (显示错误信息)
 
     public USDTWithdrawalDialog(@NonNull Context context) {
         super(context);
@@ -155,20 +158,19 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
                 ToastUtils.show(cashMoYuVo.message, ToastUtils.ShowType.Fail);
                 dismiss();
                 return;
-            } else if (cashMoYuVo.msg_type == 2 && ("您今天已没有可用提款次数").equals(cashMoYuVo.message)) {
-                ToastUtils.showError(cashMoYuVo.message);
-                dismiss();
-                return;
+            } else if (cashMoYuVo.msg_type == 2 && getContext().getString(R.string.txt_exhausted).equals(cashMoYuVo.message)) {
+                showError(cashMoYuVo.message);
+
             }  //"ur_here": "资金密码检查",
-            else if (!TextUtils.isEmpty(cashMoYuVo.ur_here) && ("资金密码检查").equals(cashMoYuVo.ur_here)) {
+            else if (!TextUtils.isEmpty(cashMoYuVo.ur_here) && getContext().getString(R.string.txt_withdraw_password_check).equals(cashMoYuVo.ur_here)) {
                 ToastUtils.showError(cashMoYuVo.ur_here);
                 bankClose.closeBankByPSW();
                 return;
-            } else if ("2".equals(cashMoYuVo.msg_type) && "您的资金账户因为其他操作被锁定，请稍后重试".equals(cashMoYuVo.message)) {
+            } else if ("2".equals(cashMoYuVo.msg_type) && getContext().getString(R.string.txt_fund_account_locked).equals(cashMoYuVo.message)) {
                 ToastUtils.showError(cashMoYuVo.message);
                 dismiss();
                 return;
-            } else if ("由于您长时间未操作，请重新登录".equals(cashMoYuVo.message)) {
+            } else if (getContext().getString(R.string.txt_withdraw_relogin).equals(cashMoYuVo.message)) {
                 ToastUtils.showError(cashMoYuVo.message);
                 popLoginView();
             } else if (cashMoYuVo.usdtinfo == null || cashMoYuVo.usdtinfo.isEmpty()) {
@@ -187,11 +189,11 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
                 dismiss();
             } else if (usdtSecurityVo.datas != null) {
                 refreshSecurityUI();
-            } else if ("资金密码检查".equals(usdtSecurityVo.ur_here)) {
+            } else if (getContext().getString(R.string.txt_withdraw_password_check).equals(usdtSecurityVo.ur_here)) {
                 //业务异常跳转资金安全密码
                 ToastUtils.showError("业务异常跳转资金安全密码");
 
-            } else if ("2".equals(usdtSecurityVo.msg_type) && "您的资金账户因为其他操作被锁定，请稍后重试".equals(usdtSecurityVo.message)) {
+            } else if ("2".equals(usdtSecurityVo.msg_type) && getContext().getString(R.string.txt_fund_account_locked).equals(usdtSecurityVo.message)) {
                 ToastUtils.showError(usdtSecurityVo.message);
                 dismiss();
                 return;
@@ -205,11 +207,11 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
             if (usdtConfirmVo == null || usdtConfirmVo.msg_detail == null) {
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
                 dismiss();
-            } else if ("资金密码检查".equals(usdtConfirmVo.ur_here)) {
+            } else if (getContext().getString(R.string.txt_withdraw_password_check).equals(usdtConfirmVo.ur_here)) {
                 //业务异常跳转资金安全密码
                 ToastUtils.showError("业务异常跳转资金安全密码");
 
-            } else if ("2".equals(usdtConfirmVo.msg_type) && "您的资金账户因为其他操作被锁定，请稍后重试".equals(usdtConfirmVo.message)) {
+            } else if ("2".equals(usdtConfirmVo.msg_type) && getContext().getString(R.string.txt_fund_account_locked).equals(usdtConfirmVo.message)) {
                 ToastUtils.showError(usdtConfirmVo.message);
                 dismiss();
                 return;
@@ -567,5 +569,26 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
             selectorTopChannel = selectVo;
 
         }
+    }
+
+    /* 由于权限原因弹窗*/
+    private void showError(final String message) {
+        if (ppwError == null) {
+            final String title = getContext().getString(R.string.txt_kind_tips);
+            ppwError = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, message, true, new TipDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    ppwError.dismiss();
+                    dismiss();
+                }
+
+                @Override
+                public void onClickRight() {
+                    ppwError.dismiss();
+                    dismiss();
+                }
+            }));
+        }
+        ppwError.show();
     }
 }
