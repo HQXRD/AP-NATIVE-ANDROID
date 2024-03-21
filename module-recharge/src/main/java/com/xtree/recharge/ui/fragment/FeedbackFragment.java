@@ -33,6 +33,7 @@ import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.ImageUploadUtil;
 import com.xtree.base.utils.TimeUtils;
@@ -86,7 +87,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
     private ArrayList<FeedbackVo.FeedbackProtocolInfo> protocolInfoArrayList = new ArrayList<>();//虚拟币支付协议
 
     private ArrayList<FeedbackDep> last3DepList = new ArrayList<FeedbackDep>();//反馈中订单信息
-    private FeedbackDep feedbackDep ;
+    private FeedbackDep feedbackDep;
 
     private BasePopupView loadPopView;//loadView
 
@@ -100,15 +101,26 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.ivwNext.setOnClickListener(v -> {
-
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             nextCheckInputWithPayWay(feedbackType);
         });
         //未到账订单点击
         binding.tvwUnreceivedOrders.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showUnReceivedDep(last3DepList);
         });
         //未到账订单点击
         binding.llUnreceivedOrders.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showUnReceivedDep(last3DepList);
         });
 
@@ -120,41 +132,77 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         referFeedbackUI("wechat");
         //我的客服
         binding.ivwCs.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             String title = getContext().getString(R.string.txt_custom_center);
             String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
             new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
         });
         //消息中心
         binding.ivwMsg.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG);
         });
         //图片选择
         binding.llRemittanceScreenshot.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             gotoSelectMedia();
         });
         //注册Edittex监听
         initEditListener();
         //付款方式点击事件
         binding.tvPaymentMethod.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showPayWay(feedbackVo);
         });
         binding.tvwPaymentMethod.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showPayWay(feedbackVo);
         });
         //时间选择器
         binding.tvDepositTime.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showTimeSelector();
         });
         //点击支付渠道
         binding.tvwPaymentChannel.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showPayReceive(feedbackVo);
         });
         //虚拟币反馈时候 协议选择点击
         binding.edProtocol.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showVirtualProtocol(feedbackVo);
         });
         //虚拟币 协议
         binding.llPaymentWalletProtocol.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showVirtualProtocol(feedbackVo);
         });
 
@@ -185,7 +233,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         //starttime=2024-03-11 00:00&endtime=2024-03-11 23:59
         map.put("starttime", startTime);
         map.put("endtime", "2024-03-11 23:59");
-        CfLog.e("FeedbackFragment = " +map);
+        CfLog.e("FeedbackFragment = " + map);
         LoadingDialog.show(getContext());
         viewModel.feedbackInfo(map);
     }
@@ -208,7 +256,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
         //获取上传图片后的 服务器返回的图片地址
         viewModel.imageUploadVoSingleLiveData.observe(this, o -> {
-
 
             FeedbackImageUploadVo imageUploadVo = o;
             CfLog.i("上传后 获取的图片地址是 =" + imageUploadVo.url);
@@ -280,16 +327,12 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 }
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
-                    feedbackDep = vo ;
-                    CfLog.i("未到账订单信息是 ：" + showMessage + "feedbackDep = " +feedbackDep);
+                    feedbackDep = vo;
                     binding.tvwUnreceivedOrders.setText(showMessage);
                     binding.tvDepositTime.setText(time); //存款准确时间
-                    //bank_id 支付渠道
-                   // ;
                     for (int i = 0; i < bankInfoArrayList.size(); i++) {
-                        if (bankInfoArrayList.get(i).id == Integer.valueOf(feedbackDep.bank_id)){
-                            CfLog.i("未到账订单信息是 ：" + showMessage + "feedbackDep = " +feedbackDep + "|支付渠道 =" + bankInfoArrayList.get(i).name);
-                            finalThreeID =bankInfoArrayList.get(i).name ;
+                        if (bankInfoArrayList.get(i).id == Integer.valueOf(feedbackDep.bank_id)) {
+                            finalThreeID = bankInfoArrayList.get(i).name;
                         }
                     }
                     binding.tvwPaymentChannel.setText(finalThreeID); //支付渠道
@@ -298,8 +341,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                         binding.etDepositAmount.setText(save);
                     }
                     //虚拟币
-                    else
-                    {
+                    else {
                         binding.etVirtualAmount.setText(save);
                     }
 
@@ -308,7 +350,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             }
         };
         adapter.addAll(list);
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择未到账订单", adapter, 20));
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择未到账订单", adapter, 40));
         ppw.show();
     }
 
@@ -510,8 +552,8 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             binding.llVirtualAmount.setVisibility(View.VISIBLE);//虚拟币数量隐藏
             binding.llCollectionWalletAddress.setVisibility(View.VISIBLE);//收款钱包地址隐藏
             //et_virtual_amount
-            CfLog.e("referFeedbackUI = feedbackDep = " +feedbackDep);
-            if (feedbackDep != null){
+            CfLog.e("referFeedbackUI = feedbackDep = " + feedbackDep);
+            if (feedbackDep != null) {
                 binding.etVirtualAmount.setText(feedbackDep.money);
             }
         }
@@ -951,7 +993,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             uploadMap.put("userpay_virtual_protocol", "1");//用户支付协议 微信默认为1
             uploadMap.put("userpay_name", binding.etPaymentAccount.getText().toString()); //付款人
             uploadMap.put("receive_name", binding.etPaymentName.getText().toString());//收款人
-            CfLog.i("微信状态提交反馈  " + uploadMap.toString());
 
         } else {
             uploadMap.put("nonce", UuidUtil.getID16());//传入UUID);
@@ -965,7 +1006,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             uploadMap.put("userpay_virtual_protocol", "2");//用户支付协议 虚拟币默认为1
             uploadMap.put("receive_banknum", binding.etCollectionWalletAddress.getText().toString());//收款钱包地址
 
-            CfLog.i("虚拟币状态提交反馈  " + uploadMap);
         }
         LoadingDialog.show(getContext());
         viewModel.feedbackCustomAdd(uploadMap);
