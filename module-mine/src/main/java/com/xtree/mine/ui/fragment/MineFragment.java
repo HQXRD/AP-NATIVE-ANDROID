@@ -195,7 +195,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
 
         binding.tvwTutorial.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_TUTORIAL, false);
+            goWebView(v, Constant.URL_USDT_RECHARGE_TURTIAL, false);
         });
 
         //VIP中心
