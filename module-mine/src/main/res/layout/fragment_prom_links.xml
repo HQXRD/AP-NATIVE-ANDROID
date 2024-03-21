@@ -1,6 +1,232 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_blue">
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="3dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/icon_title_right"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="下级返点"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/view1"
+                app:layout_constraintStart_toEndOf="@+id/view1"
+                app:layout_constraintTop_toTopOf="@+id/view1" />
+
+            <ImageView
+                android:id="@+id/iv_bg"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_white_r12"
+                app:layout_constraintBottom_toBottomOf="@id/include0"
+                app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+            <TextView
+                android:id="@+id/tv_type"
+                style="@style/style_filter_info_value"
+                android:layout_margin="12dp"
+                android:text="@string/txt_type"
+                app:layout_constraintStart_toStartOf="@id/iv_bg"
+                app:layout_constraintTop_toTopOf="@id/iv_bg" />
+
+            <TextView
+                android:id="@+id/tv_select_type"
+                style="@style/style_filter_info_spn"
+                android:layout_width="0dp"
+                android:textColor="@color/tv_color_reg_pro"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_type"
+                app:layout_constraintStart_toEndOf="@+id/tv_type"
+                app:layout_constraintTop_toTopOf="@+id/tv_type"
+                tools:text="大招商" />
+
+            <View
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginEnd="12dp"
+                android:background="@color/clr_grey_080"
+                app:layout_constraintEnd_toEndOf="@id/iv_bg"
+                app:layout_constraintStart_toEndOf="@+id/tv_type"
+                app:layout_constraintTop_toBottomOf="@+id/tv_select_type" />
+
+            <include
+                android:id="@+id/include0"
+                layout="@layout/layout_quick_rebate"
+                tools:layout_editor_absoluteX="-72dp"
+                tools:layout_editor_absoluteY="512dp" />
+
+            <include
+                android:id="@+id/include1"
+                layout="@layout/layout_quick_rebate"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/include2"
+                layout="@layout/layout_quick_rebate"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="3dp"
+                android:layout_height="14dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/icon_title_right"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_bg" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:text="您的推广链接"
+                android:textColor="@color/clr_txt_black_cm"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/view2"
+                app:layout_constraintStart_toEndOf="@+id/view1"
+                app:layout_constraintTop_toTopOf="@+id/view2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:padding="8dp"
+                android:text="@string/rebate_details"
+                android:textColor="@color/bt_text_color_primary_2"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/view2"
+                app:layout_constraintEnd_toEndOf="@id/iv_bg"
+                app:layout_constraintTop_toTopOf="@+id/view2" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/bg_white_r12"
+                app:layout_constraintTop_toBottomOf="@+id/view2">
+
+                <TextView
+                    android:id="@+id/tv_prom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:text="以下为您的推广链接：\n您可以在下拉框中选择链接，点击复制进行推广"
+                    android:textColor="@color/clr_txt_02"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="彩票游戏-链接："
+                    android:textColor="@color/clr_txt_02"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="@+id/tv_prom"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_prom" />
+
+                <TextView
+                    android:id="@+id/tv_link"
+                    style="@style/style_cm_spinner"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/bt_text_12sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:text="推广链接：点击”保存更新“创建链接"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tvw_copy"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv1" />
+
+                <TextView
+                    android:id="@+id/tvw_copy"
+                    style="@style/style_btn"
+                    android:minEms="3"
+                    android:text="@string/txt_copy"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_link"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_link" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageView
+                android:id="@+id/tip"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:scaleType="fitXY"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@+id/layout2"
+                app:layout_constraintStart_toStartOf="@id/view1"
+                android:background="@mipmap/cm_ic_hint_purple"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="温馨提示："
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_marginStart="4dp"
+                android:textColor="@color/clr_txt_01"
+                app:layout_constraintBottom_toBottomOf="@+id/tip"
+                app:layout_constraintStart_toEndOf="@+id/tip"
+                app:layout_constraintTop_toTopOf="@+id/tip" />
+
+            <TextView
+                android:id="@+id/tvw_03"
+                style="@style/style_cm_tip_small_grey"
+                android:layout_marginStart="4dp"
+                android:layout_width="0dp"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@+id/tip"
+                app:layout_constraintStart_toEndOf="@id/tip"
+                app:layout_constraintEnd_toEndOf="@id/iv_bg"
+                android:text="温馨提示：点击“保存更新”后，您所有推广链接的相关设定将全部更新,请谨慎操作。" />
+            <Button
+                android:id="@+id/bt_save_update"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@drawable/bg_btn_selector"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="保存更新"
+                android:textColor="@color/clr_text_code_selector"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvw_03" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

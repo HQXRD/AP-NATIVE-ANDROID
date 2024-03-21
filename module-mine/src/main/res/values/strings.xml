@@ -400,5 +400,6 @@
     <string name="txt_reg_name_tip">字母或数字6–16个字符,不能连续四位相同,首字不能是0或者o</string>
     <string name="txt_reg_pwd_tip">由字号和数字组成的6–16个字符，且必须包含字母和数宇</string>
     <string name="txt_reg_nickname_tip">由2–6个字符组成</string>
+    <string name="rebate_details">返点详情</string>
 
 </resources>
