@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="m"
+            type="com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtModel" />
+    </data>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:translationZ="1dp"
+        app:cardCornerRadius="12dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="12dp">
+
+            <LinearLayout
+                android:id="@+id/item_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="14dp"
+                    android:background="@color/color_247BF4"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{m.userName}"
+                    android:textSize="14sp"
+                    android:textColor="@color/color_1E1E1E"
+                    android:layout_marginStart="2dp"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="查看契约"
+                android:textColor="@color/color_5B5B6A"
+                android:textSize="10sp"
+                android:layout_marginTop="12dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:background="@drawable/shape_ebeef5_corners5"
+                android:onClick="@{() -> m.checkArgt()}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="1"
+                />
+
+
+            <!--            周期投注额-->
+            <TextView
+                android:id="@+id/item_bet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="周期投注额"
+                android:textSize="12sp"
+                android:textColor="@color/color_5B5B6A"
+                android:layout_marginTop="13dp"
+                app:layout_constraintTop_toBottomOf="@id/item_username"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"
+                />
+
+            <TextView
+                android:id="@+id/item_bet_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{m.bet}"
+                android:textSize="10sp"
+                android:textColor="@color/color_1E1E1E"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/item_bet"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"
+                />
+
+            <!--            盈亏-->
+            <TextView
+                android:id="@+id/item_cashflow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="盈亏"
+                android:textSize="12sp"
+                android:textColor="@color/color_5B5B6A"
+                android:layout_marginTop="13dp"
+                app:layout_constraintTop_toBottomOf="@id/item_bet_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"
+                />
+
+            <TextView
+                android:id="@+id/item_cashflow_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{m.profitloss}"
+                android:textSize="10sp"
+                android:textColor="@color/color_FD5255"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/item_cashflow"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"
+                />
+
+<!--            周期-->
+            <TextView
+                android:id="@+id/item_cyclicality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="周期"
+                android:textSize="12sp"
+                android:textColor="@color/color_5B5B6A"
+                android:layout_marginTop="13dp"
+                app:layout_constraintTop_toBottomOf="@id/item_cashflow_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"
+                />
+
+            <TextView
+                android:id="@+id/item_createdate_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{m.cycle}"
+                android:textSize="10sp"
+                android:textColor="@color/color_1E1E1E"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/item_cyclicality"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"
+                />
+
+            <!--            分红比例-->
+            <TextView
+                android:id="@+id/item_ratio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分红比例"
+                android:textSize="12sp"
+                android:textColor="@color/color_5B5B6A"
+                android:layout_marginTop="13dp"
+                app:layout_constraintTop_toBottomOf="@id/item_username"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="1"
+                />
+
+            <TextView
+                android:id="@+id/item_ratio_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{m.cycle_percent}"
+                android:textSize="10sp"
+                android:textColor="@color/color_1E1E1E"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/item_ratio"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="1"
+                />
+
+            <TextView
+                android:id="@+id/item_persons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="活跃人数"
+                android:textSize="12sp"
+                android:textColor="@color/color_5B5B6A"
+                android:layout_marginTop="13dp"
+                app:layout_constraintTop_toBottomOf="@id/item_ratio_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="1"
+                />
+
+            <TextView
+                android:id="@+id/item_persons_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{m.people}"
+                android:textSize="10sp"
+                android:textColor="@color/color_1E1E1E"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/item_persons"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="1"
+                />
+
+            <TextView
+                android:id="@+id/item_dividend_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="应发分红"
+                android:textSize="12sp"
+                android:textColor="@color/color_5B5B6A"
+                android:layout_marginTop="13dp"
+                app:layout_constraintTop_toBottomOf="@id/item_ratio_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0.5"
+                />
+
+            <TextView
+                android:id="@+id/item_dividend_money_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{m.selfMoney}"
+                android:textSize="10sp"
+                android:textColor="@color/color_1E1E1E"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/item_dividend_money"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/item_dividend_money"
+                app:layout_constraintEnd_toEndOf="@id/item_dividend_money"
+                app:layout_constraintVertical_bias="0"
+                />
+
+            <!--            状态-->
+            <TextView
+                android:id="@+id/item_statu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@{m.payStatuText}"
+                android:textSize="10sp"
+                android:textColor="@color/clr_white"
+                android:background="@{m.payStatuColor}"
+                android:gravity="center"
+                tools:text="无分红"
+                tools:background="@color/color_rebateagrt_state_bg_nodividend"
+                app:layout_constraintTop_toTopOf="@id/item_createdate_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="1"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

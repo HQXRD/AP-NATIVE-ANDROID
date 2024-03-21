@@ -27,10 +27,10 @@ public class GameSubordinateAgrteResponse {
     private String pageinfo;
     private List<?> markct;
     private List<DataDTO> data;
-    private List<?> children;
+    private List<ChildrenDTO> children;
     private String today;
     private GetDTO get;
-    private int type;
+    private String type;
 
     public String getWebtitle() {
         return webtitle;
@@ -184,11 +184,11 @@ public class GameSubordinateAgrteResponse {
         this.data = data;
     }
 
-    public List<?> getChildren() {
+    public List<ChildrenDTO> getChildren() {
         return children;
     }
 
-    public void setChildren(List<?> children) {
+    public void setChildren(List<ChildrenDTO> children) {
         this.children = children;
     }
 
@@ -208,11 +208,11 @@ public class GameSubordinateAgrteResponse {
         this.get = get;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -621,6 +621,243 @@ public class GameSubordinateAgrteResponse {
             public void setIslock(String islock) {
                 this.islock = islock;
             }
+        }
+    }
+
+    public static class ChildrenDTO{
+        private String userid;
+        private String username;
+        private String nickname;
+        private String usertype;
+        private String user_level;
+        private String parentid;
+        private String lvtopid;
+        private String lvproxyid;
+        private String parenttree;
+        private String userrank;
+        private String isdeleted;
+        private String deltime;
+        private String isfrozen;
+        private String frozentype;
+        private String istester;
+        private String iscreditaccount;
+        private String ocs_status;
+        private String flag;
+        private String blockuser;
+        private String is_remark;
+        private String platform_id;
+        private String kgamefrozentype;
+        private String mark_contract;
+        private String agency_model;
+        private String user_agency_model;
+        private String zhaoshang;
+
+        public String getUserid() {
+            return userid;
+        }
+
+        public void setUserid(String userid) {
+            this.userid = userid;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getNickname() {
+            return nickname;
+        }
+
+        public void setNickname(String nickname) {
+            this.nickname = nickname;
+        }
+
+        public String getUsertype() {
+            return usertype;
+        }
+
+        public void setUsertype(String usertype) {
+            this.usertype = usertype;
+        }
+
+        public String getUser_level() {
+            return user_level;
+        }
+
+        public void setUser_level(String user_level) {
+            this.user_level = user_level;
+        }
+
+        public String getParentid() {
+            return parentid;
+        }
+
+        public void setParentid(String parentid) {
+            this.parentid = parentid;
+        }
+
+        public String getLvtopid() {
+            return lvtopid;
+        }
+
+        public void setLvtopid(String lvtopid) {
+            this.lvtopid = lvtopid;
+        }
+
+        public String getLvproxyid() {
+            return lvproxyid;
+        }
+
+        public void setLvproxyid(String lvproxyid) {
+            this.lvproxyid = lvproxyid;
+        }
+
+        public String getParenttree() {
+            return parenttree;
+        }
+
+        public void setParenttree(String parenttree) {
+            this.parenttree = parenttree;
+        }
+
+        public String getUserrank() {
+            return userrank;
+        }
+
+        public void setUserrank(String userrank) {
+            this.userrank = userrank;
+        }
+
+        public String getIsdeleted() {
+            return isdeleted;
+        }
+
+        public void setIsdeleted(String isdeleted) {
+            this.isdeleted = isdeleted;
+        }
+
+        public String getDeltime() {
+            return deltime;
+        }
+
+        public void setDeltime(String deltime) {
+            this.deltime = deltime;
+        }
+
+        public String getIsfrozen() {
+            return isfrozen;
+        }
+
+        public void setIsfrozen(String isfrozen) {
+            this.isfrozen = isfrozen;
+        }
+
+        public String getFrozentype() {
+            return frozentype;
+        }
+
+        public void setFrozentype(String frozentype) {
+            this.frozentype = frozentype;
+        }
+
+        public String getIstester() {
+            return istester;
+        }
+
+        public void setIstester(String istester) {
+            this.istester = istester;
+        }
+
+        public String getIscreditaccount() {
+            return iscreditaccount;
+        }
+
+        public void setIscreditaccount(String iscreditaccount) {
+            this.iscreditaccount = iscreditaccount;
+        }
+
+        public String getOcs_status() {
+            return ocs_status;
+        }
+
+        public void setOcs_status(String ocs_status) {
+            this.ocs_status = ocs_status;
+        }
+
+        public String getFlag() {
+            return flag;
+        }
+
+        public void setFlag(String flag) {
+            this.flag = flag;
+        }
+
+        public String getBlockuser() {
+            return blockuser;
+        }
+
+        public void setBlockuser(String blockuser) {
+            this.blockuser = blockuser;
+        }
+
+        public String getIs_remark() {
+            return is_remark;
+        }
+
+        public void setIs_remark(String is_remark) {
+            this.is_remark = is_remark;
+        }
+
+        public String getPlatform_id() {
+            return platform_id;
+        }
+
+        public void setPlatform_id(String platform_id) {
+            this.platform_id = platform_id;
+        }
+
+        public String getKgamefrozentype() {
+            return kgamefrozentype;
+        }
+
+        public void setKgamefrozentype(String kgamefrozentype) {
+            this.kgamefrozentype = kgamefrozentype;
+        }
+
+        public String getMark_contract() {
+            return mark_contract;
+        }
+
+        public void setMark_contract(String mark_contract) {
+            this.mark_contract = mark_contract;
+        }
+
+        public String getAgency_model() {
+            return agency_model;
+        }
+
+        public void setAgency_model(String agency_model) {
+            this.agency_model = agency_model;
+        }
+
+        public String getUser_agency_model() {
+            return user_agency_model;
+        }
+
+        public void setUser_agency_model(String user_agency_model) {
+            this.user_agency_model = user_agency_model;
+        }
+
+        public String getZhaoshang() {
+            return zhaoshang;
+        }
+
+        public void setZhaoshang(String zhaoshang) {
+            this.zhaoshang = zhaoshang;
         }
     }
 }

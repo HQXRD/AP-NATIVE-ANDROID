@@ -17,6 +17,7 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.home.vo.UpdateVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.AdduserVo;
 import com.xtree.mine.vo.BalanceVo;
@@ -387,5 +388,29 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
         if (!json.isEmpty()) {
             liveDataQuestionWeb.setValue(json);
         }
+    }
+    /**
+     * App更新接口
+     */
+    public void getUpdate() {
+        Disposable disposable = (Disposable) model.getApiService().getUpdate()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<UpdateVo>() {
+                    @Override
+                    public void onResult(UpdateVo updateVo) {
+                        if (updateVo == null) {
+                            CfLog.e("data is null");
+                            return;
+                        }
+                        liveDataUpdate.setValue(updateVo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                    }
+                });
+        addSubscribe(disposable);
     }
 }

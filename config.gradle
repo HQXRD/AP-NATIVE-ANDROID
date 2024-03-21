@@ -88,7 +88,8 @@ ext {
             "brv"                                  : "com.github.liangjingkanji:BRV:1.5.8",
             // Kotlin反射库
             "kotlin-stdlib"                        : "org.jetbrains.kotlin:kotlin-stdlib:1.6.10",
-            "kotlin-reflect"                       : "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
+            "kotlin-reflect"                       : "org.jetbrains.kotlin:kotlin-reflect:1.6.10",
+            "flexbox"                              : "com.google.android.flexbox:flexbox:3.0.0"
     ]
 }
 

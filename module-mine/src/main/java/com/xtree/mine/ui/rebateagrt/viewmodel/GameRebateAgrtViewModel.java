@@ -1,29 +1,30 @@
 package com.xtree.mine.ui.rebateagrt.viewmodel;
 
-import static com.xtree.base.mvvm.ExKt.initData;
-
 import android.app.Application;
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.ObservableField;
+import androidx.databinding.ObservableInt;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
+import com.drake.brv.BindingAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
-import com.xtree.base.adapter.CacheViewHolder;
-import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.xtree.base.mvvm.model.ToolbarModel;
+import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.base.net.HttpCallBack;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.widget.DateTimePickerDialog;
 import com.xtree.base.widget.FilterView;
-import com.xtree.base.widget.ListDialog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.data.source.APIManager;
+import com.xtree.mine.ui.rebateagrt.fragment.RebateAgrtCreateDialogFragment;
 import com.xtree.mine.ui.rebateagrt.model.GameRebateAgrtHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.GameRebateAgrtModel;
 import com.xtree.mine.ui.rebateagrt.model.GameRebateAgrtTotalModel;
@@ -31,6 +32,8 @@ import com.xtree.mine.ui.rebateagrt.model.GameSubordinateagrtHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.GameSubordinateagrtModel;
 import com.xtree.mine.ui.rebateagrt.model.GameSubordinaterebateHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.GameSubordinaterebateModel;
+import com.xtree.mine.ui.rebateagrt.model.RebateAgrtDetailModel;
+import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum;
 import com.xtree.mine.vo.StatusVo;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
@@ -39,14 +42,17 @@ import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
 
+import org.reactivestreams.Subscription;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.utils.RxUtils;
-import project.tqyb.com.library_res.databinding.ItemTextBinding;
+import me.xtree.mvvmhabit.bus.RxBus;
+import me.xtree.mvvmhabit.http.BusinessException;
 
 /**
  * Created by KAKA on 2024/3/9.
@@ -61,12 +67,21 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
     public GameRebateAgrtViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
 
-        //init data
-        datas.setValue(gameRebateDatas);
-        getRebatAgrteData();
     }
 
-    private WeakReference<Context> mContext = null;
+    //真人返水
+    public static final int REBATE_AGRT_TAB = 0;
+    //下级契约
+    public static final int Subordinate_Agrte_TAB = 1;
+    //下级返水
+    public static final int Subordinate_Rebate_TAB = 2;
+
+    //选项卡索引
+    public ObservableInt tabPosition = new ObservableInt(0);
+
+    private RebateAreegmentTypeEnum type;
+
+    private WeakReference<FragmentActivity> mActivity = null;
 
     private final MutableLiveData<String> titleData = new MutableLiveData<>(
             getApplication().getString(R.string.rebate_agrt_title)
@@ -87,6 +102,34 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 }
             });
 
+    public final BaseDatabindingAdapter.onBindListener onBindListener = new BaseDatabindingAdapter.onBindListener() {
+
+        @Override
+        public void onBind(@NonNull BindingAdapter.BindingViewHolder bindingViewHolder, @NonNull View view, int itemViewType) {
+            if (itemViewType == R.layout.item_game_subordinateagrt) {
+                view.findViewById(R.id.item_check).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int p = bindingViewHolder.getModelPosition() + bindingViewHolder.getAdapter().getHeaderCount();
+                        //查看契约
+                        if (subordinateAgrtDatas.size() > 0) {
+                            GameSubordinateagrtModel bindModel = (GameSubordinateagrtModel) subordinateAgrtDatas.get(p);
+                            checkRebateAgrt(bindModel);
+                        }
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void onItemClick(int modelPosition, int layoutPosition, int itemViewType) {
+
+        }
+
+    };
+
+    public MutableLiveData<ArrayList<String>> tabs = new MutableLiveData<>();
+
     private final GameRebateAgrtHeadModel.onCallBack gameRebateAgrtHeadModelCallBack = new GameRebateAgrtHeadModel.onCallBack() {
         @Override
         public void selectStartDate(ObservableField<String> startDate) {
@@ -100,7 +143,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
 
         @Override
         public void selectStatus(ObservableField<StatusVo> state, List<FilterView.IBaseVo> listStatus) {
-            FilterView.showDialog(mContext.get(), getApplication().getString(R.string.status), listStatus, new FilterView.ICallBack() {
+            FilterView.showDialog(mActivity.get(), getApplication().getString(R.string.status), listStatus, new FilterView.ICallBack() {
                 @Override
                 public void onTypeChanged(FilterView.IBaseVo vo) {
                     state.set(new StatusVo(vo.getShowId(), vo.getShowName()));
@@ -114,10 +157,36 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         }
     };
 
+    /**
+     * 列表加载
+     */
+    public OnLoadMoreListener onLoadMoreListener = new OnLoadMoreListener() {
+        @Override
+        public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+            switch (tabPosition.get()) {
+                //真人返水
+                case REBATE_AGRT_TAB:
+                    gameRebateAgrtHeadModel.p++;
+                    getRebatAgrteData();
+                    break;
+                //下级契约
+                case Subordinate_Agrte_TAB:
+                    gameSubordinateagrtHeadModel.p++;
+                    getSubordinateAgrteData();
+                    break;
+                //下级返水
+                case Subordinate_Rebate_TAB:
+                    gameSubordinaterebateHeadModel.p++;
+                    getSubordinateRebateData();
+                    break;
+            }
+        }
+    };
+
     private final GameSubordinateagrtHeadModel.onCallBack gameSubordinateagrtHeadModelCallBack = new GameSubordinateagrtHeadModel.onCallBack() {
         @Override
         public void selectStatus(ObservableField<StatusVo> state, List<FilterView.IBaseVo> listStatus) {
-            FilterView.showDialog(mContext.get(), getApplication().getString(R.string.status), listStatus, new FilterView.ICallBack() {
+            FilterView.showDialog(mActivity.get(), getApplication().getString(R.string.status), listStatus, new FilterView.ICallBack() {
                 @Override
                 public void onTypeChanged(FilterView.IBaseVo vo) {
                     state.set(new StatusVo(vo.getShowId(), vo.getShowName()));
@@ -171,22 +240,77 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         }
     };
 
+    /**
+     * 下级数据，保存用于创建契约
+     */
+    private GameSubordinateAgrteResponse subData;
+
+    public void initData(RebateAreegmentTypeEnum type) {
+        //init data
+        this.type = type;
+        initTab();
+        datas.setValue(gameRebateDatas);
+        getRebatAgrteData();
+    }
+
+    private void initTab() {
+        ArrayList<String> tabList = new ArrayList<>();
+        switch (type) {
+            case LIVE:
+                titleData.setValue("真人返水契约");
+                tabList.add("真人返水");
+                tabList.add("下级契约");
+                tabList.add("下级返水");
+                tabs.setValue(tabList);
+                break;
+            case SPORT:
+                titleData.setValue("体育返水契约");
+                tabList.add("体育返水");
+                tabList.add("下级契约");
+                tabList.add("下级返水");
+                tabs.setValue(tabList);
+                break;
+            case CHESS:
+                titleData.setValue("棋牌返水契约");
+                tabList.add("棋牌返水");
+                tabList.add("下级契约");
+                tabList.add("下级返水");
+                tabs.setValue(tabList);
+                break;
+            case EGAME:
+                titleData.setValue("电竞返水契约");
+                tabList.add("电竞返水");
+                tabList.add("下级契约");
+                tabs.setValue(tabList);
+                break;
+            case USER:
+                titleData.setValue("时薪");
+                tabList.add("我的时薪");
+                tabList.add("下级契约");
+                tabList.add("下级时薪");
+                tabs.setValue(tabList);
+                break;
+            default:
+                break;
+        }
+    }
+
     private void setStartDate(ObservableField<String> date) {
-        new XPopup.Builder(mContext.get())
-                .asCustom(DateTimePickerDialog.newInstance(mContext.get(), getApplication().getString(R.string.start_date), 3,
+        new XPopup.Builder(mActivity.get())
+                .asCustom(DateTimePickerDialog.newInstance(mActivity.get(), getApplication().getString(R.string.start_date), 3,
                         date::set))
                 .show();
     }
 
     private void setEndDate(ObservableField<String> date) {
-        new XPopup.Builder(mContext.get())
-                .asCustom(DateTimePickerDialog.newInstance(mContext.get(), getApplication().getString(R.string.end_date), 3,
+        new XPopup.Builder(mActivity.get())
+                .asCustom(DateTimePickerDialog.newInstance(mActivity.get(), getApplication().getString(R.string.end_date), 3,
                         date::set))
                 .show();
     }
 
-    public void setContext(Context mContext) {
-        this.mContext = new WeakReference<>(mContext);
+    public void setActivity(FragmentActivity mActivity) {
+        this.mActivity = new WeakReference<>(mActivity);
     }
 
     @Override
@@ -199,8 +323,60 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         return titleData;
     }
 
+    /**
+     * 不同场馆有不同的请求接口
+     * @return URL
+     */
+    private String getRebatAgrteDataURL(){
+        switch (type) {
+            case LIVE:
+                return APIManager.GAMEREBATEAGRT_LIVE_URL;
+            case SPORT:
+                return APIManager.GAMEREBATEAGRT_SPORT_URL;
+            case CHESS:
+                return APIManager.GAMEREBATEAGRT_CHESS_URL;
+            case EGAME:
+                return APIManager.GAMEREBATEAGRT_EGAME_URL;
+            case USER:
+                return APIManager.GAMEREBATEAGRT_USER_URL;
+            default:
+                return "";
+        }
+    }
 
-    private void getRebatAgrteData() {
+    private String getSubordinateAgrteDataURL(){
+        switch (type) {
+            case LIVE:
+                return APIManager.GAMESUBORDINATEAGRTE_LIVE_URL;
+            case SPORT:
+                return APIManager.GAMESUBORDINATEAGRTE_SPORT_URL;
+            case CHESS:
+                return APIManager.GAMESUBORDINATEAGRTE_CHESS_URL;
+            case EGAME:
+                return APIManager.GAMESUBORDINATEAGRTE_EGAME_URL;
+            case USER:
+                return APIManager.GAMESUBORDINATEAGRTE_USER_URL;
+            default:
+                return "";
+        }
+    }
+
+    private String getSubordinateRebateDataURL(){
+        switch (type) {
+            case LIVE:
+                return APIManager.GAMESUBORDINATEREBATE_LIVE_URL;
+            case SPORT:
+                return APIManager.GAMESUBORDINATEREBATE_SPORT_URL;
+            case CHESS:
+                return APIManager.GAMESUBORDINATEREBATE_CHESS_URL;
+            case USER:
+                return APIManager.GAMESUBORDINATEREBATE_USER_URL;
+            default:
+                return "";
+        }
+    }
+
+    private synchronized void getRebatAgrteData() {
         if (getmCompositeDisposable() != null) {
             getmCompositeDisposable().clear();
         }
@@ -208,28 +384,43 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         gameRebateAgrtRequest.starttime = gameRebateAgrtHeadModel.startDate.get();
         gameRebateAgrtRequest.endtime = gameRebateAgrtHeadModel.endDate.get();
         gameRebateAgrtRequest.pstatus = gameRebateAgrtHeadModel.state.get().getShowId();
-        Disposable disposable = (Disposable) model.getGameRebateAgrtData(gameRebateAgrtRequest)
+        gameRebateAgrtRequest.p = gameRebateAgrtHeadModel.p;
+        gameRebateAgrtRequest.pn = gameRebateAgrtHeadModel.pn;
+        Disposable disposable = (Disposable) model.getGameRebateAgrtData(getRebatAgrteDataURL(), gameRebateAgrtRequest)
+                .doOnSubscribe(new Consumer<Subscription>() {
+                    @Override
+                    public void accept(Subscription subscription) throws Exception {
+                        //重新加载弹dialog
+                        if (gameRebateAgrtRequest.p <= 1) {
+                            LoadingDialog.show(mActivity.get());
+                        }
+                    }
+                })
                 .subscribeWith(new HttpCallBack<GameRebateAgrtResponse>() {
                     @Override
                     public void onResult(GameRebateAgrtResponse vo) {
 
                         if (vo != null) {
-                            gameRebateDatas.clear();
 
-                            gameRebateAgrtHeadModel.yesterdayRebate.set(vo.getUser().getIscreditaccount());
-                            gameRebateDatas.add(gameRebateAgrtHeadModel);
-                            GameRebateAgrtResponse.TotalDTO total = vo.getTotal();
-                            if (total != null) {
-                                GameRebateAgrtTotalModel totalModel = new GameRebateAgrtTotalModel();
-                                totalModel.setItemType(6);
-                                totalModel.sum_bet = total.getSum_bet() + "";
-                                totalModel.sum_total_money = String.valueOf(total.getSum_total_money());
-                                totalModel.sum_effective_bet = total.getSum_effective_bet() + "";
-                                totalModel.sum_sub_money = String.valueOf(total.getSum_sub_money());
-                                totalModel.sum_liushui = total.getSum_liushui() + "";
-                                totalModel.sum_self_money = total.getSum_self_money() + "";
-                                gameRebateDatas.add(totalModel);
+                            //p<=1说明是第一页数据
+                            if (gameRebateAgrtRequest.p <= 1) {
+                                gameRebateDatas.clear();
+                                gameRebateAgrtHeadModel.yesterdayRebate.set(vo.getUser().getIscreditaccount());
+                                gameRebateDatas.add(gameRebateAgrtHeadModel);
+                                GameRebateAgrtResponse.TotalDTO total = vo.getTotal();
+                                if (total != null) {
+                                    GameRebateAgrtTotalModel totalModel = new GameRebateAgrtTotalModel();
+                                    totalModel.setItemType(6);
+                                    totalModel.sum_bet = total.getSum_bet() + "";
+                                    totalModel.sum_total_money = String.valueOf(total.getSum_total_money());
+                                    totalModel.sum_effective_bet = total.getSum_effective_bet() + "";
+                                    totalModel.sum_sub_money = String.valueOf(total.getSum_sub_money());
+                                    totalModel.sum_liushui = total.getSum_liushui() + "";
+                                    totalModel.sum_self_money = total.getSum_self_money() + "";
+                                    gameRebateDatas.add(totalModel);
+                                }
                             }
+
                             if (vo.getData() != null) {
                                 for (GameRebateAgrtResponse.DataDTO dataDTO : vo.getData()) {
                                     GameRebateAgrtModel model = new GameRebateAgrtModel();
@@ -244,15 +435,30 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                     gameRebateDatas.add(model);
                                 }
                             }
-                            datas.setValue(gameRebateDatas);
-                        }
 
+                            datas.setValue(gameRebateDatas);
+
+                            //分页状态
+                            GameRebateAgrtResponse.MobilePageDTO mobilePage = vo.getMobile_page();
+                            if (mobilePage != null &&
+                                    mobilePage.getTotal_page().equals(String.valueOf(gameRebateAgrtRequest.p))) {
+                                loadMoreWithNoMoreData();
+                            } else {
+                                finishLoadMore(true);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
+                        finishLoadMore(false);
                     }
                 });
         addSubscribe(disposable);
     }
 
-    private void getSubordinateAgrteData() {
+    private synchronized void getSubordinateAgrteData() {
         if (getmCompositeDisposable() != null) {
             getmCompositeDisposable().clear();
         }
@@ -260,19 +466,36 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         GameSubordinateAgrteRequest gameSubordinateAgrteRequest = new GameSubordinateAgrteRequest();
         gameSubordinateAgrteRequest.pstatus = gameSubordinateagrtHeadModel.state.get().getShowId();
         gameSubordinateAgrteRequest.username = gameSubordinateagrtHeadModel.serachName.get();
-        Disposable disposable = (Disposable) model.getGameSubordinateAgrteData(gameSubordinateAgrteRequest)
+        gameSubordinateAgrteRequest.p = gameSubordinateagrtHeadModel.p;
+        gameSubordinateAgrteRequest.pn = gameSubordinateagrtHeadModel.pn;
+
+        Disposable disposable = (Disposable) model.getGameSubordinateAgrteData(getSubordinateAgrteDataURL(), gameSubordinateAgrteRequest)
+                .doOnSubscribe(new Consumer<Subscription>() {
+                    @Override
+                    public void accept(Subscription subscription) throws Exception {
+                        //重新加载弹dialog
+                        if (gameSubordinateAgrteRequest.p <= 1) {
+                            LoadingDialog.show(mActivity.get());
+                        }
+                    }
+                })
                 .subscribeWith(new HttpCallBack<GameSubordinateAgrteResponse>() {
                     @Override
                     public void onResult(GameSubordinateAgrteResponse vo) {
                         if (vo != null) {
-                            subordinateAgrtDatas.clear();
 
-                            subordinateAgrtDatas.add(gameSubordinateagrtHeadModel);
+                            subData = vo;
+
+                            if (gameSubordinateAgrteRequest.p <= 1) {
+                                subordinateAgrtDatas.clear();
+                                subordinateAgrtDatas.add(gameSubordinateagrtHeadModel);
+                            }
                             if (vo.getData() != null) {
                                 for (GameSubordinateAgrteResponse.DataDTO dataDTO : vo.getData()) {
                                     GameSubordinateagrtModel model = new GameSubordinateagrtModel();
                                     model.setItemType(2);
                                     model.userName = dataDTO.getUsername();
+                                    model.userID = dataDTO.getUserid();
                                     model.signTime = dataDTO.getSign_time();
                                     model.effectDate = dataDTO.getEffect_date();
                                     List<GameSubordinateAgrteResponse.DataDTO.RuleDTO> rule = dataDTO.getRule();
@@ -285,13 +508,22 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                 }
                             }
                             datas.setValue(subordinateAgrtDatas);
+                            finishLoadMore(true);
+                        } else {
+                            finishLoadMore(false);
                         }
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
+                        finishLoadMore(false);
                     }
                 });
         addSubscribe(disposable);
     }
 
-    private void getSubordinateRebateData() {
+    private synchronized void getSubordinateRebateData() {
         if (getmCompositeDisposable() != null) {
             getmCompositeDisposable().clear();
         }
@@ -300,14 +532,28 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         gameSubordinateRebateRequest.username = gameSubordinaterebateHeadModel.userName.get();
         gameSubordinateRebateRequest.starttime = gameSubordinaterebateHeadModel.startDate.get();
         gameSubordinateRebateRequest.endtime = gameSubordinaterebateHeadModel.endDate.get();
-        Disposable disposable = (Disposable) model.getGameSubordinateRebateData(gameSubordinateRebateRequest)
+        gameSubordinateRebateRequest.p = gameSubordinaterebateHeadModel.p;
+        gameSubordinateRebateRequest.pn = gameSubordinaterebateHeadModel.pn;
+        Disposable disposable = (Disposable) model.getGameSubordinateRebateData(getSubordinateRebateDataURL(), gameSubordinateRebateRequest)
+                .doOnSubscribe(new Consumer<Subscription>() {
+                    @Override
+                    public void accept(Subscription subscription) throws Exception {
+                        //重新加载弹dialog
+                        if (gameSubordinateRebateRequest.p <= 1) {
+                            LoadingDialog.show(mActivity.get());
+                        }
+                    }
+                })
                 .subscribeWith(new HttpCallBack<GameSubordinateRebateResponse>() {
                     @Override
                     public void onResult(GameSubordinateRebateResponse vo) {
                         if (vo != null) {
-                            subordinateRebateDatas.clear();
 
-                            subordinateRebateDatas.add(gameSubordinaterebateHeadModel);
+                            if (gameSubordinateRebateRequest.p <= 1) {
+                                subordinateRebateDatas.clear();
+                                subordinateRebateDatas.add(gameSubordinaterebateHeadModel);
+                            }
+
                             if (vo.getData() != null) {
                                 for (GameSubordinateRebateResponse.DataDTO dataDTO : vo.getData()) {
                                     GameSubordinaterebateModel model = new GameSubordinaterebateModel();
@@ -325,7 +571,21 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                 }
                             }
                             datas.setValue(subordinateRebateDatas);
+                            GameSubordinateRebateResponse.MobilePageDTO mobilePage = vo.getMobile_page();
+                            if (mobilePage != null &&
+                                    mobilePage.getTotal_page().equals(String.valueOf(gameSubordinateRebateRequest.p))) {
+                                loadMoreWithNoMoreData();
+                            } else {
+                                finishLoadMore(true);
+                            }
+                        } else {
+                            finishLoadMore(false);
                         }
+                    }
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
+                        finishLoadMore(false);
                     }
                 });
         addSubscribe(disposable);
@@ -333,16 +593,21 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
+        tabPosition.set(tab.getPosition());
+        finishLoadMore(true);
         switch (tab.getPosition()) {
-            case 0:
+            //真人返水
+            case REBATE_AGRT_TAB:
                 datas.setValue(gameRebateDatas);
                 getRebatAgrteData();
                 break;
-            case 1:
+            //下级契约
+            case Subordinate_Agrte_TAB:
                 datas.setValue(subordinateAgrtDatas);
                 getSubordinateAgrteData();
                 break;
-            case 2:
+            //下级返水
+            case Subordinate_Rebate_TAB:
                 datas.setValue(subordinateRebateDatas);
                 getSubordinateRebateData();
                 break;
@@ -359,12 +624,60 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
 
     }
 
+    /**
+     * 创建契约
+     */
+    public void createRebateAgrt() {
+//        new RebateAgrtCreateDialogFragment().showNow(mActivity.get().getSupportFragmentManager(), RebateAgrtCreateDialogFragment.class.getName());
+        //下级契约
+        if (tabPosition.get() == Subordinate_Agrte_TAB) {
+            RebateAgrtDetailModel rebateAgrtDetailModel = new RebateAgrtDetailModel();
+            rebateAgrtDetailModel.setSubData(subData);
+            RxBus.getDefault().postSticky(rebateAgrtDetailModel);
+            startContainerActivity(RebateAgrtCreateDialogFragment.class.getCanonicalName());
+        }
+    }
+
+    /**
+     * 查看契约
+     */
+    public void checkRebateAgrt(GameSubordinateagrtModel subordinateagrtModel) {
+//        new RebateAgrtCreateDialogFragment().showNow(mActivity.get().getSupportFragmentManager(), RebateAgrtCreateDialogFragment.class.getName());
+        //下级契约
+        if (tabPosition.get() == Subordinate_Agrte_TAB) {
+            RebateAgrtDetailModel rebateAgrtDetailModel = new RebateAgrtDetailModel();
+            rebateAgrtDetailModel.setSubData(subData);
+            rebateAgrtDetailModel.setCheckUserId(subordinateagrtModel.userID);
+            RxBus.getDefault().postSticky(rebateAgrtDetailModel);
+            startContainerActivity(RebateAgrtCreateDialogFragment.class.getCanonicalName());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        switch (tabPosition.get()) {
+            //真人返水
+            case REBATE_AGRT_TAB:
+                getRebatAgrteData();
+                break;
+            //下级契约
+            case Subordinate_Agrte_TAB:
+                getSubordinateAgrteData();
+                break;
+            //下级返水
+            case Subordinate_Rebate_TAB:
+                getSubordinateRebateData();
+                break;
+        }
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mContext != null) {
-            mContext.clear();
-            mContext = null;
+        if (mActivity != null) {
+            mActivity.clear();
+            mActivity = null;
         }
     }
 }

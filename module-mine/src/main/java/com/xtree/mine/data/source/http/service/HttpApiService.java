@@ -3,8 +3,8 @@ package com.xtree.mine.data.source.http.service;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.home.vo.UpdateVo;
 import com.xtree.mine.vo.AccountChangeVo;
-import com.xtree.mine.vo.AdduserVo;
 import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.BankCardCashMoYuVo;
@@ -65,7 +65,6 @@ import com.xtree.mine.vo.VirtualConfirmMoYuVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
 import com.xtree.mine.vo.VirtualSecurityMoYuVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
-import com.xtree.mine.vo.request.AdduserRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -630,7 +629,13 @@ public interface HttpApiService {
      * 返水契约
      */
     @GET("{url}")
-    Flowable<ResponseBody> get(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) HashMap<String, Object> map);
+    Flowable<ResponseBody> get(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) Map<String, Object> map);
+
+    @POST("{url}")
+    Flowable<ResponseBody> post(@Path(value = "url", encoded = true) String url, @Body Map<String, Object> map);
+
+    @POST("{url}")
+    Flowable<ResponseBody> post(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) Map<String, Object> qmap, @Body Map<String, Object> map);
 
     /*魔域 设置密保*/
     @PUT("/api/account/security-questions")
@@ -666,4 +671,11 @@ public interface HttpApiService {
      */
     @POST("/user/adduser?client=m")
     Flowable<BaseResponse2> adduser(@Body AdduserRequest requestBody);
+    /**
+     * 获取更新
+     */
+    @GET("/api/app/version?platform=android")
+    Flowable<BaseResponse<UpdateVo>> getUpdate();
+
+
 }

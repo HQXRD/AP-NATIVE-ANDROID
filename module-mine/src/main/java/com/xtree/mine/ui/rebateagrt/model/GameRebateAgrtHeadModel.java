@@ -6,7 +6,6 @@ import com.xtree.base.mvvm.recyclerview.BindHead;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.FilterView;
-import com.xtree.base.widget.impl.FilterViewOnClickListerner;
 import com.xtree.mine.R;
 import com.xtree.mine.vo.StatusVo;
 
@@ -26,10 +25,8 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
         void selectStartDate(ObservableField<String> startDate);
         void selectEndDate(ObservableField<String> endDate);
         void selectStatus(ObservableField<StatusVo> state, List<FilterView.IBaseVo> listStatus);
-        void check(StatusVo state,String startDate,String endDate);
+        void check(StatusVo state, String startDate, String endDate);
     }
-
-
 
     //开始时间
     public ObservableField<String> startDate = new ObservableField<>();
@@ -44,6 +41,11 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
     public ObservableField<String> yesterdayRebate = new ObservableField<>();
 
     private onCallBack onCallBack = null;
+
+    //分页索引
+    public int p = 1;
+    //page count
+    public int pn = 20;
 
     public void setOnCallBack(GameRebateAgrtHeadModel.onCallBack onCallBack) {
         this.onCallBack = onCallBack;
@@ -107,6 +109,7 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
 
     public void check() {
         if (onCallBack != null) {
+            p = 1;
             onCallBack.check(state.get(), startDate.get(), endDate.get());
         }
     }
