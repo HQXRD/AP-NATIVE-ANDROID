@@ -20,10 +20,10 @@ import com.xtree.mine.ui.rebateagrt.fragment.RebateAgrtSearchUserDialogFragment;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtCreateAddModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtCreateHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtCreateModel;
-import com.xtree.mine.ui.rebateagrt.model.RebateAgrtSearchUserResultModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtDetailModel;
-import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
+import com.xtree.mine.ui.rebateagrt.model.RebateAgrtSearchUserResultModel;
 import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
+import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 import com.xtree.mine.vo.response.RebateAgrtCreateResponse;
 
@@ -38,7 +38,6 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -105,8 +104,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
     private final RebateAgrtCreateHeadModel headModel = new RebateAgrtCreateHeadModel(new Consumer<String>() {
         @Override
         public void accept(String s) throws Exception {
-            startContainerActivity(RebateAgrtSearchUserDialogFragment.class.getCanonicalName());
-            RxBus.getDefault().postSticky(rebateAgrtDetailModel);
+            RebateAgrtSearchUserDialogFragment.show(mActivity.get(), rebateAgrtDetailModel);
         }
     });
 

@@ -1,10 +1,16 @@
 package com.xtree.mine.ui.rebateagrt.fragment;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -17,9 +23,11 @@ import com.xtree.mine.ui.rebateagrt.model.RebateAgrtSearchUserResultModel;
 import com.xtree.mine.ui.rebateagrt.viewmodel.RebateAgrtCreateViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 
+import java.util.Objects;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.base.BaseDialogFragment;
 import me.xtree.mvvmhabit.bus.RxBus;
 
 /**
@@ -27,7 +35,21 @@ import me.xtree.mvvmhabit.bus.RxBus;
  * Describe: 分红契约创建弹窗
  */
 @Route(path = RouterFragmentPath.Mine.PAGER_REBATEAGRT_CREATE_DIALOG)
-public class RebateAgrtCreateDialogFragment extends BaseFragment<DialogRebateagrtCreateBinding, RebateAgrtCreateViewModel> {
+public class RebateAgrtCreateDialogFragment extends BaseDialogFragment<DialogRebateagrtCreateBinding, RebateAgrtCreateViewModel> {
+
+    /**
+     * 启动弹窗
+     * @param activity 获取FragmentManager
+     * @param model 入参
+     */
+    public static void show(FragmentActivity activity, RebateAgrtDetailModel model) {
+        RxBus.getDefault().postSticky(model);
+        RebateAgrtCreateDialogFragment fragment = new RebateAgrtCreateDialogFragment();
+        fragment.show(activity.getSupportFragmentManager(), RebateAgrtCreateDialogFragment.class.getName());
+    }
+    private RebateAgrtCreateDialogFragment() {
+    }
+
     @Override
     public void initView() {
     }
@@ -38,19 +60,15 @@ public class RebateAgrtCreateDialogFragment extends BaseFragment<DialogRebateagr
     }
 
     @Override
-    public int initVariableId() {
-        return BR.model;
-    }
-
-    @Override
     public RebateAgrtCreateViewModel initViewModel() {
         AppViewModelFactory factory = AppViewModelFactory.getInstance(getActivity().getApplication());
-        return new ViewModelProvider(requireActivity(), factory).get(RebateAgrtCreateViewModel.class);
+        return new ViewModelProvider(this, factory).get(RebateAgrtCreateViewModel.class);
     }
 
     @Override
     public void initData() {
         super.initData();
+        binding.setVariable(BR.model, viewModel);
         RebateAgrtDetailModel stickyEvent = RxBus.getDefault().getStickyEvent(RebateAgrtDetailModel.class);
         if (stickyEvent != null) {
             viewModel.setActivity(getActivity());
@@ -84,22 +102,30 @@ public class RebateAgrtCreateDialogFragment extends BaseFragment<DialogRebateagr
 
             }
         });
+
+        viewModel.getUC().getFinishEvent().removeObservers(this);
+        viewModel.getUC().getFinishEvent().observe(this, new androidx.lifecycle.Observer<Void>() {
+            @Override
+            public void onChanged(@Nullable Void v) {
+                dismissAllowingStateLoss();
+            }
+        });
     }
 
-    //    @Override
-//    public void onClick(View v) {
-//
-//    }
-//
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        Window window = Objects.requireNonNull(getDialog()).getWindow();
-//        WindowManager.LayoutParams params = Objects.requireNonNull(window).getAttributes();
-//        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-//        params.height = WindowManager.LayoutParams.MATCH_PARENT;
-//        window.setAttributes(params);
-//        View decorView = window.getDecorView();
-//        decorView.setBackground(new ColorDrawable(Color.TRANSPARENT));
-//    }
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Window window = Objects.requireNonNull(getDialog()).getWindow();
+        WindowManager.LayoutParams params = Objects.requireNonNull(window).getAttributes();
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = WindowManager.LayoutParams.MATCH_PARENT;
+        window.setAttributes(params);
+        View decorView = window.getDecorView();
+        decorView.setBackground(new ColorDrawable(Color.TRANSPARENT));
+    }
 }

@@ -48,7 +48,6 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -149,8 +148,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
             gameDividendAgrtRequest.p = headModel.p;
             gameDividendAgrtRequest.pn = headModel.pn;
 
-            RxBus.getDefault().postSticky(gameDividendAgrtRequest);
-            startContainerActivity(DividendAgrtSendDialogFragment.class.getCanonicalName());
+            DividendAgrtSendDialogFragment.show(mActivity.get(), gameDividendAgrtRequest);
         }
     });
 
@@ -198,8 +196,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
      * @param dividendAgrtCheckRequest 请求参数
      */
     private void startCheckAgrt(DividendAgrtCheckRequest dividendAgrtCheckRequest) {
-        startContainerActivity(DividendAgrtCheckDialogFragment.class.getCanonicalName());
-        RxBus.getDefault().postSticky(dividendAgrtCheckRequest);
+        DividendAgrtCheckDialogFragment.show(mActivity.get(), dividendAgrtCheckRequest);
     }
 
     private synchronized void getDividendData() {

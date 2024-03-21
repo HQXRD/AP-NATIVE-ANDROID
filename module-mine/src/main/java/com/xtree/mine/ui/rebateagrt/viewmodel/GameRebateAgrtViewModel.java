@@ -51,7 +51,6 @@ import java.util.List;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
-import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.http.BusinessException;
 
 /**
@@ -628,13 +627,11 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
      * 创建契约
      */
     public void createRebateAgrt() {
-//        new RebateAgrtCreateDialogFragment().showNow(mActivity.get().getSupportFragmentManager(), RebateAgrtCreateDialogFragment.class.getName());
         //下级契约
         if (tabPosition.get() == Subordinate_Agrte_TAB) {
             RebateAgrtDetailModel rebateAgrtDetailModel = new RebateAgrtDetailModel();
             rebateAgrtDetailModel.setSubData(subData);
-            RxBus.getDefault().postSticky(rebateAgrtDetailModel);
-            startContainerActivity(RebateAgrtCreateDialogFragment.class.getCanonicalName());
+            RebateAgrtCreateDialogFragment.show(mActivity.get(), rebateAgrtDetailModel);
         }
     }
 
@@ -642,14 +639,12 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
      * 查看契约
      */
     public void checkRebateAgrt(GameSubordinateagrtModel subordinateagrtModel) {
-//        new RebateAgrtCreateDialogFragment().showNow(mActivity.get().getSupportFragmentManager(), RebateAgrtCreateDialogFragment.class.getName());
         //下级契约
         if (tabPosition.get() == Subordinate_Agrte_TAB) {
             RebateAgrtDetailModel rebateAgrtDetailModel = new RebateAgrtDetailModel();
             rebateAgrtDetailModel.setSubData(subData);
             rebateAgrtDetailModel.setCheckUserId(subordinateagrtModel.userID);
-            RxBus.getDefault().postSticky(rebateAgrtDetailModel);
-            startContainerActivity(RebateAgrtCreateDialogFragment.class.getCanonicalName());
+            RebateAgrtCreateDialogFragment.show(mActivity.get(), rebateAgrtDetailModel);
         }
     }
 

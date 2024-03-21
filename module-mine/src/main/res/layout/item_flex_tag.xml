@@ -20,6 +20,7 @@
             android:paddingTop="4dp"
             android:paddingRight="10dp"
             android:paddingBottom="4dp"
+            android:clickable="false"
             android:checked="@={m.checked}"
             android:text="@{m.userName}"
             android:background="@drawable/selector_cdcece_f2f2f2_corner100"

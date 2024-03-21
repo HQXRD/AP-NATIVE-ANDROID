@@ -75,7 +75,13 @@ public class RebateAgrtSearchUserViewModel extends BaseViewModel<MineRepository>
             //计算数量
             if (datas.getValue() != null) {
                 int num = 0;
+
+                //反选当前条目
+                RebateAgrtSearchUserLabelModel cModel = (RebateAgrtSearchUserLabelModel) datas.getValue().get(layoutPosition);
+                cModel.checked.set(!cModel.checked.get());
+
                 for (BindModel bindModel : datas.getValue()) {
+                    //统计选中条目
                     RebateAgrtSearchUserLabelModel label = (RebateAgrtSearchUserLabelModel) bindModel;
                     if (label.checked.get()) {
                         num++;
@@ -173,8 +179,12 @@ public class RebateAgrtSearchUserViewModel extends BaseViewModel<MineRepository>
                     map.put(label.userId, label.userName);
                 }
             }
-            RxBus.getDefault().post(new RebateAgrtSearchUserResultModel(map));
-            finish();
+            if (map.size() > 0) {
+                RxBus.getDefault().post(new RebateAgrtSearchUserResultModel(map));
+                onBack();
+            } else {
+                ToastUtils.show("请选择用户", ToastUtils.ShowType.Fail);
+            }
         } else {
             ToastUtils.show("请选择用户", ToastUtils.ShowType.Fail);
         }
