@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -15,20 +16,25 @@ import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
-import com.xtree.home.vo.UpdateVo;
+import com.xtree.base.widget.AppUpdateDialog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.vo.AdduserVo;
 import com.xtree.mine.vo.BalanceVo;
+import com.xtree.mine.vo.MarketingVo;
 import com.xtree.mine.vo.MemberManagerVo;
 import com.xtree.mine.vo.QuestionVo;
 import com.xtree.mine.vo.SendMoneyVo;
 import com.xtree.mine.vo.VipInfoVo;
 import com.xtree.mine.vo.VipUpgradeInfoVo;
+import com.xtree.mine.vo.request.AdduserRequest;
 
 import java.util.HashMap;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+import me.xtree.mvvmhabit.http.BaseResponse2;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -48,7 +54,10 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<MemberManagerVo> liveDataMemberManager = new SingleLiveData<>(); // 团队管理
     public SingleLiveData<String> liveDataCheckPassword = new SingleLiveData<>(); // 检查资金密码
     public SingleLiveData<SendMoneyVo> liveDataSendMoney = new SingleLiveData<>(); // 转账成功
-    public MutableLiveData<UpdateVo> liveDataUpdate = new MutableLiveData<>();//更新
+    public SingleLiveData<MarketingVo> liveDataMarketing = new SingleLiveData<>();
+    public SingleLiveData<MarketingVo> liveDataPostMark = new SingleLiveData<>();
+    public SingleLiveData<AdduserVo> liveDataAdduser = new SingleLiveData<>();
+    public MutableLiveData<AppUpdateDialog.AppUpdateVo> liveDataUpdate = new MutableLiveData<>();//更新
 
     public MineViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
@@ -271,6 +280,71 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
+    public void marketing() {
+        Disposable disposable = (Disposable) model.getApiService().marketing()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<MarketingVo>() {
+                    @Override
+                    public void onResult(MarketingVo vo) {
+                        CfLog.d(vo.toString());
+                        liveDataMarketing.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void postMarketing(HashMap map, Context context) {
+        LoadingDialog.show(context);
+        Disposable disposable = (Disposable) model.getApiService().postMarketing(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<MarketingVo>() {
+                    @Override
+                    public void onResult(MarketingVo vo) {
+                        CfLog.d(vo.toString());
+                        ToastUtils.showLong(vo.getSMsg());
+                        liveDataPostMark.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void adduser(AdduserRequest request) {
+        Disposable disposable = (Disposable) model.getApiService().adduser(request)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<BaseResponse2>() {
+                    @Override
+                    public void onResult(BaseResponse2 vo) {
+                        CfLog.d(vo.toString());
+                        ToastUtils.showLong(vo.message);
+                        if (vo.msg_type == 1 || vo.msg_type == 2) {
+                            return;
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
     public void readCache() {
         CfLog.i("******");
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
@@ -316,6 +390,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
             liveDataQuestionWeb.setValue(json);
         }
     }
+
     /**
      * App更新接口
      */
@@ -323,9 +398,9 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
         Disposable disposable = (Disposable) model.getApiService().getUpdate()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<UpdateVo>() {
+                .subscribeWith(new HttpCallBack<AppUpdateDialog.AppUpdateVo>() {
                     @Override
-                    public void onResult(UpdateVo updateVo) {
+                    public void onResult(AppUpdateDialog.AppUpdateVo updateVo) {
                         if (updateVo == null) {
                             CfLog.e("data is null");
                             return;

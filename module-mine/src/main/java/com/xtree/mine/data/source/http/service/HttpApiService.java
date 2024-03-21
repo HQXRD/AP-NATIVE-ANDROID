@@ -3,7 +3,7 @@ package com.xtree.mine.data.source.http.service;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
-import com.xtree.home.vo.UpdateVo;
+import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
@@ -26,6 +26,7 @@ import com.xtree.mine.vo.GooglePswVO;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.LotteryDetailVo;
 import com.xtree.mine.vo.LotteryReportVo;
+import com.xtree.mine.vo.MarketingVo;
 import com.xtree.mine.vo.MemberManagerVo;
 import com.xtree.mine.vo.MsgInfoVo;
 import com.xtree.mine.vo.MsgListVo;
@@ -64,6 +65,7 @@ import com.xtree.mine.vo.VirtualConfirmMoYuVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
 import com.xtree.mine.vo.VirtualSecurityMoYuVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
+import com.xtree.mine.vo.request.AdduserRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -651,11 +653,30 @@ public interface HttpApiService {
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse2> postRetrievePSW(@Body Map<String, String> map);
 
+
+    /**
+     * 推广链接-获取数据
+     */
+    @GET("/user/marketing?client=m")
+    Flowable<MarketingVo> marketing();
+
+    /**
+     * 推广链接-保存更新
+     */
+    @POST("/user/marketing?client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<MarketingVo> postMarketing(@Body Map<String, String> map);
+
+    /**
+     * 注册开户-创建用户
+     */
+    @POST("/user/adduser?client=m")
+    Flowable<BaseResponse2> adduser(@Body AdduserRequest requestBody);
     /**
      * 获取更新
      */
     @GET("/api/app/version?platform=android")
-    Flowable<BaseResponse<UpdateVo>> getUpdate();
+    Flowable<BaseResponse<AppUpdateDialog.AppUpdateVo>> getUpdate();
 
 
 }

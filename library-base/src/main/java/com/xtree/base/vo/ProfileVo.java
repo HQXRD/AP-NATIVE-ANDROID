@@ -22,8 +22,18 @@ public class ProfileVo {
     //public int frequency; // null,
     //public int liveStatus; // 0,
     //public int sportStatus; // 0,
-    //public int maxLivePoint; // 0,
-    //public int maxSportPoint; // 0,
+
+    //彩票返点最大值
+    public String rebate_percentage; // "3.0%",
+    //真人返点最大值
+    public Double maxLivePoint; // 0,
+    //体育返点最大值
+    public Double maxSportPoint; // 0,
+    //棋牌返点最大值
+    public Double maxEsportsPoint; // 0,
+    //电竞返点最大值
+    public Double maxPokerPoint; // 0,
+
     public String userid; // 5373118,
     public String username; // test032
     public String nickname; // test032
@@ -38,7 +48,6 @@ public class ProfileVo {
     public String preinfo; // ""
     public int messages; // 0,
     public String availablebalance; // "0.0000",
-    public String rebate_percentage; // "3.0%",
     public boolean has_securitypwd; // false, //是否设定资金密码
     public boolean solo_challenge; // true,
     public Object set_question; // 0 或 [4,18,2] //用户设置密保
@@ -97,6 +106,7 @@ public class ProfileVo {
     //public int act_userlabel_pupshow; // 1,
     public int phone_selfupdate; // 1,
     public String email_selfupdate; // "1"
+    public int zhaoshang;
 
     @Override
     public String toString() {
@@ -118,7 +128,6 @@ public class ProfileVo {
                 ", rebate_percentage='" + rebate_percentage + '\'' +
                 ", has_securitypwd=" + has_securitypwd +
                 ", solo_challenge=" + solo_challenge +
-                ", set_question=" + set_question +
                 ", twofa=" + twofa +
                 ", twofa_login_enabled=" + twofa_login_enabled +
                 ", twofa_withdraw_enabled=" + twofa_withdraw_enabled +
