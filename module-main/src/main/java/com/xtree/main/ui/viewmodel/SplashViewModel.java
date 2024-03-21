@@ -23,6 +23,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 public class SplashViewModel extends BaseViewModel<MainRepository> {
     public MutableLiveData<Void> inMainData = new MutableLiveData<>();
     public MutableLiveData<Void> reNewViewModel = new MutableLiveData<>();
+    public MutableLiveData<Void> noWebData = new MutableLiveData<>();
 
     public SplashViewModel(@NonNull Application application, MainRepository model) {
         super(application, model);

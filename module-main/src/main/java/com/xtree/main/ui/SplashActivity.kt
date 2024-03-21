@@ -97,6 +97,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 e.printStackTrace()
+                viewModel?.noWebData?.postValue(null)
             }
         }
     }
