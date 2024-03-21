@@ -8,20 +8,24 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="2dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/bg_dialog_awards"
-        android:padding="20dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/awards_line_top"
+            style="@style/style_awards_top_line"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/cl_title"
+            />
 
         <TextView
             android:id="@+id/tvw_title"
@@ -33,6 +37,10 @@
             android:textSize="16sp"
             android:textStyle="bold"
             android:visibility="visible"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="@id/cl_title"
             app:layout_constraintTop_toTopOf="@id/cl_title"
             tools:text="红包雨wqwqeqwweqweqeqeqqwe" />
@@ -41,12 +49,12 @@
             android:id="@+id/tvw_title_bonus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:drawableLeft="@mipmap/me_awards_lock"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@mipmap/mine_bonus"
             android:drawablePadding="4dp"
             android:gravity="center"
             android:text=""
-            android:textColor="@color/bt_color_car_dialog_hight_line2"
+            android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold"
             android:visibility="visible"
@@ -68,7 +76,7 @@
             android:layout_marginTop="14dp"
             android:gravity="center"
             android:text=""
-            android:textColor="@color/bt_text_color_primary_3"
+            android:textColor="@color/black"
             android:textSize="14sp"
             android:visibility="visible"
             app:layout_constraintStart_toStartOf="@id/tvw_title_bonus"
@@ -79,12 +87,13 @@
             android:id="@+id/tvw_title_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:gravity="center|right"
             android:text=""
-            android:textColor="@color/bt_text_color_primary_3"
+            android:textColor="@color/black"
             android:textSize="14sp"
-            app:layout_constraintRight_toRightOf="@id/awards_line"
-            app:layout_constraintTop_toTopOf="@id/tvw_required_turnover"
+            app:layout_constraintStart_toStartOf="@id/tvw_required_turnover"
+            app:layout_constraintTop_toBottomOf="@id/tvw_required_turnover"
             tools:text="剩余流水：123456789.00" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
