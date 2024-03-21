@@ -45,27 +45,14 @@ class RegisterPromotionFragment : BaseFragment<FragmentRegisterPromotionBinding,
 
         TabLayoutMediator(binding.tblType, binding.vpMain) { tab: TabLayout.Tab, position: Int -> tab.setText(tabList[position]) }.attach()
 
-        val bindMsgPersonFragment = MsgPersonListFragment()
-
         fragmentList.add(RegAccountFragment())
-        fragmentList.add(bindMsgPersonFragment)
+        fragmentList.add(RegPromFragment())
 
         tabList.add(getString(R.string.txt_reg_account))
         tabList.add(getString(R.string.txt_prom_links))
 
         mAdapter.notifyDataSetChanged()
     }
-
-    override fun initData() {
-        viewModel.marketing()
-    }
-
-    override fun initViewObservable() {
-        viewModel.liveDataMarketing.observe(this) {
-
-        }
-    }
-
 
     override fun initContentView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): Int {
         return R.layout.fragment_register_promotion

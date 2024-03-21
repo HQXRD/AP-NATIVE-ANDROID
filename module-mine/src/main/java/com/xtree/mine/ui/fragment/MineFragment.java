@@ -36,6 +36,7 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.VipInfoVo;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -191,7 +192,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
         binding.tvwRegProm.setOnClickListener(v -> {
             //注册推广
-            if (mProfileVo != null) {
+            //防止切换登录时，mProfileVo数据更新不及时
+            if (mProfileVo != null && mProfileVo.maxLivePoint != null) {
                 startContainerFragment(RouterFragmentPath.Mine.PAGER_REGISTER_PROMOTION);
             }
         });

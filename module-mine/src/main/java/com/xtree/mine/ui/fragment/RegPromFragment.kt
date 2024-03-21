@@ -1,11 +1,12 @@
 package com.xtree.mine.ui.fragment
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
@@ -15,18 +16,17 @@ import com.xtree.base.adapter.CacheViewHolder
 import com.xtree.base.adapter.CachedAutoRefreshAdapter
 import com.xtree.base.databinding.ItemTextBinding
 import com.xtree.base.global.SPKeyGlobal
-import com.xtree.base.utils.ClickUtil
+import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.NumberUtils
 import com.xtree.base.utils.UuidUtil
 import com.xtree.base.vo.ProfileVo
 import com.xtree.base.widget.ListDialog
-import com.xtree.base.widget.LoadingDialog
 import com.xtree.mine.BR
 import com.xtree.mine.R
-import com.xtree.mine.databinding.FragmentRegAccountBinding
+import com.xtree.mine.databinding.FragmentPromLinksBinding
 import com.xtree.mine.ui.viewmodel.MineViewModel
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory
-import com.xtree.mine.vo.request.AdduserRequest
+import com.xtree.mine.vo.MarketingVo
 import me.xtree.mvvmhabit.base.BaseFragment
 import me.xtree.mvvmhabit.utils.KLog
 import me.xtree.mvvmhabit.utils.SPUtils
@@ -34,7 +34,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils
 import java.math.BigDecimal
 
 
-class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel>(), RegInterface {
+class RegPromFragment : BaseFragment<FragmentPromLinksBinding, MineViewModel>(), RegInterface {
 
     private lateinit var ppw: BasePopupView
     private lateinit var ppwLottery: BasePopupView
@@ -43,93 +43,149 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
     private lateinit var ppwChess: BasePopupView
     private lateinit var ppwGame: BasePopupView
 
+    private lateinit var linkPpw: BasePopupView
+
     private lateinit var mProfileVo: ProfileVo
+
 
     override fun initView() {
         val json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE)
         mProfileVo = Gson().fromJson(json, ProfileVo::class.java)
         initDialog()
         setRebate0()
-        setRebate1()
-        setRebate2()
-
-        binding.ckbEye.setOnCheckedChangeListener { _, isChecked -> setEdtPwd(isChecked, binding.etLoginPwd) }
-        initCreateUser()
+        saveUpdate()
     }
 
     /**
-     * 初始化创建用户点击事件
+     * 保存更新按钮点击事件
      */
-    private fun initCreateUser() {
-        binding.apply {
-            btCreateUser.setOnClickListener {
-                if (ClickUtil.isFastClick()) {
-                    return@setOnClickListener
-                }
-                val name = etName.text.toString().trim()
-                val pwd = etLoginPwd.text.toString().trim()
-                val nickname = etUserName.text.toString().trim()
-                if (name.isEmpty() || name.length < 6 || name[0].toString() == "0" || name[0].toString() == "o") {
-                    ToastUtils.showLong("请输入正确格式的用户名")
-                    return@setOnClickListener
+    private fun saveUpdate() {
+        binding.btSaveUpdate.setOnClickListener {
+            if (binding.tvSelectType.text.toString().isEmpty()) {
+                ToastUtils.showLong(getString(R.string.txt_choose_type_pls))
+                return@setOnClickListener
+            }
+
+            val type: Int
+            val bd = when (binding.tvSelectType.text) {
+                mList[0] -> {
+                    type = dazhaoshang
+                    binding.include0
                 }
 
-                //由字号和数字组成的6–16个字符，且必须包含字母和数宇
-                val regex2 = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,16}$")
-                if (!regex2.matches(pwd)) {
-                    ToastUtils.showLong("请输入正确格式的登录密码")
-                    return@setOnClickListener
+                mList[1] -> {
+                    type = zhaoshang
+                    binding.include1
                 }
 
-                if (nickname.isEmpty()) {
-                    ToastUtils.showLong("请输入昵称")
-                    return@setOnClickListener
+                mList[2] -> {
+                    type = member
+                    binding.include2
                 }
 
-                val type: Int
-                val bd = when (binding.tvSelectType.text) {
-                    mList[0] -> {
-                        type = dazhaoshang
-                        binding.include0
+                else -> {
+                    return@setOnClickListener
+                }
+            }
+            val map = HashMap<String, Any>()
+            map["emails"] = arrayListOf<Any>()
+            map["nonce"] = UuidUtil.getID()
+            map["qqs"] = arrayListOf<Any>()
+            map["usertype"] = mProfileVo.zhaoshang.toString()
+            map["zhaoshang"] = type.toString()
+            map["point"] = bd.typeLottery.removePercentage()
+            map["livepoint"] = bd.typeReal.removePercentage()
+            map["sportpoint"] = bd.typeSports.removePercentage()
+            map["pokerpoint"] = bd.typeChess.removePercentage()
+            map["esportspoint"] = bd.typeGame.removePercentage()
+
+            viewModel.postMarketing(map, requireContext())
+
+        }
+    }
+
+    override fun initData() {
+        viewModel.marketing()
+    }
+
+    override fun initViewObservable() {
+        viewModel.liveDataMarketing.observe(this) {
+            if (it.links.isNotEmpty()) {
+                val linkList = ArrayList<String>()
+                for (i in it.domainList) {
+                    linkList.add(i + it.links[0].domain)
+                }
+                binding.tvLink.text = linkList[0]
+                val adapter: CachedAutoRefreshAdapter<String> = object : CachedAutoRefreshAdapter<String>() {
+                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CacheViewHolder {
+                        return CacheViewHolder(LayoutInflater.from(context).inflate(R.layout.item_text, parent, false))
                     }
 
-                    mList[1] -> {
-                        type = zhaoshang
-                        binding.include1
+                    override fun onBindViewHolder(holder: CacheViewHolder, position: Int) {
+                        val binding2 = ItemTextBinding.bind(holder.itemView)
+                        binding2.tvwTitle.text = get(position)
+                        binding2.tvwTitle.setOnClickListener {
+                            binding.tvLink.text = get(position)
+                            linkPpw.dismiss()
+                        }
+                    }
+                }
+
+                adapter.addAll(linkList)
+                linkPpw = XPopup.Builder(context).asCustom(ListDialog(requireContext(), "", adapter))
+                binding.tvLink.setOnClickListener {
+                    linkPpw.show()
+                }
+                binding.tvwCopy.setOnClickListener { copy(binding.tvLink.text.toString()) }
+
+                binding.tvSelectType.text = when (it.links[0].zhaoshang.toInt()) {
+                    rootmanager, dazhaoshang -> {
+                        binding.include0.layout.visibility = View.VISIBLE
+                        binding.include1.layout.visibility = View.GONE
+                        binding.include2.layout.visibility = View.GONE
+                        mList[0]
                     }
 
-                    mList[2] -> {
-                        type = member
-                        binding.include2
+                    zhaoshang -> {
+                        binding.include0.layout.visibility = View.INVISIBLE
+                        binding.include1.layout.visibility = View.VISIBLE
+                        binding.include2.layout.visibility = View.GONE
+                        mList[1]
+                    }
+
+                    member -> {
+                        binding.include0.layout.visibility = View.INVISIBLE
+                        binding.include1.layout.visibility = View.GONE
+                        binding.include2.layout.visibility = View.VISIBLE
+                        mList[2]
                     }
 
                     else -> {
-                        return@setOnClickListener
+                        "未知"
                     }
                 }
-
-                LoadingDialog.show(requireContext())
-                viewModel.adduser(
-                    AdduserRequest(
-                        UuidUtil.getID(), "insert", mProfileVo.zhaoshang.toString(), type.toString(),
-                        name, pwd, nickname,
-                        bd.typeLottery.removePercentage(), bd.typeReal.removePercentage(), bd.typeSports.removePercentage(),
-                        bd.typeChess.removePercentage(), bd.typeGame.removePercentage()
-                    )
-                )
             }
+
+            setRebate1(it)
+            setRebate2(it.selectedPoint)
+        }
+
+        viewModel.liveDataPostMark.observe(this) {
+            //保存更新后更新本地数据
+            viewModel.marketing()
         }
     }
 
-
-    override fun initViewObservable() {
-        viewModel.liveDataAdduser.observe(this) {
-            ToastUtils.showLong(it.msg_detail)
-        }
+    private fun copy(txt: String) {
+        CfLog.d(txt)
+        val cm = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val cd = ClipData.newPlainText("txt", txt)
+        cm.setPrimaryClip(cd)
+        ToastUtils.showLong(R.string.txt_copied)
     }
 
     override fun initContentView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): Int {
-        return R.layout.fragment_reg_account
+        return R.layout.fragment_prom_links
     }
 
     override fun initVariableId(): Int {
@@ -137,18 +193,8 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
     }
 
     override fun initViewModel(): MineViewModel {
-
         val factory = AppViewModelFactory.getInstance(requireActivity().application)
         return ViewModelProvider(this, factory)[MineViewModel::class.java]
-    }
-
-    private fun setEdtPwd(isChecked: Boolean, edt: EditText) {
-        if (isChecked) {
-            edt.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-        } else {
-            edt.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-        }
-        edt.setSelection(edt.length())
     }
 
 
@@ -193,8 +239,11 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
         }
 
         KLog.i("zhaoshang", mProfileVo.zhaoshang)
+        adapter.addAll(mList)
+        ppw = XPopup.Builder(context).asCustom(ListDialog(requireContext(), "", adapter))
+
         binding.tvSelectType.text = when (mProfileVo.zhaoshang) {
-            rootmanager, dazhaoshang -> mList[0]
+            rootmanager, dazhaoshang -> ""
             zhaoshang, member -> {
                 binding.include0.layout.visibility = View.INVISIBLE
                 binding.include1.layout.visibility = View.GONE
@@ -205,13 +254,10 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
 
             else -> {
                 binding.tvSelectType.isEnabled = false
-                binding.btCreateUser.isEnabled = false
+                binding.btSaveUpdate.isEnabled = false
                 "未知"
             }
         }
-        adapter.addAll(mList)
-        ppw = XPopup.Builder(context).asCustom(ListDialog(requireContext(), "", adapter))
-
     }
 
     /**
@@ -222,7 +268,7 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
             typeLottery.text = mProfileVo.rebate_percentage
             typeLottery.isEnabled = false
             tvLotteryRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
-            KLog.i("maxLivePoint", Gson().toJson(mProfileVo))
+
             typeReal.text = mProfileVo.maxLivePoint.toString().plus("%")
             typeReal.isEnabled = false
             tvRealRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
@@ -246,27 +292,43 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
     /**
      * 招商快速返点设置
      */
-    private fun setRebate1() {
+    private fun setRebate1(vo: MarketingVo) {
         binding.include1.apply {
             typeLottery.text = mProfileVo.rebate_percentage
             typeLottery.isEnabled = false
             tvLotteryRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
 
-            typeReal.text = "0.9%"
+            if (vo.livePoint == "1.0") {
+                vo.livePoint = "0.9"
+            }
+            typeReal.text = vo.livePoint.plus("%")
             typeReal.isEnabled = true
-            tvRealRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxLivePoint, 0.9).toString() + "%")
+            tvRealRebate.text = getString(R.string.txt_reg_rebate)
+                .plus(NumberUtils.sub(mProfileVo.maxLivePoint, vo.livePoint.toDouble()).toString() + "%")
 
-            typeSports.text = "0.9%"
+            if (vo.sportPoint == "1.0") {
+                vo.sportPoint = "0.9"
+            }
+            typeSports.text = vo.sportPoint.plus("%")
             typeSports.isEnabled = true
-            tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxSportPoint, 0.9).toString() + "%")
+            tvSportsRebate.text = getString(R.string.txt_reg_rebate)
+                .plus(NumberUtils.sub(mProfileVo.maxSportPoint, vo.sportPoint.toDouble()).toString() + "%")
 
-            typeChess.text = "0.9%"
+            if (vo.chessPoint == "1.0") {
+                vo.chessPoint = "0.9"
+            }
+            typeChess.text = vo.chessPoint.plus("%")
             typeChess.isEnabled = true
-            tvChessRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxEsportsPoint, 0.9).toString() + "%")
+            tvChessRebate.text = getString(R.string.txt_reg_rebate)
+                .plus(NumberUtils.sub(mProfileVo.maxEsportsPoint, vo.chessPoint.toDouble()).toString() + "%")
 
-            typeGame.text = "0.9%"
+            if (vo.esportsPoint == "1.0") {
+                vo.esportsPoint = "0.9"
+            }
+            typeGame.text = vo.esportsPoint.plus("%")
             typeGame.isEnabled = true
-            tvGameRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxPokerPoint, 0.9).toString() + "%")
+            tvGameRebate.text = getString(R.string.txt_reg_rebate)
+                .plus(NumberUtils.sub(mProfileVo.maxPokerPoint, vo.esportsPoint.toDouble()).toString() + "%")
 
 
             val list = arrayListOf(0.9, 0.8, 0.7, 0.6, 0.5)
@@ -308,11 +370,14 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
     /**
      * 会员快速返点设置
      */
-    private fun setRebate2() {
+    private fun setRebate2(selectedPoint: String) {
         binding.include2.apply {
-            typeLottery.text = mProfileVo.rebate_percentage
+            val max = mProfileVo.rebate_percentage.replace("%", "").toDouble()
+
+            typeLottery.text = selectedPoint.plus("%")  //
             typeLottery.isEnabled = true
-            tvLotteryRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+            val self = NumberUtils.sub(max, selectedPoint.toDouble())
+            tvLotteryRebate.text = getString(R.string.txt_reg_rebate).plus("$self%")
 
             typeReal.text = "0.5%"
             typeReal.isEnabled = false
@@ -335,7 +400,7 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
             if (mProfileVo.rebate_percentage == null) {
                 return
             }
-            val max = mProfileVo.rebate_percentage.replace("%", "").toDouble()
+
             val start = BigDecimal.valueOf(max)
             val end = BigDecimal.ZERO
             val step = BigDecimal.valueOf(0.1)
@@ -355,10 +420,7 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
                 }
                 ppwLottery.show()
             }
-
         }
-
-
     }
 
     /**

@@ -649,13 +649,20 @@ public interface HttpApiService {
 
 
     /**
-     * 注册推广
+     * 推广链接-获取数据
      */
     @GET("/user/marketing?client=m")
     Flowable<MarketingVo> marketing();
 
     /**
-     * 注册推广-创建用户
+     * 推广链接-保存更新
+     */
+    @POST("/user/marketing?client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<MarketingVo> postMarketing(@Body Map<String, String> map);
+
+    /**
+     * 注册开户-创建用户
      */
     @POST("/user/adduser?client=m")
     Flowable<BaseResponse2> adduser(@Body AdduserRequest requestBody);

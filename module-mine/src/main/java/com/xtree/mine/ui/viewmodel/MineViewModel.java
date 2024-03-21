@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -17,7 +18,6 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.data.MineRepository;
-import com.xtree.mine.ui.fragment.SetQuestionDialog;
 import com.xtree.mine.vo.AdduserVo;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.MarketingVo;
@@ -54,6 +54,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<String> liveDataCheckPassword = new SingleLiveData<>(); // 检查资金密码
     public SingleLiveData<SendMoneyVo> liveDataSendMoney = new SingleLiveData<>(); // 转账成功
     public SingleLiveData<MarketingVo> liveDataMarketing = new SingleLiveData<>();
+    public SingleLiveData<MarketingVo> liveDataPostMark = new SingleLiveData<>();
     public SingleLiveData<AdduserVo> liveDataAdduser = new SingleLiveData<>();
 
     public MineViewModel(@NonNull Application application, MineRepository repository) {
@@ -296,6 +297,29 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                 });
         addSubscribe(disposable);
     }
+
+    public void postMarketing(HashMap map, Context context) {
+        LoadingDialog.show(context);
+        Disposable disposable = (Disposable) model.getApiService().postMarketing(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<MarketingVo>() {
+                    @Override
+                    public void onResult(MarketingVo vo) {
+                        CfLog.d(vo.toString());
+                        ToastUtils.showLong(vo.getSMsg());
+                        liveDataPostMark.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
     public void adduser(AdduserRequest request) {
         Disposable disposable = (Disposable) model.getApiService().adduser(request)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
