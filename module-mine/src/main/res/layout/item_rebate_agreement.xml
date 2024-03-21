@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:src="@mipmap/icon_rebateagrt_sport"
+            android:src="@{m.icon}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
             app:layout_constraintStart_toEndOf="@id/img"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0"
-            android:text="真人返水契约"/>
+            android:text="@{m.title}"/>
 
         <ImageView
             android:id="@+id/back_img"

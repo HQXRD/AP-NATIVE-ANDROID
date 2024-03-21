@@ -1,22 +1,35 @@
 package com.xtree.mine.data.source.http;
 
 
-
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.xtree.mine.data.source.APIManager;
 import com.xtree.mine.data.source.HttpDataSource;
 import com.xtree.mine.data.source.http.service.HttpApiService;
+import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
+import com.xtree.mine.vo.request.DividendAgrtSendQuery;
+import com.xtree.mine.vo.request.DividendAgrtSendRequest;
+import com.xtree.mine.vo.request.DividendAutoSendRequest;
+import com.xtree.mine.vo.request.DividendAutoSentQuery;
+import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
 import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
+import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
+import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
+import com.xtree.mine.vo.request.RecommendedReportsRequest;
+import com.xtree.mine.vo.response.DividendAgrtCheckResponse;
+import com.xtree.mine.vo.response.DividendAgrtSendReeponse;
+import com.xtree.mine.vo.response.DividendAutoSendResponse;
+import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
+import com.xtree.mine.vo.response.RebateAgrtCreateResponse;
+import com.xtree.mine.vo.response.RecommendedReportsResponse;
 
-import java.lang.reflect.Type;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -32,7 +45,7 @@ import okhttp3.ResponseBody;
  */
 public class HttpDataSourceImpl implements HttpDataSource {
     private static Gson gson;
-    private static Type type;
+    private static TypeReference<Map<String, Object>> type;
     private HttpApiService apiService;
     private volatile static HttpDataSourceImpl INSTANCE = null;
 
@@ -42,8 +55,8 @@ public class HttpDataSourceImpl implements HttpDataSource {
                 if (INSTANCE == null) {
                     INSTANCE = new HttpDataSourceImpl(apiService);
                     gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().enableComplexMapKeySerialization().create();
-                    type = new TypeToken<HashMap<String, Object>>() {
-                    }.getType();
+                    type = new TypeReference<Map<String, Object>>() {
+                    };
                 }
             }
         }
@@ -79,11 +92,10 @@ public class HttpDataSourceImpl implements HttpDataSource {
     }
 
     @Override
-    public Flowable<GameRebateAgrtResponse> getGameRebateAgrtData(GameRebateAgrtRequest request) {
-        String json = gson.toJson(request);
-        HashMap<String, Object> map = gson.fromJson(json, type);
-        map.put("", "");
-        return apiService.get(APIManager.GAMEREBATEAGRT_URL, map).map(new Function<ResponseBody, GameRebateAgrtResponse>() {
+    public Flowable<GameRebateAgrtResponse> getGameRebateAgrtData(String url, GameRebateAgrtRequest request) {
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+        return apiService.get(url, map).map(new Function<ResponseBody, GameRebateAgrtResponse>() {
             @Override
             public GameRebateAgrtResponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), GameRebateAgrtResponse.class);
@@ -92,11 +104,10 @@ public class HttpDataSourceImpl implements HttpDataSource {
     }
 
     @Override
-    public Flowable<GameSubordinateAgrteResponse> getGameSubordinateAgrteData(GameSubordinateAgrteRequest request) {
-        String json = gson.toJson(request);
-        HashMap<String, Object> map = gson.fromJson(json, type);
-        map.put("", "");
-        return apiService.get(APIManager.GAMESUBORDINATEAGRTE_URL, map).map(new Function<ResponseBody, GameSubordinateAgrteResponse>() {
+    public Flowable<GameSubordinateAgrteResponse> getGameSubordinateAgrteData(String url, GameSubordinateAgrteRequest request) {
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+        return apiService.get(url, map).map(new Function<ResponseBody, GameSubordinateAgrteResponse>() {
             @Override
             public GameSubordinateAgrteResponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), GameSubordinateAgrteResponse.class);
@@ -105,11 +116,10 @@ public class HttpDataSourceImpl implements HttpDataSource {
     }
 
     @Override
-    public Flowable<GameSubordinateRebateResponse> getGameSubordinateRebateData(GameSubordinateRebateRequest request) {
-        String json = gson.toJson(request);
-        HashMap<String, Object> map = gson.fromJson(json, type);
-        map.put("", "");
-        return apiService.get(APIManager.GAMESUBORDINATEREBATE_URL, map).map(new Function<ResponseBody, GameSubordinateRebateResponse>() {
+    public Flowable<GameSubordinateRebateResponse> getGameSubordinateRebateData(String url, GameSubordinateRebateRequest request) {
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+        return apiService.get(url, map).map(new Function<ResponseBody, GameSubordinateRebateResponse>() {
             @Override
             public GameSubordinateRebateResponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), GameSubordinateRebateResponse.class);
@@ -117,5 +127,104 @@ public class HttpDataSourceImpl implements HttpDataSource {
         });
     }
 
+    @Override
+    public Flowable<GameDividendAgrtResponse> getGameDividendAgrtData(GameDividendAgrtRequest request) {
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+        return apiService.get(APIManager.GAMEDIVIDENDAGRT_URL, map).map(new Function<ResponseBody, GameDividendAgrtResponse>() {
+            @Override
+            public GameDividendAgrtResponse apply(ResponseBody responseBody) throws Exception {
+                return gson.fromJson(responseBody.string(), GameDividendAgrtResponse.class);
+            }
+        });
+    }
 
+    @Override
+    public Flowable<DividendAutoSendResponse> getDividendAutoSendData(DividendAutoSentQuery query, DividendAutoSendRequest request) {
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+
+        String queryJson = JSON.toJSONString(query);
+        Map<String, Object> queryMap = JSON.parseObject(queryJson, type);
+        return apiService.post(APIManager.GAMEDIVIDENDAGRT_AUTOSEND_URL, queryMap, map).map(new Function<ResponseBody, DividendAutoSendResponse>() {
+            @Override
+            public DividendAutoSendResponse apply(ResponseBody responseBody) throws Exception {
+                return gson.fromJson(responseBody.string(), DividendAutoSendResponse.class);
+            }
+        });
+    }
+
+    @Override
+    public Flowable<RecommendedReportsResponse> getRecommendedReportsData(RecommendedReportsRequest request) {
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+        return apiService.get(APIManager.GAMEDIVIDENDAGRT_URL, map).map(new Function<ResponseBody, RecommendedReportsResponse>() {
+            @Override
+            public RecommendedReportsResponse apply(ResponseBody responseBody) throws Exception {
+                return gson.fromJson(responseBody.string(), RecommendedReportsResponse.class);
+            }
+        });
+    }
+
+    @Override
+    public Flowable<RebateAgrtCreateResponse> getRebateAgrtCreateData(RebateAgrtCreateQuery query, RebateAgrtCreateRequest request) {
+
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+
+        String queryJson = JSON.toJSONString(query);
+        Map<String, Object> queryMap = JSON.parseObject(queryJson, type);
+
+        return apiService.post("", queryMap, map).map(new Function<ResponseBody, RebateAgrtCreateResponse>() {
+            @Override
+            public RebateAgrtCreateResponse apply(ResponseBody responseBody) throws Exception {
+                return gson.fromJson(responseBody.string(), RebateAgrtCreateResponse.class);
+            }
+        });
+    }
+
+    @Override
+    public Flowable<DividendAgrtCheckResponse> getDividendAgrtData(DividendAgrtCheckRequest request) {
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+        return apiService.get(APIManager.GAMEDIVIDENDAGRT_DETAIL_URL, map).map(new Function<ResponseBody, DividendAgrtCheckResponse>() {
+            @Override
+            public DividendAgrtCheckResponse apply(ResponseBody responseBody) throws Exception {
+                return gson.fromJson(responseBody.string(), DividendAgrtCheckResponse.class);
+            }
+        });
+    }
+
+    @Override
+    public Flowable<DividendAgrtSendReeponse> getDividendAgrtSendStep1Data(DividendAgrtSendQuery query, DividendAgrtSendRequest request) {
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+
+        String queryJson = JSON.toJSONString(query);
+        Map<String, Object> queryMap = JSON.parseObject(queryJson, type);
+
+        return apiService.post(APIManager.GAMEDIVIDENDAGRT_SEND_STEP1_URL, queryMap, map).map(new Function<ResponseBody, DividendAgrtSendReeponse>() {
+            @Override
+            public DividendAgrtSendReeponse apply(ResponseBody responseBody) throws Exception {
+                return gson.fromJson(responseBody.string(), DividendAgrtSendReeponse.class);
+            }
+        });
+    }
+
+    @Override
+    public Flowable<DividendAgrtSendReeponse> getDividendAgrtSendStep2Data(DividendAgrtSendQuery query, DividendAgrtSendRequest request) {
+
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+
+        String queryJson = JSON.toJSONString(query);
+        Map<String, Object> queryMap = JSON.parseObject(queryJson, type);
+
+        return apiService.post(APIManager.GAMEDIVIDENDAGRT_SEND_STEP2_URL, queryMap, map).map(new Function<ResponseBody, DividendAgrtSendReeponse>() {
+            @Override
+            public DividendAgrtSendReeponse apply(ResponseBody responseBody) throws Exception {
+                return gson.fromJson(responseBody.string(), DividendAgrtSendReeponse.class);
+            }
+        });
+    }
 }

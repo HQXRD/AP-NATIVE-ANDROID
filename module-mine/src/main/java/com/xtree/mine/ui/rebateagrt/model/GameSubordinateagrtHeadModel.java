@@ -29,6 +29,11 @@ public class GameSubordinateagrtHeadModel extends BindModel implements BindHead 
     //查找名称
     public ObservableField<String> serachName = new ObservableField<>();
 
+    //分页索引
+    public int p = 1;
+    //page count
+    public int pn = 20;
+
     public List<FilterView.IBaseVo> listStatus = new ArrayList<FilterView.IBaseVo>() {
         {
             // 0-所有状态
@@ -64,6 +69,7 @@ public class GameSubordinateagrtHeadModel extends BindModel implements BindHead 
     }
     public void check() {
         if (onCallBack != null) {
+            p = 1;
             onCallBack.check(state.get(), serachName.get());
         }
     }

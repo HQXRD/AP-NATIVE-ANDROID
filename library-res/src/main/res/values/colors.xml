@@ -433,4 +433,18 @@
     <color name="color_FFFFFF">#FFFFFF</color>
     <color name="color_50000000">#50000000</color>
     <color name="color_f2f2f2">#f2f2f2</color>
+    <color name="color_EBEEF5">#EBEEF5</color>
+    <color name="color_7D8FB9">#7D8FB9</color>
+    <color name="color_FD5255">#FD5255</color>
+    <color name="color_FEA768">#FEA768</color>
+    <color name="color_CDCECE">#CDCECE</color>
+    <color name="color_transparent">#00000000</color>
+
+<!--    返水契约-->
+<!--    未结算契约背景色-->
+    <color name="color_rebateagrt_state_bg_unsettled">@color/clr_bg_frame_76</color>
+    <!--    已结算契约背景色-->
+    <color name="color_rebateagrt_state_bg_settled">@color/clr_bg_frame_42</color>
+    <!--    无分红契约背景色-->
+    <color name="color_rebateagrt_state_bg_nodividend">@color/clr_grey_05</color>
 </resources>

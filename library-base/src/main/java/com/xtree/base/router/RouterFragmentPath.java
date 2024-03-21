@@ -56,6 +56,11 @@ public class RouterFragmentPath {
         public static final String PAGER_REBATE_REPORT = MINE + "/RebateReport"; // 返水报表
         public static final String PAGER_REBATE_AGREEMENT = MINE + "/RebateAgreement"; // 返水契约
         public static final String PAGER_REBATE_AGREEMENT_GAME = MINE + "/GameRebateAgrt"; // 游戏场馆返水契约
+        public static final String PAGER_DIVIDEND_AGREEMENT_GAME = MINE + "/GameDividendAgrt"; // 游戏场馆分红契约
+        public static final String PAGER_RECOMMENDED_REPORTS_GAME = MINE + "/RecommendedReports"; // 游戏推荐报表/彩票推荐报表
+        public static final String PAGER_REBATEAGRT_CREATE_DIALOG = MINE + "/RebateAgrtCreateDialog"; // 返水契约-创建契约
+        public static final String PAGER_REBATEAGRT_SEARCHUSER_DIALOG = MINE + "/RebateAgrtSearchUserDialog"; // 返水契约-搜索用户
+
         public static final String PAGER_THIRD_TRANSFER = MINE + "/ThirdTransfer"; // 三方转账
         public static final String PAGER_RECHARGE_WITHDRAW = MINE + "/RechargeWithdraw"; // 充提记录
         public static final String PAGER_BT_REPORT = MINE + "/BtReport"; // 投注记录

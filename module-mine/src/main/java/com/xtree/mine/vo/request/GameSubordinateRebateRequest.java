@@ -13,7 +13,7 @@ public class GameSubordinateRebateRequest {
     public String starttime = "";
     public String endtime = "";
     public String pstatus = "0";
-    public String p = "1";
-    public String pn = "20";
+    public int p = 1;
+    public int pn = 20;
     public String client = "m";
 }
