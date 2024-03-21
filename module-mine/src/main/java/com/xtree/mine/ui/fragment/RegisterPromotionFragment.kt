@@ -42,6 +42,7 @@ class RegisterPromotionFragment : BaseFragment<FragmentRegisterPromotionBinding,
 
         binding.vpMain.adapter = mAdapter
         binding.vpMain.isUserInputEnabled = true // ViewPager2 左右滑动
+        binding.vpMain.offscreenPageLimit = 1
 
         TabLayoutMediator(binding.tblType, binding.vpMain) { tab: TabLayout.Tab, position: Int -> tab.setText(tabList[position]) }.attach()
 
