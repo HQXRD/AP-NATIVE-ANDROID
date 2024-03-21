@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -200,7 +201,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
 
         binding.tvwTutorial.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_TUTORIAL, false);
+            goWebView(v, Constant.URL_USDT_RECHARGE_TURTIAL, false);
         });
 
         //VIP中心
@@ -220,10 +221,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         //    startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
         //});
         binding.tvwHelp.setOnClickListener(v -> {
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
-        });
-        binding.tvwTutorial.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_TUTORIAL, false);
+            //BrowserActivity.start(getContext(), ((TextView) v).getText().toString(), DomainUtil.getDomain2() + Constant.URL_HELP, false, false, true);
+            //startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(DomainUtil.getDomain2() + Constant.URL_HELP));
+            startActivity(intent);
         });
         binding.tvwLogin.setOnClickListener(v -> {
             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
