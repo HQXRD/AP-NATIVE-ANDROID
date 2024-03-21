@@ -3,7 +3,7 @@ package com.xtree.mine.data.source.http.service;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
-import com.xtree.home.vo.UpdateVo;
+import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
@@ -65,6 +65,7 @@ import com.xtree.mine.vo.VirtualConfirmMoYuVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
 import com.xtree.mine.vo.VirtualSecurityMoYuVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
+import com.xtree.mine.vo.request.AdduserRequest;
 
 import java.util.HashMap;
 import java.util.List;
@@ -675,7 +676,7 @@ public interface HttpApiService {
      * 获取更新
      */
     @GET("/api/app/version?platform=android")
-    Flowable<BaseResponse<UpdateVo>> getUpdate();
+    Flowable<BaseResponse<AppUpdateDialog.AppUpdateVo>> getUpdate();
 
 
 }
