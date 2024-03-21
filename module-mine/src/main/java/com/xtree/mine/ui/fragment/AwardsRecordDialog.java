@@ -124,14 +124,15 @@ public class AwardsRecordDialog extends BottomPopupView {
                 tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
             }
         }
-
-        binding.tvChooseTip.setText(tipText);
+        if (tipText.equals(getContext().getString(R.string.txt_awards_no_money_tip))) {
+            binding.tvChooseTip.setText(tipText);
+            binding.llChooseTip.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvChooseTip.setVisibility(View.GONE);
+            binding.llChooseTip.setVisibility(View.GONE);
+        }
         //http://jira.lgroup.co/browse/HQAP2-2817
         //关闭显示列表
-        binding.llChooseTip.setVisibility(View.VISIBLE);
-        binding.tvWithdrawalAwardsTitle.setVisibility(View.GONE);
-
-
         bottomPopupContainer.dismissOnTouchOutside(true);
         bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
             @Override
@@ -152,15 +153,15 @@ public class AwardsRecordDialog extends BottomPopupView {
             }
         });
 
-       /* if (awardsRecordVo !=null && awardsRecordVo.list.size() > 1) {
+        if (awardsRecordVo != null && awardsRecordVo.list.size() > 1) {
             binding.lvChoose.setVisibility(View.VISIBLE);
             ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
             binding.lvChoose.setAdapter(adapter);
         } else {
-            binding.llChooseTip.setVisibility(View.VISIBLE);
-            binding.tvWithdrawalAwardsTitle.setVisibility(View.GONE);
+            /*binding.llChooseTip.setVisibility(View.VISIBLE);
+            binding.tvWithdrawalAwardsTitle.setVisibility(View.GONE);*/
 
-        }*/
+        }
 
     }
 
