@@ -95,7 +95,7 @@ public class AwardsRecordDialog extends BottomPopupView {
 
     private void initView() {
         binding = DialogChooseAwardsBinding.bind(findViewById(R.id.ll_root));
-        if (viewType == 1 ||viewType == 3) {
+        if (viewType == 1 || viewType == 3) {
             CfLog.i("viewType ==1)");
             binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_unfinished_activity));
         } else {
@@ -111,11 +111,9 @@ public class AwardsRecordDialog extends BottomPopupView {
 
         binding.llChooseTip.setVisibility(View.VISIBLE);
         String tipText = "";
-        if (viewType ==3)
-        {
+        if (viewType == 3) {
             tipText = "您今日没有可用提款次数";
-        }
-        else{
+        } else {
             if (TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) ||
                     awardsRecordVo.withdraw_dispensing_money.equals("0") ||
                     awardsRecordVo.withdraw_dispensing_money.equals("0.00")) {

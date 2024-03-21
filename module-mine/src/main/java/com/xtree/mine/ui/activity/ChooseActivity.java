@@ -76,8 +76,10 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         if (viewModel != null) {
             viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
                 awardsRecordVo = vo;
-                if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
-                    // showAwardsRecord();
+                if (awardsRecordVo != null && awardsRecordVo.list != null
+                        && awardsRecordVo.list.size() != 0
+                        && !("0.00".equals(awardsRecordVo.withdraw_dispensing_money))) {
+                    //withdraw_dispensing_money locked_award_sum
                     showError(awardsRecordVo);
                 } else if (awardsRecordVo.networkStatus == 1) {
                     //链接超时

@@ -39,6 +39,7 @@ import com.xtree.mine.vo.ChooseInfoVo;
 import java.util.ArrayList;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
 /**
@@ -145,6 +146,11 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 if (!TextUtils.isEmpty(chooseInfoVo.msg_type) && "2".equals(chooseInfoVo.msg_type)) {
                     //异常状态
                     showErrorDialog(chooseInfoVo.message);
+
+                } else if ("chooseInfoVo.wdChannelList is Null".equals(chooseInfoVo.error)) {
+                    //异常状态 提款列表数据为空
+                    ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                    return;
                 } else if (TextUtils.isEmpty(chooseInfoVo.error) || chooseInfoVo.error == null) {
                     referUI();
                 } else {
