@@ -227,6 +227,7 @@
     <color name="clr_purple_03">#CE9CE5</color>
     <color name="clr_purple_08">#EFE9FF</color>
     <color name="clr_purple_09">#D6CEF9</color>
+    <color name="clr_purple_12">#A17DF5</color>
 
     <!-- 按钮背景 左中右/上中下 -->
     <color name="clr_purple_bg01">#E5BFFC</color>

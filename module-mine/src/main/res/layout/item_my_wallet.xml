@@ -19,6 +19,7 @@
         <TextView
             android:id="@+id/tvw_third_game_balance"
             style="@style/style_trans_value"
+            android:textColor="@color/clr_purple_12"
             android:tag="obgqp"
             android:textSize="@dimen/bt_text_12sp"
             tools:text="0.0000" />
