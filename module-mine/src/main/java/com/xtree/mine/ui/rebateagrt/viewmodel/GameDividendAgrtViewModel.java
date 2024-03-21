@@ -268,26 +268,27 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                 //total
                                 GameDividendAgrtTotalModel totalModel = new GameDividendAgrtTotalModel();
                                 totalModel.setItemType(3);
-                                totalModel.cycle = headModel.cyclyData.get().getShowName();
+                                totalModel.setCycle(headModel.cyclyData.get().getShowName());
 
                                 //自己的契约数据
                                 GameDividendAgrtResponse.SelfBillDTO selfBill = vo.getSelfBill();
                                 if (selfBill != null) {
-                                    totalModel.bet = selfBill.getBet();
-                                    totalModel.netloss = selfBill.getNetloss();
-                                    totalModel.people = selfBill.getPeople();
-                                    totalModel.cycle_percent = selfBill.getCycle_percent();
-                                    totalModel.userid = selfBill.getUserid();
-                                    totalModel.subMoney = selfBill.getSub_money();
-                                    totalModel.profitloss = selfBill.getProfitloss();
-                                    totalModel.cycle = headModel.cyclyData.get().getShowName();
+                                    totalModel.setBet(selfBill.getBet());
+                                    totalModel.setNetloss(selfBill.getNetloss());
+                                    totalModel.setPeople(selfBill.getPeople());
+                                    totalModel.setCycle_percent(selfBill.getCycle_percent());
+                                    totalModel.setUserid(selfBill.getUserid());
+                                    totalModel.setSubMoney(selfBill.getSub_money());
+                                    totalModel.setSelfMoney(selfBill.getSelf_money());
+                                    totalModel.setProfitloss(selfBill.getProfitloss());
+                                    totalModel.setCycle(headModel.cyclyData.get().getShowName());
                                     //设置契约状态
                                     if (selfBill.getPay_status() != null) {
-                                        totalModel.payStatu = selfBill.getPay_status();
+                                        totalModel.setPayStatu(selfBill.getPay_status());
                                     }
                                     for (Map.Entry<String, String> entry : vo.getBillStatus().entrySet()) {
-                                        if (entry.getKey().equals(totalModel.payStatu)) {
-                                            totalModel.payStatuText = entry.getValue();
+                                        if (entry.getKey().equals(totalModel.getPayStatu())) {
+                                            totalModel.setPayStatuText(entry.getValue());
                                         }
                                     }
 
@@ -306,25 +307,26 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                 if (data != null) {
                                     for (GameDividendAgrtResponse.ChildrenBillDTO.DataDTO dataDTO : data) {
                                         GameDividendAgrtModel gameDividendAgrtModel = new GameDividendAgrtModel();
-                                        gameDividendAgrtModel.bet = dataDTO.getBet();
-                                        gameDividendAgrtModel.netloss = dataDTO.getNetloss();
-                                        gameDividendAgrtModel.people = dataDTO.getPeople();
-                                        gameDividendAgrtModel.cycle_percent = dataDTO.getCycle_percent();
-                                        gameDividendAgrtModel.userName = dataDTO.getUsername();
-                                        gameDividendAgrtModel.userid = dataDTO.getUserid();
-                                        gameDividendAgrtModel.subMoney = dataDTO.getSub_money();
-                                        gameDividendAgrtModel.profitloss = dataDTO.getProfitloss();
-                                        gameDividendAgrtModel.cycle = headModel.cyclyData.get().getShowName();
+                                        gameDividendAgrtModel.setBet(dataDTO.getBet());
+                                        gameDividendAgrtModel.setNetloss(dataDTO.getNetloss());
+                                        gameDividendAgrtModel.setPeople(dataDTO.getPeople());
+                                        gameDividendAgrtModel.setCycle_percent(dataDTO.getCycle_percent());
+                                        gameDividendAgrtModel.setUserName(dataDTO.getUsername());
+                                        gameDividendAgrtModel.setUserid(dataDTO.getUserid());
+                                        gameDividendAgrtModel.setSubMoney(dataDTO.getSub_money());
+                                        gameDividendAgrtModel.setSelfMoney(dataDTO.getSelf_money());
+                                        gameDividendAgrtModel.setProfitloss(dataDTO.getProfitloss());
+                                        gameDividendAgrtModel.setCycle(headModel.cyclyData.get().getShowName());
                                         //设置契约状态
-                                        gameDividendAgrtModel.payStatu = dataDTO.getPay_status();
+                                        gameDividendAgrtModel.setPayStatu(dataDTO.getPay_status());
                                         for (Map.Entry<String, String> entry : vo.getBillStatus().entrySet()) {
-                                            if (entry.getKey().equals(gameDividendAgrtModel.payStatu)) {
-                                                gameDividendAgrtModel.payStatuText = entry.getValue();
+                                            if (entry.getKey().equals(gameDividendAgrtModel.getPayStatu())) {
+                                                gameDividendAgrtModel.setPayStatuText(entry.getValue());
                                             }
                                         }
                                         gameDividendAgrtModel.setCallBack(v ->{
                                             DividendAgrtCheckRequest dividendAgrtCheckRequest = new DividendAgrtCheckRequest();
-                                            dividendAgrtCheckRequest.setUserid(v.userid);
+                                            dividendAgrtCheckRequest.setUserid(v.getUserid());
                                             dividendAgrtCheckRequest.setType(headModel.type);
                                             startCheckAgrt(dividendAgrtCheckRequest);
                                         });
@@ -379,8 +381,8 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                 .subscribeWith(new HttpCallBack<DividendAutoSendResponse>() {
                     @Override
                     public void onResult(DividendAutoSendResponse vo) {
-                        if (vo.getData() == null) {
-
+                        if (vo.getStatus() == 1) {
+                            showTipDialog(getApplication().getString(R.string.txt_send_dividend_tip4));
                         } else {
                             showTipDialog(vo.getMsg());
                         }
@@ -402,7 +404,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
      * 提示弹窗
      */
     private void showTipDialog(String msg) {
-        MsgDialog dialog = new MsgDialog(mActivity.get(), "温馨提示", msg, true, new TipDialog.ICallBack() {
+        MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_kind_tips), msg, true, new TipDialog.ICallBack() {
             @Override
             public void onClickLeft() {
 

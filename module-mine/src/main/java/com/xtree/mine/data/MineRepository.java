@@ -9,6 +9,8 @@ import com.xtree.mine.data.source.HttpDataSource;
 import com.xtree.mine.data.source.LocalDataSource;
 import com.xtree.mine.data.source.http.service.HttpApiService;
 import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
+import com.xtree.mine.vo.request.DividendAgrtSendQuery;
+import com.xtree.mine.vo.request.DividendAgrtSendRequest;
 import com.xtree.mine.vo.request.DividendAutoSendRequest;
 import com.xtree.mine.vo.request.DividendAutoSentQuery;
 import com.xtree.mine.vo.request.GameDividendAgrtRequest;
@@ -19,6 +21,7 @@ import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
 import com.xtree.mine.vo.response.DividendAgrtCheckResponse;
+import com.xtree.mine.vo.response.DividendAgrtSendReeponse;
 import com.xtree.mine.vo.response.DividendAutoSendResponse;
 import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
@@ -143,11 +146,19 @@ public class MineRepository extends BaseModel implements HttpDataSource, LocalDa
     }
 
     @Override
-    public Flowable<DividendAgrtCheckResponse> getDividendAgrtSendData(DividendAgrtCheckRequest request) {
-        return mHttpDataSource.getDividendAgrtSendData(request)
+    public Flowable<DividendAgrtSendReeponse> getDividendAgrtSendStep1Data(DividendAgrtSendQuery query, DividendAgrtSendRequest request) {
+        return mHttpDataSource.getDividendAgrtSendStep1Data(query,request)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer());
     }
+
+    @Override
+    public Flowable<DividendAgrtSendReeponse> getDividendAgrtSendStep2Data(DividendAgrtSendQuery query,DividendAgrtSendRequest request) {
+        return mHttpDataSource.getDividendAgrtSendStep2Data(query, request)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer());
+    }
+
 
     @Override
     public void saveUserName(String userName) {

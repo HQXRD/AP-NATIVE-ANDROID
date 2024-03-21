@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -162,15 +162,19 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/shape_ebeef5_corners5"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:layout_marginTop="12dp"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="5dp"
-                    android:paddingEnd="5dp"
                     android:text="@{m.payStatuText}"
-                    android:textColor="@color/color_7D8FB9"
-                    android:textSize="12sp" />
+                    android:textSize="10sp"
+                    android:textColor="@color/clr_white"
+                    android:background="@{m.payStatuColor}"
+                    android:gravity="center"
+                    tools:text="无契约/终止"
+                    tools:background="@color/color_rebateagrt_state_bg_nodividend"
+                    />
 
             </LinearLayout>
 

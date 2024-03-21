@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -258,7 +258,7 @@
                 android:id="@+id/item_dividend_money_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{m.subMoney}"
+                android:text="@{m.selfMoney}"
                 android:textSize="10sp"
                 android:textColor="@color/color_1E1E1E"
                 android:layout_marginTop="5dp"
@@ -272,13 +272,19 @@
             <!--            状态-->
             <TextView
                 android:id="@+id/item_statu"
-                android:layout_width="60dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:text="@{m.payStatuText}"
-                android:textSize="12sp"
-                android:textColor="@color/color_5B5B6A"
-                android:background="@drawable/shape_ebeef5_corners5"
+                android:textSize="10sp"
+                android:textColor="@color/clr_white"
+                android:background="@{m.payStatuColor}"
                 android:gravity="center"
+                tools:text="无分红"
+                tools:background="@color/color_rebateagrt_state_bg_nodividend"
                 app:layout_constraintTop_toTopOf="@id/item_createdate_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

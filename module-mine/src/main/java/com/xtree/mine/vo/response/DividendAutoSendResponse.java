@@ -1,17 +1,14 @@
 package com.xtree.mine.vo.response;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by KAKA on 2024/3/15.
  * Describe:
  */
 public class DividendAutoSendResponse {
-
-
     private int status;
     private String msg;
-    private List<?> data;
     private String servertime;
     private int ts;
 
@@ -29,14 +26,6 @@ public class DividendAutoSendResponse {
 
     public void setMsg(String msg) {
         this.msg = msg;
-    }
-
-    public List<?> getData() {
-        return data;
-    }
-
-    public void setData(List<?> data) {
-        this.data = data;
     }
 
     public String getServertime() {

@@ -3,6 +3,8 @@ package com.xtree.mine.data.source;
 
 import com.xtree.mine.data.source.http.service.HttpApiService;
 import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
+import com.xtree.mine.vo.request.DividendAgrtSendQuery;
+import com.xtree.mine.vo.request.DividendAgrtSendRequest;
 import com.xtree.mine.vo.request.DividendAutoSendRequest;
 import com.xtree.mine.vo.request.DividendAutoSentQuery;
 import com.xtree.mine.vo.request.GameDividendAgrtRequest;
@@ -13,6 +15,7 @@ import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
 import com.xtree.mine.vo.response.DividendAgrtCheckResponse;
+import com.xtree.mine.vo.response.DividendAgrtSendReeponse;
 import com.xtree.mine.vo.response.DividendAutoSendResponse;
 import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
@@ -80,10 +83,12 @@ public interface HttpDataSource {
     Flowable<DividendAgrtCheckResponse> getDividendAgrtData(DividendAgrtCheckRequest request);
 
     /**
-     *
-     * @param request
-     * @return
+     * 返水契约-手动发放步骤1
      */
-    Flowable<DividendAgrtCheckResponse> getDividendAgrtSendData(DividendAgrtCheckRequest request);
+    Flowable<DividendAgrtSendReeponse> getDividendAgrtSendStep1Data(DividendAgrtSendQuery query, DividendAgrtSendRequest request);
+    /**
+     * 返水契约-手动发放步骤2
+     */
+    Flowable<DividendAgrtSendReeponse> getDividendAgrtSendStep2Data(DividendAgrtSendQuery query, DividendAgrtSendRequest request);
 
 }
