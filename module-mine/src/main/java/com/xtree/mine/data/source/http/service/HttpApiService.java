@@ -3,6 +3,7 @@ package com.xtree.mine.data.source.http.service;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.home.vo.UpdateVo;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
@@ -649,5 +650,12 @@ public interface HttpApiService {
     @POST("/?controller=user&action=retrievesepas&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse2> postRetrievePSW(@Body Map<String, String> map);
+
+    /**
+     * 获取更新
+     */
+    @GET("/api/app/version?platform=android")
+    Flowable<BaseResponse<UpdateVo>> getUpdate();
+
 
 }
