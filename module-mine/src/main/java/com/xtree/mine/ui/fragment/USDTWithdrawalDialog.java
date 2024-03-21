@@ -157,19 +157,20 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
             else if (cashMoYuVo.msg_type == 2 || cashMoYuVo.msg_type == 1) {
                 ToastUtils.show(cashMoYuVo.message, ToastUtils.ShowType.Fail);
                 dismiss();
-                return;
+
             } else if (cashMoYuVo.msg_type == 2 && getContext().getString(R.string.txt_exhausted).equals(cashMoYuVo.message)) {
                 showError(cashMoYuVo.message);
 
-            }  //"ur_here": "资金密码检查",
-            else if (!TextUtils.isEmpty(cashMoYuVo.ur_here) && getContext().getString(R.string.txt_withdraw_password_check).equals(cashMoYuVo.ur_here)) {
-                ToastUtils.showError(cashMoYuVo.ur_here);
-                bankClose.closeBankByPSW();
-                return;
             } else if ("2".equals(cashMoYuVo.msg_type) && getContext().getString(R.string.txt_fund_account_locked).equals(cashMoYuVo.message)) {
                 ToastUtils.showError(cashMoYuVo.message);
                 dismiss();
-                return;
+
+            }
+            //"ur_here": "资金密码检查",
+            else if (!TextUtils.isEmpty(cashMoYuVo.ur_here) && getContext().getString(R.string.txt_withdraw_password_check).equals(cashMoYuVo.ur_here)) {
+                ToastUtils.showError(cashMoYuVo.ur_here);
+                bankClose.closeBankByPSW();
+
             } else if (getContext().getString(R.string.txt_withdraw_relogin).equals(cashMoYuVo.message)) {
                 ToastUtils.showError(cashMoYuVo.message);
                 popLoginView();
@@ -187,8 +188,6 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
             if (usdtSecurityVo == null || usdtSecurityVo.datas == null) {
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
                 dismiss();
-            } else if (usdtSecurityVo.datas != null) {
-                refreshSecurityUI();
             } else if (getContext().getString(R.string.txt_withdraw_password_check).equals(usdtSecurityVo.ur_here)) {
                 //业务异常跳转资金安全密码
                 ToastUtils.showError("业务异常跳转资金安全密码");
@@ -196,9 +195,8 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
             } else if ("2".equals(usdtSecurityVo.msg_type) && getContext().getString(R.string.txt_fund_account_locked).equals(usdtSecurityVo.message)) {
                 ToastUtils.showError(usdtSecurityVo.message);
                 dismiss();
-                return;
-            } else {
-
+            } else if (usdtSecurityVo.datas != null) {
+                refreshSecurityUI();
             }
         });
         //USDT完成申请
