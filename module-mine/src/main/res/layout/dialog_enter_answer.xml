@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_root"
+    android:id="@+id/ll_root_enter_answer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/clr_transparent">
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:gravity="center"
-            android:text="@string/txt_kind_tips"
+            android:text="@string/txt_security_question_header"
             android:textColor="@color/clr_black"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -61,36 +61,35 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="52dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="14dp"
             android:layout_marginEnd="52dp"
+            style="@style/style_usdt_edit"
+            android:background="@drawable/bg_withdraw_money_input"
             android:gravity="center"
             android:textColor="@color/clr_grey_60"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
             app:layout_constraintStart_toStartOf="@id/ivw_bg"
             app:layout_constraintTop_toBottomOf="@id/tvw_title"
-            tools:text="这是内容  这是内容这是内容这是内容这是内容这是内容" />
-
-        <TextView
-            android:id="@+id/tvw_msg2"
-            style="@style/style_cm_tip_small_orange"
+            />
+        <EditText
+            android:id="@+id/ed_answer"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="24dp"
-            android:fadeScrollbars="false"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="14dp"
+            android:layout_marginEnd="52dp"
+            android:paddingLeft="1dp"
+            style="@style/style_usdt_edit"
+            android:background="@drawable/bg_withdraw_money_input"
+            android:hint="@string/txt_security_question_tip"
             android:gravity="center"
-            android:scrollbars="vertical"
             android:textColor="@color/clr_grey_60"
-            android:textSize="14sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/layout_tvw"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
             app:layout_constraintStart_toStartOf="@id/ivw_bg"
-            app:layout_constraintTop_toBottomOf="@id/tvw_title"
-            tools:text="这是内容 长的4行52字"
-            tools:visibility="gone" />
+            app:layout_constraintTop_toBottomOf="@id/tvw_msg"
+            />
 
         <LinearLayout
             android:id="@+id/layout_tvw"
@@ -108,14 +107,14 @@
                 android:id="@+id/tvw_left"
                 style="@style/style_btn_back"
                 android:text="@string/txt_cancel"
-                android:textColor="@color/clr_txt_grey_04"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:textColor="@color/clr_txt_grey_04" />
 
             <TextView
                 android:id="@+id/tvw_right"
                 style="@style/style_btn"
-                android:text="@string/txt_confirm"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:text="@string/txt_confirm" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

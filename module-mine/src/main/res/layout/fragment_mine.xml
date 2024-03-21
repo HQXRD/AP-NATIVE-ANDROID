@@ -302,7 +302,7 @@
                         android:id="@+id/tvw_sport_regular"
                         style="@style/style_menu_black"
                         android:drawableTop="@mipmap/me_gr_rule"
-                        android:text="@string/me_tiyu_guize" />
+                        android:text="@string/txt_sport_regular" />
 
                     <TextView style="@style/style_wallet_space" />
 
@@ -326,18 +326,16 @@
                     <TextView
                         android:id="@+id/tvw_help"
                         style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_qa"
+                        android:drawableTop="@mipmap/me_gr_help"
                         android:text="@string/txt_help" />
 
                     <TextView style="@style/style_wallet_space" />
 
-                    <TextView
-                        style="@style/style_menu_black" />
+                    <TextView style="@style/style_menu_black" />
 
                     <TextView style="@style/style_wallet_space" />
 
-                    <TextView
-                        style="@style/style_menu_black" />
+                    <TextView style="@style/style_menu_black" />
                 </LinearLayout>
             </LinearLayout>
 

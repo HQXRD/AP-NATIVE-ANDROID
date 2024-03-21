@@ -20,12 +20,6 @@
         <item name="android:background">@color/viewLineColor</item>
     </style>
 
-    <style name="ViewVerticalLineStyle">
-        <item name="android:layout_width">1dp</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/viewLineColor</item>
-    </style>
-
     <style name="CustomDialog" parent="AppTheme">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
@@ -33,8 +27,8 @@
         <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
-    <style name="PwdCheckboxStyle">
-        <item name="android:button">@drawable/checkbox_bg_selector</item>
+    <style name="PwdCheckboxStyle" parent="style_cm_ckb_normal">
+        <!--<item name="android:button">@drawable/checkbox_bg_selector</item>-->
     </style>
 
     <declare-styleable name="CircleImageView">
@@ -287,6 +281,7 @@
         <item name="android:layout_marginTop">16dp</item>
         <item name="android:layout_marginEnd">0dp</item>
     </style>
+
     <style name="style_ll_row_3" parent="style_ll_row">
         <item name="android:layout_marginTop">2dp</item>
         <item name="android:layout_marginEnd">0dp</item>
@@ -296,6 +291,15 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">end</item>
+        <item name="android:minEms">7</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--设置密保-->
+    <style name="style_set_fund_psw_title">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">start</item>
         <item name="android:minEms">7</item>
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textSize">14sp</item>
@@ -471,6 +475,21 @@
         <item name="android:textColorHint">@color/clr_txt_grey_03</item>
         <item name="android:textSize">14sp</item>
     </style>
+    <!-- 注册推广输入框 -->
+    <style name="style_register_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">50</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <!--反馈详情输入框风格-->
     <style name="style_feedback_edit_edit">
         <item name="android:layout_width">match_parent</item>
@@ -485,11 +504,10 @@
         <item name="android:textColorHint">@color/clr_txt_grey_03</item>
         <item name="android:textSize">14sp</item>
     </style>
-    <!--虚拟币提现 虚拟币地址选择框 -->
+    <!-- 虚拟币提现 虚拟币地址选择框 -->
     <style name="style_withdraw_edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">30dp</item>
-
         <item name="android:hint"></item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
@@ -506,6 +524,21 @@
         <item name="android:background">@mipmap/cm_bg_input</item>
         <item name="android:hint"></item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">32</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_set_fund_psw_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@mipmap/cm_bg_input</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical|left</item>
         <item name="android:lines">1</item>
         <item name="android:maxLength">32</item>
         <item name="android:padding">8dp</item>
@@ -539,8 +572,6 @@
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textColorHint">@color/clr_txt_grey_03</item>
         <item name="android:textSize">14sp</item>
-
-
     </style>
     <!--usdt提现Edittext-->
     <style name="style_usdt_edit">
@@ -551,9 +582,27 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
         <item name="android:maxLength">40</item>
-        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColor">@color/bt_color_option_draw</item>
         <item name="android:textColorHint">@color/clr_txt_grey_03</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+    <!--重置资金密码Edittext-->
+    <style name="style_reset_fund_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@null</item>
+        <item name="android:hint"></item>
+        <item name="android:digits">123456789</item>
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">6</item>
+        <item name="android:textColor">@color/bt_color_option_draw</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
 
     </style>
 
@@ -831,9 +880,11 @@
         <item name="android:textColor">@color/clr_txt_03</item>
         <item name="android:textSize">12sp</item>
     </style>
+
     <style name="style_item_report_profit_t" parent="style_item_report_profit_base">
         <item name="android:layout_marginTop">6dp</item>
     </style>
+
     <style name="style_item_report_profit_v" parent="style_item_report_profit_base">
         <item name="android:layout_marginTop">1dp</item>
         <item name="android:textColor">@color/clr_txt_01</item>
@@ -842,11 +893,13 @@
     <style name="style_item_report_profit_sum_t" parent="style_item_report_profit_base">
         <item name="android:layout_marginTop">0dp</item>
     </style>
+
     <style name="style_item_report_profit_sum_t2" parent="style_item_report_profit_base">
         <item name="android:layout_marginTop">0dp</item>
         <item name="android:gravity">end</item>
         <item name="android:layout_weight">1</item>
     </style>
+
     <style name="style_item_report_profit_sum_v" parent="style_item_report_profit_base">
         <item name="android:layout_marginTop">0dp</item>
         <item name="android:layout_marginStart">0dp</item>
@@ -888,7 +941,7 @@
         <item name="android:minEms">4</item>
         <item name="android:textColor">@color/clr_txt_withdraw_money</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
+
     </style>
     <!-- 提款 textView侧风格-->
     <style name="style_withdraw_title">
@@ -919,26 +972,6 @@
     </style>
     <!--  提款 右侧textview显示 风格-->
     <style name="style_withdraw_confirm_value">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
-        <item name="android:gravity">left|center_vertical</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-    <!--提款金额 红色 风格-->
-    <style name="style_withdraw_amount_value">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
-        <item name="android:gravity">left|center_vertical</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
-        <item name="android:textSize">14sp</item>
-    </style>
-    <!--  提款 右侧textview显示 风格-->
-    <style name="style_withdraw_bottom_confirm_value">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginEnd">@dimen/layout_margin</item>
@@ -997,41 +1030,6 @@
         <item name="android:layout_weight">1</item>
     </style>
 
-    <!-- 提款页-上半部分-彩色按钮 -->
-    <style name="style_rdo_wd_menu">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/bg_rdo_wd_selector</item>
-        <item name="android:layout_marginEnd">6dp</item>
-        <item name="android:paddingStart">0dp</item>
-        <item name="android:paddingEnd">0dp</item>
-        <item name="android:button">@null</item>
-        <item name="android:gravity">center</item>
-        <item name="android:maxLines">1</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:text"></item>
-        <item name="android:textColor">@color/clr_menu_text_selector</item>
-        <item name="android:textSize">12sp</item>
-    </style>
-
-    <!-- 提款页-下半部分灰色区-灰色框 -->
-    <style name="style_wd_info_area">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_margin">@dimen/layout_margin</item>
-        <item name="android:background">@color/clr_grey_03</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:paddingBottom">4dp</item>
-    </style>
-
-    <!-- 提款页-下半部分灰色区-行框 -->
-    <style name="style_wd_info_ll">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">4dp</item>
-        <item name="android:orientation">horizontal</item>
-    </style>
-
     <!-- 提款页-下半部分灰色区-标题 -->
     <style name="style_wd_info_title">
         <item name="android:layout_width">wrap_content</item>
@@ -1049,16 +1047,6 @@
         <item name="android:minEms">7</item>
         <item name="android:textColor">@color/clr_grey_40</item>
         <item name="android:textSize">12sp</item>
-    </style>
-
-    <!-- 提款页-下半部分灰色区-值(紫色) -->
-    <style name="style_wd_info_value">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">@dimen/layout_margin</item>
-        <item name="android:gravity">start</item>
-        <item name="android:textColor">@color/clr_purple_02</item>
-        <item name="android:textSize">14sp</item>
     </style>
 
     <!--谷歌动态口令密钥提示语风格-->
@@ -1084,7 +1072,6 @@
         <item name="android:textSize">14sp</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:layout_marginLeft">1dp</item>
     </style>
 
@@ -1103,5 +1090,11 @@
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">12sp</item>
     </style>
-
+    <!-- 通用 筛选 标题 外框 -->
+    <style name="style_register_info_row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
 </resources>

@@ -42,7 +42,7 @@ public class FBHeaderInterceptor implements Interceptor {
             builder.addHeader("Authorization", token);
         }
         builder.addHeader("App-RNID", "87jumkljo"); //
-        builder.addHeader("Source", "8");
+        builder.addHeader("Source", "9");
         builder.addHeader("UUID", TagUtils.getDeviceId(Utils.getContext()));
         //请求信息
         return chain.proceed(builder.build());
