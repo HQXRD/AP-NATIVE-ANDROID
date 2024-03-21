@@ -25,11 +25,10 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
-import com.xtree.home.ui.fragment.UpdateDialog;
-import com.xtree.home.vo.UpdateVo;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMineBinding;
@@ -52,7 +51,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     VipInfoVo mVipInfoVo;
     String token;
     BasePopupView ppw;
-    private UpdateVo updateVo;
+    private AppUpdateDialog.AppUpdateVo updateVo;
     private BasePopupView updateView;
 
     /**
@@ -527,11 +526,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
      * @param isWeakUpdate 是否弱更 true:是弱更 false:强更
      * @param vo           UpdateVo
      */
-    private void showUpdate(final boolean isWeakUpdate, final UpdateVo vo) {
+    private void showUpdate(final boolean isWeakUpdate, final AppUpdateDialog.AppUpdateVo vo) {
         if (updateView != null && updateView.isShow()) {
             return;
         }
-        UpdateDialog dialog = new UpdateDialog(getContext(), isWeakUpdate, vo, new UpdateDialog.ICallBack() {
+        AppUpdateDialog dialog = new AppUpdateDialog(getContext(), isWeakUpdate, vo, new AppUpdateDialog.IAppUpdateCallBack() {
             @Override
             public void onUpdateCancel() {
                 updateView.dismiss();

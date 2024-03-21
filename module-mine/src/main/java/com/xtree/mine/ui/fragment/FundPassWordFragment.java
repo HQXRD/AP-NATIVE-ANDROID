@@ -32,7 +32,7 @@ public class FundPassWordFragment extends BottomPopupView {
     public interface IFundPassWordCallBack {
         void closeFundPWDialog();
 
-        void closeFundPWDialogWithCode(final String checkCode);//联网获取数据成功，将返回的code待会上个页面
+        void closeFundPWDialogWithCode(final String checkCode);//联网获取数据成功，将返回的code带回上个页面
     }
 
     private FragmentWithdrawalFundPasswordBinding binding;
@@ -109,12 +109,13 @@ public class FundPassWordFragment extends BottomPopupView {
     private void initViewObservable() {
         viewModel.fundPassWordVoMutableLiveData.observe(owner, vo -> {
             this.vo = vo;
-            // CfLog.e("vo = " +vo.status + "chce = "+vo.msg.checkcode);
-            if (vo !=null){
+            if (vo != null) {
                 if (!TextUtils.isEmpty(this.vo.status)) {
                     //返回正常
                     if ("1".equals(this.vo.status) && !TextUtils.isEmpty(this.vo.msg.checkcode)) {
                         callBack.closeFundPWDialogWithCode(this.vo.msg.checkcode);
+                    } else if (!TextUtils.isEmpty(this.vo.message)) {
+                        ToastUtils.showError(this.vo.message);
                     } else {
                         //返回异常
                         ToastUtils.showError(getContext().getString(R.string.txt_network_error));
@@ -122,7 +123,7 @@ public class FundPassWordFragment extends BottomPopupView {
                 } else if (("2").equals(this.vo.msg_type) && (("资金密码错误").equals(this.vo.message))) {
                     ToastUtils.showError(this.vo.message);
                 }
-            }else {
+            } else {
                 //返回异常
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
             }

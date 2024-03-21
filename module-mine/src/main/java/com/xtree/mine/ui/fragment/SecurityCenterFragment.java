@@ -10,11 +10,13 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
@@ -87,6 +89,7 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
                 startContainerFragment(RouterFragmentPath.Mine.PAGER_FUNDS_PWD);
             }
         });
+        //密保设定
         binding.tvwPwdSafe.setOnClickListener(v -> {
             if (ClickUtil.isFastClick()) {
                 return;
@@ -94,17 +97,9 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
             if (mProfileVo != null) {
                 if (!mProfileVo.has_securitypwd) {
                     startContainerFragment(RouterFragmentPath.Mine.PAGER_FUNDS_PWD);
+                } else {
+                    ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_ACCOUNT_SECURITY).navigation();
                 }
-                // else if (mProfileVo.set_question.equals("0")) {
-                //    new XPopup.Builder(requireContext()).asCustom(CheckPasswordDialog.newInstance(requireContext(), this, checkCode -> {
-                //        //密保问题设置弹窗
-                //        new XPopup.Builder(requireContext()).moveUpToKeyboard(false)
-                //                .dismissOnBackPressed(false)
-                //                .dismissOnTouchOutside(false)
-                //                .asCustom(new SetQuestionDialog(requireContext()))
-                //                .show();
-                //    })).show();
-                //}
             }
         });
 

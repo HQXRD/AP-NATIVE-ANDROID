@@ -84,10 +84,9 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     private BankWithdrawalClose bankClose;//关闭提现
 
-    ChooseWithdrawViewModel viewModel;
+    private ChooseWithdrawViewModel viewModel;
 
-    DialogBankWithdrawalBankBinding binding;
-    //DialogBankWithdrawalBankBinding binding ;
+    private DialogBankWithdrawalBankBinding binding;
 
     private FruitHorRecyclerViewAdapter recyclerViewAdapter;
     private BasePopupView ppw2;//绑卡
@@ -124,7 +123,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     @Override
     protected int getMaxHeight() {
-        //return super.getMaxHeight();
         return (XPopupUtils.getScreenHeight(getContext()) * 90 / 100);
     }
 
@@ -213,7 +211,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         binding.bankConfirmView.ivConfirmPrevious.setOnClickListener(v -> {
             refreshWithdrawView(platWithdrawVo);
         });
-        //确定提款继续提现 ll_over_view_apply
+        //确定提款继续提现
         binding.llOverViewApply.ivContinueConfirmNext.setOnClickListener(v -> {
             dismiss();
         });
@@ -433,7 +431,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         }*/
         //展示WebView界面
         if (bankCardCashVo.channel_list.get(0).isWebView == 1) {
-            CfLog.i("refreshInitView ChannelVo = bankCardCashVo.channel_list.get(0).isWebView == 1");
             binding.nsDefaultView.setVisibility(View.GONE);
             binding.nsErrorView.setVisibility(View.GONE);//隐藏错误信息页面
             binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面隐藏
@@ -501,11 +498,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
         settings.setSupportZoom(true);
-
-        //settings.setAppCacheEnabled(true);
         settings.setUseWideViewPort(true);
-        //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
         settings.setLoadWithOverviewMode(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setLoadsImagesAutomatically(true);
@@ -646,6 +639,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         binding.bankConfirmView.tvWithdrawalHandlingFeeShow.setText(platWithdrawVo.datas.bankno);
     }
 
+    /*暂时废弃*/
     private void refreshWithdrawConfirmView() {
         binding.llShowChooseCard.setVisibility(View.GONE);//顶部通用、大额提现View隐藏
         binding.nsDefaultView.setVisibility(View.GONE);
@@ -833,7 +827,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
                     binding.bankWithdrawalView.tvActualWithdrawalAmountBankShow.setText(showMessage);
-                    CfLog.i("单金额状态 = " + showMessage);
                     ppw.dismiss();
                 });
 
@@ -864,7 +857,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 String showMessage = vo.bank_name + " " + vo.account;
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
-                    CfLog.i("多金额状态 = " + showMessage);
                     binding.tvActualWithdrawalAmountBankShowMore.setText(showMessage);
                     ppw.dismiss();
                 });
