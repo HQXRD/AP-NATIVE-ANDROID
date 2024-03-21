@@ -1,5 +1,7 @@
 package com.xtree.base.mvvm
 
+import android.text.TextWatcher
+import android.widget.EditText
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.drake.brv.utils.bindingAdapter
@@ -8,6 +10,9 @@ import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
+import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter
 import com.xtree.base.mvvm.recyclerview.BindModel
 import com.xtree.base.widget.FilterView
@@ -22,13 +27,17 @@ import com.xtree.base.widget.impl.FilterViewOnClickListerner
     value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId"],
     requireAll = false
 )
-fun RecyclerView.initData(
+fun RecyclerView.init(
     layoutManager: RecyclerView.LayoutManager?,
-    itemData: List<BindModel>,
-    itemViewType: List<Int>,
+    itemData: List<BindModel>?,
+    itemViewType: List<Int>?,
     onBindListener: BaseDatabindingAdapter.onBindListener?,
     dividerDrawableId: Int?,
 ) {
+
+    if (itemData == null || itemViewType == null) {
+        return
+    }
 
     adapter?.run {
 
@@ -56,10 +65,10 @@ fun RecyclerView.initData(
         val mAdapter = BaseDatabindingAdapter().run {
             initData(itemData, itemViewType)
             onBind {
-                onBindListener?.onBind(this)
+                onBindListener?.onBind(this,this.itemView.rootView, getItemViewType())
 
                 itemView.rootView.setOnClickListener {
-                    onBindListener?.onItemClick(modelPosition, layoutPosition)
+                    onBindListener?.onItemClick(modelPosition, layoutPosition, getItemViewType())
                 }
 
 //                 itemDifferCallback = object : ItemDifferCallback {
@@ -96,9 +105,29 @@ fun FilterView.initData(
 }
 
 @BindingAdapter(
-    value = ["setSelectedListener"],
+    value = ["setSelectedListener", "tabs"],
     requireAll = false
 )
-fun TabLayout.init(setSelectedListener: OnTabSelectedListener) {
+fun TabLayout.init(setSelectedListener: OnTabSelectedListener, tabs: List<String>) {
+    for (tab in tabs) {
+        addTab(newTab().apply { text = tab })
+    }
     addOnTabSelectedListener(setSelectedListener)
+}
+
+@BindingAdapter(
+    value = ["onRefreshLoadMoreListener","onLoadMoreListener"],
+    requireAll = false
+)
+fun SmartRefreshLayout.init(onRefreshLoadMoreListener: OnRefreshLoadMoreListener?,onLoadMoreListener: OnLoadMoreListener?) {
+    onRefreshLoadMoreListener?.let { setOnRefreshListener(it) }
+    onLoadMoreListener?.let { setOnLoadMoreListener(it) }
+}
+
+@BindingAdapter(
+    value = ["textChangedListener"],
+    requireAll = false
+)
+fun EditText.init(textChangedListener:TextWatcher?) {
+    textChangedListener?.let { addTextChangedListener(it) }
 }

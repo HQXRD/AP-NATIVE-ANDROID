@@ -1,6 +1,5 @@
 package com.xtree.mine.ui.rebateagrt.model;
 
-import com.xtree.base.mvvm.recyclerview.BindHead;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 
 /**
@@ -12,6 +11,7 @@ public class GameSubordinateagrtModel extends BindModel {
     public String sName;
 
     public String userName;
+    public String userID;
     public String signTime;
     public String effectDate;
     public String ruleRatio ;

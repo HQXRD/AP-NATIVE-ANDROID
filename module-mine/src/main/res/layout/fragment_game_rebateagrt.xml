@@ -6,6 +6,8 @@
         <variable
             name="model"
             type="com.xtree.mine.ui.rebateagrt.viewmodel.GameRebateAgrtViewModel" />
+
+        <import type="android.view.View" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,48 +41,43 @@
             app:tabBackground="@android:color/transparent"
             app:tabRippleColor="@android:color/transparent"
             setSelectedListener="@{model}"
+            tabs="@{model.tabs}"
             android:background="@color/color_f2f2f2"
             app:layout_constraintTop_toBottomOf="@id/layout_toolbar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0">
+            app:layout_constraintVertical_bias="0" />
 
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="真人返水"
-                />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="下级契约"
-                />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="下级返水"
-                />
-        </com.google.android.material.tabs.TabLayout>
-
-
-        <androidx.recyclerview.widget.RecyclerView
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:itemData="@{model.datas}"
-            itemViewType="@{model.itemType}"
+            app:srlEnableRefresh="false"
+            app:srlEnableLoadMore="true"
+            app:srlEnableAutoLoadMore="true"
+            onLoadMoreListener="@{model.onLoadMoreListener}"
             app:layout_constraintTop_toBottomOf="@id/tabLayout"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0"/>
+            app:layout_constraintVertical_bias="0">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:itemData="@{model.datas}"
+                itemViewType="@{model.itemType}"
+                onBindListener="@{model.onBindListener}"/>
+
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_create_argt"
+            android:visibility="@{model.tabPosition!=model.Subordinate_Agrte_TAB?View.GONE:View.VISIBLE}"
+            android:onClick="@{() -> model.createRebateAgrt()}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"

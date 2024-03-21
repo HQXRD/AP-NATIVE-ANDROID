@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -22,10 +23,13 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.StringUtils;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
+import com.xtree.home.ui.fragment.UpdateDialog;
+import com.xtree.home.vo.UpdateVo;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMineBinding;
@@ -42,11 +46,13 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  * 我的/个人中心
  */
 @Route(path = RouterFragmentPath.Mine.PAGER_MINE)
-public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewModel> {
+public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewModel>  {
     ProfileVo mProfileVo;
     VipInfoVo mVipInfoVo;
     String token;
     BasePopupView ppw;
+    private UpdateVo updateVo;
+    private BasePopupView updateView;
 
     /**
      * 使用hide和show后，可见不可见切换时，不再执行fragment生命周期方法，
@@ -184,7 +190,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         //    // 安全中心
         //    startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
         //});
-
+        //返水契约
+        binding.tvwRebateContract.setOnClickListener(v->{
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_AGREEMENT);
+        });
         binding.tvwAccMg.setOnClickListener(v -> {
             showAccountMgmt();
         });
@@ -194,7 +203,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
 
         binding.tvwTutorial.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_TUTORIAL, false);
+            goWebView(v, Constant.URL_USDT_RECHARGE_TURTIAL, false);
         });
 
         //VIP中心
@@ -214,10 +223,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         //    startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
         //});
         binding.tvwHelp.setOnClickListener(v -> {
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
-        });
-        binding.tvwTutorial.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_TUTORIAL, false);
+            //BrowserActivity.start(getContext(), ((TextView) v).getText().toString(), DomainUtil.getDomain2() + Constant.URL_HELP, false, false, true);
+            //startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(DomainUtil.getDomain2() + Constant.URL_HELP));
+            startActivity(intent);
         });
         binding.tvwLogin.setOnClickListener(v -> {
             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
@@ -244,6 +253,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             if (TextUtils.isEmpty(token)) {
                 binding.tvwLogin.performClick();
             }
+        });
+        //检查更新
+        binding.tvwUpgrade.setOnClickListener(v -> {
+            LoadingDialog.show(getContext());
+            viewModel.getUpdate();
+
         });
 
     }
@@ -421,6 +436,38 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                 ToastUtils.showLong(R.string.txt_recycle_fail);
             }
         });
+        //App更新
+        viewModel.liveDataUpdate.observe(this, vo -> {
+            CfLog.i(vo.toString());
+            updateVo = vo;
+            if (updateVo == null){
+                return;
+            }
+            //存储服务器设置时间间隔
+            SPUtils.getInstance().put(SPKeyGlobal.APP_INTERVAL_TIME, updateVo.interval_duration);
+            //请求更新服务时间
+            SPUtils.getInstance().put(SPKeyGlobal.APP_LAST_CHECK_TIME, System.currentTimeMillis());
+            long versionCode = Long.valueOf(StringUtils.getVersionCode(getContext()));
+            CfLog.i("versionCode = " + versionCode);
+            if (versionCode < updateVo.version_code) {
+                //线上版本大于本机版本
+                if (updateVo.type == 0) {
+                    //弱更
+                    if (versionCode >= vo.version_code_min) {
+                        showUpdate(true, updateVo); // 弱更
+                    } else {
+                        showUpdate(false, updateVo); // 强更
+                    }
+
+                } else if (updateVo.type == 1) {
+                    //强更
+                    showUpdate(false, updateVo);
+                } else if (updateVo.type == 2) {
+                    //热更
+                }
+            }
+
+        });
 
         //viewModel.liveDataVipUpgrade.observe(this, vo -> {
         //    if (mVipInfoVo == null) {
@@ -464,6 +511,33 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         //        }
         //    }
         //});
+    }
+
+    /**
+     * 显示更新
+     *
+     * @param isWeakUpdate 是否弱更 true:是弱更 false:强更
+     * @param vo           UpdateVo
+     */
+    private void showUpdate(final boolean isWeakUpdate, final UpdateVo vo) {
+        if (updateView != null && updateView.isShow()) {
+            return;
+        }
+        UpdateDialog dialog = new UpdateDialog(getContext(), isWeakUpdate, vo, new UpdateDialog.ICallBack() {
+            @Override
+            public void onUpdateCancel() {
+                updateView.dismiss();
+            }
+
+            @Override
+            public void onUpdateForce() {
+            }
+        });
+        updateView = new XPopup.Builder(getContext())
+                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asCustom(dialog);
+        updateView.show();
     }
 
     /**

@@ -396,5 +396,14 @@
     <string name="txt_last_login_time">最后登日:</string>
     <string name="txt_register_time">注册日期:</string>
     <string name="txt_account_money_record">帐变记录</string>
+    <string name="txt_create">创建</string>
+    <string name="txt_modify">修改</string>
+    <string name="txt_dividendagrt_title">分红契约</string>
+    <string name="txt_manualdividendpayout_title">手动发放分红</string>
+    <string name="txt_send_dividend_tiptitle">确定发放分红？</string>
+    <string name="txt_send_dividend_tip1">一键发放所有未发放的下级分红，共计%1$s人，共金额%2$s元，将从您的账户余额扣除</string>
+    <string name="txt_send_dividend_tip2">提示：在下级分红全部发放完成前，您的账户将冻结投注和提款。</string>
+    <string name="txt_send_dividend_tip3">请选择要发放分红的用户</string>
+    <string name="txt_send_dividend_tip4">您已发完相关分红</string>
 
 </resources>
