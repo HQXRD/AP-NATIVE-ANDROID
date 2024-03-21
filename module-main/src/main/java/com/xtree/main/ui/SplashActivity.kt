@@ -97,6 +97,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 e.printStackTrace()
+                viewModel?.noWebData?.postValue(null)
             }
         }
     }
@@ -145,6 +146,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
             } else {
                 inMain()
             }
+        }
+        viewModel?.noWebData?.observe(this){
+            ToastUtils.showLong("网络异常，请检查手机网络连接情况")
+            binding?.root?.postDelayed({ finish() }, 2000)
         }
     }
 
