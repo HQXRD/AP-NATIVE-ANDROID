@@ -14,6 +14,7 @@ import com.lxj.xpopup.XPopup
 import com.xtree.base.global.Constant
 import com.xtree.base.global.SPKeyGlobal
 import com.xtree.base.router.RouterFragmentPath
+import com.xtree.base.utils.AppUtil
 import com.xtree.base.utils.ClickUtil
 import com.xtree.base.utils.DomainUtil
 import com.xtree.base.utils.UuidUtil
@@ -54,12 +55,8 @@ class FundsPwdFragment : BaseFragment<FragmentFundsPwdBinding, VerifyViewModel>(
         binding.ckbEyeNew.setOnCheckedChangeListener { _, isChecked -> setEdtPwd(isChecked, binding.etNewPwd) }
         binding.ckbEyeAgain.setOnCheckedChangeListener { _, isChecked -> setEdtPwd(isChecked, binding.etAgainPwd) }
 
-        binding.ivwCs.setOnClickListener {
-            // 客服
-            val title = getString(R.string.txt_custom_center)
-            val url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE
-            XPopup.Builder(context).moveUpToKeyboard(false).asCustom(BrowserDialog(requireContext(), title, url)).show()
-        }
+        binding.ivwCs.setOnClickListener { AppUtil.goCustomerService(context) }
+
         binding.ivwMsg.setOnClickListener {
             // 消息
             startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG, null)

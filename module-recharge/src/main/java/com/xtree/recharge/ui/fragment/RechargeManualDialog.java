@@ -1,16 +1,13 @@
 package com.xtree.recharge.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 
 import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
 
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
-import com.xtree.base.global.Constant;
-import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.DialogRcManualBinding;
 
@@ -64,10 +61,7 @@ public class RechargeManualDialog extends CenterPopupView {
         binding.tvwMsg3.setText(HtmlCompat.fromHtml(msg, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         binding.tvwOk.setOnClickListener(v -> {
-            Uri uri = Uri.parse(DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE);
-            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-            getContext().startActivity(intent);
-
+            AppUtil.goCustomerService(getContext());
             dismiss();
         });
     }

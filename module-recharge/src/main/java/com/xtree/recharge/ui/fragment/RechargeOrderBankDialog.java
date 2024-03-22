@@ -11,7 +11,7 @@ import androidx.core.text.HtmlCompat;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
-import com.xtree.base.global.Constant;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.widget.BrowserDialog;
@@ -45,7 +45,7 @@ public class RechargeOrderBankDialog extends BottomPopupView {
     private void initView() {
         binding = DialogRcOrderBankBinding.bind(findViewById(R.id.ll_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
-        binding.tvwCs.setOnClickListener(v -> goCustomerService());
+        binding.tvwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         binding.tvwTitle.setText(mRechargePayVo.payname);
         binding.tvwMoney.setText(mRechargePayVo.money);
 
@@ -93,12 +93,6 @@ public class RechargeOrderBankDialog extends BottomPopupView {
             }
             new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
         }
-    }
-
-    private void goCustomerService() {
-        String title = getContext().getString(R.string.txt_custom_center);
-        String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-        new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
     }
 
     @Override
