@@ -157,15 +157,8 @@
             <TextView
                 android:id="@+id/tvw_email"
                 style="@style/style_sc_title"
-                android:drawableStart="@mipmap/me_sc_email"
                 android:text="@string/txt_bind_email"
                 android:visibility="gone" />
-
-            <!--<TextView
-                android:id="@+id/tvw_usdt"
-                style="@style/style_sc_title"
-                android:drawableStart="@mipmap/me_sc_email"
-                android:text="绑定USDT" />-->
 
         </LinearLayout>
     </LinearLayout>

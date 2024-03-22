@@ -16,8 +16,8 @@
         android:id="@+id/ivw_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="fitXY"
         android:background="@mipmap/dc_bg"
+        android:scaleType="fitXY"
         app:imageCorn="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -60,16 +60,10 @@
 
     <TextView
         android:id="@+id/tvw_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/style_cm_btn_r16"
         android:layout_marginStart="@dimen/layout_margin"
         android:layout_marginEnd="@dimen/layout_margin"
-        android:background="@mipmap/cm_btn_purple_02"
-        android:gravity="center"
-        android:paddingBottom="4dp"
-        android:text="查看详情"
-        android:textColor="@color/clr_white"
-        android:textSize="12sp"
+        android:text="@string/txt_view_detail"
         app:layout_constraintBottom_toBottomOf="@id/tvw_tm"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvw_title" />

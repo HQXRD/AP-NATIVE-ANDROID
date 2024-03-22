@@ -407,7 +407,7 @@
                     <TextView
                         android:id="@+id/tvw_tip_same_amount"
                         style="@style/style_rc_tip_small_grey"
-                        android:drawableStart="@mipmap/cm_ic_hint_purple"
+                        android:drawableStart="@mipmap/cm_ic_hint_main"
                         android:drawablePadding="2dp"
                         android:text="@string/txt_amount_filled_should_same_as_remittance_amount" />
 

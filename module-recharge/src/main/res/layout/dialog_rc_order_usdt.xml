@@ -13,7 +13,7 @@
         android:id="@+id/cl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/bg_dialog_top_purple"
+        android:background="@drawable/bg_dialog_top_main"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -219,7 +219,7 @@
                 <TextView
                     style="@style/style_cm_tip_small_grey"
                     android:layout_marginTop="36dp"
-                    android:drawableStart="@mipmap/cm_ic_hint_purple"
+                    android:drawableStart="@mipmap/cm_ic_hint_main"
                     android:text="@string/txt_notice_c"
                     android:textSize="12sp" />
 
@@ -236,7 +236,7 @@
                 <TextView
                     style="@style/style_cm_tip_small_grey"
                     android:layout_marginTop="12dp"
-                    android:drawableStart="@mipmap/cm_ic_hint_purple"
+                    android:drawableStart="@mipmap/cm_ic_hint_main"
                     android:text="@string/txt_notice_important_c"
                     android:textSize="12sp" />
 

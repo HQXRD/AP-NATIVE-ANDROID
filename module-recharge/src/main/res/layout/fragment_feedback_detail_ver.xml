@@ -103,7 +103,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/tvw_type"
                             android:layout_alignLeft="@id/tvw_type"
-                            android:background="@mipmap/cm_ic_hint_purple"
+                            android:background="@mipmap/cm_ic_hint_main"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -171,7 +171,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/tv_selector_right_payment_account"
                             android:layout_alignLeft="@id/tv_selector_right_payment_account"
-                            android:background="@mipmap/cm_ic_hint_purple"
+                            android:background="@mipmap/cm_ic_hint_main"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -221,7 +221,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/ll"
                             android:layout_alignLeft="@id/ll"
-                            android:background="@mipmap/cm_ic_hint_purple"
+                            android:background="@mipmap/cm_ic_hint_main"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -274,7 +274,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/ll_collection_name_agreement"
                             android:layout_alignLeft="@id/ll_collection_name_agreement"
-                            android:background="@mipmap/cm_ic_hint_purple"
+                            android:background="@mipmap/cm_ic_hint_main"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -319,7 +319,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/tv_selector_right_savetime"
                             android:layout_alignLeft="@id/tv_selector_right_savetime"
-                            android:background="@mipmap/cm_ic_hint_purple"
+                            android:background="@mipmap/cm_ic_hint_main"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -361,7 +361,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/tv_selector_right_three"
                             android:layout_alignLeft="@id/tv_selector_right_three"
-                            android:background="@mipmap/cm_ic_hint_purple"
+                            android:background="@mipmap/cm_ic_hint_main"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -406,7 +406,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/tv_selector_right_payway"
                             android:layout_alignLeft="@id/tv_selector_right_payway"
-                            android:background="@mipmap/cm_ic_hint_purple"
+                            android:background="@mipmap/cm_ic_hint_main"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -449,7 +449,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/et_selector_right_add"
                             android:layout_alignLeft="@id/et_selector_right_add"
-                            android:background="@mipmap/cm_ic_hint_purple"
+                            android:background="@mipmap/cm_ic_hint_main"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -525,7 +525,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/ll_selector_tip_image"
                             android:layout_alignLeft="@id/ll_selector_tip_image"
-                            android:background="@mipmap/cm_ic_hint_purple"
+                            android:background="@mipmap/cm_ic_hint_main"
 
                             />
                         <TextView
