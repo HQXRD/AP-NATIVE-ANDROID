@@ -196,7 +196,7 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
             }
 
             if (amount < minValue) {
-                tvWin.setText(mContext.getResources().getString(winResStringId, String.valueOf(odd * amount)));
+                tvWin.setText(mContext.getResources().getString(winResStringId, String.valueOf(odd * amount - amount)));
                 tvPay.setText(mContext.getResources().getString(payResStringId, String.valueOf(amount * cgOddLimit.getBtCount())));
                 if (!flag) {
                     flag = true;
@@ -209,7 +209,7 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
                             etAmount.setText(String.valueOf(minValue));
                             etAmount.setSelection(String.valueOf(minValue).length());
 
-                            tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * minValue, 2)));
+                            tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * minValue - amount, 2)));
                             tvPay.setText(mContext.getResources().getString(payResStringId, NumberUtils.format(minValue * cgOddLimit.getBtCount(), 2)));
                             flag = false;
                         });
@@ -220,10 +220,10 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
             } else if (amount > maxValue) {
                 etAmount.setText(String.valueOf(maxValue));
                 etAmount.setSelection(String.valueOf(maxValue).length());
-                tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * maxValue, 2)));
+                tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * maxValue - amount, 2)));
                 tvPay.setText(mContext.getResources().getString(payResStringId, NumberUtils.format(maxValue * cgOddLimit.getBtCount(), 2)));
             } else {
-                tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * amount, 2)));
+                tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * amount - amount, 2)));
                 tvPay.setText(mContext.getResources().getString(payResStringId, NumberUtils.format(amount * cgOddLimit.getBtCount(), 2)));
             }
             cslWin.setVisibility(View.VISIBLE);
