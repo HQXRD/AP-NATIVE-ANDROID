@@ -43,6 +43,8 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * 浏览器底部弹窗<p/>
+ * 默认: (活动,邀请好友/VIP/...) 带header和token; <br/>
+ * 三方链接: (三方游戏/H5充值) 不带header和token;
  * new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
  */
 public class BrowserDialog extends BottomPopupView {
@@ -61,6 +63,7 @@ public class BrowserDialog extends BottomPopupView {
     int maxHeight = 85; // 最大高度百分比 10-100
     boolean isContainTitle = false; // 网页自身是否包含标题(少数情况下会包含)
     boolean isActivity = false; // 是否来自活动页面
+    boolean is3rdLink = false; // 是否跳转到三方链接(如果是,就不用带header和cookie了)
     ValueCallback<Uri> mUploadCallbackBelow;
     ValueCallback<Uri[]> mUploadCallbackAboveL;
 
@@ -98,6 +101,17 @@ public class BrowserDialog extends BottomPopupView {
         this.url = url;
         this.isContainTitle = isContainTitle;
         this.isActivity = isActivity;
+    }
+
+    public BrowserDialog(@NonNull Context context, String title, String url, boolean isContainTitle, boolean isActivity,
+                         boolean is3rdLink) {
+        super(context);
+        mContext = context;
+        this.title = title;
+        this.url = url;
+        this.isContainTitle = isContainTitle;
+        this.isActivity = isActivity;
+        this.is3rdLink = is3rdLink;
     }
 
     public BrowserDialog(@NonNull Context context, String title, String url, int maxHeight) {
@@ -138,7 +152,10 @@ public class BrowserDialog extends BottomPopupView {
         //header.put("Source", "8");
         //header.put("UUID", TagUtils.getDeviceId(Utils.getContext()));
         //header.put("User-Agent", "Mozilla/5.0 (Linux; Android 11; SAMSUNG SM-G973U) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/14.2 Chrome/87.0.4280.141 Mobile Safari/537.36");
-
+        if (is3rdLink) {
+            CfLog.d("not need header.");
+            header.clear();
+        }
         mWebView.loadUrl(url, header);
 
         ivwClose.setOnClickListener(new OnClickListener() {
@@ -215,6 +232,11 @@ public class BrowserDialog extends BottomPopupView {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 CfLog.d("onPageStarted url:  " + url);
                 //Log.d("---", "onPageStarted url:  " + url);
+
+                CfLog.d("is3rdLink: " + is3rdLink);
+                if (is3rdLink) {
+                    return;
+                }
                 setCookieInside();
             }
 
@@ -377,7 +399,7 @@ public class BrowserDialog extends BottomPopupView {
                     "style.innerHTML = '.popup-wrapper > .title{ visibility: hidden !important} " +
                     ".popup-wrapper{transform: translate3d(0, 0, 0) !important; animation: none !important}'; \n" +
                     "document.head.appendChild(style);" + "\n" +
-                    "document.querySelector('#iOS_inject').innerHTML = '.rndx{display: none !important;} .rndxs{display: none !important;}'; \n"; // 2024/03/18 浮动弹窗 与 小火箭 隐藏
+                    "document.querySelector('#iOS_inject').innerHTML = '.rndx{display: none !important;}'; \n";
         }
         js += "d.setTime(d.getTime() + (24*60*60*1000));" + "\n";
         js += "let expires = \"expires=\"+ d.toUTCString();" + "\n";

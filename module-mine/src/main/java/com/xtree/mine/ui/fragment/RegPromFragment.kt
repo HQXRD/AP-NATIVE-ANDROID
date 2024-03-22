@@ -166,6 +166,16 @@ class RegPromFragment : BaseFragment<FragmentPromLinksBinding, MineViewModel>(),
                 }
             }
 
+            if (it.prizeGroups != null) {
+                /**
+                 * 返点详情弹窗
+                 */
+                val rebateDialog = XPopup.Builder(context).asCustom(RebateDetailsDialog(requireContext(),it.prizeGroups))
+                binding.tvRebateDetails.setOnClickListener {
+                      rebateDialog.show()
+                }
+            }
+
             setRebate1(it)
             setRebate2(it.selectedPoint)
         }

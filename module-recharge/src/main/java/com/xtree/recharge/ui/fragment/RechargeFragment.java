@@ -317,7 +317,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //    return;
         //}
         //if (vo.op_thiriframe_use && vo.phone_needbind && (!vo.view_bank_card || (vo.view_bank_card && !vo.userBankList.isEmpty()))) {
-        if (vo.op_thiriframe_use && vo.phone_needbind ) {
+        if (vo.op_thiriframe_use && vo.phone_needbind) {
             // 绑定手机
             CfLog.i("****** 绑定手机");
             toBindPhoneNumber();
@@ -447,7 +447,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             @Override
             public void onClickRight() {
                 String type = Constant.BIND_PHONE; // VERIFY_BIND_PHONE
-                if (mProfileVo.is_binding_email) {
+                if (mProfileVo != null && mProfileVo.is_binding_email) {
                     type = Constant.VERIFY_BIND_PHONE;
                 }
                 toBindPhoneOrEmail(type);
@@ -751,7 +751,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 url = DomainUtil.getDomain2() + url;
             }
             CfLog.d(vo.title + ", jump: " + url);
-            new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BrowserDialog(getContext(), vo.title, url)).show();
+            BrowserDialog dialog = new BrowserDialog(getContext(), vo.title, url, false, false, true);
+            new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(dialog).show();
         });
 
         viewModel.liveDataRechargePay.observe(getViewLifecycleOwner(), vo -> {
