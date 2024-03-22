@@ -477,8 +477,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/1?aid=173";
         } else if (result.equals("174")) {
             url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/5?aid=174";
-        //} else if (result.equals("198")) {
-        //    url = DomainUtil.getDomain2() + "#/newactivity/64/5?aid=198";
+            //} else if (result.equals("198")) {
+            //    url = DomainUtil.getDomain2() + "#/newactivity/64/5?aid=198";
         } else {
             url = DomainUtil.getDomain2() + Constant.URL_ACTIVITY + result;
         }
@@ -525,7 +525,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             CfLog.i("未绑定手机/邮箱");
             toBindPhoneNumber();
         } else {
-            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW)
+            Bundle bundle = new Bundle();
+            bundle.putString("viewType", "HomeView");
+            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).withBundle("viewType", bundle)
                     .navigation();
 
         }
