@@ -1,5 +1,11 @@
 package com.xtree.mine.ui.rebateagrt.viewmodel;
 
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.CHESS;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.EGAME;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.LIVE;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.SPORT;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.USER;
+
 import android.app.Application;
 import android.view.View;
 
@@ -256,34 +262,34 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         ArrayList<String> tabList = new ArrayList<>();
         switch (type) {
             case LIVE:
-                titleData.setValue("真人返水契约");
+                titleData.setValue(LIVE.getName());
                 tabList.add("真人返水");
                 tabList.add("下级契约");
                 tabList.add("下级返水");
                 tabs.setValue(tabList);
                 break;
             case SPORT:
-                titleData.setValue("体育返水契约");
+                titleData.setValue(SPORT.getName());
                 tabList.add("体育返水");
                 tabList.add("下级契约");
                 tabList.add("下级返水");
                 tabs.setValue(tabList);
                 break;
             case CHESS:
-                titleData.setValue("棋牌返水契约");
+                titleData.setValue(CHESS.getName());
                 tabList.add("棋牌返水");
                 tabList.add("下级契约");
                 tabList.add("下级返水");
                 tabs.setValue(tabList);
                 break;
             case EGAME:
-                titleData.setValue("电竞返水契约");
+                titleData.setValue(EGAME.getName());
                 tabList.add("电竞返水");
                 tabList.add("下级契约");
                 tabs.setValue(tabList);
                 break;
             case USER:
-                titleData.setValue("时薪");
+                titleData.setValue(USER.getName());
                 tabList.add("我的时薪");
                 tabList.add("下级契约");
                 tabList.add("下级时薪");

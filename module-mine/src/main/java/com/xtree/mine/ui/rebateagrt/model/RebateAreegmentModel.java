@@ -1,6 +1,6 @@
 package com.xtree.mine.ui.rebateagrt.model;
 
-import android.graphics.drawable.Drawable;
+import android.annotation.SuppressLint;
 
 import com.xtree.base.mvvm.recyclerview.BindModel;
 
@@ -10,12 +10,13 @@ import com.xtree.base.mvvm.recyclerview.BindModel;
  */
 public class RebateAreegmentModel extends BindModel {
     public String title;
-    public Drawable icon;
+    public int icon;
     public RebateAreegmentTypeEnum type;
 
-    public RebateAreegmentModel(String title, Drawable icon, RebateAreegmentTypeEnum type) {
-        this.title = title;
-        this.icon = icon;
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public RebateAreegmentModel(RebateAreegmentTypeEnum type) {
+        this.title = type.getName();
+        this.icon = type.getDrawable();
         this.type = type;
     }
 }

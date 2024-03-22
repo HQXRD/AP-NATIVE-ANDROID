@@ -6,6 +6,9 @@ package com.xtree.mine.data.source;
  */
 public class APIManager {
 
+    //功能菜单
+    public static final String FUNCTIONT_MENUS_URL = "/api/account/menus";
+
     //LIVE
     public static final String GAMEREBATEAGRT_LIVE_URL = "/compact/userlive/";
     public static final String GAMESUBORDINATEAGRTE_LIVE_URL = "/compact/teamcompactlive/";

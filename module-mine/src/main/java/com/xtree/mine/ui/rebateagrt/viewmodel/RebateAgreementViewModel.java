@@ -5,11 +5,14 @@ import android.app.Application;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.drake.brv.BindingAdapter;
 import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
+import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.ui.rebateagrt.fragment.GameDividendAgrtFragment;
@@ -17,9 +20,16 @@ import com.xtree.mine.ui.rebateagrt.fragment.GameRebateAgrtFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.RecommendedReportsFragment;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum;
+import com.xtree.mine.vo.response.FunctionMenuResponse;
 
+import org.reactivestreams.Subscription;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.RxBus;
 
@@ -37,24 +47,28 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
         super(application, model);
     }
 
+    private WeakReference<FragmentActivity> mActivity = null;
+
     private final MutableLiveData<String> titleData = new MutableLiveData<>(
             getApplication().getString(R.string.rebate_agrt_title)
     );
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    public MutableLiveData<ArrayList<RebateAreegmentModel>> datas = new MutableLiveData<>(new ArrayList<RebateAreegmentModel>(){
+    public MutableLiveData<ArrayList<RebateAreegmentModel>> datas = new MutableLiveData<>();
+
+    private final ArrayList<RebateAreegmentModel> bindModels = new ArrayList<RebateAreegmentModel>() {
         {
-            add(new RebateAreegmentModel("真人返水契约", getApplication().getDrawable(R.mipmap.icon_rebateagrt_live), RebateAreegmentTypeEnum.LIVE));
-            add(new RebateAreegmentModel("体育返水契约",getApplication().getDrawable(R.mipmap.icon_rebateagrt_sport), RebateAreegmentTypeEnum.SPORT));
-            add(new RebateAreegmentModel("棋牌返水契约", getApplication().getDrawable(R.mipmap.icon_rebateagrt_chess), RebateAreegmentTypeEnum.CHESS));
-            add(new RebateAreegmentModel("电竞返水契约", getApplication().getDrawable(R.mipmap.icon_rebateagrt_game), RebateAreegmentTypeEnum.EGAME));
-            add(new RebateAreegmentModel("时薪", getApplication().getDrawable(R.mipmap.icon_rebateagrt_game), RebateAreegmentTypeEnum.USER));
-            add(new RebateAreegmentModel("彩票契约分红", getApplication().getDrawable(R.mipmap.icon_rebateagrt_all), RebateAreegmentTypeEnum.LOTTERIES));
-            add(new RebateAreegmentModel("游戏推荐报表", getApplication().getDrawable(R.mipmap.icon_rebateagrt_all), RebateAreegmentTypeEnum.GAMEREPORTS));
-            add(new RebateAreegmentModel("彩票推荐报表", getApplication().getDrawable(R.mipmap.icon_rebateagrt_all), RebateAreegmentTypeEnum.LOTTERIESREPORTS));
-            add(new RebateAreegmentModel("游戏分红", getApplication().getDrawable(R.mipmap.icon_rebateagrt_all), RebateAreegmentTypeEnum.GAMEREBATE));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LIVE));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.SPORT));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.CHESS));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.EGAME));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.USER));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LOTTERIES));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREPORTS));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LOTTERIESREPORTS));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREBATE));
         }
-    });
+    };
 
     public MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(new ArrayList<Integer>(){
         {
@@ -98,6 +112,45 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
         }
     };
 
+    public void initData() {
+
+        //初始化菜单
+        Disposable disposable = (Disposable) model.getFunctionMenuData()
+                .doOnSubscribe(new Consumer<Subscription>() {
+                    @Override
+                    public void accept(Subscription subscription) throws Exception {
+                        //重新加载弹dialog
+                        LoadingDialog.show(mActivity.get());
+                    }
+                })
+                .subscribeWith(new HttpCallBack<List<FunctionMenuResponse>>() {
+                    @Override
+                    public void onResult(List<FunctionMenuResponse> data) {
+
+                        ArrayList<RebateAreegmentModel> newDatas = new ArrayList<>();
+
+                        for (int i = 0; i < bindModels.size(); i++) {
+                            RebateAreegmentModel raMenu = bindModels.get(i);
+                            for (FunctionMenuResponse datum : data) {
+                                if (datum != null) {
+                                    String id = datum.getId();
+                                    if (raMenu.type.getIds().contains(id)) {
+                                        newDatas.add(raMenu);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        datas.setValue(newDatas);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void setActivity(FragmentActivity mActivity) {
+        this.mActivity = new WeakReference<>(mActivity);
+    }
+
     @Override
     public void onBack() {
         finish();
@@ -108,4 +161,12 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
         return titleData;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mActivity != null) {
+            mActivity.clear();
+            mActivity = null;
+        }
+    }
 }

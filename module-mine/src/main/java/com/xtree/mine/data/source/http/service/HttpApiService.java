@@ -627,14 +627,37 @@ public interface HttpApiService {
     Flowable<VirtualConfirmMoYuVo> postMoYuConfirmWithdrawVirtual(@Body Map<String, String> map);
 
     /**
-     * 返水契约
+     * 返水契约 GET
+     * @param url 接口名称
+     * @return 返回体
+     */
+    @GET("{url}")
+    Flowable<ResponseBody> get(@Path(value = "url", encoded = true) String url);
+    /**
+     * 返水契约 GET
+     * @param url 接口名称
+     * @param map 拼接参数
+     * @return 返回体
      */
     @GET("{url}")
     Flowable<ResponseBody> get(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) Map<String, Object> map);
 
+    /**
+     * 返水契约 POST
+     * @param url 接口名称
+     * @param map body
+     * @return 返回体
+     */
     @POST("{url}")
     Flowable<ResponseBody> post(@Path(value = "url", encoded = true) String url, @Body Map<String, Object> map);
 
+    /**
+     * 返水契约 POST
+     * @param url 接口名称
+     * @param qmap 拼接参数
+     * @param map body
+     * @return 返回体
+     */
     @POST("{url}")
     Flowable<ResponseBody> post(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) Map<String, Object> qmap, @Body Map<String, Object> map);
 

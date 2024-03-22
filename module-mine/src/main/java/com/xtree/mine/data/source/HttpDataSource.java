@@ -17,12 +17,15 @@ import com.xtree.mine.vo.request.RecommendedReportsRequest;
 import com.xtree.mine.vo.response.DividendAgrtCheckResponse;
 import com.xtree.mine.vo.response.DividendAgrtSendReeponse;
 import com.xtree.mine.vo.response.DividendAutoSendResponse;
+import com.xtree.mine.vo.response.FunctionMenuResponse;
 import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
 import com.xtree.mine.vo.response.RebateAgrtCreateResponse;
 import com.xtree.mine.vo.response.RecommendedReportsResponse;
+
+import java.util.List;
 
 import io.reactivex.Flowable;
 import io.reactivex.rxjava3.annotations.NonNull;
@@ -88,7 +91,15 @@ public interface HttpDataSource {
     Flowable<DividendAgrtSendReeponse> getDividendAgrtSendStep1Data(DividendAgrtSendQuery query, DividendAgrtSendRequest request);
     /**
      * 返水契约-手动发放步骤2
+     * @param query 拼接参数字典
+     * @param request 请求体
      */
     Flowable<DividendAgrtSendReeponse> getDividendAgrtSendStep2Data(DividendAgrtSendQuery query, DividendAgrtSendRequest request);
+
+    /**
+     * 返水契约-获取菜单权限
+     * @return
+     */
+    Flowable<BaseResponse<List<FunctionMenuResponse>>> getFunctionMenuData();
 
 }

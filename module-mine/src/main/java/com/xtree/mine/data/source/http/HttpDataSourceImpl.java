@@ -17,12 +17,13 @@ import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
 import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
-import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
+import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
 import com.xtree.mine.vo.response.DividendAgrtCheckResponse;
 import com.xtree.mine.vo.response.DividendAgrtSendReeponse;
 import com.xtree.mine.vo.response.DividendAutoSendResponse;
+import com.xtree.mine.vo.response.FunctionMenuResponse;
 import com.xtree.mine.vo.response.GameDividendAgrtResponse;
 import com.xtree.mine.vo.response.GameRebateAgrtResponse;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
@@ -30,6 +31,7 @@ import com.xtree.mine.vo.response.GameSubordinateRebateResponse;
 import com.xtree.mine.vo.response.RebateAgrtCreateResponse;
 import com.xtree.mine.vo.response.RecommendedReportsResponse;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -224,6 +226,17 @@ public class HttpDataSourceImpl implements HttpDataSource {
             @Override
             public DividendAgrtSendReeponse apply(ResponseBody responseBody) throws Exception {
                 return gson.fromJson(responseBody.string(), DividendAgrtSendReeponse.class);
+            }
+        });
+    }
+
+    @Override
+    public Flowable<BaseResponse<List<FunctionMenuResponse>>> getFunctionMenuData() {
+        return apiService.get(APIManager.FUNCTIONT_MENUS_URL).map(new Function<ResponseBody, BaseResponse<List<FunctionMenuResponse>>>() {
+            @Override
+            public BaseResponse<List<FunctionMenuResponse>> apply(ResponseBody responseBody) throws Exception {
+                return JSON.parseObject(responseBody.string(),
+                        new TypeReference<BaseResponse<List<FunctionMenuResponse>>>() {});
             }
         });
     }

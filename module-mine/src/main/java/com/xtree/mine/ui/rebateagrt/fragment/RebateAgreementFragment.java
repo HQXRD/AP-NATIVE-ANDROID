@@ -43,4 +43,10 @@ public class RebateAgreementFragment extends BaseFragment<FragmentRebateAgreemen
         return new ViewModelProvider(this, factory).get(RebateAgreementViewModel.class);
     }
 
+    @Override
+    public void initData() {
+        super.initData();
+        viewModel.setActivity(getActivity());
+        viewModel.initData();
+    }
 }

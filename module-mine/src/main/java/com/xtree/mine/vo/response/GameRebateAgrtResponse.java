@@ -2,11 +2,13 @@ package com.xtree.mine.vo.response;
 
 import java.util.List;
 
+import me.xtree.mvvmhabit.http.BaseResponse2;
+
 /**
  * Created by KAKA on 2024/3/12.
  * Describe:
  */
-public class GameRebateAgrtResponse {
+public class GameRebateAgrtResponse extends BaseResponse2 {
 
     private String webtitle;
     private String sSystemImagesAndCssPath;

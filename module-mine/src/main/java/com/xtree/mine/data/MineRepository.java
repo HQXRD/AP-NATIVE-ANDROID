@@ -4,7 +4,6 @@ package com.xtree.mine.data;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 
-
 import com.xtree.mine.data.source.HttpDataSource;
 import com.xtree.mine.data.source.LocalDataSource;
 import com.xtree.mine.data.source.http.service.HttpApiService;
@@ -17,8 +16,8 @@ import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
 import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
-import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
+import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
 import com.xtree.mine.vo.response.DividendAgrtCheckResponse;
 import com.xtree.mine.vo.response.DividendAgrtSendReeponse;
@@ -155,6 +154,13 @@ public class MineRepository extends BaseModel implements HttpDataSource, LocalDa
     @Override
     public Flowable<DividendAgrtSendReeponse> getDividendAgrtSendStep2Data(DividendAgrtSendQuery query,DividendAgrtSendRequest request) {
         return mHttpDataSource.getDividendAgrtSendStep2Data(query, request)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer());
+    }
+
+    @Override
+    public Flowable getFunctionMenuData() {
+        return mHttpDataSource.getFunctionMenuData()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer());
     }
