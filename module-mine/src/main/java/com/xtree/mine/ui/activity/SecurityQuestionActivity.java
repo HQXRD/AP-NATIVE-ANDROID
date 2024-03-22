@@ -37,8 +37,8 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 @Route(path = PAGER_ACCOUNT_SECURITY)
 public class SecurityQuestionActivity extends BaseActivity<FragmentSecurityQuestionBinding, SetQuestionsPwdModel> {
     private CheckQuestionVo checkQuestionVo;
-    private BasePopupView showAnswerView;
-    private BasePopupView showSetPSWView;
+    private BasePopupView showAnswerPopView;//显示密保问题View
+    private BasePopupView showSetPSWPopView; //显示设置资金密保View
 
     private BasePopupView basePopupView;
     private ProfileVo mProfileVo;
@@ -116,8 +116,8 @@ public class SecurityQuestionActivity extends BaseActivity<FragmentSecurityQuest
         viewModel.checkQuestionVoMutableLiveData.observe(this, vo -> {
             checkQuestionVo = vo;
             if (checkQuestionVo.data != null) {
-                if (showAnswerView != null) {
-                    showAnswerView.dismiss();
+                if (showAnswerPopView != null) {
+                    showAnswerPopView.dismiss();
                 }
                 // checkQuestionVo.data.accessToken ;
                 //跳转设置密保页面
@@ -136,11 +136,11 @@ public class SecurityQuestionActivity extends BaseActivity<FragmentSecurityQuest
 
     /*显示输入密保答案Dialog*/
     private void showEnterSecretAnswerDialog(final String key3, final String showContent) {
-        if (showAnswerView == null) {
-            showAnswerView = new XPopup.Builder(this).asCustom(new EnterAnswerDialog(this, key3, showContent, new EnterAnswerDialog.ICallBack() {
+        if (showAnswerPopView == null) {
+            showAnswerPopView = new XPopup.Builder(this).asCustom(new EnterAnswerDialog(this, key3, showContent, new EnterAnswerDialog.ICallBack() {
                 @Override
                 public void onClickCancel() {
-                    showAnswerView.dismiss();
+                    showAnswerPopView.dismiss();
                     finish();
                 }
 
@@ -150,7 +150,7 @@ public class SecurityQuestionActivity extends BaseActivity<FragmentSecurityQuest
                 }
             }));
         }
-        showAnswerView.show();
+        showAnswerPopView.show();
     }
 
     /*检查密保问题*/
@@ -190,34 +190,36 @@ public class SecurityQuestionActivity extends BaseActivity<FragmentSecurityQuest
     }
 
     /*显示密保设定*/
-    private void showSetPSWView(final boolean hide, final String accessToken) {
-        if (showSetPSWView == null) {
+    private void showSetPSWView(final boolean hide, final String accessTokenOrCheckCode) {
+        if (showSetPSWPopView == null) {
             if (hide) {
-                showSetPSWView = new XPopup.Builder(this).dismissOnBackPressed(false)
+                final String checkCode  = accessTokenOrCheckCode ;
+                showSetPSWPopView = new XPopup.Builder(this).dismissOnBackPressed(false)
                         .dismissOnTouchOutside(false)
                         .moveUpToKeyboard(false)
                         .asCustom(SecurityQuestionFragment.newInstance(this, this, new SecurityQuestionFragment.ISecurityQuestionCallBack() {
                             @Override
                             public void closeSecurityDialog() {
-                                showSetPSWView.dismiss();
+                                showSetPSWPopView.dismiss();
                                 finish();//关闭Activity
                             }
-                        }, true));
+                        }, true ,checkCode));
             } else {
-                showSetPSWView = new XPopup.Builder(this).dismissOnBackPressed(false)
+                final  String accessToken = accessTokenOrCheckCode;
+                showSetPSWPopView = new XPopup.Builder(this).dismissOnBackPressed(false)
                         .dismissOnTouchOutside(false)
                         .moveUpToKeyboard(false)
                         .asCustom(SecurityQuestionFragment.newInstance(this, this, new SecurityQuestionFragment.ISecurityQuestionCallBack() {
                             @Override
                             public void closeSecurityDialog() {
-                                showSetPSWView.dismiss();
+                                showSetPSWPopView.dismiss();
                                 finish();//关闭Activity
                             }
                         }, accessToken));
             }
 
         }
-        showSetPSWView.show();
+        showSetPSWPopView.show();
     }
 
     /*显示魔域资金密码输入页面*/
@@ -236,7 +238,7 @@ public class SecurityQuestionActivity extends BaseActivity<FragmentSecurityQuest
                         @Override
                         public void closeFundPWDialogWithCode(String checkCode) {
                             if (!TextUtils.isEmpty(checkCode)) {
-                                showSetPSWView(true, "");
+                                showSetPSWView(true, checkCode);
                             }
                             basePopupView.dismiss();
                         }

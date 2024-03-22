@@ -49,6 +49,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
 
     private LifecycleOwner owner;
     private String accessToken;
+    private String checkCode ;//第一次设定密保问题使用chekCode
     private SetQuestionsPwdModel viewModel;
     private ISecurityQuestionCallBack callBack;
     private DialogSetSecurityQuestionBinding binding;
@@ -67,11 +68,12 @@ public class SecurityQuestionFragment extends BottomPopupView {
         return dialog;
     }
 
-    public static SecurityQuestionFragment newInstance(@NonNull Context context, LifecycleOwner owner, ISecurityQuestionCallBack callBack, boolean hide) {
+    public static SecurityQuestionFragment newInstance(@NonNull Context context, LifecycleOwner owner, ISecurityQuestionCallBack callBack, boolean hide , final String checkCode) {
         SecurityQuestionFragment dialog = new SecurityQuestionFragment(context);
         dialog.owner = owner;
         dialog.callBack = callBack;
         dialog.hide = hide;
+        dialog.checkCode = checkCode;
         return dialog;
     }
 
@@ -275,7 +277,14 @@ public class SecurityQuestionFragment extends BottomPopupView {
     private void setSecurityQuestions(ArrayList qaBeanArrayList) {
         HashMap<String, String> map = new HashMap<>();
         map.put("nonce", UuidUtil.getID24());
-        map.put("check", "-1");
+        if (hide){
+            //第一次设置密保
+            map.put("check", checkCode);
+        }else {
+           //重置密保
+            map.put("check", "-1");
+        }
+
         map.put("questions", qaBeanArrayList.toString());
 
         viewModel.putSecurityQuestions(map);
