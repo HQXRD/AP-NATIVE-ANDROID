@@ -143,6 +143,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
                     binding2.tvwBtResult.setText(R.string.txt_unsettle); // 未结算
                     binding2.tvwBtResult.setActivated(true);
                     binding2.tvwSum.setActivated(true);
+                    vo.sum = "--"; // 未结算,显示为 "--" 单号:2863, 2024-03-15
                 }
 
                 String win = vo.project_win.equals("0") ? "--" : vo.project_win;
