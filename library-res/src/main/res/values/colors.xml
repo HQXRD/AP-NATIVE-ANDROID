@@ -83,6 +83,10 @@
     <!-- 按钮 主 -->
     <color name="clr_btn_01">#247BF4</color>
     <color name="clr_btn_02">#70B2FD</color>
+    <!-- 按钮 按下 -->
+    <color name="clr_btn_press">#97C1FF</color>
+    <color name="clr_btn_press_stroke">#70B2FD</color>
+
     <!-- 背景框 主 顶部 浅色 -->
     <color name="clr_bg_frame_31">#BEE0FF</color>
     <color name="clr_bg_frame_32">#FFFFFF</color>

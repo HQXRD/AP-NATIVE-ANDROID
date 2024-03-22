@@ -3,19 +3,19 @@
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <gradient android:angle="0"
-                android:endColor="@color/clr_bg_frame_23"
-                android:startColor="@color/clr_bg_frame_23" />
+                android:endColor="@color/clr_btn_press"
+                android:startColor="@color/clr_btn_press" />
             <corners android:radius="6dp" />
             <stroke android:width="1dp"
-                android:color="@color/clr_bg_frame_small_2" />
+                android:color="@color/clr_btn_press_stroke" />
         </shape>
     </item>
 
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
             <gradient android:angle="0"
-                android:endColor="@color/clr_bg_frame_31"
-                android:startColor="@color/clr_txt_04" />
+                android:endColor="@color/clr_btn_grey02"
+                android:startColor="@color/clr_btn_grey01" />
             <corners android:radius="6dp" />
         </shape>
     </item>
