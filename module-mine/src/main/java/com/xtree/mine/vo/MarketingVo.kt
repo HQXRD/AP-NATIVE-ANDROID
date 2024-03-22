@@ -1,5 +1,7 @@
 package com.xtree.mine.vo
 
+import java.util.ArrayList
+
 data class MarketingVo(
     var chessPoint: String,
     val customer_service_link: String,
@@ -9,6 +11,7 @@ data class MarketingVo(
     val links: List<LinkVo>,
     var livePoint: String,
     val maxPoint: String,
+    val prizeGroups: HashMap<Int,List<X0>>?,
     val pt_download_pc: String,
     val pub_channel_id: String,
     val pub_channel_token: String,
@@ -28,17 +31,6 @@ data class MarketingVo(
     val usertype: Int,
     val webtitle: String,
     val sMsg: String
-)
-
-data class User(
-    val availablebalance: String,
-    val iscreditaccount: String,
-    val messages: String,
-    val nickname: String,
-    val parentid: String,
-    val preinfo: String,
-    val userrank: String,
-    val usertype: String
 )
 
 data class LinkVo(
@@ -64,4 +56,21 @@ data class LinkVo(
     val userid: String,
     val usertype: String,
     val zhaoshang: String
+)
+
+data class User(
+    val availablebalance: String,
+    val iscreditaccount: String,
+    val messages: String,
+    val nickname: String,
+    val parentid: String,
+    val preinfo: String,
+    val userrank: String,
+    val usertype: String
+)
+
+
+data class X0(
+    val lotteryname: String,
+    val prizegroup: String
 )
