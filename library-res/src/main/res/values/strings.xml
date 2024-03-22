@@ -169,6 +169,8 @@
     <string name="txt_withdrawal_not_supported_tip">暂不支持该渠道提款，请联系您的上级或客服！</string>
     <!--提款-->
     <string name="txt_withdrawal_bank">银行卡提款</string>
+    <string name="txt_withdraw_flow">提款流水</string>
+
 
     <string name="domain_url">http</string>
     <string name="domain_url_list">http;http</string>
