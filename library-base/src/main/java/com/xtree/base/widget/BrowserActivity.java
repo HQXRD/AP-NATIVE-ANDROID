@@ -10,6 +10,7 @@ import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -40,6 +41,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -295,8 +297,13 @@ public class BrowserActivity extends AppCompatActivity {
             startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
         });
         ivwJump.setOnClickListener(v -> {
+            //传递token
+            String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+            String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
+            String jumpUrl = DomainUtil.getDomain() + "/static/sessionkeeper.html?token=" + token + "&tokenExpires=3600&url=" + urlBase64;
+            CfLog.i("jumpUrl: " + jumpUrl);
             // 跳至外部浏览器
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(jumpUrl));
             try {
                 startActivity(intent);
             } catch (Exception e) {
