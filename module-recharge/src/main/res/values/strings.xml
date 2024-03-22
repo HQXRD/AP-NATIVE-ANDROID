@@ -30,7 +30,7 @@
     <string name="txt_rc_channel_low_rate_hint"><![CDATA[当前渠道【<font color=#EE5A5A>%1$s</font>】充值到账成功率较低，为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！]]></string>
     <string name="txt_close_dialog_continue_cur">关闭弹窗，继续使用当前充值渠道</string>
     <string name="txt_rc_count_low_rate_hint"><![CDATA[您已经连续充值<font color=#EE5A5A>%1$d</font>次，为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！]]></string>
-    <string name="txt_rc_order_not_received_contact_pls">有订单还未到账，为了能您的充值快速到账，请您进行反馈！</string>
+    <string name="txt_rc_order_not_received_contact_pls">有订单还未到账，为了您的充值能快速到账，请您进行反馈！</string>
 
     <!--反馈录入页面录入提示语言-->
     <string name="txt_tip_select_un_order">* 未到账订单选择：</string>

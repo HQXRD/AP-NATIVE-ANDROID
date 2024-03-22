@@ -68,6 +68,12 @@ public interface ApiService {
     Flowable<BaseResponse<Object>> rechargePay(@Path("bid") String bid, @Body Map<String, String> map);
 
     /**
+     * 获取人工充值暗号
+     */
+    @GET("/api/deposit/manualcode")
+    Flowable<BaseResponse<Map<String, String>>> getManualSignal();
+
+    /**
      * 获取反馈页面基本数据
      */
     @GET("/api/deposit/customerinfos?")

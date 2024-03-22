@@ -158,6 +158,13 @@
     <string name="txt_rc_tip_latest_balance">已更新到最新余额</string>
     <string name="txt_rc_not_tip">今日不再提示</string>
     <string name="txt_rc_i_know_close">我知道了，关闭弹窗</string>
+    <string name="txt_rc_manual_tip_1">若其它支付方式失败，建议您使用人工充值功能，同专人客服引导您进行充值</string>
+    <string name="txt_rc_manual_title">为了保护您的资金安全</string>
+    <string name="txt_rc_m_pls_check_signal">请核对人工客服提供的暗号是否为</string>
+    <string name="txt_rc_m_3">如果客服没有主动询问您或发给您的 %1$s否则引发的不到账等情况，概不负责。</string>
+    <string name="txt_rc_m_4">暗号不相符，请勿进行交易。</string>
+    <string name="txt_rc_m_5">注：使用人工充值，最低金额要求1000。</string>
+    <string name="txt_rc_m_ok">我已记住暗号</string>
 
     <string name="txt_update">版本更新</string>
     <string name="txt_update_tip">更新中，请稍候...</string>
