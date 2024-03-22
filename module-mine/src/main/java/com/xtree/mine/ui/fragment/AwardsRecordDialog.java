@@ -15,7 +15,6 @@ import androidx.lifecycle.LifecycleOwner;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
-import com.xtree.base.utils.CfLog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogChooseAwardsBinding;
@@ -95,13 +94,7 @@ public class AwardsRecordDialog extends BottomPopupView {
 
     private void initView() {
         binding = DialogChooseAwardsBinding.bind(findViewById(R.id.ll_root));
-        if (viewType == 1 || viewType == 3) {
-            CfLog.i("viewType ==1)");
-            binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_unfinished_activity));
-        } else {
-            binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_wallet));
-            CfLog.i("viewType ==0)");
-        }
+        binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_wallet));
 
         binding.ivwClose.setOnClickListener(v -> {
             dismiss();
@@ -113,52 +106,37 @@ public class AwardsRecordDialog extends BottomPopupView {
         String tipText = "";
         if (viewType == 3) {
             tipText = "您今日没有可用提款次数";
-        } else {
-            if (TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) ||
-                    awardsRecordVo.withdraw_dispensing_money.equals("0") ||
-                    awardsRecordVo.withdraw_dispensing_money.equals("0.00")) {
-                tipText = getContext().getString(R.string.txt_awards_no_money_tip);
-            } else {
-                tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
-            }
         }
-        if (tipText.equals(getContext().getString(R.string.txt_awards_no_money_tip))) {
-            binding.tvChooseTip.setText(tipText);
-            binding.llChooseTip.setVisibility(View.VISIBLE);
-        } else {
+        if (!awardsRecordVo.list.isEmpty()) {
             binding.tvChooseTip.setVisibility(View.GONE);
             binding.llChooseTip.setVisibility(View.GONE);
-        }
-        //http://jira.lgroup.co/browse/HQAP2-2817
-        //关闭显示列表
-        bottomPopupContainer.dismissOnTouchOutside(true);
-        bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
-            @Override
-            public void onClose() {
-                if (callBack != null) {
-                    callBack.closeAwardsDialog();
-                }
-            }
-
-            @Override
-            public void onDrag(int y, float percent, boolean isScrollUp) {
-
-            }
-
-            @Override
-            public void onOpen() {
-
-            }
-        });
-
-        if (awardsRecordVo != null && awardsRecordVo.list.size() > 1) {
             binding.lvChoose.setVisibility(View.VISIBLE);
+            bottomPopupContainer.dismissOnTouchOutside(true);
+            bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
+                @Override
+                public void onClose() {
+                    if (callBack != null) {
+                        callBack.closeAwardsDialog();
+                    }
+                }
+
+                @Override
+                public void onDrag(int y, float percent, boolean isScrollUp) {
+
+                }
+
+                @Override
+                public void onOpen() {
+
+                }
+            });
             ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
             binding.lvChoose.setAdapter(adapter);
         } else {
-            /*binding.llChooseTip.setVisibility(View.VISIBLE);
-            binding.tvWithdrawalAwardsTitle.setVisibility(View.GONE);*/
-
+            tipText = getContext().getString(R.string.txt_awards_no_money_tip);
+            binding.tvChooseTip.setText(tipText);
+            binding.llChooseTip.setVisibility(View.VISIBLE);
+            binding.lvChoose.setVisibility(View.GONE);
         }
 
     }
@@ -214,7 +192,6 @@ public class AwardsRecordDialog extends BottomPopupView {
             holder.showInfoName.setText(info.title);
             String bonusTip = String.format(getContext().getString(R.string.txt_awards_bonus_tip), info.money);
             holder.showBonus.setText(bonusTip);
-            //String reTurnover = String.format(getContext().getString(R.string.txt_awards_required_turnover_tip), info.deducted_turnover);
             String reTurnover = String.format(getContext().getString(R.string.txt_awards_required_turnover_tip), info.dispensing_money);
             holder.showTurnover.setText(reTurnover);
 

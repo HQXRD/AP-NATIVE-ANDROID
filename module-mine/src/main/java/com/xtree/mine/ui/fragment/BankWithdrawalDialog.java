@@ -98,7 +98,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     public static BankWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo, BankWithdrawalClose bankClose, BankWithdrawaDialogClose dialogClose) {
         BankWithdrawalDialog dialog = new BankWithdrawalDialog(context);
-        context = context;
         dialog.context = context;
         dialog.owner = owner;
         dialog.channelInfo = channelInfo;
@@ -118,7 +117,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     @Override
     protected int getMaxHeight() {
-        //return super.getMaxHeight();
         return (XPopupUtils.getScreenHeight(getContext()) * 90 / 100);
     }
 
@@ -1017,5 +1015,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         }
         ppwError.show();
     }
+
 
 }

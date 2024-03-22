@@ -3,6 +3,7 @@ package com.xtree.mine.ui.activity;
 import static com.xtree.base.router.RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -20,21 +21,32 @@ import com.xtree.mine.databinding.FragmentChooseWithdrawBinding;
 import com.xtree.mine.ui.fragment.AwardsRecordDialog;
 import com.xtree.mine.ui.fragment.BankWithdrawalDialog;
 import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
+import com.xtree.mine.ui.fragment.WithdrawFlowDialog;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.AwardsRecordVo;
+import com.xtree.mine.vo.ChooseInfoVo;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = PAGER_CHOOSE_WITHDRAW)
 public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel> {
-
+    public static final String PAGER_CHOOSE_WITHDRAW_KEY = "ViewType";
+    public static final String PAGER_SOURCE_HOME = "HomeView";//主页面
+    public static final String PAGER_SOURCE_WALLET = "Wallet";//我的钱包
     private BasePopupView basePopupView = null;
     private BasePopupView baseMessagePopupView = null;
+    private BasePopupView loadingView = null;
 
     private BasePopupView baseGiftFlowView = null;//礼物流水
+    private BasePopupView baseFlowErrorView = null;//流水异常
     private AwardsRecordVo awardsRecordVo;
+    private ChooseInfoVo chooseInfoVo;
+
+    //1我的钱包点击 礼金  显示钱包流水
+    //2我首页点击提款 【我的钱包 点击 去取款】 有提款流水 显示提款流水
+    //没有提款流水 则显示 提款列表
     private int viewType;
 
     @Override
@@ -68,7 +80,6 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
     @Override
     public void initData() {
-
     }
 
     @Override
@@ -77,19 +88,54 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
             viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
                 awardsRecordVo = vo;
                 if (awardsRecordVo != null && awardsRecordVo.list != null
-                        && awardsRecordVo.list.size() != 0
-                        && !("0.00".equals(awardsRecordVo.withdraw_dispensing_money))) {
-                    //withdraw_dispensing_money locked_award_sum
-                    showError(awardsRecordVo);
+                        && !awardsRecordVo.list.isEmpty()) {
+                    if (!TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) && !("0".equals(awardsRecordVo.withdraw_dispensing_money))) {
+                        showWithdrawFlow();
+                    } else {
+                        //requestWithdrawInfo();
+                        showChooseList();
+                    }
                 } else if (awardsRecordVo.networkStatus == 1) {
                     //链接超时
                     showNetError();
                     finish();
                     return;
                 } else {
-                    showChoose();
+                    showChooseList();
+                    /*showMaskLoading();
+                    requestWithdrawInfo();*/
                 }
             });
+            //提款列表數據
+            viewModel.chooseInfoVoMutableLiveData.observe(this, vo -> {
+                showMaskLoading();
+                chooseInfoVo = vo;
+                if (chooseInfoVo.networkStatus == 1) {
+                    //网络异常
+                    //  callBack.closeDialogByError();
+                } else {
+                    if (!TextUtils.isEmpty(chooseInfoVo.msg_type) && "2".equals(chooseInfoVo.msg_type)) {
+                        //异常状态
+                        //showErrorDialog(chooseInfoVo.message);
+                        //callBack.closeDialogByFlow(chooseInfoVo.message);
+                        //this.dismiss();
+                        showErrorDialog(chooseInfoVo.message);
+
+                    } else if ("chooseInfoVo.wdChannelList is Null".equals(chooseInfoVo.error)) {
+                        //异常状态 提款列表数据为空
+                        ToastUtils.showError(this.getString(R.string.txt_network_error));
+                        return;
+                    } else if (TextUtils.isEmpty(chooseInfoVo.error) || chooseInfoVo.error == null) {
+                        // referUI();
+                        showChooseList();
+                    } else {
+                        //showErrorDialog(chooseInfoVo.message);
+                        //callBack.closeDialogByFlow(chooseInfoVo.message);
+                        showErrorDialog(chooseInfoVo.message);
+                    }
+                }
+            });
+
         }
     }
 
@@ -98,14 +144,20 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         return super.dispatchTouchEvent(ev);
     }
 
-    /**
-     * 显示资金流水
-     */
+    /**/
     private void showAwardsRecord() {
-
         LoadingDialog.show(this);
         basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
+                /* .asCustom(WithdrawFlowDialog.newInstance(this, this, awardsRecordVo, new WithdrawFlowDialog.IWithdrawFlowDialogCallBack() {
+                     @Override
+                     public void closeAwardsDialog() {
+                         LoadingDialog.finish();
+                         basePopupView.dismiss();
+                         finish();
+                         CfLog.i("AwardsRecordDialog  dismiss");
+                     }
+                 }));*/
                 .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, new AwardsRecordDialog.IAwardsDialogBack() {
                     @Override
                     public void closeAwardsDialog() {
@@ -117,7 +169,37 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                 }));
 
         basePopupView.show();
-        MsgDialog msgDialog;
+
+    }
+
+    /**
+     * 显示提款流水
+     */
+    private void showWithdrawFlow() {
+
+        //LoadingDialog.show(this);
+        basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asCustom(WithdrawFlowDialog.newInstance(this, this, awardsRecordVo, new WithdrawFlowDialog.IWithdrawFlowDialogCallBack() {
+                    @Override
+                    public void closeAwardsDialog() {
+                        LoadingDialog.finish();
+                        basePopupView.dismiss();
+                        finish();
+                        CfLog.i("AwardsRecordDialog  dismiss");
+                    }
+                }));
+                /*.asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, new AwardsRecordDialog.IAwardsDialogBack() {
+                    @Override
+                    public void closeAwardsDialog() {
+                        LoadingDialog.finish();
+                        basePopupView.dismiss();
+                        finish();
+                        CfLog.i("AwardsRecordDialog  dismiss");
+                    }
+                }));*/
+
+        basePopupView.show();
 
     }
 
@@ -125,7 +207,8 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
     private void showError(final AwardsRecordVo awardsRecordVo) {
         if (baseGiftFlowView == null) {
             final String title = this.getString(R.string.txt_kind_tips);
-            final String showMessage = String.format(this.getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
+            final Double flag = Double.valueOf(awardsRecordVo.withdraw_dispensing_money) + Double.valueOf(awardsRecordVo.locked_award_sum);
+            final String showMessage = String.format(this.getString(R.string.txt_awards_flow_title), String.valueOf(flag));
             baseGiftFlowView = new XPopup.Builder(this).asCustom(new MsgDialog(this, title, showMessage, false, new TipDialog.ICallBack() {
                 @Override
                 public void onClickLeft() {
@@ -159,13 +242,49 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         baseMessagePopupView.show();
     }
 
+    @Deprecated
+    private void requestWithdrawInfo() {
+        viewModel.getChooseWithdrawInfo();
+    }
+
     /**
      * 显示提款页面
      */
-    private void showChoose() {
-        LoadingDialog.show(this);
+    private void showChooseList() {
+
+        showMaskLoading();
+        // LoadingDialog.show(this);
         basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false).dismissOnTouchOutside(false)
-                .moveUpToKeyboard(false).asCustom(ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
+                .moveUpToKeyboard(false)
+                .asCustom(ChooseWithdrawalDialog.newInstance(this, this, this.chooseInfoVo, new ChooseWithdrawalDialog.IChooseDialogBack() {
+                    @Override
+                    public void closeDialog() {
+                        LoadingDialog.finish();
+                        finish();
+                    }
+
+                    @Override
+                    public void closeDialogByError() {
+                        LoadingDialog.finish();
+                        finish();
+                    }
+
+                    @Override
+                    public void closeDialogByFlow(String money) {
+                        LoadingDialog.finish();
+                    }
+                }, new BankWithdrawalDialog.BankWithdrawalClose() {
+                    @Override
+                    public void closeBankWithdrawal() {
+
+                    }
+
+                    @Override
+                    public void closeBankByNumber() {
+                        showNumberDialog("您今日没有可用提款次数");
+                    }
+                }));
+                /*.moveUpToKeyboard(false).asCustom(ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
                     @Override
                     public void closeDialog() {
                         LoadingDialog.finish();
@@ -178,6 +297,12 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                         showNetError();
                         finish();
                     }
+
+                    @Override
+                    public void closeDialogByFlow(String money) {
+                        LoadingDialog.finish();
+                        showErrorDialog(money);
+                    }
                 }, new BankWithdrawalDialog.BankWithdrawalClose() {
                     @Override
                     public void closeBankWithdrawal() {
@@ -189,15 +314,52 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                         //弹出 提款流水 您今日没有可用提款次数
                         showNumberDialog("您今日没有可用提款次数");
                     }
-                }));
+                }));*/
 
         basePopupView.show();
 
     }
 
+    /**
+     * 显示异常Dialog
+     */
+    private void showErrorDialog(String showMessage) {
+        if (baseFlowErrorView == null) {
+            baseFlowErrorView = new XPopup.Builder(this)
+                    .asCustom(new MsgDialog(this, this.getString(R.string.txt_kind_tips), showMessage, false, new MsgDialog.ICallBack() {
+                        @Override
+                        public void onClickLeft() {
+                            //baseFlowErrorView.dismiss();
+                            finish();
+                        }
+
+                        @Override
+                        public void onClickRight() {
+                            // baseFlowErrorView.dismiss();
+                            finish();
+                        }
+                    }));
+        }
+        baseFlowErrorView.show();
+    }
+
     /*显示网络异常Toast*/
     private void showNetError() {
         ToastUtils.showError(this.getString(R.string.txt_network_error));
+    }
+
+    /*显示銀行卡提款loading */
+    private void showMaskLoading() {
+        if (loadingView == null) {
+            loadingView = new XPopup.Builder(this).asCustom(new LoadingDialog(this));
+        }
+
+        loadingView.show();
+    }
+
+    /*关闭loading*/
+    private void dismissMasksLoading() {
+        loadingView.dismiss();
     }
 
 }

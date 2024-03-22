@@ -3,6 +3,7 @@ package com.xtree.mine.ui.fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -20,11 +21,11 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import me.xtree.mvvmhabit.base.BaseFragment;
 
 @Route(path = RouterFragmentPath.Mine.PAGER_CHOOSE)
-public class ChooseWithdrawFragment extends BaseFragment<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel>
-{
-    private ChooseWithdrawViewModel viewModel ;
-    private  ChooseWithdrawalDialog chooseWithdrawalDialog ;//提款选择dialog
+public class ChooseWithdrawFragment extends BaseFragment<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel> {
+    private ChooseWithdrawViewModel viewModel;
+    private ChooseWithdrawalDialog chooseWithdrawalDialog;//提款选择dialog
     private BasePopupView basePopupView = null;
+
     @Override
     public void initView() {
         showChoose();
@@ -37,18 +38,20 @@ public class ChooseWithdrawFragment extends BaseFragment<FragmentChooseWithdrawB
 
     @Override
     public int initVariableId() {
-         return BR.viewModel;
+        return BR.viewModel;
     }
+
     @Override
     public ChooseWithdrawViewModel initViewModel() {
         AppViewModelFactory factory = AppViewModelFactory.getInstance(getActivity().getApplication());
         return new ViewModelProvider(this, factory).get(ChooseWithdrawViewModel.class);
     }
+
     /**
      * 显示提款页面
      */
     private void showChoose() {
-        basePopupView = new XPopup.Builder(getContext()).asCustom(ChooseWithdrawalDialog.newInstance(getContext(), this, new ChooseWithdrawalDialog.IChooseDialogBack() {
+        basePopupView = new XPopup.Builder(getContext()).asCustom(ChooseWithdrawalDialog.newInstance(getContext(), this, null, new ChooseWithdrawalDialog.IChooseDialogBack() {
             @Override
             public void closeDialog() {
                 basePopupView.dismiss();
@@ -58,6 +61,11 @@ public class ChooseWithdrawFragment extends BaseFragment<FragmentChooseWithdrawB
             @Override
             public void closeDialogByError() {
                 getActivity().finish();
+            }
+
+            @Override
+            public void closeDialogByFlow(String money) {
+
             }
         }, new BankWithdrawalDialog.BankWithdrawalClose() {
             @Override

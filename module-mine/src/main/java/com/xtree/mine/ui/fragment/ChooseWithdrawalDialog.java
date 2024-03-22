@@ -23,7 +23,6 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
 import com.xtree.base.router.RouterFragmentPath;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
@@ -52,10 +51,13 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
         /*网络异常关闭Dialog*/
         void closeDialogByError();
+
+        void closeDialogByFlow(final String money);//由于流水不足关闭Dialog
     }
 
     private IChooseDialogBack callBack;
     private BasePopupView basePopupView = null;
+    private BasePopupView loadingView = null;
     DialogChooseWithdrawaBinding binding;
     ChooseWithdrawViewModel viewModel;
     LifecycleOwner owner;
@@ -80,12 +82,13 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         super(context);
     }
 
-    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose) {
+    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, final ChooseInfoVo chooseInfoVo, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose) {
         ChooseWithdrawalDialog dialog = new ChooseWithdrawalDialog(context);
 
         context = context;
         dialog.context = context;
         dialog.owner = owner;
+        dialog.chooseInfoVo = chooseInfoVo;
         dialog.callBack = callBack;
         dialog.bankWithdrawalClose = bankWithdrawalClose;
         return dialog;
@@ -94,12 +97,13 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
-
+        LoadingDialog.show(getContext());
         initView();
         initData();
         LoadingDialog.show(getContext());
         initViewObservable();
         requestData();
+        referUI();
     }
 
     private void initView() {
@@ -136,8 +140,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     }
 
     private void initViewObservable() {
-        LoadingDialog.show(dialog.getContext());
         viewModel.chooseInfoVoMutableLiveData.observe(owner, vo -> {
+            dismissMasksLoading();
             chooseInfoVo = vo;
             if (chooseInfoVo.networkStatus == 1 && callBack != null) {
                 //网络异常
@@ -145,7 +149,9 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
             } else {
                 if (!TextUtils.isEmpty(chooseInfoVo.msg_type) && "2".equals(chooseInfoVo.msg_type)) {
                     //异常状态
-                    showErrorDialog(chooseInfoVo.message);
+                    //showErrorDialog(chooseInfoVo.message);
+                    callBack.closeDialogByFlow(chooseInfoVo.message);
+                    //this.dismiss();
 
                 } else if ("chooseInfoVo.wdChannelList is Null".equals(chooseInfoVo.error)) {
                     //异常状态 提款列表数据为空
@@ -154,7 +160,9 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 } else if (TextUtils.isEmpty(chooseInfoVo.error) || chooseInfoVo.error == null) {
                     referUI();
                 } else {
-                    showErrorDialog(chooseInfoVo.message);
+                    //showErrorDialog(chooseInfoVo.message);
+                    callBack.closeDialogByFlow(chooseInfoVo.message);
+                    this.dismiss();
                 }
             }
 
@@ -165,7 +173,22 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 请求网络数据
      */
     private void requestData() {
+        showMaskLoading();
         viewModel.getChooseWithdrawInfo();
+    }
+
+    /*显示銀行卡提款loading */
+    private void showMaskLoading() {
+        if (loadingView == null) {
+            loadingView = new XPopup.Builder(getContext()).asCustom(new LoadingDialog(getContext()));
+        }
+
+        loadingView.show();
+    }
+
+    /*关闭loading*/
+    private void dismissMasksLoading() {
+        loadingView.dismiss();
     }
 
     private void referUI() {
@@ -220,6 +243,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 binding.tvChooseTip.setTextColor(getContext().getColor(R.color.red));
             }
+            LoadingDialog.finish();
         }
     }
 
