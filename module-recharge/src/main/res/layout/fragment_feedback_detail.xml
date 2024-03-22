@@ -385,7 +385,7 @@
                             android:layout_below="@id/ll_selector_tip_image"
                             android:layout_alignLeft="@id/ll_selector_tip_image"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_purple"
+                            android:background="@mipmap/cm_ic_hint_main"
 
                             />
 

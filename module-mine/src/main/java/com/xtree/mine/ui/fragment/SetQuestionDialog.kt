@@ -68,7 +68,7 @@ class SetQuestionDialog(context: Context) : BottomPopupView(context) {
             override fun onBindViewHolder(holder: CacheViewHolder, position: Int) {
                 val binding2 = ItemTextBinding.bind(holder.itemView)
                 binding2.tvwTitle.text = get(position).value
-                binding2.tvwTitle.setOnClickListener { v ->
+                binding2.tvwTitle.setOnClickListener { _ ->
                     binding.tvQuestion1.text = get(position).value
                     ppw.dismiss()
                 }

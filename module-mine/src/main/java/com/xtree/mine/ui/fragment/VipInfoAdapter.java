@@ -58,32 +58,22 @@ public class VipInfoAdapter extends CachedAutoRefreshAdapter<VipUpgradeItemVo> {
         binding.tvwVipFishing1.setText(vo.esport_ratio + "%");
 
         if (position == level) {
-            binding.tvwVipLevel1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_purple_10));
-            binding.tvwVipSport1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_purple_11));
-            binding.tvwVipReal1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_purple_11));
-            binding.tvwVipElectronic1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_purple_11));
-            binding.tvwVipGaming1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_purple_11));
-            binding.tvwVipPorker1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_purple_11));
-            binding.tvwVipLottery1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_purple_11));
-            binding.tvwVipFishing1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_purple_11));
+            setBackground(ctx.getResources().getColor(R.color.clr_main), ctx.getResources().getColor(R.color.clr_main_04));
         } else if (position % 2 == 1) {
-            binding.tvwVipLevel1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_gray_4));
-            binding.tvwVipSport1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_white));
-            binding.tvwVipReal1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_white));
-            binding.tvwVipElectronic1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_white));
-            binding.tvwVipGaming1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_white));
-            binding.tvwVipPorker1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_white));
-            binding.tvwVipLottery1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_white));
-            binding.tvwVipFishing1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_white));
+            setBackground(ctx.getResources().getColor(R.color.clr_gray_4), ctx.getResources().getColor(R.color.clr_white));
         } else {
-            binding.tvwVipLevel1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_gray_5));
-            binding.tvwVipSport1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_gray_4));
-            binding.tvwVipReal1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_gray_4));
-            binding.tvwVipElectronic1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_gray_4));
-            binding.tvwVipGaming1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_gray_4));
-            binding.tvwVipPorker1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_gray_4));
-            binding.tvwVipLottery1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_gray_4));
-            binding.tvwVipFishing1.setBackgroundColor(ctx.getResources().getColor(R.color.clr_gray_4));
+            setBackground(ctx.getResources().getColor(R.color.clr_gray_5), ctx.getResources().getColor(R.color.clr_gray_4));
         }
+    }
+
+    private void setBackground(int vipLevel, int venue) {
+        binding.tvwVipLevel1.setBackgroundColor(vipLevel);
+        binding.tvwVipSport1.setBackgroundColor(venue);
+        binding.tvwVipReal1.setBackgroundColor(venue);
+        binding.tvwVipElectronic1.setBackgroundColor(venue);
+        binding.tvwVipGaming1.setBackgroundColor(venue);
+        binding.tvwVipPorker1.setBackgroundColor(venue);
+        binding.tvwVipLottery1.setBackgroundColor(venue);
+        binding.tvwVipFishing1.setBackgroundColor(venue);
     }
 }

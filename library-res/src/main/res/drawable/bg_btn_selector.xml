@@ -15,8 +15,8 @@
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
             <gradient android:angle="0"
-                android:endColor="@color/clr_bg_frame_31"
-                android:startColor="@color/clr_purple_53" />
+                android:endColor="@color/clr_btn_grey02"
+                android:startColor="@color/clr_btn_grey01" />
             <corners android:radius="10dp" />
         </shape>
     </item>

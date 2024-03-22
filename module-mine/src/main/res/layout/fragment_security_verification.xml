@@ -68,10 +68,10 @@
             android:padding="2dp"
             app:tabBackground="@color/white"
             app:tabGravity="center"
-            app:tabIndicatorColor="@color/clr_purple_01"
+            app:tabIndicatorColor="@color/clr_main"
             app:tabMode="scrollable"
             app:tabPadding="2dp"
-            app:tabSelectedTextColor="@color/clr_purple_01"
+            app:tabSelectedTextColor="@color/clr_main"
             app:tabTextColor="@color/black">
 
         </com.google.android.material.tabs.TabLayout>

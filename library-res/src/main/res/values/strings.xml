@@ -236,10 +236,11 @@
     <string name="txt_set_fund_question_success_tip">设置密保问题成功</string>
     <string name="txt_retrieve_fund_tip">请输入新的资金密码</string>
 
-
+    <string name="txt_view_detail">查看详情</string>
 
     <string name="txt_user_name">用户名</string>
 
+    <!-- 报表 -->
     <string name="txt_rpt_recharge">充值：</string>
     <string name="txt_rpt_sbt">总投注：</string>
     <string name="txt_rpt_sprofit">会员输赢：</string>

@@ -11,7 +11,7 @@
         android:id="@+id/cl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/bg_dialog_top_purple"
+        android:background="@drawable/bg_dialog_top_main"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,6 +75,6 @@
         android:background="@color/clr_white"
         app:showLabel="true"
         app:textSize="16sp"
-        app:themeColor="@color/clr_purple_03" />
+        app:themeColor="@color/clr_main_04" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

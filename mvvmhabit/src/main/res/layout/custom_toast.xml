@@ -1,35 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="2dp"
-    android:gravity="top">
-    <LinearLayout
-        android:layout_width="match_parent"
+    android:background="@drawable/bg_toast"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/iv_toast"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rc_toast_bg"
-        >
-        <ImageView
-            android:id="@+id/iv_toast"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/ic_toast_fail"/>
+        android:background="@drawable/ic_info" />
 
-        <TextView
-            android:id="@+id/tv_toast"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignTop="@id/iv_toast"
-            android:layout_marginLeft="4dp"
-            android:gravity="center|left"
-            android:text=""
-            tools:text="我是测试文案朝辞白帝彩云间，千里江陵一日还。
-两岸猿声啼不住，轻舟已过万重山。"
-            android:textColor="@color/white"
-            android:textSize="14dp" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_toast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_toast"
+        android:layout_marginStart="6dp"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        tools:text="我是测试文案朝辞白帝彩云间，千里江陵一日还。
+两岸猿声啼不住，轻舟已过万重山。" />
+</LinearLayout>
 
-</RelativeLayout>

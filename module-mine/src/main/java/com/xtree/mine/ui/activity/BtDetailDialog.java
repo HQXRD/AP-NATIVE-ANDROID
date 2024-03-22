@@ -117,7 +117,7 @@ public class BtDetailDialog extends BottomPopupView {
         // content 类型会变化, 大部分情况是BtContentVo, 少数情况是String.
         if (vo.content instanceof Map) {
             BtDetailVo.BtContentVo mBtContentVo = new Gson().fromJson(new Gson().toJson(vo.content), BtDetailVo.BtContentVo.class);
-            if (!mBtContentVo.list.isEmpty()) {
+            if (mBtContentVo.list != null && !mBtContentVo.list.isEmpty()) {
                 for (int i = 0; i < mBtContentVo.list.size(); i++) {
                     BtDetailVo.BtContentItemVo t = mBtContentVo.list.get(i);
                     setBtContent(t);
