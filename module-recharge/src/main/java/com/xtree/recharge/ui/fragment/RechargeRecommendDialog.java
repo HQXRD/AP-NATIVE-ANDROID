@@ -15,7 +15,9 @@ import com.lxj.xpopup.core.CenterPopupView;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.Constant;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.DialogRcRecommendBinding;
@@ -24,6 +26,8 @@ import com.xtree.recharge.vo.RechargeVo;
 
 import java.util.List;
 
+import me.xtree.mvvmhabit.utils.SPUtils;
+
 public class RechargeRecommendDialog extends CenterPopupView {
     Context ctx;
     String msg; // 消息内容
@@ -31,6 +35,7 @@ public class RechargeRecommendDialog extends CenterPopupView {
     List<RechargeVo> list; //推荐的充值渠道列表
     RechargeVo curRechargeVo; // 当前选中的
     ICallBack mCallBack; // 当前充值方式回调
+    String key = SPKeyGlobal.RC_NOT_TIP_TODAY_COUNT;
 
     DialogRcRecommendBinding binding;
 
@@ -63,11 +68,23 @@ public class RechargeRecommendDialog extends CenterPopupView {
 
         if (curRechargeVo == null) {
             binding.tvwUseCur.setVisibility(View.INVISIBLE);
+            binding.tvwClose.setVisibility(View.VISIBLE); // 充值次数的
+            key = SPKeyGlobal.RC_NOT_TIP_TODAY_COUNT;
         } else {
             binding.tvwUseCur.setVisibility(View.VISIBLE);
+            binding.tvwClose.setVisibility(View.GONE); // 充值次数的
+            key = SPKeyGlobal.RC_NOT_TIP_TODAY_LOW;
         }
 
         binding.tvwMsg.setText(HtmlCompat.fromHtml(msg, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
+        binding.ckbNotTip.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                SPUtils.getInstance().put(key, TimeUtils.getCurDate());
+            } else {
+                SPUtils.getInstance().remove(key);
+            }
+        });
 
         binding.tvwTutorial.setOnClickListener(v -> {
             // 充值教程
@@ -86,6 +103,7 @@ public class RechargeRecommendDialog extends CenterPopupView {
             dismiss();
         });
         binding.ivwClose.setOnClickListener(v -> binding.tvwUseCur.performClick());
+        binding.tvwClose.setOnClickListener(v -> dismiss());
 
         CachedAutoRefreshAdapter<RechargeVo> mAdapter = new CachedAutoRefreshAdapter<RechargeVo>() {
 
