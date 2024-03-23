@@ -62,6 +62,9 @@ public class MatchFb implements Match{
      * @return
      */
     public long getId(){
+        if(matchInfo == null){
+            return 0;
+        }
         return matchInfo.id;
     }
 

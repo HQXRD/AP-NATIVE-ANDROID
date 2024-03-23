@@ -122,7 +122,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
     }
 
     override fun initViewObservable() {
-        viewModel?.inMainData?.observe(this) { inMain() }
+        viewModel?.inMainData?.observe(this) {
+            binding?.root?.postDelayed({ inMain() }, 3000L)
+
+        }
         viewModel?.reNewViewModel?.observe(this) {
             RetrofitClient.init()
             AppViewModelFactory.init()
@@ -147,7 +150,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                 inMain()
             }
         }
-        viewModel?.noWebData?.observe(this){
+        viewModel?.noWebData?.observe(this) {
             ToastUtils.showLong("网络异常，请检查手机网络连接情况")
             binding?.root?.postDelayed({ finish() }, 2000)
         }
