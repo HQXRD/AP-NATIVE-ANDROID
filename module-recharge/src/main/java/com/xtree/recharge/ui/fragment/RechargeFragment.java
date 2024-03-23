@@ -78,6 +78,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
     boolean isShowBack = false; // 是否显示返回按钮
     ProfileVo mProfileVo = null; // 个人信息
+    // HQAP2-2963 这几个充值渠道 内部浏览器要加个外跳的按钮 2024-03-23
+    String[] arrayBrowser = new String[]{"onepayfix3", "onepayfix4", "onepayfix5", "onepayfix6"};
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -348,24 +350,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.llDown.setVisibility(View.GONE); // 下面的部分隐藏
             if (!TextUtils.isEmpty(vo.op_thiriframe_url)) {
                 String url = DomainUtil.getDomain2() + vo.op_thiriframe_url;
-                new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), vo.title, url)).show();
+                showWebPayDialog(vo.title, url);
             } else {
                 // 如果没有链接,调详情接口获取
                 viewModel.getPayment(vo.bid);
                 LoadingDialog.show(getContext()); // Loading
-                /*if (mapRechargeVo.containsKey(vo.bid)) {
-                    RechargeVo t2 = mapRechargeVo.get(vo.bid);
-                    String url = t2.op_thiriframe_url;
-                    if (!url.startsWith("http")) {
-                        url = DomainUtil.getDomain2() + t2.op_thiriframe_url;
-                    }
-                    CfLog.d(vo.title + ", jump: " + url);
-                    mapRechargeVo.remove(vo.bid); // 移除掉已经使用的
-                    new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BrowserDialog(getContext(), vo.title, url)).show();
-                } else {
-                    CfLog.e(vo.title + ", op_thiriframe_url is null...");
-                    viewModel.getPayment(vo.bid);
-                }*/
             }
 
             return;
@@ -791,8 +780,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 url = DomainUtil.getDomain2() + url;
             }
             CfLog.d(vo.title + ", jump: " + url);
-            BrowserDialog dialog = new BrowserDialog(getContext(), vo.title, url, false, false, true);
-            new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(dialog).show();
+            showWebPayDialog(vo.title, url);
         });
 
         viewModel.liveDataRechargePay.observe(getViewLifecycleOwner(), vo -> {
@@ -823,6 +811,21 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             // 修复频繁点击充值页和其它页时 有时会出现两个弹窗
         });
         super.onDestroyView();
+    }
+
+    /**
+     * 显示网页版的充值界面 <br/>
+     * 某些网页版的充值方式 需要加个外跳的按钮, 解决内部加载白屏的问题
+     */
+    private void showWebPayDialog(String title, String url) {
+        boolean isShowBank = curRechargeVo != null && Arrays.asList(arrayBrowser).contains(curRechargeVo.paycode);
+        BrowserDialog dialog = new RechargeBrowserDialog(getContext(), title, url).setShowBank(isShowBank).set3rdLink(true);
+
+        new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog)
+                .show();
     }
 
     private void goPay(RechargePayVo vo) {
