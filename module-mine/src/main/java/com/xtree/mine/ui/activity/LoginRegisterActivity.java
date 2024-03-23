@@ -23,6 +23,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AESUtil;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.utils.SPUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.mine.BR;
@@ -41,6 +42,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterActivityPath.Mine.PAGER_LOGIN_REGISTER)
@@ -70,6 +72,9 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     @Override
     public void initView() {
+        KLog.i("NumberUtils",NumberUtils.format(0.3,2));
+        KLog.i("NumberUtils",NumberUtils.formatUp(0.1002,2));
+        KLog.i("NumberUtils",NumberUtils.formatDown(0.229,2));
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.loginSubHeader.setOnClickListener(v -> {
             if (clickCount++ > 5) {
