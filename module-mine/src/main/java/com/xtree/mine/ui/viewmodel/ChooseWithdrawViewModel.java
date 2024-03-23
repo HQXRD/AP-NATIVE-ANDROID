@@ -78,6 +78,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                         else {
                             if (chooseInfoVo.wdChannelList == null || chooseInfoVo.wdChannelList.isEmpty())
                             {
+                                CfLog.e("chooseInfoVo.wdChannelList is Null");
                                 //针对列表为空的情况 增加异常处理
                                 chooseInfoVo.error =  "chooseInfoVo.wdChannelList is Null";
                                 chooseInfoVoMutableLiveData.setValue(chooseInfoVo);
