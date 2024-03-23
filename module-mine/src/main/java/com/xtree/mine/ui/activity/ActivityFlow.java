@@ -1,7 +1,6 @@
 package com.xtree.mine.ui.activity;
 
 import android.os.Bundle;
-import android.view.MotionEvent;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -77,11 +76,11 @@ public class ActivityFlow extends BaseActivity<FragmentChooseWithdrawBinding, Ch
         }
 
     }
-
+/*
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         return super.dispatchTouchEvent(ev);
-    }
+    }*/
 
     /**
      * 显示资金流水
@@ -92,7 +91,7 @@ public class ActivityFlow extends BaseActivity<FragmentChooseWithdrawBinding, Ch
                 .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, 1, () -> {
                     CfLog.i("AwardsRecordDialog  dismiss");
                     basePopupView.dismiss();
-                    finish();
+                    this.finish();
                 }));
         basePopupView.show();
 
@@ -107,7 +106,7 @@ public class ActivityFlow extends BaseActivity<FragmentChooseWithdrawBinding, Ch
                 .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, 0, () -> {
                     CfLog.i("AwardsRecordDialog  dismiss");
                     basePopupView.dismiss();
-                    finish();
+                    this.finish();
                 }));
         basePopupView.show();
     }

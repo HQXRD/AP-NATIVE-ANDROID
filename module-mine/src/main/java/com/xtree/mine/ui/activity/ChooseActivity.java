@@ -87,14 +87,10 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         if (viewModel != null) {
             viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
                 awardsRecordVo = vo;
-                if (awardsRecordVo != null && awardsRecordVo.list != null
-                        && !awardsRecordVo.list.isEmpty()) {
-                    if (!TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) && !("0".equals(awardsRecordVo.withdraw_dispensing_money))) {
-                        showWithdrawFlow();
-                    } else {
-                        //requestWithdrawInfo();
-                        showChooseList();
-                    }
+                //withdraw_dispensing_money 礼物流水
+                //locked_award_sum 锁定金额
+                if (awardsRecordVo != null && !TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) && !("0.00".equals(awardsRecordVo.withdraw_dispensing_money))) {
+                    showWithdrawFlow();
                 } else if (awardsRecordVo.networkStatus == 1) {
                     //链接超时
                     showNetError();
@@ -182,11 +178,11 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                 .dismissOnTouchOutside(false)
                 .asCustom(WithdrawFlowDialog.newInstance(this, this, awardsRecordVo, new WithdrawFlowDialog.IWithdrawFlowDialogCallBack() {
                     @Override
-                    public void closeAwardsDialog() {
+                    public void closeWithdrawFlowDialog() {
                         LoadingDialog.finish();
-                        basePopupView.dismiss();
+                        // basePopupView = null;
                         finish();
-                        CfLog.i("AwardsRecordDialog  dismiss");
+                        CfLog.e("showWithdrawFlow  dismiss");
                     }
                 }));
                 /*.asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, new AwardsRecordDialog.IAwardsDialogBack() {
@@ -256,7 +252,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         // LoadingDialog.show(this);
         basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false).dismissOnTouchOutside(false)
                 .moveUpToKeyboard(false)
-                .asCustom(ChooseWithdrawalDialog.newInstance(this, this, this.chooseInfoVo, new ChooseWithdrawalDialog.IChooseDialogBack() {
+                .asCustom(ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
                     @Override
                     public void closeDialog() {
                         LoadingDialog.finish();
