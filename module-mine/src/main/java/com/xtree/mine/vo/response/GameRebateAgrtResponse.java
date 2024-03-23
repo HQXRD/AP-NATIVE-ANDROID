@@ -349,26 +349,26 @@ public class GameRebateAgrtResponse {
     }
 
     public static class TotalDTO {
-        private int sum_bet;
-        private double sum_effective_bet;
+        private String sum_bet;
+        private String sum_effective_bet;
         private String sum_total_money;
         private String sum_sub_money;
-        private int sum_self_money;
-        private double sum_liushui;
+        private String sum_self_money;
+        private String sum_liushui;
 
-        public int getSum_bet() {
+        public String getSum_bet() {
             return sum_bet;
         }
 
-        public void setSum_bet(int sum_bet) {
+        public void setSum_bet(String sum_bet) {
             this.sum_bet = sum_bet;
         }
 
-        public double getSum_effective_bet() {
+        public String getSum_effective_bet() {
             return sum_effective_bet;
         }
 
-        public void setSum_effective_bet(double sum_effective_bet) {
+        public void setSum_effective_bet(String sum_effective_bet) {
             this.sum_effective_bet = sum_effective_bet;
         }
 
@@ -388,19 +388,19 @@ public class GameRebateAgrtResponse {
             this.sum_sub_money = sum_sub_money;
         }
 
-        public int getSum_self_money() {
+        public String getSum_self_money() {
             return sum_self_money;
         }
 
-        public void setSum_self_money(int sum_self_money) {
+        public void setSum_self_money(String sum_self_money) {
             this.sum_self_money = sum_self_money;
         }
 
-        public double getSum_liushui() {
+        public String getSum_liushui() {
             return sum_liushui;
         }
 
-        public void setSum_liushui(double sum_liushui) {
+        public void setSum_liushui(String sum_liushui) {
             this.sum_liushui = sum_liushui;
         }
     }

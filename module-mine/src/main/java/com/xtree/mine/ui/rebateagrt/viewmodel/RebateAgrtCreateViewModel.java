@@ -89,6 +89,14 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
                 view.findViewById(R.id.item_delete).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        if (bindingViewHolder.getAdapter().getModelCount() <= 1) {
+                            ToastUtils.show(getApplication()
+                                            .getString(R.string.txt_rebateagrt_tip3),
+                                    ToastUtils.ShowType.Fail);
+                            return;
+                        }
+
                         int position = bindingViewHolder.getModelPosition();
                         //加上头数据数量
                         bindModels.remove(position + 2);

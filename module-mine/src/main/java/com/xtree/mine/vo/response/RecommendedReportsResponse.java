@@ -1,5 +1,7 @@
 package com.xtree.mine.vo.response;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -349,7 +351,7 @@ public class RecommendedReportsResponse {
         private String sort;
         private String orderby;
         private String username;
-        private int cycle_id;
+        private String cycle_id;
         private String pay_status;
 
         public String getSort() {
@@ -376,11 +378,11 @@ public class RecommendedReportsResponse {
             this.username = username;
         }
 
-        public int getCycle_id() {
+        public String getCycle_id() {
             return cycle_id;
         }
 
-        public void setCycle_id(int cycle_id) {
+        public void setCycle_id(String cycle_id) {
             this.cycle_id = cycle_id;
         }
 
@@ -531,14 +533,171 @@ public class RecommendedReportsResponse {
         }
 
         public static class DataDTO {
+
+            /**
+             * id
+             */
+            @SerializedName("id")
             private String id;
-            private String cycle_id;
+            /**
+             * cycleId
+             */
+            @SerializedName("cycle_id")
+            private String cycleId;
+            /**
+             * contractId
+             */
+            @SerializedName("contract_id")
+            private String contractId;
+            /**
+             * contractInfoId
+             */
+            @SerializedName("contract_info_id")
+            private String contractInfoId;
+            /**
+             * userid
+             */
+            @SerializedName("userid")
             private String userid;
-            private String ref_userid;
-            private String ref_username;
-            private String bet;
-            private String profitloss;
+            /**
+             * username
+             */
+            @SerializedName("username")
+            private String username;
+            /**
+             * parentid
+             */
+            @SerializedName("parentid")
+            private String parentid;
+            /**
+             * cyclePercent
+             */
+            @SerializedName("cycle_percent")
+            private String cyclePercent;
+            /**
+             * tmpTree
+             */
+            @SerializedName("tmp_tree")
+            private String tmpTree;
+            /**
+             * lvtopid
+             */
+            @SerializedName("lvtopid")
+            private String lvtopid;
+            /**
+             * isLvtop
+             */
+            @SerializedName("is_lvtop")
+            private String isLvtop;
+            /**
+             * people
+             */
+            @SerializedName("people")
             private String people;
+            /**
+             * dayPeople
+             */
+            @SerializedName("day_people")
+            private String dayPeople;
+            /**
+             * weekPeople
+             */
+            @SerializedName("week_people")
+            private String weekPeople;
+            /**
+             * bet
+             */
+            @SerializedName("bet")
+            private String bet;
+            /**
+             * lastRemain
+             */
+            @SerializedName("last_remain")
+            private String lastRemain;
+            /**
+             * profitloss
+             */
+            @SerializedName("profitloss")
+            private String profitloss;
+            /**
+             * netloss
+             */
+            @SerializedName("netloss")
+            private String netloss;
+            /**
+             * ratio
+             */
+            @SerializedName("ratio")
+            private String ratio;
+            /**
+             * selfMoney
+             */
+            @SerializedName("self_money")
+            private String selfMoney;
+            /**
+             * subMoney
+             */
+            @SerializedName("sub_money")
+            private String subMoney;
+            /**
+             * payoff
+             */
+            @SerializedName("payoff")
+            private String payoff;
+            /**
+             * settleAccounts
+             */
+            @SerializedName("settle_accounts")
+            private String settleAccounts;
+            /**
+             * payStatus
+             */
+            @SerializedName("pay_status")
+            private String payStatus;
+            /**
+             * subPayStatus
+             */
+            @SerializedName("sub_pay_status")
+            private String subPayStatus;
+            /**
+             * payTime
+             */
+            @SerializedName("pay_time")
+            private String payTime;
+            /**
+             * createTime
+             */
+            @SerializedName("create_time")
+            private String createTime;
+            /**
+             * beforeFrozentype
+             */
+            @SerializedName("before_frozentype")
+            private String beforeFrozentype;
+            /**
+             * isStart
+             */
+            @SerializedName("is_start")
+            private String isStart;
+            /**
+             * type
+             */
+            @SerializedName("type")
+            private String type;
+            /**
+             * distributionType
+             */
+            @SerializedName("distribution_type")
+            private String distributionType;
+            /**
+             * cycleCliTime
+             */
+            @SerializedName("cycle_cli_time")
+            private String cycleCliTime;
+            /**
+             * label
+             */
+            @SerializedName("label")
             private String label;
 
             public String getId() {
@@ -549,12 +708,28 @@ public class RecommendedReportsResponse {
                 this.id = id;
             }
 
-            public String getCycle_id() {
-                return cycle_id;
+            public String getCycleId() {
+                return cycleId;
             }
 
-            public void setCycle_id(String cycle_id) {
-                this.cycle_id = cycle_id;
+            public void setCycleId(String cycleId) {
+                this.cycleId = cycleId;
+            }
+
+            public String getContractId() {
+                return contractId;
+            }
+
+            public void setContractId(String contractId) {
+                this.contractId = contractId;
+            }
+
+            public String getContractInfoId() {
+                return contractInfoId;
+            }
+
+            public void setContractInfoId(String contractInfoId) {
+                this.contractInfoId = contractInfoId;
             }
 
             public String getUserid() {
@@ -565,20 +740,76 @@ public class RecommendedReportsResponse {
                 this.userid = userid;
             }
 
-            public String getRef_userid() {
-                return ref_userid;
+            public String getUsername() {
+                return username;
             }
 
-            public void setRef_userid(String ref_userid) {
-                this.ref_userid = ref_userid;
+            public void setUsername(String username) {
+                this.username = username;
             }
 
-            public String getRef_username() {
-                return ref_username;
+            public String getParentid() {
+                return parentid;
             }
 
-            public void setRef_username(String ref_username) {
-                this.ref_username = ref_username;
+            public void setParentid(String parentid) {
+                this.parentid = parentid;
+            }
+
+            public String getCyclePercent() {
+                return cyclePercent;
+            }
+
+            public void setCyclePercent(String cyclePercent) {
+                this.cyclePercent = cyclePercent;
+            }
+
+            public String getTmpTree() {
+                return tmpTree;
+            }
+
+            public void setTmpTree(String tmpTree) {
+                this.tmpTree = tmpTree;
+            }
+
+            public String getLvtopid() {
+                return lvtopid;
+            }
+
+            public void setLvtopid(String lvtopid) {
+                this.lvtopid = lvtopid;
+            }
+
+            public String getIsLvtop() {
+                return isLvtop;
+            }
+
+            public void setIsLvtop(String isLvtop) {
+                this.isLvtop = isLvtop;
+            }
+
+            public String getPeople() {
+                return people;
+            }
+
+            public void setPeople(String people) {
+                this.people = people;
+            }
+
+            public String getDayPeople() {
+                return dayPeople;
+            }
+
+            public void setDayPeople(String dayPeople) {
+                this.dayPeople = dayPeople;
+            }
+
+            public String getWeekPeople() {
+                return weekPeople;
+            }
+
+            public void setWeekPeople(String weekPeople) {
+                this.weekPeople = weekPeople;
             }
 
             public String getBet() {
@@ -589,6 +820,14 @@ public class RecommendedReportsResponse {
                 this.bet = bet;
             }
 
+            public String getLastRemain() {
+                return lastRemain;
+            }
+
+            public void setLastRemain(String lastRemain) {
+                this.lastRemain = lastRemain;
+            }
+
             public String getProfitloss() {
                 return profitloss;
             }
@@ -597,12 +836,124 @@ public class RecommendedReportsResponse {
                 this.profitloss = profitloss;
             }
 
-            public String getPeople() {
-                return people;
+            public String getNetloss() {
+                return netloss;
             }
 
-            public void setPeople(String people) {
-                this.people = people;
+            public void setNetloss(String netloss) {
+                this.netloss = netloss;
+            }
+
+            public String getRatio() {
+                return ratio;
+            }
+
+            public void setRatio(String ratio) {
+                this.ratio = ratio;
+            }
+
+            public String getSelfMoney() {
+                return selfMoney;
+            }
+
+            public void setSelfMoney(String selfMoney) {
+                this.selfMoney = selfMoney;
+            }
+
+            public String getSubMoney() {
+                return subMoney;
+            }
+
+            public void setSubMoney(String subMoney) {
+                this.subMoney = subMoney;
+            }
+
+            public String getPayoff() {
+                return payoff;
+            }
+
+            public void setPayoff(String payoff) {
+                this.payoff = payoff;
+            }
+
+            public String getSettleAccounts() {
+                return settleAccounts;
+            }
+
+            public void setSettleAccounts(String settleAccounts) {
+                this.settleAccounts = settleAccounts;
+            }
+
+            public String getPayStatus() {
+                return payStatus;
+            }
+
+            public void setPayStatus(String payStatus) {
+                this.payStatus = payStatus;
+            }
+
+            public String getSubPayStatus() {
+                return subPayStatus;
+            }
+
+            public void setSubPayStatus(String subPayStatus) {
+                this.subPayStatus = subPayStatus;
+            }
+
+            public String getPayTime() {
+                return payTime;
+            }
+
+            public void setPayTime(String payTime) {
+                this.payTime = payTime;
+            }
+
+            public String getCreateTime() {
+                return createTime;
+            }
+
+            public void setCreateTime(String createTime) {
+                this.createTime = createTime;
+            }
+
+            public String getBeforeFrozentype() {
+                return beforeFrozentype;
+            }
+
+            public void setBeforeFrozentype(String beforeFrozentype) {
+                this.beforeFrozentype = beforeFrozentype;
+            }
+
+            public String getIsStart() {
+                return isStart;
+            }
+
+            public void setIsStart(String isStart) {
+                this.isStart = isStart;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
+            public String getDistributionType() {
+                return distributionType;
+            }
+
+            public void setDistributionType(String distributionType) {
+                this.distributionType = distributionType;
+            }
+
+            public String getCycleCliTime() {
+                return cycleCliTime;
+            }
+
+            public void setCycleCliTime(String cycleCliTime) {
+                this.cycleCliTime = cycleCliTime;
             }
 
             public String getLabel() {

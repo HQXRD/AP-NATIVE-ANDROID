@@ -440,10 +440,16 @@
     <string name="txt_cycle_colon">周期：</string>
     <string name="txt_num_active_persons_colon">活跃人数：</string>
     <string name="txt_referral_bonus_colon">推荐奖励：</string>
-    <string name="txt_rebateagrt_tip1">请选择用户</string>
     <string name="txt_rules">规则</string>
+    <string name="txt_rebateagrt_tip1">请选择用户</string>
     <string name="txt_rebateagrt_tip2">请先正确填写投注额信息</string>
+    <string name="txt_rebateagrt_tip3">最少保留一条规则</string>
     <string name="txt_balances">结余：</string>
     <string name="txt_paid_sub">下级应发：</string>
+    <string name="txt_rebate_sub">下级返水</string>
+    <string name="txt_rebate_ratio">返水比例</string>
+    <string name="txt_rebate_personally">个人返水</string>
+    <string name="txt_send_status">发放状态</string>
+    <string name="txt_all">全部</string>
 
 </resources>

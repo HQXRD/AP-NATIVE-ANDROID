@@ -161,7 +161,8 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
                                 HashMap<String, RecommendedReportsResponse.CyclesDTO> cycles = vo.getCycles();
                                 ArrayList<FilterView.IBaseVo> cs = new ArrayList<>();
                                 for (Map.Entry<String, RecommendedReportsResponse.CyclesDTO> stringCyclesDTOEntry : cycles.entrySet()) {
-                                    cs.add(new StatusVo(stringCyclesDTOEntry.getKey(), stringCyclesDTOEntry.getValue().getTitle()));
+                                    StatusVo statusVo = new StatusVo(stringCyclesDTOEntry.getKey(), stringCyclesDTOEntry.getValue().getTitle());
+                                    cs.add(statusVo);
                                 }
                                 headModel.setCyclytList(cs);
                                 bindModels.add(headModel);
@@ -173,12 +174,12 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
                                 if (data != null) {
                                     for (RecommendedReportsResponse.ChildrenBillDTO.DataDTO dataDTO : data) {
                                         RecommendedReportsModel recommendedReportsModel = new RecommendedReportsModel();
-                                        recommendedReportsModel.bet = dataDTO.getBet();
-                                        recommendedReportsModel.profitloss = dataDTO.getProfitloss();
-                                        recommendedReportsModel.people = dataDTO.getPeople();
-                                        recommendedReportsModel.userName = dataDTO.getRef_username();
-                                        recommendedReportsModel.label = dataDTO.getLabel();
-                                        recommendedReportsModel.cycle = headModel.cyclyData.get().getShowName();
+                                        recommendedReportsModel.setBet(dataDTO.getBet());
+                                        recommendedReportsModel.setProfitloss(dataDTO.getProfitloss());
+                                        recommendedReportsModel.setPeople(dataDTO.getPeople());
+                                        recommendedReportsModel.setUserName(dataDTO.getUsername());
+                                        recommendedReportsModel.setLabel(dataDTO.getLabel());
+                                        recommendedReportsModel.setCycle(headModel.cyclyData.get().getShowName());
                                         bindModels.add(recommendedReportsModel);
                                     }
                                 }

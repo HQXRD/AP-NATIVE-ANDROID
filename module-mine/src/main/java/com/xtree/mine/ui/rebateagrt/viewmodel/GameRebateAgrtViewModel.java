@@ -416,12 +416,12 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                 if (total != null) {
                                     GameRebateAgrtTotalModel totalModel = new GameRebateAgrtTotalModel();
                                     totalModel.setItemType(6);
-                                    totalModel.sum_bet = total.getSum_bet() + "";
-                                    totalModel.sum_total_money = String.valueOf(total.getSum_total_money());
-                                    totalModel.sum_effective_bet = total.getSum_effective_bet() + "";
-                                    totalModel.sum_sub_money = String.valueOf(total.getSum_sub_money());
-                                    totalModel.sum_liushui = total.getSum_liushui() + "";
-                                    totalModel.sum_self_money = total.getSum_self_money() + "";
+                                    totalModel.setSum_bet(total.getSum_bet());
+                                    totalModel.setSum_total_money(total.getSum_total_money());
+                                    totalModel.setSum_effective_bet(total.getSum_effective_bet());
+                                    totalModel.setSum_sub_money(total.getSum_sub_money());
+                                    totalModel.setSum_liushui(total.getSum_liushui());
+                                    totalModel.setSum_self_money(total.getSum_self_money());
                                     gameRebateDatas.add(totalModel);
                                 }
                             }
@@ -565,15 +565,15 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                 for (GameSubordinateRebateResponse.DataDTO dataDTO : vo.getData()) {
                                     GameSubordinaterebateModel model = new GameSubordinaterebateModel();
                                     model.setItemType(4);
-                                    model.userName = dataDTO.getUsername();
-                                    model.bet = dataDTO.getBet();
-                                    model.effectBet = dataDTO.getEffective_bet();
-                                    model.ratio = dataDTO.getRatio();
-                                    model.totalMoney = dataDTO.getTotal_money();
-                                    model.selfMoney = dataDTO.getSelf_money();
-                                    model.subMoney = dataDTO.getSub_money();
-                                    model.type = dataDTO.getType();
-                                    model.createTime = dataDTO.getCreate_time();
+                                    model.setUserName(dataDTO.getUsername());
+                                    model.setBet(dataDTO.getBet());
+                                    model.setEffectBet(dataDTO.getEffective_bet());
+                                    model.setRatio(dataDTO.getRatio());;
+                                    model.setTotalMoney(dataDTO.getTotal_money());
+                                    model.setSelfMoney(dataDTO.getSelf_money());
+                                    model.setSubMoney(dataDTO.getSub_money());
+                                    model.setType(dataDTO.getType());
+                                    model.setCreateTime(dataDTO.getCreate_time());
                                     subordinateRebateDatas.add(model);
                                 }
                             }

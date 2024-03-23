@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -12,7 +12,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -160,7 +160,18 @@
                 app:layout_constraintVertical_bias="0.5"
                 />
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.74"
+                />
+
             <!--            活跃人数-->
+
+
+
             <TextView
                 android:id="@+id/item_persons"
                 android:layout_width="wrap_content"
@@ -168,13 +179,11 @@
                 android:text="@string/txt_num_active_persons_colon"
                 android:textSize="12sp"
                 android:textColor="@color/color_5B5B6A"
-                android:layout_marginTop="13dp"
-                app:layout_constraintTop_toBottomOf="@id/item_username"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/item_bet"
+                app:layout_constraintBottom_toBottomOf="@id/item_bet"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/guide1"
+                app:layout_constraintHorizontal_bias="0"
                 />
 
             <TextView
@@ -185,14 +194,16 @@
                 android:textSize="10sp"
                 android:textColor="@color/color_1E1E1E"
                 android:layout_marginStart="5dp"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintTop_toTopOf="@id/item_persons"
                 app:layout_constraintBottom_toBottomOf="@id/item_persons"
                 app:layout_constraintStart_toEndOf="@id/item_persons"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintVertical_bias="0.5"
+                app:layout_constraintHorizontal_bias="1"
+                tools:text="1111"
                 />
 
+<!--            推荐奖励-->
             <TextView
                 android:id="@+id/item_recrewards"
                 android:layout_width="wrap_content"
@@ -200,13 +211,11 @@
                 android:text="@string/txt_referral_bonus_colon"
                 android:textSize="12sp"
                 android:textColor="@color/color_5B5B6A"
-                android:layout_marginTop="13dp"
-                app:layout_constraintTop_toBottomOf="@id/item_persons_content"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/item_cashflow"
+                app:layout_constraintBottom_toBottomOf="@id/item_cashflow"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_bias="0"
-                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/guide1"
+                app:layout_constraintHorizontal_bias="0"
                 />
 
             <TextView
@@ -217,12 +226,13 @@
                 android:textSize="10sp"
                 android:textColor="@color/color_1E1E1E"
                 android:layout_marginStart="5dp"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintTop_toTopOf="@id/item_recrewards"
                 app:layout_constraintBottom_toBottomOf="@id/item_recrewards"
                 app:layout_constraintStart_toEndOf="@id/item_recrewards"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintVertical_bias="0.5"
+                app:layout_constraintHorizontal_bias="1"
+                tools:text="1111111111"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

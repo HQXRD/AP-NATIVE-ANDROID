@@ -24,7 +24,7 @@ public class RecommendedReportsHeadModel extends BindModel implements BindHead {
         void check();
     }
 
-    public ObservableField<StatusVo> cyclyData = new ObservableField<>();
+    public ObservableField<StatusVo> cyclyData = new ObservableField<>(new StatusVo(0,BaseApplication.getInstance().getString(R.string.txt_all)));
 
     //分页索引
     public int p = 1;
@@ -49,7 +49,10 @@ public class RecommendedReportsHeadModel extends BindModel implements BindHead {
 
     public void cycly() {
         if (onCallBack != null) {
-            onCallBack.cyclicality("周期", cyclyData, cyclytList);
+            onCallBack.cyclicality(BaseApplication.getInstance().getString(R.string.txt_cycle)
+                    , cyclyData,
+                    cyclytList
+            );
         }
     }
 
@@ -66,7 +69,7 @@ public class RecommendedReportsHeadModel extends BindModel implements BindHead {
 
     public void setCyclytList(List<FilterView.IBaseVo> cyclytList) {
         if (cyclytList != null && cyclytList.size() > 0) {
-            cyclyData.set(new StatusVo(cyclytList.get(0).getShowId(), cyclytList.get(0).getShowName()));
+            cyclytList.add(0, new StatusVo(0, BaseApplication.getInstance().getString(R.string.txt_all)));
             this.cyclytList = cyclytList;
         }
     }

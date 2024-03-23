@@ -424,6 +424,10 @@
     <color name="clr_txt_rebateagrt_profit">@color/clr_green_01</color>
     <!--    默认文字-->
     <color name="clr_txt_rebateagrt_default">@color/clr_txt_02</color>
-    <color name="clr_txt_rebateagrt_success">@color/clr_txt_02</color>
-    <color name="clr_txt_rebateagrt_fail">@color/clr_txt_02</color>
+    <!--    成功文字-->
+    <color name="clr_txt_rebateagrt_success">#37AA4A</color>
+    <!--    失败文字-->
+    <color name="clr_txt_rebateagrt_fail">#FD5255</color>
+    <!--    标记颜色-->
+    <color name="clr_txt_rebateagrt_mark">#FD5255</color>
 </resources>
