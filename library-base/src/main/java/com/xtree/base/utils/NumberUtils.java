@@ -14,15 +14,32 @@ public class NumberUtils {
     }
 
     /**
-     * 保留小数点后scale位
-     *
-     * @param value
-     * @param scale
-     * @return
+     * 保留小数点后scale位(四舍五入）
      */
     public static String format(double value, int scale) {
-        BigDecimal bd = new BigDecimal(value);
+
+        BigDecimal bd = new BigDecimal(Double.toString(value));
         bd = bd.setScale(scale, RoundingMode.HALF_UP);
+        return bd.toString();
+    }
+
+    /**
+     * 保留小数点后scale位（只要小数位数超出scale位，最后一位数都加1）
+     */
+    public static String formatUp(double value, int scale) {
+
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(scale, RoundingMode.UP);
+        return bd.toString();
+    }
+
+    /**
+     * 保留小数点后scale位（去除超出scale的小数）
+     */
+    public static String formatDown(double value, int scale) {
+
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(scale, RoundingMode.DOWN);
         return bd.toString();
     }
 
@@ -63,19 +80,6 @@ public class NumberUtils {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
         return b1.multiply(b2).doubleValue();
-    }
-
-    /**
-     * 提供（相对）精确的除法运算，当发生除不尽的情况时，精确到
-     * <p>
-     * 小数点以后10位，以后的数字四舍五入。
-     *
-     * @param v1 被除数
-     * @param v2 除数
-     * @return 两个参数的商
-     */
-    public static double div(double v1, double v2) {
-        return div(v1, v2, DEF_DIV_SCALE);
     }
 
     /**
