@@ -14,6 +14,7 @@ import com.xtree.main.data.MainRepository;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -85,6 +86,12 @@ public class SplashViewModel extends BaseViewModel<MainRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e(t.toString());
+                        inMainData.setValue(null);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
                         inMainData.setValue(null);
                     }
                 });
