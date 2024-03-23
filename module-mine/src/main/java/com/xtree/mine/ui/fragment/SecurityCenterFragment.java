@@ -77,11 +77,7 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         binding.tvwResetPwd.setOnClickListener(v -> {
             CfLog.i("******");
-            String type = Constant.RESET_LOGIN_PASSWORD;
-            Bundle bundle = new Bundle();
-            bundle.putString("type", type);
-            //startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_CHANGE_PWD);
         });
 
         binding.tvwFundsPwd.setOnClickListener(v -> {

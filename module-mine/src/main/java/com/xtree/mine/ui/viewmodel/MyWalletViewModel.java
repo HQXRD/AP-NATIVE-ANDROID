@@ -275,6 +275,7 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                 t = new GameBalanceVo(gameAlias, "DB棋牌", 32, balance);
                 break;
             default:
+                t = new GameBalanceVo("维护中", "维护中", 0, "--");
                 CfLog.e("error, default, alias: " + gameAlias);
                 break;
         }

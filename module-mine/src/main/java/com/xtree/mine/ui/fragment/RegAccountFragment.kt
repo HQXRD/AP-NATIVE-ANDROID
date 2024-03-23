@@ -77,7 +77,7 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
                 //由字号和数字组成的6–16个字符，且必须包含字母和数宇
                 val regex2 = Regex("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,16}$")
                 if (!regex2.matches(pwd)) {
-                    ToastUtils.showLong("请输入正确格式的登录密码")
+                    ToastUtils.showLong(getString(R.string.txt_correct_pwd))
                     return@setOnClickListener
                 }
 

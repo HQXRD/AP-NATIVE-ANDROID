@@ -307,14 +307,14 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
-    public void changePwd(Map<String, String> map) {
-        Disposable disposable = (Disposable) model.getApiService().changePwd(map)
+    public void changeLoginPwd(Map<String, String> map) {
+        Disposable disposable = (Disposable) model.getApiService().changeLoginPwd(map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<Map<String, String>>() {
                     @Override
                     public void onResult(Map<String, String> vo) {
-                        CfLog.i(vo.toString());
+                        CfLog.i(vo+"");
                         doLogout();
                         liveDataChangePwd.setValue(vo);
                     }
@@ -422,7 +422,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
         //String url = "";
         switch (type) {
             case Constant.RESET_LOGIN_PASSWORD:
-                CfLog.i("****** 修改密码...");
+                CfLog.i("****** 修改登录密码...");
                 startNextPage(ctx, RouterFragmentPath.Mine.PAGER_CHANGE_PWD, vo);
                 return;
             case Constant.BIND_CARD:
