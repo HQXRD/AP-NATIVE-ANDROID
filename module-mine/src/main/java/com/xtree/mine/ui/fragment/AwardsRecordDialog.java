@@ -106,7 +106,7 @@ public class AwardsRecordDialog extends BottomPopupView {
         if (viewType == 3) {
             tipText = "您今日没有可用提款次数";
         }
-        if (!awardsRecordVo.list.isEmpty()) {
+        if (awardsRecordVo.list!=null &&  !awardsRecordVo.list.isEmpty()) {
             binding.tvChooseTip.setVisibility(View.GONE);
             binding.llChooseTip.setVisibility(View.GONE);
             binding.lvChoose.setVisibility(View.VISIBLE);

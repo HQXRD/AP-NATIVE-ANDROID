@@ -99,14 +99,20 @@ public class WithdrawFlowDialog extends BottomPopupView {
         });
         binding.llChooseTip.setVisibility(View.VISIBLE);
         String tipText = "";
-        if (awardsRecordVo.list.size() > 0) {
+        if (!awardsRecordVo.list.isEmpty() &&awardsRecordVo.list.size() > 0) {
             tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
             binding.tvChooseTip.setText(tipText);
             binding.llChooseTip.setVisibility(View.VISIBLE);
             binding.lvChoose.setVisibility(View.VISIBLE);
             ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
             binding.lvChoose.setAdapter(adapter);
-        } else if (!TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) && awardsRecordVo.list.isEmpty()) {
+        } /*else if (!TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) && awardsRecordVo.list.isEmpty()) {
+            tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
+            binding.tvChooseTip.setText(tipText);
+            binding.llChooseTip.setVisibility(View.VISIBLE);
+            binding.tvWithdrawalFlowTip.setVisibility(View.GONE);
+            binding.lvChoose.setVisibility(View.GONE);
+        }*/ else if (!"0.00".equals(awardsRecordVo.withdraw_dispensing_money)) {
             tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
             binding.tvChooseTip.setText(tipText);
             binding.llChooseTip.setVisibility(View.VISIBLE);
