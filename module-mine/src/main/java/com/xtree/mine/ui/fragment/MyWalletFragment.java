@@ -56,6 +56,8 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
 
     private AwardsRecordVo awardsRecordVo;//礼物流水
+    private BasePopupView awardPopView;
+    private BasePopupView walletPopView;
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -129,7 +131,13 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
 
         //显示钱包流水
         binding.tvwAwardRecord.setOnClickListener(v -> {
-            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
+            //ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
+            if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
+                showAwardsRecord();
+            } else {
+                CfLog.e("awardsRecordVo is null ");
+                showWallet();
+            }
         });
 
         int spanCount = 4; // 每行的列数
@@ -288,5 +296,38 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
         startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
+    }
+
+    /**
+     * 显示资金流水
+     */
+    private void showAwardsRecord() {
+        if (awardPopView == null) {
+            awardPopView = new XPopup.Builder(getContext()).dismissOnBackPressed(true)
+                    .dismissOnTouchOutside(true)
+                    .asCustom(AwardsRecordDialog.newInstance(getContext(), this, awardsRecordVo, 1, () -> {
+                        // awardPopView.dismiss();
+                        awardPopView = null;
+                    }));
+        }
+
+        awardPopView.show();
+
+    }
+
+    /**
+     * 显示钱包
+     */
+    private void showWallet() {
+        if (walletPopView == null) {
+            walletPopView = new XPopup.Builder(getContext()).dismissOnBackPressed(false)
+                    .dismissOnTouchOutside(false)
+                    .asCustom(AwardsRecordDialog.newInstance(getContext(), this, awardsRecordVo, 0, () -> {
+                        walletPopView.dismiss();
+
+                    }));
+        }
+
+        walletPopView.show();
     }
 }

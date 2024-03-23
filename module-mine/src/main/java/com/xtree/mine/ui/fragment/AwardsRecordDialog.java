@@ -14,7 +14,6 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
-import com.lxj.xpopup.widget.SmartDragLayout;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogChooseAwardsBinding;
@@ -97,8 +96,8 @@ public class AwardsRecordDialog extends BottomPopupView {
         binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_wallet));
 
         binding.ivwClose.setOnClickListener(v -> {
-            dismiss();
             callBack.closeAwardsDialog();
+            dismiss();
 
         });
 
@@ -111,25 +110,6 @@ public class AwardsRecordDialog extends BottomPopupView {
             binding.tvChooseTip.setVisibility(View.GONE);
             binding.llChooseTip.setVisibility(View.GONE);
             binding.lvChoose.setVisibility(View.VISIBLE);
-            bottomPopupContainer.dismissOnTouchOutside(true);
-            bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
-                @Override
-                public void onClose() {
-                    if (callBack != null) {
-                        callBack.closeAwardsDialog();
-                    }
-                }
-
-                @Override
-                public void onDrag(int y, float percent, boolean isScrollUp) {
-
-                }
-
-                @Override
-                public void onOpen() {
-
-                }
-            });
             ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
             binding.lvChoose.setAdapter(adapter);
         } else {

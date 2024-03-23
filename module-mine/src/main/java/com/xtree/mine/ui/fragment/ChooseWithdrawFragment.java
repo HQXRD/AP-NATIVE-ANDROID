@@ -51,7 +51,7 @@ public class ChooseWithdrawFragment extends BaseFragment<FragmentChooseWithdrawB
      * 显示提款页面
      */
     private void showChoose() {
-        basePopupView = new XPopup.Builder(getContext()).asCustom(ChooseWithdrawalDialog.newInstance(getContext(), this, null, new ChooseWithdrawalDialog.IChooseDialogBack() {
+        basePopupView = new XPopup.Builder(getContext()).asCustom(ChooseWithdrawalDialog.newInstance(getContext(), this,  new ChooseWithdrawalDialog.IChooseDialogBack() {
             @Override
             public void closeDialog() {
                 basePopupView.dismiss();
