@@ -153,11 +153,10 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             } else {
                 for (int i = 0; i < usdtCashVo.usdtinfo.size(); i++) {
                     if (usdtCashVo.usdtinfo.get(i).usdt_type.contains("TRC20")) {
-
                         usdtinfoTRC.add(usdtCashVo.usdtinfo.get(i));
                     }
                 }
-                selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
+               // selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
                 refreshSetUI();
             }
 
@@ -241,7 +240,18 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         String temp = usdtCashVo.usdtinfo.get(0).min_money + "元,最高" + usdtCashVo.usdtinfo.get(0).max_money + "元";
         binding.tvWithdrawalTypeShow1.setText(temp);
         binding.tvInfoExchangeRateShow.setText(usdtCashVo.exchangerate);
-        binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
+        CfLog.e("firstChannel.title " + firstChannel.toString());
+        //默认第一个是trc20
+        if ("嗨钱包usdt".equals(firstChannel.title)){
+            binding.tvCollectionUsdt.setText(usdtinfoTRC.get(0).usdt_type +" "+usdtinfoTRC.get(0).usdt_card);
+            selectUsdtInfo = usdtinfoTRC.get(0);
+            type = "TRC";
+        }else {
+            binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
+            selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
+            type = "USDT" ;
+        }
+
         //关闭软键盘弹起
         binding.etInputMoney.clearFocus();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -269,31 +279,60 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         binding.tvVirtualUsdt.setOnClickListener(v -> {
             binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
             binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
-            type = "USDT";
-            selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
-            String temp = selectUsdtInfo.min_money + "元,最高" + selectUsdtInfo.max_money + "元";
-            binding.tvWithdrawalTypeShow1.setText(temp);
-            //显示全部地址地址
-            binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
+            final  String name = binding.tvVirtualUsdt.getText().toString().trim() ;
+            if (name.contains("嗨钱包usdt")){
+                type = "TRC";
+            }else {
+                type = "USDT";
+            }
+           //显示地址
+            if (type.equals("USDT")){
+                binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
+                selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
+                String temp = selectUsdtInfo.min_money + "元,最高" + selectUsdtInfo.max_money + "元";
+                binding.tvWithdrawalTypeShow1.setText(temp);
+            }else {
+                if (usdtinfoTRC.size() > 0){
+                    binding.tvCollectionUsdt.setText(usdtinfoTRC.get(0).usdt_type +" "+usdtinfoTRC.get(0).usdt_card);
+                    selectUsdtInfo = usdtinfoTRC.get(0);
+                    String temp = selectUsdtInfo.min_money + "元,最高" + selectUsdtInfo.max_money + "元";
+                    binding.tvWithdrawalTypeShow1.setText(temp);
+                }else{
+                    binding.tvCollectionUsdt.setText("");
+                    binding.tvWithdrawalTypeShow1.setText("");
+                }
+            }
+
             binding.tvWithdrawalAmountMethod.setText(firstChannel.title);//提款方式
             CfLog.e("点击 USDT firstChannel.title = " + firstChannel.toString());
         });
-        //飞USDT提款
+        //USDT提款
         binding.tvVirtualOther.setOnClickListener(v -> {
             binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
             binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
-            type = "TRC";
-            if (usdtinfoTRC.size() > 0) {
-                //显示TRC地址
-                String collection = usdtinfoTRC.get(0).usdt_type + " " + usdtinfoTRC.get(0).usdt_card;
-                binding.tvCollectionUsdt.setText(collection);
-                selectUsdtInfo = usdtinfoTRC.get(0);
+            final  String name = binding.tvVirtualOther.getText().toString().trim() ;
+             if (name.contains("嗨钱包usdt")){
+                type = "TRC";
+            }else {
+                type = "USDT";
+            }
+            //显示地址
+            if (type.equals("USDT")){
+                binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
+                selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
                 String temp = selectUsdtInfo.min_money + "元,最高" + selectUsdtInfo.max_money + "元";
                 binding.tvWithdrawalTypeShow1.setText(temp);
+            }else {
+                if (usdtinfoTRC.size() > 0){
+                    binding.tvCollectionUsdt.setText(usdtinfoTRC.get(0).usdt_type +" "+usdtinfoTRC.get(0).usdt_card);
+                    selectUsdtInfo = usdtinfoTRC.get(0);
+                    String temp = selectUsdtInfo.min_money + "元,最高" + selectUsdtInfo.max_money + "元";
+                    binding.tvWithdrawalTypeShow1.setText(temp);
+                }else{
+                    binding.tvCollectionUsdt.setText("");
+                    binding.tvWithdrawalTypeShow1.setText("");
+                }
 
-            } else {
-                binding.tvCollectionUsdt.setText("");
-                binding.tvWithdrawalTypeShow1.setText("");
             }
             binding.tvWithdrawalAmountMethod.setText(secondChannel.title);//提款方式
             CfLog.e("点击 USDT secondChannel.title = " + secondChannel.toString());
@@ -385,7 +424,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
 
         //下一步
         binding.ivConfirmNext.setOnClickListener(v -> {
-            requestConfirmUSDT();
+            requestConfirmUSDT(usdtSecurityVo);
         });
         //上一步
         binding.ivConfirmPrevious.setOnClickListener(v -> {
@@ -496,47 +535,50 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         map.put("action", "platwithdraw");
         map.put("controller", "security");
         map.put("flag", "withdraw");
-        map.put("check", "1");
+        map.put("check", "");
         map.put("channel_child", "1");
         map.put("channel_typenum", "1");
         String usdtType = channelInfo.type;
-        map.put("usdtType", usdtType);
+        map.put("usdtType", "2");
         map.put("money", money);
         if (type.equals("USDT")) {
             map.put("name", "usdt");
         } else {
             map.put("name", "TRC20_USDT");
         }
+        final String usdtId = binding.tvCollectionUsdt.getText().toString().trim() ;
+
         map.put("usdtid", selectUsdtInfo.id);
-        CfLog.i("requestWithdrawUSDT = " + map);
+        CfLog.e("requestWithdrawUSDT = " + map);
         viewModel.postPlatWithdrawUSDT(map);
     }
 
     /**
      * 设置提款 完成申请
      */
-    private void requestConfirmUSDT() {
+    private void requestConfirmUSDT(final USDTSecurityVo  vo ) {
         LoadingDialog.show(getContext());
         HashMap<String, String> map = new HashMap<>();
-        map.put("controller", "security");
         map.put("action", "platwithdraw");
-        map.put("flag", "confirm");
-        map.put("check", "1");
+        map.put("check", "");
         map.put("channel_child", null);
-        if (type.equals("USDT")) {
-            map.put("name", "usdt");
-        } else {
-            map.put("name", "TRC20_USDT");
-        }
-        map.put("money", usdtSecurityVo.datas.arrive);
-        map.put("handing_fee", usdtSecurityVo.datas.handing_fee);
-        map.put("cardid", "");
-        map.put("play_source", "");
-        map.put("usdt_type", usdtSecurityVo.usdt_type);
-        map.put("plot_id", selectUsdtInfo.id);
-        map.put("channel_child", usdtSecurityVo.usdt_type);
+        map.put("controller", "security");
+        map.put("flag", "confirm");
         map.put("smscode", "");
         map.put("smstype", "");
+
+        map.put("handing_fee", vo.datas.handing_fee);
+        map.put("money", vo.datas.arrive);
+        map.put("name", vo.name);
+        map.put("play_source", "1");
+        map.put("usdt_type", vo.datas.drawal_type);
+        map.put("usdtid" ,  vo.usdtid)        ;
+       /* map.put("cardid", "");*/
+
+       /* map.put("usdt_type", usdtSecurityVo.usdt_type);*/
+/*        map.put("plot_id", selectUsdtInfo.id);
+        map.put("channel_child", usdtSecurityVo.usdt_type);*/
+
         CfLog.i("requestConfirmUSDT = " + map);
 
         viewModel.postConfirmWithdrawUSDT(map);
