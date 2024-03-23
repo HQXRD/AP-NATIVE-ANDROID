@@ -27,6 +27,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.utils.UuidUtil;
@@ -732,7 +733,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         int realMoney = Integer.parseInt(0 + binding.tvwRealAmount.getText().toString());
         float realUsdt = realMoney / Float.parseFloat(vo.usdtrate);
         //String usdt = new DecimalFormat("#.##").format(realUsdt);
-        String usdt = String.format(getString(R.string.format_change_range), realUsdt);
+        //String usdt = String.format(getString(R.string.format_change_range), realUsdt);
+        String usdt = String.format(getString(R.string.format_change_range), NumberUtils.formatUp(realUsdt, 2));
         binding.tvwPrePay.setText(usdt);
     }
 

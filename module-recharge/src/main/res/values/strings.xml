@@ -4,7 +4,7 @@
     <string name="pls_choose_recharge_type">请选择充值类型</string>
     <string name="txt_recharge_range">充值金额区间 %1$s~%2$s </string>
     <string name="txt_deposit_fee">存款加赠%1$s%%</string>
-    <string name="format_change_range">预计支付：%.2fUSDT</string>
+    <string name="format_change_range">预计支付：%s USDT</string>
     <string name="txt_rate_usdt">"参考汇率 1USDT ≈ "</string>
     <string name="txt_rate_cnyt_cny">参考汇率 1CNYT ≈ 1.00CNY</string>
     <string name="txt_rate_tog_cny">参考汇率 1TOG ≈ 1.00CNY</string>
