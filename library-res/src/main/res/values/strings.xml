@@ -61,6 +61,15 @@
     <string name="txt_expired">超时无效</string>
     <string name="txt_settled">已结算</string>
     <string name="txt_unsettle">未结算</string>
+    <string name="txt_add_game">加入游戏</string>
+    <string name="txt_send_bonus">奖金派送</string>
+    <string name="txt_minus_money">追号扣款</string>
+    <string name="txt_now_return_money">当其追号反款</string>
+    <string name="txt_game_minus">游戏扣款</string>
+    <string name="txt_return_order">撤单返款</string>
+    <string name="txt_special_money">特殊金额处理</string>
+    <string name="txt_over_money_minus">单挑超额扣款</string>
+    <string name="txt_over_money_return">单挑超额返款</string>
 
     <string name="txt_bank_process">银行处理中</string>
     <string name="txt_wait_review">等待风控审核</string>
@@ -98,6 +107,7 @@
     <string name="txt_rebate_dj">电竞返水</string>
 
     <string name="txt_report_acc_change">账变记录</string>
+    <string name="txt_report_game_change">游戏账变记录</string>
     <string name="txt_report_profit">盈亏报表</string>
     <string name="txt_report_rebate">返水报表</string>
     <string name="txt_report_3d">三方转账</string>

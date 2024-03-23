@@ -14,6 +14,7 @@ import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.BtDetailVo;
 import com.xtree.mine.vo.BtPlatformVo;
 import com.xtree.mine.vo.BtReportVo;
+import com.xtree.mine.vo.GameChangeVo;
 import com.xtree.mine.vo.LotteryDetailVo;
 import com.xtree.mine.vo.LotteryOrderVo;
 import com.xtree.mine.vo.LotteryReportVo;
@@ -51,6 +52,7 @@ public class ReportViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<BtDetailVo> liveDataBtDetail = new MutableLiveData<>(); // 投注记录-详情
     public MutableLiveData<LotteryReportVo> liveDataCpReport = new MutableLiveData<>(); // 投注记录-列表(彩票)
     public MutableLiveData<LotteryDetailVo> liveDataBtCpDetail = new MutableLiveData<>(); // 投注记录-详情(彩票)
+    public MutableLiveData<GameChangeVo> liveDataGameChange = new MutableLiveData<>(); // 游戏账变记录
 
     public ReportViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
@@ -318,6 +320,27 @@ public class ReportViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getGameChangeReport(HashMap map) {
+        Disposable disposable = (Disposable) model.getApiService().getGameChangeReport(map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<GameChangeVo>() {
+                    @Override
+                    public void onResult(GameChangeVo vo) {
+                        CfLog.d("******");
+                        liveDataGameChange.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                        liveDataGameChange.setValue(null);
                     }
                 });
         addSubscribe(disposable);
