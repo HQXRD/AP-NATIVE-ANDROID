@@ -1,5 +1,8 @@
 package com.xtree.mine.ui.rebateagrt.viewmodel;
 
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.GAMEREPORTS;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.LOTTERIESREPORTS;
+
 import android.app.Application;
 
 import androidx.annotation.NonNull;
@@ -101,11 +104,11 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
         switch (type) {
             case LOTTERIESREPORTS:  //彩票报表
                 headModel.type = "21";
-                titleData.setValue("彩票推荐报表");
+                titleData.setValue(LOTTERIESREPORTS.getName());
                 break;
             case GAMEREPORTS: //游戏报表
                 headModel.type = "22";
-                titleData.setValue("游戏推荐报表");
+                titleData.setValue(GAMEREPORTS.getName());
                 break;
         }
         datas.setValue(bindModels);

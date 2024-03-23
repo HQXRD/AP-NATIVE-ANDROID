@@ -1,5 +1,8 @@
 package com.xtree.mine.ui.rebateagrt.viewmodel;
 
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.GAMEREBATE;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.LOTTERIES;
+
 import android.annotation.SuppressLint;
 import android.app.Application;
 
@@ -167,11 +170,11 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
         switch (type) {
             case LOTTERIES:  //彩票报表
                 headModel.type = "1";
-                titleData.setValue("彩票契约分红");
+                titleData.setValue(LOTTERIES.getName());
                 break;
             case GAMEREBATE: //游戏报表
                 headModel.type = "22";
-                titleData.setValue("游戏分红");
+                titleData.setValue(GAMEREBATE.getName());
                 break;
         }
         datas.setValue(bindModels);

@@ -13,9 +13,9 @@
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_transparent"
-        android:translationZ="5dp"
-        android:layout_marginTop="8dp">
+        android:background="@color/bg_main"
+        android:layout_marginTop="8dp"
+        android:elevation="1dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

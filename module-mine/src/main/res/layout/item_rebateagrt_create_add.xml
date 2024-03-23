@@ -36,7 +36,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="契约内容"
+                android:text="@string/txt_rebateagrt_ccontent"
                 android:textSize="14sp"
                 android:textColor="@color/color_5B5B6A"
                 android:layout_marginStart="2dp"
@@ -46,7 +46,7 @@
         <TextView
             android:layout_width="60dp"
             android:layout_height="30dp"
-            android:text="添加规则"
+            android:text="@string/txt_add_rules"
             android:textSize="12sp"
             android:gravity="center"
             android:layout_marginTop="8dp"

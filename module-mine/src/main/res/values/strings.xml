@@ -410,5 +410,40 @@
     <string name="txt_send_dividend_tip2">提示：在下级分红全部发放完成前，您的账户将冻结投注和提款。</string>
     <string name="txt_send_dividend_tip3">请选择要发放分红的用户</string>
     <string name="txt_send_dividend_tip4">您已发完相关分红</string>
+    <string name="txt_rebateagrt_rules1">规则1：日有效投注额 >= 0.0000元返水1.0000%</string>
+    <string name="txt_weekly_bets">周期投注额</string>
+    <string name="txt_cycle">周期</string>
+    <string name="txt_mine_agrt">我的契约</string>
+    <string name="txt_mine_dividend">本人分红</string>
+    <string name="txt_view_deed">查看契约</string>
+    <string name="txt_dividend_ratio">分红比例</string>
+    <string name="txt_num_active_persons">活跃人数</string>
+    <string name="txt_dividend_due">应发分红</string>
+    <string name="txt_dividend_sub">下级分红</string>
+    <string name="txt_amounts_paid">实发金额</string>
+    <string name="txt_amounts_owed">欠发金额</string>
+    <string name="txt_issuance_onclick">一键发放</string>
+    <string name="txt_issuance_manual">手动发放</string>
+    <string name="txt_cumulative_bets_morethan">累计投注额≥</string>
+    <string name="txt_cumulative_loss_morethan">累计亏损额≥</string>
+    <string name="txt_num_active_persons_morethan">活跃人数≥</string>
+    <string name="txt_rebateagrt_create_hint">点击选择要创建契约的用户</string>
+    <string name="txt_rebateagrt_ccontent">契约内容</string>
+    <string name="txt_add_rules">添加规则</string>
+    <string name="txt_dividend_send_tip">点击卡片，选中下级</string>
+    <string name="txt_rebateagrt_paid">实发</string>
+    <string name="txt_rebateagrt_owed">欠发</string>
+    <string name="txt_delete">删除</string>
+    <string name="txt_daily_effective_bet_amount">日有效投注额</string>
+    <string name="txt_rebate_percent">返水(%)</string>
+    <string name="txt_team_profit_loss">团队盈亏：</string>
+    <string name="txt_cycle_colon">周期：</string>
+    <string name="txt_num_active_persons_colon">活跃人数：</string>
+    <string name="txt_referral_bonus_colon">推荐奖励：</string>
+    <string name="txt_rebateagrt_tip1">请选择用户</string>
+    <string name="txt_rules">规则</string>
+    <string name="txt_rebateagrt_tip2">请先正确填写投注额信息</string>
+    <string name="txt_balances">结余：</string>
+    <string name="txt_paid_sub">下级应发：</string>
 
 </resources>

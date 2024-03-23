@@ -1,7 +1,9 @@
 package com.xtree.mine.ui.rebateagrt.model;
 
-import com.xtree.base.mvvm.recyclerview.BindHead;
 import com.xtree.base.mvvm.recyclerview.BindModel;
+import com.xtree.mine.R;
+
+import me.xtree.mvvmhabit.base.BaseApplication;
 
 /**
  * Created by KAKA on 2024/3/11.
@@ -24,22 +26,35 @@ public class GameRebateAgrtModel extends BindModel{
     //日期
     public String date;
     //状态
-    public String status;
+    private String status;
+    private String statusString = BaseApplication.getInstance().getString(R.string.txt_unreceived);;
+    private int statusColor = R.color.clr_txt_rebateagrt_fail;;
 
     public void setStatus(String status) {
-        switch (status) {
-            case "0":
-                status =  "已到账";
-                break;
-            case "1":
-                status =  "已到账";
-                break;
-            case "2":
-                status =  "已到账";
-                break;
-            default:
-                status =  "已到账";
-                break;
+        if (status != null && !status.isEmpty()) {
+            this.status = status;
+            switch (status) {
+                case "1":
+                    statusString = BaseApplication.getInstance().getString(R.string.txt_received);
+                    statusColor = R.color.clr_txt_rebateagrt_success;
+                    break;
+                case "2":
+                    statusString = BaseApplication.getInstance().getString(R.string.txt_unreceived);
+                    statusColor = R.color.clr_txt_rebateagrt_fail;
+                    break;
+            }
         }
+    }
+
+    public String getStatusString() {
+        return statusString;
+    }
+
+    public void setStatusString(String statusString) {
+        this.statusString = statusString;
+    }
+
+    public int getStatusColor() {
+        return statusColor;
     }
 }

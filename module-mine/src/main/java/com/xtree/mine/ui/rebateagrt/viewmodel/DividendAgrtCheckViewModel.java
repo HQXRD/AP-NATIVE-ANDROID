@@ -90,7 +90,7 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
             BindModel bind = bindModels.get(i);
             if (bind instanceof DividendAgrtCheckModel) {
                 DividendAgrtCheckModel model = (DividendAgrtCheckModel) bind;
-                model.numText.set("规则" + (i - 1));
+                model.numText.set(getApplication().getString(R.string.txt_rules) + (i - 1));
             }
         }
     }

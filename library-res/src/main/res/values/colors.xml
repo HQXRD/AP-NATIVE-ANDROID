@@ -420,4 +420,10 @@
     <color name="color_rebateagrt_state_bg_settled">@color/clr_bg_frame_42</color>
     <!--    无分红契约背景色-->
     <color name="color_rebateagrt_state_bg_nodividend">@color/clr_grey_05</color>
+    <!--    高亮文字-->
+    <color name="clr_txt_rebateagrt_profit">@color/clr_green_01</color>
+    <!--    默认文字-->
+    <color name="clr_txt_rebateagrt_default">@color/clr_txt_02</color>
+    <color name="clr_txt_rebateagrt_success">@color/clr_txt_02</color>
+    <color name="clr_txt_rebateagrt_fail">@color/clr_txt_02</color>
 </resources>

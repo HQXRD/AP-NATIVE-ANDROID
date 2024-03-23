@@ -1,5 +1,11 @@
 package com.xtree.mine.ui.rebateagrt.viewmodel;
 
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.CHESS;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.EGAME;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.LIVE;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.SPORT;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.USER;
+
 import android.app.Application;
 import android.view.View;
 
@@ -196,7 +202,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
             BindModel bind = bindModels.get(i);
             if (bind instanceof RebateAgrtCreateModel) {
                 RebateAgrtCreateModel model = (RebateAgrtCreateModel) bind;
-                model.numText.set("规则" + (i - 1));
+                model.numText.set(getApplication().getString(R.string.txt_rules) + (i - 1));
             }
         }
     }
@@ -207,7 +213,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
     public void create() {
 
         if (searchUserResultLiveData.getValue() == null || searchUserResultLiveData.getValue().getUser() == null) {
-            ToastUtils.show("请先选择用户", ToastUtils.ShowType.Default);
+            ToastUtils.show(getApplication().getString(R.string.txt_rebateagrt_tip1), ToastUtils.ShowType.Default);
             return;
         }
 
@@ -227,7 +233,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
                 if (bindModel instanceof RebateAgrtCreateModel) {
                     RebateAgrtCreateModel createModel = (RebateAgrtCreateModel) bindModel;
                     if (createModel.minBet.isEmpty() || createModel.minPlayer.isEmpty() || createModel.ratio.isEmpty()) {
-                        ToastUtils.show("请先正确填写投注额信息", ToastUtils.ShowType.Default);
+                        ToastUtils.show(getApplication().getString(R.string.txt_rebateagrt_tip2), ToastUtils.ShowType.Default);
                         return;
                     }
                     minBetList.add(createModel.minBet);
@@ -300,19 +306,19 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
     private void initTab() {
         switch (rebateAgrtDetailModel.getSubData().getType()) {
             case "2": //LIVE
-                titleData.setValue("真人返水契约");
+                titleData.setValue(LIVE.getName());
                 break;
             case "3": //SPORT
-                titleData.setValue("体育返水契约");
+                titleData.setValue(SPORT.getName());
                 break;
             case "5": //CHESS
-                titleData.setValue("棋牌返水契约");
+                titleData.setValue(CHESS.getName());
                 break;
             case "6": // EGAME
-                titleData.setValue("电竞返水契约");
+                titleData.setValue(EGAME.getName());
                 break;
             case "1": //USER
-                titleData.setValue("时薪");
+                titleData.setValue(USER.getName());
                 break;
             default:
                 break;

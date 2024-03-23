@@ -22,7 +22,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="12dp"
         android:layout_marginTop="12dp"
-        android:translationZ="1dp"
+        app:cardElevation="1dp"
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,7 +48,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="周期投注额"
+                    android:text="@string/txt_weekly_bets"
                     android:textSize="12sp"
                     android:textColor="@color/color_5B5B6A"
                     android:layout_marginTop="12dp"
@@ -66,7 +66,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="活跃人数"
+                    android:text="@string/txt_num_active_persons"
                     android:textSize="12sp"
                     android:textColor="@color/color_5B5B6A"
                     android:layout_marginTop="12dp"
@@ -97,7 +97,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="分红比例"
+                    android:text="@string/txt_dividend_ratio"
                     android:textSize="12sp"
                     android:textColor="@color/color_5B5B6A"
                     android:layout_marginTop="12dp"
@@ -115,7 +115,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="周期"
+                    android:text="@string/txt_cycle"
                     android:textSize="12sp"
                     android:textColor="@color/color_5B5B6A"
                     android:layout_marginTop="12dp"
@@ -147,7 +147,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:text="盈亏"
+                    android:text="@string/txt_profit_loss"
                     android:textColor="@color/color_5B5B6A"
                     android:textSize="12sp" />
 

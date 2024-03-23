@@ -34,7 +34,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="用户名"
+                android:text="@string/txt_username"
                 android:textSize="14sp"
                 android:textColor="@color/color_5B5B6A"
                 android:layout_marginStart="2dp"
@@ -44,7 +44,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="点击选择要创建契约的用户"
+            android:hint="@string/txt_rebateagrt_create_hint"
             android:text="@{m.user}"
             android:textSize="12sp"
             android:layout_marginTop="8dp"

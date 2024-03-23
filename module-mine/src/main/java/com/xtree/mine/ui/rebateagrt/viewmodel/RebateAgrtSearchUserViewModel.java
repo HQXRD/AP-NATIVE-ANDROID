@@ -1,5 +1,11 @@
 package com.xtree.mine.ui.rebateagrt.viewmodel;
 
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.CHESS;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.EGAME;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.LIVE;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.SPORT;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.USER;
+
 import android.app.Application;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -117,19 +123,19 @@ public class RebateAgrtSearchUserViewModel extends BaseViewModel<MineRepository>
     private void initTab() {
         switch (searchUsreModel.getSubData().getType()) {
             case "2": //LIVE
-                titleData.setValue("真人返水契约");
+                titleData.setValue(LIVE.getName());
                 break;
             case "3": //SPORT
-                titleData.setValue("体育返水契约");
+                titleData.setValue(SPORT.getName());
                 break;
             case "5": //CHESS
-                titleData.setValue("棋牌返水契约");
+                titleData.setValue(CHESS.getName());
                 break;
             case "6": // EGAME
-                titleData.setValue("电竞返水契约");
+                titleData.setValue(EGAME.getName());
                 break;
             case "1": //USER
-                titleData.setValue("时薪");
+                titleData.setValue(USER.getName());
                 break;
             default:
                 break;
@@ -183,10 +189,10 @@ public class RebateAgrtSearchUserViewModel extends BaseViewModel<MineRepository>
                 RxBus.getDefault().post(new RebateAgrtSearchUserResultModel(map));
                 onBack();
             } else {
-                ToastUtils.show("请选择用户", ToastUtils.ShowType.Fail);
+                ToastUtils.show(getApplication().getString(R.string.txt_rebateagrt_tip1), ToastUtils.ShowType.Fail);
             }
         } else {
-            ToastUtils.show("请选择用户", ToastUtils.ShowType.Fail);
+            ToastUtils.show(getApplication().getString(R.string.txt_rebateagrt_tip1), ToastUtils.ShowType.Fail);
         }
     }
 

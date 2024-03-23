@@ -4,13 +4,11 @@ import androidx.databinding.ObservableField;
 
 import com.xtree.base.mvvm.recyclerview.BindHead;
 import com.xtree.base.mvvm.recyclerview.BindModel;
-import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.FilterView;
 import com.xtree.mine.R;
 import com.xtree.mine.vo.StatusVo;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseApplication;
@@ -81,19 +79,19 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
 
     public void sort() {
         if (onCallBack != null) {
-            onCallBack.sort("排序", sortData, sortList);
+            onCallBack.sort(BaseApplication.getInstance().getString(R.string.txt_sort), sortData, sortList);
         }
     }
 
     public void cycly() {
         if (onCallBack != null) {
-            onCallBack.cyclicality("周期", cyclyData, cyclytList);
+            onCallBack.cyclicality(BaseApplication.getInstance().getString(R.string.txt_cycle), cyclyData, cyclytList);
         }
     }
 
     public void status() {
         if (onCallBack != null) {
-            onCallBack.status("状态", statuData, statusList);
+            onCallBack.status(BaseApplication.getInstance().getString(R.string.txt_status), statuData, statusList);
         }
     }
 
@@ -153,7 +151,7 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
     }
 
     public String getSub_money() {
-        return "下级应发：" + sub_money;
+        return BaseApplication.getInstance().getString(R.string.txt_paid_sub) + sub_money;
     }
 
     public void setSub_money(String sub_money) {
@@ -163,7 +161,7 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
     }
 
     public String getSettle_accounts() {
-        return "结余：" + settle_accounts;
+        return BaseApplication.getInstance().getString(R.string.txt_balances) + settle_accounts;
     }
 
     public void setSettle_accounts(String settle_accounts) {

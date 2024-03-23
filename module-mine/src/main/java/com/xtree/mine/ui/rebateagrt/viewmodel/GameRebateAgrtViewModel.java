@@ -437,6 +437,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                     model.rebateAmout = dataDTO.getTotal_money();
                                     model.subMoney = dataDTO.getSub_money();
                                     model.mineMoney = dataDTO.getSelf_money() + "";
+                                    model.setStatus(dataDTO.getType());
                                     gameRebateDatas.add(model);
                                 }
                             }
@@ -499,16 +500,17 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                 for (GameSubordinateAgrteResponse.DataDTO dataDTO : vo.getData()) {
                                     GameSubordinateagrtModel model = new GameSubordinateagrtModel();
                                     model.setItemType(2);
-                                    model.userName = dataDTO.getUsername();
-                                    model.userID = dataDTO.getUserid();
-                                    model.signTime = dataDTO.getSign_time();
-                                    model.effectDate = dataDTO.getEffect_date();
+                                    model.setUserName(dataDTO.getUsername());
+                                    model.setUserID(dataDTO.getUserid());
+                                    model.setSignTime(dataDTO.getSign_time());
+                                    model.setEffectDate(dataDTO.getEffect_date());
                                     List<GameSubordinateAgrteResponse.DataDTO.RuleDTO> rule = dataDTO.getRule();
                                     if (rule != null && rule.size() > 0) {
-                                        model.ruleRatio = dataDTO.getRule().get(0).getRatio();
+                                        model.setRuleRatio(dataDTO.getRule().get(0).getRatio());
                                     }
-                                    model.createTime = dataDTO.getCreate_time();
-                                    model.sName = dataDTO.getSname();
+                                    model.setCreateTime(dataDTO.getCreate_time());
+                                    model.setStatus(dataDTO.getStatus());
+                                    model.setSname(dataDTO.getSname());
                                     subordinateAgrtDatas.add(model);
                                 }
                             }
@@ -649,7 +651,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         if (tabPosition.get() == Subordinate_Agrte_TAB) {
             RebateAgrtDetailModel rebateAgrtDetailModel = new RebateAgrtDetailModel();
             rebateAgrtDetailModel.setSubData(subData);
-            rebateAgrtDetailModel.setCheckUserId(subordinateagrtModel.userID);
+            rebateAgrtDetailModel.setCheckUserId(subordinateagrtModel.getUserID());
             RebateAgrtCreateDialogFragment.show(mActivity.get(), rebateAgrtDetailModel);
         }
     }
