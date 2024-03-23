@@ -84,6 +84,7 @@
     <string name="txt_security_center">安全中心</string>
     <string name="txt_pwd_edit_hint">安全守护 无忧投注</string>
     <string name="txt_login_pwd">登录密码</string>
+    <string name="txt_login_pwd_update">修改登录密码</string>
     <string name="txt_funds_pwd">资金密码</string>
     <string name="txt_funds_pwd_set">设置资金密码</string>
     <string name="txt_funds_pwd_update">修改资金密码</string>
@@ -135,10 +136,11 @@
     <string name="txt_tip_cs_03">解决</string>
 
     <string name="txt_change_pwd">修改密码</string>
+    <string name="txt_enter_pwd">请输入登录密码</string>
     <string name="txt_enter_new_pwd">请输入新的登录密码</string>
     <string name="txt_user_name_should_6_12">用户名为6到12位</string>
     <string name="txt_pwd_should_6_12">密码为6到12位</string>
-    <string name="txt_pwd_should_6_16">请输入由字母和数字组成的6-16位字符</string>
+    <string name="txt_pwd_should_6_16">登录密码是由字母和数字组成的6–16位字符</string>
     <string name="txt_enter_pwd_again">请再次输入密码</string>
     <string name="txt_pwd_should_same">两次输入密码不一致</string>
 
@@ -410,5 +412,6 @@
     <string name="txt_send_dividend_tip2">提示：在下级分红全部发放完成前，您的账户将冻结投注和提款。</string>
     <string name="txt_send_dividend_tip3">请选择要发放分红的用户</string>
     <string name="txt_send_dividend_tip4">您已发完相关分红</string>
+    <string name="txt_correct_pwd">请输入正确格式的登录密码</string>
 
 </resources>

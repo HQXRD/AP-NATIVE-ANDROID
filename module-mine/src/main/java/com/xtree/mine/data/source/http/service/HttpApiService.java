@@ -159,11 +159,11 @@ public interface HttpApiService {
     Flowable<BaseResponse<VerificationCodeVo>> sendCodeByLogin(@QueryMap Map<String, String> map);
 
     /**
-     * 修改密码
+     * 修改登录密码
      */
-    @POST("/api/account/verifychangepassword")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse<Map<String, String>>> changePwd(@Body Map<String, String> map);
+    @PUT("/api/account/password")
+    Flowable<BaseResponse<Map<String, String>>> changeLoginPwd(@Body Map<String, String> map);
 
     /**
      * 修改资金密码
