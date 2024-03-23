@@ -296,17 +296,22 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         viewModel.channelDetailVoMutableLiveData.observe(this.owner, vo -> {
             dismissLoading();
             bankCardCashVo = vo;
-            if (bankCardCashVo == null || bankCardCashVo.banks == null || bankCardCashVo.banks.isEmpty() || bankCardCashVo.channel_list == null || bankCardCashVo.channel_list.isEmpty()) {
+            if (bankCardCashVo == null || bankCardCashVo.banks == null
+                    || bankCardCashVo.banks.isEmpty() || bankCardCashVo.channel_list == null
+                    || bankCardCashVo.channel_list.isEmpty()) {
                 showError();
             } else if (!TextUtils.isEmpty(bankCardCashVo.message) && getContext().getString(R.string.txt_no_withdrawals_available_tip).equals(bankCardCashVo.message)) {
                 //"message": "您今天已没有可用提款次数"
                 refreshErrByNumber(bankCardCashVo.message);
                 return;
-            } else if (bankCardCashVo.msg_type == 1 || bankCardCashVo.msg_type == 2) {
+            } else if (bankCardCashVo.msg_type == 1 ) {
                 dismissLoading();
                 ToastUtils.showError(bankCardCashVo.message);
                 dismiss();
                 return;
+            } else if (bankCardCashVo.msg_type ==2 && !TextUtils.isEmpty(bankCardCashVo.message)) {
+                dismissLoading();
+                showErrorMessage(bankCardCashVo.message);
             } else {
                 //1.初始化顶部选项卡
                 refreshTopUI(bankCardCashVo);
@@ -1015,6 +1020,24 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         }
         ppwError.show();
     }
+    private void  showErrorMessage(final String message){
+        if (ppwError == null) {
+            final String title = getContext().getString(R.string.txt_kind_tips);
+            ppwError = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, message, true, new TipDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    ppwError.dismiss();
+                    dismiss();
+                }
 
+                @Override
+                public void onClickRight() {
+                    ppwError.dismiss();
+                    dismiss();
+                }
+            }));
+        }
+        ppwError.show();
+    }
 
 }

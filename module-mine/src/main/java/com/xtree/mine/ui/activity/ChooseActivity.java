@@ -267,7 +267,11 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
                     @Override
                     public void closeDialogByFlow(String money) {
+
                         LoadingDialog.finish();
+                        CfLog.e("--------------------closeDialogByFlow -----------------");
+                        showErrorDialog(money);
+                       // basePopupView.dismiss();
                     }
                 }, new BankWithdrawalDialog.BankWithdrawalClose() {
                     @Override

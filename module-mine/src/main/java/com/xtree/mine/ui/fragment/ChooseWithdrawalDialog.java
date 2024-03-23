@@ -23,6 +23,7 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
@@ -196,6 +197,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 public void onClick(String txt, ChooseInfoVo.ChannelInfo channelInfo) {
 
                     ChooseInfoVo.ChannelInfo channel = channelInfo;
+                    CfLog.e(" ChooseInfoVo.ChannelInfo = " +channel.toString());
                     if (channel.channeluse == 0)//显示弹窗
                     {
                         if ("bindcard".equals(channel.bindType) && (channel.flag == false)) {
@@ -206,8 +208,15 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                             showMessageDialog(channelInfo, channel.channeluseMessage);
                         }
 
-                    } else {
-                        if (chooseInfoVo.bankchanneluse == 1 && txt.equals("银行卡提款")) {
+                    } else if (channel.channeluse ==1){
+                        //可以提款
+                        if (txt.equals("银行卡提款")){
+                            showBankWithdrawalDialog(channelInfo);
+                        }else {
+                            showUSDTWithdrawalDialog(channelInfo);
+                        }
+
+                       /* if (chooseInfoVo.bankchanneluse == 1 && txt.equals("银行卡提款")) {
                             showBankWithdrawalDialog(channelInfo);
                         }
                         //银行卡提现通打开，但点击的不是银行卡提款
@@ -216,7 +225,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         } else if (chooseInfoVo.bankchanneluse == 0) {
                             //未绑定银行卡 显示绑定银行卡
                             toBindCard();
-                        }
+                        }*/
                     }
                 }
 

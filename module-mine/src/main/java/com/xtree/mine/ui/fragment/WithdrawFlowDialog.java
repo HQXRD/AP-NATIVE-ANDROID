@@ -99,7 +99,8 @@ public class WithdrawFlowDialog extends BottomPopupView {
         });
         binding.llChooseTip.setVisibility(View.VISIBLE);
         String tipText = "";
-        if (!awardsRecordVo.list.isEmpty() &&awardsRecordVo.list.size() > 0) {
+
+        if (awardsRecordVo.list !=null&& !awardsRecordVo.list.isEmpty() &&awardsRecordVo.list.size() > 0) {
             tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
             binding.tvChooseTip.setText(tipText);
             binding.llChooseTip.setVisibility(View.VISIBLE);
