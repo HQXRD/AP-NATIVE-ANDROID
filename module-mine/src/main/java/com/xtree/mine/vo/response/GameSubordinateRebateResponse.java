@@ -2,15 +2,15 @@ package com.xtree.mine.vo.response;
 
 import java.util.List;
 
+import me.xtree.mvvmhabit.http.BaseResponse2;
+
 /**
  * Created by KAKA on 2024/3/13.
- * Describe:
+ * Describe: 返回契约下级返水返回体
  */
-public class GameSubordinateRebateResponse {
+public class GameSubordinateRebateResponse extends BaseResponse2 {
 
-    private String webtitle;
     private String sSystemImagesAndCssPath;
-    private String customer_service_link;
     private String pt_download_pc;
     private UserDTO user;
     private int push_service_status;
@@ -24,7 +24,6 @@ public class GameSubordinateRebateResponse {
     private String topprizes_wintips_enabled;
     private String desK;
     private List<?> markct;
-    private MobilePageDTO mobile_page;
     private int isget;
     private String pageinfo;
     private TotalDTO total;
@@ -157,14 +156,6 @@ public class GameSubordinateRebateResponse {
 
     public void setMarkct(List<?> markct) {
         this.markct = markct;
-    }
-
-    public MobilePageDTO getMobile_page() {
-        return mobile_page;
-    }
-
-    public void setMobile_page(MobilePageDTO mobile_page) {
-        this.mobile_page = mobile_page;
     }
 
     public int getIsget() {

@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Created by KAKA on 2024/3/19.
- * Describe:
+ * Describe: 创建返水契约返回体
  */
 public class RebateAgrtCreateResponse {
 

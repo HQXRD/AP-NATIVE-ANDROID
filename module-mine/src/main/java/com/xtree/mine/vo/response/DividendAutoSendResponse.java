@@ -1,10 +1,8 @@
 package com.xtree.mine.vo.response;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * Created by KAKA on 2024/3/15.
- * Describe:
+ * Describe: 契约分红一键发放
  */
 public class DividendAutoSendResponse {
     private int status;

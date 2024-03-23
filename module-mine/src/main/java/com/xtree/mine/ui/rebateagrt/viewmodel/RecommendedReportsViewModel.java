@@ -37,6 +37,7 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.http.BaseResponse2;
 import me.xtree.mvvmhabit.http.BusinessException;
 
 /**
@@ -177,7 +178,11 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
                                         recommendedReportsModel.setBet(dataDTO.getBet());
                                         recommendedReportsModel.setProfitloss(dataDTO.getProfitloss());
                                         recommendedReportsModel.setPeople(dataDTO.getPeople());
-                                        recommendedReportsModel.setUserName(dataDTO.getUsername());
+                                        if (dataDTO.getUsername() != null) {
+                                            recommendedReportsModel.setUserName(dataDTO.getUsername());
+                                        } else {
+                                            recommendedReportsModel.setUserName(dataDTO.getRefUsername());
+                                        }
                                         recommendedReportsModel.setLabel(dataDTO.getLabel());
                                         recommendedReportsModel.setCycle(headModel.cyclyData.get().getShowName());
                                         bindModels.add(recommendedReportsModel);
@@ -187,9 +192,9 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
 
                             datas.setValue(bindModels);
 
-                            RecommendedReportsResponse.MobilePageDTO mobilePage = vo.getMobile_page();
+                            BaseResponse2.MobilePageVo mobilePage = vo.mobile_page;
                             if (mobilePage != null &&
-                                    mobilePage.getTotal_page().equals(String.valueOf(request.p))) {
+                                    mobilePage.total_page.equals(String.valueOf(request.p))) {
                                 loadMoreWithNoMoreData();
                             } else {
                                 finishLoadMore(true);

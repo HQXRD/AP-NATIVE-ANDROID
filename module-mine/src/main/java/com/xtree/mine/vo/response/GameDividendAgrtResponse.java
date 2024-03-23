@@ -3,15 +3,15 @@ package com.xtree.mine.vo.response;
 import java.util.HashMap;
 import java.util.List;
 
+import me.xtree.mvvmhabit.http.BaseResponse2;
+
 /**
  * Created by KAKA on 2024/3/15.
- * Describe:
+ * Describe: 返水契约 契约分红返回体
  */
-public class GameDividendAgrtResponse {
+public class GameDividendAgrtResponse extends BaseResponse2 {
 
-    private String webtitle;
     private String sSystemImagesAndCssPath;
-    private String customer_service_link;
     private String pt_download_pc;
     private UserDTO user;
     private int push_service_status;
@@ -26,7 +26,6 @@ public class GameDividendAgrtResponse {
     private String desK;
     private List<?> markct;
     private GetDTO get;
-    private MobilePageDTO mobile_page;
     private String billType;
     private String peopleType;
     private CurrentCycleDTO currentCycle;
@@ -175,14 +174,6 @@ public class GameDividendAgrtResponse {
 
     public void setGet(GetDTO get) {
         this.get = get;
-    }
-
-    public MobilePageDTO getMobile_page() {
-        return mobile_page;
-    }
-
-    public void setMobile_page(MobilePageDTO mobile_page) {
-        this.mobile_page = mobile_page;
     }
 
     public String getBillType() {

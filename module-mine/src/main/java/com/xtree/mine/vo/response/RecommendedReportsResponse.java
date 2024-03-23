@@ -5,14 +5,17 @@ import com.google.gson.annotations.SerializedName;
 import java.util.HashMap;
 import java.util.List;
 
+import me.xtree.mvvmhabit.http.BaseResponse2;
+
 /**
  * Created by KAKA on 2024/3/15.
- * Describe:
+ * Describe: 推荐报表返回体
  */
-public class RecommendedReportsResponse {
-    private String webtitle;
+public class RecommendedReportsResponse extends BaseResponse2 {
+
+    //{"webtitle":"\u5f69\u7968","sSystemImagesAndCssPath":"","customer_service_link":"https:\/\/vscaue.bx64fzsm.com\/chatwindow.aspx?siteId=60003843&planId=39e9e819-e951-4e32-a173-ee9afd793ab8,https:\/\/vscaue.tsyan4oo.com\/chatwindow.aspx?siteId=60003843&planId=39e9e819-e951-4e32-a173-ee9afd793ab8","pt_download_pc":"http:\/\/cdn.vbet.club\/happyslots\/d\/setupglx.exe","user":{"parentid":"0","usertype":"1","iscreditaccount":"0","userrank":"0","availablebalance":"519393.8459","preinfo":"\u6d4b\u8bd5\u4e00\u4e0b","nickname":"ceshi1","messages":"55"},"push_service_status":1,"push_service_module":"{\\\"push_issuetime\\\":\\\"1\\\",\\\"push_issuecode\\\":\\\"1\\\",\\\"push_notice\\\":\\\"0\\\",\\\"push_usermessage\\\":\\\"1\\\",\\\"push_userbalance\\\":\\\"1\\\",\\\"push_userwonprize\\\":\\\"1\\\"}","push_server_host":"apre3push.oxldkm.com","pub_channel_token":"33c76f70561aa6753c8ff6549d3b296d","pub_channel_id":"3bb42e1dd900147b89ffa2","user_channel_id":"faeaa969bf22782373791a","topprizes_herolist_enabled":"1","topprizes_publicity_enabled":"1","topprizes_wintips_enabled":"1","desK":"i5OJtB5ubX5GVFnHEcNv8shyVCE36HZF","markct":[],"get":{"sort":"asc","orderby":"pay_status","username":"","cycle_id":9795,"pay_status":"0"},"mobile_page":{"p":"1","total_page":false,"page_size":"10"},"billType":1,"peopleType":"people","billStatus":{"2":"\u5df2\u7ed3\u6e05","1":"\u672a\u7ed3\u6e05","4":"\u5206\u7ea2\u53d6\u6d88","3":"\u65e0\u5206\u7ea2","-1":"\u65e0\u5951\u7ea6\/\u7ec8\u6b62"},"cycles":{"9795":{"id":"9795","title":"2024-03-16\/2024-03-31(\u534a\u6708)","type":"21","cycle_type":"3","cycle_date":"1","startDate":"2024-03-16","endDate":"2024-03-31","createTime":"2024-03-11 18:27:03","is_pay":"0"},"9706":{"id":"9706","title":"2024-03-01\/2024-03-15(\u534a\u6708)","type":"21","cycle_type":"3","cycle_date":"1","startDate":"2024-03-01","endDate":"2024-03-15","createTime":"2024-02-29 10:31:56","is_pay":"0"},"9585":{"id":"9585","title":"2024-02-16\/2024-02-29(\u534a\u6708)","type":"21","cycle_type":"3","cycle_date":"1","startDate":"2024-02-16","endDate":"2024-02-29","createTime":"2024-02-16 05:00:05","is_pay":"1"},"9584":{"id":"9584","title":"2024-02-01\/2024-02-15(\u534a\u6708)","type":"21","cycle_type":"3","cycle_date":"1","startDate":"2024-02-01","endDate":"2024-02-15","createTime":"2024-02-16 05:00:05","is_pay":"0"}},"selfBill":{"profitloss":0},"iUserid":"2792107","currentCycle":{"id":"9795","title":"2024-03-16\/2024-03-31(\u534a\u6708)","type":"21","cycle_type":"3","cycle_date":"1","startDate":"2024-03-16","endDate":"2024-03-31","createTime":"2024-03-11 18:27:03","is_pay":"0"},"selfPayStatus":{"payoff":0,"owe":0},"childrenBill":{"total_size":0,"data":[],"all_total":null,"self":null,"children":[]},"pageinfo":"\u603b\u8ba1 0 \u4e2a\u8bb0\u5f55,  \u5206\u4e3a  \u9875, \u5f53\u524d\u7b2c 1 \u9875\u003Cspan id=\"tPages\"\u003E    \u003Ca  href=\"\/pink\/index\/?userid=&type=21&orderby=pay_status&sort=asc&pay_status=0&username=&cycle_id=&client=m&p=&pn=10\"\u003E\u5c3e\u9875\u003C\/a\u003E\u003C\/span\u003E\n\u8f6c\u81f3 \u003Cscript language=\"javascript\"\u003Efunction keepKeyNum(obj,evt){var  k=window.event?evt.keyCode:evt.which; if( k==13 ){ goPage(obj.value);return false; }} function goPage(iPage){if(parseInt(iPage) != iPage){alert(\"\u8f93\u5165\u6574\u6570\u7684\u9875\u7801\");return false;} if(parseInt(iPage) \u003C 0){alert(\"\u8f93\u5165\u6b63\u6574\u6570\u7684\u9875\u7801\");return false;} if( !isNaN(parseInt(iPage)) ) { if(!0){ if( iPage \u003E 0 ){alert(\"\u8f93\u5165\u9875\u7801\u8d85\u51fa\u5c3e\u9875\u9875\u7801\");return false; }} window.location.href=\"\/pink\/index\/?userid=&type=21&orderby=pay_status&sort=asc&pay_status=0&username=&cycle_id=&client=m&pn=10&p=\"+iPage;}}\u003C\/script\u003E\u003Cinput onKeyPress=\"return keepKeyNum(this,event);\" type=\"text\" id=\"iGotoPage\" NAME=\"iGotoPage\" size=\"6\"\u003E\u9875 \u003Cinput type=\"button\" onclick=\"javascript:goPage( document.getElementById('iGotoPage').value );return false;\" class=\"button\" value=\"GO\"\u003E","selfMax":0,"setLimit":null,"setRules":"[]"}
+
     private String sSystemImagesAndCssPath;
-    private String customer_service_link;
     private String pt_download_pc;
     private UserDTO user;
     private int push_service_status;
@@ -27,7 +30,6 @@ public class RecommendedReportsResponse {
     private String desK;
     private List<?> markct;
     private GetDTO get;
-    private MobilePageDTO mobile_page;
     private int billType;
     private String peopleType;
     private HashMap<String, String> billStatus;
@@ -174,14 +176,6 @@ public class RecommendedReportsResponse {
 
     public void setGet(GetDTO get) {
         this.get = get;
-    }
-
-    public MobilePageDTO getMobile_page() {
-        return mobile_page;
-    }
-
-    public void setMobile_page(MobilePageDTO mobile_page) {
-        this.mobile_page = mobile_page;
     }
 
     public int getBillType() {
@@ -392,36 +386,6 @@ public class RecommendedReportsResponse {
 
         public void setPay_status(String pay_status) {
             this.pay_status = pay_status;
-        }
-    }
-
-    public static class MobilePageDTO {
-        private String p;
-        private String total_page;
-        private String page_size;
-
-        public String getP() {
-            return p;
-        }
-
-        public void setP(String p) {
-            this.p = p;
-        }
-
-        public String getTotal_page() {
-            return total_page;
-        }
-
-        public void setTotal_page(String total_page) {
-            this.total_page = total_page;
-        }
-
-        public String getPage_size() {
-            return page_size;
-        }
-
-        public void setPage_size(String page_size) {
-            this.page_size = page_size;
         }
     }
 
@@ -699,6 +663,17 @@ public class RecommendedReportsResponse {
              */
             @SerializedName("label")
             private String label;
+            /**
+             * refUserid
+             */
+            @SerializedName("ref_userid")
+            private String refUserid;
+            /**
+             * refUsername
+             */
+            @SerializedName("ref_username")
+            private String refUsername;
+
 
             public String getId() {
                 return id;
@@ -963,6 +938,23 @@ public class RecommendedReportsResponse {
             public void setLabel(String label) {
                 this.label = label;
             }
+
+            public String getRefUserid() {
+                return refUserid;
+            }
+
+            public void setRefUserid(String refUserid) {
+                this.refUserid = refUserid;
+            }
+
+            public String getRefUsername() {
+                return refUsername;
+            }
+
+            public void setRefUsername(String refUsername) {
+                this.refUsername = refUsername;
+            }
+
         }
     }
 

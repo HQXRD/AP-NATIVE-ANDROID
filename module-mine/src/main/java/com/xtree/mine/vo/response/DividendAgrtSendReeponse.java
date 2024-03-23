@@ -2,7 +2,7 @@ package com.xtree.mine.vo.response;
 
 /**
  * Created by KAKA on 2024/3/20.
- * Describe:
+ * Describe: 契约分红手动发放
  */
 public class DividendAgrtSendReeponse {
 

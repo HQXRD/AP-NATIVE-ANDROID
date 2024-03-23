@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * Created by KAKA on 2024/3/19.
- * Describe:
+ * Describe: 契约分红 查看契约
  */
 public class DividendAgrtCheckResponse {
     private int status;

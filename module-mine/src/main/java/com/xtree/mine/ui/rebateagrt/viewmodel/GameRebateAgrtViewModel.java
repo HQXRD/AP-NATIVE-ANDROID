@@ -57,6 +57,7 @@ import java.util.List;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.http.BaseResponse2;
 import me.xtree.mvvmhabit.http.BusinessException;
 
 /**
@@ -445,9 +446,9 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                             datas.setValue(gameRebateDatas);
 
                             //分页状态
-                            GameRebateAgrtResponse.MobilePageDTO mobilePage = vo.getMobile_page();
+                            BaseResponse2.MobilePageVo mobilePage = vo.mobile_page;
                             if (mobilePage != null &&
-                                    mobilePage.getTotal_page().equals(String.valueOf(gameRebateAgrtRequest.p))) {
+                                    mobilePage.total_page.equals(String.valueOf(gameRebateAgrtRequest.p))) {
                                 loadMoreWithNoMoreData();
                             } else {
                                 finishLoadMore(true);
@@ -578,9 +579,9 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                 }
                             }
                             datas.setValue(subordinateRebateDatas);
-                            GameSubordinateRebateResponse.MobilePageDTO mobilePage = vo.getMobile_page();
+                            BaseResponse2.MobilePageVo mobilePage = vo.mobile_page;
                             if (mobilePage != null &&
-                                    mobilePage.getTotal_page().equals(String.valueOf(gameSubordinateRebateRequest.p))) {
+                                    mobilePage.total_page.equals(String.valueOf(gameSubordinateRebateRequest.p))) {
                                 loadMoreWithNoMoreData();
                             } else {
                                 finishLoadMore(true);

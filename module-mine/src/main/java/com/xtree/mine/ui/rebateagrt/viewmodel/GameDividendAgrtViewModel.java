@@ -51,6 +51,7 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.http.BaseResponse2;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -337,9 +338,9 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
 
                             datas.setValue(bindModels);
 
-                            GameDividendAgrtResponse.MobilePageDTO mobilePage = vo.getMobile_page();
+                            BaseResponse2.MobilePageVo mobilePage = vo.mobile_page;
                             if (mobilePage != null &&
-                                    mobilePage.getTotal_page().equals(String.valueOf(gameDividendAgrtRequest.p))) {
+                                    mobilePage.total_page.equals(String.valueOf(gameDividendAgrtRequest.p))) {
                                 loadMoreWithNoMoreData();
                             } else {
                                 finishLoadMore(true);

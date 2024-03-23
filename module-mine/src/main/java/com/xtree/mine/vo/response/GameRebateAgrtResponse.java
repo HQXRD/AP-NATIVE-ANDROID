@@ -2,15 +2,15 @@ package com.xtree.mine.vo.response;
 
 import java.util.List;
 
+import me.xtree.mvvmhabit.http.BaseResponse2;
+
 /**
  * Created by KAKA on 2024/3/12.
- * Describe:
+ * Describe: 返水契约游戏场馆返回体
  */
-public class GameRebateAgrtResponse {
+public class GameRebateAgrtResponse extends BaseResponse2 {
 
-    private String webtitle;
     private String sSystemImagesAndCssPath;
-    private String customer_service_link;
     private String pt_download_pc;
     private UserDTO user;
     private int push_service_status;
@@ -25,7 +25,6 @@ public class GameRebateAgrtResponse {
     private String quickSearch;
     private String desK;
     private Object yesterday_bill;
-    private MobilePageDTO mobile_page;
     private String pageinfo;
     private int isget;
     private TotalDTO total;
@@ -169,14 +168,6 @@ public class GameRebateAgrtResponse {
 
     public void setYesterday_bill(Object yesterday_bill) {
         this.yesterday_bill = yesterday_bill;
-    }
-
-    public MobilePageDTO getMobile_page() {
-        return mobile_page;
-    }
-
-    public void setMobile_page(MobilePageDTO mobile_page) {
-        this.mobile_page = mobile_page;
     }
 
     public String getPageinfo() {
