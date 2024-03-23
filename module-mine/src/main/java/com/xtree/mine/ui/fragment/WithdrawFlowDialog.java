@@ -14,6 +14,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.lxj.xpopup.widget.SmartDragLayout;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogWithdrawalFlowBinding;
@@ -29,9 +30,8 @@ import me.xtree.mvvmhabit.utils.Utils;
  */
 public class WithdrawFlowDialog extends BottomPopupView {
 
-
     public interface IWithdrawFlowDialogCallBack {
-        void closeAwardsDialog();
+        void closeWithdrawFlowDialog();
     }
 
     private IWithdrawFlowDialogCallBack callBack;
@@ -39,7 +39,6 @@ public class WithdrawFlowDialog extends BottomPopupView {
     ChooseWithdrawViewModel viewModel;
     LifecycleOwner owner;
     private AwardsRecordVo awardsRecordVo;
-
 
     @Override
     protected int getImplLayoutId() {
@@ -55,7 +54,7 @@ public class WithdrawFlowDialog extends BottomPopupView {
         super(context);
     }
 
-    public static WithdrawFlowDialog newInstance(Context context, LifecycleOwner owner, final AwardsRecordVo awardsRecordVo ,IWithdrawFlowDialogCallBack callBack) {
+    public static WithdrawFlowDialog newInstance(Context context, LifecycleOwner owner, final AwardsRecordVo awardsRecordVo, IWithdrawFlowDialogCallBack callBack) {
         WithdrawFlowDialog dialog = new WithdrawFlowDialog(context);
         dialog.owner = owner;
         dialog.awardsRecordVo = awardsRecordVo;
@@ -63,7 +62,6 @@ public class WithdrawFlowDialog extends BottomPopupView {
 
         return dialog;
     }
-
 
     @Override
     protected void onCreate() {
@@ -79,128 +77,48 @@ public class WithdrawFlowDialog extends BottomPopupView {
         binding.tvwTitle.setText(getContext().getString(R.string.txt_withdraw_flow));
 
         binding.ivwClose.setOnClickListener(v -> {
+            callBack.closeWithdrawFlowDialog();
             dismiss();
-            callBack.closeAwardsDialog();
 
         });
+        bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
+            @Override
+            public void onClose() {
+                if (callBack != null) {
+                    callBack.closeWithdrawFlowDialog();
+                }
+            }
 
+            @Override
+            public void onDrag(int y, float percent, boolean isScrollUp) {
+            }
+
+            @Override
+            public void onOpen() {
+            }
+        });
         binding.llChooseTip.setVisibility(View.VISIBLE);
         String tipText = "";
-        if (awardsRecordVo.list.size() >0)
-        {
-            tipText =  String.format(getContext().getString(R.string.txt_awards_flow_title) ,awardsRecordVo.withdraw_dispensing_money );
+        if (awardsRecordVo.list.size() > 0) {
+            tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
             binding.tvChooseTip.setText(tipText);
             binding.llChooseTip.setVisibility(View.VISIBLE);
             binding.lvChoose.setVisibility(View.VISIBLE);
             ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
             binding.lvChoose.setAdapter(adapter);
-        }else {
+        } else if (!TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) && awardsRecordVo.list.isEmpty()) {
+            tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
+            binding.tvChooseTip.setText(tipText);
+            binding.llChooseTip.setVisibility(View.VISIBLE);
+            binding.tvWithdrawalFlowTip.setVisibility(View.GONE);
+            binding.lvChoose.setVisibility(View.GONE);
+        } else {
             tipText = getContext().getString(R.string.txt_awards_no_money_tip);
             binding.tvChooseTip.setText(tipText);
             binding.llChooseTip.setVisibility(View.VISIBLE);
             binding.tvWithdrawalFlowTip.setVisibility(View.GONE);
             binding.lvChoose.setVisibility(View.GONE);
         }
-
-
-
-     /*   if (TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) && TextUtils.isEmpty(awardsRecordVo.locked_award_sum)){
-            tipText = getContext().getString(R.string.txt_awards_no_money_tip);
-            binding.tvChooseTip.setText(tipText);
-            binding.llChooseTip.setVisibility(View.VISIBLE);
-
-            binding.lvChoose.setVisibility(View.GONE);
-        } else {
-            Double flag = Double.valueOf(awardsRecordVo.withdraw_dispensing_money) ;
-            if (flag > 0 && awardsRecordVo.list !=null && !awardsRecordVo.list.isEmpty()){
-
-                tipText =  String.format(getContext().getString(R.string.txt_awards_flow_title) ,awardsRecordVo.withdraw_dispensing_money );
-
-                binding.tvChooseTip.setText(tipText);
-                binding.llChooseTip.setVisibility(View.VISIBLE);
-                binding.lvChoose.setVisibility(View.VISIBLE);
-                bottomPopupContainer.dismissOnTouchOutside(true);
-                bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
-                    @Override
-                    public void onClose() {
-                        if (callBack != null) {
-                            callBack.closeAwardsDialog();
-                        }
-                    }
-
-                    @Override
-                    public void onDrag(int y, float percent, boolean isScrollUp) {
-
-                    }
-
-                    @Override
-                    public void onOpen() {
-
-                    }
-                });
-                ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
-                binding.lvChoose.setAdapter(adapter);
-            } else if (flag <=0) {
-                tipText = getContext().getString(R.string.txt_awards_no_money_tip);
-                binding.tvChooseTip.setText(tipText);
-                binding.llChooseTip.setVisibility(View.VISIBLE);
-                binding.lvChoose.setVisibility(View.GONE);
-            }
-        }*/
-
-
-
-
-
-       /* if (viewType == 3) {
-            tipText = "您今日没有可用提款次数";
-        } else {
-            if (TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) ||
-                    awardsRecordVo.withdraw_dispensing_money.equals("0") ||
-                    awardsRecordVo.withdraw_dispensing_money.equals("0.00")) {
-                tipText = getContext().getString(R.string.txt_awards_no_money_tip);
-            } else {
-                tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
-            }
-        }
-        if (tipText.equals(getContext().getString(R.string.txt_awards_no_money_tip))) {
-            binding.tvChooseTip.setText(tipText);
-            binding.llChooseTip.setVisibility(View.VISIBLE);
-        } else {
-            binding.tvChooseTip.setVisibility(View.GONE);
-            binding.llChooseTip.setVisibility(View.GONE);
-        }
-        //http://jira.lgroup.co/browse/HQAP2-2817
-        //关闭显示列表
-        bottomPopupContainer.dismissOnTouchOutside(true);
-        bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
-            @Override
-            public void onClose() {
-                if (callBack != null) {
-                    callBack.closeAwardsDialog();
-                }
-            }
-
-            @Override
-            public void onDrag(int y, float percent, boolean isScrollUp) {
-
-            }
-
-            @Override
-            public void onOpen() {
-
-            }
-        });
-
-        if (awardsRecordVo != null && awardsRecordVo.list.size() > 1) {
-            binding.lvChoose.setVisibility(View.VISIBLE);
-            ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
-            binding.lvChoose.setAdapter(adapter);
-        } else {
-            *//*binding.llChooseTip.setVisibility(View.VISIBLE);
-            binding.tvWithdrawalAwardsTitle.setVisibility(View.GONE);*//*
-
-        }*/
 
     }
 
