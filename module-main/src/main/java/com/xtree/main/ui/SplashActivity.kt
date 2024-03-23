@@ -122,7 +122,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
     }
 
     override fun initViewObservable() {
-        viewModel?.inMainData?.observe(this) { inMain() }
+        viewModel?.inMainData?.observe(this) {
+            binding?.root?.postDelayed({ inMain() }, 1000L)
+
+        }
         viewModel?.reNewViewModel?.observe(this) {
             RetrofitClient.init()
             AppViewModelFactory.init()
