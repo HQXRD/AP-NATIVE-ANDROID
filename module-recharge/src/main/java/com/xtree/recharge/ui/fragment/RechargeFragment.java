@@ -1,6 +1,8 @@
 package com.xtree.recharge.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -22,9 +24,11 @@ import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.BrowserDialog;
@@ -139,12 +143,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         binding.rcvAmount.setAdapter(mAmountAdapter);
         binding.rcvAmount.setLayoutManager(new GridLayoutManager(getContext(), 4));
 
-        binding.ivwCs.setOnClickListener(v -> {
-            // 客服
-            String title = getString(R.string.txt_custom_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-            new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BrowserDialog(getContext(), title, url)).show();
-        });
+        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         binding.ivwRule.setOnClickListener(v -> {
             // 反馈
             startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK);
@@ -167,6 +166,17 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 String title = getString(R.string.txt_recharge_tutorial);
                 new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, tutorialUrl)).show();
             }
+        });
+        binding.tvwAntiFraud.setOnClickListener(v -> {
+            // 防骗教程
+            String title = getString(R.string.txt_rc_anti_fraud);
+            String url = DomainUtil.getDomain2() + Constant.URL_ANTI_FRAUD;
+            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+        });
+        binding.tvwDownload.setOnClickListener(v -> {
+            // 下载嗨钱包
+            String url = Constant.URL_DOWNLOAD_HI_WALLET;
+            getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
         });
 
         binding.tvwBindPhone.setOnClickListener(v -> {
@@ -289,7 +299,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i(vo.toString());
         CfLog.i("****** " + vo.title);
         boolean isRecommend = vo.tips_recommended == 1;
-        if ("1".equals(vo.low_rate_hint) && !isRecommend && !mRecommendList.isEmpty()) {
+        if ("1".equals(vo.low_rate_hint) && !isRecommend && !mRecommendList.isEmpty() && isTipTodayLow()) {
             // 提示成功率低
             CfLog.i("****** 提示成功率低");
             String msg = getString(R.string.txt_rc_channel_low_rate_hint, vo.title);
@@ -363,6 +373,19 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         CfLog.i("****** llDown is visible");
         binding.llDown.setVisibility(View.VISIBLE); // 下面的部分显示
+
+        // 人工充值
+        if (vo.paycode.equals("manual")) {
+            CfLog.i("manual ****** ");
+            binding.llName.setVisibility(View.GONE);
+            binding.llAmount.setVisibility(View.GONE);
+            binding.llManual.setVisibility(View.VISIBLE);
+            return;
+        } else {
+            binding.llName.setVisibility(View.VISIBLE);
+            binding.llAmount.setVisibility(View.VISIBLE);
+            binding.llManual.setVisibility(View.GONE);
+        }
 
         // 显示/隐藏银行卡 userBankList
         if (vo.view_bank_card) {
@@ -517,6 +540,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i("******");
         if (curRechargeVo == null) {
             ToastUtils.showLong(R.string.pls_choose_recharge_type);
+            return;
+        }
+
+        if (curRechargeVo.paycode.equals("manual")) {
+            LoadingDialog.show(getContext());
+            viewModel.getManualSignal();
             return;
         }
 
@@ -718,6 +747,16 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         binding.tvwPrePay.setText(usdt);
     }
 
+    private void setHiWallet(PaymentVo vo) {
+        binding.llHiWallet.setVisibility(View.GONE);
+        for (RechargeVo t : vo.chongzhiList) {
+            if (!TextUtils.isEmpty(t.paycode) && t.paycode.contains("hiwallet")) {
+                binding.llHiWallet.setVisibility(View.VISIBLE);
+                return;
+            }
+        }
+    }
+
     @Override
     public void initViewObservable() {
 
@@ -735,6 +774,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             setMainList(vo.chongzhiList); // 显示充值列表九宫格
             showProcessDialog(vo.processingData); // 检查弹窗 充值次数
             setTipBottom(new RechargeVo()); // 恢复底部的默认提示
+            setHiWallet(vo); // 显示/隐藏底部的 下载嗨钱包
         });
         viewModel.liveDataRechargeList.observe(getViewLifecycleOwner(), list -> {
             setRecommendList(); // 推荐的充值列表
@@ -758,6 +798,17 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         viewModel.liveDataRechargePay.observe(getViewLifecycleOwner(), vo -> {
             CfLog.i(vo.payname + ", bankcode: " + vo.bankcode + ", money: " + vo.money);
             goPay(vo);
+        });
+
+        viewModel.liveDataSignal.observe(this, vo -> {
+            if (vo.containsKey("code")) {
+                // 弹窗 人工充值
+                RechargeManualDialog dialog = new RechargeManualDialog(getActivity(), vo.get("code"));
+                ppw2 = new XPopup.Builder(getContext())
+                        .dismissOnTouchOutside(false)
+                        .asCustom(dialog);
+                ppw2.show();
+            }
         });
 
         viewModel.liveDataProfile.observe(this, vo -> {
@@ -906,12 +957,36 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     .asCustom(dialog);
             ppw2.show();
 
-        } else if (vo.userProcessCount > 0) {
+        } else if (vo.userProcessCount > 0 && isTipTodayCount()) {
             // 您已经连续充值 次, 为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！
             CfLog.i("****** 您已经连续充值 次");
             String msg = getString(R.string.txt_rc_count_low_rate_hint, vo.userProcessCount);
             showRecommendDialog(msg, null);
         }
+    }
+
+    /**
+     * 是否弹窗(充值次数)
+     * 单号: 2684, 2024-03-15
+     *
+     * @return true:默认弹提示, false:今日不弹提示
+     */
+    private boolean isTipTodayCount() {
+        String cacheDay = SPUtils.getInstance().getString(SPKeyGlobal.RC_NOT_TIP_TODAY_COUNT, "");
+        String today = TimeUtils.getCurDate();
+        return !today.equals(cacheDay);
+    }
+
+    /**
+     * 是否弹窗(成功率低)
+     * 单号: 2519, 2024-03-15
+     *
+     * @return true:默认弹提示, false:今日不弹提示
+     */
+    private boolean isTipTodayLow() {
+        String cacheDay = SPUtils.getInstance().getString(SPKeyGlobal.RC_NOT_TIP_TODAY_LOW, "");
+        String today = TimeUtils.getCurDate();
+        return !today.equals(cacheDay);
     }
 
     private void showRecommendDialog(String msg, RechargeVo vo) {

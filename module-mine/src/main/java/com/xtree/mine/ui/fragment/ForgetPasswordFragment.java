@@ -14,12 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.lxj.xpopup.XPopup;
-import com.xtree.base.global.Constant;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.DomainUtil;
-import com.xtree.base.widget.BrowserDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentForgetPasswordBinding;
@@ -54,11 +51,7 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
             hideKeyBoard();
         });
 
-        binding.ivwCs.setOnClickListener(view -> {
-            String title = getString(R.string.txt_custom_center);
-            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
-            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
-        });
+        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
 
         binding.llCheckUsername.edtResetPasswordUsername.addTextChangedListener(new TextWatcher() {
             @Override

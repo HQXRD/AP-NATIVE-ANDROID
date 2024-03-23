@@ -144,6 +144,10 @@
     <string name="txt_play_intro">玩法介绍</string>
     <string name="txt_tutorial">教程</string>
 
+    <!-- 充值页 -->
+    <string name="txt_rc_anti_fraud">防骗教程</string>
+    <string name="txt_rc_download">立即下载</string>
+    <string name="txt_rc_tip_hi_wallet">使用嗨钱包支付 0手续费 秒到账</string>
     <string name="txt_rc_bind_personal_info">请先绑定个人信息</string>
     <string name="txt_rc_bind_phone_now">立即绑定手机号</string>
     <string name="txt_rc_bind_bank_card_now">立即绑定银行卡</string>
@@ -152,6 +156,16 @@
     <string name="txt_rc_bind_email">绑定邮箱</string>
     <string name="txt_rc_bind_bank_card_pls">您没有绑定银行卡，请先绑定银行卡</string>
     <string name="txt_rc_tip_latest_balance">已更新到最新余额</string>
+    <string name="txt_rc_not_tip">今日不再提示</string>
+    <string name="txt_rc_i_know_close">我知道了，关闭弹窗</string>
+    <string name="txt_rc_manual_tip_1">若其它支付方式失败，建议您使用人工充值功能，同专人客服引导您进行充值</string>
+    <string name="txt_rc_manual_title">为了保护您的资金安全</string>
+    <string name="txt_rc_m_pls_check_signal">请核对人工客服提供的暗号是否为</string>
+    <string name="txt_rc_m_3">如果客服没有主动询问您或发给您的 %1$s否则引发的不到账等情况，概不负责。</string>
+    <string name="txt_rc_m_4">暗号不相符，请勿进行交易。</string>
+    <string name="txt_rc_m_5">注：使用人工充值，最低金额要求1000。</string>
+    <string name="txt_rc_m_ok">我已记住暗号</string>
+
     <string name="txt_update">版本更新</string>
     <string name="txt_update_tip">更新中，请稍候...</string>
     <string name="txt_update_down_over_tip">下载完成</string>

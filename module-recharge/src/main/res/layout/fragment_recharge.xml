@@ -14,6 +14,7 @@
         android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/clr_bg_main"
         android:orientation="vertical">
 
         <View
@@ -94,7 +95,7 @@
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/ll_root2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/layout_margin">
 
@@ -107,13 +108,13 @@
                     <TextView
                         style="@style/style_cm_title"
                         android:layout_marginTop="0dp"
-                        android:text="@string/txt_choose_recharge_channel" />
+                        android:text="@string/txt_choose_recharge_channel"
+                        android:textSize="15sp" />
 
                     <ImageView
                         android:id="@+id/ivw_1k"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
                         android:layout_marginEnd="4dp"
                         android:src="@mipmap/rc_ic_1k" />
 
@@ -124,14 +125,23 @@
                         android:visibility="invisible" />
 
                     <TextView
+                        android:id="@+id/tvw_anti_fraud"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:drawableStart="@mipmap/cm_ic_anti_fraud"
+                        android:drawablePadding="4dp"
+                        android:text="@string/txt_rc_anti_fraud"
+                        android:textColor="@color/clr_txt_black_01"
+                        android:textSize="12sp" />
+
+                    <TextView
                         android:id="@+id/tvw_tutorial"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
                         android:layout_marginEnd="@dimen/layout_margin"
                         android:drawableStart="@mipmap/cm_ic_tutorial"
                         android:drawablePadding="4dp"
-                        android:paddingTop="4dp"
                         android:text="@string/txt_recharge_tutorial"
                         android:textColor="@color/clr_txt_black_01"
                         android:textSize="12sp" />
@@ -146,6 +156,7 @@
                     android:id="@+id/ll_down"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
                     android:orientation="vertical"
                     android:visibility="gone"
                     tools:visibility="visible">
@@ -290,111 +301,136 @@
                             android:text="@string/txt_enter_real_name_pls" />
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    <TextView
-                        style="@style/style_cm_title"
-                        android:text="存款金额" />
-
-                    <com.xtree.base.widget.MaxRecyclerView
-                        android:id="@+id/rcv_amount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="6dp" />
-
-                    <EditText
-                        android:id="@+id/edt_amount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/layout_margin"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginEnd="@dimen/layout_margin"
-                        android:background="@mipmap/cm_bg_input_wht"
-                        android:hint="@string/txt_enter_recharge_amount"
-                        android:imeOptions="actionDone"
-                        android:inputType="number"
-                        android:lines="1"
-                        android:maxLength="9"
-                        android:padding="8dp"
-                        android:text=""
-                        android:textColor="@color/clr_txt_black_01"
-                        android:textColorHint="@color/clr_grey_20"
-                        android:textSize="16sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/tvw_tip_amount"
-                        style="@style/style_cm_tip_small_orange"
-                        android:drawableStart="@mipmap/cm_ic_hint_red"
-                        android:drawablePadding="2dp"
-                        android:text="@string/txt_enter_correct_amount" />
-
                     <LinearLayout
-                        android:id="@+id/ll_rate"
+                        android:id="@+id/ll_amount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tvw_fx_rate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/layout_margin"
-                            android:layout_weight="1"
-                            android:drawablePadding="2dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/txt_ref_exchange_rate"
-                            android:textColor="@color/clr_txt_black_01"
-                            android:textSize="11sp" />
+                            style="@style/style_cm_title"
+                            android:text="存款金额" />
 
-                        <TextView
-                            android:id="@+id/tvw_pre_pay"
-                            android:layout_width="wrap_content"
+                        <com.xtree.base.widget.MaxRecyclerView
+                            android:id="@+id/rcv_amount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="6dp" />
+
+                        <EditText
+                            android:id="@+id/edt_amount"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/layout_margin"
+                            android:layout_marginTop="12dp"
                             android:layout_marginEnd="@dimen/layout_margin"
-                            android:drawablePadding="2dp"
-                            android:gravity="center_vertical"
+                            android:background="@mipmap/cm_bg_input_wht"
+                            android:hint="@string/txt_enter_recharge_amount"
+                            android:imeOptions="actionDone"
+                            android:inputType="number"
+                            android:lines="1"
+                            android:maxLength="9"
+                            android:padding="8dp"
+                            android:text=""
                             android:textColor="@color/clr_txt_black_01"
-                            android:textSize="11sp"
-                            tools:text="预计支付" />
+                            android:textColorHint="@color/clr_grey_20"
+                            android:textSize="16sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
+                        <TextView
+                            android:id="@+id/tvw_tip_amount"
+                            style="@style/style_cm_tip_small_orange"
+                            android:drawableStart="@mipmap/cm_ic_hint_red"
+                            android:drawablePadding="2dp"
+                            android:text="@string/txt_enter_correct_amount" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_rate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tvw_fx_rate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/layout_margin"
+                                android:layout_weight="1"
+                                android:drawablePadding="2dp"
+                                android:gravity="center_vertical"
+                                android:text="@string/txt_ref_exchange_rate"
+                                android:textColor="@color/clr_txt_black_01"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/tvw_pre_pay"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/layout_margin"
+                                android:layout_marginEnd="@dimen/layout_margin"
+                                android:drawablePadding="2dp"
+                                android:gravity="center_vertical"
+                                android:textColor="@color/clr_txt_black_01"
+                                android:textSize="11sp"
+                                tools:text="预计支付" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/layout_margin"
+                                android:gravity="center_vertical"
+                                android:text="@string/txt_real_recharge_amount"
+                                android:textColor="@color/clr_txt_black"
+                                android:textSize="11sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvw_real_amount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="0"
+                                android:textColor="@color/clr_txt_black_01"
+                                android:textSize="11sp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvw_tip_channel"
+                            style="@style/style_rc_tip_small_grey"
+                            android:text="@string/txt_rc_no_alipay_wechat"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/ll_manual"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/layout_margin"
-                            android:gravity="center_vertical"
-                            android:text="@string/txt_real_recharge_amount"
-                            android:textColor="@color/clr_txt_black"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tvw_real_amount"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:text="0"
-                            android:textColor="@color/clr_txt_black_01"
-                            android:textSize="11sp" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/tvw_tip_channel"
-                        style="@style/style_rc_tip_small_grey"
-                        android:text="@string/txt_rc_no_alipay_wechat"
+                        android:orientation="vertical"
                         android:visibility="gone"
-                        tools:visibility="visible" />
+                        tools:visibility="visible">
+
+                        <TextView
+                            style="@style/style_rc_tip_small_grey"
+                            android:text="@string/txt_rc_manual_tip_1" />
+
+                        <TextView
+                            style="@style/style_cm_tip_small_yellow"
+                            android:layout_height="wrap_content"
+                            android:text="@string/txt_rc_m_5" />
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/btn_next"
@@ -418,6 +454,39 @@
                     style="@style/style_rc_tip_small_grey"
                     android:layout_marginBottom="36dp"
                     tools:text="@string/txt_kind_tips" />
+
+                <LinearLayout
+                    android:id="@+id/ll_hi_wallet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/layout_margin"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/cm_ic_hiwallet" />
+
+                    <TextView
+                        android:id="@+id/tvw_hi_wallet"
+                        style="@style/style_rc_tip_small_grey"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/txt_rc_tip_hi_wallet" />
+
+                    <TextView
+                        android:id="@+id/tvw_download"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_btn_r6"
+                        android:padding="4dp"
+                        android:text="@string/txt_rc_download"
+                        android:textColor="@color/clr_white" />
+                </LinearLayout>
+
             </androidx.appcompat.widget.LinearLayoutCompat>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
