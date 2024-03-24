@@ -168,14 +168,25 @@ public class SecurityQuestionFragment extends BottomPopupView {
             if (vo.message != null && "success".equals(vo.message)) {
                 ToastUtils.show(getContext().getString(R.string.txt_set_fund_question_success_tip), ToastUtils.ShowType.Success);
                 //设置密保成功后要刷新用户个人数据
+                LoadingDialog.show(getContext());
                 viewModel.getProfile();
-                callBack.closeSecurityDialog();
+
             } else if (vo.message != null && TextUtils.isEmpty(vo.message)) {
                 // "设置密保失败，请稍后再试",
                 ToastUtils.showError(vo.message);
 
             } else {
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+            }
+        });
+        //设置密保后刷新用户信心
+        viewModel.profileVoMutableLiveData.observe(owner , vo ->{
+            if (vo !=null && vo.set_question instanceof  ArrayList){
+                ArrayList list = (ArrayList) vo.set_question ;
+                for (int i = 0; i < list.size(); i++) {
+                    CfLog.e("设置密保后刷新用户信心 = " + list.get(i));
+                }
+                callBack.closeSecurityDialog();
             }
         });
     }
@@ -287,6 +298,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
 
         map.put("questions", qaBeanArrayList.toString());
 
+        CfLog.e("setSecurityQuestions" + map);
         viewModel.putSecurityQuestions(map);
     }
 
