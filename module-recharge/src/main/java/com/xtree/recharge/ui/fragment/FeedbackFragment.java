@@ -222,7 +222,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         HashMap<String, String> map = new HashMap<>();
         //starttime=2024-03-11 00:00&endtime=2024-03-11 23:59
         map.put("starttime", startTime);
-        map.put("endtime", "2024-03-11 23:59");
+        map.put("endtime", endTime);
         CfLog.e("FeedbackFragment = " + map);
         LoadingDialog.show(getContext());
         viewModel.feedbackInfo(map);

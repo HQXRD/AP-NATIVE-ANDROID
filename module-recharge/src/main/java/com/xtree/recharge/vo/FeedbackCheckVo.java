@@ -2,20 +2,20 @@ package com.xtree.recharge.vo;
 
 import java.util.List;
 
+import me.xtree.mvvmhabit.http.BaseResponse;
+
 /**
  * 反馈查询页面 网络数据
  */
-public class FeedbackCheckVo {
+public class FeedbackCheckVo extends BaseResponse {
 
-    public static class FeedbackBankInfo
-    {
+    public static class FeedbackBankInfo {
 
-        public   int id ;
-        public  String name ;
+        public int id;
+        public String name;
 
-        public FeedbackBankInfo(int id, String name)
-        {
-            this.id = id ;
+        public FeedbackBankInfo(int id, String name) {
+            this.id = id;
             this.name = name;
         }
 
@@ -28,35 +28,35 @@ public class FeedbackCheckVo {
         }
     }
 
+    public List<FeedbackCheckInfo> list;
+    public List<FeedbackBankInfo> banksInfo;
 
-    public List<FeedbackCheckInfo> list ;
-    public List<FeedbackBankInfo> banksInfo ;
     public static class FeedbackCheckInfo {
-        public String  id ;
-        public String userpay_mode ;
-        public String userpay_virtual_protocol ;
-        public String third_orderid ;
-        public String userpay_amount ;
-        public String  userpay_time ;
-        public String add_time ;
-        public String cash_time ;
-        public String order_status ;
+        public String id;
+        public String userpay_mode;
+        public String userpay_virtual_protocol;
+        public String third_orderid;
+        public String userpay_amount;
+        public String userpay_time;
+        public String add_time;
+        public String cash_time;
+        public String order_status;
 
-        public String  order_status_text ;
+        public String order_status_text;
 
-        public String order_edit_status ;
+        public String order_edit_status;
 
-        public String username ;
-        public String userpay_bank ;
-        public  String userpay_name ;
-        public String receive_banknum ;
+        public String username;
+        public String userpay_bank;
+        public String userpay_name;
+        public String receive_banknum;
 
-        public String receive_name ;
-        public String  receive_bank ;
+        public String receive_name;
+        public String receive_bank;
 
-        public String receive_bank_text ;//显示具体的名称
+        public String receive_bank_text;//显示具体的名称
 
-        public String userpay_picture ;//图片下载地址
+        public String userpay_picture;//图片下载地址
 
         @Override
         public String toString() {
@@ -83,6 +83,7 @@ public class FeedbackCheckVo {
                     '}';
         }
     }
-    public List<FeedbackProtocolInfo> protocolInfo ;//虚拟币协议（虚拟币选项 协议选择使用）
+
+    public List<FeedbackProtocolInfo> protocolInfo;//虚拟币协议（虚拟币选项 协议选择使用）
 
 }

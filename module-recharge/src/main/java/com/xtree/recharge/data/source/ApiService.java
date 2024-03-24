@@ -100,11 +100,9 @@ public interface ApiService {
 
     /**
      * 查询获取反馈页面详情数据（充值记录->查看）
-     *
-     * @param id 选择反馈记录id
      */
     @GET("/api/deposit/customerinfos?client=m")
-    Flowable<BaseResponse<FeedbackCheckVo>> feedbackCheckDetailsInfo(@Query("id") String id);
+    Flowable<BaseResponse<FeedbackCheckVo>> feedbackCheckDetailsInfo(@Query("id") String flag);
 
     /**
      * 反馈页面上传
