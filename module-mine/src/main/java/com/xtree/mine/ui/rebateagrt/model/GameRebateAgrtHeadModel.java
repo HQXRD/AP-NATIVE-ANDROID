@@ -26,6 +26,7 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
         void selectEndDate(ObservableField<String> endDate);
         void selectStatus(ObservableField<StatusVo> state, List<FilterView.IBaseVo> listStatus);
         void check(StatusVo state, String startDate, String endDate);
+        void showTip();
     }
 
     //开始时间
@@ -111,6 +112,12 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
         if (onCallBack != null) {
             p = 1;
             onCallBack.check(state.get(), startDate.get(), endDate.get());
+        }
+    }
+
+    public void showTip() {
+        if (onCallBack != null) {
+            onCallBack.showTip();
         }
     }
 

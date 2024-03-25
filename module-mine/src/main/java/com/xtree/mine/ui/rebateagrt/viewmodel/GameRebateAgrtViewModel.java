@@ -18,6 +18,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.drake.brv.BindingAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
 import com.xtree.base.mvvm.model.ToolbarModel;
@@ -27,6 +28,8 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.widget.DateTimePickerDialog;
 import com.xtree.base.widget.FilterView;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.data.source.APIManager;
@@ -160,6 +163,30 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         @Override
         public void check(StatusVo state, String startDate, String endDate) {
             getRebatAgrteData();
+        }
+
+        BasePopupView showPop;
+
+        @Override
+        public void showTip() {
+            MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_kind_tips), getApplication().getString(R.string.txt_rebateagrt_tip4), true, new TipDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+
+                }
+
+                @Override
+                public void onClickRight() {
+                    if (showPop != null) {
+                        showPop.dismiss();
+                    }
+                }
+            });
+
+            showPop = new XPopup.Builder(mActivity.get())
+                    .dismissOnTouchOutside(true)
+                    .dismissOnBackPressed(true)
+                    .asCustom(dialog).show();
         }
     };
 
