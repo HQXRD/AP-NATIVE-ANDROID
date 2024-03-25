@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bumptech.glide.Glide;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
@@ -41,10 +42,15 @@ import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.FragmentRechargeBinding;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.PaymentVo;
 import com.xtree.recharge.vo.ProcessingDataVo;
 import com.xtree.recharge.vo.RechargePayVo;
 import com.xtree.recharge.vo.RechargeVo;
+import com.youth.banner.adapter.BannerImageAdapter;
+import com.youth.banner.holder.BannerImageHolder;
+import com.youth.banner.indicator.CircleIndicator;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -117,6 +123,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         viewModel.readCache(); // 先读取缓存数据
         viewModel.getPayments(); // 调用接口
         viewModel.get1kEntry(); // 一键进入
+        viewModel.getRechargeBanners(); // 获取广告轮播图
     }
 
     @Override
@@ -257,6 +264,24 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         setTipBottom(new RechargeVo()); // 设置底部的文字提示
 
+        binding.bnrTop.setIndicator(new CircleIndicator(getContext())); // 增加小圆点
+        binding.bnrTop.setAdapter(new BannerImageAdapter<BannersVo>(new ArrayList<>()) {
+            @Override
+            public void onBindView(BannerImageHolder holder, BannersVo data, int position, int size) {
+                //holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                String url = data.picture.startsWith("http") ? data.picture : DomainUtil.getDomain2() + data.picture;
+                Glide.with(getContext()).load(url).placeholder(R.mipmap.rc_bnr_ad).into(holder.imageView);
+            }
+        });
+        binding.bnrTop.setOnBannerListener((OnBannerListener<BannersVo>) (data, position) -> {
+            if (TextUtils.isEmpty(data.link)) {
+                return;
+            }
+
+            String url = data.link.startsWith("http") ? data.link : DomainUtil.getDomain2() + data.link;
+            CfLog.e(url);
+            AppUtil.goBrowser(getContext(), url);
+        });
     }
 
     /**
@@ -789,7 +814,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             CfLog.i(vo.payname + ", bankcode: " + vo.bankcode + ", money: " + vo.money);
             goPay(vo);
         });
-
+        viewModel.liveDataRcBanners.observe(this, list -> {
+            CfLog.i("*****");
+            binding.bnrTop.setDatas(list);
+            binding.bnrTop.setVisibility(View.VISIBLE);
+        });
         viewModel.liveDataSignal.observe(this, vo -> {
             if (vo.containsKey("code")) {
                 // 弹窗 人工充值

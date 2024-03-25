@@ -1,11 +1,13 @@
 package com.xtree.recharge.data.source;
 
+import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.FeedbackCheckVo;
 import com.xtree.recharge.vo.FeedbackImageUploadVo;
 import com.xtree.recharge.vo.FeedbackVo;
 import com.xtree.recharge.vo.PaymentVo;
 import com.xtree.recharge.vo.RechargeVo;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
@@ -72,6 +74,12 @@ public interface ApiService {
      */
     @GET("/api/deposit/manualcode")
     Flowable<BaseResponse<Map<String, String>>> getManualSignal();
+
+    /**
+     * 获取轮播图(充值页的)
+     */
+    @GET("/api/bns/12/banners?limit=20")
+    Flowable<BaseResponse<List<BannersVo>>> getRechargeBanners();
 
     /**
      * 获取反馈页面基本数据

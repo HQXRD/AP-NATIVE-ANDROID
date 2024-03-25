@@ -92,7 +92,7 @@
             android:layout_height="match_parent"
             tools:ignore="ScrollViewCount">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <LinearLayout
                 android:id="@+id/ll_root2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -150,7 +150,9 @@
                 <com.xtree.base.widget.MaxRecyclerView
                     android:id="@+id/rcv_pmt"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/ll_down"
@@ -449,6 +451,25 @@
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
+                <com.youth.banner.Banner
+                    android:id="@+id/bnr_top"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_margin"
+                    android:layout_marginTop="@dimen/layout_margin"
+                    android:layout_marginEnd="@dimen/layout_margin"
+                    android:background="@mipmap/rc_bnr_ad"
+                    android:visibility="visible"
+                    app:banner_auto_loop="true"
+                    app:banner_indicator_normal_color="@color/white"
+                    app:banner_indicator_selected_color="@color/clr_purple_bg01"
+                    app:banner_infinite_loop="true"
+                    app:banner_loop_time="2500"
+                    app:banner_orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible"></com.youth.banner.Banner>
+
                 <TextView
                     android:id="@+id/tvw_tip_bottom"
                     style="@style/style_rc_tip_small_grey"
@@ -487,7 +508,7 @@
                         android:textColor="@color/clr_white" />
                 </LinearLayout>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 </layout>
