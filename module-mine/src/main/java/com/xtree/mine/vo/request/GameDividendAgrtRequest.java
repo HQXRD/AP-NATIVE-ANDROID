@@ -7,8 +7,8 @@ package com.xtree.mine.vo.request;
 public class GameDividendAgrtRequest {
 
     public String orderby = "pay_status";
-    public String sort = "desc";
-    public String pay_status = "";
+    public String sort = "asc";
+    public String pay_status = "0";
     public String username = "";
     public String userid = "";
     public String type = "1";

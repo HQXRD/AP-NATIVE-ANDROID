@@ -12,10 +12,8 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentGameDividendagrtBinding;
-import com.xtree.mine.databinding.FragmentGameRebateagrtBinding;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentModel;
 import com.xtree.mine.ui.rebateagrt.viewmodel.GameDividendAgrtViewModel;
-import com.xtree.mine.ui.rebateagrt.viewmodel.GameRebateAgrtViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
@@ -64,6 +62,7 @@ public class GameDividendAgrtFragment extends BaseFragment<FragmentGameDividenda
         //这里其实可以封装到Base
         viewModel.getUC().getSmartRefreshListenerEvent().observe(this, integer -> {
             if (integer == BaseViewModel.ONFINISH_LOAD_MORE) {
+                binding.refreshLayout.resetNoMoreData();
                 binding.refreshLayout.finishLoadMore();
             } else if (integer == BaseViewModel.ONFINISH_REFRESH) {
                 binding.refreshLayout.finishRefresh();

@@ -78,6 +78,7 @@ public class DividendAgrtSendDialogFragment extends BaseDialogFragment<DialogDiv
         //这里其实可以封装到Base
         viewModel.getUC().getSmartRefreshListenerEvent().observe(this, integer -> {
             if (integer == BaseViewModel.ONFINISH_LOAD_MORE) {
+                binding.refreshLayout.resetNoMoreData();
                 binding.refreshLayout.finishLoadMore();
             } else if (integer == BaseViewModel.ONFINISH_REFRESH) {
                 binding.refreshLayout.finishRefresh();
