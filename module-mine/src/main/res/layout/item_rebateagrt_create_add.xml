@@ -33,14 +33,14 @@
             <View
                 android:layout_width="5dp"
                 android:layout_height="14dp"
-                android:background="@color/color_5B5B6A"/>
+                android:background="@color/clr_txt_02"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_rebateagrt_ccontent"
                 android:textSize="14sp"
-                android:textColor="@color/color_5B5B6A"
+                android:textColor="@color/clr_txt_02"
                 android:layout_marginStart="2dp"
                 />
         </LinearLayout>
@@ -50,10 +50,11 @@
             android:layout_height="30dp"
             android:text="@string/txt_add_rules"
             android:textSize="12sp"
+            android:textColor="@color/clr_txt_02"
             android:gravity="center"
             android:layout_marginTop="8dp"
             android:layout_marginStart="3dp"
-            android:background="@drawable/shape_stroke_247bf4_1_corner_8"
+            android:background="@drawable/shape_stroke_clrmain_1_corner_8"
             android:layout_alignParentEnd="true"
             android:onClick="@{() -> m.add()}"
             android:visibility="@{m.openAdd==true?View.VISIBLE:View.GONE}"

@@ -23,7 +23,8 @@
             android:clickable="false"
             android:checked="@={m.checked}"
             android:text="@{m.userName}"
-            android:background="@drawable/selector_cdcece_f2f2f2_corner100"
+            android:textColor="@color/clr_txt_02"
+            android:background="@drawable/selector_clrmain09_clrmain05_corner100"
             android:button="@null"
             tools:text="标签" />
 

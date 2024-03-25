@@ -44,7 +44,7 @@ class RDChildAdapter(val context: Context) : CachedAutoRefreshAdapter<X0>() {
 
         val name = get(position).lotteryname.trim().plus("：")
         val rebate = get(position).prizegroup.plus("%")
-        val txt = name + "<font color=" + ContextCompat.getColor(context, R.color.color_FD5255) + ">" + rebate + "</font>"
+        val txt = name + "<font color=" + ContextCompat.getColor(context, R.color.clr_txt_rebateagrt_mark) + ">" + rebate + "</font>"
         binding.tvName.text =
             HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_COMPACT)
 

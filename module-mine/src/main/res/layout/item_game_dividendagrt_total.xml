@@ -50,7 +50,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/txt_weekly_bets"
                     android:textSize="12sp"
-                    android:textColor="@color/color_5B5B6A"
+                    android:textColor="@color/clr_txt_02"
                     android:layout_marginTop="12dp"
                     />
 
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{m.bet}"
                     android:textSize="10sp"
-                    android:textColor="@color/color_1E1E1E"
+                    android:textColor="@color/clr_txt_02"
                     android:layout_marginTop="5dp"
                     />
 
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/txt_num_active_persons"
                     android:textSize="12sp"
-                    android:textColor="@color/color_5B5B6A"
+                    android:textColor="@color/clr_txt_02"
                     android:layout_marginTop="12dp"
                     />
 
@@ -77,7 +77,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{m.people}"
                     android:textSize="10sp"
-                    android:textColor="@color/color_1E1E1E"
+                    android:textColor="@color/clr_txt_02"
                     android:layout_marginTop="5dp"
                     />
             </LinearLayout>
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/txt_dividend_ratio"
                     android:textSize="12sp"
-                    android:textColor="@color/color_5B5B6A"
+                    android:textColor="@color/clr_txt_02"
                     android:layout_marginTop="12dp"
                     />
 
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{m.cycle_percent}"
                     android:textSize="10sp"
-                    android:textColor="@color/color_1E1E1E"
+                    android:textColor="@color/clr_txt_02"
                     android:layout_marginTop="5dp"
                     />
 
@@ -117,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/txt_cycle"
                     android:textSize="12sp"
-                    android:textColor="@color/color_5B5B6A"
+                    android:textColor="@color/clr_txt_02"
                     android:layout_marginTop="12dp"
                     />
 
@@ -126,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{m.cycle}"
                     android:textSize="10sp"
-                    android:textColor="@color/color_1E1E1E"
+                    android:textColor="@color/clr_txt_02"
                     android:layout_marginTop="5dp"
                     />
             </LinearLayout>
@@ -148,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:text="@string/txt_profit_loss"
-                    android:textColor="@color/color_5B5B6A"
+                    android:textColor="@color/clr_txt_02"
                     android:textSize="12sp" />
 
                 <TextView
@@ -156,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:text="@{m.profitloss}"
                     android:textSize="10sp"
-                    android:textColor="@color/color_FD5255"
+                    android:textColor="@color/clr_txt_rebateagrt_mark"
                     android:layout_marginTop="5dp" />
 
                 <TextView

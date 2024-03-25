@@ -3,7 +3,7 @@
     android:shape="rectangle">
     <!--提现 输入金额 边框-->
     <stroke android:width="2dp" android:color="@color/clr_gray_6" />
-    <solid android:color="@color/color_FFFFFF" />
+    <solid android:color="@color/clr_white" />
     <corners
         android:topLeftRadius="4dp"
         android:topRightRadius="4dp"

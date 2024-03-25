@@ -395,22 +395,7 @@
     <color name="clr_f3f5f6">#F3F5F6</color>
     <!--魔域 提现 金额选择 按钮 字体颜色-->
     <color name="cl_withdrawal_money">#C4B2FF</color>
-    <!--    通用色值-->
-    <color name="color_1E1E1E">#1E1E1E</color>
-    <color name="color_93B7E5">#93B7E5</color>
-    <color name="color_99A0B1">#99A0B1</color>
-    <color name="color_5B5B6A">#5B5B6A</color>
-    <color name="color_37AA4A">#37AA4A</color>
-    <color name="color_247BF4">#247BF4</color>
-    <color name="color_8BC1FF">#8BC1FF</color>
-    <color name="color_FFFFFF">#FFFFFF</color>
-    <color name="color_50000000">#50000000</color>
-    <color name="color_f2f2f2">#f2f2f2</color>
-    <color name="color_EBEEF5">#EBEEF5</color>
-    <color name="color_7D8FB9">#7D8FB9</color>
-    <color name="color_FD5255">#FD5255</color>
-    <color name="color_FEA768">#FEA768</color>
-    <color name="color_CDCECE">#CDCECE</color>
+
     <color name="color_transparent">#00000000</color>
 
     <!--    返水契约-->

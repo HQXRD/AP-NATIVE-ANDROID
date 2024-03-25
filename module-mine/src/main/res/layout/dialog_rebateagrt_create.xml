@@ -32,7 +32,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{model.viewMode==model.CHECK_MODO?@string/txt_modify:@string/txt_create}"
-                android:textColor="@color/color_7D8FB9"
+                android:textColor="@color/clr_main_23"
                 android:textSize="12sp"
                 android:layout_marginEnd="15dp"
                 android:onClick="@{() -> model.create()}"
