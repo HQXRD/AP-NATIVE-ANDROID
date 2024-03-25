@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="m"
+            type="com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckFoot" />
+    </data>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_dividend_check_tip1"
+            android:textColor="@color/clr_txt_rebateagrt_mark"
+            android:textSize="10sp"/>
+    </FrameLayout>
+</layout>

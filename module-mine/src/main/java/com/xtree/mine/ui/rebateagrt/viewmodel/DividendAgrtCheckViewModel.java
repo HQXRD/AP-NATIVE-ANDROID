@@ -12,6 +12,7 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckFoot;
 import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtCreateAddModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtCreateHeadModel;
@@ -59,6 +60,7 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                     add(R.layout.item_dividendagrt_check);
                     add(R.layout.item_rebateagrt_create_head);
                     add(R.layout.item_rebateagrt_create_add);
+                    add(R.layout.item_dividendagrt_check_foot);
                 }
             });
     private final RebateAgrtCreateHeadModel headModel = new RebateAgrtCreateHeadModel();
@@ -69,8 +71,11 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
         headModel.setItemType(1);
         addModel.setItemType(2);
         addModel.openAdd.set(false);
+        DividendAgrtCheckFoot footModel = new DividendAgrtCheckFoot();
+        footModel.setItemType(3);
         add(addModel);
         add(headModel);
+        add(footModel);
     }};
 
     public void initData(DividendAgrtCheckRequest response) {
@@ -90,7 +95,7 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
             BindModel bind = bindModels.get(i);
             if (bind instanceof DividendAgrtCheckModel) {
                 DividendAgrtCheckModel model = (DividendAgrtCheckModel) bind;
-                model.numText.set(getApplication().getString(R.string.txt_rules) + (i - 1));
+                model.numText.set(getApplication().getString(R.string.txt_rules) + (i - 2));
             }
         }
     }

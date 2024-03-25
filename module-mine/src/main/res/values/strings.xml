@@ -446,6 +446,7 @@
     <string name="txt_rebateagrt_tip1">请选择用户</string>
     <string name="txt_rebateagrt_tip2">请先正确填写投注额信息</string>
     <string name="txt_rebateagrt_tip3">最少保留一条规则</string>
+    <string name="txt_rebateagrt_tip4">1.返水按有效投注额计算，无效投注的判定标准请咨询平台或您的上级。\n2.个别游戏因数据统计存在延迟，将计入次日投注额。\n3. 活跃玩家人数统计包括本人，活跃玩家定义请咨询平台或您的上级。\n4. 返水金额向下取整数，精确到元。\n5. PT平台 桌/卡牌游戏 不计算在内。</string>
     <string name="txt_balances">结余：</string>
     <string name="txt_paid_sub">下级应发：</string>
     <string name="txt_rebate_sub">下级返水</string>
@@ -453,6 +454,8 @@
     <string name="txt_rebate_personally">个人返水</string>
     <string name="txt_send_status">发放状态</string>
     <string name="txt_all">全部</string>
+    <string name="txt_dividend_yestday_rmb">昨日分红（元）</string>
     <string name="txt_correct_pwd">请输入正确格式的登录密码</string>
+    <string name="txt_dividend_check_tip1">说明\n●分红周期指每月1-15日，16日-月末；\n●契约规则请按照从低至高顺序填写；\n●契约创建成功后立即生效，本分红周期统计完整投注额；</string>
 
 </resources>
