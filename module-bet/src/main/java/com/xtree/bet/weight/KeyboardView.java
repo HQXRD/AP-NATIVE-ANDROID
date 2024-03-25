@@ -3,7 +3,6 @@ package com.xtree.bet.weight;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +19,8 @@ import com.zhy.adapter.recyclerview.CommonAdapter;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.Arrays;
+
+import me.xtree.mvvmhabit.utils.KLog;
 
 public class KeyboardView extends FrameLayout implements View.OnClickListener {
 
@@ -41,15 +42,15 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
             int[] outLocation = new int[2];
             itemView.getLocationInWindow(outLocation);
             int editAreaY = outLocation[1];
-            Log.e("test", itemView + "======editAreaY=======" + editAreaY);
-            Log.e("test", "======parentY=======" + parentY);
+            KLog.e("test", itemView + "======editAreaY=======" + editAreaY);
+            KLog.e("test", "======parentY=======" + parentY);
 
             int[] outLocation1 = new int[2];
             getLocationInWindow(outLocation1);
             int keyBoardY = outLocation1[1];
 
             int editAreaHeight = itemView.getMeasuredHeight();
-            Log.e("test", "======editAreaHeight=======" + editAreaHeight);
+            KLog.e("test", "======editAreaHeight=======" + editAreaHeight);
 
             if(editAreaY + editAreaHeight > keyBoardY){
                 int y = editAreaY + editAreaHeight * 2 - keyBoardY;
@@ -93,7 +94,6 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
                         return;
                     }
                     editText.setText(String.valueOf(textValue));
-                    KLog.i("editText",String.valueOf(textValue));
                     currentPos = textValue > maxValue ? -1 : position;
                     notifyDataSetChanged();
                 });
@@ -187,7 +187,7 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
         int id = view.getId();
         if(id == R.id.ll_expand){
             mKeyBoardListener.showKeyBoard(false);
-            Log.e("test", "关闭=============" + isShow );
+            KLog.e("test", "关闭=============" + isShow );
         }
     }
 }
