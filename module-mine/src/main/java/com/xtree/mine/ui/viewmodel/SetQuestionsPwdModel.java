@@ -28,6 +28,8 @@ public class SetQuestionsPwdModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<CheckQuestionVo> checkQuestionVoMutableLiveData = new MutableLiveData<>();//检查密保
     public MutableLiveData<BaseResponse2> response2MutableLiveData = new MutableLiveData<>();//密码找回
 
+    public MutableLiveData<ProfileVo> profileVoMutableLiveData = new MutableLiveData<>() ;//刷新用户信息类
+
     public SetQuestionsPwdModel(@NonNull Application application, MineRepository model) {
         super(application, model);
     }
@@ -108,7 +110,7 @@ public class SetQuestionsPwdModel extends BaseViewModel<MineRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.HOME_PROFILE, new Gson().toJson(vo));
                         SPUtils.getInstance().put(SPKeyGlobal.USER_ID, vo.userid);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_NAME, vo.username);
-
+                        profileVoMutableLiveData.setValue(vo);
                     }
 
                     @Override

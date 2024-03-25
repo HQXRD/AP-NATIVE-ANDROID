@@ -38,7 +38,6 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.VipInfoVo;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -263,9 +262,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
         //检查更新
         binding.tvwUpgrade.setOnClickListener(v -> {
-            LoadingDialog.show(getContext());
+           LoadingDialog.show(getContext());
             viewModel.getUpdate();
-
         });
 
     }
@@ -448,6 +446,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             CfLog.i(vo.toString());
             updateVo = vo;
             if (updateVo == null){
+                //ToastUtils.showError(getContext().getString(R.string.txt_update_version));
                 return;
             }
             //存储服务器设置时间间隔
@@ -540,6 +539,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             public void onUpdateForce() {
             }
         });
+
         updateView = new XPopup.Builder(getContext())
                 .dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)

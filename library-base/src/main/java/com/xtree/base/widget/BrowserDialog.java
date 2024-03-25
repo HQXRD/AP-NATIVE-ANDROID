@@ -58,12 +58,12 @@ public class BrowserDialog extends BottomPopupView {
     //LinearLayout llBackground;
     int sslErrorCount = 0;
 
-    String title;
-    String url;
-    int maxHeight = 85; // 最大高度百分比 10-100
-    boolean isContainTitle = false; // 网页自身是否包含标题(少数情况下会包含)
-    boolean isActivity = false; // 是否来自活动页面
-    boolean is3rdLink = false; // 是否跳转到三方链接(如果是,就不用带header和cookie了)
+    protected String title;
+    protected String url;
+    protected int maxHeight = 85; // 最大高度百分比 10-100
+    protected boolean isContainTitle = false; // 网页自身是否包含标题(少数情况下会包含)
+    protected boolean isActivity = false; // 是否来自活动页面
+    protected boolean is3rdLink = false; // 是否跳转到三方链接(如果是,就不用带header和cookie了)
     ValueCallback<Uri> mUploadCallbackBelow;
     ValueCallback<Uri[]> mUploadCallbackAboveL;
 
@@ -79,21 +79,6 @@ public class BrowserDialog extends BottomPopupView {
         this.url = url;
     }
 
-    public BrowserDialog(@NonNull Context context, int resTitle, String url) {
-        super(context);
-        mContext = context;
-        this.title = context.getString(resTitle);
-        this.url = url;
-    }
-
-    public BrowserDialog(@NonNull Context context, String title, String url, boolean isContainTitle) {
-        super(context);
-        mContext = context;
-        this.title = title;
-        this.url = url;
-        this.isContainTitle = isContainTitle;
-    }
-
     public BrowserDialog(@NonNull Context context, String title, String url, boolean isContainTitle, boolean isActivity) {
         super(context);
         mContext = context;
@@ -103,23 +88,24 @@ public class BrowserDialog extends BottomPopupView {
         this.isActivity = isActivity;
     }
 
-    public BrowserDialog(@NonNull Context context, String title, String url, boolean isContainTitle, boolean isActivity,
-                         boolean is3rdLink) {
-        super(context);
-        mContext = context;
-        this.title = title;
-        this.url = url;
-        this.isContainTitle = isContainTitle;
-        this.isActivity = isActivity;
-        this.is3rdLink = is3rdLink;
+    public static BrowserDialog newInstance(@NonNull Context context, String title, String url) {
+        BrowserDialog dialog = new BrowserDialog(context, title, url);
+        return dialog;
     }
 
-    public BrowserDialog(@NonNull Context context, String title, String url, int maxHeight) {
-        super(context);
-        mContext = context;
-        this.title = title;
-        this.url = url;
+    public BrowserDialog setContainTitle(boolean isContainTitle) {
+        this.isContainTitle = isContainTitle;
+        return this;
+    }
+
+    public BrowserDialog set3rdLink(boolean is3rdLink) {
+        this.is3rdLink = is3rdLink;
+        return this;
+    }
+
+    public BrowserDialog setMaxHeight(int maxHeight) {
         this.maxHeight = maxHeight;
+        return this;
     }
 
     @Override

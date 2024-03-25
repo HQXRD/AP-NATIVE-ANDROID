@@ -79,6 +79,10 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportAccBinding
 
     @Override
     public void initView() {
+        binding.tblType.removeAllTabs();
+        binding.tblType.addTab(binding.tblType.newTab().setText(R.string.txt_report_acc_change));
+        binding.tblType.addTab(binding.tblType.newTab().setText(R.string.txt_report_game_change));
+
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         // 账变记录
         binding.fvMain.setQueryListener(v -> {

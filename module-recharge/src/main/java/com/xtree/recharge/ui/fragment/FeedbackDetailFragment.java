@@ -1,6 +1,7 @@
 package com.xtree.recharge.ui.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 反馈详情页面
@@ -89,7 +91,14 @@ public class FeedbackDetailFragment extends BaseFragment<FragmentFeedbackDetailB
         //查询获取反馈页面详情
         viewModel.feedbackCheckVoSingleLiveData.observe(this, v -> {
             feedbackCheckVo = v;
-            referUIWithModel(feedbackCheckVo.list.get(0));
+            if (feedbackCheckVo.getStatus() == 30415 && "必要参数不存在 (提交时间)".equals(feedbackCheckVo.getMessage())){
+                ToastUtils.showError(feedbackCheckVo.getMessage());
+            }else if (!TextUtils.isEmpty(feedbackCheckVo.getMessage())){
+                ToastUtils.showError(feedbackCheckVo.getMessage());
+            }else {
+                referUIWithModel(feedbackCheckVo.list.get(0));
+            }
+
         });
     }
 

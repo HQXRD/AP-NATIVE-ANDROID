@@ -138,7 +138,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
 
     private void initViewObservable() {
         hideKeyBoard();
-        //USDT提款设置提款请求 返回model
+        //虚拟币提款设置提款请求 返回model
         viewModel.virtualCashMoYuVoMutableLiveData.observe(owner, vo -> {
             virtualCashVo = vo;
             if (virtualCashVo.msg_type == 1 || virtualCashVo.msg_type == 2) {
@@ -146,25 +146,18 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
                 dismiss();
                 return;
             }
-
-            for (int i = 0; i < virtualCashVo.usdtinfo.size(); i++) {
-                CfLog.e("virtualCashVo.usdtinfo = " + virtualCashVo.usdtinfo.get(i));
-            }
-            // selectUsdtInfo = virtualCashVo.usdtinfo.get(0);
             refreshSetUI();
         });
-        //USDT确认提款信息
+        //虚拟币确认提款信息
         viewModel.virtualSecurityMoYuVoMutableLiveData.observe(owner, vo -> {
             usdtSecurityVo = vo;
-            if (usdtSecurityVo.datas == null &&("抱歉，您的提款金额累计超过今日最高提款金额，请确认后再进行操作".equals(usdtSecurityVo.message)) && "2".equals(usdtSecurityVo.msg_type))
-            {
+            if (usdtSecurityVo.datas == null && ("抱歉，您的提款金额累计超过今日最高提款金额，请确认后再进行操作".equals(usdtSecurityVo.message)) && "2".equals(usdtSecurityVo.msg_type)) {
                 showErrorDialog(usdtSecurityVo.message);
-            }
-            else {
+            } else {
                 refreshSecurityUI();
             }
         });
-        //USDT完成申请
+        //虚拟币完成申请
         viewModel.virtualConfirmMuYuVoMutableLiveData.observe(owner, vo -> {
             usdtConfirmVo = vo;
             refreshConfirmUI();

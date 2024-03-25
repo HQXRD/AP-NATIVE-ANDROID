@@ -180,6 +180,7 @@
     <string name="txt_update_tip">更新中，请稍候...</string>
     <string name="txt_update_down_over_tip">下载完成</string>
     <string name="txt_update_down_fail_tip">下载失败，请稍候重试</string>
+    <style name="txt_update_version">已是最新版本</style>
     <string name="txt_network_error">网络异常，请稍后重试</string>
 
     <string name="domain_url">http</string>
@@ -259,7 +260,7 @@
     <string name="txt_fund_question_selector_tip">请选择密保问题</string>
     <string name="txt_set_fund_question_success_tip">设置密保问题成功</string>
     <string name="txt_retrieve_fund_tip">请输入新的资金密码</string>
-
+    <string name="text_anw_null_tip">密保答案不能为空</string>
     <string name="txt_view_detail">查看详情</string>
 
     <string name="txt_user_name">用户名</string>

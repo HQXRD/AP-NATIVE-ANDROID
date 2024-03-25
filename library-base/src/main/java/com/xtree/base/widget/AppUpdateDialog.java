@@ -119,18 +119,7 @@ public class AppUpdateDialog extends CenterPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
-        if (isTest) {
-            binding.dialogUpdateCancel.setOnClickListener(v -> {
-                mCallBack.onUpdateCancel();
-            });
-            //立即更新
-            binding.dialogUpdateConfirm.setOnClickListener(v -> {
-                ToastUtils.showError("立即更新");
-            });
-        } else {
-            initView();
-        }
-
+        initView();
     }
 
     @Override
