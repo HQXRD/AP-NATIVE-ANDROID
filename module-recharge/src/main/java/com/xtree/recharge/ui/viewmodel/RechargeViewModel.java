@@ -13,6 +13,7 @@ import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.recharge.data.RechargeRepository;
 import com.xtree.recharge.vo.BankCardVo;
+import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.FeedbackCheckVo;
 import com.xtree.recharge.vo.FeedbackImageUploadVo;
 import com.xtree.recharge.vo.FeedbackVo;
@@ -44,6 +45,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<RechargeVo> liveDataRecharge = new SingleLiveData<>(); // 充值详情
     public SingleLiveData<RechargePayVo> liveDataRechargePay = new SingleLiveData<>(); // 充值提交结果
     public SingleLiveData<Map<String, String>> liveDataSignal = new SingleLiveData<>(); // 人工客服暗号
+    public SingleLiveData<List<BannersVo>> liveDataRcBanners = new SingleLiveData<>(); // 轮播图
     public SingleLiveData<FeedbackVo> feedbackVoSingleLiveData = new SingleLiveData<>();//进入反馈页面回去的数据
     public SingleLiveData<FeedbackImageUploadVo> imageUploadVoSingleLiveData = new SingleLiveData<>();//feedback图片上传
     public SingleLiveData<Object> feedbackAddSingleLiveData = new SingleLiveData<>();//feedback 下一步接口
@@ -264,6 +266,28 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getRechargeBanners() {
+        Disposable disposable = (Disposable) model.getApiService().getRechargeBanners()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<List<BannersVo>>() {
+                    @Override
+                    public void onResult(List<BannersVo> list) {
+                        CfLog.d("********");
+                        if (list != null && !list.isEmpty()) {
+                            liveDataRcBanners.setValue(list);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        //super.onError(t);
                     }
                 });
         addSubscribe(disposable);

@@ -126,6 +126,7 @@
         android:id="@+id/ckb_not_tip"
         style="@style/style_cm_ckb_normal"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="@string/txt_rc_not_tip"
         android:textColor="@color/clr_purple_01"
