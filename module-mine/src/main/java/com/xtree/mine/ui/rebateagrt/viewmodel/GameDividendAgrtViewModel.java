@@ -174,7 +174,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                 titleData.setValue(LOTTERIES.getName());
                 break;
             case GAMEREBATE: //游戏报表
-                headModel.type = "22";
+                headModel.type = "20";
                 titleData.setValue(GAMEREBATE.getName());
                 break;
         }
