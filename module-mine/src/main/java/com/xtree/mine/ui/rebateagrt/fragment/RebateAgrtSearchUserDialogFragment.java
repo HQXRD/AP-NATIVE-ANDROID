@@ -29,7 +29,7 @@ import me.xtree.mvvmhabit.bus.RxBus;
 
 /**
  * Created by KAKA on 2024/3/18.
- * Describe:
+ * Describe: 返水契约-创建契约-用户选择搜索
  */
 @Route(path = RouterFragmentPath.Mine.PAGER_REBATEAGRT_SEARCHUSER_DIALOG)
 public class RebateAgrtSearchUserDialogFragment extends BaseDialogFragment<DialogRebateagrtSearchuserBinding, RebateAgrtSearchUserViewModel> {

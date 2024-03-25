@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.DialogDividendagrtCheckBinding;
@@ -29,6 +31,7 @@ import me.xtree.mvvmhabit.bus.RxBus;
  * Created by KAKA on 2024/3/19.
  * Describe: 分红契约查看dialog
  */
+@Route(path = RouterFragmentPath.Mine.PAGER_DIVIDENDAGRT_CHECK_DIALOG)
 public class DividendAgrtCheckDialogFragment extends BaseDialogFragment<DialogDividendagrtCheckBinding, DividendAgrtCheckViewModel> {
 
     /**

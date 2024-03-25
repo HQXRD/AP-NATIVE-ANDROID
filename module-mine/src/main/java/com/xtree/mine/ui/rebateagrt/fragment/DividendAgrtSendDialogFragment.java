@@ -13,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.DialogDividendagrtSendBinding;
@@ -28,8 +30,9 @@ import me.xtree.mvvmhabit.bus.RxBus;
 
 /**
  * Created by KAKA on 2024/3/19.
- * Describe:
+ * Describe: 返水契约-分红契约-手动发放分红
  */
+@Route(path = RouterFragmentPath.Mine.PAGER_DIVIDENDAGRT_SEND_DIALOG)
 public class DividendAgrtSendDialogFragment extends BaseDialogFragment<DialogDividendagrtSendBinding, DividendAgrtSendViewModel> {
 
     /**
