@@ -207,7 +207,7 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
                         }
                         ((BaseActivity) mContext).runOnUiThread(() -> {
                             etAmount.setText(String.valueOf(minValue));
-                            etAmount.setSelection(String.valueOf(minValue).length());
+                            //etAmount.setSelection(String.valueOf(minValue).length());
 
                             tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * minValue - amount, 2)));
                             tvPay.setText(mContext.getResources().getString(payResStringId, NumberUtils.format(minValue * cgOddLimit.getBtCount(), 2)));
@@ -219,7 +219,7 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
 
             } else if (amount > maxValue) {
                 etAmount.setText(String.valueOf(maxValue));
-                etAmount.setSelection(String.valueOf(maxValue).length());
+                //etAmount.setSelection(String.valueOf(maxValue).length());
                 tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * maxValue - amount, 2)));
                 tvPay.setText(mContext.getResources().getString(payResStringId, NumberUtils.format(maxValue * cgOddLimit.getBtCount(), 2)));
             } else {
