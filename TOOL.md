@@ -218,3 +218,34 @@ Recyclerview 使用
     itemViewType="@{model.itemType}"
     layoutManager="@{model.layoutManager}"
     onBindListener="@{model.onBindListener}"/>
+
+通用ToolBar 使用
+---
+
+Step 1 viewModel继承ToolbarModel
+
+        class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> implements ToolbarModel{
+
+        @Override
+         public void onBack() {
+              finish();
+         }
+
+         @Override
+         public MutableLiveData<String> getTitle() {
+             return titleData;
+         }
+        }
+
+Step 2 XML传入viewmodel
+
+        <include
+                android:id="@+id/layout_toolbar"
+                layout="@layout/layout_base_toolbar"
+                toolbarModel="@{model}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                />
