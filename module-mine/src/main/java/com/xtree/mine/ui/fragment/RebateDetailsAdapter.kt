@@ -1,11 +1,10 @@
 package com.xtree.mine.ui.fragment
 
 import android.content.Context
-import android.os.Build
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.xtree.base.adapter.CacheViewHolder
 import com.xtree.base.adapter.CachedAutoRefreshAdapter
@@ -45,12 +44,10 @@ class RDChildAdapter(val context: Context) : CachedAutoRefreshAdapter<X0>() {
 
         val name = get(position).lotteryname.trim().plus("：")
         val rebate = get(position).prizegroup.plus("%")
-        val txt = name + "<font color=" + ContextCompat.getColor(context,R.color.color_FD5255) + ">" + rebate + "</font>"
-        binding.tvName.text = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Html.fromHtml(txt, Html.FROM_HTML_MODE_COMPACT)
-        }else{
-            Html.fromHtml(txt)
-        }
+        val txt = name + "<font color=" + ContextCompat.getColor(context, R.color.color_FD5255) + ">" + rebate + "</font>"
+        binding.tvName.text =
+            HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_COMPACT)
+
     }
 }
 

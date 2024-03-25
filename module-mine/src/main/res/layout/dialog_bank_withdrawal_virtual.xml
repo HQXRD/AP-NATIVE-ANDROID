@@ -736,12 +736,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/iv_confirm_next"
-
                                 android:layout_centerHorizontal="true"
                                 android:layout_marginTop="10dp"
-                                android:background="@drawable/bt_bg_withdrawal_next"
+                                android:background="@drawable/bg_dialog_withdraw_close"
                                 android:text="@string/txt_withdraw_previous"
-                                android:textColor="@color/white"
+                                android:textColor="@color/update_progress_start_color"
                                 android:textSize="16sp" />
 
                         </RelativeLayout>

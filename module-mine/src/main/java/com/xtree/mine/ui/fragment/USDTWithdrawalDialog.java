@@ -94,7 +94,6 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         dialog.bankClose = bankClose;
         dialog.checkCode = checkCode;
         dialog.usdtType = usdtType;
-        CfLog.i("USDTWithdrawalDialog checkCode = " + checkCode + " usdtType =" + usdtType);
         return dialog;
     }
 
