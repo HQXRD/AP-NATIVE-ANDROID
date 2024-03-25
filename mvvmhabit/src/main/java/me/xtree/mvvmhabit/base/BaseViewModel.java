@@ -3,11 +3,6 @@ package me.xtree.mvvmhabit.base;
 import android.app.Application;
 import android.os.Bundle;
 
-
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Map;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.Lifecycle;
@@ -15,6 +10,10 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 
 import com.trello.rxlifecycle4.LifecycleProvider;
+
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -35,10 +34,10 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
     public final static int ONFINISH_REFRESH = 1;
     public final static int ONFINISH_LOAD_MORE = 2;
     public final static int ON_LOAD_MORE_WITH_NO_MORE_DATA = 3;
-
     public final static int ONFINISH_REFRESH_FAILED = 4;
     public final static int ONFINISH_LOAD_MORE_FAILED = 5;
     public final static int ONFINISH_NO_MORE = 6;
+    public final static int RESET_NO_LOADMORE = 7;
 
     public BaseViewModel(@NonNull Application application) {
         this(application, null);
@@ -226,6 +225,13 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
 
     public void loadMoreWithNoMoreData(){
         uc.smartRefreshListenerEvent.postValue(ON_LOAD_MORE_WITH_NO_MORE_DATA);
+    }
+
+    /**
+     * 取消 <没有更多数据加载> 状态
+     */
+    public void resetNoLoadMore(){
+        uc.smartRefreshListenerEvent.postValue(RESET_NO_LOADMORE);
     }
 
     @Override
