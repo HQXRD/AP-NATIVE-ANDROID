@@ -109,22 +109,22 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
         //BindPhoneFragment bindPhoneFragment = BindPhoneFragment.newInstance(typeName, tokenSign);
         //BindEmailFragment bindEmailFragment = BindEmailFragment.newInstance(typeName, tokenSign);
         BindPhoneFragment bindPhoneFragment = BindPhoneFragment.newInstance(getArguments());
-        BindEmailFragment bindEmailFragment = BindEmailFragment.newInstance(getArguments());
+        //BindEmailFragment bindEmailFragment = BindEmailFragment.newInstance(getArguments());
 
         String txtPhone = getString(R.string.txt_phone_num);
-        String txtEmail = getString(R.string.txt_email_addr);
+        //String txtEmail = getString(R.string.txt_email_addr);
         if (Constant.BIND.equals(typeName) || TextUtils.isEmpty(typeName)) {
             fragmentList.add(bindPhoneFragment);
-            fragmentList.add(bindEmailFragment);
+            //fragmentList.add(bindEmailFragment);
             tabList.add(txtPhone);
-            tabList.add(txtEmail);
+            //tabList.add(txtEmail);
         } else if (Constant.BIND_PHONE.equals(typeName) || Constant.VERIFY_BIND_EMAIL.equals(typeName) || Constant.VERIFY_BIND_PHONE2.equals(typeName)) {
             fragmentList.add(bindPhoneFragment);
             tabList.add(txtPhone);
             binding.tblType.setVisibility(View.INVISIBLE);
         } else if (Constant.BIND_EMAIL.equals(typeName) || Constant.VERIFY_BIND_PHONE.equals(typeName) || Constant.VERIFY_BIND_EMAIL2.equals(typeName)) {
-            fragmentList.add(bindEmailFragment);
-            tabList.add(txtEmail);
+            //fragmentList.add(bindEmailFragment);
+            //tabList.add(txtEmail);
             binding.tblType.setVisibility(View.INVISIBLE);
         } else {
             // 去验证
@@ -133,8 +133,8 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
                 tabList.add(txtPhone);
             }
             if ((Constant.VERIFY_LOGIN.equals(typeName) && !TextUtils.isEmpty(email)) || (mProfileVo != null && mProfileVo.is_binding_email)) {
-                fragmentList.add(bindEmailFragment);
-                tabList.add(txtEmail);
+                //fragmentList.add(bindEmailFragment);
+                //tabList.add(txtEmail);
             }
             if (fragmentList.size() == 1) {
                 binding.tblType.setVisibility(View.INVISIBLE);
