@@ -141,7 +141,10 @@ public class BetConfirmOptionPm implements BetConfirmOption {
         if (btConfirmInfo == null) {
             return false;
         }
-        boolean isColse = btConfirmInfo.marketOddsList.get(0).oddsStatus == 2; // 首先检查投注项的关闭情况，如果投注项未关闭，再检查赛事级别的开关状态
+        boolean isColse = false;
+        if(!btConfirmInfo.marketOddsList.isEmpty()) {
+            isColse = btConfirmInfo.marketOddsList.get(0).oddsStatus == 2; // 首先检查投注项的关闭情况，如果投注项未关闭，再检查赛事级别的开关状态
+        }
         if (!isColse) {
             isColse = btConfirmInfo.matchHandicapStatus == 1 || btConfirmInfo.matchHandicapStatus == 2 || btConfirmInfo.matchHandicapStatus == 11;
         }
