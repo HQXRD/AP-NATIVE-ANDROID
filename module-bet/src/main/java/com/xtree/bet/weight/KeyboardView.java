@@ -103,7 +103,7 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
         rvNumber.setAdapter(new CommonAdapter<String>(context, R.layout.bt_layout_keyboard_item, Arrays.asList(numbers)) {
             @Override
             protected void convert(ViewHolder holder, String number, int position) {
-                if(editText != null && !editText.isEnabled()){
+                if(editText == null && !editText.isEnabled()){
                     return;
                 }
                 holder.setText(R.id.tv_item, number);
@@ -138,7 +138,7 @@ public class KeyboardView extends FrameLayout implements View.OnClickListener {
             }
         });
         findViewById(R.id.tv_max).setOnClickListener(view -> {
-            if(!editText.isEnabled()){
+            if(editText == null || !editText.isEnabled()){
                 return;
             }
             CharSequence hint = editText.getHint();
