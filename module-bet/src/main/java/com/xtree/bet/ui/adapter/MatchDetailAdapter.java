@@ -78,7 +78,10 @@ public class MatchDetailAdapter extends AnimatedExpandableListViewMax.AnimatedEx
 
     @Override
     public int getRealChildrenCount(int groupPosition) {
-        return mDatas.get(groupPosition).getOptionLists().size();
+        if(mDatas.get(groupPosition) != null) {
+            return mDatas.get(groupPosition).getOptionLists().size();
+        }
+        return 0;
     }
 
     @Override
