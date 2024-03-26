@@ -218,16 +218,6 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                             } else {
                                 bankCardCashVo.channel_list.get(i).isWebView = 2;//需要展示webView页面
                             }
-                            //isShowErrorView
-                          /*  if (TextUtils.isEmpty(bankCardCashVo.channel_list.get(i).thiriframe_msg))
-                            {
-                                bankCardCashVo.channel_list.get(i).isShowErrorView = 1;
-                            }
-                            else
-                            {
-                                bankCardCashVo.channel_list.get(i).isShowErrorView = 0;
-                            }
-*/
                         }
 
                         channelDetailVoMutableLiveData.setValue(bankCardCashVo);

@@ -59,6 +59,8 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
     private BasePopupView awardPopView;
     private BasePopupView walletPopView;
 
+    private boolean isNetworkAwards = false;//礼物流水网络请求是否已刷新标志位
+
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -131,13 +133,15 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
 
         //显示钱包流水
         binding.tvwAwardRecord.setOnClickListener(v -> {
-            //ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
-            if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
-                showAwardsRecord();
-            } else {
-                CfLog.e("awardsRecordVo is null ");
-                showWallet();
+            if (isNetworkAwards) {
+                //ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
+                if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
+                    showAwardsRecord();
+                } else {
+                    showWallet();
+                }
             }
+
         });
 
         int spanCount = 4; // 每行的列数
@@ -153,7 +157,6 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
 
     @Override
     public MyWalletViewModel initViewModel() {
-        // return super.initViewModel();
         AppViewModelFactory factory = AppViewModelFactory.getInstance(getActivity().getApplication());
         return new ViewModelProvider(this, factory).get(MyWalletViewModel.class);
     }
@@ -204,7 +207,6 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
 
         viewModel.liveDataTransGameType.observe(this, list -> {
             walletGameList = list;
-
             // 某个场馆的余额
             mHandler.sendEmptyMessage(MSG_GAME_BALANCE);
         });
@@ -212,6 +214,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
         //获取礼物流水
         viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
             awardsRecordVo = vo;
+            isNetworkAwards = true;//增加网络回调标识
             if (awardsRecordVo != null && awardsRecordVo.list.size() > 0) {
                 binding.tvwAwardRecord.setText(awardsRecordVo.locked_award_sum);
             } else {
