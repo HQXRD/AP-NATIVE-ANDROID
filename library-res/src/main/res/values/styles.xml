@@ -1041,6 +1041,15 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
     </style>
+    <!-- 提款页 列表 item样式-->
+    <style name="style_withdraw_money_account">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:background">@drawable/btn_acc_item_selector</item>
+        <item name="android:textColor">@color/clr_white</item>
+    </style>
 
     <!-- 提款页-下半部分灰色区-标题 -->
     <style name="style_wd_info_title">
@@ -1109,4 +1118,7 @@
         <item name="android:layout_marginTop">1dp</item>
         <item name="android:orientation">horizontal</item>
     </style>
+
+
+
 </resources>

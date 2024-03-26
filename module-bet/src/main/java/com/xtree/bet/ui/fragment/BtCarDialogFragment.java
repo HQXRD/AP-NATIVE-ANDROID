@@ -289,7 +289,14 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             }
         });
         viewModel.btResultInfoDate.observe(this, btResults -> {
-            BtResultDialogFragment.getInstance(betConfirmOptionList, cgOddLimitList, btResults).show(getParentFragmentManager(), "BtResultDialogFragment");
+            TagUtils.tagEvent(getContext(), "bt", platform);
+            List<CgOddLimit> cgOddLimits = new ArrayList<>();
+            for(CgOddLimit cgOddLimit : cgOddLimitList){
+                if(cgOddLimit.getBtAmount() > 0){
+                    cgOddLimits.add(cgOddLimit);
+                }
+            }
+            BtResultDialogFragment.getInstance(betConfirmOptionList, cgOddLimits, btResults).show(getParentFragmentManager(), "BtResultDialogFragment");
             BtCarManager.clearBtCar();
             dismiss();
         });
@@ -432,7 +439,6 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                         + vo.getBtCount() + "个注单";
             }
         }
-
 
         MsgDialog dialog = new MsgDialog(getContext(), title, msg, true, new MsgDialog.ICallBack() {
             @Override
