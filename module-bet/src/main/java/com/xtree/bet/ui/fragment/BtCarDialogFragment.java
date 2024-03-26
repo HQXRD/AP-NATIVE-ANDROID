@@ -290,7 +290,13 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         });
         viewModel.btResultInfoDate.observe(this, btResults -> {
             TagUtils.tagEvent(getContext(), "bt", platform);
-            BtResultDialogFragment.getInstance(betConfirmOptionList, cgOddLimitList, btResults).show(getParentFragmentManager(), "BtResultDialogFragment");
+            List<CgOddLimit> cgOddLimits = new ArrayList<>();
+            for(CgOddLimit cgOddLimit : cgOddLimitList){
+                if(cgOddLimit.getBtAmount() > 0){
+                    cgOddLimits.add(cgOddLimit);
+                }
+            }
+            BtResultDialogFragment.getInstance(betConfirmOptionList, cgOddLimits, btResults).show(getParentFragmentManager(), "BtResultDialogFragment");
             BtCarManager.clearBtCar();
             dismiss();
         });
