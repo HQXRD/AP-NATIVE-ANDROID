@@ -4,29 +4,56 @@ import android.text.TextUtils;
 
 public class DomainUtil {
 
-    private static String domainUrl = "https://www.weres.bar/";
+    private static String apiUrl = "https://app1.vcchgk.com"; // API 用
+    private static String domainUrl = "https://www.alltm1s.com"; // 网页用
 
+    /**
+     * 获取域名, API 使用
+     *
+     * @return url
+     */
+    public static String getApiUrl() {
+        //apiUrl = "https://pre-dsport.oxldkm.com"; // 测试/内网 环境
+        //apiUrl = "https://app1.vcchgk.com"; // 生产环境
+        return apiUrl;
+    }
+
+    public static void setApiUrl(String url) {
+        CfLog.i("url: " + url);
+        if (!TextUtils.isEmpty(url) && url.startsWith("http")) {
+            apiUrl = url;
+        }
+    }
+
+    /**
+     * 获取域名, 网页/图片 使用
+     *
+     * @return url
+     */
     public static String getDomain() {
 
-        //domainUrl = "https://app1.dhtjf656.com/";
-        //domainUrl = "https://ap3sport.oxldkm.com/"; // 测试/内网 环境
-        //domainUrl = "https://www.weres.bar/"; // 生产环境
         return domainUrl;
     }
 
+    /**
+     * 获取域名, 网页/图片 使用
+     *
+     * @return url
+     */
     public static String getDomain2() {
-        return domainUrl.substring(0, domainUrl.length() - 1);
+        return domainUrl; //.substring(0, domainUrl.length() - 1);
     }
 
     public static void setDomainUrl(String url) {
         CfLog.i("url: " + url);
-        // 设置域名，此片做各种判断
+        // 设置域名，此处做各种判断
         if (!TextUtils.isEmpty(url) && url.startsWith("http") && url.length() > 10) {
-            if (!url.endsWith("/")) {
-                domainUrl = url + "/"; // 必须要 "/"为后缀
+            if (url.endsWith("/")) {
+                domainUrl = url.substring(0, url.length() - 1);
             } else {
                 domainUrl = url;
             }
+
             CfLog.i("domainUrl: " + domainUrl);
         }
     }
