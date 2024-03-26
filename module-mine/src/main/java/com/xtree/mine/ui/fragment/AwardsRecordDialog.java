@@ -106,18 +106,21 @@ public class AwardsRecordDialog extends BottomPopupView {
         if (viewType == 3) {
             tipText = "您今日没有可用提款次数";
         }
-        if (awardsRecordVo.list!=null &&  !awardsRecordVo.list.isEmpty()) {
-            binding.tvChooseTip.setVisibility(View.GONE);
-            binding.llChooseTip.setVisibility(View.GONE);
-            binding.lvChoose.setVisibility(View.VISIBLE);
-            ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
-            binding.lvChoose.setAdapter(adapter);
-        } else {
-            tipText = getContext().getString(R.string.txt_awards_no_money_tip);
-            binding.tvChooseTip.setText(tipText);
-            binding.llChooseTip.setVisibility(View.VISIBLE);
-            binding.lvChoose.setVisibility(View.GONE);
+        if (awardsRecordVo !=null){
+            if (awardsRecordVo.list!=null &&  !awardsRecordVo.list.isEmpty()) {
+                binding.tvChooseTip.setVisibility(View.GONE);
+                binding.llChooseTip.setVisibility(View.GONE);
+                binding.lvChoose.setVisibility(View.VISIBLE);
+                ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
+                binding.lvChoose.setAdapter(adapter);
+            } else {
+                tipText = getContext().getString(R.string.txt_awards_no_money_tip);
+                binding.tvChooseTip.setText(tipText);
+                binding.llChooseTip.setVisibility(View.VISIBLE);
+                binding.lvChoose.setVisibility(View.GONE);
+            }
         }
+
 
     }
 

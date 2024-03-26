@@ -30,6 +30,7 @@ import com.xtree.mine.vo.ChooseInfoVo;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
+/*提款流程Activity*/
 @Route(path = PAGER_CHOOSE_WITHDRAW)
 public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel> {
     public static final String PAGER_CHOOSE_WITHDRAW_KEY = "ViewType";
@@ -53,8 +54,6 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LoadingDialog.show(this);
-        viewModel.getAwardRecord();
     }
 
     @Override
@@ -80,6 +79,8 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
     @Override
     public void initData() {
+        LoadingDialog.show(this);
+        viewModel.getAwardRecord();
     }
 
     @Override
@@ -89,7 +90,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                 awardsRecordVo = vo;
                 //withdraw_dispensing_money 礼物流水
                 //locked_award_sum 锁定金额
-                if (awardsRecordVo != null &&  (!("0.00".equals(awardsRecordVo.withdraw_dispensing_money))|| !("0.00".equals(awardsRecordVo.locked_award_sum)))) {
+                if (awardsRecordVo != null && awardsRecordVo.list != null && (!("0.00".equals(awardsRecordVo.withdraw_dispensing_money)) || !("0.00".equals(awardsRecordVo.locked_award_sum)))) {
                     showWithdrawFlow();
                 } else if (awardsRecordVo.networkStatus == 1) {
                     //链接超时
@@ -98,8 +99,6 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                     return;
                 } else {
                     showChooseList();
-                    /*showMaskLoading();
-                    requestWithdrawInfo();*/
                 }
             });
             //提款列表數據
@@ -145,15 +144,6 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         LoadingDialog.show(this);
         basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
-                /* .asCustom(WithdrawFlowDialog.newInstance(this, this, awardsRecordVo, new WithdrawFlowDialog.IWithdrawFlowDialogCallBack() {
-                     @Override
-                     public void closeAwardsDialog() {
-                         LoadingDialog.finish();
-                         basePopupView.dismiss();
-                         finish();
-                         CfLog.i("AwardsRecordDialog  dismiss");
-                     }
-                 }));*/
                 .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, new AwardsRecordDialog.IAwardsDialogBack() {
                     @Override
                     public void closeAwardsDialog() {
@@ -185,16 +175,6 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                         CfLog.e("showWithdrawFlow  dismiss");
                     }
                 }));
-                /*.asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, new AwardsRecordDialog.IAwardsDialogBack() {
-                    @Override
-                    public void closeAwardsDialog() {
-                        LoadingDialog.finish();
-                        basePopupView.dismiss();
-                        finish();
-                        CfLog.i("AwardsRecordDialog  dismiss");
-                    }
-                }));*/
-
         basePopupView.show();
 
     }
@@ -271,7 +251,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                         LoadingDialog.finish();
                         CfLog.e("--------------------closeDialogByFlow -----------------");
                         showErrorDialog(money);
-                       // basePopupView.dismiss();
+                        // basePopupView.dismiss();
                     }
                 }, new BankWithdrawalDialog.BankWithdrawalClose() {
                     @Override
@@ -284,38 +264,6 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                         showNumberDialog("您今日没有可用提款次数");
                     }
                 }));
-                /*.moveUpToKeyboard(false).asCustom(ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
-                    @Override
-                    public void closeDialog() {
-                        LoadingDialog.finish();
-                        finish();
-                    }
-
-                    @Override
-                    public void closeDialogByError() {
-                        LoadingDialog.finish();
-                        showNetError();
-                        finish();
-                    }
-
-                    @Override
-                    public void closeDialogByFlow(String money) {
-                        LoadingDialog.finish();
-                        showErrorDialog(money);
-                    }
-                }, new BankWithdrawalDialog.BankWithdrawalClose() {
-                    @Override
-                    public void closeBankWithdrawal() {
-
-                    }
-
-                    @Override
-                    public void closeBankByNumber() {
-                        //弹出 提款流水 您今日没有可用提款次数
-                        showNumberDialog("您今日没有可用提款次数");
-                    }
-                }));*/
-
         basePopupView.show();
 
     }

@@ -73,6 +73,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         void closeBankByNumber();
     }
 
+    private CashWithdrawalPopWindow webPopWindow;//webView 提款外部跳转浮窗
     private String typenum;//上一级界面传递过来的typenum
     private Context context;
     private ChooseInfoVo.ChannelInfo channelInfo;
@@ -134,7 +135,10 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     private void initView() {
         binding = DialogBankWithdrawalBankNewBinding.bind(findViewById(R.id.ll_bank_root));
-        binding.ivwClose.setOnClickListener(v -> dismiss());
+        binding.ivwClose.setOnClickListener(v -> {
+            closeCashPopView();
+            dismiss();
+        });
         binding.tvwTitle.setText(getContext().getString(R.string.txt_withdrawal_bank));
         hideKeyBoard();
 
@@ -304,12 +308,12 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 //"message": "您今天已没有可用提款次数"
                 refreshErrByNumber(bankCardCashVo.message);
                 return;
-            } else if (bankCardCashVo.msg_type == 1 ) {
+            } else if (bankCardCashVo.msg_type == 1) {
                 dismissLoading();
                 ToastUtils.showError(bankCardCashVo.message);
                 dismiss();
                 return;
-            } else if (bankCardCashVo.msg_type ==2 && !TextUtils.isEmpty(bankCardCashVo.message)) {
+            } else if (bankCardCashVo.msg_type == 2 && !TextUtils.isEmpty(bankCardCashVo.message)) {
                 dismissLoading();
                 showErrorMessage(bankCardCashVo.message);
             } else {
@@ -342,9 +346,9 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             TagUtils.tagEvent(getContext(), "wd", "bkc");
             platWithdrawConfirmVo = ov;
             if (platWithdrawConfirmVo == null || platWithdrawConfirmVo.user == null) {
-                if (!TextUtils.isEmpty(platWithdrawConfirmVo.message)){
+                if (!TextUtils.isEmpty(platWithdrawConfirmVo.message)) {
                     ToastUtils.showError(platWithdrawConfirmVo.message);
-                }else {
+                } else {
                     ToastUtils.showError(getContext().getString(R.string.txt_network_error));
                     dismiss();
                 }
@@ -417,6 +421,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             if (!StringUtils.isStartHttp(url)) {
                 url = DomainUtil.getDomain2() + url;
             }
+            //为WebView 页面添加 跳转外部的浮窗
+            showCashPopView(url);
             //binding.nsH5View.scrollWebViewLoadUrl(url, getHeader());
             binding.nsH5View.loadUrl(url, getHeader());
             initWebView();
@@ -443,6 +449,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         }
         //展示原生页面
         else if (bankCardCashVo.channel_list.get(0).isWebView == 2) {
+            closeCashPopView();
             //展示多金额页面
             if (bankCardCashVo.channel_list.get(0).fixamount_list_status == 1) {
                 binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面
@@ -692,6 +699,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         selectChanneVo = selectVO;//设置选中的channelVo
         if (selectVO.isShowErrorView == 1) //展示错误信息
         {
+            closeCashPopView();
             binding.nsErrorView.setVisibility(View.VISIBLE);//展示错误信息页面
             binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//原始数据页面隐藏
             binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
@@ -708,10 +716,15 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
                 binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
                 binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
+
                 String url = bankCardCashVo.channel_list.get(0).thiriframe_url;
                 if (!StringUtils.isStartHttp(url)) {
                     url = DomainUtil.getDomain2() + url;
                 }
+
+                //为WebView 页面添加 跳转外部的浮窗
+                showCashPopView(url);
+
                 binding.nsH5View.loadUrl(url, getHeader());
                 initWebView();
                 binding.nsH5View.setWebViewClient(new WebViewClient() {
@@ -734,6 +747,9 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
                 });
             } else if (selectVO.fixamount_list_status == 0) {
+
+                closeCashPopView();
+
                 selectType = 1;//选中单独金额选项View
                 binding.nsErrorView.setVisibility(View.GONE);//隐藏错误信息页面隐藏
                 binding.nsSetWithdrawalRequest.setVisibility(View.VISIBLE);//单数据页面展示
@@ -742,6 +758,9 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 binding.nsH5View.setVisibility(View.GONE);//h5隐藏
                 refreshRequestView(bankCardCashVo, selectVO);
             } else if (selectVO.fixamount_list_status == 1) {
+
+                closeCashPopView();
+
                 selectType = 2;//选中多金额选项View
                 binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面隐藏
                 binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面展示隐藏
@@ -1020,7 +1039,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         }
         ppwError.show();
     }
-    private void  showErrorMessage(final String message){
+
+    private void showErrorMessage(final String message) {
         if (ppwError == null) {
             final String title = getContext().getString(R.string.txt_kind_tips);
             ppwError = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, message, true, new TipDialog.ICallBack() {
@@ -1038,6 +1058,19 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             }));
         }
         ppwError.show();
+    }
+    /*展示外跳View*/
+    private void showCashPopView(final String jumpUrl) {
+        if (webPopWindow == null) {
+            webPopWindow = new CashWithdrawalPopWindow(getContext(), jumpUrl);
+        }
+        webPopWindow.show();
+    }
+    /*关闭外跳View*/
+    private void closeCashPopView() {
+        if (webPopWindow != null) {
+            webPopWindow.closeView();
+        }
     }
 
 }
