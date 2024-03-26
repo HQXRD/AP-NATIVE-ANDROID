@@ -215,7 +215,7 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
      * 设置顶部背景图
      */
     private void setTopBg() {
-        if (mMatch != null) {
+        if (mMatch != null && mMatch.getSportId() != null) {
             binding.ctlBg.setBackgroundResource(Constants.getBgMatchDetailTop(mMatch.getSportId()));
         }
     }
