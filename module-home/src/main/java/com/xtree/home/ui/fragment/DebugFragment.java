@@ -77,7 +77,8 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
         binding.tvwPkgName.setText(getActivity().getPackageName());
         binding.tvwRelease.setText(!BuildConfig.DEBUG + "");
         binding.tvwChannel.setText(R.string.channel_name);
-        binding.tvwApi.setText(DomainUtil.getDomain());
+        binding.tvwApi.setText(DomainUtil.getApiUrl()); // API
+        binding.tvwDomain.setText(DomainUtil.getDomain()); // 网页域名
         binding.tvwUsername.setText(SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME, ""));
         binding.tvwSession.setText(SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID, ""));
         binding.tvwToken.setText(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN, ""));
@@ -87,7 +88,8 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
         binding.tvwModel.setText(Build.MODEL);
         binding.tvwScreen.setText(width + " x " + height);
         binding.tvwTag.setText(TagUtils.isTag() + "");
-        binding.tvwApiList.setText(getString(R.string.domain_url_list).replace(";", "\n").trim());
+        binding.tvwApiList.setText(getString(R.string.domain_api_list).replace(";", "; \t").trim());
+        binding.tvwDomainList.setText(getString(R.string.domain_url_list).replace(";", "; \t").trim());
 
     }
 
