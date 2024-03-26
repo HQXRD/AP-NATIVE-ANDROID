@@ -146,7 +146,7 @@ public class BrowserActivity extends AppCompatActivity {
         }
         CfLog.d("header: " + header); // new Gson().toJson(header)
         url = getIntent().getStringExtra("url");
-
+        mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
         //setCookie(cookie, url); // 设置 cookie
         Uri uri = getIntent().getData();
         if (uri != null && TextUtils.isEmpty(url)) {
