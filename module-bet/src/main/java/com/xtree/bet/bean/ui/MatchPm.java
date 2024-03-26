@@ -117,9 +117,13 @@ public class MatchPm implements Match {
      */
     @Override
     public String getTime() {
-        if(matchInfo != null && matchInfo.mst != null) {
-            return TimeUtils.sToMs(Integer.valueOf(matchInfo.mst));
-        }else {
+        try {
+            if (matchInfo != null && matchInfo.mst != null) {
+                return TimeUtils.sToMs(Integer.valueOf(matchInfo.mst));
+            } else {
+                return "";
+            }
+        }catch (Exception e){
             return "";
         }
 
