@@ -73,13 +73,8 @@ public class BtResultDialogFragment extends BaseDialogFragment<BtLayoutBtResultB
         betResultOptionAdapter = new BetResultOptionAdapter(getContext(), betConfirmOptionList);
         binding.rvBtOption.setAdapter(betResultOptionAdapter);
 
-        List<CgOddLimit> cgOddLimits = new ArrayList<>();
-        for(CgOddLimit cgOddLimit : cgOddLimitList){
-            if(cgOddLimit.getBtAmount() > 0){
-                cgOddLimits.add(cgOddLimit);
-            }
-        }
-        cgBtResultAdapter = new CgBtResultAdapter(getContext(), cgOddLimits, btResultList);
+
+        cgBtResultAdapter = new CgBtResultAdapter(getContext(), cgOddLimitList, btResultList);
         binding.rvBtCg.setAdapter(cgBtResultAdapter);
 
         boolean isSuccessed = true;
