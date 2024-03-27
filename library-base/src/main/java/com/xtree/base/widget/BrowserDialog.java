@@ -142,15 +142,14 @@ public class BrowserDialog extends BottomPopupView {
             CfLog.d("not need header.");
             header.clear();
         }
-        mWebView.addJavascriptInterface(new WebAppInterface(getContext()), "Android");
+        mWebView.addJavascriptInterface(new WebAppInterface(getContext(), () -> {
+            CfLog.i("*******");
+            //dismiss(); // only the original thread that created a view hierarchy can touch its views.
+            ivwClose.post(() -> dismiss());
+        }), "android");
         mWebView.loadUrl(url, header);
 
-        ivwClose.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        ivwClose.setOnClickListener(v -> dismiss());
 
     }
 

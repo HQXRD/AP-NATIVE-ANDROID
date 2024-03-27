@@ -65,8 +65,10 @@ public class BrowserActivity extends AppCompatActivity {
     public static final String ARG_IS_GAME = "isGame";
     public static final String ARG_IS_LOTTERY = "isLottery";
     public static final String ARG_IS_3RD_LINK = "is3rdLink";
+    public static final String ARG_IS_HIDE_TITLE = "isHideTitle";
 
     View vTitle;
+    View clTitle;
     TextView tvwTitle;
     ImageView ivwBack;
     WebView mWebView;
@@ -81,6 +83,7 @@ public class BrowserActivity extends AppCompatActivity {
 
     boolean isLottery = false; // 是否彩票, 彩票需要header,需要注入IOS标题头样式
     boolean isShowLoading = false; // 展示loading弹窗
+    boolean isHideTitle = false; // 是否隐藏标题
 
     String title = "";
     String url = "";
@@ -102,7 +105,11 @@ public class BrowserActivity extends AppCompatActivity {
         isGame = getIntent().getBooleanExtra(ARG_IS_GAME, false);
         isLottery = getIntent().getBooleanExtra(ARG_IS_LOTTERY, false);
         is3rdLink = getIntent().getBooleanExtra(ARG_IS_3RD_LINK, false);
+        isHideTitle = getIntent().getBooleanExtra(ARG_IS_HIDE_TITLE, false);
 
+        if (isHideTitle) {
+            clTitle.setVisibility(View.GONE);
+        }
         if (!TextUtils.isEmpty(title)) {
             tvwTitle.setText(title);
         }
@@ -146,7 +153,7 @@ public class BrowserActivity extends AppCompatActivity {
         }
         CfLog.d("header: " + header); // new Gson().toJson(header)
         url = getIntent().getStringExtra("url");
-        mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
+        mWebView.addJavascriptInterface(new WebAppInterface(this, () -> finish()), "android");
         //setCookie(cookie, url); // 设置 cookie
         Uri uri = getIntent().getData();
         if (uri != null && TextUtils.isEmpty(url)) {
@@ -174,6 +181,7 @@ public class BrowserActivity extends AppCompatActivity {
 
     private void initView() {
         vTitle = findViewById(R.id.v_title);
+        clTitle = findViewById(R.id.cl_title);
         tvwTitle = findViewById(R.id.tvw_title);
         ivwBack = findViewById(R.id.ivw_back);
         mWebView = findViewById(R.id.wv_main);
@@ -544,6 +552,15 @@ public class BrowserActivity extends AppCompatActivity {
         it.putExtra(BrowserActivity.ARG_IS_CONTAIN_TITLE, isContainTitle);
         it.putExtra(BrowserActivity.ARG_IS_GAME, isGame);
         it.putExtra(BrowserActivity.ARG_IS_SHOW_LOADING, isShowLoading);
+        ctx.startActivity(it);
+    }
+
+    public static void start(Context ctx, String url) {
+        CfLog.i("url: " + url);
+        Intent it = new Intent(ctx, BrowserActivity.class);
+        it.putExtra(BrowserActivity.ARG_URL, url);
+        it.putExtra(BrowserActivity.ARG_IS_HIDE_TITLE, true);
+        //it.putExtra(BrowserActivity.ARG_IS_SHOW_LOADING, true);
         ctx.startActivity(it);
     }
 
