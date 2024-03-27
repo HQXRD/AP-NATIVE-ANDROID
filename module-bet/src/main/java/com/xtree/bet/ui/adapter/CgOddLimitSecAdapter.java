@@ -220,7 +220,7 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
             } else if (amount > maxValue) {
                 etAmount.setText(String.valueOf(maxValue));
                 //etAmount.setSelection(String.valueOf(maxValue).length());
-                tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * maxValue - amount, 2)));
+                tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * maxValue - maxValue, 2)));
                 tvPay.setText(mContext.getResources().getString(payResStringId, NumberUtils.format(maxValue * cgOddLimit.getBtCount(), 2)));
             } else {
                 tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * amount - amount, 2)));
