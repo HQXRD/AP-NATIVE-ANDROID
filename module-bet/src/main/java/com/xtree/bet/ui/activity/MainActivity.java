@@ -930,6 +930,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 mLeagueIdList = (List<Long>) betContract.getData();
                 getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
                         playMethodType, searchDatePos, false, true);
+            } else if (betContract.action == BetContract.ACTION_REFLESH_BANLANCE) {
+                viewModel.getUserBalance();
             }
 
         });
