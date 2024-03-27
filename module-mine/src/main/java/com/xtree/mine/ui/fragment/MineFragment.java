@@ -10,6 +10,7 @@ import android.webkit.WebStorage;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -155,9 +156,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             CfLog.i("****** ");
             startContainerFragment(RouterFragmentPath.Mine.PAGER_ACCOUNT_CHANGE); // 账变记录
         });
-        binding.tvwSafe.setOnClickListener(v -> {
+        binding.tvwDcCentre.setOnClickListener(v -> {
             CfLog.i("****** ");
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
+            //startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
+            String url = DomainUtil.getDomain2() + "/webapp/?isNative=1#/report/team/activity/reward";
+            BrowserActivity.start(getContext(), url);
         });
 
         binding.tvwInviteFriend.setOnClickListener(v -> {
@@ -435,13 +438,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                     CfLog.i("txt " + txt);
                     binding.tvwLevelHint.setText(txt);
                     binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).display_active) * 100));
-                    binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar));
+                    binding.pbrLevel.setProgressDrawable(ContextCompat.getDrawable(getContext(), R.drawable.me_level_progressbar));
                 } else {
                     String txt = getString(R.string.txt_level_hint_10);
                     txt = String.format(txt, vo.display_level);
                     binding.tvwLevelHint.setText(txt);
                     binding.pbrLevel.setProgress(100);
-                    binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar_100));
+                    binding.pbrLevel.setProgressDrawable(ContextCompat.getDrawable(getContext(), R.drawable.me_level_progressbar_100));
                 }
             } else {
                 if (vo.level < vo.vip_upgrade.size() - 1) {
@@ -452,13 +455,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                     CfLog.d("txt " + txt);
                     binding.tvwLevelHint.setText(txt);
                     binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).active) * 100));
-                    binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar));
+                    binding.pbrLevel.setProgressDrawable(ContextCompat.getDrawable(getContext(), R.drawable.me_level_progressbar));
                 } else {
                     String txt = getString(R.string.txt_level_hint_10);
                     txt = String.format(txt, vo.level);
                     binding.tvwLevelHint.setText(txt);
                     binding.pbrLevel.setProgress(100);
-                    binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar_100));
+                    binding.pbrLevel.setProgressDrawable(ContextCompat.getDrawable(getContext(), R.drawable.me_level_progressbar_100));
                 }
             }
         });

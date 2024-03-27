@@ -366,10 +366,10 @@
                     <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:id="@+id/tvw_safe"
+                        android:id="@+id/tvw_dc_centre"
                         style="@style/style_menu_white"
-                        android:drawableTop="@mipmap/me_account_safty"
-                        android:text="@string/me_account_safety" />
+                        android:drawableTop="@mipmap/me_dc_centre"
+                        android:text="@string/me_discount_centre" />
 
                 </LinearLayout>
 
