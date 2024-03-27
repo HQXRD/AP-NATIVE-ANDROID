@@ -51,10 +51,10 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
             if (mCountDownTimer != null) {
                 mCountDownTimer.cancel();
             }
-            getActivity().finish();
             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
             toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.LOGIN_TYPE);
             startActivity(toLogin);
+            getActivity().finish();
         });
 
         binding.llForgetPassword.setOnClickListener(v -> {
@@ -248,10 +248,10 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
         });
 
         binding.llFinish.ivwResetPasswordNext.setOnClickListener(v -> {
-            getActivity().finish();
             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
             toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.LOGIN_TYPE);
             startActivity(toLogin);
+            getActivity().finish();
         });
     }
 
@@ -339,7 +339,7 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
             @Override
             public void onFinish() {
                 binding.llCheckOtp.btnGetOtp.setEnabled(true);
-                binding.llCheckOtp.btnGetOtp.setText(getString(R.string.txt_get_otp));
+                binding.llCheckOtp.btnGetOtp.setText(getResources().getString(R.string.txt_get_otp));
             }
         }.start();
     }
