@@ -40,6 +40,10 @@ public class BetContract {
      * 根据联赛查询列表
      */
     public static final String ACTION_CHECK_SEARCH_BY_LEAGUE = "ACTION_CHECK_SEARCH_BY_LEAGUE";
+    /**
+     * 刷新余额
+     */
+    public static final String ACTION_REFLESH_BANLANCE = "ACTION_REFLESH_BANLANCE";
 
     public BetContract(String action){
         this.action = action;
