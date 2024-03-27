@@ -8,17 +8,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.lang.ref.WeakReference;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+
+import java.lang.ref.WeakReference;
 
 import me.xtree.mvvmhabit.R;
 
@@ -39,7 +38,7 @@ public final class ToastUtils {
          */
         Success  /**正确状态*/
     }
-    private static final int K_TEXT_LENGTH = 26 ;//默认文本长度
+
     public ShowType showType;
     private static final int DEFAULT_COLOR = 0x12000000;
     private static Toast sToast;
@@ -460,15 +459,11 @@ public final class ToastUtils {
      * 依据ShowType不同状态显示不同Toast
      */
     public static void show(CharSequence text, ShowType showType) {
-        if(TextUtils.isEmpty(text)){
+        if (TextUtils.isEmpty(text)) {
             return;
         }
         cancel();
-        if (text.length() < K_TEXT_LENGTH){
-            setView(R.layout.custom_toast);
-        }else {
-            setView(R.layout.custom_multi_line_toast);
-        }
+        setView(R.layout.custom_toast);
         if (sViewWeakReference != null) {
             final View view = sViewWeakReference.get();
             TextView textView = sViewWeakReference.get().findViewById(R.id.tv_toast);
@@ -482,7 +477,7 @@ public final class ToastUtils {
                     imageView.setBackgroundResource(R.drawable.ic_toast_success);
                     break;
                 case Default:
-                    imageView.setBackgroundResource(R.drawable.ic_logo_59);
+                    imageView.setBackgroundResource(R.drawable.ic_info);
                     break;
             }
 
@@ -510,11 +505,8 @@ public final class ToastUtils {
      */
     public static void show(CharSequence text, int duration, int flag) {
         cancel();
-        if (text.length() < K_TEXT_LENGTH){
-            setView(R.layout.custom_toast);
-        }else {
-            setView(R.layout.custom_multi_line_toast);
-        }
+        setView(R.layout.custom_toast);
+
         if (sViewWeakReference != null) {
             final View view = sViewWeakReference.get();
             TextView textView = sViewWeakReference.get().findViewById(R.id.tv_toast);
@@ -525,7 +517,7 @@ public final class ToastUtils {
             } else if (flag == 2) {
                 imageView.setBackgroundResource(R.drawable.ic_toast_fail);
             } else {
-                imageView.setBackgroundResource(R.drawable.ic_logo_59);
+                imageView.setBackgroundResource(R.drawable.ic_info);
             }
 
             if (view != null) {
