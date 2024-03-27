@@ -35,16 +35,26 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
     private String mSendType = "";
     private String mEmail = "";
     private String mPhone = "";
-    private boolean mIsFinished = false;
+    private CountDownTimer mCountDownTimer = null;
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mCountDownTimer != null) {
+            mCountDownTimer.cancel();
+        }
+    }
 
     @Override
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> {
-            mIsFinished = true;
-            getActivity().finish();
+            if (mCountDownTimer != null) {
+                mCountDownTimer.cancel();
+            }
             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
             toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.LOGIN_TYPE);
             startActivity(toLogin);
+            getActivity().finish();
         });
 
         binding.llForgetPassword.setOnClickListener(v -> {
@@ -238,11 +248,10 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
         });
 
         binding.llFinish.ivwResetPasswordNext.setOnClickListener(v -> {
-            mIsFinished = true;
-            getActivity().finish();
             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
             toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.LOGIN_TYPE);
             startActivity(toLogin);
+            getActivity().finish();
         });
     }
 
@@ -303,6 +312,9 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
         viewModel.liveDataCheckSendMessageSuccess.observe(this, this::countDown);
 
         viewModel.liveDataToken.observe(this, vo -> {
+            if (mCountDownTimer != null) {
+                mCountDownTimer.cancel();
+            }
             binding.llCheckOtp.clCheckOtp.setVisibility(View.GONE);
             binding.llResetPassword.clResetPassword.setVisibility(View.VISIBLE);
         });
@@ -315,29 +327,19 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
 
     private void countDown(int time) {
         final int[] countTime = {time};
-        new CountDownTimer(time * 1000L, 1000L) {
+        mCountDownTimer = new CountDownTimer(time * 1000L, 1000L) {
             @Override
             public void onTick(long millisUntilFinished) {
-                if (mIsFinished) {
-                    return;
-                }
                 binding.llCheckOtp.btnGetOtp.setEnabled(false);
-                binding.llCheckOtp.btnGetOtp.setBackground(getContext().getDrawable(R.drawable.bg_line_white));
-                binding.llCheckOtp.btnGetOtp.setTextColor(getResources().getColor(R.color.clr_grey_menu));
                 binding.llCheckOtp.btnGetOtp.setText(countTime[0] + "S");
                 countTime[0]--;
-
+                //CfLog.i(countTime[0] + "");
             }
 
             @Override
             public void onFinish() {
-                if (mIsFinished) {
-                    return;
-                }
                 binding.llCheckOtp.btnGetOtp.setEnabled(true);
-                binding.llCheckOtp.btnGetOtp.setBackground(getContext().getDrawable(R.drawable.bg_line_purple));
-                binding.llCheckOtp.btnGetOtp.setTextColor(getResources().getColor(R.color.clr_white));
-                binding.llCheckOtp.btnGetOtp.setText(getString(R.string.txt_get_otp));
+                binding.llCheckOtp.btnGetOtp.setText(getResources().getString(R.string.txt_get_otp));
             }
         }.start();
     }
