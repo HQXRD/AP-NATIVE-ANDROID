@@ -9,6 +9,7 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.lxj.xpopup.widget.SmartDragLayout;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.LoadingDialog;
@@ -38,13 +39,13 @@ public class FundPassWordFragment extends BottomPopupView {
     private FragmentWithdrawalFundPasswordBinding binding;
     private ChooseWithdrawViewModel viewModel;
     private FundPassWordVo vo;
-    private IFundPassWordCallBack callBack;
+    private IFundPassWordCallBack iFundPassWordCallBack;
     private LifecycleOwner owner;
 
-    public static FundPassWordFragment newInstance(Context context, LifecycleOwner owner, FundPassWordFragment.IFundPassWordCallBack callBack) {
+    public static FundPassWordFragment newInstance(Context context, LifecycleOwner owner, FundPassWordFragment.IFundPassWordCallBack iFundPassWordCallBack) {
         FundPassWordFragment dialog = new FundPassWordFragment(context);
         dialog.owner = owner;
-        dialog.callBack = callBack;
+        dialog.iFundPassWordCallBack = iFundPassWordCallBack;
         return dialog;
     }
 
@@ -75,14 +76,14 @@ public class FundPassWordFragment extends BottomPopupView {
         //关闭Dialog
         binding.ivwClose.setOnClickListener(v -> {
             dismiss();
-            callBack.closeFundPWDialog();
+            iFundPassWordCallBack.closeFundPWDialog();
 
         });
 
         //取消按钮
         binding.btnCancel.setOnClickListener(v -> {
             dismiss();
-            callBack.closeFundPWDialog();
+            iFundPassWordCallBack.closeFundPWDialog();
         });
         //确定按钮
         binding.btnSure.setOnClickListener(v -> {
@@ -99,6 +100,26 @@ public class FundPassWordFragment extends BottomPopupView {
                 getCheckPassWord(inputString);
             }
         });
+        //下拉关闭 Dialog
+        bottomPopupContainer.dismissOnTouchOutside(true);
+        bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
+            @Override
+            public void onClose() {
+                if (iFundPassWordCallBack != null) {
+                    iFundPassWordCallBack.closeFundPWDialog();
+                }
+            }
+
+            @Override
+            public void onDrag(int y, float percent, boolean isScrollUp) {
+
+            }
+
+            @Override
+            public void onOpen() {
+
+            }
+        });
 
     }
 
@@ -113,7 +134,7 @@ public class FundPassWordFragment extends BottomPopupView {
                 if (!TextUtils.isEmpty(this.vo.status)) {
                     //返回正常
                     if ("1".equals(this.vo.status) && !TextUtils.isEmpty(this.vo.msg.checkcode)) {
-                        callBack.closeFundPWDialogWithCode(this.vo.msg.checkcode);
+                        iFundPassWordCallBack.closeFundPWDialogWithCode(this.vo.msg.checkcode);
                     } else if (!TextUtils.isEmpty(this.vo.message)) {
                         ToastUtils.showError(this.vo.message);
                     } else {

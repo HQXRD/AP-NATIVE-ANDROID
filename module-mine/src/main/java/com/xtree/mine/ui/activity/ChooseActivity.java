@@ -26,14 +26,17 @@ import com.xtree.mine.vo.AwardsRecordVo;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
+/*提款activity 涉及流程:1、检测礼物流水；2、输入资金密码；3、弹出提款列表*/
 @Route(path = PAGER_CHOOSE_WITHDRAW)
 public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, ChooseWithdrawViewModel> {
 
-    private BasePopupView basePopupView = null;
+    private BasePopupView awardsRecordPopView = null;
     private BasePopupView baseChoosePopupView = null;
+    private BasePopupView fundPSWPopView ; // 资金密码
     private AwardsRecordVo awardsRecordVo;
     private int viewType;
     private static String checkCode;//输入资金密码 返回的Code 带入到请求提款列表接口使用
+    private boolean isNetworkAwards = false;//礼物流水网络请求是否已刷新标志位
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +77,10 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         if (viewModel != null) {
             viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
                 awardsRecordVo = vo;
-                if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
+                isNetworkAwards = true;//增加网络回调标识
+                //withdraw_dispensing_money 礼物流水
+                //locked_award_sum 锁定金额
+                if (awardsRecordVo != null && awardsRecordVo.list != null && (!("0.00".equals(awardsRecordVo.withdraw_dispensing_money)) || !("0.00".equals(awardsRecordVo.locked_award_sum)))) {
                     showAwardsRecord();
                 } else if (awardsRecordVo.networkStatus == 1) {
                     //链接超时
@@ -83,7 +89,6 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                     return;
                 } else {
                     showFundPSWDialog();
-                    // showChoose();
                 }
             });
         }
@@ -100,25 +105,27 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
     private void showAwardsRecord() {
 
         LoadingDialog.show(this);
-        basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
-                .dismissOnTouchOutside(false)
-                .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, new AwardsRecordDialog.IAwardsDialogBack() {
-                    @Override
-                    public void closeAwardsDialog() {
-                        basePopupView.dismiss();
-                        finish();
-                        CfLog.i("AwardsRecordDialog  dismiss");
-                    }
-                }));
+        if (awardsRecordPopView == null) {
+            awardsRecordPopView = new XPopup.Builder(this).dismissOnBackPressed(false)
+                    .dismissOnTouchOutside(false)
+                    .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, new AwardsRecordDialog.IAwardsDialogBack() {
+                        @Override
+                        public void closeAwardsDialog() {
+                            awardsRecordPopView.dismiss();
+                            finish();
+                            CfLog.i("AwardsRecordDialog  dismiss");
+                        }
+                    }));
+        }
 
-        basePopupView.show();
+        awardsRecordPopView.show();
 
     }
 
     /**
      * 显示提款页面
      */
-    private void showChoose(final String checkCode) {
+    private void showChooseList(final String checkCode) {
         if (baseChoosePopupView == null) {
             baseChoosePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
                     .dismissOnTouchOutside(false)
@@ -126,60 +133,72 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                     .asCustom(ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
                         @Override
                         public void closeDialog() {
+                            closeFundPSWView();
                             finish();
                         }
 
                         @Override
                         public void closeDialogByError() {
+                            closeFundPSWView();
                             showNetError();
                             finish();
                         }
                     }, new BankWithdrawalDialog.BankWithdrawalClose() {
                         @Override
                         public void closeBankWithdrawal() {
+                            CfLog.e("closeDialog  --> closeBankWithdrawal");
+                            closeFundPSWView();
                             baseChoosePopupView.dismiss();
                             finish();
-                            CfLog.i("closeDialog");
+
                         }
 
                         @Override
                         public void closeBankByPSW() {
+                            CfLog.e("closeDialog --->closeBankByPSW");
+                            closeFundPSWView();
                             baseChoosePopupView.dismiss();
                             finish();
-                            CfLog.i("closeDialog");
+
 
                         }
                     }, checkCode));
         }
-
         baseChoosePopupView.show();
-
     }
 
+    /*关闭资金密码输入页面*/
+    private void  closeFundPSWView(){
+        if (fundPSWPopView !=null && fundPSWPopView.isShow()){
+            fundPSWPopView.dismiss();
+            fundPSWPopView = null;
+        }
+    }
     /*显示魔域资金密码输入页面*/
     private void showFundPSWDialog() {
-        if (basePopupView == null) {
-            basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
+        if (fundPSWPopView == null) {
+            fundPSWPopView = new XPopup.Builder(this).dismissOnBackPressed(false)
                     .dismissOnTouchOutside(false)
                     .moveUpToKeyboard(false)
                     .asCustom(FundPassWordFragment.newInstance(this, this, new FundPassWordFragment.IFundPassWordCallBack() {
                         @Override
                         public void closeFundPWDialog() {
                             //showNetError();
+                            hideKeyBoard();
+                            fundPSWPopView.dismiss();
                             finish();
                         }
 
                         @Override
                         public void closeFundPWDialogWithCode(String checkCode) {
-
-                            basePopupView.dismiss();
-                            showChoose(checkCode);
+                            hideKeyBoard();
+                            //basePopupView.dismiss();
+                            showChooseList(checkCode);
                         }
 
                     }));
         }
-
-        basePopupView.show();
+        fundPSWPopView.show();
     }
 
     /*显示网络异常Toast*/

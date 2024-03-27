@@ -32,7 +32,7 @@ public class RouterFragmentPath {
         private static final String MINE = "/mine";
         public static final String PAGER_MINE = MINE + "/Mine";
         public static final String PAGER_SECURITY_CENTER = MINE + "/SecurityCenter";
-        public static final String PAGER_FUNDS_PWD = MINE + "/FundsPwd";
+        public static final String PAGER_FUNDS_PWD = MINE + "/FundsPwd"; //修改资金密码
         public static final String PAGER_REGISTER_PROMOTION = MINE + "/RegisterPromotion";
         public static final String PAGER_SECURITY_VERIFY = MINE + "/SecurityVerify";
         public static final String PAGER_SECURITY_VERIFY_CHOOSE = MINE + "/SecurityVerifyChoose";

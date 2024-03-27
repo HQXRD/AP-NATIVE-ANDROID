@@ -86,58 +86,31 @@ public class AwardsRecordDialog extends BottomPopupView {
 
     private void initView() {
         binding = DialogChooseAwardsBinding.bind(findViewById(R.id.ll_root));
-        if (viewType == 1) {
-            CfLog.i("viewType ==1)");
-            binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_unfinished_activity));
-        } else {
-            binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_wallet));
-            CfLog.i("viewType ==0)");
-        }
+        binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_unfinished_activity));
 
         binding.ivwClose.setOnClickListener(v -> {
-            dismiss();
             callBack.closeAwardsDialog();
-
+            dismiss();
         });
 
         binding.llChooseTip.setVisibility(View.VISIBLE);
         String tipText = "";
-        if (TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) ||
-                awardsRecordVo.withdraw_dispensing_money.equals("0") ||
-                awardsRecordVo.withdraw_dispensing_money.equals("0.00")) {
-            tipText = getContext().getString(R.string.txt_awards_no_money_tip);
-        } else {
-            tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
+        if (viewType == 3) {
+            tipText = "您今日没有可用提款次数";
         }
-        binding.tvChooseTip.setText(tipText);
-        bottomPopupContainer.dismissOnTouchOutside(true);
-        bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
-            @Override
-            public void onClose() {
-                if (callBack != null) {
-                    callBack.closeAwardsDialog();
-                }
+        if (awardsRecordVo !=null){
+            if (awardsRecordVo.list!=null &&  !awardsRecordVo.list.isEmpty()) {
+                binding.tvChooseTip.setVisibility(View.GONE);
+                binding.llChooseTip.setVisibility(View.GONE);
+                binding.lvChoose.setVisibility(View.VISIBLE);
+                ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
+                binding.lvChoose.setAdapter(adapter);
+            } else {
+                tipText = getContext().getString(R.string.txt_awards_no_money_tip);
+                binding.tvChooseTip.setText(tipText);
+                binding.llChooseTip.setVisibility(View.VISIBLE);
+                binding.lvChoose.setVisibility(View.GONE);
             }
-
-            @Override
-            public void onDrag(int y, float percent, boolean isScrollUp) {
-
-            }
-
-            @Override
-            public void onOpen() {
-
-            }
-        });
-
-        if (awardsRecordVo.list.size() > 1) {
-            binding.lvChoose.setVisibility(View.VISIBLE);
-            ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
-            binding.lvChoose.setAdapter(adapter);
-        } else {
-            binding.llChooseTip.setVisibility(View.VISIBLE);
-            binding.tvWithdrawalAwardsTitle.setVisibility(View.GONE);
-
         }
 
     }

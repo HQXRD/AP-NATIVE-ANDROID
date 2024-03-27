@@ -49,7 +49,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
 
     private LifecycleOwner owner;
     private String accessToken;
-    private String checkCode ;//第一次设定密保问题使用chekCode
+    private String checkCode;//第一次设定密保问题使用chekCode
     private SetQuestionsPwdModel viewModel;
     private ISecurityQuestionCallBack callBack;
     private DialogSetSecurityQuestionBinding binding;
@@ -68,7 +68,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
         return dialog;
     }
 
-    public static SecurityQuestionFragment newInstance(@NonNull Context context, LifecycleOwner owner, ISecurityQuestionCallBack callBack, boolean hide , final String checkCode) {
+    public static SecurityQuestionFragment newInstance(@NonNull Context context, LifecycleOwner owner, ISecurityQuestionCallBack callBack, boolean hide, final String checkCode) {
         SecurityQuestionFragment dialog = new SecurityQuestionFragment(context);
         dialog.owner = owner;
         dialog.callBack = callBack;
@@ -179,15 +179,15 @@ public class SecurityQuestionFragment extends BottomPopupView {
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
             }
         });
-        //设置密保后刷新用户信心
-        viewModel.profileVoMutableLiveData.observe(owner , vo ->{
-            if (vo !=null && vo.set_question instanceof  ArrayList){
-                ArrayList list = (ArrayList) vo.set_question ;
+        //设置密保后刷新用户信息
+        viewModel.profileVoMutableLiveData.observe(owner, vo -> {
+            /*if (vo != null && vo.set_question instanceof ArrayList) {
+                ArrayList list = (ArrayList) vo.set_question;
                 for (int i = 0; i < list.size(); i++) {
                     CfLog.e("设置密保后刷新用户信心 = " + list.get(i));
                 }
-                callBack.closeSecurityDialog();
-            }
+            }*/
+            callBack.closeSecurityDialog();
         });
     }
 
@@ -197,7 +197,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
     }
 
     public final ArrayList<QABean> createQA() {
-        HashMap<Integer, QABean> map = new HashMap<>();
+
         ArrayList<QABean> qaBeanArrayList = new ArrayList<>();
         qaBeanArrayList.add(new QABean("4", "您母亲的姓名是？"));
         qaBeanArrayList.add(new QABean("8", "您配偶的生日？"));
@@ -288,16 +288,14 @@ public class SecurityQuestionFragment extends BottomPopupView {
     private void setSecurityQuestions(ArrayList qaBeanArrayList) {
         HashMap<String, String> map = new HashMap<>();
         map.put("nonce", UuidUtil.getID24());
-        if (hide){
+        if (hide) {
             //第一次设置密保
             map.put("check", checkCode);
-        }else {
-           //重置密保
+        } else {
+            //重置密保
             map.put("check", "-1");
         }
-
         map.put("questions", qaBeanArrayList.toString());
-
         CfLog.e("setSecurityQuestions" + map);
         viewModel.putSecurityQuestions(map);
     }

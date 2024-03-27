@@ -56,6 +56,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
 
     private AwardsRecordVo awardsRecordVo;//礼物流水
+    private boolean isNetworkAwards = false;//礼物流水网络请求是否已刷新标志位
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -158,7 +159,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
 
         viewModel.getBalance(); // 平台中心余额
 
-        viewModel.getAwardRecord();//获取礼物流水
+       // viewModel.getAwardRecord();//获取礼物流水
 
         viewModel.getTransThirdGameType(getContext());
     }
@@ -201,15 +202,11 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
             mHandler.sendEmptyMessage(MSG_GAME_BALANCE);
         });
 
-        //获取礼物流水
-        //viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
-        //    awardsRecordVo = vo;
-        //    if (awardsRecordVo != null && awardsRecordVo.list.size() > 0) {
-        //        binding.tvwAwardRecord.setText(awardsRecordVo.locked_award_sum);
-        //    } else {
-        //        binding.tvwAwardRecord.setText("0.0000");
-        //    }
-        //});
+        /*//获取礼物流水
+        viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
+            awardsRecordVo = vo;
+            isNetworkAwards = true;//增加网络回调标识
+        });*/
     }
 
     @Override
