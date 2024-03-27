@@ -25,6 +25,8 @@ public class WebAppInterface {
     final String TYPE_WITHDRAW = "goWithdraw";
     final String TYPE_CS = "goCustomService";
     final String TYPE_VIP = "goVip";
+    final String TYPE_BACK = "goBack";
+    final String TYPE_CLOSE = "close";
 
     private Context context;
 
@@ -53,7 +55,10 @@ public class WebAppInterface {
                 BrowserActivity.start(context, context.getString(R.string.txt_vip_center),
                         DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
                 break;
-
+            case TYPE_CLOSE:
+                break;
+            case TYPE_BACK:
+                break;
             default:
                 CfLog.i("****** default: " + type);
                 break;
