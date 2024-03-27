@@ -46,6 +46,10 @@ public class RechargePayVo {
     //public String alipayName; // "",
     public boolean isRedirectMode; // true
     public boolean direct_enable; // true
+    public String recharge_json_expiretime; // 3600,
+    public boolean recharge_json_channel; // true,
+    public String iLastId; // 6370,
+
     public Object domain_list; // [ "https://go.gobizas.net",  "https://go.sjhbiz.net" ]
     public List<String> domainList = new ArrayList<>(); // [ "https://go.gobizas.net",  "https://go.sjhbiz.net" ]
 

@@ -84,6 +84,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     boolean isShowedProcessPendCount = false; // 是否显示过 "订单未到账" 的提示
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
     boolean isShowBack = false; // 是否显示返回按钮
+    boolean isShowOrderDetail = false; // 是否显示充值订单详情,需要传订单号过来 (待处理的订单详情) 2024-03-27
     ProfileVo mProfileVo = null; // 个人信息
     // HQAP2-2963 这几个充值渠道 内部浏览器要加个外跳的按钮 2024-03-23
     String[] arrayBrowser = new String[]{"onepayfix3", "onepayfix4", "onepayfix5", "onepayfix6"};
@@ -656,6 +657,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //mapRechargeVo = new Gson().fromJson(json, new TypeToken<HashMap<String, RechargeVo>>() {
         //}.getType());
 
+        isShowOrderDetail = getArguments().getBoolean("isShowOrderDetail");
+        if (isShowOrderDetail) {
+            String id = getArguments().getString("orderDetailId");
+            viewModel.getOrderDetail(id);
+        }
+
     }
 
     private void setRate(RechargeVo vo) {
@@ -829,6 +836,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 ppw2.show();
             }
         });
+        viewModel.liveDataOrderDetail.observe(this, vo -> {
+            // 弹出订单详情, (点击首页 悬浮按钮-待处理 跳转过来的)
+            goPay(vo.res); // vo.cancel_reason 附带取消原因列表
+        });
 
         viewModel.liveDataProfile.observe(this, vo -> {
             mProfileVo = vo;
@@ -969,7 +980,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     private void showProcessDialog(ProcessingDataVo vo) {
         CfLog.i(vo.toString());
-        if (!isShowedProcessPendCount && (vo.depProcessCnt1 || vo.depProcessCnt3)) {
+        if (!isShowedProcessPendCount && (vo.depProcessCnt1 || vo.depProcessCnt3) && !isShowOrderDetail) {
             isShowedProcessPendCount = true;
             // 有订单还未到账，为了能您的充值快速到账，请您进行反馈！
             CfLog.i("****** 有订单还未到账，为了能您的充值快速到账，请您进行反馈！");
@@ -991,7 +1002,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     .asCustom(dialog);
             ppw2.show();
 
-        } else if (vo.userProcessCount > 0 && isTipTodayCount()) {
+        } else if (vo.userProcessCount > 0 && isTipTodayCount() && !isShowOrderDetail) {
             // 您已经连续充值 次, 为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！
             CfLog.i("****** 您已经连续充值 次");
             String msg = getString(R.string.txt_rc_count_low_rate_hint, vo.userProcessCount);
