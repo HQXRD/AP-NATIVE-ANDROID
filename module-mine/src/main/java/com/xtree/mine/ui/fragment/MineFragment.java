@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebStorage;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -387,6 +388,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
             @Override
             public void onClickRight() {
+                clearWebView();
                 viewModel.doLogout();
                 ppw.dismiss();
             }
@@ -396,6 +398,15 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                 .dismissOnBackPressed(false)
                 .asCustom(dialog);
         ppw.show();
+    }
+
+    /**
+     * 清除本地WebView缓存
+     */
+    private void clearWebView() {
+        getContext().deleteDatabase("webview.db");
+        getContext().deleteDatabase("webviewCache.db");
+        WebStorage.getInstance().deleteAllData();
     }
 
     private void showAccountMgmt() {
