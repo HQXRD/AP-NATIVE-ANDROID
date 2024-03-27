@@ -111,7 +111,7 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
                 binding2.tvwMoney.setText(vo.money);
                 binding2.tvwAmount.setText(amount);
                 binding2.tvwFee.setText(fee);
-                //binding2.tvwNotes.setText(notes);
+                binding2.tvwNotes.setText(vo.cancel_reason);
                 binding2.tvwCreated.setText(vo.created);
                 binding2.tvwModified.setText(vo.modified);
 
