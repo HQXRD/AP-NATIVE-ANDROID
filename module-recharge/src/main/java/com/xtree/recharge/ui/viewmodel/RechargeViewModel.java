@@ -17,6 +17,7 @@ import com.xtree.recharge.vo.FeedbackCheckVo;
 import com.xtree.recharge.vo.FeedbackImageUploadVo;
 import com.xtree.recharge.vo.FeedbackVo;
 import com.xtree.recharge.vo.PaymentVo;
+import com.xtree.recharge.vo.RechargeOrderDetailVo;
 import com.xtree.recharge.vo.RechargePayVo;
 import com.xtree.recharge.vo.RechargeVo;
 
@@ -44,6 +45,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<RechargeVo> liveDataRecharge = new SingleLiveData<>(); // 充值详情
     public SingleLiveData<RechargePayVo> liveDataRechargePay = new SingleLiveData<>(); // 充值提交结果
     public SingleLiveData<Map<String, String>> liveDataSignal = new SingleLiveData<>(); // 人工客服暗号
+    public SingleLiveData<RechargeOrderDetailVo> liveDataOrderDetail = new SingleLiveData<>(); // 人工客服暗号
     public SingleLiveData<FeedbackVo> feedbackVoSingleLiveData = new SingleLiveData<>();//进入反馈页面回去的数据
     public SingleLiveData<FeedbackImageUploadVo> imageUploadVoSingleLiveData = new SingleLiveData<>();//feedback图片上传
     public SingleLiveData<Object> feedbackAddSingleLiveData = new SingleLiveData<>();//feedback 下一步接口
@@ -264,6 +266,25 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getOrderDetail(String id) {
+        Disposable disposable = (Disposable) model.getApiService().getOrderDetail(id)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<RechargeOrderDetailVo>() {
+                    @Override
+                    public void onResult(RechargeOrderDetailVo vo) {
+                        CfLog.d("********"); // RechargePayVo
+                        liveDataOrderDetail.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
                     }
                 });
         addSubscribe(disposable);

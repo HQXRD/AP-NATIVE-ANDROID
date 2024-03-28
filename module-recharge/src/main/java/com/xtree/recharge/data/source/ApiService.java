@@ -4,6 +4,7 @@ import com.xtree.recharge.vo.FeedbackCheckVo;
 import com.xtree.recharge.vo.FeedbackImageUploadVo;
 import com.xtree.recharge.vo.FeedbackVo;
 import com.xtree.recharge.vo.PaymentVo;
+import com.xtree.recharge.vo.RechargeOrderDetailVo;
 import com.xtree.recharge.vo.RechargeVo;
 
 import java.util.Map;
@@ -72,6 +73,12 @@ public interface ApiService {
      */
     @GET("/api/deposit/manualcode")
     Flowable<BaseResponse<Map<String, String>>> getManualSignal();
+
+    /**
+     * 获取充值订单详情
+     */
+    @GET("/api/deposit/rechargeinfo")
+    Flowable<BaseResponse<RechargeOrderDetailVo>> getOrderDetail(@Query("id") String id);
 
     /**
      * 获取反馈页面基本数据
