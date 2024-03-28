@@ -84,10 +84,10 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
             } else if (msg.equals(MemberManagerAdapter.ACCOUNT_RECORD)) {
                 startContainerFragment(RouterFragmentPath.Mine.PAGER_ACCOUNT_CHANGE, bundle); // 账变记录
             } else if (msg.equals(MemberManagerAdapter.TRANSFER_MEMBER)) {
-                new XPopup.Builder(getContext()).asCustom(CheckPasswordDialog.newInstance(getContext(), this, checkCode ->
-                        new XPopup.Builder(getContext()).asCustom(TransferMoneyDialog.newInstance(getContext(), MemberManagerFragment.this, checkCode, vo, () -> {
-                            viewModel.getBalance();
-                        })).show())).show();
+                CheckPasswordDialog checkPasswordDialog = CheckPasswordDialog.getInstance("", true, checkCode -> {
+                    new XPopup.Builder(getContext()).asCustom(TransferMoneyDialog.newInstance(getContext(), MemberManagerFragment.this, checkCode, vo, () -> viewModel.getBalance())).show();
+                });
+                checkPasswordDialog.show(getActivity().getSupportFragmentManager(), "CheckPasswordDialog");
             }
         });
         binding.rcvMemberManger.setAdapter(adapter);
