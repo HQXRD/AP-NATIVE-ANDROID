@@ -108,11 +108,11 @@ public class BindUsdtFragment extends BaseFragment<FragmentBindUsdtBinding, Bind
                     binding2.llType.setVisibility(View.GONE);
                 }
 
-                if (vo.status.equals("1")) {
-                    binding2.tvwRebind.setVisibility(View.VISIBLE);
-                } else {
-                    binding2.tvwRebind.setVisibility(View.GONE);
-                }
+                //if (vo.status.equals("1")) {
+                //    binding2.tvwRebind.setVisibility(View.VISIBLE);
+                //} else {
+                //    binding2.tvwRebind.setVisibility(View.GONE);
+                //}
 
                 binding2.tvwRebind.setOnClickListener(v -> {
                     Bundle bundle = getArguments();

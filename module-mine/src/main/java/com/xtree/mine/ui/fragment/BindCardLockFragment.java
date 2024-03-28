@@ -35,11 +35,13 @@ public class BindCardLockFragment extends BaseFragment<FragmentBindCardLockBindi
     private static final String ARG_IS_VERIFY = "is_verify";
     private static final String ARG_IS_USDT = "is_usdt";
     private static final String ARG_OBJ = "obj";
+    private static final String ARG_TYPE = "type";
     private final String controller = "security";
     private final String action = "deluserbank";
     private boolean isVerify = false;
     private boolean isUSDT = false;
     private String id = "";
+    private String type;
     private UserUsdtJumpVo vo = null;
 
     public BindCardLockFragment() {
@@ -81,6 +83,7 @@ public class BindCardLockFragment extends BaseFragment<FragmentBindCardLockBindi
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         binding.tvwBack.setOnClickListener(v -> getActivity().finish());
+        CfLog.e("isVerify : " + isVerify + " isUSDT : " + isUSDT);
         binding.tvwSubmit.setOnClickListener(v -> {
             if (isVerify || isUSDT) {
                 doVerify();
@@ -99,6 +102,7 @@ public class BindCardLockFragment extends BaseFragment<FragmentBindCardLockBindi
             isVerify = getArguments().getBoolean(ARG_IS_VERIFY);
             isUSDT = getArguments().getBoolean(ARG_IS_USDT);
             vo = getArguments().getParcelable(ARG_OBJ);
+            type = getArguments().getString(ARG_TYPE);
         }
     }
 
@@ -142,10 +146,10 @@ public class BindCardLockFragment extends BaseFragment<FragmentBindCardLockBindi
         viewModel.liveDataVerify.observe(this, isSuccess -> {
             CfLog.i("******");
             if (isSuccess) {
-                if (isUSDT) {
-                    startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_USDT_ADD, getArguments());
-                } else {
+                if (type.equals("bindcard")) {
                     startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_ADD, getArguments());
+                } else {
+                    startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_USDT_ADD, getArguments());
                 }
                 getActivity().finish();
             }

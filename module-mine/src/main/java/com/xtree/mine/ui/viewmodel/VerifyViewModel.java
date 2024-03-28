@@ -509,6 +509,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
 
         Bundle bundle = new Bundle();
         bundle.putParcelable("obj", t);
+        bundle.putString("type", "bindusdt");
         Intent intent = new Intent(ctx, ContainerActivity.class);
         intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_BIND_USDT);
         intent.putExtra(ContainerActivity.BUNDLE, bundle);
@@ -519,6 +520,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
         Bundle bundle = new Bundle();
         bundle.putString("mark", vo.mark);
         bundle.putString("tokenSign", vo.tokenSign);
+        bundle.putString("type", "bindcard");
         Intent intent = new Intent(ctx, ContainerActivity.class);
         intent.putExtra(ContainerActivity.ROUTER_PATH, path);
         intent.putExtra(ContainerActivity.BUNDLE, bundle);
