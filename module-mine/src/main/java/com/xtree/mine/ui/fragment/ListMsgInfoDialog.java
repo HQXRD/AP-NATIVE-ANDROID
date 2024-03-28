@@ -22,6 +22,7 @@ public class ListMsgInfoDialog extends BottomPopupView {
     TextView tvwTitle;
     ImageView ivwClose;
     TextView tvwMsgTitle;
+    TextView tvwMsgDate;
     TextView tvwMsgContent;
 
     public ListMsgInfoDialog(@NonNull Context context) {
@@ -48,20 +49,22 @@ public class ListMsgInfoDialog extends BottomPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
-
         initView();
     }
 
     private void initView() {
         tvwTitle = findViewById(R.id.tvw_title);
         ivwClose = findViewById(R.id.ivw_close);
+        tvwMsgDate = findViewById(R.id.tvw_msg_date);
         tvwMsgTitle = findViewById(R.id.tvw_msg_title);
+
         tvwMsgContent = findViewById(R.id.tvw_msg_content);
 
         ivwClose.setOnClickListener(v -> dismiss());
 
         if (msgInfoVo != null) {
             tvwTitle.setText(msgInfoVo.title);
+            tvwMsgDate.setText(msgInfoVo.created_at);
             tvwMsgTitle.setText(msgInfoVo.title);
             String txt = msgInfoVo.content.replace("<\\ span><\\ div><br\\/>", "<\\ div>");
             txt = txt.replace("<br/>", "");
@@ -69,6 +72,7 @@ public class ListMsgInfoDialog extends BottomPopupView {
             tvwMsgContent.setText(HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_COMPACT));
         } else if (msgPersonInfoVo != null) {
             tvwTitle.setText(msgPersonInfoVo.title);
+            tvwMsgDate.setText(msgPersonInfoVo.sent_at);
             tvwMsgTitle.setText(msgPersonInfoVo.title);
             CfLog.i(msgPersonInfoVo.content);
             String txt = msgPersonInfoVo.content.replace("<\\ span><\\ div><br\\/>", "<\\ div>");

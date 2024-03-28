@@ -7,6 +7,6 @@ public class MsgPersonInfoVo {
 //    public boolean is_recommended; // false
 //    public boolean is_top; // false
 //    public int type; // 1
-//    public String sent_at; // 2023-10-13 16:08:33
+    public String sent_at; // 2023-10-13 16:08:33
 //    public String sys_time; // 2024-01-23 15:01:45
 }
