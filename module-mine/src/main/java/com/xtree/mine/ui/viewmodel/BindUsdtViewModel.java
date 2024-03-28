@@ -20,6 +20,7 @@ import java.util.HashMap;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
+import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -34,6 +35,7 @@ public class BindUsdtViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<UserUsdtConfirmVo> liveDataRebindCard02 = new SingleLiveData<>(); // 重新绑定
     public SingleLiveData<UserUsdtConfirmVo> liveDataRebindCard03 = new SingleLiveData<>(); // 重新绑定
     public SingleLiveData<UserUsdtConfirmVo> liveDataRebindCard04 = new SingleLiveData<>(); // 重新绑定
+    public SingleLiveData<Boolean> liveDataVerify = new SingleLiveData<>(); // 验证账户
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>(); // 个人信息
     public String key = ""; // usdt
 
@@ -119,6 +121,32 @@ public class BindUsdtViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 认证，最近加入的账户
+     *
+     * @param map
+     */
+    public void doVerify(HashMap qMap, HashMap map) {
+        Disposable disposable = (Disposable) model.getApiService().verifyAcc(qMap, map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<BaseResponse<Object>>() {
+                    @Override
+                    public void onResult(BaseResponse<Object> vo) {
+                        CfLog.d("******");
+                        liveDataVerify.setValue(true);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        liveDataVerify.setValue(false);
                         super.onError(t);
                     }
                 });

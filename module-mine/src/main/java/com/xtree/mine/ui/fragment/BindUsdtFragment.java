@@ -38,7 +38,6 @@ public class BindUsdtFragment extends BaseFragment<FragmentBindUsdtBinding, Bind
 
     private String tokenSign = "";
     private String mark = "bindusdt";
-    private boolean hasUSDT = false;
 
     UserUsdtJumpVo mUserUsdtJumpVo;
 
@@ -69,16 +68,7 @@ public class BindUsdtFragment extends BaseFragment<FragmentBindUsdtBinding, Bind
         binding.tvwAdd.setOnClickListener(v -> {
             CfLog.i("****** add");
             Bundle bundle = getArguments();
-            if (hasUSDT) {
-                if (bundle != null) {
-                    bundle.putBoolean("is_usdt", true);
-                }
-            } else {
-                if (bundle != null) {
-                    bundle.putBoolean("is_verify", true);
-                }
-            }
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_LOCK, bundle);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_USDT_ADD, bundle);
         });
 
         mAdapter = new CachedAutoRefreshAdapter<UsdtVo>() {
@@ -175,9 +165,6 @@ public class BindUsdtFragment extends BaseFragment<FragmentBindUsdtBinding, Bind
             if (vo.banklist != null) {
                 mAdapter.clear();
                 mAdapter.addAll(vo.banklist);
-            }
-            if (Integer.parseInt(vo.my_bind_counts.digit_count) > 0) {
-                hasUSDT = true;
             }
 
             if (!TextUtils.isEmpty(vo.num)) {

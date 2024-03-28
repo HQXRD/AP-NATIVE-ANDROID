@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.fragment;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +12,16 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.UuidUtil;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -31,6 +36,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import project.tqyb.com.library_res.databinding.ItemTextBinding;
 
@@ -51,6 +57,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
     ItemTextBinding binding2;
     BasePopupView ppw = null; // 底部弹窗 (选择**菜单)
     List<String> typeList = new ArrayList<>();
+    ProfileVo mProfileVo;
 
     UserUsdtConfirmVo mConfirmVo;
 
@@ -75,6 +82,24 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
             binding.tvwChooseTitle.setVisibility(View.GONE);
         }
 
+        if (mProfileVo != null && mProfileVo.is_binding_usdt) {
+            binding.llVerify.setVisibility(View.VISIBLE);
+            binding.llAdd.setVisibility(View.GONE);
+            binding.llConfirm.setVisibility(View.GONE);
+            binding.tvwOldName.setVisibility(View.GONE);
+            binding.edtOldName.setVisibility(View.GONE);
+            binding.tvwNameWarning.setVisibility(View.GONE);
+            binding.tvwOldAcc.setText(getResources().getText(R.string.txt_verify_addr));
+            binding.edtAcc.setInputType(InputType.TYPE_CLASS_TEXT);
+            binding.edtAcc.setHint(getResources().getText(R.string.txt_enter_wallet_addr));
+            binding.tvwAccWarning.setVisibility(View.GONE);
+            binding.tvwAccWarning.setHint(getResources().getText(R.string.txt_verify_addr_warning));
+        } else {
+            binding.llVerify.setVisibility(View.VISIBLE);
+            binding.llAdd.setVisibility(View.GONE);
+            binding.llConfirm.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -91,6 +116,10 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
                 binding.llAdd.setVisibility(View.VISIBLE);
                 binding.llConfirm.setVisibility(View.GONE);
             }
+        });
+
+        binding.tvwOldSubmit.setOnClickListener(v -> {
+            doVerify();
         });
 
     }
@@ -111,6 +140,8 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
         if (TextUtils.isEmpty(mark)) {
             CfLog.e("Arguments is null... ");
         }
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        mProfileVo = new Gson().fromJson(json, ProfileVo.class);
     }
 
     @Override
@@ -152,7 +183,14 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
             CfLog.i("******");
             getActivity().finish();
         });
-
+        viewModel.liveDataVerify.observe(this, isSuccess -> {
+            CfLog.i("******");
+            if (isSuccess) {
+                binding.llVerify.setVisibility(View.GONE);
+                binding.llAdd.setVisibility(View.VISIBLE);
+                binding.llConfirm.setVisibility(View.GONE);
+            }
+        });
     }
 
     private void setConfirmView() {
@@ -286,4 +324,34 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
         ppw.show();
     }
 
+    private void doVerify() {
+        String account = binding.edtOldAcc.getText().toString().trim();
+        String account_name = binding.edtOldName.getText().toString().trim();
+
+        if (account.isEmpty()) {
+            ToastUtils.showLong(R.string.txt_enter_bank_num);
+            return;
+        }
+        if (account_name.isEmpty() && !mProfileVo.is_binding_card) {
+            ToastUtils.showLong(R.string.txt_enter_account_name);
+            return;
+        }
+
+        HashMap qMap = new HashMap();
+        qMap.put("client", "m");
+        qMap.put("1", 1);
+
+        HashMap map = new HashMap();
+        map.put("account", account);
+        if (mProfileVo != null && !mProfileVo.is_binding_card) {
+            map.put("account_name", "");
+            map.put("is_digital", "1");
+        } else {
+            map.put("account_name", account_name);
+            map.put("is_digital", "0");
+        }
+        map.put("nonce", UuidUtil.getID16());
+
+        viewModel.doVerify(qMap, map);
+    }
 }
