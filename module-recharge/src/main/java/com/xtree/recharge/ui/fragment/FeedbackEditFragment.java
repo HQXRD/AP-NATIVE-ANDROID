@@ -326,7 +326,7 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
             binding.llDepositAmount.setVisibility(View.GONE);//存款金额
             binding.llVirtualAmount.setVisibility(View.VISIBLE);//虚拟币数量
             binding.etVirtualAmount.setText(info.userpay_amount);
-            binding.tvDepositTime.setText(info.add_time);//存款准确时间
+            binding.tvDepositTime.setText(info.userpay_time);//存款准确时间
             binding.edThirdOrderNumber.setText(info.third_orderid);//第三方单号
 
             for (int i = 0; i < feedbackCheckVo.banksInfo.size(); i++) {
@@ -347,7 +347,7 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
             binding.etPaymentName.setText(info.userpay_name);//付款人
             binding.etCollectionName.setText(info.receive_name);//收款人
             binding.etDepositAmount.setText(info.userpay_amount);//存款金额
-            binding.tvDepositTime.setText(info.add_time);//存款准确时间
+            binding.tvDepositTime.setText(info.userpay_time);//存款准确时间
             binding.edThirdOrderNumber.setText(info.third_orderid);//第三方单号
 
             for (int i = 0; i < feedbackCheckVo.banksInfo.size(); i++) {

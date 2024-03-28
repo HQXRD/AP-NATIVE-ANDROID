@@ -116,7 +116,7 @@ public class FeedbackDetailFragment extends BaseFragment<FragmentFeedbackDetailB
             binding.etSelectorRightSavename.setText(info.userpay_amount);//存款金额
 
 
-            binding.tvwDepositTime.setText(info.add_time);//存款精确时间
+            binding.tvwDepositTime.setText(info.userpay_time);//存款精确时间
             binding.tvSelectorRightThree.setText(info.third_orderid);//第三单号
             binding.tvSelectorRightPayway.setText(info.receive_bank_text);//支付渠道
             binding.llInputUsdtAdd.setVisibility(View.GONE); //隐藏收款钱包地址
