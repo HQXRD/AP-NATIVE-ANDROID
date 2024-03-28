@@ -244,6 +244,7 @@
     <string name="txt_withdraw_amount">提款金额</string>
     <string name="txt_sprize_amount2">奖金</string>
     <string name="txt_profit_loss">盈亏</string>
+    <string name="txt_game_plat_s">游戏平台：</string>
     <string name="txt_game_name_s">游戏名：</string>
     <string name="txt_game_code_s">注单号：</string>
     <string name="txt_bt_date_s">投注日期：</string>

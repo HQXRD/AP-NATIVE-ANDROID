@@ -79,6 +79,19 @@
         <TextView
             style="@style/style_item_report_title"
             android:layout_weight="0"
+            android:text="@string/txt_game_plat_s" />
+
+        <TextView
+            android:id="@+id/tvw_game_plat"
+            style="@style/style_item_report_title"
+            tools:text="DB棋牌" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_item_ll_row">
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:layout_weight="0"
             android:text="@string/txt_game_name_s" />
 
         <TextView

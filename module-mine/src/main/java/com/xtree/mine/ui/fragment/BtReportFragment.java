@@ -157,6 +157,11 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
                 binding2.tvwBet.setText(vo.project_bet);
                 binding2.tvwWin.setText(win); // --
                 binding2.tvwSum.setText(vo.sum); // color
+                for(FilterView.IBaseVo list : listType) {
+                    if(list.getShowId().equals(vo.p)){
+                        binding2.tvwGamePlat.setText(list.getShowName());
+                    }
+                }
                 binding2.tvwGameName.setText(vo.project_Game_name);
                 binding2.tvwGameCode.setText(vo.project_Game_code);
                 binding2.tvwGameDate.setText(vo.project_Game_date);
