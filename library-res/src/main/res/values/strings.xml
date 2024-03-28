@@ -111,7 +111,7 @@
     <string name="txt_report_game_change">游戏账变记录</string>
     <string name="txt_report_profit">盈亏报表</string>
     <string name="txt_report_rebate">返水报表</string>
-    <string name="txt_report_3d">三方转账</string>
+    <string name="txt_report_3d">第三方转账</string>
     <string name="txt_report_bt">投注记录</string>
     <string name="txt_report_recharge">充提记录</string>
 
@@ -197,7 +197,7 @@
     <!-- 我的 -->
     <string name="txt_profit">盈亏报表</string>
     <string name="txt_team_mgmt">团队管理</string>
-    <string name="txt_3rd_trans">三方转账</string>
+    <string name="txt_3rd_trans">第三方转账</string>
     <string name="txt_rebate_contract">返水契约</string>
 
     <string name="txt_report">报表</string>
