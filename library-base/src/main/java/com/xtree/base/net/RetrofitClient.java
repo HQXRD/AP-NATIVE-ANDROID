@@ -40,7 +40,7 @@ public class RetrofitClient {
     //缓存时间
     private static final int CACHE_TIMEOUT = 10 * 1024 * 1024;
     //服务端根路径
-    public static String baseUrl = DomainUtil.getDomain();
+    public static String baseUrl = DomainUtil.getApiUrl();
 
     private static Context mContext = Utils.getContext();
 
@@ -59,9 +59,15 @@ public class RetrofitClient {
     }
 
     public static void init() {
-        baseUrl = DomainUtil.getDomain();
+        baseUrl = DomainUtil.getApiUrl();
         SingletonHolder.INSTANCE = new RetrofitClient();
         CfLog.e("OkHttpClient init");
+    }
+
+    public static void setApi(String url) {
+        baseUrl = url;
+        SingletonHolder.INSTANCE = new RetrofitClient();
+        CfLog.e("OkHttpClient setApi");
     }
 
     private RetrofitClient() {
@@ -75,7 +81,7 @@ public class RetrofitClient {
         }
 
         if (httpCacheDirectory == null) {
-            httpCacheDirectory = new File(mContext.getCacheDir(), "goldze_cache");
+            httpCacheDirectory = new File(mContext.getCacheDir(), "app_cache");
         }
 
         try {

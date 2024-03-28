@@ -3,39 +3,61 @@ android {
 
     productFlavors {
 
-        /*moYu {
+        moYu {
             applicationId "com.mysport.app" // mysport myr01
             versionName "1.0.0"
             versionCode 100
-            //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "摩域体育"
-            resValue "string", "domain_url", "https://pre-dsport.oxldkm.com/"
+            resValue "string", "domain_api", "https://app1.vcchgk.com"
+            resValue "string", "domain_url", "https://www.alltm1s.com"
             resValue "string", "channel_name", "moYu"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
-            resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
+            resValue "string", "mixpanel_token", "8c0e04f787df7fa37fdd8ed81c4c219a"
             resValue "bool", "is_tag", "true" // 是否开启统计
-            resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_url_list", ";https://pre-dsport.oxldkm.com/" +
-                    ";https://pre-dsport.oxldkm.com/" +
-                    ";https://pre-dsport.oxldkm.com/"
+            resValue "string", "ms_secret_key", "b8597911-c169-4fcb-b548-51a575e698d1"
+            resValue "string", "domain_api_list", "https://app1.vcchgk.com;" +
+                    "https://app1.zauyuf.com;" +
+                    "https://app1.vjoyjn.com;" +
+                    "https://app.zgmdcu.com;" +
+                    "https://app2.oiasrg.com;" +
+                    "https://app2.hkfstq.com;" +
+                    "https://app2.lihnvv.com;" +
+                    "https://app2.wsmjwt.com;" +
+                    "https://app3.qwclln.com;" +
+                    "https://app3.dkoyci.com;" +
+                    "https://app3.lsrxle.com;" +
+                    "https://app3.fouupf.com;" +
+                    "https://app4.lgecqd.com;" +
+                    "https://app5.vfvtml.com;"
+            resValue "string", "domain_url_list", "https://www.alltm1s.com;" +
+                    "https://www.ykusti.com;" +
+                    "https://www.covgra.com;" +
+                    "https://www.yxagfy.com;" +
+                    "https://www.oji8joc.com;" +
+                    "https://www.xfzblx.com;" +
+                    "https://www.dfzlxg.com;" +
+                    "https://www.fcbudl.com;" +
+                    "https://www.zfcmft.com;" +
+                    "https://www.hzbqas.com;" +
+                    "https://www.dcmays.com;"
             multiDexEnabled true
             dimension "channelName"
-        }*/
+        }
         moYu_pre {
             applicationId "com.${name.toLowerCase()}.app" //
-            //applicationId "com.myt01.app" //
             versionName "1.0.0"
             versionCode 100
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "摩域T${versionCode}"
-            resValue "string", "domain_url", "https://pre-dsport.oxldkm.com/"
+            resValue "string", "domain_api", "https://pre-dsport.oxldkm.com"
+            resValue "string", "domain_url", "https://pre-dsport.oxldkm.com"
             resValue "string", "channel_name", "moYu"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_url_list", "https://pre-dsport.oxldkm.com/"
-
+            resValue "string", "domain_api_list", "https://pre-dsport.oxldkm.com;"
+            resValue "string", "domain_url_list", "https://pre-dsport.oxldkm.com;"
             multiDexEnabled true
             dimension "channelName"
         }

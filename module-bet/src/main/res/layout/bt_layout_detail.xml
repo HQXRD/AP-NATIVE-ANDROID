@@ -24,7 +24,7 @@
                     android:id="@+id/ctl_bg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/bt_detail_bg_lq_top"
+                    android:background="@mipmap/bt_detail_bg_mszq_default_top"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed"
                     app:titleEnabled="false"
                     app:toolbarId="@+id/toolbar">

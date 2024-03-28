@@ -186,7 +186,9 @@
 
     <string name="domain_url">http</string>
     <string name="domain_url_list">http;http</string>
-    <string name="channel_name">xingcai</string>
+    <string name="domain_api">http</string>
+    <string name="domain_api_list">http;http</string>
+    <string name="channel_name">demo</string>
     <string name="build_time">20240112</string>
     <string name="mixpanel_token">abc123</string>
     <string name="ms_secret_key">abc123</string>

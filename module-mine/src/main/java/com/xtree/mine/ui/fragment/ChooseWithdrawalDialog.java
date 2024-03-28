@@ -58,15 +58,15 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     private String checkCode;
     private IChooseDialogBack callBack;
     private BasePopupView basePopupView = null;
-    DialogChooseWithdrawaBinding binding;
-    ChooseWithdrawViewModel viewModel;
+    private DialogChooseWithdrawaBinding binding;
+    private ChooseWithdrawViewModel viewModel;
 
-    LifecycleOwner owner;
-    Context context;
-    //ChooseInfoVo chooseInfoVo; 替换成魔域的VO
-    ChooseInfoMoYuVo chooseInfoVo;
-    BasePopupView ppw = null; // 底部弹窗
-    BasePopupView ppw2 = null;
+    private LifecycleOwner owner;
+    private Context context;
+    private ChooseInfoMoYuVo chooseInfoVo;
+    private BasePopupView customPopWindow = null; // 公共弹窗 底部弹窗
+    private BasePopupView bindCardPopWindow = null; // 绑定银行卡 底部弹窗
+    private BasePopupView loadingView = null;
 
     private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
 
@@ -112,7 +112,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
         initView();
         initData();
-        LoadingDialog.show(getContext());
+
         initViewObservable();
         requestData();
     }
@@ -151,7 +151,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     }
 
     private void initViewObservable() {
-        LoadingDialog.show(dialog.getContext());
+        dismissMasksLoading();
         viewModel.chooseInfoMoYuVoMutableLiveData.observe(owner, vo -> {
             chooseInfoVo = vo;
             if (chooseInfoVo.networkStatus == 1 && callBack != null) {
@@ -169,6 +169,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     showErrorDialog(chooseInfoVo.message);
                 } else if (TextUtils.isEmpty(chooseInfoVo.error) || chooseInfoVo.error == null) {
                     checkCode = chooseInfoVo.check;
+                    dismissMasksLoading();
                     referUI();
                 }
             }
@@ -179,7 +180,24 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 请求网络数据
      */
     private void requestData() {
+        showMaskLoading();
         viewModel.getChooseWithdrawInfo(checkCode);
+    }
+
+    /*显示銀行卡提款loading */
+    private void showMaskLoading() {
+        if (loadingView == null) {
+            loadingView = new XPopup.Builder(getContext()).asCustom(new LoadingDialog(getContext()));
+        }
+        loadingView.show();
+    }
+
+    /*关闭loading*/
+    private void dismissMasksLoading() {
+        if (loadingView != null) {
+            loadingView.dismiss();
+        }
+
     }
 
     private void referUI() {
@@ -322,12 +340,12 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 intent.putExtra(ContainerActivity.BUNDLE, bundle);
                 getContext().startActivity(intent);
                 dismiss();
-                ppw2.dismiss();
+                bindCardPopWindow.dismiss();
 
             }
         });
-        ppw2 = new XPopup.Builder(getContext()).asCustom(dialog);
-        ppw2.show();
+        bindCardPopWindow = new XPopup.Builder(getContext()).asCustom(dialog);
+        bindCardPopWindow.show();
 
     }
 
@@ -352,12 +370,13 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         basePopupView.show();
     }
 
+    /*跳转安全验证*/
     private void showBankMessageDialog(ChooseInfoVo.ChannelInfo channelInfo, String message) {
-        ppw = new XPopup.Builder(getContext())
+        customPopWindow = new XPopup.Builder(getContext())
                 .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), message, false, new MsgDialog.ICallBack() {
                     @Override
                     public void onClickLeft() {
-                        ppw.dismiss();
+                        customPopWindow.dismiss();
                     }
 
                     @Override
@@ -372,19 +391,19 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         intent.putExtra(ContainerActivity.BUNDLE, bundle);
                         getContext().startActivity(intent);
                         dismiss();
-                        ppw.dismiss();
+                        customPopWindow.dismiss();
                     }
                 }));
-        ppw.show();
+        customPopWindow.show();
     }
 
     private void showMessageDialog(ChooseInfoVo.ChannelInfo channelInfo, String showMessage) {
         String errorMessage = "请先绑" + channelInfo.configkey.toUpperCase() + "后才可提款";
-        ppw = new XPopup.Builder(getContext())
+        customPopWindow = new XPopup.Builder(getContext())
                 .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), errorMessage, false, new MsgDialog.ICallBack() {
                     @Override
                     public void onClickLeft() {
-                        ppw.dismiss();
+                        customPopWindow.dismiss();
                     }
 
                     @Override
@@ -399,10 +418,10 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         intent.putExtra(ContainerActivity.BUNDLE, bundle);
                         getContext().startActivity(intent);
                         dismiss();*/
-                        ppw.dismiss();
+                        customPopWindow.dismiss();
                     }
                 }));
-        ppw.show();
+        customPopWindow.show();
     }
 
     /**
@@ -410,21 +429,21 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      */
     private void showErrorDialog(String showMessage) {
 
-        ppw = new XPopup.Builder(getContext())
+        customPopWindow = new XPopup.Builder(getContext())
                 .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), showMessage, false, new MsgDialog.ICallBack() {
                     @Override
                     public void onClickLeft() {
-                        ppw.dismiss();
+                        customPopWindow.dismiss();
                         callBack.closeDialog();
 
                     }
 
                     @Override
                     public void onClickRight() {
-                        ppw.dismiss();
+                        customPopWindow.dismiss();
                         callBack.closeDialog();
                     }
                 }));
-        ppw.show();
+        customPopWindow.show();
     }
 }

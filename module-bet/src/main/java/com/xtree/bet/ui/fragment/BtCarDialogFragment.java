@@ -19,11 +19,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.utils.NumberUtils;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
 import com.xtree.bet.bean.ui.BetConfirmOptionUtil;
 import com.xtree.bet.bean.ui.CgOddLimit;
+import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtLayoutBtCarBinding;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.BtDetailActivity;
@@ -44,8 +46,8 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
+import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
-import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
@@ -289,8 +291,16 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             }
         });
         viewModel.btResultInfoDate.observe(this, btResults -> {
-            BtResultDialogFragment.getInstance(betConfirmOptionList, cgOddLimitList, btResults).show(getParentFragmentManager(), "BtResultDialogFragment");
+            TagUtils.tagEvent(getContext(), "bt", platform);
+            List<CgOddLimit> cgOddLimits = new ArrayList<>();
+            for(CgOddLimit cgOddLimit : cgOddLimitList){
+                if(cgOddLimit.getBtAmount() > 0){
+                    cgOddLimits.add(cgOddLimit);
+                }
+            }
+            BtResultDialogFragment.getInstance(betConfirmOptionList, cgOddLimits, btResults).show(getParentFragmentManager(), "BtResultDialogFragment");
             BtCarManager.clearBtCar();
+            RxBus.getDefault().post(new BetContract(BetContract.ACTION_REFLESH_BANLANCE));
             dismiss();
         });
         viewModel.userBalanceData.observe(this, balance -> {
@@ -432,7 +442,6 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                         + vo.getBtCount() + "个注单";
             }
         }
-
 
         MsgDialog dialog = new MsgDialog(getContext(), title, msg, true, new MsgDialog.ICallBack() {
             @Override
