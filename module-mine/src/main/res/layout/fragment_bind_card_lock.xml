@@ -52,7 +52,6 @@
             android:text="@string/txt_note_asterisks_cannot_empty" />
 
         <TextView
-            android:id="@+id/tvw_name"
             style="@style/style_bind_title"
             android:text="@string/txt_s_acc_real_name" />
 
@@ -64,12 +63,10 @@
             android:text="" />
 
         <TextView
-            android:id="@+id/tvw_name_warning"
             style="@style/style_cm_tip_small_grey"
             android:text="@string/txt_enter_the_last_acc_name" />
 
         <TextView
-            android:id="@+id/tvw_acc"
             style="@style/style_bind_title"
             android:text="@string/txt_s_bank_num" />
 
@@ -83,12 +80,10 @@
             android:text="" />
 
         <TextView
-            android:id="@+id/tvw_acc_warning"
             style="@style/style_cm_tip_small_grey"
             android:text="@string/txt_enter_last_bank_card_num" />
 
         <TextView
-            android:id="@+id/tvw_del_warning"
             style="@style/style_cm_tip_small_orange"
             android:text="@string/txt_note_cs_cannot_unlock_bank_card" />
 

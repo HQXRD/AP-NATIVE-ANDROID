@@ -48,6 +48,63 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
+            android:id="@+id/ll_verify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/style_cm_tip_small_orange"
+                android:text="@string/txt_note_asterisks_cannot_empty" />
+
+            <TextView
+                style="@style/style_bind_title"
+                android:text="@string/txt_verify_name" />
+
+            <EditText
+                android:id="@+id/edt_old_name"
+                style="@style/style_cm_edt"
+                android:hint="@string/txt_enter_account_name"
+                android:maxLength="16"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tvw_name_warning"
+                style="@style/style_cm_tip_small_grey"
+                android:text="@string/txt_enter_the_last_acc_name" />
+
+            <TextView
+                style="@style/style_bind_title"
+                android:text="@string/txt_verify_acc" />
+
+            <EditText
+                android:id="@+id/edt_old_acc"
+                style="@style/style_cm_edt"
+                android:hint="@string/txt_enter_bank_num"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="19"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tvw_acc_warning"
+                style="@style/style_cm_tip_small_grey"
+                android:text="@string/txt_enter_last_bank_card_num" />
+
+            <LinearLayout style="@style/style_cm_btn_ll">
+
+                <TextView
+                    android:id="@+id/tvw_old_back"
+                    style="@style/style_btn_back" />
+
+                <TextView
+                    android:id="@+id/tvw_old_submit"
+                    style="@style/style_btn" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/ll_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

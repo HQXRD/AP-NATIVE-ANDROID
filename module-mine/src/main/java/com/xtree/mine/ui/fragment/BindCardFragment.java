@@ -66,15 +66,7 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
 
         binding.tvwAdd.setOnClickListener(v -> {
             CfLog.i("****** add");
-            if (hasCard) {
-                Bundle bundle = getArguments();
-                if (bundle != null) {
-                    bundle.putBoolean("is_verify", true);
-                }
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_LOCK, bundle);
-            } else {
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_ADD, getArguments());
-            }
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_ADD, getArguments());
         });
 
         binding.tvwLock.setOnClickListener(v -> {
