@@ -139,7 +139,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     public void onResult(List<GameStatusVo> list) {
                         //ToastUtils.showLong("请求成功");
                         CfLog.i("****** list.size: " + list.size()); // 37
-                        CfLog.i(list.get(0).toString()); // GameStatusVo{cid=1, name='PT娱乐', alias='pt', status=1}
+                        //CfLog.i(list.get(0).toString()); // GameStatusVo{cid=1, name='PT娱乐', alias='pt', status=1}
                         String json = readFromRaw(ctx, R.raw.games);
                         List<GameVo> mList = new Gson().fromJson(json, new TypeToken<List<GameVo>>() {
                         }.getType());
