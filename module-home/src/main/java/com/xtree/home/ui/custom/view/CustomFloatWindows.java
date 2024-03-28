@@ -6,6 +6,7 @@ import static android.content.Context.WINDOW_SERVICE;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,7 +25,6 @@ import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
-import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.home.R;
 import com.xtree.home.data.source.HomeApiService;
@@ -93,7 +93,9 @@ public class CustomFloatWindows extends RelativeLayout {
             floatView.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);
             floatView.findViewById(R.id.ll_line).setVisibility(View.GONE);
             if (vo.orderurl.isEmpty()) {
-                new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, vo.payport_nickname, DomainUtil.getDomain2() + "/webapp/#/depositetail/" + vo.id)).show();
+                //new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, vo.payport_nickname, DomainUtil.getDomain2()
+                // + "/webapp/#/depositetail/" + vo.id)).show();
+                goOrderDetail(vo.id);
             } else {
                 new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, vo.payport_nickname, vo.orderurl)).show();
             }
@@ -174,6 +176,19 @@ public class CustomFloatWindows extends RelativeLayout {
 
     private void initData() {
         getReportData();
+    }
+
+    private void goOrderDetail(String id) {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isShowBack", true);
+        bundle.putBoolean("isShowOrderDetail", true);
+        bundle.putString("orderDetailId", id);
+        Intent intent = new Intent(getContext(), ContainerActivity.class);
+        intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Recharge.PAGER_RECHARGE);
+        if (bundle != null) {
+            intent.putExtra(ContainerActivity.BUNDLE, bundle);
+        }
+        getContext().startActivity(intent);
     }
 
     private void getReportData() {
