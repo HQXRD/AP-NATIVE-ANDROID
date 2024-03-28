@@ -45,7 +45,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  * 我的/个人中心
  */
 @Route(path = RouterFragmentPath.Mine.PAGER_MINE)
-public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewModel>  {
+public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewModel> {
     ProfileVo mProfileVo;
     VipInfoVo mVipInfoVo;
     String token;
@@ -190,7 +190,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         //    startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
         //});
         //返水契约
-        binding.tvwRebateContract.setOnClickListener(v->{
+        binding.tvwRebateContract.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_AGREEMENT);
         });
         binding.tvwAccMg.setOnClickListener(v -> {
@@ -262,7 +262,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
         //检查更新
         binding.tvwUpgrade.setOnClickListener(v -> {
-           LoadingDialog.show(getContext());
+            LoadingDialog.show(getContext());
             viewModel.getUpdate();
         });
 
@@ -399,7 +399,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     }
 
     private void showAccountMgmt() {
-        new XPopup.Builder(getContext()).asCustom(new AccountMgmtDialog(getContext())).show();
+        new XPopup.Builder(getContext()).asCustom(new AccountMgmtDialog(getContext(), getActivity())).show();
     }
 
     @Override
@@ -445,7 +445,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         viewModel.liveDataUpdate.observe(this, vo -> {
             CfLog.i(vo.toString());
             updateVo = vo;
-            if (updateVo == null){
+            if (updateVo == null) {
                 //ToastUtils.showError(getContext().getString(R.string.txt_update_version));
                 return;
             }

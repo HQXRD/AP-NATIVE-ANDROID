@@ -68,7 +68,8 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
             binding.tvwChoose.setVisibility(View.VISIBLE);
             binding.tvwChooseTitle.setVisibility(View.VISIBLE);
             binding.tvwTipAddress.setText("");
-            getUsdtType();
+            setUsdtType();
+            //getUsdtType();
         } else {
             binding.tvwChoose.setVisibility(View.GONE);
             binding.tvwChooseTitle.setVisibility(View.GONE);
@@ -130,13 +131,13 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
 
     @Override
     public void initViewObservable() {
-        viewModel.liveDataTypeList.observe(this, vo -> {
-            if (vo.usdt_type != null && !vo.usdt_type.isEmpty()) {
-                typeList.clear();
-                typeList.addAll(vo.usdt_type);
-            }
-
-        });
+        //viewModel.liveDataTypeList.observe(this, vo -> {
+        //    if (vo.usdt_type != null && !vo.usdt_type.isEmpty()) {
+        //        typeList.clear();
+        //        typeList.addAll(vo.usdt_type);
+        //    }
+        //
+        //});
         viewModel.liveDataBindCardCheck.observe(this, vo -> {
             CfLog.i("******");
             mConfirmVo = vo;
@@ -162,13 +163,18 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
         binding.tvwAcc.setText(mConfirmVo.usdt_card);
     }
 
-    private void getUsdtType() {
-        HashMap map = new HashMap();
-        map.put("controller", controller);
-        map.put("action", action);
-        map.put("client", "m");
-        viewModel.getUsdtType(map);
+    private void setUsdtType() {
+        typeList.add("ERC20_USDT");
+        typeList.add("TRC20_USDT");
     }
+
+    //private void getUsdtType() {
+    //    HashMap map = new HashMap();
+    //    map.put("controller", controller);
+    //    map.put("action", action);
+    //    map.put("client", "m");
+    //    viewModel.getUsdtType(map);
+    //}
 
     private void doNext() {
         type = binding.tvwChoose.getText().toString();
@@ -206,6 +212,12 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
         map.put("bank_name", "");
         map.put("usdt_card", account);
         map.put("account_again", account);
+
+        //For moyu new args
+        map.put("check", "");
+        map.put("mark", mark);
+        map.put("nonce", "");
+        map.put("submit", "submit");
 
         viewModel.doBindCardByCheck(queryMap, map);
     }

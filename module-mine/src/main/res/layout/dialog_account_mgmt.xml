@@ -80,22 +80,26 @@
         <TextView
             style="@style/style_choose_account"
             android:tag="bindmpay"
-            android:text="@string/txt_bind_mpay" />
+            android:text="@string/txt_bind_mpay"
+            android:visibility="gone" />
 
         <TextView
             style="@style/style_choose_account"
             android:tag="bindgobao"
-            android:text="@string/txt_bind_gobao" />
+            android:text="@string/txt_bind_gobao"
+            android:visibility="gone" />
 
         <TextView
             style="@style/style_choose_account"
             android:tag="bindgopay"
-            android:text="@string/txt_bind_gopay" />
+            android:text="@string/txt_bind_gopay"
+            android:visibility="gone" />
 
         <TextView
             style="@style/style_choose_account"
             android:tag="bindokpay"
-            android:text="@string/txt_bind_okpay" />
+            android:text="@string/txt_bind_okpay"
+            android:visibility="gone" />
 
     </LinearLayout>
 

@@ -113,7 +113,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
 
         binding.tvwMgmt.setOnClickListener(v -> {
             CfLog.d("************");
-            new XPopup.Builder(getContext()).asCustom(new AccountMgmtDialog(getContext())).show();
+            new XPopup.Builder(getContext()).asCustom(new AccountMgmtDialog(getContext(), getActivity())).show();
         });
 
         binding.tvwRecord.setOnClickListener(v -> {
@@ -229,15 +229,15 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
      */
     private void showChoose() {
 
-        if (mProfileVo.has_securitypwd  ) {
-            if (Double.valueOf(mProfileVo.availablebalance) > 0){
+        if (mProfileVo.has_securitypwd) {
+            if (Double.valueOf(mProfileVo.availablebalance) > 0) {
                 ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation();
-            }else {
+            } else {
                 ToastUtils.showError(getContext().getString(R.string.txt_withdraw_balance_money));
             }
         } else {
             //跳转设定资金密码设定页面
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_FUNDS_PWD);;
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_FUNDS_PWD);
         }
 
        /* if (!mProfileVo.is_binding_phone && !mProfileVo.is_binding_email) {

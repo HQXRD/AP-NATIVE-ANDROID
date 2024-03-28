@@ -14,7 +14,6 @@ import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.UsdtVo;
 import com.xtree.mine.vo.UserBindBaseVo;
 import com.xtree.mine.vo.UserUsdtConfirmVo;
-import com.xtree.mine.vo.UserUsdtTypeVo;
 
 import java.util.HashMap;
 
@@ -28,7 +27,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class BindUsdtViewModel extends BaseViewModel<MineRepository> {
 
     public SingleLiveData<UserBindBaseVo<UsdtVo>> liveDataCardList = new SingleLiveData<>();
-    public SingleLiveData<UserUsdtTypeVo> liveDataTypeList = new SingleLiveData<>();
+    //public SingleLiveData<UserUsdtTypeVo> liveDataTypeList = new SingleLiveData<>();
     public SingleLiveData<UserUsdtConfirmVo> liveDataBindCardCheck = new SingleLiveData<>(); // 绑定卡确认
     public SingleLiveData<UserUsdtConfirmVo> liveDataBindCardResult = new SingleLiveData<>(); // 绑定卡结果
     public SingleLiveData<UserUsdtConfirmVo> liveDataRebindCard01 = new SingleLiveData<>(); // 重新绑定
@@ -70,30 +69,30 @@ public class BindUsdtViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
-    public void getUsdtType(HashMap map) {
-        Disposable disposable = (Disposable) model.getApiService().getUsdtType(key, map)
-                .compose(RxUtils.schedulersTransformer())
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<UserUsdtTypeVo>() {
-                    @Override
-                    public void onResult(UserUsdtTypeVo vo) {
-                        CfLog.d("******");
-                        if (vo.msg_type == 1 || vo.msg_type == 2) {
-                            ToastUtils.showLong(vo.message); // 异常
-                            finish();
-                        } else {
-                            liveDataTypeList.setValue(vo);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        CfLog.e("error, " + t.toString());
-                        super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);
-    }
+    //public void getUsdtType(HashMap map) {
+    //    Disposable disposable = (Disposable) model.getApiService().getUsdtType(key, map)
+    //            .compose(RxUtils.schedulersTransformer())
+    //            .compose(RxUtils.exceptionTransformer())
+    //            .subscribeWith(new HttpCallBack<UserUsdtTypeVo>() {
+    //                @Override
+    //                public void onResult(UserUsdtTypeVo vo) {
+    //                    CfLog.d("******");
+    //                    if (vo.msg_type == 1 || vo.msg_type == 2) {
+    //                        ToastUtils.showLong(vo.message); // 异常
+    //                        finish();
+    //                    } else {
+    //                        liveDataTypeList.setValue(vo);
+    //                    }
+    //                }
+    //
+    //                @Override
+    //                public void onError(Throwable t) {
+    //                    CfLog.e("error, " + t.toString());
+    //                    super.onError(t);
+    //                }
+    //            });
+    //    addSubscribe(disposable);
+    //}
 
     /**
      * 绑卡, 点下一步展示确认信息页

@@ -39,6 +39,7 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
 
     private String tokenSign;
     private String mark = "bindcard";
+    private boolean hasCard = false;
 
     ItemBindCardBinding binding2;
 
@@ -65,7 +66,15 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
 
         binding.tvwAdd.setOnClickListener(v -> {
             CfLog.i("****** add");
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_ADD, getArguments());
+            if (hasCard) {
+                Bundle bundle = getArguments();
+                if (bundle != null) {
+                    bundle.putBoolean("is_verify", true);
+                }
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_LOCK, bundle);
+            } else {
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_ADD, getArguments());
+            }
         });
 
         binding.tvwLock.setOnClickListener(v -> {
@@ -155,6 +164,7 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
 
             if (vo.banklist != null && !vo.banklist.isEmpty()) {
                 CfLog.i("****** 这是列表");
+                hasCard = true;
                 mAdapter.clear();
                 mAdapter.addAll(vo.banklist);
                 for (int i = 0; i < vo.banklist.size(); i++) {

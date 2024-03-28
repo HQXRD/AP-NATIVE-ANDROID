@@ -12,7 +12,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -40,7 +39,7 @@ import project.tqyb.com.library_res.databinding.ItemTextBinding;
 /**
  * 安全验证-验证方式
  */
-@Route(path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE)
+//@Route(path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE)
 public class SecurityVerifyChooseFragment extends BaseFragment<FragmentSecurityVerifyChooseBinding, VerifyViewModel> {
     private static final String ARG_TYPE = "type";
 

@@ -27,6 +27,7 @@ public class UserBindBaseVo<T> {
     //public String topprizes_publicity_enabled; // "1",
     //public String topprizes_wintips_enabled; // "1",
     //public String desK; // "WN9TNiq6zcV5F7wl5Qy4LtZGZ5KsXvWP",
+    public BindCountsVo my_bind_counts;
     public String ur_here; // "卡号绑定列表",
     public String check; // "c2f6e3b0f5a3fe719acba28643a7d83b",
     public String has_phone; // 1,

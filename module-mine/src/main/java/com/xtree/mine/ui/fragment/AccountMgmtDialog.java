@@ -6,32 +6,40 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 
+import com.google.gson.Gson;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.DialogAccountMgmtBinding;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * 账户管理 底部弹窗
  */
 public class AccountMgmtDialog extends BottomPopupView {
-
     Context ctx;
+    FragmentActivity activity;
     DialogAccountMgmtBinding binding;
+    ProfileVo mProfileVo;
 
-    public AccountMgmtDialog(@NonNull Context context) {
+    public AccountMgmtDialog(@NonNull Context context, FragmentActivity activity) {
         super(context);
         ctx = context;
+        this.activity = activity;
     }
 
     @Override
     protected void onCreate() {
         super.onCreate();
         binding = DialogAccountMgmtBinding.bind(findViewById(R.id.cl_root));
+        initData();
         initView();
     }
 
@@ -45,16 +53,29 @@ public class AccountMgmtDialog extends BottomPopupView {
                 String type = child.getTag().toString();
                 Bundle bundle = new Bundle();
                 bundle.putString("type", type);
-                String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
+                String path;
                 //ctx.startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
 
-                Intent intent = new Intent(getContext(), ContainerActivity.class);
-                intent.putExtra(ContainerActivity.ROUTER_PATH, path);
-                intent.putExtra(ContainerActivity.BUNDLE, bundle);
-                ctx.startActivity(intent);
+                if (mProfileVo.has_securitypwd) {
+                    CheckPasswordDialog checkPasswordDialog = CheckPasswordDialog.getInstance(type, false, checkCode -> {
+
+                    });
+                    checkPasswordDialog.show(activity.getSupportFragmentManager(), "CheckPasswordDialog");
+                } else {
+                    path = RouterFragmentPath.Mine.PAGER_FUNDS_PWD;
+                    Intent intent = new Intent(getContext(), ContainerActivity.class);
+                    intent.putExtra(ContainerActivity.ROUTER_PATH, path);
+                    intent.putExtra(ContainerActivity.BUNDLE, bundle);
+                    ctx.startActivity(intent);
+                }
                 dismiss();
             });
         }
+    }
+
+    private void initData() {
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        mProfileVo = new Gson().fromJson(json, ProfileVo.class);
     }
 
     @Override

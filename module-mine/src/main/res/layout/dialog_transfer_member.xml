@@ -1,94 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/ll_root"
-    android:layout_width="match_parent"
-    android:layout_height="300dp"
-    android:background="@drawable/bg_main_top_r36">
-
-    <ImageView
-        android:id="@+id/ivw_close"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/layout_margin"
-        android:padding="4dp"
-        android:src="@mipmap/ic_pop_close"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvw_password_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_margin"
-        android:text="@string/txt_input_money_password"
-        android:textColor="@color/clr_white"
-        android:textSize="@dimen/bt_text_20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ll_root"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginStart="@dimen/layout_margin"
-        android:layout_marginTop="@dimen/layout_margin"
-        android:layout_marginEnd="@dimen/layout_margin"
-        android:background="@drawable/bg_main_top_r24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvw_password_title">
+        android:layout_height="300dp"
+        android:background="@drawable/bg_main_top_r36">
 
-        <EditText
-            android:id="@+id/et_transfer_password"
-            style="@style/style_cm_edt"
+        <ImageView
+            android:id="@+id/ivw_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/layout_margin"
-            android:drawableStart="@mipmap/mine_bonus"
-            android:hint="@string/txt_please_input_money_password"
-            android:inputType="textPassword"
+            android:padding="4dp"
+            android:src="@mipmap/ic_pop_close"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvw_password_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:text="@string/txt_input_money_password"
+            android:textColor="@color/clr_white"
+            android:textSize="@dimen/bt_text_20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvw_warning"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/layout_margin"
-            android:layout_marginTop="8dp"
-            android:text="@string/txt_warning_money_password"
-            android:textColor="@color/clr_red_01"
-            app:layout_constraintEnd_toEndOf="@id/et_transfer_password"
-            app:layout_constraintStart_toStartOf="@id/et_transfer_password"
-            app:layout_constraintTop_toBottomOf="@id/et_transfer_password" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginEnd="@dimen/layout_margin"
+            android:background="@drawable/bg_main_top_r24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvw_password_title">
 
-        <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/layout_margin"
-            android:background="@drawable/bg_stroke_main_r12"
-            android:text="@string/text_cancel"
-            android:textColor="@color/clr_bg_frame_21"
-            android:textSize="16dp"
-            app:layout_constraintStart_toStartOf="@id/et_transfer_password"
-            app:layout_constraintTop_toBottomOf="@id/tvw_warning" />
+            <EditText
+                android:id="@+id/et_transfer_password"
+                style="@style/style_cm_edt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin"
+                android:drawableStart="@mipmap/mine_bonus"
+                android:hint="@string/txt_please_input_money_password"
+                android:inputType="textPassword"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn_confirm"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/layout_margin"
-            android:background="@drawable/bg_main_r12"
-            android:text="@string/text_confirm"
-            android:textColor="@color/clr_white"
-            android:textSize="16dp"
-            app:layout_constraintEnd_toEndOf="@id/et_transfer_password"
-            app:layout_constraintTop_toBottomOf="@id/tvw_warning" />
+            <TextView
+                android:id="@+id/tvw_warning"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin"
+                android:layout_marginTop="8dp"
+                android:text="@string/txt_warning_money_password"
+                android:textColor="@color/clr_red_01"
+                app:layout_constraintEnd_toEndOf="@id/et_transfer_password"
+                app:layout_constraintStart_toStartOf="@id/et_transfer_password"
+                app:layout_constraintTop_toBottomOf="@id/et_transfer_password" />
 
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin"
+                android:background="@drawable/bg_stroke_main_r12"
+                android:text="@string/text_cancel"
+                android:textColor="@color/clr_bg_frame_21"
+                android:textSize="16dp"
+                app:layout_constraintStart_toStartOf="@id/et_transfer_password"
+                app:layout_constraintTop_toBottomOf="@id/tvw_warning" />
+
+            <Button
+                android:id="@+id/btn_confirm"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin"
+                android:background="@drawable/bg_main_r12"
+                android:text="@string/text_confirm"
+                android:textColor="@color/clr_white"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="@id/et_transfer_password"
+                app:layout_constraintTop_toBottomOf="@id/tvw_warning" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

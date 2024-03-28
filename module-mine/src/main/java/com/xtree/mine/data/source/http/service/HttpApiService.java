@@ -56,7 +56,6 @@ import com.xtree.mine.vo.UserBankConfirmVo;
 import com.xtree.mine.vo.UserBankProvinceVo;
 import com.xtree.mine.vo.UserBindBaseVo;
 import com.xtree.mine.vo.UserUsdtConfirmVo;
-import com.xtree.mine.vo.UserUsdtTypeVo;
 import com.xtree.mine.vo.VerificationCodeVo;
 import com.xtree.mine.vo.VerifyVo;
 import com.xtree.mine.vo.VipUpgradeInfoVo;
@@ -276,12 +275,12 @@ public interface HttpApiService {
     @GET("/user/user{key}info?")
     Flowable<UserBindBaseVo<UsdtVo>> getUsdtList(@Path("key") String key, @QueryMap Map<String, String> map);
 
-    /**
-     * 查询 USDT 类型
-     * client=m&controller=security&action=adduserusdt
-     */
-    @GET("/user/user{key}info?")
-    Flowable<UserUsdtTypeVo> getUsdtType(@Path("key") String key, @QueryMap Map<String, String> map);
+    ///**
+    // * 查询 USDT 类型
+    // * client=m&controller=security&action=adduserusdt
+    // */
+    //@GET("/user/user{key}info?")
+    //Flowable<UserUsdtTypeVo> getUsdtType(@Path("key") String key, @QueryMap Map<String, String> map);
 
     /**
      * 绑定
@@ -636,13 +635,16 @@ public interface HttpApiService {
 
     /**
      * 返水契约 GET
+     *
      * @param url 接口名称
      * @return 返回体
      */
     @GET("{url}")
     Flowable<ResponseBody> get(@Path(value = "url", encoded = true) String url);
+
     /**
      * 返水契约 GET
+     *
      * @param url 接口名称
      * @param map 拼接参数
      * @return 返回体
@@ -652,6 +654,7 @@ public interface HttpApiService {
 
     /**
      * 返水契约 POST
+     *
      * @param url 接口名称
      * @param map body
      * @return 返回体
@@ -661,9 +664,10 @@ public interface HttpApiService {
 
     /**
      * 返水契约 POST
-     * @param url 接口名称
+     *
+     * @param url  接口名称
      * @param qmap 拼接参数
-     * @param map body
+     * @param map  body
      * @return 返回体
      */
     @POST("{url}")
@@ -684,7 +688,6 @@ public interface HttpApiService {
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse2> postRetrievePSW(@Body Map<String, String> map);
 
-
     /**
      * 推广链接-获取数据
      */
@@ -703,11 +706,14 @@ public interface HttpApiService {
      */
     @POST("/user/adduser?client=m")
     Flowable<BaseResponse2> adduser(@Body AdduserRequest requestBody);
+
     /**
      * 获取更新
      */
     @GET("/api/app/version?platform=android")
     Flowable<BaseResponse<AppUpdateDialog.AppUpdateVo>> getUpdate();
 
-
+    @POST("/api/user/verifylastbind?")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<Object>> verifyAcc(@QueryMap Map<String, Object> qMap, @Body Map<String, Object> map);
 }
