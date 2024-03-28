@@ -870,9 +870,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
         });
 
-        viewModel.leagueLiveListData.observe(this, leagueAdapters -> {
-            this.mLeagueList = leagueAdapters;
+        viewModel.leagueLiveListData.observe(this, leagueList -> {
             if (playMethodType == 1) {
+                this.mLeagueList = leagueList;
                 updateData();
             }
         });
