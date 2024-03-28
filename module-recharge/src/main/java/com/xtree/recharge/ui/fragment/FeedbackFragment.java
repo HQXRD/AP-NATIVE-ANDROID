@@ -396,13 +396,11 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
                 FeedbackVo.FeedbackModeInfo vo = get(position);
-                CfLog.i(" FeedbackVo.FeedbackModeInfo = " + vo.toString());
                 binding2.tvwTitle.setText(vo.name);
                 binding2.tvwTitle.setOnClickListener(v -> {
-                    CfLog.i("feedbackVo " + vo);
                     binding.tvwPaymentMethod.setText(vo.name);
                     //feedbackType = 1; //1 微信 2 usdt
-                    if (vo.name.equals("虚拟货币")) {
+                    if (TextUtils.equals("虚拟货币" , vo.name)) {
                         feedbackType = 2;
                         referFeedbackUI("usdt");
                     } else if (vo.name.contains("微信")) {
