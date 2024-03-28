@@ -162,6 +162,13 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
        // viewModel.getAwardRecord();//获取礼物流水
 
         viewModel.getTransThirdGameType(getContext());
+
+        // 从H5/JS跳转过来的
+        boolean isOpenWithdraw = getArguments().getBoolean("isOpenWithdraw", false);
+        if (isOpenWithdraw) {
+            binding.tvwWithdraw.performClick();
+        }
+
     }
 
     @Override
