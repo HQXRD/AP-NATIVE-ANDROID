@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
 import com.xtree.base.utils.UuidUtil;
@@ -137,6 +138,10 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<LoginResultVo>() {
                     @Override
                     public void onResult(LoginResultVo vo) {
+                        if (vo == null) {
+                            CfLog.e("result is null");
+                            return;
+                        }
                         ToastUtils.showLong("注册成功");
                         vo.userName = userName;
                         setLoginSucc(vo);
