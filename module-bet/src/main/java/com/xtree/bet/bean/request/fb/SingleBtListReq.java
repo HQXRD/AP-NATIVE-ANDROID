@@ -7,7 +7,7 @@ public class SingleBtListReq {
     private int currencyId = 1;
     private String languageType = "CMN";
     private List<BtCgReq> singleBetList = new ArrayList<>();
-    private ThirdRemark thirdRemark = new ThirdRemark();
+
     public void addSingleBetList(BtCgReq singleBetReq) {
         this.singleBetList.add(singleBetReq);
     }
