@@ -111,6 +111,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         TagUtils.tagDailyEvent(getContext());
         checkUpdate(); // 检查更新
         if (!TextUtils.isEmpty(token)) {
+            CfLog.i("******");
+            viewModel.getProfile();
             checkRedPocket();
         }
     }
@@ -118,6 +120,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        CfLog.i("****** hidden: " + hidden);
         if (hidden) {   // 隐藏
             KLog.i("测试显示隐藏", "HideOnHiddenChangedHome");
         } else {  // 第一次可见，不会执行到这里，只会执行onResume
@@ -165,7 +168,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.liveDataCookie.observe(getViewLifecycleOwner(), cookieVo -> {
             KLog.d("************");
             viewModel.getNotices(); // 获取公告
-            viewModel.getProfile(); // 获取个人信息
+            //viewModel.getProfile(); // 获取个人信息
             viewModel.getVipInfo(); // 获取VIP信息
             //viewModel.getFBGameTokenApi();
             //viewModel.getPMGameTokenApi();
@@ -387,7 +390,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.tvwMember.setOnClickListener(view -> {
             // 会员
             KLog.i("**************");
-//            startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
+            //startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
             BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
             //new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url, true)).show();
         });

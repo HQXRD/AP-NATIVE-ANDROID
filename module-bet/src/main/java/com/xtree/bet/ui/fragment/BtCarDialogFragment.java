@@ -25,6 +25,7 @@ import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BetConfirmOption;
 import com.xtree.bet.bean.ui.BetConfirmOptionUtil;
 import com.xtree.bet.bean.ui.CgOddLimit;
+import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtLayoutBtCarBinding;
 import com.xtree.bet.manager.BtCarManager;
 import com.xtree.bet.ui.activity.BtDetailActivity;
@@ -45,6 +46,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
+import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -73,6 +75,8 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
     private String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
     private BasePopupView basePopupView;
     private BasePopupView ppw;
+
+    private String mBanlance = "-1";
 
     private KeyBoardListener mKeyBoardListener = new KeyBoardListener() {
         @Override
@@ -127,6 +131,18 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         keyboardView.setParent(binding.nsvOption);
         binding.ivConfirm.setCallBack(() -> {
             int acceptOdds = binding.cbAccept.isChecked() ? 1 : 2;
+            if(TextUtils.equals(mBanlance, "-1")){
+                ToastUtils.showLong("正在获取余额信息，请稍候");
+                return;
+            }
+            double betAmount = 0;
+            for (CgOddLimit cgOddLimit : cgOddLimitList) {
+                betAmount += cgOddLimit.getBtAmount();
+            }
+            if(betAmount > Double.parseDouble(mBanlance)){
+                ToastUtils.showLong("余额不足");
+                return;
+            }
             viewModel.bet(betConfirmOptionList, cgOddLimitList, acceptOdds);
         });
         binding.llRoot.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
@@ -298,9 +314,11 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             }
             BtResultDialogFragment.getInstance(betConfirmOptionList, cgOddLimits, btResults).show(getParentFragmentManager(), "BtResultDialogFragment");
             BtCarManager.clearBtCar();
+            RxBus.getDefault().post(new BetContract(BetContract.ACTION_REFLESH_BANLANCE));
             dismiss();
         });
         viewModel.userBalanceData.observe(this, balance -> {
+            mBanlance = balance;
             binding.tvBalance.setText(balance);
         });
         viewModel.noBetAmountDate.observe(this, unused -> {

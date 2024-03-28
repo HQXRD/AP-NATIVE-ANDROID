@@ -25,11 +25,20 @@ public class WebAppInterface {
     final String TYPE_WITHDRAW = "goWithdraw";
     final String TYPE_CS = "goCustomService";
     final String TYPE_VIP = "goVip";
+    final String TYPE_BACK = "goBack";
+    final String TYPE_CLOSE = "close";
 
     private Context context;
 
-    public WebAppInterface(Context context) {
+    private ICallBack mCallBack;
+
+    public interface ICallBack {
+        void close();
+    }
+
+    public WebAppInterface(Context context, ICallBack mCallBack) {
         this.context = context;
+        this.mCallBack = mCallBack;
     }
 
     // JavaScript 调用原生功能的方法，方法名为 nativeFunction
@@ -40,25 +49,40 @@ public class WebAppInterface {
         switch (type) {
             case TYPE_HOME:
                 goHome();
+                close();
                 break;
             case TYPE_RECHARGE:
                 goRecharge();
+                close();
                 break;
             case TYPE_WITHDRAW:
+                goWithdraw();
+                close();
                 break;
             case TYPE_CS:
                 AppUtil.goCustomerService(context);
+                close();
                 break;
             case TYPE_VIP:
                 BrowserActivity.start(context, context.getString(R.string.txt_vip_center),
                         DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
+                close();
                 break;
-
+            case TYPE_BACK:
+            case TYPE_CLOSE:
+                close();
+                break;
             default:
                 CfLog.i("****** default: " + type);
                 break;
         }
 
+    }
+
+    private void close() {
+        if (mCallBack != null) {
+            mCallBack.close();
+        }
     }
 
     private void goHome() {
@@ -72,9 +96,16 @@ public class WebAppInterface {
         bundle.putBoolean("isShowBack", true);
         Intent intent = new Intent(context, ContainerActivity.class);
         intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Recharge.PAGER_RECHARGE);
-        if (bundle != null) {
-            intent.putExtra(ContainerActivity.BUNDLE, bundle);
-        }
+        intent.putExtra(ContainerActivity.BUNDLE, bundle);
+        context.startActivity(intent);
+    }
+
+    private void goWithdraw() {
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isOpenWithdraw", true);
+        Intent intent = new Intent(context, ContainerActivity.class);
+        intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_MY_WALLET);
+        intent.putExtra(ContainerActivity.BUNDLE, bundle);
         context.startActivity(intent);
     }
 
