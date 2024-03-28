@@ -10,11 +10,12 @@ public class RechargeOrderVo {
     public String status; // "0", 0-待处理, 2-成功, 4-超时无效
     public String created; // "2024-01-11 09:41:45",
     public String modified; // "2024-01-11 09:41:45",
-    public String cancel_status; // "0",
+    public String cancel_status; // "0"-默认, 2-已取消
     public String agent_rate_cost_amount; // "1.1000",
     public String payport_nickname; // "固额快充",
     public String sysparam_prefix; // "hqppay2",
     public String amount; // null,
     public String fee; // null,
     public String recharge_json_channel; // false
+    public String cancel_reason = ""; // 收管银行卡冻结/银行卡限额,
 }
