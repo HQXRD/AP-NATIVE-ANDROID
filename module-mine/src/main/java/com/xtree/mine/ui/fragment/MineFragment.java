@@ -454,10 +454,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
         //App更新
         viewModel.liveDataUpdate.observe(this, vo -> {
-            CfLog.i(vo.toString());
+            CfLog.i("****** ");
             updateVo = vo;
             if (updateVo == null) {
-                //ToastUtils.showError(getContext().getString(R.string.txt_update_version));
+                ToastUtils.showSuccess(getResources().getString(R.string.txt_update_version));
                 return;
             }
             //存储服务器设置时间间隔
@@ -466,22 +466,24 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             SPUtils.getInstance().put(SPKeyGlobal.APP_LAST_CHECK_TIME, System.currentTimeMillis());
             long versionCode = Long.valueOf(StringUtils.getVersionCode(getContext()));
             CfLog.i("versionCode = " + versionCode);
-            if (versionCode < updateVo.version_code) {
-                //线上版本大于本机版本
-                if (updateVo.type == 0) {
-                    //弱更
-                    if (versionCode >= vo.version_code_min) {
-                        showUpdate(true, updateVo); // 弱更
-                    } else {
-                        showUpdate(false, updateVo); // 强更
-                    }
+            if (versionCode >= updateVo.version_code) {
+                ToastUtils.showSuccess(getResources().getString(R.string.txt_update_version));
+                return;
+            }
 
-                } else if (updateVo.type == 1) {
-                    //强更
-                    showUpdate(false, updateVo);
-                } else if (updateVo.type == 2) {
-                    //热更
+            //线上版本大于本机版本
+            if (updateVo.type == 0) {
+                //弱更
+                if (versionCode >= vo.version_code_min) {
+                    showUpdate(true, updateVo); // 弱更
+                } else {
+                    showUpdate(false, updateVo); // 强更
                 }
+            } else if (updateVo.type == 1) {
+                //强更
+                showUpdate(false, updateVo);
+            } else if (updateVo.type == 2) {
+                //热更
             }
 
         });

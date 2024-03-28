@@ -181,7 +181,7 @@
     <string name="txt_update_tip">更新中，请稍候...</string>
     <string name="txt_update_down_over_tip">下载完成</string>
     <string name="txt_update_down_fail_tip">下载失败，请稍候重试</string>
-    <style name="txt_update_version">已是最新版本</style>
+    <string name="txt_update_version">已经是最新版本</string>
     <string name="txt_network_error">网络异常，请稍后重试</string>
 
     <string name="domain_url">http</string>

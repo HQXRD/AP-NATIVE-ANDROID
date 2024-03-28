@@ -403,7 +403,6 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                     public void onResult(AppUpdateDialog.AppUpdateVo updateVo) {
                         if (updateVo == null) {
                             CfLog.e("data is null");
-                            return;
                         }
                         liveDataUpdate.setValue(updateVo);
                     }
@@ -411,6 +410,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
+                        liveDataUpdate.setValue(null);
                     }
                 });
         addSubscribe(disposable);
