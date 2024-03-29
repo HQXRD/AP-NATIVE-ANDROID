@@ -352,6 +352,7 @@
     <color name="clr_orange_06">#FF3C07</color>
 
     <color name="clr_yellow">#FFD700</color>
+    <color name="clr_yellow_2">#FBF6F1</color>
     <!-- 报表-盈亏 红色 -->
     <color name="clr_red_01">#FF5050</color>
     <color name="clr_red_02">#FF3131</color>
