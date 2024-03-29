@@ -203,8 +203,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         viewModel.feedbackVoSingleLiveData.observe(this, o -> {
             dismissLoadView();
             feedbackVo = o;
-
-            CfLog.i("未到账订单 = " + feedbackVo.list.size());
             orderFeedbackVoArrayList.addAll(feedbackVo.list);
             modeInfoArrayList.addAll(feedbackVo.modeInfo);//付款方式
             bankInfoArrayList.addAll(feedbackVo.banksInfo);//支付渠道
@@ -216,9 +214,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         //获取上传图片后的 服务器返回的图片地址
         viewModel.imageUploadVoSingleLiveData.observe(this, o -> {
             dismissLoadView();
-
             FeedbackImageUploadVo imageUploadVo = o;
-            CfLog.i("上传后 获取的图片地址是 =" + imageUploadVo.url);
             //获得图片上传地址后 再将数据拼接 进行反馈
             feedbackAdd(imageUploadVo.url);
         });
@@ -288,14 +284,12 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
                     feedbackDep = vo;
-                    CfLog.i("未到账订单信息是 ：" + showMessage + "feedbackDep = " + feedbackDep);
                     binding.tvwUnreceivedOrders.setText(showMessage);
                     binding.tvDepositTime.setText(time); //存款准确时间
                     //bank_id 支付渠道
                     // ;
                     for (int i = 0; i < bankInfoArrayList.size(); i++) {
                         if (bankInfoArrayList.get(i).id == Integer.valueOf(feedbackDep.bank_id)) {
-                            CfLog.i("未到账订单信息是 ：" + showMessage + "feedbackDep = " + feedbackDep + "|支付渠道 =" + bankInfoArrayList.get(i).name);
                             finalThreeID = bankInfoArrayList.get(i).name;
                         }
                     }
@@ -339,7 +333,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 OrderFeedbackVo vo = get(position);
                 //订单号：XXXX 金额:xxxx
                 String showMessage = "订单号: " + vo.id + "金额: " + vo.userpay_amount;
-                CfLog.i("未到账订单信息是 ：" + showMessage);
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
                     binding.tvwUnreceivedOrders.setText(showMessage);
@@ -418,7 +411,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 FeedbackVo.FeedbackBankInfo voBankInfo = get(position);
                 binding2.tvwTitle.setText(voBankInfo.name);
                 binding2.tvwTitle.setOnClickListener(v -> {
-                    CfLog.i("****** " + voBankInfo.toString());
                     //et_selector_right_payway;
                     binding.tvwPaymentChannel.setText(voBankInfo.name);
                     receive_bank = String.valueOf(voBankInfo.id);
@@ -563,7 +555,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
      * 检测付款人姓名
      */
     private boolean checkInputPaymentName() {
-        CfLog.i("checkInputPaymentName 付款人姓名 ： " + binding.etPaymentName.getText().toString().trim());
+
         if (TextUtils.isEmpty(binding.etPaymentName.getText().toString().trim())) //付款人姓名
         {
             binding.ivPaymentNameInfo.setBackgroundResource(R.mipmap.cm_ic_hint_red);

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.webkit.JavascriptInterface;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.xtree.base.R;
 import com.xtree.base.global.Constant;
 import com.xtree.base.router.RouterActivityPath;
@@ -13,6 +15,9 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
 
@@ -41,11 +46,36 @@ public class WebAppInterface {
         this.mCallBack = mCallBack;
     }
 
-    // JavaScript 调用原生功能的方法，方法名为 nativeFunction
     @JavascriptInterface
     public void nativeFunction(String type) {
+        CfLog.i("****** type: " + type);
+        goApp(type, new HashMap<>());
+    }
+
+    /**
+     * JavaScript 调用原生功能的方法，方法名为 nativeFunction
+     *
+     * @param type 类型
+     * @param json 参数
+     */
+    @JavascriptInterface
+    public void nativeFunction(String type, String json) {
+        CfLog.i("****** type: " + type); // type: goBack
+        HashMap<String, Object> map = new HashMap<>();
+        if (json != null) {
+            CfLog.i("****** json: " + json); // json: {"msg":"xxx","data":[1,2,3]}
+            map = new Gson().fromJson(json, new TypeToken<HashMap>() {
+            }.getType());
+        }
+        goApp(type, map);
+    }
+
+    public void goApp(String type, Map<String, Object> map) {
         // 在这里处理 JavaScript 调用，并执行相应的原生功能
         CfLog.i("****** type: " + type);
+        if (map != null) {
+            CfLog.i("****** map: " + map);
+        }
         switch (type) {
             case TYPE_HOME:
                 goHome();
