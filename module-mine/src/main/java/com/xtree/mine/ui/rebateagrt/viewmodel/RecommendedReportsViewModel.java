@@ -60,6 +60,7 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
                 {
                     add(R.layout.item_recommendedreports);
                     add(R.layout.item_recommendedreports_head);
+                    add(R.layout.item_empty);
                 }
             });
 
@@ -91,6 +92,8 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
         add(headModel);
     }};
 
+    private final BindModel empty = new BindModel();
+
     public RecommendedReportsViewModel(@NonNull Application application) {
         super(application);
     }
@@ -112,6 +115,7 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
                 titleData.setValue(GAMEREPORTS.getName());
                 break;
         }
+        empty.setItemType(2);
         datas.setValue(bindModels);
         getRecommendedReportsData();
     }
@@ -172,7 +176,7 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
                             RecommendedReportsResponse.ChildrenBillDTO childrenBill = vo.getChildrenBill();
                             if (childrenBill != null) {
                                 List<RecommendedReportsResponse.ChildrenBillDTO.DataDTO> data = childrenBill.getData();
-                                if (data != null) {
+                                if (data != null && data.size() > 0) {
                                     for (RecommendedReportsResponse.ChildrenBillDTO.DataDTO dataDTO : data) {
                                         RecommendedReportsModel recommendedReportsModel = new RecommendedReportsModel();
                                         recommendedReportsModel.setBet(dataDTO.getBet());
@@ -186,6 +190,10 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
                                         recommendedReportsModel.setLabel(dataDTO.getLabel());
                                         recommendedReportsModel.setCycle(headModel.cyclyData.get().getShowName());
                                         bindModels.add(recommendedReportsModel);
+                                    }
+                                } else {
+                                    if (request.p <= 1) {
+                                        bindModels.add(empty);
                                     }
                                 }
                             }
