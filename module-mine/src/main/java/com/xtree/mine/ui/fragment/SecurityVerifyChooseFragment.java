@@ -1,5 +1,6 @@
 package com.xtree.mine.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,8 @@ import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.ListDialog;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentSecurityVerifyChooseBinding;
@@ -34,6 +37,7 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import java.util.ArrayList;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import project.tqyb.com.library_res.databinding.ItemTextBinding;
 
@@ -98,6 +102,35 @@ public class SecurityVerifyChooseFragment extends BaseFragment<FragmentSecurityV
 
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
         mProfileVo = new Gson().fromJson(json, ProfileVo.class);
+
+        CfLog.e("mProfileVo.is_binding_phone : " + mProfileVo.is_binding_phone + " mProfileVo.is_binding_email : " + mProfileVo.is_binding_email);
+        if (mProfileVo.is_binding_email && mProfileVo.is_binding_phone) {
+            CfLog.d("******");
+        } else if (mProfileVo.is_binding_email) {
+            binding.llTop.setVisibility(View.INVISIBLE);
+            Fragment mFragment = BindEmailFragment.newInstance(type, "");
+            changeView(mFragment);
+        } else if (mProfileVo.is_binding_phone) {
+            binding.llTop.setVisibility(View.INVISIBLE);
+            Fragment mFragment = BindPhoneFragment.newInstance(type, "");
+            changeView(mFragment);
+        } else {
+            ppw = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), "", getResources().getString(R.string.txt_no_binding), "绑定手机", "绑定邮箱", new TipDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    startBinding(Constant.BIND_PHONE);
+                    getActivity().finish();
+                    ppw.dismiss();
+                }
+
+                @Override
+                public void onClickRight() {
+                    startBinding(Constant.BIND_EMAIL);
+                    getActivity().finish();
+                    ppw.dismiss();
+                }
+            })).show();
+        }
     }
 
     private void showDialog() {
@@ -190,6 +223,15 @@ public class SecurityVerifyChooseFragment extends BaseFragment<FragmentSecurityV
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fl_main, mFragment);
         ft.commit();
+    }
+
+    private void startBinding(String verify) {
+        Bundle bundle = new Bundle();
+        bundle.putString("type", verify);
+        Intent intent = new Intent(getContext(), ContainerActivity.class);
+        intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY);
+        intent.putExtra(ContainerActivity.BUNDLE, bundle);
+        getContext().startActivity(intent);
     }
 
 }
