@@ -40,9 +40,12 @@
     <!--<color name="clr_bg_main">#F5F9FF</color>-->
 
     <!-- 文字 -->
-    <color name="clr_txt">#628BC4</color>
-    <color name="clr_txt_title">#274875</color>
-    <color name="clr_txt_mouse">#247BF4</color>
+    <color name="clr_txt">#D0B292</color>
+    <color name="clr_txt_title">#4F4439</color>
+    <color name="clr_txt_mouse">#665849</color>
+    <color name="clr_txt_mouse3">#5C5C5C</color>
+    <color name="clr_txt_mouse4">#949292</color>
+    <color name="clr_txt_mouse5">#1E1E1E</color>
 
     <!-- 点缀色 -->
     <color name="clr_main_31">#FF6C00</color>
@@ -67,14 +70,14 @@
     <!-- 警告红 -->
     <color name="clr_txt_warn">#DA0000</color>
     <!-- 辅助/浅蓝 -->
-    <color name="clr_bg_light_main">#E7ECF5</color>
+    <color name="clr_bg_light_main">#FCF9F6</color>
     <!-- 大框 背景色 开始 -->
-    <color name="clr_bg_frame_big">#C7E3FF</color>
+    <color name="clr_bg_frame_big">#FCF9F6</color>
 
     <!-- 小框 背景色 开始/中间/结束 -->
-    <color name="clr_bg_frame_small_1">#D3E6FC</color>
-    <color name="clr_bg_frame_small_2">#DEE1F4</color>
-    <color name="clr_bg_frame_small_3">#FCFCFF</color>
+    <color name="clr_bg_frame_small_1">#FCF9F6</color>
+    <color name="clr_bg_frame_small_2">#FCF9F6</color>
+    <color name="clr_bg_frame_small_3">#FCF9F6</color>
 
     <!-- 背景框 主 -->
     <color name="clr_bg_frame_21">#0068FF</color>
