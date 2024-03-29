@@ -19,8 +19,8 @@ public class GameSubordinaterebateModel extends BindModel {
     private String selfMoney;
     private String subMoney;
     private String type;
-    private String statusString = BaseApplication.getInstance().getString(R.string.txt_unreceived);;
-    private int statusColor = R.color.clr_txt_rebateagrt_fail;;
+    private String statusString = BaseApplication.getInstance().getString(R.string.txt_unreceived);
+    private int statusColor = R.color.clr_txt_rebateagrt_fail;
     private String createTime;
 
     public String getUserName() {

@@ -37,23 +37,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> implements ToolbarModel {
 
-    public DividendAgrtCheckViewModel(@NonNull Application application) {
-        super(application);
-    }
-
-    public DividendAgrtCheckViewModel(@NonNull Application application, MineRepository model) {
-        super(application, model);
-    }
-
-    private DividendAgrtCheckRequest dividendAgrtCheckRequest;
-    public MutableLiveData<RebateAgrtSearchUserResultModel> searchUserResultLiveData = new MutableLiveData<>();
-
-    private WeakReference<FragmentActivity> mActivity = null;
-
-    private final MutableLiveData<String> titleData = new MutableLiveData<>(getApplication().getString(R.string.txt_dividendagrt_title));
-
     public final MutableLiveData<ArrayList<BindModel>> datas = new MutableLiveData<>(new ArrayList<>());
-
     public final MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
                 {
@@ -63,10 +47,9 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                     add(R.layout.item_dividendagrt_check_foot);
                 }
             });
+    private final MutableLiveData<String> titleData = new MutableLiveData<>(getApplication().getString(R.string.txt_dividendagrt_title));
     private final RebateAgrtCreateHeadModel headModel = new RebateAgrtCreateHeadModel();
-
     private final RebateAgrtCreateAddModel addModel = new RebateAgrtCreateAddModel();
-
     private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
         headModel.setItemType(1);
         addModel.setItemType(2);
@@ -77,6 +60,17 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
         add(headModel);
         add(footModel);
     }};
+    public MutableLiveData<RebateAgrtSearchUserResultModel> searchUserResultLiveData = new MutableLiveData<>();
+    private DividendAgrtCheckRequest dividendAgrtCheckRequest;
+    private WeakReference<FragmentActivity> mActivity = null;
+
+    public DividendAgrtCheckViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public DividendAgrtCheckViewModel(@NonNull Application application, MineRepository model) {
+        super(application, model);
+    }
 
     public void initData(DividendAgrtCheckRequest response) {
         //init data
@@ -110,7 +104,7 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
             return;
         }
 
-        Disposable disposable = (Disposable) model.getDividendAgrtData(dividendAgrtCheckRequest)
+        Disposable disposable = model.getDividendAgrtData(dividendAgrtCheckRequest)
                 .doOnSubscribe(new Consumer<Subscription>() {
                     @Override
                     public void accept(Subscription subscription) throws Exception {
@@ -137,6 +131,7 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                             datas.setValue(bindModels);
                         }
                     }
+
                     @Override
                     public void onFail(BusinessException t) {
                         super.onFail(t);

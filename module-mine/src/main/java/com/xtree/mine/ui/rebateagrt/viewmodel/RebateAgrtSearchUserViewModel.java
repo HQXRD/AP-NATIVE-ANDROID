@@ -24,9 +24,9 @@ import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.ui.rebateagrt.model.RebateAgrtDetailModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtSearchUserLabelModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtSearchUserResultModel;
-import com.xtree.mine.ui.rebateagrt.model.RebateAgrtDetailModel;
 import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 
 import java.lang.ref.WeakReference;
@@ -44,31 +44,16 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 public class RebateAgrtSearchUserViewModel extends BaseViewModel<MineRepository> implements ToolbarModel, TextWatcher {
 
-    public RebateAgrtSearchUserViewModel(@NonNull Application application) {
-        super(application);
-    }
-
-    public RebateAgrtSearchUserViewModel(@NonNull Application application, MineRepository model) {
-        super(application, model);
-    }
-
-    private RebateAgrtDetailModel searchUsreModel;
-
-    private WeakReference<FragmentActivity> mActivity = null;
-
-    private final MutableLiveData<String> titleData = new MutableLiveData<>();
-
     public final MutableLiveData<ArrayList<BindModel>> datas = new MutableLiveData<>(new ArrayList<>());
-
     public final MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
                 {
                     add(R.layout.item_flex_tag);
                 }
             });
-
     public final RecyclerView.LayoutManager layoutManager = new FlexboxLayoutManager(getApplication());
-
+    private final MutableLiveData<String> titleData = new MutableLiveData<>();
+    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>();
     public ObservableField<String> pickNums = new ObservableField<>("选中0人");
     public final BaseDatabindingAdapter.onBindListener onBindListener = new BaseDatabindingAdapter.onBindListener() {
 
@@ -97,8 +82,17 @@ public class RebateAgrtSearchUserViewModel extends BaseViewModel<MineRepository>
             }
         }
     };
+    private RebateAgrtDetailModel searchUsreModel;
+    private WeakReference<FragmentActivity> mActivity = null;
 
-    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>();
+    public RebateAgrtSearchUserViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public RebateAgrtSearchUserViewModel(@NonNull Application application, MineRepository model) {
+        super(application, model);
+    }
+
     public void initData(RebateAgrtDetailModel rebateAgrtDetailModel) {
         //init data
         searchUsreModel = rebateAgrtDetailModel;

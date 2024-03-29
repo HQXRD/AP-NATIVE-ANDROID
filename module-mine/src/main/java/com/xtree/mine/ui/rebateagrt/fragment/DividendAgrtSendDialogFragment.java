@@ -35,18 +35,19 @@ import me.xtree.mvvmhabit.bus.RxBus;
 @Route(path = RouterFragmentPath.Mine.PAGER_DIVIDENDAGRT_SEND_DIALOG)
 public class DividendAgrtSendDialogFragment extends BaseDialogFragment<DialogDividendagrtSendBinding, DividendAgrtSendViewModel> {
 
+    private DividendAgrtSendDialogFragment() {
+    }
+
     /**
      * 启动弹窗
+     *
      * @param activity 获取FragmentManager
-     * @param model 入参
+     * @param model    入参
      */
     public static void show(FragmentActivity activity, GameDividendAgrtRequest model) {
         RxBus.getDefault().postSticky(model);
         DividendAgrtSendDialogFragment fragment = new DividendAgrtSendDialogFragment();
         fragment.show(activity.getSupportFragmentManager(), DividendAgrtSendDialogFragment.class.getName());
-    }
-
-    private DividendAgrtSendDialogFragment() {
     }
 
     @Override
