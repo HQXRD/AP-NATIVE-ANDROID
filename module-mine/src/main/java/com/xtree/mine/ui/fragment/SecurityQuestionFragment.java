@@ -104,6 +104,10 @@ public class SecurityQuestionFragment extends BottomPopupView {
         });
         if (hide) {
             binding.tvwRetrieveFundPassword.setVisibility(View.GONE);
+            //第一次 设定密保 createQA()
+            binding.tvwQuestion1.setText(createQA().get(0).content);
+            binding.tvwQuestion2.setText(createQA().get(1).content);
+
         }
         //找回资金密码
         binding.tvwRetrieveFundPassword.setOnClickListener(v -> {
@@ -154,7 +158,8 @@ public class SecurityQuestionFragment extends BottomPopupView {
     private void initViewObservable() {
         //找回资金密码
         viewModel.response2MutableLiveData.observe(owner, vo -> {
-            if (vo.message != null && "修改成功".equals(vo.message)) {
+
+            if (vo.message != null && TextUtils.equals("修改成功",vo.message)) {
                 ToastUtils.show(vo.message, ToastUtils.ShowType.Success);
                 if (reSetFundView != null) reSetFundView.dismiss();
             } else if (vo.message != null && !TextUtils.isEmpty(vo.message)) {
@@ -165,7 +170,8 @@ public class SecurityQuestionFragment extends BottomPopupView {
         });
         //设置密保
         viewModel.setQuestionLiveData.observe(owner, vo -> {
-            if (vo.message != null && "success".equals(vo.message)) {
+
+            if (vo.message != null && TextUtils.equals("success",vo.message)) {
                 ToastUtils.show(getContext().getString(R.string.txt_set_fund_question_success_tip), ToastUtils.ShowType.Success);
                 //设置密保成功后要刷新用户个人数据
                 LoadingDialog.show(getContext());

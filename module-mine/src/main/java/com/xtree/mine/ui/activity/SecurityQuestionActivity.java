@@ -240,7 +240,7 @@ public class SecurityQuestionActivity extends BaseActivity<FragmentSecurityQuest
                             if (!TextUtils.isEmpty(checkCode)) {
                                 showSetPSWView(true, checkCode);
                             }
-                            basePopupView.dismiss();
+                            //basePopupView.dismiss();
                         }
 
                     }));

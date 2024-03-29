@@ -320,13 +320,14 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 ToastUtils.showError(bankCardCashVo.message);
                 dismiss();
                 return;
-            } else if (bankCardCashVo.msg_type == 2 && getContext().getString(R.string.txt_exhausted).equals(bankCardCashVo.message)) {
+
+            } else if (bankCardCashVo.msg_type == 2 && TextUtils.equals(getContext().getString(R.string.txt_exhausted), bankCardCashVo.message)) {
                 ToastUtils.showError(bankCardCashVo.message);
                 dismiss();
                 return;
             }
             //"ur_here": "资金密码检查",
-            else if (!TextUtils.isEmpty(bankCardCashVo.ur_here) && getContext().getString(R.string.txt_withdraw_password_check).equals(bankCardCashVo.ur_here)) {
+            else if (!TextUtils.isEmpty(bankCardCashVo.ur_here) && TextUtils.equals(getContext().getString(R.string.txt_withdraw_password_check), bankCardCashVo.ur_here)) {
                 ToastUtils.showError(bankCardCashVo.ur_here);
                 // bankClose.closeBankByPSW();
                 //dismiss();
@@ -437,7 +438,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
             binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
             binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
-            //  binding.nsH5View.setBackground(getContext().getDrawable(R.color.white));
             binding.nsH5View.setBackgroundResource(android.R.color.transparent);
             binding.maskH5View.setVisibility(View.VISIBLE);
 
@@ -639,7 +639,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         binding.bankConfirmView.tvWithdrawalHandlingFeeShow.setText(platWithdrawVo.datas.bankno);
     }
 
-    /*暂时废弃*/
+    /*暂时废弃
     private void refreshWithdrawConfirmView() {
         binding.llShowChooseCard.setVisibility(View.GONE);//顶部通用、大额提现View隐藏
         binding.nsDefaultView.setVisibility(View.GONE);
@@ -676,7 +676,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             ToastUtils.showError("ivOverApply");
             dismiss();
         });
-    }
+    }*/
 
     /**
      * 刷新提交点订单后页面
