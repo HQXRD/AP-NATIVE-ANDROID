@@ -2,9 +2,28 @@ android {
     flavorDimensions "channelName"
 
     productFlavors {
-
+        // 测试环境
+        moYu_pre {
+            applicationId "com.${name.toLowerCase()}.app" //
+            versionName "1.0.0"
+            versionCode 100
+            //resValue "string", "app_name", "${name}"
+            resValue "string", "app_name", "摩域T${versionCode}"
+            resValue "string", "domain_api", "https://pre-dsport.oxldkm.com"
+            resValue "string", "domain_url", "https://pre-dsport.oxldkm.com"
+            resValue "string", "channel_name", "moYu"  // 渠道名称
+            resValue "string", "build_time", "${buildTime()}"
+            resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
+            resValue "bool", "is_tag", "false" // 是否开启统计
+            resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
+            resValue "string", "domain_api_list", "https://pre-dsport.oxldkm.com;"
+            resValue "string", "domain_url_list", "https://pre-dsport.oxldkm.com;"
+            multiDexEnabled true
+            dimension "channelName"
+        }
+        // 生产环境
         moYu {
-            applicationId "com.mysport.app" // mysport myr01
+            applicationId "com.myr01.app" // mysport myr01
             versionName "1.0.0"
             versionCode 100
             resValue "string", "app_name", "摩域体育"
@@ -40,24 +59,6 @@ android {
                     "https://www.zfcmft.com;" +
                     "https://www.hzbqas.com;" +
                     "https://www.dcmays.com;"
-            multiDexEnabled true
-            dimension "channelName"
-        }
-        moYu_pre {
-            applicationId "com.${name.toLowerCase()}.app" //
-            versionName "1.0.0"
-            versionCode 100
-            //resValue "string", "app_name", "${name}"
-            resValue "string", "app_name", "摩域T${versionCode}"
-            resValue "string", "domain_api", "https://pre-dsport.oxldkm.com"
-            resValue "string", "domain_url", "https://pre-dsport.oxldkm.com"
-            resValue "string", "channel_name", "moYu"  // 渠道名称
-            resValue "string", "build_time", "${buildTime()}"
-            resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
-            resValue "bool", "is_tag", "false" // 是否开启统计
-            resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_api_list", "https://pre-dsport.oxldkm.com;"
-            resValue "string", "domain_url_list", "https://pre-dsport.oxldkm.com;"
             multiDexEnabled true
             dimension "channelName"
         }
