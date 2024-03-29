@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/layout_margin"
+    android:layout_marginTop="@dimen/layout_margin"
+    android:layout_marginEnd="@dimen/layout_margin"
+    android:background="@drawable/bg_item_wlt_room_selector"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="@dimen/layout_margin"
+    android:paddingStart="@dimen/layout_margin">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="12dp">
+
+        <TextView
+            android:id="@+id/tvw_user_name"
+            style="@style/style_wd_info_value2"
+            android:layout_marginStart="0dp"
+            android:layout_weight="1"
+            tools:text="DEMO" />
+
+        <TextView
+            style="@style/style_wd_info_title2"
+            android:text="@string/txt_bind_time_c" />
+
+        <TextView
+            android:id="@+id/tvw_bind_time"
+            style="@style/style_wd_info_title2"
+            tools:text="2024-01-01 16:00:00" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_name"
+        style="@style/style_wd_info_title2"
+        android:gravity="start"
+        tools:text="@string/txt_alipay_name"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/tv_name_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="*四"
+        android:textColor="@color/clr_ffb800"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_name"
+        app:layout_constraintStart_toEndOf="@+id/tv_name"
+        app:layout_constraintTop_toTopOf="@+id/tv_name" />
+
+    <TextView
+        android:id="@+id/tv_nickname"
+        style="@style/style_wd_info_title2"
+        android:gravity="start"
+        tools:text="@string/txt_alipay_nickname"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+    <TextView
+        android:id="@+id/tv_nickname_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="*四"
+        android:textColor="@color/clr_ffb800"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_nickname"
+        app:layout_constraintStart_toEndOf="@+id/tv_name"
+        app:layout_constraintTop_toTopOf="@+id/tv_nickname" />
+
+    <TextView
+        android:id="@+id/tv_code"
+        style="@style/style_wd_info_title2"
+        android:layout_marginTop="12dp"
+        android:gravity="start"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_code"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/iv_code"
+        tools:text="@string/txt_alipay_code" />
+
+    <ImageView
+        android:id="@+id/iv_code"
+        android:layout_width="50dp"
+        android:layout_height="58dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toEndOf="@+id/tv_code"
+        app:layout_constraintTop_toBottomOf="@+id/tv_nickname" />
+
+    <TextView
+        android:id="@+id/tvw_rebind"
+        style="@style/style_btn_small"
+        android:textSize="@dimen/bt_text_12sp"
+        android:text="@string/txt_rebind"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_code"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_code" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

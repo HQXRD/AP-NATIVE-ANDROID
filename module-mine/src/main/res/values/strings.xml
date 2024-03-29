@@ -44,7 +44,7 @@
     <string name="me_agree_hint">请授权同意</string>
     <string name="me_register">注册</string>
     <string name="me_register_reinput">请再次输入密码</string>
-    <string name="me_choose_acount">请选择账号类型</string>
+    <string name="me_choose_account">请选择账号类型</string>
     <string name="me_my_wallet">我的钱包</string>
     <string name="me_wallet_title">平台中心余额 (元)</string>
     <string name="me_wallet_deposit">去存款</string>
@@ -175,6 +175,7 @@
     <string name="txt_u_cannot_unlock_cards">银行卡锁定后，不能增加新银行卡绑定，自身不能解绑和解锁银行卡，联系您的上级申请解锁</string>
 
     <string name="txt_bind_most_usdt">一个账户最多只能绑定%1$s个%2$s地址</string>
+    <string name="txt_bind_most_aw">每个账户最多可以绑定%1$s个%2$s收款码</string>
     <string name="txt_rebind">重新绑定</string>
     <string name="txt_open_acc_bank">开户行：</string>
     <string name="txt_card_num">卡号：</string>
@@ -361,5 +362,16 @@
     <string name="txt_unfinished_activity_flow">未完成活动流水</string>
     <string name="txt_awards_no_money_tip">您未参加任何活动，暂无礼金</string>
     <string name="txt_choose_withdrawal_tip">可用提款余额:%1$s其中%2$s可以使用虚拟币提款取出</string>
-
+    <string name="txt_alipay_name">支付宝姓名：</string>
+    <string name="txt_wechat_name">微信姓名：</string>
+    <string name="txt_alipay_nickname">支付宝昵称：</string>
+    <string name="txt_wechat_nickname">微信昵称：</string>
+    <string name="txt_alipay_code">支付宝收款码：</string>
+    <string name="txt_wechat_code">微信收款码：</string>
+    <string name="txt_alipay_phone">支付宝账号：</string>
+    <string name="txt_wechat_phone">微信账号：</string>
+    <string name="txt_bind_phone_number">绑定的手机号码</string>
+    <string name="txt_input_nickname">输入您的%s昵称</string>
+    <string name="txt_upload_payment_code">点击上传%s收款二维码截图</string>
+    <string name="txt_get_payment_code">查看如何获取%s个人收款码</string>
 </resources>

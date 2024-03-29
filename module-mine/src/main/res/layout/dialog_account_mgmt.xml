@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/me_choose_acount"
+            android:text="@string/me_choose_account"
             android:textColor="@color/clr_white"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -96,6 +96,16 @@
             style="@style/style_choose_account"
             android:tag="bindokpay"
             android:text="@string/txt_bind_okpay" />
+
+        <TextView
+            style="@style/style_choose_account"
+            android:tag="bindalipay"
+            android:text="@string/txt_bind_alipay" />
+
+        <TextView
+            style="@style/style_choose_account"
+            android:tag="bindwechat"
+            android:text="@string/txt_bind_wechat" />
 
     </LinearLayout>
 

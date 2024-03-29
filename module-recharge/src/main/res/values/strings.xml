@@ -123,8 +123,6 @@
     <string name="txt_rc_tip_usdt_2">2、请不要向转账地址充值任何非 %1$s 资产，否则资产将可能无法找回</string>
     <string name="txt_rc_tip_ebpay_1">1、请仔细核对充值地址进行确认</string>
     <string name="txt_rc_tip_ebpay_2">2、请确保ebpay账户有足够金额进行充值</string>
-    <string name="txt_alipay">支付宝</string>
-    <string name="txt_wechat">微信</string>
     <string name="txt_ecny">数字人民币</string>
     <string name="txt_bank_card">银行卡</string>
     <string name="txt_rc_tip_yhk_1">1、为了保证您正常提款,请您在使用 %1$s 充值时务必使用绑定银行卡或与绑定银行卡姓名相同的卡进行充值,否则将无法正常提款</string>
