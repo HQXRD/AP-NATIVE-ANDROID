@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="MissingDefaultResource">
 
-    <item android:color="#247BF4" android:state_selected="true" />
+    <item android:color="@color/clr_main" android:state_selected="true" />
     <item android:color="#80247BF4" />
 
 </selector>
