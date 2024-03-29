@@ -93,7 +93,6 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
         getProfile(liveDataProfile);
     }
 
-
     /**
      * 获取用户个人信息 (关闭当前页面)
      */
@@ -456,6 +455,14 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                 remind = ctx.getString(R.string.txt_remind_okpay);
                 //url = DomainUtil.getDomain2() + "/user/userokpayinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
                 break;
+            case Constant.BIND_ALIPAY:
+                //"绑定支付宝"
+                startAlipayWechat("aplipay");
+                return;
+            case Constant.BIND_WECHAT:
+                //"绑定微信"
+                startAlipayWechat("wechat");
+                return;
 
             default:
                 CfLog.e("****** type: " + type + ", " + vo.toString());
@@ -468,6 +475,12 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
         it.putExtra("url", url);
         it.putExtra("title", title);
         ctx.startActivity(it);*/
+    }
+
+    private void startAlipayWechat(String type) {
+        Bundle bundle = new Bundle();
+        bundle.putString("type", type);
+        startContainerActivity(RouterFragmentPath.Mine.PAGER_BIND_ALIPAY_WECHAT, bundle);
     }
 
     private void startUsdt(Context ctx, String title, String remind, VerifyVo vo) {
