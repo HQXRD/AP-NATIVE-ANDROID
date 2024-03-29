@@ -108,6 +108,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                     add(R.layout.item_game_subordinaterebate);
                     add(R.layout.item_game_subordinaterebate_head);
                     add(R.layout.item_game_rebateagrt_total);
+                    add(R.layout.item_empty);
                 }
             });
 
@@ -273,6 +274,8 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         }
     };
 
+    private final BindModel empty = new BindModel();
+
     /**
      * 下级数据，保存用于创建契约
      */
@@ -282,6 +285,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         //init data
         this.type = type;
         initTab();
+        empty.setItemType(7);
         datas.setValue(gameRebateDatas);
         getRebatAgrteData();
     }
@@ -469,7 +473,6 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                     gameRebateDatas.add(model);
                                 }
                             }
-
                             datas.setValue(gameRebateDatas);
 
                             //分页状态
@@ -524,7 +527,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                 subordinateAgrtDatas.clear();
                                 subordinateAgrtDatas.add(gameSubordinateagrtHeadModel);
                             }
-                            if (vo.getData() != null) {
+                            if (vo.getData() != null && vo.getData().size() > 0) {
                                 for (GameSubordinateAgrteResponse.DataDTO dataDTO : vo.getData()) {
                                     GameSubordinateagrtModel model = new GameSubordinateagrtModel();
                                     model.setItemType(2);
@@ -541,7 +544,12 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                     model.setSname(dataDTO.getSname());
                                     subordinateAgrtDatas.add(model);
                                 }
+                            } else {
+                                if (gameSubordinateAgrteRequest.p <= 1) {
+                                    subordinateAgrtDatas.add(empty);
+                                }
                             }
+
                             datas.setValue(subordinateAgrtDatas);
                             finishLoadMore(true);
                         } else {
@@ -589,7 +597,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                 subordinateRebateDatas.add(gameSubordinaterebateHeadModel);
                             }
 
-                            if (vo.getData() != null) {
+                            if (vo.getData() != null && vo.getData().size() > 0) {
                                 for (GameSubordinateRebateResponse.DataDTO dataDTO : vo.getData()) {
                                     GameSubordinaterebateModel model = new GameSubordinaterebateModel();
                                     model.setItemType(4);
@@ -604,7 +612,12 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                     model.setCreateTime(dataDTO.getCreate_time());
                                     subordinateRebateDatas.add(model);
                                 }
+                            } else {
+                                if (gameSubordinateRebateRequest.p <= 1) {
+                                    subordinateRebateDatas.add(empty);
+                                }
                             }
+
                             datas.setValue(subordinateRebateDatas);
                             BaseResponse2.MobilePageVo mobilePage = vo.mobile_page;
                             if (mobilePage != null &&
