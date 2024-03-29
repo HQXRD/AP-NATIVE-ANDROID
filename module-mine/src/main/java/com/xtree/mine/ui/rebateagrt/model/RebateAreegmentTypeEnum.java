@@ -23,11 +23,12 @@ public enum RebateAreegmentTypeEnum {
     //彩票推荐报表
     LOTTERIESREPORTS("彩票推荐报表", R.mipmap.icon_rebateagrt_all, new String[]{"406323"}),
     //游戏分红
-    GAMEREBATE("游戏分红", R.mipmap.icon_rebateagrt_all, new String[]{"406320"}),;
+    GAMEREBATE("游戏分红", R.mipmap.icon_rebateagrt_all, new String[]{"406320"}),
+    ;
 
-    private String name;
-    private int drawable;
-    private List<String> ids;
+    private final String name;
+    private final int drawable;
+    private final List<String> ids;
 
     RebateAreegmentTypeEnum(String name, int drawable, String[] ids) {
         this.name = name;

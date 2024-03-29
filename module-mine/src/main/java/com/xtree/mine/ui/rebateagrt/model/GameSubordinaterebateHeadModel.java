@@ -14,11 +14,17 @@ import java.util.Calendar;
  */
 public class GameSubordinaterebateHeadModel extends BindModel implements BindHead {
 
-    public interface onCallBack {
-        void selectStartDate(ObservableField<String> startDate);
-        void selectEndDate(ObservableField<String> endDate);
-        void check(String userName,String startDate,String endDate);
-    }
+    //开始时间
+    public ObservableField<String> startDate = new ObservableField<>();
+    //结束时间
+    public ObservableField<String> endDate = new ObservableField<>();
+    //搜索用户名
+    public ObservableField<String> userName = new ObservableField<>("");
+    //分页索引
+    public int p = 1;
+    //page count
+    public int pn = 20;
+    private onCallBack onCallBack = null;
 
     public GameSubordinaterebateHeadModel() {
         initData();
@@ -28,22 +34,6 @@ public class GameSubordinaterebateHeadModel extends BindModel implements BindHea
         this.onCallBack = onCallBack;
         initData();
     }
-
-    private onCallBack onCallBack = null;
-
-    //开始时间
-    public ObservableField<String> startDate = new ObservableField<>();
-
-    //结束时间
-    public ObservableField<String> endDate = new ObservableField<>();
-
-    //搜索用户名
-    public ObservableField<String> userName = new ObservableField<>("");
-
-    //分页索引
-    public int p = 1;
-    //page count
-    public int pn = 20;
 
     public void setOnCallBack(GameSubordinaterebateHeadModel.onCallBack onCallBack) {
         this.onCallBack = onCallBack;
@@ -83,5 +73,13 @@ public class GameSubordinaterebateHeadModel extends BindModel implements BindHea
             p = 1;
             onCallBack.check(userName.get(), startDate.get(), endDate.get());
         }
+    }
+
+    public interface onCallBack {
+        void selectStartDate(ObservableField<String> startDate);
+
+        void selectEndDate(ObservableField<String> endDate);
+
+        void check(String userName, String startDate, String endDate);
     }
 }

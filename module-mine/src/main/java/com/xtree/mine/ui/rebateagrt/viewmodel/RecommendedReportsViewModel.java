@@ -47,14 +47,9 @@ import me.xtree.mvvmhabit.http.BusinessException;
 public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> implements ToolbarModel {
 
 
-    private RebateAreegmentTypeEnum type;
-
-    private WeakReference<FragmentActivity> mActivity = null;
-
     private final MutableLiveData<String> titleData = new MutableLiveData<>();
-
+    private final BindModel empty = new BindModel();
     public MutableLiveData<ArrayList<BindModel>> datas = new MutableLiveData<ArrayList<BindModel>>(new ArrayList<>());
-
     public MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
                 {
@@ -63,8 +58,11 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
                     add(R.layout.item_empty);
                 }
             });
-
-    /**
+    private RebateAreegmentTypeEnum type;
+    private WeakReference<FragmentActivity> mActivity = null;
+    public RecommendedReportsViewModel(@NonNull Application application) {
+        super(application);
+    }    /**
      * 列表加载
      */
     public OnLoadMoreListener onLoadMoreListener = new OnLoadMoreListener() {
@@ -74,29 +72,6 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
             getRecommendedReportsData();
         }
     };
-
-    private final RecommendedReportsHeadModel headModel = new RecommendedReportsHeadModel(new RecommendedReportsHeadModel.OnCallBack() {
-        @Override
-        public void cyclicality(String title, ObservableField<StatusVo> cycly, List<FilterView.IBaseVo> list) {
-            showFilter(title, cycly, list);
-        }
-
-        @Override
-        public void check() {
-            getRecommendedReportsData();
-        }
-    });
-
-    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>(){{
-        headModel.setItemType(1);
-        add(headModel);
-    }};
-
-    private final BindModel empty = new BindModel();
-
-    public RecommendedReportsViewModel(@NonNull Application application) {
-        super(application);
-    }
 
     public RecommendedReportsViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
@@ -118,7 +93,17 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
         empty.setItemType(2);
         datas.setValue(bindModels);
         getRecommendedReportsData();
-    }
+    }    private final RecommendedReportsHeadModel headModel = new RecommendedReportsHeadModel(new RecommendedReportsHeadModel.OnCallBack() {
+        @Override
+        public void cyclicality(String title, ObservableField<StatusVo> cycly, List<FilterView.IBaseVo> list) {
+            showFilter(title, cycly, list);
+        }
+
+        @Override
+        public void check() {
+            getRecommendedReportsData();
+        }
+    });
 
     public void setActivity(FragmentActivity mActivity) {
         this.mActivity = new WeakReference<>(mActivity);
@@ -131,7 +116,10 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
                 value.set(new StatusVo(vo.getShowId(), vo.getShowName()));
             }
         });
-    }
+    }    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
+        headModel.setItemType(1);
+        add(headModel);
+    }};
 
     private synchronized void getRecommendedReportsData() {
         if (getmCompositeDisposable() != null) {
@@ -144,7 +132,7 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
         request.type = headModel.type;
         request.p = headModel.p;
         request.pn = headModel.pn;
-        Disposable disposable = (Disposable) model.getRecommendedReportsData(request)
+        Disposable disposable = model.getRecommendedReportsData(request)
                 .doOnSubscribe(new Consumer<Subscription>() {
                     @Override
                     public void accept(Subscription subscription) throws Exception {
@@ -239,4 +227,12 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
             mActivity = null;
         }
     }
+
+
+
+
+
+
+
+
 }

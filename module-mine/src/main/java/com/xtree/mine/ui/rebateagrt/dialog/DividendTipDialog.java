@@ -1,15 +1,11 @@
 package com.xtree.mine.ui.rebateagrt.dialog;
 
 import android.content.Context;
-import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
-import com.xtree.base.databinding.DialogTipBinding;
 import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.DialogDividendTipBinding;
@@ -20,8 +16,8 @@ import com.xtree.mine.databinding.DialogDividendTipBinding;
  */
 public class DividendTipDialog extends CenterPopupView {
 
-    private String msg;
-    private TipDialog.ICallBack mCallBack;
+    private final String msg;
+    private final TipDialog.ICallBack mCallBack;
 
     public DividendTipDialog(@NonNull Context context, String msg, TipDialog.ICallBack mCallBack) {
         super(context);

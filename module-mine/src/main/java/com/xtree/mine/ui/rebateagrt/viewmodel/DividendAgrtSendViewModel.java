@@ -53,20 +53,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> implements ToolbarModel {
 
-    public DividendAgrtSendViewModel(@NonNull Application application) {
-        super(application);
-    }
-
-    public DividendAgrtSendViewModel(@NonNull Application application, MineRepository model) {
-        super(application, model);
-    }
-
-    private GameDividendAgrtRequest gameDividendAgrtRequest;
-    private WeakReference<FragmentActivity> mActivity = null;
-    private final MutableLiveData<String> titleData = new MutableLiveData<>(getApplication().getString(R.string.txt_manualdividendpayout_title));
-
     public final MutableLiveData<ArrayList<BindModel>> datas = new MutableLiveData<>(new ArrayList<>());
-
     public final MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
                 {
@@ -74,7 +61,14 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
                     add(R.layout.item_dividendagrt_send_head);
                 }
             });
-
+    private final MutableLiveData<String> titleData = new MutableLiveData<>(getApplication().getString(R.string.txt_manualdividendpayout_title));
+    private final DividendAgrtSendHeadModel headModel = new DividendAgrtSendHeadModel();
+    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
+        headModel.setItemType(1);
+        add(headModel);
+    }};
+    //合计数额
+    public MutableLiveData<String> total = new MutableLiveData<>("0.00");
     public final BaseDatabindingAdapter.onBindListener onBindListener = new BaseDatabindingAdapter.onBindListener() {
 
         @Override
@@ -92,6 +86,30 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
         }
 
     };
+    //可用余额
+    public MutableLiveData<String> availablebalance = new MutableLiveData<>("0.00");
+    private GameDividendAgrtRequest gameDividendAgrtRequest;
+    private WeakReference<FragmentActivity> mActivity = null;
+    /**
+     * 列表加载
+     */
+    public OnLoadMoreListener onLoadMoreListener = new OnLoadMoreListener() {
+        @Override
+        public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+            headModel.p++;
+            getDividendData();
+        }
+    };
+    @SuppressLint("StaticFieldLeak")
+    private BasePopupView pop;
+
+    public DividendAgrtSendViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public DividendAgrtSendViewModel(@NonNull Application application, MineRepository model) {
+        super(application, model);
+    }
 
     /**
      * 计算所有选中契约的金额总计
@@ -110,28 +128,6 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
         }
         total.setValue(decimalFormat.format(totalFloat));
     }
-
-    /**
-     * 列表加载
-     */
-    public OnLoadMoreListener onLoadMoreListener = new OnLoadMoreListener() {
-        @Override
-        public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-            headModel.p++;
-            getDividendData();
-        }
-    };
-    private final DividendAgrtSendHeadModel headModel = new DividendAgrtSendHeadModel();
-
-    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
-        headModel.setItemType(1);
-        add(headModel);
-    }};
-
-    //合计数额
-    public MutableLiveData<String> total = new MutableLiveData<>("0.00");
-    //可用余额
-    public MutableLiveData<String> availablebalance = new MutableLiveData<>("0.00");
 
     public void initData(GameDividendAgrtRequest response) {
         //init data
@@ -172,7 +168,7 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
 
         DividendAgrtSendQuery query = new DividendAgrtSendQuery();
 
-        Disposable disposable = (Disposable) model.getDividendAgrtSendStep1Data(query, dividendAgrtSendRequest)
+        Disposable disposable = model.getDividendAgrtSendStep1Data(query, dividendAgrtSendRequest)
                 .doOnSubscribe(new Consumer<Subscription>() {
                     @Override
                     public void accept(Subscription subscription) throws Exception {
@@ -223,7 +219,7 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
 
         DividendAgrtSendQuery query = new DividendAgrtSendQuery();
 
-        Disposable disposable = (Disposable) model.getDividendAgrtSendStep2Data(query, dividendAgrtSendRequest)
+        Disposable disposable = model.getDividendAgrtSendStep2Data(query, dividendAgrtSendRequest)
                 .doOnSubscribe(new Consumer<Subscription>() {
                     @Override
                     public void accept(Subscription subscription) throws Exception {
@@ -243,6 +239,7 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
                             ToastUtils.show(reeponse.getMsg(), ToastUtils.ShowType.Fail);
                         }
                     }
+
                     @Override
                     public void onFail(BusinessException t) {
                         super.onFail(t);
@@ -258,7 +255,7 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
         }
 
         gameDividendAgrtRequest.p = headModel.p;
-        Disposable disposable = (Disposable) model.getGameDividendAgrtData(gameDividendAgrtRequest)
+        Disposable disposable = model.getGameDividendAgrtData(gameDividendAgrtRequest)
                 .doOnSubscribe(new Consumer<Subscription>() {
                     @Override
                     public void accept(Subscription subscription) throws Exception {
@@ -344,8 +341,6 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
         addSubscribe(disposable);
     }
 
-    @SuppressLint("StaticFieldLeak")
-    private BasePopupView pop;
     /**
      * 提示弹窗
      */

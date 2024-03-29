@@ -13,13 +13,11 @@ import io.reactivex.functions.Consumer;
  */
 public class RebateAgrtCreateHeadModel extends BindModel implements BindHead {
 
-    private Consumer<String> consumer = null;
-
-    public RebateAgrtCreateHeadModel() {
-    }
-
     public ObservableField<String> user = new ObservableField<>();
     public ObservableField<Boolean> editState = new ObservableField<>(false);
+    private Consumer<String> consumer = null;
+    public RebateAgrtCreateHeadModel() {
+    }
 
     public RebateAgrtCreateHeadModel(Consumer<String> consumer) {
         this.consumer = consumer;

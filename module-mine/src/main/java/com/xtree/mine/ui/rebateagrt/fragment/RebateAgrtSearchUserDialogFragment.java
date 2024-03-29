@@ -34,18 +34,19 @@ import me.xtree.mvvmhabit.bus.RxBus;
 @Route(path = RouterFragmentPath.Mine.PAGER_REBATEAGRT_SEARCHUSER_DIALOG)
 public class RebateAgrtSearchUserDialogFragment extends BaseDialogFragment<DialogRebateagrtSearchuserBinding, RebateAgrtSearchUserViewModel> {
 
+    private RebateAgrtSearchUserDialogFragment() {
+    }
+
     /**
      * 启动弹窗
+     *
      * @param activity 获取FragmentManager
-     * @param model 入参
+     * @param model    入参
      */
     public static void show(FragmentActivity activity, RebateAgrtDetailModel model) {
         RxBus.getDefault().postSticky(model);
         RebateAgrtSearchUserDialogFragment fragment = new RebateAgrtSearchUserDialogFragment();
         fragment.show(activity.getSupportFragmentManager(), RebateAgrtSearchUserDialogFragment.class.getName());
-    }
-
-    private RebateAgrtSearchUserDialogFragment() {
     }
 
     @Override

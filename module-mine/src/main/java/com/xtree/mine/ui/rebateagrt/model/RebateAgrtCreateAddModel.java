@@ -13,8 +13,8 @@ import io.reactivex.functions.Consumer;
  */
 public class RebateAgrtCreateAddModel extends BindModel implements BindHead {
 
-    private Consumer<String> consumer = null;
     public ObservableField<Boolean> openAdd = new ObservableField<>(true);
+    private Consumer<String> consumer = null;
 
     public RebateAgrtCreateAddModel() {
     }
