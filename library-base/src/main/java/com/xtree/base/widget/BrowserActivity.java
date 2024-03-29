@@ -344,7 +344,9 @@ public class BrowserActivity extends AppCompatActivity {
         });
 
         AlertDialog dialog = builder.create();
-        dialog.show();
+        if (!isFinishing()) {
+            dialog.show();
+        }
     }
 
     private void setWebView(WebView webView) {
