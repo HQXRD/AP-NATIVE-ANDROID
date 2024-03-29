@@ -56,7 +56,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:background="@drawable/bt_bg_withdrawal_next"
+            android:background="@drawable/me_bg_withdrawal_next"
             android:text="@string/txt_withdraw_confirm_next"
             android:textColor="@color/white"
             android:textSize="16sp" />

@@ -29,6 +29,7 @@
     <!-- 主-渐变色 -->
     <color name="clr_main_start">#247BF4</color>
     <color name="clr_main_end">#4ECFFF</color>
+    <color name="clr_main_end_2">#70B2FD</color>
 
     <!-- 辅-渐变色 -->
     <color name="clr_main_21">#0DB4F2</color>
@@ -119,6 +120,9 @@
 
     <!-- 投注模块  begin -->
 
+    <!-- 通用背景边框颜色 -->
+    <color name="bt_color_cm_stoke">#FFFFFF</color>
+
     <!-- 通用/遮罩 -->
     <color name="bt_bg_common_cover">#80000000</color>
 
@@ -194,6 +198,9 @@
     <!-- 投注模块弹窗顶部金额背景颜色 -->
     <color name="bt_color_car_dialog_top_acount">#54D8CAFF</color>
 
+    <!-- 投注模块弹窗顶部金额背景颜色 -->
+    <color name="bt_color_car_dialog_top_acount_end">#24FFFFFF</color>
+
     <!-- 投注确认页高亮颜色 -->
     <color name="bt_color_car_dialog_hight_line">#C1C4F2</color>
 
@@ -223,6 +230,9 @@
 
     <!-- 投注失败提示字体颜色 -->
     <color name="bt_color_league_line_top">#80119BFF</color>
+
+    <!-- 赛事列表联赛顶部背景线颜色 -->
+    <color name="bt_color_league_top">#80247BF4</color>
 
     <!-- 注单为赢的字体颜色 -->
     <color name="bt_color_option_win">#F74E15</color>
@@ -255,6 +265,9 @@
 
     <!-- 选择联赛页面联赛分组背景颜色 -->
     <color name="bt_color_league_group">#E7ECF5</color>
+
+    <!-- 投注确认页倒计时背景颜色 -->
+    <color name="bt_color_bt_timer">#66FFFFFF</color>
 
     <!-- 投注模块 end-->
 

@@ -11,7 +11,7 @@
         android:id="@+id/rl_real_data"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@drawable/bt_bg_champion_option_item_selector"
+        android:background="@drawable/bt_bg_champion_option_item"
         android:orientation="horizontal">
 
         <TextView

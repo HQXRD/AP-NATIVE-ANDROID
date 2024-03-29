@@ -213,7 +213,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:layout_marginTop">36dp</item>
-        <item name="android:src">@drawable/bt_ok_selector</item>
+        <item name="android:src">@drawable/cm_ok_selector</item>
     </style>
     <!-- 我的-账户管理-item -->
     <style name="style_choose_account">

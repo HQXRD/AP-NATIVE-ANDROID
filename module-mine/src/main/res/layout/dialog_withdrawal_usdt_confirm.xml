@@ -147,7 +147,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/bt_bg_withdrawal_next"
+        android:background="@drawable/me_bg_withdrawal_next"
         android:text="@string/txt_withdraw_next"
         android:textColor="@color/white"
         android:textSize="16sp" />
@@ -160,7 +160,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/bt_bg_withdrawal_previous"
+        android:background="@drawable/me_bg_withdrawal_previous"
         android:text="@string/txt_withdraw_previous"
         android:textColor="@color/clr_main"
         android:textSize="16sp" />
