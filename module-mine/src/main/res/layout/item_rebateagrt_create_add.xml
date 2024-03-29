@@ -54,7 +54,7 @@
             android:gravity="center"
             android:layout_marginTop="8dp"
             android:layout_marginStart="3dp"
-            android:background="@drawable/shape_stroke_clrmain_1_corner_8"
+            android:background="@drawable/shape_stroke_main_c08"
             android:layout_alignParentEnd="true"
             android:onClick="@{() -> m.add()}"
             android:visibility="@{m.openAdd==true?View.VISIBLE:View.GONE}"

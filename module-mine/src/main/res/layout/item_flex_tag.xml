@@ -24,7 +24,7 @@
             android:checked="@={m.checked}"
             android:text="@{m.userName}"
             android:textColor="@color/clr_txt_02"
-            android:background="@drawable/selector_clrmain09_clrmain05_corner100"
+            android:background="@drawable/ckb_main_c100_selector"
             android:button="@null"
             tools:text="标签" />
 
