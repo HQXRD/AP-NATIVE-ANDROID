@@ -21,6 +21,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
 import com.xtree.base.utils.UuidUtil;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
@@ -55,14 +56,16 @@ public class SecurityQuestionFragment extends BottomPopupView {
     private DialogSetSecurityQuestionBinding binding;
     private ItemTextBinding binding2;
     private boolean hide;
+    private ProfileVo mProfileVo ;
 
     private SecurityQuestionFragment(@NonNull Context context) {
         super(context);
     }
 
-    public static SecurityQuestionFragment newInstance(@NonNull Context context, LifecycleOwner owner, ISecurityQuestionCallBack callBack, final String accessToken) {
+    public static SecurityQuestionFragment newInstance(@NonNull Context context, LifecycleOwner owner, final ProfileVo profileVo ,ISecurityQuestionCallBack callBack, final String accessToken) {
         SecurityQuestionFragment dialog = new SecurityQuestionFragment(context);
         dialog.owner = owner;
+        dialog.mProfileVo = profileVo ;
         dialog.callBack = callBack;
         dialog.accessToken = accessToken;//重置资金密码使用
         return dialog;
@@ -108,7 +111,26 @@ public class SecurityQuestionFragment extends BottomPopupView {
             binding.tvwQuestion1.setText(createQA().get(0).content);
             binding.tvwQuestion2.setText(createQA().get(1).content);
 
+        }else {
+            ArrayList list = (ArrayList<?>) mProfileVo.set_question;
+            //设置了密保
+            if (list.size() != 3) {
+                CfLog.e("****** ");
+                return;
+            }
+            String key1 = String.valueOf(((ArrayList<?>) mProfileVo.set_question).get(0)).split("\\.")[0];
+            String key2 = String.valueOf(((ArrayList<?>) mProfileVo.set_question).get(1)).split("\\.")[0];
+            for (int i = 0; i < createQA().size(); i++) {
+                if (key1.equals(createQA().get(i).key)) {
+                    binding.tvwQuestion1.setText(createQA().get(i).content);
+                }
+                if(key2.equals(createQA().get(i).key)){
+                    binding.tvwQuestion2.setText(createQA().get(i).content);
+                }
+            }
+
         }
+
         //找回资金密码
         binding.tvwRetrieveFundPassword.setOnClickListener(v -> {
             showRetrieveFundDialog();

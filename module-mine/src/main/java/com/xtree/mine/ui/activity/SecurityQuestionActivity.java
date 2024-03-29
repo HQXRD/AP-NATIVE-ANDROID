@@ -121,7 +121,7 @@ public class SecurityQuestionActivity extends BaseActivity<FragmentSecurityQuest
                 }
                 // checkQuestionVo.data.accessToken ;
                 //跳转设置密保页面
-                showSetPSWView(false, checkQuestionVo.data.accessToken);
+                showSetPSWView(false, checkQuestionVo.data.accessToken ,mProfileVo);
             } else {
                 if (TextUtils.isEmpty(checkQuestionVo.message)) {
                     ToastUtils.showError(this.getString(R.string.txt_network_error));
@@ -190,9 +190,10 @@ public class SecurityQuestionActivity extends BaseActivity<FragmentSecurityQuest
     }
 
     /*显示密保设定*/
-    private void showSetPSWView(final boolean hide, final String accessTokenOrCheckCode) {
+    private void showSetPSWView(final boolean hide, final String accessTokenOrCheckCode ,final ProfileVo profileVo) {
         if (showSetPSWPopView == null) {
             if (hide) {
+                //第一次设定密码
                 final String checkCode  = accessTokenOrCheckCode ;
                 showSetPSWPopView = new XPopup.Builder(this).dismissOnBackPressed(false)
                         .dismissOnTouchOutside(false)
@@ -209,7 +210,7 @@ public class SecurityQuestionActivity extends BaseActivity<FragmentSecurityQuest
                 showSetPSWPopView = new XPopup.Builder(this).dismissOnBackPressed(false)
                         .dismissOnTouchOutside(false)
                         .moveUpToKeyboard(false)
-                        .asCustom(SecurityQuestionFragment.newInstance(this, this, new SecurityQuestionFragment.ISecurityQuestionCallBack() {
+                        .asCustom(SecurityQuestionFragment.newInstance(this, this,profileVo , new SecurityQuestionFragment.ISecurityQuestionCallBack() {
                             @Override
                             public void closeSecurityDialog() {
                                 showSetPSWPopView.dismiss();
@@ -238,7 +239,7 @@ public class SecurityQuestionActivity extends BaseActivity<FragmentSecurityQuest
                         @Override
                         public void closeFundPWDialogWithCode(String checkCode) {
                             if (!TextUtils.isEmpty(checkCode)) {
-                                showSetPSWView(true, checkCode);
+                                showSetPSWView(true, checkCode , null);
                             }
                             //basePopupView.dismiss();
                         }
