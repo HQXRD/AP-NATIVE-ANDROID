@@ -7,7 +7,7 @@
                 android:startColor="@color/clr_btn_press" />
             <corners android:radius="6dp" />
             <stroke android:width="1dp"
-                android:color="@color/clr_btn_press_stroke" />
+                android:color="@color/clr_btn_stroke" />
         </shape>
     </item>
 
@@ -17,6 +17,8 @@
                 android:endColor="@color/clr_btn_grey02"
                 android:startColor="@color/clr_btn_grey01" />
             <corners android:radius="6dp" />
+            <stroke android:width="1dp"
+                android:color="@color/clr_btn_stroke" />
         </shape>
     </item>
 

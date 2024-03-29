@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="@string/txt_retrieve_fund_password"
-            android:textColor="@color/clr_blue_02"
+            android:textColor="@color/clr_txt_01"
             android:textSize="14sp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@id/tvw_title"

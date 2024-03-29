@@ -29,7 +29,7 @@
             android:layout_weight="0"
             android:minEms="3"
             android:text="@string/txt_edit"
-            android:textColor="@color/clr_blue_03" />
+            android:textColor="@color/clr_txt_link" />
         <TextView
             android:id="@+id/tvw_detail"
             style="@style/style_item_report_value_end"
@@ -37,7 +37,7 @@
             android:layout_weight="0"
             android:minEms="3"
             android:text="@string/txt_view"
-            android:textColor="@color/clr_blue_03" />
+            android:textColor="@color/clr_txt_link" />
     </LinearLayout>
 
     <View

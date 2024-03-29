@@ -131,7 +131,7 @@
                     android:paddingEnd="16dp"
                     android:paddingBottom="6dp"
                     android:text="@string/me_get_all_money"
-                    android:textColor="@color/clr_blue_05"
+                    android:textColor="@color/clr_txt_01"
                     android:textSize="10sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

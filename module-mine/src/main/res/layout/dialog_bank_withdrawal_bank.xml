@@ -159,7 +159,7 @@
                     android:id="@+id/tv_show_notice_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    tools:text="Demo"
                     android:textColor="@color/clr_main_23"
                     android:visibility="visible" />
 
