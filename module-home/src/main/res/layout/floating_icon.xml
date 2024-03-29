@@ -56,10 +56,10 @@
             android:layout_width="65dp"
             android:layout_height="20dp"
             android:layout_marginStart="25dp"
-            android:background="@drawable/bg_btn_selector"
+            android:background="@drawable/bg_floating_button"
             android:gravity="center"
             android:text="@string/txt_floating_record"
-            android:textColor="@color/clr_white"
+            android:textColor="@color/clr_txt_mouse"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/ivw_close" />
@@ -83,6 +83,7 @@
             android:gravity="center"
             android:text="@string/txt_floating_way"
             android:textSize="12sp"
+            android:textColor="@color/clr_white"
             app:layout_constraintEnd_toEndOf="@id/tvw_title"
             app:layout_constraintStart_toStartOf="@id/tvw_title"
             app:layout_constraintTop_toBottomOf="@id/tvw_title" />
@@ -97,6 +98,7 @@
             android:gravity="center"
             android:text="@string/txt_floating_money"
             android:textSize="12sp"
+            android:textColor="@color/clr_white"
             app:layout_constraintEnd_toStartOf="@id/tvw_way"
             app:layout_constraintTop_toBottomOf="@id/tvw_title" />
 
@@ -110,6 +112,7 @@
             android:gravity="center"
             android:text="@string/txt_floating_time"
             android:textSize="12sp"
+            android:textColor="@color/clr_white"
             app:layout_constraintStart_toEndOf="@id/tvw_way"
             app:layout_constraintTop_toBottomOf="@id/tvw_title" />
 

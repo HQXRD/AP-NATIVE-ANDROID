@@ -14,6 +14,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:textSize="10sp"
+            android:textColor="@color/clr_txt_mouse5"
             app:layout_constraintEnd_toStartOf="@id/item_way"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +27,7 @@
             android:layout_marginEnd="1dp"
             android:gravity="center"
             android:maxLines="1"
-            android:textColor="@color/clr_blue_03"
+            android:textColor="@color/clr_main_03"
             android:textSize="10sp"
             app:layout_constraintEnd_toStartOf="@id/item_time"
             app:layout_constraintStart_toEndOf="@id/item_money"
@@ -39,6 +40,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:textSize="10sp"
+            android:textColor="@color/clr_txt_mouse5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/item_way"
             app:layout_constraintTop_toTopOf="parent" />
