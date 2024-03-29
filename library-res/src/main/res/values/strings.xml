@@ -156,6 +156,7 @@
     <string name="txt_rc_bind_email">绑定邮箱</string>
     <string name="txt_rc_bind_bank_card_pls">您没有绑定银行卡，请先绑定银行卡</string>
     <string name="txt_rc_tip_latest_balance">已更新到最新余额</string>
+    <string name="txt_no_binding">您没有绑定手机或邮箱请先完成绑定</string>
     <string name="txt_rc_not_tip">今日不再提示</string>
     <string name="txt_rc_i_know_close">我知道了，关闭弹窗</string>
     <string name="txt_rc_manual_tip_1">若其它支付方式失败，建议您使用人工充值功能，同专人客服引导您进行充值</string>

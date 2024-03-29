@@ -62,26 +62,33 @@
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/tvw_title"
-            style="@style/style_security_title"
-            android:text="@string/txt_verify" />
-
-        <TextView
-            android:id="@+id/tvw_choose"
+        <LinearLayout
+            android:id="@+id/ll_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/layout_margin"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="@dimen/layout_margin"
-            android:drawableEnd="@mipmap/cm_ic_to_right"
-            android:hint="@string/txt_choose_verify"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:textColor="@color/clr_grey_80"
-            android:textSize="14sp" />
+            android:orientation="vertical">
 
-        <View style="@style/style_dividing_line" />
+            <TextView
+                android:id="@+id/tvw_title"
+                style="@style/style_security_title"
+                android:text="@string/txt_verify" />
+
+            <TextView
+                android:id="@+id/tvw_choose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/layout_margin"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="@dimen/layout_margin"
+                android:drawableEnd="@mipmap/cm_ic_to_right"
+                android:hint="@string/txt_choose_verify"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:textColor="@color/clr_grey_80"
+                android:textSize="14sp" />
+
+            <View style="@style/style_dividing_line" />
+        </LinearLayout>
 
         <FrameLayout
             android:id="@+id/fl_main"
