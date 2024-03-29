@@ -158,13 +158,13 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 //网络异常
                 callBack.closeDialogByError();
             } else {
-                //msg_detail='null', msg_type='null', error='null', message='null'
                 if (!TextUtils.isEmpty(chooseInfoVo.msg_type) && chooseInfoVo.msg_type.equals("2")) {
                     //异常状态
                     showErrorDialog(chooseInfoVo.message);
-                } else if (!TextUtils.isEmpty(chooseInfoVo.ur_here) && chooseInfoVo.ur_here.equals("资金密码检查")) {
+
+                } else if (!TextUtils.isEmpty(chooseInfoVo.ur_here) && TextUtils.equals("资金密码检查", chooseInfoVo.ur_here)) {
                     //异常状态 弹出资金密码输入页面
-                    ToastUtils.showError("异常状态 弹出资金密码输入页面");
+                    ToastUtils.showError(chooseInfoVo.ur_here);
                 } else if (!TextUtils.isEmpty(chooseInfoVo.error)) {
                     showErrorDialog(chooseInfoVo.message);
                 } else if (TextUtils.isEmpty(chooseInfoVo.error) || chooseInfoVo.error == null) {
@@ -210,7 +210,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     CfLog.i("ChooseAdapter channel = " + channel.toString());
                     if (channel.channeluse == 0)//显示弹窗
                     {
-                        if (("bindcard").equals(channel.bindType) && (channel.flag == false)) {
+
+                        if (TextUtils.equals("bindcard", channel.bindType) && (channel.flag == false)) {
                             showBankMessageDialog(channel, channel.channeluseMessage);
                         } else if (channel.channeluseMessage.contains("首次提款仅可使用银行卡方式提款")) {
                             showErrorDialog(channel.channeluseMessage);
@@ -221,11 +222,12 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         CfLog.i("conClick" + channelInfo.channeluseMessage);
 
                     } else {
-                        if (chooseInfoVo.bankchanneluse == 1 && txt.equals("银行卡提款")) {
+
+                        if (chooseInfoVo.bankchanneluse == 1 && TextUtils.equals("银行卡提款", txt)) {
                             showBankWithdrawalDialog(channelInfo, checkCode);
                         }
                         //银行卡提现通打开，但点击的不是银行卡提款
-                        else if (chooseInfoVo.bankchanneluse == 1 && !txt.equals("银行卡提款")) {
+                        else if (chooseInfoVo.bankchanneluse == 1 && !TextUtils.equals("银行卡提款", txt)) {
                             showUSDTWithdrawalDialog(channelInfo, checkCode);
                         } else if (chooseInfoVo.bankchanneluse == 0) {
                             //未绑定银行卡 显示绑定银行卡
