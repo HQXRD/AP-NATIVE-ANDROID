@@ -2,44 +2,61 @@ android {
     flavorDimensions "channelName"
 
     productFlavors {
-
-        xingCai {
-            applicationId "com.xcsport.app" //
-            versionName "1.0.0"
-            versionCode 100
-            //resValue "string", "app_name", "${name}"
-            resValue "string", "app_name", "杏彩体育"
-            resValue "string", "domain_url", "https://www.weres.bar/"
-            resValue "string", "channel_name", "xingcai"  // 渠道名称
-            resValue "string", "build_time", "${buildTime()}"
-            resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
-            resValue "bool", "is_tag", "true" // 是否开启统计
-            resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_url_list",
-                    ";https://app.cpmuseumdimsum.com:16801" +
-                    ";https://app.zgntcpgxds.com:16801" +
-                    ";https://app.jyuelab.com:16801" +
-                    ";https://app.kylinshe.com:16801" +
-                    ";https://app.eyoumoban.com:16801"
-
-            multiDexEnabled true
-            dimension "channelName"
-        }
+        // 测试环境 测试用
         xingCai_pre {
             //applicationId "com.${name.toLowerCase()}.app" //
             applicationId "com.xct01.app" //
-            versionName "1.0.0"
-            versionCode 100
+            versionName "1.2.0"
+            versionCode 120
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "杏彩T${versionCode}"
-            resValue "string", "domain_url", "https://ap3sport.oxldkm.com/"
+            resValue "string", "domain_url", "https://ap3sport.oxldkm.com"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_url_list", "https://ap3sport.oxldkm.com/"
-
+            resValue "string", "domain_url_list", "https://ap3sport.oxldkm.com"
+            multiDexEnabled true
+            dimension "channelName"
+        }
+        // 生产环境 测试用
+        xingCai {
+            applicationId "com.xcr01.app" // xcsport xcr01
+            versionName "1.2.0"
+            versionCode 120
+            resValue "string", "app_name", "杏彩R${versionCode}"
+            resValue "string", "domain_url", "https://www.weres.bar"
+            resValue "string", "channel_name", "xingcai"  // 渠道名称
+            resValue "string", "build_time", "${buildTime()}"
+            resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
+            resValue "bool", "is_tag", "false" // 是否开启统计
+            resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
+            resValue "string", "domain_url_list", ";https://app.cpmuseumdimsum.com:16801" +
+                    ";https://app.zgntcpgxds.com:16801" +
+                    ";https://app.jyuelab.com:16801" +
+                    ";https://app.kylinshe.com:16801" +
+                    ";https://app.eyoumoban.com:16801"
+            multiDexEnabled true
+            dimension "channelName"
+        }
+        // 生产环境 发布用
+        xingCai_OL {
+            applicationId "com.xcsport.app" //
+            versionName "1.0.1"
+            versionCode 101
+            resValue "string", "app_name", "杏彩体育"
+            resValue "string", "domain_url", "https://www.weres.bar/"
+            resValue "string", "channel_name", "xingcai"  // 渠道名称
+            resValue "string", "build_time", "${buildTime()}"
+            resValue "string", "mixpanel_token", "44c997f89ac52bdb676418f79a78cc6e"
+            resValue "bool", "is_tag", "true" // 是否开启统计
+            resValue "string", "ms_secret_key", "efa54723-d17f-40a5-ba10-95f6a4ec7832"
+            resValue "string", "domain_url_list", ";https://app.cpmuseumdimsum.com:16801" +
+                    ";https://app.zgntcpgxds.com:16801" +
+                    ";https://app.jyuelab.com:16801" +
+                    ";https://app.kylinshe.com:16801" +
+                    ";https://app.eyoumoban.com:16801"
             multiDexEnabled true
             dimension "channelName"
         }
@@ -128,6 +145,8 @@ androidJunkCode {
 
         xingCaiDebug config2
         xingCaiRelease config2
+        xingCai_OLDebug config2
+        xingCai_OLRelease config2
         xingCai_preDebug config2
         xingCai_preRelease config2
     }
