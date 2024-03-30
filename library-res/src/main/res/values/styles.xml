@@ -207,14 +207,7 @@
         <item name="android:textColor">@color/clr_text_code_selector</item>
         <item name="android:textSize">12sp</item>
     </style>
-    <!-- 我的-安全中心-验证 确定 -->
-    <style name="style_ok">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_marginTop">36dp</item>
-        <item name="android:src">@drawable/cm_ok_selector</item>
-    </style>
+
     <!-- 我的-账户管理-item -->
     <style name="style_choose_account">
         <item name="android:layout_width">match_parent</item>
@@ -354,13 +347,21 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <!-- 通用 下一步按钮 -->
-    <style name="style_cm_btn_next">
-        <item name="android:layout_width">wrap_content</item>
+    <!-- 通用 按钮 左右两边圆弧形的 -->
+    <style name="style_cm_btn_round">
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:background">@drawable/bg_btn_round_selector</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
         <item name="android:layout_marginTop">24dp</item>
-        <item name="android:background">@mipmap/cm_btn_next</item>
+        <item name="android:layout_marginBottom">24dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text"></item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/clr_white</item>
+        <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
     <style name="style_cm_btn_r16">
@@ -813,14 +814,6 @@
         <item name="android:textColor">@color/clr_grey_80</item>
         <item name="android:textSize">14sp</item>
     </style>
-    <!-- 通用 google动态绑定按钮 -->
-    <style name="style_bind_google_btn_next">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_marginTop">20dp</item>
-        <item name="android:background">@mipmap/btn_google_bind_bg_bt</item>
-    </style>
 
     <style name="style_bind_confirm_bank_title" parent="style_bind_confirm_title">
         <item name="android:minEms">7</item>
@@ -1118,7 +1111,5 @@
         <item name="android:layout_marginTop">1dp</item>
         <item name="android:orientation">horizontal</item>
     </style>
-
-
 
 </resources>

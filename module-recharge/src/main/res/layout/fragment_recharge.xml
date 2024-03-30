@@ -14,7 +14,7 @@
         android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/clr_bg_main"
+        android:background="@color/clr_white"
         android:orientation="vertical">
 
         <View
@@ -92,7 +92,7 @@
             android:layout_height="match_parent"
             tools:ignore="ScrollViewCount">
 
-            <androidx.appcompat.widget.LinearLayoutCompat
+            <LinearLayout
                 android:id="@+id/ll_root2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -152,7 +152,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <LinearLayout
                     android:id="@+id/ll_down"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -230,7 +230,7 @@
                     </LinearLayout>
 
                     <!-- 以下是各充值渠道的UI -->
-                    <androidx.appcompat.widget.LinearLayoutCompat
+                    <LinearLayout
                         android:id="@+id/ll_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -299,7 +299,7 @@
                             android:drawableStart="@mipmap/cm_ic_hint_red"
                             android:drawablePadding="2dp"
                             android:text="@string/txt_enter_real_name_pls" />
-                    </androidx.appcompat.widget.LinearLayoutCompat>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_amount"
@@ -432,13 +432,10 @@
                             android:text="@string/txt_rc_m_5" />
                     </LinearLayout>
 
-                    <ImageView
+                    <TextView
                         android:id="@+id/btn_next"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="24dp"
-                        android:background="@mipmap/cm_btn_next" />
+                        style="@style/style_cm_btn_round"
+                        android:text="@string/txt_next_step" />
 
                     <TextView
                         android:id="@+id/tvw_tip_same_amount"
@@ -447,7 +444,7 @@
                         android:drawablePadding="2dp"
                         android:text="@string/txt_amount_filled_should_same_as_remittance_amount" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tvw_tip_bottom"
@@ -487,7 +484,7 @@
                         android:textColor="@color/clr_white" />
                 </LinearLayout>
 
-            </androidx.appcompat.widget.LinearLayoutCompat>
+            </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </LinearLayout>
 </layout>

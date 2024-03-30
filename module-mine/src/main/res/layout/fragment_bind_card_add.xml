@@ -190,9 +190,10 @@
                 android:hint="@string/txt_enter_branch"
                 android:imeOptions="actionDone" />
 
-            <ImageView
+            <TextView
                 android:id="@+id/ivw_next"
-                style="@style/style_cm_btn_next" />
+                style="@style/style_cm_btn_round"
+                android:text="@string/txt_next_step" />
         </LinearLayout>
 
         <LinearLayout

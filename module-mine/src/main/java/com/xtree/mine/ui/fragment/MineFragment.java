@@ -263,7 +263,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
         //检查更新
         binding.tvwUpgrade.setOnClickListener(v -> {
-            LoadingDialog.show(getContext());
+            //LoadingDialog.show(getContext());
             viewModel.getUpdate();
         });
 

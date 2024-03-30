@@ -44,8 +44,8 @@
         android:id="@+id/ivw_hot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="18dp"
         android:src="@mipmap/rc_ic_hot"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,11 +56,12 @@
         android:id="@+id/ivw_rcmd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="8dp"
         android:src="@mipmap/rc_ic_recommend"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
