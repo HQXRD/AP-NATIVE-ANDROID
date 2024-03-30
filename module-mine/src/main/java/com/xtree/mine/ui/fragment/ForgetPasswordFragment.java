@@ -73,11 +73,11 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (binding.llCheckUsername.edtResetPasswordUsername.getText().toString().length() == 0) {
                     binding.llCheckUsername.twvResetPasswordUsername.setVisibility(View.VISIBLE);
-                    //binding.llCheckUsername.ivwResetPasswordNext.setImageDrawable(getResources().getDrawable(R.mipmap.me_reset_password_next_unable));
+                    binding.llCheckUsername.tvwResetPasswordNext.setBackground(getResources().getDrawable(R.drawable.bg_gray_r12));
                     mIsClickable = false;
                 } else {
                     binding.llCheckUsername.twvResetPasswordUsername.setVisibility(View.GONE);
-                    //binding.llCheckUsername.ivwResetPasswordNext.setImageDrawable(getResources().getDrawable(R.mipmap.me_reset_password_next_enable));
+                    binding.llCheckUsername.tvwResetPasswordNext.setBackground(getResources().getDrawable(R.drawable.bg_main_r12));
                     mIsClickable = true;
                 }
             }
@@ -88,7 +88,7 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
             }
         });
 
-        binding.llCheckUsername.ivwResetPasswordNext.setOnClickListener(v -> {
+        binding.llCheckUsername.tvwResetPasswordNext.setOnClickListener(v -> {
             if (mIsClickable) {
                 CfLog.d("getForgetUserInfo");
                 mUsername = binding.llCheckUsername.edtResetPasswordUsername.getText().toString();
@@ -116,16 +116,16 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
                 if (binding.llCheckOtp.edtSetOpt.getText().toString().length() == 0) {
                     binding.llCheckOtp.twvSetOtpError.setVisibility(View.VISIBLE);
                     binding.llCheckOtp.twvSetOtpError.setText(R.string.txt_otp_can_not_null);
-                    //binding.llCheckOtp.ivwResetPasswordNext.setImageDrawable(getResources().getDrawable(R.mipmap.me_reset_password_next_unable));
+                    binding.llCheckOtp.tvwResetPasswordNext.setBackground(getResources().getDrawable(R.drawable.bg_gray_r12));
                     mIsClickable = false;
                 } else if (binding.llCheckOtp.edtSetOpt.getText().toString().length() == 6) {
                     binding.llCheckOtp.twvSetOtpError.setVisibility(View.GONE);
-                    //binding.llCheckOtp.ivwResetPasswordNext.setImageDrawable(getResources().getDrawable(R.mipmap.me_reset_password_next_enable));
+                    binding.llCheckOtp.tvwResetPasswordNext.setBackground(getResources().getDrawable(R.drawable.bg_main_r12));
                     mIsClickable = true;
                 } else {
                     binding.llCheckOtp.twvSetOtpError.setVisibility(View.VISIBLE);
                     binding.llCheckOtp.twvSetOtpError.setText(R.string.txt_otp_not_six_number);
-                    //binding.llCheckOtp.ivwResetPasswordNext.setImageDrawable(getResources().getDrawable(R.mipmap.me_reset_password_next_unable));
+                    binding.llCheckOtp.tvwResetPasswordNext.setBackground(getResources().getDrawable(R.drawable.bg_gray_r12));
                     mIsClickable = false;
                 }
             }
@@ -136,7 +136,7 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
             }
         });
 
-        binding.llCheckOtp.ivwResetPasswordNext.setOnClickListener(v -> {
+        binding.llCheckOtp.tvwResetPasswordNext.setOnClickListener(v -> {
             if (mIsClickable) {
                 viewModel.sendMessageVerfyCode(binding.llCheckOtp.edtSetOpt.getText().toString(), mSendType);
                 mIsClickable = false;
@@ -207,14 +207,14 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
             }
         });
 
-        binding.llResetPassword.iwmResetPasswordConfirm.setOnClickListener(v -> {
+        binding.llResetPassword.twmResetPasswordConfirm.setOnClickListener(v -> {
             if (mIsClickable) {
                 viewModel.sendChangePasswordSuccessful(binding.llResetPassword.edtResetPasswordResetPasswordRecheck.getText().toString());
                 mIsClickable = false;
             }
         });
 
-        binding.llResetPassword.iwmResetPasswordReset.setOnClickListener(v -> {
+        binding.llResetPassword.twmResetPasswordReset.setOnClickListener(v -> {
             binding.llResetPassword.edtResetPasswordResetPassword.setText("");
             binding.llResetPassword.edtResetPasswordResetPasswordRecheck.setText("");
             binding.llResetPassword.twvResetPasswordResetPasswordRecheckError.setVisibility(View.GONE);
@@ -236,7 +236,7 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
             }
         });
 
-        binding.llFinish.ivwResetPasswordNext.setOnClickListener(v -> {
+        binding.llFinish.tvwResetPasswordNext.setOnClickListener(v -> {
             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
             toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.LOGIN_TYPE);
             startActivity(toLogin);
