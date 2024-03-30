@@ -42,8 +42,8 @@
     <string name="txt_remind_gopay">地址以16位字母数字组成</string>
     <string name="txt_remind_okpay">地址以16位字母数字组成</string>
 
-    <string name="txt_enter_login_name">请输入账号</string>
-    <string name="txt_enter_login_pwd">请输入密码</string>
+    <string name="txt_enter_login_name">请输入账号或手机号</string>
+    <string name="txt_enter_login_pwd">请输入登录密码</string>
 
     <string name="txt_reset">重置</string>
     <string name="txt_confirm">确定</string>
