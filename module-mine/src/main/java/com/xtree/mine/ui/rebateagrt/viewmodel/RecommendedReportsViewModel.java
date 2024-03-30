@@ -72,6 +72,21 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
             getRecommendedReportsData();
         }
     };
+    private final RecommendedReportsHeadModel headModel = new RecommendedReportsHeadModel(new RecommendedReportsHeadModel.OnCallBack() {
+        @Override
+        public void cyclicality(String title, ObservableField<StatusVo> cycly, List<FilterView.IBaseVo> list) {
+            showFilter(title, cycly, list);
+        }
+
+        @Override
+        public void check() {
+            getRecommendedReportsData();
+        }
+    });
+    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
+        headModel.setItemType(1);
+        add(headModel);
+    }};
 
     public RecommendedReportsViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
@@ -93,18 +108,7 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
         empty.setItemType(2);
         datas.setValue(bindModels);
         getRecommendedReportsData();
-    }    private final RecommendedReportsHeadModel headModel = new RecommendedReportsHeadModel(new RecommendedReportsHeadModel.OnCallBack() {
-        @Override
-        public void cyclicality(String title, ObservableField<StatusVo> cycly, List<FilterView.IBaseVo> list) {
-            showFilter(title, cycly, list);
-        }
-
-        @Override
-        public void check() {
-            getRecommendedReportsData();
-        }
-    });
-
+    }
     public void setActivity(FragmentActivity mActivity) {
         this.mActivity = new WeakReference<>(mActivity);
     }
@@ -116,11 +120,7 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
                 value.set(new StatusVo(vo.getShowId(), vo.getShowName()));
             }
         });
-    }    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
-        headModel.setItemType(1);
-        add(headModel);
-    }};
-
+    }
     private synchronized void getRecommendedReportsData() {
         if (getmCompositeDisposable() != null) {
             getmCompositeDisposable().clear();
