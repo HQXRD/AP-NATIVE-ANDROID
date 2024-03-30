@@ -11,7 +11,7 @@ import me.xtree.mvvmhabit.base.BaseApplication;
  */
 public class GameSubordinateagrtModel extends BindModel {
 
-    private String sname;
+    private String sname = "未创建";
     private String status = "-1";
     private int statusColor = R.color.clr_txt_rebateagrt_default;
 

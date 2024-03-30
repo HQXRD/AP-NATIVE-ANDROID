@@ -501,9 +501,8 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                     public void onResult(GameSubordinateAgrteResponse vo) {
                         if (vo != null) {
 
-                            subData = vo;
-
                             if (gameSubordinateAgrteRequest.p <= 1) {
+                                subData = vo;
                                 subordinateAgrtDatas.clear();
                                 subordinateAgrtDatas.add(gameSubordinateagrtHeadModel);
                             }
@@ -523,6 +522,11 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                     model.setStatus(dataDTO.getStatus());
                                     model.setSname(dataDTO.getSname());
                                     subordinateAgrtDatas.add(model);
+
+                                    //如果不是第一次请求则直接插入更新subData
+                                    if (gameSubordinateAgrteRequest.p > 1) {
+                                        subData.getData().add(dataDTO);
+                                    }
                                 }
                             } else {
                                 if (gameSubordinateAgrteRequest.p <= 1) {

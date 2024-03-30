@@ -1,5 +1,6 @@
 package com.xtree.mine.vo.response;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.xtree.mvvmhabit.http.BaseResponse2;
@@ -26,7 +27,7 @@ public class GameSubordinateAgrteResponse extends BaseResponse2 {
     private int isget;
     private String pageinfo;
     private List<?> markct;
-    private List<DataDTO> data;
+    private ArrayList<DataDTO> data;
     private List<ChildrenDTO> children;
     private GetDTO get;
     private String type;
@@ -175,11 +176,11 @@ public class GameSubordinateAgrteResponse extends BaseResponse2 {
         this.markct = markct;
     }
 
-    public List<DataDTO> getData() {
+    public ArrayList<DataDTO> getData() {
         return data;
     }
 
-    public void setData(List<DataDTO> data) {
+    public void setData(ArrayList<DataDTO> data) {
         this.data = data;
     }
 
