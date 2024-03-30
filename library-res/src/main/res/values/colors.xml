@@ -447,4 +447,10 @@
     <color name="clr_txt_rebateagrt_fail">#FD5255</color>
     <!--    标记颜色-->
     <color name="clr_txt_rebateagrt_mark">#FD5255</color>
+    <!--    标题-->
+    <color name="clr_txt_rebateagrt_title">#121B47</color>
+    <!--    副标题-->
+    <color name="clr_txt_rebateagrt_subtitle">#99A0B1</color>
+    <!--    高亮-->
+    <color name="clr_txt_rebateagrt_highlight">#0065FF</color>
 </resources>
