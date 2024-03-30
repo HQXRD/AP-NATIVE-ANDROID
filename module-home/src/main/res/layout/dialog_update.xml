@@ -119,23 +119,19 @@
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
             app:layout_constraintStart_toStartOf="@id/ivw_bg">
 
-            <ImageView
+            <TextView
                 android:id="@+id/dialog_update_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:background="@mipmap/cm_dialog_update_cancel"
-                android:visibility="visible"
-                tools:visibility="visible" />
+                style="@style/style_btn_back"
+                android:text="@string/txt_cancel"
+                android:textColor="@color/clr_txt_grey_04"
+                android:textSize="14sp" />
 
-            <ImageView
+            <TextView
                 android:id="@+id/dialog_update_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:background="@mipmap/cm_dialog_update_confirm"
-                android:visibility="visible"
-                tools:visibility="visible" />
+                style="@style/style_btn"
+                android:text="@string/txt_confirm"
+                android:textSize="14sp" />
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
