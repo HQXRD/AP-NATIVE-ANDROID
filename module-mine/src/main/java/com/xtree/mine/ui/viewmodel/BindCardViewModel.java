@@ -11,6 +11,7 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.vo.AWVo;
 import com.xtree.mine.vo.BankCardVo;
 import com.xtree.mine.vo.UserBankConfirmVo;
 import com.xtree.mine.vo.UserBankProvinceVo;
@@ -30,6 +31,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class BindCardViewModel extends BaseViewModel<MineRepository> {
 
     public SingleLiveData<UserBindBaseVo<BankCardVo>> liveDataCardList = new SingleLiveData<>();
+    public SingleLiveData<UserBindBaseVo<AWVo>> liveDataAWList = new SingleLiveData<>();
     public SingleLiveData<UserBankProvinceVo> liveDataBankProvinceList = new SingleLiveData<>();
     public SingleLiveData<List<UserBankProvinceVo.AreaVo>> liveDataCityList = new SingleLiveData<>();
     public SingleLiveData<UserBankConfirmVo> liveDataBindCardCheck = new SingleLiveData<>(); // 绑定银行卡确认
@@ -37,6 +39,8 @@ public class BindCardViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<UserBankConfirmVo> liveDataDelCardCheck = new SingleLiveData<>(); // 锁定银行卡-检查
     public SingleLiveData<UserBankConfirmVo> liveDataDelCardResult = new SingleLiveData<>(); // 锁定银行卡结果
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>(); // 个人信息
+    final String TYPE_ALIPAY = "alipay";
+    final String TYPE_WECHAT = "wechat";
 
     public BindCardViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
@@ -54,6 +58,41 @@ public class BindCardViewModel extends BaseViewModel<MineRepository> {
                             ToastUtils.showLong(vo.message); // 页面超时！请重试。
                         } else {
                             liveDataCardList.setValue(vo);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getAWList(HashMap map, String type) {
+        String path = "";
+        switch (type) {
+            case "aplipay": {
+                path = "UserOnepayZfbInfo";
+                break;
+            }
+            case "wechat": {
+                path = "UserOnepayWxInfo";
+                break;
+            }
+        }
+        Disposable disposable = (Disposable) model.getApiService().getAWList(path, map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<UserBindBaseVo<AWVo>>() {
+                    @Override
+                    public void onResult(UserBindBaseVo<AWVo> vo) {
+                        CfLog.d("******");
+                        if (vo.msg_type == 1) {
+                            ToastUtils.showLong(vo.message); // 页面超时！请重试。
+                        } else {
+                            liveDataAWList.setValue(vo);
                         }
                     }
 

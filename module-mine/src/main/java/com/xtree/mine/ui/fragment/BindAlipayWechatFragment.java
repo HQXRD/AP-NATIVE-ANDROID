@@ -23,7 +23,7 @@ import com.xtree.mine.databinding.FragmentBindAwBinding;
 import com.xtree.mine.databinding.ItemBindAwBinding;
 import com.xtree.mine.ui.viewmodel.BindCardViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.mine.vo.BankCardVo;
+import com.xtree.mine.vo.AWVo;
 
 import java.util.HashMap;
 
@@ -34,17 +34,17 @@ import me.xtree.mvvmhabit.base.BaseFragment;
  */
 @Route(path = RouterFragmentPath.Mine.PAGER_BIND_ALIPAY_WECHAT)
 public class BindAlipayWechatFragment extends BaseFragment<FragmentBindAwBinding, BindCardViewModel> {
-    private static final String ARG_TOKEN_SIGN = "tokenSign";
-    private static final String ARG_MARK = "mark";
-    private static final String ARG_TYPE = "type";
-    private static final String TYPE_ALIPAY = "alipay";
-    private static final String TYPE_WECHAT = "wechat";
+    private final String ARG_TOKEN_SIGN = "tokenSign";
+    private final String ARG_MARK = "mark";
+    private final String ARG_TYPE = "type";
+    private final String TYPE_ALIPAY = "alipay";
+    private final String TYPE_WECHAT = "wechat";
 
     private String tokenSign;
-    private String mark = "bindcard";
+    private String mark;
     private String type;
 
-    CachedAutoRefreshAdapter<BankCardVo> mAdapter;
+    CachedAutoRefreshAdapter<AWVo> mAdapter;
 
     public BindAlipayWechatFragment() {
     }
@@ -71,7 +71,7 @@ public class BindAlipayWechatFragment extends BaseFragment<FragmentBindAwBinding
             startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_AW_ADD, getArguments());
         });
 
-        mAdapter = new CachedAutoRefreshAdapter<BankCardVo>() {
+        mAdapter = new CachedAutoRefreshAdapter<AWVo>() {
 
             @NonNull
             @Override
@@ -83,17 +83,19 @@ public class BindAlipayWechatFragment extends BaseFragment<FragmentBindAwBinding
             @Override
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 ItemBindAwBinding binding2 = ItemBindAwBinding.bind(holder.itemView);
-                BankCardVo vo = get(position);
+                AWVo vo = get(position);
                 switch (type) {
                     case TYPE_ALIPAY: {
                         binding2.tvName.setText(R.string.txt_alipay_name);
                         binding2.tvNickname.setText(R.string.txt_alipay_name);
                         binding2.tvCode.setText(R.string.txt_alipay_name);
+                        break;
                     }
                     case TYPE_WECHAT: {
                         binding2.tvName.setText(R.string.txt_wechat_name);
                         binding2.tvNickname.setText(R.string.txt_wechat_name);
                         binding2.tvCode.setText(R.string.txt_wechat_name);
+                        break;
                     }
                 }
             }
@@ -109,15 +111,21 @@ public class BindAlipayWechatFragment extends BaseFragment<FragmentBindAwBinding
             tokenSign = getArguments().getString(ARG_TOKEN_SIGN);
             mark = getArguments().getString(ARG_MARK);
             type = getArguments().getString(ARG_TYPE);
-            switch (type) {
-                case TYPE_ALIPAY: {
-                    binding.tvwTitle.setText(getString(R.string.txt_bind_alipay));
-                }
-                case TYPE_WECHAT: {
-                    binding.tvwTitle.setText(getString(R.string.txt_bind_wechat));
-                }
-            }
+        }
+    }
 
+    @Override
+    public void initData() {
+        super.initData();
+        switch (type) {
+            case TYPE_ALIPAY: {
+                binding.tvwTitle.setText(getString(R.string.txt_bind_alipay));
+                break;
+            }
+            case TYPE_WECHAT: {
+                binding.tvwTitle.setText(getString(R.string.txt_bind_wechat));
+                break;
+            }
         }
     }
 
@@ -139,12 +147,12 @@ public class BindAlipayWechatFragment extends BaseFragment<FragmentBindAwBinding
 
     @Override
     public void initViewObservable() {
-        viewModel.liveDataCardList.observe(this, vo -> {
+        viewModel.liveDataAWList.observe(this, vo -> {
             CfLog.i("******");
             // 如果是列表为空的情况,跳到增加页,并关闭当前页(关闭是因为有时会提示最多只能绑定0张卡,或者死循环)
-            if (vo.status == 1) {
-                binding.tvwAdd.performClick(); // 跳到增加绑定页
-                requireActivity().finish();
+            if (vo.banklist.isEmpty()) {
+                //binding.tvwAdd.performClick(); // 跳到增加绑定页
+                //requireActivity().finish();
                 return;
             }
 
@@ -152,17 +160,21 @@ public class BindAlipayWechatFragment extends BaseFragment<FragmentBindAwBinding
                 CfLog.i("****** 这是列表");
                 mAdapter.clear();
                 mAdapter.addAll(vo.banklist);
-                for (int i = 0; i < vo.banklist.size(); i++) {
-                    if (vo.banklist.get(i).status.equals("3")) {
-                        binding.tvwAdd.setVisibility(View.GONE);
-                    }
-                }
             }
 
             if (!TextUtils.isEmpty(vo.num)) {
-                String txt = "<font color=#EE5A5A>" + vo.num + "</font>";
-                String html = getString(R.string.txt_bind_most_cards, txt);
-                binding.tvwTip.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
+                String txt = "";
+                switch (type) {
+                    case TYPE_ALIPAY: {
+                        txt = getString(R.string.txt_alipay);
+                        break;
+                    }
+                    case TYPE_WECHAT: {
+                        txt = getString(R.string.txt_wechat);
+                        break;
+                    }
+                }
+                binding.tvwTip.setText(String.format(getString(R.string.txt_bind_most_aw), vo.num, txt));
 
                 int max = Integer.parseInt(vo.num);
                 int count = Integer.parseInt(vo.binded);
@@ -181,7 +193,7 @@ public class BindAlipayWechatFragment extends BaseFragment<FragmentBindAwBinding
         map.put("check", tokenSign);
         map.put("mark", mark);
         map.put("client", "m");
-        viewModel.getBankCardList(map);
+        viewModel.getAWList(map, type);
     }
 
 }

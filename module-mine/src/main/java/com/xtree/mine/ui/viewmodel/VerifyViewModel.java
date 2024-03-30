@@ -457,11 +457,11 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                 break;
             case Constant.BIND_ALIPAY:
                 //"绑定支付宝"
-                startAlipayWechat("aplipay");
+                startAlipayWechat(ctx, vo, "aplipay");
                 return;
             case Constant.BIND_WECHAT:
                 //"绑定微信"
-                startAlipayWechat("wechat");
+                startAlipayWechat(ctx, vo, "wechat");
                 return;
 
             default:
@@ -477,10 +477,15 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
         ctx.startActivity(it);*/
     }
 
-    private void startAlipayWechat(String type) {
+    private void startAlipayWechat(Context ctx, VerifyVo vo, String type) {
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
-        startContainerActivity(RouterFragmentPath.Mine.PAGER_BIND_ALIPAY_WECHAT, bundle);
+        bundle.putString("mark", vo.mark);
+        bundle.putString("tokenSign", vo.tokenSign);
+        Intent intent = new Intent(ctx, ContainerActivity.class);
+        intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_BIND_ALIPAY_WECHAT);
+        intent.putExtra(ContainerActivity.BUNDLE, bundle);
+        ctx.startActivity(intent);
     }
 
     private void startUsdt(Context ctx, String title, String remind, VerifyVo vo) {

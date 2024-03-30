@@ -3,6 +3,7 @@ package com.xtree.mine.data.source.http.service;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.mine.vo.AWVo;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
@@ -210,6 +211,13 @@ public interface HttpApiService {
      */
     @GET("/user/userbankinfo?")
     Flowable<UserBindBaseVo<BankCardVo>> getBankCardList(@QueryMap Map<String, String> map);
+
+    /**
+     * 获取用户已绑定的支付宝/微信列表
+     * /user/{path}?check=***&mark=bindcard&client=m
+     */
+    @GET("/user/{path}?")
+    Flowable<UserBindBaseVo<AWVo>> getAWList(@Path("path") String path , @QueryMap Map<String, String> map);
 
     /**
      * 获取银行列表/省列表

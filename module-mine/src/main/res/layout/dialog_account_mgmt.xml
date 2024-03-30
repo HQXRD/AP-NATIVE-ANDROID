@@ -99,12 +99,12 @@
 
         <TextView
             style="@style/style_choose_account"
-            android:tag="bindalipay"
+            android:tag="bindcardzfb"
             android:text="@string/txt_bind_alipay" />
 
         <TextView
             style="@style/style_choose_account"
-            android:tag="bindwechat"
+            android:tag="bindcardwx"
             android:text="@string/txt_bind_wechat" />
 
     </LinearLayout>

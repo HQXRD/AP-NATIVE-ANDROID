@@ -32,8 +32,8 @@ public class Constant {
     public static final String BIND_GOBAO = "bindgobao"; // 绑定gobao
     public static final String BIND_GOPAY = "bindgopay"; // 绑定GOPAY
     public static final String BIND_OKPAY = "bindokpay"; // 绑定OKPAY
-    public static final String BIND_ALIPAY = "bindalipay"; // 绑定支付宝
-    public static final String BIND_WECHAT = "bindwechat"; // 绑定微信
+    public static final String BIND_ALIPAY = "bindcardzfb"; // 绑定支付宝
+    public static final String BIND_WECHAT = "bindcardwx"; // 绑定微信
     public static final String VERIFY_LOGIN = "verify_login"; // 异地登录/换设备登录 (补)
 
     public static final String URL_DEPOSIT_FEEDBACK = "/webapp/#/depositFeedback"; // 充值—反馈
