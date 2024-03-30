@@ -9,10 +9,14 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.drake.brv.BindingAdapter;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.ui.rebateagrt.fragment.GameDividendAgrtFragment;
@@ -136,7 +140,13 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                                 }
                             }
                         }
-                        datas.setValue(newDatas);
+
+                        if (newDatas.size() > 0) {
+                            datas.setValue(newDatas);
+                        } else {
+                            showTip();
+                        }
+
                     }
                 });
         addSubscribe(disposable);
@@ -144,6 +154,30 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
 
     public void setActivity(FragmentActivity mActivity) {
         this.mActivity = new WeakReference<>(mActivity);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private BasePopupView pop = null;
+    private void showTip() {
+        MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_kind_tips), "您没有相关契约", true, new TipDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+
+            }
+
+            @Override
+            public void onClickRight() {
+                if (pop != null) {
+                    pop.dismiss();
+                    finish();
+                }
+            }
+        });
+
+        pop = new XPopup.Builder(mActivity.get())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog).show();
     }
 
     @Override
