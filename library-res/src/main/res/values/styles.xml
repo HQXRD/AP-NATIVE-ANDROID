@@ -134,7 +134,7 @@
     <!-- 我的-12个菜单 黑色字 -->
     <style name="style_menu_black" parent="style_menu_white">
         <item name="android:minEms">4</item>
-        <item name="android:textColor">@color/clr_txt_02</item>
+        <item name="android:textColor">@color/clr_txt_01</item>
     </style>
 
     <!-- 我的-安全中心 菜单 -->
