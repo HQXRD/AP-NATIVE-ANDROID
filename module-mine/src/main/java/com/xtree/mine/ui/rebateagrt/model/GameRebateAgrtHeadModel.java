@@ -21,46 +21,18 @@ import me.xtree.mvvmhabit.base.BaseApplication;
  */
 public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
 
-    public interface onCallBack {
-        void selectStartDate(ObservableField<String> startDate);
-        void selectEndDate(ObservableField<String> endDate);
-        void selectStatus(ObservableField<StatusVo> state, List<FilterView.IBaseVo> listStatus);
-        void check(StatusVo state, String startDate, String endDate);
-        void showTip();
-    }
-
     //开始时间
     public ObservableField<String> startDate = new ObservableField<>();
-
     //结束时间
     public ObservableField<String> endDate = new ObservableField<>();
-
     //状态
     public ObservableField<StatusVo> state = new ObservableField<>();
-
     //昨日分红
     public ObservableField<String> yesterdayRebate = new ObservableField<>();
-
-    private onCallBack onCallBack = null;
-
     //分页索引
     public int p = 1;
     //page count
     public int pn = 20;
-
-    public void setOnCallBack(GameRebateAgrtHeadModel.onCallBack onCallBack) {
-        this.onCallBack = onCallBack;
-    }
-
-    public GameRebateAgrtHeadModel() {
-        initData();
-    }
-
-    public GameRebateAgrtHeadModel(onCallBack onCallBack) {
-        this.onCallBack = onCallBack;
-        initData();
-    }
-
     public List<FilterView.IBaseVo> listStatus = new ArrayList<FilterView.IBaseVo>() {
         {
             // 0-所有状态
@@ -71,6 +43,20 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
             add(new StatusVo(2, BaseApplication.getInstance().getString(R.string.txt_unreceived)));
         }
     };
+    private onCallBack onCallBack = null;
+
+    public GameRebateAgrtHeadModel() {
+        initData();
+    }
+
+    public GameRebateAgrtHeadModel(onCallBack onCallBack) {
+        this.onCallBack = onCallBack;
+        initData();
+    }
+
+    public void setOnCallBack(GameRebateAgrtHeadModel.onCallBack onCallBack) {
+        this.onCallBack = onCallBack;
+    }
 
     private void initData() {
         Calendar calendar = Calendar.getInstance();
@@ -124,5 +110,17 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
     public String formatAmout(String amout) {
 
         return amout;
+    }
+
+    public interface onCallBack {
+        void selectStartDate(ObservableField<String> startDate);
+
+        void selectEndDate(ObservableField<String> endDate);
+
+        void selectStatus(ObservableField<StatusVo> state, List<FilterView.IBaseVo> listStatus);
+
+        void check(StatusVo state, String startDate, String endDate);
+
+        void showTip();
     }
 }

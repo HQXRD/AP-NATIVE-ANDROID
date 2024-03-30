@@ -34,18 +34,19 @@ import me.xtree.mvvmhabit.bus.RxBus;
 @Route(path = RouterFragmentPath.Mine.PAGER_DIVIDENDAGRT_CHECK_DIALOG)
 public class DividendAgrtCheckDialogFragment extends BaseDialogFragment<DialogDividendagrtCheckBinding, DividendAgrtCheckViewModel> {
 
+    private DividendAgrtCheckDialogFragment() {
+    }
+
     /**
      * 启动弹窗
+     *
      * @param activity 获取FragmentManager
-     * @param model 入参
+     * @param model    入参
      */
     public static void show(FragmentActivity activity, DividendAgrtCheckRequest model) {
         RxBus.getDefault().postSticky(model);
         DividendAgrtCheckDialogFragment fragment = new DividendAgrtCheckDialogFragment();
         fragment.show(activity.getSupportFragmentManager(), DividendAgrtCheckDialogFragment.class.getName());
-    }
-
-    private DividendAgrtCheckDialogFragment() {
     }
 
     @Override

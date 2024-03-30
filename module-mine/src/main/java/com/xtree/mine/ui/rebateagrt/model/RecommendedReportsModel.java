@@ -8,11 +8,11 @@ import com.xtree.base.mvvm.recyclerview.BindModel;
  */
 public class RecommendedReportsModel extends BindModel {
     private String userName = "-";
-    private String bet = "-";;
-    private String profitloss = "-";;
-    private String people = "-";;
-    private String label = "-";;
-    private String cycle = "-";;
+    private String bet = "-";
+    private String profitloss = "-";
+    private String people = "-";
+    private String label = "-";
+    private String cycle = "-";
     private String subMoney;
 
     public String getUserName() {

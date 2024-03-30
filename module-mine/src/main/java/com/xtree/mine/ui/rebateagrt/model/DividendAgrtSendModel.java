@@ -12,6 +12,7 @@ import me.xtree.mvvmhabit.base.BaseApplication;
  * Describe:
  */
 public class DividendAgrtSendModel extends BindModel {
+    public ObservableField<Boolean> checked = new ObservableField<>(false);
     private String userName = "-";
     private String bet = "-";
     private String netloss = "-";
@@ -27,7 +28,6 @@ public class DividendAgrtSendModel extends BindModel {
     private String payStatuText = BaseApplication.getInstance().getString(R.string.txt_noagrement);
     private int payStatuColor = R.color.color_rebateagrt_state_bg_nodividend;
     private String userid = "";
-    public ObservableField<Boolean> checked = new ObservableField<>(false);
 
     public String getUserName() {
         return userName;

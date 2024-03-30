@@ -19,7 +19,7 @@ public class GameSubordinateagrtModel extends BindModel {
     private String userID;
     private String signTime;
     private String effectDate;
-    private String ruleRatio ;
+    private String ruleRatio;
     private String createTime;
 
     public int getStatusColor() {

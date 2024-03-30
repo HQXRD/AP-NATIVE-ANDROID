@@ -39,23 +39,9 @@ import me.xtree.mvvmhabit.bus.RxBus;
  */
 public class RebateAgreementViewModel extends BaseViewModel<MineRepository> implements ToolbarModel {
 
-    public RebateAgreementViewModel(@NonNull Application application) {
-        super(application);
-    }
-
-    public RebateAgreementViewModel(@NonNull Application application, MineRepository model) {
-        super(application, model);
-    }
-
-    private WeakReference<FragmentActivity> mActivity = null;
-
     private final MutableLiveData<String> titleData = new MutableLiveData<>(
             getApplication().getString(R.string.rebate_agrt_title)
     );
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    public MutableLiveData<ArrayList<RebateAreegmentModel>> datas = new MutableLiveData<>();
-
     private final ArrayList<RebateAreegmentModel> bindModels = new ArrayList<RebateAreegmentModel>() {
         {
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LIVE));
@@ -69,13 +55,13 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREBATE));
         }
     };
-
-    public MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(new ArrayList<Integer>(){
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public MutableLiveData<ArrayList<RebateAreegmentModel>> datas = new MutableLiveData<>();
+    public MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(new ArrayList<Integer>() {
         {
             add(R.layout.item_rebate_agreement);
         }
     });
-
     public BaseDatabindingAdapter.onBindListener onBindListener = new BaseDatabindingAdapter.onBindListener() {
 
         @Override
@@ -111,6 +97,15 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
             }
         }
     };
+    private WeakReference<FragmentActivity> mActivity = null;
+
+    public RebateAgreementViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public RebateAgreementViewModel(@NonNull Application application, MineRepository model) {
+        super(application, model);
+    }
 
     public void initData() {
 

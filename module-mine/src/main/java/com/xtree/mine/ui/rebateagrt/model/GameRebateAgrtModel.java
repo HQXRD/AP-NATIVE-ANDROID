@@ -9,7 +9,7 @@ import me.xtree.mvvmhabit.base.BaseApplication;
  * Created by KAKA on 2024/3/11.
  * Describe: 游戏场馆返水列表数据
  */
-public class GameRebateAgrtModel extends BindModel{
+public class GameRebateAgrtModel extends BindModel {
 
     //日投注额
     public String betAmoutDay;
@@ -27,8 +27,8 @@ public class GameRebateAgrtModel extends BindModel{
     public String date;
     //状态
     private String status;
-    private String statusString = BaseApplication.getInstance().getString(R.string.txt_unreceived);;
-    private int statusColor = R.color.clr_txt_rebateagrt_fail;;
+    private String statusString = BaseApplication.getInstance().getString(R.string.txt_unreceived);
+    private int statusColor = R.color.clr_txt_rebateagrt_fail;
 
     public void setStatus(String status) {
         if (status != null && !status.isEmpty()) {
