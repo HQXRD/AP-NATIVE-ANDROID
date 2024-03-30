@@ -341,12 +341,4 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
             mActivity = null;
         }
     }
-
-
-
-
-
-
-
-
 }
