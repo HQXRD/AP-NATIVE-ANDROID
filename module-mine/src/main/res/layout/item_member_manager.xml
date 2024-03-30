@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/layout_margin"
             android:drawableStart="@mipmap/me_wallet_left_icon"
-            android:padding="@dimen/layout_margin"
+            android:drawablePadding="3dp"
             android:text="moyu00"
             android:textColor="@color/clr_black"
             android:textSize="@dimen/bt_text_16sp"

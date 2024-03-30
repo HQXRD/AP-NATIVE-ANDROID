@@ -52,12 +52,12 @@ public class MemberManagerAdapter extends CachedAutoRefreshAdapter<MemberUserInf
 
         if (vo.userid.equals(SPUtils.getInstance().getString(SPKeyGlobal.USER_ID))) {
             binding.tvwSomeoneSelf.setVisibility(View.VISIBLE);
-            binding.btnTransfor.setVisibility(View.GONE);
+            //binding.btnTransfor.setVisibility(View.GONE);
         }
 
-        if (isShow && vo.recharge) {
-            binding.btnTransfor.setVisibility(View.VISIBLE);
-        }
+        //if (isShow && vo.recharge) {
+        //    binding.btnTransfor.setVisibility(View.VISIBLE);
+        //}
 
         binding.tvwUserName.setText(vo.username);
         binding.tvwReturnPoint.setText((int) (Double.parseDouble(vo.userpoint) * 100) + "%");
@@ -75,8 +75,8 @@ public class MemberManagerAdapter extends CachedAutoRefreshAdapter<MemberUserInf
             mCallBack.onClick(vo, ACCOUNT_RECORD);
         });
 
-        binding.btnTransfor.setOnClickListener(v -> {
-            mCallBack.onClick(vo, TRANSFER_MEMBER);
-        });
+        //binding.btnTransfor.setOnClickListener(v -> {
+        //    mCallBack.onClick(vo, TRANSFER_MEMBER);
+        //});
     }
 }
