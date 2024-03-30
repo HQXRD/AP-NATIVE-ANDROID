@@ -106,6 +106,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
     public void initView() {
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
+        binding.tvwOldBack.setOnClickListener(v -> getActivity().finish());
 
         binding.tvwChoose.setOnClickListener(v -> showChooseType());
         binding.ivwNext.setOnClickListener(v -> doNext());
