@@ -78,6 +78,71 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
     @SuppressLint("StaticFieldLeak")
     private BasePopupView pop = null;
 
+    private final GameDividendAgrtHeadModel headModel = new GameDividendAgrtHeadModel(new GameDividendAgrtHeadModel.OnCallBack() {
+
+
+        @Override
+        public void sort(String title, ObservableField<StatusVo> sort, List<FilterView.IBaseVo> list) {
+            showFilter(title, sort, list);
+        }
+
+        @Override
+        public void cyclicality(String title, ObservableField<StatusVo> cycly, List<FilterView.IBaseVo> list) {
+            showFilter(title, cycly, list);
+        }
+
+        @Override
+        public void status(String title, ObservableField<StatusVo> statu, List<FilterView.IBaseVo> list) {
+            showFilter(title, statu, list);
+        }
+
+        @Override
+        public void check() {
+            getDividendData();
+        }
+
+        @Override
+        public void myAgrt() {
+            DividendAgrtCheckRequest dividendAgrtCheckRequest = new DividendAgrtCheckRequest();
+            dividendAgrtCheckRequest.setUserid(SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
+            dividendAgrtCheckRequest.setType(headModel.type);
+            startCheckAgrt(dividendAgrtCheckRequest);
+        }
+    });
+
+    private final GameDividendAgrtSubModel subModel = new GameDividendAgrtSubModel(new GameDividendAgrtSubModel.OnCallBack() {
+        @Override
+        public void autoSend() {
+            getAutoSend();
+        }
+
+        @Override
+        public void send() {
+            GameDividendAgrtRequest gameDividendAgrtRequest = new GameDividendAgrtRequest();
+            String[] split = headModel.sortData.get().getShowId().split("_");
+            if (split.length > 0) {
+                gameDividendAgrtRequest.sort = split[split.length - 1];
+                gameDividendAgrtRequest.orderby = split[0];
+            }
+            if (headModel.cyclyData.get() != null) {
+                gameDividendAgrtRequest.cycle_id = headModel.cyclyData.get().getShowId();
+            }
+            gameDividendAgrtRequest.type = headModel.type;
+            gameDividendAgrtRequest.username = headModel.userNameData.get();
+            gameDividendAgrtRequest.p = headModel.p;
+            gameDividendAgrtRequest.pn = headModel.pn;
+
+            DividendAgrtSendDialogFragment.show(mActivity.get(), gameDividendAgrtRequest);
+        }
+    });
+
+    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
+        headModel.setItemType(1);
+        subModel.setItemType(2);
+
+        add(headModel);
+    }};
+
     public GameDividendAgrtViewModel(@NonNull Application application) {
         super(application);
     }
@@ -114,38 +179,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
 
     public void setActivity(FragmentActivity mActivity) {
         this.mActivity = new WeakReference<>(mActivity);
-    }    private final GameDividendAgrtHeadModel headModel = new GameDividendAgrtHeadModel(new GameDividendAgrtHeadModel.OnCallBack() {
-
-
-        @Override
-        public void sort(String title, ObservableField<StatusVo> sort, List<FilterView.IBaseVo> list) {
-            showFilter(title, sort, list);
-        }
-
-        @Override
-        public void cyclicality(String title, ObservableField<StatusVo> cycly, List<FilterView.IBaseVo> list) {
-            showFilter(title, cycly, list);
-        }
-
-        @Override
-        public void status(String title, ObservableField<StatusVo> statu, List<FilterView.IBaseVo> list) {
-            showFilter(title, statu, list);
-        }
-
-        @Override
-        public void check() {
-            getDividendData();
-        }
-
-        @Override
-        public void myAgrt() {
-            DividendAgrtCheckRequest dividendAgrtCheckRequest = new DividendAgrtCheckRequest();
-            dividendAgrtCheckRequest.setUserid(SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
-            dividendAgrtCheckRequest.setType(headModel.type);
-            startCheckAgrt(dividendAgrtCheckRequest);
-        }
-    });
-
+    }
     private void showFilter(String title, ObservableField<StatusVo> value, List<FilterView.IBaseVo> listStatus) {
         FilterView.showDialog(mActivity.get(), title, listStatus, new FilterView.ICallBack() {
             @Override
@@ -162,31 +196,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
      */
     private void startCheckAgrt(DividendAgrtCheckRequest dividendAgrtCheckRequest) {
         DividendAgrtCheckDialogFragment.show(mActivity.get(), dividendAgrtCheckRequest);
-    }    private final GameDividendAgrtSubModel subModel = new GameDividendAgrtSubModel(new GameDividendAgrtSubModel.OnCallBack() {
-        @Override
-        public void autoSend() {
-            getAutoSend();
-        }
-
-        @Override
-        public void send() {
-            GameDividendAgrtRequest gameDividendAgrtRequest = new GameDividendAgrtRequest();
-            String[] split = headModel.sortData.get().getShowId().split("_");
-            if (split.length > 0) {
-                gameDividendAgrtRequest.sort = split[split.length - 1];
-                gameDividendAgrtRequest.orderby = split[0];
-            }
-            if (headModel.cyclyData.get() != null) {
-                gameDividendAgrtRequest.cycle_id = headModel.cyclyData.get().getShowId();
-            }
-            gameDividendAgrtRequest.type = headModel.type;
-            gameDividendAgrtRequest.username = headModel.userNameData.get();
-            gameDividendAgrtRequest.p = headModel.p;
-            gameDividendAgrtRequest.pn = headModel.pn;
-
-            DividendAgrtSendDialogFragment.show(mActivity.get(), gameDividendAgrtRequest);
-        }
-    });
+    }
 
     private synchronized void getDividendData() {
         if (getmCompositeDisposable() != null) {
@@ -380,12 +390,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                     }
                 });
         addSubscribe(disposable);
-    }    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
-        headModel.setItemType(1);
-        subModel.setItemType(2);
-
-        add(headModel);
-    }};
+    }
 
     /**
      * 提示弹窗
@@ -429,14 +434,4 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
             mActivity = null;
         }
     }
-
-
-
-
-
-
-
-
-
-
 }

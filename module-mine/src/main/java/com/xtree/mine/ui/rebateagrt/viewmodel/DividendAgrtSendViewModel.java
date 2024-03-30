@@ -62,13 +62,21 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
                 }
             });
     private final MutableLiveData<String> titleData = new MutableLiveData<>(getApplication().getString(R.string.txt_manualdividendpayout_title));
+    //合计数额
+    public MutableLiveData<String> total = new MutableLiveData<>("0.00");
+    //可用余额
+    public MutableLiveData<String> availablebalance = new MutableLiveData<>("0.00");
+    private GameDividendAgrtRequest gameDividendAgrtRequest;
+    private WeakReference<FragmentActivity> mActivity = null;
+
     private final DividendAgrtSendHeadModel headModel = new DividendAgrtSendHeadModel();
     private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
         headModel.setItemType(1);
         add(headModel);
     }};
-    //合计数额
-    public MutableLiveData<String> total = new MutableLiveData<>("0.00");
+    @SuppressLint("StaticFieldLeak")
+    private BasePopupView pop;
+
     public final BaseDatabindingAdapter.onBindListener onBindListener = new BaseDatabindingAdapter.onBindListener() {
 
         @Override
@@ -86,10 +94,6 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
         }
 
     };
-    //可用余额
-    public MutableLiveData<String> availablebalance = new MutableLiveData<>("0.00");
-    private GameDividendAgrtRequest gameDividendAgrtRequest;
-    private WeakReference<FragmentActivity> mActivity = null;
     /**
      * 列表加载
      */
@@ -100,8 +104,6 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
             getDividendData();
         }
     };
-    @SuppressLint("StaticFieldLeak")
-    private BasePopupView pop;
 
     public DividendAgrtSendViewModel(@NonNull Application application) {
         super(application);

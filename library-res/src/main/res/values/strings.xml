@@ -29,6 +29,7 @@
     <string name="txt_bind_gobao">绑定GOBAO</string>
     <string name="txt_bind_gopay">绑定GOPAY</string>
     <string name="txt_bind_okpay">绑定OKPAY</string>
+    <string name="txt_bind_google">绑定</string>
 
     <string name="txt_remind_card">请输入16到19位数字</string>
     <string name="txt_remind_usdt_trc20">TRC20_USDT地址以T开头的数字和字母组成的34位</string>
@@ -228,9 +229,9 @@
     <string name="txt_withdraw_input_err">资金密码不能为空</string>
     <string name="txt_withdraw_input_length_err">资金密码长度为6个字符</string>
     <string name="txt_withdraw_input_char_err">资金密码由6位纯数字组成</string>
-    <string name="txt_withdraw_next">下一步</string>
-    <string name="txt_withdraw_previous">上一步</string>\
-    <string name="txt_withdraw_confirm_next">继续提现</string>
+    <string name="txt_withdraw_next">确认提交</string>
+    <string name="txt_withdraw_previous">返回上一步</string>\
+    <string name="txt_withdraw_confirm_next">还要提现</string>
     <string name="txt_withdraw_close">关闭提现</string>
     <string name="txt_withdraw_balance_money">您的余额不足，无法提款</string>
     <string name="txt_withdraw_fun_timeout">资金密码有效期已过期，请重新输入后提款</string>
