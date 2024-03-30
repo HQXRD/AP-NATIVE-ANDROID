@@ -512,31 +512,17 @@
                     android:layout_marginTop="20dp"
                     android:orientation="vertical">
 
-                    <Button
+                    <TextView
                         android:id="@+id/iv_next"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/me_bg_withdrawal_next"
-                        android:text="下一步"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
+                        style="@style/style_cm_btn_round"
+                        android:text="@string/txt_next_step" />
 
-                    <!-- <ImageView
-                         android:id="@+id/iv_next"
-                         android:layout_width="match_parent"
-                         android:layout_height="wrap_content"
-                         android:background="@mipmap/cm_btn_withdrawal_next" />-->
-
-                    <ImageView
+                    <TextView
                         android:id="@+id/iv_previous"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:background="@mipmap/cm_btn_withdrawal_previous"
-                        android:visibility="invisible" />
+                        style="@style/style_cm_btn_round"
+                        android:text="@string/txt_previous_step"
+                        android:visibility="invisible"
+                        tools:visibility="visible" />
 
                 </LinearLayout>
 

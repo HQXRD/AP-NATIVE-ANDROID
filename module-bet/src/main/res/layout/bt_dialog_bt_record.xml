@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:background="@mipmap/bt_car_pop_top"
-            app:layout_constraintTop_toTopOf="parent"/>
+            android:background="@drawable/bg_main_frame"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <RelativeLayout
             android:id="@+id/ll_root"
@@ -31,20 +31,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:textSize="18sp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:tabIndicatorFullWidth="false"
-                    app:tabRippleColor="@android:color/transparent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:tabIndicatorColor="@color/bt_color_under_bg_primary_text"
+                    app:tabIndicatorFullWidth="false"
                     app:tabIndicatorHeight="3dp"
                     app:tabMinWidth="20dp"
                     app:tabMode="scrollable"
                     app:tabPaddingEnd="20dp"
-                    app:tabPaddingStart="20dp" />
+                    app:tabPaddingStart="20dp"
+                    app:tabRippleColor="@android:color/transparent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <include android:id="@+id/ll_empty" layout="@layout/bt_layout_record_empty" />
+            <include
+                android:id="@+id/ll_empty"
+                layout="@layout/bt_layout_record_empty" />
 
             <androidx.core.widget.NestedScrollView
                 android:id="@+id/nsv_option"
@@ -52,11 +54,11 @@
                 android:layout_height="match_parent"
                 android:layout_above="@+id/csl_bottom"
                 android:layout_below="@+id/csl_top"
-                android:background="@mipmap/bt_bg_dialog_bt"
                 android:layout_marginTop="10dp"
+                android:background="@mipmap/bt_bg_dialog_bt"
+                android:fillViewport="true"
                 android:paddingTop="5dp"
                 android:scrollbars="none"
-                android:fillViewport="true"
                 android:visibility="gone">
 
                 <com.xtree.bet.weight.AnimatedExpandableListViewMax
@@ -64,37 +66,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="15dp"
-                    android:scrollbars="none"
                     android:background="@android:color/transparent"
                     android:childIndicator="@null"
-                    android:paddingTop="5dp"
                     android:defaultFocusHighlightEnabled="false"
                     android:divider="@android:color/transparent"
                     android:dividerHeight="0dp"
                     android:groupIndicator="@null"
-                    android:listSelector="@android:color/transparent"/>
+                    android:listSelector="@android:color/transparent"
+                    android:paddingTop="5dp"
+                    android:scrollbars="none" />
             </androidx.core.widget.NestedScrollView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/csl_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:background="@color/bt_page_up_bg"
                 android:visibility="gone"
-                android:layout_alignParentBottom="true">
+                tools:visibility="visible">
 
                 <TextView
                     android:id="@+id/tv_close"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="center"
-                    android:background="@mipmap/cm_bg_btn"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="6dp"
+                    style="@style/style_cm_btn_round"
                     android:text="@string/bt_bt_btn_colse"
-                    android:textColor="@color/bt_color_under_bg_primary_text"
-                    android:textSize="@dimen/bt_text_16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
