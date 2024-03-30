@@ -69,29 +69,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
     public MutableLiveData<RebateAgrtSearchUserResultModel> searchUserResultLiveData = new MutableLiveData<>();
     private RebateAgrtDetailModel rebateAgrtDetailModel;
     private WeakReference<FragmentActivity> mActivity = null;
-    private final RebateAgrtCreateHeadModel headModel = new RebateAgrtCreateHeadModel(new Consumer<String>() {
-        @Override
-        public void accept(String s) throws Exception {
-            RebateAgrtSearchUserDialogFragment.show(mActivity.get(), rebateAgrtDetailModel);
-        }
-    });
-
-    public RebateAgrtCreateViewModel(@NonNull Application application) {
-        super(application);
-    }
-
-    public RebateAgrtCreateViewModel(@NonNull Application application, MineRepository model) {
-        super(application, model);
-    }
-
-    public void initData(RebateAgrtDetailModel response) {
-        //init data
-        rebateAgrtDetailModel = response;
-        initMode();
-        initTab();
-        formatItem();
-        datas.setValue(bindModels);
-    }    public final BaseDatabindingAdapter.onBindListener onBindListener = new BaseDatabindingAdapter.onBindListener() {
+    public final BaseDatabindingAdapter.onBindListener onBindListener = new BaseDatabindingAdapter.onBindListener() {
 
         @Override
         public void onBind(@NonNull BindingAdapter.BindingViewHolder bindingViewHolder, @NonNull View view, int itemViewType) {
@@ -124,7 +102,45 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
         }
 
     };
+    private final RebateAgrtCreateHeadModel headModel = new RebateAgrtCreateHeadModel(new Consumer<String>() {
+        @Override
+        public void accept(String s) throws Exception {
+            RebateAgrtSearchUserDialogFragment.show(mActivity.get(), rebateAgrtDetailModel);
+        }
+    });
+    private final RebateAgrtCreateAddModel addModel = new RebateAgrtCreateAddModel(new Consumer<String>() {
+        @Override
+        public void accept(String s) throws Exception {
+            RebateAgrtCreateModel model = new RebateAgrtCreateModel();
+            bindModels.add(model);
+            formatItem();
+            datas.setValue(bindModels);
+        }
+    });
+    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
+        headModel.setItemType(1);
+        addModel.setItemType(2);
+        add(addModel);
+        add(headModel);
 
+    }};
+
+    public RebateAgrtCreateViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public RebateAgrtCreateViewModel(@NonNull Application application, MineRepository model) {
+        super(application, model);
+    }
+
+    public void initData(RebateAgrtDetailModel response) {
+        //init data
+        rebateAgrtDetailModel = response;
+        initMode();
+        initTab();
+        formatItem();
+        datas.setValue(bindModels);
+    }
     private void initMode() {
         if (rebateAgrtDetailModel.getCheckUserId() != null) {
             //查看契约模式
@@ -178,16 +194,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
         }
         usreNames.deleteCharAt(usreNames.lastIndexOf(","));
         headModel.user.set(usreNames.toString());
-    }    private final RebateAgrtCreateAddModel addModel = new RebateAgrtCreateAddModel(new Consumer<String>() {
-        @Override
-        public void accept(String s) throws Exception {
-            RebateAgrtCreateModel model = new RebateAgrtCreateModel();
-            bindModels.add(model);
-            formatItem();
-            datas.setValue(bindModels);
-        }
-    });
-
+    }
     private void formatItem() {
         //设置小标题
         for (int i = 0; i < bindModels.size(); i++) {
@@ -293,14 +300,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
                 });
         addSubscribe(disposable);
 
-    }    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
-        headModel.setItemType(1);
-        addModel.setItemType(2);
-        add(addModel);
-        add(headModel);
-
-    }};
-
+    }
     private void initTab() {
         switch (rebateAgrtDetailModel.getSubData().getType()) {
             case "2": //LIVE
