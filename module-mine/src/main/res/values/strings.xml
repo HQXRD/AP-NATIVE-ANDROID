@@ -328,7 +328,7 @@
     <string name="txt_account_name">开户名：</string>
     <string name="txt_bank_account">银行账户：</string>
     <string name="txt_account_successful">账户提款申请成功</string>
-    <string name="txt_account_suc_message">账户提款申请成功提款进度请关注站内信通知</string>
+    <string name="txt_account_suc_message">(账户提款申请成功提款进度请关注站内信通知)</string>
     <string name="txt_rate_tip">汇率:</string>
     <string name="txt_actual_number">实际到账个数:</string>
     <string name="txt_receive_usdt_account">收到USDT账户</string>
