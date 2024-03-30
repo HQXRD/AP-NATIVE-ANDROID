@@ -73,11 +73,11 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (binding.llCheckUsername.edtResetPasswordUsername.getText().toString().length() == 0) {
                     binding.llCheckUsername.twvResetPasswordUsername.setVisibility(View.VISIBLE);
-                    binding.llCheckUsername.tvwResetPasswordNext.setBackground(getResources().getDrawable(R.drawable.bg_gray_r12));
+                    binding.llCheckUsername.tvwResetPasswordNext.setEnabled(false);
                     mIsClickable = false;
                 } else {
                     binding.llCheckUsername.twvResetPasswordUsername.setVisibility(View.GONE);
-                    binding.llCheckUsername.tvwResetPasswordNext.setBackground(getResources().getDrawable(R.drawable.bg_main_r12));
+                    binding.llCheckUsername.tvwResetPasswordNext.setEnabled(true);
                     mIsClickable = true;
                 }
             }
@@ -116,16 +116,16 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
                 if (binding.llCheckOtp.edtSetOpt.getText().toString().length() == 0) {
                     binding.llCheckOtp.twvSetOtpError.setVisibility(View.VISIBLE);
                     binding.llCheckOtp.twvSetOtpError.setText(R.string.txt_otp_can_not_null);
-                    binding.llCheckOtp.tvwResetPasswordNext.setBackground(getResources().getDrawable(R.drawable.bg_gray_r12));
+                    binding.llCheckOtp.tvwResetPasswordNext.setEnabled(false);
                     mIsClickable = false;
                 } else if (binding.llCheckOtp.edtSetOpt.getText().toString().length() == 6) {
                     binding.llCheckOtp.twvSetOtpError.setVisibility(View.GONE);
-                    binding.llCheckOtp.tvwResetPasswordNext.setBackground(getResources().getDrawable(R.drawable.bg_main_r12));
+                    binding.llCheckOtp.tvwResetPasswordNext.setEnabled(true);
                     mIsClickable = true;
                 } else {
                     binding.llCheckOtp.twvSetOtpError.setVisibility(View.VISIBLE);
                     binding.llCheckOtp.twvSetOtpError.setText(R.string.txt_otp_not_six_number);
-                    binding.llCheckOtp.tvwResetPasswordNext.setBackground(getResources().getDrawable(R.drawable.bg_gray_r12));
+                    binding.llCheckOtp.tvwResetPasswordNext.setEnabled(false);
                     mIsClickable = false;
                 }
             }

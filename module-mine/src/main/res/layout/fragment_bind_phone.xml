@@ -77,9 +77,10 @@
             style="@style/style_info_grey_50"
             android:text="@string/txt_phone_will_help_u" />
 
-        <ImageView
+        <TextView
             android:id="@+id/ivw_ok"
-            style="@style/style_ok" />
+            style="@style/style_cm_btn_round"
+            android:text="@string/txt_confirm" />
 
         <LinearLayout
             android:layout_width="match_parent"

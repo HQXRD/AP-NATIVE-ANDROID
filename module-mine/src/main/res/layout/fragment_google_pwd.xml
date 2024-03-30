@@ -127,14 +127,8 @@
 
             <Button
                 android:id="@+id/btn_bind"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="4dp"
-                android:background="@drawable/bt_bg_fund_password_sure"
-                android:maxWidth="100dp"
-                android:text="@string/txt_bind_google"
-                android:textColor="@color/clr_bg_frame_32" />
+                style="@style/style_cm_btn_round"
+                android:text="绑定" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -121,7 +121,7 @@
 
                     <EditText
                         android:id="@+id/et_answer1"
-                        style="@style/style_set_security_question_edit"
+                        style="@style/style_set_fund_psw_edit"
                         android:layout_toRightOf="@id/tv_unreceived_orders1"
 
                         android:hint="@string/txt_set_question1_tip"
@@ -148,7 +148,7 @@
 
                     <TextView
                         android:id="@+id/tvw_question2"
-                        style="@style/style_set_security_question_edit"
+                        style="@style/style_set_fund_psw_edit"
                         android:layout_toRightOf="@id/tv_unreceived_orders3"
                         android:drawableEnd="@mipmap/bt_icon_expand"
                         android:hint="@string/txt_set_question2_tip2"
@@ -195,7 +195,6 @@
                 android:layout_marginRight="20dp"
                 android:background="@drawable/me_security_questin_btn_selector"
                 android:gravity="center"
-
                 android:text="@string/txt_set_security_question_tip"
                 android:textColor="@color/white"
                 android:textSize="16sp" />

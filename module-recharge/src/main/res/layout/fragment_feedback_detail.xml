@@ -404,14 +404,12 @@
 
                 </LinearLayout>
 
-                <ImageView
+                <TextView
                     android:id="@+id/ivw_next"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="24dp"
-                    android:background="@mipmap/cm_btn_next"
-                    android:visibility="gone" />
+                    style="@style/style_cm_btn_round"
+                    android:text="@string/txt_next_step"
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

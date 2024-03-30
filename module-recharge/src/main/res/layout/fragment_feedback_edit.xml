@@ -715,29 +715,16 @@
                             android:layout_height="wrap_content"
                             android:layout_alignTop="@id/iv_selector_tip_image_bottom"
                             android:layout_toRightOf="@id/iv_selector_tip_image_bottom"
-                            android:text="@string/txt_tip_input_image"
-
-                            />
+                            android:text="@string/txt_tip_input_image" />
 
                     </RelativeLayout>
 
                 </LinearLayout>
 
-                <Button
+                <TextView
                     android:id="@+id/ivw_next"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginRight="40dp"
-                    android:background="@drawable/bt_bg_fund_password_sure"
-                    android:gravity="center"
-                    android:text="@string/txt_next_step"
-                    android:textColor="@color/clr_bg_frame_32"
-                    app:layout_constraintEnd_toEndOf="@id/dialog_update_cancel"
-                    app:layout_constraintTop_toTopOf="@id/btn_cancel" />
-
+                    style="@style/style_cm_btn_round"
+                    android:text="@string/txt_next_step" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 
