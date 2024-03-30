@@ -60,7 +60,11 @@ public class MemberManagerAdapter extends CachedAutoRefreshAdapter<MemberUserInf
         //}
 
         binding.tvwUserName.setText(vo.username);
-        binding.tvwReturnPoint.setText((int) (Double.parseDouble(vo.userpoint) * 100) + "%");
+        if (vo.userpoint != null) {
+            binding.tvwReturnPoint.setText((int) (Double.parseDouble(vo.userpoint) * 100) + "%");
+        } else {
+            binding.tvwReturnPoint.setText("0%");
+        }
         binding.tvwMemberNum.setText(vo.children_num);
         binding.tvwUserBalance.setText(vo.availablebalance);
         binding.tvwMemberBalance.setText(vo.team_balance);
