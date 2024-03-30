@@ -48,6 +48,9 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                 }
             });
     private final MutableLiveData<String> titleData = new MutableLiveData<>(getApplication().getString(R.string.txt_dividendagrt_title));
+    public MutableLiveData<RebateAgrtSearchUserResultModel> searchUserResultLiveData = new MutableLiveData<>();
+    private DividendAgrtCheckRequest dividendAgrtCheckRequest;
+    private WeakReference<FragmentActivity> mActivity = null;
     private final RebateAgrtCreateHeadModel headModel = new RebateAgrtCreateHeadModel();
     private final RebateAgrtCreateAddModel addModel = new RebateAgrtCreateAddModel();
     private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
@@ -60,10 +63,6 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
         add(headModel);
         add(footModel);
     }};
-    public MutableLiveData<RebateAgrtSearchUserResultModel> searchUserResultLiveData = new MutableLiveData<>();
-    private DividendAgrtCheckRequest dividendAgrtCheckRequest;
-    private WeakReference<FragmentActivity> mActivity = null;
-
     public DividendAgrtCheckViewModel(@NonNull Application application) {
         super(application);
     }

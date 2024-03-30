@@ -103,14 +103,6 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 }
             });
 
-    public GameRebateAgrtViewModel(@NonNull Application application) {
-        super(application);
-    }
-    public GameRebateAgrtViewModel(@NonNull Application application, MineRepository model) {
-        super(application, model);
-
-    }
-
     public final BaseDatabindingAdapter.onBindListener onBindListener = new BaseDatabindingAdapter.onBindListener() {
 
         @Override
@@ -157,47 +149,6 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                     getSubordinateRebateData();
                     break;
             }
-        }
-    };
-
-    private final ArrayList<BindModel> subordinateRebateDatas = new ArrayList<BindModel>() {
-        {
-            gameSubordinaterebateHeadModel.setItemType(5);
-            add(gameSubordinaterebateHeadModel);
-        }
-    };
-
-    private final GameSubordinateagrtHeadModel.onCallBack gameSubordinateagrtHeadModelCallBack = new GameSubordinateagrtHeadModel.onCallBack() {
-        @Override
-        public void selectStatus(ObservableField<StatusVo> state, List<FilterView.IBaseVo> listStatus) {
-            FilterView.showDialog(mActivity.get(), getApplication().getString(R.string.status), listStatus, new FilterView.ICallBack() {
-                @Override
-                public void onTypeChanged(FilterView.IBaseVo vo) {
-                    state.set(new StatusVo(vo.getShowId(), vo.getShowName()));
-                }
-            });
-        }
-
-        @Override
-        public void check(StatusVo state, String searchName) {
-            getSubordinateAgrteData();
-        }
-    };
-
-    private final GameSubordinaterebateHeadModel.onCallBack gameSubordinaterebateHeadModelCallBack = new GameSubordinaterebateHeadModel.onCallBack() {
-        @Override
-        public void selectStartDate(ObservableField<String> startDate) {
-            setStartDate(startDate);
-        }
-
-        @Override
-        public void selectEndDate(ObservableField<String> endDate) {
-            setEndDate(endDate);
-        }
-
-        @Override
-        public void check(String userName, String startDate, String endDate) {
-            getSubordinateRebateData();
         }
     };
 
@@ -252,6 +203,40 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         }
     };
 
+    private final GameSubordinateagrtHeadModel.onCallBack gameSubordinateagrtHeadModelCallBack = new GameSubordinateagrtHeadModel.onCallBack() {
+        @Override
+        public void selectStatus(ObservableField<StatusVo> state, List<FilterView.IBaseVo> listStatus) {
+            FilterView.showDialog(mActivity.get(), getApplication().getString(R.string.status), listStatus, new FilterView.ICallBack() {
+                @Override
+                public void onTypeChanged(FilterView.IBaseVo vo) {
+                    state.set(new StatusVo(vo.getShowId(), vo.getShowName()));
+                }
+            });
+        }
+
+        @Override
+        public void check(StatusVo state, String searchName) {
+            getSubordinateAgrteData();
+        }
+    };
+
+    private final GameSubordinaterebateHeadModel.onCallBack gameSubordinaterebateHeadModelCallBack = new GameSubordinaterebateHeadModel.onCallBack() {
+        @Override
+        public void selectStartDate(ObservableField<String> startDate) {
+            setStartDate(startDate);
+        }
+
+        @Override
+        public void selectEndDate(ObservableField<String> endDate) {
+            setEndDate(endDate);
+        }
+
+        @Override
+        public void check(String userName, String startDate, String endDate) {
+            getSubordinateRebateData();
+        }
+    };
+
     private final GameRebateAgrtHeadModel gameRebateAgrtHeadModel = new GameRebateAgrtHeadModel(gameRebateAgrtHeadModelCallBack);
 
     private final GameSubordinateagrtHeadModel gameSubordinateagrtHeadModel = new GameSubordinateagrtHeadModel(gameSubordinateagrtHeadModelCallBack);
@@ -262,13 +247,24 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
         gameRebateAgrtHeadModel.setItemType(1);
         add(gameRebateAgrtHeadModel);
     }};
-
     private final ArrayList<BindModel> subordinateAgrtDatas = new ArrayList<BindModel>() {{
         gameSubordinateagrtHeadModel.setItemType(3);
         add(gameSubordinateagrtHeadModel);
     }};
-
+    private final ArrayList<BindModel> subordinateRebateDatas = new ArrayList<BindModel>() {
+        {
+            gameSubordinaterebateHeadModel.setItemType(5);
+            add(gameSubordinaterebateHeadModel);
+        }
+    };
     private final BindModel empty = new BindModel();
+
+    public GameRebateAgrtViewModel(@NonNull Application application) {
+        super(application);
+    }
+    public GameRebateAgrtViewModel(@NonNull Application application, MineRepository model) {
+        super(application, model);
+    }
 
     public void initData(RebateAreegmentTypeEnum type) {
         //init data
@@ -384,7 +380,6 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 return "";
         }
     }
-
     private String getSubordinateRebateDataURL() {
         switch (type) {
             case LIVE:
@@ -480,7 +475,6 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 });
         addSubscribe(disposable);
     }
-
     private synchronized void getSubordinateAgrteData() {
         if (getmCompositeDisposable() != null) {
             getmCompositeDisposable().clear();
@@ -667,7 +661,6 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
             RebateAgrtCreateDialogFragment.show(mActivity.get(), rebateAgrtDetailModel);
         }
     }
-
     /**
      * 查看契约
      */
@@ -698,7 +691,6 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 break;
         }
     }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
