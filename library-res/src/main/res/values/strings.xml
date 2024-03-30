@@ -219,6 +219,7 @@
     <!--魔域 提款文本-->
     <string name="txt_withdraw_password">输入资金密码</string>
     <string name="txt_withdraw_password_tip">请输入资金密码</string>
+    <string name="txt_withdraw_choose">请选择提款方式</string>
     <string name="txt_withdraw_sure">确认</string>
     <string name="txt_withdraw_cancel">取消</string>
     <string name="txt_withdraw_tip">请妥善保管好您的资金密码,如遗忘请使用密保功能找回或联系在线客服</string>

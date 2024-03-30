@@ -110,6 +110,7 @@ public class AwardsRecordDialog extends BottomPopupView {
                 binding.tvChooseTip.setText(tipText);
                 binding.llChooseTip.setVisibility(View.VISIBLE);
                 binding.lvChoose.setVisibility(View.GONE);
+                binding.tvWithdrawalAwardsTitle.setVisibility(View.GONE);
             }
         }
 

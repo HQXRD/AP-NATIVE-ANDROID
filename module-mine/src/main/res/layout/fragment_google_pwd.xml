@@ -107,7 +107,7 @@
 
             <EditText
                 android:id="@+id/edt_googlepsw"
-                style="@style/style_cm_edt"
+                style="@style/style_rc_feedback_eon_edit"
                 android:layout_marginLeft="0dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="0dp"
@@ -127,12 +127,14 @@
 
             <Button
                 android:id="@+id/btn_bind"
-                style="@style/style_bind_google_btn_next"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="-2dp" />
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="4dp"
+                android:background="@drawable/bt_bg_fund_password_sure"
+                android:maxWidth="100dp"
+                android:text="@string/txt_bind_google"
+                android:textColor="@color/clr_bg_frame_32" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

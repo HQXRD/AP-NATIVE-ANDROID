@@ -215,11 +215,11 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         binding.llOverViewApply.ivContinueConfirmNext.setOnClickListener(v -> {
             dismiss();
         });
-        //关闭提现
+       /* //关闭提现
         binding.llOverViewApply.ivContinueConfirmClose.setOnClickListener(V -> {
             dismiss();
             bankClose.closeBankWithdrawal();
-        });
+        });*/
 
     }
 
@@ -714,9 +714,9 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         binding.llOverViewApply.ivContinueConfirmNext.setOnClickListener(v -> {
             dismiss();
         });
-        binding.llOverViewApply.ivContinueConfirmClose.setOnClickListener(v -> {
+      /*  binding.llOverViewApply.ivContinueConfirmClose.setOnClickListener(v -> {
             dismiss();
-        });
+        });*/
 
     }
 

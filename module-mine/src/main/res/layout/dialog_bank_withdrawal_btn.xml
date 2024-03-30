@@ -14,7 +14,7 @@
         android:id="@+id/cl_bank_status"
         android:layout_width="75dp"
         android:layout_height="26dp"
-        android:background="@drawable/me_bg_withdrawal_next"
+        android:background="@drawable/me_bg_withdrawal_money_selector"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

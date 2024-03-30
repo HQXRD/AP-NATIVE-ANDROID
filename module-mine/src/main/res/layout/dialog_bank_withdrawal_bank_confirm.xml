@@ -41,7 +41,7 @@
             <TextView
                 android:id="@+id/tv_confirm_withdrawal_type_show"
                 style="@style/style_withdraw_confirm_value"
-                tools:text="" />
+                tools:text="DEMO" />
         </LinearLayout>
 
         <View style="@style/style_withdraw_dividing_line" />
@@ -134,39 +134,36 @@
 
         <View style="@style/style_withdraw_dividing_line" />
 
-        <Button
-            android:id="@+id/iv_confirm_next"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="20dp"
+            android:layout_height="80dp"
             android:layout_marginTop="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/me_bg_withdrawal_next"
-            android:text="@string/txt_withdraw_next"
-            android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/iv_confirm_previous"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/bg_dialog_withdraw_close"
-            android:text="@string/txt_withdraw_previous"
-            android:textColor="@color/update_progress_start_color"
-            android:textSize="16sp" />
-        <!-- <ImageView
-             android:id="@+id/iv_confirm_previous"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content"
-             android:layout_below="@id/iv_confirm_next"
-             android:layout_marginTop="10dp"
-             android:background="@mipmap/cm_btn_withdrawal_previous" />-->
+            <Button
+                android:id="@+id/iv_confirm_previous"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_dialog_withdraw_close"
+                android:text="@string/txt_withdraw_previous"
+                android:textColor="@color/clr_withdrawal_text_bg"
+                android:textSize="16sp" />
 
+            <Button
+                android:id="@+id/iv_confirm_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/me_bg_withdrawal_next"
+                android:text="@string/txt_withdraw_next"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
     </LinearLayout>
 
     <include
@@ -177,7 +174,7 @@
         android:layout_marginTop="80dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone" />
+        android:visibility="visible" />
     <!--显示状态 3 确认提款信息View-->
 
 </LinearLayout>

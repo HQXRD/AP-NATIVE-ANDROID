@@ -9,7 +9,7 @@
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
-    <!-- -->
+    <!-- bg_dialog_withdraw_close-->
     <LinearLayout
         android:id="@+id/ll_choose_usdt"
         android:layout_width="match_parent"

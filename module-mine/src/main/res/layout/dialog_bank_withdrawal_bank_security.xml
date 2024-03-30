@@ -25,7 +25,7 @@
 
             <TextView
                 android:id="@+id/tv_user_name_show"
-                style="@style/style_withdraw_confirm_value"
+                style="@style/style_withdraw_confirm_left_value"
                 tools:text="1231231" />
         </LinearLayout>
 
@@ -39,7 +39,7 @@
 
             <TextView
                 android:id="@+id/tv_withdrawal_type_show"
-                style="@style/style_withdraw_confirm_value"
+                style="@style/style_withdraw_confirm_left_value"
                 tools:text="1231231" />
         </LinearLayout>
 
@@ -53,7 +53,7 @@
 
             <TextView
                 android:id="@+id/tv_withdrawal_amount_method"
-                style="@style/style_withdraw_confirm_value"
+                style="@style/style_withdraw_confirm_left_value"
                 tools:text="1231231" />
         </LinearLayout>
 
@@ -76,15 +76,15 @@
                     android:textColor="@color/clr_txt_withdraw_money"
                     android:textSize="14sp"
                     android:textStyle="bold" />
-
                 <TextView
                     android:id="@+id/tv_withdrawal_amount_show"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_withdrawal_amount"
                     android:text="@string/txt_withdrawal_min"
-                    android:textColor="@color/red"
+                    android:textColor="@color/clr_withdrawal_text_tip"
                     android:textSize="12sp" />
+
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/ll_virtual_hint"
             android:layout_marginTop="4dp">
-
+<!--android:background="@drawable/bg_withdraw_money_input"-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -121,6 +121,8 @@
                     android:drawableLeft="@mipmap/me_icon_wlt_bank"
                     android:hint="@string/txt_input_money"
                     android:inputType="numberDecimal" />
+
+
             </RelativeLayout>
 
         </LinearLayout>
@@ -228,7 +230,7 @@
                     android:layout_below="@id/tv_actual_withdrawal_next"
                     android:layout_alignLeft="@id/tv_actual_withdrawal_next"
                     android:text="@string/txt_kind_tips"
-                    android:textColor="@color/cl_withdrawal_tip"
+                    android:textColor="@color/clr_withdrawal_text_bank_tip"
                     android:textSize="14sp" />
 
                 <TextView
@@ -238,7 +240,7 @@
                     android:layout_alignLeft="@id/tv_actual_withdrawal_tip"
                     android:layout_alignRight="@id/tv_actual_withdrawal_next"
                     android:text="@string/txt_kind_tips_count"
-                    android:textColor="@color/cl_withdrawal_tip"
+                    android:textColor="@color/clr_grey_13"
                     android:textSize="14sp" />
 
             </RelativeLayout>
