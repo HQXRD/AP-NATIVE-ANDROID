@@ -84,6 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_margin"
+                android:layout_marginTop="@dimen/layout_margin"
                 android:button="@null"
                 android:drawableStart="@drawable/cm_ic_switch_selector"
                 android:drawablePadding="6dp"
@@ -250,24 +251,28 @@
                     <RadioButton
                         android:id="@+id/rdo_1"
                         style="@style/style_rdo_blc"
+                        android:layout_height="match_parent"
                         android:tag="100"
                         android:text="100" />
 
                     <RadioButton
                         android:id="@+id/rdo_2"
                         style="@style/style_rdo_blc"
+                        android:layout_height="match_parent"
                         android:tag="1000"
                         android:text="1000" />
 
                     <RadioButton
                         android:id="@+id/rdo_3"
                         style="@style/style_rdo_blc"
+                        android:layout_height="match_parent"
                         android:tag="10000"
                         android:text="10000" />
 
                     <RadioButton
                         android:id="@+id/rdo_4"
                         style="@style/style_rdo_blc"
+                        android:layout_height="match_parent"
                         android:tag="MAX"
                         android:text="MAX" />
 
