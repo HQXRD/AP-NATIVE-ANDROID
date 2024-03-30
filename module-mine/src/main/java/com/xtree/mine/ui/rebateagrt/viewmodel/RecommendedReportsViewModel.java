@@ -46,9 +46,7 @@ import me.xtree.mvvmhabit.http.BusinessException;
  */
 public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> implements ToolbarModel {
 
-
     private final MutableLiveData<String> titleData = new MutableLiveData<>();
-    private final BindModel empty = new BindModel();
     public MutableLiveData<ArrayList<BindModel>> datas = new MutableLiveData<ArrayList<BindModel>>(new ArrayList<>());
     public MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
@@ -60,9 +58,7 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
             });
     private RebateAreegmentTypeEnum type;
     private WeakReference<FragmentActivity> mActivity = null;
-    public RecommendedReportsViewModel(@NonNull Application application) {
-        super(application);
-    }    /**
+    /**
      * 列表加载
      */
     public OnLoadMoreListener onLoadMoreListener = new OnLoadMoreListener() {
@@ -87,7 +83,11 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
         headModel.setItemType(1);
         add(headModel);
     }};
+    private final BindModel empty = new BindModel();
 
+    public RecommendedReportsViewModel(@NonNull Application application) {
+        super(application);
+    }
     public RecommendedReportsViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
     }
