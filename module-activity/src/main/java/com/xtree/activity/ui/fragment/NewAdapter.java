@@ -55,7 +55,8 @@ public class NewAdapter extends CachedAutoRefreshAdapter<NewVo> {
         }
         TagUtils.tagEvent(ctx, "dc", vo.id);
         String url = getString(vo);
-        new XPopup.Builder(ctx).moveUpToKeyboard(false).asCustom(new BrowserDialog(ctx, vo.title, url, true, true)).show();
+        //new XPopup.Builder(ctx).moveUpToKeyboard(false).asCustom(new BrowserDialog(ctx, vo.title, url, true, true)).show();
+        new XPopup.Builder(ctx).moveUpToKeyboard(false).asCustom(BrowserDialog.newInstance(ctx, url)).show();
 
         //Intent it = new Intent(ctx, BrowserActivity.class);
         //it.putExtra("url", url);
@@ -68,15 +69,19 @@ public class NewAdapter extends CachedAutoRefreshAdapter<NewVo> {
         //线上id
         //添加測試id：198 上線後刪除
         if (vo.id == 173) {
-            url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/1?aid=173";
+            //url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/1?aid=173";
+            url = DomainUtil.getDomain2() + "/webapp/?isNative=1#/newactivity/64/1?aid=173";
         } else if (vo.id == 174) {
-            url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/5?aid=174";
-       //} else if (vo.id == 198) {
-       //     url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/5?aid=198";
+            //url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/5?aid=174";
+            url = DomainUtil.getDomain2() + "/webapp/?isNative=1#/newactivity/64/5?aid=174";
+            //} else if (vo.id == 198) {
+            //     url = DomainUtil.getDomain2() + "/webapp/?isNative=1#/newactivity/64/5?aid=198";
         } else if (vo.id == 135) {
-            url = DomainUtil.getDomain2() + "/webapp/#/turntable/135";
+            //url = DomainUtil.getDomain2() + "/webapp/#/turntable/135";
+            url = DomainUtil.getDomain2() + "/webapp/?isNative=1#/turntable/135";
         } else {
-            url = DomainUtil.getDomain2() + "/webapp/#" + vo.url;
+            //url = DomainUtil.getDomain2() + "/webapp/#" + vo.url;
+            url = DomainUtil.getDomain2() + "/webapp/?isNative=1#" + vo.url; // /webapp/?isNative=1#/activity/245
         }
         return url;
     }
