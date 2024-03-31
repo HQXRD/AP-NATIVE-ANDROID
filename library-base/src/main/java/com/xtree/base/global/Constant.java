@@ -37,7 +37,8 @@ public class Constant {
     public static final String URL_DEPOSIT_FEEDBACK = "/webapp/#/depositFeedback"; // 充值—反馈
     public static final String URL_MY_MESSAGES = "/webapp/#/my/messages"; // 消息中心
     public static final String URL_CUSTOMER_SERVICE = "/webapp/#/customerService"; // 客服中心
-    public static final String URL_VIP_CENTER = "/webapp/#/vipcenter"; // VIP中心
+    //public static final String URL_VIP_CENTER = "/webapp/#/vipcenter"; // VIP中心
+    public static final String URL_VIP_CENTER = "/webapp/?isNative=1#/vipcenter"; // VIP中心
     public static final String URL_WITHDRAW = "/webapp/#/withdraw"; // 提现
     public static final String URL_PROFIT_LOSS = "/webapp/#/report/reports/eprofitloss"; // 盈亏报表
     public static final String URL_3RD_TRANSFER = "/webapp/#/report/reports/3rd_transfer"; // 第三方转账
@@ -53,7 +54,9 @@ public class Constant {
     public static final String URL_BET_RECORD = "/webapp/#/report/bet-record"; // 投注记录
     public static final String URL_ACCOUNT_CHANGE = "/webapp/#/report/account-change"; // 账变记录
     public static final String URL_DW_RECORD = "/webapp/#/report/dw-record"; // 充提记录
-    public static final String URL_INVITE_FRIEND = "/webapp/#/activity/141"; // 邀请好友
+    //public static final String URL_INVITE_FRIEND = "/webapp/#/activity/141"; // 邀请好友
+    public static final String URL_INVITE_FRIEND = "/webapp/?isNative=1#/activity/141"; // 邀请好友
+    public static final String URL_DC_CENTER = "/webapp/?isNative=1#/report/team/activity/reward"; // 优惠中心
     public static final String URL_APP_CENTER = "/webapp/#/features"; // 底部几个菜单中间的那个
     public static final String URL_LOTTERY_INFO = "/static/activity/xc/lotteryInfo.html"; // 彩种信息
     public static final String URL_PLAY_INTRO = "/static/activity/xc/rulesInfo.html"; // 玩法介绍
