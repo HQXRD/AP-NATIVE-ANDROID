@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * H5调用安卓的方法
@@ -32,6 +33,7 @@ public class WebAppInterface {
     final String TYPE_VIP = "goVip";
     final String TYPE_BACK = "goBack";
     final String TYPE_CLOSE = "close";
+    final String TYPE_ERROR_MSG = "errorMsg";
 
     private Context context;
 
@@ -100,6 +102,12 @@ public class WebAppInterface {
                 break;
             case TYPE_BACK:
             case TYPE_CLOSE:
+                close();
+                break;
+            case TYPE_ERROR_MSG:
+                if (map.containsKey("msg")) {
+                    ToastUtils.showError(map.get("msg").toString());
+                }
                 close();
                 break;
             default:
