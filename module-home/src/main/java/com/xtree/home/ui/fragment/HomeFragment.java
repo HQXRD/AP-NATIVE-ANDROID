@@ -103,7 +103,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         super.onResume();
         refresh();
 
-        KLog.i("测试显示隐藏", "onResumeHome");
+        KLog.i("onResumeHome"); // 测试显示隐藏
     }
 
     private void refresh() {
@@ -122,10 +122,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         super.onHiddenChanged(hidden);
         CfLog.i("****** hidden: " + hidden);
         if (hidden) {   // 隐藏
-            KLog.i("测试显示隐藏", "HideOnHiddenChangedHome");
+            KLog.i("HideOnHiddenChangedHome"); // 测试显示隐藏
         } else {  // 第一次可见，不会执行到这里，只会执行onResume
             //网络数据刷新
-            KLog.i("测试显示隐藏", "ShowOnHiddenChangedHome");
+            KLog.i("ShowOnHiddenChangedHome"); // 测试显示隐藏
             refresh();
         }
     }
@@ -391,7 +391,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             // 会员
             KLog.i("**************");
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
-            BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
+            //BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
+            BrowserActivity.start(getContext(), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER);
             //new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url, true)).show();
         });
 
