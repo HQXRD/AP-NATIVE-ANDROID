@@ -55,7 +55,7 @@ public class CommissionsReportsViewModel extends BaseViewModel<MineRepository> i
     public void initData(RebateAreegmentTypeEnum type) {
         //init data
         curMonth();
-        getmCompositeDisposable();
+        getData();
     }
 
     public void setActivity(FragmentActivity mActivity) {

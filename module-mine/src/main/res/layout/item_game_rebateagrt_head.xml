@@ -32,6 +32,7 @@
                 android:textColor="@color/clr_white"
                 android:layout_margin="16dp"
                 android:onClick="@{() -> m.showTip()}"
+                android:visibility="@{m.tipVisible?View.VISIBLE:View.GONE}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
