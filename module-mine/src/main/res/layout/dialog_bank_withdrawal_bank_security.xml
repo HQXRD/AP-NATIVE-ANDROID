@@ -227,6 +227,8 @@
                     android:id="@+id/tv_actual_withdrawal_tip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@mipmap/cm_ic_hint_main"
                     android:layout_below="@id/tv_actual_withdrawal_next"
                     android:layout_alignLeft="@id/tv_actual_withdrawal_next"
                     android:text="@string/txt_kind_tips"

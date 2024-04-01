@@ -578,7 +578,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         if (binding.nsSetWithdrawalRequest.getVisibility() == View.VISIBLE) {
             binding.bankWithdrawalView.tvWithdrawalAmountShow.setText(textSource);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                binding.bankWithdrawalView.tvWithdrawalAmountShow.setTextColor(getContext().getColor(R.color.red));
+                binding.bankWithdrawalView.tvWithdrawalAmountShow.setTextColor(getContext().getColor(R.color.clr_withdrawal_text_tip));
             }
             String bankInfoString = bankCardCashVo.banks.get(0).bank_name + " " + bankCardCashVo.banks.get(0).account;
             binding.bankWithdrawalView.tvActualWithdrawalAmountBankShow.setText(bankInfoString);
@@ -586,7 +586,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         } else if (binding.nsSetWithdrawalRequestMore.getVisibility() == View.VISIBLE) {
             binding.tvWithdrawalAmountShowMore.setText(textSource);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                binding.bankWithdrawalView.tvWithdrawalAmountShow.setTextColor(getContext().getColor(R.color.red));
+                binding.bankWithdrawalView.tvWithdrawalAmountShow.setTextColor(getContext().getColor(R.color.clr_withdrawal_text_tip));
             }
             binding.tvActualWithdrawalAmountBankShowMore.setText(bankCardCashVo.banks.get(0).bank_name + " " + bankCardCashVo.banks.get(0).account);
         }
