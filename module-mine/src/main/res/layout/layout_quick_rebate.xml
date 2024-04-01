@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout"
@@ -7,187 +7,217 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:background="@drawable/bg_white_r12"
+    android:orientation="vertical"
     android:padding="12dp"
     app:layout_constraintTop_toBottomOf="@+id/textView3">
 
-    <TextView
-        android:id="@+id/tv_lottery"
-        style="@style/style_filter_info_value"
-        android:text="彩票返点"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_lottery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/type_lottery"
-        style="@style/style_filter_info_spn"
-        android:layout_width="0dp"
-        android:textColor="@color/tv_color_reg_pro"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_lottery"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toTopOf="@+id/tv_lottery"
-        tools:text="4.0%" />
+        <TextView
+            android:id="@+id/tv_lottery"
+            style="@style/style_filter_info_value"
+            android:text="彩票返点"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/clr_grey_080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toBottomOf="@+id/tv_lottery" />
+        <TextView
+            android:id="@+id/type_lottery"
+            style="@style/style_filter_info_spn"
+            android:layout_width="0dp"
+            android:textColor="@color/tv_color_reg_pro"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_lottery"
+            app:layout_constraintStart_toEndOf="@+id/tv_lottery"
+            app:layout_constraintTop_toTopOf="@+id/tv_lottery"
+            tools:text="4.0%" />
 
-    <TextView
-        android:id="@+id/tv_lottery_rebate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/txt_reg_rebate"
-        android:textColor="@color/clr_txt_warn"
-        android:textSize="@dimen/bt_text_12sp"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toBottomOf="@+id/tv_lottery" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/clr_grey_080"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_lottery"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lottery" />
 
-    <TextView
-        android:id="@+id/tv_real"
-        style="@style/style_filter_info_value"
-        android:layout_marginTop="6dp"
-        android:text="真人返点"
-        app:layout_constraintStart_toStartOf="@+id/tv_lottery"
-        app:layout_constraintTop_toBottomOf="@+id/tv_lottery_rebate" />
+        <TextView
+            android:id="@+id/tv_lottery_rebate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@string/txt_reg_rebate"
+            android:textColor="@color/clr_txt_warn"
+            android:textSize="@dimen/bt_text_12sp"
+            app:layout_constraintStart_toEndOf="@+id/tv_lottery"
+            app:layout_constraintTop_toBottomOf="@+id/tv_lottery" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/type_real"
-        style="@style/style_filter_info_spn"
-        android:layout_width="0dp"
-        android:textColor="@color/tv_color_reg_pro"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_real"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toTopOf="@+id/tv_real"
-        tools:text="4.0%" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_real"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/clr_grey_080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toBottomOf="@+id/tv_real" />
+        <TextView
+            android:id="@+id/tv_real"
+            style="@style/style_filter_info_value"
+            android:layout_marginTop="6dp"
+            android:text="真人返点"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_real_rebate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_reg_rebate"
-        android:textColor="@color/clr_txt_warn"
-        android:textSize="@dimen/bt_text_12sp"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toBottomOf="@+id/tv_real" />
+        <TextView
+            android:id="@+id/type_real"
+            style="@style/style_filter_info_spn"
+            android:layout_width="0dp"
+            android:textColor="@color/tv_color_reg_pro"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_real"
+            app:layout_constraintStart_toEndOf="@+id/tv_real"
+            app:layout_constraintTop_toTopOf="@+id/tv_real"
+            tools:text="4.0%" />
 
-    <TextView
-        android:id="@+id/tv_sports"
-        style="@style/style_filter_info_value"
-        android:layout_marginTop="6dp"
-        android:text="体育返点"
-        app:layout_constraintStart_toStartOf="@+id/tv_lottery"
-        app:layout_constraintTop_toBottomOf="@+id/tv_real_rebate" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/clr_grey_080"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_real"
+            app:layout_constraintTop_toBottomOf="@+id/tv_real" />
 
-    <TextView
-        android:id="@+id/type_sports"
-        style="@style/style_filter_info_spn"
-        android:layout_width="0dp"
-        android:textColor="@color/tv_color_reg_pro"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_sports"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toTopOf="@+id/tv_sports"
-        tools:text="4.0%" />
+        <TextView
+            android:id="@+id/tv_real_rebate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_reg_rebate"
+            android:textColor="@color/clr_txt_warn"
+            android:textSize="@dimen/bt_text_12sp"
+            app:layout_constraintStart_toEndOf="@+id/tv_real"
+            app:layout_constraintTop_toBottomOf="@+id/tv_real" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/clr_grey_080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sports" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_sports"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_sports_rebate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_reg_rebate"
-        android:textColor="@color/clr_txt_warn"
-        android:textSize="@dimen/bt_text_12sp"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sports" />
+        <TextView
+            android:id="@+id/tv_sports"
+            style="@style/style_filter_info_value"
+            android:layout_marginTop="6dp"
+            android:text="体育返点"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_chess"
-        style="@style/style_filter_info_value"
-        android:layout_marginTop="6dp"
-        android:text="棋牌返点"
-        app:layout_constraintStart_toStartOf="@+id/tv_lottery"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sports_rebate" />
+        <TextView
+            android:id="@+id/type_sports"
+            style="@style/style_filter_info_spn"
+            android:layout_width="0dp"
+            android:textColor="@color/tv_color_reg_pro"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_sports"
+            app:layout_constraintStart_toEndOf="@+id/tv_sports"
+            app:layout_constraintTop_toTopOf="@+id/tv_sports"
+            tools:text="4.0%" />
 
-    <TextView
-        android:id="@+id/type_chess"
-        style="@style/style_filter_info_spn"
-        android:layout_width="0dp"
-        android:textColor="@color/tv_color_reg_pro"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_chess"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toTopOf="@+id/tv_chess"
-        tools:text="4.0%" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/clr_grey_080"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_sports"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sports" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/clr_grey_080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toBottomOf="@+id/tv_chess" />
+        <TextView
+            android:id="@+id/tv_sports_rebate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_reg_rebate"
+            android:textColor="@color/clr_txt_warn"
+            android:textSize="@dimen/bt_text_12sp"
+            app:layout_constraintStart_toEndOf="@+id/tv_sports"
+            app:layout_constraintTop_toBottomOf="@+id/tv_sports" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/tv_chess_rebate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_reg_rebate"
-        android:textColor="@color/clr_txt_warn"
-        android:textSize="@dimen/bt_text_12sp"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toBottomOf="@+id/tv_chess" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_chess"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tv_game"
-        style="@style/style_filter_info_value"
-        android:layout_marginTop="6dp"
-        android:text="电竞返点"
-        app:layout_constraintStart_toStartOf="@+id/tv_lottery"
-        app:layout_constraintTop_toBottomOf="@+id/tv_chess_rebate" />
+        <TextView
+            android:id="@+id/tv_chess"
+            style="@style/style_filter_info_value"
+            android:layout_marginTop="6dp"
+            android:text="棋牌返点"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/type_game"
-        style="@style/style_filter_info_spn"
-        android:layout_width="0dp"
-        android:textColor="@color/tv_color_reg_pro"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_game"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toTopOf="@+id/tv_game"
-        tools:text="4.0%" />
+        <TextView
+            android:id="@+id/type_chess"
+            style="@style/style_filter_info_spn"
+            android:layout_width="0dp"
+            android:textColor="@color/tv_color_reg_pro"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_chess"
+            app:layout_constraintStart_toEndOf="@+id/tv_chess"
+            app:layout_constraintTop_toTopOf="@+id/tv_chess"
+            tools:text="4.0%" />
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/clr_grey_080"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toBottomOf="@+id/tv_game" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/clr_grey_080"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_chess"
+            app:layout_constraintTop_toBottomOf="@+id/tv_chess" />
 
-    <TextView
-        android:id="@+id/tv_game_rebate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_reg_rebate"
-        android:textColor="@color/clr_txt_warn"
-        android:textSize="@dimen/bt_text_12sp"
-        app:layout_constraintStart_toEndOf="@+id/tv_lottery"
-        app:layout_constraintTop_toBottomOf="@+id/tv_game" />
+        <TextView
+            android:id="@+id/tv_chess_rebate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_reg_rebate"
+            android:textColor="@color/clr_txt_warn"
+            android:textSize="@dimen/bt_text_12sp"
+            app:layout_constraintStart_toEndOf="@+id/tv_chess"
+            app:layout_constraintTop_toBottomOf="@+id/tv_chess" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_game"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_game"
+            style="@style/style_filter_info_value"
+            android:layout_marginTop="6dp"
+            android:text="电竞返点"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/type_game"
+            style="@style/style_filter_info_spn"
+            android:layout_width="0dp"
+            android:textColor="@color/tv_color_reg_pro"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_game"
+            app:layout_constraintStart_toEndOf="@+id/tv_game"
+            app:layout_constraintTop_toTopOf="@+id/tv_game"
+            tools:text="4.0%" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/clr_grey_080"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv_game"
+            app:layout_constraintTop_toBottomOf="@+id/tv_game" />
+
+        <TextView
+            android:id="@+id/tv_game_rebate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_reg_rebate"
+            android:textColor="@color/clr_txt_warn"
+            android:textSize="@dimen/bt_text_12sp"
+            app:layout_constraintStart_toEndOf="@+id/tv_game"
+            app:layout_constraintTop_toBottomOf="@+id/tv_game" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

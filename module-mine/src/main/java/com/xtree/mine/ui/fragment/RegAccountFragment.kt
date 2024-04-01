@@ -24,6 +24,7 @@ import com.xtree.base.widget.LoadingDialog
 import com.xtree.mine.BR
 import com.xtree.mine.R
 import com.xtree.mine.databinding.FragmentRegAccountBinding
+import com.xtree.mine.databinding.LayoutQuickRebateBinding
 import com.xtree.mine.ui.viewmodel.MineViewModel
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory
 import com.xtree.mine.vo.request.AdduserRequest
@@ -31,7 +32,6 @@ import me.xtree.mvvmhabit.base.BaseFragment
 import me.xtree.mvvmhabit.utils.KLog
 import me.xtree.mvvmhabit.utils.SPUtils
 import me.xtree.mvvmhabit.utils.ToastUtils
-import java.math.BigDecimal
 
 
 class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel>(), RegInterface {
@@ -42,6 +42,11 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
     private lateinit var ppwSports: BasePopupView
     private lateinit var ppwChess: BasePopupView
     private lateinit var ppwGame: BasePopupView
+    private lateinit var ppwLottery1: BasePopupView
+    private lateinit var ppwReal1: BasePopupView
+    private lateinit var ppwSports1: BasePopupView
+    private lateinit var ppwChess1: BasePopupView
+    private lateinit var ppwGame1: BasePopupView
 
     private lateinit var mProfileVo: ProfileVo
 
@@ -49,18 +54,26 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
         val json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE)
         mProfileVo = Gson().fromJson(json, ProfileVo::class.java)
         initDialog()
-        setRebate0()
-        setRebate1()
-        setRebate2()
+        createRebatePpw()
+        setRebate(binding.include0, 0)
+        setRebate(binding.include1, 1)
+
 
         binding.ckbEye.setOnCheckedChangeListener { _, isChecked -> setEdtPwd(isChecked, binding.etLoginPwd) }
         initCreateUser()
+    }
+
+    private fun createRebatePpw() {
+
     }
 
     /**
      * 初始化创建用户点击事件
      */
     private fun initCreateUser() {
+        //mProfileVo.usertype == 0 是会员
+        //mProfileVo.usertype == 1 是代理
+
         binding.apply {
             btCreateUser.setOnClickListener {
                 if (ClickUtil.isFastClick()) {
@@ -89,18 +102,13 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
                 val type: Int
                 val bd = when (binding.tvSelectType.text) {
                     mList[0] -> {
-                        type = dazhaoshang
+                        type = daili
                         binding.include0
                     }
 
                     mList[1] -> {
-                        type = zhaoshang
-                        binding.include1
-                    }
-
-                    mList[2] -> {
                         type = member
-                        binding.include2
+                        binding.include1
                     }
 
                     else -> {
@@ -111,7 +119,7 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
                 LoadingDialog.show(requireContext())
                 viewModel.adduser(
                     AdduserRequest(
-                        UuidUtil.getID(), "insert", mProfileVo.zhaoshang.toString(), type.toString(),
+                        UuidUtil.getID(), "insert", type.toString(),
                         name, pwd, nickname,
                         bd.typeLottery.removePercentage(), bd.typeReal.removePercentage(), bd.typeSports.removePercentage(),
                         bd.typeChess.removePercentage(), bd.typeGame.removePercentage()
@@ -169,20 +177,12 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
                         0 -> {
                             binding.include0.layout.visibility = View.VISIBLE
                             binding.include1.layout.visibility = View.GONE
-                            binding.include2.layout.visibility = View.GONE
                         }
 
                         1 -> {
                             //INVISIBLE 留个占位
                             binding.include0.layout.visibility = View.INVISIBLE
                             binding.include1.layout.visibility = View.VISIBLE
-                            binding.include2.layout.visibility = View.GONE
-                        }
-
-                        2 -> {
-                            binding.include0.layout.visibility = View.INVISIBLE
-                            binding.include1.layout.visibility = View.GONE
-                            binding.include2.layout.visibility = View.VISIBLE
                         }
                     }
 
@@ -192,174 +192,150 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
             }
         }
 
-        KLog.i("zhaoshang", mProfileVo.zhaoshang)
-        binding.tvSelectType.text = when (mProfileVo.zhaoshang) {
-            rootmanager, dazhaoshang -> mList[0]
-            zhaoshang, member -> {
-                binding.include0.layout.visibility = View.INVISIBLE
-                binding.include1.layout.visibility = View.GONE
-                binding.include2.layout.visibility = View.VISIBLE
-                binding.tvSelectType.isEnabled = false
-                mList[2]
-            }
-
-            else -> {
-                binding.tvSelectType.isEnabled = false
-                binding.btCreateUser.isEnabled = false
-                "未知"
-            }
-        }
+        KLog.i("usertype", mProfileVo.usertype)
+        binding.tvSelectType.text = mList[0]
         adapter.addAll(mList)
         ppw = XPopup.Builder(context).asCustom(ListDialog(requireContext(), "", adapter))
 
     }
 
     /**
-     * 大招商快速返点设置
+     * 代理/会员快速返点设置
      */
-    private fun setRebate0() {
-        binding.include0.apply {
+    private fun setRebate(
+        include: LayoutQuickRebateBinding,
+        type: Int,
+    ) {
+        include.apply {
             typeLottery.text = mProfileVo.rebate_percentage
-            typeLottery.isEnabled = false
             tvLotteryRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
-            KLog.i("maxLivePoint", Gson().toJson(mProfileVo))
-            typeReal.text = mProfileVo.maxLivePoint.toString().plus("%")
-            typeReal.isEnabled = false
-            tvRealRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
-
-            typeSports.text = mProfileVo.maxSportPoint.toString().plus("%")
-            typeSports.isEnabled = false
-            tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
-
-            typeChess.text = mProfileVo.maxEsportsPoint.toString().plus("%")
-            typeChess.isEnabled = false
-            tvChessRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
-
-            typeGame.text = mProfileVo.maxPokerPoint.toString().plus("%")
-            typeGame.isEnabled = false
-            tvGameRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
-        }
-
-
-    }
-
-    /**
-     * 招商快速返点设置
-     */
-    private fun setRebate1() {
-        binding.include1.apply {
-            typeLottery.text = mProfileVo.rebate_percentage
-            typeLottery.isEnabled = false
-            tvLotteryRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
-
-            typeReal.text = "0.9%"
-            typeReal.isEnabled = true
-            tvRealRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxLivePoint, 0.9).toString() + "%")
-
-            typeSports.text = "0.9%"
-            typeSports.isEnabled = true
-            tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxSportPoint, 0.9).toString() + "%")
-
-            typeChess.text = "0.9%"
-            typeChess.isEnabled = true
-            tvChessRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxEsportsPoint, 0.9).toString() + "%")
-
-            typeGame.text = "0.9%"
-            typeGame.isEnabled = true
-            tvGameRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxPokerPoint, 0.9).toString() + "%")
-
-
-            val list = arrayListOf(0.9, 0.8, 0.7, 0.6, 0.5)
-            typeReal.setOnClickListener {
-                //未初始化，创建ppw
-                if (!::ppwReal.isInitialized) {
-                    ppwReal = createPpw(mProfileVo.maxLivePoint, typeReal, tvRealRebate, list) { ppwReal.dismiss() }
-                }
-                ppwReal.show()
-            }
-
-            typeSports.setOnClickListener {
-                //未初始化，创建ppw
-                if (!::ppwSports.isInitialized) {
-                    ppwSports = createPpw(mProfileVo.maxSportPoint, typeSports, tvSportsRebate, list) { ppwSports.dismiss() }
-                }
-                ppwSports.show()
-            }
-            typeChess.setOnClickListener {
-                //未初始化，创建ppw
-                if (!::ppwChess.isInitialized) {
-                    ppwChess = createPpw(mProfileVo.maxEsportsPoint, typeChess, tvChessRebate, list) { ppwChess.dismiss() }
-                }
-                ppwChess.show()
-            }
-            typeGame.setOnClickListener {
-                //未初始化，创建ppw
-                if (!::ppwGame.isInitialized) {
-                    ppwGame = createPpw(mProfileVo.maxPokerPoint, typeGame, tvGameRebate, list) { ppwGame.dismiss() }
-                }
-                ppwGame.show()
-            }
-
-        }
-
-
-    }
-
-    /**
-     * 会员快速返点设置
-     */
-    private fun setRebate2() {
-        binding.include2.apply {
-            typeLottery.text = mProfileVo.rebate_percentage
-            typeLottery.isEnabled = true
-            tvLotteryRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
-
-            typeReal.text = "0.5%"
-            typeReal.isEnabled = false
-            tvRealRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxLivePoint, 0.5).toString() + "%")
-
-            typeSports.text = "0.5%"
-            typeSports.isEnabled = false
-            tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxSportPoint, 0.5).toString() + "%")
-
-            typeChess.text = "0.5%"
-            typeChess.isEnabled = false
-            tvChessRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxEsportsPoint, 0.5).toString() + "%")
-
-            typeGame.text = "0.5%"
-            typeGame.isEnabled = false
-            tvGameRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxPokerPoint, 0.5).toString() + "%")
-
-
-            KLog.i("rebate_percentage", mProfileVo.rebate_percentage)
+            KLog.i("mProfileVo", Gson().toJson(mProfileVo))
             if (mProfileVo.rebate_percentage == null) {
                 return
             }
             val max = mProfileVo.rebate_percentage.replace("%", "").toDouble()
-            val start = BigDecimal.valueOf(max)
-            val end = BigDecimal.ZERO
-            val step = BigDecimal.valueOf(0.1)
-
-            val arraySize = ((start - end) / step).toInt() + 1
-
-            val arrayList = ArrayList<Double>()
-            for (i in 0 until arraySize) {
-                val value = start - i.toBigDecimal() * step
-                arrayList.add(value.toDouble())
-            }
-
+            val arrayList = getRebateList(max)
             typeLottery.setOnClickListener {
-                //未初始化，创建ppw
-                if (!::ppwLottery.isInitialized) {
-                    ppwLottery = createPpw(max, typeLottery, tvLotteryRebate, arrayList) { ppwLottery.dismiss() }
+                if (type == 0) {
+                    //未初始化，创建ppw
+                    if (!::ppwLottery.isInitialized) {
+                        ppwLottery = createPpw(max, typeLottery, tvLotteryRebate, arrayList) { ppwLottery.dismiss() }
+                    }
+                    ppwLottery.show()
+                } else {
+                    if (!::ppwLottery1.isInitialized) {
+                        ppwLottery1 = createPpw(max, typeLottery, tvLotteryRebate, arrayList) { ppwLottery1.dismiss() }
+                    }
+                    ppwLottery1.show()
                 }
-                ppwLottery.show()
             }
 
+            //状态等于0不显示
+            if (mProfileVo.liveStatus == 0) {
+                layoutReal.visibility = View.GONE
+            } else {
+                typeReal.text = mProfileVo.maxLivePoint.toString().plus("%")
+                tvRealRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+                typeReal.setOnClickListener {
+                    if (type == 0) {
+                        //未初始化，创建ppw
+                        if (!::ppwReal.isInitialized) {
+                            ppwReal = createPpw(mProfileVo.maxLivePoint, typeReal, tvRealRebate, getRebateList(mProfileVo.maxLivePoint))
+                            { ppwReal.dismiss() }
+                        }
+                        ppwReal.show()
+                    } else {
+                        if (!::ppwReal1.isInitialized) {
+                            ppwReal1 = createPpw(mProfileVo.maxLivePoint, typeReal, tvRealRebate, getRebateList(mProfileVo.maxLivePoint))
+                            { ppwReal1.dismiss() }
+                        }
+                        ppwReal1.show()
+                    }
+                }
+            }
+
+            //状态等于0不显示
+            if (mProfileVo.sportStatus == 0) {
+                layoutSports.visibility = View.GONE
+            } else {
+                typeSports.text = mProfileVo.maxSportPoint.toString().plus("%")
+                tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+                typeSports.setOnClickListener {
+                    if (type == 0) {
+                        //未初始化，创建ppw
+                        if (!::ppwSports.isInitialized) {
+                            ppwSports =
+                                createPpw(mProfileVo.maxSportPoint, typeSports, tvSportsRebate, getRebateList(mProfileVo.maxSportPoint))
+                                { ppwSports.dismiss() }
+                        }
+                        ppwSports.show()
+                    } else {
+                        if (!::ppwSports1.isInitialized) {
+                            ppwSports1 =
+                                createPpw(mProfileVo.maxSportPoint, typeSports, tvSportsRebate, getRebateList(mProfileVo.maxSportPoint))
+                                { ppwSports1.dismiss() }
+                        }
+                        ppwSports1.show()
+                    }
+                }
+            }
+
+            //状态等于0不显示
+            if (mProfileVo.pokerStatus == 0) {
+                layoutChess.visibility = View.GONE
+            } else {
+                typeChess.text = mProfileVo.maxEsportsPoint.toString().plus("%")
+                tvChessRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+                typeChess.setOnClickListener {
+                    if (type == 0) {
+                        //未初始化，创建ppw
+                        if (!::ppwChess.isInitialized) {
+                            ppwChess =
+                                createPpw(mProfileVo.maxEsportsPoint, typeChess, tvChessRebate, getRebateList(mProfileVo.maxEsportsPoint))
+                                { ppwChess.dismiss() }
+                        }
+                        ppwChess.show()
+                    } else {
+                        if (!::ppwChess1.isInitialized) {
+                            ppwChess1 =
+                                createPpw(mProfileVo.maxEsportsPoint, typeChess, tvChessRebate, getRebateList(mProfileVo.maxEsportsPoint))
+                                { ppwChess1.dismiss() }
+                        }
+                        ppwChess1.show()
+                    }
+                }
+            }
+
+            //状态等于0不显示
+            if (mProfileVo.esportStatus == 0) {
+                layoutGame.visibility = View.GONE
+            } else {
+                typeGame.text = mProfileVo.maxPokerPoint.toString().plus("%")
+                tvGameRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+                typeGame.setOnClickListener {
+                    if (type == 0) {
+                        //未初始化，创建ppw
+                        if (!::ppwGame.isInitialized) {
+                            ppwGame =
+                                createPpw(mProfileVo.maxPokerPoint, typeGame, tvGameRebate, getRebateList(mProfileVo.maxEsportsPoint))
+                                { ppwGame.dismiss() }
+                        }
+                        ppwGame.show()
+                    } else {
+                        if (!::ppwGame1.isInitialized) {
+                            ppwGame1 =
+                                createPpw(mProfileVo.maxPokerPoint, typeGame, tvGameRebate, getRebateList(mProfileVo.maxEsportsPoint))
+                                { ppwGame1.dismiss() }
+                        }
+                        ppwGame1.show()
+                    }
+                }
+            }
         }
 
 
     }
+
 
     /**
      * 创建返点弹窗
