@@ -4,20 +4,20 @@ android {
     productFlavors {
         // 测试环境 测试用
         eon2_pre {
-            applicationId "com.${name.toLowerCase()}.app"
+            applicationId "com.${name.toLowerCase()}t.app"
             versionName "1.0.0"
             versionCode 100
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "意昂2T${versionCode}"
-            resValue "string", "domain_api", "https://www.eon2.org"
-            resValue "string", "domain_url", "https://www.eon2.org"
+            resValue "string", "domain_api", "https://preyiang2test.oxldkm.com"
+            resValue "string", "domain_url", "https://preyiang2test.oxldkm.com"
             resValue "string", "channel_name", "eon2"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_api_list", "https://www.eon2.org;"
-            resValue "string", "domain_url_list", "https://www.eon2.org;"
+            resValue "string", "domain_api_list", "https://preyiang2test.oxldkm.com;"
+            resValue "string", "domain_url_list", "https://preyiang2test.oxldkm.com;"
             multiDexEnabled true
             dimension "channelName"
         }
@@ -50,7 +50,37 @@ android {
                     "https://www.n5q2b8.xyz;"
             multiDexEnabled true
             dimension "channelName"
-        }
+        }*/
+        // 生产环境 发布用
+        /*eon2 {
+            applicationId "com.eon2.app" // eon2
+            versionName "1.0.0"
+            versionCode 100
+            resValue "string", "app_name", "意昂体育2"
+            resValue "string", "domain_api", "https://www.eon2.org"
+            resValue "string", "domain_url", "https://www.u2s4s7.xyz"
+            resValue "string", "channel_name", "eon2"  // 渠道名称
+            resValue "string", "build_time", "${buildTime()}"
+            resValue "string", "mixpanel_token", "cce6df315eee2c445da416c6b717f114"
+            resValue "bool", "is_tag", "true" // 是否开启统计
+            resValue "string", "ms_secret_key", "0ad1d127-3d6e-47f0-8904-1fd9eff9d97b"
+            resValue "string", "domain_api_list", "https://www.eon2.org;" +
+                    "https://www.u2s4s7.xyz;" +
+                    "https://www.d4v2o1.xyz;" +
+                    "https://www.o9s9u4.xyz;" +
+                    "https://www.h4r3a2.xyz;" +
+                    "https://www.j9b1x3.xyz;" +
+                    "https://www.n5q2b8.xyz;"
+            resValue "string", "domain_url_list", "https://www.eon2.org;" +
+                    "https://www.u2s4s7.xyz;" +
+                    "https://www.d4v2o1.xyz;" +
+                    "https://www.o9s9u4.xyz;" +
+                    "https://www.h4r3a2.xyz;" +
+                    "https://www.j9b1x3.xyz;" +
+                    "https://www.n5q2b8.xyz;"
+            multiDexEnabled true
+            dimension "channelName"
+        }*/
 
     }
 
