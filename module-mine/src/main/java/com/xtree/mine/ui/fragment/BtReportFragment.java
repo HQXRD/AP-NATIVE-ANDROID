@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -131,23 +132,62 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
                 BtOrderVo vo = get(position);
 
                 // T-和,L-输,W-胜, 其它-未结算
-                if (vo.project_BetResult.equals("T")) {
-                    binding2.tvwBtResult.setText(R.string.txt_rst_tie);
-                    binding2.tvwBtResult.setActivated(true);
-                    binding2.tvwSum.setActivated(true);
-                } else if (vo.project_BetResult.equals("L")) {
-                    binding2.tvwBtResult.setText(R.string.txt_rst_lose);
-                    binding2.tvwBtResult.setSelected(false);
-                    binding2.tvwSum.setSelected(false);
-                } else if (vo.project_BetResult.equals("W")) {
-                    binding2.tvwBtResult.setText(R.string.txt_rst_win);
-                    binding2.tvwBtResult.setSelected(true);
-                    binding2.tvwSum.setSelected(true);
-                } else {
-                    binding2.tvwBtResult.setText(R.string.txt_unsettle); // 未结算
-                    binding2.tvwBtResult.setActivated(true);
-                    binding2.tvwSum.setActivated(true);
-                    vo.sum = "--"; // 未结算,显示为 "--" 单号:2863, 2024-03-15
+                switch (vo.project_BetResult) {
+                    case "T":
+                        binding2.tvwBtResult.setText(R.string.txt_rst_tie);
+                        binding2.tvwBtResult.setActivated(true);
+                        binding2.tvwSum.setActivated(true);
+                        break;
+                    case "W":
+                        binding2.tvwBtResult.setText(R.string.txt_rst_win);
+                        binding2.tvwBtResult.setSelected(true);
+                        binding2.tvwSum.setSelected(true);
+                        break;
+                    case "L":
+                        binding2.tvwBtResult.setText(R.string.txt_rst_lose);
+                        binding2.tvwBtResult.setSelected(false);
+                        binding2.tvwSum.setSelected(false);
+                        break;
+                    case "C":
+                        binding2.tvwBtResult.setText(R.string.txt_rst_c);
+                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        break;
+                    case "V":
+                        binding2.tvwBtResult.setText(R.string.txt_rst_v);
+                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        break;
+                    case "CO":
+                        binding2.tvwBtResult.setText(R.string.txt_rst_co);
+                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        break;
+                    case "J":
+                        binding2.tvwBtResult.setText(R.string.txt_rst_j);
+                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        break;
+                    case "CANCLE_ORD":
+                        binding2.tvwBtResult.setText(R.string.txt_rst_cancel_ord);
+                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        break;
+                    case "HALFLOSE":
+                        binding2.tvwBtResult.setText(R.string.txt_rst_half_lose);
+                        binding2.tvwBtResult.setSelected(false);
+                        binding2.tvwSum.setSelected(false);
+                        break;
+                    case "HALFWIN":
+                        binding2.tvwBtResult.setText(R.string.txt_rst_half_win);
+                        binding2.tvwBtResult.setSelected(true);
+                        binding2.tvwSum.setSelected(true);
+                        break;
+                    case "VOID":
+                        binding2.tvwBtResult.setText(R.string.txt_rst_void);
+                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        break;
+                    default:
+                        binding2.tvwBtResult.setText(R.string.txt_rst_def); // 未结算
+                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        vo.sum = "--"; // 未结算,显示为 "--" 单号:2863, 2024-03-15
+                        break;
                 }
 
                 String win = vo.project_win.equals("0") ? "--" : vo.project_win;
@@ -305,6 +345,11 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
 
         });
 
+    }
+
+    private void setResultDefColor(TextView tvwBtResult, TextView tvwSum) {
+        tvwBtResult.setActivated(true);
+        tvwSum.setActivated(true);
     }
 
     private String getPlatformName(String code) {
