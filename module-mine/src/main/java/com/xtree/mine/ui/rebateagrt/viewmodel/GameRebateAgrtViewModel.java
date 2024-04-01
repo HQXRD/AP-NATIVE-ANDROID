@@ -56,6 +56,7 @@ import org.reactivestreams.Subscription;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -444,6 +445,24 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                             if (gameRebateAgrtRequest.p <= 1) {
                                 gameRebateDatas.clear();
                                 gameRebateAgrtHeadModel.yesterdayRebate.set(vo.getUser().getIscreditaccount());
+                                if (vo.getContract() != null && vo.getContract().getRule() != null && vo.getContract().getRule().size() > 0) {
+                                    GameRebateAgrtResponse.ContractDTO.RuleDTO ruleDTO = vo.getContract().getRule().get(0);
+
+                                    //设置规则提示
+                                    if (Objects.requireNonNull(type) == USER) {
+                                        gameRebateAgrtHeadModel.ratioTip.set("规则1:投注额≥" +
+                                                ruleDTO.getMin_bet() +
+                                                "元,人数≥" +
+                                                ruleDTO.getMin_player() + "人,时薪" +
+                                                ruleDTO.getRatio() + "元/千");
+                                    } else {
+                                        gameRebateAgrtHeadModel.ratioTip.set("规则1:日有效投注额≥" +
+                                                ruleDTO.getMin_bet() +
+                                                "元,返水" +
+                                                ruleDTO.getRatio() + "%");
+                                    }
+                                }
+
                                 gameRebateDatas.add(gameRebateAgrtHeadModel);
                                 GameRebateAgrtResponse.TotalDTO total = vo.getTotal();
                                 if (total != null) {
