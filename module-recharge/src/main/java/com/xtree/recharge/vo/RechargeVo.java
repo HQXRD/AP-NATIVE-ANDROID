@@ -21,7 +21,7 @@ public class RechargeVo {
     public int sortnum; // 10,
     public int recommend; // 0,
     public boolean view_bank_card; // false,
-    //public int recharge_pattern; // 2,
+    public int recharge_pattern; // 2, 1-需绑卡,2-需绑手机号
     public boolean phone_fillin_name; // true,
     //public int ptype; // 1,
     public Object user_bank_info; // 格式不固定 [], {"1452165":"中国工商银行--***************8487"}

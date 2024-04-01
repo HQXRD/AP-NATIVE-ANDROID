@@ -230,31 +230,32 @@
                     </LinearLayout>
 
                     <!-- 以下是各充值渠道的UI -->
+
+                    <TextView
+                        android:id="@+id/tvw_choose_bank_card"
+                        style="@style/style_cm_title"
+                        android:text="选择付款银行卡"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tvw_bank_card"
+                        style="@style/style_cm_edit"
+                        android:layout_marginStart="@dimen/layout_margin"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_marginEnd="@dimen/layout_margin"
+                        android:drawableEnd="@mipmap/bt_icon_expand"
+                        android:hint="@string/txt_pls_select_payment_card"
+                        android:maxLength="80"
+                        android:text=""
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
                     <LinearLayout
                         android:id="@+id/ll_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tvw_choose_bank_card"
-                            style="@style/style_cm_title"
-                            android:text="选择付款银行卡"
-                            android:visibility="gone"
-                            tools:visibility="visible" />
-
-                        <TextView
-                            android:id="@+id/tvw_bank_card"
-                            style="@style/style_cm_edit"
-                            android:layout_marginStart="@dimen/layout_margin"
-                            android:layout_marginTop="@dimen/layout_margin"
-                            android:layout_marginEnd="@dimen/layout_margin"
-                            android:drawableEnd="@mipmap/bt_icon_expand"
-                            android:hint="@string/txt_pls_select_payment_card"
-                            android:maxLength="80"
-                            android:text=""
-                            android:visibility="gone"
-                            tools:visibility="visible" />
 
                         <TextView
                             style="@style/style_cm_title"
