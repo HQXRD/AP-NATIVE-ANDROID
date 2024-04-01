@@ -56,6 +56,7 @@ import org.reactivestreams.Subscription;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -182,7 +183,25 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
 
         @Override
         public void showTip() {
-            MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_kind_tips), getApplication().getString(R.string.txt_rebateagrt_tip4), true, new TipDialog.ICallBack() {
+            String content = "";
+            switch (type) {
+                case LIVE:
+                    content = getApplication().getString(R.string.txt_rebateagrt_tip4);
+                    break;
+                case SPORT:
+                    content = getApplication().getString(R.string.txt_rebateagrt_tip5);
+                    break;
+                case CHESS:
+                    content = getApplication().getString(R.string.txt_rebateagrt_tip6);
+                    break;
+                case EGAME:
+                    content = getApplication().getString(R.string.txt_rebateagrt_tip7);
+                    break;
+            }
+            MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_kind_tips),
+                    content,
+                    true,
+                    new TipDialog.ICallBack() {
                 @Override
                 public void onClickLeft() {
 
@@ -311,6 +330,8 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 tabList.add("下级契约");
                 tabList.add("下级时薪");
                 tabs.setValue(tabList);
+                //隐藏温馨提示
+                gameRebateAgrtHeadModel.tipVisible.set(false);
                 break;
             default:
                 break;
@@ -424,6 +445,24 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                             if (gameRebateAgrtRequest.p <= 1) {
                                 gameRebateDatas.clear();
                                 gameRebateAgrtHeadModel.yesterdayRebate.set(vo.getUser().getIscreditaccount());
+                                if (vo.getContract() != null && vo.getContract().getRule() != null && vo.getContract().getRule().size() > 0) {
+                                    GameRebateAgrtResponse.ContractDTO.RuleDTO ruleDTO = vo.getContract().getRule().get(0);
+
+                                    //设置规则提示
+                                    if (Objects.requireNonNull(type) == USER) {
+                                        gameRebateAgrtHeadModel.ratioTip.set("规则1:投注额≥" +
+                                                ruleDTO.getMin_bet() +
+                                                "元,人数≥" +
+                                                ruleDTO.getMin_player() + "人,时薪" +
+                                                ruleDTO.getRatio() + "元/千");
+                                    } else {
+                                        gameRebateAgrtHeadModel.ratioTip.set("规则1:日有效投注额≥" +
+                                                ruleDTO.getMin_bet() +
+                                                "元,返水" +
+                                                ruleDTO.getRatio() + "%");
+                                    }
+                                }
+
                                 gameRebateDatas.add(gameRebateAgrtHeadModel);
                                 GameRebateAgrtResponse.TotalDTO total = vo.getTotal();
                                 if (total != null) {

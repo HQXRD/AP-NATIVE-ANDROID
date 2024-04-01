@@ -319,4 +319,46 @@ public class TimeUtils {
         return String.format("%s : %s", strMinutes, strSeconds);
     }
 
+    /**
+     * 根据提供的年月日获取该月份的第一天
+     */
+    public static String getSupportBeginDayofMonth(Date date) {
+        date.getTime();
+        Calendar startDate = Calendar.getInstance();
+        startDate.setTime(date);
+        startDate.set(Calendar.DAY_OF_MONTH, 1);
+        startDate.set(Calendar.HOUR_OF_DAY, 0);
+        startDate.set(Calendar.MINUTE, 0);
+        startDate.set(Calendar.SECOND, 0);
+        startDate.set(Calendar.MILLISECOND, 0);
+        Date firstDate = startDate.getTime();
+        return (firstDate.getTime()+"").substring(0,10);
+    }
+    /**
+     * 根据提供的年月获取该月份的最后一天
+     */
+    public static String getSupportEndDayofMonth(Date date) {
+        Calendar startDate = Calendar.getInstance();
+        startDate.setTime(date);
+        startDate.set(Calendar.DAY_OF_MONTH, startDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+        startDate.set(Calendar.HOUR_OF_DAY, 23);
+        startDate.set(Calendar.MINUTE, 59);
+        startDate.set(Calendar.SECOND, 59);
+        startDate.set(Calendar.MILLISECOND, 999);
+        Date firstDate = startDate.getTime();
+        return (firstDate.getTime()+"").substring(0,10);
+    }
+
+    /**
+     * 获取本月的起始时间
+     */
+    public static long getTimeOfMonthStart(){
+        Calendar ca = Calendar.getInstance();
+        ca.set(Calendar.HOUR_OF_DAY, 0);
+        ca.clear(Calendar.MINUTE);
+        ca.clear(Calendar.SECOND);
+        ca.clear(Calendar.MILLISECOND);
+        ca.set(Calendar.DAY_OF_MONTH, 1);
+        return ca.getTimeInMillis();
+    }
 }

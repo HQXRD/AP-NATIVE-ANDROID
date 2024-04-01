@@ -2,6 +2,7 @@ package com.xtree.mine.data.source;
 
 
 import com.xtree.mine.data.source.http.service.HttpApiService;
+import com.xtree.mine.vo.request.CommissionsReportsRequest;
 import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
 import com.xtree.mine.vo.request.DividendAgrtSendQuery;
 import com.xtree.mine.vo.request.DividendAgrtSendRequest;
@@ -14,6 +15,7 @@ import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
 import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
+import com.xtree.mine.vo.response.CommissionsReportsResponse;
 import com.xtree.mine.vo.response.DividendAgrtCheckResponse;
 import com.xtree.mine.vo.response.DividendAgrtSendReeponse;
 import com.xtree.mine.vo.response.DividendAutoSendResponse;
@@ -101,5 +103,11 @@ public interface HttpDataSource {
      * @return
      */
     Flowable<BaseResponse<List<FunctionMenuResponse>>> getFunctionMenuData();
+
+    /**
+     * 佣金报表
+     * @return
+     */
+    Flowable<CommissionsReportsResponse> getCommissionsData(CommissionsReportsRequest request);
 
 }
