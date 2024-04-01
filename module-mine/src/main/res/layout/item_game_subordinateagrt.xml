@@ -64,7 +64,7 @@
                 android:id="@+id/item_check"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="查看"
+                android:text="@{m.checkString}"
                 android:textColor="@color/clr_txt_02"
                 android:textSize="14sp"
                 android:layout_marginTop="12dp"
