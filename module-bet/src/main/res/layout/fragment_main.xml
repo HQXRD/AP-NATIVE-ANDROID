@@ -75,7 +75,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/rl_play_method"
                 app:tabIndicatorHeight="2dp"
                 app:tabIndicatorFullWidth="false"
-                app:tabIndicatorColor="#247BF4"
+                app:tabIndicatorColor="@color/clr_btn_01"
                 app:tabMaxWidth="60dp"
                 app:tabMinWidth="20dp"
                 app:tabMode="scrollable"
@@ -206,13 +206,13 @@
 
         <RelativeLayout
             android:id="@+id/rl_cg"
-            android:layout_width="58dp"
-            android:layout_height="63dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="17dp"
             android:layout_marginBottom="94dp"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/iv_bt"
@@ -226,8 +226,6 @@
                 android:layout_height="15dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="4dp"
                 android:background="@mipmap/bt_bg_text_cg"
                 android:gravity="center"
                 android:text="2"

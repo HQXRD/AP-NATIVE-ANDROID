@@ -333,11 +333,11 @@
 
         <RelativeLayout
             android:id="@+id/rl_cg"
-            android:layout_width="58dp"
-            android:layout_height="63dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginEnd="17dp"
             android:layout_marginBottom="94dp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent">
 
@@ -353,8 +353,6 @@
                 android:layout_height="20dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="4dp"
                 android:background="@mipmap/bt_bg_text_cg"
                 android:gravity="center"
                 android:text="2"
