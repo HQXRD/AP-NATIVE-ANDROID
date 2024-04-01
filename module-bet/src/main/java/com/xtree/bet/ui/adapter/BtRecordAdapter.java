@@ -18,6 +18,9 @@ import com.xtree.bet.bean.ui.BtResult;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.databinding.BtLayoutBtRecordItemBinding;
 import com.xtree.bet.databinding.BtLayoutBtRecordTimeBinding;
+import com.xtree.bet.ui.activity.BtDetailActivity;
+import com.xtree.bet.ui.activity.MainActivity;
+import com.xtree.bet.ui.fragment.BtAdvanceSettlementFragment;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 
 import java.util.List;
@@ -157,6 +160,10 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         binding.tvBtResult.setText(btResult.getStatusDesc());
         binding.tvResultId.setOnClickListener(v -> {
             StringUtils.copy(btResult.getId());
+        });
+        binding.tvResultStatement.setOnClickListener(v -> {
+            BtAdvanceSettlementFragment btAdvanceSettlementFragment = BtAdvanceSettlementFragment.getInstance();
+            btAdvanceSettlementFragment.show(((MainActivity)mContext).getSupportFragmentManager(), "btAdvanceSettlementFragment");
         });
         return convertView;
     }

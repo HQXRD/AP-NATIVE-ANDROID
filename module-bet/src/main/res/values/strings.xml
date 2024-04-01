@@ -53,5 +53,11 @@
     <string name="bt_platform_name_fb">FB体育</string>
     <string name="bt_platform_name_pm">熊猫体育</string>
     <string name="bt_txt_odds">自动接受更好赔率</string>
+    <string name="bt_txt_settlement_odds">接受提前兑换估值变化</string>
+    <string name="bt_txt_statement_odds">提前兑换规则声明</string>
+    <string name="bt_txt_btn_statement">提前兑现%1$d元（含本金）</string>
+    <string name="bt_txt_btn_statement_cost">提前结算本金</string>
+    <string name="bt_txt_btn_statement_back">返还额（含本金）</string>
+    <string name="bt_txt_btn_statement_amount">CNY:%1$d</string>
 
 </resources>
