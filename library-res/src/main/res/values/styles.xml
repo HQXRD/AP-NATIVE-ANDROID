@@ -318,7 +318,7 @@
     <style name="style_fb_tip_title">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:textColor">@color/clr_grey_00</item>
+        <item name="android:textColor">@color/clr_withdrawal_text_tip</item>
         <item name="android:textSize">11sp</item>
         <item name="android:layout_marginLeft">2dp</item>
 
@@ -338,7 +338,7 @@
     <!-- 通用 提示小字 桔红色 -->
     <style name="style_cm_tip_small_orange" parent="style_cm_tip_small_grey">
         <item name="android:text">@string/txt_note_asterisks_cannot_empty</item>
-        <item name="android:textColor">@color/clr_orange_03</item>
+        <item name="android:textColor">@color/clr_main_19</item>
     </style>
     <!-- 通用 提示小字 桔红色 -->
     <style name="style_cm_tip_small_yellow" parent="style_cm_tip_small_grey">
@@ -476,6 +476,21 @@
         <item name="android:textColorHint">@color/clr_txt_grey_03</item>
         <item name="android:textSize">14sp</item>
     </style>
+    <!--益阳-->
+    <style name="style_rc_feedback_eon_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@drawable/rc_bg_feedback_input</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">50</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <!--魔域资金密码输入框-->
     <style name="style_withdraw_password_edit">
         <item name="android:layout_width">match_parent</item>
@@ -489,7 +504,23 @@
         <item name="android:maxLength">6</item>
         <item name="android:padding">8dp</item>
         <item name="android:textColor">@color/clr_grey_80</item>
-        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textColorHint">@color/cl_over_tip</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--益阳资金密码输入框-->
+    <style name="style_withdraw_password_eno_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_withdraw_fundpsw_input</item>
+        <item name="android:hint"></item>
+        <item name="android:text"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:inputType">numberPassword</item>
+        <item name="android:maxLength">6</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/cl_over_tip</item>
         <item name="android:textSize">14sp</item>
     </style>
     <!-- 注册推广输入框 -->
@@ -549,11 +580,41 @@
         <item name="android:textColorHint">@color/clr_txt_grey_03</item>
         <item name="android:textSize">14sp</item>
     </style>
+    <!--益阳 反馈 输入框背景-->
+    <style name="style_feedback_eon_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@drawable/rc_bg_feedback_input</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">32</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 
     <style name="style_set_fund_psw_edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>
-        <item name="android:background">@mipmap/cm_bg_input</item>
+        <item name="android:background">@drawable/rc_bg_feedback_input</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">32</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <!--益阳 密保问题 背景-->
+    <style name="style_set_security_question_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@drawable/set_security_question_bg</item>
         <item name="android:hint"></item>
         <item name="android:gravity">center_vertical|left</item>
         <item name="android:lines">1</item>
@@ -577,7 +638,7 @@
         <item name="android:textColorHint">@color/clr_txt_grey_03</item>
         <item name="android:textSize">@dimen/bt_text_12sp</item>
     </style>
-    <!--提现Edittext <item name="android:background">@drawable/bg_withdraw_money_input</item>-->
+    <!--提现Edittext -->
     <style name="style_bank_edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">30dp</item>
@@ -590,6 +651,7 @@
         <item name="android:textColorHint">@color/clr_txt_grey_03</item>
         <item name="android:textSize">14sp</item>
     </style>
+
     <!--usdt提现Edittext-->
     <style name="style_usdt_edit">
         <item name="android:layout_width">match_parent</item>
@@ -736,12 +798,11 @@
 
     <!-- 登录页 账号输入框 -->
     <style name="style_cm_edt_account">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:background">@null</item>
-        <item name="android:drawablePadding">24dp</item>
+        <item name="android:drawablePadding">8dp</item>
         <item name="android:drawableStart">@mipmap/cm_ic_login_user</item>
         <item name="android:inputType">text</item>
         <item name="android:maxLength">32</item>
@@ -834,6 +895,14 @@
     <style name="style_item_ll_row">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <!-- 提款 完成申请 页面  -->
+    <style name="style_item_withdrawal_complete_application_row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginTop">2dp</item>
         <item name="android:layout_marginEnd">0dp</item>
         <item name="android:orientation">horizontal</item>
@@ -952,14 +1021,14 @@
         <item name="android:textSize">14sp</item>
 
     </style>
-    <!-- 提款 textView侧风格-->
+    <!-- 提款 textView 左侧 侧风格-->
     <style name="style_withdraw_title">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:minEms">4</item>
-        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textColor">@color/clr_grey_13</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
     </style>
@@ -981,12 +1050,23 @@
     </style>
     <!--  提款 右侧textview显示 风格-->
     <style name="style_withdraw_confirm_value">
-        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <!--  提款 右侧textview显示 风格-->
+    <style name="style_withdraw_confirm_left_value">
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginEnd">@dimen/layout_margin</item>
         <item name="android:gravity">left|center_vertical</item>
         <item name="android:layout_marginTop">10dp</item>
-        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textColor">@color/clr_txt_black_01</item>
         <item name="android:textSize">14sp</item>
     </style>
 
@@ -1040,8 +1120,9 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center</item>
         <item name="android:padding">12dp</item>
-        <item name="android:background">@drawable/btn_acc_item_selector</item>
-        <item name="android:textColor">@color/clr_white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:background">@drawable/bg_dialog_withdraw_close</item>
+        <item name="android:textColor">@color/clr_withdrawal_list_text_bg</item>
     </style>
 
     <!-- 提款页-下半部分灰色区-标题 -->
@@ -1065,7 +1146,7 @@
 
     <!--谷歌动态口令密钥提示语风格-->
     <style name="style_google_key">
-        <item name="android:textColor">@color/clr_orange_01</item>
+        <item name="android:textColor">@color/clr_bind_google_key</item>
         <item name="android:textSize">12sp</item>
     </style>
 

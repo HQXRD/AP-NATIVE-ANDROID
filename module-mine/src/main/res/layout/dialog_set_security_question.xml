@@ -94,7 +94,7 @@
 
                     <TextView
                         android:id="@+id/tvw_question1"
-                        style="@style/style_set_fund_psw_edit"
+                        style="@style/style_set_security_question_edit"
                         android:layout_toRightOf="@id/tv_unreceived_orders"
                         android:drawableEnd="@mipmap/bt_icon_expand"
                         android:hint="@string/txt_set_question1_tip1"
@@ -177,14 +177,14 @@
 
                     <EditText
                         android:id="@+id/et_answer2"
-                        style="@style/style_set_fund_psw_edit"
+                        style="@style/style_set_security_question_edit"
                         android:layout_toRightOf="@id/tv_unreceived_orders4"
                         android:hint="@string/txt_set_question2_tip"
                         android:singleLine="true"
                         android:text="" />
                 </RelativeLayout>
             </LinearLayout>
-
+            <!-- android:src="@mipmap/me_reset_password_login"-->
             <TextView
                 android:id="@+id/tvw_reset_password_next"
                 android:layout_width="match_parent"
@@ -193,9 +193,8 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/bg_btn_selector"
+                android:background="@drawable/me_security_questin_btn_selector"
                 android:gravity="center"
-                android:src="@mipmap/me_reset_password_login"
                 android:text="@string/txt_set_security_question_tip"
                 android:textColor="@color/white"
                 android:textSize="16sp" />

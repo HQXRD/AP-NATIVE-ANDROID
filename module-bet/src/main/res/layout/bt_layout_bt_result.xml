@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@mipmap/bt_car_pop_top">
+        android:background="@drawable/bg_main_frame_05">
 
         <ImageView
             android:layout_width="match_parent"
@@ -99,16 +99,8 @@
 
                 <TextView
                     android:id="@+id/tv_close"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="center"
-                    android:background="@mipmap/cm_bg_btn"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="6dp"
+                    style="@style/style_cm_btn_round"
                     android:text="@string/bt_bt_btn_comfirm"
-                    android:textColor="@color/bt_color_under_bg_primary_text"
-                    android:textSize="@dimen/bt_text_16sp"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

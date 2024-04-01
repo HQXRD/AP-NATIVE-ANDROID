@@ -194,7 +194,7 @@
         android:layout_marginBottom="0dp"
         android:background="@color/clr_white"
         android:visibility="gone"
-        tools:visibility="gone">
+        tools:visibility="visible">
         <!--大额提款View-->
         <LinearLayout
             android:id="@+id/ll_bank_withdrawal_view_more"
@@ -445,12 +445,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
-                            <ImageView
+                            <TextView
                                 android:id="@+id/tv_actual_withdrawal_next_more"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:background="@mipmap/cm_btn_withdrawal_next" />
+                                style="@style/style_cm_btn_round"
+                                android:text="@string/txt_next_step" />
 
                             <TextView
                                 android:id="@+id/tv_actual_withdrawal_tip_more"

@@ -24,8 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="请选择提款方式"
-            android:textColor="@color/clr_filter_txt_black"
+            android:text="@string/txt_withdraw_choose"
+            android:textColor="@color/clr_white"
             android:textSize="15sp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -82,7 +82,7 @@
                     style="@style/style_usdt_tutorial"
                     android:autoLink="all"
                     android:text="USDT教程"
-                    android:textColor="@color/black"
+                    android:textColor="@color/clr_withdrawal_list_bottom_text_bg"
                     android:textSize="15dp" />
 
                 <TextView

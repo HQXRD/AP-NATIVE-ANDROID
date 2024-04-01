@@ -255,7 +255,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
             binding.tvChooseTip.setVisibility(View.VISIBLE);
             binding.tvChooseTip.setText(tip);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                binding.tvChooseTip.setTextColor(getContext().getColor(R.color.red));
+                binding.tvChooseTip.setTextColor(getContext().getColor(R.color.clr_withdrawal_list_bottom_text_tip_bg));
             }
         }
     }

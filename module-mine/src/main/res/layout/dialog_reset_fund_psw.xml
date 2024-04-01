@@ -55,28 +55,45 @@
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
             app:layout_constraintStart_toStartOf="@id/ivw_bg"
             app:layout_constraintTop_toTopOf="@id/ivw_bg" />
-
         <EditText
             android:id="@+id/ed_first"
-            style="@style/style_reset_fund_edit"
+
+            style="@style/style_set_security_question_edit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="52dp"
             android:layout_marginTop="14dp"
             android:layout_marginEnd="52dp"
-            android:background="@drawable/bg_withdraw_money_input"
-
             android:gravity="center"
+            android:inputType="numberPassword"
+            android:maxLength="6"
             android:hint="@string/txt_reset_fund_psw_tip"
             android:textColor="@color/clr_grey_60"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
             app:layout_constraintStart_toStartOf="@id/ivw_bg"
             app:layout_constraintTop_toBottomOf="@id/tvw_title" />
-
         <EditText
             android:id="@+id/ed_second"
-            style="@style/style_reset_fund_edit"
+            style="@style/style_set_security_question_edit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="52dp"
+            android:gravity="center"
+            android:inputType="numberPassword"
+            android:maxLength="6"
+            android:hint="@string/txt_fund_psw_again_tip"
+            android:textColor="@color/clr_grey_60"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+            app:layout_constraintStart_toStartOf="@id/ivw_bg"
+            app:layout_constraintTop_toBottomOf="@id/ed_first" />
+
+        <!--<EditText
+            android:id="@+id/ed_second"
+            style="@style/style_set_security_question_edit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="52dp"
@@ -89,12 +106,13 @@
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
             app:layout_constraintStart_toStartOf="@id/ivw_bg"
-            app:layout_constraintTop_toBottomOf="@id/ed_first" />
+            app:layout_constraintTop_toBottomOf="@id/ed_first" />-->
 
         <LinearLayout
             android:id="@+id/layout_tvw"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_marginStart="36dp"
             android:layout_marginEnd="36dp"
             android:layout_marginBottom="46dp"

@@ -115,7 +115,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (!TextUtils.isEmpty(token)) {
             CfLog.i("******");
             viewModel.getProfile();
-            checkRedPocket();
+            //checkRedPocket();
         }
     }
 

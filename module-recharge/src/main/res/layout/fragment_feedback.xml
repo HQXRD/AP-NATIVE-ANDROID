@@ -65,6 +65,7 @@
 
         <TextView
             style="@style/style_cm_tip_small_orange"
+            android:drawableLeft="@mipmap/cm_ic_hint_main"
             android:text="@string/txt_note_asterisks_cannot_empty" />
 
         <androidx.core.widget.NestedScrollView
@@ -79,10 +80,11 @@
                 <LinearLayout
                     android:id="@+id/ll_unreceived_orders"
                     style="@style/style_ll_row">
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/tv_unreceived_orders"
                             style="@style/style_fb_info_title"
@@ -98,39 +100,38 @@
                             android:hint="@string/txt_tip_select_un_order_right"
                             android:singleLine="true"
                             android:text="" />
+
                         <ImageView
                             android:id="@+id/iv_unreceived_orders"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:layout_marginTop="10dp"
                             android:layout_below="@id/tvw_unreceived_orders"
                             android:layout_alignLeft="@id/tvw_unreceived_orders"
+                            android:layout_marginTop="10dp"
                             android:background="@mipmap/cm_ic_hint_main"
-                            android:visibility="invisible"
-                            />
+                            android:visibility="invisible" />
+
                         <TextView
                             android:id="@+id/tvw_unreceived_info"
                             style="@style/style_fb_tip_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_tip_select_pay_bottom"
                             android:layout_alignTop="@id/iv_unreceived_orders"
                             android:layout_toRightOf="@id/iv_unreceived_orders"
-                            android:visibility="invisible"
-                            />
-
+                            android:text="@string/txt_tip_select_pay_bottom"
+                            android:visibility="invisible" />
 
                     </RelativeLayout>
 
-
                 </LinearLayout>
                 <!--付款方式-->
-                <LinearLayout style="@style/style_ll_row"
-                    android:id="@+id/ll_payment_method">
+                <LinearLayout
+                    android:id="@+id/ll_payment_method"
+                    style="@style/style_ll_row">
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
 
                         <TextView
                             android:id="@+id/tv_payment_method"
@@ -146,40 +147,39 @@
                             android:drawableEnd="@mipmap/bt_icon_expand"
                             android:hint="银行卡/微信/支付宝"
                             android:text="" />
+
                         <ImageView
                             android:id="@+id/iv_payment_method"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:layout_marginTop="10dp"
                             android:layout_below="@id/tvw_payment_method"
                             android:layout_alignLeft="@id/tvw_payment_method"
-                            android:background="@mipmap/cm_ic_hint_main"
-                            />
+                            android:layout_marginTop="10dp"
+                            android:background="@mipmap/cm_ic_hint_main" />
+
                         <TextView
                             android:id="@+id/tv_payment_method_info"
                             style="@style/style_fb_tip_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_tip_select_pay_bottom"
                             android:layout_alignTop="@id/iv_payment_method"
                             android:layout_toRightOf="@id/iv_payment_method"
-                            />
+                            android:text="@string/txt_tip_select_pay_bottom" />
 
                     </RelativeLayout>
-
 
                 </LinearLayout>
                 <!--用户名-->
                 <LinearLayout style="@style/style_ll_row">
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/tv_left_username"
                             style="@style/style_fb_info_title"
-                            android:text="* 用户名："
-                            />
+                            android:text="* 用户名：" />
 
                         <TextView
                             android:id="@+id/tv_username"
@@ -196,10 +196,11 @@
                     style="@style/style_ll_row"
                     android:visibility="visible"
                     tools:visibility="visible">
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/tv_payment_account"
                             style="@style/style_fb_info_title"
@@ -217,21 +218,21 @@
                             android:id="@+id/iv_payment_account"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:layout_marginTop="10dp"
                             android:layout_below="@id/et_payment_account"
                             android:layout_alignLeft="@id/et_payment_account"
+                            android:layout_marginTop="10dp"
                             android:background="@mipmap/cm_ic_hint_main"
 
                             />
+
                         <TextView
                             android:id="@+id/tv_payment_account_info"
                             style="@style/style_fb_tip_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_tip_input_wechat_pay"
                             android:layout_alignTop="@id/iv_payment_account"
                             android:layout_toRightOf="@id/iv_payment_account"
-                            />
+                            android:text="@string/txt_tip_input_wechat_pay" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -240,12 +241,12 @@
                     android:id="@+id/ll_payment_wallet_address"
                     style="@style/style_ll_row"
                     android:visibility="gone"
-                    tools:visibility="visible"
-                   >
+                    tools:visibility="visible">
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/tv_payment_address"
                             style="@style/style_fb_info_title"
@@ -263,21 +264,21 @@
                             android:id="@+id/iv_payment_address"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:layout_marginTop="10dp"
                             android:layout_below="@id/et_payment_address"
                             android:layout_alignLeft="@id/et_payment_address"
+                            android:layout_marginTop="10dp"
                             android:background="@mipmap/cm_ic_hint_main"
 
                             />
+
                         <TextView
                             android:id="@+id/tv_payment_address_info"
                             style="@style/style_fb_tip_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_tip_input_usdt_pay_err"
                             android:layout_alignTop="@id/iv_payment_address"
                             android:layout_toRightOf="@id/iv_payment_address"
-                            />
+                            android:text="@string/txt_tip_input_usdt_pay_err" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -287,10 +288,11 @@
                     style="@style/style_ll_row"
                     android:visibility="visible"
                     tools:visibility="visible">
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/tv_payment_name"
                             style="@style/style_fb_info_title"
@@ -307,41 +309,40 @@
                             <EditText
                                 android:id="@+id/et_payment_name"
                                 style="@style/style_cm_edit"
-                                android:hint="@string/txt_tip_input_wechat_pay_name"
-                                />
+                                android:hint="@string/txt_tip_input_wechat_pay_name" />
                         </LinearLayout>
 
                         <ImageView
                             android:id="@+id/iv_payment_name_info"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:layout_marginTop="10dp"
                             android:layout_below="@id/ll_payment_name_info"
                             android:layout_alignLeft="@id/ll_payment_name_info"
-                            android:background="@mipmap/cm_ic_hint_main"
-                            />
+                            android:layout_marginTop="10dp"
+                            android:background="@mipmap/cm_ic_hint_main" />
+
                         <TextView
                             android:id="@+id/tv_payment_name_info"
                             style="@style/style_fb_tip_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_tip_input_pay_wechat_name"
                             android:layout_alignTop="@id/iv_payment_name_info"
                             android:layout_toRightOf="@id/iv_payment_name_info"
-                            />
+                            android:text="@string/txt_tip_input_pay_wechat_name" />
                     </RelativeLayout>
 
                 </LinearLayout>
                 <!--收款人姓名-->
-               <LinearLayout
+                <LinearLayout
                     android:id="@+id/ll_collection_name"
                     style="@style/style_ll_row"
                     android:visibility="visible"
                     tools:visibility="visible">
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/tv_collection_name"
                             style="@style/style_fb_info_title"
@@ -358,28 +359,26 @@
                             <EditText
                                 android:id="@+id/et_collection_name"
                                 style="@style/style_cm_edit"
-                                android:hint="@string/txt_tip_input_wechat_payee_name"
-                                />
+                                android:hint="@string/txt_tip_input_wechat_payee_name" />
                         </LinearLayout>
 
                         <ImageView
                             android:id="@+id/iv_collection_name"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:layout_marginTop="10dp"
                             android:layout_below="@id/ll_collection_name_info"
                             android:layout_alignLeft="@id/ll_collection_name_info"
-                            android:background="@mipmap/cm_ic_hint_main"
-                            />
+                            android:layout_marginTop="10dp"
+                            android:background="@mipmap/cm_ic_hint_main" />
+
                         <TextView
                             android:id="@+id/tvt_collection_name"
                             style="@style/style_fb_tip_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_tip_input_collection_wechat_name"
                             android:layout_alignTop="@id/iv_collection_name"
                             android:layout_toRightOf="@id/iv_collection_name"
-                            />
+                            android:text="@string/txt_tip_input_collection_wechat_name" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -392,34 +391,34 @@
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/tv_protocol"
                             style="@style/style_fb_info_title"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:text="@string/txt_tip_input_usdt_payment_name" />
+
                         <LinearLayout
                             android:id="@+id/ll_protocol_info"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toRightOf="@id/tv_protocol"
-                            >
+                            android:layout_toRightOf="@id/tv_protocol">
 
                             <EditText
                                 android:id="@+id/ed_protocol"
                                 style="@style/style_cm_edit"
-                                android:visibility="visible"
-                                android:hint="@string/txt_tip_input_usdt_payment_agreement" />
+                                android:hint="@string/txt_tip_input_usdt_payment_agreement"
+                                android:visibility="visible" />
                             <!--选择付款协议-->
                             <TextView
                                 android:id="@+id/tvw_protocol"
                                 style="@style/style_cm_edit"
-                                android:visibility="gone"
                                 android:drawableEnd="@mipmap/bt_icon_expand"
                                 android:hint="@string/txt_tip_input_usdt_payment_agreement"
-                                android:text="" />
+                                android:text=""
+                                android:visibility="gone" />
                         </LinearLayout>
 
                         <ImageView
@@ -430,15 +429,15 @@
                             android:layout_alignLeft="@id/ll_protocol_info"
                             android:layout_marginTop="10dp"
                             android:background="@mipmap/cm_ic_hint_main" />
+
                         <TextView
                             android:id="@+id/tv_selector_tip_collection_name"
                             style="@style/style_fb_tip_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_tip_input_usdt_payment_agreement"
                             android:layout_alignTop="@id/iv_selector_tip_collection_name"
                             android:layout_toRightOf="@id/iv_selector_tip_collection_name"
-                            />
+                            android:text="@string/txt_tip_input_usdt_payment_agreement" />
                     </RelativeLayout>
                 </LinearLayout>
                 <!--存款金额-->
@@ -450,37 +449,38 @@
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/tv_deposit_amount"
                             style="@style/style_fb_info_title"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:text="@string/txt_tip_input_wechat_payment_numb" />
+
                         <EditText
                             android:id="@+id/et_deposit_amount"
                             style="@style/style_cm_edit"
                             android:layout_toRightOf="@id/tv_deposit_amount"
                             android:hint="@string/txt_tip_input_wechat_save_numb" />
+
                         <ImageView
                             android:id="@+id/iv_deposit_amount"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:layout_marginTop="10dp"
                             android:layout_below="@id/et_deposit_amount"
                             android:layout_alignLeft="@id/et_deposit_amount"
-                            android:background="@mipmap/cm_ic_hint_main"
-                            />
+                            android:layout_marginTop="10dp"
+                            android:background="@mipmap/cm_ic_hint_main" />
+
                         <TextView
                             android:id="@+id/tv_deposit_amount_info"
                             style="@style/style_fb_tip_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_tip_input_wechat_save_number"
                             android:layout_alignTop="@id/iv_deposit_amount"
                             android:layout_toRightOf="@id/iv_deposit_amount"
-                            />
+                            android:text="@string/txt_tip_input_wechat_save_number" />
                     </RelativeLayout>
                 </LinearLayout>
                 <!--虚拟币数量-->
@@ -492,37 +492,38 @@
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/tv_virtual_amount"
                             style="@style/style_fb_info_title"
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:text="@string/txt_tip_input_usdt_numb" />
+
                         <EditText
                             android:id="@+id/et_virtual_amount"
                             style="@style/style_cm_edit"
                             android:layout_toRightOf="@id/tv_virtual_amount"
                             android:hint="@string/txt_tip_input_wechat_save_numb" />
+
                         <ImageView
                             android:id="@+id/iv_virtual_amount"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:layout_marginTop="10dp"
                             android:layout_below="@id/et_virtual_amount"
                             android:layout_alignLeft="@id/et_virtual_amount"
-                            android:background="@mipmap/cm_ic_hint_main"
-                            />
+                            android:layout_marginTop="10dp"
+                            android:background="@mipmap/cm_ic_hint_main" />
+
                         <TextView
                             android:id="@+id/tv_virtual_amount_info"
                             style="@style/style_fb_tip_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_tip_input_wechat_save_number"
                             android:layout_alignTop="@id/iv_virtual_amount"
                             android:layout_toRightOf="@id/iv_virtual_amount"
-                            />
+                            android:text="@string/txt_tip_input_wechat_save_number" />
                     </RelativeLayout>
                 </LinearLayout>
                 <!--存款精确时间-->
@@ -532,8 +533,8 @@
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/tv_deposit_time_info_left"
                             style="@style/style_fb_info_title"
@@ -544,31 +545,31 @@
                         <TextView
                             android:id="@+id/tv_deposit_time"
 
+                            style="@style/style_cm_edit"
                             android:layout_toRightOf="@id/tv_deposit_time_info_left"
                             android:drawableEnd="@mipmap/bt_icon_expand"
-                            style="@style/style_cm_edit"
                             android:hint="请输入存款时间"
                             android:text="" />
+
                         <ImageView
                             android:id="@+id/iv_deposit_time"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:layout_marginTop="10dp"
                             android:layout_below="@id/tv_deposit_time"
                             android:layout_alignLeft="@id/tv_deposit_time"
+                            android:layout_marginTop="10dp"
                             android:background="@mipmap/cm_ic_hint_main"
-                            android:visibility="invisible"
-                            />
+                            android:visibility="invisible" />
+
                         <TextView
                             android:id="@+id/tv_deposit_time_info"
                             style="@style/style_fb_tip_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_tip_input_usdt_save_number_time_err"
                             android:layout_alignTop="@id/iv_deposit_time"
                             android:layout_toRightOf="@id/iv_deposit_time"
-                            android:visibility="invisible"
-                            />
+                            android:text="@string/txt_tip_input_usdt_save_number_time_err"
+                            android:visibility="invisible" />
                     </RelativeLayout>
                 </LinearLayout>
                 <!--第三方订单号-->
@@ -576,8 +577,8 @@
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/tv_third_order_number"
                             style="@style/style_fb_info_title"
@@ -595,30 +596,30 @@
                             android:id="@+id/iv_third_order_number"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:layout_marginTop="10dp"
                             android:layout_below="@id/ed_third_order_number"
                             android:layout_alignLeft="@id/ed_third_order_number"
+                            android:layout_marginTop="10dp"
                             android:background="@mipmap/cm_ic_hint_main"
-                            android:visibility="invisible"
-                            />
+                            android:visibility="invisible" />
+
                         <TextView
                             android:id="@+id/tv_third_order_number_info"
                             style="@style/style_fb_tip_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_tip_input_wechat_three_numb_err"
                             android:layout_alignTop="@id/iv_third_order_number"
                             android:layout_toRightOf="@id/iv_third_order_number"
-                            android:visibility="invisible"
-                            />
+                            android:text="@string/txt_tip_input_wechat_three_numb_err"
+                            android:visibility="invisible" />
                     </RelativeLayout>
                 </LinearLayout>
                 <!--支付渠道-->
                 <LinearLayout style="@style/style_ll_row">
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/tv_payment_channel"
                             style="@style/style_fb_info_title"
@@ -628,33 +629,31 @@
 
                         <TextView
                             android:id="@+id/tvw_payment_channel"
+                            style="@style/style_cm_edit"
                             android:layout_toRightOf="@id/tv_payment_channel"
                             android:drawableEnd="@mipmap/bt_icon_expand"
-                            style="@style/style_cm_edit"
                             android:hint="@string/txt_tip_input_wechat_select_pay_way"
-                            android:text=""
-                            />
+                            android:text="" />
 
                         <ImageView
                             android:id="@+id/iv_payment_channel"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:layout_marginTop="10dp"
                             android:layout_below="@id/tvw_payment_channel"
                             android:layout_alignLeft="@id/tvw_payment_channel"
+                            android:layout_marginTop="10dp"
                             android:background="@mipmap/cm_ic_hint_main"
-                            android:visibility="invisible"
-                            />
+                            android:visibility="invisible" />
+
                         <TextView
                             android:id="@+id/tv_payment_channel_info"
                             style="@style/style_fb_tip_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_tip_input_wechat_select_pay_way"
                             android:layout_alignTop="@id/iv_payment_channel"
                             android:layout_toRightOf="@id/iv_payment_channel"
-                            android:visibility="invisible"
-                            />
+                            android:text="@string/txt_tip_input_wechat_select_pay_way"
+                            android:visibility="invisible" />
                     </RelativeLayout>
                 </LinearLayout>
                 <!--收款钱包地址-->
@@ -662,12 +661,12 @@
                     android:id="@+id/ll_collection_wallet_address"
                     style="@style/style_ll_row"
                     android:visibility="gone"
-                    tools:visibility="visible"
-                    >
+                    tools:visibility="visible">
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        >
+                        android:layout_height="wrap_content">
+
                         <TextView
                             android:id="@+id/tv_collection_wallet_address"
                             style="@style/style_fb_info_title"
@@ -685,40 +684,39 @@
                             android:id="@+id/iv_collection_wallet_address"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:layout_marginTop="10dp"
                             android:layout_below="@id/et_collection_wallet_address"
                             android:layout_alignLeft="@id/et_collection_wallet_address"
+                            android:layout_marginTop="10dp"
                             android:background="@mipmap/cm_ic_hint_main"
-                            android:visibility="invisible"
-                            />
+                            android:visibility="invisible" />
+
                         <TextView
                             android:id="@+id/tv_collection_wallet_address_info"
                             style="@style/style_fb_tip_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_tip_input_usdt_collection_name_err"
                             android:layout_alignTop="@id/iv_collection_wallet_address"
                             android:layout_toRightOf="@id/iv_collection_wallet_address"
-                            android:visibility="invisible"
-                            />
+                            android:text="@string/txt_tip_input_usdt_collection_name_err"
+                            android:visibility="invisible" />
                     </RelativeLayout>
                 </LinearLayout>
                 <!--汇款成功截图-->
                 <LinearLayout
-                    android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        >
+                        android:layout_height="match_parent">
+
                         <TextView
                             android:id="@+id/tv_selector_image"
                             style="@style/style_fb_info_title"
+                            android:layout_centerVertical="true"
                             android:layout_marginTop="60dp"
                             android:layout_marginBottom="10dp"
-                            android:layout_centerVertical="true"
 
                             android:text="* 汇款成功截图：" />
 
@@ -731,49 +729,52 @@
                             android:layout_marginTop="10dp"
                             android:layout_toRightOf="@id/tv_selector_image"
                             android:background="@mipmap/rc_ic_feedback_bg">
+
                             <RelativeLayout
                                 android:layout_width="73dp"
-                                android:layout_height="73dp" >
+                                android:layout_height="73dp">
+
                                 <ImageView
                                     android:id="@+id/iv_selector_tip_image"
                                     android:layout_width="73dp"
                                     android:layout_height="73dp"
-                                    android:layout_marginTop="1dp"
+                                    android:layout_centerInParent="true"
                                     android:layout_marginLeft="1dp"
+                                    android:layout_marginTop="1dp"
                                     android:layout_marginRight="1dp"
                                     android:layout_marginBottom="1dp"
-                                    android:layout_centerInParent="true"
-                                    android:visibility="invisible"/>
+                                    android:visibility="invisible" />
+
                                 <ImageView
                                     android:id="@+id/iv_selector_add"
                                     android:layout_width="18dp"
                                     android:layout_height="18dp"
                                     android:layout_centerInParent="true"
-                                    android:background="@mipmap/cm_ic_add"
-                                    />
-
+                                    android:background="@mipmap/cm_ic_add" />
 
                             </RelativeLayout>
 
                         </LinearLayout>
+
                         <ImageView
                             android:id="@+id/iv_selector_tip_image_bottom"
                             android:layout_width="14dp"
                             android:layout_height="14dp"
-                            android:layout_marginTop="10dp"
                             android:layout_below="@id/ll_remittance_screenshot"
                             android:layout_alignLeft="@id/ll_remittance_screenshot"
+                            android:layout_marginTop="10dp"
                             android:background="@mipmap/cm_ic_hint_main"
 
                             />
+
                         <TextView
                             android:id="@+id/tv_selector_tip_image"
                             style="@style/style_fb_tip_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/txt_tip_input_image"
                             android:layout_alignTop="@id/iv_selector_tip_image_bottom"
                             android:layout_toRightOf="@id/iv_selector_tip_image_bottom"
+                            android:text="@string/txt_tip_input_image"
 
                             />
 
@@ -784,8 +785,7 @@
                 <TextView
                     android:id="@+id/ivw_next"
                     style="@style/style_cm_btn_round"
-                    android:text="@string/txt_next_step"
-                    tools:visibility="visible" />
+                    android:text="@string/txt_next_step" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

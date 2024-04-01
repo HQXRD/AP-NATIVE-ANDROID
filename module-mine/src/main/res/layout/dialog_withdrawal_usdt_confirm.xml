@@ -36,7 +36,7 @@
         <TextView
             android:id="@+id/tv_confirm_withdrawal_type_show"
             style="@style/style_withdraw_confirm_value"
-            tools:text="" />
+            tools:text="1231" />
     </LinearLayout>
 
     <View style="@style/style_withdraw_dividing_line" />
@@ -139,7 +139,38 @@
 
     <View style="@style/style_withdraw_dividing_line" />
 
-    <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/iv_confirm_previous"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_dialog_withdraw_close"
+            android:text="@string/txt_withdraw_previous"
+            android:textColor="@color/clr_withdrawal_text_bg"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/iv_confirm_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:background="@drawable/me_bg_withdrawal_next"
+            android:text="@string/txt_withdraw_next"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+  <!--  <Button
         android:id="@+id/iv_confirm_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -163,6 +194,6 @@
         android:background="@drawable/me_bg_withdrawal_previous"
         android:text="@string/txt_withdraw_previous"
         android:textColor="@color/clr_main"
-        android:textSize="16sp" />
+        android:textSize="16sp" />-->
 
 </LinearLayout>

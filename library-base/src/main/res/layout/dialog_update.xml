@@ -89,21 +89,12 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvw_update_version"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/clr_grey_60"
+                    android:textColor="@color/clr_withdrawal_text_bg"
                     android:textSize="12sp"
                     android:visibility="visible"
                     tools:text="iOS自5.0.9版本开始，正式包具有强制升级功能；所有版本正式包均有升级提醒功能。
                     新打包的客户端默认都在无需升级版本里，
                     可将需要升级的版本移动至对应的提示升级版本框和强制升级版本框中。" />
-
-                <!--<include
-                    android:id="@+id/dialog_update_progressbar"
-                    layout="@layout/dialog_update_progressbar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
-                    android:visibility="gone"
-                    tools:visibility="visible" />-->
                 <LinearLayout
                     android:id="@+id/ll_update_progressbar"
                     android:layout_width="wrap_content"
@@ -159,23 +150,29 @@
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
             app:layout_constraintStart_toStartOf="@id/ivw_bg">
 
-            <ImageView
+            <Button
                 android:id="@+id/dialog_update_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
-                android:background="@mipmap/cm_dialog_update_cancel"
-                android:visibility="visible"
-                tools:visibility="visible" />
+                android:gravity="center"
+                android:text="@string/txt_withdraw_cancel"
+                android:textColor="@color/clr_withdrawal_text_bg"
+                android:background="@drawable/me_bg_fund_password_cancel"/>
 
-            <ImageView
+            <Button
                 android:id="@+id/dialog_update_confirm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
-                android:background="@mipmap/cm_dialog_update_confirm"
-                android:visibility="visible"
-                tools:visibility="visible" />
+                android:gravity="center"
+                android:text="@string/txt_withdraw_sure"
+                android:textColor="@color/clr_bg_frame_32"
+                app:layout_constraintEnd_toEndOf="@id/dialog_update_cancel"
+                app:layout_constraintTop_toTopOf="@id/btn_cancel"
+                android:background="@drawable/bt_bg_fund_password_sure"/>
+
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

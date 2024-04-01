@@ -36,20 +36,9 @@
 
     <TextView
         android:id="@+id/tv_bt_now"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="33dp"
-        android:background="@mipmap/cm_bg_btn_2"
-        android:gravity="center_horizontal"
-        android:paddingTop="6dp"
-        android:text="@string/bt_txt_bt_right_now"
-        android:textColor="@color/bt_color_under_bg_primary_text"
-        android:textSize="@dimen/bt_text_16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        style="@style/style_cm_btn_round"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="36dp"
+        android:text="@string/bt_txt_bt_right_now" />
 </LinearLayout>

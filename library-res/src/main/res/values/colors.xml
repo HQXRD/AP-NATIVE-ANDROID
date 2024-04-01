@@ -447,4 +447,30 @@
     <color name="clr_txt_rebateagrt_fail">#FD5255</color>
     <!--    标记颜色-->
     <color name="clr_txt_rebateagrt_mark">#FD5255</color>
+
+    <!--  提款-->
+    <color name="clr_withdrawal_list_bottom_text_bg">#1FC4F8</color>
+    <color name="clr_withdrawal_list_bottom_text_tip_bg">#E77C40</color>
+    <color name="clr_withdrawal_list_text_bg">@color/clr_main_15</color>
+    <color name="clr_withdrawal_btn_bg">@color/clr_bg_frame_32</color>
+    <color name="clr_withdrawal_btn_stroke">@color/clr_main_04</color>
+    <color name="clr_withdrawal_list_top_start_bg">@color/clr_main_13</color>
+    <color name="clr_withdrawal_list_top_end_bg">@color/clr_main_13</color>
+    <color name="clr_withdrawal_text_bg">@color/clr_main_14</color>
+    <color name="clr_withdrawal_btn_start">@color/clr_main_03</color>
+    <color name="clr_withdrawal_btn_end">@color/clr_main_11</color>
+    <color name="clr_withdrawal_text_tip">@color/clr_withdrawal_list_bottom_text_tip_bg</color>
+    <color name="clr_withdrawal_text_bank_tip">#121B47</color>
+    <!--反馈-->
+    <color name="clr_rc_feedback_input_stroke">@color/clr_main_20a</color>
+    <color name="clr_bind_google_key">#E07900</color>
+    <color name="clr_me_security_question_text_stroke">@color/clr_gray_6</color>
+
+
+    <!--    标题-->
+    <color name="clr_txt_rebateagrt_title">#121B47</color>
+    <!--    副标题-->
+    <color name="clr_txt_rebateagrt_subtitle">#99A0B1</color>
+    <!--    高亮-->
+    <color name="clr_txt_rebateagrt_highlight">#0065FF</color>
 </resources>
