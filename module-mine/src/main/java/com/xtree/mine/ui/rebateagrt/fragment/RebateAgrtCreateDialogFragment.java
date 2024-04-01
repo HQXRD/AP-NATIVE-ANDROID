@@ -37,6 +37,10 @@ import me.xtree.mvvmhabit.bus.RxBus;
 @Route(path = RouterFragmentPath.Mine.PAGER_REBATEAGRT_CREATE_DIALOG)
 public class RebateAgrtCreateDialogFragment extends BaseDialogFragment<DialogRebateagrtCreateBinding, RebateAgrtCreateViewModel> {
 
+    //创建模式
+    public static final int CREATE_MODE = 1;
+    //查看模式
+    public static final int CHECK_MODE = 2;
     private RebateAgrtCreateDialogFragment() {
     }
 

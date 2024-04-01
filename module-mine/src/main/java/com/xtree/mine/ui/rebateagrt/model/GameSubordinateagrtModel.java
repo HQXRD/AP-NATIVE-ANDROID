@@ -26,6 +26,15 @@ public class GameSubordinateagrtModel extends BindModel {
         return BaseApplication.getInstance().getResources().getColor(statusColor);
     }
 
+    public String getCheckString() {
+        //如果是未创建状态则提示创建
+        if (status.equals("-1")) {
+            return BaseApplication.getInstance().getString(R.string.txt_create);
+        } else {
+            return BaseApplication.getInstance().getString(R.string.txt_view);
+        }
+    }
+
     public String getStatus() {
         return status;
     }
