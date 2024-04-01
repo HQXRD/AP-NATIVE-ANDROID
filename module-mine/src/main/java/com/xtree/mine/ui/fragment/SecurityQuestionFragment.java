@@ -91,7 +91,6 @@ public class SecurityQuestionFragment extends BottomPopupView {
 
     @Override
     protected int getMaxHeight() {
-        //return super.getMaxHeight();
         return (XPopupUtils.getScreenHeight(getContext()) * 90 / 100);
     }
 
@@ -113,7 +112,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
 
         }else {
             ArrayList list = (ArrayList<?>) mProfileVo.set_question;
-            //设置了密保
+            //设置了密保 返回的不是三组数据
             if (list.size() != 3) {
                 CfLog.e("****** ");
                 return;
