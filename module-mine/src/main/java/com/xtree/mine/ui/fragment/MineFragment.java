@@ -343,7 +343,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         mProfileVo = new Gson().fromJson(json, ProfileVo.class);
         json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_VIP_INFO);
         mVipInfoVo = new Gson().fromJson(json, VipInfoVo.class);
-        viewModel.getVipUpgradeInfo();
+        //viewModel.getVipUpgradeInfo();
     }
 
     private void resetView() {
