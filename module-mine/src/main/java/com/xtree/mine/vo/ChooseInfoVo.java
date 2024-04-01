@@ -129,7 +129,7 @@ public class ChooseInfoVo {
      */
     public static class ChannelInfo {
         public String bindType;// 绑定type 向绑定页面传值
-
+        public  boolean isBind ;//是否绑定标志位 true:绑定； false:未绑定
         public int channeluse;//支付渠道可否跳转状态 1可以跳转下一个页面； 0：不可跳转下一个页面
         public String channeluseMessage = "";//支付渠道不可跳转下一个页面弹出的消息
         /*"id":"3",
@@ -162,12 +162,13 @@ public class ChooseInfoVo {
         public String userid;
         public String min_limit;
         public String max_limit;
-        public boolean flag;//是否点击
+        //public boolean flag;//是否点击
 
         @Override
         public String toString() {
             return "ChannelInfo{" +
                     "bindType='" + bindType + '\'' +
+                    ", isBind=" + isBind +
                     ", channeluse=" + channeluse +
                     ", channeluseMessage='" + channeluseMessage + '\'' +
                     ", id='" + id + '\'' +
@@ -185,7 +186,6 @@ public class ChooseInfoVo {
                     ", userid='" + userid + '\'' +
                     ", min_limit='" + min_limit + '\'' +
                     ", max_limit='" + max_limit + '\'' +
-                    ", flag=" + flag +
                     '}';
         }
     }
