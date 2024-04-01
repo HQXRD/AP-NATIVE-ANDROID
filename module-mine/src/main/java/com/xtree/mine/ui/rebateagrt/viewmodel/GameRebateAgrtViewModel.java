@@ -182,7 +182,25 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
 
         @Override
         public void showTip() {
-            MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_kind_tips), getApplication().getString(R.string.txt_rebateagrt_tip4), true, new TipDialog.ICallBack() {
+            String content = "";
+            switch (type) {
+                case LIVE:
+                    content = getApplication().getString(R.string.txt_rebateagrt_tip4);
+                    break;
+                case SPORT:
+                    content = getApplication().getString(R.string.txt_rebateagrt_tip5);
+                    break;
+                case CHESS:
+                    content = getApplication().getString(R.string.txt_rebateagrt_tip6);
+                    break;
+                case EGAME:
+                    content = getApplication().getString(R.string.txt_rebateagrt_tip7);
+                    break;
+            }
+            MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_kind_tips),
+                    content,
+                    true,
+                    new TipDialog.ICallBack() {
                 @Override
                 public void onClickLeft() {
 
@@ -311,6 +329,8 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 tabList.add("下级契约");
                 tabList.add("下级时薪");
                 tabs.setValue(tabList);
+                //隐藏温馨提示
+                gameRebateAgrtHeadModel.tipVisible.set(false);
                 break;
             default:
                 break;
