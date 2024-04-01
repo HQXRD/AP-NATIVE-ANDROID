@@ -3,7 +3,7 @@ android {
 
     productFlavors {
         // 测试环境 测试用
-        eon2_pre {
+        /*eon2_pre {
             applicationId "com.${name.toLowerCase()}t.app"
             versionName "1.0.0"
             versionCode 100
@@ -20,7 +20,7 @@ android {
             resValue "string", "domain_url_list", "https://preyiang2test.oxldkm.com;"
             multiDexEnabled true
             dimension "channelName"
-        }
+        }*/
         // 生产环境 测试用
         /*eon2_uat {
             applicationId "com.${name.toLowerCase()}.app"
@@ -52,7 +52,7 @@ android {
             dimension "channelName"
         }*/
         // 生产环境 发布用
-        /*eon2 {
+        eon2 {
             applicationId "com.eon2.app" // eon2
             versionName "1.0.0"
             versionCode 100
@@ -80,7 +80,7 @@ android {
                     "https://www.n5q2b8.xyz;"
             multiDexEnabled true
             dimension "channelName"
-        }*/
+        }
 
     }
 
