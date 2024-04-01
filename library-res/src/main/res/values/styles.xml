@@ -642,7 +642,7 @@
     <style name="style_bank_edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">30dp</item>
-        <item name="android:background">@drawable/bg_withdrawa_money_input_bg</item>
+        <item name="android:background">@null</item>
         <item name="android:hint"></item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
@@ -895,6 +895,14 @@
     <style name="style_item_ll_row">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">2dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <!-- 提款 完成申请 页面  -->
+    <style name="style_item_withdrawal_complete_application_row">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginTop">2dp</item>
         <item name="android:layout_marginEnd">0dp</item>
         <item name="android:orientation">horizontal</item>
