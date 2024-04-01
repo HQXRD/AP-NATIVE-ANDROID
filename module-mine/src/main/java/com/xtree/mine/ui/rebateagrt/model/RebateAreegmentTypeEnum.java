@@ -24,6 +24,8 @@ public enum RebateAreegmentTypeEnum {
     LOTTERIESREPORTS("彩票推荐报表", R.mipmap.icon_rebateagrt_lotteriesreports, new String[]{"406323"}),
     //游戏分红
     GAMEREBATE("游戏分红", R.mipmap.icon_rebateagrt_gamerebate, new String[]{"406320"}),
+    //佣金报表
+    COMMISSIONSREPORTS("佣金报表", R.mipmap.icon_rebateagrt_commissions, new String[]{"400870"}),
     ;
 
     private final String name;

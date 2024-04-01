@@ -29,6 +29,8 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
     public ObservableField<StatusVo> state = new ObservableField<>();
     //昨日分红
     public ObservableField<String> yesterdayRebate = new ObservableField<>();
+    //显示温馨提示
+    public ObservableField<Boolean> tipVisible = new ObservableField<>(true);
     //分页索引
     public int p = 1;
     //page count
