@@ -27,6 +27,7 @@ import me.xtree.mvvmhabit.bus.RxBus;
 public class CommissionsReportsFragment extends BaseFragment<FragmentCommissionsReportsBinding, CommissionsReportsViewModel> {
     @Override
     public void initView() {
+        binding.btCurMonth.setChecked(true);
     }
 
     @Override

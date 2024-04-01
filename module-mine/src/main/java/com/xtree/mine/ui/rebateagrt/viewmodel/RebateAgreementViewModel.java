@@ -19,6 +19,7 @@ import com.xtree.base.widget.MsgDialog;
 import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.ui.rebateagrt.fragment.CommissionsReportsFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.GameDividendAgrtFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.GameRebateAgrtFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.RecommendedReportsFragment;
@@ -57,6 +58,8 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREPORTS));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LOTTERIESREPORTS));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREBATE));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREBATE));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.COMMISSIONSREPORTS));
         }
     };
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -93,6 +96,9 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                     case LOTTERIESREPORTS:
                     case GAMEREPORTS:
                         startContainerActivity(RecommendedReportsFragment.class.getCanonicalName());
+                        break;
+                    case COMMISSIONSREPORTS:
+                        startContainerActivity(CommissionsReportsFragment.class.getCanonicalName());
                         break;
                     default:
                         break;
