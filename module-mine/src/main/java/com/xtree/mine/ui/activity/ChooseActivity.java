@@ -162,7 +162,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                             finish();
 
                         }
-                    }, checkCode));
+                    }, checkCode , this));
         }
         baseChoosePopupView.show();
     }
