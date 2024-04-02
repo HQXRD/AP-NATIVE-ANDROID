@@ -112,15 +112,19 @@ public class CheckPasswordDialog extends BaseFragment<DialogTransferMemberBindin
     private void checkPassword() {
         String code = binding.etTransferPassword.getText().toString();
 
-        LoadingDialog.show(getContext());
+        if (!code.isEmpty()) {
+            LoadingDialog.show(getContext());
 
-        HashMap<String, String> map = new HashMap<>();
-        map.put("flag", "check");
-        map.put("nextact", "bindsequestion");
-        map.put("nextcon", "user");
-        map.put("secpass", code);
-        map.put("nonce", UuidUtil.getID16());
-        mineViewModel.checkMoneyPassword(map);
+            HashMap<String, String> map = new HashMap<>();
+            map.put("flag", "check");
+            map.put("nextact", "bindsequestion");
+            map.put("nextcon", "user");
+            map.put("secpass", code);
+            map.put("nonce", UuidUtil.getID16());
+            mineViewModel.checkMoneyPassword(map);
+        } else {
+            ToastUtils.showLong("请输入密码");
+        }
     }
 
     private void close() {
