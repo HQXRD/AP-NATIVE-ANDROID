@@ -11,7 +11,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@mipmap/cm_bg_dark"
+            android:background="@color/clr_main_08"
             android:orientation="vertical">
 
             <LinearLayout
@@ -33,8 +33,9 @@
                     android:id="@+id/tvw_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/layout_margin"
                     android:text="@string/me_user_name_hint"
-                    android:textColor="@color/clr_txt_01"
+                    android:textColor="@color/clr_txt_black_cm"
                     android:textSize="14sp" />
 
                 <TextView
@@ -131,7 +132,7 @@
                     android:paddingEnd="16dp"
                     android:paddingBottom="6dp"
                     android:text="@string/me_get_all_money"
-                    android:textColor="@color/clr_blue_05"
+                    android:textColor="@color/clr_txt_01"
                     android:textSize="10sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -149,6 +150,7 @@
                     app:layout_constraintTop_toTopOf="@+id/tvw_money_hint" />
 
                 <LinearLayout
+                    android:id="@+id/ll_balance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -182,162 +184,176 @@
                         android:padding="6dp"
                         android:src="@mipmap/cm_ic_refresh" />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/clr_transparent"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/layout_margin"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_balance">
+
+                    <TextView
+                        android:id="@+id/tvw_wallet"
+                        style="@style/style_menu_white"
+                        android:drawableTop="@mipmap/me_per_wallet"
+                        android:text="@string/me_my_pocket" />
+
+                    <TextView style="@style/style_wallet_space" />
+
+                    <TextView
+                        android:id="@+id/tvw_trans"
+                        style="@style/style_menu_white"
+                        android:drawableTop="@mipmap/me_per_transfer"
+                        android:text="@string/me_transfer" />
+
+                    <TextView style="@style/style_wallet_space" />
+
+                    <TextView
+                        android:id="@+id/tvw_bt"
+                        style="@style/style_menu_white"
+                        android:drawableTop="@mipmap/me_per_betting"
+                        android:text="@string/me_betting_record" />
+
+                    <TextView style="@style/style_wallet_space" />
+
+                    <TextView
+                        android:id="@+id/tvw_trans_record"
+                        style="@style/style_menu_white"
+                        android:drawableTop="@mipmap/me_per_bill_change"
+                        android:text="@string/me_account_record" />
+
+                    <TextView style="@style/style_wallet_space" />
+
+                    <TextView
+                        android:id="@+id/tvw_safe"
+                        style="@style/style_menu_white"
+                        android:drawableTop="@mipmap/me_per_safe"
+                        android:text="@string/me_account_safety" />
+                </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_menu"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_margin"
                 android:layout_marginTop="@dimen/layout_margin"
                 android:layout_marginEnd="@dimen/layout_margin"
-                android:background="@drawable/bg_main_frame_03"
-                android:orientation="horizontal"
-                android:padding="@dimen/layout_margin">
-
-                <TextView
-                    android:id="@+id/tvw_wallet"
-                    style="@style/style_menu_white"
-                    android:drawableTop="@mipmap/me_per_wallet"
-                    android:text="@string/me_my_pocket" />
-
-                <TextView style="@style/style_wallet_space" />
-
-                <TextView
-                    android:id="@+id/tvw_trans"
-                    style="@style/style_menu_white"
-                    android:drawableTop="@mipmap/me_per_transfer"
-                    android:text="@string/me_transfer" />
-
-                <TextView style="@style/style_wallet_space" />
-
-                <TextView
-                    android:id="@+id/tvw_bt"
-                    style="@style/style_menu_white"
-                    android:drawableTop="@mipmap/me_per_betting"
-                    android:text="@string/me_betting_record" />
-
-                <TextView style="@style/style_wallet_space" />
-
-                <TextView
-                    android:id="@+id/tvw_trans_record"
-                    style="@style/style_menu_white"
-                    android:drawableTop="@mipmap/me_per_bill_change"
-                    android:text="@string/me_account_record" />
-
-                <TextView style="@style/style_wallet_space" />
-
-                <TextView
-                    android:id="@+id/tvw_safe"
-                    style="@style/style_menu_white"
-                    android:drawableTop="@mipmap/me_per_safe"
-                    android:text="@string/me_account_safety" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_menu_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/layout_margin"
-                android:background="@drawable/bg_main_frame_03"
-                android:orientation="vertical"
-                android:padding="@dimen/layout_margin">
+                android:background="@color/clr_transparent"
+                android:visibility="visible">
 
                 <LinearLayout
-                    android:id="@+id/ll_menu_01"
-                    style="@style/style_ll_row_2">
+                    android:id="@+id/ll_menu_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_main_frame_03"
+                    android:orientation="vertical"
+                    android:padding="@dimen/layout_margin"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <TextView
-                        android:id="@+id/tvw_profit"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_profit"
-                        android:text="@string/txt_profit" />
+                    <LinearLayout
+                        android:id="@+id/ll_menu_01"
+                        style="@style/style_ll_row_2">
 
-                    <TextView style="@style/style_wallet_space" />
+                        <TextView
+                            android:id="@+id/tvw_profit"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_profit"
+                            android:text="@string/txt_profit" />
 
-                    <TextView
-                        android:id="@+id/tvw_team_mgmt"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_team"
-                        android:text="@string/txt_team_mgmt" />
+                        <TextView style="@style/style_wallet_space" />
 
-                    <TextView style="@style/style_wallet_space" />
+                        <TextView
+                            android:id="@+id/tvw_team_mgmt"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_team"
+                            android:text="@string/txt_team_mgmt" />
 
-                    <TextView
-                        android:id="@+id/tvw_3rd_trans"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_3rd"
-                        android:text="@string/txt_3rd_trans" />
+                        <TextView style="@style/style_wallet_space" />
 
-                    <TextView style="@style/style_wallet_space" />
+                        <TextView
+                            android:id="@+id/tvw_3rd_trans"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_3rd"
+                            android:text="@string/txt_3rd_trans" />
 
-                    <TextView
-                        android:id="@+id/tvw_rebate_contract"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_report"
-                        android:text="@string/txt_rebate_contract" />
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_rebate_contract"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_report"
+                            android:text="@string/txt_rebate_contract" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_menu_02"
+                        style="@style/style_ll_row_2">
+
+                        <TextView
+                            android:id="@+id/tvw_acc_mg"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_acc"
+                            android:text="@string/txt_acc_mg" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_help"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_help"
+                            android:text="@string/txt_help" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_sport_regular"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_rule"
+                            android:text="@string/txt_sport_regular" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_tutorial"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_usdt"
+                            android:text="@string/txt_usdt_tutorial" />
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/style_ll_row_2">
+
+                        <TextView
+                            android:id="@+id/tvw_upgrade"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_upgrade"
+                            android:text="@string/txt_upgrade" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_reg_prom"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_reg"
+                            android:text="@string/txt_reg_prom" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
+                            android:id="@+id/tvw_qa"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_qa"
+                            android:text="@string/txt_reg_prom" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView style="@style/style_menu_black" />
+                    </LinearLayout>
                 </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_menu_02"
-                    style="@style/style_ll_row_2">
-
-                    <TextView
-                        android:id="@+id/tvw_acc_mg"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_acc"
-                        android:text="@string/txt_acc_mg" />
-
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView
-                        android:id="@+id/tvw_reg_prom"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_reg"
-                        android:text="@string/txt_reg_prom" />
-
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView
-                        android:id="@+id/tvw_sport_regular"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_rule"
-                        android:text="@string/txt_sport_regular" />
-
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView
-                        android:id="@+id/tvw_tutorial"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_usdt"
-                        android:text="@string/txt_usdt_tutorial" />
-                </LinearLayout>
-
-                <LinearLayout style="@style/style_ll_row_2">
-
-                    <TextView
-                        android:id="@+id/tvw_upgrade"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_upgrade"
-                        android:text="@string/txt_upgrade" />
-
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView
-                        android:id="@+id/tvw_help"
-                        style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_help"
-                        android:text="@string/txt_help" />
-
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView style="@style/style_menu_black" />
-
-                    <TextView style="@style/style_wallet_space" />
-
-                    <TextView style="@style/style_menu_black" />
-                </LinearLayout>
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
                 android:id="@+id/btn_logout"
