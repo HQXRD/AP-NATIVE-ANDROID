@@ -103,7 +103,6 @@
     <string name="btn_bind_text">绑 定</string>
 
     <string name="txt_bind_phone">绑定手机号码</string>
-    <string name="txt_bind_phone_title">绑定手机号</string>
     <string name="txt_bind_email">绑定邮箱地址</string>
 
     <string name="txt_security_verify">安全验证</string>
@@ -114,7 +113,7 @@
     <string name="txt_phone_num">手机号码</string>
     <string name="txt_email_addr">邮箱地址</string>
     <string name="txt_email">邮箱</string>
-    <string name="txt_change_phone_num">"已绑定 "</string>
+    <string name="txt_change_phone_num">"更新手机号 "</string>
     <string name="txt_change_email">"更新邮箱地址 "</string>
     <string name="txt_pwd_cannot_empty">新密码不能为空</string>
     <string name="txt_pwd_not_same">两次密码不一致</string>
@@ -168,7 +167,6 @@
     <string name="txt_verify_acc">*上次绑定银行卡号</string>
     <string name="txt_verify_addr">*上次绑定錢包地址</string>
     <string name="txt_verify_addr_warning">请输入最新绑定钱包地址</string>
-    <string name="txt_enter_verify_wallet_addr">请输入上次绑定的钱包地址</string>
 
     <string name="txt_lock_card">锁定银行卡</string>
     <string name="txt_add_bind">增加绑定</string>
@@ -284,7 +282,6 @@
     <string name="txt_reset_password_form_error">密码格式不正确，请重新输入</string>
     <string name="txt_reset_password_tri_same_error">不能连续三个相同字符</string>
     <string name="txt_reset_password_not_same_error">两次密码输入不一致</string>
-    <string name="txt_reset_password_num_text_error">密码必须包含数字和字母</string>
     <string name="txt_enter_otc">请输入验证码</string>
     <string name="txt_check_your_email">%1$s，您好！ \n 您的邮箱地址为 \n %2$s \n 请进行邮箱验证</string>
     <string name="txt_check_your_phone">%1$s，您好！ \n 您的手机号为 \n %2$s \n 请进行短信验证</string>
@@ -323,7 +320,6 @@
     <string name="txt_confirm_amount">提款金额方式：</string>
     <string name="txt_withdrawal_min">单笔最低提现金额:</string>
     <string name="txt_input_money">请输入提款金额</string>
-    <string name="txt_withdrawal_method_money_tip">提款金额：</string>
     <string name="txt_actual_withdrawal_amount">实际提款金额</string>
     <string name="txt_payee_bank_card">收款银行卡</string>
     <string name="txt_kind_tips_count">1.为了保证您正常提款，请您在使用银行卡充值时务必使用绑定银行卡或者与绑定银行卡姓名相同的卡，否则将无法正常提款。 </string>
@@ -369,7 +365,7 @@
     <string name="txt_awards_no_money_tip">您未参加任何活动，暂无礼金</string>
     <string name="txt_choose_withdrawal_tip">可用提款余额:%1$s其中%2$s可以使用虚拟币提款取出</string>
     <string name="txt_choose_withdrawal_nobind_tip">可用提款余额:%1$s(USDT收款地址尚未绑定,EBPAY收款地址尚未绑定)</string>
-        <string name="txt_cny_balance">￥</string>
+    <string name="txt_cny_balance">￥</string>
 
     <string name="txt_userpoint_desc">按返点-从高到底</string>
     <string name="txt_userpoint_asc">按返点-从低到高</string>
@@ -385,7 +381,6 @@
     <!--    返水契约-->
     <string name="rebate_agrt_title">返水契约</string>
     <string name="commissions_reports_title">全民佣金</string>
-    <string name="commissions_reports_title">月度佣金</string>
     <string name="status">状态</string>
     <string name="start_date">起始日期</string>
     <string name="end_date">截止日期</string>
@@ -403,12 +398,12 @@
     <string name="txt_search">查询</string>
     <string name="txt_click_search">点击查询数据</string>
     <string name="txt_account_self">本人</string>
-    <string name="txt_teturn_point">返点：</string>
-    <string name="txt_member_value">团队人数：</string>
-    <string name="txt_people_balance">个人余额：</string>
-    <string name="txt_group_balance">团队余额：</string>
-    <string name="txt_last_login_time">最后登陆：</string>
-    <string name="txt_register_time">注册日期：</string>
+    <string name="txt_teturn_point">返点:</string>
+    <string name="txt_member_value">团队人数:</string>
+    <string name="txt_people_balance">个人余额:</string>
+    <string name="txt_group_balance">团队余额:</string>
+    <string name="txt_last_login_time">最后登日:</string>
+    <string name="txt_register_time">注册日期:</string>
     <string name="txt_account_money_record">帐变记录</string>
     <string name="txt_reg_rebate">自身保留返点：</string>
     <string name="txt_reg_name_tip">字母或数字6–16个字符,不能连续四位相同,首字不能是0或者o</string>
@@ -430,7 +425,6 @@
     <string name="txt_mine_agrt">我的契约</string>
     <string name="txt_mine_dividend">本人分红</string>
     <string name="txt_view_deed">查看契约</string>
-    <string name="txt_create_deed">创建契约</string>
     <string name="txt_dividend_ratio">分红比例</string>
     <string name="txt_num_active_persons">活跃人数</string>
     <string name="txt_dividend_due">应发分红</string>
@@ -464,11 +458,6 @@
     <string name="txt_rebateagrt_tip6">1. 返水按有效投注额计算，无效投注的判定标准请咨询平台或您的上级。 \n2. 活跃玩家人数统计包括本人，活跃玩家定义请咨询平台或您的上级。 \n3. 返水金额向下取整数，精确到元。 \n4. 部份游戏有效投注额等于每局输赢金额差； 部分游戏盈利会抽取5%。 \n5. 以下游戏不计算有效投注额，不派发返水。 DB棋牌：海王捕鱼、龙虎斗、百家乐、森林舞会。 云游棋牌：龙虎斗、百家乐、黑红梅方、李逵劈鱼、大闹天宫、森林舞会、疯狂捕鱼。</string>
     <string name="txt_rebateagrt_tip7">1. 电竞投注额统计按照结算（开奖）时间为准。 \n2. 返水按有效投注额计算，无效投注的判定标准请咨询平台或您的上级。 \n3. 活跃玩家人数统计包括本人，活跃玩家定义请咨询平台或您的上级。 \n4. 返水金额向下取整数，精确到元。 \n5. 以下游戏不计算有效投注额，不派发返水。 DB电竞：英雄召唤 雷火电竞：刀塔宝藏、英雄联盟(召唤）、CSGO拆弹、王者荣耀(夺宝-快速)。 IM电竞：激斗峡谷、板球超级轮。</string>
     <string name="txt_rebateagrt_tip8">1.日分红从契约生效日期起算流水，如满足契约要求则在次日可获得分红；\n2.为了便于统计，分红金额向下取整，精确到元，例如：计算时薪为201.9元，则实发金额为201元；\n3.所有分红目前只计算前一天的彩票投注额，不计算真人、老虎机、体育等投注额；\n4.所有分红每天上午自动发放，无须手动领取；\n5.日分红活跃人数定义：日投注额≥1000元，已绑定银行卡，有过至少1次银行卡提款记录。</string>
-    <string name="txt_rebateagrt_tip4">1. 返水按有效投注额计算，无效投注的判定标准请咨询平台或您的上级。 2. 个别游戏因数据统计存在延迟，将计入次日投注额。 3. 活跃玩家人数统计包括本人，活跃玩家定义请咨询平台或您的上级。 4. 返水金额向下取整数，精确到元。 5. 以下游戏不计算有效投注额，不派发返水。 DB真人：滚球、六合彩。 TextText电子：龙虎斗、龙宝百家乐、美式21点、21点之富贵临门、轮盘。 TextT电子：古怪猴子、黄金之旅、高速公路之王、紫色狂热、招财进宝2、招财进宝彩池、招财进宝。 AG捕鱼：捕鱼乐园、捕鱼王 2D、捕鱼王 3D、天际猎人。</string>
-    <string name="txt_rebateagrt_tip5">1. 体育投注额统计按照结算（开奖）时间为准。 2. 返水按有效投注额计算，无效投注的判定标准请咨询平台或您的上级。 3. 活跃玩家人数统计包括本人，活跃玩家定义请咨询平台或您的上级。 4. 返水金额向下取整数，精确到元。</string>
-    <string name="txt_rebateagrt_tip6">1. 返水按有效投注额计算，无效投注的判定标准请咨询平台或您的上级。 2. 活跃玩家人数统计包括本人，活跃玩家定义请咨询平台或您的上级。 3. 返水金额向下取整数，精确到元。 4. 部份游戏有效投注额等于每局输赢金额差； 部分游戏盈利会抽取5%。 5. 以下游戏不计算有效投注额，不派发返水。 DB棋牌：海王捕鱼、龙虎斗、百家乐、森林舞会。 云游棋牌：龙虎斗、百家乐、黑红梅方、李逵劈鱼、大闹天宫、森林舞会、疯狂捕鱼。</string>
-    <string name="txt_rebateagrt_tip7">1. 电竞投注额统计按照结算（开奖）时间为准。 2. 返水按有效投注额计算，无效投注的判定标准请咨询平台或您的上级。 3. 活跃玩家人数统计包括本人，活跃玩家定义请咨询平台或您的上级。 4. 返水金额向下取整数，精确到元。 5. 以下游戏不计算有效投注额，不派发返水。 DB电竞：英雄召唤 雷火电竞：刀塔宝藏、英雄联盟(召唤）、CSGO拆弹、王者荣耀(夺宝-快速)。 IM电竞：激斗峡谷、板球超级轮。</string>
-    <string name="txt_rebateagrt_tip8">1.日分红从契约生效日期起算流水，如满足契约要求则在次日可获得分红；2.为了便于统计，分红金额向下取整，精确到元，例如：计算时薪为201.9元，则实发金额为201元；3.所有分红目前只计算前一天的彩票投注额，不计算真人、老虎机、体育等投注额；4.所有分红每天上午自动发放，无须手动领取；5.日分红活跃人数定义：日投注额≥1000元，已绑定银行卡，有过至少1次银行卡提款记录。</string>
     <string name="txt_balances">结余：</string>
     <string name="txt_paid_sub">下级应发：</string>
     <string name="txt_rebate_sub">下级返水</string>
@@ -479,7 +468,5 @@
     <string name="txt_dividend_yestday_rmb">昨日分红（元）</string>
     <string name="txt_correct_pwd">请输入正确格式的登录密码</string>
     <string name="txt_dividend_check_tip1">说明\n●分红周期指每月1-15日，16日-月末；\n●契约规则请按照从低至高顺序填写；\n●契约创建成功后立即生效，本分红周期统计完整投注额；</string>
-    <string name="txt_contractual_norms">契约规则</string>
-    <string name="text_null_or_zero">金额不得为空或0</string>
     <string name="txt_contractual_norms">契约规则</string>
 </resources>
