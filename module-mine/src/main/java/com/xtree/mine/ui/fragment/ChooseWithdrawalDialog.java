@@ -54,6 +54,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
         /*网络异常关闭Dialog*/
         void closeDialogByError();
+
+        void closeDialogByBind();
     }
 
     private String checkCode;
@@ -211,10 +213,10 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         ChooseInfoVo.ChannelInfo channel = channelInfo;
                         CfLog.i("ChooseAdapter channel = " + channel.toString());
                         if (channel.isBind ==false ){
-                            if (!TextUtils.isEmpty(channel.channeluseMessage)){
-                                showErrorDialog(channel.channeluseMessage);
-                            } else if (TextUtils.isEmpty(channel.channeluseMessage)) {
+                            if (!TextUtils.isEmpty(channel.channeluseMessage) && !channel.isBind){
                                 showBindDialog(channel , channel.channeluseMessage);
+                            } else {
+                                showErrorDialog(channel.channeluseMessage);
                             }
                         } else if (channel.isBind && TextUtils.isEmpty(channel.channeluseMessage)) {
                             if (TextUtils.equals("银行卡提款", txt)){
@@ -421,6 +423,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         intent.putExtra(ContainerActivity.BUNDLE, bundle);
                         mActivity.startActivity(intent);
                         customPopWindow.dismiss();
+                        callBack.closeDialogByBind();
                     }
                 }));
         customPopWindow.show();

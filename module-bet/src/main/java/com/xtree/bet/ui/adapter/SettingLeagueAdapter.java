@@ -117,7 +117,7 @@ public class SettingLeagueAdapter extends AnimatedExpandableListViewMax.Animated
         }
         BtDialogLeagueGroupBinding binding = BtDialogLeagueGroupBinding.bind(holder.itemView);
         binding.tvLeagueName.setText(leagueArea.getName());
-        binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_expand : R.mipmap.bt_icon_unexpand);
+        binding.groupIndicator.setImageResource(isExpanded ? R.mipmap.bt_icon_white_expand : R.mipmap.bt_icon_white_unexpand);
 
         binding.cbChoise.setOnClickListener(v -> {
             leagueArea.setSelected(!leagueArea.isSelected());

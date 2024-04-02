@@ -17,6 +17,7 @@ import com.drake.brv.utils.divider
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayout.GONE
 import com.google.android.material.tabs.TabLayout.OnTabSelectedListener
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
@@ -116,11 +117,18 @@ fun FilterView.initData(
     value = ["setSelectedListener", "tabs"],
     requireAll = false
 )
-fun TabLayout.init(setSelectedListener: OnTabSelectedListener, tabs: List<String>) {
-    for (tab in tabs) {
-        addTab(newTab().apply { text = tab })
+fun TabLayout.init(setSelectedListener: OnTabSelectedListener?, tabs: List<String>?) {
+    tabs?.let {
+        for (tab in it) {
+            addTab(newTab().apply { text = tab })
+        }
+    }?:run {
+        visibility = GONE
     }
-    addOnTabSelectedListener(setSelectedListener)
+
+    setSelectedListener?.run {
+        addOnTabSelectedListener(setSelectedListener)
+    }
 }
 
 @BindingAdapter(

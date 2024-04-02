@@ -56,8 +56,8 @@
 
     <ImageView
         android:id="@+id/ivw_grey_cover"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_marginTop="1dp"
         android:background="@mipmap/hm_bg_entry"
         android:visibility="gone"

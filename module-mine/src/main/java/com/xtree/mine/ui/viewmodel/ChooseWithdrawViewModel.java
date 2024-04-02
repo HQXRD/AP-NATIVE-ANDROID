@@ -252,7 +252,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                             for (int i = 0; i < chooseInfoVo.wdChannelList.size(); i++) {
                                 if (chooseInfoVo.wdChannelList.get(i).configkey.contains("usdt")
                                         || chooseInfoVo.wdChannelList.get(i).title.contains("USDT提款")) {
-                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gcnyt_type);
+                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_usdt_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.usdtchanneluse_msg;
                                     if (chooseInfoVo.bankcardstatus_usdt) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;

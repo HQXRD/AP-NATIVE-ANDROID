@@ -27,12 +27,13 @@ public class DomainUtil {
 
     /**
      * 获取域名, 网页/图片 使用
+     * 有 / 结尾
      *
      * @return url
      */
     public static String getDomain() {
 
-        return domainUrl;
+        return domainUrl + "/";
     }
 
     /**

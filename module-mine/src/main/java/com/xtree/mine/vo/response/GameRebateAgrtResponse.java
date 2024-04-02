@@ -1,5 +1,7 @@
 package com.xtree.mine.vo.response;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 import me.xtree.mvvmhabit.http.BaseResponse2;
@@ -635,6 +637,27 @@ public class GameRebateAgrtResponse extends BaseResponse2 {
             private String period;
             private String min_netwin;
             private String islock;
+            /**
+             * bet
+             */
+            @SerializedName("bet")
+            private String bet;
+            /**
+             * lossAmount
+             */
+            @SerializedName("loss_amount")
+            private String lossAmount;
+            /**
+             * rtype
+             */
+            @SerializedName("rtype")
+            private String rtype;
+            /**
+             * people
+             */
+            @SerializedName("people")
+            private String people;
+
 
             public String getLevel() {
                 return level;
@@ -698,6 +721,38 @@ public class GameRebateAgrtResponse extends BaseResponse2 {
 
             public void setIslock(String islock) {
                 this.islock = islock;
+            }
+
+            public String getBet() {
+                return bet;
+            }
+
+            public void setBet(String bet) {
+                this.bet = bet;
+            }
+
+            public String getLossAmount() {
+                return lossAmount;
+            }
+
+            public void setLossAmount(String lossAmount) {
+                this.lossAmount = lossAmount;
+            }
+
+            public String getRtype() {
+                return rtype;
+            }
+
+            public void setRtype(String rtype) {
+                this.rtype = rtype;
+            }
+
+            public String getPeople() {
+                return people;
+            }
+
+            public void setPeople(String people) {
+                this.people = people;
             }
         }
     }
