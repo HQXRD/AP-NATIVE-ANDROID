@@ -335,7 +335,7 @@
     <color name="clr_gray_3">#EFF1F8</color>
     <color name="clr_gray_4">#EEEEED</color>
     <color name="clr_gray_5">#DAD5E2</color>
-    <color name="clr_gray_6">#E7ECF5</color>
+    <color name="clr_gray_6">#DFDFDF</color>
     <color name="clr_choose_20">#D0B292</color>
 
     <!-- 筛选框 灰色 标题 -->
