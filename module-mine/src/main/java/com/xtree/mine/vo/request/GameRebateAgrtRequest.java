@@ -8,8 +8,8 @@ public class GameRebateAgrtRequest {
 
     public String orderby = "create_time";
     public String sort = "desc";
-    public String starttime = "create_time";
-    public String endtime = "create_time";
+    public String starttime = "";
+    public String endtime = "";
     public String pstatus = "0";
     public int p = 1;
     public int pn = 20;
