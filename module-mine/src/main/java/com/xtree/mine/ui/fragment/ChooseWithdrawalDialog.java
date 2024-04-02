@@ -54,6 +54,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
         /*网络异常关闭Dialog*/
         void closeDialogByError();
+        void closeDialogByBind();
     }
 
     private String checkCode;
@@ -434,22 +435,17 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     @Override
                     public void onClickRight() {
                         //跳转绑定流程
-                        /*Bundle bundle = new Bundle();
+                        //跳转绑定流程
+                        Bundle bundle = new Bundle();
                         bundle.putString("type", channelInfo.bindType);
 
                         String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
                         Intent intent = new Intent(getContext(), ContainerActivity.class);
                         intent.putExtra(ContainerActivity.ROUTER_PATH, path);
                         intent.putExtra(ContainerActivity.BUNDLE, bundle);
-                        getContext().startActivity(intent);
-                        dismiss();*/
-                        CheckPasswordDialog checkPasswordDialog = CheckPasswordDialog.getInstance(channelInfo.bindType, false, checkCode -> {
-
-                        });
-
-                        checkPasswordDialog.show(mActivity.getSupportFragmentManager(), "CheckPasswordDialog");
+                        mActivity.startActivity(intent);
                         customPopWindow.dismiss();
-                        customPopWindow.dismiss();
+                        callBack.closeDialogByBind();
                     }
                 }));
         customPopWindow.show();
