@@ -16,11 +16,13 @@ import com.xtree.mine.vo.UserBindBaseVo;
 import com.xtree.mine.vo.UserUsdtConfirmVo;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.http.BaseResponse;
+import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -136,18 +138,27 @@ public class BindUsdtViewModel extends BaseViewModel<MineRepository> {
         Disposable disposable = (Disposable) model.getApiService().verifyAcc(qMap, map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<BaseResponse<Object>>() {
+                .subscribeWith(new HttpCallBack<Map<String, String>>() {
                     @Override
-                    public void onResult(BaseResponse<Object> vo) {
+                    public void onResult(Map<String, String> map) {
                         CfLog.d("******");
-                        liveDataVerify.setValue(true);
+
+                        if (map.get("status").equals("10000")) {
+                            liveDataVerify.setValue(true);
+                        } else {
+                            onFail(new BusinessException(0, map.get("message")));
+                        }
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
-                        liveDataVerify.setValue(false);
                         super.onError(t);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
                     }
                 });
         addSubscribe(disposable);
