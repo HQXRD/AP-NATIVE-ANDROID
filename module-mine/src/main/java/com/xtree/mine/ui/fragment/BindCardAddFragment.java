@@ -88,7 +88,7 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         binding.tvwOldBack.setOnClickListener(v -> getActivity().finish());
 
         binding.ivwBack.setOnClickListener(v -> {
-            if (binding.llAdd.getVisibility() == View.GONE) {
+            if (binding.llAdd.getVisibility() == View.GONE && binding.llVerify.getVisibility() == View.GONE) {
                 binding.llVerify.setVisibility(View.GONE);
                 binding.llAdd.setVisibility(View.VISIBLE);
                 binding.llConfirm.setVisibility(View.GONE);
