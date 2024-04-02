@@ -112,7 +112,7 @@ public class CheckPasswordDialog extends BaseFragment<DialogTransferMemberBindin
     private void checkPassword() {
         String code = binding.etTransferPassword.getText().toString();
 
-        if (!code.isEmpty()) {
+        if (code != null && !code.isEmpty()) {
             LoadingDialog.show(getContext());
 
             HashMap<String, String> map = new HashMap<>();
