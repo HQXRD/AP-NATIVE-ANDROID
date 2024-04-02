@@ -55,7 +55,7 @@
                 android:id="@+id/ll_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@mipmap/hm_bg_menu"
+                android:background="@color/clr_main_05"
                 android:gravity="center_vertical"
                 android:paddingStart="@dimen/page_margin"
                 android:paddingEnd="@dimen/page_margin"
