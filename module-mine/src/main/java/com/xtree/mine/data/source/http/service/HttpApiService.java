@@ -715,5 +715,5 @@ public interface HttpApiService {
 
     @POST("/api/user/verifylastbind?")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse<Object>> verifyAcc(@QueryMap Map<String, Object> qMap, @Body Map<String, Object> map);
+    Flowable<Map<String, String>> verifyAcc(@QueryMap Map<String, Object> qMap, @Body Map<String, Object> map);
 }
