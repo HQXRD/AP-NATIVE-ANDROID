@@ -96,7 +96,7 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
         this.typeEnum = typeEnum;
     }
 
-    public void setRules( List<GameRebateAgrtResponse.ContractDTO.RuleDTO> rules) {
+    public void setRules(List<GameRebateAgrtResponse.ContractDTO.RuleDTO> rules) {
         //设置显示一条规则提示
         GameRebateAgrtResponse.ContractDTO.RuleDTO ruleDTO = rules.get(0);
         switch (typeEnum) {

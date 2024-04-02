@@ -135,6 +135,7 @@
                 android:textSize="10sp"
                 android:textColor="@color/clr_txt_rebateagrt_profit"
                 android:layout_marginTop="5dp"
+                android:onClick="@{() -> m.clickRatio()}"
                 app:layout_constraintTop_toBottomOf="@id/item_proportions"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
