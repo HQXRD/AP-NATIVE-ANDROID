@@ -77,7 +77,7 @@
                 android:layout_height="33dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:text="@string/txt_rebateagrt_rules1"
+                android:text="@{m.ratioTip}"
                 android:textSize="12sp"
                 android:textColor="@color/clr_white"
                 android:gravity="left|center_vertical"

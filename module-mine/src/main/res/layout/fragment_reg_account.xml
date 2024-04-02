@@ -243,11 +243,6 @@
                 layout="@layout/layout_quick_rebate"
                 android:visibility="gone" />
 
-            <include
-                android:id="@+id/include2"
-                layout="@layout/layout_quick_rebate"
-                android:visibility="gone" />
-
             <Button
                 android:id="@+id/bt_create_user"
                 android:layout_width="0dp"

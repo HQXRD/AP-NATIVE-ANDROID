@@ -20,8 +20,10 @@ public class ProfileVo {
     //public int topUserPinkLive; // 0,
     //public int is_director; // 0,
     //public int frequency; // null,
-    //public int liveStatus; // 0,
-    //public int sportStatus; // 0,
+    public int liveStatus; // 0,
+    public int sportStatus; // 0,
+    public int pokerStatus; // 0,
+    public int esportStatus; // 0,
 
     //彩票返点最大值
     public String rebate_percentage; // "3.0%",

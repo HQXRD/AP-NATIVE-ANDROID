@@ -1,18 +1,20 @@
 package com.xtree.mine.ui.fragment
 
-import android.annotation.SuppressLint
 import android.content.Context
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.lxj.xpopup.core.BottomPopupView
 import com.lxj.xpopup.util.XPopupUtils
 import com.xtree.mine.R
 import com.xtree.mine.databinding.DialogRebateDetailsBinding
 import com.xtree.mine.vo.X0
 
+
 /**
  * 返点详情弹窗
  */
-class RebateDetailsDialog(context: Context, private val prizeGroups: HashMap<Int, List<X0>>) : BottomPopupView(context) {
+class RebateDetailsDialog(context: Context, private val prizeGroups: Any) : BottomPopupView(context) {
     private lateinit var binding: DialogRebateDetailsBinding
 
 
@@ -21,7 +23,7 @@ class RebateDetailsDialog(context: Context, private val prizeGroups: HashMap<Int
         binding = DialogRebateDetailsBinding.bind(findViewById(R.id.cl_root))
         binding.ivwClose.setOnClickListener { this@RebateDetailsDialog.dismiss() }
         val adapter = RebateDetailsAdapter(context)
-        val list = hashMapToKeyValueList(prizeGroups)
+        val list = parseResponse(prizeGroups)
         adapter.addAll(list)
         binding.rvRebate.adapter = adapter
         binding.rvRebate.layoutManager = LinearLayoutManager(context)
@@ -38,11 +40,33 @@ class RebateDetailsDialog(context: Context, private val prizeGroups: HashMap<Int
     /**
      * hashMap转ArrayList<ListValue>
      */
-    private fun hashMapToKeyValueList(hashMap: HashMap<Int, List<X0>>): List<KeyValue> {
-        val keyValueList = mutableListOf<KeyValue>()
+    private fun hashMapToKeyValueList(hashMap: HashMap<Int, List<X0>>): ArrayList<List<X0>> {
+        val list = ArrayList<List<X0>>()
         for ((key, value) in hashMap) {
-            keyValueList.add(KeyValue(key, value))
+            list.add(value)
         }
-        return keyValueList
+        return list
     }
+
+    private fun parseResponse(response: Any): ArrayList<List<X0>> {
+        when (response) {
+            is List<*> -> {
+                val type = object : TypeToken<ArrayList<List<X0>>>() {}.type
+                return Gson().fromJson(response.toString(), type)
+            }
+
+            is Map<*, *> -> {
+                val type = object : TypeToken<HashMap<Int, List<X0>>>() {}.type
+                return hashMapToKeyValueList(Gson().fromJson(response.toString(), type))
+            }
+
+            else -> {
+                // 处理其他类型的响应
+                // 可以抛出异常或者做其他处理
+                println("Unknown response type")
+                return ArrayList()
+            }
+        }
+    }
+
 }

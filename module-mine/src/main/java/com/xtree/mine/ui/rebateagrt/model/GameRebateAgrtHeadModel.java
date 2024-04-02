@@ -31,6 +31,8 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
     public ObservableField<String> yesterdayRebate = new ObservableField<>();
     //显示温馨提示
     public ObservableField<Boolean> tipVisible = new ObservableField<>(true);
+    //返水比例提示
+    public ObservableField<String> ratioTip = new ObservableField<>();
     //分页索引
     public int p = 1;
     //page count

@@ -389,7 +389,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }
 
         // 设置存款人姓名
-        if (vo.realchannel_status && vo.phone_fillin_name) {
+        //if (vo.realchannel_status && vo.phone_fillin_name) {
+        if (vo.phone_fillin_name && vo.recharge_pattern == 2) {
             CfLog.i("设置存款人姓名 = " + vo.accountname);
             binding.edtName.setText(vo.accountname);
             binding.llName.setVisibility(View.VISIBLE);
@@ -548,7 +549,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }
 
         String realName = binding.edtName.getText().toString().trim();
-        if (curRechargeVo.realchannel_status && curRechargeVo.phone_fillin_name) {
+        //if (curRechargeVo.realchannel_status && curRechargeVo.phone_fillin_name) {
+        if (curRechargeVo.phone_fillin_name && curRechargeVo.recharge_pattern == 2) {
             if (TextUtils.isEmpty(realName)) {
                 ToastUtils.showLong(getString(R.string.txt_pls_enter_ur_real_name));
                 return;

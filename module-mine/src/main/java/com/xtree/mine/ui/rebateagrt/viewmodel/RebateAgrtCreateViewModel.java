@@ -1,5 +1,6 @@
 package com.xtree.mine.ui.rebateagrt.viewmodel;
 
+import static com.xtree.mine.ui.rebateagrt.fragment.RebateAgrtCreateDialogFragment.CHECK_MODE;
 import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.CHESS;
 import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.EGAME;
 import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.LIVE;
@@ -142,7 +143,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
         datas.setValue(bindModels);
     }
     private void initMode() {
-        if (rebateAgrtDetailModel.getCheckUserId() != null) {
+        if (rebateAgrtDetailModel.getMode() == CHECK_MODE) {
             //查看契约模式
             viewMode.set(CHECK_MODO);
             headModel.editState.set(false);
@@ -175,10 +176,29 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
         } else {
             //创建契约模式
             viewMode.set(CREATE_MODO);
-            headModel.editState.set(true);
             //设置默认一条空规则
             RebateAgrtCreateModel model = new RebateAgrtCreateModel();
             bindModels.add(model);
+
+            //是否携带用户名
+            if (rebateAgrtDetailModel.getCheckUserId() != null) {
+                headModel.editState.set(false);
+                for (GameSubordinateAgrteResponse.DataDTO datum : rebateAgrtDetailModel.getSubData().getData()) {
+                    if (datum.getUserid().equals(rebateAgrtDetailModel.getCheckUserId())) {
+                        //设置头部用户名
+                        headModel.user.set(datum.getUsername());
+                        RebateAgrtSearchUserResultModel resultModel = new RebateAgrtSearchUserResultModel();
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put(datum.getUserid(), datum.getUsername());
+                        resultModel.setUser(map);
+                        //设置数据
+                        searchUserResultLiveData.setValue(resultModel);
+                        return;
+                    }
+                }
+            } else {
+                headModel.editState.set(true);
+            }
         }
     }
 

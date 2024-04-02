@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 
 import com.google.gson.Gson;
 import com.lxj.xpopup.core.BottomPopupView;
@@ -25,14 +24,12 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  */
 public class AccountMgmtDialog extends BottomPopupView {
     Context ctx;
-    FragmentActivity activity;
     DialogAccountMgmtBinding binding;
     ProfileVo mProfileVo;
 
-    public AccountMgmtDialog(@NonNull Context context, FragmentActivity activity) {
+    public AccountMgmtDialog(@NonNull Context context) {
         super(context);
         ctx = context;
-        this.activity = activity;
     }
 
     @Override
@@ -57,10 +54,11 @@ public class AccountMgmtDialog extends BottomPopupView {
                 //ctx.startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
 
                 if (mProfileVo.has_securitypwd) {
-                    CheckPasswordDialog checkPasswordDialog = CheckPasswordDialog.getInstance(type, false, checkCode -> {
-
-                    });
-                    checkPasswordDialog.show(activity.getSupportFragmentManager(), "CheckPasswordDialog");
+                    path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
+                    Intent intent = new Intent(getContext(), ContainerActivity.class);
+                    intent.putExtra(ContainerActivity.ROUTER_PATH, path);
+                    intent.putExtra(ContainerActivity.BUNDLE, bundle);
+                    ctx.startActivity(intent);
                 } else {
                     path = RouterFragmentPath.Mine.PAGER_FUNDS_PWD;
                     Intent intent = new Intent(getContext(), ContainerActivity.class);

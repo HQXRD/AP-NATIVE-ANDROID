@@ -9,6 +9,12 @@ import com.xtree.mine.vo.response.GameSubordinateAgrteResponse;
 public class RebateAgrtDetailModel {
     private GameSubordinateAgrteResponse subData;
     private String checkUserId = null;
+    //1 -创建模式 2 -查看模式
+    private int mode = 1;
+
+    public RebateAgrtDetailModel(int mode) {
+        this.mode = mode;
+    }
 
     public GameSubordinateAgrteResponse getSubData() {
         return subData;
@@ -24,5 +30,13 @@ public class RebateAgrtDetailModel {
 
     public void setCheckUserId(String checkUserId) {
         this.checkUserId = checkUserId;
+    }
+
+    public int getMode() {
+        return mode;
+    }
+
+    public void setMode(int mode) {
+        this.mode = mode;
     }
 }

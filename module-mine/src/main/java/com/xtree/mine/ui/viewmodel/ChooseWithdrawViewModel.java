@@ -96,66 +96,112 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                             chooseInfoVoMutableLiveData.setValue(chooseInfoVo);
                         } else {
                             for (int i = 0; i < chooseInfoVo.wdChannelList.size(); i++) {
-                                if (chooseInfoVo.wdChannelList.get(i).configkey.contains("usdt")) {
+                                if (chooseInfoVo.wdChannelList.get(i).configkey.contains("usdt")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("USDT提款")) {
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gcnyt_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.usdtchanneluse_msg;
                                     if (chooseInfoVo.bankcardstatus_usdt) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
 
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("bank") || chooseInfoVo.wdChannelList.get(i).configkey.contains("hipaytx") || chooseInfoVo.wdChannelList.get(i).configkey.contains("generalchannel") || chooseInfoVo.wdChannelList.get(i).configkey.contains("银行卡")) {
+                                } else if (chooseInfoVo.wdChannelList.get(i).title.contains("银行卡提款") || chooseInfoVo.wdChannelList.get(i).configkey.contains("onepayfast3")) {
+
                                     //对应银行卡提款字段匹配
+                                    CfLog.e(" ChooseInfoVo.ChannelInfo = " + chooseInfoVo.wdChannelList.get(i).toString());
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.bankchanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_card_type);
                                     if (chooseInfoVo.bankcardstatus_rmb) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("ebpay")) {
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("ebpay")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("EBPAY提款")) {
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.ebpaychanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_ebpay_type);
                                     if (chooseInfoVo.bankcardstatus_ebpay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("topay")) {
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("topay")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("TOPAY提款")) {
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.topaychanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_topay_type);
                                     if (chooseInfoVo.bankcardstatus_topay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("hiwallet")) {
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("hiwallet")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("CNYT提款")) {
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.hiwalletchanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gcnyt_type);
                                     if (chooseInfoVo.bankcardstatus_hiwallet) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gopay")) {
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gopay")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("GOPAY提款")) {
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.gopaychanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gopay_type);
                                     if (chooseInfoVo.bankcardstatus_gopay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("mpay")) {
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("mpay")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("MPAY提款")) {
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_mpay_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.mpaychanneluse_msg;
                                     if (chooseInfoVo.bankcardstatus_mpay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gobao")) {
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gobao")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("GOBAO提款")) {
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gobao_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.gobaochanneluse_msg;
                                     if (chooseInfoVo.bankcardstatus_gobao) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("okpay")) {
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("okpay")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("OKPAY提款")) {
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_okpay_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.okpaychanneluse_msg;
                                     if (chooseInfoVo.bankcardstatus_okpay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
                                 }
-
+                                chooseInfoVoMutableLiveData.setValue(chooseInfoVo);
                             }
-                            chooseInfoVoMutableLiveData.setValue(chooseInfoVo);
+
                         }
                     }
 
@@ -199,72 +245,120 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
 
                     @Override
                     public void onResult(ChooseInfoMoYuVo chooseInfoVo) {
-                        if (!TextUtils.isEmpty(chooseInfoVo.ur_here)) {
+                        if (!TextUtils.isEmpty(chooseInfoVo.ur_here) || chooseInfoVo.wdChannelList == null || chooseInfoVo.wdChannelList.isEmpty()) {
                             //异常状态
                             chooseInfoMoYuVoMutableLiveData.setValue(chooseInfoVo);
                         } else {
                             for (int i = 0; i < chooseInfoVo.wdChannelList.size(); i++) {
-                                if (chooseInfoVo.wdChannelList.get(i).configkey.contains("usdt")) {
+                                if (chooseInfoVo.wdChannelList.get(i).configkey.contains("usdt")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("USDT提款")) {
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gcnyt_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.usdtchanneluse_msg;
                                     if (chooseInfoVo.bankcardstatus_usdt) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
 
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("bank") ||
-                                        chooseInfoVo.wdChannelList.get(i).configkey.contains("hipaytx") ||
-                                        chooseInfoVo.wdChannelList.get(i).configkey.contains("generalchannel") ||
-                                        chooseInfoVo.wdChannelList.get(i).configkey.contains("银行卡")) {
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("bank")
+                                        || chooseInfoVo.wdChannelList.get(i).configkey.contains("hipaytx")
+                                        || chooseInfoVo.wdChannelList.get(i).configkey.contains("hipayht")
+                                        || chooseInfoVo.wdChannelList.get(i).configkey.contains("generalchannel")
+                                        || chooseInfoVo.wdChannelList.get(i).configkey.contains("银行卡")
+                                        || chooseInfoVo.wdChannelList.get(i).configkey.contains("onepayfast3")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("银行卡提款")) {
+
                                     //对应银行卡提款字段匹配
+                                    CfLog.e(" ChooseInfoVo.ChannelInfo = " + chooseInfoVo.wdChannelList.get(i).toString());
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.bankchanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_card_type);
                                     if (chooseInfoVo.bankcardstatus_rmb) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("ebpay")) {
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("ebpay")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("EBPAY提款")) {
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.ebpaychanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_ebpay_type);
                                     if (chooseInfoVo.bankcardstatus_ebpay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("topay")) {
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("topay")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("TOPAY提款")) {
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.topaychanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_topay_type);
                                     if (chooseInfoVo.bankcardstatus_topay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("hiwallet")) {
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("hiwallet")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("CNYT提款")) {
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.hiwalletchanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gcnyt_type);
                                     if (chooseInfoVo.bankcardstatus_hiwallet) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gopay")) {
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gopay")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("GOPAY提款")) {
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.gopaychanneluse_msg;
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gopay_type);
                                     if (chooseInfoVo.bankcardstatus_gopay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("mpay")) {
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("mpay")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("MPAY提款")) {
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_mpay_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.mpaychanneluse_msg;
                                     if (chooseInfoVo.bankcardstatus_mpay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gobao")) {
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("gobao")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("GOBAO提款")) {
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gobao_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.gobaochanneluse_msg;
                                     if (chooseInfoVo.bankcardstatus_gobao) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
-                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("okpay")) {
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("okpay")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("OKPAY提款")) {
                                     chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_okpay_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.okpaychanneluse_msg;
                                     if (chooseInfoVo.bankcardstatus_okpay) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
-                                    } else chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
                                 }
-
                             }
                             chooseInfoMoYuVoMutableLiveData.setValue(chooseInfoVo);
                         }

@@ -114,7 +114,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
 
         binding.tvwMgmt.setOnClickListener(v -> {
             CfLog.d("************");
-            new XPopup.Builder(getContext()).asCustom(new AccountMgmtDialog(getContext(), getActivity())).show();
+            new XPopup.Builder(getContext()).asCustom(new AccountMgmtDialog(getContext())).show();
         });
 
         binding.tvwRecord.setOnClickListener(v -> {
@@ -159,7 +159,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
 
         viewModel.getBalance(); // 平台中心余额
 
-       // viewModel.getAwardRecord();//获取礼物流水
+        // viewModel.getAwardRecord();//获取礼物流水
 
         viewModel.getTransThirdGameType(getContext());
 
