@@ -518,11 +518,12 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                             if (vo.getData() != null) {
                                 for (GameRebateAgrtResponse.DataDTO dataDTO : vo.getData()) {
                                     GameRebateAgrtModel model = new GameRebateAgrtModel();
+                                    model.setTypeEnum(type);
                                     model.date = dataDTO.getDate();
                                     model.setStatus(dataDTO.getPstatus());
-                                    model.betAmoutDay = dataDTO.getLiushui();
+                                    model.betAmoutDay = dataDTO.getBet();
                                     model.betAmoutValidity = dataDTO.getEffective_bet();
-                                    model.rebatePercentage = dataDTO.getRatio();
+                                    model.setRebatePercentage(dataDTO.getRatio());
                                     model.rebateAmout = dataDTO.getTotal_money();
                                     model.subMoney = dataDTO.getSub_money();
                                     model.mineMoney = String.valueOf(dataDTO.getSelf_money());

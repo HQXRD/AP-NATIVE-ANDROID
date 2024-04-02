@@ -295,7 +295,7 @@
     <!-- 首页模块 begin -->
     <color name="clr_hm_txt_black">#000000</color>
     <color name="clr_hm_txt_grey_01">#b1b1b1</color>
-    <color name="clr_hm_txt_grey_03">#9E9E9E</color>
+    <color name="clr_hm_txt_grey_03">#6E6A66</color>
     <color name="clr_hm_grey_03">#E9E9E9</color>
     <color name="clr_hm_grey_05">#D1D1D1</color>
 
@@ -466,6 +466,7 @@
     <color name="clr_bind_google_key">#E07900</color>
     <color name="clr_me_security_question_text_stroke">@color/clr_gray_6</color>
 
+    <color name="clr_home_top">#2C2A29</color>
 
     <!--    标题-->
     <color name="clr_txt_rebateagrt_title">#121B47</color>

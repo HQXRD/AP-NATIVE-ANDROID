@@ -16,7 +16,7 @@ public class GameRebateAgrtModel extends BindModel {
     //有效投注额
     public String betAmoutValidity;
     //返水比例
-    public String rebatePercentage;
+    private String rebatePercentage;
     //返水总额
     public String rebateAmout;
     //下级工资
@@ -27,8 +27,14 @@ public class GameRebateAgrtModel extends BindModel {
     public String date;
     //状态
     private String status;
+    //场馆类型
+    private RebateAreegmentTypeEnum typeEnum;
     private String statusString = BaseApplication.getInstance().getString(R.string.txt_unreceived);
     private int statusColor = BaseApplication.getInstance().getResources().getColor(R.color.clr_txt_rebateagrt_fail);
+
+    public void setTypeEnum(RebateAreegmentTypeEnum typeEnum) {
+        this.typeEnum = typeEnum;
+    }
 
     public void setStatus(String status) {
         if (status != null && !status.isEmpty()) {
@@ -56,5 +62,19 @@ public class GameRebateAgrtModel extends BindModel {
 
     public int getStatusColor() {
         return statusColor;
+    }
+
+    public String getRebatePercentage() {
+        switch (typeEnum) {
+            case USER:
+            case DAYREBATE:
+                return rebatePercentage + "元/千";
+            default:
+                return rebatePercentage + "%";
+        }
+    }
+
+    public void setRebatePercentage(String rebatePercentage) {
+        this.rebatePercentage = rebatePercentage;
     }
 }

@@ -173,7 +173,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="返水"
+                    android:text="返水比例"
                     android:textColor="@color/clr_txt_02"
                     android:textSize="12sp"
                     android:layout_marginTop="12dp"
