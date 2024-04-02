@@ -231,6 +231,31 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                     .dismissOnBackPressed(true)
                     .asCustom(dialog).show();
         }
+
+        @Override
+        public void showRules(String rules) {
+            MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_contractual_norms),
+                    rules,
+                    true,
+                    new TipDialog.ICallBack() {
+                        @Override
+                        public void onClickLeft() {
+
+                        }
+
+                        @Override
+                        public void onClickRight() {
+                            if (showPop != null) {
+                                showPop.dismiss();
+                            }
+                        }
+                    });
+
+            showPop = new XPopup.Builder(mActivity.get())
+                    .dismissOnTouchOutside(true)
+                    .dismissOnBackPressed(true)
+                    .asCustom(dialog).show();
+        }
     };
 
     private final GameSubordinateagrtHeadModel.onCallBack gameSubordinateagrtHeadModelCallBack = new GameSubordinateagrtHeadModel.onCallBack() {
@@ -464,33 +489,8 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                 gameRebateDatas.clear();
                                 gameRebateAgrtHeadModel.yesterdayRebate.set(vo.getUser().getIscreditaccount());
                                 if (vo.getContract() != null && vo.getContract().getRule() != null && vo.getContract().getRule().size() > 0) {
-                                    GameRebateAgrtResponse.ContractDTO.RuleDTO ruleDTO = vo.getContract().getRule().get(0);
-
                                     //设置规则提示
-                                    switch (type) {
-                                        case USER:
-                                            gameRebateAgrtHeadModel.ratioTip.set("规则1:投注额≥" +
-                                                    ruleDTO.getMin_bet() +
-                                                    "元,人数≥" +
-                                                    ruleDTO.getMin_player() + "人,时薪" +
-                                                    ruleDTO.getRatio() + "元/万");
-                                            break;
-                                        case DAYREBATE:
-                                            gameRebateAgrtHeadModel.ratioTip.set("规则1:日投注额≥" +
-                                                    ruleDTO.getBet() +
-                                                    "元,日活跃人数≥" +
-                                                    ruleDTO.getPeople() + "人,且亏损额≥" +
-                                                    ruleDTO.getLossAmount() +
-                                                    "元,分红" +
-                                                    ruleDTO.getRatio() + "元");
-                                            break;
-                                        default:
-                                            gameRebateAgrtHeadModel.ratioTip.set("规则1:日有效投注额≥" +
-                                                    ruleDTO.getMin_bet() +
-                                                    "元,返水" +
-                                                    ruleDTO.getRatio() + "%");
-                                            break;
-                                    }
+                                    gameRebateAgrtHeadModel.setRules(vo.getContract().getRule());
                                 }
 
                                 gameRebateDatas.add(gameRebateAgrtHeadModel);
