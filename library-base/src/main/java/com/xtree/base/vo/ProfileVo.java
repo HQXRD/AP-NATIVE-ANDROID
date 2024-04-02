@@ -1,6 +1,5 @@
 package com.xtree.base.vo;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ProfileVo {
@@ -23,7 +22,7 @@ public class ProfileVo {
     public int liveStatus; // 0,
     public int sportStatus; // 0,
     public int pokerStatus; // 0,
-    public int esportStatus; // 0,
+    public int esportsStatus; // 0,
 
     //彩票返点最大值
     public String rebate_percentage; // "3.0%",
@@ -32,9 +31,9 @@ public class ProfileVo {
     //体育返点最大值
     public Double maxSportPoint; // 0,
     //棋牌返点最大值
-    public Double maxEsportsPoint; // 0,
-    //电竞返点最大值
     public Double maxPokerPoint; // 0,
+    //电竞返点最大值
+    public Double maxEsportsPoint; // 0,
 
     public String userid; // 5373118,
     public String username; // test032
