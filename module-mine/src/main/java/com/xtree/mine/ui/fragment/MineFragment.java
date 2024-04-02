@@ -82,6 +82,19 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             setChildClickable(binding.llMenu01, true);
             setChildClickable(binding.llMenu02, true);
             viewModel.readCache(); // 读取缓存
+
+            if (mProfileVo != null && mProfileVo.usertype == 1) {
+                binding.tvwRegProm.setVisibility(View.VISIBLE);
+                binding.tvwRegProm.setOnClickListener(v -> {
+                    //注册推广
+                    //防止切换登录时，mProfileVo数据更新不及时
+                    if (mProfileVo != null && mProfileVo.maxLivePoint != null) {
+                        startContainerFragment(RouterFragmentPath.Mine.PAGER_REGISTER_PROMOTION);
+                    }
+                });
+            } else {
+                binding.tvwRegProm.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -197,13 +210,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         binding.tvwAccMg.setOnClickListener(v -> {
             showAccountMgmt();
         });
-        binding.tvwRegProm.setOnClickListener(v -> {
-            //注册推广
-            //防止切换登录时，mProfileVo数据更新不及时
-            if (mProfileVo != null && mProfileVo.maxLivePoint != null) {
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_REGISTER_PROMOTION);
-            }
-        });
 
         binding.tvwSportRegular.setOnClickListener(v -> {
             goWebView(v, Constant.URL_SPORT_RULES, false);
@@ -263,7 +269,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
         //检查更新
         binding.tvwUpgrade.setOnClickListener(v -> {
-            LoadingDialog.show(getContext());
+            //LoadingDialog.show(getContext());
             viewModel.getUpdate();
         });
 

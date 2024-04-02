@@ -291,10 +291,10 @@
                     <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:id="@+id/tvw_reg_prom"
+                        android:id="@+id/tvw_help"
                         style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_reg"
-                        android:text="@string/txt_reg_prom" />
+                        android:drawableTop="@mipmap/me_gr_help"
+                        android:text="@string/txt_help" />
 
                     <TextView style="@style/style_wallet_space" />
 
@@ -324,11 +324,10 @@
                     <TextView style="@style/style_wallet_space" />
 
                     <TextView
-                        android:id="@+id/tvw_help"
+                        android:id="@+id/tvw_reg_prom"
                         style="@style/style_menu_black"
-                        android:drawableTop="@mipmap/me_gr_help"
-                        android:text="@string/txt_help" />
-
+                        android:drawableTop="@mipmap/me_gr_reg"
+                        android:text="@string/txt_reg_prom" />
                     <TextView style="@style/style_wallet_space" />
 
                     <TextView style="@style/style_menu_black" />
