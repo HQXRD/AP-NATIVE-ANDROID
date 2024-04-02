@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
@@ -323,7 +324,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
             //重置密保
             map.put("check", "-1");
         }
-        map.put("questions", qaBeanArrayList.toString());
+        map.put("questions", new Gson().toJson(qaBeanArrayList));
         CfLog.e("setSecurityQuestions" + map);
         viewModel.putSecurityQuestions(map);
     }
