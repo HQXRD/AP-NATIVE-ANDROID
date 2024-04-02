@@ -83,6 +83,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
     );
     public MutableLiveData<ArrayList<String>> tabs = new MutableLiveData<>();
     private RebateAreegmentTypeEnum type;
+    private BasePopupView showPop;
     private WeakReference<FragmentActivity> mActivity = null;
     /**
      * 下级数据，保存用于创建契约
@@ -162,7 +163,6 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
     };
 
     private final GameRebateAgrtHeadModel.onCallBack gameRebateAgrtHeadModelCallBack = new GameRebateAgrtHeadModel.onCallBack() {
-        BasePopupView showPop;
 
         @Override
         public void selectStartDate(ObservableField<String> startDate) {
@@ -234,27 +234,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
 
         @Override
         public void showRules(String rules) {
-            MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_contractual_norms),
-                    rules,
-                    true,
-                    new TipDialog.ICallBack() {
-                        @Override
-                        public void onClickLeft() {
-
-                        }
-
-                        @Override
-                        public void onClickRight() {
-                            if (showPop != null) {
-                                showPop.dismiss();
-                            }
-                        }
-                    });
-
-            showPop = new XPopup.Builder(mActivity.get())
-                    .dismissOnTouchOutside(true)
-                    .dismissOnBackPressed(true)
-                    .asCustom(dialog).show();
+            showAgrtDetail(rules);
         }
     };
 
@@ -392,6 +372,33 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 .show();
     }
 
+    /**
+     * 显示契约详情弹窗
+     * @param content 内容
+     */
+    private void showAgrtDetail(String content) {
+        MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_contractual_norms),
+                content,
+                true,
+                new TipDialog.ICallBack() {
+                    @Override
+                    public void onClickLeft() {
+
+                    }
+
+                    @Override
+                    public void onClickRight() {
+                        if (showPop != null) {
+                            showPop.dismiss();
+                        }
+                    }
+                });
+
+        showPop = new XPopup.Builder(mActivity.get())
+                .dismissOnTouchOutside(true)
+                .dismissOnBackPressed(true)
+                .asCustom(dialog).show();
+    }
     public void setActivity(FragmentActivity mActivity) {
         this.mActivity = new WeakReference<>(mActivity);
     }
@@ -583,6 +590,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                             if (vo.getData() != null && vo.getData().size() > 0) {
                                 for (GameSubordinateAgrteResponse.DataDTO dataDTO : vo.getData()) {
                                     GameSubordinateagrtModel model = new GameSubordinateagrtModel();
+                                    model.setTypeEnum(type);
                                     model.setItemType(2);
                                     model.setUserName(dataDTO.getUsername());
                                     model.setUserID(dataDTO.getUserid());
@@ -590,11 +598,14 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                     model.setEffectDate(dataDTO.getEffect_date());
                                     List<GameSubordinateAgrteResponse.DataDTO.RuleDTO> rule = dataDTO.getRule();
                                     if (rule != null && rule.size() > 0) {
-                                        model.setRuleRatio(dataDTO.getRule().get(0).getRatio());
+                                        model.setRules(dataDTO.getRule());
                                     }
                                     model.setCreateTime(dataDTO.getCreate_time());
                                     model.setStatus(dataDTO.getStatus());
                                     model.setSname(dataDTO.getSname());
+                                    model.setRatioCallback(v -> {
+                                        showAgrtDetail(v);
+                                    });
                                     subordinateAgrtDatas.add(model);
 
                                     //如果不是第一次请求则直接插入更新subData

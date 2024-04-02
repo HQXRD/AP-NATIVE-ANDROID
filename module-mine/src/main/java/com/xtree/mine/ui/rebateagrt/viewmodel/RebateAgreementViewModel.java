@@ -59,7 +59,6 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREPORTS));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LOTTERIESREPORTS));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREBATE));
-            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREBATE));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.COMMISSIONSREPORTS));
         }
     };
