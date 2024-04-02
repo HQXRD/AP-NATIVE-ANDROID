@@ -144,6 +144,11 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                             showNetError();
                             finish();
                         }
+
+                        @Override
+                        public void closeDialogByBind() {
+                            finish();
+                        }
                     }, new BankWithdrawalDialog.BankWithdrawalClose() {
                         @Override
                         public void closeBankWithdrawal() {
