@@ -565,7 +565,8 @@ public interface HttpApiService {
     @POST("/?controller=security&action=checkpass&client=m")
     Flowable<Object> checkMoneyPassword(@Body Map<String, String> map);
 
-    @POST("user/?controller=user&action=saveup&client=m")
+    @POST("/user/?controller=user&action=saveup&client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<SendMoneyVo> sendMoney(@Body Map<String, String> map);
 
     /*输入资金密码（魔域）*/

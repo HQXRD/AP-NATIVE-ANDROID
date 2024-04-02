@@ -443,13 +443,13 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         intent.putExtra(ContainerActivity.BUNDLE, bundle);
                         getContext().startActivity(intent);
                         dismiss();*/
-                        CheckPasswordDialog checkPasswordDialog = CheckPasswordDialog.getInstance(channelInfo.bindType, false, checkCode -> {
-
-                        });
-
-                        checkPasswordDialog.show(mActivity.getSupportFragmentManager(), "CheckPasswordDialog");
-                        customPopWindow.dismiss();
-                        customPopWindow.dismiss();
+                        //CheckPasswordDialog checkPasswordDialog = CheckPasswordDialog.getInstance(channelInfo.bindType, false, checkCode -> {
+                        //
+                        //});
+                        //
+                        //checkPasswordDialog.show(mActivity.getSupportFragmentManager(), "CheckPasswordDialog");
+                        //customPopWindow.dismiss();
+                        //customPopWindow.dismiss();
                     }
                 }));
         customPopWindow.show();
