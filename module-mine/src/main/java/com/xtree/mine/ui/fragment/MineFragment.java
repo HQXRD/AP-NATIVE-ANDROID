@@ -68,7 +68,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         if (TextUtils.isEmpty(token)) {
             binding.ivwSetting.setClickable(false);
             binding.ivwMsg.setClickable(false);
-            //binding.tvwQa.setClickable(false);
+            binding.tvwQa.setClickable(false);
             binding.btnLogout.setVisibility(View.INVISIBLE);
             setChildClickable(binding.llMenu, false);
             setChildClickable(binding.llMenu01, false);
@@ -76,7 +76,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         } else {
             binding.ivwSetting.setClickable(true);
             binding.ivwMsg.setClickable(true);
-            //binding.tvwQa.setClickable(true);
+            binding.tvwQa.setClickable(true);
             binding.btnLogout.setVisibility(View.VISIBLE);
             setChildClickable(binding.llMenu, true);
             setChildClickable(binding.llMenu01, true);
@@ -232,9 +232,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         //binding.tvwFanhuiBaobiao.setOnClickListener(v -> {
         //    startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_REPORT); // 返水报表
         //});
-        //binding.tvwQa.setOnClickListener(v -> {
-        //    startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
-        //});
+        binding.tvwQa.setOnClickListener(v -> {
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
+        });
         binding.tvwHelp.setOnClickListener(v -> {
             //BrowserActivity.start(getContext(), ((TextView) v).getText().toString(), DomainUtil.getDomain2() + Constant.URL_HELP, false, false, true);
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);

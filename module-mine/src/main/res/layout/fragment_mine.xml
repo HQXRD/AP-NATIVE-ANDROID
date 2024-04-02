@@ -353,7 +353,11 @@
 
                         <TextView style="@style/style_wallet_space" />
 
-                        <TextView style="@style/style_menu_black" />
+                        <TextView
+                            android:id="@+id/tvw_qa"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_qa"
+                            android:text="@string/txt_reg_prom"/>
 
                         <TextView style="@style/style_wallet_space" />
 
