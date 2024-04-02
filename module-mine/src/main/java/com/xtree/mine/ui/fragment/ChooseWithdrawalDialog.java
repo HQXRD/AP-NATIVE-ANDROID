@@ -412,20 +412,14 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     @Override
                     public void onClickRight() {
                         //跳转绑定流程
-                        /*Bundle bundle = new Bundle();
+                        Bundle bundle = new Bundle();
                         bundle.putString("type", channelInfo.bindType);
 
                         String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
                         Intent intent = new Intent(getContext(), ContainerActivity.class);
                         intent.putExtra(ContainerActivity.ROUTER_PATH, path);
                         intent.putExtra(ContainerActivity.BUNDLE, bundle);
-                        getContext().startActivity(intent);
-                        dismiss();*/
-                        CheckPasswordDialog checkPasswordDialog = CheckPasswordDialog.getInstance(channelInfo.bindType, false, checkCode -> {
-
-                        });
-
-                        checkPasswordDialog.show(mActivity.getSupportFragmentManager(), "CheckPasswordDialog");
+                        mActivity.startActivity(intent);
                         customPopWindow.dismiss();
                     }
                 }));

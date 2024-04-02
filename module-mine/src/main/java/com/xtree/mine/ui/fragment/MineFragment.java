@@ -416,7 +416,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     }
 
     private void showAccountMgmt() {
-        new XPopup.Builder(getContext()).asCustom(new AccountMgmtDialog(getContext(), getActivity())).show();
+        new XPopup.Builder(getContext()).asCustom(new AccountMgmtDialog(getContext())).show();
     }
 
     @Override

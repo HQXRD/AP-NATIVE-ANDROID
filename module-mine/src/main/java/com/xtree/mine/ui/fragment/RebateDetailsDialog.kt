@@ -9,6 +9,7 @@ import com.lxj.xpopup.util.XPopupUtils
 import com.xtree.mine.R
 import com.xtree.mine.databinding.DialogRebateDetailsBinding
 import com.xtree.mine.vo.X0
+import me.xtree.mvvmhabit.utils.KLog
 
 
 /**
@@ -42,7 +43,7 @@ class RebateDetailsDialog(context: Context, private val prizeGroups: Any) : Bott
      */
     private fun hashMapToKeyValueList(hashMap: HashMap<Int, List<X0>>): ArrayList<List<X0>> {
         val list = ArrayList<List<X0>>()
-        for ((key, value) in hashMap) {
+        for (value in hashMap.values) {
             list.add(value)
         }
         return list
@@ -62,8 +63,7 @@ class RebateDetailsDialog(context: Context, private val prizeGroups: Any) : Bott
 
             else -> {
                 // 处理其他类型的响应
-                // 可以抛出异常或者做其他处理
-                println("Unknown response type")
+                KLog.i("Unknown response type")
                 return ArrayList()
             }
         }
