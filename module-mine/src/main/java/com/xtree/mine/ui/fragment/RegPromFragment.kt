@@ -322,20 +322,20 @@ class RegPromFragment : BaseFragment<FragmentPromLinksBinding, MineViewModel>(),
             } else {
                 typeChess.text = vo.chessPoint.plus("%")
                 tvChessRebate.text = getString(R.string.txt_reg_rebate)
-                    .plus(NumberUtils.sub(mProfileVo.maxEsportsPoint, vo.chessPoint.toDouble()).toString() + "%")
+                    .plus(NumberUtils.sub(mProfileVo.maxPokerPoint, vo.chessPoint.toDouble()).toString() + "%")
                 typeChess.setOnClickListener {
                     if (type == 0) {
                         //未初始化，创建ppw
                         if (!::ppwChess.isInitialized) {
                             ppwChess =
-                                createPpw(mProfileVo.maxEsportsPoint, typeChess, tvChessRebate, getRebateList(mProfileVo.maxEsportsPoint))
+                                createPpw(mProfileVo.maxPokerPoint, typeChess, tvChessRebate, getRebateList(mProfileVo.maxPokerPoint))
                                 { ppwChess.dismiss() }
                         }
                         ppwChess.show()
                     } else {
                         if (!::ppwChess1.isInitialized) {
                             ppwChess1 =
-                                createPpw(mProfileVo.maxEsportsPoint, typeChess, tvChessRebate, getRebateList(mProfileVo.maxEsportsPoint))
+                                createPpw(mProfileVo.maxPokerPoint, typeChess, tvChessRebate, getRebateList(mProfileVo.maxPokerPoint))
                                 { ppwChess1.dismiss() }
                         }
                         ppwChess1.show()
@@ -344,25 +344,25 @@ class RegPromFragment : BaseFragment<FragmentPromLinksBinding, MineViewModel>(),
             }
 
             //状态等于0不显示
-            if (mProfileVo.esportStatus == 0) {
+            if (mProfileVo.esportsStatus == 0) {
                 layoutGame.visibility = View.GONE
             } else {
                 typeGame.text = vo.esportsPoint.plus("%")
                 tvGameRebate.text = getString(R.string.txt_reg_rebate)
-                    .plus(NumberUtils.sub(mProfileVo.maxPokerPoint, vo.esportsPoint.toDouble()).toString() + "%")
+                    .plus(NumberUtils.sub(mProfileVo.maxEsportsPoint, vo.esportsPoint.toDouble()).toString() + "%")
                 typeGame.setOnClickListener {
                     if (type == 0) {
                         //未初始化，创建ppw
                         if (!::ppwGame.isInitialized) {
                             ppwGame =
-                                createPpw(mProfileVo.maxPokerPoint, typeGame, tvGameRebate, getRebateList(mProfileVo.maxEsportsPoint))
+                                createPpw(mProfileVo.maxEsportsPoint, typeGame, tvGameRebate, getRebateList(mProfileVo.maxEsportsPoint))
                                 { ppwGame.dismiss() }
                         }
                         ppwGame.show()
                     } else {
                         if (!::ppwGame1.isInitialized) {
                             ppwGame1 =
-                                createPpw(mProfileVo.maxPokerPoint, typeGame, tvGameRebate, getRebateList(mProfileVo.maxEsportsPoint))
+                                createPpw(mProfileVo.maxEsportsPoint, typeGame, tvGameRebate, getRebateList(mProfileVo.maxEsportsPoint))
                                 { ppwGame1.dismiss() }
                         }
                         ppwGame1.show()
