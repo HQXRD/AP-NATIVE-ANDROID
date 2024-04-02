@@ -28,7 +28,7 @@ public class GameRebateAgrtModel extends BindModel {
     //状态
     private String status;
     private String statusString = BaseApplication.getInstance().getString(R.string.txt_unreceived);
-    private int statusColor = R.color.clr_txt_rebateagrt_fail;
+    private int statusColor = BaseApplication.getInstance().getResources().getColor(R.color.clr_txt_rebateagrt_fail);
 
     public void setStatus(String status) {
         if (status != null && !status.isEmpty()) {
@@ -36,11 +36,11 @@ public class GameRebateAgrtModel extends BindModel {
             switch (status) {
                 case "1":
                     statusString = BaseApplication.getInstance().getString(R.string.txt_received);
-                    statusColor = R.color.clr_txt_rebateagrt_success;
+                    statusColor = BaseApplication.getInstance().getResources().getColor(R.color.clr_txt_rebateagrt_success);
                     break;
-                case "2":
+                default:
                     statusString = BaseApplication.getInstance().getString(R.string.txt_unreceived);
-                    statusColor = R.color.clr_txt_rebateagrt_fail;
+                    statusColor = BaseApplication.getInstance().getResources().getColor(R.color.clr_txt_rebateagrt_fail);
                     break;
             }
         }
