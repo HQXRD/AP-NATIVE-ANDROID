@@ -3,6 +3,7 @@ package com.xtree.mine.ui.rebateagrt.viewmodel;
 import static com.xtree.mine.ui.rebateagrt.fragment.RebateAgrtCreateDialogFragment.CHECK_MODE;
 import static com.xtree.mine.ui.rebateagrt.fragment.RebateAgrtCreateDialogFragment.CREATE_MODE;
 import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.CHESS;
+import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.DAYREBATE;
 import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.EGAME;
 import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.LIVE;
 import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.SPORT;
@@ -58,7 +59,6 @@ import org.reactivestreams.Subscription;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -205,6 +205,9 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 case EGAME:
                     content = getApplication().getString(R.string.txt_rebateagrt_tip7);
                     break;
+                case DAYREBATE:
+                    content = getApplication().getString(R.string.txt_rebateagrt_tip8);
+                    break;
             }
             MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_kind_tips),
                     content,
@@ -296,6 +299,8 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
     public void initData(RebateAreegmentTypeEnum type) {
         //init data
         this.type = type;
+        //设置给头布局场馆类型
+        gameRebateAgrtHeadModel.setTypeEnum(type);
         initTab();
         empty.setItemType(7);
         datas.setValue(gameRebateDatas);
@@ -334,12 +339,15 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 break;
             case USER:
                 titleData.setValue(USER.getName());
-                tabList.add("我的时薪");
+                tabList.add("我的日薪");
                 tabList.add("下级契约");
-                tabList.add("下级时薪");
+                tabList.add("下级日薪");
                 tabs.setValue(tabList);
                 //隐藏温馨提示
                 gameRebateAgrtHeadModel.tipVisible.set(false);
+                break;
+            case DAYREBATE:
+                titleData.setValue(DAYREBATE.getName());
                 break;
             default:
                 break;
@@ -389,6 +397,8 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 return APIManager.GAMEREBATEAGRT_EGAME_URL;
             case USER:
                 return APIManager.GAMEREBATEAGRT_USER_URL;
+            case DAYREBATE:
+                return APIManager.GAMEREBATEAGRT_DAY_URL;
             default:
                 return "";
         }
@@ -457,17 +467,29 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                     GameRebateAgrtResponse.ContractDTO.RuleDTO ruleDTO = vo.getContract().getRule().get(0);
 
                                     //设置规则提示
-                                    if (Objects.requireNonNull(type) == USER) {
-                                        gameRebateAgrtHeadModel.ratioTip.set("规则1:投注额≥" +
-                                                ruleDTO.getMin_bet() +
-                                                "元,人数≥" +
-                                                ruleDTO.getMin_player() + "人,时薪" +
-                                                ruleDTO.getRatio() + "元/千");
-                                    } else {
-                                        gameRebateAgrtHeadModel.ratioTip.set("规则1:日有效投注额≥" +
-                                                ruleDTO.getMin_bet() +
-                                                "元,返水" +
-                                                ruleDTO.getRatio() + "%");
+                                    switch (type) {
+                                        case USER:
+                                            gameRebateAgrtHeadModel.ratioTip.set("规则1:投注额≥" +
+                                                    ruleDTO.getMin_bet() +
+                                                    "元,人数≥" +
+                                                    ruleDTO.getMin_player() + "人,时薪" +
+                                                    ruleDTO.getRatio() + "元/万");
+                                            break;
+                                        case DAYREBATE:
+                                            gameRebateAgrtHeadModel.ratioTip.set("规则1:日投注额≥" +
+                                                    ruleDTO.getBet() +
+                                                    "元,日活跃人数≥" +
+                                                    ruleDTO.getPeople() + "人,且亏损额≥" +
+                                                    ruleDTO.getLossAmount() +
+                                                    "元,分红" +
+                                                    ruleDTO.getRatio() + "元");
+                                            break;
+                                        default:
+                                            gameRebateAgrtHeadModel.ratioTip.set("规则1:日有效投注额≥" +
+                                                    ruleDTO.getMin_bet() +
+                                                    "元,返水" +
+                                                    ruleDTO.getRatio() + "%");
+                                            break;
                                     }
                                 }
 
@@ -499,6 +521,11 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                     model.mineMoney = String.valueOf(dataDTO.getSelf_money());
                                     model.setStatus(dataDTO.getType());
                                     gameRebateDatas.add(model);
+                                }
+                            } else {
+                                //如果小于等于头数据数量则展示缺省条目
+                                if (gameRebateDatas.size() <= 1) {
+                                    gameRebateDatas.add(empty);
                                 }
                             }
                             datas.setValue(gameRebateDatas);

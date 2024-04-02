@@ -33,11 +33,13 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
     public ObservableField<Boolean> tipVisible = new ObservableField<>(true);
     //返水比例提示
     public ObservableField<String> ratioTip = new ObservableField<>();
+    //场馆类型
+    private RebateAreegmentTypeEnum typeEnum;
     //分页索引
     public int p = 1;
     //page count
     public int pn = 20;
-    public List<FilterView.IBaseVo> listStatus = new ArrayList<FilterView.IBaseVo>() {
+    private List<FilterView.IBaseVo> listStatus = new ArrayList<FilterView.IBaseVo>() {
         {
             // 0-所有状态
             add(new StatusVo(0, BaseApplication.getInstance().getString(R.string.txt_all_status)));
@@ -45,6 +47,19 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
             add(new StatusVo(1, BaseApplication.getInstance().getString(R.string.txt_received)));
             // 2-未到账
             add(new StatusVo(2, BaseApplication.getInstance().getString(R.string.txt_unreceived)));
+        }
+    };
+
+    private List<FilterView.IBaseVo> dayStatus = new ArrayList<FilterView.IBaseVo>() {
+        {
+            // 0-所有状态
+            add(new StatusVo(0, BaseApplication.getInstance().getString(R.string.txt_all_status)));
+            // 1-已到账
+            add(new StatusVo(1, BaseApplication.getInstance().getString(R.string.txt_received)));
+            // 2-未到账
+            add(new StatusVo(2, BaseApplication.getInstance().getString(R.string.txt_unreceived)));
+            // 3-无分红
+            add(new StatusVo(3, BaseApplication.getInstance().getString(R.string.txt_nodividend)));
         }
     };
     private onCallBack onCallBack = null;
@@ -68,6 +83,14 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
         startDate.set(TimeUtils.longFormatString(calendar.getTimeInMillis(), "yyyy-MM-dd"));
         endDate.set(TimeUtils.longFormatString(System.currentTimeMillis(), "yyyy-MM-dd"));
         state.set(new StatusVo(0, BaseApplication.getInstance().getString(R.string.txt_all_status)));
+    }
+
+    public RebateAreegmentTypeEnum getTypeEnum() {
+        return typeEnum;
+    }
+
+    public void setTypeEnum(RebateAreegmentTypeEnum typeEnum) {
+        this.typeEnum = typeEnum;
     }
 
     @Override
@@ -94,7 +117,15 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
 
     public void selectStatus() {
         if (onCallBack != null) {
-            onCallBack.selectStatus(state, listStatus);
+            switch (typeEnum) {
+                //日分红
+                case DAYREBATE:
+                    onCallBack.selectStatus(state, dayStatus);
+                    break;
+                default:
+                    onCallBack.selectStatus(state, listStatus);
+                    break;
+            }
         }
     }
 

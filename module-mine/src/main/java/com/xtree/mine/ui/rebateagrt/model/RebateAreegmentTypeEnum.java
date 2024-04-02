@@ -15,7 +15,8 @@ public enum RebateAreegmentTypeEnum {
     //电竞
     EGAME("电竞返水契约", R.mipmap.icon_rebateagrt_game, new String[]{"403228", "403775", "-18"}),
     //时薪
-    USER("时薪", R.mipmap.icon_rebateagrt_user, new String[]{"340726", "340731", "340732"}),
+    USER("日薪", R.mipmap.icon_rebateagrt_user, new String[]{"340726", "340725"}),
+    DAYREBATE("日分红", R.mipmap.icon_rebateagrt_dayrebate, new String[]{"403796"}),
     //彩票
     LOTTERIES("彩票契约分红", R.mipmap.icon_rebateagrt_lotteries, new String[]{"347883"}),
     //游戏推荐报表

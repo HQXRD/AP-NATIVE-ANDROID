@@ -54,6 +54,7 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.CHESS));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.EGAME));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.USER));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.DAYREBATE));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LOTTERIES));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREPORTS));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LOTTERIESREPORTS));
@@ -87,6 +88,7 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                     case CHESS:
                     case EGAME:
                     case USER:
+                    case DAYREBATE:
                         startContainerActivity(GameRebateAgrtFragment.class.getCanonicalName());
                         break;
                     case LOTTERIES:

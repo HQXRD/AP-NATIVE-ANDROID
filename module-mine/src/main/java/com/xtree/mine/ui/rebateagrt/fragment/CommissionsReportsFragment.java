@@ -1,5 +1,6 @@
 package com.xtree.mine.ui.rebateagrt.fragment;
 
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -27,6 +28,8 @@ import me.xtree.mvvmhabit.bus.RxBus;
 public class CommissionsReportsFragment extends BaseFragment<FragmentCommissionsReportsBinding, CommissionsReportsViewModel> {
     @Override
     public void initView() {
+        binding.comRule.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        binding.agentRule.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
         binding.btCurMonth.setChecked(true);
     }
 
