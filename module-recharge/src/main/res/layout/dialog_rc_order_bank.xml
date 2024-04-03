@@ -133,6 +133,7 @@
                 android:id="@+id/tvw_to_help"
                 style="@style/style_cm_tip_small_grey"
                 android:layout_gravity="end"
+                android:textColor="@color/clr_blue_03"
                 android:layout_marginStart="0dp"
                 android:text="@string/txt_click_to_guide" />
         </LinearLayout>
