@@ -19,7 +19,7 @@
     <string name="txt_bind_gopay_type">bindgopay</string>
     <string name="txt_bind_okpay_type">bindokpay</string>
 
-    <string name="txt_bind_card">银行卡管理</string>
+    <string name="txt_bind_card">管理银行卡</string>
     <string name="txt_bind_wallet">钱包地址管理</string>
     <string name="txt_bind_usdt">绑定USDT</string>
     <string name="txt_bind_ebpay">绑定EBPAY</string>
