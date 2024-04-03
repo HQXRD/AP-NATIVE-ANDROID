@@ -73,6 +73,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             setChildClickable(binding.llMenu, false);
             setChildClickable(binding.llMenu01, false);
             setChildClickable(binding.llMenu02, false);
+            setChildClickable(binding.llMenuClient01, false);
+            setChildClickable(binding.llMenuClient02, false);
+            setChildClickable(binding.llMenuClient03, false);
         } else {
             binding.ivwSetting.setClickable(true);
             binding.ivwMsg.setClickable(true);
@@ -81,19 +84,17 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             setChildClickable(binding.llMenu, true);
             setChildClickable(binding.llMenu01, true);
             setChildClickable(binding.llMenu02, true);
+            setChildClickable(binding.llMenuClient01, true);
+            setChildClickable(binding.llMenuClient02, true);
+            setChildClickable(binding.llMenuClient03, true);
             viewModel.readCache(); // 读取缓存
 
-            if (mProfileVo != null && mProfileVo.usertype == 1) {
-                binding.tvwRegProm.setVisibility(View.VISIBLE);
-                binding.tvwRegProm.setOnClickListener(v -> {
-                    //注册推广
-                    //防止切换登录时，mProfileVo数据更新不及时
-                    if (mProfileVo != null && mProfileVo.maxLivePoint != null) {
-                        startContainerFragment(RouterFragmentPath.Mine.PAGER_REGISTER_PROMOTION);
-                    }
-                });
+            if (mProfileVo != null && mProfileVo.usertype == 0) {
+                binding.llMenu2.setVisibility(View.GONE);
+                binding.llMenu3.setVisibility(View.VISIBLE);
             } else {
-                binding.tvwRegProm.setVisibility(View.GONE);
+                binding.llMenu2.setVisibility(View.VISIBLE);
+                binding.llMenu3.setVisibility(View.GONE);
             }
         }
     }
@@ -195,7 +196,14 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         binding.tvwProfit.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_PROFIT_LOSS); // 盈亏报表
         });
+        binding.tvwProfitClient.setOnClickListener(v -> {
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_PROFIT_LOSS); // 盈亏报表
+        });
+
         binding.tvw3rdTrans.setOnClickListener(v -> {
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_THIRD_TRANSFER); // 三方转账
+        });
+        binding.tvw3rdTransClient.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_THIRD_TRANSFER); // 三方转账
         });
 
@@ -207,15 +215,25 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         binding.tvwRebateContract.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_AGREEMENT);
         });
+
         binding.tvwAccMg.setOnClickListener(v -> {
+            showAccountMgmt();
+        });
+        binding.tvwAccMgClient.setOnClickListener(v -> {
             showAccountMgmt();
         });
 
         binding.tvwSportRegular.setOnClickListener(v -> {
             goWebView(v, Constant.URL_SPORT_RULES, false);
         });
+        binding.tvwSportRegularClient.setOnClickListener(v -> {
+            goWebView(v, Constant.URL_SPORT_RULES, false);
+        });
 
         binding.tvwTutorial.setOnClickListener(v -> {
+            goWebView(v, Constant.URL_USDT_RECHARGE_TURTIAL, false);
+        });
+        binding.tvwTutorialClient.setOnClickListener(v -> {
             goWebView(v, Constant.URL_USDT_RECHARGE_TURTIAL, false);
         });
 
@@ -235,12 +253,23 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         binding.tvwQa.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
         });
+        binding.tvwQaClient.setOnClickListener(v -> {
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
+        });
+
         binding.tvwHelp.setOnClickListener(v -> {
             //BrowserActivity.start(getContext(), ((TextView) v).getText().toString(), DomainUtil.getDomain2() + Constant.URL_HELP, false, false, true);
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(DomainUtil.getDomain2() + Constant.URL_HELP));
             startActivity(intent);
         });
+        binding.tvwHelpClient.setOnClickListener(v -> {
+            //BrowserActivity.start(getContext(), ((TextView) v).getText().toString(), DomainUtil.getDomain2() + Constant.URL_HELP, false, false, true);
+            //startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(DomainUtil.getDomain2() + Constant.URL_HELP));
+            startActivity(intent);
+        });
+
         binding.tvwLogin.setOnClickListener(v -> {
             Intent toLogin = new Intent(getContext(), LoginRegisterActivity.class);
             toLogin.putExtra(LoginRegisterActivity.ENTER_TYPE, LoginRegisterActivity.LOGIN_TYPE);
@@ -272,7 +301,25 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             //LoadingDialog.show(getContext());
             viewModel.getUpdate();
         });
+        binding.tvwUpgradeClient.setOnClickListener(v -> {
+            //LoadingDialog.show(getContext());
+            viewModel.getUpdate();
+        });
 
+        binding.tvwRegProm.setOnClickListener(v -> {
+            //注册推广
+            //防止切换登录时，mProfileVo数据更新不及时
+            if (mProfileVo != null) {
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_REGISTER_PROMOTION);
+            }
+        });
+        binding.tvwRegPromClient.setOnClickListener(v -> {
+            //注册推广
+            //防止切换登录时，mProfileVo数据更新不及时
+            if (mProfileVo != null) {
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_REGISTER_PROMOTION);
+            }
+        });
     }
 
     private void goWebView(String title, String path) {
