@@ -85,4 +85,14 @@ public class PMBtRecordModel extends TemplateBtRecordModel {
 
     }
 
+    @Override
+    public void cashOutPricebBet(String orderId, double cashOutStake, double unitCashOutPayoutStake, boolean acceptOddsChange, boolean parlay) {
+
+    }
+
+    @Override
+    public void getCashOutsByIds(String id) {
+
+    }
+
 }

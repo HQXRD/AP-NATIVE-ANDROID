@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
@@ -167,9 +168,9 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
             StringUtils.copy(btResult.getId());
         });
         binding.tvResultStatement.setOnClickListener(v -> {
-            mAdvanceSettlementCallBack.onAdvanceSettlementClick(groupPosition, childPosition, btResult);
+            mAdvanceSettlementCallBack.onAdvanceSettlementClick(groupPosition, childPosition, btResult, binding.tvResultSettlementOdds.isChecked(), btResult.getBetResultOption().size() > 1);
         });
-        binding.tvResultStatement.setText(mContext.getResources().getString(R.string.bt_txt_btn_statement, String.valueOf(btResult.getAdvanceSettleAmount())));
+        binding.tvResultStatement.setText(mContext.getResources().getString(R.string.bt_txt_btn_statement, NumberUtils.format(btResult.getAdvanceSettleAmount(), 2)));
         binding.tvResultStatement.setVisibility(btResult.canAdvanceSettle() ? View.VISIBLE : View.GONE);
         binding.tvResultStatementOdds.setVisibility(btResult.canAdvanceSettle() ? View.VISIBLE : View.GONE);
         binding.tvResultSettlementOdds.setVisibility(btResult.canAdvanceSettle() ? View.VISIBLE : View.GONE);
@@ -192,7 +193,7 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
     }
 
     public interface AdvanceSettlementCallBack{
-        void onAdvanceSettlementClick(int groupPosition, int childPosition, BtResult btResult);
+        void onAdvanceSettlementClick(int groupPosition, int childPosition, BtResult btResult, boolean acceptoddschange, boolean parlay);
     }
 
 }

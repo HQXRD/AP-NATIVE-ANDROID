@@ -111,6 +111,14 @@ public class BtResultFb implements BtResult {
     }
 
     @Override
+    public double getUnitCashOutPayoutStake() {
+        if(canAdvanceSettle()){
+            return btResultInfo.pr.amt;
+        }
+        return 0;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

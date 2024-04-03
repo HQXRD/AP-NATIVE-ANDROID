@@ -67,4 +67,9 @@ public interface BtResult extends BaseBean {
      * @return
      */
     double getAdvanceSettleAmount();
+    /**
+     * 获取"单位提前结算价格"
+     * @return
+     */
+    double getUnitCashOutPayoutStake();
 }

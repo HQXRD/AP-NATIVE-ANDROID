@@ -98,6 +98,11 @@ public class BtResultPm implements BtResult {
     }
 
     @Override
+    public double getUnitCashOutPayoutStake() {
+        return 0;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

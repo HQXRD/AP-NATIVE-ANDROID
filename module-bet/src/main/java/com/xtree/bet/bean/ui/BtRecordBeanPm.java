@@ -103,6 +103,11 @@ public class BtRecordBeanPm implements BtResult {
     }
 
     @Override
+    public double getUnitCashOutPayoutStake() {
+        return 0;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }
