@@ -159,13 +159,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         binding.tvwDcCentre.setOnClickListener(v -> {
             CfLog.i("****** ");
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
-            String url = DomainUtil.getDomain2() + "/webapp/?isNative=1#/report/team/activity/reward";
-            BrowserActivity.start(getContext(), url);
+            BrowserActivity.start(getContext(), DomainUtil.getDomain2() + Constant.URL_DC_CENTER);
         });
 
         binding.tvwInviteFriend.setOnClickListener(v -> {
             CfLog.i("****** ");
-            goWebView(v, Constant.URL_INVITE_FRIEND);
+            //goWebView(v, Constant.URL_INVITE_FRIEND);
+            BrowserActivity.start(getContext(), DomainUtil.getDomain2() + Constant.URL_INVITE_FRIEND);
         });
         binding.tvwGuanfangheyin.setOnClickListener(v -> {
             String title = ((TextView) v).getText().toString();
@@ -188,13 +188,15 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
         //VIP中心
         binding.tvwVipZhongxin.setOnClickListener(v -> {
-//            startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
-            BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
+            //startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
+            //BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
+            BrowserActivity.start(getContext(), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER);
         });
         //VIP中心
         binding.ivwLevel.setOnClickListener(v -> {
-//            startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
-            BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
+            //startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
+            //BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
+            BrowserActivity.start(getContext(), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER);
         });
         binding.tvwFanhuiBaobiao.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_REPORT); // 返水报表

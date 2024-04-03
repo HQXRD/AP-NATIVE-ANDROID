@@ -506,7 +506,12 @@
                         android:padding="4dp"
                         android:text="@string/txt_rc_download"
                         android:textColor="@color/clr_white" />
+
                 </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

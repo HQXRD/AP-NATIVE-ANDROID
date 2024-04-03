@@ -51,6 +51,7 @@ public class BrowserDialog extends BottomPopupView {
     Context mContext;
     TextView tvwTitle;
     View vTitle;
+    View clTitle;
     ImageView ivwClose;
     WebView mWebView;
     ImageView ivwLoading;
@@ -64,6 +65,7 @@ public class BrowserDialog extends BottomPopupView {
     protected boolean isContainTitle = false; // 网页自身是否包含标题(少数情况下会包含)
     protected boolean isActivity = false; // 是否来自活动页面
     protected boolean is3rdLink = false; // 是否跳转到三方链接(如果是,就不用带header和cookie了)
+    protected boolean isHideTitle = false; // 是否隐藏标题栏
     ValueCallback<Uri> mUploadCallbackBelow;
     ValueCallback<Uri[]> mUploadCallbackAboveL;
 
@@ -93,6 +95,12 @@ public class BrowserDialog extends BottomPopupView {
         return dialog;
     }
 
+    public static BrowserDialog newInstance(@NonNull Context context, String url) {
+        BrowserDialog dialog = new BrowserDialog(context, "", url);
+        dialog.isHideTitle = true;
+        return dialog;
+    }
+
     public BrowserDialog setContainTitle(boolean isContainTitle) {
         this.isContainTitle = isContainTitle;
         return this;
@@ -117,6 +125,11 @@ public class BrowserDialog extends BottomPopupView {
         if (isContainTitle) {
             vTitle.setVisibility(View.GONE);
             //llBackground.setBackground(getContext().getDrawable(R.drawable.bg_web_radius));
+        }
+
+        if (isHideTitle) {
+            vTitle.setVisibility(View.GONE);
+            clTitle.setVisibility(View.GONE);
         }
 
         tvwTitle.setText(title);
@@ -156,6 +169,7 @@ public class BrowserDialog extends BottomPopupView {
     private void initView() {
         tvwTitle = findViewById(R.id.tvw_title);
         vTitle = findViewById(R.id.v_title);
+        clTitle = findViewById(R.id.cl_title);
         ivwClose = findViewById(R.id.ivw_close);
         //llBackground = findViewById(R.id.ll_background);
 
