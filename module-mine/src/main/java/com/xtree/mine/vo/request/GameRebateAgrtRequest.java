@@ -10,6 +10,8 @@ public class GameRebateAgrtRequest {
     public String sort = "desc";
     public String starttime = "";
     public String endtime = "";
+    public String startdate = "";
+    public String enddate = "";
     public String pstatus = "0";
     public int p = 1;
     public int pn = 20;

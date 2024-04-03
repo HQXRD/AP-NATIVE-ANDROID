@@ -20,6 +20,26 @@ public class GameRebateAgrtTotalModel extends BindModel {
     private String sum_self_money = "-";
     //流水
     private String sum_liushui;
+    //活跃人数
+    private String people;
+    //亏损总额
+    private String lossAmout;
+
+    public String getPeople() {
+        return people;
+    }
+
+    public void setPeople(String people) {
+        this.people = people;
+    }
+
+    public String getLossAmout() {
+        return lossAmout;
+    }
+
+    public void setLossAmout(String lossAmout) {
+        this.lossAmout = lossAmout;
+    }
 
     public String getSum_bet() {
         return sum_bet;
