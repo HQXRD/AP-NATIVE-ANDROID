@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="80dp" />
+            <solid android:color="@color/clr_withdrawal_btn_bg" />
+            <stroke android:width="2dp" android:color="@color/clr_withdrawal_btn_stroke" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <gradient android:angle="270" android:endColor="@color/clr_main_11" android:startColor="@color/clr_main_03" />
+            <corners android:radius="80dp" />
+        </shape>
+    </item>
+
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="80dp" />
+            <solid android:color="@color/clr_withdrawal_btn_bg" />
+            <stroke android:width="2dp" android:color="@color/clr_withdrawal_btn_stroke" />
+        </shape>
+    </item>
+</selector>
