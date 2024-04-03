@@ -35,7 +35,7 @@ public class SetQuestionsPwdModel extends BaseViewModel<MineRepository> {
     }
 
     /*设置密保*/
-    public void putSecurityQuestions(final HashMap<String, String> map) {
+    public void putSecurityQuestions(final HashMap<String, Object> map) {
         Disposable disposable = (Disposable) model.getApiService().putSecurityQuestions(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
