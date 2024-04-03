@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="2dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginEnd="2dp"
+    android:paddingStart="1dp"
+    android:paddingEnd="1dp">
+
+    <ImageView
+        android:id="@+id/ivw_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_item_rc_type_selector"
+        android:padding="1dp"
+        android:scaleType="centerInside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ll_main"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/ivw_bg"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg"
+        app:layout_constraintTop_toTopOf="@id/ivw_bg">
+
+        <ImageView
+            android:id="@+id/ivw_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxHeight="26dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/rc_ic_pmt_happy" />
+
+        <TextView
+            android:id="@+id/tvw_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/clr_item_text_selector"
+            android:textSize="10sp"
+            tools:text="USDT" />
+
+        <TextView
+            android:id="@+id/tvw_dep_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp"
+            android:textColor="@color/clr_rc_rate_selector"
+            android:textSize="9sp"
+            tools:text="DEMO" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivw_hot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="12dp"
+        android:src="@mipmap/rc_ic_hot"
+        android:visibility="invisible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/ivw_rcmd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:scaleType="centerInside"
+        android:src="@mipmap/rc_ic_recommend"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
