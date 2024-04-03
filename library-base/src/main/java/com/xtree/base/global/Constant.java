@@ -50,7 +50,7 @@ public class Constant {
     public static final String URL_SPORT_RULES = "/static/activity/sportRules/index.html"; // 体育规则
     public static final String URL_QA = "/webapp/#/my/qa"; // 常见问题
     public static final String URL_TUTORIAL = "/static/vir-tutorial/cnyt.html"; // 充值教程
-    public static final String URL_USDT_RECHARGE_TURTIAL = "/static/usdt-description/myu/usdt_m.html"; // USDT充值
+    public static final String URL_USDT_RECHARGE_TURTIAL = "/static/usdt-description/as/usdt_m.html"; // USDT充值
     public static final String URL_ANTI_FRAUD = "/static/vir-tutorial/antiScam_m.html"; // 防骗教程
     public static final String URL_HELP = "/webapp/#/my/help"; // 帮助中心
     public static final String URL_BET_RECORD = "/webapp/#/report/bet-record"; // 投注记录
