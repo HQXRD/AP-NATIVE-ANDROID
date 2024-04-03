@@ -86,6 +86,13 @@ public class SecurityQuestionActivity extends BaseActivity<FragmentSecurityQuest
         String key1 = String.valueOf(((ArrayList<?>) mProfileVo.set_question).get(0)).split("\\.")[0];
         String key2 = String.valueOf(((ArrayList<?>) mProfileVo.set_question).get(1)).split("\\.")[0];
         ques_num = String.valueOf(((ArrayList<?>) mProfileVo.set_question).get(2)).split("\\.")[0];//要显示问题
+        //说明用户设置密保问题未成功
+        if (TextUtils.equals(key1 , "0") || TextUtils.equals(key2,"0")){
+            showFundPSWDialog();
+            return;
+        }
+
+
         String showContent = null;
         if (ques_num.equals("1")) {
             for (int i = 0; i < createQA().size(); i++) {
