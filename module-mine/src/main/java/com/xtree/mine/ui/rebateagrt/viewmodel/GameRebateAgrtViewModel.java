@@ -96,14 +96,16 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
     public MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
                 {
-                    add(R.layout.item_game_rebateagrt);
-                    add(R.layout.item_game_rebateagrt_head);
-                    add(R.layout.item_game_subordinateagrt);
-                    add(R.layout.item_game_subordinateagrt_head);
-                    add(R.layout.item_game_subordinaterebate);
-                    add(R.layout.item_game_subordinaterebate_head);
-                    add(R.layout.item_game_rebateagrt_total);
-                    add(R.layout.item_empty);
+                    add(0,R.layout.item_game_rebateagrt);
+                    add(1,R.layout.item_game_rebateagrt_head);
+                    add(2,R.layout.item_game_subordinateagrt);
+                    add(3,R.layout.item_game_subordinateagrt_head);
+                    add(4,R.layout.item_game_subordinaterebate);
+                    add(5,R.layout.item_game_subordinaterebate_head);
+                    add(6,R.layout.item_game_rebateagrt_total);
+                    add(7,R.layout.item_empty);
+                    add(8,R.layout.item_game_rebateagrt_dayrebate);
+                    add(9,R.layout.item_game_rebateagrt_dayrebate_total);
                 }
             });
 
@@ -470,8 +472,17 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
             getmCompositeDisposable().clear();
         }
         GameRebateAgrtRequest gameRebateAgrtRequest = new GameRebateAgrtRequest();
-        gameRebateAgrtRequest.starttime = gameRebateAgrtHeadModel.startDate.get();
-        gameRebateAgrtRequest.endtime = gameRebateAgrtHeadModel.endDate.get();
+        switch (type) {
+            //日分红和其他请求入参不同
+            case DAYREBATE:
+                gameRebateAgrtRequest.startdate = gameRebateAgrtHeadModel.startDate.get();
+                gameRebateAgrtRequest.enddate = gameRebateAgrtHeadModel.endDate.get();
+                break;
+            default:
+                gameRebateAgrtRequest.starttime = gameRebateAgrtHeadModel.startDate.get();
+                gameRebateAgrtRequest.endtime = gameRebateAgrtHeadModel.endDate.get();
+                break;
+        }
         gameRebateAgrtRequest.pstatus = gameRebateAgrtHeadModel.state.get().getShowId();
         gameRebateAgrtRequest.p = gameRebateAgrtHeadModel.p;
         gameRebateAgrtRequest.pn = gameRebateAgrtHeadModel.pn;
@@ -504,13 +515,24 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                 GameRebateAgrtResponse.TotalDTO total = vo.getTotal();
                                 if (total != null) {
                                     GameRebateAgrtTotalModel totalModel = new GameRebateAgrtTotalModel();
-                                    totalModel.setItemType(6);
-                                    totalModel.setSum_bet(total.getSum_bet());
-                                    totalModel.setSum_total_money(total.getSum_total_money());
-                                    totalModel.setSum_effective_bet(total.getSum_effective_bet());
-                                    totalModel.setSum_sub_money(total.getSum_sub_money());
-                                    totalModel.setSum_liushui(total.getSum_liushui());
-                                    totalModel.setSum_self_money(total.getSum_self_money());
+                                    switch (type) {
+                                        case DAYREBATE:
+                                            totalModel.setItemType(9);
+                                            totalModel.setSum_bet(total.getSum_bet());
+                                            totalModel.setLossAmout(total.getSumLossAmount());
+                                            totalModel.setPeople(total.getSumPeople());
+                                            totalModel.setSum_sub_money(total.getSum_sub_money());
+                                            totalModel.setSum_self_money(total.getSum_self_money());
+                                            break;
+                                        default:
+                                            totalModel.setItemType(6);
+                                            totalModel.setSum_bet(total.getSum_bet());
+                                            totalModel.setSum_total_money(total.getSum_total_money());
+                                            totalModel.setSum_effective_bet(total.getSum_effective_bet());
+                                            totalModel.setSum_sub_money(total.getSum_sub_money());
+                                            totalModel.setSum_self_money(total.getSum_self_money());
+                                            break;
+                                    }
                                     gameRebateDatas.add(totalModel);
                                 }
                             }
@@ -519,14 +541,29 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                 for (GameRebateAgrtResponse.DataDTO dataDTO : vo.getData()) {
                                     GameRebateAgrtModel model = new GameRebateAgrtModel();
                                     model.setTypeEnum(type);
-                                    model.date = dataDTO.getDate();
-                                    model.setStatus(dataDTO.getPstatus());
-                                    model.betAmoutDay = dataDTO.getBet();
-                                    model.betAmoutValidity = dataDTO.getEffective_bet();
-                                    model.setRebatePercentage(dataDTO.getRatio());
-                                    model.rebateAmout = dataDTO.getTotal_money();
-                                    model.subMoney = dataDTO.getSub_money();
-                                    model.mineMoney = String.valueOf(dataDTO.getSelf_money());
+                                    switch (type) {
+                                        case DAYREBATE:
+                                            model.setItemType(8);
+                                            model.setDate(dataDTO.getCycleDay());
+                                            model.setStatus(dataDTO.getPayStatus());
+                                            model.setBetAmoutDay(dataDTO.getBet());
+                                            model.setLossAmount(dataDTO.getLossAmount());
+                                            model.setPeople(dataDTO.getPeople());
+                                            model.setSubMoney(dataDTO.getSub_money());
+                                            model.setMineMoney(dataDTO.getSelfMoney());
+                                            break;
+                                        default:
+                                            model.setItemType(0);
+                                            model.setDate(dataDTO.getDate());
+                                            model.setStatus(dataDTO.getPstatus());
+                                            model.setBetAmoutDay(dataDTO.getBet());
+                                            model.setBetAmoutValidity(dataDTO.getEffective_bet());
+                                            model.setRebatePercentage(dataDTO.getRatio());
+                                            model.setRebateAmout(dataDTO.getTotal_money());
+                                            model.setSubMoney(dataDTO.getSub_money());
+                                            model.setMineMoney(dataDTO.getSelfMoney());
+                                            break;
+                                    }
                                     gameRebateDatas.add(model);
                                 }
                             } else {

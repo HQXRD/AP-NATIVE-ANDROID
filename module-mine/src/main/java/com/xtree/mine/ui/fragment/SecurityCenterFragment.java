@@ -28,6 +28,9 @@ import com.xtree.mine.databinding.FragmentSecurityCenterBinding;
 import com.xtree.mine.ui.viewmodel.VerifyViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -176,6 +179,41 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
             if (mProfileVo.is_binding_email) {
                 binding.tvwEmail.setText(getString(R.string.txt_change_email) + mProfileVo.binding_email_info);
             }
+            int percent = 1;
+            //设置进度
+            if (mProfileVo.has_securitypwd){
+                //设置资金密码
+                percent++ ;
+            }
+            if (mProfileVo.set_question instanceof ArrayList){
+                //设置密保
+                percent++ ;
+            }
+            if ( (mProfileVo.twofa == 1)){
+                //绑定谷歌
+                percent++ ;
+            }
+            if (mProfileVo.is_binding_phone){
+                //绑定手机
+                percent++ ;
+            }
+            if (percent == 1){
+                binding.tvwPercent.setText("20%");
+                binding.prbSafe.setProgress(20);
+            } else if (percent ==2) {
+                binding.tvwPercent.setText("40%");
+                binding.prbSafe.setProgress(40);
+            } else if (percent == 3) {
+                binding.tvwPercent.setText("60%");
+                binding.prbSafe.setProgress(60);
+            } else if (percent == 4) {
+                binding.tvwPercent.setText("80%");
+                binding.prbSafe.setProgress(80);
+            } else if (percent == 5) {
+                binding.tvwPercent.setText("100%");
+                binding.prbSafe.setProgress(1000);
+            }
+
         }
     }
 
