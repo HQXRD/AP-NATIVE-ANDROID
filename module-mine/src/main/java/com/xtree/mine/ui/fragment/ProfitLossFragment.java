@@ -118,8 +118,8 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
                 binding2.tvwSpoint.setText(vo.spoint);
                 double tmp = Double.parseDouble(vo.sprofit_loss) + Double.parseDouble(vo.spoint)
                         + Double.parseDouble(vo.wages);
-                //String netProfit = String.valueOf(tmp);
-                String netProfit = new DecimalFormat("#").format(tmp); // 去掉小数点及后面
+                String netProfit = String.valueOf(tmp);
+                //String netProfit = new DecimalFormat("#.#").format(tmp); // 去掉小数点及后面
                 binding2.tvwNetProfit.setText(netProfit); // 净输赢
 
                 if (vo.username.equals(userName)) {
