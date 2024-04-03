@@ -314,10 +314,10 @@
                         <TextView style="@style/style_wallet_space" />
 
                         <TextView
-                            android:id="@+id/tvw_help"
+                            android:id="@+id/tvw_qa"
                             style="@style/style_menu_black"
-                            android:drawableTop="@mipmap/me_gr_help"
-                            android:text="@string/txt_help" />
+                            android:drawableTop="@mipmap/me_gr_qa"
+                            android:text="@string/txt_question" />
 
                         <TextView style="@style/style_wallet_space" />
 
@@ -349,18 +349,23 @@
                         <TextView style="@style/style_wallet_space" />
 
                         <TextView
+                            android:id="@+id/tvw_help"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_help"
+                            android:text="@string/txt_help" />
+
+                        <TextView style="@style/style_wallet_space" />
+
+                        <TextView
                             android:id="@+id/tvw_reg_prom"
                             style="@style/style_menu_black"
                             android:drawableTop="@mipmap/me_gr_reg"
                             android:text="@string/txt_reg_prom" />
 
-                        <TextView style="@style/style_wallet_space" />
-
                         <TextView
-                            android:id="@+id/tvw_qa"
+                            android:id="@+id/tvw_black"
                             style="@style/style_menu_black"
-                            android:drawableTop="@mipmap/me_gr_qa"
-                            android:text="@string/txt_question" />
+                            android:visibility="gone" />
 
                         <TextView style="@style/style_wallet_space" />
 
@@ -444,21 +449,16 @@
                         <TextView style="@style/style_wallet_space" />
 
                         <TextView
-                            android:id="@+id/tvw_reg_prom_client"
+                            android:id="@+id/tvw_qa_client"
                             style="@style/style_menu_black"
-                            android:drawableTop="@mipmap/me_gr_reg"
-                            android:text="@string/txt_reg_prom" />
+                            android:drawableTop="@mipmap/me_gr_qa"
+                            android:text="@string/txt_question" />
+
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_menu_client_03"
                         style="@style/style_ll_row_2">
-
-                        <TextView
-                            android:id="@+id/tvw_qa_client"
-                            style="@style/style_menu_black"
-                            android:drawableTop="@mipmap/me_gr_qa"
-                            android:text="@string/txt_question" />
 
                         <TextView style="@style/style_wallet_space" />
 

@@ -89,12 +89,20 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             setChildClickable(binding.llMenuClient03, true);
             viewModel.readCache(); // 读取缓存
 
-            if (mProfileVo != null && mProfileVo.usertype == 0) {
-                binding.llMenu2.setVisibility(View.GONE);
-                binding.llMenu3.setVisibility(View.VISIBLE);
-            } else {
+            if (mProfileVo != null) {
+                //==1时，当前用户是代理，可以进行注册推广功能
+                if (mProfileVo.usertype == 1) {
+                    binding.tvwRegProm.setVisibility(View.VISIBLE);
+                    binding.tvwBlack.setVisibility(View.GONE);
+                } else {
+                    binding.tvwRegProm.setVisibility(View.GONE);
+                    binding.tvwBlack.setVisibility(View.VISIBLE);
+                }
                 binding.llMenu2.setVisibility(View.VISIBLE);
                 binding.llMenu3.setVisibility(View.GONE);
+            } else {
+                binding.llMenu2.setVisibility(View.GONE);
+                binding.llMenu3.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -102,7 +110,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden) {   // 可见
+        if (hidden) {   // 隐藏
 
         } else {  // 第一次可见，不会执行到这里，只会执行onResume
             //网络数据刷新
@@ -307,13 +315,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
 
         binding.tvwRegProm.setOnClickListener(v -> {
-            //注册推广
-            //防止切换登录时，mProfileVo数据更新不及时
-            if (mProfileVo != null) {
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_REGISTER_PROMOTION);
-            }
-        });
-        binding.tvwRegPromClient.setOnClickListener(v -> {
             //注册推广
             //防止切换登录时，mProfileVo数据更新不及时
             if (mProfileVo != null) {
