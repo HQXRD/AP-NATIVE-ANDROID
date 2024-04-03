@@ -90,8 +90,8 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
             binding.edtOldName.setVisibility(View.GONE);
             binding.tvwNameWarning.setVisibility(View.GONE);
             binding.tvwOldAcc.setText(getResources().getText(R.string.txt_verify_addr));
-            binding.edtAcc.setInputType(InputType.TYPE_CLASS_TEXT);
-            binding.edtAcc.setHint(getResources().getText(R.string.txt_enter_wallet_addr));
+            binding.edtOldAcc.setInputType(InputType.TYPE_CLASS_TEXT);
+            binding.edtOldAcc.setHint(getResources().getText(R.string.txt_enter_wallet_addr));
             binding.tvwAccWarning.setVisibility(View.GONE);
             binding.tvwAccWarning.setHint(getResources().getText(R.string.txt_verify_addr_warning));
         } else {
