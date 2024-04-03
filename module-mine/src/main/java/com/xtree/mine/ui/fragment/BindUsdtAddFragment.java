@@ -343,7 +343,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
 
         HashMap map = new HashMap();
         map.put("account", account);
-        if (mProfileVo != null && !mProfileVo.is_binding_card) {
+        if (mProfileVo != null && mProfileVo.is_binding_usdt) {
             map.put("account_name", "");
             map.put("is_digital", "1");
         } else {
