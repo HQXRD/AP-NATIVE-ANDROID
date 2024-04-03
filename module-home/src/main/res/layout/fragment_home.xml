@@ -111,6 +111,7 @@
                         android:text="VIP 0"
                         android:textColor="@color/clr_main_02"
                         android:textSize="10sp"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="@id/tvw_name"
                         app:layout_constraintStart_toEndOf="@id/tvw_name"
                         app:layout_constraintTop_toTopOf="@id/tvw_name" />
