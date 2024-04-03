@@ -1,10 +1,12 @@
 package com.xtree.bet.data;
 
 import com.xtree.base.vo.FBService;
+import com.xtree.bet.bean.request.fb.BtCashOutPriceReq;
 import com.xtree.bet.bean.request.fb.BtMultipleListReq;
 import com.xtree.bet.bean.request.fb.BtRecordReq;
 import com.xtree.bet.bean.request.fb.SingleBtListReq;
 import com.xtree.bet.bean.response.fb.BalanceInfo;
+import com.xtree.bet.bean.response.fb.BtCashOutPriceInfo;
 import com.xtree.bet.bean.response.fb.BtConfirmInfo;
 import com.xtree.bet.bean.response.fb.BtRecordRsp;
 import com.xtree.bet.bean.response.fb.BtResultInfo;
@@ -97,5 +99,14 @@ public interface FBApiService {
     @POST("/v1/user/base")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<BaseResponse<BalanceInfo>> getUserBanlace(@Body Map<String, String> map);
+
+    /**
+     * 批量获取订单提前结算报价
+     * @param btCashOutPriceReq
+     * @return
+     */
+    @POST("/v1/order/cashOut/price")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<BaseResponse<BtCashOutPriceInfo>> cashOutPrice(@Body BtCashOutPriceReq btCashOutPriceReq);
 
 }

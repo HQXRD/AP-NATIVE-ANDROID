@@ -33,4 +33,9 @@ public interface BtRecordModel {
      */
     void betRecord(boolean isSettled);
 
+    /**
+     * 批量获取订单提前结算报价
+     */
+    void cashOutPrice();
+
 }

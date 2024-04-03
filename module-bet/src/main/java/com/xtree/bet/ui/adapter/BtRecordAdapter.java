@@ -31,6 +31,11 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpandableListAdapter {
     private List<BtRecordTime> mDatas;
     private Context mContext;
+    private AdvanceSettlementCallBack mAdvanceSettlementCallBack;
+
+    public void setAdvanceSettlementCallBack(AdvanceSettlementCallBack advanceSettlementCallBack) {
+        this.mAdvanceSettlementCallBack = advanceSettlementCallBack;
+    }
 
     public BtRecordAdapter(Context context, List<BtRecordTime> datas) {
         this.mDatas = datas;
@@ -128,7 +133,7 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
 
         ChildHolder holder;
 
-        BtResult btResult = ((BtResult)getChild(groupPosition, childPosition));
+        BtResult btResult = ((BtResult) getChild(groupPosition, childPosition));
 
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.bt_layout_bt_record_item, null);
@@ -146,9 +151,9 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         }*/
 
         String cg = btResult.getBetResultOption().size() > 1 ? "串关" : "单关";
-        if(btResult.getBetResultOption().size() > 1) {
+        if (btResult.getBetResultOption().size() > 1) {
             binding.tvName.setText(mContext.getResources().getString(R.string.bt_bt_result_record_cg, cg, btResult.getCgName(), SPUtils.getInstance().getString(KEY_PLATFORM_NAME)));
-        }else{
+        } else {
             binding.tvName.setText(cg);
         }
         binding.rvMatch.setLayoutManager(new LinearLayoutManager(mContext));
@@ -162,9 +167,12 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
             StringUtils.copy(btResult.getId());
         });
         binding.tvResultStatement.setOnClickListener(v -> {
-            BtAdvanceSettlementFragment btAdvanceSettlementFragment = BtAdvanceSettlementFragment.getInstance();
-            btAdvanceSettlementFragment.show(((MainActivity)mContext).getSupportFragmentManager(), "btAdvanceSettlementFragment");
+            mAdvanceSettlementCallBack.onAdvanceSettlementClick(groupPosition, childPosition, btResult);
         });
+        binding.tvResultStatement.setText(mContext.getResources().getString(R.string.bt_txt_btn_statement, String.valueOf(btResult.getAdvanceSettleAmount())));
+        binding.tvResultStatement.setVisibility(btResult.canAdvanceSettle() ? View.VISIBLE : View.GONE);
+        binding.tvResultStatementOdds.setVisibility(btResult.canAdvanceSettle() ? View.VISIBLE : View.GONE);
+        binding.tvResultSettlementOdds.setVisibility(btResult.canAdvanceSettle() ? View.VISIBLE : View.GONE);
         return convertView;
     }
 
@@ -178,8 +186,13 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         public GroupHolder(View view) {
             itemView = view.findViewById(R.id.ll_expand);
         }
+
         View itemView;
 
+    }
+
+    public interface AdvanceSettlementCallBack{
+        void onAdvanceSettlementClick(int groupPosition, int childPosition, BtResult btResult);
     }
 
 }

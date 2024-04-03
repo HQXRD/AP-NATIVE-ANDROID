@@ -93,6 +93,16 @@ public class BtRecordBeanPm implements BtResult {
     }
 
     @Override
+    public boolean canAdvanceSettle() {
+        return false;
+    }
+
+    @Override
+    public double getAdvanceSettleAmount() {
+        return 0;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

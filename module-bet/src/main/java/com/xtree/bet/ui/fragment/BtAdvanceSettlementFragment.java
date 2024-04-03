@@ -15,6 +15,7 @@ import com.xtree.bet.bean.ui.Category;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.contract.BetContract;
+import com.xtree.bet.databinding.BtDialogAdvanceSettlementBinding;
 import com.xtree.bet.databinding.BtLayoutDetailOptionBinding;
 import com.xtree.bet.ui.activity.BtDetailActivity;
 import com.xtree.bet.ui.adapter.MatchDetailAdapter;
@@ -29,29 +30,27 @@ import me.xtree.mvvmhabit.base.BaseDialogFragment;
 import me.xtree.mvvmhabit.base.BaseFragment;
 
 /**
+ * 提前结算弹窗
  * Created by goldze on 2018/6/21
  */
-public class BtAdvanceSettlementFragment extends BaseDialogFragment<BtLayoutDetailOptionBinding, BtDetailOptionViewModel> {
-    private final static String KEY_PLAY_TYPE = "KEY_PLAY_TYPE";
-    private final static String KEY_MATCH = "KEY_MATCH";
-    private List<Category> mCategories;
+public class BtAdvanceSettlementFragment extends BaseDialogFragment<BtDialogAdvanceSettlementBinding, BtDetailOptionViewModel> {
+    private final static String KEY_CAPITAL = "key_capital";
+    private final static String KEY_BACK = "key_back";
+    /**
+     * 本金
+     */
+    private double mCaptialAmount;
+    /**
+     * 返还金额
+     */
+    private double mBackAmount;
 
-    private BaseDetailDataView fbDataView;
-
-    private MatchDetailAdapter detailPlayTypeAdapter;
-
-    private List<PlayType> playTypeList = new ArrayList<>();
-
-    private Match match;
-
-    private boolean isExpand = true;
-
-    public static BtAdvanceSettlementFragment getInstance() {
+    public static BtAdvanceSettlementFragment getInstance(double captialAmount, double backAmount) {
         BtAdvanceSettlementFragment instance = new BtAdvanceSettlementFragment();
-       /* Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(KEY_PLAY_TYPE, playTypeList);
-        bundle.putParcelable(KEY_MATCH, match);
-        instance.setArguments(bundle);*/
+        Bundle bundle = new Bundle();
+        bundle.putDouble(KEY_CAPITAL, captialAmount);
+        bundle.putDouble(KEY_BACK, backAmount);
+        instance.setArguments(bundle);
         return instance;
     }
 
@@ -84,13 +83,14 @@ public class BtAdvanceSettlementFragment extends BaseDialogFragment<BtLayoutDeta
     @Override
     public void initView() {
 
-
     }
 
     @Override
     public void initData() {
-        viewModel.addSubscription();
-
+        mCaptialAmount = getArguments().getDouble(KEY_CAPITAL);
+        mBackAmount = getArguments().getDouble(KEY_BACK);
+        binding.tvCost.setText(getString(R.string.bt_txt_btn_statement_amount, String.valueOf(mCaptialAmount)));
+        binding.tvBack.setText(getString(R.string.bt_txt_btn_statement_amount, String.valueOf(mBackAmount)));
     }
 
     @Override

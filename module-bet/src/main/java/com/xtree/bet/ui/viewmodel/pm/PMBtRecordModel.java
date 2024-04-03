@@ -80,4 +80,9 @@ public class PMBtRecordModel extends TemplateBtRecordModel {
         addSubscribe(disposable);
     }
 
+    @Override
+    public void cashOutPrice() {
+
+    }
+
 }

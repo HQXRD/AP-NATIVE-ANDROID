@@ -32,7 +32,9 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BtRecordTime;
+import com.xtree.bet.bean.ui.BtResult;
 import com.xtree.bet.databinding.BtDialogBtRecordBinding;
+import com.xtree.bet.ui.activity.MainActivity;
 import com.xtree.bet.ui.adapter.BtRecordAdapter;
 import com.xtree.bet.ui.viewmodel.TemplateBtRecordModel;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
@@ -44,7 +46,12 @@ import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -68,6 +75,10 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
     private String mPlatformName;
     private View mHeader;
     private TextView tvHeaderName;
+    private Disposable timerDisposable;
+
+    private int mGroupPosition, mChildPosition;
+    private BtAdvanceSettlementFragment btAdvanceSettlementFragment;
 
     public static BtRecordDialogFragment getInstance(boolean isSettled) {
         BtRecordDialogFragment btRecordDialogFragment = new BtRecordDialogFragment();
@@ -216,26 +227,49 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
                 binding.llEmpty.llEmpty.setVisibility(View.VISIBLE);
                 binding.llEmpty.tvBtNow.setOnClickListener(this);
             } else {
+
                 binding.nsvOption.setVisibility(View.VISIBLE);
                 binding.cslBottom.setVisibility(View.VISIBLE);
                 binding.llEmpty.llEmpty.setVisibility(View.GONE);
                 this.btRecordTimes = btRecordTimes;
                 if (btRecordAdapter == null) {
                     btRecordAdapter = new BtRecordAdapter(getContext(), btRecordTimes);
+                    btRecordAdapter.setAdvanceSettlementCallBack((groupPosition, childPosition, btResult) -> {
+                        mGroupPosition = groupPosition;
+                        mChildPosition = childPosition;
+                        btAdvanceSettlementFragment = BtAdvanceSettlementFragment.getInstance(btResult.getBtAmount(), btResult.getAdvanceSettleAmount());
+                        btAdvanceSettlementFragment.show(getActivity().getSupportFragmentManager(), "btAdvanceSettlementFragment");
+                    });
                     binding.rvRecord.setAdapter(btRecordAdapter);
+                    initTimer();
+                    binding.rvRecord.scroll(0);
                 } else {
                     btRecordAdapter.setData(btRecordTimes);
                 }
                 for (int i = 0; i < binding.rvRecord.getExpandableListAdapter().getGroupCount(); i++) {
                     binding.rvRecord.expandGroup(i);
                 }
-                binding.rvRecord.scroll(0);
             }
         });
 
         viewModel.tokenInvalidEvent.observe(this, unused -> {
             viewModel.betRecord(isSettled);
         });
+    }
+
+    private void initTimer() {
+        if (timerDisposable != null) {
+            viewModel.removeSubscribe(timerDisposable);
+        }
+        timerDisposable = Observable.interval(0, 5, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> {
+                    if(!isSettled) {
+                        viewModel.cashOutPrice();
+                    }
+                });
+        viewModel.addSubscribe(timerDisposable);
     }
 
     @Override

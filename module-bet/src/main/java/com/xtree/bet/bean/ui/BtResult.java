@@ -56,4 +56,15 @@ public interface BtResult extends BaseBean {
      */
     List<BtResultOption> getBetResultOption();
 
+    /**
+     * 是否可以提前结算
+     * @return
+     */
+    boolean canAdvanceSettle();
+
+    /**
+     * 是否可以提前结算
+     * @return
+     */
+    double getAdvanceSettleAmount();
 }

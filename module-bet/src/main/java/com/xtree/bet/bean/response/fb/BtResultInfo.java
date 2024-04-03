@@ -120,6 +120,10 @@ public class BtResultInfo implements BaseBean {
      * 是否二次结算
      */
     public boolean ss;
+    /**
+     * 提前结算报价数据
+     */
+    public BtCashOutPriceOrderInfo pr;
 
 
     @Override
