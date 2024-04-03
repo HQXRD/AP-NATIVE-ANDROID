@@ -18,7 +18,7 @@ public class ProfileVo {
     //public int topUserPinkChess; // 0,
     //public int topUserPinkLive; // 0,
     //public int is_director; // 0,
-    //public int frequency; // null,
+    public int frequency = 0; // null,
     public int liveStatus; // 0,
     public int sportStatus; // 0,
     public int pokerStatus; // 0,

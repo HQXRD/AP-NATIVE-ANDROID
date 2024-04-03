@@ -7,15 +7,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.R;
 import com.xtree.mine.vo.MsgInfoVo;
 import com.xtree.mine.vo.MsgPersonInfoVo;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+
+import me.xtree.mvvmhabit.utils.SPUtils;
+
 public class ListMsgInfoDialog extends BottomPopupView {
     int maxHeight = 40; // 最大高度百分比 10-100
+    int level;
     MsgInfoVo msgInfoVo;
     MsgPersonInfoVo msgPersonInfoVo;
 
@@ -24,6 +37,8 @@ public class ListMsgInfoDialog extends BottomPopupView {
     TextView tvwMsgTitle;
     TextView tvwMsgDate;
     TextView tvwMsgContent;
+    HashMap<String, Object> map;
+    ProfileVo mProfileVo;
 
     public ListMsgInfoDialog(@NonNull Context context) {
         super(context);
@@ -49,6 +64,10 @@ public class ListMsgInfoDialog extends BottomPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
+
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        mProfileVo = new Gson().fromJson(json, ProfileVo.class);
+
         initView();
     }
 
@@ -69,6 +88,7 @@ public class ListMsgInfoDialog extends BottomPopupView {
             String txt = msgInfoVo.content.replace("<\\ span><\\ div><br\\/>", "<\\ div>");
             txt = txt.replace("<br/>", "");
             CfLog.i(txt);
+
             tvwMsgContent.setText(HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_COMPACT));
         } else if (msgPersonInfoVo != null) {
             tvwTitle.setText(msgPersonInfoVo.title);
@@ -78,7 +98,15 @@ public class ListMsgInfoDialog extends BottomPopupView {
             String txt = msgPersonInfoVo.content.replace("<\\ span><\\ div><br\\/>", "<\\ div>");
             txt = txt.replace("<br/>", "");
             CfLog.i(txt);
-            tvwMsgContent.setText(HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_COMPACT));
+
+            try {
+                map = new Gson().fromJson(txt, new TypeToken<HashMap<String, Object>>() {
+                }.getType());
+                tvwMsgContent.setText(setMessageContent(map));
+            } catch (JsonSyntaxException e) {
+                CfLog.e(e.getMessage());
+                tvwMsgContent.setText(HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_COMPACT));
+            }
         }
 
     }
@@ -95,5 +123,97 @@ public class ListMsgInfoDialog extends BottomPopupView {
             maxHeight = 40;
         }
         return (XPopupUtils.getScreenHeight(getContext()) * maxHeight / 100);
+    }
+
+    public String setMessageContent(HashMap<String, Object> map) {
+        StringBuilder content = new StringBuilder();
+        content.append("尊敬的用户：").append("\n");
+        content.append(map.get("status").equals("8") ? "您的契约" : "已为您创建契约").append("\n\n");
+        content.append("生效日期：").append(map.get("effect_date")).append("\n");
+        content.append("契约内容").append("\n");
+
+        List<String> unit;
+
+        if (mProfileVo.frequency == 0) {
+            unit = Arrays.asList("每日", "日薪");
+        } else {
+            unit = Arrays.asList("每小时", "时薪");
+        }
+
+        List<HashMap<String, Object>> ruleRldyjttList = new ArrayList<>();
+        List<HashMap<String, Object>> ruleList = new ArrayList<>();
+
+        if (map.get("rule_rldyjtt") != null) {
+            String ruleRldyjtt = map.get("rule_rldyjtt").toString();
+            if (ruleRldyjtt != null && !ruleRldyjtt.isEmpty()) {
+                ruleRldyjttList = new Gson().fromJson(ruleRldyjtt, new TypeToken<List<HashMap<String, Object>>>() {
+                }.getType());
+            }
+        }
+        if (map.get("rule") != null) {
+            String rule = map.get("rule").toString();
+            if (rule != null && !rule.isEmpty()) {
+                ruleList = new Gson().fromJson(rule, new TypeToken<List<HashMap<String, Object>>>() {
+                }.getType());
+            }
+        }
+
+        if (msgPersonInfoVo.type.equals("2") && !ruleRldyjttList.isEmpty()) {
+            for (HashMap<String, Object> hashMap : ruleRldyjttList) {
+                content.append("日量阶梯").append("\n");
+                content.append("日投注额≥").append(hashMap.get("betbyday"))
+                        .append("元，活跃人数≥").append(hashMap.get("activePeople"))
+                        .append("，时薪").append(hashMap.get("wagesRatio")).append("元/千");
+            }
+        } else {
+            if (msgPersonInfoVo.type.equals("1") || msgPersonInfoVo.type.equals("2")) {
+                for (HashMap<String, Object> hashMap : ruleList) {
+                    level = new Double((double) hashMap.get("level")).intValue();
+                    content.append("规则")
+                            .append(level).append(":")
+                            .append("投注额≥").append(hashMap.get("min_bet"))
+                            .append("元，且活跃玩家人数≥").append(hashMap.get("min_player")).append("，")
+                            .append(unit.get(1)).append(hashMap.get("ratio")).append("元/千").append("\n");
+                }
+            } else if (msgPersonInfoVo.type.equals("3") || msgPersonInfoVo.type.equals("4") || msgPersonInfoVo.type.equals("6") || msgPersonInfoVo.type.equals("7") || msgPersonInfoVo.type.equals("9")) {
+                for (HashMap<String, Object> hashMap : ruleList) {
+                    level = new Double((double) hashMap.get("level")).intValue();
+                    content.append("规则")
+                            .append(level).append(":")
+                            .append(unit.get(0))
+                            .append("日有效投注额≥").append(hashMap.get("min_bet"))
+                            .append("元，且活跃玩家人数≥").append(hashMap.get("min_player"));
+                }
+            } else if (msgPersonInfoVo.type.equals("5")) {
+                for (HashMap<String, Object> hashMap : ruleList) {
+                    level = new Double((double) hashMap.get("level")).intValue();
+                    content.append("方案").append(level).append("\n");
+                    content.append("周期累计投注额≥").append(hashMap.get("profit"))
+                            .append("元,周期累计亏损额≥").append(hashMap.get("net_profit"))
+                            .append("元,活跃人数≥").append(hashMap.get("people"))
+                            .append("人，分红").append(hashMap.get("ratio")).append("%").append("\n");
+                }
+            } else if (msgPersonInfoVo.type.equals("11")) {
+                for (HashMap<String, Object> hashMap : ruleList) {
+                    level = new Double((double) hashMap.get("level")).intValue();
+                    content.append("方案").append(level).append("\n");
+                    content.append("周期累计投注额≥").append(hashMap.get("cycle_stake_amount"))
+                            .append("元,周期累计亏损额≥").append(hashMap.get("loss_amount"))
+                            .append("元,活跃代理≥").append(hashMap.get("people"))
+                            .append("人，分红").append(hashMap.get("ratio")).append("%<").append("\n");
+                }
+            } else if (msgPersonInfoVo.type.equals("20")) {
+                for (HashMap<String, Object> hashMap : ruleList) {
+                    level = new Double((double) hashMap.get("level")).intValue();
+                    content.append("方案").append(level + 1).append("\n");
+                    content.append("日投注额≥").append(hashMap.get("bet"))
+                            .append("元，日活跃人数≥").append(hashMap.get("people"))
+                            .append("人，日亏损额≥").append(hashMap.get("loss_amount"))
+                            .append("元，分红：").append(hashMap.get("ratio")).append(hashMap.get("type").equals(0) ? "%" : "元").append("\n");
+                }
+            }
+        }
+
+        return content.toString();
     }
 }
