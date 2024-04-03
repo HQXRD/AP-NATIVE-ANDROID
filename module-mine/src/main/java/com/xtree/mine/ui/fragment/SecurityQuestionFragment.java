@@ -160,6 +160,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
                     }
                 }
                 ArrayList questions = new ArrayList();
+                //new Gson().toJson(qaBeanArrayList)
                 questions.add(firstMap);
                 questions.add(secondMap);
                 LoadingDialog.show(getContext());
@@ -314,7 +315,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
 
     /*设置密保*/
     private void setSecurityQuestions(ArrayList qaBeanArrayList) {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("nonce", UuidUtil.getID24());
         if (hide) {
             //第一次设置密保
@@ -324,7 +325,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
             map.put("check", "-1");
         }
 
-        map.put("questions", new Gson().toJson(qaBeanArrayList));
+        map.put("questions", qaBeanArrayList);
         CfLog.e("setSecurityQuestions" + map);
         viewModel.putSecurityQuestions(map);
     }

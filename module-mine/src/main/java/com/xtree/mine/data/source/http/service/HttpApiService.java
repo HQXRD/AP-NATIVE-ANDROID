@@ -676,7 +676,8 @@ public interface HttpApiService {
     /*魔域 设置密保*/
     @PUT("/api/account/security-questions")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse2> putSecurityQuestions(@Body Map<String, String> map);
+    Flowable<BaseResponse2> putSecurityQuestions(@Body Map<String, Object> map);
+
 
     /*魔域 输入密保问题校验*/
     @POST("/?controller=user&action=checkquestion&client=m")
