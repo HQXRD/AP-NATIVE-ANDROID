@@ -98,7 +98,6 @@ public class BtDetailDialog extends BottomPopupView {
         //String win = vo.project_win.equals("0") ? "--" : vo.project_win;
 
         binding.tvwUsername.setText(vo.project_username);
-        binding.tvwVip.setText(vo.vip);
         binding.tvwGameCode.setText(vo.project_Game_code);
         binding.tvwGameDate.setText(vo.project_Game_date);
         binding.tvwVenue.setText(platformName); // OBGQP vo.venue
