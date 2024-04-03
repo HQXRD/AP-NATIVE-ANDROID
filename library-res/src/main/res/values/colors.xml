@@ -226,7 +226,7 @@
     <color name="bt_color_car_dialog_hight_line">@color/clr_main_03</color>
 
     <!-- 投注确认页高亮颜色2 -->
-    <color name="bt_color_car_dialog_hight_line2">#D0B292</color>
+    <color name="bt_color_car_dialog_hight_line2">#121B47</color>
 
     <!-- 投注确认页提示高亮颜色(如比分已更改) -->
     <color name="bt_color_car_dialog_tip_hight_line">#FF7A00</color>

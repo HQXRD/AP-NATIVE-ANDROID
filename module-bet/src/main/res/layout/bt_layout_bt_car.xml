@@ -255,7 +255,7 @@
                             android:id="@+id/iv_bt_bg"
                             android:layout_width="match_parent"
                             android:layout_height="42dp"
-                            android:background="@drawable/bt_btn_bg_cg_selector" />
+                            android:background="@drawable/bg_main_frame_06" />
 
                         <TextView
                             android:id="@+id/tv_bt_opton"
