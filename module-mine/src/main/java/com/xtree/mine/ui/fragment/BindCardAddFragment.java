@@ -24,6 +24,7 @@ import com.xtree.base.widget.ListDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentBindCardAddBinding;
+import com.xtree.mine.ui.dialog.BankSelectDialog;
 import com.xtree.mine.ui.viewmodel.BindCardViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.UserBankConfirmVo;
@@ -335,7 +336,7 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         ArrayList<UserBankProvinceVo.BankInfoVo> list = new ArrayList<>();
         list.addAll(mUserBankInfoVo.banklist);
         adapter.addAll(list);
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), getString(R.string.txt_choose_bank), adapter, 70));
+        ppw = new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(new BankSelectDialog(getContext(), getString(R.string.txt_choose_bank), adapter, 70));
         ppw.show();
     }
 
