@@ -408,44 +408,58 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         if (bankCardCashVo.channel_list.get(0).isWebView == 1) {
             CfLog.i("refreshInitView ChannelVo = bankCardCashVo.channel_list.get(0).isWebView == 1");
             binding.nsDefaultView.setVisibility(View.GONE);//原始页面
-            binding.nsErrorView.setVisibility(View.GONE);//隐藏错误信息页面
             binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面隐藏
             binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
             binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
-            binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
-            //  binding.nsH5View.setBackground(getContext().getDrawable(R.color.white));
-            binding.nsH5View.setBackgroundResource(android.R.color.transparent);
-            binding.maskH5View.setVisibility(View.VISIBLE);
 
-            String url = bankCardCashVo.channel_list.get(0).thiriframe_url;
-            if (!StringUtils.isStartHttp(url)) {
-                url = DomainUtil.getDomain2() + url;
+            //thiriframe_status 为1的时候加载WebView
+            if (bankCardCashVo.channel_list.get(0).thiriframe_status == 1 ){
+                binding.nsH5View.setVisibility(View.GONE);//隐藏h5展示
+                binding.maskH5View.setVisibility(View.GONE);
+                binding.nsErrorView.setVisibility(View.VISIBLE);//展示错误信息页面
+                binding.tvShowErrorMessage.setText(getContext().getString(R.string.txt_withdrawal_network_error));
+            }else {
+
+
+
+                binding.nsErrorView.setVisibility(View.GONE);//隐藏错误信息页面
+                binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
+                //  binding.nsH5View.setBackground(getContext().getDrawable(R.color.white));
+                binding.nsH5View.setBackgroundResource(android.R.color.transparent);
+                binding.maskH5View.setVisibility(View.VISIBLE);
+
+                String url = bankCardCashVo.channel_list.get(0).thiriframe_url;
+                if (!StringUtils.isStartHttp(url)) {
+                    url = DomainUtil.getDomain2() + url;
+                }
+                //为WebView 页面添加 跳转外部的浮窗
+                showCashPopView(url);
+                //binding.nsH5View.scrollWebViewLoadUrl(url, getHeader());
+                binding.nsH5View.loadUrl(url, getHeader());
+                initWebView();
+                binding.nsH5View.setWebViewClient(new WebViewClient() {
+                    @Override
+                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        // LoadingDialog.show(getContext());
+                        view.loadUrl(url);
+                        return true;
+                    }
+
+                    @Override
+                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
+
+                    }
+
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        dismissLoading();
+                        binding.maskH5View.setVisibility(View.GONE);
+                    }
+                });
             }
-            //为WebView 页面添加 跳转外部的浮窗
-            showCashPopView(url);
-            //binding.nsH5View.scrollWebViewLoadUrl(url, getHeader());
-            binding.nsH5View.loadUrl(url, getHeader());
-            initWebView();
-            binding.nsH5View.setWebViewClient(new WebViewClient() {
-                @Override
-                public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    // LoadingDialog.show(getContext());
-                    view.loadUrl(url);
-                    return true;
-                }
 
-                @Override
-                public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
-                }
-
-                @Override
-                public void onPageFinished(WebView view, String url) {
-                    super.onPageFinished(view, url);
-                    dismissLoading();
-                    binding.maskH5View.setVisibility(View.GONE);
-                }
-            });
         }
         //展示原生页面
         else if (bankCardCashVo.channel_list.get(0).isWebView == 2) {
@@ -710,42 +724,55 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         } else if (selectVO.isShowErrorView == 0) {
             if (selectVO.isWebView == 1)//展示WebView
             {
-                binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面
                 binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据
                 // 页面隐藏
                 binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
                 binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
-                binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
 
-                String url = bankCardCashVo.channel_list.get(0).thiriframe_url;
-                if (!StringUtils.isStartHttp(url)) {
-                    url = DomainUtil.getDomain2() + url;
+                //thiriframe_status 为1的时候加载WebView
+                if (selectVO.thiriframe_status == 1 ){
+
+                    binding.nsH5View.setVisibility(View.GONE);//隐藏h5展示
+                    binding.nsErrorView.setVisibility(View.VISIBLE);//展示错误信息页面
+                    binding.tvShowErrorMessage.setText(getContext().getString(R.string.txt_withdrawal_network_error));
+                }else {
+
+                    binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面
+                    binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
+
+                    String url = selectVO.thiriframe_url;
+                    if (!StringUtils.isStartHttp(url)) {
+                        url = DomainUtil.getDomain2() + url;
+                    }
+
+                    //为WebView 页面添加 跳转外部的浮窗
+                    showCashPopView(url);
+
+                    binding.nsH5View.loadUrl(url, getHeader());
+                    initWebView();
+                    binding.nsH5View.setWebViewClient(new WebViewClient() {
+                        @Override
+                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                            view.loadUrl(url);
+                            return true;
+                        }
+
+                        @Override
+                        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                            // LoadingDialog.show(getContext());
+                        }
+
+                        @Override
+                        public void onPageFinished(WebView view, String url) {
+                            super.onPageFinished(view, url);
+                            //LoadingDialog.finish();
+                        }
+
+                    });
                 }
 
-                //为WebView 页面添加 跳转外部的浮窗
-                showCashPopView(url);
 
-                binding.nsH5View.loadUrl(url, getHeader());
-                initWebView();
-                binding.nsH5View.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        view.loadUrl(url);
-                        return true;
-                    }
 
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        // LoadingDialog.show(getContext());
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        //LoadingDialog.finish();
-                    }
-
-                });
             } else if (selectVO.fixamount_list_status == 0) {
 
                 closeCashPopView();

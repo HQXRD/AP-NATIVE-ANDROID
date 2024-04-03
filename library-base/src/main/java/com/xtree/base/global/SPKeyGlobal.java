@@ -23,6 +23,7 @@ public class SPKeyGlobal {
     public static final String HOME_VIP_INFO = "home_vip_info";
     public static final String DC_NEWS_LIST = "dc_news_list";
     public static final String RC_PAYMENT_OBJ = "rc_payment_obj";
+    public static final String RC_PAYMENT_TYPE_OBJ = "rc_payment_type_obj";
     public static final String RC_NOT_TIP_TODAY_COUNT = "rc_not_tip_today_count"; // 充值 今日不再提示 次数
     public static final String RC_NOT_TIP_TODAY_LOW = "rc_not_tip_today_low"; // 充值 今日不再提示 低成功率
     public static final String PM_NOT_TIP_TODAY = "pm_not_tip_today"; // 熊猫体育 今日不再提示

@@ -154,7 +154,47 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp" />
 
-                <androidx.appcompat.widget.LinearLayoutCompat
+                <LinearLayout
+                    android:id="@+id/ll_cur_pmt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/layout_margin"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/style_cm_title"
+                        android:layout_marginTop="0dp"
+                        android:text="@string/txt_cur_recharge_channel" />
+
+                    <ImageView
+                        android:id="@+id/ivw_cur_pmt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/ic_trans_76"
+                        android:visibility="visible"
+                        tools:src="@mipmap/rc_ic_pmt_happy" />
+
+                    <TextView
+                        android:id="@+id/tvw_cur_pmt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/clr_txt_black_01"
+                        android:textSize="14sp"
+                        tools:text="银行卡充值" />
+                </LinearLayout>
+
+                <com.xtree.base.widget.MaxRecyclerView
+                    android:id="@+id/rcv_pay_channel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="@dimen/layout_margin"
+                    android:layout_marginEnd="8dp" />
+
+                <LinearLayout
                     android:id="@+id/ll_down"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -162,38 +202,6 @@
                     android:orientation="vertical"
                     android:visibility="gone"
                     tools:visibility="visible">
-
-                    <LinearLayout
-                        android:id="@+id/ll_cur_pmt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/layout_margin"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            style="@style/style_cm_title"
-                            android:layout_marginTop="0dp"
-                            android:text="@string/txt_cur_recharge_channel" />
-
-                        <ImageView
-                            android:id="@+id/ivw_cur_pmt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="end"
-                            android:layout_marginEnd="4dp"
-                            tools:src="@mipmap/rc_ic_pmt_yhk" />
-
-                        <TextView
-                            android:id="@+id/tvw_cur_pmt"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:text=""
-                            android:textColor="@color/clr_txt_black_01"
-                            android:textSize="11sp"
-                            tools:text="银行卡充值" />
-                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_bind_info"
@@ -232,31 +240,32 @@
                     </LinearLayout>
 
                     <!-- 以下是各充值渠道的UI -->
+
+                    <TextView
+                        android:id="@+id/tvw_choose_bank_card"
+                        style="@style/style_cm_title"
+                        android:text="选择付款银行卡"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/tvw_bank_card"
+                        style="@style/style_cm_edit"
+                        android:layout_marginStart="@dimen/layout_margin"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_marginEnd="@dimen/layout_margin"
+                        android:drawableEnd="@mipmap/bt_icon_expand"
+                        android:hint="@string/txt_pls_select_payment_card"
+                        android:maxLength="80"
+                        android:text=""
+                        android:visibility="gone"
+                        tools:visibility="visible" />
+
                     <androidx.appcompat.widget.LinearLayoutCompat
                         android:id="@+id/ll_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tvw_choose_bank_card"
-                            style="@style/style_cm_title"
-                            android:text="选择付款银行卡"
-                            android:visibility="gone"
-                            tools:visibility="visible" />
-
-                        <TextView
-                            android:id="@+id/tvw_bank_card"
-                            style="@style/style_cm_edit"
-                            android:layout_marginStart="@dimen/layout_margin"
-                            android:layout_marginTop="@dimen/layout_margin"
-                            android:layout_marginEnd="@dimen/layout_margin"
-                            android:drawableEnd="@mipmap/bt_icon_expand"
-                            android:hint="@string/txt_pls_select_payment_card"
-                            android:maxLength="80"
-                            android:text=""
-                            android:visibility="gone"
-                            tools:visibility="visible" />
 
                         <TextView
                             style="@style/style_cm_title"
@@ -449,7 +458,52 @@
                         android:drawablePadding="2dp"
                         android:text="@string/txt_amount_filled_should_same_as_remittance_amount" />
 
-                </androidx.appcompat.widget.LinearLayoutCompat>
+                    <LinearLayout
+                        android:id="@+id/ll_step"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/layout_margin"
+                        android:layout_marginTop="@dimen/layout_margin"
+                        android:layout_marginEnd="@dimen/layout_margin"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:drawableStart="@mipmap/cm_ic_hint_purple"
+                                android:drawablePadding="4dp"
+                                android:text="@string/txt_rc_step"
+                                android:textColor="@color/clr_txt_black_01"
+                                android:textSize="11sp" />
+
+                            <TextView
+                                android:id="@+id/tvw_step_tutorial"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:drawableStart="@mipmap/cm_ic_tutorial"
+                                android:drawablePadding="4dp"
+                                android:text="@string/txt_rc_cnyt_tutorial"
+                                android:textColor="@color/clr_txt_black_01"
+                                android:textSize="11sp" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvw_step_content"
+                            style="@style/style_rc_tip_small_grey"
+                            android:layout_marginStart="0dp"
+                            tools:text="DEMO" />
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <com.youth.banner.Banner
                     android:id="@+id/bnr_top"
