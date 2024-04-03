@@ -113,6 +113,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
         @Override
         public void accept(String s) throws Exception {
             RebateAgrtCreateModel model = new RebateAgrtCreateModel();
+            model.setType(rebateAgrtDetailModel.getSubData().getType());
             bindModels.add(model);
             formatItem();
             datas.setValue(bindModels);
@@ -164,6 +165,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
                     if (rule != null) {
                         for (GameSubordinateAgrteResponse.DataDTO.RuleDTO ruleDTO : rule) {
                             RebateAgrtCreateModel model = new RebateAgrtCreateModel();
+                            model.setType(rebateAgrtDetailModel.getSubData().getType());
                             model.setMinBet(ruleDTO.getMin_bet());
                             model.setMinPlayer(ruleDTO.getMin_player());
                             model.setRatio(ruleDTO.getRatio());
@@ -178,6 +180,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
             viewMode.set(CREATE_MODO);
             //设置默认一条空规则
             RebateAgrtCreateModel model = new RebateAgrtCreateModel();
+            model.setType(rebateAgrtDetailModel.getSubData().getType());
             bindModels.add(model);
 
             //是否携带用户名
