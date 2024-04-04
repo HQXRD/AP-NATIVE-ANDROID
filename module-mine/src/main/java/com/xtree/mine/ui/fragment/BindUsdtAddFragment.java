@@ -20,9 +20,11 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.ListDialog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentBindUsdtAddBinding;
@@ -60,6 +62,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
     ProfileVo mProfileVo;
 
     UserUsdtConfirmVo mConfirmVo;
+    private BasePopupView loadingView;//显示loadView
 
     public BindUsdtAddFragment() {
     }
@@ -106,10 +109,16 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
     public void initView() {
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
+        binding.tvwOldBack.setOnClickListener(v -> getActivity().finish());
 
         binding.tvwChoose.setOnClickListener(v -> showChooseType());
         binding.ivwNext.setOnClickListener(v -> doNext());
-        binding.tvwSubmit.setOnClickListener(v -> doSubmit());
+        binding.tvwSubmit.setOnClickListener(v -> {
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
+            doSubmit();
+        });
 
         binding.tvwBack.setOnClickListener(v -> {
             if (binding.llAdd.getVisibility() == View.GONE) {
@@ -181,6 +190,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
         });
         viewModel.liveDataProfile.observe(this, vo -> {
             CfLog.i("******");
+            dismissMasksLoading();
             getActivity().finish();
         });
         viewModel.liveDataVerify.observe(this, isSuccess -> {
@@ -261,7 +271,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
     }
 
     private void doSubmit() {
-
+        showMaskLoading();
         HashMap queryMap = new HashMap();
         queryMap.put("controller", controller);
         queryMap.put("action", action);
@@ -353,5 +363,20 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
         map.put("nonce", UuidUtil.getID16());
 
         viewModel.doVerify(qMap, map);
+    }
+
+    /*显示loading */
+    private void showMaskLoading() {
+        if (loadingView == null) {
+            loadingView = new XPopup.Builder(getContext()).asCustom(new LoadingDialog(getContext()));
+        }
+        loadingView.show();
+    }
+
+    /*关闭loading*/
+    private void dismissMasksLoading() {
+        if (loadingView != null) {
+            loadingView.dismiss();
+        }
     }
 }
