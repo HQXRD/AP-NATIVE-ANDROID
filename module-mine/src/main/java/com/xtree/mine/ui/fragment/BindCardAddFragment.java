@@ -18,9 +18,11 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.ListDialog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentBindCardAddBinding;
@@ -106,7 +108,13 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         binding.tvwChooseProvince.setOnClickListener(v -> showChooseProvince());
         binding.tvwChooseCity.setOnClickListener(v -> showChooseCity());
         binding.ivwNext.setOnClickListener(v -> doNext());
-        binding.tvwSubmit.setOnClickListener(v -> doSubmit());
+        binding.tvwSubmit.setOnClickListener(v -> {
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
+            LoadingDialog.show(getContext());
+            doSubmit();
+        });
 
         binding.tvwBack.setOnClickListener(v -> {
             if (binding.llAdd.getVisibility() == View.GONE) {
