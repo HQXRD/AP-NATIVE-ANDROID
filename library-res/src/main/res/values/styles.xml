@@ -265,6 +265,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/ic_bg_amount_selector</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/clr_main</item>
         <item name="android:textSize">12sp</item>
@@ -346,7 +348,7 @@
     <!-- 通用 提示小字 桔红色 -->
     <style name="style_cm_tip_small_orange" parent="style_cm_tip_small_grey">
         <item name="android:text">@string/txt_note_asterisks_cannot_empty</item>
-        <item name="android:textColor">@color/clr_main_19</item>
+        <item name="android:textColor">@color/clr_orange_08</item>
     </style>
     <!-- 通用 提示小字 桔红色 -->
     <style name="style_cm_tip_small_yellow" parent="style_cm_tip_small_grey">
