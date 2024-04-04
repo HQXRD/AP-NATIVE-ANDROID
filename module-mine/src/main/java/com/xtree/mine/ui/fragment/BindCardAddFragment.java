@@ -63,6 +63,7 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
     UserBankConfirmVo mConfirmVo;
     ProfileVo mProfileVo;
     List<UserBankProvinceVo.AreaVo> listCity = new ArrayList<>();
+    private BasePopupView loadingView;//显示loadView
 
     public BindCardAddFragment() {
     }
@@ -112,7 +113,6 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
             if (ClickUtil.isFastClick()) {
                 return;
             }
-            LoadingDialog.show(getContext());
             doSubmit();
         });
 
@@ -177,6 +177,7 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         });
         viewModel.liveDataProfile.observe(this, vo -> {
             CfLog.i("******");
+            dismissMasksLoading();
             getActivity().finish();
         });
 
@@ -284,7 +285,7 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
     }
 
     private void doSubmit() {
-
+        showMaskLoading();
         HashMap queryMap = new HashMap();
         queryMap.put("controller", controller);
         queryMap.put("action", action);
@@ -445,5 +446,20 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         map.put("nonce", UuidUtil.getID16());
 
         viewModel.doVerify(qMap, map);
+    }
+
+    /*显示loading */
+    private void showMaskLoading() {
+        if (loadingView == null) {
+            loadingView = new XPopup.Builder(getContext()).asCustom(new LoadingDialog(getContext()));
+        }
+        loadingView.show();
+    }
+
+    /*关闭loading*/
+    private void dismissMasksLoading() {
+        if (loadingView != null) {
+            loadingView.dismiss();
+        }
     }
 }

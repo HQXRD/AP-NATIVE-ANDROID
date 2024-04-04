@@ -62,7 +62,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
     ProfileVo mProfileVo;
 
     UserUsdtConfirmVo mConfirmVo;
-    private BasePopupView loadingView ;//显示loadView
+    private BasePopupView loadingView;//显示loadView
 
     public BindUsdtAddFragment() {
     }
@@ -113,12 +113,12 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
 
         binding.tvwChoose.setOnClickListener(v -> showChooseType());
         binding.ivwNext.setOnClickListener(v -> doNext());
-        binding.tvwSubmit.setOnClickListener(v ->{
-            if (ClickUtil.isFastClick()){
+        binding.tvwSubmit.setOnClickListener(v -> {
+            if (ClickUtil.isFastClick()) {
                 return;
             }
             doSubmit();
-        } );
+        });
 
         binding.tvwBack.setOnClickListener(v -> {
             if (binding.llAdd.getVisibility() == View.GONE) {
@@ -378,6 +378,5 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
         if (loadingView != null) {
             loadingView.dismiss();
         }
-
     }
 }
