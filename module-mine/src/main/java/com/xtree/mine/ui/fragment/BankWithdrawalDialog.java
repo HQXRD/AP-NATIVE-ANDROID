@@ -424,7 +424,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
                 binding.nsErrorView.setVisibility(View.GONE);//隐藏错误信息页面
                 binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
-                //  binding.nsH5View.setBackground(getContext().getDrawable(R.color.white));
                 binding.nsH5View.setBackgroundResource(android.R.color.transparent);
                 binding.maskH5View.setVisibility(View.VISIBLE);
 
@@ -434,7 +433,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 }
                 //为WebView 页面添加 跳转外部的浮窗
                 showCashPopView(url);
-                //binding.nsH5View.scrollWebViewLoadUrl(url, getHeader());
                 binding.nsH5View.loadUrl(url, getHeader());
                 initWebView();
                 binding.nsH5View.setWebViewClient(new WebViewClient() {
@@ -449,7 +447,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
                     }
-
                     @Override
                     public void onPageFinished(WebView view, String url) {
                         super.onPageFinished(view, url);
