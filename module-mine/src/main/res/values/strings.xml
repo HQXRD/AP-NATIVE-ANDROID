@@ -114,7 +114,7 @@
     <string name="txt_phone_num">手机号码</string>
     <string name="txt_email_addr">邮箱地址</string>
     <string name="txt_email">邮箱</string>
-    <string name="txt_change_phone_num">"更新手机号 "</string>
+    <string name="txt_change_phone_num">"已绑定 "</string>
     <string name="txt_change_email">"更新邮箱地址 "</string>
     <string name="txt_pwd_cannot_empty">新密码不能为空</string>
     <string name="txt_pwd_not_same">两次密码不一致</string>
