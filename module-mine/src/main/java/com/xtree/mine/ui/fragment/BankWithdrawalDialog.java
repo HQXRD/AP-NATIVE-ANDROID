@@ -683,7 +683,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      */
     private void refreshWithdrawConfirmView(PlatWithdrawConfirmMoYuVo vo) {
         //msg_type 1 2 状态均为成功
-        if (vo.msg_type == 1) {
+        if (vo.msg_type == 1 ||(vo.msg_type == 2 && TextUtils.equals("账户提款申请成功" ,vo.msg_detail))) {
             //成功
             binding.llShowChooseCard.setVisibility(View.GONE);//顶部通用、大额提现View隐藏
             binding.nsDefaultView.setVisibility(View.GONE);
@@ -703,7 +703,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             binding.nsOverView.setVisibility(View.VISIBLE);//订单结果页面
 
             binding.llOverViewApply.tvOverMsg.setText(vo.msg_detail);
-        } else if (vo.msg_type == 2) {
+        } else if (vo.msg_type == 2 && !TextUtils.equals("账户提款申请成功" ,vo.msg_detail)) {
             binding.nsConfirmWithdrawalRequest.setVisibility(View.VISIBLE); //确认提款页面展示
             showErrorBySystem(vo.msg_detail);
             /*//失败
