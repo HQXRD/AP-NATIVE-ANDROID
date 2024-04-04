@@ -65,6 +65,7 @@ public class BrowserActivity extends AppCompatActivity {
     public static final String ARG_IS_GAME = "isGame";
     public static final String ARG_IS_LOTTERY = "isLottery";
     public static final String ARG_IS_3RD_LINK = "is3rdLink";
+    public static final String ARG_IS_HELP_CENTTAL = "isHelpCentral";
 
     View vTitle;
     TextView tvwTitle;
@@ -81,6 +82,7 @@ public class BrowserActivity extends AppCompatActivity {
 
     boolean isLottery = false; // 是否彩票, 彩票需要header,需要注入IOS标题头样式
     boolean isShowLoading = false; // 展示loading弹窗
+    boolean isHelpCentral = false;
 
     String title = "";
     String url = "";
@@ -102,6 +104,7 @@ public class BrowserActivity extends AppCompatActivity {
         isGame = getIntent().getBooleanExtra(ARG_IS_GAME, false);
         isLottery = getIntent().getBooleanExtra(ARG_IS_LOTTERY, false);
         is3rdLink = getIntent().getBooleanExtra(ARG_IS_3RD_LINK, false);
+        isHelpCentral = getIntent().getBooleanExtra(ARG_IS_HELP_CENTTAL, false);
 
         if (!TextUtils.isEmpty(title)) {
             tvwTitle.setText(title);
@@ -440,6 +443,15 @@ public class BrowserActivity extends AppCompatActivity {
         String js = "";
         js += "(function() {" + "\n";
         js += "const d = new Date();" + "\n";
+        if(isHelpCentral) {
+            js += "const style = document.createElement('style');" + "\n";
+            js += "style.type = 'text/css';" + "\n";
+            js += "style.id = 'iOS_inject';" + "\n";
+            js += "document.head.appendChild(style);" + "\n";
+            js += "document.querySelector('#iOS_inject').innerHTML = '" +
+                    " .rndx{ display: none !important;} .rndxs{ display: none !important;}" +
+                    " .portal-warpper{ display: none !important;} .root{ margin-top: -2.53rem !important;}';"+ "\n";
+        }
         js += "d.setTime(d.getTime() + (24*60*60*1000));" + "\n";
         js += "let expires = \"expires=\"+ d.toUTCString();" + "\n";
         js += "document.cookie = \"auth=" + token + ";\" + expires + \";path=/\";" + "\n";
@@ -550,4 +562,15 @@ public class BrowserActivity extends AppCompatActivity {
         ctx.startActivity(it);
     }
 
+    public static void start(Context ctx, String title, String url, boolean isContainTitle, boolean isGame, boolean isShowLoading, boolean isHelpCentral) {
+        CfLog.i(title + ", isContainTitle: " + false + ", url: " + url);
+        Intent it = new Intent(ctx, BrowserActivity.class);
+        it.putExtra(BrowserActivity.ARG_TITLE, title);
+        it.putExtra(BrowserActivity.ARG_URL, url);
+        it.putExtra(BrowserActivity.ARG_IS_CONTAIN_TITLE, isContainTitle);
+        it.putExtra(BrowserActivity.ARG_IS_GAME, isGame);
+        it.putExtra(BrowserActivity.ARG_IS_SHOW_LOADING, isShowLoading);
+        it.putExtra(BrowserActivity.ARG_IS_HELP_CENTTAL, isHelpCentral);
+        ctx.startActivity(it);
+    }
 }
