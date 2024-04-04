@@ -98,10 +98,15 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        refreshBalance();
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel.readCache(); // 先读取缓存数据
-        refreshBalance();
     }
 
     private void refreshBalance() {
