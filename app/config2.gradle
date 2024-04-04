@@ -5,8 +5,8 @@ android {
 
         xingCai {
             applicationId "com.xcsport.app" //
-            versionName "1.0.0"
-            versionCode 100
+            versionName "1.0.1"
+            versionCode 101
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "杏彩体育"
             resValue "string", "domain_url", "https://www.weres.bar/"
