@@ -19,8 +19,8 @@
             toolbarModel="@{model}" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="124dp"
+            android:layout_height="121dp"
             imageUrl="@{model.statusImgData}"
             tools:src="@mipmap/icon_transfer_success"
             android:layout_marginTop="80dp"
@@ -45,12 +45,15 @@
             android:textSize="12sp"
             android:textColor="@color/clr_txt_mouse"
             android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             />
 
         <TextView
             android:layout_width="128dp"
             android:layout_height="42dp"
-            android:text="继续转账"
+            android:text="@{model.buttonTextData}"
             android:textSize="16sp"
             android:textColor="@color/clr_white"
             android:background="@drawable/shape_gradient_main_c88"
