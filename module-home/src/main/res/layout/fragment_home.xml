@@ -223,9 +223,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:paddingStart="@dimen/page_margin"
-            android:paddingEnd="@dimen/page_margin"
+            android:paddingEnd="8dp"
            >
 
             <androidx.core.widget.NestedScrollView
@@ -266,10 +265,10 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rcv_list"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/page_margin"
-                android:layout_marginTop="2dp" />
+                android:layout_marginTop="2dp"
+                android:layout_marginStart="4dp"/>
 
         </LinearLayout>
 

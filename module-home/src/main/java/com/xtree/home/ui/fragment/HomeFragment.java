@@ -420,11 +420,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.rcvList.setAdapter(gameAdapter);
         manager = new LinearLayoutManager(getContext());
         binding.rcvList.setLayoutManager(manager);
-        //game图片设置间隔距离8dp
-        DividerItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        Drawable dividerDrawable = ContextCompat.getDrawable(getContext(), R.drawable.divider_home);
-        decoration.setDrawable(dividerDrawable);
-        binding.rcvList.addItemDecoration(decoration);
 
         binding.rcvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
