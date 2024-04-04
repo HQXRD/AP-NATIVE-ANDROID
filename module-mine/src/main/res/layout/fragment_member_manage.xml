@@ -77,10 +77,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="@dimen/layout_margin"
+                android:background="@color/clr_transparent"
                 android:text="按团队人数-从高到低"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/et_username"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                style="@style/ViewLineStyle"
+                android:layout_width="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@id/tvw_choose_sort"
+                app:layout_constraintStart_toStartOf="@id/tvw_choose_sort"
+                app:layout_constraintTop_toBottomOf="@id/tvw_choose_sort" />
 
             <TextView
                 android:id="@+id/tvw_username"
@@ -98,11 +107,20 @@
                 style="@style/style_cm_edt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:background="@color/clr_transparent"
                 android:layout_marginTop="8dp"
                 android:hint="@string/txt_input_search_user"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvw_username"
                 app:layout_constraintTop_toBottomOf="@+id/tvw_choose_sort" />
+
+            <LinearLayout
+                style="@style/ViewLineStyle"
+                android:layout_width="0dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@id/et_username"
+                app:layout_constraintStart_toStartOf="@id/et_username"
+                app:layout_constraintTop_toBottomOf="@id/et_username" />
 
             <Button
                 android:id="@+id/btn_search"

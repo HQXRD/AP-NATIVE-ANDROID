@@ -18,6 +18,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
@@ -47,6 +48,10 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
         binding.tvwChooseSort.setOnClickListener(v -> showChooseDialog());
 
         binding.btnSearch.setOnClickListener(v -> {
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
+
             binding.refreshLayout.setEnableLoadMore(true);
             binding.refreshLayout.setEnableRefresh(true);
             curPage = 1;

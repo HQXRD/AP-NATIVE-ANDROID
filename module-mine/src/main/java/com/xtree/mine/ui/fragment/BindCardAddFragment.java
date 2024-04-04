@@ -18,9 +18,11 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.ListDialog;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentBindCardAddBinding;
@@ -61,6 +63,7 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
     UserBankConfirmVo mConfirmVo;
     ProfileVo mProfileVo;
     List<UserBankProvinceVo.AreaVo> listCity = new ArrayList<>();
+    private BasePopupView loadingView;//显示loadView
 
     public BindCardAddFragment() {
     }
@@ -106,7 +109,12 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         binding.tvwChooseProvince.setOnClickListener(v -> showChooseProvince());
         binding.tvwChooseCity.setOnClickListener(v -> showChooseCity());
         binding.ivwNext.setOnClickListener(v -> doNext());
-        binding.tvwSubmit.setOnClickListener(v -> doSubmit());
+        binding.tvwSubmit.setOnClickListener(v -> {
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
+            doSubmit();
+        });
 
         binding.tvwBack.setOnClickListener(v -> {
             if (binding.llAdd.getVisibility() == View.GONE) {
@@ -169,6 +177,7 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         });
         viewModel.liveDataProfile.observe(this, vo -> {
             CfLog.i("******");
+            dismissMasksLoading();
             getActivity().finish();
         });
 
@@ -276,7 +285,7 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
     }
 
     private void doSubmit() {
-
+        showMaskLoading();
         HashMap queryMap = new HashMap();
         queryMap.put("controller", controller);
         queryMap.put("action", action);
@@ -437,5 +446,20 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         map.put("nonce", UuidUtil.getID16());
 
         viewModel.doVerify(qMap, map);
+    }
+
+    /*显示loading */
+    private void showMaskLoading() {
+        if (loadingView == null) {
+            loadingView = new XPopup.Builder(getContext()).asCustom(new LoadingDialog(getContext()));
+        }
+        loadingView.show();
+    }
+
+    /*关闭loading*/
+    private void dismissMasksLoading() {
+        if (loadingView != null) {
+            loadingView.dismiss();
+        }
     }
 }

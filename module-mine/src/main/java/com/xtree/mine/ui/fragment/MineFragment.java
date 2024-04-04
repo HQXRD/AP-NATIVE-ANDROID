@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -126,6 +127,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
     @Override
     public void initView() {
+        binding.btnLogout.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+
         binding.btnLogout.setOnClickListener(v -> showLogoutDialog());
 
         binding.ivwSetting.setOnClickListener(view -> {

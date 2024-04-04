@@ -53,6 +53,8 @@ public class MemberManagerAdapter extends CachedAutoRefreshAdapter<MemberUserInf
         if (vo.userid.equals(SPUtils.getInstance().getString(SPKeyGlobal.USER_ID))) {
             binding.tvwSomeoneSelf.setVisibility(View.VISIBLE);
             //binding.btnTransfor.setVisibility(View.GONE);
+        } else {
+            binding.tvwSomeoneSelf.setVisibility(View.GONE);
         }
 
         //if (isShow && vo.recharge) {
