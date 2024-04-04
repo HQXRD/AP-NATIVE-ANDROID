@@ -784,7 +784,6 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
             uploadMap.put("userpay_virtual_protocol", "2");//用户支付协议 虚拟币默认为1
             uploadMap.put("receive_banknum", binding.etCollectionWalletAddress.getText().toString());//收款钱包地址
 
-            CfLog.i("虚拟币状态提交反馈  " + uploadMap);
         }
         LoadingDialog.show(getContext());
         viewModel.feedbackCustomAdd(uploadMap);

@@ -29,14 +29,17 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
-import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.ImageUploadUtil;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.DateTimePickerDialog;
 import com.xtree.base.widget.GlideEngine;
 import com.xtree.base.widget.ImageFileCompressEngine;
@@ -113,15 +116,26 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.ivwNext.setOnClickListener(v -> {
-
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             nextCheckInputWithPayWay(feedbackType);
         });
         //未到账订单点击
         binding.tvwUnreceivedOrders.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showUnReceivedDep(last3DepList);
         });
         //未到账订单点击
         binding.llUnreceivedOrders.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showUnReceivedDep(last3DepList);
         });
 
@@ -132,38 +146,78 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         }
         referFeedbackUI("wechat");
         //我的客服
-        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
+        binding.ivwCs.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
+            String title = getContext().getString(R.string.txt_custom_center);
+            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
+            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+        });
         //消息中心
         binding.ivwMsg.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG);
         });
         //图片选择
         binding.llRemittanceScreenshot.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             gotoSelectMedia();
         });
         //注册Edittex监听
         initEditListener();
         //付款方式点击事件
         binding.tvPaymentMethod.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showPayWay(feedbackVo);
         });
         binding.tvwPaymentMethod.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showPayWay(feedbackVo);
         });
         //时间选择器
         binding.tvDepositTime.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showTimeSelector();
         });
         //点击支付渠道
         binding.tvwPaymentChannel.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showPayReceive(feedbackVo);
         });
         //虚拟币反馈时候 协议选择点击
         binding.edProtocol.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showVirtualProtocol(feedbackVo);
         });
         //虚拟币 协议
         binding.llPaymentWalletProtocol.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             showVirtualProtocol(feedbackVo);
         });
 
@@ -308,7 +362,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             }
         };
         adapter.addAll(list);
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择未到账订单", adapter, 20));
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择未到账订单", adapter, 40));
         ppw.show();
     }
 
