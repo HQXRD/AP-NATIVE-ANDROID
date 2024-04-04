@@ -121,11 +121,11 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
         } else if (Constant.BIND_PHONE.equals(typeName) || Constant.VERIFY_BIND_EMAIL.equals(typeName) || Constant.VERIFY_BIND_PHONE2.equals(typeName)) {
             fragmentList.add(bindPhoneFragment);
             tabList.add(txtPhone);
-            binding.tblType.setVisibility(View.INVISIBLE);
+            binding.tblType.setVisibility(View.GONE);
         } else if (Constant.BIND_EMAIL.equals(typeName) || Constant.VERIFY_BIND_PHONE.equals(typeName) || Constant.VERIFY_BIND_EMAIL2.equals(typeName)) {
             //fragmentList.add(bindEmailFragment);
             //tabList.add(txtEmail);
-            binding.tblType.setVisibility(View.INVISIBLE);
+            binding.tblType.setVisibility(View.GONE);
         } else {
             // 去验证
             if ((Constant.VERIFY_LOGIN.equals(typeName) && !TextUtils.isEmpty(phone)) || (mProfileVo != null && mProfileVo.is_binding_phone)) {
@@ -137,7 +137,7 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
                 //tabList.add(txtEmail);
             }
             if (fragmentList.size() == 1) {
-                binding.tblType.setVisibility(View.INVISIBLE);
+                binding.tblType.setVisibility(View.GONE);
             }
         }
 

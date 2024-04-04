@@ -433,39 +433,39 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         //展示WebView界面
         if (bankCardCashVo.channel_list.get(0).isWebView == 1) {
             binding.nsDefaultView.setVisibility(View.GONE);
-            binding.nsErrorView.setVisibility(View.GONE);//隐藏错误信息页面
-            binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面隐藏
+            binding.nsErrorView.setVisibility(View.GONE);//隐藏错误信息页面隐藏
+            binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面展示
             binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
             binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
-            binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
-            binding.nsH5View.setBackgroundResource(android.R.color.transparent);
             binding.maskH5View.setVisibility(View.VISIBLE);
-
+            binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
             String url = bankCardCashVo.channel_list.get(0).thiriframe_url;
             if (!StringUtils.isStartHttp(url)) {
                 url = DomainUtil.getDomain2() + url;
             }
-            //binding.nsH5View.scrollWebViewLoadUrl(url, getHeader());
             binding.nsH5View.loadUrl(url, getHeader());
             initWebView();
             binding.nsH5View.setWebViewClient(new WebViewClient() {
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                    // LoadingDialog.show(getContext());
+                    showMaskLoading();
                     view.loadUrl(url);
                     return true;
                 }
 
                 @Override
                 public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                    // LoadingDialog.show(getContext());
                 }
 
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
+                    //LoadingDialog.finish();
                     dismissLoading();
                     binding.maskH5View.setVisibility(View.GONE);
                 }
+
             });
         }
         //展示原生页面
@@ -682,34 +682,43 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      * 刷新提交点订单后页面
      */
     private void refreshWithdrawConfirmView(PlatWithdrawConfirmMoYuVo vo) {
-        binding.llShowChooseCard.setVisibility(View.GONE);//顶部通用、大额提现View隐藏
-        binding.nsDefaultView.setVisibility(View.GONE);
-        binding.llShowNoticeInfo.setVisibility(View.GONE); //顶部提示信息隐藏
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-            binding.tvSetWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_choose_20));
-            binding.tvConfirmWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_choose_20));
-            binding.tvOverWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_choose_20));
-        }
-        binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面
-        binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面展示
-        binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
-        binding.maskH5View.setVisibility(View.GONE);
-        binding.nsH5View.setVisibility(View.GONE);//h5隐藏
-        binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
-        binding.nsOverView.setVisibility(View.VISIBLE);//订单结果页面
         //msg_type 1 2 状态均为成功
-        if (vo.msg_type == 1 || vo.msg_type == 2) {
+        if (vo.msg_type == 1 ||(vo.msg_type == 2 && TextUtils.equals("账户提款申请成功" ,vo.msg_detail))) {
             //成功
+            binding.llShowChooseCard.setVisibility(View.GONE);//顶部通用、大额提现View隐藏
+            binding.nsDefaultView.setVisibility(View.GONE);
+            binding.llShowNoticeInfo.setVisibility(View.GONE); //顶部提示信息隐藏
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+                binding.tvSetWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_choose_20));
+                binding.tvConfirmWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_choose_20));
+                binding.tvOverWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_choose_20));
+            }
+            binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面
+            binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面展示
+            binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
+            binding.maskH5View.setVisibility(View.GONE);
+            binding.nsH5View.setVisibility(View.GONE);//h5隐藏
+            binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
+            binding.nsOverView.setVisibility(View.VISIBLE);//订单结果页面
 
             binding.llOverViewApply.tvOverMsg.setText(vo.msg_detail);
+        } else if (vo.msg_type == 2 && !TextUtils.equals("账户提款申请成功" ,vo.msg_detail)) {
+            binding.nsConfirmWithdrawalRequest.setVisibility(View.VISIBLE); //确认提款页面展示
+            showErrorBySystem(vo.msg_detail);
+            /*//失败
+            binding.llOverViewApply.ivOverApply.setBackground(getContext().getDrawable(R.mipmap.ic_over_apply_err));
+            binding.llOverViewApply.tvOverMsg.setText(vo.msg_detail);
+            binding.llOverViewApply.tvMessageTip.setVisibility(View.GONE);*/
         } else if (vo.msg_type == 4) {
             //稍后刷新重试
             binding.llOverViewApply.tvOverMsg.setText(vo.msg_detail);
+            binding.llOverViewApply.tvMessageTip.setVisibility(View.GONE);
         } else {
             //失败
             binding.llOverViewApply.ivOverApply.setBackground(getContext().getDrawable(R.mipmap.ic_over_apply_err));
             binding.llOverViewApply.tvOverMsg.setText(vo.msg_detail);
+            binding.llOverViewApply.tvMessageTip.setVisibility(View.GONE);
         }
         binding.llOverViewApply.ivContinueConfirmNext.setOnClickListener(v -> {
             dismiss();
@@ -748,13 +757,14 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         } else if (selectVO.isShowErrorView == 0) {
             if (selectVO.isWebView == 1)//展示WebView
             {
-                binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面
-                binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据
-                // 页面隐藏
+                binding.nsDefaultView.setVisibility(View.GONE);
+                binding.nsErrorView.setVisibility(View.GONE);//隐藏错误信息页面隐藏
+                binding.nsSetWithdrawalRequest.setVisibility(View.GONE);//单数据页面展示
                 binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
                 binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
+                binding.maskH5View.setVisibility(View.VISIBLE);
                 binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
-                String url = bankCardCashVo.channel_list.get(0).thiriframe_url;
+                String url = selectVO.thiriframe_url;
                 if (!StringUtils.isStartHttp(url)) {
                     url = DomainUtil.getDomain2() + url;
                 }
@@ -763,6 +773,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 binding.nsH5View.setWebViewClient(new WebViewClient() {
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                        showMaskLoading();
                         view.loadUrl(url);
                         return true;
                     }
@@ -776,6 +787,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                     public void onPageFinished(WebView view, String url) {
                         super.onPageFinished(view, url);
                         //LoadingDialog.finish();
+                        dismissLoading();
+                        binding.maskH5View.setVisibility(View.GONE);
                     }
 
                 });
@@ -1027,7 +1040,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     private void showErrorBySystem(final String message) {
         if (ppwError == null) {
             final String title = getContext().getString(R.string.txt_kind_tips);
-            ppwError = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, message, true, new TipDialog.ICallBack() {
+            ppwError = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, message, false, new TipDialog.ICallBack() {
                 @Override
                 public void onClickLeft() {
                     ppwError.dismiss();
@@ -1036,7 +1049,9 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
                 @Override
                 public void onClickRight() {
+                    //确认
                     ppwError.dismiss();
+                    //bankClose.closeBankWithdrawal();
                     dismiss();
                 }
             }));
