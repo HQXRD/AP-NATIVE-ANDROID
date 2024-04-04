@@ -133,7 +133,9 @@
                         android:drawablePadding="4dp"
                         android:text="@string/txt_rc_anti_fraud"
                         android:textColor="@color/clr_txt_black_01"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:visibility="gone"
+                        tools:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/tvw_tutorial"

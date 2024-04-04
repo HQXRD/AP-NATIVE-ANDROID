@@ -175,32 +175,34 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
         if (mProfileVo != null) {
             if (mProfileVo.is_binding_phone) {
                 binding.tvwPhone.setText(getString(R.string.txt_change_phone_num) + mProfileVo.binding_phone_info);
+                binding.tvwPhone.setEnabled(false);
+                binding.tvwPhone.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.me_sc_phone, 0, 0, 0);
             }
             if (mProfileVo.is_binding_email) {
                 binding.tvwEmail.setText(getString(R.string.txt_change_email) + mProfileVo.binding_email_info);
             }
             int percent = 1;
             //设置进度
-            if (mProfileVo.has_securitypwd){
+            if (mProfileVo.has_securitypwd) {
                 //设置资金密码
-                percent++ ;
+                percent++;
             }
-            if (mProfileVo.set_question instanceof ArrayList){
+            if (mProfileVo.set_question instanceof ArrayList) {
                 //设置密保
-                percent++ ;
+                percent++;
             }
-            if ( (mProfileVo.twofa == 1)){
+            if ((mProfileVo.twofa == 1)) {
                 //绑定谷歌
-                percent++ ;
+                percent++;
             }
-            if (mProfileVo.is_binding_phone){
+            if (mProfileVo.is_binding_phone) {
                 //绑定手机
-                percent++ ;
+                percent++;
             }
-            if (percent == 1){
+            if (percent == 1) {
                 binding.tvwPercent.setText("20%");
                 binding.prbSafe.setProgress(20);
-            } else if (percent ==2) {
+            } else if (percent == 2) {
                 binding.tvwPercent.setText("40%");
                 binding.prbSafe.setProgress(40);
             } else if (percent == 3) {
@@ -223,6 +225,8 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
             mProfileVo = vo;
             if (!TextUtils.isEmpty(vo.binding_phone_info)) {
                 binding.tvwPhone.setText(getString(R.string.txt_change_phone_num) + vo.binding_phone_info);
+                binding.tvwPhone.setEnabled(false);
+                binding.tvwPhone.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.me_sc_phone, 0, 0, 0);
             }
             if (!TextUtils.isEmpty(vo.binding_phone_info)) {
                 binding.tvwEmail.setText(getString(R.string.txt_change_email) + vo.binding_email_info);

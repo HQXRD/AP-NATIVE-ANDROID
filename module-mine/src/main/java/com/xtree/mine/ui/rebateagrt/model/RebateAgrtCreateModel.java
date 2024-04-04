@@ -9,7 +9,7 @@ import me.xtree.mvvmhabit.base.BaseApplication;
 
 /**
  * Created by KAKA on 2024/3/18.
- * Describe:
+ * Describe: 创建契约条目数据模型
  */
 public class RebateAgrtCreateModel extends BindModel {
     public String minBet = "";
@@ -37,7 +37,7 @@ public class RebateAgrtCreateModel extends BindModel {
             case "1": //USER
                 subTitle1 = "每小时投注额";
                 subTitle2 = "活跃人数 ≥";
-                subTitle3 = "时薪(元/千)";
+                subTitle3 = "日薪(元/千)";
                 break;
             case "2": //LIVE
             case "3": //SPORT

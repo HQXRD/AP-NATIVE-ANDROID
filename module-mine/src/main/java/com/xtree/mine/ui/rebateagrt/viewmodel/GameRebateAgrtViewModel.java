@@ -106,6 +106,9 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                     add(7,R.layout.item_empty);
                     add(8,R.layout.item_game_rebateagrt_dayrebate);
                     add(9,R.layout.item_game_rebateagrt_dayrebate_total);
+                    add(10,R.layout.item_game_rebateagrt_user);
+                    add(11,R.layout.item_game_rebateagrt_user_total);
+                    add(12,R.layout.item_game_subordinaterebate_user);
                 }
             });
 
@@ -524,6 +527,14 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                             totalModel.setSum_sub_money(total.getSum_sub_money());
                                             totalModel.setSum_self_money(total.getSum_self_money());
                                             break;
+                                        case USER:
+                                            totalModel.setItemType(11);
+                                            totalModel.setSum_bet(total.getSum_bet());
+                                            totalModel.setSum_total_money(total.getSum_total_money());
+                                            totalModel.setSum_effective_bet(total.getSum_effective_bet());
+                                            totalModel.setSum_sub_money(total.getSum_sub_money());
+                                            totalModel.setSum_self_money(total.getSum_self_money());
+                                            break;
                                         default:
                                             totalModel.setItemType(6);
                                             totalModel.setSum_bet(total.getSum_bet());
@@ -549,6 +560,17 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                                             model.setBetAmoutDay(dataDTO.getBet());
                                             model.setLossAmount(dataDTO.getLossAmount());
                                             model.setPeople(dataDTO.getPeople());
+                                            model.setSubMoney(dataDTO.getSub_money());
+                                            model.setMineMoney(dataDTO.getSelfMoney());
+                                            break;
+                                        case USER:
+                                            model.setItemType(10);
+                                            model.setDate(dataDTO.getDate());
+                                            model.setStatus(dataDTO.getPstatus());
+                                            model.setBetAmoutDay(dataDTO.getBet());
+                                            model.setBetAmoutValidity(dataDTO.getEffective_bet());
+                                            model.setRebatePercentage(dataDTO.getRatio());
+                                            model.setRebateAmout(dataDTO.getTotal_money());
                                             model.setSubMoney(dataDTO.getSub_money());
                                             model.setMineMoney(dataDTO.getSelfMoney());
                                             break;
@@ -705,7 +727,14 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                             if (vo.getData() != null && vo.getData().size() > 0) {
                                 for (GameSubordinateRebateResponse.DataDTO dataDTO : vo.getData()) {
                                     GameSubordinaterebateModel model = new GameSubordinaterebateModel();
-                                    model.setItemType(4);
+                                    switch (type) {
+                                        case USER:
+                                            model.setItemType(12);
+                                            break;
+                                        default:
+                                            model.setItemType(4);
+                                            break;
+                                    }
                                     model.setUserName(dataDTO.getUsername());
                                     model.setBet(dataDTO.getBet());
                                     model.setEffectBet(dataDTO.getEffective_bet());

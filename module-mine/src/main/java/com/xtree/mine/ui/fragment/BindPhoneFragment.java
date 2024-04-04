@@ -21,6 +21,7 @@ import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.UuidUtil;
@@ -37,6 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.utils.RegexUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -95,6 +97,10 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             getCode();
         });
         binding.ivwOk.setOnClickListener(v -> submit());
+
+        binding.tvwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
+
+        binding.phoneInputLayout.setError("请仔细核对您的手机号码，验证后无法修改");
     }
 
     @Override
@@ -157,8 +163,24 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
         if (Constant.BIND_PHONE.equals(typeName)) {
             // 发验证码 到新手机, 绑手机用的
             //@GET("/api/verify/singlesend")
+
+            String string = binding.edtNum.getText().toString();
+            if (string.isEmpty()) {
+                binding.phoneInputLayout.setError("手机号码不得为空");
+                LoadingDialog.finish();
+                return;
+            }
+
+            if (!RegexUtils.isMobileExact(string)) {
+                binding.phoneInputLayout.setError("请输入正确的手机号");
+                LoadingDialog.finish();
+                return;
+            }
+
+            binding.phoneInputLayout.setError("");
+
             if (num.length() == 11) {
-                viewModel.singleSend1("bind", sendtype, num);
+                viewModel.singleSend1("", "", num); // "bind", sendtype, num)
             } else {
                 CfLog.d("phone/email is null or error...");
                 LoadingDialog.finish();
@@ -230,20 +252,35 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
      */
     private void submit() {
         String code = binding.edtCode.getText().toString();
-        if (code.isEmpty()) {
+        String string = binding.edtNum.getText().toString();
+        if (string.isEmpty()) {
+            binding.phoneInputLayout.setError("手机号码不得为空");
+            LoadingDialog.finish();
             return;
         }
+        if (!RegexUtils.isMobileExact(string)) {
+            binding.phoneInputLayout.setError("请输入正确的手机号");
+            LoadingDialog.finish();
+            return;
+        }
+        binding.phoneInputLayout.setError("");
+
+        if (code.isEmpty()) {
+            binding.codeInputLayout.setError("验证码错误");
+            return;
+        }
+        binding.codeInputLayout.setError("");
 
         Map<String, String> map = new HashMap<>();
         if (Constant.BIND_PHONE.equals(typeName)) {
             // 绑定手机 新 提交
             //@POST("/api/verify/singleverify")
             map.put("code", code);
-            map.put("flag", "bind");
-            map.put("has_securitypwd", "false");
-            map.put("istokenreturn", "true");
-            map.put("securitypass", "");
-            map.put("sendtype", sendtype); // phone/email
+            //map.put("flag", "bind");
+            //map.put("has_securitypwd", "false");
+            //map.put("istokenreturn", "true");
+            //map.put("securitypass", "");
+            //map.put("sendtype", sendtype); // phone/email
             map.put("nonce", UuidUtil.getID16());
             viewModel.singleVerify1(map);
 

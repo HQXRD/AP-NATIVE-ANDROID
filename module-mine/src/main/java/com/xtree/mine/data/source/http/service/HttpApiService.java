@@ -124,8 +124,10 @@ public interface HttpApiService {
 
     /**
      * 发送 短信/邮箱 验证码 (首次绑)
+     * ?num=13522224444
      */
-    @GET("/api/verify/singlesend")
+    //@GET("/api/verify/singlesend")
+    @GET("/api/user/smscode")
     Flowable<BaseResponse<VerificationCodeVo>> singleSend(
             @Query("flag") String flag,
             @Query("sendtype") String sendtype,
@@ -133,8 +135,10 @@ public interface HttpApiService {
 
     /**
      * 验证 短信/邮箱 验证码 (首次绑)
+     * ?code=******&nonce=***
      */
-    @POST("/api/verify/singleverify")
+    //@POST("/api/verify/singleverify")
+    @POST("/api/user/smsverify")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<VerifyVo>> singleVerify(@Body Map<String, String> map);
 
@@ -677,7 +681,6 @@ public interface HttpApiService {
     @PUT("/api/account/security-questions")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse2> putSecurityQuestions(@Body Map<String, Object> map);
-
 
     /*魔域 输入密保问题校验*/
     @POST("/?controller=user&action=checkquestion&client=m")
