@@ -115,6 +115,9 @@ public class FBBtRecordModel extends TemplateBtRecordModel {
                 .subscribeWith(new FBHttpCallBack<BtCashOutPriceInfo>() {
                     @Override
                     public void onResult(BtCashOutPriceInfo btCashOutPriceInfo) {
+                        if(mOrderMap.isEmpty()){
+                            return;
+                        }
                         for (BtCashOutPriceOrderInfo btCashOutPriceOrderInfo : btCashOutPriceInfo.pr) {
                             BtResultInfo btResultInfo = mOrderMap.get(btCashOutPriceOrderInfo.oid);
                             btResultInfo.pr = btCashOutPriceOrderInfo;

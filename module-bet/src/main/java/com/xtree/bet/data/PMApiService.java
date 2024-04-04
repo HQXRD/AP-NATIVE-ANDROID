@@ -3,10 +3,13 @@ package com.xtree.bet.data;
 import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.request.pm.BtCarCgReq;
 import com.xtree.bet.bean.request.pm.BtCarReq;
+import com.xtree.bet.bean.request.pm.BtCashOutBetReq;
 import com.xtree.bet.bean.request.pm.BtRecordReq;
 import com.xtree.bet.bean.request.pm.BtReq;
 import com.xtree.bet.bean.request.pm.PMListReq;
 import com.xtree.bet.bean.response.pm.BalanceInfo;
+import com.xtree.bet.bean.response.pm.BtCashOutPriceInfo;
+import com.xtree.bet.bean.response.pm.BtCashOutStatusInfo;
 import com.xtree.bet.bean.response.pm.BtConfirmInfo;
 import com.xtree.bet.bean.response.pm.BtRecordRsp;
 import com.xtree.bet.bean.response.pm.BtResultInfo;
@@ -150,5 +153,31 @@ public interface PMApiService {
     @GET("/yewu12/api/user/amount")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<PMBaseResponse<BalanceInfo>> getUserBanlace(@QueryMap Map<String, String> map);
+
+    /**
+     * 提前结算实时查询最高返还批量/批量获取订单提前结算报价
+     * @param map
+     * @return
+     */
+    @GET("/yewu13/order/betRecord/getCashoutMaxAmountList")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<PMBaseResponse<List<BtCashOutPriceInfo>>> getCashoutMaxAmountList(@QueryMap Map<String, String> map);
+
+    /**
+     * 注单提前结算
+     * @param btCashOutBetReq
+     * @return
+     */
+    @POST("/yewu13/v1/betOrder/orderPreSettle")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<PMBaseResponse<BtCashOutPriceInfo>> orderPreSettle(@Body BtCashOutBetReq btCashOutBetReq);
+
+    /**
+     * 查询注单提前结算状态
+     * @return
+     */
+    @GET("/yewu13/v1/betOrder/queryOrderPreSettleConfirm")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<PMBaseResponse<List<BtCashOutStatusInfo>>> queryOrderPreSettleConfirm();
 
 }

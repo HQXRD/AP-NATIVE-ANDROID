@@ -32,7 +32,6 @@ public abstract class TemplateBtRecordModel extends BaseBtViewModel implements B
     public SingleLiveData<List<Void>> btUpdateCashOutPrice = new SingleLiveData<>();
     public SingleLiveData<String> btUpdateCashOutBet = new SingleLiveData<>();
     public SingleLiveData<Boolean> btUpdateCashOutStatus = new SingleLiveData<>();
-    public SingleLiveData<Void> btUpdateCashOutFinish = new SingleLiveData<>();
 
     public TemplateBtRecordModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);

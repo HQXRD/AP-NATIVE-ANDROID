@@ -30,6 +30,8 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
             case PMHttpCallBack.CodeRule.CODE_401026://账号已登出，请重新登录
             case PMHttpCallBack.CodeRule.CODE_400467:
             case PMHttpCallBack.CodeRule.CODE_401038:
+            case PMHttpCallBack.CodeRule.CODE_400524:
+            case PMHttpCallBack.CodeRule.CODE_400525:
                 onError(ex);
                 break;
             default:
@@ -68,5 +70,15 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
         public static final int CODE_401013 = 401013;
         public static final int CODE_400467 = 400467;
         public static final int CODE_401038 = 401038;
+        /**
+         * 提前结算提交申请成功,请等待确认
+         */
+        public static final int CODE_400524 = 400524;
+        /**
+         * 提前结算未通过
+         */
+        public static final int CODE_400525 = 400525;
+
+
     }
 }

@@ -122,7 +122,7 @@ public interface FBApiService {
     Flowable<BaseResponse<BtCashOutBetInfo>> cashOutPriceBet(@Body BtCashOutBetReq btCashOutPriceBetReq);
 
     /**
-     * 提前结算下注
+     * 提前结算注单状态
      * @param btCashOutStatusReq
      * @return
      */
