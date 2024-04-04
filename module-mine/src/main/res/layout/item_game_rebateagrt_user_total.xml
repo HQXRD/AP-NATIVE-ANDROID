@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -8,21 +9,20 @@
             name="m"
             type="com.xtree.mine.ui.rebateagrt.model.GameRebateAgrtTotalModel" />
     </data>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
         android:layout_height="143dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
         app:cardElevation="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
+        >
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,28 +34,29 @@
                 android:id="@+id/item_total"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
+                android:gravity="center"
+                android:layout_marginTop="12dp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0">
 
                 <View
                     android:layout_width="3dp"
                     android:layout_height="14dp"
-                    android:background="@color/clr_main_01" />
+                    android:background="@color/clr_main_01"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
                     android:text="总合计"
+                    android:textSize="14sp"
                     android:textColor="@color/clr_txt_black_cm"
-                    android:textSize="14sp" />
+                    android:layout_marginStart="2dp"
+                    />
             </LinearLayout>
 
             <!--            团队日投注-->
@@ -63,152 +64,165 @@
                 android:id="@+id/item_amout_day"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:text="团队日投注额"
-                android:textColor="@color/clr_txt_02"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/clr_txt_02"
+                android:layout_marginTop="12dp"
                 app:layout_constraintTop_toBottomOf="@id/item_total"
-                app:layout_constraintVertical_bias="0" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"
+                />
 
             <TextView
                 android:id="@+id/item_amout_day_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:text="@{m.sum_bet}"
-                android:textColor="@color/clr_txt_black_cm"
                 android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/clr_txt_black_cm"
+                android:layout_marginTop="5dp"
                 app:layout_constraintTop_toBottomOf="@id/item_amout_day"
-                app:layout_constraintVertical_bias="0" />
-            <!--            亏损总额-->
-            <TextView
-                android:id="@+id/item_amout_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="亏损总额"
-                android:textColor="@color/clr_txt_02"
-                android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
                 app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_amout_day_content"
-                app:layout_constraintVertical_bias="0" />
+                />
 
-            <TextView
-                android:id="@+id/item_amout_total_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@{m.lossAmout}"
-                android:textColor="@color/clr_txt_black_cm"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_amout_total"
-                app:layout_constraintVertical_bias="0" />
-            <!--            日分红活跃人数-->
-            <TextView
-                android:id="@+id/item_amout_validity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="日分红活跃人数"
-                android:textColor="@color/clr_txt_02"
-                android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_total"
-                app:layout_constraintVertical_bias="0" />
-
-            <TextView
-                android:id="@+id/item_amout_validity_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="@{m.people}"
-                android:textColor="@color/clr_txt_black_cm"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_amout_validity"
-                app:layout_constraintVertical_bias="0" />
-
-            <!--            下级日分红-->
+            <!--            下级日薪-->
             <TextView
                 android:id="@+id/item_amout_subordinater"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="下级日分红"
-                android:textColor="@color/clr_txt_02"
+                android:text="下级日薪"
                 android:textSize="12sp"
+                android:textColor="@color/clr_txt_02"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/item_amout_day_content"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_total"
-                app:layout_constraintVertical_bias="0" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"
+                />
 
             <TextView
                 android:id="@+id/item_amout_subordinater_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:text="@{m.sum_sub_money}"
-                android:textColor="@color/clr_txt_black_cm"
                 android:textSize="10sp"
+                android:textColor="@color/clr_txt_black_cm"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/item_amout_subordinater"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"
+                />
+
+            <!--            有效投注额-->
+            <TextView
+                android:id="@+id/item_amout_validity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="有效投注额"
+                android:textSize="12sp"
+                android:textColor="@color/clr_txt_02"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/item_total"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0.5"
+                />
+
+            <TextView
+                android:id="@+id/item_amout_validity_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{m.sum_effective_bet}"
+                android:textSize="10sp"
+                android:textColor="@color/clr_txt_black_cm"
+                android:layout_marginTop="5dp"
+                app:layout_constraintTop_toBottomOf="@id/item_amout_validity"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0.5"
+                />
+
+            <!--            日薪总额-->
+            <TextView
+                android:id="@+id/item_amout_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="日薪总额"
+                android:textSize="12sp"
+                android:textColor="@color/clr_txt_02"
+                android:layout_marginTop="12dp"
+                app:layout_constraintTop_toBottomOf="@id/item_total"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="1"
+                />
+
+            <TextView
+                android:id="@+id/item_amout_total_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{m.sum_total_money}"
+                android:textSize="10sp"
+                android:textColor="@color/clr_txt_black_cm"
+                android:layout_marginTop="5dp"
                 app:layout_constraintTop_toBottomOf="@id/item_amout_total"
-                app:layout_constraintVertical_bias="0" />
-            <!--            本人日分红-->
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="1"
+                />
+
+            <!--            本人日薪-->
             <TextView
                 android:id="@+id/item_amout_mine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="本人日分红"
-                android:textColor="@color/clr_txt_02"
+                android:text="本人日薪"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/clr_txt_02"
+                android:layout_marginTop="12dp"
                 app:layout_constraintTop_toBottomOf="@id/item_amout_day_content"
-                app:layout_constraintVertical_bias="0" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="1"
+                />
 
             <TextView
                 android:id="@+id/item_amout_mine_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:text="@{m.sum_self_money}"
-                android:textColor="@color/clr_txt_black_cm"
                 android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textColor="@color/clr_txt_black_cm"
+                android:layout_marginTop="5dp"
                 app:layout_constraintTop_toBottomOf="@id/item_amout_mine"
-                app:layout_constraintVertical_bias="0" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="1"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
