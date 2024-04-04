@@ -66,6 +66,7 @@ public class ChooseWithdrawFragment extends BaseFragment<FragmentChooseWithdrawB
             public void closeDialogByBind() {
                 getActivity().finish();
             }
+
         }, new BankWithdrawalDialog.BankWithdrawalClose() {
             @Override
             public void closeBankWithdrawal() {
