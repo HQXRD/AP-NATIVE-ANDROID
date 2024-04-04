@@ -149,16 +149,22 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
 
     private void goApp(GameVo vo) {
         String cgToken;
+        String baseUrl;
         if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
             cgToken = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_TOKEN);
+            baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_API_SERVICE_URL);
         } else if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
             cgToken = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
+            baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.FB_API_SERVICE_URL);
         } else {
             cgToken = SPUtils.getInstance().getString(SPKeyGlobal.PM_TOKEN);
+            baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.PM_API_SERVICE_URL);
         }
 
         if (TextUtils.isEmpty(cgToken)) {
             ToastUtils.showShort("场馆初始化中，请稍候...");
+        } else if (TextUtils.isEmpty(baseUrl)) {
+            ToastUtils.showShort("服务地址错误，请联系客服");
         } else {
             ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).withString("KEY_PLATFORM", vo.alias).navigation();
         }
