@@ -29,7 +29,7 @@ import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
-@Route(path = RouterFragmentPath.Mine.PAGER_MEMBER_MANAGER)
+@Route(path = RouterFragmentPath.Mine.PAGER_MEMBER_TRANSFER)
 public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding, MineViewModel> {
     private static final String ARG_USERNAME = "username";
     private static final String ARG_USERID = "userid";
