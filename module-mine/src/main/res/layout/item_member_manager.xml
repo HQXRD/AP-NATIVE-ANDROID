@@ -72,7 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="100"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/clr_txt_black_cm"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@id/tvw_return_point_title"
             app:layout_constraintStart_toEndOf="@id/tvw_member_num_title"
@@ -131,7 +131,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="2024-03-11 13:34:32"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/clr_txt_black_cm"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/tvw_member_num_title"
             app:layout_constraintTop_toTopOf="@+id/tvw_last_time_title" />
@@ -151,7 +151,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="2024-01-08 09:34:02"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/clr_txt_black_cm"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/tvw_member_num_title"
             app:layout_constraintTop_toTopOf="@+id/tvw_register_time_title" />
