@@ -279,6 +279,14 @@
         <item name="android:textColor">@color/clr_purple_05</item>
         <item name="android:textSize">12sp</item>
     </style>
+    <style name="style_rdo_type">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/ic_bg_type_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_purple_05</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 
     <style name="style_ll_row">
         <item name="android:layout_width">match_parent</item>
@@ -347,6 +355,12 @@
     <style name="style_cm_tip_small_yellow" parent="style_cm_tip_small_grey">
         <item name="android:text"></item>
         <item name="android:textColor">@color/clr_orange_02</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!-- 通用 提示小字 紫色 -->
+    <style name="style_cm_tip_small_purple" parent="style_cm_tip_small_grey">
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_purple_02</item>
         <item name="android:textSize">12sp</item>
     </style>
 

@@ -4,6 +4,7 @@ import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.FeedbackCheckVo;
 import com.xtree.recharge.vo.FeedbackImageUploadVo;
 import com.xtree.recharge.vo.FeedbackVo;
+import com.xtree.recharge.vo.PaymentDataVo;
 import com.xtree.recharge.vo.PaymentVo;
 import com.xtree.recharge.vo.RechargeOrderDetailVo;
 import com.xtree.recharge.vo.RechargeVo;
@@ -38,6 +39,12 @@ public interface ApiService {
     @POST("/api/deposit/payments/login/hiwallet")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<Map<String, String>>> get1kEntry(@Body Map<String, String> map);
+
+    /**
+     * 获取 充值列表(分大小类)
+     */
+    @GET("/api/deposit/paymentsclassify?getinfo=true&source=11")
+    Flowable<BaseResponse<PaymentDataVo>> getPaymentsTypeList();
 
     /**
      * 获取 充值列表

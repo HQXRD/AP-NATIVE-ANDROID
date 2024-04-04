@@ -17,6 +17,8 @@ import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.FeedbackCheckVo;
 import com.xtree.recharge.vo.FeedbackImageUploadVo;
 import com.xtree.recharge.vo.FeedbackVo;
+import com.xtree.recharge.vo.PaymentDataVo;
+import com.xtree.recharge.vo.PaymentTypeVo;
 import com.xtree.recharge.vo.PaymentVo;
 import com.xtree.recharge.vo.RechargeOrderDetailVo;
 import com.xtree.recharge.vo.RechargePayVo;
@@ -40,8 +42,10 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
     public SingleLiveData<PaymentVo> liveDataPayment = new SingleLiveData<>(); // (从接口加载用)
+    public SingleLiveData<PaymentDataVo> liveDataPaymentData = new SingleLiveData<>(); // (从接口加载用)
     public SingleLiveData<String> liveData1kEntry = new SingleLiveData<>();
-    public SingleLiveData<List<RechargeVo>> liveDataRechargeList = new SingleLiveData<>(); // 充值列表(从缓存加载用)
+    //public SingleLiveData<List<RechargeVo>> liveDataRechargeList = new SingleLiveData<>(); // 充值列表(从缓存加载用)
+    public SingleLiveData<List<PaymentTypeVo>> liveDataPayTypeList = new SingleLiveData<>(); // 充值列表(大类型 从缓存加载用)
     public SingleLiveData<String> liveDataTutorial = new SingleLiveData<>(); // 充值教程(从缓存加载用)
     public SingleLiveData<RechargeVo> liveDataRecharge = new SingleLiveData<>(); // 充值详情
     public SingleLiveData<RechargePayVo> liveDataRechargePay = new SingleLiveData<>(); // 充值提交结果
@@ -78,6 +82,56 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     public void onError(Throwable t) {
                         t.printStackTrace();
                         super.onError(t);
+                    }
+                });
+
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取 充值列表
+     */
+    public void getPaymentsTypeList() {
+        Disposable disposable = (Disposable) model.getApiService().getPaymentsTypeList()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<PaymentDataVo>() {
+                    @Override
+                    public void onResult(PaymentDataVo vo) {
+                        CfLog.i(new Gson().toJson(vo));
+                        //CfLog.d("chongzhiListCount: " + vo.chongzhiListCount);
+                        if (vo == null || vo.chongzhiList == null || vo.chongzhiList.isEmpty()) {
+                            return;
+                        }
+
+                        for (int i = 0; i < vo.chongzhiList.size(); i++) {
+                            PaymentTypeVo t = vo.chongzhiList.get(i);
+                            if (t.payChannelList == null || t.payChannelList.isEmpty()) {
+                                continue;
+                            }
+
+                            for (int j = 0; j < t.payChannelList.size(); j++) {
+                                RechargeVo vo2 = t.payChannelList.get(j);
+                                if (vo2.user_bank_info != null) {
+                                    if (vo2.user_bank_info instanceof Map) {
+                                        Map<String, String> map = (Map<String, String>) vo2.user_bank_info;
+                                        for (Map.Entry<String, String> entry : map.entrySet()) {
+                                            BankCardVo vo3 = new BankCardVo(entry.getKey(), entry.getValue());
+                                            vo2.userBankList.add(vo3);
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                        SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_TYPE_OBJ, new Gson().toJson(vo));
+                        liveDataPaymentData.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e(t.toString());
+                        //super.onError(t);
                     }
                 });
 
@@ -317,19 +371,29 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public void readCache() {
         CfLog.i("******");
         Gson gson = new Gson();
-        String json = SPUtils.getInstance().getString(SPKeyGlobal.RC_PAYMENT_OBJ);
+        String json;
 
-        PaymentVo vo = gson.fromJson(json, new TypeToken<PaymentVo>() {
+        //json = SPUtils.getInstance().getString(SPKeyGlobal.RC_PAYMENT_OBJ);
+        //PaymentVo vo = gson.fromJson(json, new TypeToken<PaymentVo>() {
+        //}.getType());
+        //if (vo != null) {
+        //    //liveDataPayment.setValue(vo);
+        //    liveDataRechargeList.setValue(vo.chongzhiList);
+        //    liveDataTutorial.setValue(vo.bankdirect_url);
+        //}
+
+        json = SPUtils.getInstance().getString(SPKeyGlobal.RC_PAYMENT_TYPE_OBJ);
+        PaymentDataVo vo2 = gson.fromJson(json, new TypeToken<PaymentDataVo>() {
         }.getType());
-        if (vo != null) {
+        if (vo2 != null) {
             //liveDataPayment.setValue(vo);
-            liveDataRechargeList.setValue(vo.chongzhiList);
-            liveDataTutorial.setValue(vo.bankdirect_url);
+            liveDataPayTypeList.setValue(vo2.chongzhiList);
+            liveDataTutorial.setValue(vo2.bankdirect_url);
         }
 
         json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
         ProfileVo mProfileVo = gson.fromJson(json, ProfileVo.class);
-        if (vo != null) {
+        if (mProfileVo != null) {
             liveDataProfile.setValue(mProfileVo);
         }
 

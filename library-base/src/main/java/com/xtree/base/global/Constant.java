@@ -32,6 +32,8 @@ public class Constant {
     public static final String BIND_GOBAO = "bindgobao"; // 绑定gobao
     public static final String BIND_GOPAY = "bindgopay"; // 绑定GOPAY
     public static final String BIND_OKPAY = "bindokpay"; // 绑定OKPAY
+    public static final String BIND_ALIPAY = "bindcardzfb"; // 绑定支付宝
+    public static final String BIND_WECHAT = "bindcardwx"; // 绑定微信
     public static final String VERIFY_LOGIN = "verify_login"; // 异地登录/换设备登录 (补)
 
     public static final String URL_DEPOSIT_FEEDBACK = "/webapp/#/depositFeedback"; // 充值—反馈
@@ -61,6 +63,8 @@ public class Constant {
     public static final String URL_LOTTERY_INFO = "/static/activity/xc/lotteryInfo.html"; // 彩种信息
     public static final String URL_PLAY_INTRO = "/static/activity/xc/rulesInfo.html"; // 玩法介绍
 
+    public static final String URL_RC_CNYT_TUTORIAL = "/activity/activity_48/index.html?type=cnyt"; // cnyt充值教程
+    public static final String URL_RC_USDT_TUTORIAL = "/activity/activity_48/index.html?type=usdt"; // usdt充值教程
     public static final String URL_DOWNLOAD_HI_WALLET = "https://www.hiwalletapp.com/download"; // 下载嗨钱包
     public static final String CHOOSEACTIVITY_CHOOSE_ENTER_TYPE = "giftMoney";//获取礼金
 

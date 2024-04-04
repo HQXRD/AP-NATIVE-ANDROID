@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">library-res</string>
     <string name="txt_vip_center">VIP中心</string>
     <string name="txt_withdraw">提款</string>
@@ -28,6 +28,12 @@
     <string name="txt_bind_gobao">绑定GOBAO</string>
     <string name="txt_bind_gopay">绑定GOPAY</string>
     <string name="txt_bind_okpay">绑定OKPAY</string>
+    <string name="txt_bind_alipay">绑定支付宝</string>
+    <string name="txt_bind_wechat">绑定微信</string>
+    <string name="txt_manage_alipay">管理支付宝</string>
+    <string name="txt_manage_wechat">管理微信</string>
+    <string name="txt_alipay">支付宝</string>
+    <string name="txt_wechat">微信</string>
 
     <string name="txt_remind_card">请输入16到19位数字</string>
     <string name="txt_remind_usdt_trc20">TRC20_USDT地址以T开头的数字和字母组成的34位</string>
@@ -170,6 +176,20 @@
     <string name="txt_rc_m_4">暗号不相符，请勿进行交易。</string>
     <string name="txt_rc_m_5">注：使用人工充值，最低金额要求1000。</string>
     <string name="txt_rc_m_ok">我已记住暗号</string>
+    <string name="txt_rc_step">充值步骤</string>
+    <string name="txt_rc_cnyt_tutorial">CNYT充值教程</string>
+    <string name="txt_rc_usdt_tutorial">USDT充值教程</string>
+    <string name="txt_rc_cnyt_content">
+    1. 请先下载或通过上方【一键进入】注册嗨钱包账号\n
+    2. 登录嗨钱包账号，并购买适量的CNYT\n
+    3. 在嗨钱包中通过【转账】进行扫码支付\n
+    4.平台填写金额应当与汇款金额完全一致，否则将无法及时到账</string>
+    <string name="txt_rc_usdt_content">
+    1. 请先下载注册USDT虚拟钱包账号\n
+    2. 登录USDT虚拟钱包账号，并购买适量的USDT\n
+    3. 在USDT虚拟钱包中通过【转账】进行进行扫码支付或输入收款地址进行支付\n
+    4.平台填写金额应当与汇款金额完全一致，否则将无法及时到账\n
+    </string>
 
     <string name="txt_update">版本更新</string>
     <string name="txt_update_tip">更新中，请稍候...</string>
