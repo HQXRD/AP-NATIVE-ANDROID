@@ -223,7 +223,8 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                     }
 
                     @Override
-                    public void onError(Throwable t) {
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
                         CfLog.e("error, " + t.toString());
                         liveDataTransfer.setValue(false);
 
@@ -231,11 +232,10 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                         transferResultModel.from = map.get("from");
                         transferResultModel.to = map.get("to");
                         transferResultModel.money = map.get("money");
-                        transferResultModel.status = 1;
-                        transferResultModel.errorMsg = t.toString();
+                        transferResultModel.status = 0;
+                        transferResultModel.errorMsg = t.message;
                         RxBus.getDefault().postSticky(transferResultModel);
                         startContainerActivity(TransferResultFragment.class.getCanonicalName());
-//                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);
