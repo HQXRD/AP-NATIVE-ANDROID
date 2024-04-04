@@ -371,10 +371,10 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
 
         viewModel.liveDataTransfer.observe(this, isSuccess -> {
             if (isSuccess) {
-                ToastUtils.showLong(R.string.txt_transfer_success);
+//                ToastUtils.showLong(R.string.txt_transfer_success);
                 refreshBalance();
             } else {
-                ToastUtils.showLong(R.string.txt_transfer_fail);
+//                ToastUtils.showLong(R.string.txt_transfer_fail);
             }
         });
 
