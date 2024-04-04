@@ -180,7 +180,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             binding.phoneInputLayout.setError("");
 
             if (num.length() == 11) {
-                viewModel.singleSend1("bind", sendtype, num);
+                viewModel.singleSend1("", "", num); // "bind", sendtype, num)
             } else {
                 CfLog.d("phone/email is null or error...");
                 LoadingDialog.finish();
@@ -276,11 +276,11 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             // 绑定手机 新 提交
             //@POST("/api/verify/singleverify")
             map.put("code", code);
-            map.put("flag", "bind");
-            map.put("has_securitypwd", "false");
-            map.put("istokenreturn", "true");
-            map.put("securitypass", "");
-            map.put("sendtype", sendtype); // phone/email
+            //map.put("flag", "bind");
+            //map.put("has_securitypwd", "false");
+            //map.put("istokenreturn", "true");
+            //map.put("securitypass", "");
+            //map.put("sendtype", sendtype); // phone/email
             map.put("nonce", UuidUtil.getID16());
             viewModel.singleVerify1(map);
 
