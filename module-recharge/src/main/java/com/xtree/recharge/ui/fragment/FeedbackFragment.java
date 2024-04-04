@@ -967,6 +967,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
      * @param userPic
      */
     private void feedbackAdd(String userPic) {
+        LoadingDialog.show(getContext());
         HashMap<String, String> uploadMap = new HashMap<String, String>();
         if (feedbackType == 1)//微信
         {
@@ -979,8 +980,9 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             uploadMap.put("userpay_picture", userPic); //上传图片三方地址
             uploadMap.put("receive_bank", receive_bank);//支付渠道
             uploadMap.put("userpay_virtual_protocol", "1");//用户支付协议 微信默认为1
-            uploadMap.put("userpay_name", binding.etPaymentAccount.getText().toString()); //付款人
-            uploadMap.put("receive_name", binding.etPaymentName.getText().toString());//收款人
+
+            uploadMap.put("userpay_name", binding.etPaymentName.getText().toString()); //付款人
+            uploadMap.put("receive_name", binding.etCollectionName.getText().toString());//收款人
 
         } else {
             uploadMap.put("nonce", UuidUtil.getID16());//传入UUID);
@@ -995,7 +997,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             uploadMap.put("receive_banknum", binding.etCollectionWalletAddress.getText().toString());//收款钱包地址
 
         }
-        LoadingDialog.show(getContext());
+
         viewModel.feedbackCustomAdd(uploadMap);
 
     }
