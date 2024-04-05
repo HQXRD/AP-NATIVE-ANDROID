@@ -67,7 +67,7 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
     @Override
     public void initView() {
         binding.rvEleChild.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        binding.rvEleChild.addItemDecoration(new SpacesItemDecoration(10));
+        binding.rvEleChild.addItemDecoration(new SpacesItemDecoration(15));
         adapter = new CachedAutoRefreshAdapter<Ele>() {
             @NonNull
             @Override
@@ -82,7 +82,7 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
                 CfLog.i(vo1.toString());
                 Glide.with(EleChildFragment.this.getContext())
                         .load(DomainUtil.getDomain2() + vo1.getPicture())
-                        .placeholder(R.mipmap.me_icon_name)
+                        .placeholder(R.mipmap.cm_placeholder_image)
                         .into(binding.ibGame);
                 binding.tvGame.setText(vo1.getName());
 

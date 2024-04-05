@@ -129,8 +129,6 @@
     <color name="me_more_service_color">#534C5B</color>
     <color name="me_text_forget_pwd">#E3C3A2</color>
     <color name="me_text_agreement">#E3C3A2</color>
-    <color name="me_account_start_color">@color/clr_main_02</color>
-    <color name="me_account_end_color">@color/clr_main_05</color>
     <color name="me_wallet_detail_color">#E3C3A2</color>
     <!-- 更新模块 -->
     <color name="update_progress_bar_bg">@color/clr_main_05</color>
