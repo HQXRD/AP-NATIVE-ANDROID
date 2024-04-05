@@ -307,6 +307,7 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
                 binding.llCheckOtp.btnGetOtp.setEnabled(false);
                 //binding.llCheckOtp.btnGetOtp.setBackground(getContext().getDrawable(R.drawable.bg_line_white));
                 //binding.llCheckOtp.btnGetOtp.setTextColor(getResources().getColor(R.color.clr_grey_menu));
+                binding.llCheckOtp.btnGetOtp.setTextColor(getResources().getColor(R.color.clr_txt_black_cm));
                 binding.llCheckOtp.btnGetOtp.setText(countTime[0] + "S");
                 countTime[0]--;
                 //CfLog.i(countTime[0] + "");
@@ -317,6 +318,7 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
                 binding.llCheckOtp.btnGetOtp.setEnabled(true);
                 //binding.llCheckOtp.btnGetOtp.setBackground(getContext().getDrawable(R.drawable.bg_line_main));
                 //binding.llCheckOtp.btnGetOtp.setTextColor(getResources().getColor(R.color.clr_white));
+                binding.llCheckOtp.btnGetOtp.setTextColor(getResources().getColor(R.color.clr_text_code_selector));
                 binding.llCheckOtp.btnGetOtp.setText(getResources().getString(R.string.txt_get_otp));
             }
         }.start();
