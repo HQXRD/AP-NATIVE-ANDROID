@@ -1028,9 +1028,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             goPayWeb(vo);
         } else if (vo.isbank) {
             goPayBank(vo); // UC聚合支付,不能跳转
-        } else if (vo.isusdt) {
+        } else if (vo.isusdt && !TextUtils.isEmpty(vo.qrcodeurl)) {
             goPayUsdt(vo); // TRC20快付,不能跳转
         } else {
+            CfLog.i("****** default...");
             goPayWeb(vo);
         }
     }
@@ -1124,7 +1125,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     //        }
     //    }
     //}
-
     private void setRecommendList() {
         if (mPaymentDataVo != null && !mPaymentDataVo.chongzhiList.isEmpty()) {
             mRecommendList.clear();
