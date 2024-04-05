@@ -338,6 +338,14 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
         String account = binding.edtOldAcc.getText().toString().trim();
         String account_name = binding.edtOldName.getText().toString().trim();
 
+        CfLog.e(mProfileVo.is_binding_usdt + "");
+        if(mProfileVo.is_binding_usdt) {
+            if(account.isEmpty()) {
+                ToastUtils.showLong(R.string.txt_enter_verify_wallet_addr);
+                return;
+            }
+        }
+
         if (account.isEmpty()) {
             ToastUtils.showLong(R.string.txt_enter_bank_num);
             return;
