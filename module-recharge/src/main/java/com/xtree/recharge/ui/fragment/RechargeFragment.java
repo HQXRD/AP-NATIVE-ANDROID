@@ -220,10 +220,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         });
         binding.tvwTutorial.setOnClickListener(v -> {
             // 充值教程
-            if (!TextUtils.isEmpty(tutorialUrl)) {
-                String title = getString(R.string.txt_recharge_tutorial);
-                new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, tutorialUrl)).show();
-            }
+            //if (!TextUtils.isEmpty(tutorialUrl)) {
+            //    String title = getString(R.string.txt_recharge_tutorial);
+            //    new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, tutorialUrl)).show();
+            //}
+            showWebDialog(getString(R.string.txt_recharge_tutorial), Constant.URL_RC_CNYT_TUTORIAL);
         });
         binding.tvwAntiFraud.setOnClickListener(v -> {
             // 防骗教程
