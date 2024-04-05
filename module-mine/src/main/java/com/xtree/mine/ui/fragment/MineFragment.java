@@ -2,7 +2,6 @@ package com.xtree.mine.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -93,14 +92,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             if (mProfileVo != null) {
                 //==1时，当前用户是代理，可以进行注册推广功能
                 if (mProfileVo.usertype == 1) {
-                    binding.tvwRegProm.setVisibility(View.VISIBLE);
-                    binding.tvwBlack.setVisibility(View.GONE);
+                    binding.llMenu2.setVisibility(View.VISIBLE);
+                    binding.llMenu3.setVisibility(View.GONE);
                 } else {
-                    binding.tvwRegProm.setVisibility(View.GONE);
-                    binding.tvwBlack.setVisibility(View.VISIBLE);
+                    binding.llMenu2.setVisibility(View.GONE);
+                    binding.llMenu3.setVisibility(View.VISIBLE);
                 }
-                binding.llMenu2.setVisibility(View.VISIBLE);
-                binding.llMenu3.setVisibility(View.GONE);
             } else {
                 binding.llMenu2.setVisibility(View.GONE);
                 binding.llMenu3.setVisibility(View.VISIBLE);
