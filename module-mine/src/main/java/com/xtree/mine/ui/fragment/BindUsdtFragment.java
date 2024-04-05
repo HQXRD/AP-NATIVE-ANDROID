@@ -38,6 +38,7 @@ public class BindUsdtFragment extends BaseFragment<FragmentBindUsdtBinding, Bind
 
     private String tokenSign = "";
     private String mark = "bindusdt";
+    private int digitalNum = 0;
 
     UserUsdtJumpVo mUserUsdtJumpVo;
 
@@ -68,6 +69,7 @@ public class BindUsdtFragment extends BaseFragment<FragmentBindUsdtBinding, Bind
         binding.tvwAdd.setOnClickListener(v -> {
             CfLog.i("****** add");
             Bundle bundle = getArguments();
+            bundle.putInt("digitalNum", digitalNum);
             startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_USDT_ADD, bundle);
         });
 
@@ -166,6 +168,8 @@ public class BindUsdtFragment extends BaseFragment<FragmentBindUsdtBinding, Bind
                 mAdapter.clear();
                 mAdapter.addAll(vo.banklist);
             }
+
+            digitalNum = vo.my_bind_counts.digit_count;
 
             if (!TextUtils.isEmpty(vo.num)) {
                 String txt = "<font color=#EE5A5A>" + vo.num + "</font>";

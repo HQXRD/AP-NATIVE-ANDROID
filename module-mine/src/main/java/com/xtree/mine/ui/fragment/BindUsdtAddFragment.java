@@ -53,6 +53,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
     private String mark = "bindusdt"; // bindusdt
     //private String tokenSign = "";
     private String id = "";
+    int digitalNum = 0;
     String type = ""; // ERC20_USDT,TRC20_USDT
     UserUsdtJumpVo mUserUsdtJumpVo;
 
@@ -85,7 +86,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
             binding.tvwChooseTitle.setVisibility(View.GONE);
         }
 
-        if (mProfileVo != null && mProfileVo.is_binding_usdt) {
+        if (mProfileVo != null && digitalNum > 0) {
             binding.llVerify.setVisibility(View.VISIBLE);
             binding.llAdd.setVisibility(View.GONE);
             binding.llConfirm.setVisibility(View.GONE);
@@ -145,6 +146,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
             type = mUserUsdtJumpVo.type;
             //id = mUserUsdtJumpVo.id;
             viewModel.key = mUserUsdtJumpVo.key;
+            digitalNum = getArguments().getInt("digitalNum", 0);
         }
         if (TextUtils.isEmpty(mark)) {
             CfLog.e("Arguments is null... ");
@@ -338,8 +340,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
         String account = binding.edtOldAcc.getText().toString().trim();
         String account_name = binding.edtOldName.getText().toString().trim();
 
-        CfLog.e(mProfileVo.is_binding_usdt + "");
-        if(mProfileVo.is_binding_usdt) {
+        if(mProfileVo.binding_usdt_info != null && digitalNum > 0) {
             if(account.isEmpty()) {
                 ToastUtils.showLong(R.string.txt_enter_verify_wallet_addr);
                 return;
@@ -350,7 +351,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
             ToastUtils.showLong(R.string.txt_enter_bank_num);
             return;
         }
-        if (account_name.isEmpty() && !mProfileVo.is_binding_card) {
+        if (account_name.isEmpty() && digitalNum == 0) {
             ToastUtils.showLong(R.string.txt_enter_account_name);
             return;
         }
@@ -361,7 +362,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
 
         HashMap map = new HashMap();
         map.put("account", account);
-        if (mProfileVo != null && mProfileVo.is_binding_usdt) {
+        if (mProfileVo != null && digitalNum > 0) {
             map.put("account_name", "");
             map.put("is_digital", "1");
         } else {

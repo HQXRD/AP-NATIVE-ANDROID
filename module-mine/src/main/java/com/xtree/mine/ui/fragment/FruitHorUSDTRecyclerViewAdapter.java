@@ -1,7 +1,7 @@
 package com.xtree.mine.ui.fragment;
 
-import android.content.Context;
 import android.graphics.Rect;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -33,7 +33,10 @@ public class FruitHorUSDTRecyclerViewAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_bank_withdrawal_top_child , parent,false) ;
+        final USDTViewHolder viewHolder = new USDTViewHolder(itemView) ;
+
+        return viewHolder;
     }
 
     @Override
