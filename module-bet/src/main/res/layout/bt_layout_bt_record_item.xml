@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_expand"
@@ -13,178 +12,185 @@
         android:id="@+id/csl_root"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bt_bg_car_add_match"
         android:orientation="vertical"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:background="@drawable/bt_bg_car_add_match"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_title"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="10dp"
             app:layout_constraintTop_toTopOf="parent">
+
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="22dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:textColor="@color/bt_text_color_primary_1"
                 android:textSize="@dimen/bt_text_16sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="串关(3串1)-杏彩体育" />
 
             <TextView
                 android:id="@+id/tv_bt_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:paddingStart="20dp"
-                android:paddingEnd="8dp"
                 android:background="@drawable/bt_bg_bt_item_result"
+                android:paddingStart="20dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="5dp"
                 android:textColor="@color/bt_color_under_bg_primary_text"
                 android:textSize="@dimen/bt_text_16sp"
                 android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="投注成功" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_match"
+        <RelativeLayout
+            android:id="@+id/rl_match"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/cl_title"
-            android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"
-            tools:itemCount="3"
-            tools:listitem="@layout/bt_layout_bt_record_match_item"
-            android:layout_marginTop="10dp"/>
+            app:layout_constraintTop_toBottomOf="@id/cl_title">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_match"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                tools:itemCount="8"
+                tools:listitem="@layout/bt_layout_bt_record_match_item" />
+        </RelativeLayout>
 
         <ImageView
             android:id="@id/iv_line"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/bt_color_line"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/rv_match"/>
+            android:background="@color/bt_color_line"
+            app:layout_constraintTop_toBottomOf="@+id/rl_match" />
 
         <TextView
             android:id="@+id/tv_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/iv_line"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="10dp"
-            android:textSize="@dimen/bt_text_12sp"
+            android:layout_marginTop="12dp"
             android:text="@string/bt_bt_result_bt_amount_1"
             android:textColor="@color/bt_text_color_primary_1"
-            android:layout_marginTop="12dp"/>
+            android:textSize="@dimen/bt_text_12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_line" />
 
         <TextView
             android:id="@+id/tv_win"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/iv_line"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="10dp"
             android:text="@string/bt_bt_result_bt_amount_1"
             android:textColor="@color/bt_text_color_primary_1"
             android:textSize="@dimen/bt_text_12sp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="10dp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_line" />
 
 
         <ImageView
             android:id="@+id/iv_line_2"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/bt_color_line"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/tv_win"/>
+            android:layout_marginEnd="10dp"
+            android:background="@color/bt_color_line"
+            app:layout_constraintTop_toBottomOf="@+id/tv_win" />
 
         <TextView
             android:id="@+id/tv_result_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/iv_line_2"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:drawableEnd="@mipmap/cm_text_copy"
             android:drawablePadding="2dp"
             android:text="@string/bt_bt_result_id_1"
             android:textColor="@color/bt_text_color_primary_3"
             android:textSize="@dimen/bt_text_12sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_line_2" />
 
         <TextView
             android:id="@+id/tv_bt_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tv_result_id"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:text="@string/bt_bt_result_bt_time"
             android:textColor="@color/bt_text_color_primary_3"
             android:textSize="@dimen/bt_text_12sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_result_id" />
 
         <CheckBox
             android:id="@+id/tv_result_settlement_odds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tv_bt_time"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:drawableRight="@drawable/bt_checkbox_selector"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:background="@color/clr_transparent"
             android:button="@null"
+            android:drawableRight="@drawable/bt_checkbox_selector"
             android:text="@string/bt_txt_settlement_odds"
             android:textColor="@color/bt_text_color_primary_3"
             android:textSize="@dimen/bt_text_12sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_bt_time" />
 
         <TextView
             android:id="@+id/tv_result_statement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tv_result_settlement_odds"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:background="@drawable/bt_btn_settlement"
+            android:gravity="center"
             android:paddingTop="11dp"
             android:paddingBottom="11dp"
-            android:gravity="center"
             android:text="@string/bt_txt_btn_statement"
             android:textColor="@color/bt_color_under_bg_primary_text"
             android:textSize="@dimen/bt_text_16sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_result_settlement_odds" />
 
         <TextView
             android:id="@+id/tv_result_statement_odds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/tv_result_statement"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:drawableEnd="@mipmap/bt_ic_tip"
             android:drawablePadding="2dp"
             android:text="@string/bt_txt_statement_odds"
             android:textColor="@color/bt_text_color_primary_3"
             android:textSize="@dimen/bt_text_12sp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_result_statement" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -192,7 +198,7 @@
         android:id="@+id/v_space"
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/csl_root"
-        android:background="@color/clr_transparent"/>
+        android:background="@color/clr_transparent"
+        app:layout_constraintTop_toBottomOf="@+id/csl_root" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
