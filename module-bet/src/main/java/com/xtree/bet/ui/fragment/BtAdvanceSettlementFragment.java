@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -96,6 +97,14 @@ public class BtAdvanceSettlementFragment extends BaseDialogFragment<BtDialogAdva
         mOnClickListener = listener;
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v =  super.onCreateView(inflater, container, savedInstanceState);
+        getDialog().setCanceledOnTouchOutside(false);
+        return v;
+    }
+
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return R.layout.bt_dialog_advance_settlement;
@@ -177,6 +186,7 @@ public class BtAdvanceSettlementFragment extends BaseDialogFragment<BtDialogAdva
         int id = v.getId();
         if(id == R.id.tv_confirm){
             binding.tvConfirm.setText("兑现中......");
+            binding.tvCancel.setEnabled(false);
             viewModel.cashOutPricebBet(mOrderId, mCaptialAmount, mUnitCashOutPayoutStake, mAcceptoddschange, mParlay);
         } else if (id == R.id.tv_cancel) {
             dismiss();
