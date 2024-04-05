@@ -385,7 +385,7 @@ public class BrowserDialog extends BottomPopupView {
                     "style.innerHTML = '.popup-wrapper > .title{ visibility: hidden !important} " +
                     ".popup-wrapper{transform: translate3d(0, 0, 0) !important; animation: none !important}'; \n" +
                     "document.head.appendChild(style);" + "\n" +
-                    "document.querySelector('#iOS_inject').innerHTML = '.rndx{display: none !important;}'; \n";
+                    "document.querySelector('#iOS_inject').innerHTML = '.rndxs{ display: none !important;} .rndx{ display: none !important;}'; \n";
         }
         js += "d.setTime(d.getTime() + (24*60*60*1000));" + "\n";
         js += "let expires = \"expires=\"+ d.toUTCString();" + "\n";
