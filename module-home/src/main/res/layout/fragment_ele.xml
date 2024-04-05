@@ -47,7 +47,7 @@
             app:layout_constraintTop_toBottomOf="@+id/cl_title"
             app:tabIndicatorHeight="0dp"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/me_account_end_color"
+            app:tabSelectedTextColor="@color/clr_main_01"
             app:tabTextAppearance="@style/style_aug_tab"
             app:tabTextColor="@color/clr_txt_black_01" />
 

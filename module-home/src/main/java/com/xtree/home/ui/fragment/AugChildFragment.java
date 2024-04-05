@@ -60,7 +60,7 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
     @Override
     public void initView() {
         binding.rvAugChild.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        binding.rvAugChild.addItemDecoration(new SpacesItemDecoration(10));
+        binding.rvAugChild.addItemDecoration(new SpacesItemDecoration(15));
         CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<AugVo>() {
             @NonNull
             @Override
@@ -75,7 +75,7 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
                 CfLog.i(vo.toString());
                 Glide.with(AugChildFragment.this.getContext())
                         .load(DomainUtil.getDomain() + "webx/images/chess/aug/" + vo.getCode() + ".jpg")
-                        .placeholder(R.mipmap.me_icon_name)
+                        .placeholder(R.mipmap.cm_placeholder_image)
                         .into(binding2.ibGame);
 
                 binding2.ibGame.setOnClickListener(v -> {
