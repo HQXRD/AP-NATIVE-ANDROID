@@ -6,6 +6,7 @@ import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
 import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.app.Application;
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -25,14 +26,18 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.material.tabs.TabLayout;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.BtRecordTime;
+import com.xtree.bet.bean.ui.BtResult;
 import com.xtree.bet.databinding.BtDialogBtRecordBinding;
+import com.xtree.bet.ui.activity.MainActivity;
 import com.xtree.bet.ui.adapter.BtRecordAdapter;
 import com.xtree.bet.ui.viewmodel.TemplateBtRecordModel;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
@@ -44,7 +49,12 @@ import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -68,6 +78,11 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
     private String mPlatformName;
     private View mHeader;
     private TextView tvHeaderName;
+    private Disposable timerDisposable;
+
+    private int mGroupPosition, mChildPosition;
+    private BtAdvanceSettlementFragment btAdvanceSettlementFragment;
+    private BtResult mBtCashOut;
 
     public static BtRecordDialogFragment getInstance(boolean isSettled) {
         BtRecordDialogFragment btRecordDialogFragment = new BtRecordDialogFragment();
@@ -215,6 +230,9 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
                 binding.cslBottom.setVisibility(View.GONE);
                 binding.llEmpty.llEmpty.setVisibility(View.VISIBLE);
                 binding.llEmpty.tvBtNow.setOnClickListener(this);
+                if (timerDisposable != null) {
+                    viewModel.removeSubscribe(timerDisposable);
+                }
             } else {
                 binding.nsvOption.setVisibility(View.VISIBLE);
                 binding.cslBottom.setVisibility(View.VISIBLE);
@@ -222,20 +240,55 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
                 this.btRecordTimes = btRecordTimes;
                 if (btRecordAdapter == null) {
                     btRecordAdapter = new BtRecordAdapter(getContext(), btRecordTimes);
+                    btRecordAdapter.setAdvanceSettlementCallBack((groupPosition, childPosition, btResult, acceptoddschange, parlay) -> {
+                        mGroupPosition = groupPosition;
+                        mChildPosition = childPosition;
+                        btAdvanceSettlementFragment = BtAdvanceSettlementFragment.getInstance(btResult.getBtAmount(), btResult.getAdvanceSettleAmount()
+                                , btResult.getId(), acceptoddschange, parlay, btResult.getUnitCashOutPayoutStake());
+                        btAdvanceSettlementFragment.show(getActivity().getSupportFragmentManager(), "btAdvanceSettlementFragment");
+                        btAdvanceSettlementFragment.setOnDismissListener(dialog -> {
+                            viewModel.betRecord(isSettled);
+                        });
+                    });
                     binding.rvRecord.setAdapter(btRecordAdapter);
+                    binding.rvRecord.scroll(0);
                 } else {
                     btRecordAdapter.setData(btRecordTimes);
                 }
+                initTimer();
                 for (int i = 0; i < binding.rvRecord.getExpandableListAdapter().getGroupCount(); i++) {
                     binding.rvRecord.expandGroup(i);
                 }
-                binding.rvRecord.scroll(0);
             }
         });
 
         viewModel.tokenInvalidEvent.observe(this, unused -> {
             viewModel.betRecord(isSettled);
         });
+
+        viewModel.btUpdateCashOutPrice.observe(this, unused -> {
+            if (btRecordTimes != null && !btRecordTimes.isEmpty()) {
+                mBtCashOut = btRecordTimes.get(mGroupPosition).getBtResultList().get(mChildPosition);
+                if (btAdvanceSettlementFragment != null && btAdvanceSettlementFragment.isAdded()) {
+                    btAdvanceSettlementFragment.updatePrice(mBtCashOut);
+                }
+            }
+        });
+    }
+
+    private void initTimer() {
+        if (timerDisposable == null) {
+            timerDisposable = Observable.interval(0, 5, TimeUnit.SECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(aLong -> {
+                        if(!isSettled) {
+                            viewModel.cashOutPrice();
+                            CfLog.e("===========viewModel.cashOutPrice();==================");
+                        }
+                    });
+            viewModel.addSubscribe(timerDisposable);
+        }
     }
 
     @Override

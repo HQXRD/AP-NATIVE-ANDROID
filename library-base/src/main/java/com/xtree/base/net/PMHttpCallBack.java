@@ -30,6 +30,26 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
             case PMHttpCallBack.CodeRule.CODE_401026://账号已登出，请重新登录
             case PMHttpCallBack.CodeRule.CODE_400467:
             case PMHttpCallBack.CodeRule.CODE_401038:
+            case PMHttpCallBack.CodeRule.CODE_400524:
+            case PMHttpCallBack.CodeRule.CODE_400527:
+                onError(ex);
+            case PMHttpCallBack.CodeRule.CODE_400489:
+            case PMHttpCallBack.CodeRule.CODE_400492:
+            case PMHttpCallBack.CodeRule.CODE_400496:
+            case PMHttpCallBack.CodeRule.CODE_400503:
+            case PMHttpCallBack.CodeRule.CODE_400522:
+            case PMHttpCallBack.CodeRule.CODE_400528:
+            case PMHttpCallBack.CodeRule.CODE_400529:
+
+            case PMHttpCallBack.CodeRule.CODE_400493:
+            case PMHttpCallBack.CodeRule.CODE_400494:
+            case PMHttpCallBack.CodeRule.CODE_400500:
+            case PMHttpCallBack.CodeRule.CODE_400501:
+            case PMHttpCallBack.CodeRule.CODE_400525:
+            case PMHttpCallBack.CodeRule.CODE_400531:
+            case PMHttpCallBack.CodeRule.CODE_400537:
+            case PMHttpCallBack.CodeRule.CODE_402038:
+                ex.code = PMHttpCallBack.CodeRule.CODE_10000001;
                 onError(ex);
                 break;
             default:
@@ -59,6 +79,10 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
         //请求成功, 正确的操作方式
         static final int CODE_0 = 0;
         /**
+         * 提前结算错误统一出口
+         */
+        public static final int CODE_10000001 = 10000001;
+        /**
          * token失效
          */
         public static final int CODE_401026 = 401026;
@@ -68,5 +92,88 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
         public static final int CODE_401013 = 401013;
         public static final int CODE_400467 = 400467;
         public static final int CODE_401038 = 401038;
+        /**
+         * 提前结算提交申请成功,请等待确认
+         */
+        public static final int CODE_400524 = 400524;
+        /**
+         * 提前结算功能暂不可用，请稍后再试
+         */
+        public static final int CODE_400527 = 400527;
+
+        /**
+         * 订单不存在 需隐藏提前结算按钮，不支持的提前结算请求
+         */
+        public static final int CODE_400489 = 400489;
+
+        /**
+         * 目前只支持足球提前结算 需隐藏提前结算按钮，不支持的提前结算请求
+         */
+        public static final int CODE_400492 = 400492;
+
+        /**
+         * 不符合提前结算条件，订单非待结算状态  需隐藏提前结算按钮，不支持的提前结算请求
+         */
+        public static final int CODE_400496 = 400496;
+
+        /**
+         * 用户不支持提前结算  需隐藏提前结算按钮，不支持的提前结算请求
+         */
+        public static final int CODE_400503 = 400503;
+
+        /**
+         * 目前只支持单关提前结算 需隐藏提前结算按钮，不支持的提前结算请求
+         */
+        public static final int CODE_400522 = 400522;
+
+        /**
+         * 投注项赛果已确认，不可提前结算 需隐藏提前结算按钮，不支持的提前结算请求
+         */
+        public static final int CODE_400528 = 400528;
+
+        /**
+         * 赛事已结束 需隐藏提前结算按钮，不支持的提前结算请求
+         */
+        public static final int CODE_400529 = 400529;
+
+        /**
+         * 提前结算金额不能超过注单金额
+         */
+        public static final int CODE_400493 = 400493;
+
+        /**
+         * 提前结算金额小数位超出限制
+         */
+        public static final int CODE_400494 = 400494;
+
+        /**
+         * 提交申请失败,请重试
+         */
+        public static final int CODE_400500 = 400500;
+
+        /**
+         * 最低提前结算金额为1
+         */
+        public static final int CODE_400501 = 400501;
+
+        /**
+         * 提前结算未通过
+         */
+        public static final int CODE_400525 = 400525;
+
+        /**
+         * 提交申请失败,提前结算时比分已变更
+         */
+        public static final int CODE_400531 = 400531;
+
+        /**
+         * 提交申请失败,提前结算金额已变更
+         */
+        public static final int CODE_400537 = 400537;
+
+        /**
+         * 提前结算异常
+         */
+        public static final int CODE_402038 = 402038;
     }
 }

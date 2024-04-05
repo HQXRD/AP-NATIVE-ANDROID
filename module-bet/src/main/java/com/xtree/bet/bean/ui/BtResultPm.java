@@ -88,6 +88,21 @@ public class BtResultPm implements BtResult {
     }
 
     @Override
+    public boolean canAdvanceSettle() {
+        return false;
+    }
+
+    @Override
+    public double getAdvanceSettleAmount() {
+        return 0;
+    }
+
+    @Override
+    public double getUnitCashOutPayoutStake() {
+        return 0;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

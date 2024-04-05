@@ -28,7 +28,12 @@ import me.xtree.mvvmhabit.utils.RxUtils;
  */
 
 public abstract class TemplateBtRecordModel extends BaseBtViewModel implements BtRecordModel{
+    public List<String> mOrderIdList = new ArrayList<>();
+    public boolean mIsSettled;
     public SingleLiveData<List<BtRecordTime>> btRecordTimeDate = new SingleLiveData<>();
+    public SingleLiveData<List<Void>> btUpdateCashOutPrice = new SingleLiveData<>();
+    public SingleLiveData<String> btUpdateCashOutBet = new SingleLiveData<>();
+    public SingleLiveData<Boolean> btUpdateCashOutStatus = new SingleLiveData<>();
 
     public TemplateBtRecordModel(@NonNull Application application, BetRepository repository) {
         super(application, repository);

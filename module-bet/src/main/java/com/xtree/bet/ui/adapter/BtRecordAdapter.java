@@ -10,14 +10,19 @@ import android.widget.RelativeLayout;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
+import com.xtree.bet.bean.ui.BtRecordBeanPm;
 import com.xtree.bet.bean.ui.BtRecordTime;
 import com.xtree.bet.bean.ui.BtResult;
 import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.databinding.BtLayoutBtRecordItemBinding;
 import com.xtree.bet.databinding.BtLayoutBtRecordTimeBinding;
+import com.xtree.bet.ui.activity.BtDetailActivity;
+import com.xtree.bet.ui.activity.MainActivity;
+import com.xtree.bet.ui.fragment.BtAdvanceSettlementFragment;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 
 import java.util.List;
@@ -28,6 +33,11 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpandableListAdapter {
     private List<BtRecordTime> mDatas;
     private Context mContext;
+    private AdvanceSettlementCallBack mAdvanceSettlementCallBack;
+
+    public void setAdvanceSettlementCallBack(AdvanceSettlementCallBack advanceSettlementCallBack) {
+        this.mAdvanceSettlementCallBack = advanceSettlementCallBack;
+    }
 
     public BtRecordAdapter(Context context, List<BtRecordTime> datas) {
         this.mDatas = datas;
@@ -125,7 +135,7 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
 
         ChildHolder holder;
 
-        BtResult btResult = ((BtResult)getChild(groupPosition, childPosition));
+        BtResult btResult = ((BtResult) getChild(groupPosition, childPosition));
 
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.bt_layout_bt_record_item, null);
@@ -143,9 +153,9 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         }*/
 
         String cg = btResult.getBetResultOption().size() > 1 ? "串关" : "单关";
-        if(btResult.getBetResultOption().size() > 1) {
+        if (btResult.getBetResultOption().size() > 1) {
             binding.tvName.setText(mContext.getResources().getString(R.string.bt_bt_result_record_cg, cg, btResult.getCgName(), SPUtils.getInstance().getString(KEY_PLATFORM_NAME)));
-        }else{
+        } else {
             binding.tvName.setText(cg);
         }
         binding.rvMatch.setLayoutManager(new LinearLayoutManager(mContext));
@@ -158,6 +168,13 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         binding.tvResultId.setOnClickListener(v -> {
             StringUtils.copy(btResult.getId());
         });
+        binding.tvResultStatement.setOnClickListener(v -> {
+            mAdvanceSettlementCallBack.onAdvanceSettlementClick(groupPosition, childPosition, btResult, binding.tvResultSettlementOdds.isChecked(), btResult.getBetResultOption().size() > 1);
+        });
+        binding.tvResultStatement.setText(mContext.getResources().getString(R.string.bt_txt_btn_statement, NumberUtils.format(btResult.getAdvanceSettleAmount(), 2)));
+        binding.tvResultStatement.setVisibility(btResult.canAdvanceSettle() ? View.VISIBLE : View.GONE);
+        binding.tvResultStatementOdds.setVisibility(btResult.canAdvanceSettle() ? View.VISIBLE : View.GONE);
+        binding.tvResultSettlementOdds.setVisibility(!(btResult instanceof BtRecordBeanPm) && btResult.canAdvanceSettle() ? View.VISIBLE : View.GONE);
         return convertView;
     }
 
@@ -171,8 +188,13 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         public GroupHolder(View view) {
             itemView = view.findViewById(R.id.ll_expand);
         }
+
         View itemView;
 
+    }
+
+    public interface AdvanceSettlementCallBack{
+        void onAdvanceSettlementClick(int groupPosition, int childPosition, BtResult btResult, boolean acceptoddschange, boolean parlay);
     }
 
 }

@@ -98,6 +98,27 @@ public class BtResultFb implements BtResult {
     }
 
     @Override
+    public boolean canAdvanceSettle() {
+        return btResultInfo != null && btResultInfo.pr != null && btResultInfo.pr.amt > 0;
+    }
+
+    @Override
+    public double getAdvanceSettleAmount() {
+        if(canAdvanceSettle()){
+            return btResultInfo.pr.amt * getBtAmount();
+        }
+        return 0;
+    }
+
+    @Override
+    public double getUnitCashOutPayoutStake() {
+        if(canAdvanceSettle()){
+            return btResultInfo.pr.amt;
+        }
+        return 0;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

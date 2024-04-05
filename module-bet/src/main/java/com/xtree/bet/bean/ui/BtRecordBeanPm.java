@@ -93,6 +93,24 @@ public class BtRecordBeanPm implements BtResult {
     }
 
     @Override
+    public boolean canAdvanceSettle() {
+        return recordsBean != null && recordsBean.enablePreSettle && recordsBean.pr != null && recordsBean.pr.csper > 0;
+    }
+
+    @Override
+    public double getAdvanceSettleAmount() {
+        if(canAdvanceSettle()){
+            return recordsBean.pr.preSettleMaxWin;
+        }
+        return 0;
+    }
+
+    @Override
+    public double getUnitCashOutPayoutStake() {
+        return getAdvanceSettleAmount();
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

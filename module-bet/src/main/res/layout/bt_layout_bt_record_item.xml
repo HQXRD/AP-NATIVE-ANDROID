@@ -137,6 +137,55 @@
             android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"/>
 
+        <CheckBox
+            android:id="@+id/tv_result_settlement_odds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_bt_time"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:drawableRight="@drawable/bt_checkbox_selector"
+            android:background="@color/clr_transparent"
+            android:button="@null"
+            android:text="@string/bt_txt_settlement_odds"
+            android:textColor="@color/bt_text_color_primary_3"
+            android:textSize="@dimen/bt_text_12sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_result_statement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_result_settlement_odds"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@drawable/bt_btn_settlement"
+            android:paddingTop="11dp"
+            android:paddingBottom="11dp"
+            android:gravity="center"
+            android:text="@string/bt_txt_btn_statement"
+            android:textColor="@color/bt_color_under_bg_primary_text"
+            android:textSize="@dimen/bt_text_16sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_result_statement_odds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_result_statement"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:drawableEnd="@mipmap/bt_ic_tip"
+            android:drawablePadding="2dp"
+            android:text="@string/bt_txt_statement_odds"
+            android:textColor="@color/bt_text_color_primary_3"
+            android:textSize="@dimen/bt_text_12sp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
