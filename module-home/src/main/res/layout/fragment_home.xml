@@ -47,7 +47,7 @@
                     android:layout_gravity="end|top"
                     android:layout_marginTop="36dp"
                     android:layout_marginEnd="16dp"
-                    android:src="@mipmap/cm_ic_cs" />
+                    android:src="@mipmap/home_ic_cs" />
 
             </com.youth.banner.Banner>
 
