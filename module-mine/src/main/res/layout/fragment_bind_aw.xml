@@ -51,8 +51,7 @@
 
         <TextView
             android:id="@+id/tvw_tip"
-            style="@style/style_cm_tip_small_grey"
-            android:text="@string/txt_bind_most_aw" />
+            style="@style/style_cm_tip_small_grey" />
 
     </LinearLayout>
 

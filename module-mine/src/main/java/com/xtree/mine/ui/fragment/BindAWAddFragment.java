@@ -1,6 +1,10 @@
 package com.xtree.mine.ui.fragment;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,24 +13,28 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.lxj.xpopup.core.BasePopupView;
+import com.luck.picture.lib.basic.PictureSelector;
+import com.luck.picture.lib.config.PictureMimeType;
+import com.luck.picture.lib.config.SelectMimeType;
+import com.luck.picture.lib.entity.LocalMedia;
+import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.UuidUtil;
+import com.xtree.base.widget.GlideEngine;
+import com.xtree.base.widget.ImageFileCompressEngine;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentBindAddAwBinding;
 import com.xtree.mine.ui.viewmodel.BindCardViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.UserBankConfirmVo;
-import com.xtree.mine.vo.UserBankProvinceVo;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import project.tqyb.com.library_res.databinding.ItemTextBinding;
 
 /**
  * 绑定支付宝、微信
@@ -46,7 +54,9 @@ public class BindAWAddFragment extends BaseFragment<FragmentBindAddAwBinding, Bi
     private String type;
 
     UserBankConfirmVo mConfirmVo;
-    List<UserBankProvinceVo.AreaVo> listCity = new ArrayList<>();
+    private String imageRealPathString;//选择的图片地址
+    private boolean imageSelector = false;//是否已选择图片
+    private Uri imageUri;
 
     public BindAWAddFragment() {
     }
@@ -62,6 +72,9 @@ public class BindAWAddFragment extends BaseFragment<FragmentBindAddAwBinding, Bi
             } else {
                 getActivity().finish();
             }
+        });
+        binding.llRemittanceScreenshot.setOnClickListener(v -> {
+            gotoSelectMedia();
         });
 
         //binding.ivwNext.setOnClickListener(v -> doNext());
@@ -94,6 +107,7 @@ public class BindAWAddFragment extends BaseFragment<FragmentBindAddAwBinding, Bi
                     binding.tvwPhone.setText(getString(R.string.txt_alipay_phone));
                     binding.tvwNickname.setText(getString(R.string.txt_alipay_nickname));
                     binding.tvwCode.setText(getString(R.string.txt_alipay_code));
+                    break;
                 }
                 case TYPE_WECHAT: {
                     typeName = getString(R.string.txt_wechat);
@@ -108,7 +122,9 @@ public class BindAWAddFragment extends BaseFragment<FragmentBindAddAwBinding, Bi
                     binding.tvwCode.setText(getString(R.string.txt_wechat_code));
                 }
             }
-
+            binding.etNickname.setHint(getString(R.string.txt_input_nickname, typeName));
+            binding.tvSelectorTipImage.setText(getString(R.string.txt_upload_payment_code, typeName));
+            binding.tvPaymentCode.setText(getString(R.string.txt_get_payment_code, typeName));
         }
     }
 
@@ -130,7 +146,6 @@ public class BindAWAddFragment extends BaseFragment<FragmentBindAddAwBinding, Bi
 
     @Override
     public void initViewObservable() {
-
         viewModel.liveDataBindCardCheck.observe(this, vo -> {
             CfLog.i("******");
             mConfirmVo = vo;
@@ -217,6 +232,51 @@ public class BindAWAddFragment extends BaseFragment<FragmentBindAddAwBinding, Bi
     //    map.put("nonce", UuidUtil.getID16());
     //    viewModel.doBindCardByCheck(queryMap, map);
     //}
+
+    /**
+     * 图片选择
+     */
+    private void gotoSelectMedia() {
+        PictureSelector.create(getActivity()).openGallery(SelectMimeType.ofImage())
+                .isDisplayCamera(false)
+                .setMaxSelectNum(1)
+                .setImageEngine(GlideEngine.createGlideEngine())
+                .setCompressEngine(ImageFileCompressEngine.create())
+                .forResult(new OnResultCallbackListener<LocalMedia>() {
+                    @Override
+                    public void onResult(ArrayList<LocalMedia> result) {
+                        if (result != null) {
+                            for (int i = 0; i < result.size(); i++) {
+                                imageRealPathString = result.get(i).getCompressPath();
+                                if (TextUtils.isEmpty(imageRealPathString)) {
+                                    imageRealPathString = result.get(i).getRealPath();
+                                }
+                                File imageRealPath = new File(imageRealPathString);
+                                if (imageRealPath.exists()) {
+                                    Bitmap bitmap = BitmapFactory.decodeFile(imageRealPathString);
+                                    binding.ivSelectorAdd.setVisibility(View.GONE);
+                                    binding.ivSelectorTipImage.setVisibility(View.VISIBLE);
+                                    binding.ivSelectorTipImage.setImageBitmap(bitmap);
+                                    imageSelector = true;//向界面设置了选中图片
+                                } else {
+                                    CfLog.i("获取图片地址不存在是 ====== " + result.get(i).getRealPath());
+                                }
+                                if (PictureMimeType.isContent(imageRealPathString)) {
+                                    imageUri = Uri.parse(imageRealPathString);
+                                } else {
+                                    imageUri = Uri.fromFile(new File(imageRealPathString));
+                                }
+                                CfLog.i("获取图片地址是 uri ====== " + imageUri);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+    }
 
     private void doSubmit() {
 

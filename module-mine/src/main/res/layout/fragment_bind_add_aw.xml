@@ -58,8 +58,8 @@
             <EditText
                 android:id="@+id/et_name"
                 style="@style/style_cm_edt"
-                android:maxLength="19"
-                android:text="姓名" />
+                android:hint="姓名"
+                android:maxLength="19" />
 
             <TextView
                 android:id="@+id/tv_account"
@@ -71,8 +71,7 @@
                 style="@style/style_cm_edt"
                 android:hint="11位手机号"
                 android:inputType="number"
-                android:maxLength="11"
-              />
+                android:maxLength="11" />
 
             <TextView
                 android:id="@+id/tvw_tip_phone"
@@ -87,36 +86,48 @@
             <EditText
                 android:id="@+id/et_nickname"
                 style="@style/style_cm_edt"
-                android:inputType="number"
-                android:hint="@string/txt_input_nickname" />
+                android:hint="@string/txt_input_nickname"
+                android:inputType="number" />
 
             <TextView
                 android:id="@+id/tv_tip_nickname"
                 style="@style/style_cm_tip_small_orange"
-                tools:text="注意：如修改昵称请及时更新，否则影响收款"
+                android:text="注意：如修改昵称请及时更新，否则影响收款"
                 android:textSize="@dimen/bt_text_12sp" />
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_remittance_screenshot"
+                android:layout_width="73dp"
                 android:layout_height="73dp"
-                android:layout_margin="@dimen/layout_margin">
+                android:layout_margin="12dp"
+                android:layout_marginTop="10dp"
+                android:background="@mipmap/rc_ic_feedback_bg">
 
-                <ImageView
-                    android:id="@+id/iv_selector_tip_image"
+                <RelativeLayout
                     android:layout_width="73dp"
-                    android:layout_height="73dp"
-                    android:layout_centerInParent="true"
-                    android:src="@mipmap/cm_ic_add"
-                    android:visibility="invisible" />
+                    android:layout_height="73dp">
 
-                <ImageView
-                    android:id="@+id/iv_selector_add"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_centerInParent="true"
-                    android:background="@mipmap/cm_ic_add" />
+                    <ImageView
+                        android:id="@+id/iv_selector_tip_image"
+                        android:layout_width="73dp"
+                        android:layout_height="73dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="1dp"
+                        android:visibility="invisible" />
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/iv_selector_add"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_centerInParent="true"
+                        android:background="@mipmap/cm_ic_add" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_selector_tip_image"
@@ -124,28 +135,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                tools:text="@string/txt_upload_payment_code"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                tools:text="@string/txt_upload_payment_code" />
 
             <TextView
                 android:id="@+id/tv_payment_code"
-                style="@style/style_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="12dp"
-                android:paddingLeft="20dp"
-                android:paddingTop="3dp"
-                android:paddingRight="20dp"
-                android:paddingBottom="3dp"
-                tools:text="@string/txt_get_payment_code"
-                android:textSize="12sp" />
+                android:background="@drawable/bg_btn_selector"
+                android:paddingLeft="10dp"
+                android:paddingTop="4dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="4dp"
+                android:textColor="@color/clr_text_code_selector"
+                android:textSize="12sp"
+                tools:text="@string/txt_get_payment_code" />
 
             <ImageView
                 android:id="@+id/ivw_next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="20dp"
                 android:background="@mipmap/cm_btn_next" />
         </LinearLayout>
 
@@ -226,7 +238,8 @@
 
                 <TextView
                     android:id="@+id/tvw_submit"
-                    style="@style/style_btn" />
+                    style="@style/style_btn"
+                    android:text="@string/text_confirm" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

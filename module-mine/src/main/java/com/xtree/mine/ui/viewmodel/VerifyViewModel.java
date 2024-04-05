@@ -457,7 +457,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                 break;
             case Constant.BIND_ALIPAY:
                 //"绑定支付宝"
-                startAlipayWechat(ctx, vo, "aplipay");
+                startAlipayWechat(ctx, vo, "alipay");
                 return;
             case Constant.BIND_WECHAT:
                 //"绑定微信"

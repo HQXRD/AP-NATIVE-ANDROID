@@ -88,13 +88,13 @@ public class BindAlipayWechatFragment extends BaseFragment<FragmentBindAwBinding
                     case TYPE_ALIPAY: {
                         binding2.tvName.setText(R.string.txt_alipay_name);
                         binding2.tvNickname.setText(R.string.txt_alipay_name);
-                        binding2.tvCode.setText(R.string.txt_alipay_name);
+                        binding2.tvCode.setText(R.string.txt_alipay_code);
                         break;
                     }
                     case TYPE_WECHAT: {
                         binding2.tvName.setText(R.string.txt_wechat_name);
                         binding2.tvNickname.setText(R.string.txt_wechat_name);
-                        binding2.tvCode.setText(R.string.txt_wechat_name);
+                        binding2.tvCode.setText(R.string.txt_wechat_code);
                         break;
                     }
                 }
@@ -149,19 +149,6 @@ public class BindAlipayWechatFragment extends BaseFragment<FragmentBindAwBinding
     public void initViewObservable() {
         viewModel.liveDataAWList.observe(this, vo -> {
             CfLog.i("******");
-            // 如果是列表为空的情况,跳到增加页,并关闭当前页(关闭是因为有时会提示最多只能绑定0张卡,或者死循环)
-            if (vo.banklist.isEmpty()) {
-                //binding.tvwAdd.performClick(); // 跳到增加绑定页
-                //requireActivity().finish();
-                return;
-            }
-
-            if (vo.banklist != null && !vo.banklist.isEmpty()) {
-                CfLog.i("****** 这是列表");
-                mAdapter.clear();
-                mAdapter.addAll(vo.banklist);
-            }
-
             if (!TextUtils.isEmpty(vo.num)) {
                 String txt = "";
                 switch (type) {
@@ -184,6 +171,20 @@ public class BindAlipayWechatFragment extends BaseFragment<FragmentBindAwBinding
                     binding.tvwAdd.setVisibility(View.GONE);
                 }
             }
+            // 如果是列表为空的情况,跳到增加页,并关闭当前页(关闭是因为有时会提示最多只能绑定0张卡,或者死循环)
+            //if (vo.banklist.isEmpty()) {
+            //    //binding.tvwAdd.performClick(); // 跳到增加绑定页
+            //    //requireActivity().finish();
+            //    return;
+            //}
+
+            if (vo.banklist != null && !vo.banklist.isEmpty()) {
+                CfLog.i("****** 这是列表");
+                mAdapter.clear();
+                mAdapter.addAll(vo.banklist);
+            }
+
+
         });
 
     }
