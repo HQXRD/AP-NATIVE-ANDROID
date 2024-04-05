@@ -1,7 +1,8 @@
 package com.xtree.bet.ui.viewmodel.pm;
 
+import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_10000001;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_400524;
-import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_400525;
+import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_400527;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401013;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401026;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401038;
@@ -33,7 +34,6 @@ import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class PMBtRecordModel extends TemplateBtRecordModel {
-    List<String> mOrderIdList = new ArrayList<>();
     public Map<String, BtRecordRsp.RecordsBean> mOrderMap = new HashMap<>();
 
     public PMBtRecordModel(@NonNull Application application, BetRepository repository) {
@@ -44,7 +44,7 @@ public class PMBtRecordModel extends TemplateBtRecordModel {
      * 投注前查询指定玩法赔率
      */
     public void betRecord(boolean isSettled) {
-
+        mIsSettled = isSettled;
         BtRecordReq btRecordReq = new BtRecordReq();
         btRecordReq.setOrderStatus(isSettled ? 1 : 0);
         btRecordReq.setTimeType(isSettled ? 1 : 4);
@@ -126,15 +126,14 @@ public class PMBtRecordModel extends TemplateBtRecordModel {
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
                         if (t instanceof ResponseThrowable) {
                             ResponseThrowable error = (ResponseThrowable) t;
                             if (error.code == CODE_401038) {
                                 ToastUtils.showShort("请求速度太快，请稍候重试");
                             } else if (error.code == CODE_401026 || error.code == CODE_401013) {
                                 getGameTokenApi();
-                            } else if (error.code == CODE_400525) {
-
+                            } else if (error.code == CODE_400527) {
+                                betRecord(mIsSettled);
                             }
                         }
                     }
@@ -170,7 +169,11 @@ public class PMBtRecordModel extends TemplateBtRecordModel {
                                 getGameTokenApi();
                             } else if (error.code == CODE_401038) {
                                 ToastUtils.showShort("请求速度太快，请稍候重试");
+                            } else if (error.code == CODE_400527 || error.code == CODE_10000001) {
+                                btUpdateCashOutStatus.postValue(false);
+                                ToastUtils.showShort(error.getMessage());
                             } else {
+                                btUpdateCashOutStatus.postValue(false);
                                 super.onError(t);
                             }
                         }

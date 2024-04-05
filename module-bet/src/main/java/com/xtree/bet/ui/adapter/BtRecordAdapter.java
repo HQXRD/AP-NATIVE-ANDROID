@@ -14,6 +14,7 @@ import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
+import com.xtree.bet.bean.ui.BtRecordBeanPm;
 import com.xtree.bet.bean.ui.BtRecordTime;
 import com.xtree.bet.bean.ui.BtResult;
 import com.xtree.bet.bean.ui.Match;
@@ -173,7 +174,7 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         binding.tvResultStatement.setText(mContext.getResources().getString(R.string.bt_txt_btn_statement, NumberUtils.format(btResult.getAdvanceSettleAmount(), 2)));
         binding.tvResultStatement.setVisibility(btResult.canAdvanceSettle() ? View.VISIBLE : View.GONE);
         binding.tvResultStatementOdds.setVisibility(btResult.canAdvanceSettle() ? View.VISIBLE : View.GONE);
-        binding.tvResultSettlementOdds.setVisibility(btResult.canAdvanceSettle() ? View.VISIBLE : View.GONE);
+        binding.tvResultSettlementOdds.setVisibility(!(btResult instanceof BtRecordBeanPm) && btResult.canAdvanceSettle() ? View.VISIBLE : View.GONE);
         return convertView;
     }
 

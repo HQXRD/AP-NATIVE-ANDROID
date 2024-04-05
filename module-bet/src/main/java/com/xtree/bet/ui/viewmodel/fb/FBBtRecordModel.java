@@ -37,7 +37,7 @@ import me.xtree.mvvmhabit.utils.RxUtils;
  */
 
 public class FBBtRecordModel extends TemplateBtRecordModel {
-    List<String> mOrderIdList = new ArrayList<>();
+
     public Map<String, BtResultInfo> mOrderMap = new HashMap<>();
 
     public FBBtRecordModel(@NonNull Application application, BetRepository repository) {
@@ -48,7 +48,7 @@ public class FBBtRecordModel extends TemplateBtRecordModel {
      * 投注前查询指定玩法赔率
      */
     public void betRecord(boolean isSettled) {
-
+        mIsSettled = isSettled;
         BtRecordReq btRecordReq = new BtRecordReq();
         btRecordReq.setSettled(isSettled);
         if (isSettled) {
@@ -176,6 +176,7 @@ public class FBBtRecordModel extends TemplateBtRecordModel {
                                 getGameTokenApi();
                             } else {
                                 super.onError(t);
+                                btUpdateCashOutStatus.postValue(false);
                             }
                         }
                     }
