@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.drake.brv.BindingAdapter;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.net.HttpCallBack;
@@ -37,6 +38,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.RxBus;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * Created by KAKA on 2024/3/8.
@@ -141,7 +143,15 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                                 if (datum != null) {
                                     String id = datum.getId();
                                     if (raMenu.type.getIds().contains(id)) {
-                                        newDatas.add(raMenu);
+                                        //用户等级=2才可以显示佣金报表
+                                        if (raMenu.type == RebateAreegmentTypeEnum.COMMISSIONSREPORTS) {
+                                            int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
+                                            if (level == 2) {
+                                                newDatas.add(raMenu);
+                                            }
+                                        } else {
+                                            newDatas.add(raMenu);
+                                        }
                                         break;
                                     }
                                 }
