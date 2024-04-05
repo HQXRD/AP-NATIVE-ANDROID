@@ -28,7 +28,6 @@ import com.xtree.mine.vo.OrderTypeVo;
 import com.xtree.mine.vo.ProfitLossReportVo;
 import com.xtree.mine.vo.ProfitLossVo;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -116,11 +115,11 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
                 binding2.tvwRegTime.setText(vo.registertime);
                 binding2.tvwWithdraw.setText(vo.withdraw);
                 binding2.tvwSpoint.setText(vo.spoint);
-                double tmp = Double.parseDouble(vo.sprofit_loss) + Double.parseDouble(vo.spoint)
-                        + Double.parseDouble(vo.wages);
-                String netProfit = String.valueOf(tmp);
+//                double tmp = Double.parseDouble(vo.sprofit_loss) + Double.parseDouble(vo.spoint)
+//                        + Double.parseDouble(vo.wages);
+//                String netProfit = String.valueOf(tmp);
                 //String netProfit = new DecimalFormat("#.#").format(tmp); // 去掉小数点及后面
-                binding2.tvwNetProfit.setText(netProfit); // 净输赢
+                binding2.tvwNetProfit.setText(vo.settlement); // 净输赢
 
                 if (vo.username.equals(userName)) {
                     binding2.tvwMyself.setVisibility(View.VISIBLE);
