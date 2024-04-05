@@ -414,14 +414,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
             //thiriframe_status 为1的时候加载WebView
             if (bankCardCashVo.channel_list.get(0).thiriframe_status == 1 ){
-                binding.nsH5View.setVisibility(View.GONE);//隐藏h5展示
-                binding.maskH5View.setVisibility(View.GONE);
-                binding.nsErrorView.setVisibility(View.VISIBLE);//展示错误信息页面
-                binding.tvShowErrorMessage.setText(getContext().getString(R.string.txt_withdrawal_network_error));
-            }else {
-
-
-
                 binding.nsErrorView.setVisibility(View.GONE);//隐藏错误信息页面
                 binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
                 binding.nsH5View.setBackgroundResource(android.R.color.transparent);
@@ -454,6 +446,15 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                         binding.maskH5View.setVisibility(View.GONE);
                     }
                 });
+
+            }else {
+
+                binding.nsH5View.setVisibility(View.GONE);//隐藏h5展示
+                binding.maskH5View.setVisibility(View.GONE);
+                binding.nsErrorView.setVisibility(View.VISIBLE);//展示错误信息页面
+                binding.tvShowErrorMessage.setText(getContext().getString(R.string.txt_withdrawal_network_error));
+
+
             }
 
 
@@ -728,12 +729,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
                 //thiriframe_status 为1的时候加载WebView
                 if (selectVO.thiriframe_status == 1 ){
-
-                    binding.nsH5View.setVisibility(View.GONE);//隐藏h5展示
-                    binding.nsErrorView.setVisibility(View.VISIBLE);//展示错误信息页面
-                    binding.tvShowErrorMessage.setText(getContext().getString(R.string.txt_withdrawal_network_error));
-                }else {
-
                     binding.nsErrorView.setVisibility(View.GONE);//展示错误信息页面
                     binding.nsH5View.setVisibility(View.VISIBLE);//h5展示
 
@@ -766,6 +761,13 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                         }
 
                     });
+
+                }else {
+                    binding.nsH5View.setVisibility(View.GONE);//隐藏h5展示
+                    binding.nsErrorView.setVisibility(View.VISIBLE);//展示错误信息页面
+                    binding.tvShowErrorMessage.setText(getContext().getString(R.string.txt_withdrawal_network_error));
+
+
                 }
 
 
