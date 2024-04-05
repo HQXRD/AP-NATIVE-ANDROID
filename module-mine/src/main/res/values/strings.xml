@@ -283,6 +283,7 @@
     <string name="txt_reset_password_form_error">密码格式不正确，请重新输入</string>
     <string name="txt_reset_password_tri_same_error">不能连续三个相同字符</string>
     <string name="txt_reset_password_not_same_error">两次密码输入不一致</string>
+    <string name="txt_reset_password_num_text_error">密码必须包含数字和字母</string>
     <string name="txt_enter_otc">请输入验证码</string>
     <string name="txt_check_your_email">%1$s，您好！ \n 您的邮箱地址为 \n %2$s \n 请进行邮箱验证</string>
     <string name="txt_check_your_phone">%1$s，您好！ \n 您的手机号为 \n %2$s \n 请进行短信验证</string>
