@@ -170,7 +170,7 @@
                     android:id="@+id/tv_user_name"
                     style="@style/style_filter_info_value"
                     android:layout_marginTop="6dp"
-                    android:text="@string/me_user_name_hint"
+                    android:text="@string/me_user_nickname"
                     app:layout_constraintStart_toStartOf="@+id/tv_type"
                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -179,7 +179,7 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:background="@null"
-                    android:hint="@string/me_user_name_hint"
+                    android:hint="@string/me_user_nickname"
                     android:imeOptions="actionDone"
                     android:inputType="text"
                     android:maxLength="12"

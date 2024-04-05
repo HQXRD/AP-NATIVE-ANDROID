@@ -1,6 +1,7 @@
 <resources>
     <string name="mine_name">module-mine</string>
     <string name="me_user_name_hint">意昂体育，您身边的滚球顾问~</string>
+    <string name="me_user_nickname">用户昵称</string>
     <string name="me_login_hint">登录</string>
     <string name="me_register_hint">注册</string>
     <string name="me_visit_hint">您好游客，请点击登录按钮</string>
