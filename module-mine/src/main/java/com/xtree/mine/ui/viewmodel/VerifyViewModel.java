@@ -94,7 +94,6 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
         getProfile(liveDataProfile);
     }
 
-
     /**
      * 获取用户个人信息 (关闭当前页面)
      */
@@ -218,7 +217,9 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<VerifyVo>() {
                     @Override
                     public void onResult(VerifyVo vo) {
-                        CfLog.i(vo.toString());
+                        if (vo != null) {
+                            CfLog.i(vo.toString());
+                        }
                         liveData.setValue(vo);
                     }
 
@@ -314,7 +315,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<Map<String, String>>() {
                     @Override
                     public void onResult(Map<String, String> vo) {
-                        CfLog.i(vo+"");
+                        CfLog.i(vo + "");
                         doLogout();
                         liveDataChangePwd.setValue(vo);
                     }
