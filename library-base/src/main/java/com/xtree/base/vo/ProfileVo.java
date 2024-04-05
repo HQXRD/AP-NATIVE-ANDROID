@@ -1,6 +1,8 @@
 package com.xtree.base.vo;
 
 import java.util.ArrayList;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Arrays;
 
 public class ProfileVo {
@@ -42,6 +44,7 @@ public class ProfileVo {
     public int agency_model; // 4,
     public int user_agency_model; // 2,
     public int usertype; // 1,
+
     public int parentid; // 3160900,
     public int lvtopid; // 3160839,
     public int iscreditaccount; // 0,
@@ -109,6 +112,11 @@ public class ProfileVo {
     public int phone_selfupdate; // 1,
     public String email_selfupdate; // "1"
     public int zhaoshang;
+    /**
+     * userLevel
+     */
+    @SerializedName("user_level")
+    private int userLevel;
 
     @Override
     public String toString() {
@@ -158,6 +166,14 @@ public class ProfileVo {
     public ProfileVo(String username, String availablebalance) {
         this.username = username;
         this.availablebalance = availablebalance;
+    }
+
+    public int getUserLevel() {
+        return userLevel;
+    }
+
+    public void setUserLevel(int userLevel) {
+        this.userLevel = userLevel;
     }
 
     public class CreditWalletVo {

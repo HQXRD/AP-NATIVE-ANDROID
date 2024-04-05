@@ -384,6 +384,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.HOME_PROFILE, new Gson().toJson(vo));
                         SPUtils.getInstance().put(SPKeyGlobal.USER_ID, vo.userid);
                         SPUtils.getInstance().put(SPKeyGlobal.USER_NAME, vo.username);
+                        SPUtils.getInstance().put(SPKeyGlobal.USER_LEVEL, vo.getUserLevel());
                         liveDataProfile.setValue(vo);
                     }
 

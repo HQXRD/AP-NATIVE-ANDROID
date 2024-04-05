@@ -8,6 +8,8 @@ public class SPKeyGlobal {
     public static final String USER_INFO = "user_info";
     public static final String USER_ID = "user_id";
     public static final String USER_NAME = "user_name";
+    //用户等级
+    public static final String USER_LEVEL = "user_level";
     public static final String PUBLIC_KEY = "public_key";
     public static final String USER_TOKEN = "user_token";
     public static final String USER_TOKEN_TYPE = "user_token_type";
