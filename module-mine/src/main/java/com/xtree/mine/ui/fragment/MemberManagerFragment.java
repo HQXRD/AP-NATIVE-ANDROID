@@ -61,6 +61,9 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
         });
 
         binding.refreshLayout.setOnRefreshListener(refreshLayout -> {
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             binding.refreshLayout.setEnableLoadMore(true);
             binding.refreshLayout.setEnableRefresh(true);
             curPage = 1;
