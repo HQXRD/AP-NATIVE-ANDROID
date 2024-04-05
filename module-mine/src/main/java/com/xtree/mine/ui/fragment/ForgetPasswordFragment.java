@@ -25,6 +25,7 @@ import com.xtree.mine.ui.viewmodel.ForgetPasswordViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterFragmentPath.Mine.PAGER_FORGET_PASSWORD)
 public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordBinding, ForgetPasswordViewModel> {
@@ -209,7 +210,15 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
 
         binding.llResetPassword.twmResetPasswordConfirm.setOnClickListener(v -> {
             if (mIsClickable) {
-                viewModel.sendChangePasswordSuccessful(binding.llResetPassword.edtResetPasswordResetPasswordRecheck.getText().toString());
+                String newPassword = binding.llResetPassword.edtResetPasswordResetPasswordRecheck.getText().toString();
+
+                if (!newPassword.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,16}$")) {
+                    ToastUtils.showLong(R.string.txt_reset_password_num_text_error);
+                    mIsClickable = false;
+                    return;
+                }
+
+                viewModel.sendChangePasswordSuccessful(newPassword);
                 mIsClickable = false;
             }
         });
