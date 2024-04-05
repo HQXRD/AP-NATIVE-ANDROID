@@ -303,10 +303,6 @@ public class SecurityQuestionFragment extends BottomPopupView {
         firstPSW = RSAEncrypt.encrypt2(newsecpass, public_key);
         secondPSW = RSAEncrypt.encrypt2(newsecpass, public_key);
 
-
-       /* String pwd = MD5Util.generateMd5("") + MD5Util.generateMd5(secondPSW);
-        secondPSW = RSAEncrypt.encrypt2(pwd, public_key);*/
-
         HashMap<String, String> map = new HashMap<>();
         map.put("accessToken", accessToken);
         map.put("flag", "gener");

@@ -56,6 +56,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         void closeDialogByError();
 
         void closeDialogByBind();
+
     }
 
     private String checkCode;

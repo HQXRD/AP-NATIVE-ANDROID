@@ -240,14 +240,14 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
             }
             selectorTopChannel = vo.channel_list.get(0);
         }
-        recyclerViewAdapter = new FruitHorUSDTRecyclerViewAdapter(vo.channel_list, this);
+     /*   recyclerViewAdapter = new FruitHorUSDTRecyclerViewAdapter(vo.channel_list, this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         binding.rvShowChooseCard.setLayoutManager(layoutManager);
         binding.rvShowChooseCard.addItemDecoration(new FruitHorRecyclerViewAdapter.SpacesItemDecoration(10));
         binding.rvShowChooseCard.setAdapter(recyclerViewAdapter);
-        binding.rvShowChooseCard.setItemAnimator(new DefaultItemAnimator());
+        binding.rvShowChooseCard.setItemAnimator(new DefaultItemAnimator());*/
     }
 
     /**

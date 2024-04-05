@@ -5,6 +5,7 @@ import static com.xtree.base.router.RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRA
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -149,6 +150,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                         public void closeDialogByBind() {
                             finish();
                         }
+
                     }, new BankWithdrawalDialog.BankWithdrawalClose() {
                         @Override
                         public void closeBankWithdrawal() {
@@ -169,12 +171,13 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                         }
                     }, checkCode , this));
         }
+
         baseChoosePopupView.show();
     }
 
     /*关闭资金密码输入页面*/
     private void closeFundPSWView() {
-        if (fundPSWPopView != null && fundPSWPopView.isShow()) {
+        if (fundPSWPopView != null ) {
             fundPSWPopView.dismiss();
             fundPSWPopView = null;
         }
@@ -191,15 +194,20 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                         public void closeFundPWDialog() {
                             //showNetError();
                             hideKeyBoard();
-                            fundPSWPopView.dismiss();
+                            if (fundPSWPopView !=null){
+                                fundPSWPopView.dismiss();
+                            }
+
                             finish();
                         }
 
                         @Override
                         public void closeFundPWDialogWithCode(String checkCode) {
                             // hideKeyBoard();
-                            //basePopupView.dismiss();
+
                             showChooseList(checkCode);
+                            ViewGroup parent = (ViewGroup)fundPSWPopView.getParent();
+                            parent.removeView(fundPSWPopView);
                         }
 
                     }));
