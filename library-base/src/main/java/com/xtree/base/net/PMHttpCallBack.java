@@ -33,6 +33,7 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
             case PMHttpCallBack.CodeRule.CODE_400524:
             case PMHttpCallBack.CodeRule.CODE_400527:
                 onError(ex);
+                break;
             case PMHttpCallBack.CodeRule.CODE_400489:
             case PMHttpCallBack.CodeRule.CODE_400492:
             case PMHttpCallBack.CodeRule.CODE_400496:

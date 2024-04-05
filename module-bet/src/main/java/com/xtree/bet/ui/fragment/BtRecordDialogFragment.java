@@ -268,6 +268,12 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
 
         viewModel.btUpdateCashOutPrice.observe(this, unused -> {
             if (btRecordTimes != null && !btRecordTimes.isEmpty()) {
+                if(mGroupPosition > btRecordTimes.size() - 1
+                        || btRecordTimes.get(mGroupPosition).getBtResultList() == null
+                        || btRecordTimes.get(mGroupPosition).getBtResultList().isEmpty()
+                        || mChildPosition > btRecordTimes.get(mGroupPosition).getBtResultList().size() - 1){
+                    return;
+                }
                 mBtCashOut = btRecordTimes.get(mGroupPosition).getBtResultList().get(mChildPosition);
                 if (btAdvanceSettlementFragment != null && btAdvanceSettlementFragment.isAdded()) {
                     btAdvanceSettlementFragment.updatePrice(mBtCashOut);

@@ -191,7 +191,7 @@ public class PMBtRecordModel extends TemplateBtRecordModel {
                 .subscribeWith(new PMHttpCallBack<List<BtCashOutStatusInfo>>() {
                     @Override
                     public void onResult(List<BtCashOutStatusInfo> btCashOutStatusInfoList) {
-                        if(!btCashOutStatusInfoList.isEmpty()) {
+                        if(btCashOutStatusInfoList != null && !btCashOutStatusInfoList.isEmpty()) {
                             BtCashOutStatusInfo btCashOutStatusInfo = null;
                             for (BtCashOutStatusInfo info : btCashOutStatusInfoList) {
                                 if(TextUtils.equals(info.orderNo, id)){
