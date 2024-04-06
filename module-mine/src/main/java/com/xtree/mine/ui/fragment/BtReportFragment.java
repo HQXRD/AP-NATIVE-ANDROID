@@ -158,7 +158,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
                 binding2.tvwWin.setText(win); // --
                 binding2.tvwSum.setText(vo.sum); // color
                 for(FilterView.IBaseVo list : listType) {
-                    if(list.getShowId().equals(vo.p)){
+                    if(list.getShowId().equals(vo.p.toUpperCase())){
                         binding2.tvwGamePlat.setText(list.getShowName());
                     }
                 }
@@ -168,7 +168,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
 
                 binding2.tvwDetail.setOnClickListener(v -> {
                     CfLog.i("****** ");
-                    BtDetailDialog dialog = BtDetailDialog.newInstance(getActivity(), getViewLifecycleOwner(), vo.project_Game_code, vo.p, getPlatformName(vo.p));
+                    BtDetailDialog dialog = BtDetailDialog.newInstance(getActivity(), getViewLifecycleOwner(), vo.project_Game_code, vo.p.toUpperCase(), getPlatformName(vo.p.toUpperCase()));
                     new XPopup.Builder(getContext()).asCustom(dialog).show();
                 });
 
@@ -321,7 +321,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
 
     private String getPlatformName(String code) {
         for (FilterView.IBaseVo vo : listType) {
-            if (vo.getShowId().equals(code)) {
+            if (vo.getShowId().equals(code.toUpperCase())) {
                 return vo.getShowName();
             }
         }
