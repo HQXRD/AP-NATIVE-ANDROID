@@ -79,8 +79,6 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
     private BasePopupView pop = null;
 
     private final GameDividendAgrtHeadModel headModel = new GameDividendAgrtHeadModel(new GameDividendAgrtHeadModel.OnCallBack() {
-
-
         @Override
         public void sort(String title, ObservableField<StatusVo> sort, List<FilterView.IBaseVo> list) {
             showFilter(title, sort, list);

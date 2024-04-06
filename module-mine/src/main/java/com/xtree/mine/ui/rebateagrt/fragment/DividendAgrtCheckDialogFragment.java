@@ -37,6 +37,9 @@ public class DividendAgrtCheckDialogFragment extends BaseDialogFragment<DialogDi
     private DividendAgrtCheckDialogFragment() {
     }
 
+    //创建完成状态
+    public static final String CREATED = DividendAgrtCheckDialogFragment.class.getName() + "created";
+
     /**
      * 启动弹窗
      *
