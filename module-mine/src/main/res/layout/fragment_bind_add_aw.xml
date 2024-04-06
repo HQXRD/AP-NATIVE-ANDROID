@@ -76,7 +76,7 @@
             <TextView
                 android:id="@+id/tvw_tip_phone"
                 style="@style/style_cm_tip_small_purple"
-                tools:text="@string/txt_bind_phone_number" />
+                android:text="@string/txt_bind_phone_number" />
 
             <TextView
                 android:id="@+id/tv_nickname"

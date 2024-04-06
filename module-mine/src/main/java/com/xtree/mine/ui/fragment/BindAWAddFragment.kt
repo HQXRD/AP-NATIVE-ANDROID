@@ -16,6 +16,7 @@ import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.xtree.base.router.RouterFragmentPath
 import com.xtree.base.utils.CfLog
+import com.xtree.base.utils.ImageUploadUtil
 import com.xtree.base.utils.UuidUtil
 import com.xtree.base.vo.ProfileVo
 import com.xtree.base.widget.GlideEngine
@@ -27,6 +28,7 @@ import com.xtree.mine.ui.viewmodel.BindCardViewModel
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory
 import com.xtree.mine.vo.UserBankConfirmVo
 import me.xtree.mvvmhabit.base.BaseFragment
+import me.xtree.mvvmhabit.utils.ToastUtils
 import java.io.File
 
 /**
@@ -35,7 +37,8 @@ import java.io.File
 @Route(path = RouterFragmentPath.Mine.PAGER_BIND_AW_ADD)
 class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewModel>() {
     private val controller = "security"
-    private val action = "adduserbank"
+    private var action = ""
+    private var qrcodeType = 0
     private var tokenSign: String? = null
     private var mark: String? = null
     lateinit var mConfirmVo: UserBankConfirmVo
@@ -44,8 +47,8 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
     private var imageUri: Uri? = null
     override fun initView() {
         initArguments()
-        binding.llRoot.setOnClickListener { v: View? -> hideKeyBoard() }
-        binding.ivwBack.setOnClickListener { v: View? ->
+        binding.llRoot.setOnClickListener { hideKeyBoard() }
+        binding.ivwBack.setOnClickListener {
             if (binding.llAdd.visibility == View.GONE) {
                 binding.llAdd.visibility = View.VISIBLE
                 binding.llConfirm.visibility = View.GONE
@@ -53,11 +56,11 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                 requireActivity().finish()
             }
         }
-        binding.llRemittanceScreenshot.setOnClickListener { v: View? -> gotoSelectMedia() }
+        binding.llRemittanceScreenshot.setOnClickListener { gotoSelectMedia() }
 
-        //binding.ivwNext.setOnClickListener { v: View? -> doNext() }
-        binding.tvwSubmit.setOnClickListener { v: View? -> doSubmit() }
-        binding.tvwBack.setOnClickListener { v: View? ->
+        binding.ivwNext.setOnClickListener { doNext() }
+        binding.tvwSubmit.setOnClickListener { doSubmit() }
+        binding.tvwBack.setOnClickListener {
             if (binding.llAdd.visibility == View.GONE) {
                 binding.llAdd.visibility = View.VISIBLE
                 binding.llConfirm.visibility = View.GONE
@@ -74,25 +77,29 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                 getString(R.string.txt_bind_zfb_type) -> {
                     typeName = getString(R.string.txt_alipay)
                     binding.tvwTitle.text = getString(R.string.txt_bind_alipay)
-                    binding.tvName.text = "*" + getString(R.string.txt_alipay_name)
-                    binding.tvAccount.text = "*" + getString(R.string.txt_alipay_phone)
-                    binding.tvNickname.text = "*" + getString(R.string.txt_alipay_nickname)
+                    binding.tvName.text = "*".plus(getString(R.string.txt_alipay_name))
+                    binding.tvAccount.text = "*".plus(getString(R.string.txt_alipay_phone))
+                    binding.tvNickname.text = "*".plus(getString(R.string.txt_alipay_nickname))
                     binding.tvwName.text = getString(R.string.txt_alipay_name)
                     binding.tvwPhone.text = getString(R.string.txt_alipay_phone)
                     binding.tvwNickname.text = getString(R.string.txt_alipay_nickname)
                     binding.tvwCode.text = getString(R.string.txt_alipay_code)
+                    action = "adduseronepayzfb"
+                    qrcodeType = 2
                 }
 
                 getString(R.string.txt_bind_wechat_type) -> {
                     typeName = getString(R.string.txt_wechat)
                     binding.tvwTitle.text = getString(R.string.txt_bind_wechat)
-                    binding.tvName.text = "*" + getString(R.string.txt_wechat_name)
-                    binding.tvAccount.text = "*" + getString(R.string.txt_wechat_phone)
-                    binding.tvNickname.text = "*" + getString(R.string.txt_wechat_nickname)
+                    binding.tvName.text = "*".plus(getString(R.string.txt_wechat_name))
+                    binding.tvAccount.text = "*".plus(getString(R.string.txt_wechat_phone))
+                    binding.tvNickname.text = "*".plus(getString(R.string.txt_wechat_nickname))
                     binding.tvwName.text = getString(R.string.txt_wechat_name)
                     binding.tvwPhone.text = getString(R.string.txt_wechat_phone)
                     binding.tvwNickname.text = getString(R.string.txt_wechat_nickname)
                     binding.tvwCode.text = getString(R.string.txt_wechat_code)
+                    action = "adduseronepaywx"
+                    qrcodeType = 1
                 }
             }
             binding.etNickname.hint = getString(R.string.txt_input_nickname, typeName)
@@ -137,56 +144,51 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         binding.tvwNickname.text = mConfirmVo.nickname
     }
 
-    //private fun doNext() {
-    //    val name = binding.etName.text.toString().trim()
-    //    val phone = binding.etPhone.toString().trim()
-    //
-    //    val nickName = binding.etNickname.text.toString().trim()
-    //    if (name.isEmpty()) {
-    //        ToastUtils.showLong(R.string.txt_tip_name)
-    //        return
-    //    }
-    //    if (phone.isEmpty()) {
-    //        ToastUtils.showLong(R.string.txt_tip_phone)
-    //        return
-    //    }
-    //
-    //    if (nickName.isEmpty()) {
-    //        ToastUtils.showLong(R.string.txt_tip_nickname)
-    //        return
-    //    }
-    //
-    //    val queryMap = hashMapOf(
-    //        "controller" to controller,
-    //        "action" to action,
-    //        "client" to "m",
-    //        "mark" to mark,
-    //        "check" to tokenSign
-    //    )
-    //
-    //    val map = hashMapOf(
-    //        "flag" to "add",
-    //        "controller" to controller,
-    //        "action" to action,
-    //        // "oldid" to "",
-    //        "entrancetype" to "0",
-    //        "account" to account,  // "4500***1234"
-    //        "account_name" to accountName, // "姓名"
-    //        "bank" to "${mBankInfoVo?.bank_id}#${mBankInfoVo?.bank_name}", // "111#上海银行",
-    //        "bank_id" to mBankInfoVo?.bank_id, // "111",
-    //        "bank_name" to mBankInfoVo?.bank_name, // "上海银行",
-    //        "province" to "${mProvince?.id}#${mProvince?.name}", // "22#云南",
-    //        "province_id" to mProvince?.id, // "22",
-    //        "province_name" to mProvince?.name, // "云南",
-    //        "city" to "${mCity?.id}#${mCity?.name}", // "23#丽江",
-    //        "city_id" to mCity?.id, // "23",
-    //        "city_name" to mCity?.name, // "丽江",
-    //        "branch" to branch, // "丽江支行",
-    //        // "submit" to "下一步", // "下一步",
-    //        "nonce" to UuidUtil.getID16()
-    //    )
-    //    viewModel.doBindCardByCheck(queryMap, map)
-    //}
+    private fun doNext() {
+        val name = binding.etName.text.toString().trim()
+        val phone = binding.etPhone.toString().trim()
+        val nickName = binding.etNickname.text.toString().trim()
+
+        if (name.isEmpty()) {
+            ToastUtils.showLong(R.string.txt_tip_name, ToastUtils.ShowType.Fail)
+            return
+        }
+        if (phone.isEmpty()) {
+            ToastUtils.showLong(R.string.txt_tip_phone, ToastUtils.ShowType.Fail)
+            return
+        }
+        if (nickName.isEmpty()) {
+            ToastUtils.showLong(R.string.txt_tip_nickname, ToastUtils.ShowType.Fail)
+            return
+        }
+        if (!imageSelector) {
+            ToastUtils.showLong(R.string.txt_tip_code, ToastUtils.ShowType.Fail)
+            return
+        }
+
+        val queryMap = hashMapOf(
+            "controller" to controller,
+            "action" to action,
+            "client" to "m"
+        )
+
+        val map = hashMapOf(
+            "check" to tokenSign,
+            "entrancetype" to "0",
+            "filetype" to "image/png",
+            "filedata" to ImageUploadUtil.bitmapToString(imageRealPathString),
+            "flag" to "add",
+            "mark" to mark,
+            "nickname" to nickName,
+            "nonce" to UuidUtil.getID16(),
+            "qrcode_type" to qrcodeType,
+            "submit" to "sumbit",
+            "type" to "m5",
+            "wxzfb_id" to phone,
+            "wxzfb_username" to name,
+        )
+        viewModel.doBindCardByCheck(queryMap, map)
+    }
 
     /**
      * 图片选择
@@ -198,7 +200,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
             .setImageEngine(GlideEngine.createGlideEngine())
             .setCompressEngine(ImageFileCompressEngine.create())
             .forResult(object : OnResultCallbackListener<LocalMedia> {
-                override fun onResult(result: ArrayList<LocalMedia>) {
+                override fun onResult(result: ArrayList<LocalMedia>?) {
                     if (result != null) {
                         for (i in result.indices) {
                             imageRealPathString = result[i].compressPath

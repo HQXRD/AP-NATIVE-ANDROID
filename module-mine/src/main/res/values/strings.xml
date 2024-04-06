@@ -386,5 +386,6 @@
     <string name="txt_tip_name">请输入姓名</string>
     <string name="txt_tip_phone">请输入手机号码</string>
     <string name="txt_tip_nickname">请输入昵称</string>
+    <string name="txt_tip_code">请添加%s收款码</string>
 
 </resources>
