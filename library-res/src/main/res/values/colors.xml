@@ -319,6 +319,8 @@
     <color name="clr_txt_grey_04">#9F9F9F</color>
     <color name="clr_txt_grey_05">#808080</color>
     <color name="clr_txt_grey_07">#767677</color>
+    <color name="clr_txt_grey_09">#5B5B6A</color>
+
     <color name="clr_grey_03">#E9E9E9</color>
     <color name="clr_grey_05">#D1D1D1</color>
     <color name="clr_grey_07">#F7F7F7</color>
@@ -358,8 +360,8 @@
     <color name="clr_login_txt_01">@color/clr_main</color>
 
     <!-- 按钮背景 灰色 -->
-    <color name="clr_btn_grey01">#F5EDE7</color>
-    <color name="clr_btn_grey02">#F5EDE7</color>
+    <color name="clr_btn_grey01">#F2F3F7</color>
+    <color name="clr_btn_grey02">#F2F3F7</color>
 
     <color name="clr_orange_01">#FF804B</color>
     <color name="clr_orange_02">#FF8A00</color>
