@@ -17,6 +17,8 @@ public class PaymentTypeVo implements Parcelable {
     public String dispay_title; // "极速充值",
     public String selected_image; // "/uploads/bankimg/1711349643_4358.png",
     public String un_selected_image; // "/uploads/bankimg/1711349643.png",
+    public String channel_tips; // "提示",
+
     public List<String> deChannelArr; // ["176","203","231","232"],
     public List<RechargeVo> payChannelList;
 
@@ -29,6 +31,7 @@ public class PaymentTypeVo implements Parcelable {
                 ", dispay_title='" + dispay_title + '\'' +
                 ", selected_image='" + selected_image + '\'' +
                 ", un_selected_image='" + un_selected_image + '\'' +
+                ", channel_tips='" + channel_tips + '\'' +
                 ", deChannelArr=" + deChannelArr +
                 '}';
     }
@@ -43,6 +46,7 @@ public class PaymentTypeVo implements Parcelable {
                 ", dispay_title='" + dispay_title + '\'' +
                 ", selected_image='" + selected_image + '\'' +
                 ", un_selected_image='" + un_selected_image + '\'' +
+                ", channel_tips='" + channel_tips + '\'' +
                 ", deChannelArr=" + deChannelArr +
                 ", payChannelList=" + payChannelList +
                 '}';
@@ -56,6 +60,7 @@ public class PaymentTypeVo implements Parcelable {
         dispay_title = in.readString();
         selected_image = in.readString();
         un_selected_image = in.readString();
+        channel_tips = in.readString();
         deChannelArr = in.createStringArrayList();
     }
 
@@ -68,6 +73,7 @@ public class PaymentTypeVo implements Parcelable {
         dest.writeString(dispay_title);
         dest.writeString(selected_image);
         dest.writeString(un_selected_image);
+        dest.writeString(channel_tips);
         dest.writeStringList(deChannelArr);
     }
 
