@@ -21,7 +21,7 @@
             android:layout_height="120dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/shape_gradient_clrmainstart_clrmainend_corner_12">
+            android:background="@drawable/shape_gradient_main_c12">
 
             <TextView
                 android:id="@+id/head_title"
@@ -64,7 +64,7 @@
                 android:textSize="12sp"
                 android:textColor="@color/clr_white"
                 android:gravity="center"
-                android:background="@drawable/shape_clrmain31_corners5"
+                android:background="@drawable/shape_main31_c05"
                 android:onClick="@{() -> m.myAgrt()}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -264,7 +264,7 @@
                     android:layout_marginEnd="32dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:background="@drawable/shape_gradient_clrmainstart_clrmainend_corner_10"
+                    android:background="@drawable/shape_gradient_main_c10"
                     android:text="@string/txt_search"
                     android:textSize="16sp"
                     android:textColor="@color/clr_white"

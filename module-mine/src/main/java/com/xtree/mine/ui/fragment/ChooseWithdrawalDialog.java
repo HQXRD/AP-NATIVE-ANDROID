@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.lxj.xpopup.XPopup;
@@ -53,6 +54,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
         /*网络异常关闭Dialog*/
         void closeDialogByError();
+        void closeDialogByBind();
     }
 
     private String checkCode;
@@ -69,6 +71,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     private BasePopupView loadingView = null;
 
     private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
+    private FragmentActivity mActivity ;
 
     @Override
     protected int getImplLayoutId() {
@@ -94,7 +97,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         return dialog;
     }
 
-    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose, final String checkCode) {
+    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose, final String checkCode , final FragmentActivity mActivity ) {
         ChooseWithdrawalDialog dialog = new ChooseWithdrawalDialog(context);
 
         dialog.context = context;
@@ -102,7 +105,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         dialog.callBack = callBack;
         dialog.bankWithdrawalClose = bankWithdrawalClose;
         dialog.checkCode = checkCode;
-
+        dialog.mActivity = mActivity ;
         return dialog;
     }
 
@@ -208,7 +211,20 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
                     ChooseInfoVo.ChannelInfo channel = channelInfo;
                     CfLog.i("ChooseAdapter channel = " + channel.toString());
-                    if (channel.channeluse == 0)//显示弹窗
+                    if (channel.isBind ==false ){
+                        if (!TextUtils.isEmpty(channel.channeluseMessage)){
+                            showErrorDialog(channel.channeluseMessage);
+                        } else if (TextUtils.isEmpty(channel.channeluseMessage)) {
+                            showBindDialog(channel , channel.channeluseMessage);
+                        }
+                    } else if (channel.isBind && TextUtils.isEmpty(channel.channeluseMessage)) {
+                        if (TextUtils.equals("银行卡提款", txt)){
+                            showBankWithdrawalDialog(channelInfo, checkCode);
+                        }else {
+                            showUSDTWithdrawalDialog(channelInfo, checkCode);
+                        }
+                    }
+                  /*  if (channel.channeluse == 0)//显示弹窗
                     {
 
                         if (TextUtils.equals("bindcard", channel.bindType) && (channel.flag == false)) {
@@ -233,7 +249,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                             //未绑定银行卡 显示绑定银行卡
                             toBindCard();
                         }
-                    }
+                    }*/
                 }
 
             });
@@ -248,10 +264,17 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 intent.putExtra(BrowserActivity.ARG_URL, DomainUtil.getDomain2() + "/static/usdt-description/as/usdt_m.html");
                 getContext().startActivity(intent);
             });
+            String tip = "";
+            if (!chooseInfoVo.bankcardstatus_usdt  && !chooseInfoVo.bankcardstatus_ebpay){
+                tip =
+                        String.format(getContext().getString(R.string.txt_choose_withdrawal_nobind_tip),
+                                StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))));
+            }else {
+                tip =
+                        String.format(getContext().getString(R.string.txt_choose_withdrawal_tip),
+                                StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))), chooseInfoVo.usdtInfo.quota);
+            }
 
-            String tip =
-                    String.format(getContext().getString(R.string.txt_choose_withdrawal_tip),
-                            StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))), chooseInfoVo.usdtInfo.quota);
             binding.tvChooseTip.setVisibility(View.VISIBLE);
             binding.tvChooseTip.setText(tip);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -399,7 +422,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         customPopWindow.show();
     }
 
-    private void showMessageDialog(ChooseInfoVo.ChannelInfo channelInfo, String showMessage) {
+    /**显示绑卡*/
+    private void showBindDialog(ChooseInfoVo.ChannelInfo channelInfo, String showMessage) {
         String errorMessage = "请先绑" + channelInfo.configkey.toUpperCase() + "后才可提款";
         customPopWindow = new XPopup.Builder(getContext())
                 .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), errorMessage, false, new MsgDialog.ICallBack() {
@@ -411,16 +435,17 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     @Override
                     public void onClickRight() {
                         //跳转绑定流程
-                        /*Bundle bundle = new Bundle();
+                        //跳转绑定流程
+                        Bundle bundle = new Bundle();
                         bundle.putString("type", channelInfo.bindType);
 
                         String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
                         Intent intent = new Intent(getContext(), ContainerActivity.class);
                         intent.putExtra(ContainerActivity.ROUTER_PATH, path);
                         intent.putExtra(ContainerActivity.BUNDLE, bundle);
-                        getContext().startActivity(intent);
-                        dismiss();*/
+                        mActivity.startActivity(intent);
                         customPopWindow.dismiss();
+                        callBack.closeDialogByBind();
                     }
                 }));
         customPopWindow.show();

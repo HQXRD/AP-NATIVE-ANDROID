@@ -22,7 +22,7 @@
             android:layout_height="120dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/shape_gradient_clrmainstart_clrmainend_corner_12">
+            android:background="@drawable/shape_gradient_main_c12">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -215,7 +215,7 @@
                     android:layout_marginEnd="32dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"
-                    android:background="@drawable/shape_gradient_clrmainstart_clrmainend_corner_10"
+                    android:background="@drawable/shape_gradient_main_c10"
                     android:text="查询"
                     android:textSize="16dp"
                     android:textColor="@color/clr_white"

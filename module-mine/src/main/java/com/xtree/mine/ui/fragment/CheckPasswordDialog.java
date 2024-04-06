@@ -1,19 +1,16 @@
 package com.xtree.mine.ui.fragment;
 
 import android.app.Application;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
@@ -26,50 +23,21 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.VerifyVo;
 
 import java.util.HashMap;
-import java.util.Objects;
 
-import me.xtree.mvvmhabit.base.BaseDialogFragment;
-import me.xtree.mvvmhabit.utils.ConvertUtils;
+import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
-public class CheckPasswordDialog extends BaseDialogFragment<DialogTransferMemberBinding, MineViewModel> {
-    String type;
-    boolean isCallback;
-    ICallBack mCallBack;
+@Route(path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE)
+public class CheckPasswordDialog extends BaseFragment<DialogTransferMemberBinding, MineViewModel> {
+    private static final String ARG_TYPE = "type";
+    private static final String ARG_PAGE = "page";
+    private static final String ARG_VERIFY = "verify";
+    String type = "";
+    String page = "";
+    String verify = "";
     MineViewModel mineViewModel;
     VerifyViewModel verifyViewModel;
-
-    public interface ICallBack {
-        void checkPassword(String checkCode);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Window window = Objects.requireNonNull(getDialog()).getWindow();
-        WindowManager.LayoutParams params = Objects.requireNonNull(window).getAttributes();
-        //设置显示在底部
-        params.gravity = Gravity.BOTTOM;
-        params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        params.height = ConvertUtils.dp2px(300);
-        window.setAttributes(params);
-        View decorView = window.getDecorView();
-        decorView.setBackground(new ColorDrawable(Color.TRANSPARENT));
-    }
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    public static CheckPasswordDialog getInstance(String type, boolean isCallback, ICallBack mCallBack) {
-        CheckPasswordDialog checkPasswordDialog = new CheckPasswordDialog();
-        checkPasswordDialog.type = type;
-        checkPasswordDialog.mCallBack = mCallBack;
-        checkPasswordDialog.isCallback = isCallback;
-        return checkPasswordDialog;
-    }
 
     @Override
     public void initData() {
@@ -77,6 +45,11 @@ public class CheckPasswordDialog extends BaseDialogFragment<DialogTransferMember
         binding.setVariable(BR.model, viewModel);
         verifyViewModel = new VerifyViewModel((Application) Utils.getContext(), Injection.provideHomeRepository());
         mineViewModel = new MineViewModel((Application) Utils.getContext(), Injection.provideHomeRepository());
+        if (getArguments() != null) {
+            type = getArguments().getString(ARG_TYPE, "");
+            page = getArguments().getString(ARG_PAGE, "");
+            verify = getArguments().getString(ARG_VERIFY, "");
+        }
     }
 
     @Override
@@ -84,6 +57,11 @@ public class CheckPasswordDialog extends BaseDialogFragment<DialogTransferMember
         binding.ivwClose.setOnClickListener(v -> close());
         binding.btnCancel.setOnClickListener(v -> close());
         binding.btnConfirm.setOnClickListener(v -> checkPassword());
+    }
+
+    @Override
+    public int initVariableId() {
+        return BR.viewModel;
     }
 
     @Override
@@ -95,25 +73,35 @@ public class CheckPasswordDialog extends BaseDialogFragment<DialogTransferMember
     @Override
     public void initViewObservable() {
         mineViewModel.liveDataCheckPassword.observe(this, vo -> {
-            if (isCallback) {
-                if (!vo.isEmpty()) {
-                    mCallBack.checkPassword(vo);
-                    close();
-                } else {
-                    ToastUtils.showLong(vo);
-                }
-            } else {
-                if (!vo.isEmpty()) {
+            if (!vo.isEmpty()) {
+                if (page.isEmpty()) {
                     VerifyVo verifyVo = new VerifyVo();
                     verifyVo.tokenSign = vo;
                     verifyVo.mark = type;
                     verifyViewModel.goOthers(getActivity(), type, verifyVo);
                     close();
                 } else {
-                    ToastUtils.showLong(vo);
+                    Bundle bundle = getArguments();
+                    bundle.putString("verify", vo);
+                    startContainerFragment(page, bundle);
+                    close();
                 }
+            } else {
+                ToastUtils.showLong(vo);
             }
         });
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (page.equals("pass")) {
+            VerifyVo verifyVo = new VerifyVo();
+            verifyVo.tokenSign = verify;
+            verifyVo.mark = type;
+            intoBindCard(verifyVo);
+        }
     }
 
     @Override
@@ -136,6 +124,10 @@ public class CheckPasswordDialog extends BaseDialogFragment<DialogTransferMember
     }
 
     private void close() {
-        dismiss();
+        getActivity().finish();
+    }
+
+    public void intoBindCard(VerifyVo vo) {
+        verifyViewModel.goOthers(getActivity(), type, vo);
     }
 }

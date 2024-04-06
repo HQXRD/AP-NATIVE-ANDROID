@@ -129,7 +129,7 @@ public class ChooseInfoVo {
      */
     public static class ChannelInfo {
         public String bindType;// 绑定type 向绑定页面传值
-
+        public  boolean isBind ;//是否绑定标志位 true:绑定； false:未绑定
         public int channeluse;//支付渠道可否跳转状态 1可以跳转下一个页面； 0：不可跳转下一个页面
         public String channeluseMessage = "";//支付渠道不可跳转下一个页面弹出的消息
         /*"id":"3",
