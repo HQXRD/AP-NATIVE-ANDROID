@@ -166,10 +166,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         });
         binding.tvwTutorial.setOnClickListener(v -> {
             // 充值教程
-            if (!TextUtils.isEmpty(tutorialUrl)) {
-                String title = getString(R.string.txt_recharge_tutorial);
-                new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, tutorialUrl)).show();
-            }
+            //if (!TextUtils.isEmpty(tutorialUrl)) {
+            String title = getString(R.string.txt_recharge_tutorial);
+            String url = DomainUtil.getDomain2() + Constant.URL_RC_CNYT_TUTORIAL;
+            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+            //}
         });
         binding.tvwAntiFraud.setOnClickListener(v -> {
             // 防骗教程
@@ -1011,7 +1012,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i("****** 弹窗: " + msg);
         if (!mRecommendList.isEmpty()) {
             // 弹窗
-            BasePopupView dialog = new RechargeRecommendDialog(getContext(), msg, tutorialUrl, mRecommendList, vo, curVo -> {
+            String url = DomainUtil.getDomain2() + Constant.URL_RC_CNYT_TUTORIAL; // 不用 tutorialUrl
+            BasePopupView dialog = new RechargeRecommendDialog(getContext(), msg, url, mRecommendList, vo, curVo -> {
                 CfLog.i("****** ");
                 //onClickPayment(curVo);
 
