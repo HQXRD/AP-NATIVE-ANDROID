@@ -220,10 +220,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         });
         binding.tvwTutorial.setOnClickListener(v -> {
             // 充值教程
-            if (!TextUtils.isEmpty(tutorialUrl)) {
-                String title = getString(R.string.txt_recharge_tutorial);
-                new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, tutorialUrl)).show();
-            }
+            //if (!TextUtils.isEmpty(tutorialUrl)) {
+            //    String title = getString(R.string.txt_recharge_tutorial);
+            //    new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, tutorialUrl)).show();
+            //}
+            showWebDialog(getString(R.string.txt_recharge_tutorial), Constant.URL_RC_CNYT_TUTORIAL);
         });
         binding.tvwAntiFraud.setOnClickListener(v -> {
             // 防骗教程
@@ -310,7 +311,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             goNext();
         });
 
-        setTipBottom(new RechargeVo()); // 设置底部的文字提示
+        setTipBottom(null); // 设置底部的文字提示
 
         binding.bnrTop.setIndicator(new CircleIndicator(getContext())); // 增加小圆点
         binding.bnrTop.setAdapter(new BannerImageAdapter<BannersVo>(new ArrayList<>()) {
@@ -388,6 +389,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         Glide.with(getContext()).load(url).placeholder(R.mipmap.rc_ic_pmt_happy).into(binding.ivwCurPmt);
         mChannelAdapter.clear();
         mChannelAdapter.addAll(vo.payChannelList);
+        setTipBottom(vo); // 设置底部的文字提示
 
         // 如果只有一个渠道时，隐藏掉，并触发点击事件
         if (vo.payChannelList.size() == 1) {
@@ -424,7 +426,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //binding.ivwCurPmt.setImageDrawable(dr);
         binding.tvwBankCard.setText("");
         binding.llDown.setVisibility(View.GONE); // 默认隐藏
-        setTipBottom(vo); // 设置底部的文字提示
+        //setTipBottom(vo); // 设置底部的文字提示
         setStepBottom(); // 底部的操作步骤 (CNYT和USDT要用)
 
         //if (vo.op_thiriframe_use && vo.phone_needbind && vo.view_bank_card && vo.userBankList.isEmpty()) {
@@ -813,7 +815,25 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     }
 
-    private void setTipBottom(RechargeVo vo) {
+    private void setTipBottom(PaymentTypeVo vo) {
+        String title = getString(R.string.txt_kind_tips) + "：\n"; // 温馨提示：
+        if (vo == null || TextUtils.isEmpty(vo.channel_tips)) {
+            String txt = getString(R.string.txt_bank_card);
+            txt = getString(R.string.txt_rc_tip_yhk_1, txt) + "\n";
+            String txt2 = getString(R.string.txt_rc_tip_yhk_2a, " ") + "\n";
+            binding.tvwTipBottom.setText(title + txt + txt2);
+            return;
+        }
+
+        String html = getString(R.string.txt_kind_tips) + "："; // 温馨提示：
+        html += "\n" + vo.channel_tips;
+        html = html.replace("\r", "\n").replace("\n\n", "<BR>").replace("\n", "<BR>");
+
+        //binding.tvwTipBottom.setText(html);
+        binding.tvwTipBottom.setText(HtmlCompat.fromHtml(html, HtmlCompat.FROM_HTML_MODE_LEGACY));
+    }
+
+    private void setTipBottom2(RechargeVo vo) {
 
         binding.tvwTipSameAmount.setVisibility(View.VISIBLE); // 默认显示
         binding.tvwTipChannel.setVisibility(View.GONE); // 默认隐藏
@@ -936,7 +956,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             setRecommendList(); // 推荐的充值列表
             setMainList(vo.chongzhiList); // 显示充值列表九宫格
             showProcessDialog(vo.processingData); // 检查弹窗 充值次数
-            setTipBottom(new RechargeVo()); // 恢复底部的默认提示
+            setTipBottom(null); // 恢复底部的默认提示
             setHiWallet(vo); // 显示/隐藏底部的 下载嗨钱包
         });
         //viewModel.liveDataRechargeList.observe(getViewLifecycleOwner(), list -> {
@@ -953,6 +973,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             CfLog.d(vo.toString());
             //mapRechargeVo.put(vo.bid, vo);
             //SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
+            if (TextUtils.isEmpty(vo.op_thiriframe_url)) {
+                ToastUtils.showError(vo.op_thiriframe_msg);
+                return;
+            }
             String url = vo.op_thiriframe_url;
             if (!url.startsWith("http")) {
                 url = DomainUtil.getDomain2() + url;
@@ -1028,9 +1052,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             goPayWeb(vo);
         } else if (vo.isbank) {
             goPayBank(vo); // UC聚合支付,不能跳转
-        } else if (vo.isusdt) {
+        } else if (vo.isusdt && !TextUtils.isEmpty(vo.qrcodeurl)) {
             goPayUsdt(vo); // TRC20快付,不能跳转
         } else {
+            CfLog.i("****** default...");
             goPayWeb(vo);
         }
     }
@@ -1124,7 +1149,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     //        }
     //    }
     //}
-
     private void setRecommendList() {
         if (mPaymentDataVo != null && !mPaymentDataVo.chongzhiList.isEmpty()) {
             mRecommendList.clear();
