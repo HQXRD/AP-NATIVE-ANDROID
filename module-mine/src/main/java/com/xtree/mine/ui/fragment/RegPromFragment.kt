@@ -109,7 +109,7 @@ class RegPromFragment : BaseFragment<FragmentPromLinksBinding, MineViewModel>(),
 
     override fun initViewObservable() {
         viewModel.liveDataMarketing.observe(this) {
-            if (it.links.isNotEmpty()) {
+            if (it.links.isNotEmpty() && it.domainList.isNotEmpty()) {
                 val linkList = ArrayList<String>()
                 for (i in it.domainList) {
                     linkList.add(i + it.links[0].domain)
