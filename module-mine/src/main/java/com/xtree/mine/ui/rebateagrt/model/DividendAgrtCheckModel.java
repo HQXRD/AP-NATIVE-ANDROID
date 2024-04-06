@@ -3,6 +3,7 @@ package com.xtree.mine.ui.rebateagrt.model;
 import androidx.databinding.ObservableField;
 
 import com.xtree.base.mvvm.recyclerview.BindModel;
+import com.xtree.base.utils.ClickUtil;
 
 import io.reactivex.functions.Consumer;
 
@@ -31,6 +32,9 @@ public class DividendAgrtCheckModel extends BindModel {
     }
 
     public void selectRatio() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (selectRatioCallBack != null) {
             try {
                 selectRatioCallBack.accept(this);

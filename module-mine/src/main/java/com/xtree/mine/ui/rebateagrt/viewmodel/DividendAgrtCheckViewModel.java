@@ -14,10 +14,12 @@ import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.widget.FilterView;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.ui.rebateagrt.fragment.DividendAgrtCheckDialogFragment;
 import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckEvent;
 import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckFoot;
 import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckModel;
@@ -39,6 +41,7 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -87,6 +90,9 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                 deleteView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (ClickUtil.isFastClick()) {
+                            return;
+                        }
 
                         if (bindingViewHolder.getAdapter().getModelCount() <= 1) {
                             ToastUtils.show(getApplication()
@@ -193,6 +199,9 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
      * 添加一条规则
      */
     private void addModel() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         DividendAgrtCheckModel model = new DividendAgrtCheckModel();
         model.editMode.set(true);
         model.setSelectRatioCallBack(selectRatioConsumer);
@@ -272,6 +281,9 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
      * 创建契约
      */
     public void create() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
 
         DividendAgrtCreateRequest request = new DividendAgrtCreateRequest();
 
@@ -332,6 +344,8 @@ public class DividendAgrtCheckViewModel extends BaseViewModel<MineRepository> im
                                 //创建成功
                                 ToastUtils.show(response.getSMsg(), ToastUtils.ShowType.Success);
                                 finish();
+                                //发送完成消息
+                                RxBus.getDefault().post(DividendAgrtCheckDialogFragment.CREATED);
                             }
                         }
                     }
