@@ -18,9 +18,9 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.DialogDividendagrtCheckBinding;
+import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckEvent;
 import com.xtree.mine.ui.rebateagrt.viewmodel.DividendAgrtCheckViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
 
 import java.util.Objects;
 
@@ -43,7 +43,7 @@ public class DividendAgrtCheckDialogFragment extends BaseDialogFragment<DialogDi
      * @param activity 获取FragmentManager
      * @param model    入参
      */
-    public static void show(FragmentActivity activity, DividendAgrtCheckRequest model) {
+    public static void show(FragmentActivity activity, DividendAgrtCheckEvent model) {
         RxBus.getDefault().postSticky(model);
         DividendAgrtCheckDialogFragment fragment = new DividendAgrtCheckDialogFragment();
         fragment.show(activity.getSupportFragmentManager(), DividendAgrtCheckDialogFragment.class.getName());
@@ -68,7 +68,7 @@ public class DividendAgrtCheckDialogFragment extends BaseDialogFragment<DialogDi
     public void initData() {
         super.initData();
         binding.setVariable(BR.model, viewModel);
-        DividendAgrtCheckRequest stickyEvent = RxBus.getDefault().getStickyEvent(DividendAgrtCheckRequest.class);
+        DividendAgrtCheckEvent stickyEvent = RxBus.getDefault().getStickyEvent(DividendAgrtCheckEvent.class);
         if (stickyEvent != null) {
             viewModel.setActivity(getActivity());
             viewModel.initData(stickyEvent);

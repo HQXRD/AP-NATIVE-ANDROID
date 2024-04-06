@@ -28,23 +28,47 @@ public class GameDividendAgrtModel extends BindModel {
     private String payStatuText = BaseApplication.getInstance().getString(R.string.txt_noagrement);
     private int payStatuColor = R.color.color_rebateagrt_state_bg_nodividend;
     private String userid = "";
-    private Consumer<GameDividendAgrtModel> callBack = null;
+    private String checkName = "";
 
-    public void setCallBack(Consumer<GameDividendAgrtModel> callBack) {
-        this.callBack = callBack;
+    private Consumer<GameDividendAgrtModel> createDeedCallBack = null;
+    private Consumer<GameDividendAgrtModel> checkDeedCallBack = null;
+
+    public void setCheckDeedCallBack(Consumer<GameDividendAgrtModel> callBack) {
+        this.checkDeedCallBack = callBack;
+    }
+
+    public void setCreateDeedCallBack(Consumer<GameDividendAgrtModel> createDeedCallBack) {
+        this.createDeedCallBack = createDeedCallBack;
     }
 
     /**
      * 查看契约
      */
     public void checkArgt() {
-        if (callBack != null) {
-            try {
-                callBack.accept(this);
-            } catch (Throwable e) {
-                throw new RuntimeException(e);
-            }
+        switch (payStatu) {
+            case "1": //未结清:
+            case "2": //已结清
+            case "3": //无分红
+            case "4": //分红取消
+                if (checkDeedCallBack != null) {
+                    try {
+                        checkDeedCallBack.accept(this);
+                    } catch (Throwable e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                break;
+            default:
+                if (createDeedCallBack != null) {
+                    try {
+                        createDeedCallBack.accept(this);
+                    } catch (Throwable e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                break;
         }
+
     }
 
     public String getPayStatu() {
@@ -56,18 +80,30 @@ public class GameDividendAgrtModel extends BindModel {
         switch (payStatu) {
             case "1": //未结清:
                 payStatuColor = R.color.color_rebateagrt_state_bg_unsettled;
+                checkName = BaseApplication.getInstance().getString(R.string.txt_view_deed);
                 break;
             case "2": //已结清
                 payStatuColor = R.color.color_rebateagrt_state_bg_settled;
+                checkName = BaseApplication.getInstance().getString(R.string.txt_view_deed);
+                break;
+            case "3": //无分红
+            case "4": //分红取消
+                payStatuColor = R.color.color_rebateagrt_state_bg_nodividend;
+                checkName = BaseApplication.getInstance().getString(R.string.txt_view_deed);
                 break;
             default:
-                payStatuColor = R.color.color_rebateagrt_state_bg_nodividend;
+                payStatuColor = R.color.bg_main;
+                checkName = BaseApplication.getInstance().getString(R.string.txt_create_deed);
                 break;
         }
     }
 
     public int getPayStatuColor() {
         return BaseApplication.getInstance().getResources().getColor(payStatuColor);
+    }
+
+    public String getCheckName() {
+        return checkName;
     }
 
     public String getUserName() {

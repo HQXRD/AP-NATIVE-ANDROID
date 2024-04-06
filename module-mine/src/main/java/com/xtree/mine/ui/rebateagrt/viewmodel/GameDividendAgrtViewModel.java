@@ -27,13 +27,13 @@ import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.ui.rebateagrt.fragment.DividendAgrtCheckDialogFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.DividendAgrtSendDialogFragment;
+import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckEvent;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtModel;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtSubModel;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtTotalModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum;
 import com.xtree.mine.vo.StatusVo;
-import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
 import com.xtree.mine.vo.request.DividendAutoSendRequest;
 import com.xtree.mine.vo.request.DividendAutoSentQuery;
 import com.xtree.mine.vo.request.GameDividendAgrtRequest;
@@ -103,10 +103,10 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
 
         @Override
         public void myAgrt() {
-            DividendAgrtCheckRequest dividendAgrtCheckRequest = new DividendAgrtCheckRequest();
-            dividendAgrtCheckRequest.setUserid(SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
-            dividendAgrtCheckRequest.setType(headModel.type);
-            startCheckAgrt(dividendAgrtCheckRequest);
+            DividendAgrtCheckEvent event = new DividendAgrtCheckEvent();
+            event.setUserid(SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
+            event.setType(headModel.type);
+            startCheckAgrt(event);
         }
     });
 
@@ -191,11 +191,10 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
 
     /**
      * 跳转契约详情
-     *
-     * @param dividendAgrtCheckRequest 请求参数
+     * @param event 请求参数
      */
-    private void startCheckAgrt(DividendAgrtCheckRequest dividendAgrtCheckRequest) {
-        DividendAgrtCheckDialogFragment.show(mActivity.get(), dividendAgrtCheckRequest);
+    private void startCheckAgrt(DividendAgrtCheckEvent event) {
+        DividendAgrtCheckDialogFragment.show(mActivity.get(), event);
     }
 
     private synchronized void getDividendData() {
@@ -320,11 +319,21 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                                 gameDividendAgrtModel.setPayStatuText(entry.getValue());
                                             }
                                         }
-                                        gameDividendAgrtModel.setCallBack(v -> {
-                                            DividendAgrtCheckRequest dividendAgrtCheckRequest = new DividendAgrtCheckRequest();
-                                            dividendAgrtCheckRequest.setUserid(v.getUserid());
-                                            dividendAgrtCheckRequest.setType(headModel.type);
-                                            startCheckAgrt(dividendAgrtCheckRequest);
+                                        gameDividendAgrtModel.setCheckDeedCallBack(v -> {
+                                            DividendAgrtCheckEvent event = new DividendAgrtCheckEvent();
+                                            event.setUserid(v.getUserid());
+                                            event.setUserName(v.getUserName());
+                                            event.setType(headModel.type);
+                                            startCheckAgrt(event);
+                                        });
+                                        gameDividendAgrtModel.setCreateDeedCallBack(v -> {
+                                            DividendAgrtCheckEvent event = new DividendAgrtCheckEvent();
+                                            event.setMode(1);
+                                            event.setUserid(v.getUserid());
+                                            event.setUserName(v.getUserName());
+                                            event.setType(headModel.type);
+                                            event.setRules(vo.getSetRules());
+                                            startCheckAgrt(event);
                                         });
                                         bindModels.add(gameDividendAgrtModel);
                                     }
@@ -424,6 +433,13 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
     @Override
     public MutableLiveData<String> getTitle() {
         return titleData;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //更新数据
+        headModel.check();
     }
 
     @Override

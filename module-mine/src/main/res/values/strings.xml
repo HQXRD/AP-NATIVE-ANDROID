@@ -426,6 +426,7 @@
     <string name="txt_mine_agrt">我的契约</string>
     <string name="txt_mine_dividend">本人分红</string>
     <string name="txt_view_deed">查看契约</string>
+    <string name="txt_create_deed">创建契约</string>
     <string name="txt_dividend_ratio">分红比例</string>
     <string name="txt_num_active_persons">活跃人数</string>
     <string name="txt_dividend_due">应发分红</string>
