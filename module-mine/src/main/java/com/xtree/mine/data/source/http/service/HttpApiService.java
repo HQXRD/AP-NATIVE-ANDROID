@@ -216,8 +216,8 @@ public interface HttpApiService {
      * 获取用户已绑定的支付宝/微信列表
      * /user/{path}?check=***&mark=bindcard&client=m
      */
-    @GET("/user/{path}?")
-    Flowable<UserBindBaseVo<AWVo>> getAWList(@Path("path") String path , @QueryMap Map<String, String> map);
+    @GET("/user/?controller=user")
+    Flowable<UserBindBaseVo<AWVo>> getAWList(@QueryMap Map<String, String> map);
 
     /**
      * 获取银行列表/省列表

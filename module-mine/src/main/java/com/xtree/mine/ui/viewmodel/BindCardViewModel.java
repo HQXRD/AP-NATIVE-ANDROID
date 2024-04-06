@@ -70,19 +70,8 @@ public class BindCardViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
-    public void getAWList(HashMap map, String type) {
-        String path = "";
-        switch (type) {
-            case "aplipay": {
-                path = "UserOnepayZfbInfo";
-                break;
-            }
-            case "wechat": {
-                path = "UserOnepayWxInfo";
-                break;
-            }
-        }
-        Disposable disposable = (Disposable) model.getApiService().getAWList(path, map)
+    public void getAWList(HashMap map) {
+        Disposable disposable = (Disposable) model.getApiService().getAWList(map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<UserBindBaseVo<AWVo>>() {

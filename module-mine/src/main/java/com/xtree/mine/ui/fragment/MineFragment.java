@@ -185,17 +185,16 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
         });
         binding.tvwZhanghuShezhi.setOnClickListener(v -> {
-            //Bundle bundle = new Bundle();
-            //bundle.putString("type", "alipay");
-            //bundle.putString("mark", "bindcardzfb");
-            //bundle.putString("tokenSign", "e0512fc801fe8307468dccd053f58345");
-            //Intent intent = new Intent(requireContext(), ContainerActivity.class);
-            //intent.putExtra(ContainerActivity.BUNDLE, bundle);
-            //intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_BIND_ALIPAY_WECHAT);
-            //
-            //startActivity(intent);
-            // 账户管理
-            showAccountMgmt();
+            Bundle bundle = new Bundle();
+            bundle.putString("mark", "bindcardzfb");
+            bundle.putString("tokenSign", "e0512fc801fe8307468dccd053f58345");
+            Intent intent = new Intent(requireContext(), ContainerActivity.class);
+            intent.putExtra(ContainerActivity.BUNDLE, bundle);
+            intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_BIND_ALIPAY_WECHAT);
+            startActivity(intent);
+
+             //账户管理
+            //showAccountMgmt();
         });
         //VIP中心
         binding.tvwVipZhongxin.setOnClickListener(v -> {
