@@ -954,6 +954,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             CfLog.d(vo.toString());
             //mapRechargeVo.put(vo.bid, vo);
             //SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
+            if (TextUtils.isEmpty(vo.op_thiriframe_url)) {
+                ToastUtils.showError(vo.op_thiriframe_msg);
+                return;
+            }
             String url = vo.op_thiriframe_url;
             if (!url.startsWith("http")) {
                 url = DomainUtil.getDomain2() + url;
