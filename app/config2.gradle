@@ -155,7 +155,7 @@ androidJunkCode {
         methodCountPerClass = 20 //每个类下生成方法数量
         resPrefix = "abc_"  //生成的layout、drawable、string等资源名前缀
         drawableCount = 15  //生成drawable资源数量
-        stringCount = 20  //生成string数量
+        stringCount = 50  //生成string数量
     }
 
     variantConfig {
@@ -168,6 +168,8 @@ androidJunkCode {
         eon2Release config2
         eon2_preDebug config2
         eon2_preRelease config2
+        eon2_OLDebug config2
+        eon2_OLRelease config2
     }
 
 }
