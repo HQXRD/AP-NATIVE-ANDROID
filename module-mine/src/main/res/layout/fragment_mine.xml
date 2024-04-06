@@ -413,16 +413,24 @@
                         <TextView style="@style/style_wallet_space" />
 
                         <TextView
-                            android:id="@+id/tvw_help_client"
+                            android:id="@+id/tvw_rebate_contract_client"
                             style="@style/style_menu_black"
-                            android:drawableTop="@mipmap/me_gr_help"
-                            android:text="@string/txt_help" />
+                            android:drawableTop="@mipmap/me_gr_report"
+                            android:text="@string/txt_rebate_contract" />
 
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_menu_client_02"
                         style="@style/style_ll_row_2">
+
+                        <TextView
+                            android:id="@+id/tvw_help_client"
+                            style="@style/style_menu_black"
+                            android:drawableTop="@mipmap/me_gr_help"
+                            android:text="@string/txt_help" />
+
+                        <TextView style="@style/style_wallet_space" />
 
                         <TextView
                             android:id="@+id/tvw_sport_regular_client"
@@ -446,19 +454,17 @@
                             android:drawableTop="@mipmap/me_gr_upgrade"
                             android:text="@string/txt_upgrade" />
 
-                        <TextView style="@style/style_wallet_space" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ll_menu_client_03"
+                        style="@style/style_ll_row_2">
 
                         <TextView
                             android:id="@+id/tvw_qa_client"
                             style="@style/style_menu_black"
                             android:drawableTop="@mipmap/me_gr_qa"
                             android:text="@string/txt_question" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/ll_menu_client_03"
-                        style="@style/style_ll_row_2">
 
                         <TextView style="@style/style_wallet_space" />
 
@@ -479,16 +485,16 @@
                 android:id="@+id/btn_logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginStart="36dp"
                 android:layout_marginTop="48dp"
                 android:layout_marginEnd="36dp"
                 android:layout_marginBottom="24dp"
-                android:layout_gravity="center"
                 android:background="@color/clr_transparent"
                 android:text="@string/me_logout_login"
                 android:textColor="@color/clr_txt"
                 android:textSize="@dimen/bt_text_16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
