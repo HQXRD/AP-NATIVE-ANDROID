@@ -64,10 +64,8 @@
 
                 <TextView
                     android:id="@+id/ivw_go_deposit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/me_wallet_deposit"
-                    android:textColor="@color/clr_white"
+                    style="@style/style_btn"
+                    android:text="去充值"
                     android:textSize="12sp" />
             </LinearLayout>
 

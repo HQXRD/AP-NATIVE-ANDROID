@@ -265,11 +265,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         viewModel.liveDataRedPocket.observe(getViewLifecycleOwner(), vo -> {
             CfLog.e("Check has money : " + vo.money);
-            if (vo.status == 0) {
-                binding.tvwMember.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.hm_ic_member_has_red, 0, 0);
-            } else {
-                binding.tvwMember.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.hm_ic_member, 0, 0);
-            }
+            //if (vo.status == 0) {
+            //    binding.tvwMember.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.hm_ic_member_has_red, 0, 0);
+            //} else {
+            //    binding.tvwMember.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.hm_ic_member, 0, 0);
+            //}
         });
     }
 

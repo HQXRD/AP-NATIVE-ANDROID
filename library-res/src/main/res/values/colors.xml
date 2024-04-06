@@ -19,8 +19,10 @@
     <color name="clr_main_04">#F7DFD1</color>
     <color name="clr_main_05">#F6ECE2</color>
     <color name="clr_main_06">#F5EDE7</color>
+    <color name="clr_main_06a">#F6ECE2</color>
     <color name="clr_main_07">#F7EDE7</color>
     <color name="clr_main_08">#F9F8F4</color>
+    <color name="clr_main_08a">#FBF6F1</color>
     <color name="clr_main_09">#FCF9F6</color>
     <color name="clr_main_10">#FCFCFF</color>
 
@@ -407,6 +409,11 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- 充值页 -->
+    <color name="clr_btn_rc_amount_border">#F6ECE2</color>
+    <color name="clr_btn_rc_amount">#FBF6F1</color>
+
     <!--反馈页面错误提示语颜色-->
     <color name="clr_red_feedback_err">#FF2E00</color>
     <color name="clr_item_lottery_bg">#F8F8F8</color>

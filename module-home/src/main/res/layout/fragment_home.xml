@@ -47,6 +47,8 @@
                     android:layout_gravity="end|top"
                     android:layout_marginTop="36dp"
                     android:layout_marginEnd="16dp"
+                    android:paddingStart="16dp"
+                    android:paddingBottom="16dp"
                     android:src="@mipmap/home_ic_cs" />
 
             </com.youth.banner.Banner>
@@ -156,7 +158,6 @@
                     android:id="@+id/tvw_member"
                     style="@style/style_hm_recharge"
                     android:visibility="gone"
-                    android:drawableTop="@mipmap/hm_ic_member"
                     android:text="@string/hm_txt_vip" />
 
             </LinearLayout>
@@ -224,8 +225,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingStart="@dimen/page_margin"
-            android:paddingEnd="8dp"
-           >
+            android:paddingEnd="8dp">
 
             <androidx.core.widget.NestedScrollView
                 android:layout_width="wrap_content"
@@ -267,8 +267,8 @@
                 android:id="@+id/rcv_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginStart="4dp"/>
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp" />
 
         </LinearLayout>
 
