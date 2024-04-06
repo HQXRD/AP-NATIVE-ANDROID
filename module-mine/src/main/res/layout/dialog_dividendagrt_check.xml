@@ -6,6 +6,8 @@
         <variable
             name="model"
             type="com.xtree.mine.ui.rebateagrt.viewmodel.DividendAgrtCheckViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,11 +30,29 @@
                 app:layout_constraintVertical_bias="0"
                 />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_create"
+                android:textColor="@color/clr_main_23"
+                android:textSize="12sp"
+                android:layout_marginEnd="15dp"
+                android:onClick="@{() -> model.create()}"
+                android:visibility="@{model.showCreateBtnData?View.VISIBLE:View.GONE}"
+                app:layout_constraintTop_toTopOf="@id/layout_toolbar"
+                app:layout_constraintBottom_toBottomOf="@id/layout_toolbar"
+                app:layout_constraintStart_toStartOf="@id/layout_toolbar"
+                app:layout_constraintEnd_toEndOf="@id/layout_toolbar"
+                app:layout_constraintHorizontal_bias="1"
+                />
+
+
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:itemData="@{model.datas}"
                 itemViewType="@{model.itemType}"
+                onBindListener="@{model.onBindListener}"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginTop="5dp"

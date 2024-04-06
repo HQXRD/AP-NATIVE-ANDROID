@@ -4,6 +4,7 @@ package com.xtree.mine.data.source;
 import com.xtree.mine.data.source.http.service.HttpApiService;
 import com.xtree.mine.vo.request.CommissionsReportsRequest;
 import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
+import com.xtree.mine.vo.request.DividendAgrtCreateRequest;
 import com.xtree.mine.vo.request.DividendAgrtSendQuery;
 import com.xtree.mine.vo.request.DividendAgrtSendRequest;
 import com.xtree.mine.vo.request.DividendAutoSendRequest;
@@ -12,11 +13,12 @@ import com.xtree.mine.vo.request.GameDividendAgrtRequest;
 import com.xtree.mine.vo.request.GameRebateAgrtRequest;
 import com.xtree.mine.vo.request.GameSubordinateAgrteRequest;
 import com.xtree.mine.vo.request.GameSubordinateRebateRequest;
-import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.request.RebateAgrtCreateQuery;
+import com.xtree.mine.vo.request.RebateAgrtCreateRequest;
 import com.xtree.mine.vo.request.RecommendedReportsRequest;
 import com.xtree.mine.vo.response.CommissionsReportsResponse;
 import com.xtree.mine.vo.response.DividendAgrtCheckResponse;
+import com.xtree.mine.vo.response.DividendAgrtCreateResponse;
 import com.xtree.mine.vo.response.DividendAgrtSendReeponse;
 import com.xtree.mine.vo.response.DividendAutoSendResponse;
 import com.xtree.mine.vo.response.FunctionMenuResponse;
@@ -106,8 +108,15 @@ public interface HttpDataSource {
 
     /**
      * 佣金报表
+     *
      * @return
      */
     Flowable<CommissionsReportsResponse> getCommissionsData(CommissionsReportsRequest request);
+
+    /**
+     * 彩票契约-创建契约
+     */
+    Flowable<DividendAgrtCreateResponse> getDividendAgrtCreateData(DividendAgrtCreateRequest request);
+
 
 }

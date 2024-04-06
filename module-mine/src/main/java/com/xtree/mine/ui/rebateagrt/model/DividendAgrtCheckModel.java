@@ -4,6 +4,8 @@ import androidx.databinding.ObservableField;
 
 import com.xtree.base.mvvm.recyclerview.BindModel;
 
+import io.reactivex.functions.Consumer;
+
 /**
  * Created by KAKA on 2024/3/19.
  * Describe:
@@ -11,21 +13,40 @@ import com.xtree.base.mvvm.recyclerview.BindModel;
 public class DividendAgrtCheckModel extends BindModel {
     //标题
     public ObservableField<String> numText = new ObservableField<>();
+    //编辑模式
+    public ObservableField<Boolean> editMode = new ObservableField<>(false);
+    private Consumer<DividendAgrtCheckModel> selectRatioCallBack = null;
     //分红比例
-    private String ratio;
+    public ObservableField<String> ratioData = new ObservableField<>("");
+    private String ratio = "";
     //累计投注额
-    private String profit;
+    private String profit = "";
     //累计亏损额
-    private String netProfit;
+    private String netProfit = "";
     //活跃人数
-    private String people;
+    private String people = "";
+
+    public void setSelectRatioCallBack(Consumer<DividendAgrtCheckModel> selectRatioCallBack) {
+        this.selectRatioCallBack = selectRatioCallBack;
+    }
+
+    public void selectRatio() {
+        if (selectRatioCallBack != null) {
+            try {
+                selectRatioCallBack.accept(this);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     public String getRatio() {
-        return ratio + "%";
+        return ratio;
     }
 
     public void setRatio(String ratio) {
         this.ratio = ratio;
+        this.ratioData.set(ratio + "%");
     }
 
     public String getProfit() {
