@@ -457,7 +457,6 @@ public class GameDividendAgrtResponse extends BaseResponse2 {
     public static class ChildrenBillDTO {
         private int total_size;
         private List<DataDTO> data;
-        private AllTotalDTO all_total;
         private Object self;
         private List<ChildrenDTO> children;
         private CurTotalDTO cur_total;
@@ -476,14 +475,6 @@ public class GameDividendAgrtResponse extends BaseResponse2 {
 
         public void setData(List<DataDTO> data) {
             this.data = data;
-        }
-
-        public AllTotalDTO getAll_total() {
-            return all_total;
-        }
-
-        public void setAll_total(AllTotalDTO all_total) {
-            this.all_total = all_total;
         }
 
         public Object getSelf() {
