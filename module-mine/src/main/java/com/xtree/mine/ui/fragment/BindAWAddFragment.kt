@@ -36,15 +36,27 @@ import java.io.File
  */
 @Route(path = RouterFragmentPath.Mine.PAGER_BIND_AW_ADD)
 class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewModel>() {
+
+    private var name: String = ""
+    private var phone: String = ""
+    private var nickName: String = ""
     private val controller = "security"
     private var action = ""
     private var qrcodeType = 0
     private var tokenSign: String? = null
     private var mark: String? = null
-    lateinit var mConfirmVo: UserBankConfirmVo
+    private var accountName: String? = null
+    private lateinit var mConfirmVo: UserBankConfirmVo
     private var imageRealPathString: String? = null //选择的图片地址
     private var imageSelector = false //是否已选择图片
     private var imageUri: Uri? = null
+    private var typeName = ""
+
+    companion object {
+        private const val ARG_TOKEN_SIGN = "tokenSign"
+        private const val ARG_MARK = "mark"
+    }
+
     override fun initView() {
         initArguments()
         binding.llRoot.setOnClickListener { hideKeyBoard() }
@@ -72,7 +84,12 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         if (arguments != null) {
             tokenSign = requireArguments().getString(ARG_TOKEN_SIGN)
             mark = requireArguments().getString(ARG_MARK)
-            var typeName = ""
+            accountName = requireArguments().getString("accountName")
+            if (!accountName.isNullOrEmpty()) {
+                binding.etName.setText(accountName)
+                binding.etName.isEnabled = false
+            }
+
             when (mark) {
                 getString(R.string.txt_bind_zfb_type) -> {
                     typeName = getString(R.string.txt_alipay)
@@ -118,7 +135,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
 
     override fun initViewModel(): BindCardViewModel {
         val factory = AppViewModelFactory.getInstance(requireActivity().application)
-        return ViewModelProvider(this, factory).get(BindCardViewModel::class.java)
+        return ViewModelProvider(this, factory)[BindCardViewModel::class.java]
     }
 
     override fun initViewObservable() {
@@ -141,19 +158,23 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
     private fun setConfirmView() {
         binding.llAdd.visibility = View.GONE
         binding.llConfirm.visibility = View.VISIBLE
-        binding.tvwNickname.text = mConfirmVo.nickname
+        binding.tvwNameContent.text = name
+        binding.tvwPhoneContent.text = phone
+        binding.tvwNicknameContent.text = nickName
+        val bitmap = BitmapFactory.decodeFile(imageRealPathString)
+        binding.ivCode.setImageBitmap(bitmap)
     }
 
     private fun doNext() {
-        val name = binding.etName.text.toString().trim()
-        val phone = binding.etPhone.toString().trim()
-        val nickName = binding.etNickname.text.toString().trim()
+        name = binding.etName.text.toString().trim()
+        phone = binding.etPhone.text.toString().trim()
+        nickName = binding.etNickname.text.toString().trim()
 
         if (name.isEmpty()) {
             ToastUtils.showLong(R.string.txt_tip_name, ToastUtils.ShowType.Fail)
             return
         }
-        if (phone.isEmpty()) {
+        if (phone.isEmpty() || phone.length != 11) {
             ToastUtils.showLong(R.string.txt_tip_phone, ToastUtils.ShowType.Fail)
             return
         }
@@ -162,7 +183,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
             return
         }
         if (!imageSelector) {
-            ToastUtils.showLong(R.string.txt_tip_code, ToastUtils.ShowType.Fail)
+            ToastUtils.showLong(getString(R.string.txt_tip_code, typeName), ToastUtils.ShowType.Fail)
             return
         }
 
@@ -258,8 +279,4 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         viewModel.doBindCardBySubmit(queryMap, map)
     }
 
-    companion object {
-        private const val ARG_TOKEN_SIGN = "tokenSign"
-        private const val ARG_MARK = "mark"
-    }
 }

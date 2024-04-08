@@ -86,8 +86,7 @@
             <EditText
                 android:id="@+id/et_nickname"
                 style="@style/style_cm_edt"
-                android:hint="@string/txt_input_nickname"
-                android:inputType="number" />
+                android:hint="@string/txt_input_nickname" />
 
             <TextView
                 android:id="@+id/tv_tip_nickname"

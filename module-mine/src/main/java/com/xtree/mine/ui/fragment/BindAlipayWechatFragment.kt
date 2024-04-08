@@ -12,6 +12,7 @@ import com.xtree.base.adapter.CacheViewHolder
 import com.xtree.base.adapter.CachedAutoRefreshAdapter
 import com.xtree.base.router.RouterFragmentPath
 import com.xtree.base.utils.CfLog
+import com.xtree.base.widget.LoadingDialog
 import com.xtree.mine.BR
 import com.xtree.mine.R
 import com.xtree.mine.databinding.FragmentBindAwBinding
@@ -127,10 +128,8 @@ class BindAlipayWechatFragment : BaseFragment<FragmentBindAwBinding, BindCardVie
                 val bundle = Bundle()
                 bundle.putString("mark", mark)
                 bundle.putString("tokenSign", tokenSign)
-                bundle.putString("accountname", vo.accountname)
-
-
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_AW_ADD, arguments)
+                bundle.putString("accountName", vo.accountname)
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_AW_ADD, bundle)
             }
             // 如果是列表为空的情况,跳到增加页,并关闭当前页(关闭是因为有时会提示最多只能绑定0张卡,或者死循环)
             //if (vo.banklist.isEmpty()) {
@@ -138,7 +137,7 @@ class BindAlipayWechatFragment : BaseFragment<FragmentBindAwBinding, BindCardVie
             //    //requireActivity().finish();
             //    return;
             //}
-            if (vo.banklist != null && !vo.banklist.isEmpty()) {
+            if (vo.banklist != null && vo.banklist.isNotEmpty()) {
                 CfLog.i("****** 这是列表")
                 mAdapter.clear()
                 mAdapter.addAll(vo.banklist)
@@ -160,6 +159,7 @@ class BindAlipayWechatFragment : BaseFragment<FragmentBindAwBinding, BindCardVie
                 map["action"] = "useronepaywxinfo"
             }
         }
+        LoadingDialog.show(context)
         viewModel.getAWList(map)
     }
 }

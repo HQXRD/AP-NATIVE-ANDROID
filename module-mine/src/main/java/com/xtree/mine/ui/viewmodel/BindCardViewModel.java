@@ -39,8 +39,6 @@ public class BindCardViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<UserBankConfirmVo> liveDataDelCardCheck = new SingleLiveData<>(); // 锁定银行卡-检查
     public SingleLiveData<UserBankConfirmVo> liveDataDelCardResult = new SingleLiveData<>(); // 锁定银行卡结果
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>(); // 个人信息
-    final String TYPE_ALIPAY = "alipay";
-    final String TYPE_WECHAT = "wechat";
 
     public BindCardViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
