@@ -550,7 +550,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         map.put("realCount", realCount);
         map.put("usdt_type", usdt_type);
         map.put("usdtid", usdtSecurityVo.usdtid);
-        map.put("usdtType", usdtSecurityVo.usdt_type);
+        map.put("usdtType", usdtSecurityVo.drawal_type);
 
         CfLog.i("requestConfirmUSDT = " + map);
 

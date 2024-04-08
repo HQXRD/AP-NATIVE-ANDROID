@@ -431,7 +431,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         map.put("realCount", "");
         map.put("usdt_type", vo.datas.drawal_type);
         map.put("usdtid", usdtSecurityVo.usdtid);
-        map.put("usdtType", usdtSecurityVo.usdt_type);
+        map.put("usdtType", usdtSecurityVo.drawal_type);
 
         CfLog.i("requestConfirmVirtual -->" + map);
 
