@@ -303,13 +303,14 @@
 
     <!-- 通用 begin -->
     <!-- 通用背景色 -->
-    <color name="clr_bg_main">#EBEDF0</color>
-    <color name="bg_main">#EBEDF0</color>
+    <color name="clr_bg_main">#F9F8F4</color>
+    <color name="bg_main">#F9F8F4</color>
     <color name="clr_white">#FFFFFF</color>
     <color name="clr_white_t20">#33FFFFFF</color>
     <color name="clr_white_t80">#CCFFFFFF</color>
     <color name="clr_transparent">#00000000</color>
     <color name="clr_transparent_50">#80000000</color>
+    <color name="ic_launcher_background">#FFFFFF</color>
 
     <color name="clr_black">#000000</color>
     <color name="clr_txt_black">#000000</color>

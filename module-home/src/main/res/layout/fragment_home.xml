@@ -157,8 +157,8 @@
                 <TextView
                     android:id="@+id/tvw_member"
                     style="@style/style_hm_recharge"
-                    android:visibility="gone"
-                    android:text="@string/hm_txt_vip" />
+                    android:text="@string/hm_txt_vip"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -168,7 +168,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|bottom"
                 android:layout_marginEnd="@dimen/page_margin"
-                android:background="@mipmap/hm_bg_msg"
                 android:gravity="center_vertical"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/ll_menu"
@@ -194,9 +193,8 @@
                     android:id="@+id/ivw_close"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginEnd="12dp"
-                    android:drawablePadding="6dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="0dp"
                     android:padding="4dp"
                     android:src="@mipmap/hm_close" />
             </LinearLayout>
@@ -206,8 +204,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|bottom"
-                android:layout_marginStart="2dp"
-                android:src="@mipmap/hm_btn_notice"
+                android:layout_marginStart="20dp"
+                android:src="@mipmap/hm_notice"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@id/ll_menu"
                 app:layout_constraintStart_toStartOf="parent"
