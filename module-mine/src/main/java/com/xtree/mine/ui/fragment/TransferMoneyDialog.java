@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
-import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.LoadingDialog;
@@ -24,7 +23,6 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import java.util.HashMap;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterFragmentPath.Mine.PAGER_MEMBER_TRANSFER)
@@ -51,6 +49,16 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
             ToastUtils.showLong(vo.message);
             getActivity().finish();
         });
+
+        viewModel.liveDataBalance.observe(this, vo -> {
+            binding.tvwUserBalance.setText(vo.balance);
+        });
+    }
+
+    @Override
+    public void initData() {
+        super.initData();
+        viewModel.getBalance();
     }
 
     @Override
@@ -62,7 +70,6 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
         }
 
         binding.tvwUserAccount.setText(username);
-        binding.tvwUserBalance.setText(SPUtils.getInstance().getString(SPKeyGlobal.WLT_CENTRAL_BLC));
 
         binding.ivwClose.setOnClickListener(v -> getActivity().finish());
         binding.btnCancel.setOnClickListener(v -> getActivity().finish());
