@@ -27,6 +27,7 @@ import com.xtree.mine.databinding.FragmentMemberManageBinding;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.MemberUserInfoVo;
+import com.xtree.mine.vo.ProfitLossReportVo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -107,7 +108,6 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
                 if (ClickUtil.isFastClick()) {
                     return;
                 }
-
                 binding.refreshLayout.setEnableLoadMore(true);
                 binding.refreshLayout.setEnableRefresh(true);
                 curPage = 1;
@@ -150,6 +150,27 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
             if (vo.users != null && !vo.users.isEmpty()) {
                 binding.tvwNoData.setVisibility(View.GONE);
                 adapter.addAll(vo.users);
+            }
+
+            // 本级
+            if (vo.bread != null && !vo.bread.isEmpty()) {
+                //binding.tvwBread.setText("");
+                StringBuffer sb = new StringBuffer();
+                for (ProfitLossReportVo.UserVo t : vo.bread) {
+                    String modifiedString;
+                    int index = t.username.indexOf("@");
+                    if (index != -1) {
+                        modifiedString = t.username.substring(0, index);
+                    } else {
+                        modifiedString = t.username;
+                    }
+                    sb.append(modifiedString + " > ");
+                }
+
+                if (sb.toString().endsWith(" > ")) {
+                    sb.replace(sb.length() - 3, sb.length(), "");
+                }
+                binding.tvwBread.setText(sb.toString().trim());
             }
         });
     }
