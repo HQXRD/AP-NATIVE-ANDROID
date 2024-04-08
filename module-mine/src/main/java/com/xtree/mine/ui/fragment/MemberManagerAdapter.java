@@ -71,7 +71,7 @@ public class MemberManagerAdapter extends CachedAutoRefreshAdapter<MemberUserInf
 
         binding.tvwUserName.setText(vo.username);
         if (vo.userpoint != null) {
-            binding.tvwReturnPoint.setText((int) (Double.parseDouble(vo.userpoint) * 100) + "%");
+            binding.tvwReturnPoint.setText((Double.parseDouble(vo.userpoint) * 100) + "%");
             binding.tvwUserName.setEnabled(true); //名字不可点击
         } else {
             //binding.tvwReturnPoint.setText("0%");
