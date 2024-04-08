@@ -390,8 +390,8 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         bindView.tvWithdrawalActualArrivalShow.setText(usdtSecurityVo.datas.arrive);
         bindView.tvWithdrawalExchangeRateShow.setText(usdtSecurityVo.exchangerate);
         bindView.tvWithdrawalAddressShow.setText(usdtSecurityVo.usdt_card);
-        // 提款类型
-        bindView.tvWithdrawalAmountTypeShow.setText(usdtSecurityVo.usdt_type);
+        // 提款金额
+        bindView.tvWithdrawalAmountTypeShow.setText(usdtSecurityVo.datas.money);
         bindView.tvWithdrawalHandlingFeeShow.setText(usdtSecurityVo.datas.handing_fee);
 
         //下一步

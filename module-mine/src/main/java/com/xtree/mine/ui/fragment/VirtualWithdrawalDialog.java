@@ -286,7 +286,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         }
 
         binding.tvConfirmWithdrawalTypeShow.setText(StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.user.availablebalance)));
-        binding.tvConfirmAmountShow.setText(usdtSecurityVo.usdt_type);
+        //可提款金额
+        binding.tvConfirmAmountShow.setText(usdtSecurityVo.datas.money);
         binding.tvWithdrawalVirtualTypeShow.setText(usdtSecurityVo.usdt_type);
         binding.tvWithdrawalTypeShow.setText(usdtSecurityVo.usdt_type);
         binding.tvWithdrawalAmountTypeShow.setText(usdtSecurityVo.usdt_type);
