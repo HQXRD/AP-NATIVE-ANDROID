@@ -41,11 +41,7 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
     @Override
     public void initData() {
         super.initData();
-
-        if (getArguments() != null) {
-            username = getArguments().getString(ARG_USERNAME);
-            userid = getArguments().getString(ARG_USERID);
-        }
+        viewModel.getBalance();
     }
 
     @Override
@@ -66,12 +62,6 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
     }
 
     @Override
-    public void initData() {
-        super.initData();
-        viewModel.getBalance();
-    }
-
-    @Override
     public void initView() {
         if (getArguments() != null) {
             username = getArguments().getString(ARG_USERNAME);
@@ -84,6 +74,11 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
         binding.ivwClose.setOnClickListener(v -> getActivity().finish());
         binding.btnCancel.setOnClickListener(v -> getActivity().finish());
         binding.btnConfirm.setOnClickListener(v -> {
+            if (binding.etUserMoney.getText().toString().isEmpty() || Double.parseDouble(binding.etUserMoney.getText().toString()) == 0.0) {
+                ToastUtils.showLong(R.string.text_null_or_zero);
+                return;
+            }
+
             String content = String.format(getContext().getString(R.string.txt_check_transfer), binding.etUserMoney.getText().toString());
             String txtRight = getContext().getString(R.string.text_confirm);
             String txtLeft = getContext().getString(R.string.text_cancel);
