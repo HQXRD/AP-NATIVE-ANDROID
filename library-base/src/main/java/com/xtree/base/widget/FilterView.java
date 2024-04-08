@@ -174,6 +174,10 @@ public class FilterView extends LinearLayout {
         binding.edtInput.setHint(hint);
     }
 
+    public void setEdit(String name) {
+        binding.edtInput.setText(name);
+    }
+
     public void setDayStart(String startDay) {
         binding.tvwDayStart.setText(startDay);
     }

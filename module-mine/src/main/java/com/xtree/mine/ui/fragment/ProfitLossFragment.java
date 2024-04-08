@@ -141,6 +141,12 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
                     startContainerFragment(RouterFragmentPath.Mine.PAGER_BT_REPORT, bundle); // 投注记录
                 });
 
+                binding2.tvwUserName.setOnClickListener(v -> {
+                    binding.fvMain.setEdit(binding2.tvwUserName.getText().toString());
+                    LoadingDialog.show(getContext());
+                    curPage = 0;
+                    requestData(1);
+                });
             }
         };
         binding.rcvMain.setLayoutManager(new LinearLayoutManager(getContext()));
