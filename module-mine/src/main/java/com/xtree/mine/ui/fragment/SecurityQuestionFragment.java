@@ -57,16 +57,16 @@ public class SecurityQuestionFragment extends BottomPopupView {
     private DialogSetSecurityQuestionBinding binding;
     private ItemTextBinding binding2;
     private boolean hide;
-    private ProfileVo mProfileVo ;
+    private ProfileVo mProfileVo;
 
     private SecurityQuestionFragment(@NonNull Context context) {
         super(context);
     }
 
-    public static SecurityQuestionFragment newInstance(@NonNull Context context, LifecycleOwner owner, final ProfileVo profileVo ,ISecurityQuestionCallBack callBack, final String accessToken) {
+    public static SecurityQuestionFragment newInstance(@NonNull Context context, LifecycleOwner owner, final ProfileVo profileVo, ISecurityQuestionCallBack callBack, final String accessToken) {
         SecurityQuestionFragment dialog = new SecurityQuestionFragment(context);
         dialog.owner = owner;
-        dialog.mProfileVo = profileVo ;
+        dialog.mProfileVo = profileVo;
         dialog.callBack = callBack;
         dialog.accessToken = accessToken;//重置资金密码使用
         return dialog;
@@ -112,7 +112,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
             binding.tvwQuestion1.setText(createQA().get(0).content);
             binding.tvwQuestion2.setText(createQA().get(1).content);
 
-        }else {
+        } else {
             ArrayList list = (ArrayList<?>) mProfileVo.set_question;
             //设置了密保
             if (list.size() != 3) {
@@ -125,7 +125,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
                 if (key1.equals(createQA().get(i).key)) {
                     binding.tvwQuestion1.setText(createQA().get(i).content);
                 }
-                if(key2.equals(createQA().get(i).key)){
+                if (key2.equals(createQA().get(i).key)) {
                     binding.tvwQuestion2.setText(createQA().get(i).content);
                 }
             }
@@ -182,7 +182,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
         //找回资金密码
         viewModel.response2MutableLiveData.observe(owner, vo -> {
 
-            if (vo.message != null && TextUtils.equals("修改成功",vo.message)) {
+            if (vo.message != null && TextUtils.equals("修改成功", vo.message)) {
                 ToastUtils.show(vo.message, ToastUtils.ShowType.Success);
                 if (reSetFundView != null) reSetFundView.dismiss();
             } else if (vo.message != null && !TextUtils.isEmpty(vo.message)) {
@@ -194,11 +194,11 @@ public class SecurityQuestionFragment extends BottomPopupView {
         //设置密保
         viewModel.setQuestionLiveData.observe(owner, vo -> {
 
-            if (vo.message != null && TextUtils.equals("success",vo.message)) {
+            if (vo.message != null && TextUtils.equals("success", vo.message)) {
                 ToastUtils.show(getContext().getString(R.string.txt_set_fund_question_success_tip), ToastUtils.ShowType.Success);
                 //设置密保成功后要刷新用户个人数据
-                LoadingDialog.show(getContext());
-                viewModel.getProfile();
+                //LoadingDialog.show(getContext());
+                // viewModel.getProfile();
 
             } else if (vo.message != null && TextUtils.isEmpty(vo.message)) {
                 // "设置密保失败，请稍后再试",
@@ -315,7 +315,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
 
     /*设置密保*/
     private void setSecurityQuestions(ArrayList qaBeanArrayList) {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("nonce", UuidUtil.getID24());
         if (hide) {
             //第一次设置密保
@@ -324,7 +324,7 @@ public class SecurityQuestionFragment extends BottomPopupView {
             //重置密保
             map.put("check", "-1");
         }
-        map.put("questions", new Gson().toJson(qaBeanArrayList));
+        map.put("questions", qaBeanArrayList);
         CfLog.e("setSecurityQuestions" + map);
         viewModel.putSecurityQuestions(map);
     }
