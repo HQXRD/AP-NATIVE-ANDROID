@@ -32,6 +32,9 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
     private static final String ARG_USERNAME = "userName";
     private static final String ARG_USERID = "userId";
     private static final String ARG_VERIFY = "verify";
+    //LifecycleOwner owner;
+    //DialogTransferMoneyBinding binding;
+    //MineViewModel viewModel;
     String checkCode;
     String username;
     String userid;
@@ -44,7 +47,6 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
         if (getArguments() != null) {
             username = getArguments().getString(ARG_USERNAME);
             userid = getArguments().getString(ARG_USERID);
-            checkCode = getArguments().getString(ARG_VERIFY);
         }
     }
 
@@ -63,6 +65,12 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
 
     @Override
     public void initView() {
+        if (getArguments() != null) {
+            username = getArguments().getString(ARG_USERNAME);
+            userid = getArguments().getString(ARG_USERID);
+            checkCode = getArguments().getString(ARG_VERIFY);
+        }
+
         binding.tvwUserAccount.setText(username);
         binding.tvwUserBalance.setText(SPUtils.getInstance().getString(SPKeyGlobal.WLT_CENTRAL_BLC));
 
@@ -70,8 +78,8 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
         binding.btnCancel.setOnClickListener(v -> getActivity().finish());
         binding.btnConfirm.setOnClickListener(v -> {
             String content = String.format(getContext().getString(R.string.txt_check_transfer), binding.etUserMoney.getText().toString());
-            String txtRight = getResources().getString(R.string.text_confirm);
-            String txtLeft = getResources().getString(R.string.text_cancel);
+            String txtRight = getContext().getString(R.string.text_confirm);
+            String txtLeft = getContext().getString(R.string.text_cancel);
             ppw = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), "", content, txtLeft, txtRight, new MsgDialog.ICallBack() {
                 @Override
                 public void onClickLeft() {
