@@ -49,7 +49,7 @@ public class GameSubordinateagrtModel extends BindModel {
                         if (i > 0) {
                             sb.append(System.lineSeparator());
                         }
-                        sb.append(ruleDTO.getRatio()).append("元/千");
+                        sb.append(ruleDTO.getRatio()).append("元/万");
                     }
                     break;
                 default:

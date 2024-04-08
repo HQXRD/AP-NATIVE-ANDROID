@@ -104,7 +104,7 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
                 ratioTip.set("规则1:投注额≥" +
                         ruleDTO.getMin_bet() +
                         "元,人数≥" +
-                        ruleDTO.getMin_player() + "人,时薪" +
+                        ruleDTO.getMin_player() + "人,日薪" +
                         ruleDTO.getRatio() + "元/万");
                 break;
             case DAYREBATE:
