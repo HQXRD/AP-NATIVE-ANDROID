@@ -15,6 +15,7 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.LoadingDialog;
@@ -39,6 +40,7 @@ import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
+import me.xtree.mvvmhabit.utils.Utils;
 
 /**
  * Created by marquis
@@ -330,6 +332,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onResult(BaseResponse2 vo) {
                         CfLog.d(vo.toString());
+                        TagUtils.tagEvent(Utils.getContext(), "reg"); // 打点 注册
                         ToastUtils.showLong(vo.message);
                         if (vo.msg_type == 1 || vo.msg_type == 2) {
                             return;

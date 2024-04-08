@@ -22,6 +22,7 @@ import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.StringUtils;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
@@ -63,8 +64,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     DialogBankWithdrawalVirtualBinding binding;
     private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
 
-
-    private String userid ;
+    private String userid;
 
     public VirtualWithdrawalDialog(@NonNull Context context) {
         super(context);
@@ -162,6 +162,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         });
         //虚拟币完成申请
         viewModel.virtualConfirmMuYuVoMutableLiveData.observe(owner, vo -> {
+            TagUtils.tagEvent(getContext(), "wd", "vc");
             usdtConfirmVo = vo;
             refreshConfirmUI();
         });
@@ -193,7 +194,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         binding.tvInfoExchangeRateShow.setText(virtualCashVo.exchangerate);
         binding.tvCollectionUsdt.setText(virtualCashVo.usdtinfo.get(0).usdt_type + " " + virtualCashVo.usdtinfo.get(0).usdt_card);
 
-        userid = virtualCashVo.usdtinfo.get(0).id ;
+        userid = virtualCashVo.usdtinfo.get(0).id;
 
         //注册监听
         initListener();
@@ -250,8 +251,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
                 hideKeyBoard();
                 String money = binding.etInputMoney.getText().toString().trim();
                 String realCount = binding.tvInfoActualNumberShow.getText().toString().trim();
-               // String usdtId = binding.tvCollectionUsdt.getText().toString().trim();
-                String usdtId = userid ;
+                // String usdtId = binding.tvCollectionUsdt.getText().toString().trim();
+                String usdtId = userid;
                 requestWithdrawVirtual(money, realCount, usdtId, checkCode, virtualCashVo);
 
             }
@@ -367,7 +368,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
                     binding.tvWithdrawalTypeShow1.setText(temp);
                     selectUsdtInfo = vo;
 
-                    userid = selectUsdtInfo.id ;
+                    userid = selectUsdtInfo.id;
 
                     ppw.dismiss();
                 });
