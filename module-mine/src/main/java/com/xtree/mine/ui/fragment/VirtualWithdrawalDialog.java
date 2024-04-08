@@ -63,6 +63,9 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     DialogBankWithdrawalVirtualBinding binding;
     private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
 
+
+    private String userid ;
+
     public VirtualWithdrawalDialog(@NonNull Context context) {
         super(context);
     }
@@ -189,6 +192,9 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         binding.tvWithdrawalTypeShow1.setText(temp);
         binding.tvInfoExchangeRateShow.setText(virtualCashVo.exchangerate);
         binding.tvCollectionUsdt.setText(virtualCashVo.usdtinfo.get(0).usdt_type + " " + virtualCashVo.usdtinfo.get(0).usdt_card);
+
+        userid = virtualCashVo.usdtinfo.get(0).id ;
+
         //注册监听
         initListener();
 
@@ -244,7 +250,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
                 hideKeyBoard();
                 String money = binding.etInputMoney.getText().toString().trim();
                 String realCount = binding.tvInfoActualNumberShow.getText().toString().trim();
-                String usdtId = binding.tvCollectionUsdt.getText().toString().trim();
+               // String usdtId = binding.tvCollectionUsdt.getText().toString().trim();
+                String usdtId = userid ;
                 requestWithdrawVirtual(money, realCount, usdtId, checkCode, virtualCashVo);
 
             }
@@ -358,8 +365,9 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
                     String temp = vo.min_money + "元,最高" + vo.max_money + "元";
                     CfLog.i("------onBindViewHolder = " + temp);
                     binding.tvWithdrawalTypeShow1.setText(temp);
-
                     selectUsdtInfo = vo;
+
+                    userid = selectUsdtInfo.id ;
 
                     ppw.dismiss();
                 });
@@ -430,8 +438,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         map.put("nonce", UuidUtil.getID24());
         map.put("realCount", "");
         map.put("usdt_type", vo.datas.drawal_type);
-        map.put("usdtid", usdtSecurityVo.usdtid);
-        map.put("usdtType", usdtSecurityVo.usdt_type);
+        map.put("usdtid", vo.drawal_type);
 
         CfLog.i("requestConfirmVirtual -->" + map);
 

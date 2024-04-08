@@ -74,6 +74,8 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
     private FruitHorUSDTRecyclerViewAdapter recyclerViewAdapter;
     private BasePopupView ppwError = null; // 底部弹窗 (显示错误信息)
 
+    private String  usdtid ;//第二步传递的 提款地址ide id
+
     public USDTWithdrawalDialog(@NonNull Context context) {
         super(context);
     }
@@ -191,6 +193,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
                 //业务异常跳转资金安全密码
                 ToastUtils.showError("业务异常跳转资金安全密码");
 
+
             } else if ("2".equals(usdtSecurityVo.msg_type) && getContext().getString(R.string.txt_fund_account_locked).equals(usdtSecurityVo.message)) {
                 ToastUtils.showError(usdtSecurityVo.message);
                 dismiss();
@@ -281,6 +284,10 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         binding.tvWithdrawalTypeShow1.setText(temp);
         binding.tvInfoExchangeRateShow.setText(cashMoYuVo.exchangerate);
         binding.tvCollectionUsdt.setText(cashMoYuVo.usdtinfo.get(0).usdt_type + " " + cashMoYuVo.usdtinfo.get(0).usdt_card);
+
+        usdtid = cashMoYuVo.usdtinfo.get(0).id ;
+
+
         binding.tvCollectionUsdt.setOnClickListener(v -> {
             showCollectionDialog(cashMoYuVo.usdtinfo);
         });
@@ -347,7 +354,8 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
                 hideKeyBoard();
                 String money = binding.etInputMoney.getText().toString().trim();
                 String realCount = binding.tvInfoActualNumberShow.getText().toString().trim();
-                String usdtId = binding.tvCollectionUsdt.getText().toString().trim();
+                //String usdtId = binding.tvCollectionUsdt.getText().toString().trim();
+                String usdtId = usdtid;
                 requestWithdrawUSDT(money, realCount, usdtId, checkCode, cashMoYuVo);
             }
         });
@@ -474,6 +482,9 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
                     binding.tvCollectionUsdt.setText(showMessage);
+
+                    usdtid = selectUsdtInfo.id;
+
                     String temp = vo.min_money + "元,最高" + vo.max_money + "元";
                     binding.tvWithdrawalTypeShow1.setText(temp);
                     ppw.dismiss();
@@ -551,7 +562,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         map.put("realCount", realCount);
         map.put("usdt_type", usdt_type);
         map.put("usdtid", usdtSecurityVo.usdtid);
-        map.put("usdtType", usdtSecurityVo.usdt_type);
+        map.put("usdtType", usdtSecurityVo.drawal_type);
 
         CfLog.i("requestConfirmUSDT = " + map);
 
