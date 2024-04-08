@@ -183,9 +183,9 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
      */
     private void refreshSetUI() {
         binding.llSetRequestView.setVisibility(View.VISIBLE);
-        String showRest = StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.rest));
-        //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
-        String notice = "注意：每天限制提款" + virtualCashVo.times + "次，提款时间为" + virtualCashVo.wraptime.starttime + "至" + virtualCashVo.wraptime.endtime + ",您今日剩余提款额度为 " + showRest + "元";
+        //String showRest = StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.rest));
+        //if (virtualCashVo.rest instanceof  Float)
+        String notice = "注意：每天限制提款" + virtualCashVo.times + "次，提款时间为" + virtualCashVo.wraptime.starttime + "至" + virtualCashVo.wraptime.endtime + ",您今日剩余提款额度为 " + virtualCashVo.rest + "元";
         binding.tvNotice.setText(notice);
         binding.tvUserNameShow.setText(virtualCashVo.user.username);
         binding.tvWithdrawalTypeShow.setText(channelInfo.title);
@@ -444,7 +444,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         map.put("money", vo.datas.money);
         map.put("nonce", UuidUtil.getID24());
         map.put("realCount", "");
-        map.put("usdt_type", vo.drawal_type);
+        map.put("usdtType", vo.drawal_type);
+        map.put("usdt_type", vo.usdt_type);
         map.put("usdtid", userid);//选中的提款地址
 
         CfLog.i("requestConfirmVirtual -->" + map);

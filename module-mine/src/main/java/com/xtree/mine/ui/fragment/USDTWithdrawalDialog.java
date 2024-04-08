@@ -560,6 +560,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         map.put("nonce", UuidUtil.getID24());
         map.put("realCount", realCount);
         map.put("usdtType", usdtSecurityVo.drawal_type);
+        map.put("usdt_type", usdtSecurityVo.usdt_type);
         map.put("usdtid", usdtid);//选中提款地址
 
         CfLog.i("requestConfirmUSDT = " + map);
