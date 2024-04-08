@@ -154,7 +154,10 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         //虚拟币确认提款信息
         viewModel.virtualSecurityMoYuVoMutableLiveData.observe(owner, vo -> {
             usdtSecurityVo = vo;
-            if (usdtSecurityVo.datas == null && ("抱歉，您的提款金额累计超过今日最高提款金额，请确认后再进行操作".equals(usdtSecurityVo.message)) && "2".equals(usdtSecurityVo.msg_type)) {
+
+            if (usdtSecurityVo.datas == null
+                    || (!TextUtils.isEmpty(usdtSecurityVo.message) && usdtSecurityVo.message.contains("抱歉"))
+                    || "2".equals(usdtSecurityVo.msg_type)) {
                 showErrorDialog(usdtSecurityVo.message);
             } else {
                 refreshSecurityUI();
@@ -278,7 +281,10 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         }
         binding.llSetRequestView.setVisibility(View.GONE);
         binding.llVirtualConfirmView.setVisibility(View.VISIBLE);
-        binding.tvConfirmWithdrawalAmount.setText(virtualCashVo.user.username);
+        if (!TextUtils.isEmpty(virtualCashVo.user.username)) {
+            binding.tvConfirmWithdrawalAmount.setText(virtualCashVo.user.username);
+        }
+
         binding.tvConfirmWithdrawalTypeShow.setText(StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.user.availablebalance)));
         binding.tvConfirmAmountShow.setText(usdtSecurityVo.usdt_type);
         binding.tvWithdrawalVirtualTypeShow.setText(usdtSecurityVo.usdt_type);
@@ -440,6 +446,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         map.put("realCount", "");
         map.put("usdt_type", vo.datas.drawal_type);
         map.put("usdtid", vo.drawal_type);
+
 
         CfLog.i("requestConfirmVirtual -->" + map);
 
