@@ -151,6 +151,7 @@
             android:layout_marginTop="10dp"
             android:background="@color/clr_transparent"
             android:button="@null"
+            android:checked="true"
             android:drawableRight="@drawable/bt_checkbox_selector"
             android:text="@string/bt_txt_settlement_odds"
             android:textColor="@color/bt_text_color_primary_3"
