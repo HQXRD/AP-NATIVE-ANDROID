@@ -36,6 +36,7 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
@@ -369,7 +370,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         });
         //银行卡提现 确认
         viewModel.platWithdrawConfirmMoYuVoMutableLiveData.observe(this.owner, ov -> {
-
+            TagUtils.tagEvent(getContext(), "wd", "bkc");
             if (ov == null || ov.user == null) {
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
                 dismiss();
@@ -683,7 +684,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      */
     private void refreshWithdrawConfirmView(PlatWithdrawConfirmMoYuVo vo) {
         //msg_type 1 2 状态均为成功
-        if (vo.msg_type == 1 ||(vo.msg_type == 2 && TextUtils.equals("账户提款申请成功" ,vo.msg_detail))) {
+        if (vo.msg_type == 1 || (vo.msg_type == 2 && TextUtils.equals("账户提款申请成功", vo.msg_detail))) {
             //成功
             binding.llShowChooseCard.setVisibility(View.GONE);//顶部通用、大额提现View隐藏
             binding.nsDefaultView.setVisibility(View.GONE);
@@ -703,7 +704,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             binding.nsOverView.setVisibility(View.VISIBLE);//订单结果页面
 
             binding.llOverViewApply.tvOverMsg.setText(vo.msg_detail);
-        } else if (vo.msg_type == 2 && !TextUtils.equals("账户提款申请成功" ,vo.msg_detail)) {
+        } else if (vo.msg_type == 2 && !TextUtils.equals("账户提款申请成功", vo.msg_detail)) {
             binding.nsConfirmWithdrawalRequest.setVisibility(View.VISIBLE); //确认提款页面展示
             showErrorBySystem(vo.msg_detail);
             /*//失败
