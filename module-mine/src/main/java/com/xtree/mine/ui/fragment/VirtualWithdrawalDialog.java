@@ -444,9 +444,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         map.put("money", vo.datas.money);
         map.put("nonce", UuidUtil.getID24());
         map.put("realCount", "");
-        map.put("usdt_type", vo.datas.drawal_type);
-        map.put("usdtid", vo.drawal_type);
-
+        map.put("usdt_type", vo.drawal_type);
+        map.put("usdtid", userid);//选中的提款地址
 
         CfLog.i("requestConfirmVirtual -->" + map);
 
