@@ -354,7 +354,6 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
                 hideKeyBoard();
                 String money = binding.etInputMoney.getText().toString().trim();
                 String realCount = binding.tvInfoActualNumberShow.getText().toString().trim();
-                //String usdtId = binding.tvCollectionUsdt.getText().toString().trim();
                 String usdtId = usdtid;
                 requestWithdrawUSDT(money, realCount, usdtId, checkCode, cashMoYuVo);
             }
@@ -560,9 +559,8 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         map.put("money", money);
         map.put("nonce", UuidUtil.getID24());
         map.put("realCount", realCount);
-        map.put("usdt_type", usdt_type);
-        map.put("usdtid", usdtSecurityVo.usdtid);
         map.put("usdtType", usdtSecurityVo.drawal_type);
+        map.put("usdtid", usdtid);//选中提款地址
 
         CfLog.i("requestConfirmUSDT = " + map);
 
