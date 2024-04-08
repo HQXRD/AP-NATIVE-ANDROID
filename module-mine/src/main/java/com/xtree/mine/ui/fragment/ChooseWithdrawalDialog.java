@@ -408,7 +408,21 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 显示绑定Dialog
      */
     private void showBindDialog(ChooseInfoVo.ChannelInfo channelInfo, String showMessage) {
-        String errorMessage = "请先绑" + channelInfo.configkey.toUpperCase() + "后才可提款";
+        String errorMessage ="";
+        String bindType = "";
+        if (showMessage.contains("尚未绑定银行卡")){
+             errorMessage = "请先绑定银行卡后才可提款";
+            bindType= getContext().getString(R.string.txt_bind_card_type);
+        }else if (showMessage.contains("首次提款仅可使用银行卡方式提款")){
+            errorMessage = showMessage;
+            bindType= getContext().getString(R.string.txt_bind_card_type);
+        }
+        else {
+            errorMessage = showMessage;
+            bindType = channelInfo.bindType;
+        }
+
+        String finalBindType = bindType;
         customPopWindow = new XPopup.Builder(getContext())
                 .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), errorMessage, false, new MsgDialog.ICallBack() {
                     @Override
@@ -420,7 +434,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     public void onClickRight() {
                         //跳转绑定流程
                         Bundle bundle = new Bundle();
-                        bundle.putString("type", channelInfo.bindType);
+                        bundle.putString("type", finalBindType);
 
                         String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
                         Intent intent = new Intent(getContext(), ContainerActivity.class);
