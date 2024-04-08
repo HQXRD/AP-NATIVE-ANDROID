@@ -1,12 +1,10 @@
 package com.xtree.mine.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -31,32 +29,22 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterFragmentPath.Mine.PAGER_MEMBER_TRANSFER)
 public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding, MineViewModel> {
-    private static final String ARG_USERNAME = "username";
-    private static final String ARG_USERID = "userid";
-    Context context;
-    LifecycleOwner owner;
-    com.xtree.mine.databinding.DialogTransferMoneyBinding binding;
-    MineViewModel viewModel;
+    private static final String ARG_USERNAME = "userName";
+    private static final String ARG_USERID = "userId";
+    private static final String ARG_VERIFY = "verify";
+    //LifecycleOwner owner;
+    //DialogTransferMoneyBinding binding;
+    //MineViewModel viewModel;
     String checkCode;
     String username;
     String userid;
     BasePopupView ppw = null;
 
     @Override
-    public void initData() {
-        super.initData();
-
-        if (getArguments() != null) {
-            username = getArguments().getString(ARG_USERNAME);
-            userid = getArguments().getString(ARG_USERID);
-        }
-    }
-
-    @Override
     public void initViewObservable() {
         super.initViewObservable();
 
-        viewModel.liveDataSendMoney.observe(owner, vo -> {
+        viewModel.liveDataSendMoney.observe(this, vo -> {
             if (vo.msg_type.equals("3")) {
                 viewModel.getBalance();
             }
@@ -67,6 +55,12 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
 
     @Override
     public void initView() {
+        if (getArguments() != null) {
+            username = getArguments().getString(ARG_USERNAME);
+            userid = getArguments().getString(ARG_USERID);
+            checkCode = getArguments().getString(ARG_VERIFY);
+        }
+
         binding.tvwUserAccount.setText(username);
         binding.tvwUserBalance.setText(SPUtils.getInstance().getString(SPKeyGlobal.WLT_CENTRAL_BLC));
 
@@ -74,8 +68,8 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
         binding.btnCancel.setOnClickListener(v -> getActivity().finish());
         binding.btnConfirm.setOnClickListener(v -> {
             String content = String.format(getContext().getString(R.string.txt_check_transfer), binding.etUserMoney.getText().toString());
-            String txtRight = context.getString(R.string.text_confirm);
-            String txtLeft = context.getString(R.string.text_cancel);
+            String txtRight = getContext().getString(R.string.text_confirm);
+            String txtLeft = getContext().getString(R.string.text_cancel);
             ppw = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), "", content, txtLeft, txtRight, new MsgDialog.ICallBack() {
                 @Override
                 public void onClickLeft() {
@@ -111,7 +105,7 @@ public class TransferMoneyDialog extends BaseFragment<DialogTransferMoneyBinding
     private void checkPassword() {
         String money = binding.etUserMoney.getText().toString();
 
-        LoadingDialog.show(context);
+        LoadingDialog.show(getContext());
 
         HashMap<String, String> map = new HashMap<>();
         map.put("flag", "confirm");
