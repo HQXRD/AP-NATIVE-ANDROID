@@ -116,7 +116,7 @@ public class GameSubordinateagrtModel extends BindModel {
         GameSubordinateAgrteResponse.DataDTO.RuleDTO ruleDTO = rules.get(0);
         switch (typeEnum) {
             case USER:
-                ruleRatio = ruleDTO.getRatio() + "元/千";
+                ruleRatio = ruleDTO.getRatio() + "元/万";
                 break;
             case DAYREBATE:
                 ruleRatio = ruleDTO.getRatio() + "元/千";
