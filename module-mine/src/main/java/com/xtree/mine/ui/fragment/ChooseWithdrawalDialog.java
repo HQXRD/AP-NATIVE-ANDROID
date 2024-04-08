@@ -72,7 +72,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     private BasePopupView bindCardPopWindow = null; // 绑定银行卡 底部弹窗
     private BasePopupView loadingView = null;
     private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
-    private FragmentActivity mActivity ;
+    private FragmentActivity mActivity;
 
     @Override
     protected int getImplLayoutId() {
@@ -98,7 +98,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         return dialog;
     }
 
-    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose, final String checkCode , final FragmentActivity activity) {
+    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose, final String checkCode, final FragmentActivity activity) {
         ChooseWithdrawalDialog dialog = new ChooseWithdrawalDialog(context);
 
         dialog.context = context;
@@ -106,7 +106,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         dialog.callBack = callBack;
         dialog.bankWithdrawalClose = bankWithdrawalClose;
         dialog.checkCode = checkCode;
-        dialog.mActivity =  activity ;
+        dialog.mActivity = activity;
         return dialog;
     }
 
@@ -205,7 +205,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     }
 
     private void referUI() {
-        if (chooseInfoVo.wdChannelList !=null && !chooseInfoVo.wdChannelList.isEmpty()){
+        if (chooseInfoVo.wdChannelList != null && !chooseInfoVo.wdChannelList.isEmpty()) {
             if (chooseInfoVo.wdChannelList.size() > 0) {
                 ChooseAdapter adapter = new ChooseAdapter(context, chooseInfoVo.wdChannelList, new IChooseCallback() {
                     @Override
@@ -213,18 +213,20 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
                         ChooseInfoVo.ChannelInfo channel = channelInfo;
                         CfLog.i("ChooseAdapter channel = " + channel.toString());
-                        if (channel.isBind ==false ){
-                            if (!TextUtils.isEmpty(channel.channeluseMessage) && !channel.isBind){
-                                showBindDialog(channel , channel.channeluseMessage);
+                        if (channel.isBind == false) {
+                            if (!TextUtils.isEmpty(channel.channeluseMessage) && !channel.isBind) {
+                                showBindDialog(channel, channel.channeluseMessage);
                             } else {
                                 showErrorDialog(channel.channeluseMessage);
                             }
                         } else if (channel.isBind && TextUtils.isEmpty(channel.channeluseMessage)) {
-                            if (TextUtils.equals("银行卡提款", txt)){
+                            if (TextUtils.equals("银行卡提款", txt)) {
                                 showBankWithdrawalDialog(channelInfo, checkCode);
-                            }else {
+                            } else {
                                 showUSDTWithdrawalDialog(channelInfo, checkCode);
                             }
+                        } else if (channel.isBind &&!TextUtils.isEmpty(channel.channeluseMessage)) {
+                            showErrorDialog(channel.channeluseMessage);
                         }
                   /*  if (channel.channeluse == 0)//显示弹窗
                     {
@@ -267,12 +269,12 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     intent.putExtra(BrowserActivity.ARG_URL, DomainUtil.getDomain2() + "/static/usdt-description/as/usdt_m.html");
                     getContext().startActivity(intent);
                 });
-                String tip ="";
-                if (!chooseInfoVo.bankcardstatus_usdt  && !chooseInfoVo.bankcardstatus_ebpay){
+                String tip = "";
+                if (!chooseInfoVo.bankcardstatus_usdt && !chooseInfoVo.bankcardstatus_ebpay) {
                     tip =
                             String.format(getContext().getString(R.string.txt_choose_withdrawal_nobind_tip),
                                     StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))));
-                }else {
+                } else {
                     tip =
                             String.format(getContext().getString(R.string.txt_choose_withdrawal_tip),
                                     StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))), chooseInfoVo.usdtInfo.quota);
@@ -284,7 +286,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     binding.tvChooseTip.setTextColor(getContext().getColor(R.color.clr_withdrawal_list_bottom_text_tip_bg));
                 }
             }
-        }else {
+        } else {
             showErrorDialog(getContext().getString(R.string.txt_network_error));
         }
 
@@ -402,7 +404,9 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         basePopupView.show();
     }
 
-    /**显示绑定Dialog*/
+    /**
+     * 显示绑定Dialog
+     */
     private void showBindDialog(ChooseInfoVo.ChannelInfo channelInfo, String showMessage) {
         String errorMessage = "请先绑" + channelInfo.configkey.toUpperCase() + "后才可提款";
         customPopWindow = new XPopup.Builder(getContext())
@@ -440,14 +444,14 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     @Override
                     public void onClickLeft() {
                         customPopWindow.dismiss();
-                       // callBack.closeDialog();
+                        // callBack.closeDialog();
 
                     }
 
                     @Override
                     public void onClickRight() {
                         customPopWindow.dismiss();
-                       // callBack.closeDialog();
+                        // callBack.closeDialog();
                     }
                 }));
         customPopWindow.show();
