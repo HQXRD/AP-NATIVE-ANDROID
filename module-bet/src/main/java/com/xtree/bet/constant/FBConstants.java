@@ -16,8 +16,8 @@ public class FBConstants {
      * 体育分类ID，与sportNames一一对应
      */
     public static String[] SPORT_IDS;
-    public static String[] SPORT_IDS_ALL = new String[]{"0", "1", "3", "5", "16", "7", "13", "47", "4", "15", "2", "19", "51", "8"};
-    public static String[] SPORT_IDS_NOMAL = new String[]{"1", "3", "5", "16", "7", "13", "47", "4", "15", "2", "19", "51", "8"};
+    public static String[] SPORT_IDS_ALL = new String[]{"0", "1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
+    public static String[] SPORT_IDS_NOMAL = new String[]{"1", "3", "5", "16", "7", "13", "47", "6", "15", "2", "19", "51", "8"};
     public static String[] SPORT_IDS_ADDITIONAL = new String[]{"4", "10", "12", "14", "17", "18", "20", "21", "24", "25", "92", "93", "100"};
 
     public static String[] SPORT_NAMES;
@@ -72,7 +72,7 @@ public class FBConstants {
     /**
      * 体育分类ID-美式足球
      */
-    public static String SPORT_ID_MSZQ = "4";
+    public static String SPORT_ID_MSZQ = "6";
     /**
      * 体育分类ID-乒乓球
      */
@@ -176,11 +176,11 @@ public class FBConstants {
     /**
      * 美式足球玩法编号
      */
-    public static String[] PLAY_TYPE_ID_MSZQ = new String[]{"4003/4001", "4001/4001", "4001/4003"};
+    public static String[] PLAY_TYPE_ID_MSZQ = new String[]{"6003/6001", "6001/6001", "6002/6001"};
     /**
      * 美式足玩法名称，跟上面的编号一一对应
      */
-    public static String[] PLAY_TYPE_NAME_MSZQ = new String[]{"全场独赢", "全场让球", "半场让球"};
+    public static String[] PLAY_TYPE_NAME_MSZQ = new String[]{"全场独赢", "全场让球", "全场大小"};
     /**
      * 棒球玩法编号
      */
