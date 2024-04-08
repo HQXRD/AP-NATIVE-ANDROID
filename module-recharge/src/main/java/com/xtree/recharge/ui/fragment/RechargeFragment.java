@@ -1038,10 +1038,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void goPay(RechargePayVo vo) {
-        String payCodes = "alipay,alipay2,alipaysm,weixin,juxinpay,juxinpay1,juxinpay2,juxinwx1"
-                + ",juxinwex2,juxinzfb1,juxinzfb2,hqppay,ebpay,cryptohqppay2,cryptotrchqppay2"
-                + ",hqppaytopay,hiwallet,hqppay6";
-        List<String> payCodeList = Arrays.asList(payCodes.split(",")); // payCodeArr
+        //String payCodes = "alipay,alipay2,alipaysm,weixin,juxinpay,juxinpay1,juxinpay2,juxinwx1"
+        //        + ",juxinwex2,juxinzfb1,juxinzfb2,hqppay,ebpay,cryptohqppay2,cryptotrchqppay2"
+        //        + ",hqppaytopay,hiwallet,hqppay6";
+        //List<String> payCodeList = Arrays.asList(payCodes.split(",")); // payCodeArr
+        List<String> payCodeList = mPaymentDataVo.payCodeArr;
         boolean isInArr = payCodeList.contains(vo.bankcode);
         CfLog.i(" bankcode: " + vo.bankcode + ", isInArr: " + isInArr + " isbank: " + vo.isbank + ", isusdt: " + vo.isusdt);
         if (vo.bankcode.equals("ucim") && vo.isRedirectMode && vo.isredirect) {
