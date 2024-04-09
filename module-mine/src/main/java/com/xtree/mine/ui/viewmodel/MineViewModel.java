@@ -16,6 +16,7 @@ import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.LoadingDialog;
@@ -59,7 +60,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<MarketingVo> liveDataMarketing = new SingleLiveData<>();
     public SingleLiveData<MarketingVo> liveDataPostMark = new SingleLiveData<>();
     public SingleLiveData<AdduserVo> liveDataAdduser = new SingleLiveData<>();
-    public MutableLiveData<AppUpdateDialog.AppUpdateVo> liveDataUpdate = new MutableLiveData<>();//更新
+    public MutableLiveData<AppUpdateVo> liveDataUpdate = new MutableLiveData<>();//更新
 
     public MineViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
@@ -401,9 +402,9 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
         Disposable disposable = (Disposable) model.getApiService().getUpdate()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<AppUpdateDialog.AppUpdateVo>() {
+                .subscribeWith(new HttpCallBack<AppUpdateVo>() {
                     @Override
-                    public void onResult(AppUpdateDialog.AppUpdateVo updateVo) {
+                    public void onResult(AppUpdateVo updateVo) {
                         if (updateVo == null) {
                             CfLog.e("data is null");
                         }

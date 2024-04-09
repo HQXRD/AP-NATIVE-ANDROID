@@ -1,9 +1,9 @@
 package com.xtree.mine.data.source.http.service;
 
+import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
-import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
@@ -715,7 +715,7 @@ public interface HttpApiService {
      * 获取更新
      */
     @GET("/api/app/version?platform=android")
-    Flowable<BaseResponse<AppUpdateDialog.AppUpdateVo>> getUpdate();
+    Flowable<BaseResponse<AppUpdateVo>> getUpdate();
 
     @POST("/api/user/verifylastbind?")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})

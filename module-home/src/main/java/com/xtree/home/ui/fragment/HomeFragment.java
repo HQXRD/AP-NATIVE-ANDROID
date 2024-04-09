@@ -11,9 +11,7 @@ import android.widget.RadioButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,7 +31,9 @@ import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.home.BR;
@@ -46,7 +46,6 @@ import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.home.vo.BannersVo;
 import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
-import com.xtree.home.vo.UpdateVo;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
@@ -82,9 +81,11 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private boolean isFloating = false;
     private int clickCount = 0; // 点击次数 debug model
     private boolean selectUpdate;//手动更新余额
-    private UpdateVo updateVo;//更新
+    private AppUpdateVo updateVo;//更新
     private boolean isSelectedGame = false;
     private int gameGroup = -1;
+    private BasePopupView updateView;
+    private String nativeAppUpdate;//App本地强制更新标志为 0不存在强更
 
     @Override
     public int initContentView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -644,25 +645,27 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
      * @param isWeakUpdate 是否弱更 true:是弱更 false:强更
      * @param vo           UpdateVo
      */
-    private void showUpdate(final boolean isWeakUpdate, final UpdateVo vo) {
-        if (ppw != null && ppw.isShow()) {
+    private void showUpdate(final boolean isWeakUpdate, final AppUpdateVo vo) {
+        if (updateView != null && updateView.isShow()) {
             return;
         }
-        UpdateDialog dialog = new UpdateDialog(getContext(), isWeakUpdate, vo, new UpdateDialog.ICallBack() {
+        AppUpdateDialog dialog = new AppUpdateDialog(getContext(), isWeakUpdate, vo, new AppUpdateDialog.IAppUpdateCallBack() {
             @Override
             public void onUpdateCancel() {
-                ppw.dismiss();
+                updateView.dismiss();
             }
 
             @Override
             public void onUpdateForce() {
             }
+
         });
-        ppw = new XPopup.Builder(getContext())
+
+        updateView = new XPopup.Builder(getContext())
                 .dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
                 .asCustom(dialog);
-        ppw.show();
+        updateView.show();
     }
 
     private void smoothToPositionTop(int position) {
