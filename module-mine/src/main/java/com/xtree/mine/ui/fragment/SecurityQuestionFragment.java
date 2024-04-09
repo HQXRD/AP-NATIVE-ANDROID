@@ -183,6 +183,8 @@ public class SecurityQuestionFragment extends BottomPopupView {
         viewModel.response2MutableLiveData.observe(owner, vo -> {
 
             if (vo.message != null && TextUtils.equals("修改成功", vo.message)) {
+                //修改成功后 刷新个人信息
+                viewModel.getProfile();
                 ToastUtils.show(vo.message, ToastUtils.ShowType.Success);
                 if (reSetFundView != null) reSetFundView.dismiss();
             } else if (vo.message != null && !TextUtils.isEmpty(vo.message)) {
@@ -295,17 +297,17 @@ public class SecurityQuestionFragment extends BottomPopupView {
             return;
         }
         String newsecpass = MD5Util.generateMd5("") + MD5Util.generateMd5(firstPSW);
+        // String public_key = SPUtils.getInstance().getString("public_key", "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDW+Gv8Xmk+EdTLQUU5fEAzhlVuFrI7GN4a8N\\/B0Oe63ORK8oBE1pK+t5U5Iz89K4zf7nX+tqQvzND5Z57NMwyqTYYb3TMbrKgjqF1K2YW08OaubjpdohMnDIibmPXNtrbRZpOf2xIaApR+wpqGS+Xw0LzKA8JPYDOPO4lseAtqVwIDAQAB");
         String public_key = SPUtils.getInstance().getString("public_key", "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDW+Gv8Xmk+EdTLQUU5fEAzhlVuFrI7GN4a8N\\/B0Oe63ORK8oBE1pK+t5U5Iz89K4zf7nX+tqQvzND5Z57NMwyqTYYb3TMbrKgjqF1K2YW08OaubjpdohMnDIibmPXNtrbRZpOf2xIaApR+wpqGS+Xw0LzKA8JPYDOPO4lseAtqVwIDAQAB");
+        String loginpass = RSAEncrypt.encrypt2(firstPSW, public_key);
         firstPSW = RSAEncrypt.encrypt2(newsecpass, public_key);
-
-        String pwd = MD5Util.generateMd5("") + MD5Util.generateMd5(secondPSW);
-        secondPSW = RSAEncrypt.encrypt2(pwd, public_key);
+        secondPSW = RSAEncrypt.encrypt2(newsecpass, public_key);
 
         HashMap<String, String> map = new HashMap<>();
         map.put("accessToken", accessToken);
         map.put("flag", "gener");
-        map.put("newsecpass", firstPSW);
-        map.put("pwd", secondPSW);
+        map.put("newsecpass", loginpass);
+        map.put("pwd", loginpass);
         map.put("nonce", UuidUtil.getID24());
         LoadingDialog.show(getContext());
         CfLog.e("retrieveFundPSW = " + map);

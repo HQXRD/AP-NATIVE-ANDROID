@@ -30,7 +30,6 @@ import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.RedPocketVo;
 import com.xtree.home.vo.SettingsVo;
-import com.xtree.home.vo.UpdateVo;
 import com.xtree.home.vo.VipInfoVo;
 
 import java.io.BufferedReader;

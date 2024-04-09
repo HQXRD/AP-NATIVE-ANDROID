@@ -777,8 +777,8 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
             uploadMap.put("userpay_picture", userPic); //上传图片三方地址
             uploadMap.put("receive_bank", receive_bank);//支付渠道
             uploadMap.put("userpay_virtual_protocol", "1");//用户支付协议 微信默认为1
-            uploadMap.put("userpay_name", binding.etPaymentAccount.getText().toString()); //付款人
-            uploadMap.put("receive_name", binding.etPaymentName.getText().toString());//收款人
+            uploadMap.put("userpay_name", binding.etPaymentName.getText().toString()); //付款人
+            uploadMap.put("receive_name", binding.etCollectionName.getText().toString());//收款人
             CfLog.i("微信状态提交反馈  " + uploadMap);
 
         } else {
