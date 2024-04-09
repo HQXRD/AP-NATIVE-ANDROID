@@ -36,7 +36,7 @@ public class FeedbackCheckVo extends BaseResponse {
         public String userpay_mode;
         public String userpay_virtual_protocol;
         public String third_orderid;
-        public String userpay_amount;
+        public String userpay_amount;//付款金额
         public String userpay_time;
         public String add_time;
         public String cash_time;
@@ -47,12 +47,12 @@ public class FeedbackCheckVo extends BaseResponse {
         public String order_edit_status;
 
         public String username;
-        public String userpay_bank;
-        public String userpay_name;
+        public String userpay_bank;//付款账号
+        public String userpay_name; //付款人姓名
         public String receive_banknum;
 
-        public String receive_name;
-        public String receive_bank;
+        public String receive_name;//收款人姓名
+        public String receive_bank;//收款银行卡号;
 
         public String receive_bank_text;//显示具体的名称
 
