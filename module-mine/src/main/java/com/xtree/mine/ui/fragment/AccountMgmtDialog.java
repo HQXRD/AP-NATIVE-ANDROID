@@ -7,13 +7,17 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.DialogAccountMgmtBinding;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * 账户管理 底部弹窗
@@ -37,6 +41,21 @@ public class AccountMgmtDialog extends BottomPopupView {
 
     private void initView() {
         binding.ivwClose.setOnClickListener(v -> dismiss());
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        ProfileVo mProfileVo = new Gson().fromJson(json, ProfileVo.class);
+        //当已绑定的支付宝\微信数量>0时，显示管理支付宝\微信
+        if (mProfileVo != null) {
+            if (mProfileVo.onepayzfb_count != null && Integer.parseInt(mProfileVo.onepayzfb_count) > 0) {
+                binding.tvZfb.setText(R.string.txt_manage_alipay);
+            } else {
+                binding.tvZfb.setText(R.string.txt_bind_alipay);
+            }
+            if (mProfileVo.onepaywx_count != null && Integer.parseInt(mProfileVo.onepaywx_count) > 0) {
+                binding.tvWx.setText(R.string.txt_manage_wechat);
+            } else {
+                binding.tvWx.setText(R.string.txt_bind_wechat);
+            }
+        }
 
         // 这里加点击事件
         for (int i = 0; i < binding.llMenu.getChildCount(); i++) {

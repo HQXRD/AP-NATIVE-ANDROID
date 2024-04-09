@@ -3,7 +3,6 @@ package com.xtree.mine.ui.fragment
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,9 +17,9 @@ import com.xtree.base.router.RouterFragmentPath
 import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.ImageUploadUtil
 import com.xtree.base.utils.UuidUtil
-import com.xtree.base.vo.ProfileVo
 import com.xtree.base.widget.GlideEngine
 import com.xtree.base.widget.ImageFileCompressEngine
+import com.xtree.base.widget.LoadingDialog
 import com.xtree.mine.BR
 import com.xtree.mine.R
 import com.xtree.mine.databinding.FragmentBindAddAwBinding
@@ -28,8 +27,11 @@ import com.xtree.mine.ui.viewmodel.BindCardViewModel
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory
 import com.xtree.mine.vo.UserBankConfirmVo
 import me.xtree.mvvmhabit.base.BaseFragment
+import me.xtree.mvvmhabit.utils.ImageUtils
+import me.xtree.mvvmhabit.utils.KLog
 import me.xtree.mvvmhabit.utils.ToastUtils
 import java.io.File
+
 
 /**
  * 绑定支付宝、微信
@@ -61,7 +63,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         initArguments()
         binding.llRoot.setOnClickListener { hideKeyBoard() }
         binding.ivwBack.setOnClickListener {
-            if (binding.llAdd.visibility == View.GONE) {
+            if (binding.llConfirm.visibility == View.VISIBLE) {
                 binding.llAdd.visibility = View.VISIBLE
                 binding.llConfirm.visibility = View.GONE
             } else {
@@ -73,10 +75,14 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         binding.ivwNext.setOnClickListener { doNext() }
         binding.tvwSubmit.setOnClickListener { doSubmit() }
         binding.tvwBack.setOnClickListener {
-            if (binding.llAdd.visibility == View.GONE) {
+            if (binding.llConfirm.visibility == View.VISIBLE) {
                 binding.llAdd.visibility = View.VISIBLE
                 binding.llConfirm.visibility = View.GONE
             }
+        }
+
+        binding.tvPaymentCode.setOnClickListener {
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_AW_TIP, arguments)
         }
     }
 
@@ -103,6 +109,8 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                     binding.tvwCode.text = getString(R.string.txt_alipay_code)
                     action = "adduseronepayzfb"
                     qrcodeType = 2
+                    binding.ivAwIcon.setImageResource(R.mipmap.ic_alipay)
+                    binding.tvMsg.text = getString(R.string.txt_bind_alipay).plus(getString(R.string.txt_succ))
                 }
 
                 getString(R.string.txt_bind_wechat_type) -> {
@@ -117,6 +125,8 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                     binding.tvwCode.text = getString(R.string.txt_wechat_code)
                     action = "adduseronepaywx"
                     qrcodeType = 1
+                    binding.ivAwIcon.setImageResource(R.mipmap.ic_wechat)
+                    binding.tvMsg.text = getString(R.string.txt_bind_wechat).plus(getString(R.string.txt_succ))
                 }
             }
             binding.etNickname.hint = getString(R.string.txt_input_nickname, typeName)
@@ -144,14 +154,18 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
             mConfirmVo = vo
             setConfirmView()
         }
-        viewModel.liveDataBindCardResult.observe(this) { vo: UserBankConfirmVo? ->
+        viewModel.liveDataBindCardResult.observe(this) { vo: UserBankConfirmVo ->
             CfLog.i("******")
             //getActivity().finish();
+            binding.layoutRecharge.visibility = View.VISIBLE
+            binding.llConfirm.visibility = View.GONE
+            binding.tvMsg.text = vo.message
+            binding.tvRecharge.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putBoolean("isShowBack", true)
+                startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle)
+            }
             viewModel.getProfile()
-        }
-        viewModel.liveDataProfile.observe(this) { vo: ProfileVo? ->
-            CfLog.i("******")
-            requireActivity().finish()
         }
     }
 
@@ -193,21 +207,26 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
             "client" to "m"
         )
 
-        val map = hashMapOf(
-            "check" to tokenSign,
-            "entrancetype" to "0",
-            "filetype" to "image/png",
-            "filedata" to ImageUploadUtil.bitmapToString(imageRealPathString),
-            "flag" to "add",
-            "mark" to mark,
-            "nickname" to nickName,
-            "nonce" to UuidUtil.getID16(),
-            "qrcode_type" to qrcodeType,
-            "submit" to "sumbit",
-            "type" to "m5",
-            "wxzfb_id" to phone,
-            "wxzfb_username" to name,
-        )
+        val fileType = ImageUtils.getImageType(File(imageRealPathString))
+        val filedata = "data:" + fileType + ";base64," + ImageUploadUtil.bitmapToString(imageRealPathString)
+        KLog.i("filedata", filedata)
+        val map = HashMap<String, Any?>()
+
+        map["check"] = tokenSign
+        map["entrancetype"] = 0
+        map["filetype"] = fileType
+        map["filedata"] = filedata
+        map["flag"] = "add"
+        map["mark"] = mark
+        map["nickname"] = nickName
+        map["nonce"] = UuidUtil.getID()
+        map["qrcode_type"] = qrcodeType
+        map["submit"] = "sumbit"
+        map["type"] = "m5"
+        map["wxzfb_id"] = phone
+        map["wxzfb_username"] = name
+
+        LoadingDialog.show(context)
         viewModel.doBindCardByCheck(queryMap, map)
     }
 
@@ -225,7 +244,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                     if (result != null) {
                         for (i in result.indices) {
                             imageRealPathString = result[i].compressPath
-                            if (TextUtils.isEmpty(imageRealPathString)) {
+                            if (imageRealPathString.isNullOrEmpty()) {
                                 imageRealPathString = result[i].realPath
                             }
                             val imageRealPath = File(imageRealPathString)
@@ -257,25 +276,21 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         queryMap["controller"] = controller
         queryMap["action"] = action
         queryMap["client"] = "m"
-        queryMap["mark"] = mark
-        queryMap["check"] = tokenSign
-        val map = HashMap<Any?, Any?>()
+        KLog.i("picurl", mConfirmVo.picurl)
+        val map = HashMap<String, Any?>()
+        map["check"] = tokenSign
+        map["entrancetype"] = 0
+        map["filetype"] = mConfirmVo.tyfiletypepe
         map["flag"] = "confirm"
-        map["controller"] = controller
-        map["action"] = action
-        map["nickname"] = ""
-        map["bank_id"] = mConfirmVo.bank_id // "111",
-        map["bank"] = mConfirmVo.bank // "上海银行",
-        map["province_id"] = mConfirmVo.province_id // "22",
-        map["province"] = mConfirmVo.province // "云南",
-        map["city_id"] = mConfirmVo.city_id // "23",
-        map["city"] = mConfirmVo.city // "丽江",
-        map["branch"] = mConfirmVo.branch // "丽江支行",
-        map["account_name"] = mConfirmVo.account_name // "姓名"
-        map["account"] = mConfirmVo.account // "4500***1234"
-        map["oldid"] = ""
-        map["entrancetype"] = "0"
-        map["nonce"] = UuidUtil.getID16()
+        map["mark"] = mark
+        map["nickname"] = nickName
+        map["nonce"] = UuidUtil.getID()
+        map["picurl"] = mConfirmVo.picurl
+        map["submit"] = "sumbit"
+        map["type"] = "m5"
+        map["wxzfb_id"] = phone
+        map["wxzfb_qrcodekey"] = mConfirmVo.wxzfb_qrcodekey
+        map["wxzfb_username"] = name
         viewModel.doBindCardBySubmit(queryMap, map)
     }
 

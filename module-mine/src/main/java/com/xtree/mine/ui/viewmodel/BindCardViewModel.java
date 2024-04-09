@@ -143,7 +143,7 @@ public class BindCardViewModel extends BaseViewModel<MineRepository> {
     }
 
     /**
-     * 绑卡, 点下一步展示确认信息页
+     * 绑卡/支付宝/微信, 点下一步展示确认信息页
      *
      * @param queryMap
      * @param map

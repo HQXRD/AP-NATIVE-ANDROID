@@ -225,11 +225,17 @@
 
             <ImageView
                 android:id="@+id/iv_code"
-                android:layout_width="173dp"
-                android:layout_height="270dp"
-                android:layout_gravity="center_horizontal" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true" />
 
-            <LinearLayout style="@style/style_cm_btn_ll">
+            <LinearLayout
+                style="@style/style_cm_btn_ll"
+                android:layout_marginBottom="12dp">
 
                 <TextView
                     android:id="@+id/tvw_back"
@@ -240,6 +246,40 @@
                     style="@style/style_btn"
                     android:text="@string/text_confirm" />
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_recharge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/iv_aw_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_msg"
+                android:layout_width="wrap_content"
+                android:textSize="20sp"
+                tools:text="绑定微信成功"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/clr_txt_black_04"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tv_recharge"
+                style="@style/style_btn"
+                android:layout_width="140dp"
+                android:textSize="@dimen/bt_text_16sp"
+                android:layout_marginTop="30dp"
+                android:padding="8dp"
+                android:text="去充值" />
         </LinearLayout>
     </LinearLayout>
 </layout>

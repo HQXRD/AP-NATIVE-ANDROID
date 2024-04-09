@@ -78,6 +78,8 @@ public class ProfileVo {
     //public int act_userlabel_pupshow; // 1,
     public int phone_selfupdate; // 1,
     public String email_selfupdate; // "1"
+    public String onepayzfb_count; // "1"
+    public String onepaywx_count; // "1"
 
     @Override
     public String toString() {
