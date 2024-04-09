@@ -26,8 +26,8 @@ import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMemberManageBinding;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.mine.vo.MemberManagerVo;
 import com.xtree.mine.vo.MemberUserInfoVo;
-import com.xtree.mine.vo.ProfitLossReportVo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -156,7 +156,7 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
             if (vo.bread != null && !vo.bread.isEmpty()) {
                 //binding.tvwBread.setText("");
                 StringBuffer sb = new StringBuffer();
-                for (ProfitLossReportVo.UserVo t : vo.bread) {
+                for (MemberManagerVo.UserVo t : vo.bread) {
                     String modifiedString;
                     int index = t.username.indexOf("@");
                     if (index != -1) {
