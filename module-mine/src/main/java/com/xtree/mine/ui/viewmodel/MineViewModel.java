@@ -18,7 +18,6 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.ProfileVo;
-import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.AdduserVo;
