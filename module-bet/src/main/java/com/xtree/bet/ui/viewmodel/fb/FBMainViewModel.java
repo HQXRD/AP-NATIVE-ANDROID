@@ -268,7 +268,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         fBListReq.setCurrent(mCurrentPage);
         fBListReq.setOddType(oddType);
 
-        if (TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
+        if (sportPos == -1 || TextUtils.equals(SPORT_NAMES[sportPos], "热门") || TextUtils.equals(SPORT_NAMES[sportPos], "全部")) {
             fBListReq.setSportId(null);
         }
 

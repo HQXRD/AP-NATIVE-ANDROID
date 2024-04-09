@@ -184,7 +184,7 @@ public class FBConstants {
     /**
      * 棒球玩法编号
      */
-    public static String[] PLAY_TYPE_ID_BQ = new String[]{"7003/13001", "7001/13001", "7002/13001"};
+    public static String[] PLAY_TYPE_ID_BQ = new String[]{"7003/7001", "7001/7001", "7002/7001"};
     /**
      * 棒球玩法名称，跟上面的编号一一对应
      */
@@ -212,7 +212,7 @@ public class FBConstants {
     /**
      * 拳击玩法名称，跟上面的编号一一对应
      */
-    public static String[] PLAY_TYPE_NAME_QJ = new String[]{"全场独赢", "获胜方式", "全场大小"};
+    public static String[] PLAY_TYPE_NAME_QJ = new String[]{"全场独赢", "获胜方式", "回合数大小"};
     /**
      * 冰球玩法编号
      */
@@ -232,7 +232,7 @@ public class FBConstants {
     /**
      * 手球玩法编号
      */
-    public static String[] PLAY_TYPE_ID_SQ = new String[]{"8008/8001", "8001/8001", "8002/8001"};
+    public static String[] PLAY_TYPE_ID_SQ = new String[]{"8005/8001", "8001/8001", "8002/8001"};
     /**
      * 手球玩法名称，跟上面的编号一一对应
      */

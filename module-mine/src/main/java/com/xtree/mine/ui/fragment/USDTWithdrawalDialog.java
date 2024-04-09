@@ -66,6 +66,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
     private
     @NonNull
     DialogBankWithdrawalUsdtBinding binding;
+    private String usdtid;//第二步传递的 提款地址ide id
 
     public USDTWithdrawalDialog(@NonNull Context context) {
         super(context);
@@ -137,7 +138,9 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             }
             //异常
             else if (usdtCashVo.msg_type == 2 || usdtCashVo.msg_type == 1) {
-                if (getContext().getString(R.string.txt_no_withdrawals_available_tip).equals(usdtCashVo.message)) {
+                final String leftString  = getContext().getString(R.string.txt_no_withdrawals_available_tip);
+
+                if (TextUtils.equals(leftString , usdtCashVo.message)) {
                     refreshError(usdtCashVo.message);
                 } else {
                     ToastUtils.show(usdtCashVo.message, ToastUtils.ShowType.Fail);
@@ -166,7 +169,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             usdtSecurityVo = vo;
             //|| usdtSecurityVo.user == null
             if (usdtSecurityVo == null || usdtSecurityVo.datas == null ) {
-                if ("2".equals(usdtSecurityVo.msg_type) &&  "抱歉，您的提款金额低于单笔最低提现金额，请确认后再进行操作".equals(usdtSecurityVo.message)){
+
+                if ("2".equals(usdtSecurityVo.msg_type) && TextUtils.equals("抱歉，您的提款金额低于单笔最低提现金额，请确认后再进行操作" , usdtSecurityVo.message)){
                     ToastUtils.showError(usdtSecurityVo.message);
                 }
                 else {
@@ -238,11 +242,13 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         String quota = usdtCashVo.availablebalance;
         binding.tvWithdrawalAmountShow.setText(quota);//提款余额
         String temp = usdtCashVo.usdtinfo.get(0).min_money + "元,最高" + usdtCashVo.usdtinfo.get(0).max_money + "元";
+        usdtid =usdtCashVo.usdtinfo.get(0).id;
         binding.tvWithdrawalTypeShow1.setText(temp);
         binding.tvInfoExchangeRateShow.setText(usdtCashVo.exchangerate);
         CfLog.e("firstChannel.title " + firstChannel.toString());
         //默认第一个是trc20
-        if ("嗨钱包usdt".equals(firstChannel.title)){
+
+        if (TextUtils.equals("嗨钱包usdt" , firstChannel.title)){
             binding.tvCollectionUsdt.setText(usdtinfoTRC.get(0).usdt_type +" "+usdtinfoTRC.get(0).usdt_card);
             selectUsdtInfo = usdtinfoTRC.get(0);
             type = "TRC";
@@ -443,7 +449,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         binding.llVirtualConfirmView.setVisibility(View.GONE);
         binding.llOverApply.setVisibility(View.VISIBLE);
         //msg_type 为2 或者msg_detail为账户提款申请成功
-        if (usdtConfirmVo.msg_detail.equals("账户提款申请成功") && usdtConfirmVo.msg_type.equals("2")) {
+
+        if (TextUtils.equals("账户提款申请成功" , usdtConfirmVo.msg_detail) && usdtConfirmVo.msg_type.equals("2")) {
             binding.ivOverApply.setBackgroundResource(R.mipmap.ic_over_apply);
         } else if (usdtConfirmVo.error != null) {
             binding.tvOverMsg.setText("账户提款申请失败");
@@ -571,8 +578,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         map.put("money", vo.datas.arrive);
         map.put("name", vo.name);
         map.put("play_source", "1");
-        map.put("usdt_type", vo.datas.drawal_type);
-        map.put("usdtid" ,  vo.usdtid)        ;
+        map.put("usdt_type",  vo.datas.drawal_type);
+        map.put("usdtid" ,  vo.drawal_type)        ;
        /* map.put("cardid", "");*/
 
        /* map.put("usdt_type", usdtSecurityVo.usdt_type);*/

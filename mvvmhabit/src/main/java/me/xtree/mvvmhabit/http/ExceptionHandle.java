@@ -35,7 +35,7 @@ public class ExceptionHandle {
                     ex.message = "操作未授权";
                     break;
                 case FORBIDDEN:
-                    ex.message = "请求被拒绝";
+                    ex.message = "抱歉，当前国家或地区不支持服务"; //"请求被拒绝";
                     break;
                 case NOT_FOUND:
                     ex.message = "资源不存在";

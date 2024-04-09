@@ -31,6 +31,7 @@ public class WebAppInterface {
     final String TYPE_WITHDRAW = "goWithdraw";
     final String TYPE_CS = "goCustomService";
     final String TYPE_VIP = "goVip";
+    final String TYPE_GAME = "goGame";
     final String TYPE_BACK = "goBack";
     final String TYPE_CLOSE = "close";
     final String TYPE_ERROR_MSG = "errorMsg";
@@ -100,6 +101,11 @@ public class WebAppInterface {
                         DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
                 close();
                 break;
+            case TYPE_GAME:
+                ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
+                        withString("KEY_PLATFORM", "fbxc").navigation();
+                close();
+                break;
             case TYPE_BACK:
             case TYPE_CLOSE:
                 close();
@@ -112,6 +118,7 @@ public class WebAppInterface {
                 break;
             default:
                 CfLog.i("****** default: " + type);
+                close();
                 break;
         }
 
