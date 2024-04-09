@@ -489,48 +489,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
         });
 
-        //viewModel.liveDataVipUpgrade.observe(this, vo -> {
-        //    if (mVipInfoVo == null) {
-        //        //binding.tvwLevelHint.setVisibility(View.INVISIBLE);
-        //        binding.pbrLevel.setProgress(0);
-        //        return;
-        //    }
-        //    if (vo.sp.equals("1")) {
-        //        if (vo.level < vo.vip_upgrade.size() - 1) {
-        //            int point = vo.vip_upgrade.get(vo.level + 1).display_active - mVipInfoVo.current_activity;
-        //            int level = vo.vip_upgrade.get(vo.level + 1).display_level;
-        //            String txt = getString(R.string.txt_level_hint_00);
-        //            txt = String.format(txt, point, level);
-        //            CfLog.i("txt " + txt);
-        //            binding.tvwLevelHint.setText(txt);
-        //            binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).display_active) * 100));
-        //            binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar));
-        //        } else {
-        //            String txt = getString(R.string.txt_level_hint_10);
-        //            txt = String.format(txt, vo.display_level);
-        //            binding.tvwLevelHint.setText(txt);
-        //            binding.pbrLevel.setProgress(100);
-        //            binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar_100));
-        //        }
-        //    } else {
-        //        if (vo.level < vo.vip_upgrade.size() - 1) {
-        //            int point = vo.vip_upgrade.get(vo.level + 1).active - mVipInfoVo.current_activity;
-        //            int level = vo.level + 1;
-        //            String txt = getString(R.string.txt_level_hint_00);
-        //            txt = String.format(txt, point, level);
-        //            CfLog.d("txt " + txt);
-        //            binding.tvwLevelHint.setText(txt);
-        //            binding.pbrLevel.setProgress((int) (((double) mVipInfoVo.current_activity / (double) vo.vip_upgrade.get(vo.level + 1).active) * 100));
-        //            binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar));
-        //        } else {
-        //            String txt = getString(R.string.txt_level_hint_10);
-        //            txt = String.format(txt, vo.level);
-        //            binding.tvwLevelHint.setText(txt);
-        //            binding.pbrLevel.setProgress(100);
-        //            binding.pbrLevel.setProgressDrawable(getResources().getDrawable(R.drawable.me_level_progressbar_100));
-        //        }
-        //    }
-        //});
     }
 
     /**
