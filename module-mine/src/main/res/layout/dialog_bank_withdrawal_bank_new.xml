@@ -60,7 +60,7 @@
         android:background="@color/white"
         android:orientation="vertical"
         android:padding="10dp"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -176,8 +176,8 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical"
-        android:visibility="gone"
-        android:padding="8dp">
+        android:padding="8dp"
+        android:visibility="gone">
         <!--显示错误信息-->
 
         <TextView
@@ -321,9 +321,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ll_virtual_hint"
+                        android:layout_marginTop="4dp"
                         android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:layout_marginTop="4dp">
+                        android:focusableInTouchMode="true">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -507,14 +507,16 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-    <!--h5view com.xtree.mine.ui.fragment.ScrollWebView-->
+    <!--h5view -->
     <LinearLayout
         android:id="@+id/mask_h5_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/clr_white"
         android:orientation="vertical"
-        android:visibility="visible"></LinearLayout>
+        android:visibility="visible">
+
+    </LinearLayout>
 
     <WebView
         android:id="@+id/ns_h5_view"
@@ -530,7 +532,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
-        android:background="@color/red"
+        android:background="@color/white"
         android:visibility="visible">
 
         <LinearLayout
@@ -548,11 +550,10 @@
                     android:id="@+id/tv_show_error_message"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="0dp"
                     android:gravity="center_horizontal"
-                    android:text="1231232123123121313"
-                    android:textColor="@color/red"
-                    android:textSize="20sp" />
+                    android:text=""
+                    android:textColor="@color/clr_grey_60"
+                    android:textSize="16sp" />
 
             </RelativeLayout>
         </LinearLayout>

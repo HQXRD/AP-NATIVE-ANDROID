@@ -18,6 +18,9 @@
     <string name="txt_bind_gobao_type">bindgobao</string>
     <string name="txt_bind_gopay_type">bindgopay</string>
     <string name="txt_bind_okpay_type">bindokpay</string>
+    <!--HQAP2-2769增加绑定微信支付宝-->
+    <string name="txt_bind_wechat_type">bindcardwx</string>
+    <string name="txt_bind_zfb_type">bindcardzfb</string>
 
     <string name="txt_bind_card">银行卡管理</string>
     <string name="txt_bind_usdt">绑定USDT</string>
@@ -196,6 +199,7 @@
     <string name="txt_update_down_over_tip">下载完成</string>
     <string name="txt_update_down_fail_tip">下载失败，请稍候重试</string>
     <string name="txt_network_error">网络异常，请稍后重试</string>
+    <string name="txt_withdrawal_network_error">网络链接超时，请检查您的网络后重试</string>
     <string name="txt_no_withdrawals_available_tip">您今天已没有可用提款次数</string>
     <string name="txt_withdrawal_not_supported_tip">暂不支持该渠道提款，请联系您的上级或客服！</string>
     <!--提款-->

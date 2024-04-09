@@ -1,5 +1,7 @@
 package com.xtree.bet.bean.request.fb;
 
+import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +13,7 @@ public class BtCgReq {
     private double unitStake;
     private int seriesValue;
     private List<BtOptionReq> betOptionList = new ArrayList<>();
-
+    private String thirdRemark = new Gson().toJson(new ThirdRemark());
     public int getOddsChange() {
         return oddsChange;
     }

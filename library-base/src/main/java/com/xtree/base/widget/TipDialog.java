@@ -4,8 +4,10 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
@@ -15,7 +17,7 @@ import com.xtree.base.databinding.DialogTipBinding;
 public class TipDialog extends CenterPopupView {
 
     String title;
-    String msg;
+    CharSequence msg;
     String txtLeft;
     boolean isSingleBtn;
     String txtRight;
@@ -45,7 +47,7 @@ public class TipDialog extends CenterPopupView {
         this.mCallBack = mCallBack;
     }
 
-    public TipDialog(@NonNull Context context, String title, String msg, boolean isSingleBtn, ICallBack mCallBack) {
+    public TipDialog(@NonNull Context context, String title, CharSequence msg, boolean isSingleBtn, ICallBack mCallBack) {
         super(context);
         this.title = title;
         this.msg = msg;
@@ -82,6 +84,9 @@ public class TipDialog extends CenterPopupView {
             binding.tvwMsg.setVisibility(View.GONE);
             binding.tvwMsg2.setText(msg);
             binding.tvwMsg2.setVisibility(View.VISIBLE);
+            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams)binding.layoutTvw.getLayoutParams();
+            layoutParams.topToBottom = R.id.tvw_msg2;
+            binding.layoutTvw.setLayoutParams(layoutParams);
         }
 
         if (isSingleBtn) {

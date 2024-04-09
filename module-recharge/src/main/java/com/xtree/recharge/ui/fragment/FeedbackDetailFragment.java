@@ -94,31 +94,28 @@ public class FeedbackDetailFragment extends BaseFragment<FragmentFeedbackDetailB
     }
 
     private void referUIWithModel(FeedbackCheckVo.FeedbackCheckInfo info) {
-        if (info.userpay_mode.equals("1"))
-        {
+        if (info.userpay_mode.equals("1")) {
             binding.tvwType.setText("银行卡/微信/支付宝");
         } else if (info.userpay_mode.equals("2")) {
             binding.tvwType.setText("虚拟货币");
         }
         binding.tvUsername.setText(info.username);//用户名
-        if (info.userpay_mode.equals("1"))
-        {
+        if (info.userpay_mode.equals("1")) {
             binding.tvSelectorRightPaymentAccount.setText(info.userpay_bank);
             binding.tvSelectorRightPaymentName.setText(info.userpay_name);//付款人姓名
             binding.tvwPayeeName.setText(info.receive_name);//收款人姓名
             binding.etSelectorRightSavename.setText(info.userpay_amount);//存款金额
-            binding.tvwDepositTime.setText(info.add_time);//存款精确时间
+
+
+            binding.tvwDepositTime.setText(info.userpay_time);//存款精确时间
             binding.tvSelectorRightThree.setText(info.third_orderid);//第三单号
             binding.tvSelectorRightPayway.setText(info.receive_bank_text);//支付渠道
             binding.llInputUsdtAdd.setVisibility(View.GONE); //隐藏收款钱包地址
 
-        } else if (info.userpay_mode.equals("2"))
-        {
+        } else if (info.userpay_mode.equals("2")) {
             binding.tvSelectorLeftPaymentAccount.setText(R.string.txt_tip_input_usdt_payment_account);
-            for (int i = 0; i < feedbackCheckVo.protocolInfo.size(); i++)
-            {
-                if (info.userpay_virtual_protocol.equals(String.valueOf(feedbackCheckVo.protocolInfo.get(i).id)))
-                {
+            for (int i = 0; i < feedbackCheckVo.protocolInfo.size(); i++) {
+                if (info.userpay_virtual_protocol.equals(String.valueOf(feedbackCheckVo.protocolInfo.get(i).id))) {
                     binding.tvSelectorRightPaymentAccount.setText(info.userpay_bank);
                     binding.tvSelectorRightPaymentName.setText(feedbackCheckVo.protocolInfo.get(i).name);//付款钱包地址
                 }
@@ -141,15 +138,15 @@ public class FeedbackDetailFragment extends BaseFragment<FragmentFeedbackDetailB
                 + ";" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME)
                 + "=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID)
                 + ";";
-      cookie = "auth-expires-in=604800; userPasswordCheck=lowPass; " + cookie ;
+        cookie = "auth-expires-in=604800; userPasswordCheck=lowPass; " + cookie;
         CfLog.e("cookie: " + cookie);
 
         GlideUrl glideUrl = new GlideUrl(imageDownUrl, new LazyHeaders.Builder()
-                .addHeader("Content-Type","application/vnd.sc-api.v1.json")
+                .addHeader("Content-Type", "application/vnd.sc-api.v1.json")
                 .addHeader("Authorization", "bearer " + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN))
                 .addHeader("Cookie", cookie)
                 .addHeader("UUID", TagUtils.getDeviceId(getContext()))
                 .build());
-       Glide.with(getContext()).load(glideUrl).placeholder(R.mipmap.ic_loading).error(R.mipmap.me_icon_name).into(binding.ivSelectorTipImage);
+        Glide.with(getContext()).load(glideUrl).placeholder(R.mipmap.ic_loading).error(R.mipmap.me_icon_name).into(binding.ivSelectorTipImage);
     }
 }

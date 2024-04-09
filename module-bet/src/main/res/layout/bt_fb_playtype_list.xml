@@ -12,52 +12,57 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bt_bg_match_item"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent">
 
         <RelativeLayout
             android:id="@+id/tv_playtype"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            app:layout_constraintTop_toTopOf="parent"
             android:background="@color/bt_bg_color_time"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/bt_text_color_primary"
-                android:textSize="@dimen/bt_text_11sp"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:background="@color/bt_bg_color_time"
-                android:layout_centerVertical="true"
-                tools:text="冠军"/>
+                android:textColor="@color/bt_text_color_primary"
+                android:textSize="@dimen/bt_text_11sp"
+                tools:text="冠军" />
 
             <TextView
                 android:id="@+id/tv_deadline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/bt_color_blurred_2"
-                android:textSize="@dimen/bt_text_11sp"
-                android:layout_marginEnd="10dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
                 android:background="@color/bt_bg_color_time"
-                tools:text="2024年2月33日 23:00截止"/>
+                android:textColor="@color/bt_color_blurred_2"
+                android:textSize="@dimen/bt_text_11sp"
+                tools:text="2024年2月33日 23:00截止" />
 
         </RelativeLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_option_list"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/tv_playtype"
-            android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"
-            android:paddingBottom="8dp"/>
+            app:layout_constraintTop_toBottomOf="@+id/tv_playtype">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_option_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                android:paddingBottom="8dp"/>
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

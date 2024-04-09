@@ -1,10 +1,15 @@
 package com.xtree.bet.data;
 
-import com.xtree.base.vo.FBService;
+import com.xtree.bet.bean.request.fb.BtCashOutBetReq;
+import com.xtree.bet.bean.request.fb.BtCashOutPriceReq;
+import com.xtree.bet.bean.request.fb.BtCashOutStatusReq;
 import com.xtree.bet.bean.request.fb.BtMultipleListReq;
 import com.xtree.bet.bean.request.fb.BtRecordReq;
 import com.xtree.bet.bean.request.fb.SingleBtListReq;
 import com.xtree.bet.bean.response.fb.BalanceInfo;
+import com.xtree.bet.bean.response.fb.BtCashOutBetInfo;
+import com.xtree.bet.bean.response.fb.BtCashOutPriceInfo;
+import com.xtree.bet.bean.response.fb.BtCashOutStatusInfo;
 import com.xtree.bet.bean.response.fb.BtConfirmInfo;
 import com.xtree.bet.bean.response.fb.BtRecordRsp;
 import com.xtree.bet.bean.response.fb.BtResultInfo;
@@ -97,5 +102,32 @@ public interface FBApiService {
     @POST("/v1/user/base")
     @Headers({"Content-Type: application/json; charset=utf-8"})
     Flowable<BaseResponse<BalanceInfo>> getUserBanlace(@Body Map<String, String> map);
+
+    /**
+     * 批量获取订单提前结算报价
+     * @param btCashOutPriceReq
+     * @return
+     */
+    @POST("/v1/order/cashOut/price")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<BaseResponse<BtCashOutPriceInfo>> cashOutPrice(@Body BtCashOutPriceReq btCashOutPriceReq);
+
+    /**
+     * 提前结算下注
+     * @param btCashOutPriceBetReq
+     * @return
+     */
+    @POST("/v1/order/cashOut/bet")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<BaseResponse<BtCashOutBetInfo>> cashOutPriceBet(@Body BtCashOutBetReq btCashOutPriceBetReq);
+
+    /**
+     * 提前结算注单状态
+     * @param btCashOutStatusReq
+     * @return
+     */
+    @POST("/v1/order/getCashOutsByIds")
+    @Headers({"Content-Type: application/json; charset=utf-8"})
+    Flowable<BaseResponse<List<BtCashOutStatusInfo>>> getCashOutsByIds(@Body BtCashOutStatusReq btCashOutStatusReq);
 
 }

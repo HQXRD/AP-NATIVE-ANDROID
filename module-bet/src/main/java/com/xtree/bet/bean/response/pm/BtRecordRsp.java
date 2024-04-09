@@ -120,6 +120,7 @@ public class BtRecordRsp implements BaseBean {
          */
         public int settleType;
         public List<DetailBean> detailList;
+        public BtCashOutPriceInfo pr;
 
         public static class DetailBean implements BaseBean{
 

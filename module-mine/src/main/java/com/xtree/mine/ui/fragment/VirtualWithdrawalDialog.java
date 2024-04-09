@@ -130,7 +130,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
             if (virtualCashVo == null || virtualCashVo.rest == null || virtualCashVo.usdtinfo == null || virtualCashVo.usdtinfo.isEmpty()) {
                 showError();
             } else if (virtualCashVo.msg_type == 1 || virtualCashVo.msg_type == 2) {
-                if ("您今天已没有可用提款次数".equals(virtualCashVo.message)) {
+
+                if (TextUtils.equals("您今天已没有可用提款次数" , virtualCashVo.message)) {
                     refreshError(virtualCashVo.message);
                 } else {
                     ToastUtils.showError(virtualCashVo.message);
@@ -302,9 +303,9 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         binding.llOverApply.setVisibility(View.VISIBLE);
         if (usdtConfirmVo.msg_detail != null) {
             //msg_type 2的状态提款成功
-            if (usdtConfirmVo.msg_detail.equals("账户提款申请成功") && usdtConfirmVo.msg_type.equals("2")) {
+            if (TextUtils.equals("账户提款申请成功" , usdtConfirmVo.msg_detail) && usdtConfirmVo.msg_type.equals("2")) {
                 binding.ivOverApply.setBackgroundResource(R.mipmap.ic_over_apply);
-            } else if (usdtConfirmVo.msg_detail.equals("请刷新后重试")) {
+            } else if (TextUtils.equals("请刷新后重试" , usdtConfirmVo.msg_detail)) {
                 binding.tvOverMsg.setText("账户提款申请失败");
                 binding.tvOverDetail.setText(usdtConfirmVo.msg_detail);
                 binding.ivOverApply.setBackgroundResource(R.mipmap.ic_over_apply_err);
@@ -359,7 +360,6 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
                 binding2.tvwTitle.setOnClickListener(v -> {
                     binding.tvCollectionUsdt.setText(showMessage);
                     String temp = vo.min_money + "元,最高" + vo.max_money + "元";
-                    CfLog.i("------onBindViewHolder = " + temp);
                     binding.tvWithdrawalTypeShow1.setText(temp);
 
                     selectUsdtInfo = vo;
@@ -413,7 +413,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         map.put("cardid", "");
         map.put("play_source", "");
         map.put("usdtid", selectUsdtInfo.id);
-        map.put("usdt_type", usdtSecurityVo.usdt_type);
+        map.put("usdt_type", usdtSecurityVo.drawal_type);
         map.put("plot_id", usdtSecurityVo.datas.plot_id);
         map.put("channel_child", "");
         map.put("smscode", "");
