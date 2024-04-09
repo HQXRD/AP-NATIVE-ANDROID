@@ -315,7 +315,7 @@ public class MatchPm implements Match {
      */
     @Override
     public String getIconMain() {
-        if (matchInfo == null || matchInfo.mhlu.isEmpty()) {
+        if (matchInfo == null || matchInfo.mhlu == null || matchInfo.mhlu.isEmpty()) {
             return "";
         }
         String logoUrl = matchInfo.mhlu.get(0);
