@@ -1224,7 +1224,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i("****** 弹窗: " + msg);
         if (!mRecommendList.isEmpty()) {
             // 弹窗
-            BasePopupView dialog = new RechargeRecommendDialog(getContext(), msg, tutorialUrl, mRecommendList, vo, curVo -> {
+            String url = DomainUtil.getDomain2() + Constant.URL_RC_CNYT_TUTORIAL; // 不用 tutorialUrl
+            BasePopupView dialog = new RechargeRecommendDialog(getContext(), msg, url, mRecommendList, vo, curVo -> {
                 CfLog.i("****** ");
                 //onClickPayment(curVo);
 
