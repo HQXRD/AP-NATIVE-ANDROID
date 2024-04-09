@@ -1119,6 +1119,38 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <!-- 通用 按钮 左右两边圆弧形的 -->
+    <style name="style_cm_btn_round_next">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/me_bg_withdrawal_next</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:layout_marginBottom">24dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text"></item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/clr_white</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
 
+    <!-- 通用 按钮 左右两边圆弧形的 -->
+    <style name="style_cm_btn_round">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/me_bg_withdrawal_next</item>
+        <item name="android:layout_marginStart">24dp</item>
+        <item name="android:layout_marginEnd">24dp</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:layout_marginBottom">24dp</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:text"></item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/clr_white</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
 
 </resources>

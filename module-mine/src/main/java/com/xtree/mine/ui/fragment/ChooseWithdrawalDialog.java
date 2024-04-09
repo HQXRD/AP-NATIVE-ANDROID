@@ -211,18 +211,20 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
                     ChooseInfoVo.ChannelInfo channel = channelInfo;
                     CfLog.i("ChooseAdapter channel = " + channel.toString());
-                    if (channel.isBind ==false ){
-                        if (!TextUtils.isEmpty(channel.channeluseMessage)){
+                    if (channel.isBind == false) {
+                        if (!TextUtils.isEmpty(channel.channeluseMessage) && !channel.isBind) {
+                            showBindDialog(channel, channel.channeluseMessage);
+                        } else {
                             showErrorDialog(channel.channeluseMessage);
-                        } else if (TextUtils.isEmpty(channel.channeluseMessage)) {
-                            showBindDialog(channel , channel.channeluseMessage);
                         }
                     } else if (channel.isBind && TextUtils.isEmpty(channel.channeluseMessage)) {
-                        if (TextUtils.equals("银行卡提款", txt)){
+                        if (TextUtils.equals("银行卡提款", txt)) {
                             showBankWithdrawalDialog(channelInfo, checkCode);
-                        }else {
+                        } else {
                             showUSDTWithdrawalDialog(channelInfo, checkCode);
                         }
+                    } else if (channel.isBind &&!TextUtils.isEmpty(channel.channeluseMessage)) {
+                        showErrorDialog(channel.channeluseMessage);
                     }
                   /*  if (channel.channeluse == 0)//显示弹窗
                     {
@@ -424,7 +426,21 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
     /**显示绑卡*/
     private void showBindDialog(ChooseInfoVo.ChannelInfo channelInfo, String showMessage) {
-        String errorMessage = "请先绑" + channelInfo.configkey.toUpperCase() + "后才可提款";
+        String errorMessage ="";
+        String bindType = "";
+        if (showMessage.contains("尚未绑定银行卡")){
+            errorMessage = "请先绑定银行卡后才可提款";
+            bindType= getContext().getString(R.string.txt_bind_card_type);
+        }else if (showMessage.contains("首次提款仅可使用银行卡方式提款")){
+            errorMessage = showMessage;
+            bindType= getContext().getString(R.string.txt_bind_card_type);
+        }
+        else {
+            errorMessage = showMessage;
+            bindType = channelInfo.bindType;
+        }
+
+        String finalBindType = bindType;
         customPopWindow = new XPopup.Builder(getContext())
                 .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), errorMessage, false, new MsgDialog.ICallBack() {
                     @Override
@@ -437,7 +453,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         //跳转绑定流程
                         //跳转绑定流程
                         Bundle bundle = new Bundle();
-                        bundle.putString("type", channelInfo.bindType);
+                        bundle.putString("type", finalBindType);
 
                         String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
                         Intent intent = new Intent(getContext(), ContainerActivity.class);

@@ -39,9 +39,9 @@
             android:layout_height="wrap_content"
             android:contentDescription="close"
             android:padding="4dp"
-            android:src="@mipmap/ic_pop_close"
+            android:src="@mipmap/cm_ic_back"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -408,14 +408,16 @@
                         <TextView
                             android:id="@+id/tv_info_withdrawal_amount"
                             style="@style/style_virtual_text"
-                            android:text="@string/txt_withdrawal_method" />
+                            android:text="@string/txt_withdrawal_method"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/tv_info_withdrawal_amount_show"
                             style="@style/style_virtual_text"
                             android:layout_marginLeft="4dp"
                             android:layout_toRightOf="@id/tv_info_withdrawal_amount"
-                            android:text="0" />
+                            android:text="0"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/tv_info_exchange_rate"
@@ -531,37 +533,28 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/ll_collection_usdt"
                     android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
-                    <RelativeLayout
+                    <Button
+                        android:id="@+id/iv_next"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/me_bg_withdrawal_next"
+                        android:text="@string/txt_withdraw_next"
+                        android:textColor="@color/white"
+                        android:textSize="16sp" />
 
-                        <Button
-                            android:id="@+id/iv_next"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/me_bg_withdrawal_next"
-                            android:text="@string/txt_withdraw_next"
-                            android:textColor="@color/white"
-                            android:textSize="16sp" />
-
-                        <!-- <ImageView
-                             android:id="@+id/iv_next"
-                             android:layout_width="match_parent"
-                             android:layout_height="wrap_content"
-                             android:background="@mipmap/cm_btn_withdrawal_next" />-->
-
-                        <ImageView
-                            android:id="@+id/iv_previous"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/iv_next"
-                            android:background="@mipmap/cm_btn_withdrawal_previous"
-                            android:visibility="invisible" />
-
-                    </RelativeLayout>
-
+                    <Button
+                        android:id="@+id/iv_previous"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/iv_confirm_next"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/bg_dialog_withdraw_close"
+                        android:text="@string/txt_withdraw_previous"
+                        android:textColor="@color/update_progress_start_color"
+                        android:textSize="16sp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -616,7 +609,7 @@
 
                         <TextView
                             style="@style/style_withdraw_show_title"
-                            android:text="@string/txt_confirm_amount" />
+                            android:text="@string/txt_withdrawal_method_money_tip" />
 
                         <TextView
                             android:id="@+id/tv_confirm_amount_show"
@@ -626,7 +619,9 @@
 
                     <View style="@style/style_withdraw_dividing_line" />
 
-                    <LinearLayout style="@style/style_withdraw_confirm_ll">
+                    <LinearLayout
+                        style="@style/style_withdraw_confirm_ll"
+                        android:visibility="gone">
 
                         <TextView
                             style="@style/style_withdraw_show_title"
@@ -638,7 +633,9 @@
                             tools:text="123123" />
                     </LinearLayout>
 
-                    <View style="@style/style_withdraw_dividing_line" />
+                    <View
+                        style="@style/style_withdraw_dividing_line"
+                        android:visibility="gone" />
 
                     <LinearLayout style="@style/style_withdraw_confirm_ll">
 
@@ -806,19 +803,6 @@
                     android:text="@string/txt_withdraw_close"
                     android:textColor="@color/update_progress_start_color"
                     android:textSize="16sp" />
-                <!--<ImageView
-                    android:id="@+id/iv_continue_confirm_next"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@mipmap/ic_continue" />
-
-                <ImageView
-                    android:id="@+id/iv_continue_confirm_previous"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/cm_btn_withdrawal_closure" />
--->
             </LinearLayout>
 
         </LinearLayout>
