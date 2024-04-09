@@ -1,5 +1,6 @@
 package com.xtree.home.data.source;
 
+import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
@@ -14,7 +15,6 @@ import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.RechargeReportVo;
 import com.xtree.home.vo.RedPocketVo;
 import com.xtree.home.vo.SettingsVo;
-import com.xtree.home.vo.UpdateVo;
 import com.xtree.home.vo.VipInfoVo;
 
 import java.util.List;
@@ -137,7 +137,7 @@ public interface HomeApiService {
      * 获取更新
      */
     @GET("/api/app/version?platform=android")
-    Flowable<BaseResponse<UpdateVo>> getUpdate();
+    Flowable<BaseResponse<AppUpdateVo>> getUpdate();
 
     /**
      * 获取是否有红包

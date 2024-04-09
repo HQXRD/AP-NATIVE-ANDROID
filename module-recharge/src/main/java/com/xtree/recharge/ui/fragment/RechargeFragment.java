@@ -166,10 +166,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         });
         binding.tvwTutorial.setOnClickListener(v -> {
             // 充值教程
-            if (!TextUtils.isEmpty(tutorialUrl)) {
-                String title = getString(R.string.txt_recharge_tutorial);
-                new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, tutorialUrl)).show();
-            }
+            //if (!TextUtils.isEmpty(tutorialUrl)) {
+            String title = getString(R.string.txt_recharge_tutorial);
+            String url = DomainUtil.getDomain2() + Constant.URL_RC_CNYT_TUTORIAL;
+            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+            //}
         });
         binding.tvwAntiFraud.setOnClickListener(v -> {
             // 防骗教程
@@ -786,6 +787,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             CfLog.d(vo.toString());
             //mapRechargeVo.put(vo.bid, vo);
             //SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
+            if (TextUtils.isEmpty(vo.op_thiriframe_url)) {
+                ToastUtils.showError(vo.op_thiriframe_msg);
+                return;
+            }
             String url = vo.op_thiriframe_url;
             if (!url.startsWith("http")) {
                 url = DomainUtil.getDomain2() + url;
@@ -858,9 +863,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             goPayWeb(vo);
         } else if (vo.isbank) {
             goPayBank(vo); // UC聚合支付,不能跳转
-        } else if (vo.isusdt) {
+        } else if (vo.isusdt && !TextUtils.isEmpty(vo.qrcodeurl)) {
             goPayUsdt(vo); // TRC20快付,不能跳转
         } else {
+            CfLog.i("****** default...");
             goPayWeb(vo);
         }
     }
@@ -1011,7 +1017,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i("****** 弹窗: " + msg);
         if (!mRecommendList.isEmpty()) {
             // 弹窗
-            BasePopupView dialog = new RechargeRecommendDialog(getContext(), msg, tutorialUrl, mRecommendList, vo, curVo -> {
+            String url = DomainUtil.getDomain2() + Constant.URL_RC_CNYT_TUTORIAL; // 不用 tutorialUrl
+            BasePopupView dialog = new RechargeRecommendDialog(getContext(), msg, url, mRecommendList, vo, curVo -> {
                 CfLog.i("****** ");
                 //onClickPayment(curVo);
 

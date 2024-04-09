@@ -408,14 +408,16 @@
                         <TextView
                             android:id="@+id/tv_info_withdrawal_amount"
                             style="@style/style_virtual_text"
-                            android:text="@string/txt_withdrawal_method" />
+                            android:text="@string/txt_withdrawal_method"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:id="@+id/tv_info_withdrawal_amount_show"
                             style="@style/style_virtual_text"
                             android:layout_marginLeft="4dp"
                             android:layout_toRightOf="@id/tv_info_withdrawal_amount"
-                            android:text="0" />
+                            android:text="0"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:id="@+id/tv_info_exchange_rate"
@@ -599,7 +601,7 @@
 
                         <TextView
                             style="@style/style_withdraw_show_title"
-                            android:text="@string/txt_confirm_amount" />
+                            android:text="@string/txt_withdrawal_method_money_tip" />
 
                         <TextView
                             android:id="@+id/tv_confirm_amount_show"
@@ -609,7 +611,8 @@
 
                     <View style="@style/style_withdraw_dividing_line" />
 
-                    <LinearLayout style="@style/style_withdraw_confirm_ll">
+                    <LinearLayout style="@style/style_withdraw_confirm_ll"
+                        android:visibility="gone">
 
                         <TextView
                             style="@style/style_withdraw_show_title"
@@ -621,7 +624,7 @@
                             tools:text="123123" />
                     </LinearLayout>
 
-                    <View style="@style/style_withdraw_dividing_line" />
+                    <View style="@style/style_withdraw_dividing_line"  android:visibility="gone"/>
 
                     <LinearLayout style="@style/style_withdraw_confirm_ll">
 

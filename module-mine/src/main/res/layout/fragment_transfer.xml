@@ -312,13 +312,10 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ImageView
+                <TextView
                     android:id="@+id/ivw_transfer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="24dp"
-                    android:src="@mipmap/me_btn_transfer" />
+                    style="@style/style_cm_btn_round"
+                    android:text="立即转账" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

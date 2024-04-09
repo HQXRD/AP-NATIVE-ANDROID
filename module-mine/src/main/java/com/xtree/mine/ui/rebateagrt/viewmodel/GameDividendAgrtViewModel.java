@@ -79,8 +79,6 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
     private BasePopupView pop = null;
 
     private final GameDividendAgrtHeadModel headModel = new GameDividendAgrtHeadModel(new GameDividendAgrtHeadModel.OnCallBack() {
-
-
         @Override
         public void sort(String title, ObservableField<StatusVo> sort, List<FilterView.IBaseVo> list) {
             showFilter(title, sort, list);
@@ -238,21 +236,25 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                 HashMap<String, GameDividendAgrtResponse.CyclesDTO> cycles = vo.getCycles();
 
                                 ArrayList<FilterView.IBaseVo> status = new ArrayList<>();
-                                for (Map.Entry<String, String> stringStringEntry : billStatus.entrySet()) {
-                                    status.add(new StatusVo(stringStringEntry.getKey(), stringStringEntry.getValue()));
+                                if (billStatus != null) {
+                                    for (Map.Entry<String, String> stringStringEntry : billStatus.entrySet()) {
+                                        status.add(new StatusVo(stringStringEntry.getKey(), stringStringEntry.getValue()));
+                                    }
                                 }
                                 headModel.setStatusList(status);
                                 ArrayList<FilterView.IBaseVo> cs = new ArrayList<>();
-                                for (Map.Entry<String, GameDividendAgrtResponse.CyclesDTO> stringCyclesDTOEntry : cycles.entrySet()) {
-                                    StatusVo statusVo = new StatusVo(stringCyclesDTOEntry.getKey(), stringCyclesDTOEntry.getValue().getTitle());
-                                    cs.add(statusVo);
-                                    //设置当前筛选的周期
-                                    if (vo.getGet().getCycle_id().equals(stringCyclesDTOEntry.getKey())) {
-                                        headModel.cyclyData.set(statusVo);
+
+                                if (cycles != null) {
+                                    for (Map.Entry<String, GameDividendAgrtResponse.CyclesDTO> stringCyclesDTOEntry : cycles.entrySet()) {
+                                        StatusVo statusVo = new StatusVo(stringCyclesDTOEntry.getKey(), stringCyclesDTOEntry.getValue().getTitle());
+                                        cs.add(statusVo);
+                                        //设置当前筛选的周期
+                                        if (vo.getGet().getCycle_id().equals(stringCyclesDTOEntry.getKey())) {
+                                            headModel.cyclyData.set(statusVo);
+                                        }
                                     }
                                 }
                                 headModel.setCyclytList(cs);
-
 
                                 //sub
                                 if (vo.getSelfPayStatus() != null) {

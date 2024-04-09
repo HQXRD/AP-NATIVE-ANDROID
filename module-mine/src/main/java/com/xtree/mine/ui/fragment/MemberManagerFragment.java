@@ -26,6 +26,8 @@ import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMemberManageBinding;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.mine.vo.MemberManagerVo;
+import com.xtree.mine.vo.MemberUserInfoVo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,18 +84,36 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
         binding.refreshLayout.setEnableLoadMore(false);
         binding.refreshLayout.setEnableRefresh(false);
 
-        adapter = new MemberManagerAdapter(getContext(), (vo, msg) -> {
-            Bundle bundle = new Bundle();
-            bundle.putString("userId", vo.userid);
-            bundle.putString("userName", vo.username);
-            CfLog.i("vo.userid :　" + vo.userid);
-            if (msg.equals(MemberManagerAdapter.BAT_RECORD)) {
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_BT_REPORT, bundle); // 投注记录
-            } else if (msg.equals(MemberManagerAdapter.ACCOUNT_RECORD)) {
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_ACCOUNT_CHANGE, bundle); // 账变记录
-            } else if (msg.equals(MemberManagerAdapter.TRANSFER_MEMBER)) {
-                bundle.putString("page", RouterFragmentPath.Mine.PAGER_MEMBER_TRANSFER);
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle); // 下级转账
+        adapter = new MemberManagerAdapter(getContext(), new MemberManagerAdapter.ICallBack() {
+            @Override
+            public void onClick(MemberUserInfoVo vo, String msg) {
+                Bundle bundle = new Bundle();
+                bundle.putString("userId", vo.userid);
+                bundle.putString("userName", vo.username);
+                CfLog.i("vo.userid :　" + vo.userid);
+                if (msg.equals(MemberManagerAdapter.BAT_RECORD)) {
+                    startContainerFragment(RouterFragmentPath.Mine.PAGER_BT_REPORT, bundle); // 投注记录
+                } else if (msg.equals(MemberManagerAdapter.ACCOUNT_RECORD)) {
+                    startContainerFragment(RouterFragmentPath.Mine.PAGER_ACCOUNT_CHANGE, bundle); // 账变记录
+                } else if (msg.equals(MemberManagerAdapter.TRANSFER_MEMBER)) {
+                    bundle.putString("page", RouterFragmentPath.Mine.PAGER_MEMBER_TRANSFER);
+                    startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle); // 下级转账
+                }
+            }
+
+            @Override
+            public void onSearch(String name) {
+                binding.etUsername.setText(name);
+
+                if (ClickUtil.isFastClick()) {
+                    return;
+                }
+                binding.refreshLayout.setEnableLoadMore(true);
+                binding.refreshLayout.setEnableRefresh(true);
+                curPage = 1;
+                LoadingDialog.show(getContext());
+                adapter.clear();
+                searchMember(curPage);
             }
         });
         binding.rcvMemberManger.setAdapter(adapter);
@@ -130,6 +150,27 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
             if (vo.users != null && !vo.users.isEmpty()) {
                 binding.tvwNoData.setVisibility(View.GONE);
                 adapter.addAll(vo.users);
+            }
+
+            // 本级
+            if (vo.bread != null && !vo.bread.isEmpty()) {
+                //binding.tvwBread.setText("");
+                StringBuffer sb = new StringBuffer();
+                for (MemberManagerVo.UserVo t : vo.bread) {
+                    String modifiedString;
+                    int index = t.username.indexOf("@");
+                    if (index != -1) {
+                        modifiedString = t.username.substring(0, index);
+                    } else {
+                        modifiedString = t.username;
+                    }
+                    sb.append(modifiedString + " > ");
+                }
+
+                if (sb.toString().endsWith(" > ")) {
+                    sb.replace(sb.length() - 3, sb.length(), "");
+                }
+                binding.tvwBread.setText(sb.toString().trim());
             }
         });
     }

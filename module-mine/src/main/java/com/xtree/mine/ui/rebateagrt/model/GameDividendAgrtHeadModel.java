@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField;
 
 import com.xtree.base.mvvm.recyclerview.BindHead;
 import com.xtree.base.mvvm.recyclerview.BindModel;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.widget.FilterView;
 import com.xtree.mine.R;
 import com.xtree.mine.vo.StatusVo;
@@ -64,24 +65,36 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
     }
 
     public void sort() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             onCallBack.sort(BaseApplication.getInstance().getString(R.string.txt_sort), sortData, sortList);
         }
     }
 
     public void cycly() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             onCallBack.cyclicality(BaseApplication.getInstance().getString(R.string.txt_cycle), cyclyData, cyclytList);
         }
     }
 
     public void status() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             onCallBack.status(BaseApplication.getInstance().getString(R.string.txt_status), statuData, statusList);
         }
     }
 
     public void check() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             p = 1;
             onCallBack.check();
@@ -89,6 +102,9 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
     }
 
     public void myAgrt() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             p = 1;
             onCallBack.myAgrt();
@@ -100,7 +116,7 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
     }
 
     public void setStatusList(List<FilterView.IBaseVo> statusList) {
-        if (statusList != null && statusList.size() > 0) {
+        if (statusList != null) {
             //插入一条所有状态
             statusList.add(0, new StatusVo(0, BaseApplication.getInstance().getString(R.string.txt_all_status)));
             statuData.set(new StatusVo(statusList.get(0).getShowId(), statusList.get(0).getShowName()));

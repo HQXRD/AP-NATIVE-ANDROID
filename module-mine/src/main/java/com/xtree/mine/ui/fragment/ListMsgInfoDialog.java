@@ -163,7 +163,7 @@ public class ListMsgInfoDialog extends BottomPopupView {
                 content.append("日量阶梯").append("\n");
                 content.append("日投注额≥").append(hashMap.get("betbyday"))
                         .append("元，活跃人数≥").append(hashMap.get("activePeople"))
-                        .append("，时薪").append(hashMap.get("wagesRatio")).append("元/千");
+                        .append("，日薪").append(hashMap.get("wagesRatio")).append("元/万");
             }
         } else {
             if (msgPersonInfoVo.type.equals("1") || msgPersonInfoVo.type.equals("2")) {
@@ -173,7 +173,7 @@ public class ListMsgInfoDialog extends BottomPopupView {
                             .append(level).append(":")
                             .append("投注额≥").append(hashMap.get("min_bet"))
                             .append("元，且活跃玩家人数≥").append(hashMap.get("min_player")).append("，")
-                            .append(unit.get(1)).append(hashMap.get("ratio")).append("元/千").append("\n");
+                            .append(unit.get(1)).append(hashMap.get("ratio")).append("元/万").append("\n");
                 }
             } else if (msgPersonInfoVo.type.equals("3") || msgPersonInfoVo.type.equals("4") || msgPersonInfoVo.type.equals("6") || msgPersonInfoVo.type.equals("7") || msgPersonInfoVo.type.equals("9")) {
                 for (HashMap<String, Object> hashMap : ruleList) {

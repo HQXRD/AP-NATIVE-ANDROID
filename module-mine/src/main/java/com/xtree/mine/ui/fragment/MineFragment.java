@@ -26,6 +26,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
+import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.BrowserActivity;
@@ -52,7 +53,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     VipInfoVo mVipInfoVo;
     String token;
     BasePopupView ppw;
-    private AppUpdateDialog.AppUpdateVo updateVo;
+    private AppUpdateVo updateVo;
     private BasePopupView updateView;
 
     /**
@@ -596,7 +597,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
      * @param isWeakUpdate 是否弱更 true:是弱更 false:强更
      * @param vo           UpdateVo
      */
-    private void showUpdate(final boolean isWeakUpdate, final AppUpdateDialog.AppUpdateVo vo) {
+    private void showUpdate(final boolean isWeakUpdate, final AppUpdateVo vo) {
         if (updateView != null && updateView.isShow()) {
             return;
         }

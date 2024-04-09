@@ -49,7 +49,7 @@ public class GameSubordinateagrtModel extends BindModel {
                         if (i > 0) {
                             sb.append(System.lineSeparator());
                         }
-                        sb.append(ruleDTO.getRatio()).append("元/千");
+                        sb.append(ruleDTO.getRatio()).append("元/万");
                     }
                     break;
                 default:
@@ -116,7 +116,7 @@ public class GameSubordinateagrtModel extends BindModel {
         GameSubordinateAgrteResponse.DataDTO.RuleDTO ruleDTO = rules.get(0);
         switch (typeEnum) {
             case USER:
-                ruleRatio = ruleDTO.getRatio() + "元/千";
+                ruleRatio = ruleDTO.getRatio() + "元/万";
                 break;
             case DAYREBATE:
                 ruleRatio = ruleDTO.getRatio() + "元/千";

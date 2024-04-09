@@ -30,6 +30,8 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
     public ObservableField<StatusVo> state = new ObservableField<>();
     //昨日分红
     public ObservableField<String> yesterdayRebate = new ObservableField<>();
+    //昨日分红标题
+    public ObservableField<String> yesterdayRebateTitle = new ObservableField<>();
     //显示温馨提示
     public ObservableField<Boolean> tipVisible = new ObservableField<>(true);
     //返水比例提示
@@ -93,6 +95,15 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
     }
 
     public void setTypeEnum(RebateAreegmentTypeEnum typeEnum) {
+        switch (typeEnum) {
+            case USER:
+                yesterdayRebateTitle.set("昨日日薪（元）");
+                break;
+            default:
+                yesterdayRebateTitle.set(BaseApplication.getInstance().getString(R.string.txt_dividend_yestday_rmb));
+                break;
+        }
+
         this.typeEnum = typeEnum;
     }
 
@@ -104,7 +115,7 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
                 ratioTip.set("规则1:投注额≥" +
                         ruleDTO.getMin_bet() +
                         "元,人数≥" +
-                        ruleDTO.getMin_player() + "人,时薪" +
+                        ruleDTO.getMin_player() + "人,日薪" +
                         ruleDTO.getRatio() + "元/万");
                 break;
             case DAYREBATE:

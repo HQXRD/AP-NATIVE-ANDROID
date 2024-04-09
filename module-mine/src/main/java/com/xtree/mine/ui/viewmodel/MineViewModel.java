@@ -15,8 +15,9 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.TagUtils;
+import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.ProfileVo;
-import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.AdduserVo;
@@ -39,6 +40,7 @@ import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
+import me.xtree.mvvmhabit.utils.Utils;
 
 /**
  * Created by marquis
@@ -57,7 +59,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<MarketingVo> liveDataMarketing = new SingleLiveData<>();
     public SingleLiveData<MarketingVo> liveDataPostMark = new SingleLiveData<>();
     public SingleLiveData<AdduserVo> liveDataAdduser = new SingleLiveData<>();
-    public MutableLiveData<AppUpdateDialog.AppUpdateVo> liveDataUpdate = new MutableLiveData<>();//更新
+    public MutableLiveData<AppUpdateVo> liveDataUpdate = new MutableLiveData<>();//更新
 
     public MineViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
@@ -330,6 +332,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onResult(BaseResponse2 vo) {
                         CfLog.d(vo.toString());
+                        TagUtils.tagEvent(Utils.getContext(), "reg"); // 打点 注册
                         ToastUtils.showLong(vo.message);
                         if (vo.msg_type == 1 || vo.msg_type == 2) {
                             return;
@@ -398,9 +401,9 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
         Disposable disposable = (Disposable) model.getApiService().getUpdate()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<AppUpdateDialog.AppUpdateVo>() {
+                .subscribeWith(new HttpCallBack<AppUpdateVo>() {
                     @Override
-                    public void onResult(AppUpdateDialog.AppUpdateVo updateVo) {
+                    public void onResult(AppUpdateVo updateVo) {
                         if (updateVo == null) {
                             CfLog.e("data is null");
                         }

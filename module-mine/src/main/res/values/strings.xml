@@ -318,6 +318,7 @@
     <string name="txt_withdrawal_type">提款类型：</string>
     <string name="txt_withdrawal_enm">提款方式：</string>
     <string name="txt_withdrawal_method">可提款金额：</string>
+    <string name="txt_withdrawal_method_money_tip">提款金额：</string>
     <string name="txt_withdrawal_method_tip">提款金额</string>
     <string name="txt_confirm_withdrawal_amount">可提款金额：</string>
     <string name="txt_virtual_type">虚拟币类型：</string>
@@ -402,12 +403,12 @@
     <string name="txt_search">查询</string>
     <string name="txt_click_search">点击查询数据</string>
     <string name="txt_account_self">本人</string>
-    <string name="txt_teturn_point">返点:</string>
-    <string name="txt_member_value">团队人数:</string>
-    <string name="txt_people_balance">个人余额:</string>
-    <string name="txt_group_balance">团队余额:</string>
-    <string name="txt_last_login_time">最后登陆:</string>
-    <string name="txt_register_time">注册日期:</string>
+    <string name="txt_teturn_point">返点：</string>
+    <string name="txt_member_value">团队人数：</string>
+    <string name="txt_people_balance">个人余额：</string>
+    <string name="txt_group_balance">团队余额：</string>
+    <string name="txt_last_login_time">最后登陆：</string>
+    <string name="txt_register_time">注册日期：</string>
     <string name="txt_account_money_record">帐变记录</string>
     <string name="txt_reg_rebate">自身保留返点：</string>
     <string name="txt_reg_name_tip">字母或数字6–16个字符,不能连续四位相同,首字不能是0或者o</string>
@@ -474,4 +475,5 @@
     <string name="txt_correct_pwd">请输入正确格式的登录密码</string>
     <string name="txt_dividend_check_tip1">说明\n●分红周期指每月1-15日，16日-月末；\n●契约规则请按照从低至高顺序填写；\n●契约创建成功后立即生效，本分红周期统计完整投注额；</string>
     <string name="txt_contractual_norms">契约规则</string>
+    <string name="text_null_or_zero">金额不得为空或0</string>
 </resources>

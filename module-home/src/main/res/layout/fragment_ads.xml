@@ -47,20 +47,20 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <ImageView
+                <!--<ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/hm_img_center_01" />
+                    android:background="@mipmap/hm_img_center_01" />-->
 
-                <ImageView
+                <!--<ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/hm_img_center_02" />
+                    android:background="@mipmap/hm_img_center_02" />-->
 
-                <ImageView
+                <!--<ImageView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@mipmap/hm_img_center_03" />
+                    android:background="@mipmap/hm_img_center_03" />-->
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </FrameLayout>

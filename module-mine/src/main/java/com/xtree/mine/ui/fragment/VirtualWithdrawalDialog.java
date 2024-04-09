@@ -22,6 +22,7 @@ import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.StringUtils;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
@@ -62,6 +63,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     @NonNull
     DialogBankWithdrawalVirtualBinding binding;
     private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
+
+    private String userid;
 
     public VirtualWithdrawalDialog(@NonNull Context context) {
         super(context);
@@ -151,7 +154,10 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         //虚拟币确认提款信息
         viewModel.virtualSecurityMoYuVoMutableLiveData.observe(owner, vo -> {
             usdtSecurityVo = vo;
-            if (usdtSecurityVo.datas == null && ("抱歉，您的提款金额累计超过今日最高提款金额，请确认后再进行操作".equals(usdtSecurityVo.message)) && "2".equals(usdtSecurityVo.msg_type)) {
+
+            if (usdtSecurityVo.datas == null
+                    || (!TextUtils.isEmpty(usdtSecurityVo.message) && usdtSecurityVo.message.contains("抱歉"))
+                    || "2".equals(usdtSecurityVo.msg_type)) {
                 showErrorDialog(usdtSecurityVo.message);
             } else {
                 refreshSecurityUI();
@@ -159,6 +165,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         });
         //虚拟币完成申请
         viewModel.virtualConfirmMuYuVoMutableLiveData.observe(owner, vo -> {
+            TagUtils.tagEvent(getContext(), "wd", "vc");
             usdtConfirmVo = vo;
             refreshConfirmUI();
         });
@@ -176,9 +183,9 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
      */
     private void refreshSetUI() {
         binding.llSetRequestView.setVisibility(View.VISIBLE);
-        String showRest = StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.rest));
-        //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
-        String notice = "注意：每天限制提款" + virtualCashVo.times + "次，提款时间为" + virtualCashVo.wraptime.starttime + "至" + virtualCashVo.wraptime.endtime + ",您今日剩余提款额度为 " + showRest + "元";
+        //String showRest = StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.rest));
+        //if (virtualCashVo.rest instanceof  Float)
+        String notice = "注意：每天限制提款" + virtualCashVo.times + "次，提款时间为" + virtualCashVo.wraptime.starttime + "至" + virtualCashVo.wraptime.endtime + ",您今日剩余提款额度为 " + virtualCashVo.rest + "元";
         binding.tvNotice.setText(notice);
         binding.tvUserNameShow.setText(virtualCashVo.user.username);
         binding.tvWithdrawalTypeShow.setText(channelInfo.title);
@@ -189,6 +196,9 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         binding.tvWithdrawalTypeShow1.setText(temp);
         binding.tvInfoExchangeRateShow.setText(virtualCashVo.exchangerate);
         binding.tvCollectionUsdt.setText(virtualCashVo.usdtinfo.get(0).usdt_type + " " + virtualCashVo.usdtinfo.get(0).usdt_card);
+
+        userid = virtualCashVo.usdtinfo.get(0).id;
+
         //注册监听
         initListener();
 
@@ -244,7 +254,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
                 hideKeyBoard();
                 String money = binding.etInputMoney.getText().toString().trim();
                 String realCount = binding.tvInfoActualNumberShow.getText().toString().trim();
-                String usdtId = binding.tvCollectionUsdt.getText().toString().trim();
+                // String usdtId = binding.tvCollectionUsdt.getText().toString().trim();
+                String usdtId = userid;
                 requestWithdrawVirtual(money, realCount, usdtId, checkCode, virtualCashVo);
 
             }
@@ -270,9 +281,13 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         }
         binding.llSetRequestView.setVisibility(View.GONE);
         binding.llVirtualConfirmView.setVisibility(View.VISIBLE);
-        binding.tvConfirmWithdrawalAmount.setText(virtualCashVo.user.username);
+        if (!TextUtils.isEmpty(virtualCashVo.user.username)) {
+            binding.tvConfirmWithdrawalAmount.setText(virtualCashVo.user.username);
+        }
+
         binding.tvConfirmWithdrawalTypeShow.setText(StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.user.availablebalance)));
-        binding.tvConfirmAmountShow.setText(usdtSecurityVo.usdt_type);
+        //可提款金额
+        binding.tvConfirmAmountShow.setText(usdtSecurityVo.datas.money);
         binding.tvWithdrawalVirtualTypeShow.setText(usdtSecurityVo.usdt_type);
         binding.tvWithdrawalTypeShow.setText(usdtSecurityVo.usdt_type);
         binding.tvWithdrawalAmountTypeShow.setText(usdtSecurityVo.usdt_type);
@@ -358,8 +373,9 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
                     String temp = vo.min_money + "元,最高" + vo.max_money + "元";
                     CfLog.i("------onBindViewHolder = " + temp);
                     binding.tvWithdrawalTypeShow1.setText(temp);
-
                     selectUsdtInfo = vo;
+
+                    userid = selectUsdtInfo.id;
 
                     ppw.dismiss();
                 });
@@ -429,9 +445,9 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         map.put("money", vo.datas.money);
         map.put("nonce", UuidUtil.getID24());
         map.put("realCount", "");
-        map.put("usdt_type", vo.datas.drawal_type);
-        map.put("usdtid", usdtSecurityVo.usdtid);
-        map.put("usdtType", usdtSecurityVo.usdt_type);
+        map.put("usdtType", vo.drawal_type);
+        map.put("usdt_type", vo.usdt_type);
+        map.put("usdtid", userid);//选中的提款地址
 
         CfLog.i("requestConfirmVirtual -->" + map);
 

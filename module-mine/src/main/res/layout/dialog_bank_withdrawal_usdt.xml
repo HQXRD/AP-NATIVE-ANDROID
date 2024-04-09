@@ -393,14 +393,15 @@
                         <TextView
                             android:id="@+id/tv_info_withdrawal_amount"
                             style="@style/style_withdraw_bottom_title"
-                            android:text="@string/txt_withdrawal_method" />
+                            android:text="@string/txt_withdrawal_method"
+                            android:visibility="gone"/>
 
                         <TextView
                             android:id="@+id/tv_info_withdrawal_amount_show"
                             style="@style/style_virtual_text"
                             android:layout_alignTop="@id/tv_info_withdrawal_amount"
                             android:layout_toRightOf="@id/tv_info_withdrawal_amount"
-
+                            android:visibility="gone"
                             android:text="0" />
 
                         <TextView

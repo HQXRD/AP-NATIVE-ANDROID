@@ -251,7 +251,6 @@
                     android:layout_width="0dp"
                     android:layout_height="320dp"
                     android:layout_weight="11"
-                    android:background="@mipmap/me_register_area_bg"
                     android:visibility="gone"
                     tools:visibility="gone">
 

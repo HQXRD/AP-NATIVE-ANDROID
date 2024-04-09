@@ -141,6 +141,12 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
                     startContainerFragment(RouterFragmentPath.Mine.PAGER_BT_REPORT, bundle); // 投注记录
                 });
 
+                binding2.tvwUserName.setOnClickListener(v -> {
+                    binding.fvMain.setEdit(binding2.tvwUserName.getText().toString());
+                    LoadingDialog.show(getContext());
+                    curPage = 0;
+                    requestData(1);
+                });
             }
         };
         binding.rcvMain.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -217,8 +223,12 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
             mAdapter.addAll(vo.aProfitLoss);
             if (mAdapter.isEmpty()) {
                 binding.tvwNoData.setVisibility(View.VISIBLE);
+                binding.llBread.setVisibility(View.GONE);
+                binding.llSum.llRoot.setVisibility(View.GONE);
             } else {
                 binding.tvwNoData.setVisibility(View.GONE);
+                binding.llBread.setVisibility(View.VISIBLE);
+                binding.llSum.llRoot.setVisibility(View.VISIBLE);
             }
 
             // 本级
@@ -236,31 +246,34 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
             }
 
             // 本页合计
-            binding.llSum.tvwPgSbet.setText(vo.pageCount.sbet);
-            binding.llSum.tvwPgSprize.setText(vo.pageCount.sprize);
-            binding.llSum.tvwPgSprofitLoss.setText(vo.pageCount.sprofit_loss);
-            binding.llSum.tvwPgFee.setText(vo.pageCount.fee);
+            if (vo.pageCount != null) {
+                binding.llSum.tvwPgSbet.setText(vo.pageCount.sbet);
+                binding.llSum.tvwPgSprize.setText(vo.pageCount.sprize);
+                binding.llSum.tvwPgSprofitLoss.setText(vo.pageCount.sprofit_loss);
+                binding.llSum.tvwPgFee.setText(vo.pageCount.fee);
 
-            binding.llSum.tvwPgSpoint.setText(vo.pageCount.spoint);
-            binding.llSum.tvwPgSeffectiveBet.setText(vo.pageCount.seffective_bet);
-            binding.llSum.tvwPgWages.setText(vo.pageCount.wages);
-            binding.llSum.tvwPgSactivePrize.setText(vo.pageCount.sactive_prize);
+                binding.llSum.tvwPgSpoint.setText(vo.pageCount.spoint);
+                binding.llSum.tvwPgSeffectiveBet.setText(vo.pageCount.seffective_bet);
+                binding.llSum.tvwPgWages.setText(vo.pageCount.wages);
+                binding.llSum.tvwPgSactivePrize.setText(vo.pageCount.sactive_prize);
 
-            binding.llSum.tvwPgNetProfit.setText(vo.pageCount.settlement); // 会员净输赢
+                binding.llSum.tvwPgNetProfit.setText(vo.pageCount.settlement); // 会员净输赢
+            }
 
             // 总合计
-            binding.llSum.tvwSumSbet.setText(vo.totalCount.sbet);
-            binding.llSum.tvwSumSprize.setText(vo.totalCount.sprize);
-            binding.llSum.tvwSumSprofitLoss.setText(vo.totalCount.sprofit_loss);
-            binding.llSum.tvwSumFee.setText(vo.totalCount.fee);
+            if (vo.totalCount != null) {
+                binding.llSum.tvwSumSbet.setText(vo.totalCount.sbet);
+                binding.llSum.tvwSumSprize.setText(vo.totalCount.sprize);
+                binding.llSum.tvwSumSprofitLoss.setText(vo.totalCount.sprofit_loss);
+                binding.llSum.tvwSumFee.setText(vo.totalCount.fee);
 
-            binding.llSum.tvwSumSpoint.setText(vo.totalCount.spoint);
-            binding.llSum.tvwSumSeffectiveBet.setText(vo.totalCount.seffective_bet);
-            binding.llSum.tvwSumWages.setText(vo.totalCount.wages);
-            binding.llSum.tvwSumSactivePrize.setText(vo.totalCount.sactive_prize);
+                binding.llSum.tvwSumSpoint.setText(vo.totalCount.spoint);
+                binding.llSum.tvwSumSeffectiveBet.setText(vo.totalCount.seffective_bet);
+                binding.llSum.tvwSumWages.setText(vo.totalCount.wages);
+                binding.llSum.tvwSumSactivePrize.setText(vo.totalCount.sactive_prize);
 
-            binding.llSum.tvwSumNetProfit.setText(vo.totalCount.settlement); // 会员净输赢
-
+                binding.llSum.tvwSumNetProfit.setText(vo.totalCount.settlement); // 会员净输赢
+            }
         });
 
     }
@@ -276,7 +289,10 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
         endtime = binding.fvMain.getEndDate();
         typeId = binding.fvMain.getTypeId("");
         //status = binding.fvMain.getStatusId("0");
-        userName = binding.fvMain.getEdit(userName);
+        userName = binding.fvMain.getEdit(""); // 用户输入一个不存在的用户名,查询,再清空,再查询
+        if (userName.isEmpty()) {
+            userName = SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME, "");
+        }
 
         HashMap<String, String> map = new HashMap<>();
         map.put("starttime", starttime);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -28,7 +29,7 @@
             <TextView
                 android:id="@+id/tvw_pg_sbet"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0.0000" />
+                tools:text="0" />
 
             <TextView
                 style="@style/style_item_report_profit_sum_t2"
@@ -37,7 +38,7 @@
             <TextView
                 android:id="@+id/tvw_pg_sprize"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0.0000" />
+                tools:text="0.0" />
         </LinearLayout>
 
         <LinearLayout
@@ -51,7 +52,7 @@
             <TextView
                 android:id="@+id/tvw_pg_sprofit_loss"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0.0000" />
+                tools:text="0.0" />
 
             <TextView
                 style="@style/style_item_report_profit_sum_t2"
@@ -60,7 +61,7 @@
             <TextView
                 android:id="@+id/tvw_pg_spoint"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0.0000" />
+                tools:text="0" />
         </LinearLayout>
 
         <LinearLayout
@@ -84,7 +85,7 @@
             <TextView
                 android:id="@+id/tvw_pg_seffective_bet"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0.0000" />
+                tools:text="0" />
         </LinearLayout>
 
         <LinearLayout
@@ -98,7 +99,7 @@
             <TextView
                 android:id="@+id/tvw_pg_wages"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0.0000" />
+                tools:text="0" />
 
             <TextView
                 style="@style/style_item_report_profit_sum_t2"
@@ -107,7 +108,7 @@
             <TextView
                 android:id="@+id/tvw_pg_sactive_prize"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0.0000" />
+                tools:text="0" />
         </LinearLayout>
 
         <LinearLayout
@@ -121,7 +122,7 @@
             <TextView
                 android:id="@+id/tvw_pg_net_profit"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0" />
+                tools:text="0.0" />
         </LinearLayout>
 
     </LinearLayout>
@@ -149,7 +150,7 @@
             <TextView
                 android:id="@+id/tvw_sum_sbet"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0.0000" />
+                tools:text="0" />
 
             <TextView
                 style="@style/style_item_report_profit_sum_t2"
@@ -158,7 +159,7 @@
             <TextView
                 android:id="@+id/tvw_sum_sprize"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0.0000" />
+                tools:text="0.0" />
         </LinearLayout>
 
         <LinearLayout
@@ -172,7 +173,7 @@
             <TextView
                 android:id="@+id/tvw_sum_sprofit_loss"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0.0000" />
+                tools:text="0.0" />
 
             <TextView
                 style="@style/style_item_report_profit_sum_t2"
@@ -181,7 +182,7 @@
             <TextView
                 android:id="@+id/tvw_sum_spoint"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0.0000" />
+                tools:text="0" />
         </LinearLayout>
 
         <LinearLayout
@@ -204,7 +205,7 @@
             <TextView
                 android:id="@+id/tvw_sum_seffective_bet"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0.0000" />
+                tools:text="0" />
         </LinearLayout>
 
         <LinearLayout
@@ -218,7 +219,7 @@
             <TextView
                 android:id="@+id/tvw_sum_wages"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0.0000" />
+                tools:text="0" />
 
             <TextView
                 style="@style/style_item_report_profit_sum_t2"
@@ -227,7 +228,7 @@
             <TextView
                 android:id="@+id/tvw_sum_sactive_prize"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0.0000" />
+                tools:text="0" />
         </LinearLayout>
 
         <LinearLayout
@@ -241,7 +242,7 @@
             <TextView
                 android:id="@+id/tvw_sum_net_profit"
                 style="@style/style_item_report_profit_sum_v"
-                tools:text="0" />
+                tools:text="0.0" />
         </LinearLayout>
 
     </LinearLayout>

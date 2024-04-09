@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.rebateagrt.model;
 
 import com.xtree.base.mvvm.recyclerview.BindModel;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.mine.R;
 
 import io.reactivex.rxjava3.functions.Consumer;
@@ -45,6 +46,9 @@ public class GameDividendAgrtModel extends BindModel {
      * 查看契约
      */
     public void checkArgt() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         switch (payStatu) {
             case "1": //未结清:
             case "2": //已结清

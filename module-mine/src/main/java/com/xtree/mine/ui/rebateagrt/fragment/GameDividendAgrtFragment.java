@@ -16,6 +16,8 @@ import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentModel;
 import com.xtree.mine.ui.rebateagrt.viewmodel.GameDividendAgrtViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.RxBus;
@@ -73,6 +75,26 @@ public class GameDividendAgrtFragment extends BaseFragment<FragmentGameDividenda
                 binding.refreshLayout.finishRefresh(false);
             } else if (integer == BaseViewModel.ONFINISH_LOAD_MORE_FAILED) {
                 binding.refreshLayout.finishLoadMore(false);
+            }
+        });
+
+        //监听创建契约完成消息
+        RxBus.getDefault().toObservable(String.class).subscribe(new Observer<String>() {
+            @Override
+            public void onSubscribe(Disposable d) {}
+            @Override
+            public void onNext(String s) {
+                if (s.equals(DividendAgrtCheckDialogFragment.CREATED)) {
+                    viewModel.onResume();
+                }
+            }
+            @Override
+            public void onError(Throwable e) {
+                e.getMessage();
+
+            }
+            @Override
+            public void onComplete() {
             }
         });
     }

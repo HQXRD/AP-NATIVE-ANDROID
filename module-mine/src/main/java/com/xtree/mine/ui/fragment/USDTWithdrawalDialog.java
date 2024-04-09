@@ -27,6 +27,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.StringUtils;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
@@ -73,6 +74,8 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
     private String usdtType;
     private FruitHorUSDTRecyclerViewAdapter recyclerViewAdapter;
     private BasePopupView ppwError = null; // 底部弹窗 (显示错误信息)
+
+    private String usdtid;//第二步传递的 提款地址ide id
 
     public USDTWithdrawalDialog(@NonNull Context context) {
         super(context);
@@ -200,6 +203,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         });
         //USDT完成申请
         viewModel.usdtConfirmMoYuVoMutableLiveData.observe(owner, vo -> {
+            TagUtils.tagEvent(getContext(), "wd", "ut");
             usdtConfirmVo = vo;
             if (usdtConfirmVo == null || usdtConfirmVo.msg_detail == null) {
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
@@ -281,6 +285,9 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         binding.tvWithdrawalTypeShow1.setText(temp);
         binding.tvInfoExchangeRateShow.setText(cashMoYuVo.exchangerate);
         binding.tvCollectionUsdt.setText(cashMoYuVo.usdtinfo.get(0).usdt_type + " " + cashMoYuVo.usdtinfo.get(0).usdt_card);
+
+        usdtid = cashMoYuVo.usdtinfo.get(0).id;
+
         binding.tvCollectionUsdt.setOnClickListener(v -> {
             showCollectionDialog(cashMoYuVo.usdtinfo);
         });
@@ -347,7 +354,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
                 hideKeyBoard();
                 String money = binding.etInputMoney.getText().toString().trim();
                 String realCount = binding.tvInfoActualNumberShow.getText().toString().trim();
-                String usdtId = binding.tvCollectionUsdt.getText().toString().trim();
+                String usdtId = usdtid;
                 requestWithdrawUSDT(money, realCount, usdtId, checkCode, cashMoYuVo);
             }
         });
@@ -383,8 +390,8 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         bindView.tvWithdrawalActualArrivalShow.setText(usdtSecurityVo.datas.arrive);
         bindView.tvWithdrawalExchangeRateShow.setText(usdtSecurityVo.exchangerate);
         bindView.tvWithdrawalAddressShow.setText(usdtSecurityVo.usdt_card);
-        // 提款类型
-        bindView.tvWithdrawalAmountTypeShow.setText(usdtSecurityVo.usdt_type);
+        // 提款金额
+        bindView.tvWithdrawalAmountTypeShow.setText(usdtSecurityVo.datas.money);
         bindView.tvWithdrawalHandlingFeeShow.setText(usdtSecurityVo.datas.handing_fee);
 
         //下一步
@@ -474,6 +481,9 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
                     binding.tvCollectionUsdt.setText(showMessage);
+
+                    usdtid = selectUsdtInfo.id;
+
                     String temp = vo.min_money + "元,最高" + vo.max_money + "元";
                     binding.tvWithdrawalTypeShow1.setText(temp);
                     ppw.dismiss();
@@ -549,9 +559,9 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         map.put("money", money);
         map.put("nonce", UuidUtil.getID24());
         map.put("realCount", realCount);
-        map.put("usdt_type", usdt_type);
-        map.put("usdtid", usdtSecurityVo.usdtid);
-        map.put("usdtType", usdtSecurityVo.usdt_type);
+        map.put("usdtType", usdtSecurityVo.drawal_type);
+        map.put("usdt_type", usdtSecurityVo.usdt_type);
+        map.put("usdtid", usdtid);//选中提款地址
 
         CfLog.i("requestConfirmUSDT = " + map);
 

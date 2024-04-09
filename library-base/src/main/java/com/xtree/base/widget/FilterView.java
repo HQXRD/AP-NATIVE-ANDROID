@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import me.xtree.mvvmhabit.utils.ToastUtils;
 import project.tqyb.com.library_res.databinding.ItemTextBinding;
 
 /**
@@ -173,6 +174,10 @@ public class FilterView extends LinearLayout {
         binding.edtInput.setHint(hint);
     }
 
+    public void setEdit(String name) {
+        binding.edtInput.setText(name);
+    }
+
     public void setDayStart(String startDay) {
         binding.tvwDayStart.setText(startDay);
     }
@@ -243,7 +248,17 @@ public class FilterView extends LinearLayout {
     }
 
     public void setQueryListener(OnClickListener lsn) {
-        binding.tvwSelect.setOnClickListener(lsn);
+        //binding.tvwSelect.setOnClickListener(lsn);
+        binding.tvwSelect.setOnClickListener(v -> {
+            String dayStart = getStartDate().replace("-", "");
+            String dayEnd = getEndDate().replace("-", "");
+            if (Integer.parseInt(dayEnd) < Integer.parseInt(dayStart)) {
+                ToastUtils.showShort(getContext().getString(R.string.txt_tip_date));
+                return;
+            }
+
+            lsn.onClick(v);
+        });
     }
 
     public void setQueryListener(FilterViewOnClickListerner filterViewOnClickListerner) {

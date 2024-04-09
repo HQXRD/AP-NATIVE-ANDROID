@@ -107,8 +107,8 @@
                 style="@style/style_cm_edt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/clr_transparent"
                 android:layout_marginTop="8dp"
+                android:background="@color/clr_transparent"
                 android:hint="@string/txt_input_search_user"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/tvw_username"
@@ -171,6 +171,32 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/layout_margin"
+                            android:layout_marginTop="@dimen/layout_margin"
+                            android:layout_marginEnd="@dimen/layout_margin"
+                            android:background="@drawable/bg_white_14"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/layout_margin">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/txt_rpt_level"
+                                android:textColor="@color/clr_txt_black_cm"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:id="@+id/tvw_bread"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/clr_txt_black_cm"
+                                android:textSize="16sp"
+                                tools:text="Demo > Demo" />
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/tvw_no_data"
