@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MemberManagerVo {
-    public boolean isshow; // true
+    public boolean isshow; // true 显示是否下级转账
     public List<ProfitLossReportVo.UserVo> bread; // 本级
     public MemberPageVo mobile_page;
     public ArrayList<MemberUserInfoVo> users;
