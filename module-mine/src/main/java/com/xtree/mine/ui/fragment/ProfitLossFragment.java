@@ -223,8 +223,12 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
             mAdapter.addAll(vo.aProfitLoss);
             if (mAdapter.isEmpty()) {
                 binding.tvwNoData.setVisibility(View.VISIBLE);
+                binding.llBread.setVisibility(View.GONE);
+                binding.llSum.llRoot.setVisibility(View.GONE);
             } else {
                 binding.tvwNoData.setVisibility(View.GONE);
+                binding.llBread.setVisibility(View.VISIBLE);
+                binding.llSum.llRoot.setVisibility(View.VISIBLE);
             }
 
             // 本级
@@ -285,7 +289,10 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
         endtime = binding.fvMain.getEndDate();
         typeId = binding.fvMain.getTypeId("");
         //status = binding.fvMain.getStatusId("0");
-        userName = binding.fvMain.getEdit(userName);
+        userName = binding.fvMain.getEdit(""); // 用户输入一个不存在的用户名,查询,再清空,再查询
+        if (userName.isEmpty()) {
+            userName = SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME, "");
+        }
 
         HashMap<String, String> map = new HashMap<>();
         map.put("starttime", starttime);
