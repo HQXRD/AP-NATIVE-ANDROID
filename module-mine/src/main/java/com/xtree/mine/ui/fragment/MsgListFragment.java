@@ -10,7 +10,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.mine.BR;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 @Route(path = RouterFragmentPath.Mine.PAGER_MSG_LIST)
 public class MsgListFragment extends BaseFragment<FragmentMsgListBinding, MsgViewModel> {
@@ -32,6 +35,7 @@ public class MsgListFragment extends BaseFragment<FragmentMsgListBinding, MsgVie
     int curPage = 0;
     int count = 0; // 资料总条数
     List<MsgVo> msgVoList = new ArrayList<>();
+    Gson gson = new Gson();
 
     @Override
     public void initView() {
@@ -46,6 +50,10 @@ public class MsgListFragment extends BaseFragment<FragmentMsgListBinding, MsgVie
                     break;
                 }
             }
+            // 取前 10 个元素
+            List<MsgVo> firstTenElements = msgVoList.subList(0, 10);
+            String json = gson.toJson(firstTenElements);
+            SPUtils.getInstance().put(SPKeyGlobal.MSG_INFO, json);
         });
         binding.rvMsgList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvMsgList.setAdapter(mMsgListAdapter);
