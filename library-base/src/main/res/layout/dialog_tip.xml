@@ -55,7 +55,7 @@
 
             <TextView
                 android:id="@+id/tvw_msg2"
-                style="@style/style_cm_tip_small_orange"
+                style="@style/style_cm_tip_small_grey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
