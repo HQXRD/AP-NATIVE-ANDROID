@@ -159,7 +159,6 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
             //getActivity().finish();
             binding.layoutRecharge.visibility = View.VISIBLE
             binding.llConfirm.visibility = View.GONE
-            binding.tvMsg.text = vo.message
             binding.tvRecharge.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putBoolean("isShowBack", true)

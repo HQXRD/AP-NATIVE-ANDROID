@@ -234,7 +234,7 @@ public interface HttpApiService {
     Flowable<HashMap<String, List<UserBankProvinceVo.AreaVo>>> getCityList(@Body Map<String, String> map);
 
     /**
-     * 绑定银行卡
+     * 绑定银行卡/支付宝/微信
      *
      * @param queryMap URL拼装用的 controller=security&action=adduserbank&client=m&mark=bindcard&check=***
      * @param map      POST Body 体用的
