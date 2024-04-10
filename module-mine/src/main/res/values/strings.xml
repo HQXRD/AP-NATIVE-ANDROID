@@ -463,7 +463,7 @@
     <string name="txt_rebateagrt_tip5">1. 体育投注额统计按照结算（开奖）时间为准。 \n2. 返水按有效投注额计算，无效投注的判定标准请咨询平台或您的上级。 \n3. 活跃玩家人数统计包括本人，活跃玩家定义请咨询平台或您的上级。 \n4. 返水金额向下取整数，精确到元。</string>
     <string name="txt_rebateagrt_tip6">1. 返水按有效投注额计算，无效投注的判定标准请咨询平台或您的上级。 \n2. 活跃玩家人数统计包括本人，活跃玩家定义请咨询平台或您的上级。 \n3. 返水金额向下取整数，精确到元。 \n4. 部份游戏有效投注额等于每局输赢金额差； 部分游戏盈利会抽取5%。 \n5. 以下游戏不计算有效投注额，不派发返水。 DB棋牌：海王捕鱼、龙虎斗、百家乐、森林舞会。 云游棋牌：龙虎斗、百家乐、黑红梅方、李逵劈鱼、大闹天宫、森林舞会、疯狂捕鱼。</string>
     <string name="txt_rebateagrt_tip7">1. 电竞投注额统计按照结算（开奖）时间为准。 \n2. 返水按有效投注额计算，无效投注的判定标准请咨询平台或您的上级。 \n3. 活跃玩家人数统计包括本人，活跃玩家定义请咨询平台或您的上级。 \n4. 返水金额向下取整数，精确到元。 \n5. 以下游戏不计算有效投注额，不派发返水。 DB电竞：英雄召唤 雷火电竞：刀塔宝藏、英雄联盟(召唤）、CSGO拆弹、王者荣耀(夺宝-快速)。 IM电竞：激斗峡谷、板球超级轮。</string>
-    <string name="txt_rebateagrt_tip8">1.日分红从契约生效日期起算流水，如满足契约要求则在次日可获得分红；\n2.为了便于统计，分红金额向下取整，精确到元，例如：计算时薪为201.9元，则实发金额为201元；\n3.所有分红目前只计算前一天的彩票投注额，不计算真人、老虎机、体育等投注额；\n4.所有分红每天上午自动发放，无须手动领取；\n5.日分红活跃人数定义：日投注额≥1000元，已绑定银行卡，有过至少1次银行卡提款记录。</string>
+    <string name="txt_rebateagrt_tip8">1.日分红从契约生效日期起算流水，如满足契约要求则在次日可获得分红；\n2.为了便于统计，分红金额向下取整，精确到元，例如：计算日薪为201.9元，则实发金额为201元；\n3.所有分红目前只计算前一天的彩票投注额，不计算真人、老虎机、体育等投注额；\n4.所有分红每天上午自动发放，无须手动领取；\n5.日分红活跃人数定义：日投注额≥1000元，已绑定银行卡，有过至少1次银行卡提款记录。</string>
     <string name="txt_balances">结余：</string>
     <string name="txt_paid_sub">下级应发：</string>
     <string name="txt_rebate_sub">下级返水</string>
@@ -471,7 +471,7 @@
     <string name="txt_rebate_personally">个人返水</string>
     <string name="txt_send_status">发放状态</string>
     <string name="txt_all">全部</string>
-    <string name="txt_dividend_yestday_rmb">昨日分红（元）</string>
+    <string name="txt_dividend_yestday_rmb">昨日收益（元）</string>
     <string name="txt_correct_pwd">请输入正确格式的登录密码</string>
     <string name="txt_dividend_check_tip1">说明\n●分红周期指每月1-15日，16日-月末；\n●契约规则请按照从低至高顺序填写；\n●契约创建成功后立即生效，本分红周期统计完整投注额；</string>
     <string name="txt_contractual_norms">契约规则</string>

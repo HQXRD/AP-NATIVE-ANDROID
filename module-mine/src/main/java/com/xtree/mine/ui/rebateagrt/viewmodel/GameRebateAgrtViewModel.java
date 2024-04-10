@@ -727,6 +727,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                             if (vo.getData() != null && vo.getData().size() > 0) {
                                 for (GameSubordinateRebateResponse.DataDTO dataDTO : vo.getData()) {
                                     GameSubordinaterebateModel model = new GameSubordinaterebateModel();
+                                    model.setTypeEnum(type);
                                     switch (type) {
                                         case USER:
                                             model.setItemType(12);

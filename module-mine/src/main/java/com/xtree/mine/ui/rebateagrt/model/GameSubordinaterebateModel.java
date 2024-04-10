@@ -22,6 +22,12 @@ public class GameSubordinaterebateModel extends BindModel {
     private String statusString = BaseApplication.getInstance().getString(R.string.txt_unreceived);
     private int statusColor = R.color.clr_txt_rebateagrt_fail;
     private String createTime;
+    //场馆类型
+    private RebateAreegmentTypeEnum typeEnum;
+
+    public void setTypeEnum(RebateAreegmentTypeEnum typeEnum) {
+        this.typeEnum = typeEnum;
+    }
 
     public String getUserName() {
         return userName;
@@ -48,6 +54,14 @@ public class GameSubordinaterebateModel extends BindModel {
     }
 
     public String getRatio() {
+        if (typeEnum != null) {
+            switch (typeEnum) {
+                case USER:
+                    return ratio + "元/万";
+                default:
+                    return ratio + "%";
+            }
+        }
         return ratio;
     }
 
