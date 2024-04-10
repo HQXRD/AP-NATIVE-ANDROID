@@ -25,15 +25,6 @@
         app:layout_constraintStart_toEndOf="@id/ckb_msg_check"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/ivw_msg_point"
-        android:layout_width="6dp"
-        android:layout_height="6dp"
-        android:visibility="gone"
-        android:src="@drawable/ic_red_point"
-        app:layout_constraintEnd_toEndOf="@id/ivw_msg_icon"
-        app:layout_constraintTop_toTopOf="@id/ivw_msg_icon" />
-
     <TextView
         android:id="@+id/tvw_msg_title"
         style="@style/style_bind_confirm_value"
@@ -66,7 +57,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <ImageView
         android:layout_width="wrap_content"
