@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -32,6 +33,7 @@
                 android:textColor="@color/clr_white"
                 android:layout_margin="16dp"
                 android:onClick="@{() -> m.showTip()}"
+                android:visibility="@{m.tipVisible?View.VISIBLE:View.GONE}"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +46,7 @@
                 android:id="@+id/head_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_dividend_yestday_rmb"
+                android:text="@{m.yesterdayRebateTitle}"
                 android:textSize="12sp"
                 android:textColor="@color/clr_white"
                 android:layout_marginTop="16dp"
@@ -53,6 +55,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintVertical_bias="0"
+                tools:text="@string/txt_dividend_yestday_rmb"
                 />
 
             <TextView
@@ -76,11 +79,12 @@
                 android:layout_height="33dp"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                android:text="@string/txt_rebateagrt_rules1"
+                android:text="@{m.ratioTip}"
                 android:textSize="12sp"
                 android:textColor="@color/clr_white"
                 android:gravity="left|center_vertical"
                 android:background="@drawable/bg_bottom_semitransparent_r12"
+                android:onClick="@{() -> m.showRules()}"
                 app:layout_constraintTop_toBottomOf="@id/head_rebate"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

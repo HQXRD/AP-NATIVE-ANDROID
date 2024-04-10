@@ -63,6 +63,7 @@ public class RouterFragmentPath {
         public static final String PAGER_REBATEAGRT_SEARCHUSER_DIALOG = MINE + "/RebateAgrtSearchUserDialog"; // 返水契约-搜索用户
         public static final String PAGER_DIVIDENDAGRT_SEND_DIALOG = MINE + "/DividendAgrtSendDialog"; // 返水契约-分红契约-手动发放分红
         public static final String PAGER_DIVIDENDAGRT_CHECK_DIALOG = MINE + "/DividendAgrtCheckDialog"; //返水契约-分红契约-查看契约
+        public static final String PAGER_COMMISSIONSREPORTS = MINE + "/CommissionsReports"; //返水契约-佣金报表
 
         public static final String PAGER_THIRD_TRANSFER = MINE + "/ThirdTransfer"; // 三方转账
         public static final String PAGER_RECHARGE_WITHDRAW = MINE + "/RechargeWithdraw"; // 充提记录
@@ -85,6 +86,8 @@ public class RouterFragmentPath {
     public static class Wallet {
         private static final String WALLET = "/wallet";
         public static final String PAGER_TRANSFER = WALLET + "/Transfer";
+        //转账结果
+        public static final String PAGER_TRANSFER_RESULT = WALLET + "/TransferResult";
         public static final String PAGER_WITHDRAW = WALLET + "/Withdraw";
 
     }

@@ -1,5 +1,7 @@
 package com.xtree.mine.vo.response;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 import me.xtree.mvvmhabit.http.BaseResponse2;
@@ -346,6 +348,17 @@ public class GameRebateAgrtResponse extends BaseResponse2 {
         private String sum_sub_money;
         private String sum_self_money;
         private String sum_liushui;
+        /**
+         * sumPeople
+         */
+        @SerializedName("sum_people")
+        private String sumPeople;
+        /**
+         * sumLossAmount
+         */
+        @SerializedName("sum_loss_amount")
+        private String sumLossAmount;
+
 
         public String getSum_bet() {
             return sum_bet;
@@ -393,6 +406,22 @@ public class GameRebateAgrtResponse extends BaseResponse2 {
 
         public void setSum_liushui(String sum_liushui) {
             this.sum_liushui = sum_liushui;
+        }
+
+        public String getSumPeople() {
+            return sumPeople;
+        }
+
+        public void setSumPeople(String sumPeople) {
+            this.sumPeople = sumPeople;
+        }
+
+        public String getSumLossAmount() {
+            return sumLossAmount;
+        }
+
+        public void setSumLossAmount(String sumLossAmount) {
+            this.sumLossAmount = sumLossAmount;
         }
     }
 
@@ -635,6 +664,27 @@ public class GameRebateAgrtResponse extends BaseResponse2 {
             private String period;
             private String min_netwin;
             private String islock;
+            /**
+             * bet
+             */
+            @SerializedName("bet")
+            private String bet;
+            /**
+             * lossAmount
+             */
+            @SerializedName("loss_amount")
+            private String lossAmount;
+            /**
+             * rtype
+             */
+            @SerializedName("rtype")
+            private String rtype;
+            /**
+             * people
+             */
+            @SerializedName("people")
+            private String people;
+
 
             public String getLevel() {
                 return level;
@@ -699,6 +749,38 @@ public class GameRebateAgrtResponse extends BaseResponse2 {
             public void setIslock(String islock) {
                 this.islock = islock;
             }
+
+            public String getBet() {
+                return bet;
+            }
+
+            public void setBet(String bet) {
+                this.bet = bet;
+            }
+
+            public String getLossAmount() {
+                return lossAmount;
+            }
+
+            public void setLossAmount(String lossAmount) {
+                this.lossAmount = lossAmount;
+            }
+
+            public String getRtype() {
+                return rtype;
+            }
+
+            public void setRtype(String rtype) {
+                this.rtype = rtype;
+            }
+
+            public String getPeople() {
+                return people;
+            }
+
+            public void setPeople(String people) {
+                this.people = people;
+            }
         }
     }
 
@@ -721,13 +803,43 @@ public class GameRebateAgrtResponse extends BaseResponse2 {
         private String date;
         private String total_money;
         private String sub_money;
-        private int self_money;
         private String pay_money;
         private String pstatus;
         private Object pay_time;
         private String create_time;
         private String platform_id;
         private String liushui;
+        /**
+         * cycleDay
+         */
+        @SerializedName("cycle_day")
+        private String cycleDay;
+        /**
+         * lossAmount
+         */
+        @SerializedName("loss_amount")
+        private String lossAmount;
+        /**
+         * people
+         */
+        @SerializedName("people")
+        private String people;
+        /**
+         * selfMoney
+         */
+        @SerializedName("self_money")
+        private String selfMoney;
+        /**
+         * payStatus
+         */
+        @SerializedName("pay_status")
+        private String payStatus;
+        /**
+         * usertype
+         */
+        @SerializedName("usertype")
+        private String usertype;
+
 
         public String getId() {
             return id;
@@ -873,14 +985,6 @@ public class GameRebateAgrtResponse extends BaseResponse2 {
             this.sub_money = sub_money;
         }
 
-        public int getSelf_money() {
-            return self_money;
-        }
-
-        public void setSelf_money(int self_money) {
-            this.self_money = self_money;
-        }
-
         public String getPay_money() {
             return pay_money;
         }
@@ -927,6 +1031,54 @@ public class GameRebateAgrtResponse extends BaseResponse2 {
 
         public void setLiushui(String liushui) {
             this.liushui = liushui;
+        }
+
+        public String getCycleDay() {
+            return cycleDay;
+        }
+
+        public void setCycleDay(String cycleDay) {
+            this.cycleDay = cycleDay;
+        }
+
+        public String getLossAmount() {
+            return lossAmount;
+        }
+
+        public void setLossAmount(String lossAmount) {
+            this.lossAmount = lossAmount;
+        }
+
+        public String getPeople() {
+            return people;
+        }
+
+        public void setPeople(String people) {
+            this.people = people;
+        }
+
+        public String getSelfMoney() {
+            return selfMoney;
+        }
+
+        public void setSelfMoney(String selfMoney) {
+            this.selfMoney = selfMoney;
+        }
+
+        public String getPayStatus() {
+            return payStatus;
+        }
+
+        public void setPayStatus(String payStatus) {
+            this.payStatus = payStatus;
+        }
+
+        public String getUsertype() {
+            return usertype;
+        }
+
+        public void setUsertype(String usertype) {
+            this.usertype = usertype;
         }
     }
 }

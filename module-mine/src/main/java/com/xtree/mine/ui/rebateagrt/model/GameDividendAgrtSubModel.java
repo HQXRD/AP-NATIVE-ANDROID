@@ -1,12 +1,6 @@
 package com.xtree.mine.ui.rebateagrt.model;
 
-import androidx.databinding.ObservableField;
-
 import com.xtree.base.mvvm.recyclerview.BindModel;
-import com.xtree.base.widget.FilterView;
-import com.xtree.mine.vo.StatusVo;
-
-import java.util.List;
 
 /**
  * Created by KAKA on 2024/3/14.
@@ -14,14 +8,8 @@ import java.util.List;
  */
 public class GameDividendAgrtSubModel extends BindModel {
 
-    public interface OnCallBack {
-        void autoSend();
-        void send();
-    }
-
     private String payoff;
     private String owe;
-
     private OnCallBack onCallBack;
 
     public GameDividendAgrtSubModel() {
@@ -51,7 +39,6 @@ public class GameDividendAgrtSubModel extends BindModel {
         this.owe = owe;
     }
 
-
     /**
      * 一键发放
      */
@@ -68,6 +55,12 @@ public class GameDividendAgrtSubModel extends BindModel {
         if (onCallBack != null) {
             onCallBack.send();
         }
+    }
+
+    public interface OnCallBack {
+        void autoSend();
+
+        void send();
     }
 
 }

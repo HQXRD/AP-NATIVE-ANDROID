@@ -13,10 +13,12 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.ui.fragment.TransferResultFragment;
 import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.GameMenusVo;
+import com.xtree.mine.vo.TransferResultModel;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +29,7 @@ import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
@@ -201,7 +204,7 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
-    public void doTransfer(HashMap map) {
+    public void doTransfer(HashMap<String, String> map) {
         Disposable disposable = (Disposable) model.getApiService().doTransfer(map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
@@ -210,13 +213,29 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                     public void onResult(Object vo) {
                         CfLog.d("******");
                         liveDataTransfer.setValue(true);
+                        TransferResultModel transferResultModel = new TransferResultModel();
+                        transferResultModel.from = map.get("from");
+                        transferResultModel.to = map.get("to");
+                        transferResultModel.money = map.get("money");
+                        transferResultModel.status = 1;
+                        RxBus.getDefault().postSticky(transferResultModel);
+                        startContainerActivity(TransferResultFragment.class.getCanonicalName());
                     }
 
                     @Override
-                    public void onError(Throwable t) {
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
                         CfLog.e("error, " + t.toString());
                         liveDataTransfer.setValue(false);
-                        super.onError(t);
+
+                        TransferResultModel transferResultModel = new TransferResultModel();
+                        transferResultModel.from = map.get("from");
+                        transferResultModel.to = map.get("to");
+                        transferResultModel.money = map.get("money");
+                        transferResultModel.status = 0;
+                        transferResultModel.errorMsg = t.message;
+                        RxBus.getDefault().postSticky(transferResultModel);
+                        startContainerActivity(TransferResultFragment.class.getCanonicalName());
                     }
                 });
         addSubscribe(disposable);

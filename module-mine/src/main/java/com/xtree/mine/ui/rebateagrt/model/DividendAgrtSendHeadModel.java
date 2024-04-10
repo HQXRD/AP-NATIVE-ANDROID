@@ -9,14 +9,13 @@ import com.xtree.base.mvvm.recyclerview.BindModel;
  */
 public class DividendAgrtSendHeadModel extends BindModel implements BindHead {
 
-    private String payoff;
-    private String owe;
-
     //分页索引
     public int p = 1;
     //page count
     public int pn = 20;
     public String type = "1";
+    private String payoff;
+    private String owe;
 
     public String getPayoff() {
         return payoff;

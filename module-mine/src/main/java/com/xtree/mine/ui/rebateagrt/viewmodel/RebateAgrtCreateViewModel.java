@@ -1,5 +1,6 @@
 package com.xtree.mine.ui.rebateagrt.viewmodel;
 
+import static com.xtree.mine.ui.rebateagrt.fragment.RebateAgrtCreateDialogFragment.CHECK_MODE;
 import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.CHESS;
 import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.EGAME;
 import static com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum.LIVE;
@@ -53,26 +54,9 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> implements ToolbarModel {
 
-    public RebateAgrtCreateViewModel(@NonNull Application application) {
-        super(application);
-    }
-
-    public RebateAgrtCreateViewModel(@NonNull Application application, MineRepository model) {
-        super(application, model);
-    }
-
     public static final int CHECK_MODO = 0;
     public static final int CREATE_MODO = 1;
-    public ObservableInt viewMode = new ObservableInt(CREATE_MODO);
-    private RebateAgrtDetailModel rebateAgrtDetailModel;
-    public MutableLiveData<RebateAgrtSearchUserResultModel> searchUserResultLiveData = new MutableLiveData<>();
-
-    private WeakReference<FragmentActivity> mActivity = null;
-
-    private final MutableLiveData<String> titleData = new MutableLiveData<>();
-
     public final MutableLiveData<ArrayList<BindModel>> datas = new MutableLiveData<>(new ArrayList<>());
-
     public final MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
                 {
@@ -81,6 +65,11 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
                     add(R.layout.item_rebateagrt_create_add);
                 }
             });
+    private final MutableLiveData<String> titleData = new MutableLiveData<>();
+    public ObservableInt viewMode = new ObservableInt(CREATE_MODO);
+    public MutableLiveData<RebateAgrtSearchUserResultModel> searchUserResultLiveData = new MutableLiveData<>();
+    private RebateAgrtDetailModel rebateAgrtDetailModel;
+    private WeakReference<FragmentActivity> mActivity = null;
     public final BaseDatabindingAdapter.onBindListener onBindListener = new BaseDatabindingAdapter.onBindListener() {
 
         @Override
@@ -114,24 +103,22 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
         }
 
     };
-
     private final RebateAgrtCreateHeadModel headModel = new RebateAgrtCreateHeadModel(new Consumer<String>() {
         @Override
         public void accept(String s) throws Exception {
             RebateAgrtSearchUserDialogFragment.show(mActivity.get(), rebateAgrtDetailModel);
         }
     });
-
     private final RebateAgrtCreateAddModel addModel = new RebateAgrtCreateAddModel(new Consumer<String>() {
         @Override
         public void accept(String s) throws Exception {
             RebateAgrtCreateModel model = new RebateAgrtCreateModel();
+            model.setType(rebateAgrtDetailModel.getSubData().getType());
             bindModels.add(model);
             formatItem();
             datas.setValue(bindModels);
         }
     });
-
     private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
         headModel.setItemType(1);
         addModel.setItemType(2);
@@ -139,6 +126,14 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
         add(headModel);
 
     }};
+
+    public RebateAgrtCreateViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public RebateAgrtCreateViewModel(@NonNull Application application, MineRepository model) {
+        super(application, model);
+    }
 
     public void initData(RebateAgrtDetailModel response) {
         //init data
@@ -148,9 +143,8 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
         formatItem();
         datas.setValue(bindModels);
     }
-
     private void initMode() {
-        if (rebateAgrtDetailModel.getCheckUserId() != null) {
+        if (rebateAgrtDetailModel.getMode() == CHECK_MODE) {
             //查看契约模式
             viewMode.set(CHECK_MODO);
             headModel.editState.set(false);
@@ -171,6 +165,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
                     if (rule != null) {
                         for (GameSubordinateAgrteResponse.DataDTO.RuleDTO ruleDTO : rule) {
                             RebateAgrtCreateModel model = new RebateAgrtCreateModel();
+                            model.setType(rebateAgrtDetailModel.getSubData().getType());
                             model.setMinBet(ruleDTO.getMin_bet());
                             model.setMinPlayer(ruleDTO.getMin_player());
                             model.setRatio(ruleDTO.getRatio());
@@ -183,10 +178,30 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
         } else {
             //创建契约模式
             viewMode.set(CREATE_MODO);
-            headModel.editState.set(true);
             //设置默认一条空规则
             RebateAgrtCreateModel model = new RebateAgrtCreateModel();
+            model.setType(rebateAgrtDetailModel.getSubData().getType());
             bindModels.add(model);
+
+            //是否携带用户名
+            if (rebateAgrtDetailModel.getCheckUserId() != null) {
+                headModel.editState.set(false);
+                for (GameSubordinateAgrteResponse.DataDTO datum : rebateAgrtDetailModel.getSubData().getData()) {
+                    if (datum.getUserid().equals(rebateAgrtDetailModel.getCheckUserId())) {
+                        //设置头部用户名
+                        headModel.user.set(datum.getUsername());
+                        RebateAgrtSearchUserResultModel resultModel = new RebateAgrtSearchUserResultModel();
+                        HashMap<String, String> map = new HashMap<>();
+                        map.put(datum.getUserid(), datum.getUsername());
+                        resultModel.setUser(map);
+                        //设置数据
+                        searchUserResultLiveData.setValue(resultModel);
+                        return;
+                    }
+                }
+            } else {
+                headModel.editState.set(true);
+            }
         }
     }
 
@@ -203,7 +218,6 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
         usreNames.deleteCharAt(usreNames.lastIndexOf(","));
         headModel.user.set(usreNames.toString());
     }
-
     private void formatItem() {
         //设置小标题
         for (int i = 0; i < bindModels.size(); i++) {
@@ -276,7 +290,7 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
                 break;
         }
 
-        Disposable disposable = (Disposable) model.getRebateAgrtCreateData(query, request)
+        Disposable disposable = model.getRebateAgrtCreateData(query, request)
                 .doOnSubscribe(new Consumer<Subscription>() {
                     @Override
                     public void accept(Subscription subscription) throws Exception {
@@ -310,7 +324,6 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
         addSubscribe(disposable);
 
     }
-
     private void initTab() {
         switch (rebateAgrtDetailModel.getSubData().getType()) {
             case "2": //LIVE

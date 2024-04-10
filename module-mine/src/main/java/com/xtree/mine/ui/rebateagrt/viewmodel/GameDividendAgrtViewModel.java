@@ -27,13 +27,13 @@ import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.ui.rebateagrt.fragment.DividendAgrtCheckDialogFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.DividendAgrtSendDialogFragment;
+import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckEvent;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtModel;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtSubModel;
 import com.xtree.mine.ui.rebateagrt.model.GameDividendAgrtTotalModel;
 import com.xtree.mine.ui.rebateagrt.model.RebateAreegmentTypeEnum;
 import com.xtree.mine.vo.StatusVo;
-import com.xtree.mine.vo.request.DividendAgrtCheckRequest;
 import com.xtree.mine.vo.request.DividendAutoSendRequest;
 import com.xtree.mine.vo.request.DividendAutoSentQuery;
 import com.xtree.mine.vo.request.GameDividendAgrtRequest;
@@ -61,22 +61,8 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  */
 public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> implements ToolbarModel {
 
-    public GameDividendAgrtViewModel(@NonNull Application application) {
-        super(application);
-    }
-
-    public GameDividendAgrtViewModel(@NonNull Application application, MineRepository model) {
-        super(application, model);
-    }
-
-    private RebateAreegmentTypeEnum type;
-
-    private WeakReference<FragmentActivity> mActivity = null;
-
     private final MutableLiveData<String> titleData = new MutableLiveData<>();
-
     public MutableLiveData<ArrayList<BindModel>> datas = new MutableLiveData<ArrayList<BindModel>>(new ArrayList<>());
-
     public MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
                 {
@@ -86,21 +72,13 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                     add(R.layout.item_game_dividendagrt_total);
                 }
             });
-
-    /**
-     * 列表加载
-     */
-    public OnLoadMoreListener onLoadMoreListener = new OnLoadMoreListener() {
-        @Override
-        public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-            headModel.p++;
-            getDividendData();
-        }
-    };
+    private RebateAreegmentTypeEnum type;
+    private WeakReference<FragmentActivity> mActivity = null;
+    private GameDividendAgrtResponse dividendAgrtData = null;
+    @SuppressLint("StaticFieldLeak")
+    private BasePopupView pop = null;
 
     private final GameDividendAgrtHeadModel headModel = new GameDividendAgrtHeadModel(new GameDividendAgrtHeadModel.OnCallBack() {
-
-
         @Override
         public void sort(String title, ObservableField<StatusVo> sort, List<FilterView.IBaseVo> list) {
             showFilter(title, sort, list);
@@ -123,10 +101,10 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
 
         @Override
         public void myAgrt() {
-            DividendAgrtCheckRequest dividendAgrtCheckRequest = new DividendAgrtCheckRequest();
-            dividendAgrtCheckRequest.setUserid(SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
-            dividendAgrtCheckRequest.setType(headModel.type);
-            startCheckAgrt(dividendAgrtCheckRequest);
+            DividendAgrtCheckEvent event = new DividendAgrtCheckEvent();
+            event.setUserid(SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
+            event.setType(headModel.type);
+            startCheckAgrt(event);
         }
     });
 
@@ -156,14 +134,29 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
         }
     });
 
-    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>(){{
+    private final ArrayList<BindModel> bindModels = new ArrayList<BindModel>() {{
         headModel.setItemType(1);
         subModel.setItemType(2);
 
         add(headModel);
     }};
 
-    private GameDividendAgrtResponse dividendAgrtData = null;
+    public GameDividendAgrtViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public GameDividendAgrtViewModel(@NonNull Application application, MineRepository model) {
+        super(application, model);
+    }    /**
+     * 列表加载
+     */
+    public OnLoadMoreListener onLoadMoreListener = new OnLoadMoreListener() {
+        @Override
+        public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+            headModel.p++;
+            getDividendData();
+        }
+    };
 
     public void initData(RebateAreegmentTypeEnum type) {
         //init data
@@ -185,7 +178,6 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
     public void setActivity(FragmentActivity mActivity) {
         this.mActivity = new WeakReference<>(mActivity);
     }
-
     private void showFilter(String title, ObservableField<StatusVo> value, List<FilterView.IBaseVo> listStatus) {
         FilterView.showDialog(mActivity.get(), title, listStatus, new FilterView.ICallBack() {
             @Override
@@ -197,10 +189,10 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
 
     /**
      * 跳转契约详情
-     * @param dividendAgrtCheckRequest 请求参数
+     * @param event 请求参数
      */
-    private void startCheckAgrt(DividendAgrtCheckRequest dividendAgrtCheckRequest) {
-        DividendAgrtCheckDialogFragment.show(mActivity.get(), dividendAgrtCheckRequest);
+    private void startCheckAgrt(DividendAgrtCheckEvent event) {
+        DividendAgrtCheckDialogFragment.show(mActivity.get(), event);
     }
 
     private synchronized void getDividendData() {
@@ -220,7 +212,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
         gameDividendAgrtRequest.username = headModel.userNameData.get();
         gameDividendAgrtRequest.p = headModel.p;
         gameDividendAgrtRequest.pn = headModel.pn;
-        Disposable disposable = (Disposable) model.getGameDividendAgrtData(gameDividendAgrtRequest)
+        Disposable disposable = model.getGameDividendAgrtData(gameDividendAgrtRequest)
                 .doOnSubscribe(new Consumer<Subscription>() {
                     @Override
                     public void accept(Subscription subscription) throws Exception {
@@ -244,21 +236,25 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                 HashMap<String, GameDividendAgrtResponse.CyclesDTO> cycles = vo.getCycles();
 
                                 ArrayList<FilterView.IBaseVo> status = new ArrayList<>();
-                                for (Map.Entry<String, String> stringStringEntry : billStatus.entrySet()) {
-                                    status.add(new StatusVo(stringStringEntry.getKey(), stringStringEntry.getValue()));
+                                if (billStatus != null) {
+                                    for (Map.Entry<String, String> stringStringEntry : billStatus.entrySet()) {
+                                        status.add(new StatusVo(stringStringEntry.getKey(), stringStringEntry.getValue()));
+                                    }
                                 }
                                 headModel.setStatusList(status);
                                 ArrayList<FilterView.IBaseVo> cs = new ArrayList<>();
-                                for (Map.Entry<String, GameDividendAgrtResponse.CyclesDTO> stringCyclesDTOEntry : cycles.entrySet()) {
-                                    StatusVo statusVo = new StatusVo(stringCyclesDTOEntry.getKey(), stringCyclesDTOEntry.getValue().getTitle());
-                                    cs.add(statusVo);
-                                    //设置当前筛选的周期
-                                    if (vo.getGet().getCycle_id().equals(stringCyclesDTOEntry.getKey())) {
-                                        headModel.cyclyData.set(statusVo);
+
+                                if (cycles != null) {
+                                    for (Map.Entry<String, GameDividendAgrtResponse.CyclesDTO> stringCyclesDTOEntry : cycles.entrySet()) {
+                                        StatusVo statusVo = new StatusVo(stringCyclesDTOEntry.getKey(), stringCyclesDTOEntry.getValue().getTitle());
+                                        cs.add(statusVo);
+                                        //设置当前筛选的周期
+                                        if (vo.getGet().getCycle_id().equals(stringCyclesDTOEntry.getKey())) {
+                                            headModel.cyclyData.set(statusVo);
+                                        }
                                     }
                                 }
                                 headModel.setCyclytList(cs);
-
 
                                 //sub
                                 if (vo.getSelfPayStatus() != null) {
@@ -325,11 +321,21 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                                                 gameDividendAgrtModel.setPayStatuText(entry.getValue());
                                             }
                                         }
-                                        gameDividendAgrtModel.setCallBack(v ->{
-                                            DividendAgrtCheckRequest dividendAgrtCheckRequest = new DividendAgrtCheckRequest();
-                                            dividendAgrtCheckRequest.setUserid(v.getUserid());
-                                            dividendAgrtCheckRequest.setType(headModel.type);
-                                            startCheckAgrt(dividendAgrtCheckRequest);
+                                        gameDividendAgrtModel.setCheckDeedCallBack(v -> {
+                                            DividendAgrtCheckEvent event = new DividendAgrtCheckEvent();
+                                            event.setUserid(v.getUserid());
+                                            event.setUserName(v.getUserName());
+                                            event.setType(headModel.type);
+                                            startCheckAgrt(event);
+                                        });
+                                        gameDividendAgrtModel.setCreateDeedCallBack(v -> {
+                                            DividendAgrtCheckEvent event = new DividendAgrtCheckEvent();
+                                            event.setMode(1);
+                                            event.setUserid(v.getUserid());
+                                            event.setUserName(v.getUserName());
+                                            event.setType(headModel.type);
+                                            event.setRules(vo.getSetRules());
+                                            startCheckAgrt(event);
                                         });
                                         bindModels.add(gameDividendAgrtModel);
                                     }
@@ -359,7 +365,6 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
         addSubscribe(disposable);
     }
 
-
     private synchronized void getAutoSend() {
         if (getmCompositeDisposable() != null) {
             getmCompositeDisposable().clear();
@@ -372,7 +377,7 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
         DividendAutoSendRequest request = new DividendAutoSendRequest();
         request.setType(headModel.type);
         request.setCycle_id(dividendAgrtData.getGet().getCycle_id());
-        Disposable disposable = (Disposable) model.getDividendAutoSendData(query, request)
+        Disposable disposable = model.getDividendAutoSendData(query, request)
                 .doOnSubscribe(new Consumer<Subscription>() {
                     @Override
                     public void accept(Subscription subscription) throws Exception {
@@ -397,9 +402,6 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                 });
         addSubscribe(disposable);
     }
-
-    @SuppressLint("StaticFieldLeak")
-    private BasePopupView pop = null;
 
     /**
      * 提示弹窗
@@ -433,6 +435,13 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
     @Override
     public MutableLiveData<String> getTitle() {
         return titleData;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //更新数据
+        headModel.check();
     }
 
     @Override

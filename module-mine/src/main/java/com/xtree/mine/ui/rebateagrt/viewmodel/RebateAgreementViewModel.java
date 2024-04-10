@@ -9,12 +9,18 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.drake.brv.BindingAdapter;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.ui.rebateagrt.fragment.CommissionsReportsFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.GameDividendAgrtFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.GameRebateAgrtFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.RecommendedReportsFragment;
@@ -32,6 +38,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.RxBus;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * Created by KAKA on 2024/3/8.
@@ -39,23 +46,9 @@ import me.xtree.mvvmhabit.bus.RxBus;
  */
 public class RebateAgreementViewModel extends BaseViewModel<MineRepository> implements ToolbarModel {
 
-    public RebateAgreementViewModel(@NonNull Application application) {
-        super(application);
-    }
-
-    public RebateAgreementViewModel(@NonNull Application application, MineRepository model) {
-        super(application, model);
-    }
-
-    private WeakReference<FragmentActivity> mActivity = null;
-
     private final MutableLiveData<String> titleData = new MutableLiveData<>(
             getApplication().getString(R.string.rebate_agrt_title)
     );
-
-    @SuppressLint("UseCompatLoadingForDrawables")
-    public MutableLiveData<ArrayList<RebateAreegmentModel>> datas = new MutableLiveData<>();
-
     private final ArrayList<RebateAreegmentModel> bindModels = new ArrayList<RebateAreegmentModel>() {
         {
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LIVE));
@@ -63,19 +56,21 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.CHESS));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.EGAME));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.USER));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.DAYREBATE));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LOTTERIES));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREPORTS));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.LOTTERIESREPORTS));
             add(new RebateAreegmentModel(RebateAreegmentTypeEnum.GAMEREBATE));
+            add(new RebateAreegmentModel(RebateAreegmentTypeEnum.COMMISSIONSREPORTS));
         }
     };
-
-    public MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(new ArrayList<Integer>(){
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public MutableLiveData<ArrayList<RebateAreegmentModel>> datas = new MutableLiveData<>();
+    public MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(new ArrayList<Integer>() {
         {
             add(R.layout.item_rebate_agreement);
         }
     });
-
     public BaseDatabindingAdapter.onBindListener onBindListener = new BaseDatabindingAdapter.onBindListener() {
 
         @Override
@@ -94,6 +89,7 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                     case CHESS:
                     case EGAME:
                     case USER:
+                    case DAYREBATE:
                         startContainerActivity(GameRebateAgrtFragment.class.getCanonicalName());
                         break;
                     case LOTTERIES:
@@ -104,6 +100,9 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                     case GAMEREPORTS:
                         startContainerActivity(RecommendedReportsFragment.class.getCanonicalName());
                         break;
+                    case COMMISSIONSREPORTS:
+                        startContainerActivity(CommissionsReportsFragment.class.getCanonicalName());
+                        break;
                     default:
                         break;
                 }
@@ -111,6 +110,15 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
             }
         }
     };
+    private WeakReference<FragmentActivity> mActivity = null;
+
+    public RebateAgreementViewModel(@NonNull Application application) {
+        super(application);
+    }
+
+    public RebateAgreementViewModel(@NonNull Application application, MineRepository model) {
+        super(application, model);
+    }
 
     public void initData() {
 
@@ -135,13 +143,27 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
                                 if (datum != null) {
                                     String id = datum.getId();
                                     if (raMenu.type.getIds().contains(id)) {
-                                        newDatas.add(raMenu);
+                                        //用户等级=2才可以显示佣金报表
+                                        if (raMenu.type == RebateAreegmentTypeEnum.COMMISSIONSREPORTS) {
+                                            int level = SPUtils.getInstance().getInt(SPKeyGlobal.USER_LEVEL);
+                                            if (level == 2) {
+                                                newDatas.add(raMenu);
+                                            }
+                                        } else {
+                                            newDatas.add(raMenu);
+                                        }
                                         break;
                                     }
                                 }
                             }
                         }
-                        datas.setValue(newDatas);
+
+                        if (newDatas.size() > 0) {
+                            datas.setValue(newDatas);
+                        } else {
+                            showTip();
+                        }
+
                     }
                 });
         addSubscribe(disposable);
@@ -149,6 +171,30 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
 
     public void setActivity(FragmentActivity mActivity) {
         this.mActivity = new WeakReference<>(mActivity);
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private BasePopupView pop = null;
+    private void showTip() {
+        MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_kind_tips), "您没有相关契约", true, new TipDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+
+            }
+
+            @Override
+            public void onClickRight() {
+                if (pop != null) {
+                    pop.dismiss();
+                    finish();
+                }
+            }
+        });
+
+        pop = new XPopup.Builder(mActivity.get())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog).show();
     }
 
     @Override

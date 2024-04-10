@@ -33,6 +33,9 @@ public class APIManager {
     public static final String GAMESUBORDINATEAGRTE_USER_URL = "/compact/teamcompact/";
     public static final String GAMESUBORDINATEREBATE_USER_URL = "/compact/teamsalary/";
 
+    //DAY
+    public static final String GAMEREBATEAGRT_DAY_URL = "/pink/mybonus/";
+
     //分红契约
     public static final String GAMEDIVIDENDAGRT_URL = "/pink/index";
     //分红契约-一键发放
@@ -43,4 +46,8 @@ public class APIManager {
     public static final String GAMEDIVIDENDAGRT_SEND_STEP1_URL = "/pink/ajaxhub/countpink";
     //分红契约-手动分发-第二步
     public static final String GAMEDIVIDENDAGRT_SEND_STEP2_URL = "/pink/checkout";
+    //佣金报表
+    public static final String COMMISSIONS_REPORTS_URL = "/gameinfo/commissionreport";
+    //彩票契约-创建契约
+    public static final String DIVIDENDAGRT_CREATE_URL = "/pink/create";
 }

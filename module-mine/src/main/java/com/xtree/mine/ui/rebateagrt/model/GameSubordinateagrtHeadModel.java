@@ -19,21 +19,14 @@ import me.xtree.mvvmhabit.base.BaseApplication;
  */
 public class GameSubordinateagrtHeadModel extends BindModel implements BindHead {
 
-    public interface onCallBack {
-        void selectStatus(ObservableField<StatusVo> state, List<FilterView.IBaseVo> listStatus);
-        void check(StatusVo state,String searchName);
-    }
-
     //状态
     public ObservableField<StatusVo> state = new ObservableField<>(new StatusVo(0, BaseApplication.getInstance().getString(R.string.txt_all_status)));
     //查找名称
     public ObservableField<String> serachName = new ObservableField<>();
-
     //分页索引
     public int p = 1;
     //page count
     public int pn = 20;
-
     public List<FilterView.IBaseVo> listStatus = new ArrayList<FilterView.IBaseVo>() {
         {
             // 0-所有状态
@@ -48,12 +41,7 @@ public class GameSubordinateagrtHeadModel extends BindModel implements BindHead 
             add(new StatusVo(8, BaseApplication.getInstance().getString(R.string.txt_updated)));
         }
     };
-
     private onCallBack onCallBack = null;
-
-    public void setOnCallBack(onCallBack onCallBack) {
-        this.onCallBack = onCallBack;
-    }
 
     public GameSubordinateagrtHeadModel() {
     }
@@ -62,11 +50,16 @@ public class GameSubordinateagrtHeadModel extends BindModel implements BindHead 
         this.onCallBack = onCallBack;
     }
 
+    public void setOnCallBack(onCallBack onCallBack) {
+        this.onCallBack = onCallBack;
+    }
+
     public void selectStatus() {
         if (onCallBack != null) {
             onCallBack.selectStatus(state, listStatus);
         }
     }
+
     public void check() {
         if (onCallBack != null) {
             p = 1;
@@ -82,5 +75,11 @@ public class GameSubordinateagrtHeadModel extends BindModel implements BindHead 
     @Override
     public void setItemHover(boolean b) {
 
+    }
+
+    public interface onCallBack {
+        void selectStatus(ObservableField<StatusVo> state, List<FilterView.IBaseVo> listStatus);
+
+        void check(StatusVo state, String searchName);
     }
 }

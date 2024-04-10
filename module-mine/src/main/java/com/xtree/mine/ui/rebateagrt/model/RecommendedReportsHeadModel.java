@@ -19,24 +19,14 @@ import me.xtree.mvvmhabit.base.BaseApplication;
  */
 public class RecommendedReportsHeadModel extends BindModel implements BindHead {
 
-    public interface OnCallBack {
-        void cyclicality(String title, ObservableField<StatusVo> cycly, List<FilterView.IBaseVo> list);
-        void check();
-    }
-
-    public ObservableField<StatusVo> cyclyData = new ObservableField<>(new StatusVo(0,BaseApplication.getInstance().getString(R.string.txt_all)));
-
+    public ObservableField<StatusVo> cyclyData = new ObservableField<>(new StatusVo(0, BaseApplication.getInstance().getString(R.string.txt_all)));
     //分页索引
     public int p = 1;
     //page count
     public int pn = 20;
     public String type = "1";
-
     private OnCallBack onCallBack;
-
-    public void setOnCallBack(OnCallBack onCallBack) {
-        this.onCallBack = onCallBack;
-    }
+    private List<FilterView.IBaseVo> cyclytList = new ArrayList<FilterView.IBaseVo>();
 
     public RecommendedReportsHeadModel() {
     }
@@ -45,7 +35,9 @@ public class RecommendedReportsHeadModel extends BindModel implements BindHead {
         this.onCallBack = onCallBack;
     }
 
-    private List<FilterView.IBaseVo> cyclytList = new ArrayList<FilterView.IBaseVo>();
+    public void setOnCallBack(OnCallBack onCallBack) {
+        this.onCallBack = onCallBack;
+    }
 
     public void cycly() {
         if (onCallBack != null) {
@@ -82,5 +74,11 @@ public class RecommendedReportsHeadModel extends BindModel implements BindHead {
     @Override
     public void setItemHover(boolean b) {
 
+    }
+
+    public interface OnCallBack {
+        void cyclicality(String title, ObservableField<StatusVo> cycly, List<FilterView.IBaseVo> list);
+
+        void check();
     }
 }

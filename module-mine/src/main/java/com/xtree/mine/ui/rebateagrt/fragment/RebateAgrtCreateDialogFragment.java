@@ -37,17 +37,23 @@ import me.xtree.mvvmhabit.bus.RxBus;
 @Route(path = RouterFragmentPath.Mine.PAGER_REBATEAGRT_CREATE_DIALOG)
 public class RebateAgrtCreateDialogFragment extends BaseDialogFragment<DialogRebateagrtCreateBinding, RebateAgrtCreateViewModel> {
 
+    //创建模式
+    public static final int CREATE_MODE = 1;
+    //查看模式
+    public static final int CHECK_MODE = 2;
+    private RebateAgrtCreateDialogFragment() {
+    }
+
     /**
      * 启动弹窗
+     *
      * @param activity 获取FragmentManager
-     * @param model 入参
+     * @param model    入参
      */
     public static void show(FragmentActivity activity, RebateAgrtDetailModel model) {
         RxBus.getDefault().postSticky(model);
         RebateAgrtCreateDialogFragment fragment = new RebateAgrtCreateDialogFragment();
         fragment.show(activity.getSupportFragmentManager(), RebateAgrtCreateDialogFragment.class.getName());
-    }
-    private RebateAgrtCreateDialogFragment() {
     }
 
     @Override

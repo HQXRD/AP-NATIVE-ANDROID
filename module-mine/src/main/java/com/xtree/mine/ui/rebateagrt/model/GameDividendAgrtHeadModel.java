@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField;
 
 import com.xtree.base.mvvm.recyclerview.BindHead;
 import com.xtree.base.mvvm.recyclerview.BindModel;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.widget.FilterView;
 import com.xtree.mine.R;
 import com.xtree.mine.vo.StatusVo;
@@ -19,46 +20,20 @@ import me.xtree.mvvmhabit.base.BaseApplication;
  */
 public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
 
-    public interface OnCallBack {
-        void sort(String title, ObservableField<StatusVo> sort, List<FilterView.IBaseVo> list);
-        void cyclicality(String title, ObservableField<StatusVo> cycly, List<FilterView.IBaseVo> list);
-        void status(String title, ObservableField<StatusVo> statu, List<FilterView.IBaseVo> list);
-        void check();
-        void myAgrt();
-    }
-
     public ObservableField<StatusVo> sortData = new ObservableField<>();
     public ObservableField<StatusVo> cyclyData = new ObservableField<>();
     public ObservableField<StatusVo> statuData = new ObservableField<>();
     public ObservableField<String> userNameData = new ObservableField<>();
-
-    private String self_money = "-";
-    private String sub_money = "-";
-    private String settle_accounts = "-";
-
     //分页索引
     public int p = 1;
     //page count
     public int pn = 20;
     public String type = "1";
-
+    private String self_money = "-";
+    private String sub_money = "-";
+    private String settle_accounts = "-";
     private OnCallBack onCallBack;
-
-    public void setOnCallBack(OnCallBack onCallBack) {
-        this.onCallBack = onCallBack;
-    }
-
-    public GameDividendAgrtHeadModel() {
-        initData();
-    }
-
-    public GameDividendAgrtHeadModel(OnCallBack onCallBack) {
-        this.onCallBack = onCallBack;
-        initData();
-    }
-
     private List<FilterView.IBaseVo> statusList = new ArrayList<FilterView.IBaseVo>();
-
     private List<FilterView.IBaseVo> sortList = new ArrayList<FilterView.IBaseVo>() {
         {
             // 0-所有状态
@@ -70,32 +45,56 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
             add(new StatusVo("profitloss_asc", BaseApplication.getInstance().getString(R.string.txt_profitloss_asc)));
         }
     };
-
     private List<FilterView.IBaseVo> cyclytList = new ArrayList<FilterView.IBaseVo>();
+
+    public GameDividendAgrtHeadModel() {
+        initData();
+    }
+
+    public GameDividendAgrtHeadModel(OnCallBack onCallBack) {
+        this.onCallBack = onCallBack;
+        initData();
+    }
+
+    public void setOnCallBack(OnCallBack onCallBack) {
+        this.onCallBack = onCallBack;
+    }
 
     private void initData() {
         sortData.set(new StatusVo(sortList.get(0).getShowId(), sortList.get(0).getShowName()));
     }
 
     public void sort() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             onCallBack.sort(BaseApplication.getInstance().getString(R.string.txt_sort), sortData, sortList);
         }
     }
 
     public void cycly() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             onCallBack.cyclicality(BaseApplication.getInstance().getString(R.string.txt_cycle), cyclyData, cyclytList);
         }
     }
 
     public void status() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             onCallBack.status(BaseApplication.getInstance().getString(R.string.txt_status), statuData, statusList);
         }
     }
 
     public void check() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             p = 1;
             onCallBack.check();
@@ -103,6 +102,9 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
     }
 
     public void myAgrt() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             p = 1;
             onCallBack.myAgrt();
@@ -114,9 +116,9 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
     }
 
     public void setStatusList(List<FilterView.IBaseVo> statusList) {
-        if (statusList != null && statusList.size() > 0) {
+        if (statusList != null) {
             //插入一条所有状态
-            statusList.add(0,new StatusVo(0, BaseApplication.getInstance().getString(R.string.txt_all_status)));
+            statusList.add(0, new StatusVo(0, BaseApplication.getInstance().getString(R.string.txt_all_status)));
             statuData.set(new StatusVo(statusList.get(0).getShowId(), statusList.get(0).getShowName()));
             this.statusList = statusList;
         }
@@ -178,5 +180,17 @@ public class GameDividendAgrtHeadModel extends BindModel implements BindHead {
     @Override
     public void setItemHover(boolean b) {
 
+    }
+
+    public interface OnCallBack {
+        void sort(String title, ObservableField<StatusVo> sort, List<FilterView.IBaseVo> list);
+
+        void cyclicality(String title, ObservableField<StatusVo> cycly, List<FilterView.IBaseVo> list);
+
+        void status(String title, ObservableField<StatusVo> statu, List<FilterView.IBaseVo> list);
+
+        void check();
+
+        void myAgrt();
     }
 }
