@@ -90,7 +90,8 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                 awardsRecordVo = vo;
                 //withdraw_dispensing_money 礼物流水
                 //locked_award_sum 锁定金额
-                if (awardsRecordVo != null && awardsRecordVo.list != null && (!("0.00".equals(awardsRecordVo.withdraw_dispensing_money)) || !("0.00".equals(awardsRecordVo.locked_award_sum)))) {
+
+                if (awardsRecordVo != null && awardsRecordVo.list != null && (!TextUtils.equals("0.00", awardsRecordVo.withdraw_dispensing_money) || !TextUtils.equals("0.00", awardsRecordVo.locked_award_sum))) {
                     showWithdrawFlow();
                 } else if (awardsRecordVo.networkStatus == 1) {
                     //链接超时
@@ -109,7 +110,8 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                     //网络异常
                     //  callBack.closeDialogByError();
                 } else {
-                    if (!TextUtils.isEmpty(chooseInfoVo.msg_type) && "2".equals(chooseInfoVo.msg_type)) {
+
+                    if (!TextUtils.isEmpty(chooseInfoVo.msg_type) && TextUtils.equals("2", chooseInfoVo.msg_type)) {
                         //异常状态
                         //showErrorDialog(chooseInfoVo.message);
                         //callBack.closeDialogByFlow(chooseInfoVo.message);
@@ -253,6 +255,11 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                         showErrorDialog(money);
                         // basePopupView.dismiss();
                     }
+
+                    @Override
+                    public void closeDialogByBind() {
+                        finish();
+                    }
                 }, new BankWithdrawalDialog.BankWithdrawalClose() {
                     @Override
                     public void closeBankWithdrawal() {
@@ -263,7 +270,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                     public void closeBankByNumber() {
                         showNumberDialog("您今日没有可用提款次数");
                     }
-                }));
+                }, this));
         basePopupView.show();
 
     }
