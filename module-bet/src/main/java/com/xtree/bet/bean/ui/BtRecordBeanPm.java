@@ -2,6 +2,7 @@ package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
 
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.fb.BtResultInfo;
 import com.xtree.bet.bean.response.fb.BtResultOptionInfo;
 import com.xtree.bet.bean.response.pm.BtRecordRsp;
@@ -108,6 +109,39 @@ public class BtRecordBeanPm implements BtResult {
     @Override
     public double getUnitCashOutPayoutStake() {
         return getAdvanceSettleAmount();
+    }
+
+    @Override
+    public boolean isAdvanceSettlement() {
+        return recordsBean != null && recordsBean.preBetAmount > 0;
+    }
+
+    @Override
+    public String getAdvanceSettlementStatus() {
+        return "全部提前结算成功";
+    }
+
+    @Override
+    public String getAdvanceSettlementDate() {
+        return TimeUtils.longFormatString(Long.parseLong(recordsBean.settleTime), TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
+    }
+
+    @Override
+    public double getAdvanceSettlementCost() {
+        if(recordsBean == null){
+            return 0;
+        }
+        return recordsBean.preBetAmount;
+    }
+
+    @Override
+    public double getAdvanceSettlementResult() {
+        return recordsBean.profitAmount;
+    }
+
+    @Override
+    public double getAdvanceSettlementBack() {
+        return recordsBean.backAmount;
     }
 
     @Override

@@ -103,6 +103,36 @@ public class BtResultPm implements BtResult {
     }
 
     @Override
+    public boolean isAdvanceSettlement() {
+        return false;
+    }
+
+    @Override
+    public String getAdvanceSettlementStatus() {
+        return null;
+    }
+
+    @Override
+    public String getAdvanceSettlementDate() {
+        return null;
+    }
+
+    @Override
+    public double getAdvanceSettlementCost() {
+        return 0;
+    }
+
+    @Override
+    public double getAdvanceSettlementResult() {
+        return 0;
+    }
+
+    @Override
+    public double getAdvanceSettlementBack() {
+        return 0;
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

@@ -21,6 +21,10 @@ public class BtResultInfo implements BaseBean {
      */
     public List<BtResultOptionInfo> ops = new ArrayList<>();
     /**
+     * 提前结算历史记录
+     */
+    public List<BtAdvanceSettlement> crl = new ArrayList<>();
+    /**
      * 据单原因码 , see enum: order_reject_type
      */
     public int rj;

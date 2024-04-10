@@ -104,6 +104,10 @@ public class BtRecordRsp implements BaseBean {
          */
         public Double profitAmount;
         /**
+         * 结算时间
+         */
+        public String settleTime;
+        /**
          * 串关注数
          */
         public int seriesSum;
