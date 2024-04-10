@@ -219,25 +219,46 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
      */
     private fun setRebate0() {
         binding.include0.apply {
+            KLog.i("mProfileVo", Gson().toJson(mProfileVo))
             typeLottery.text = mProfileVo.rebate_percentage
             typeLottery.isEnabled = false
             tvLotteryRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
-            KLog.i("maxLivePoint", Gson().toJson(mProfileVo))
-            typeReal.text = mProfileVo.maxLivePoint.toString().plus("%")
-            typeReal.isEnabled = false
-            tvRealRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
 
-            typeSports.text = mProfileVo.maxSportPoint.toString().plus("%")
-            typeSports.isEnabled = false
-            tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+            //状态等于0不显示
+            if (mProfileVo.liveStatus == 0) {
+                layoutReal.visibility = View.GONE
+            } else {
+                typeReal.text = mProfileVo.maxLivePoint.toString().plus("%")
+                typeReal.isEnabled = false
+                tvRealRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+            }
 
-            typeChess.text = mProfileVo.maxEsportsPoint.toString().plus("%")
-            typeChess.isEnabled = false
-            tvChessRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+            //状态等于0不显示
+            if (mProfileVo.sportStatus == 0) {
+                layoutSports.visibility = View.GONE
+            } else {
+                typeSports.text = mProfileVo.maxSportPoint.toString().plus("%")
+                typeSports.isEnabled = false
+                tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+            }
 
-            typeGame.text = mProfileVo.maxPokerPoint.toString().plus("%")
-            typeGame.isEnabled = false
-            tvGameRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+            //状态等于0不显示
+            if (mProfileVo.pokerStatus == 0) {
+                layoutChess.visibility = View.GONE
+            } else {
+                typeChess.text = mProfileVo.maxPokerPoint.toString().plus("%")
+                typeChess.isEnabled = false
+                tvChessRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+            }
+
+            //状态等于0不显示
+            if (mProfileVo.esportsStatus == 0) {
+                layoutGame.visibility = View.GONE
+            } else {
+                typeGame.text = mProfileVo.maxEsportsPoint.toString().plus("%")
+                typeGame.isEnabled = false
+                tvGameRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
+            }
         }
 
 
@@ -252,22 +273,41 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
             typeLottery.isEnabled = false
             tvLotteryRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
 
-            typeReal.text = "0.9%"
-            typeReal.isEnabled = true
-            tvRealRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxLivePoint, 0.9).toString() + "%")
+            //状态等于0不显示
+            if (mProfileVo.liveStatus == 0) {
+                layoutReal.visibility = View.GONE
+            } else {
+                typeReal.text = "0.9%"
+                typeReal.isEnabled = true
+                tvRealRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxLivePoint, 0.9).toString() + "%")
+            }
 
-            typeSports.text = "0.9%"
-            typeSports.isEnabled = true
-            tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxSportPoint, 0.9).toString() + "%")
+            //状态等于0不显示
+            if (mProfileVo.sportStatus == 0) {
+                layoutSports.visibility = View.GONE
+            } else {
+                typeSports.text = "0.9%"
+                typeSports.isEnabled = true
+                tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxSportPoint, 0.9).toString() + "%")
+            }
 
-            typeChess.text = "0.9%"
-            typeChess.isEnabled = true
-            tvChessRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxEsportsPoint, 0.9).toString() + "%")
+            //状态等于0不显示
+            if (mProfileVo.pokerStatus == 0) {
+                layoutChess.visibility = View.GONE
+            } else {
+                typeChess.text = "0.9%"
+                typeChess.isEnabled = true
+                tvChessRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxPokerPoint, 0.9).toString() + "%")
+            }
 
-            typeGame.text = "0.9%"
-            typeGame.isEnabled = true
-            tvGameRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxPokerPoint, 0.9).toString() + "%")
-
+            //状态等于0不显示
+            if (mProfileVo.esportsStatus == 0) {
+                layoutGame.visibility = View.GONE
+            } else {
+                typeGame.text = "0.9%"
+                typeGame.isEnabled = true
+                tvGameRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxEsportsPoint, 0.9).toString() + "%")
+            }
 
             val list = arrayListOf(0.9, 0.8, 0.7, 0.6, 0.5)
             typeReal.setOnClickListener {
@@ -288,21 +328,18 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
             typeChess.setOnClickListener {
                 //未初始化，创建ppw
                 if (!::ppwChess.isInitialized) {
-                    ppwChess = createPpw(mProfileVo.maxEsportsPoint, typeChess, tvChessRebate, list) { ppwChess.dismiss() }
+                    ppwChess = createPpw(mProfileVo.maxPokerPoint, typeChess, tvChessRebate, list) { ppwChess.dismiss() }
                 }
                 ppwChess.show()
             }
             typeGame.setOnClickListener {
                 //未初始化，创建ppw
                 if (!::ppwGame.isInitialized) {
-                    ppwGame = createPpw(mProfileVo.maxPokerPoint, typeGame, tvGameRebate, list) { ppwGame.dismiss() }
+                    ppwGame = createPpw(mProfileVo.maxEsportsPoint, typeGame, tvGameRebate, list) { ppwGame.dismiss() }
                 }
                 ppwGame.show()
             }
-
         }
-
-
     }
 
     /**
@@ -314,22 +351,41 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
             typeLottery.isEnabled = true
             tvLotteryRebate.text = getString(R.string.txt_reg_rebate).plus("0.0%")
 
-            typeReal.text = "0.5%"
-            typeReal.isEnabled = false
-            tvRealRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxLivePoint, 0.5).toString() + "%")
+            //状态等于0不显示
+            if (mProfileVo.liveStatus == 0) {
+                layoutReal.visibility = View.GONE
+            } else {
+                typeReal.text = "0.5%"
+                typeReal.isEnabled = false
+                tvRealRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxLivePoint, 0.5).toString() + "%")
+            }
 
-            typeSports.text = "0.5%"
-            typeSports.isEnabled = false
-            tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxSportPoint, 0.5).toString() + "%")
+            //状态等于0不显示
+            if (mProfileVo.sportStatus == 0) {
+                layoutSports.visibility = View.GONE
+            } else {
+                typeSports.text = "0.5%"
+                typeSports.isEnabled = false
+                tvSportsRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxSportPoint, 0.5).toString() + "%")
+            }
 
-            typeChess.text = "0.5%"
-            typeChess.isEnabled = false
-            tvChessRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxEsportsPoint, 0.5).toString() + "%")
+            //状态等于0不显示
+            if (mProfileVo.pokerStatus == 0) {
+                layoutChess.visibility = View.GONE
+            } else {
+                typeChess.text = "0.5%"
+                typeChess.isEnabled = false
+                tvChessRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxPokerPoint, 0.5).toString() + "%")
+            }
 
-            typeGame.text = "0.5%"
-            typeGame.isEnabled = false
-            tvGameRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxPokerPoint, 0.5).toString() + "%")
-
+            //状态等于0不显示
+            if (mProfileVo.esportsStatus == 0) {
+                layoutGame.visibility = View.GONE
+            } else {
+                typeGame.text = "0.5%"
+                typeGame.isEnabled = false
+                tvGameRebate.text = getString(R.string.txt_reg_rebate).plus(NumberUtils.sub(mProfileVo.maxEsportsPoint, 0.5).toString() + "%")
+            }
 
             KLog.i("rebate_percentage", mProfileVo.rebate_percentage)
             if (mProfileVo.rebate_percentage == null) {
@@ -355,10 +411,7 @@ class RegAccountFragment : BaseFragment<FragmentRegAccountBinding, MineViewModel
                 }
                 ppwLottery.show()
             }
-
         }
-
-
     }
 
     /**

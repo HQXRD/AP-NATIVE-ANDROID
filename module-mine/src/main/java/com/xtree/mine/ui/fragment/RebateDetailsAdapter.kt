@@ -13,22 +13,21 @@ import com.xtree.mine.databinding.ItemRebateDetailsBinding
 import com.xtree.mine.databinding.ItemRebateDetailsChildBinding
 import com.xtree.mine.vo.X0
 
-class RebateDetailsAdapter(val context: Context) : CachedAutoRefreshAdapter<KeyValue>() {
+class RebateDetailsAdapter(val context: Context) : CachedAutoRefreshAdapter<List<X0>>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CacheViewHolder {
         return CacheViewHolder(LayoutInflater.from(context).inflate(R.layout.item_rebate_details, parent, false))
     }
 
     override fun onBindViewHolder(holder: CacheViewHolder, position: Int) {
         val binding = ItemRebateDetailsBinding.bind(holder.itemView)
-        val keyValue: KeyValue = get(position)
-        binding.tvTitle.text = when (keyValue.key) {
+        binding.tvTitle.text = when (position) {
             0 -> "时时彩返点"
-            2 -> "11选5返点"
-            3 -> "快乐彩返点"
+            1 -> "11选5返点"
+            2 -> "快乐彩返点"
             else -> ""
         }
         val adapter = RDChildAdapter(context)
-        adapter.addAll(get(position).value)
+        adapter.addAll(get(position))
         binding.rvRb.adapter = adapter
         binding.rvRb.layoutManager = GridLayoutManager(context, 2)
     }
@@ -50,9 +49,3 @@ class RDChildAdapter(val context: Context) : CachedAutoRefreshAdapter<X0>() {
 
     }
 }
-
-
-class KeyValue(
-    var key: Int,
-    var value: List<X0>
-)

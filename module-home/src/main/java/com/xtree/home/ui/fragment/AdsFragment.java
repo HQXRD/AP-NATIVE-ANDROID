@@ -59,7 +59,7 @@ public class AdsFragment extends BaseFragment<FragmentAdsBinding, HomeViewModel>
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden) {   // 显示
+        if (hidden) {   // 隐藏
 
         } else {  // 第一次可见，不会执行到这里，只会执行onResume
             //网络数据刷新

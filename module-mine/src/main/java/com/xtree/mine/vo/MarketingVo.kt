@@ -11,7 +11,7 @@ data class MarketingVo(
     val links: List<LinkVo>,
     var livePoint: String,
     val maxPoint: String,
-    val prizeGroups: HashMap<Int,List<X0>>?,
+    val prizeGroups: Any?,
     val pt_download_pc: String,
     val pub_channel_id: String,
     val pub_channel_token: String,
