@@ -534,7 +534,7 @@
                 android:layout_below="@id/ll_virtual_top"
                 android:orientation="vertical"
                 android:visibility="gone"
-                tools:visibility="gone">
+                tools:visibility="visible">
 
                 <LinearLayout
                     android:id="@+id/ll_virtual_confirm_info"

@@ -178,7 +178,7 @@ public class BankCardCashVo extends BaseResponse2 {
         public String typenum;
         public String name;
         public int thiriframe_use;
-        public int thiriframe_status;
+        public int thiriframe_status;//判断是否加载web页面的标志位 1:为加载；
         public String thiriframe_msg;//顶部提现消息[银行维护中，请联系客服]
         public String thiriframe_url;//第三方展示网页
         //        public int channel_amount_use;
