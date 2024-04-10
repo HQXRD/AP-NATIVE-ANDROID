@@ -85,6 +85,11 @@ public class OtherWebWithdrawalDialog extends BottomPopupView {
 
     private void initView() {
         binding = DialogOtherWithdrawalWebBinding.bind(findViewById(R.id.ll_root_other));
+        if(chooseInfoVo != null && !TextUtils.isEmpty(chooseInfoVo.title)){
+            binding.tvwTitle.setText(chooseInfoVo.title);
+        }else {
+            binding.tvwTitle.setText(getContext().getString(R.string.txt_withdrawal));
+        }
         binding.ivwClose.setOnClickListener(v -> dismiss());
         binding.tvwTitle.setText(chooseInfoVo.title);
         binding.maskH5View.setVisibility(View.VISIBLE);
