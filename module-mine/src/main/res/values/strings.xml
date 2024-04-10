@@ -168,6 +168,7 @@
     <string name="txt_verify_acc">*上次绑定银行卡号</string>
     <string name="txt_verify_addr">*上次绑定錢包地址</string>
     <string name="txt_verify_addr_warning">请输入最新绑定钱包地址</string>
+    <string name="txt_enter_verify_wallet_addr">请输入上次绑定的钱包地址</string>
 
     <string name="txt_lock_card">锁定银行卡</string>
     <string name="txt_add_bind">增加绑定</string>
@@ -283,6 +284,7 @@
     <string name="txt_reset_password_form_error">密码格式不正确，请重新输入</string>
     <string name="txt_reset_password_tri_same_error">不能连续三个相同字符</string>
     <string name="txt_reset_password_not_same_error">两次密码输入不一致</string>
+    <string name="txt_reset_password_num_text_error">密码必须包含数字和字母</string>
     <string name="txt_enter_otc">请输入验证码</string>
     <string name="txt_check_your_email">%1$s，您好！ \n 您的邮箱地址为 \n %2$s \n 请进行邮箱验证</string>
     <string name="txt_check_your_phone">%1$s，您好！ \n 您的手机号为 \n %2$s \n 请进行短信验证</string>
@@ -315,6 +317,7 @@
     <string name="txt_withdrawal_type">提款类型：</string>
     <string name="txt_withdrawal_enm">提款方式：</string>
     <string name="txt_withdrawal_method">可提款金额：</string>
+    <string name="txt_withdrawal_method_money_tip">提款金额：</string>
     <string name="txt_withdrawal_method_tip">提款金额</string>
     <string name="txt_confirm_withdrawal_amount">可提款金额：</string>
     <string name="txt_virtual_type">虚拟币类型：</string>
@@ -471,4 +474,5 @@
     <string name="txt_correct_pwd">请输入正确格式的登录密码</string>
     <string name="txt_dividend_check_tip1">说明\n●分红周期指每月1-15日，16日-月末；\n●契约规则请按照从低至高顺序填写；\n●契约创建成功后立即生效，本分红周期统计完整投注额；</string>
     <string name="txt_contractual_norms">契约规则</string>
+    <string name="text_null_or_zero">金额不得为空或0</string>
 </resources>

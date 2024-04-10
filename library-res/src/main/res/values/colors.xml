@@ -22,6 +22,7 @@
     <color name="clr_main_08">#D3E6FC</color>
     <color name="clr_main_09">#DEE1F4</color>
     <color name="clr_main_10">#FCFCFF</color>
+    <color name="clr_main_20a">#EBEDF0</color>
 
     <!-- ################ 配色 设计师提供 start ################ -->
     <!-- 主色 -->
@@ -43,6 +44,7 @@
     <color name="clr_txt">#628BC4</color>
     <color name="clr_txt_title">#274875</color>
     <color name="clr_txt_mouse">#247BF4</color>
+    <color name="clr_txt_mouse5">#1E1E1E</color>
 
     <!-- 点缀色 -->
     <color name="clr_main_31">#FF6C00</color>
@@ -87,6 +89,7 @@
     <!-- 按钮 按下 -->
     <color name="clr_btn_press">#97C1FF</color>
     <color name="clr_btn_press_stroke">#70B2FD</color>
+    <color name="clr_btn_stroke">#F7DFD1</color>
 
     <!-- 背景框 主 顶部 浅色 -->
     <color name="clr_bg_frame_31">#BEE0FF</color>
