@@ -159,9 +159,9 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 tabPos = tab.getPosition();
                 for(int i = 0; i < binding.tabCategoryType.getTabCount(); i ++){
                     if(tabPos == i){
-                        binding.tabCategoryType.getTabAt(i).getCustomView().setBackgroundResource(R.mipmap.bt_bg_category_tab_selected);
+                        binding.tabCategoryType.getTabAt(i).getCustomView().setBackgroundResource(R.drawable.bt_bg_detail_tab_selected);
                     }else {
-                        binding.tabCategoryType.getTabAt(i).getCustomView().setBackgroundResource(R.drawable.bt_bg_category_tab);
+                        binding.tabCategoryType.getTabAt(i).getCustomView().setBackgroundResource(R.drawable.bt_bg_detail_tab);
                     }
                 }
 
