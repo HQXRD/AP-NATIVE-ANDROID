@@ -167,7 +167,7 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         binding.tvResultSettlementOdds.setVisibility(!(btResult instanceof BtRecordBeanPm) && btResult.canAdvanceSettle() ? View.VISIBLE : View.GONE);
         binding.tvResultStatementOdds.setOnClickListener(v -> {
             final String title = mContext.getString(R.string.txt_kind_tips);
-            String showMessage = "<font color=#A17DF5>" + mContext.getString(R.string.bt_txt_statement_odds) + " </font><br>" + "体育提前兑现只适用于指定赛事和盘口，如遇到赛事或盘口取消，提前兑现注单将会被收回重新结算。FB体育保留赛果最终解释权。";
+            String showMessage = "<font color=#A17DF5>" + mContext.getString(R.string.bt_txt_statement_odds) + " </font><br>" + "体育提前兑现只适用于指定赛事和盘口，如遇到赛事或盘口取消，提前兑现注单将会被收回重新结算。平台保留赛果最终解释权。";
             baseGiftFlowView = new XPopup.Builder(mContext).asCustom(new MsgDialog(mContext, title, HtmlCompat.fromHtml(showMessage, HtmlCompat.FROM_HTML_MODE_LEGACY), true, new TipDialog.ICallBack() {
                 @Override
                 public void onClickLeft() {
