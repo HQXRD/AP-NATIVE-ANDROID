@@ -2,7 +2,6 @@ package com.xtree.mine.ui.fragment;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -49,9 +48,9 @@ public class MsgPersonListAdapter extends CachedAutoRefreshAdapter<MsgPersonVo> 
         binding.tvwMsgDate.setText(vo.sent_at);
 
         if (vo.is_unread) {
-            binding.ivwMsgPoint.setVisibility(View.VISIBLE);
+            binding.ivwMsgIcon.setImageResource(R.mipmap.ic_round_dot);
         } else {
-            binding.ivwMsgPoint.setVisibility(View.GONE);
+            binding.ivwMsgIcon.setImageResource(R.mipmap.ic_round);
         }
 
         binding.clItem.setOnClickListener(v -> { // 限制多次点击

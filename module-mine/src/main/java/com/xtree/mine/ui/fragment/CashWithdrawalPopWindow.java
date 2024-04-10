@@ -111,7 +111,7 @@ public class CashWithdrawalPopWindow extends RelativeLayout {
             if (!TextUtils.isEmpty(jumpUrl)) {
                 AppUtil.goBrowser(ctx, jumpUrl);
             }
-            ToastUtils.showError("点击外部跳转 +++++++++");
+
         });
     }
 

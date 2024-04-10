@@ -328,6 +328,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         //银行卡提现
         viewModel.platwithdrawVoMutableLiveData.observe(this.owner, vo -> {
             platWithdrawVo = vo;
+
             if (platWithdrawVo == null || platWithdrawVo.user == null) {
                 if (platWithdrawVo.datas == null && "2".equals(platWithdrawVo.msg_type) && !TextUtils.isEmpty(platWithdrawVo.message)) {
                     ToastUtils.showError(platWithdrawVo.message);
@@ -609,7 +610,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      * 刷新确认提交订单页面
      */
     private void refreshWithdrawView(PlatWithdrawVo platWithdrawVo) {
-
+        CfLog.e("refreshWithdrawView = " + platWithdrawVo.datas.toString());
         binding.llShowChooseCard.setVisibility(View.GONE);//顶部通用、大额提现View隐藏
         binding.llShowNoticeInfo.setVisibility(View.GONE); //顶部提示信息隐藏
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

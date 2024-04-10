@@ -27,6 +27,7 @@ import com.xtree.mine.vo.MsgInfoVo;
 import com.xtree.mine.vo.MsgListVo;
 import com.xtree.mine.vo.MsgPersonInfoVo;
 import com.xtree.mine.vo.MsgPersonListVo;
+import com.xtree.mine.vo.OtherWebWithdrawVo;
 import com.xtree.mine.vo.PlatWithdrawConfirmVo;
 import com.xtree.mine.vo.PlatWithdrawVo;
 import com.xtree.mine.vo.ProfitLossReportVo;
@@ -537,4 +538,10 @@ public interface HttpApiService {
 
     @GET("/user/messages?tag=deleteall&client=m")
     Flowable<BaseResponse2> deleteAllPersonInfo();
+
+    /**
+     * other提款 微信支付宝
+     */
+    @GET("/security/platwithdraw?1=1&client=m")
+    Flowable<OtherWebWithdrawVo> getChooseWithdrawOther(@Query("usdt_type") String key);
 }

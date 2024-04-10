@@ -178,7 +178,7 @@ public class AwardsRecordDialog extends BottomPopupView {
             String reTurnover = String.format(getContext().getString(R.string.txt_awards_required_turnover_tip), info.dispensing_money);
             holder.showTurnover.setText(reTurnover);
 
-            if (TextUtils.isEmpty(info.dispensing_money_left) || info.dispensing_money_left.equals("0")) {
+            if (TextUtils.isEmpty(info.dispensing_money_left) ||TextUtils.equals("0" , info.dispensing_money_left)) {
                 holder.showContent.setText(getContext().getString(R.string.txt_awards_remain_turnover_default_tip));
             } else {
                 String remainTurnover = String.format(getContext().getString(R.string.txt_awards_remain_turnover_tip), info.dispensing_money_left);
