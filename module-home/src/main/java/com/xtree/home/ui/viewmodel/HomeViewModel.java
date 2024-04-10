@@ -43,6 +43,7 @@ import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -494,8 +495,14 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
-                        super.onError(t);
+                        //super.onError(t);
                         //ToastUtils.showLong("请求失败");
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        CfLog.e("error, " + t.toString()); // 活动不存在
+                        //super.onFail(t);
                     }
                 });
         addSubscribe(disposable);
