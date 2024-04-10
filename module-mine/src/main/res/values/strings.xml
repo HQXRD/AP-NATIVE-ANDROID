@@ -383,4 +383,10 @@
     <string name="txt_input_nickname">输入您的%s昵称</string>
     <string name="txt_upload_payment_code">点击上传%s收款二维码截图</string>
     <string name="txt_get_payment_code">查看如何获取%s个人收款码</string>
+    <string name="txt_tip_name">请输入姓名</string>
+    <string name="txt_tip_phone">请输入正确格式的手机号码</string>
+    <string name="txt_tip_nickname">请输入昵称</string>
+    <string name="txt_tip_code">请添加%s收款码</string>
+    <string name="txt_title_code">如何获取%s个人收款码</string>
+
 </resources>

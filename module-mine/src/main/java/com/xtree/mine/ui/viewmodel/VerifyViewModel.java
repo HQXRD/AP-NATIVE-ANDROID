@@ -457,7 +457,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                 break;
             case Constant.BIND_ALIPAY:
                 //"绑定支付宝"
-                startAlipayWechat(ctx, vo, "aplipay");
+                startAlipayWechat(ctx, vo, "alipay");
                 return;
             case Constant.BIND_WECHAT:
                 //"绑定微信"
@@ -479,7 +479,6 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
 
     private void startAlipayWechat(Context ctx, VerifyVo vo, String type) {
         Bundle bundle = new Bundle();
-        bundle.putString("type", type);
         bundle.putString("mark", vo.mark);
         bundle.putString("tokenSign", vo.tokenSign);
         Intent intent = new Intent(ctx, ContainerActivity.class);

@@ -47,6 +47,7 @@ public class RouterFragmentPath {
         public static final String PAGER_BIND_ALIPAY_WECHAT = MINE + "/BindAlipayWechat";
         public static final String PAGER_BIND_CARD_ADD = MINE + "/BindCardAdd";
         public static final String PAGER_BIND_AW_ADD = MINE + "/BindAWAdd";
+        public static final String PAGER_BIND_AW_TIP = MINE + "/BindAWTip";
         public static final String PAGER_BIND_CARD_LOCK = MINE + "/BindCardLock";
         public static final String PAGER_BIND_USDT = MINE + "/BindUsdtList";
         public static final String PAGER_BIND_USDT_ADD = MINE + "/BindUsdtAdd";

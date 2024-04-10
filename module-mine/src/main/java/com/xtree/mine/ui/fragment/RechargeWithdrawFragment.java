@@ -168,7 +168,7 @@ public class RechargeWithdrawFragment extends BaseFragment<FragmentReportBinding
                     bundle.putString("id", vo.id);
                     startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE_FEEDBACK_DETAIL, bundle);
                 });
-                if (vo.order_status.equals("4")) //订单超时只能查看，不能修改
+                if (vo.order_status.equals("4") || vo.order_status.equals("2")) //订单超时與完成只能查看，不能修改
                 {
                     binding2.tvwEdit.setVisibility(View.GONE);
                 } else {
