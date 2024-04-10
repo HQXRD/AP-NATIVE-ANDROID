@@ -2,6 +2,7 @@ package com.xtree.bet.bean.ui;
 
 import android.os.Parcel;
 
+import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.bean.response.fb.BtResultInfo;
 import com.xtree.bet.bean.response.fb.BtResultOptionInfo;
 
@@ -116,6 +117,50 @@ public class BtResultFb implements BtResult {
             return btResultInfo.pr.amt;
         }
         return 0;
+    }
+
+    @Override
+    public boolean isAdvanceSettlement() {
+        return btResultInfo != null && btResultInfo.crl != null && !btResultInfo.crl.isEmpty();
+    }
+
+    @Override
+    public String getAdvanceSettlementStatus() {
+        if(isAdvanceSettlement()){
+            int status = btResultInfo.crl.get(0).st;
+            if(status == 1){
+                return "确认中";
+            } else if (status == 5) {
+                return "全部提前结算成功";
+            } else if (status == 3) {
+                return "已取消";
+            } else if (status == 2) {
+                return "已拒单";
+            } else if (status == 4) {
+                return "已接单";
+            }
+        }
+        return "";
+    }
+
+    @Override
+    public String getAdvanceSettlementDate() {
+        return TimeUtils.longFormatString(btResultInfo.crl.get(0).ct, TimeUtils.FORMAT_YY_MM_DD_HH_MM_SS);
+    }
+
+    @Override
+    public double getAdvanceSettlementCost() {
+        return btResultInfo.crl.get(0).cst;
+    }
+
+    @Override
+    public double getAdvanceSettlementResult() {
+        return btResultInfo.crl.get(0).cops - btResultInfo.crl.get(0).cst;
+    }
+
+    @Override
+    public double getAdvanceSettlementBack() {
+        return btResultInfo.crl.get(0).cops;
     }
 
     @Override

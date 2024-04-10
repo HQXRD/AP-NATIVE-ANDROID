@@ -39,8 +39,6 @@ public class BindCardViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<UserBankConfirmVo> liveDataDelCardCheck = new SingleLiveData<>(); // 锁定银行卡-检查
     public SingleLiveData<UserBankConfirmVo> liveDataDelCardResult = new SingleLiveData<>(); // 锁定银行卡结果
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>(); // 个人信息
-    final String TYPE_ALIPAY = "alipay";
-    final String TYPE_WECHAT = "wechat";
 
     public BindCardViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
@@ -70,19 +68,8 @@ public class BindCardViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
-    public void getAWList(HashMap map, String type) {
-        String path = "";
-        switch (type) {
-            case "aplipay": {
-                path = "UserOnepayZfbInfo";
-                break;
-            }
-            case "wechat": {
-                path = "UserOnepayWxInfo";
-                break;
-            }
-        }
-        Disposable disposable = (Disposable) model.getApiService().getAWList(path, map)
+    public void getAWList(HashMap map) {
+        Disposable disposable = (Disposable) model.getApiService().getAWList(map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<UserBindBaseVo<AWVo>>() {
@@ -156,7 +143,7 @@ public class BindCardViewModel extends BaseViewModel<MineRepository> {
     }
 
     /**
-     * 绑卡, 点下一步展示确认信息页
+     * 绑卡/支付宝/微信, 点下一步展示确认信息页
      *
      * @param queryMap
      * @param map

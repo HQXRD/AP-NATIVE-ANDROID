@@ -3,6 +3,10 @@ package com.xtree.bet.ui.adapter;
 import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM_NAME;
 
 import android.content.Context;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -119,14 +123,6 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
 
         BtLayoutBtRecordTimeBinding binding = BtLayoutBtRecordTimeBinding.bind(holder.itemView);
         binding.tvName.setText(TimeUtils.longFormatString(btRecordTime.getTime(), TimeUtils.FORMAT_MM_DD_1));
-        /*if(groupPosition == 0){
-            convertView.setVisibility(View.GONE);
-            binding.vSpace.getLayoutParams().height = 0;
-        }else {
-            binding.vSpace.getLayoutParams().height = ConvertUtils.dp2px(10);
-            convertView.setVisibility(View.VISIBLE);
-            binding.tvName.setText(TimeUtils.longFormatString(btRecordTime.getTime(), TimeUtils.FORMAT_MM_DD_1));
-        }*/
         return convertView;
     }
 
@@ -147,12 +143,6 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         }
         BtLayoutBtRecordItemBinding binding = BtLayoutBtRecordItemBinding.bind(holder.itemView);
 
-        /*if(groupPosition == 0 && childPosition == 0){
-            binding.vSpace.getLayoutParams().height = 0;
-        }else {
-            binding.vSpace.getLayoutParams().height = ConvertUtils.dp2px(10);
-        }*/
-
         String cg = btResult.getBetResultOption().size() > 1 ? "串关" : "单关";
         if (btResult.getBetResultOption().size() > 1) {
             binding.tvName.setText(mContext.getResources().getString(R.string.bt_bt_result_record_cg, cg, btResult.getCgName(), SPUtils.getInstance().getString(KEY_PLATFORM_NAME)));
@@ -161,8 +151,6 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         }
         binding.rvMatch.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rvMatch.setAdapter(new BtResultOptionAdapter(mContext, btResult.getBetResultOption()));
-        binding.tvAmount.setText(mContext.getResources().getString(R.string.bt_bt_result_bt_amount_1, String.valueOf(btResult.getBtAmount())));
-        binding.tvWin.setText(mContext.getResources().getString(R.string.bt_bt_result_win_1, String.valueOf(btResult.getBtWin())));
         binding.tvResultId.setText(mContext.getResources().getString(R.string.bt_bt_result_id_1, btResult.getId()));
         binding.tvBtTime.setText(mContext.getResources().getString(R.string.bt_bt_result_bt_time, TimeUtils.longFormatString(btResult.getBtDate(), TimeUtils.FORMAT_YY_MM_DD_HH_MM)));
         binding.tvBtResult.setText(btResult.getStatusDesc());
@@ -193,6 +181,27 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
             }));
             baseGiftFlowView.show();
         });
+
+        if (btResult.isAdvanceSettlement()) {
+            binding.clSettlement.setVisibility(View.GONE);
+            binding.clAdSettlement.setVisibility(View.VISIBLE);
+            binding.tvAdSettleStatus.setText(btResult.getAdvanceSettlementStatus());
+            binding.tvAdSettleDate.setText(btResult.getAdvanceSettlementDate());
+            binding.tvAdSettleCost.setText(mContext.getString(R.string.bt_bt_result_bt_ad_settle_cost, NumberUtils.format(btResult.getAdvanceSettlementCost(), 2)));
+            binding.tvAdSettleBack.setText(mContext.getString(R.string.bt_bt_result_bt_ad_settle_back, NumberUtils.format(btResult.getAdvanceSettlementBack(), 2)));
+
+            SpannableString spannableString = new SpannableString(mContext.getString(R.string.bt_bt_result_bt_ad_settle_result, NumberUtils.format(btResult.getAdvanceSettlementResult(), 2)));
+            int startIndex = 4; // "这"的索引值
+            int endIndex = spannableString.length() - 1;   // "是"的索引值 + 1
+            ForegroundColorSpan colorSpan = new ForegroundColorSpan(mContext.getResources().getColor(R.color.bt_color_car_dialog_hight_line2));
+            spannableString.setSpan(colorSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            binding.tvAdSettleResult.setText(spannableString);
+        } else {
+            binding.clSettlement.setVisibility(View.VISIBLE);
+            binding.clAdSettlement.setVisibility(View.GONE);
+            binding.tvAmount.setText(mContext.getResources().getString(R.string.bt_bt_result_bt_amount_1, String.valueOf(btResult.getBtAmount())));
+            binding.tvWin.setText(mContext.getResources().getString(R.string.bt_bt_result_win_1, String.valueOf(btResult.getBtWin())));
+        }
         return convertView;
     }
 

@@ -48,5 +48,7 @@ public class UserBindBaseVo<T> {
     public int status; // 1 查询列表,列表为空时
     public String msg;
     public Object data;
+    //之前绑定银行卡、支付宝、微信绑定的姓名
+    public String accountname;
 
 }

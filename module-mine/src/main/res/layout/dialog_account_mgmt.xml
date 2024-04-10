@@ -98,11 +98,13 @@
             android:text="@string/txt_bind_okpay" />
 
         <TextView
+            android:id="@+id/tv_zfb"
             style="@style/style_choose_account"
             android:tag="bindcardzfb"
             android:text="@string/txt_bind_alipay" />
 
         <TextView
+            android:id="@+id/tv_wx"
             style="@style/style_choose_account"
             android:tag="bindcardwx"
             android:text="@string/txt_bind_wechat" />

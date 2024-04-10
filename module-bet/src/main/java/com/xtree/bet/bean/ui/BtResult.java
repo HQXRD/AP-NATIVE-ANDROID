@@ -72,4 +72,38 @@ public interface BtResult extends BaseBean {
      * @return
      */
     double getUnitCashOutPayoutStake();
+
+    /**
+     * 是否有提前结算数据
+     * @return
+     */
+    boolean isAdvanceSettlement();
+
+    /**
+     * 获取提前结算状态
+     * @return
+     */
+    String getAdvanceSettlementStatus();
+
+    /**
+     * 获取提前结算时间
+     * @return
+     */
+    String getAdvanceSettlementDate();
+    /**
+     * 获取提前结算本金
+     * @return
+     */
+    double getAdvanceSettlementCost();
+    /**
+     * 获取提前结算输赢
+     * @return
+     */
+    double getAdvanceSettlementResult();
+
+    /**
+     * 获取提前结算返还金额
+     * @return
+     */
+    double getAdvanceSettlementBack();
 }
