@@ -18,4 +18,8 @@ public class MsgDialog extends TipDialog {
         super(context, title, msg, isSingleBtn, mCallBack);
     }
 
+    public MsgDialog(@NonNull Context context, CharSequence title, CharSequence title2, CharSequence msg, String txtLeft, String txtRight, boolean isSingleBtn, ICallBack mCallBack) {
+        super(context, title, title2, msg, txtLeft, txtRight, isSingleBtn, mCallBack);
+    }
+
 }

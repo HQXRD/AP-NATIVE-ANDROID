@@ -16,11 +16,12 @@ import com.xtree.base.databinding.DialogTipBinding;
 
 public class TipDialog extends CenterPopupView {
 
-    String title;
+    CharSequence title;
+    CharSequence title2;
     CharSequence msg;
-    String txtLeft;
+    CharSequence txtLeft;
     boolean isSingleBtn;
-    String txtRight;
+    CharSequence txtRight;
     ICallBack mCallBack;
 
     DialogTipBinding binding;
@@ -55,6 +56,17 @@ public class TipDialog extends CenterPopupView {
         this.mCallBack = mCallBack;
     }
 
+    public TipDialog(Context context, CharSequence title, CharSequence title2, CharSequence msg, String txtLeft, String txtRight, boolean isSingleBtn, ICallBack mCallBack) {
+        super(context);
+        this.title = title;
+        this.title2 = title2;
+        this.msg = msg;
+        this.txtLeft = txtLeft;
+        this.txtRight = txtRight;
+        this.isSingleBtn = isSingleBtn;
+        this.mCallBack = mCallBack;
+    }
+
     @Override
     protected void onCreate() {
         super.onCreate();
@@ -76,6 +88,17 @@ public class TipDialog extends CenterPopupView {
 
         if (!TextUtils.isEmpty(title)) {
             binding.tvwTitle.setText(title);
+        }
+        if (!TextUtils.isEmpty(title2)) {
+            binding.tvwTitle2.setText(title2);
+
+            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams)binding.tvwMsg.getLayoutParams();
+            layoutParams.topToBottom = R.id.tvw_title2;
+            binding.tvwMsg.setLayoutParams(layoutParams);
+
+            ConstraintLayout.LayoutParams layoutParams2 = (ConstraintLayout.LayoutParams)binding.tvwMsg2.getLayoutParams();
+            layoutParams2.topToBottom = R.id.tvw_title2;
+            binding.tvwMsg.setLayoutParams(layoutParams2);
         }
 
         binding.tvwMsg.setText(msg);
