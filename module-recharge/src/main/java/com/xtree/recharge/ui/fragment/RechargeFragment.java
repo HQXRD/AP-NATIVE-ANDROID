@@ -777,6 +777,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.tvwFxRate.setText(R.string.txt_rate_tog_cny);
         } else if (vo.paycode.equals("ebpay")) {
             binding.tvwFxRate.setText(R.string.txt_rate_eb_cny);
+        } else if (vo.paycode.equals("hqppaygobao")) {
+            binding.tvwFxRate.setText(R.string.txt_rate_gobao_cny);
+        } else if (vo.paycode.equals("hqppayokpay")) {
+            binding.tvwFxRate.setText(R.string.txt_rate_okpay_cny);
+        } else if (vo.paycode.equals("hqppaygopay")) {
+            binding.tvwFxRate.setText(R.string.txt_rate_gopay_cny);
         } else {
             binding.tvwFxRate.setText("");
             binding.llRate.setVisibility(View.GONE);
