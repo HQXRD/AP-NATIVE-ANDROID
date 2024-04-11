@@ -414,7 +414,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         super.onError(t);
                         CfLog.e("error, " + t.toString());
-                        liveDataUpdate.setValue(null);
+
                     }
                 });
         addSubscribe(disposable);
