@@ -561,7 +561,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     public void onError(Throwable t) {
                         super.onError(t);
                         CfLog.e("error, " + t.toString());
-                        liveDataUpdate.setValue(null);
+                        //liveDataUpdate.setValue(null);
                     }
                 });
         addSubscribe(disposable);
