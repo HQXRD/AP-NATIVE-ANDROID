@@ -73,7 +73,8 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 @Route(path = RouterFragmentPath.Recharge.PAGER_RECHARGE)
 public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, RechargeViewModel> {
-
+    private static final int MSG_CLICK_CHANNEL = 1001;
+    private static final long REFRESH_DELAY = 30 * 60 * 1000L; // 刷新间隔等待时间(如果长时间没刷新)
     //RechargeAdapter rechargeAdapter;
     RechargeTypeAdapter mTypeAdapter;
     RechargeChannelAdapter mChannelAdapter;
@@ -99,7 +100,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     ProfileVo mProfileVo = null; // 个人信息
     // HQAP2-2963 这几个充值渠道 内部浏览器要加个外跳的按钮 2024-03-23
     String[] arrayBrowser = new String[]{"onepayfix3", "onepayfix4", "onepayfix5", "onepayfix6"};
-    private static final int MSG_CLICK_CHANNEL = 1001;
+    long lastRefresh = System.currentTimeMillis(); // 上次刷新时间
+
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -346,6 +348,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     private void refresh() {
         CfLog.i("******");
+        viewModel.readProfile();
         if (isBinding) {
             isBinding = false;
             binding.tvwCurPmt.setText("");
@@ -373,6 +376,13 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             //curRechargeVo = null; // 如果为空,连续点击x.bid会空指针
             //viewModel.getPayments(); // 绑定回来,刷新数据
             viewModel.getPaymentsTypeList(); // 绑定回来,刷新数据
+            lastRefresh = System.currentTimeMillis();
+            return;
+        }
+
+        if (System.currentTimeMillis() - lastRefresh > REFRESH_DELAY) {
+            CfLog.i("******");
+            viewModel.getPaymentsTypeList(); // 长时间没有刷新,刷新一下数据
         }
     }
 
