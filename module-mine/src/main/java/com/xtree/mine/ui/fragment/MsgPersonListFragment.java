@@ -58,9 +58,14 @@ public class MsgPersonListFragment extends BaseFragment<FragmentMsgPersonListBin
                     }
                 }
                 // 取前 10 个元素
-                List<MsgPersonVo> firstTenElements = msgPersonVoList.subList(0, 10);
-                String json = gson.toJson(firstTenElements);
-                SPUtils.getInstance().put(SPKeyGlobal.MSG_PERSON_INFO, json);
+                if (msgPersonVoList.size() > 10) {
+                    List<MsgPersonVo> firstTenElements = msgPersonVoList.subList(0, 10);
+                    String json = gson.toJson(firstTenElements);
+                    SPUtils.getInstance().put(SPKeyGlobal.MSG_PERSON_INFO, json);
+                } else {
+                    String json = gson.toJson(msgPersonVoList);
+                    SPUtils.getInstance().put(SPKeyGlobal.MSG_PERSON_INFO, json);
+                }
             }
 
             @Override
