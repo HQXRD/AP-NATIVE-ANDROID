@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/txt_kind_tips"
+                tools:text="@string/txt_kind_tips"
                 android:textColor="@color/clr_purple_12"
                 android:textSize="16sp"
                 android:layout_marginTop="16dp"
