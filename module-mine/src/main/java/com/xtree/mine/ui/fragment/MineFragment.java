@@ -157,10 +157,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             CfLog.i("****** ");
             startContainerFragment(RouterFragmentPath.Mine.PAGER_ACCOUNT_CHANGE); // 账变记录
         });
+        binding.tvwSafe.setOnClickListener(v -> {
+            CfLog.i("****** ");
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER); // 安全中心
+        });
         binding.tvwDcCentre.setOnClickListener(v -> {
             CfLog.i("****** ");
-            //startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_CENTER);
-            BrowserActivity.start(getContext(), DomainUtil.getDomain2() + Constant.URL_DC_CENTER);
+            BrowserActivity.start(getContext(), DomainUtil.getDomain2() + Constant.URL_DC_CENTER); // 优惠中心
         });
 
         binding.tvwInviteFriend.setOnClickListener(v -> {
@@ -192,7 +195,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             //intent.putExtra(ContainerActivity.BUNDLE, bundle);
             //intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_BIND_ALIPAY_WECHAT);
             //startActivity(intent);
-             //账户管理
+            //账户管理
             showAccountMgmt();
         });
         //VIP中心
