@@ -120,7 +120,9 @@ public class FBBtRecordModel extends TemplateBtRecordModel {
                         }
                         for (BtCashOutPriceOrderInfo btCashOutPriceOrderInfo : btCashOutPriceInfo.pr) {
                             BtResultInfo btResultInfo = mOrderMap.get(btCashOutPriceOrderInfo.oid);
-                            btResultInfo.pr = btCashOutPriceOrderInfo;
+                            if(btResultInfo != null) {
+                                btResultInfo.pr = btCashOutPriceOrderInfo;
+                            }
                         }
                         btRecordTimeDate.postValue(btRecordTimeDate.getValue());
                         btUpdateCashOutPrice.call();
