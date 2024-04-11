@@ -51,6 +51,7 @@ public class SecurityVerifyChooseFragment extends BaseFragment<FragmentSecurityV
     private ProfileVo mProfileVo;
     ItemTextBinding binding2;
     BasePopupView ppw = null; // 底部弹窗 (选择**菜单)
+    BasePopupView ppw2 = null; // 居中弹窗
     String typeName;
     String type = "";
 
@@ -61,7 +62,7 @@ public class SecurityVerifyChooseFragment extends BaseFragment<FragmentSecurityV
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        setView();
     }
 
     @Override
@@ -102,8 +103,10 @@ public class SecurityVerifyChooseFragment extends BaseFragment<FragmentSecurityV
 
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
         mProfileVo = new Gson().fromJson(json, ProfileVo.class);
+    }
 
-        CfLog.e("mProfileVo.is_binding_phone : " + mProfileVo.is_binding_phone + " mProfileVo.is_binding_email : " + mProfileVo.is_binding_email);
+    private void setView() {
+        CfLog.d("phone: " + mProfileVo.is_binding_phone + ", email: " + mProfileVo.is_binding_email);
         if (mProfileVo.is_binding_email && mProfileVo.is_binding_phone) {
             CfLog.d("******");
         } else if (mProfileVo.is_binding_email) {
@@ -115,19 +118,19 @@ public class SecurityVerifyChooseFragment extends BaseFragment<FragmentSecurityV
             Fragment mFragment = BindPhoneFragment.newInstance(type, "");
             changeView(mFragment);
         } else {
-            ppw = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), "", getResources().getString(R.string.txt_no_binding), "绑定手机", "绑定邮箱", new TipDialog.ICallBack() {
+            ppw2 = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), "", getResources().getString(R.string.txt_no_binding), "绑定手机", "绑定邮箱", new TipDialog.ICallBack() {
                 @Override
                 public void onClickLeft() {
                     startBinding(Constant.BIND_PHONE);
                     getActivity().finish();
-                    ppw.dismiss();
+                    ppw2.dismiss();
                 }
 
                 @Override
                 public void onClickRight() {
                     startBinding(Constant.BIND_EMAIL);
                     getActivity().finish();
-                    ppw.dismiss();
+                    ppw2.dismiss();
                 }
             })).show();
         }
