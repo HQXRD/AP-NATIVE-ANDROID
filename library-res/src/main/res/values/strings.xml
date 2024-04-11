@@ -205,6 +205,7 @@
     <!--提款-->
     <string name="txt_withdrawal_bank">银行卡提款</string>
     <string name="txt_withdraw_flow">提款流水</string>
+    <string name="txt_withdrawal">提款</string>
 
     <string name="domain_url">http</string>
     <string name="domain_url_list">http;http</string>
@@ -215,4 +216,6 @@
     <string name="txt_agree">同意</string>
     <string name="text_no_agree">不同意</string>
     <bool name="is_tag">false</bool>
+
+
 </resources>

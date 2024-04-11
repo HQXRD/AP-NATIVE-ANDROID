@@ -125,7 +125,6 @@
 
     <CheckBox
         android:id="@+id/ckb_not_tip"
-        style="@style/style_cm_ckb_normal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
@@ -133,6 +132,7 @@
         android:textColor="@color/clr_purple_01"
         android:textSize="12sp"
         android:textStyle="bold"
+        android:theme="@style/style_theme_cm_ckb"
         app:layout_constraintBottom_toTopOf="@id/ll_bottom"
         app:layout_constraintEnd_toEndOf="@id/ivw_bg"
         app:layout_constraintStart_toStartOf="@id/ivw_bg" />

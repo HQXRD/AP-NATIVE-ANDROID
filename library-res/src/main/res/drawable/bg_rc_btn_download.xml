@@ -2,20 +2,23 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <corners android:radius="6dp" />
-            <solid android:color="@color/clr_btn_grey02" />
-            <stroke android:width="1dp"
-                android:color="@color/clr_purple_08" />
+            <gradient android:angle="270"
+                android:endColor="@color/clr_btn_grey02"
+                android:startColor="@color/clr_btn_grey01" />
+            <stroke android:width="3dp"
+                android:color="@color/clr_btn_grey02" />
+            <corners android:radius="22dp" />
         </shape>
     </item>
 
     <item>
         <shape>
-            <gradient android:angle="270"
-                android:endColor="@color/clr_blue_31"
-                android:startColor="@color/clr_blue_31" />
-            <corners android:radius="6dp" />
-            <solid android:color="@color/clr_blue_31" />
+            <gradient android:angle="0"
+                android:endColor="#5DBAF5"
+                android:startColor="#5D89F5" />
+            <stroke android:width="3dp"
+                android:color="@color/clr_white" />
+            <corners android:radius="22dp" />
         </shape>
     </item>
 </selector>

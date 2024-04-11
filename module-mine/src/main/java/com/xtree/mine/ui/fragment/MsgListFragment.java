@@ -51,9 +51,14 @@ public class MsgListFragment extends BaseFragment<FragmentMsgListBinding, MsgVie
                 }
             }
             // 取前 10 个元素
-            List<MsgVo> firstTenElements = msgVoList.subList(0, 10);
-            String json = gson.toJson(firstTenElements);
-            SPUtils.getInstance().put(SPKeyGlobal.MSG_INFO, json);
+            if(msgVoList.size() > 10) {
+                List<MsgVo> firstTenElements = msgVoList.subList(0, 10);
+                String json = gson.toJson(firstTenElements);
+                SPUtils.getInstance().put(SPKeyGlobal.MSG_INFO, json);
+            }else{
+                String json = gson.toJson(msgVoList);
+                SPUtils.getInstance().put(SPKeyGlobal.MSG_INFO, json);
+            }
         });
         binding.rvMsgList.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.rvMsgList.setAdapter(mMsgListAdapter);

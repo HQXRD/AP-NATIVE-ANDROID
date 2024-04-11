@@ -37,27 +37,29 @@
             android:id="@+id/ivw_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxHeight="26dp"
-            android:scaleType="centerInside"
-            android:src="@mipmap/rc_ic_pmt_happy" />
+            android:adjustViewBounds="true"
+            android:background="@mipmap/rc_ic_type_cs"
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/tvw_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-4dp"
             android:gravity="center"
             android:textColor="@color/clr_item_text_selector"
-            android:textSize="10sp"
+            android:textSize="12sp"
             tools:text="USDT" />
 
         <TextView
             android:id="@+id/tvw_dep_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-2dp"
             android:paddingStart="4dp"
             android:paddingEnd="4dp"
             android:textColor="@color/clr_rc_rate_selector"
-            android:textSize="9sp"
+            android:textSize="10sp"
             tools:text="DEMO" />
     </LinearLayout>
 
@@ -78,7 +80,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="0dp"
-        android:scaleType="centerInside"
         android:src="@mipmap/rc_ic_recommend"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@id/ivw_bg"

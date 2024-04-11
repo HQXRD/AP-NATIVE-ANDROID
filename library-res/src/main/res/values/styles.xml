@@ -279,6 +279,7 @@
         <item name="android:textColor">@color/clr_purple_05</item>
         <item name="android:textSize">12sp</item>
     </style>
+
     <style name="style_rdo_type">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -459,14 +460,15 @@
     <style name="style_cm_edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>
-        <item name="android:background">@mipmap/cm_bg_input</item>
+        <item name="android:background">@drawable/bg_edt_selector</item>
         <item name="android:hint"></item>
+        <item name="android:imeOptions">actionDone</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
         <item name="android:maxLength">50</item>
         <item name="android:padding">8dp</item>
         <item name="android:textColor">@color/clr_grey_80</item>
-        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textColorHint">@color/clr_txt_color_hint</item>
         <item name="android:textSize">14sp</item>
     </style>
     <!--反馈详情输入框风格-->
@@ -693,6 +695,12 @@
         <item name="android:paddingHorizontal" tools:targetApi="o">6dp</item>
         <item name="android:button">@drawable/checkbox_bg_selector</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 复选框 颜色 -->
+    <style name="style_theme_cm_ckb">
+        <item name="colorAccent">@color/clr_purple_02</item>
+        <item name="colorControlNormal">@color/clr_purple_01</item>
     </style>
 
     <!-- 我的-账户管理-绑定-新增页 标题 -->

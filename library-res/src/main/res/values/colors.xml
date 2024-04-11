@@ -321,4 +321,15 @@
     <color name="clr_rc_manual_1">#CC6A74</color>
     <color name="clr_ffb800">#FFB800</color>
 
+    <!-- 输入框 边框色 默认/点击/焦点 -->
+    <color name="clr_edt_def">#C7C4D0</color>
+    <color name="clr_edt_pressed">#F9C1DC</color>
+    <color name="clr_edt_focused">#B5A9FF</color>
+    <color name="clr_edt_disabled">#F0EEF4</color>
+
+    <!-- 输入框 hint -->
+    <color name="clr_txt_color_hint">#C7C4D0</color>
+
+    <color name="clr_rc_txt_hi">#5B5768</color>
+
 </resources>

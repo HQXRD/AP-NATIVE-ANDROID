@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.Editable;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -105,7 +106,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             //super.handleMessage(msg);
             switch (msg.what) {
                 case MSG_CLICK_CHANNEL:
-                    if (binding.rcvPayChannel.getAdapter().getItemCount() > 1) {
+                    if (binding.rcvPayChannel.getAdapter().getItemCount() > 0) {
                         RechargeVo vo = (RechargeVo) msg.obj;
                         View child = binding.rcvPayChannel.findViewWithTag(vo.bid);
                         if (child != null) {
@@ -260,7 +261,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 if (TextUtils.isEmpty(s.toString().trim())) {
                     binding.tvwTipName.setVisibility(View.VISIBLE);
                 } else {
-                    binding.tvwTipName.setVisibility(View.INVISIBLE);
+                    binding.tvwTipName.setVisibility(View.GONE);
                 }
             }
 
@@ -293,11 +294,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 if (curRechargeVo != null && !TextUtils.isEmpty(curRechargeVo.usdtrate)) {
                     setUsdtRate(curRechargeVo);
                 }
-                if (!TextUtils.isEmpty(s.toString().trim())) {
-                    binding.tvwTipAmount.setVisibility(View.INVISIBLE);
-                } else {
-                    binding.tvwTipAmount.setVisibility(View.VISIBLE);
-                }
+                //if (!TextUtils.isEmpty(s.toString().trim())) {
+                //    binding.tvwTipAmount.setVisibility(View.GONE);
+                //} else {
+                //    binding.tvwTipAmount.setVisibility(View.VISIBLE);
+                //}
             }
 
             @Override
@@ -384,9 +385,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.e(vo.toInfo());
         CfLog.e("size: " + vo.payChannelList.size());
         curPaymentTypeVo = vo;
+        binding.llCurPmt.setVisibility(View.VISIBLE);
         binding.tvwCurPmt.setText(vo.dispay_title);
         String url = DomainUtil.getDomain2() + vo.un_selected_image; // 未选中 彩色图片
-        Glide.with(getContext()).load(url).placeholder(R.mipmap.rc_ic_pmt_happy).into(binding.ivwCurPmt);
+        Glide.with(getContext()).load(url).placeholder(R.mipmap.ic_trans_76).into(binding.ivwCurPmt);
         mChannelAdapter.clear();
         mChannelAdapter.addAll(vo.payChannelList);
         setTipBottom(vo); // 设置底部的文字提示
@@ -399,6 +401,15 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         } else {
             binding.rcvPayChannel.setVisibility(View.VISIBLE);
             binding.llDown.setVisibility(View.GONE); // 隐藏底部 用户输入的部分
+
+            // 非跳转三方的,默认选中第一个
+            RechargeVo vo2 = vo.payChannelList.get(0);
+            if (!(vo2.op_thiriframe_use && !vo2.phone_needbind)) {
+                Message msg2 = new Message();
+                msg2.what = MSG_CLICK_CHANNEL;
+                msg2.obj = vo2;
+                mHandler.sendMessageDelayed(msg2, 350L);
+            }
         }
 
     }
@@ -488,6 +499,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.tvwChooseBankCard.setVisibility(View.VISIBLE);
             binding.tvwBankCard.setVisibility(View.VISIBLE);
             binding.tvwBankCard.setOnClickListener(v -> showBankCardDialog(vo));
+            if (!vo.userBankList.isEmpty()) {
+                bankId = vo.userBankList.get(0).id;
+                binding.tvwBankCard.setText(vo.userBankList.get(0).name);
+            }
         } else {
             binding.tvwChooseBankCard.setVisibility(View.GONE);
             binding.tvwBankCard.setVisibility(View.GONE);
@@ -498,7 +513,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             CfLog.i("设置存款人姓名 = " + vo.accountname);
             binding.edtName.setText(vo.accountname);
             binding.llName.setVisibility(View.VISIBLE);
-            binding.tvwTipName.setVisibility(View.INVISIBLE);
+            binding.tvwTipName.setVisibility(View.GONE);
         } else {
             binding.edtName.setText("");
             binding.llName.setVisibility(View.GONE);
@@ -686,11 +701,16 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     private void show1kEntryDialog() {
         String title = getString(R.string.txt_kind_tips);
-        String msg = getString(R.string.txt_is_to_open_hiwallet_wallet);
+        //String msg = getString(R.string.txt_is_to_open_hiwallet_wallet); //
+        String txt = getString(R.string.txt_is_to_open_hiwallet_title); //
+        txt = "<font color=#1E1E1E>" + txt + "</font><br>";
+        txt += getString(R.string.txt_is_to_open_hiwallet_content);
+        Spanned msg = HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_LEGACY);
+
         ppw = new XPopup.Builder(getContext())
                 .dismissOnTouchOutside(false)
                 .dismissOnBackPressed(false)
-                .asCustom(new MsgDialog(getContext(), title, msg, new MsgDialog.ICallBack() {
+                .asCustom(new MsgDialog(getContext(), title, msg, false, new MsgDialog.ICallBack() {
                     @Override
                     public void onClickLeft() {
                         ppw.dismiss();
@@ -853,7 +873,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         if (TextUtils.isEmpty(vo.paycode)) {
             // 进入充值页时,底部 默认的提示文字 2024-02-06
-            binding.tvwTipSameAmount.setVisibility(View.INVISIBLE);
+            binding.tvwTipSameAmount.setVisibility(View.GONE);
             tmp = getString(R.string.txt_bank_card);
             html += fontLine + getString(R.string.txt_rc_tip_yhk_1, tmp);
             html += fontLine + getString(R.string.txt_rc_tip_yhk_2a, "");
@@ -897,7 +917,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void setUsdtRate(RechargeVo vo) {
-        binding.tvwFxRate.setText(getString(R.string.txt_rate_usdt) + vo.usdtrate);
+        binding.tvwFxRate.setText(getString(R.string.txt_rate_usdt, vo.usdtrate));
         int realMoney = Integer.parseInt(0 + binding.tvwRealAmount.getText().toString());
         float realUsdt = realMoney / Float.parseFloat(vo.usdtrate);
         //String usdt = new DecimalFormat("#.##").format(realUsdt);

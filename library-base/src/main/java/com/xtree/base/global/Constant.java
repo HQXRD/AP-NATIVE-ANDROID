@@ -47,7 +47,7 @@ public class Constant {
     public static final String URL_REBATE_REPORT = "/webapp/#/report/compact/userantirepot"; // 返水报表
 
     public static final String URL_PARTNER = "https://sc.sc/"; // 官方合营
-    public static final String URL_ACTIVITY = "/webapp/#/activity/"; // 网页前缀
+    public static final String URL_ACTIVITY = "/webapp/?isNative=1#/activity/"; // 网页前缀
     public static final String URL_SPORT_RULES = "/static/activity/sportRules/index.html"; // 体育规则
     public static final String URL_QA = "/webapp/#/my/qa"; // 常见问题
     public static final String URL_TUTORIAL = "/static/vir-tutorial/cnyt.html"; // 充值教程

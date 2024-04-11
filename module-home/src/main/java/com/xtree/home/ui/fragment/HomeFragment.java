@@ -475,17 +475,17 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private String getString(String result) {
         String url = "";
         //添加測試id：198 上線後刪除
-        if (result.equals("135")) {
-            url = DomainUtil.getDomain2() + "/webapp/#/turntable/135";
-        } else if (result.equals("173")) {
-            url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/1?aid=173";
-        } else if (result.equals("174")) {
-            url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/5?aid=174";
-            //} else if (result.equals("198")) {
-            //    url = DomainUtil.getDomain2() + "#/newactivity/64/5?aid=198";
-        } else {
+        //if (result.equals("135")) {
+        //    url = DomainUtil.getDomain2() + "/webapp/#/turntable/135";
+        //} else if (result.equals("173")) {
+        //    url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/1?aid=173";
+        //} else if (result.equals("174")) {
+        //    url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/5?aid=174";
+        //    //} else if (result.equals("198")) {
+        //    //    url = DomainUtil.getDomain2() + "#/newactivity/64/5?aid=198";
+        //} else {
             url = DomainUtil.getDomain2() + Constant.URL_ACTIVITY + result;
-        }
+        //}
         return url;
     }
 
