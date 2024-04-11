@@ -137,11 +137,13 @@ public class BrowserActivity extends AppCompatActivity {
         CfLog.d("Authorization: " + auth);
 
         Map<String, String> header = new HashMap<>();
-        header.put("Cookie", cookie);
-        header.put("Authorization", auth);
-        if (isLottery) {
-            header.put("Content-Type", "application/vnd.sc-api.v1.json");
+        if (!SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).isEmpty()) {
+            header.put("Cookie", cookie);
+            header.put("Authorization", auth);
+            header.put("Cache-Control", "no-cache");
+            header.put("Pragme", "no-cache");
         }
+        header.put("Content-Type", "application/vnd.sc-api.v1.json");
         header.put("App-RNID", "87jumkljo"); //
 
         //header.put("Source", "8");
@@ -253,7 +255,9 @@ public class BrowserActivity extends AppCompatActivity {
                 } else if (is3rdLink) {
                     CfLog.d("not need cookie.");
                 } else {
-                    setCookieInside();
+                    if (!SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).isEmpty()) {
+                        setCookieInside();
+                    }
                 }
             }
 
