@@ -179,7 +179,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //    onClickPayment(vo);
         //});
         mTypeAdapter = new RechargeTypeAdapter(getContext(), vo -> {
-            CfLog.e(vo.toInfo());
+            CfLog.d(vo.toInfo());
             mPaymentTypeVo = vo;
             curRechargeVo = null;
             onClickPaymentType(vo);
@@ -191,7 +191,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         binding.rcvPmt.setNestedScrollingEnabled(false); // 禁止滑动
 
         mChannelAdapter = new RechargeChannelAdapter(getContext(), vo -> {
-            CfLog.e(vo.toInfo());
+            CfLog.i(vo.toInfo());
             curRechargeVo = vo;
             onClickPayment(vo);
         });
@@ -329,7 +329,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             }
 
             String url = data.link.startsWith("http") ? data.link : DomainUtil.getDomain2() + data.link;
-            CfLog.e(url);
+            CfLog.d(url);
             AppUtil.goBrowser(getContext(), url);
         });
     }
@@ -345,6 +345,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void refresh() {
+        CfLog.i("******");
         if (isBinding) {
             isBinding = false;
             binding.tvwCurPmt.setText("");
@@ -357,12 +358,17 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             //    }
             //}
 
-            if (curPaymentTypeVo != null) {
-                View childType = binding.rcvPmt.findViewWithTag(curPaymentTypeVo.id);
-                if (childType != null) {
-                    childType.performClick();
-                }
-            }
+            // 这里不点击选中是因为有些渠道会弹窗要求绑定手机/YHK 会出现死循环,(然后又要和其它端保持一致)
+            //if (curPaymentTypeVo != null) {
+            //    View childType = binding.rcvPmt.findViewWithTag(curPaymentTypeVo.id);
+            //    if (childType != null) {
+            //        childType.performClick();
+            //    }
+            //}
+            // 要求从绑定页返回,不要选中充值方式 (和其它端保持一致)
+            mTypeAdapter.reset(); // 重置,不选中
+            mChannelAdapter.clear(); // 清空
+            binding.llCurPmt.setVisibility(View.GONE); // 隐藏当前充值方式
 
             //curRechargeVo = null; // 如果为空,连续点击x.bid会空指针
             //viewModel.getPayments(); // 绑定回来,刷新数据
@@ -382,8 +388,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void onClickPaymentType(PaymentTypeVo vo) {
-        CfLog.e(vo.toInfo());
-        CfLog.e("size: " + vo.payChannelList.size());
+        CfLog.i(vo.toInfo());
+        CfLog.d("size: " + vo.payChannelList.size());
         curPaymentTypeVo = vo;
         binding.llCurPmt.setVisibility(View.VISIBLE);
         binding.tvwCurPmt.setText(vo.dispay_title);

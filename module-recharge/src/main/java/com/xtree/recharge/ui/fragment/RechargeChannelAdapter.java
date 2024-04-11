@@ -34,7 +34,7 @@ public class RechargeChannelAdapter extends CachedAutoRefreshAdapter<RechargeVo>
 
     @Override
     public void clear() {
-        CfLog.e("******");
+        CfLog.i("******");
         super.clear();
         //curView = null;
     }
