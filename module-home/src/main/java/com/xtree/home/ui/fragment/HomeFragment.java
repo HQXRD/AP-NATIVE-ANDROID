@@ -365,16 +365,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.tvwDeposit.setOnClickListener(view -> {
             // 存款
             KLog.i("**************");
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             goRecharge();
         });
         binding.tvwWithdraw.setOnClickListener(view -> {
             // 提现
             KLog.i("**************");
-            //ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_WITHDRAW).navigation();
-            //startContainerFragment(RouterFragmentPath.Wallet.PAGER_WITHDRAW);
-           /* String title = getString(R.string.txt_withdraw);
-            String url = DomainUtil.getDomain2() + Constant.URL_WITHDRAW;
-            BrowserActivity.start(getContext(), title, url, true);*/
             // 限制多次点击
             if (ClickUtil.isFastClick()) {
                 return;
@@ -385,11 +383,17 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.tvwTrans.setOnClickListener(view -> {
             // 转账
             KLog.i("**************");
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER);
         });
         binding.tvwMember.setOnClickListener(view -> {
             // 会员
             KLog.i("**************");
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
             //BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
             BrowserActivity.start(getContext(), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER);
@@ -484,7 +488,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         //    //} else if (result.equals("198")) {
         //    //    url = DomainUtil.getDomain2() + "#/newactivity/64/5?aid=198";
         //} else {
-            url = DomainUtil.getDomain2() + Constant.URL_ACTIVITY + result;
+        url = DomainUtil.getDomain2() + Constant.URL_ACTIVITY + result;
         //}
         return url;
     }
