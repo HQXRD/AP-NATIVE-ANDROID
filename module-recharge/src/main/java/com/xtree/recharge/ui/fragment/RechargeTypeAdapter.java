@@ -36,6 +36,12 @@ public class RechargeTypeAdapter extends CachedAutoRefreshAdapter<PaymentTypeVo>
         this.mCallBack = mCallBack;
     }
 
+    public void reset() {
+        setItemStatus(curView, false);
+        curView = null;
+        curId = "-1";
+    }
+
     @NonNull
     @Override
     public CacheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -53,6 +59,9 @@ public class RechargeTypeAdapter extends CachedAutoRefreshAdapter<PaymentTypeVo>
 
         binding.tvwTitle.setText(vo.dispay_title);
         binding.clRoot.setTag(vo.id); // 弹窗时会用到
+        binding.ivwBg.setSelected(false); // 背景图
+        binding.tvwTitle.setSelected(false);
+        binding.tvwDepRate.setSelected(false);
         if (vo.id.equals(curId)) {
             curView = binding.clRoot;
             //curView.setSelected(true);
@@ -91,7 +100,7 @@ public class RechargeTypeAdapter extends CachedAutoRefreshAdapter<PaymentTypeVo>
         binding.ivwRcmd.setVisibility(visible2); // 推荐
 
         binding.clRoot.setOnClickListener(v -> {
-            CfLog.e(vo.toInfo());
+            CfLog.d(vo.toInfo());
 
             if (curView != null) {
                 //curView.setSelected(false);
