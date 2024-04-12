@@ -227,12 +227,4 @@ public class RecommendedReportsViewModel extends BaseViewModel<MineRepository> i
             mActivity = null;
         }
     }
-
-
-
-
-
-
-
-
 }

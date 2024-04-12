@@ -17,6 +17,7 @@ import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.base.widget.TipDialog;
@@ -146,6 +147,9 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
      * 手动分红发放
      */
     public void sendDividendStep1() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
 
         DividendAgrtSendRequest dividendAgrtSendRequest = new DividendAgrtSendRequest();
         dividendAgrtSendRequest.setCycle_id(gameDividendAgrtRequest.cycle_id);
@@ -202,6 +206,9 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
     }
 
     private void sendDividendStep2() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
 
         DividendAgrtSendRequest dividendAgrtSendRequest = new DividendAgrtSendRequest();
         dividendAgrtSendRequest.setCycle_id(gameDividendAgrtRequest.cycle_id);

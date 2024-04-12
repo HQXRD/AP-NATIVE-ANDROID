@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField;
 
 import com.xtree.base.mvvm.recyclerview.BindHead;
 import com.xtree.base.mvvm.recyclerview.BindModel;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.widget.FilterView;
 import com.xtree.mine.R;
 import com.xtree.mine.vo.StatusVo;
@@ -40,6 +41,9 @@ public class RecommendedReportsHeadModel extends BindModel implements BindHead {
     }
 
     public void cycly() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             onCallBack.cyclicality(BaseApplication.getInstance().getString(R.string.txt_cycle)
                     , cyclyData,
@@ -49,6 +53,9 @@ public class RecommendedReportsHeadModel extends BindModel implements BindHead {
     }
 
     public void check() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             p = 1;
             onCallBack.check();

@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField;
 
 import com.xtree.base.mvvm.recyclerview.BindHead;
 import com.xtree.base.mvvm.recyclerview.BindModel;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.FilterView;
 import com.xtree.mine.R;
@@ -148,18 +149,27 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
     }
 
     public void selectStartDate() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             onCallBack.selectStartDate(startDate);
         }
     }
 
     public void selectEndDate() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             onCallBack.selectEndDate(endDate);
         }
     }
 
     public void selectStatus() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             switch (typeEnum) {
                 //日分红
@@ -174,6 +184,9 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
     }
 
     public void check() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             p = 1;
             onCallBack.check(state.get(), startDate.get(), endDate.get());
@@ -181,12 +194,18 @@ public class GameRebateAgrtHeadModel extends BindModel implements BindHead {
     }
 
     public void showTip() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             onCallBack.showTip();
         }
     }
 
     public void showRules() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null && rules != null) {
             StringBuilder sb = new StringBuilder();
             switch (typeEnum) {

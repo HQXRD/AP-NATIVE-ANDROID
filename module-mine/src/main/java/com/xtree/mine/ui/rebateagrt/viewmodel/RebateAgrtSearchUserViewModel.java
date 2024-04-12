@@ -22,6 +22,7 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.ui.rebateagrt.model.RebateAgrtDetailModel;
@@ -170,6 +171,9 @@ public class RebateAgrtSearchUserViewModel extends BaseViewModel<MineRepository>
      * 确认选择
      */
     public void confirmSelection() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         ArrayList<BindModel> value = datas.getValue();
         if (value != null && value.size() > 0) {
             HashMap<String, String> map = new HashMap<>();

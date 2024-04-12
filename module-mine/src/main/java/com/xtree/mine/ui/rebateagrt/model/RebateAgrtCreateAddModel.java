@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField;
 
 import com.xtree.base.mvvm.recyclerview.BindHead;
 import com.xtree.base.mvvm.recyclerview.BindModel;
+import com.xtree.base.utils.ClickUtil;
 
 import io.reactivex.functions.Consumer;
 
@@ -28,6 +29,9 @@ public class RebateAgrtCreateAddModel extends BindModel implements BindHead {
     }
 
     public void add() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (consumer != null) {
             try {
                 consumer.accept("");

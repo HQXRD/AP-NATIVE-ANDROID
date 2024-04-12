@@ -28,6 +28,7 @@ import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.widget.DateTimePickerDialog;
 import com.xtree.base.widget.FilterView;
 import com.xtree.base.widget.LoadingDialog;
@@ -120,6 +121,10 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 view.findViewById(R.id.item_check).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if (ClickUtil.isFastClick()) {
+                            return;
+                        }
+
                         int p = bindingViewHolder.getModelPosition() + bindingViewHolder.getAdapter().getHeaderCount();
                         //查看契约
                         if (subordinateAgrtDatas.size() > 0) {
@@ -809,6 +814,9 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
      * 创建契约
      */
     public void createRebateAgrt() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         //下级契约
         if (tabPosition.get() == Subordinate_Agrte_TAB) {
             RebateAgrtDetailModel rebateAgrtDetailModel = new RebateAgrtDetailModel(CREATE_MODE);

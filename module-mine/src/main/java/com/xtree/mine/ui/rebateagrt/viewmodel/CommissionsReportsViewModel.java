@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
@@ -63,6 +64,10 @@ public class CommissionsReportsViewModel extends BaseViewModel<MineRepository> i
     }
 
     public synchronized void getData() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
+
         if (getmCompositeDisposable() != null) {
             getmCompositeDisposable().clear();
         }
@@ -113,6 +118,9 @@ public class CommissionsReportsViewModel extends BaseViewModel<MineRepository> i
      * 设置当前月份查询
      */
     public void curMonth() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(TimeUtils.FORMAT_YY_MM_DD);
         cal.setTime(new Date());
@@ -126,6 +134,9 @@ public class CommissionsReportsViewModel extends BaseViewModel<MineRepository> i
      * 设置上个月份查询
      */
     public void lastMonth() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(TimeUtils.FORMAT_YY_MM_DD);
         cal.setTime(new Date());
@@ -140,6 +151,9 @@ public class CommissionsReportsViewModel extends BaseViewModel<MineRepository> i
      * 设置上上个月份查询
      */
     public void beforeLastMonth() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat(TimeUtils.FORMAT_YY_MM_DD);
         cal.setTime(new Date());
@@ -155,6 +169,9 @@ public class CommissionsReportsViewModel extends BaseViewModel<MineRepository> i
      * 显示佣金规则制度
      */
     public void showCommissionsRules() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         CommissionsRulesDialogFragment.show(mActivity.get(), CommissionsRulesDialogFragment.COMMISSIONS_MODE);
     }
 
@@ -162,6 +179,9 @@ public class CommissionsReportsViewModel extends BaseViewModel<MineRepository> i
      * 显示代理规则制度
      */
     public void showAgentRules() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         CommissionsRulesDialogFragment.show(mActivity.get(), CommissionsRulesDialogFragment.AGENT_MODE);
     }
 

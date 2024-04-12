@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.rebateagrt.model;
 
 import com.xtree.base.mvvm.recyclerview.BindModel;
+import com.xtree.base.utils.ClickUtil;
 
 /**
  * Created by KAKA on 2024/3/14.
@@ -43,6 +44,9 @@ public class GameDividendAgrtSubModel extends BindModel {
      * 一键发放
      */
     public void autoSend() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             onCallBack.autoSend();
         }
@@ -52,6 +56,9 @@ public class GameDividendAgrtSubModel extends BindModel {
      * 手动发放
      */
     public void send() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             onCallBack.send();
         }

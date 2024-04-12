@@ -15,6 +15,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.base.widget.TipDialog;
@@ -80,7 +81,9 @@ public class RebateAgreementViewModel extends BaseViewModel<MineRepository> impl
 
         @Override
         public void onItemClick(int modelPosition, int layoutPosition, int itemViewType) {
-
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             if (datas.getValue() != null) {
                 RebateAreegmentModel bindModel = datas.getValue().get(modelPosition);
                 switch (bindModel.type) {

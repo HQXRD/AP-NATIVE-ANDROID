@@ -4,6 +4,7 @@ import androidx.databinding.ObservableField;
 
 import com.xtree.base.mvvm.recyclerview.BindHead;
 import com.xtree.base.mvvm.recyclerview.BindModel;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.TimeUtils;
 
 import java.util.Calendar;
@@ -57,18 +58,27 @@ public class GameSubordinaterebateHeadModel extends BindModel implements BindHea
     }
 
     public void selectStartDate() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             onCallBack.selectStartDate(startDate);
         }
     }
 
     public void selectEndDate() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             onCallBack.selectEndDate(endDate);
         }
     }
 
     public void check() {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (onCallBack != null) {
             p = 1;
             onCallBack.check(userName.get(), startDate.get(), endDate.get());

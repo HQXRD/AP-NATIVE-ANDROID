@@ -20,6 +20,7 @@ import com.xtree.base.mvvm.model.ToolbarModel;
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
@@ -78,7 +79,9 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
                 view.findViewById(R.id.item_delete).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        if (ClickUtil.isFastClick()) {
+                            return;
+                        }
                         if (bindingViewHolder.getAdapter().getModelCount() <= 1) {
                             ToastUtils.show(getApplication()
                                             .getString(R.string.txt_rebateagrt_tip3),
@@ -233,7 +236,9 @@ public class RebateAgrtCreateViewModel extends BaseViewModel<MineRepository> imp
      * 创建/修改契约
      */
     public void create() {
-
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
         if (searchUserResultLiveData.getValue() == null || searchUserResultLiveData.getValue().getUser() == null) {
             ToastUtils.show(getApplication().getString(R.string.txt_rebateagrt_tip1), ToastUtils.ShowType.Default);
             return;
