@@ -100,11 +100,6 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         if (getArguments() != null) {
             tokenSign = getArguments().getString(ARG_TOKEN_SIGN);
             mark = getArguments().getString(ARG_MARK);
-            String accountName = requireArguments().getString("accountName");
-            if (accountName != null && !accountName.isEmpty()) {
-                binding.edtName.setText(accountName);
-                binding.edtName.setEnabled(false);
-            }
         }
     }
 
@@ -129,6 +124,10 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         viewModel.liveDataBankProvinceList.observe(this, vo -> {
             CfLog.i("******");
             mUserBankInfoVo = vo;
+            if (vo.accountname != null && !vo.accountname.isEmpty()) {
+                binding.edtName.setText(vo.accountname);
+                binding.edtName.setEnabled(false);
+            }
         });
 
         viewModel.liveDataCityList.observe(this, list -> {
