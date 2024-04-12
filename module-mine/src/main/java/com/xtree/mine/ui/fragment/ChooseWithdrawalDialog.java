@@ -61,6 +61,9 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
     private IChooseDialogBack callBack;
     private BasePopupView basePopupView = null;
+    private BasePopupView otherWXPopupView = null;
+    private BasePopupView otherZFBPopupView = null;
+    private BasePopupView bankPopupView = null;
     private BasePopupView loadingView = null;
     DialogChooseWithdrawaBinding binding;
     ChooseWithdrawViewModel viewModel;
@@ -204,21 +207,25 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 public void onClick(String txt, ChooseInfoVo.ChannelInfo channelInfo) {
 
                     ChooseInfoVo.ChannelInfo channel = channelInfo;
-                    CfLog.i("txt = " + txt + " ||\nChooseAdapter channel = " + channel.toString());
+
                     if (channel.isBind == false) {
                         if (!TextUtils.isEmpty(channel.channeluseMessage) && !channel.isBind) {
                             showBindDialog(channel, channel.channeluseMessage);
-                        } else if (TextUtils.equals("极速支付宝提款", txt) || TextUtils.equals("极速微信提款", txt)) {
+                        } /*else if (TextUtils.equals("极速支付宝提款", txt) || TextUtils.equals("极速微信提款", txt)) {
                             showOtherWithdrawalDialog(channelInfo);
-                        } else {
+                        }*/ else {
                             showErrorDialog(channel.channeluseMessage);
                         }
                     } else if (channel.isBind && TextUtils.isEmpty(channel.channeluseMessage)) {
+                        CfLog.i("txt = " + txt +"isBind = " + channel.isBind + " ||\nChooseAdapter channel = " + channel.toString());
                         if (TextUtils.equals("银行卡提款", txt)) {
                             showBankWithdrawalDialog(channelInfo);
-                        } else if (txt.contains("极速")) {
-                            showOtherWithdrawalDialog(channelInfo);
-                        } else {
+                        } else if (TextUtils.equals("极速微信提款", txt) && TextUtils.equals("bindcardwx" , channel.bindType)) {
+                            showOtherWXWithdrawalDialog(channelInfo);
+                        } else if (TextUtils.equals("极速支付宝提款", txt) && TextUtils.equals("bindcardzfb" , channel.bindType)) {
+                            showOtherZFBWithdrawalDialog(channelInfo);
+                        }
+                        else {
                             showUSDTWithdrawalDialog(channelInfo);
                         }
                     } else if (channel.isBind && !TextUtils.isEmpty(channel.channeluseMessage)) {
@@ -318,13 +325,13 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 跳转银行卡提款页面
      */
     private void showBankWithdrawalDialog(ChooseInfoVo.ChannelInfo channelInfo) {
-        basePopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).moveUpToKeyboard(false).asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose, new BankWithdrawalDialog.BankWithdrawaDialogClose() {
+        bankPopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).moveUpToKeyboard(false).asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose, new BankWithdrawalDialog.BankWithdrawaDialogClose() {
             @Override
             public void closeBankByNumber() {
-                basePopupView.dismiss();
+                bankPopupView.dismiss();
             }
         }));
-        basePopupView.show();
+        bankPopupView.show();
     }
 
     /**
@@ -345,11 +352,17 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      *
      * @param info
      */
-    private void showOtherWithdrawalDialog(final ChooseInfoVo.ChannelInfo info) {
-        if (basePopupView == null) {
-            basePopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(OtherWebWithdrawalDialog.newInstance(getContext(), owner, info));
+    private void showOtherWXWithdrawalDialog(final ChooseInfoVo.ChannelInfo info) {
+        if (otherWXPopupView == null) {
+            otherWXPopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(OtherWebWithdrawalDialog.newInstance(getContext(), owner, info));
         }
-        basePopupView.show();
+        otherWXPopupView.show();
+    }
+    private void showOtherZFBWithdrawalDialog(final ChooseInfoVo.ChannelInfo info) {
+        if (otherZFBPopupView == null) {
+            otherZFBPopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(OtherWebWithdrawalDialog.newInstance(getContext(), owner, info));
+        }
+        otherZFBPopupView.show();
     }
 
     /**
