@@ -100,6 +100,11 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         if (getArguments() != null) {
             tokenSign = getArguments().getString(ARG_TOKEN_SIGN);
             mark = getArguments().getString(ARG_MARK);
+            String accountName = requireArguments().getString("accountName");
+            if (accountName != null && !accountName.isEmpty()) {
+                binding.edtName.setText(accountName);
+                binding.edtName.setEnabled(false);
+            }
         }
     }
 

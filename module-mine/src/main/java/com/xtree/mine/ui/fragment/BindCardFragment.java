@@ -63,22 +63,6 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
 
-        binding.tvwAdd.setOnClickListener(v -> {
-            CfLog.i("****** add");
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_ADD, getArguments());
-        });
-
-        binding.tvwLock.setOnClickListener(v -> {
-            CfLog.i("****** lock");
-            if (mAdapter.isEmpty()) {
-                return;
-            }
-
-            Bundle bundle = new Bundle();
-            bundle.putString("id", mAdapter.get(0).id);
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_LOCK, bundle);
-        });
-
         mAdapter = new CachedAutoRefreshAdapter<BankCardVo>() {
 
             @NonNull
@@ -146,6 +130,15 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
     public void initViewObservable() {
         viewModel.liveDataCardList.observe(this, vo -> {
             CfLog.i("******");
+            binding.tvwAdd.setOnClickListener(v -> {
+                CfLog.i("****** add");
+                Bundle bundle = new Bundle();
+                bundle.putString("mark", mark);
+                bundle.putString("tokenSign", tokenSign);
+                bundle.putString("accountName", vo.accountname);
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_ADD, bundle);
+            });
+
             // 如果是列表为空的情况,跳到增加页,并关闭当前页(关闭是因为有时会提示最多只能绑定0张卡,或者死循环)
             if (vo.status == 1) {
                 binding.tvwAdd.performClick(); // 跳到增加绑定页
@@ -178,6 +171,17 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
                     binding.tvwAdd.setVisibility(View.GONE);
                 }
             }
+            binding.tvwLock.setOnClickListener(v -> {
+                CfLog.i("****** lock");
+                if (mAdapter.isEmpty()) {
+                    return;
+                }
+
+                Bundle bundle = new Bundle();
+                bundle.putString("id", mAdapter.get(0).id);
+                bundle.putString("accountName", vo.accountname);
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_LOCK, bundle);
+            });
         });
 
     }
