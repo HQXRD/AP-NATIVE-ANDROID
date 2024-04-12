@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.lxj.xpopup.XPopup;
@@ -182,8 +183,19 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         binding.llSetRequestView.setVisibility(View.VISIBLE);
         String showRest = StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.rest));
         //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
-        String notice = "注意：每天限制提款" + virtualCashVo.times + "次，提款时间为" + virtualCashVo.wraptime.starttime + "至" + virtualCashVo.wraptime.endtime + ",您今日剩余提款额度为 " + showRest + "元";
-        binding.tvNotice.setText(notice);
+        final  String notice = "<font color=#EE5A5A>注意:</font>";
+        String times, count, startTime, endTime, rest;
+        times = "<font color=#EE5A5A>" + String.valueOf(virtualCashVo.times) + "</font>";
+        count = "<font color=#EE5A5A>" + virtualCashVo.count + "</font>";
+        startTime = "<font color=#EE5A5A>" + virtualCashVo.wraptime.starttime + "</font>";
+        endTime = "<font color=#EE5A5A>" + virtualCashVo.wraptime.endtime + "</font>";
+        rest = StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.rest));
+        String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
+        String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
+        String textSource = String.format(format, notice,times, count, startTime, endTime, testTxt);
+
+        binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
         binding.tvUserNameShow.setText(virtualCashVo.user.username);
         binding.tvWithdrawalTypeShow.setText(channelInfo.title);
         String quota = virtualCashVo.availablebalance;
