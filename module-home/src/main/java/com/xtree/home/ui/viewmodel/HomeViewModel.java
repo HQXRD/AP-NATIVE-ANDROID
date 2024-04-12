@@ -13,6 +13,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
@@ -29,7 +30,6 @@ import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.RedPocketVo;
 import com.xtree.home.vo.SettingsVo;
-import com.xtree.home.vo.UpdateVo;
 import com.xtree.home.vo.VipInfoVo;
 
 import java.io.BufferedReader;
@@ -66,7 +66,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     public MutableLiveData<HashMap<String, ArrayList<AugVo>>> liveDataAug = new MutableLiveData<>();
     public MutableLiveData<EleVo> liveDataEle = new MutableLiveData<>();
     public MutableLiveData<RedPocketVo> liveDataRedPocket = new MutableLiveData<>();
-    public MutableLiveData<UpdateVo> liveDataUpdate = new MutableLiveData<>();//更新
+    public MutableLiveData<AppUpdateVo> liveDataUpdate = new MutableLiveData<>();//更新
 
     String public_key;
 
@@ -554,9 +554,9 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         Disposable disposable = (Disposable) model.getApiService().getUpdate()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<UpdateVo>() {
+                .subscribeWith(new HttpCallBack<AppUpdateVo>() {
                     @Override
-                    public void onResult(UpdateVo updateVo) {
+                    public void onResult(AppUpdateVo updateVo) {
                         if (updateVo == null) {
                             CfLog.e("data is null");
                             return;

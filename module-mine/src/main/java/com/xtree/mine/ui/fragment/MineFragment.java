@@ -24,7 +24,10 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.StringUtils;
+import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
@@ -37,7 +40,6 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.VipInfoVo;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -50,6 +52,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     VipInfoVo mVipInfoVo;
     String token;
     BasePopupView ppw;
+    private AppUpdateVo updateVo;
+    private BasePopupView updateView;
 
     /**
      * 使用hide和show后，可见不可见切换时，不再执行fragment生命周期方法，
@@ -217,8 +221,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         binding.tvwTiyuGuize.setOnClickListener(v -> {
             goWebView(v, Constant.URL_SPORT_RULES, false);
         });
+        //检查更新
         binding.tvwChangjianWenti.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
+            //viewModel.getUpdate();
+
         });
         binding.tvwBangzhuZhongxin.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
@@ -479,6 +486,70 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
                 }
             }
         });
+        //App更新
+        viewModel.liveDataUpdate.observe(this, vo -> {
+            CfLog.i("****** ");
+            updateVo = vo;
+            if (updateVo == null) {
+                ToastUtils.showSuccess(getResources().getString(R.string.txt_update_version));
+                return;
+            }
+            //存储服务器设置时间间隔
+            SPUtils.getInstance().put(SPKeyGlobal.APP_INTERVAL_TIME, updateVo.interval_duration);
+            //请求更新服务时间
+            SPUtils.getInstance().put(SPKeyGlobal.APP_LAST_CHECK_TIME, System.currentTimeMillis());
+            long versionCode = Long.valueOf(StringUtils.getVersionCode(getContext()));
+            CfLog.i("versionCode = " + versionCode);
+            if (versionCode >= updateVo.version_code) {
+                ToastUtils.showSuccess(getResources().getString(R.string.txt_update_version));
+                return;
+            }
+
+            //线上版本大于本机版本
+            if (updateVo.type == 0) {
+                //弱更
+                if (versionCode >= vo.version_code_min) {
+                    showUpdate(true, updateVo); // 弱更
+                } else {
+                    showUpdate(false, updateVo); // 强更
+                }
+            } else if (updateVo.type == 1) {
+                //强更
+                showUpdate(false, updateVo);
+            } else if (updateVo.type == 2) {
+                //热更
+            }
+
+        });
+
+    }
+
+    /**
+     * 显示更新
+     *
+     * @param isWeakUpdate 是否弱更 true:是弱更 false:强更
+     * @param vo           UpdateVo
+     */
+    private void showUpdate(final boolean isWeakUpdate, final AppUpdateVo vo) {
+        if (updateView != null && updateView.isShow()) {
+            return;
+        }
+        AppUpdateDialog dialog = new AppUpdateDialog(getContext(), isWeakUpdate, vo, new AppUpdateDialog.IAppUpdateCallBack() {
+            @Override
+            public void onUpdateCancel() {
+                updateView.dismiss();
+            }
+
+            @Override
+            public void onUpdateForce() {
+            }
+        });
+
+        updateView = new XPopup.Builder(getContext())
+                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asCustom(dialog);
+        updateView.show();
     }
 
     /**

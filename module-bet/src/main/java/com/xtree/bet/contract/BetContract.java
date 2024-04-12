@@ -41,9 +41,9 @@ public class BetContract {
      */
     public static final String ACTION_CHECK_SEARCH_BY_LEAGUE = "ACTION_CHECK_SEARCH_BY_LEAGUE";
     /**
-     * 刷新余额
+     * 投注成功
      */
-    public static final String ACTION_REFLESH_BANLANCE = "ACTION_REFLESH_BANLANCE";
+    public static final String ACTION_BT_SUCESSED = "ACTION_BT_SUCESSED";
 
     public BetContract(String action){
         this.action = action;

@@ -31,7 +31,7 @@ public class OtherWebWithdrawVo extends BaseResponse2 {
                 ", exchangerate='" + exchangerate + '\'' +
                 '}';
     }
-
+    public String rest ;
     public ArrayList<ChannelInfo> channel_list;
     public ArrayList<BankInfo> banks;
     public WrapTime wraptime;
