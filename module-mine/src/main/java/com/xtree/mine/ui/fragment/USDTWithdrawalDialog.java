@@ -228,7 +228,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         ///////
         //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
         String showRest = StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.rest));
-        String notice = "注意：每天限制提款" + usdtCashVo.times + "次，提款时间为" + usdtCashVo.wraptime.starttime + "至" + usdtCashVo.wraptime.endtime + ",您今日剩余提款额度为 " + showRest + "元";
+        String notice = String.format(getContext().getString(R.string.txt_withdraw_bank_top_tip) ,usdtCashVo.times, usdtCashVo.wraptime.starttime,usdtCashVo.wraptime.endtime ,  showRest) ;
         binding.tvNotice.setText(notice);
         binding.tvUserNameShow.setText(usdtCashVo.user.username);
         binding.tvWithdrawalTypeShow.setText("USDT");//提款类型

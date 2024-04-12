@@ -368,6 +368,14 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
         addSubscribe(disposable);
     }
 
+    public void readProfile() {
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        ProfileVo mProfileVo = new Gson().fromJson(json, ProfileVo.class);
+        if (mProfileVo != null) {
+            liveDataProfile.setValue(mProfileVo);
+        }
+    }
+
     public void readCache() {
         CfLog.i("******");
         Gson gson = new Gson();
@@ -391,11 +399,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
             liveDataTutorial.setValue(vo2.bankdirect_url);
         }
 
-        json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
-        ProfileVo mProfileVo = gson.fromJson(json, ProfileVo.class);
-        if (mProfileVo != null) {
-            liveDataProfile.setValue(mProfileVo);
-        }
+        readProfile();
 
     }
 

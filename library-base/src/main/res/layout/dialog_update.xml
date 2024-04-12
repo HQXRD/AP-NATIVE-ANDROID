@@ -89,21 +89,53 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvw_update_version"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/clr_grey_60"
+                    android:textColor="@color/clr_withdrawal_text_bg"
                     android:textSize="12sp"
                     android:visibility="visible"
                     tools:text="iOS自5.0.9版本开始，正式包具有强制升级功能；所有版本正式包均有升级提醒功能。
                     新打包的客户端默认都在无需升级版本里，
                     可将需要升级的版本移动至对应的提示升级版本框和强制升级版本框中。" />
 
-                <include
-                    android:id="@+id/dialog_update_progressbar"
-                    layout="@layout/dialog_update_progressbar"
+                <LinearLayout
+                    android:id="@+id/ll_update_progressbar"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="40dp"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
                     android:visibility="gone"
-                    tools:visibility="visible" />
+                    tools:visibility="visible">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ProgressBar
+                            android:id="@+id/bottom_progressbar"
+                            style="?android:attr/progressBarStyleHorizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="20dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginTop="10dp"
+                            android:background="@drawable/down_progressbar_bg"
+                            android:max="100"
+                            android:progressDrawable="@drawable/down_progressbar"
+                            android:visibility="visible"
+                            tools:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/tvt_bottom_progressbar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/bottom_progressbar"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="6dp"
+                            android:text="0%"
+                            android:textColor="@color/bt_text_color_primary_2"
+                            android:textSize="14sp"
+                            tools:text="100%" />
+                    </RelativeLayout>
+                </LinearLayout>
+
             </RelativeLayout>
         </LinearLayout>
 
@@ -119,23 +151,18 @@
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
             app:layout_constraintStart_toStartOf="@id/ivw_bg">
 
-            <ImageView
+            <TextView
                 android:id="@+id/dialog_update_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:background="@mipmap/cm_dialog_update_cancel"
-                android:visibility="visible"
-                tools:visibility="visible" />
+                style="@style/style_btn_back"
+                android:text="@string/txt_cancel"
+                android:textColor="@color/clr_txt_grey_04"
+                android:textSize="14sp" />
 
-            <ImageView
+            <TextView
                 android:id="@+id/dialog_update_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:background="@mipmap/cm_dialog_update_confirm"
-                android:visibility="visible"
-                tools:visibility="visible" />
+                style="@style/style_btn"
+                android:text="@string/txt_confirm"
+                android:textSize="14sp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

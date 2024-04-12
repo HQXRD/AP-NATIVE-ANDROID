@@ -13,6 +13,7 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.BalanceVo;
@@ -38,6 +39,8 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<VipUpgradeInfoVo> liveDataVipUpgrade = new SingleLiveData<>(); // Vip升级资讯
     public SingleLiveData<VipInfoVo> liveDataVipInfo = new SingleLiveData<>(); // Vip个人资讯
     public SingleLiveData<String> liveDataQuestionWeb = new SingleLiveData<>(); // 常见问题
+
+    public MutableLiveData<AppUpdateVo> liveDataUpdate = new MutableLiveData<>();//更新
 
     public MineViewModel(@NonNull Application application, MineRepository repository) {
         super(application, repository);
@@ -230,5 +233,31 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
         if (!json.isEmpty()) {
             liveDataQuestionWeb.setValue(json);
         }
+    }
+
+    /**
+     * App更新接口
+     */
+    public void getUpdate() {
+        Disposable disposable = (Disposable) model.getApiService().getUpdate()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<AppUpdateVo>() {
+                    @Override
+                    public void onResult(AppUpdateVo updateVo) {
+                        if (updateVo == null) {
+                            CfLog.e("data is null");
+                        }
+                        liveDataUpdate.setValue(updateVo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        CfLog.e("error, " + t.toString());
+
+                    }
+                });
+        addSubscribe(disposable);
     }
 }

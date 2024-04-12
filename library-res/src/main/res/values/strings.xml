@@ -199,6 +199,7 @@
     <string name="txt_update_down_over_tip">下载完成</string>
     <string name="txt_update_down_fail_tip">下载失败，请稍候重试</string>
     <string name="txt_network_error">网络异常，请稍后重试</string>
+    <string name="txt_update_version">已经是最新版本</string>
     <string name="txt_withdrawal_network_error">网络链接超时，请检查您的网络后重试</string>
     <string name="txt_no_withdrawals_available_tip">您今天已没有可用提款次数</string>
     <string name="txt_withdrawal_not_supported_tip">暂不支持该渠道提款，请联系您的上级或客服！</string>
@@ -206,7 +207,7 @@
     <string name="txt_withdrawal_bank">银行卡提款</string>
     <string name="txt_withdraw_flow">提款流水</string>
     <string name="txt_withdrawal">提款</string>
-
+    <string name="txt_withdraw_bank_top_tip">注意：每天限制提款 %1$s 次，您已提款 %2$s 次，提款时间为 %3$s  至 %4$s  您今日剩余提款额度为 %5$s 元</string>
     <string name="domain_url">http</string>
     <string name="domain_url_list">http;http</string>
     <string name="channel_name">xingcai</string>
@@ -216,6 +217,5 @@
     <string name="txt_agree">同意</string>
     <string name="text_no_agree">不同意</string>
     <bool name="is_tag">false</bool>
-
 
 </resources>

@@ -31,7 +31,9 @@ import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.home.BR;
@@ -44,7 +46,6 @@ import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.home.vo.BannersVo;
 import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
-import com.xtree.home.vo.UpdateVo;
 import com.youth.banner.adapter.BannerImageAdapter;
 import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
@@ -72,6 +73,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private ProfileVo mProfileVo; //最新的用戶信息
     private BasePopupView ppw = null; // 底部弹窗
     private BasePopupView ppw2 = null; // 底部弹窗
+    private BasePopupView updateView = null;
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
     private boolean needScroll;
     private int position;
@@ -80,7 +82,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     private boolean isFloating = false;
     private int clickCount = 0; // 点击次数 debug model
     private boolean selectUpdate;//手动更新余额
-    private UpdateVo updateVo;//更新
+    private AppUpdateVo updateVo;//更新
     private boolean isSelectedGame = false;
     private int gameGroup = -1;
 
@@ -365,16 +367,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.tvwDeposit.setOnClickListener(view -> {
             // 存款
             KLog.i("**************");
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             goRecharge();
         });
         binding.tvwWithdraw.setOnClickListener(view -> {
             // 提现
             KLog.i("**************");
-            //ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_WITHDRAW).navigation();
-            //startContainerFragment(RouterFragmentPath.Wallet.PAGER_WITHDRAW);
-           /* String title = getString(R.string.txt_withdraw);
-            String url = DomainUtil.getDomain2() + Constant.URL_WITHDRAW;
-            BrowserActivity.start(getContext(), title, url, true);*/
             // 限制多次点击
             if (ClickUtil.isFastClick()) {
                 return;
@@ -385,11 +385,17 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         binding.tvwTrans.setOnClickListener(view -> {
             // 转账
             KLog.i("**************");
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER);
         });
         binding.tvwMember.setOnClickListener(view -> {
             // 会员
             KLog.i("**************");
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
             //BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
             BrowserActivity.start(getContext(), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER);
@@ -484,7 +490,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         //    //} else if (result.equals("198")) {
         //    //    url = DomainUtil.getDomain2() + "#/newactivity/64/5?aid=198";
         //} else {
-            url = DomainUtil.getDomain2() + Constant.URL_ACTIVITY + result;
+        url = DomainUtil.getDomain2() + Constant.URL_ACTIVITY + result;
         //}
         return url;
     }
@@ -636,25 +642,26 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
      * @param isWeakUpdate 是否弱更 true:是弱更 false:强更
      * @param vo           UpdateVo
      */
-    private void showUpdate(final boolean isWeakUpdate, final UpdateVo vo) {
+    private void showUpdate(final boolean isWeakUpdate, final AppUpdateVo vo) {
         if (ppw != null && ppw.isShow()) {
             return;
         }
-        UpdateDialog dialog = new UpdateDialog(getContext(), isWeakUpdate, vo, new UpdateDialog.ICallBack() {
+        AppUpdateDialog dialog = new AppUpdateDialog(getContext(), isWeakUpdate, vo, new AppUpdateDialog.IAppUpdateCallBack() {
             @Override
             public void onUpdateCancel() {
-                ppw.dismiss();
+                updateView.dismiss();
             }
 
             @Override
             public void onUpdateForce() {
             }
         });
-        ppw = new XPopup.Builder(getContext())
+
+        updateView = new XPopup.Builder(getContext())
                 .dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
                 .asCustom(dialog);
-        ppw.show();
+        updateView.show();
     }
 
     private void smoothToPositionTop(int position) {

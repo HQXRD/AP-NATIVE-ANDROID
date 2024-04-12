@@ -7,9 +7,12 @@
     <string name="txt_deposit_fee_most">最高加送%1$s%%</string>
     <string name="format_change_range">预计支付：%s USDT</string>
     <string name="txt_rate_usdt">"参考汇率 1USDT ≈ %1$s元"</string>
-    <string name="txt_rate_cnyt_cny">参考汇率 1CNYT ≈ 1.00元</string>
-    <string name="txt_rate_tog_cny">参考汇率 1TOG ≈ 1.00元</string>
-    <string name="txt_rate_eb_cny">参考汇率 1EB ≈ 1.00元</string>
+    <string name="txt_rate_cnyt_cny">参考汇率 1CNYT = 1.00元</string>
+    <string name="txt_rate_tog_cny">参考汇率 1TOG = 1.00元</string>
+    <string name="txt_rate_eb_cny">参考汇率 1EB = 1.00元</string>
+    <string name="txt_rate_gobao_cny">参考汇率 1GB = 1.00元</string>
+    <string name="txt_rate_okpay_cny">参考汇率 1OKG = 1.00元</string>
+    <string name="txt_rate_gopay_cny">参考汇率 1GOP = 1.00元</string>
     <string name="txt_recharge">充值</string>
     <string name="txt_feedback">反馈信息</string>
     <string name="txt_next">下一步</string>
@@ -64,7 +67,6 @@
     <string name="txt_tip_input_wechat_pay_way">* 支付渠道：</string>
     <string name="txt_tip_input_wechat_select_pay_way">请选择支付渠道</string>
     <string name="txt_tip_input_wechat_pay_way_err">*支付渠道不能为空</string>
-
 
     <string name="txt_tip_input_usdt_payment_account">* 付款钱包地址：</string>
     <string name="txt_tip_input_usdt_selector_payment_account">请输入付款钱包地址</string>

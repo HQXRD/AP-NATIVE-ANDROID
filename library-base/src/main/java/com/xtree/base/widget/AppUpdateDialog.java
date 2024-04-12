@@ -1,4 +1,4 @@
-package com.xtree.home.ui.fragment;
+package com.xtree.base.widget;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +15,11 @@ import androidx.core.content.FileProvider;
 
 import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.xtree.base.R;
+import com.xtree.base.databinding.DialogUpdateBinding;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
-import com.xtree.home.R;
-import com.xtree.home.databinding.DialogUpdateBinding;
-import com.xtree.home.vo.UpdateVo;
+import com.xtree.base.vo.AppUpdateVo;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,10 +34,9 @@ import javax.net.ssl.X509TrustManager;
 
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
-/**
- * 更新Dialog
- */
-public class UpdateDialog extends CenterPopupView {
+/*App更新Dialog*/
+public class AppUpdateDialog extends CenterPopupView {
+
     private static final int DOWN_UPDATE = 1;
     private static final int DOWN_OVER = 2;
     private static final int DOWN_START = 3;
@@ -45,8 +44,10 @@ public class UpdateDialog extends CenterPopupView {
 
     private Context context;
     private boolean isWeakUpdate;//是否弱更新标志位 yes:若更新；NO:强更新
-    private UpdateVo vo;
-    ICallBack mCallBack;
+    private boolean isTest;
+
+    private AppUpdateVo vo;
+    private IAppUpdateCallBack mCallBack;
 
     private static int progress;//下载进度
     private static boolean intercept = false;
@@ -55,19 +56,31 @@ public class UpdateDialog extends CenterPopupView {
     private static String saveFileName = "tmp.apk";
     private static String downLoadUrl;
 
-    DialogUpdateBinding binding;
+    private DialogUpdateBinding binding;
 
-    public interface ICallBack {
+    public interface IAppUpdateCallBack {
         void onUpdateCancel();
 
         void onUpdateForce(); //强制更新
     }
 
-    public UpdateDialog(@NonNull Context context, boolean isWeakUpdate, UpdateVo vo, ICallBack mCallBack) {
+    public AppUpdateDialog(@NonNull Context context) {
+        super(context);
+    }
+
+    public AppUpdateDialog(@NonNull Context context, boolean isWeakUpdate, AppUpdateVo vo, IAppUpdateCallBack mCallBack) {
         super(context);
         this.context = context;
         this.isWeakUpdate = isWeakUpdate;
         this.vo = vo;
+        this.mCallBack = mCallBack;
+    }
+
+    public AppUpdateDialog(@NonNull Context context, boolean isWeakUpdate, boolean isTest, IAppUpdateCallBack mCallBack) {
+        super(context);
+        this.context = context;
+        this.isWeakUpdate = isWeakUpdate;
+        this.isTest = isTest;
         this.mCallBack = mCallBack;
     }
 
@@ -120,7 +133,7 @@ public class UpdateDialog extends CenterPopupView {
 
             binding.linearLayout.setVisibility(View.INVISIBLE);
             binding.tvwUpgradeTips.setVisibility(View.GONE);
-            binding.dialogUpdateProgressbar.llRootUpdateProgressbar.setVisibility(View.VISIBLE);
+            binding.llUpdateProgressbar.setVisibility(View.VISIBLE);
             mCallBack.onUpdateForce();
             mHandler.sendEmptyMessage(DOWN_START);//开始下载
         });
@@ -140,8 +153,8 @@ public class UpdateDialog extends CenterPopupView {
                     downloadApk();
                     break;
                 case DOWN_UPDATE:
-                    binding.dialogUpdateProgressbar.tvtBottomProgressbar.setText(progress + "%");
-                    binding.dialogUpdateProgressbar.bottomProgressbar.setProgress(progress);
+                    binding.tvtBottomProgressbar.setText(progress + "%");
+                    binding.bottomProgressbar.setProgress(progress);
                     break;
                 case DOWN_OVER:
                     ToastUtils.show(getContext().getString(R.string.txt_update_down_over_tip), ToastUtils.ShowType.Success);
