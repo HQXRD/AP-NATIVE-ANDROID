@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.ItemRcTypeBinding;
@@ -101,6 +102,12 @@ public class RechargeTypeAdapter extends CachedAutoRefreshAdapter<PaymentTypeVo>
 
         binding.clRoot.setOnClickListener(v -> {
             CfLog.d(vo.toInfo());
+
+            // 防止重复点击同一个
+            if (ClickUtil.isFastClick() && vo.id.equals(curId)) {
+                CfLog.d("****** isFastClick, stop...");
+                return;
+            }
 
             if (curView != null) {
                 //curView.setSelected(false);
