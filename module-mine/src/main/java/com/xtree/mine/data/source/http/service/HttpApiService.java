@@ -1,5 +1,6 @@
 package com.xtree.mine.data.source.http.service;
 
+import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
@@ -544,4 +545,10 @@ public interface HttpApiService {
      */
     @GET("/security/platwithdraw?1=1&client=m")
     Flowable<OtherWebWithdrawVo> getChooseWithdrawOther(@Query("usdt_type") String key);
+
+    /**
+     * 获取更新
+     */
+    @GET("/api/app/version?platform=android")
+    Flowable<BaseResponse<AppUpdateVo>> getUpdate();
 }

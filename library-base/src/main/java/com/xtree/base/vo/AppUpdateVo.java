@@ -1,11 +1,9 @@
-package com.xtree.home.vo;
-
-import me.xtree.mvvmhabit.http.BaseResponse;
+package com.xtree.base.vo;
 
 /**
- * 更新
+ * App更新Vo
  */
-public class UpdateVo extends BaseResponse {
+public class AppUpdateVo {
     public String id; // ID
     public String app_name; // app名字
     public String platform; // 平台 android/ios
