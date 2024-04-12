@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
-
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -77,7 +76,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         OtherWebWithdrawalDialog dialog = new OtherWebWithdrawalDialog(context);
         dialog.owner = owner;
         dialog.chooseInfoVo = chooseInfoVo;
-        CfLog.i("OtherWebWithdrawalDialog  dialog.chooseInfoVo = " +  dialog.chooseInfoVo.toString());
+        CfLog.i("OtherWebWithdrawalDialog  dialog.chooseInfoVo = " + dialog.chooseInfoVo.toString());
         return dialog;
     }
 
@@ -103,9 +102,9 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
 
     private void initView() {
         binding = DialogOtherWithdrawalWebBinding.bind(findViewById(R.id.ll_root_other));
-        if(chooseInfoVo != null && !TextUtils.isEmpty(chooseInfoVo.title)){
+        if (chooseInfoVo != null && !TextUtils.isEmpty(chooseInfoVo.title)) {
             binding.tvwTitle.setText(chooseInfoVo.title);
-        }else {
+        } else {
             binding.tvwTitle.setText(getContext().getString(R.string.txt_withdrawal));
         }
         binding.ivwClose.setOnClickListener(v -> dismiss());
@@ -125,10 +124,11 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
             otherWebWithdrawVo = vo;
             if (otherWebWithdrawVo.channel_list != null && !otherWebWithdrawVo.channel_list.isEmpty()) {
 
-                if (TextUtils.equals("1",otherWebWithdrawVo.channel_list.get(0).thiriframe_status) && !TextUtils.isEmpty(otherWebWithdrawVo.channel_list.get(0).thiriframe_url)) {
+                if (TextUtils.equals("1", otherWebWithdrawVo.channel_list.get(0).thiriframe_status)
+                        && !TextUtils.isEmpty(otherWebWithdrawVo.channel_list.get(0).thiriframe_url)) {
                     refreshSetUI();
-
-                } else if (otherWebWithdrawVo.channel_list.get(0).thiriframe_msg != null && !TextUtils.isEmpty(otherWebWithdrawVo.channel_list.get(0).thiriframe_msg)) {
+                } else if (otherWebWithdrawVo.channel_list.get(0).thiriframe_msg != null
+                        && !TextUtils.isEmpty(otherWebWithdrawVo.channel_list.get(0).thiriframe_msg)) {
                     //异常状态
                     binding.maskH5View.setVisibility(View.VISIBLE);
                     binding.nsH5View.setVisibility(View.GONE);
@@ -140,7 +140,8 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         });
 
     }
-    private void initOtherWebView(final OtherWebWithdrawVo vo ){
+
+    private void initOtherWebView(final OtherWebWithdrawVo vo) {
         //成功状态
         String url = vo.channel_list.get(0).thiriframe_url;
         if (!StringUtils.isStartHttp(url)) {
@@ -241,6 +242,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
                     }
                 });
     }
+
     /**
      * 刷新初始UI
      */
@@ -264,6 +266,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         binding.tvNotice.setText(textSource);
 
     }
+
     private void refreshTopUI(OtherWebWithdrawVo vo) {
 
         for (int i = 0; i < vo.channel_list.size(); i++) {
@@ -325,7 +328,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         maskLoadPopView.dismiss();
     }
 
-    private void initWebView(final  WebView webView) {
+    private void initWebView(final WebView webView) {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
