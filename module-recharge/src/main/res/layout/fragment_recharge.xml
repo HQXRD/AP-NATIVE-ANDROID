@@ -10,74 +10,84 @@
             type="com.xtree.recharge.ui.viewmodel.RechargeViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@mipmap/cm_bg_page"
         android:orientation="vertical">
 
-        <View
-            android:id="@+id/v_top"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:visibility="visible" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/ll_top"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:paddingTop="12dp"
-            android:paddingBottom="8dp">
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                style="@style/style_cm_title"
-                android:text="@string/txt_recharge"
-                app:layout_constraintBaseline_toBaselineOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+            <View
+                android:id="@+id/v_top"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:visibility="visible" />
 
-            <ImageView
-                android:id="@+id/ivw_back"
-                style="@style/style_ic_title_back"
-                android:src="@mipmap/cm_ic_back"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginTop="0dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="8dp">
+
+                <TextView
+                    style="@style/style_cm_title"
+                    android:text="@string/txt_recharge"
+                    app:layout_constraintBaseline_toBaselineOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <ImageView
-                    android:id="@+id/ivw_cs"
-                    style="@style/style_ic_title_right"
-                    android:src="@mipmap/cm_ic_cs" />
+                    android:id="@+id/ivw_back"
+                    style="@style/style_ic_title_back"
+                    android:src="@mipmap/cm_ic_back"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
 
-                <ImageView
-                    android:id="@+id/ivw_rule"
-                    style="@style/style_ic_title_right"
-                    android:src="@mipmap/cm_ic_rule" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/ivw_msg"
-                    style="@style/style_ic_title_right"
-                    android:src="@mipmap/cm_ic_msg" />
+                    <ImageView
+                        android:id="@+id/ivw_cs"
+                        style="@style/style_ic_title_right"
+                        android:src="@mipmap/cm_ic_cs" />
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/ivw_rule"
+                        style="@style/style_ic_title_right"
+                        android:src="@mipmap/cm_ic_rule" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <ImageView
+                        android:id="@+id/ivw_msg"
+                        style="@style/style_ic_title_right"
+                        android:src="@mipmap/cm_ic_msg" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/clr_grey_22" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/clr_grey_22" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/ivw_feedback_tip"
@@ -86,11 +96,16 @@
             android:layout_gravity="end"
             android:layout_marginTop="-16dp"
             android:layout_marginEnd="6dp"
-            android:src="@mipmap/rc_ic_feedback" />
+            android:elevation="3dp"
+            android:src="@mipmap/rc_ic_feedback"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_top" />
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_top"
             tools:ignore="ScrollViewCount">
 
             <LinearLayout
@@ -99,6 +114,11 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:paddingBottom="@dimen/layout_margin">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp"
+                    android:visibility="invisible" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -481,6 +501,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="24dp"
                         android:background="@drawable/bg_btn_long_selector"
+                        android:enabled="false"
                         android:gravity="center"
                         android:text="@string/txt_next"
                         android:textColor="@color/clr_white"
@@ -611,5 +632,5 @@
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
