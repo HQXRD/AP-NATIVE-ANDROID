@@ -553,6 +553,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     public void onResult(AppUpdateVo vo) {
                         if (vo == null) {
                             CfLog.e("data is null");
+                            return;
                         }
                         liveDataUpdate.setValue(vo);
                     }
