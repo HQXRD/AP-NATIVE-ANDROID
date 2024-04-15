@@ -61,6 +61,8 @@ public class OptionInfo implements BaseBean {
         dest.writeInt(this.odt);
         dest.writeInt(this.otcm);
         dest.writeByte(this.isSelected ? (byte) 1 : (byte) 0);
+        dest.writeString(this.li);
+        dest.writeInt(this.change);
     }
 
     public void readFromParcel(Parcel source) {
@@ -72,6 +74,8 @@ public class OptionInfo implements BaseBean {
         this.odt = source.readInt();
         this.otcm = source.readInt();
         this.isSelected = source.readByte() != 0;
+        this.li = source.readString();
+        this.change = source.readInt();
     }
 
     public OptionInfo() {
@@ -86,6 +90,8 @@ public class OptionInfo implements BaseBean {
         this.odt = in.readInt();
         this.otcm = in.readInt();
         this.isSelected = in.readByte() != 0;
+        this.li = in.readString();
+        this.change = in.readInt();
     }
 
     public static final Creator<OptionInfo> CREATOR = new Creator<OptionInfo>() {
