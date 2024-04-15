@@ -128,7 +128,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
 
         if (vo.twoImage) {
             //熊猫场馆弹窗判断
-            if (vo.alias.equals(PLATFORM_PM) && isTipToday()) {
+            if (vo.alias.equals(PLATFORM_PM) && TimeUtils.isTipToday(SPKeyGlobal.PM_NOT_TIP_TODAY)) {
                 showPMDialog(vo, isLeft);
                 return;
             }
@@ -181,17 +181,6 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
                     }
                 }));
         basePopupView.show();
-    }
-
-    /**
-     * 今日是否弹窗
-     *
-     * @return true:默认弹提示, false:今日不弹提示
-     */
-    private boolean isTipToday() {
-        String cacheDay = SPUtils.getInstance().getString(SPKeyGlobal.PM_NOT_TIP_TODAY, "");
-        String today = TimeUtils.getCurDate();
-        return !today.equals(cacheDay);
     }
 
     private void goWeb(GameVo vo) {
