@@ -216,6 +216,9 @@
     <string name="txt_all_exclude_lottery">全部（不含彩票）</string>
 
     <!--魔域 提款文本-->
+    <string name="txt_withdraw_password_verify">验证资金密码</string>
+    <string name="txt_withdraw_verify_tip">请输入谷歌验证码</string>
+    <string name="txt_withdraw_input_verify_err">请先输入谷歌动态口令</string>
     <string name="txt_withdraw_password">输入资金密码</string>
     <string name="txt_withdraw_password_tip">请输入资金密码</string>
     <string name="txt_withdraw_sure">确认</string>

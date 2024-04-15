@@ -15,6 +15,7 @@ import com.xtree.mine.vo.BankCardCashMoYuVo;
 import com.xtree.mine.vo.BankCardCashVo;
 import com.xtree.mine.vo.ChooseInfoMoYuVo;
 import com.xtree.mine.vo.ChooseInfoVo;
+import com.xtree.mine.vo.FundPassWordVerifyVo;
 import com.xtree.mine.vo.FundPassWordVo;
 import com.xtree.mine.vo.PlatWithdrawConfirmMoYuVo;
 import com.xtree.mine.vo.PlatWithdrawConfirmVo;
@@ -58,6 +59,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<AwardsRecordVo> awardrecordVoMutableLiveData = new MutableLiveData<>();//流水
 
     public MutableLiveData<FundPassWordVo> fundPassWordVoMutableLiveData = new MutableLiveData<FundPassWordVo>();//魔域 输入资金密码
+    public MutableLiveData<FundPassWordVerifyVo> fundPassWordVerifyVoMutableLiveData = new MutableLiveData<FundPassWordVerifyVo>();//魔域 输入资金密码/谷歌验证码
     public MutableLiveData<ChooseInfoMoYuVo> chooseInfoMoYuVoMutableLiveData = new MutableLiveData<>();//魔域 获取提款列表
     public MutableLiveData<BankCardCashMoYuVo> bankCardCashMoYuVoMutableLiveData = new MutableLiveData<>();//魔域 银行卡提款 信息展示bean
     public MutableLiveData<PlatWithdrawMoYuVo> platWithdrawMoYuVoMutableLiveData = new MutableLiveData<>();// 魔域 银行卡提款 提交
@@ -759,6 +761,21 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onResult(FundPassWordVo vo) {
                         fundPassWordVoMutableLiveData.setValue(vo);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+    /**
+     * 校验资金密码/谷歌验证(魔域)
+     */
+    public void getCheckPassAndVerify(HashMap<String, String> map) {
+        Disposable disposable = (Disposable) model.getApiService().getCheckPassAndVerify(map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<FundPassWordVerifyVo>() {
+                    @Override
+                    public void onResult(FundPassWordVerifyVo vo) {
+                        fundPassWordVerifyVoMutableLiveData.setValue(vo);
                     }
                 });
         addSubscribe(disposable);

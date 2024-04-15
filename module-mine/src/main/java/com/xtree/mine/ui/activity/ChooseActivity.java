@@ -5,13 +5,17 @@ import static com.xtree.base.router.RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRA
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -19,12 +23,14 @@ import com.xtree.mine.databinding.FragmentChooseWithdrawBinding;
 import com.xtree.mine.ui.fragment.AwardsRecordDialog;
 import com.xtree.mine.ui.fragment.BankWithdrawalDialog;
 import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
+import com.xtree.mine.ui.fragment.FundPSWVerifyFragment;
 import com.xtree.mine.ui.fragment.FundPassWordFragment;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.AwardsRecordVo;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /*提款activity 涉及流程:1、检测礼物流水；2、输入资金密码；3、弹出提款列表*/
@@ -34,15 +40,18 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
     private BasePopupView awardsRecordPopView = null;
     private BasePopupView baseChoosePopupView = null;
     private BasePopupView fundPSWPopView; // 资金密码
+    private BasePopupView fundPSWVerifyPopView;//资金密码 谷歌验证码输入View
     private AwardsRecordVo awardsRecordVo;
     private int viewType;
     private static String checkCode;//输入资金密码 返回的Code 带入到请求提款列表接口使用
     private boolean isNetworkAwards = false;//礼物流水网络请求是否已刷新标志位
+    private ProfileVo mProfileVo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        mProfileVo = new Gson().fromJson(json, ProfileVo.class);
         LoadingDialog.show(this);
         viewModel.getAwardRecord();
     }
@@ -89,7 +98,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                     finish();
                     return;
                 } else {
-                    showFundPSWDialog();
+                    showFundPSWVerifyDialog();
                 }
             });
         }
@@ -144,6 +153,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                             showNetError();
                             finish();
                         }
+
                         @Override
                         public void closeDialogByBind() {
                             finish();
@@ -166,7 +176,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                             finish();
 
                         }
-                    }, checkCode , this));
+                    }, checkCode, this));
         }
         baseChoosePopupView.show();
     }
@@ -180,6 +190,17 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
     }
 
     /*显示魔域资金密码输入页面*/
+    private void showFundPSWVerifyDialog() {
+
+        if ((mProfileVo != null) && (mProfileVo.twofa == 1))//已完成谷歌动态口令绑定
+        {
+            showFundPSWDialog();
+        } else {
+            showPSWAndVerifyDialog();
+        }
+
+    }
+
     private void showFundPSWDialog() {
         if (fundPSWPopView == null) {
             fundPSWPopView = new XPopup.Builder(this).dismissOnBackPressed(false)
@@ -190,20 +211,57 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                         public void closeFundPWDialog() {
                             //showNetError();
                             hideKeyBoard();
-                            fundPSWPopView.dismiss();
+                            if (fundPSWPopView != null) {
+                                fundPSWPopView.dismiss();
+                            }
+
                             finish();
                         }
 
                         @Override
                         public void closeFundPWDialogWithCode(String checkCode) {
                             // hideKeyBoard();
-                            //basePopupView.dismiss();
+
                             showChooseList(checkCode);
+                            ViewGroup parent = (ViewGroup) fundPSWPopView.getParent();
+                            parent.removeView(fundPSWPopView);
                         }
 
                     }));
         }
         fundPSWPopView.show();
+    }
+
+    private void showPSWAndVerifyDialog() {
+        if (fundPSWVerifyPopView == null) {
+
+            fundPSWVerifyPopView = new XPopup.Builder(this).dismissOnBackPressed(false)
+                    .dismissOnTouchOutside(false)
+                    .moveUpToKeyboard(false)
+                    .asCustom(FundPSWVerifyFragment.newInstance(this, this, new FundPSWVerifyFragment.IFundPWVerifyCallBack() {
+                        @Override
+                        public void closeFundPWDialog() {
+                            //showNetError();
+                            hideKeyBoard();
+                            if (fundPSWVerifyPopView != null) {
+                                fundPSWVerifyPopView.dismiss();
+                            }
+
+                            finish();
+                        }
+
+                        @Override
+                        public void closeFundPWDialogWithCode(String checkCode) {
+                            // hideKeyBoard();
+
+                            showChooseList(checkCode);
+                            ViewGroup parent = (ViewGroup) fundPSWVerifyPopView.getParent();
+                            parent.removeView(fundPSWVerifyPopView);
+                        }
+
+                    }));
+        }
+        fundPSWVerifyPopView.show();
     }
 
     /*显示网络异常Toast*/
