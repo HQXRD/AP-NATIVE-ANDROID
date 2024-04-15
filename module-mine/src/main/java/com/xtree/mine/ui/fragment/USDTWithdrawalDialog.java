@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.lxj.xpopup.XPopup;
@@ -224,17 +225,19 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             firstChannel = usdtCashVo.channel_list.get(0);
             secondChannel = usdtCashVo.channel_list.get(1);
         }
-
+        final String notice = "<font color=#EE5A5A>注意:</font>";
         String times, count, startTime, endTime, rest;
-        times = String.valueOf(usdtCashVo.times);
-        count = usdtCashVo.count;
-        startTime = usdtCashVo.wraptime.starttime;
-        endTime = usdtCashVo.wraptime.endtime;
+        times = "<font color=#EE5A5A>" + String.valueOf(usdtCashVo.times) + "</font>";
+        count = "<font color=#EE5A5A>" + usdtCashVo.count + "</font>";
+        startTime = "<font color=#EE5A5A>" + usdtCashVo.wraptime.starttime + "</font>";
+        endTime = "<font color=#EE5A5A>" + usdtCashVo.wraptime.endtime + "</font>";
         rest = StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.rest));
+        String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String notice = String.format(format, times, count, startTime, endTime, rest);
+        String textSource = String.format(format, notice, times, count, startTime, endTime, testTxt);
 
-        binding.tvNotice.setText(notice);
+        binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
         binding.tvUserNameShow.setText(usdtCashVo.user.username);
         binding.tvWithdrawalTypeShow.setText("USDT");//提款类型
 

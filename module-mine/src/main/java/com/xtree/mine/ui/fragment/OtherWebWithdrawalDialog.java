@@ -4,7 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -13,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -255,15 +260,18 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         }
 
         //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
+        final  String notice = "<font color=#EE5A5A>注意:</font>";
         String times, count, starttime, endtime, rest;
-        times = String.valueOf(otherWebWithdrawVo.times);
-        count = otherWebWithdrawVo.count;
-        starttime = otherWebWithdrawVo.wraptime.starttime;
-        endtime = otherWebWithdrawVo.wraptime.endtime;
+        times = "<font color=#EE5A5A>" + String.valueOf(otherWebWithdrawVo.times) + "</font>";
+        count = "<font color=#EE5A5A>" + otherWebWithdrawVo.count + "</font>";
+        starttime = "<font color=#EE5A5A>" + otherWebWithdrawVo.wraptime.starttime + "</font>";
+        endtime = "<font color=#EE5A5A>" + otherWebWithdrawVo.wraptime.endtime + "</font>";
         rest = StringUtils.formatToSeparate(Float.valueOf(otherWebWithdrawVo.rest));
+        String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String textSource = String.format(format, times, count, starttime, endtime, rest);
-        binding.tvNotice.setText(textSource);
+        String textSource = String.format(format,notice, times, count, starttime, endtime, testTxt);
+
+        binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
     }
 
