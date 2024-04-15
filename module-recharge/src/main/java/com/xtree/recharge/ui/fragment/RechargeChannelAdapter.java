@@ -54,7 +54,7 @@ public class RechargeChannelAdapter extends CachedAutoRefreshAdapter<RechargeVo>
         binding.tvwTitle.setSelected(false); // 默认不选中
         binding.tvwTitle.setTag(vo.bid); // 推荐用
 
-        if (!TextUtils.isEmpty(vo.depositfee_rate) && Double.parseDouble(vo.depositfee_rate) > 0) {
+        if (vo.depositfee_disabled && !TextUtils.isEmpty(vo.depositfee_rate) && Double.parseDouble(vo.depositfee_rate) > 0) {
             String txt = String.format(ctx.getString(R.string.txt_deposit_fee), vo.depositfee_rate);
             binding.tvwDepRate.setText(txt);
             binding.tvwDepRate.setVisibility(View.VISIBLE);
