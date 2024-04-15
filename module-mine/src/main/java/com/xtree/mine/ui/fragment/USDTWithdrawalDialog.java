@@ -229,8 +229,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         String times, count, startTime, endTime, rest;
         times = "<font color=#EE5A5A>" + String.valueOf(usdtCashVo.times) + "</font>";
         count = "<font color=#EE5A5A>" + usdtCashVo.count + "</font>";
-        startTime = "<font color=#EE5A5A>" + usdtCashVo.wraptime.starttime + "</font>";
-        endTime = "<font color=#EE5A5A>" + usdtCashVo.wraptime.endtime + "</font>";
+        startTime = "<font color=#000000>" + usdtCashVo.wraptime.starttime + "</font>";
+        endTime = "<font color=#000000>" + usdtCashVo.wraptime.endtime + "</font>";
         rest = StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.rest));
         String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);

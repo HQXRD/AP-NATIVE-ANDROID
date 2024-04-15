@@ -29,10 +29,10 @@ public class RechargeVo {
     public boolean realchannel_status; // true,
     public boolean isusdt; // false, true
     public String udtType; // null, "TRC20"
-    public String usdtrate; // "", "7.32"
-    public boolean depositfee_disabled; // false,
-    public String depositfee_rate; // "0.00", "5.00"
-    //public String isdisabled; // "0",
+    public String usdtrate; // "", "7.32" USDT渠道费率
+    public boolean depositfee_disabled; // false, 充值渠道赠送比例前台显示开关(false:关,true:开)
+    public String depositfee_rate; // "0.00", "5.00" 充值渠道赠送比例
+    //public String isdisabled; // "0", 是否维护中(0:正常,2:维护中)
     //public boolean isrechgetime; // true,
     public String starttime; // 1701619200,
     public String endtime; // 1701705540, false
