@@ -218,5 +218,5 @@
     <string name="text_no_agree">不同意</string>
     <string name="txt_precautions">注意事项</string>
     <bool name="is_tag">false</bool>
-
+    <string name="txt_withdrawal_virtual_tip">收款账号</string>
 </resources>

@@ -36,7 +36,7 @@ public class VirtualSecurityVo {
     public String ur_here ;
     public String ourfee ;
     public String name ;
-    public USDTSecurityVo.Security datas ;
+    public Security datas ;
     public  class  Security
     {
         public String money ;
@@ -59,7 +59,7 @@ public class VirtualSecurityVo {
                  "plot_id":"54"*/
     }
 
-    public USDTSecurityVo.User user ;
+    public User user ;
 
     public class  User
     {
