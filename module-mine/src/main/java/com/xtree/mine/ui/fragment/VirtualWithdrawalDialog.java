@@ -132,7 +132,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
                 showError();
             } else if (virtualCashVo.msg_type == 1 || virtualCashVo.msg_type == 2) {
 
-                if (TextUtils.equals("您今天已没有可用提款次数" , virtualCashVo.message)) {
+                if (TextUtils.equals("您今天已没有可用提款次数", virtualCashVo.message)) {
                     refreshError(virtualCashVo.message);
                 } else {
                     ToastUtils.showError(virtualCashVo.message);
@@ -147,7 +147,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         //虚拟币确认提款信息
         viewModel.virtualSecurityVoMutableLiveData.observe(owner, vo -> {
             usdtSecurityVo = vo;
-            if (usdtSecurityVo == null || usdtSecurityVo.datas == null || usdtSecurityVo.user == null) {
+            if (usdtSecurityVo == null || usdtSecurityVo.datas == null) {
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
                 dismiss();
             } else {
@@ -183,16 +183,16 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         binding.llSetRequestView.setVisibility(View.VISIBLE);
         String showRest = StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.rest));
         //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
-        final  String notice = "<font color=#EE5A5A>注意:</font>";
+        final String notice = "<font color=#EE5A5A>注意:</font>";
         String times, count, startTime, endTime, rest;
         times = "<font color=#EE5A5A>" + String.valueOf(virtualCashVo.times) + "</font>";
         count = "<font color=#EE5A5A>" + virtualCashVo.count + "</font>";
-        startTime = "<font color=#EE5A5A>" + virtualCashVo.wraptime.starttime + "</font>";
-        endTime = "<font color=#EE5A5A>" + virtualCashVo.wraptime.endtime + "</font>";
+        startTime = "<font color=#000000>" + virtualCashVo.wraptime.starttime + "</font>";
+        endTime = "<font color=#000000>" + virtualCashVo.wraptime.endtime + "</font>";
         rest = StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.rest));
         String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String textSource = String.format(format, notice,times, count, startTime, endTime, testTxt);
+        String textSource = String.format(format, notice, times, count, startTime, endTime, testTxt);
 
         binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
@@ -282,16 +282,14 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         }
         binding.llSetRequestView.setVisibility(View.GONE);
         binding.llVirtualConfirmView.setVisibility(View.VISIBLE);
-        binding.tvConfirmWithdrawalAmount.setText(virtualCashVo.user.username);
-        binding.tvConfirmWithdrawalTypeShow.setText(StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.user.availablebalance)));
-        binding.tvConfirmAmountShow.setText(usdtSecurityVo.usdt_type);
-        binding.tvWithdrawalVirtualTypeShow.setText(usdtSecurityVo.usdt_type);
-        binding.tvWithdrawalTypeShow.setText(usdtSecurityVo.usdt_type);
-        binding.tvWithdrawalAmountTypeShow.setText(usdtSecurityVo.usdt_type);
-        binding.tvWithdrawalActualArrivalShow.setText(usdtSecurityVo.datas.arrive);
-        binding.tvWithdrawalExchangeRateShow.setText(usdtSecurityVo.exchangerate);
-        binding.tvWithdrawalAddressShow.setText(usdtSecurityVo.usdt_card);
+        binding.tvName.setText(virtualCashVo.user.username);
+        binding.tvWithdrawalAmount.setText(StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.user.availablebalance)));
+        binding.tvWithdrawalRequestAmount.setText(usdtSecurityVo.datas.money);
+        binding.tvWithdrawalActualAmount.setText(usdtSecurityVo.datas.arrive);//实际提款金额
+        binding.tvVirtualMoneyType.setText(usdtSecurityVo.usdt_type);//提款类型
+        binding.tvWithdrawalAddressShow.setText(usdtSecurityVo.usdt_card);//提款地址
         binding.tvWithdrawalHandlingFeeShow.setText(usdtSecurityVo.datas.handing_fee);
+
 
         //下一步
         binding.ivConfirmNext.setOnClickListener(v -> {
@@ -315,9 +313,9 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         binding.llOverApply.setVisibility(View.VISIBLE);
         if (usdtConfirmVo.msg_detail != null) {
             //msg_type 2的状态提款成功
-            if (TextUtils.equals("账户提款申请成功" , usdtConfirmVo.msg_detail) && usdtConfirmVo.msg_type.equals("2")) {
+            if (TextUtils.equals("账户提款申请成功", usdtConfirmVo.msg_detail) && usdtConfirmVo.msg_type.equals("2")) {
                 binding.ivOverApply.setBackgroundResource(R.mipmap.ic_over_apply);
-            } else if (TextUtils.equals("请刷新后重试" , usdtConfirmVo.msg_detail)) {
+            } else if (TextUtils.equals("请刷新后重试", usdtConfirmVo.msg_detail)) {
                 binding.tvOverMsg.setText("账户提款申请失败");
                 binding.tvOverDetail.setText(usdtConfirmVo.msg_detail);
                 binding.ivOverApply.setBackgroundResource(R.mipmap.ic_over_apply_err);
