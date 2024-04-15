@@ -20,6 +20,7 @@ import com.xtree.mine.vo.CookieVo;
 import com.xtree.mine.vo.ForgetPasswordCheckInfoVo;
 import com.xtree.mine.vo.ForgetPasswordTimeoutVo;
 import com.xtree.mine.vo.ForgetPasswordVerifyVo;
+import com.xtree.mine.vo.FundPassWordVerifyVo;
 import com.xtree.mine.vo.FundPassWordVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.GameChangeVo;
@@ -576,6 +577,11 @@ public interface HttpApiService {
     @POST("/?controller=security&action=checkpass&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<FundPassWordVo> getCheckPass(@Body HashMap<String, String> map);
+
+    /*输入资金密码/谷歌验证码（魔域）*/
+    @POST("/?controller=security&action=checkpass&client=m")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<FundPassWordVerifyVo> getCheckPassAndVerify(@Body HashMap<String, String> map);
 
     /*获取提款方式(魔域)*/
     @GET("/security/platwithdraw?client=m")
