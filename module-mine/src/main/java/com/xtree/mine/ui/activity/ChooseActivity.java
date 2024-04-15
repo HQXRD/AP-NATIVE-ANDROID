@@ -192,13 +192,12 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
     /*显示魔域资金密码输入页面*/
     private void showFundPSWVerifyDialog() {
 
-        if ((mProfileVo != null) && (mProfileVo.twofa == 1))//已完成谷歌动态口令绑定
+        if ((mProfileVo != null) && (mProfileVo.twofa == 1) && (mProfileVo.twofa_withdraw_enabled == 1))//已完成谷歌动态口令绑定
         {
-            showFundPSWDialog();
-        } else {
             showPSWAndVerifyDialog();
+        } else {
+            showFundPSWDialog();
         }
-
     }
 
     private void showFundPSWDialog() {
