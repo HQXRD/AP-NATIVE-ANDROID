@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -265,16 +266,19 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
             refreshTopUI(cashMoYuVo);
         }
         binding.llSetRequestView.setVisibility(View.VISIBLE);
-        //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
-        String times, count, starttime, endtime, rest;
-        times = String.valueOf(cashMoYuVo.times);
-        count = cashMoYuVo.count;
-        starttime = cashMoYuVo.wraptime.starttime;
-        endtime = cashMoYuVo.wraptime.endtime;
+
+        final String notice = "<font color=#EE5A5A>注意:</font>";
+        String times, count, startTime, endTime, rest;
+        times = "<font color=#EE5A5A>" + String.valueOf(cashMoYuVo.times) + "</font>";
+        count = "<font color=#EE5A5A>" + cashMoYuVo.count + "</font>";
+        startTime = "<font color=#EE5A5A>" + cashMoYuVo.wraptime.starttime + "</font>";
+        endTime = "<font color=#EE5A5A>" + cashMoYuVo.wraptime.endtime + "</font>";
         rest = StringUtils.formatToSeparate(Float.valueOf(cashMoYuVo.rest));
+        String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String textSource = String.format(format, times, count, starttime, endtime, rest);
-        binding.tvNotice.setText(textSource);
+        String textSource = String.format(format, notice, times, count, startTime, endTime, testTxt);
+
+        binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         binding.tvUserNameShow.setText(cashMoYuVo.user.username);
         binding.tvWithdrawalTypeShow.setText(cashMoYuVo.usdtinfo.get(0).usdt_type);//提款类型

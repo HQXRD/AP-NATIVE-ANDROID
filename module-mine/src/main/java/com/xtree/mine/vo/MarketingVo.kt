@@ -1,7 +1,5 @@
 package com.xtree.mine.vo
 
-import java.util.ArrayList
-
 data class MarketingVo(
     var chessPoint: String,
     val customer_service_link: String,

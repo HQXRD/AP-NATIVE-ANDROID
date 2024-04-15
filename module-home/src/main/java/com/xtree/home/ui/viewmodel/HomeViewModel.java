@@ -553,15 +553,16 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     public void onResult(AppUpdateVo vo) {
                         if (vo == null) {
                             CfLog.e("data is null");
+                            return;
                         }
                         liveDataUpdate.setValue(vo);
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        super.onError(t);
+                        //super.onError(t);
                         CfLog.e("error, " + t.toString());
-                        liveDataUpdate.setValue(null);
+                        //liveDataUpdate.setValue(null);
                     }
                 });
         addSubscribe(disposable);

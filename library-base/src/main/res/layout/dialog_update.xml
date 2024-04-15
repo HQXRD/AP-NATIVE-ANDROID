@@ -95,6 +95,7 @@
                     tools:text="iOS自5.0.9版本开始，正式包具有强制升级功能；所有版本正式包均有升级提醒功能。
                     新打包的客户端默认都在无需升级版本里，
                     可将需要升级的版本移动至对应的提示升级版本框和强制升级版本框中。" />
+
                 <LinearLayout
                     android:id="@+id/ll_update_progressbar"
                     android:layout_width="wrap_content"
@@ -150,29 +151,18 @@
             app:layout_constraintEnd_toEndOf="@id/ivw_bg"
             app:layout_constraintStart_toStartOf="@id/ivw_bg">
 
-            <Button
+            <TextView
                 android:id="@+id/dialog_update_cancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
-                android:gravity="center"
-                android:text="@string/txt_withdraw_cancel"
-                android:textColor="@color/clr_withdrawal_text_bg"
-                android:background="@drawable/me_bg_fund_password_cancel"/>
+                style="@style/style_btn_back"
+                android:text="@string/txt_cancel"
+                android:textColor="@color/clr_txt_grey_04"
+                android:textSize="14sp" />
 
-            <Button
+            <TextView
                 android:id="@+id/dialog_update_confirm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:gravity="center"
-                android:text="@string/txt_withdraw_sure"
-                android:textColor="@color/clr_bg_frame_32"
-                app:layout_constraintEnd_toEndOf="@id/dialog_update_cancel"
-                app:layout_constraintTop_toTopOf="@id/btn_cancel"
-                android:background="@drawable/bt_bg_fund_password_sure"/>
-
-
+                style="@style/style_btn"
+                android:text="@string/txt_confirm"
+                android:textSize="14sp" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

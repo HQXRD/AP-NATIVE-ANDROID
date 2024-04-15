@@ -96,19 +96,19 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
     public MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
                 {
-                    add(0,R.layout.item_game_rebateagrt);
-                    add(1,R.layout.item_game_rebateagrt_head);
-                    add(2,R.layout.item_game_subordinateagrt);
-                    add(3,R.layout.item_game_subordinateagrt_head);
-                    add(4,R.layout.item_game_subordinaterebate);
-                    add(5,R.layout.item_game_subordinaterebate_head);
-                    add(6,R.layout.item_game_rebateagrt_total);
-                    add(7,R.layout.item_empty);
-                    add(8,R.layout.item_game_rebateagrt_dayrebate);
-                    add(9,R.layout.item_game_rebateagrt_dayrebate_total);
-                    add(10,R.layout.item_game_rebateagrt_user);
-                    add(11,R.layout.item_game_rebateagrt_user_total);
-                    add(12,R.layout.item_game_subordinaterebate_user);
+                    add(0, R.layout.item_game_rebateagrt);
+                    add(1, R.layout.item_game_rebateagrt_head);
+                    add(2, R.layout.item_game_subordinateagrt);
+                    add(3, R.layout.item_game_subordinateagrt_head);
+                    add(4, R.layout.item_game_subordinaterebate);
+                    add(5, R.layout.item_game_subordinaterebate_head);
+                    add(6, R.layout.item_game_rebateagrt_total);
+                    add(7, R.layout.item_empty);
+                    add(8, R.layout.item_game_rebateagrt_dayrebate);
+                    add(9, R.layout.item_game_rebateagrt_dayrebate_total);
+                    add(10, R.layout.item_game_rebateagrt_user);
+                    add(11, R.layout.item_game_rebateagrt_user_total);
+                    add(12, R.layout.item_game_subordinaterebate_user);
                 }
             });
 
@@ -213,23 +213,26 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 case DAYREBATE:
                     content = getApplication().getString(R.string.txt_rebateagrt_tip8);
                     break;
+                case USER:
+                    content = getApplication().getString(R.string.txt_rebateagrt_tip9);
+                    break;
             }
             MsgDialog dialog = new MsgDialog(mActivity.get(), getApplication().getString(R.string.txt_kind_tips),
                     content,
                     true,
                     new TipDialog.ICallBack() {
-                @Override
-                public void onClickLeft() {
+                        @Override
+                        public void onClickLeft() {
 
-                }
+                        }
 
-                @Override
-                public void onClickRight() {
-                    if (showPop != null) {
-                        showPop.dismiss();
-                    }
-                }
-            });
+                        @Override
+                        public void onClickRight() {
+                            if (showPop != null) {
+                                showPop.dismiss();
+                            }
+                        }
+                    });
 
             showPop = new XPopup.Builder(mActivity.get())
                     .dismissOnTouchOutside(true)
@@ -302,6 +305,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
     public GameRebateAgrtViewModel(@NonNull Application application) {
         super(application);
     }
+
     public GameRebateAgrtViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
     }
@@ -354,7 +358,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 tabList.add("下级日薪");
                 tabs.setValue(tabList);
                 //隐藏温馨提示
-                gameRebateAgrtHeadModel.tipVisible.set(false);
+                //gameRebateAgrtHeadModel.tipVisible.set(false);
                 break;
             case DAYREBATE:
                 titleData.setValue(DAYREBATE.getName());
@@ -363,6 +367,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 break;
         }
     }
+
     private void setStartDate(ObservableField<String> date) {
         new XPopup.Builder(mActivity.get())
                 .asCustom(DateTimePickerDialog.newInstance(mActivity.get(), getApplication().getString(R.string.start_date), 3,
@@ -379,6 +384,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
 
     /**
      * 显示契约详情弹窗
+     *
      * @param content 内容
      */
     private void showAgrtDetail(String content) {
@@ -404,6 +410,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 .dismissOnBackPressed(true)
                 .asCustom(dialog).show();
     }
+
     public void setActivity(FragmentActivity mActivity) {
         this.mActivity = new WeakReference<>(mActivity);
     }
@@ -412,6 +419,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
     public void onBack() {
         finish();
     }
+
     @Override
     public MutableLiveData<String> getTitle() {
         return titleData;
@@ -440,6 +448,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 return "";
         }
     }
+
     private String getSubordinateAgrteDataURL() {
         switch (type) {
             case LIVE:
@@ -456,6 +465,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 return "";
         }
     }
+
     private String getSubordinateRebateDataURL() {
         switch (type) {
             case LIVE:
@@ -470,6 +480,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 return "";
         }
     }
+
     private synchronized void getRebatAgrteData() {
         if (getmCompositeDisposable() != null) {
             getmCompositeDisposable().clear();
@@ -615,6 +626,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 });
         addSubscribe(disposable);
     }
+
     private synchronized void getSubordinateAgrteData() {
         if (getmCompositeDisposable() != null) {
             getmCompositeDisposable().clear();
@@ -693,6 +705,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 });
         addSubscribe(disposable);
     }
+
     private synchronized void getSubordinateRebateData() {
         if (getmCompositeDisposable() != null) {
             getmCompositeDisposable().clear();
@@ -727,6 +740,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                             if (vo.getData() != null && vo.getData().size() > 0) {
                                 for (GameSubordinateRebateResponse.DataDTO dataDTO : vo.getData()) {
                                     GameSubordinaterebateModel model = new GameSubordinaterebateModel();
+                                    model.setTypeEnum(type);
                                     switch (type) {
                                         case USER:
                                             model.setItemType(12);
@@ -796,14 +810,17 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 break;
         }
     }
+
     @Override
     public void onTabUnselected(TabLayout.Tab tab) {
 
     }
+
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
 
     }
+
     /**
      * 创建契约
      */
@@ -815,6 +832,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
             RebateAgrtCreateDialogFragment.show(mActivity.get(), rebateAgrtDetailModel);
         }
     }
+
     public void createRebateAgrt(GameSubordinateagrtModel subordinateagrtModel) {
         //下级契约
         if (tabPosition.get() == Subordinate_Agrte_TAB) {
@@ -824,6 +842,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
             RebateAgrtCreateDialogFragment.show(mActivity.get(), rebateAgrtDetailModel);
         }
     }
+
     /**
      * 查看契约
      */
@@ -836,6 +855,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
             RebateAgrtCreateDialogFragment.show(mActivity.get(), rebateAgrtDetailModel);
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -854,6 +874,7 @@ public class GameRebateAgrtViewModel extends BaseViewModel<MineRepository> imple
                 break;
         }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();

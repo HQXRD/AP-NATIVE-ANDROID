@@ -60,6 +60,7 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
         binding.fvMain.setData(listType);
         binding.fvMain.setVisibility(View.VISIBLE, View.GONE, View.GONE, View.VISIBLE);
         binding.fvMain.setTypeTitle(getString(R.string.txt_bt_platform), null, null);
+        binding.fvMain.setDayStart(binding.fvMain.getEndDate()); // 开始时
         userName = SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME, "");
         binding.fvMain.setDefEdit(getString(R.string.txt_user_name), "", userName);
         binding.refreshLayout.setEnableLoadMore(false); // 不带分页,不加载更多
