@@ -36,12 +36,15 @@ import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.R;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.TimeUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,6 +52,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
@@ -97,9 +101,11 @@ public class BrowserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
+        //AG真人 DB真人
 
         initView();
         title = getIntent().getStringExtra(ARG_TITLE);
+        showAGDBDialog();
         isContainTitle = getIntent().getBooleanExtra(ARG_IS_CONTAIN_TITLE, false);
         isShowLoading = getIntent().getBooleanExtra(ARG_IS_SHOW_LOADING, false);
         isGame = getIntent().getBooleanExtra(ARG_IS_GAME, false);
@@ -182,6 +188,25 @@ public class BrowserActivity extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_loading);
         animation.setRepeatMode(Animation.RESTART);
         animation.setDuration(20 * 1000);
+    }
+
+    /**
+     * 当是AG真人或DB真人时弹出弹窗
+     */
+    private void showAGDBDialog() {
+        KLog.i("title", title);
+        if (title.equals("AG真人") && TimeUtils.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
+            showTipDialog(SPKeyGlobal.AG_NOT_TIP_TODAY);
+        } else if (title.equals("DB真人") && TimeUtils.isTipToday(SPKeyGlobal.DB_NOT_TIP_TODAY)) {
+            showTipDialog(SPKeyGlobal.DB_NOT_TIP_TODAY);
+        }
+    }
+
+    private void showTipDialog(String key) {
+        BasePopupView basePopupView = new XPopup.Builder(this)
+                .dismissOnTouchOutside(false)
+                .asCustom(new TipGameDialog(this, title, key));
+        basePopupView.show();
     }
 
     private void initView() {

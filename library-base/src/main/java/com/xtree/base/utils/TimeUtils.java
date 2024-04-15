@@ -14,6 +14,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import me.xtree.mvvmhabit.utils.SPUtils;
+
 //@SuppressLint("SimpleDateFormat")
 public class TimeUtils {
     public final static String FORMAT_MM_DD = "MM/dd";
@@ -143,6 +145,17 @@ public class TimeUtils {
 
     public static String getCurDate() {
         return android.text.format.DateFormat.format("yyyyMMdd", new Date()).toString();
+    }
+
+    /**
+     * 今日是否弹窗
+     *
+     * @return true:默认弹提示, false:今日不弹提示
+     */
+    public static boolean isTipToday(String key) {
+        String cacheDay = SPUtils.getInstance().getString(key, "");
+        String today = getCurDate();
+        return !today.equals(cacheDay);
     }
 
     /**
