@@ -3,10 +3,10 @@ android {
 
     productFlavors {
         // 测试环境 测试用
-        /*eon2_pre {
-            applicationId "com.${name.toLowerCase()}t.app"
-            versionName "1.0.0"
-            versionCode 100
+        eon2_pre {
+            applicationId "com.${name.toLowerCase()}.app"
+            versionName "1.0.8"
+            versionCode 108
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "意昂2T${versionCode}"
             resValue "string", "domain_api", "https://preyiang2test.oxldkm.com"
@@ -20,12 +20,12 @@ android {
             resValue "string", "domain_url_list", "https://preyiang2test.oxldkm.com;"
             multiDexEnabled true
             dimension "channelName"
-        }*/
+        }
         // 生产环境 测试用
         /*eon2_uat {
             applicationId "com.${name.toLowerCase()}.app"
-            versionName "1.0.0"
-            versionCode 100
+            versionName "1.0.8"
+            versionCode 108
             resValue "string", "app_name", "意昂2R${versionCode}"
             resValue "string", "domain_api", "https://www.eon2.org"
             resValue "string", "domain_url", "https://www.eon2.org"
@@ -34,15 +34,26 @@ android {
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_api_list", "https://www.eon2.org;" +
-                    "https://www.u2s4s7.xyz;" +
-                    "https://www.d4v2o1.xyz;" +
-                    "https://www.o9s9u4.xyz;" +
-                    "https://www.h4r3a2.xyz;" +
-                    "https://www.j9b1x3.xyz;" +
-                    "https://www.n5q2b8.xyz;"
-            resValue "string", "domain_url_list", "https://www.eon2.org;" +
-                    "https://www.u2s4s7.xyz;" +
+            resValue "string", "domain_api_list", "https://app1.r4n2h7.xyz;" +
+                    "https://app2.q1i9z8.xyz;" +
+                    "https://app3.h1g8d8.xyz;" +
+                    "https://app4.k1b3i6.xyz;" +
+                    "https://app5.v3k2o5.xyz;" +
+                    "https://app1.d7p7i2.xyz;" +
+                    "https://app2.o1m3m9.xyz;" +
+                    "https://app3.l9y7e5.xyz;" +
+                    "https://app1.q6g4c6.xyz;" +
+                    "https://app2.s2f6z5.xyz;" +
+                    "https://app3.e5b4f7.xyz;" +
+                    "https://app1.s9o5w5.xyz;" +
+                    "https://app2.t6y2m4.xyz;" +
+                    "https://app3.t1l4c3.xyz;" +
+                    "https://app.7jcvs.com:46803;" +
+                    "http://43.137.39.194:46803;" +
+                    "http://43.128.11.58:46803;" +
+                    "https://app.7jcvs.com:46803;"
+
+            resValue "string", "domain_url_list", "https://www.u2s4s7.xyz;" +
                     "https://www.d4v2o1.xyz;" +
                     "https://www.o9s9u4.xyz;" +
                     "https://www.h4r3a2.xyz;" +
@@ -52,11 +63,11 @@ android {
             dimension "channelName"
         }*/
         // 生产环境 发布用
-        eon2 {
-            applicationId "com.eon2.app" // eon2
-            versionName "1.0.0"
-            versionCode 100
-            resValue "string", "app_name", "意昂体育2"
+        /*eon2_OL {
+            applicationId "com.eon2k.app" // eon2
+            versionName "1.0.1"
+            versionCode 101
+            resValue "string", "app_name", "意昂体育2k"
             resValue "string", "domain_api", "https://www.eon2.org"
             resValue "string", "domain_url", "https://www.u2s4s7.xyz"
             resValue "string", "channel_name", "eon2"  // 渠道名称
@@ -65,12 +76,25 @@ android {
             resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "ms_secret_key", "0ad1d127-3d6e-47f0-8904-1fd9eff9d97b"
             resValue "string", "domain_api_list", "https://www.eon2.org;" +
-                    "https://www.u2s4s7.xyz;" +
-                    "https://www.d4v2o1.xyz;" +
-                    "https://www.o9s9u4.xyz;" +
-                    "https://www.h4r3a2.xyz;" +
-                    "https://www.j9b1x3.xyz;" +
-                    "https://www.n5q2b8.xyz;"
+                    "https://app1.r4n2h7.xyz;" +
+                    "https://app2.q1i9z8.xyz;" +
+                    "https://app3.h1g8d8.xyz;" +
+                    "https://app4.k1b3i6.xyz;" +
+                    "https://app5.v3k2o5.xyz;" +
+                    "https://app1.d7p7i2.xyz;" +
+                    "https://app2.o1m3m9.xyz;" +
+                    "https://app3.l9y7e5.xyz;" +
+                    "https://app1.q6g4c6.xyz;" +
+                    "https://app2.s2f6z5.xyz;" +
+                    "https://app3.e5b4f7.xyz;" +
+                    "https://app1.s9o5w5.xyz;" +
+                    "https://app2.t6y2m4.xyz;" +
+                    "https://app3.t1l4c3.xyz;" +
+                    "https://app.7jcvs.com:46803;" +
+                    "http://43.137.39.194:46803;" +
+                    "http://43.128.11.58:46803;" +
+                    "https://app.7jcvs.com:46803;"
+
             resValue "string", "domain_url_list", "https://www.eon2.org;" +
                     "https://www.u2s4s7.xyz;" +
                     "https://www.d4v2o1.xyz;" +
@@ -80,7 +104,7 @@ android {
                     "https://www.n5q2b8.xyz;"
             multiDexEnabled true
             dimension "channelName"
-        }
+        }*/
 
     }
 
@@ -92,13 +116,14 @@ android {
                 //variant.getPackageApplication().outputDirectory = new File("${project.rootDir.absolutePath}/outputs")
                 //variant.getPackageApplicationProvider().get().outputDirectory = new File("${project.rootDir.absolutePath}/outputs")
                 // 打包文件名
-                //def name = variant.flavorName.split("_")[0]
                 def name = variant.flavorName
+                def name1 = variant.flavorName.split("_")[0]
+                def name2 = variant.flavorName.split("_")[1]
                 //outputFileName = "${name}_v${variant.versionCode}_${variant.buildType.name}.apk"
                 def tp = "${if (variant.buildType.name == 'debug') '_db' else ''}"
-                outputFileName = "${name}_v${variant.versionCode}${tp}.apk"
+                outputFileName = "${name}_v${variant.versionCode}${tp}p.apk"
                 //outputFileName = "${name}_v${variant.versionCode}.apk"
-                //outputFileName = "${name}_v${variant.versionCode}_${releaseTime()}${tp}.apk"
+                outputFileName = "${name1}_v${variant.versionCode}_${name2}_${releaseTime()}${tp}.apk"
             }
         }
     }
