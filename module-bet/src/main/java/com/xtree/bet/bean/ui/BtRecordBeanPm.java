@@ -113,7 +113,7 @@ public class BtRecordBeanPm implements BtResult {
 
     @Override
     public boolean isAdvanceSettlement() {
-        return recordsBean != null && recordsBean.preBetAmount > 0;
+        return recordsBean != null && recordsBean.preBetAmount != null && recordsBean.preBetAmount > 0;
     }
 
     @Override
