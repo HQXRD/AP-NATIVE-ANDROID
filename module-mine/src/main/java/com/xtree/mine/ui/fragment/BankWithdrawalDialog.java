@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -527,15 +528,18 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      * 刷新注意View
      */
     private void refreshNoticeView(BankCardCashMoYuVo bankCardCashVo) {
-        String times, count, starttime, endtime, rest;
-        times = String.valueOf(bankCardCashVo.times);
-        count = bankCardCashVo.count;
-        starttime = bankCardCashVo.wraptime.starttime;
-        endtime = bankCardCashVo.wraptime.endtime;
+        final  String notice = "<font color=#EE5A5A>注意:</font>";
+        String times, count, startTime, endTime, rest;
+        times = "<font color=#EE5A5A>" + String.valueOf(bankCardCashVo.times) + "</font>";
+        count = "<font color=#EE5A5A>" + bankCardCashVo.count + "</font>";
+        startTime = "<font color=#EE5A5A>" + bankCardCashVo.wraptime.starttime + "</font>";
+        endTime = "<font color=#EE5A5A>" + bankCardCashVo.wraptime.endtime + "</font>";
         rest = StringUtils.formatToSeparate(Float.valueOf(bankCardCashVo.rest));
+        String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String textSource = String.format(format, times, count, starttime, endtime, rest);
-        binding.tvShowNoticeInfo.setText(textSource);
+        String textSource = String.format(format, notice ,times, count, startTime, endTime, testTxt);
+
+        binding.tvShowNoticeInfo.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
     }
 
     /**
