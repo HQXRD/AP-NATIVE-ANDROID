@@ -184,7 +184,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
      */
     private void refreshSetUI() {
         binding.llSetRequestView.setVisibility(View.VISIBLE);
-               final  String notice = "<font color=#EE5A5A>注意:</font>";
+        final String notice = "<font color=#EE5A5A>注意:</font>";
         String times, count, startTime, endTime, rest;
         times = "<font color=#EE5A5A>" + String.valueOf(virtualCashVo.times) + "</font>";
         count = "<font color=#EE5A5A>" + virtualCashVo.count + "</font>";
@@ -193,7 +193,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         rest = StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.rest));
         String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String textSource = String.format(format, notice,times, count, startTime, endTime, testTxt);
+        String textSource = String.format(format, notice, times, count, startTime, endTime, testTxt);
 
         binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 

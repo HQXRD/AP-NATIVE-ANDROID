@@ -267,7 +267,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         }
         binding.llSetRequestView.setVisibility(View.VISIBLE);
 
-        final  String notice = "<font color=#EE5A5A>注意:</font>";
+        final String notice = "<font color=#EE5A5A>注意:</font>";
         String times, count, startTime, endTime, rest;
         times = "<font color=#EE5A5A>" + String.valueOf(cashMoYuVo.times) + "</font>";
         count = "<font color=#EE5A5A>" + cashMoYuVo.count + "</font>";
@@ -276,7 +276,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         rest = StringUtils.formatToSeparate(Float.valueOf(cashMoYuVo.rest));
         String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String textSource = String.format(format, notice,times, count, startTime, endTime, testTxt);
+        String textSource = String.format(format, notice, times, count, startTime, endTime, testTxt);
 
         binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 

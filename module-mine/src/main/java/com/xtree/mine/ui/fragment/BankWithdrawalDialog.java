@@ -494,7 +494,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     }
 
     private void initWebView() {
-        CfLog.e("ScrollWebView ------------------init ");
         WebSettings settings = binding.nsH5View.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
@@ -529,7 +528,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      * 刷新注意View
      */
     private void refreshNoticeView(BankCardCashMoYuVo bankCardCashVo) {
-        final  String notice = "<font color=#EE5A5A>注意:</font>";
+        final String notice = "<font color=#EE5A5A>注意:</font>";
         String times, count, startTime, endTime, rest;
         times = "<font color=#EE5A5A>" + String.valueOf(bankCardCashVo.times) + "</font>";
         count = "<font color=#EE5A5A>" + bankCardCashVo.count + "</font>";
@@ -538,7 +537,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         rest = StringUtils.formatToSeparate(Float.valueOf(bankCardCashVo.rest));
         String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String textSource = String.format(format, notice ,times, count, startTime, endTime, testTxt);
+        String textSource = String.format(format, notice, times, count, startTime, endTime, testTxt);
 
         binding.tvShowNoticeInfo.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
     }
