@@ -31,6 +31,7 @@ import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMineBinding;
@@ -40,6 +41,7 @@ import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.VipInfoVo;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -54,6 +56,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     BasePopupView ppw;
     private AppUpdateVo updateVo;
     private BasePopupView updateView;
+
+    BasePopupView ppw2 = null;
 
     /**
      * 使用hide和show后，可见不可见切换时，不再执行fragment生命周期方法，
@@ -401,6 +405,22 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
     }
 
     private void showAccountMgmt() {
+        if (!mProfileVo.is_binding_email && !mProfileVo.is_binding_phone) {
+            ppw2 = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), "", getResources().getString(R.string.txt_no_binding), "绑定手机", "绑定邮箱", new TipDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    startBinding(Constant.BIND_PHONE);
+                    ppw2.dismiss();
+                }
+
+                @Override
+                public void onClickRight() {
+                    startBinding(Constant.BIND_EMAIL);
+                    ppw2.dismiss();
+                }
+            })).show();
+            return;
+        }
         new XPopup.Builder(getContext()).asCustom(new AccountMgmtDialog(getContext())).show();
     }
 
@@ -561,5 +581,14 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             return false;
         }
         return true;
+    }
+
+    private void startBinding(String verify) {
+        Bundle bundle = new Bundle();
+        bundle.putString("type", verify);
+        Intent intent = new Intent(getContext(), ContainerActivity.class);
+        intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY);
+        intent.putExtra(ContainerActivity.BUNDLE, bundle);
+        getContext().startActivity(intent);
     }
 }
