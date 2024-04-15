@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="20dp"
+        android:maxHeight="680dp"
         android:adjustViewBounds="true" />
 
     <ImageView

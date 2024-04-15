@@ -62,22 +62,14 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
     @Override
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
-
         binding.tvwAdd.setOnClickListener(v -> {
             CfLog.i("****** add");
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_ADD, getArguments());
-        });
-
-        binding.tvwLock.setOnClickListener(v -> {
-            CfLog.i("****** lock");
-            if (mAdapter.isEmpty()) {
-                return;
-            }
-
             Bundle bundle = new Bundle();
-            bundle.putString("id", mAdapter.get(0).id);
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_LOCK, bundle);
+            bundle.putString("mark", mark);
+            bundle.putString("tokenSign", tokenSign);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_ADD, bundle);
         });
+
 
         mAdapter = new CachedAutoRefreshAdapter<BankCardVo>() {
 
@@ -178,6 +170,17 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
                     binding.tvwAdd.setVisibility(View.GONE);
                 }
             }
+            binding.tvwLock.setOnClickListener(v -> {
+                CfLog.i("****** lock");
+                if (mAdapter.isEmpty()) {
+                    return;
+                }
+
+                Bundle bundle = new Bundle();
+                bundle.putString("id", mAdapter.get(0).id);
+                bundle.putString("accountName", vo.accountname);
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_LOCK, bundle);
+            });
         });
 
     }

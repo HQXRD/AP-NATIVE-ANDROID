@@ -265,6 +265,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 } else {
                     binding.tvwTipName.setVisibility(View.GONE);
                 }
+                setNextButton();
             }
 
             @Override
@@ -296,11 +297,13 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 if (curRechargeVo != null && !TextUtils.isEmpty(curRechargeVo.usdtrate)) {
                     setUsdtRate(curRechargeVo);
                 }
-                //if (!TextUtils.isEmpty(s.toString().trim())) {
-                //    binding.tvwTipAmount.setVisibility(View.GONE);
-                //} else {
-                //    binding.tvwTipAmount.setVisibility(View.VISIBLE);
-                //}
+                if (!TextUtils.isEmpty(s.toString().trim())) {
+                    binding.tvwTipAmount.setVisibility(View.GONE);
+                } else {
+                    binding.tvwTipAmount.setVisibility(View.VISIBLE);
+                }
+
+                setNextButton();
             }
 
             @Override
@@ -551,11 +554,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }
 
         binding.edtAmount.setText("");
+        binding.tvwTipAmount.setVisibility(View.GONE);
 
         loadMin = Double.parseDouble(vo.loadmin);
         loadMax = Double.parseDouble(vo.loadmax);
         setRate(vo); // 设置汇率提示信息
-
+        setNextButton();
     }
 
     private void toBindPhoneOrCard() {
@@ -617,6 +621,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         MsgDialog dialog = new MsgDialog(getContext(), null, msg, true, new MsgDialog.ICallBack() {
             @Override
             public void onClickLeft() {
+                ppw2.dismiss();
             }
 
             @Override
@@ -629,8 +634,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             }
         });
         ppw2 = new XPopup.Builder(getContext())
-                .dismissOnTouchOutside(false)
-                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(true)
+                .dismissOnBackPressed(true)
                 .asCustom(dialog);
         ppw2.show();
 
@@ -661,6 +666,38 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         CfLog.i("****** " + map);
         viewModel.getRealMoney(curRechargeVo.bid, map);
+    }
+
+    private void setNextButton() {
+
+        binding.btnNext.setEnabled(false); // 默认禁用
+
+        if (curRechargeVo == null) {
+            return;
+        }
+        if (curRechargeVo.paycode.equals("manual")) {
+            return;
+        }
+        if (curRechargeVo.view_bank_card) {
+            if (TextUtils.isEmpty(bankId)) {
+                return;
+            }
+        }
+
+        String realName = binding.edtName.getText().toString().trim();
+        if (curRechargeVo.realchannel_status && curRechargeVo.phone_fillin_name) {
+            if (TextUtils.isEmpty(realName)) {
+                return;
+            }
+        }
+
+        String txt = binding.tvwRealAmount.getText().toString();
+        double amount = Double.parseDouble(0 + txt);
+        if (amount < loadMin || amount > loadMax) {
+            return;
+        }
+
+        binding.btnNext.setEnabled(true);
     }
 
     private void goNext() {
