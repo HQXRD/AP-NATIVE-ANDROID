@@ -65,6 +65,20 @@
                 app:layout_constraintStart_toStartOf="@id/et_transfer_password"
                 app:layout_constraintTop_toBottomOf="@id/et_transfer_password" />
 
+            <EditText
+                android:id="@+id/et_transfer_google_auth"
+                style="@style/style_cm_edt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/layout_margin"
+                android:drawableStart="@mipmap/mine_bonus"
+                android:hint="@string/txt_please_input_money_google_key"
+                android:inputType="textPassword"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/tvw_warning"
+                app:layout_constraintStart_toStartOf="@id/tvw_warning"
+                app:layout_constraintTop_toBottomOf="@id/tvw_warning" />
+
             <Button
                 android:id="@+id/btn_cancel"
                 android:layout_width="120dp"
@@ -74,8 +88,8 @@
                 android:text="@string/text_cancel"
                 android:textColor="@color/clr_txt_mouse5"
                 android:textSize="16dp"
-                app:layout_constraintStart_toStartOf="@id/et_transfer_password"
-                app:layout_constraintTop_toBottomOf="@id/tvw_warning" />
+                app:layout_constraintStart_toStartOf="@id/et_transfer_google_auth"
+                app:layout_constraintTop_toBottomOf="@id/et_transfer_google_auth" />
 
             <Button
                 android:id="@+id/btn_confirm"
@@ -86,8 +100,8 @@
                 android:text="@string/text_confirm"
                 android:textColor="@color/clr_white"
                 android:textSize="16dp"
-                app:layout_constraintEnd_toEndOf="@id/et_transfer_password"
-                app:layout_constraintTop_toBottomOf="@id/tvw_warning" />
+                app:layout_constraintEnd_toEndOf="@id/et_transfer_google_auth"
+                app:layout_constraintTop_toBottomOf="@id/et_transfer_google_auth" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

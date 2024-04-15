@@ -10,8 +10,11 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.google.gson.Gson;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.UuidUtil;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -25,6 +28,7 @@ import com.xtree.mine.vo.VerifyVo;
 import java.util.HashMap;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
@@ -33,6 +37,7 @@ public class CheckPasswordDialog extends BaseFragment<DialogTransferMemberBindin
     private static final String ARG_TYPE = "type";
     private static final String ARG_PAGE = "page";
     private static final String ARG_VERIFY = "verify";
+    ProfileVo mProfileVo;
     String type = "";
     String page = "";
     String verify = "";
@@ -49,6 +54,13 @@ public class CheckPasswordDialog extends BaseFragment<DialogTransferMemberBindin
             type = getArguments().getString(ARG_TYPE, "");
             page = getArguments().getString(ARG_PAGE, "");
             verify = getArguments().getString(ARG_VERIFY, "");
+        }
+
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        mProfileVo = new Gson().fromJson(json, ProfileVo.class);
+
+        if (mProfileVo.twofa == 1) {
+            binding.etTransferGoogleAuth.setVisibility(View.VISIBLE);
         }
     }
 
@@ -110,16 +122,24 @@ public class CheckPasswordDialog extends BaseFragment<DialogTransferMemberBindin
     }
 
     private void checkPassword() {
-        String code = binding.etTransferPassword.getText().toString();
+        String pwd = binding.etTransferPassword.getText().toString();
+        String googlePwd = binding.etTransferGoogleAuth.getText().toString();
 
-        if (code != null && !code.isEmpty()) {
+        if (pwd != null && !pwd.isEmpty()) {
+            if (mProfileVo.twofa == 1) {
+                if (googlePwd.isEmpty()) {
+                    ToastUtils.showLong("请输入谷歌验证码");
+                    return;
+                }
+            }
             LoadingDialog.show(getContext());
 
             HashMap<String, String> map = new HashMap<>();
             map.put("flag", "check");
             map.put("nextact", "bindsequestion");
             map.put("nextcon", "user");
-            map.put("secpass", code);
+            map.put("secpass", pwd);
+            map.put("code", googlePwd);
             map.put("nonce", UuidUtil.getID16());
             mineViewModel.checkMoneyPassword(map);
         } else {

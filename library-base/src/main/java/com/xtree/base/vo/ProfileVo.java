@@ -71,11 +71,9 @@ public class ProfileVo {
 
     }*/
 
-
-
-    public int twofa; // 0,
-    public int twofa_login_enabled; // "1",
-    public int twofa_withdraw_enabled; // "1",
+    public int twofa; // 0, 此为判断是否绑定google auth
+    public int twofa_login_enabled; // "1", 此为登录验证是否开启
+    public int twofa_withdraw_enabled; // "1", 此为提现验证是否开启
     public boolean is_binding_usdt; // false,
     public boolean is_binding_card; // false,
     public boolean is_binding_phone; // false,
