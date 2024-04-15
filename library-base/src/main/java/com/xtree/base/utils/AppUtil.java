@@ -6,6 +6,8 @@ import android.net.Uri;
 
 import com.xtree.base.global.Constant;
 
+import me.xtree.mvvmhabit.utils.SPUtils;
+
 public class AppUtil {
 
     /**
@@ -32,4 +34,14 @@ public class AppUtil {
         ctx.startActivity(intent);
     }
 
+    /**
+     * 今日是否弹窗
+     *
+     * @return true:默认弹提示, false:今日不弹提示
+     */
+    public static boolean isTipToday(String key) {
+        String cacheDay = SPUtils.getInstance().getString(key, "");
+        String today = TimeUtils.getCurDate();
+        return !today.equals(cacheDay);
+    }
 }

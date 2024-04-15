@@ -101,7 +101,6 @@ public class BrowserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
-        //AG真人 DB真人
 
         initView();
         title = getIntent().getStringExtra(ARG_TITLE);
@@ -194,11 +193,14 @@ public class BrowserActivity extends AppCompatActivity {
      * 当是AG真人或DB真人时弹出弹窗
      */
     private void showAGDBDialog() {
-        KLog.i("title", title);
-        if (title.equals("AG真人") && TimeUtils.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
-            showTipDialog(SPKeyGlobal.AG_NOT_TIP_TODAY);
-        } else if (title.equals("DB真人") && TimeUtils.isTipToday(SPKeyGlobal.DB_NOT_TIP_TODAY)) {
-            showTipDialog(SPKeyGlobal.DB_NOT_TIP_TODAY);
+        CfLog.i("title:" + title);
+        if (TextUtils.isEmpty(title)) {
+            return;
+        }
+        if (title.equals("AG真人") && AppUtil.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
+                showTipDialog(SPKeyGlobal.AG_NOT_TIP_TODAY);
+        } else if (title.equals("DB真人") && AppUtil.isTipToday(SPKeyGlobal.DB_NOT_TIP_TODAY)) {
+                showTipDialog(SPKeyGlobal.DB_NOT_TIP_TODAY);
         }
     }
 

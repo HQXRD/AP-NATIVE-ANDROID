@@ -16,10 +16,10 @@ import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
-import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.home.BuildConfig;
@@ -128,7 +128,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
 
         if (vo.twoImage) {
             //熊猫场馆弹窗判断
-            if (vo.alias.equals(PLATFORM_PM) && TimeUtils.isTipToday(SPKeyGlobal.PM_NOT_TIP_TODAY)) {
+            if (vo.alias.equals(PLATFORM_PM) && AppUtil.isTipToday(SPKeyGlobal.PM_NOT_TIP_TODAY)) {
                 showPMDialog(vo, isLeft);
                 return;
             }
