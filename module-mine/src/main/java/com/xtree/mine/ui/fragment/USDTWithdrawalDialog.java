@@ -225,7 +225,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             firstChannel = usdtCashVo.channel_list.get(0);
             secondChannel = usdtCashVo.channel_list.get(1);
         }
-        final  String notice = "<font color=#EE5A5A>注意:</font>";
+        final String notice = "<font color=#EE5A5A>注意:</font>";
         String times, count, startTime, endTime, rest;
         times = "<font color=#EE5A5A>" + String.valueOf(usdtCashVo.times) + "</font>";
         count = "<font color=#EE5A5A>" + usdtCashVo.count + "</font>";
@@ -234,7 +234,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         rest = StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.rest));
         String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String textSource = String.format(format, notice,times, count, startTime, endTime, testTxt);
+        String textSource = String.format(format, notice, times, count, startTime, endTime, testTxt);
 
         binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
