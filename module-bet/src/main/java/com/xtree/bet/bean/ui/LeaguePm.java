@@ -211,7 +211,7 @@ public class LeaguePm implements League{
         this.leagueName = source.readString();
         this.headType = source.readInt();
         this.leagueInfo = source.readParcelable(LeagueInfo.class.getClassLoader());
-        this.matchList = source.createTypedArrayList(Match.CREATOR);
+        //this.matchList = source.createTypedArrayList(Match.CREATOR);
     }
 
     protected LeaguePm(Parcel in) {
@@ -223,7 +223,7 @@ public class LeaguePm implements League{
         this.leagueName = in.readString();
         this.headType = in.readInt();
         this.leagueInfo = in.readParcelable(LeagueInfo.class.getClassLoader());
-        this.matchList = in.createTypedArrayList(Match.CREATOR);
+        //this.matchList = in.createTypedArrayList(Match.CREATOR);
     }
 
     public static final Creator<LeaguePm> CREATOR = new Creator<LeaguePm>() {
