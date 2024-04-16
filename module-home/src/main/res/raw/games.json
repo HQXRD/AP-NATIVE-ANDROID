@@ -23,6 +23,7 @@
   { "id":"701", "title": "XXXX", "picture": "hm_gm_dz_09", "typeId": 309, "pId": 3 ,    	"name":"AG捕鱼", "playURL":"aggame/fishplay?autoThrad", "isH5": true, "cid":3, "imageName": "XCImage.fishing_AG" } ,
   { "id":"702", "title": "XXXX", "picture": "hm_gm_dz_10", "typeId": 310, "pId": 3 ,    	"playURL":"sggame/play/1719?autoThrad", "isH5": true, "cid":36, "imageName": "XCImage.fishing_SG" } ,
   { "id":"703", "title": "XXYY", "picture": "hm_gm_dz_11", "typeId": 311, "pId": 3 ,    	"name":"AG街机", "playURL":"aggame/yoplay?autoThrad", "isH5": true, "cid":3, "imageName": "XCImage.slot_AGARCADE" } ,
+  { "id":"704", "title": "XXYY", "picture": "hm_gm_dz_12", "typeId": 312, "pId": 3 ,    	"name":"奥丁电子", "isH5": true, "cid":43, "gameId": 0} ,
 
   { "id":"401", "title": "XXXX", "picture": "hm_gm_dj_01", "typeId": 401, "pId": 4 ,    	"playURL":"lhgame/play", "isH5": true, "cid":28, "imageName": "XCImage.esports_LH" } ,
   { "id":"402", "title": "XXXX", "picture": "hm_gm_dj_02", "typeId": 402, "pId": 4 ,    	"isH5": true, "cid":30, "imageName": "XCImage.esports_IMONE", "gameId": 2758 } ,
