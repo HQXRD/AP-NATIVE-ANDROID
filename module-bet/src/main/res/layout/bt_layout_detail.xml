@@ -137,6 +137,8 @@
                                 android:paddingRight="8dp"
                                 android:paddingBottom="5dp"
                                 android:visibility="gone"
+                                android:drawableLeft="@mipmap/bt_matchdetail_icon_livevideo"
+                                android:drawablePadding="2dp"
                                 android:text="视频直播"
                                 android:textColor="@color/bt_color_under_bg_primary_text"
                                 android:textSize="@dimen/bt_text_10sp" />
@@ -152,6 +154,8 @@
                                 android:paddingRight="8dp"
                                 android:paddingBottom="5dp"
                                 android:visibility="gone"
+                                android:drawableLeft="@mipmap/bt_matchdetail_icon_liveanimation"
+                                android:drawablePadding="2dp"
                                 android:text="动画直播"
                                 android:textColor="@color/bt_color_under_bg_primary_text"
                                 android:textSize="@dimen/bt_text_10sp" />
