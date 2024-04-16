@@ -73,7 +73,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         if (TextUtils.isEmpty(token)) {
             binding.ivwSetting.setClickable(false);
             binding.ivwMsg.setClickable(false);
-            binding.tvwChangjianWenti.setClickable(false);
+            //binding.tvwChangjianWenti.setClickable(false);
             binding.btnLogout.setVisibility(View.INVISIBLE);
             setChildClickable(binding.llMenu, false);
             setChildClickable(binding.llMenu01, false);
@@ -81,7 +81,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         } else {
             binding.ivwSetting.setClickable(true);
             binding.ivwMsg.setClickable(true);
-            binding.tvwChangjianWenti.setClickable(true);
+            //binding.tvwChangjianWenti.setClickable(true);
             binding.btnLogout.setVisibility(View.VISIBLE);
             setChildClickable(binding.llMenu, true);
             setChildClickable(binding.llMenu01, true);
@@ -226,11 +226,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             goWebView(v, Constant.URL_SPORT_RULES, false);
         });
         //检查更新
-        binding.tvwChangjianWenti.setOnClickListener(v -> {
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
-            //viewModel.getUpdate();
-
-        });
+        //binding.tvwChangjianWenti.setOnClickListener(v -> {
+        //    startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
+        //    //viewModel.getUpdate();
+        //
+        //});
         binding.tvwBangzhuZhongxin.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
         });

@@ -28,6 +28,7 @@
     <string name="me_changjian_wenti">常见问题</string>
     <string name="me_bangzhu_zhongxin">帮助中心</string>
     <string name="me_usdt_jiaocheng">教程</string>
+    <string name="txt_upgrade">检查更新</string>
     <string name="me_logout_login">退出登录</string>
     <string name="me_login">登录</string>
     <string name="me_account_hint">请输入账号</string>

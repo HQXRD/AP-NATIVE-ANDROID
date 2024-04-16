@@ -508,10 +508,10 @@
                         <TextView style="@style/style_wallet_space" />
 
                         <TextView
-                            android:id="@+id/tvw_changjian_wenti"
+                            android:id="@+id/tvw_upgrade"
                             style="@style/style_menu_black"
-                            android:drawableTop="@mipmap/me_changjian_wenti"
-                            android:text="@string/me_changjian_wenti" />
+                            android:drawableTop="@mipmap/me_gr_upgrade"
+                            android:text="@string/txt_upgrade" />
 
                         <TextView style="@style/style_wallet_space" />
 
