@@ -161,7 +161,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="Demo"
-                    android:textColor="@color/clr_main_23"
+                    android:textColor="@color/clr_grey_13"
                     android:visibility="visible" />
 
             </LinearLayout>

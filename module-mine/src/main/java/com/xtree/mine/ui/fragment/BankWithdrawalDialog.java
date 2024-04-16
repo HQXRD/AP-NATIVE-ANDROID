@@ -528,14 +528,14 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      * 刷新注意View
      */
     private void refreshNoticeView(BankCardCashMoYuVo bankCardCashVo) {
-        final String notice = "<font color=#EE5A5A>注意:</font>";
+        final String notice = "<font color=#99A0B1>注意:</font>";
         String times, count, startTime, endTime, rest;
-        times = "<font color=#EE5A5A>" + String.valueOf(bankCardCashVo.times) + "</font>";
-        count = "<font color=#EE5A5A>" + bankCardCashVo.count + "</font>";
-        startTime = "<font color=#EE5A5A>" + bankCardCashVo.wraptime.starttime + "</font>";
-        endTime = "<font color=#EE5A5A>" + bankCardCashVo.wraptime.endtime + "</font>";
+        times = "<font color=#99A0B1>" + String.valueOf(bankCardCashVo.times) + "</font>";
+        count = "<font color=#99A0B1>" + bankCardCashVo.count + "</font>";
+        startTime = "<font color=#99A0B1>" + bankCardCashVo.wraptime.starttime + "</font>";
+        endTime = "<font color=#99A0B1>" + bankCardCashVo.wraptime.endtime + "</font>";
         rest = StringUtils.formatToSeparate(Float.valueOf(bankCardCashVo.rest));
-        String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
+        String testTxt = "<font color=#FF6C6C>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
         String textSource = String.format(format, notice, times, count, startTime, endTime, testTxt);
 
