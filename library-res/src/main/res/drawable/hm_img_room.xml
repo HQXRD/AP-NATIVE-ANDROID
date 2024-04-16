@@ -5,6 +5,7 @@
     <item android:drawable="@mipmap/hm_gm_ty_03" android:maxLevel="103" />
     <item android:drawable="@mipmap/hm_gm_ty_04" android:maxLevel="104" />
     <item android:drawable="@mipmap/hm_gm_ty_05" android:maxLevel="105" />
+    <item android:drawable="@mipmap/hm_gm_ty_06" android:maxLevel="106" />
 
     <item android:drawable="@mipmap/hm_gm_zr_01" android:maxLevel="201" />
     <item android:drawable="@mipmap/hm_gm_zr_02" android:maxLevel="202" />
