@@ -207,25 +207,26 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 public void onClick(String txt, ChooseInfoVo.ChannelInfo channelInfo) {
 
                     ChooseInfoVo.ChannelInfo channel = channelInfo;
-
+                    CfLog.e("channel  = " + channel.toString());
                     if (channel.isBind == false) {
                         if (!TextUtils.isEmpty(channel.channeluseMessage) && !channel.isBind) {
-                            showBindDialog(channel, channel.channeluseMessage);
-                        } /*else if (TextUtils.equals("极速支付宝提款", txt) || TextUtils.equals("极速微信提款", txt)) {
-                            showOtherWithdrawalDialog(channelInfo);
-                        }*/ else {
+                            if (channel.channeluseMessage.contains("首次提款仅可使用银行卡方式提款")) {
+                                showErrorDialog(channel.channeluseMessage);
+                            } else {
+                                showBindDialog(channel, channel.channeluseMessage);
+                            }
+                        } else {
                             showErrorDialog(channel.channeluseMessage);
                         }
                     } else if (channel.isBind && TextUtils.isEmpty(channel.channeluseMessage)) {
-                        CfLog.i("txt = " + txt +"isBind = " + channel.isBind + " ||\nChooseAdapter channel = " + channel.toString());
+                        CfLog.i("txt = " + txt + "isBind = " + channel.isBind + " ||\nChooseAdapter channel = " + channel.toString());
                         if (TextUtils.equals("银行卡提款", txt)) {
                             showBankWithdrawalDialog(channelInfo);
-                        } else if (TextUtils.equals("极速微信提款", txt) && TextUtils.equals("bindcardwx" , channel.bindType)) {
+                        } else if (TextUtils.equals("极速微信提款", txt) && TextUtils.equals("bindcardwx", channel.bindType)) {
                             showOtherWXWithdrawalDialog(channelInfo);
-                        } else if (TextUtils.equals("极速支付宝提款", txt) && TextUtils.equals("bindcardzfb" , channel.bindType)) {
+                        } else if (TextUtils.equals("极速支付宝提款", txt) && TextUtils.equals("bindcardzfb", channel.bindType)) {
                             showOtherZFBWithdrawalDialog(channelInfo);
-                        }
-                        else {
+                        } else {
                             showUSDTWithdrawalDialog(channelInfo);
                         }
                     } else if (channel.isBind && !TextUtils.isEmpty(channel.channeluseMessage)) {
@@ -358,6 +359,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         }
         otherWXPopupView.show();
     }
+
     private void showOtherZFBWithdrawalDialog(final ChooseInfoVo.ChannelInfo info) {
         if (otherZFBPopupView == null) {
             otherZFBPopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(OtherWebWithdrawalDialog.newInstance(getContext(), owner, info));
