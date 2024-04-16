@@ -264,8 +264,8 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         String times, count, starttime, endtime, rest;
         times = "<font color=#EE5A5A>" + String.valueOf(otherWebWithdrawVo.times) + "</font>";
         count = "<font color=#EE5A5A>" + otherWebWithdrawVo.count + "</font>";
-        starttime = "<font color=#EE5A5A>" + otherWebWithdrawVo.wraptime.starttime + "</font>";
-        endtime = "<font color=#EE5A5A>" + otherWebWithdrawVo.wraptime.endtime + "</font>";
+        starttime = "<font color=#000000>" + otherWebWithdrawVo.wraptime.starttime + "</font>";
+        endtime = "<font color=#000000>" + otherWebWithdrawVo.wraptime.endtime + "</font>";
         rest = StringUtils.formatToSeparate(Float.valueOf(otherWebWithdrawVo.rest));
         String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);

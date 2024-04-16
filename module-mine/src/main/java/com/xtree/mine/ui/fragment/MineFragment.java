@@ -221,12 +221,11 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         binding.tvwTiyuGuize.setOnClickListener(v -> {
             goWebView(v, Constant.URL_SPORT_RULES, false);
         });
+
         //检查更新
-        //binding.tvwChangjianWenti.setOnClickListener(v -> {
-        //    startContainerFragment(RouterFragmentPath.Mine.PAGER_QUESTION);
-        //    //viewModel.getUpdate();
-        //
-        //});
+        binding.tvwUpgrade.setOnClickListener(v -> {
+            viewModel.getUpdate();
+        });
         binding.tvwBangzhuZhongxin.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
         });
