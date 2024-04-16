@@ -139,11 +139,14 @@ public class BrowserActivity extends AppCompatActivity {
         Map<String, String> header = new HashMap<>();
         header.put("Cookie", cookie);
         header.put("Authorization", auth);
+        if (isLottery) {
+            header.put("Content-Type", "application/vnd.sc-api.v1.json");
+        }
         header.put("App-RNID", "87jumkljo"); //
 
         //header.put("Source", "8");
         //header.put("UUID", TagUtils.getDeviceId(Utils.getContext()));
-        if (isGame || is3rdLink) {
+        if ((isGame || is3rdLink) && !isLottery) {
             CfLog.d("not need header.");
             header.clear(); // 游戏 header和cookie只带其中一个即可; FB只能带cookie
         }
@@ -443,14 +446,14 @@ public class BrowserActivity extends AppCompatActivity {
         String js = "";
         js += "(function() {" + "\n";
         js += "const d = new Date();" + "\n";
-        if(isHelpCentral) {
+        if (isHelpCentral) {
             js += "const style = document.createElement('style');" + "\n";
             js += "style.type = 'text/css';" + "\n";
             js += "style.id = 'iOS_inject';" + "\n";
             js += "document.head.appendChild(style);" + "\n";
             js += "document.querySelector('#iOS_inject').innerHTML = '" +
                     " .rndx{ display: none !important;} .rndxs{ display: none !important;}" +
-                    " .portal-warpper{ display: none !important;} .root{ margin-top: -2.53rem !important;}';"+ "\n";
+                    " .portal-warpper{ display: none !important;} .root{ margin-top: -2.53rem !important;}';" + "\n";
         }
         js += "d.setTime(d.getTime() + (24*60*60*1000));" + "\n";
         js += "let expires = \"expires=\"+ d.toUTCString();" + "\n";
