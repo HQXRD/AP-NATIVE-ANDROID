@@ -8,11 +8,16 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.DialogAccountMgmtBinding;
 
@@ -23,7 +28,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  * 账户管理 底部弹窗
  */
 public class AccountMgmtDialog extends BottomPopupView {
-
+    BasePopupView ppw2;
     Context ctx;
     DialogAccountMgmtBinding binding;
 
@@ -67,6 +72,24 @@ public class AccountMgmtDialog extends BottomPopupView {
                 String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
                 //ctx.startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
 
+                if (!mProfileVo.is_binding_email && !mProfileVo.is_binding_phone) {
+                    dismiss();
+                    ppw2 = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), "", getResources().getString(R.string.txt_no_binding), "绑定手机", "绑定邮箱", new TipDialog.ICallBack() {
+                        @Override
+                        public void onClickLeft() {
+                            startBinding(Constant.BIND_PHONE);
+                            ppw2.dismiss();
+                        }
+
+                        @Override
+                        public void onClickRight() {
+                            startBinding(Constant.BIND_EMAIL);
+                            ppw2.dismiss();
+                        }
+                    })).show();
+                    return;
+                }
+
                 Intent intent = new Intent(getContext(), ContainerActivity.class);
                 intent.putExtra(ContainerActivity.ROUTER_PATH, path);
                 intent.putExtra(ContainerActivity.BUNDLE, bundle);
@@ -85,5 +108,14 @@ public class AccountMgmtDialog extends BottomPopupView {
     protected int getMaxHeight() {
         //return super.getMaxHeight();
         return (XPopupUtils.getScreenHeight(getContext()) * 85 / 100);
+    }
+
+    private void startBinding(String verify) {
+        Bundle bundle = new Bundle();
+        bundle.putString("type", verify);
+        Intent intent = new Intent(getContext(), ContainerActivity.class);
+        intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY);
+        intent.putExtra(ContainerActivity.BUNDLE, bundle);
+        getContext().startActivity(intent);
     }
 }

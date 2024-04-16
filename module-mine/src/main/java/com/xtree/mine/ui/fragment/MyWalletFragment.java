@@ -1,6 +1,5 @@
 package com.xtree.mine.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -25,7 +24,6 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.MsgDialog;
-import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentMyWalletBinding;
@@ -40,7 +38,6 @@ import java.util.Collections;
 import java.util.List;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterFragmentPath.Mine.PAGER_MY_WALLET)
@@ -120,22 +117,6 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
 
         binding.tvwMgmt.setOnClickListener(v -> {
             CfLog.d("************");
-            if (!mProfileVo.is_binding_email && !mProfileVo.is_binding_phone) {
-                ppw2 = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), "", getResources().getString(R.string.txt_no_binding), "绑定手机", "绑定邮箱", new TipDialog.ICallBack() {
-                    @Override
-                    public void onClickLeft() {
-                        startBinding(Constant.BIND_PHONE);
-                        ppw2.dismiss();
-                    }
-
-                    @Override
-                    public void onClickRight() {
-                        startBinding(Constant.BIND_EMAIL);
-                        ppw2.dismiss();
-                    }
-                })).show();
-                return;
-            }
             new XPopup.Builder(getContext()).asCustom(new AccountMgmtDialog(getContext())).show();
         });
 
@@ -358,14 +339,5 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
         }
 
         walletPopView.show();
-    }
-
-    private void startBinding(String verify) {
-        Bundle bundle = new Bundle();
-        bundle.putString("type", verify);
-        Intent intent = new Intent(getContext(), ContainerActivity.class);
-        intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY);
-        intent.putExtra(ContainerActivity.BUNDLE, bundle);
-        getContext().startActivity(intent);
     }
 }
