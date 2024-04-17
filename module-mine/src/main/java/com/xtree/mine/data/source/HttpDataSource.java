@@ -75,6 +75,11 @@ public interface HttpDataSource {
     Flowable<DividendAutoSendResponse> getDividendAutoSendData(DividendAutoSentQuery query, DividendAutoSendRequest request);
 
     /**
+     * 返水契约-分红契约-一键发放-确认发放
+     */
+    Flowable<DividendAutoSendResponse> getDividendAutoSendStep2Data(DividendAutoSentQuery query, DividendAutoSendRequest request);
+
+    /**
      * 返水契约-推荐报表
      */
     Flowable<RecommendedReportsResponse> getRecommendedReportsData(RecommendedReportsRequest request);
