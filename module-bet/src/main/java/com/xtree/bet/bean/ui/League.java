@@ -70,6 +70,10 @@ public interface League extends BaseBean {
      */
     boolean isExpand();
 
+    /**
+     * 是否是头部信息
+     * @return
+     */
     boolean isHead();
     void setHead(boolean isHead);
     int getMatchCount();
