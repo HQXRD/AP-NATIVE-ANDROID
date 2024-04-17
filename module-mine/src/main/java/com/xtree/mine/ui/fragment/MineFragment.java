@@ -83,6 +83,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             setChildClickable(binding.llMenu01, true);
             setChildClickable(binding.llMenu02, true);
             viewModel.readCache(); // 读取缓存
+            viewModel.getReward(); // 获取优惠中心是否显示小红点
         }
     }
 
@@ -521,6 +522,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
         });
 
+        viewModel.liveDataReward.observe(this, vo -> {
+            binding.tvwDcCentre.setSelected(vo.result);
+        });
     }
 
     /**

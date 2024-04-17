@@ -35,6 +35,7 @@ import com.xtree.mine.vo.ProfitLossReportVo;
 import com.xtree.mine.vo.QuestionVo;
 import com.xtree.mine.vo.RebateReportVo;
 import com.xtree.mine.vo.RechargeReportVo;
+import com.xtree.mine.vo.RewardVo;
 import com.xtree.mine.vo.SettingsVo;
 import com.xtree.mine.vo.ThirdGameTypeVo;
 import com.xtree.mine.vo.ThirdTransferReportVo;
@@ -524,6 +525,9 @@ public interface HttpApiService {
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<VirtualConfirmVo> postConfirmWithdrawVirtual(@Body Map<String, String> map);
 
+    /**
+     * 常见问题
+     */
     @GET("/help/answer?client=m")
     Flowable<QuestionVo> getQuestionWeb();
 
@@ -533,10 +537,16 @@ public interface HttpApiService {
     @GET("/api/activity/awardrecord?&client=m")
     Flowable<BaseResponse<AwardsRecordVo>> getAwardRecord();
 
+    /**
+     * 删除站内信
+     */
     @POST("/?controller=user&action=messages&tag=deleteselect&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse2> deletePartPersonInfo(@Body Map<String, Object> map);
 
+    /**
+     * 删除所有站内信
+     */
     @GET("/user/messages?tag=deleteall&client=m")
     Flowable<BaseResponse2> deleteAllPersonInfo();
 
@@ -551,4 +561,10 @@ public interface HttpApiService {
      */
     @GET("/api/app/version?platform=android")
     Flowable<BaseResponse<AppUpdateVo>> getUpdate();
+
+    /**
+     * 获取优惠中心是否有优惠
+     */
+    @GET("/api/activity/reward/?has_pending_reward=1")
+    Flowable<BaseResponse<RewardVo>> getReward();
 }
