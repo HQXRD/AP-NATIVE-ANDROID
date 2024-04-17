@@ -162,6 +162,21 @@ public class HttpDataSourceImpl implements HttpDataSource {
     }
 
     @Override
+    public Flowable<DividendAutoSendResponse> getDividendAutoSendStep2Data(DividendAutoSentQuery query, DividendAutoSendRequest request) {
+        String json = JSON.toJSONString(request);
+        Map<String, Object> map = JSON.parseObject(json, type);
+
+        String queryJson = JSON.toJSONString(query);
+        Map<String, Object> queryMap = JSON.parseObject(queryJson, type);
+        return apiService.post(APIManager.GAMEDIVIDENDAGRT_AUTOSEND_URL, queryMap, map).map(new Function<ResponseBody, DividendAutoSendResponse>() {
+            @Override
+            public DividendAutoSendResponse apply(ResponseBody responseBody) throws Exception {
+                return gson.fromJson(responseBody.string(), DividendAutoSendResponse.class);
+            }
+        });
+    }
+
+    @Override
     public Flowable<RecommendedReportsResponse> getRecommendedReportsData(RecommendedReportsRequest request) {
         String json = JSON.toJSONString(request);
         Map<String, Object> map = JSON.parseObject(json, type);

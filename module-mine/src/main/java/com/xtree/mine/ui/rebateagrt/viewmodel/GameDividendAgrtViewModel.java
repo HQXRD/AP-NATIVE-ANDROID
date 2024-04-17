@@ -25,6 +25,7 @@ import com.xtree.base.widget.MsgDialog;
 import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
+import com.xtree.mine.ui.rebateagrt.dialog.DividendTipDialog;
 import com.xtree.mine.ui.rebateagrt.fragment.DividendAgrtCheckDialogFragment;
 import com.xtree.mine.ui.rebateagrt.fragment.DividendAgrtSendDialogFragment;
 import com.xtree.mine.ui.rebateagrt.model.DividendAgrtCheckEvent;
@@ -54,6 +55,7 @@ import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.BaseResponse2;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by KAKA on 2024/3/14.
@@ -387,8 +389,21 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                 .subscribeWith(new HttpCallBack<DividendAutoSendResponse>() {
                     @Override
                     public void onResult(DividendAutoSendResponse vo) {
-                        if (vo.getStatus() == 1) {
-                            showTipDialog(getApplication().getString(R.string.txt_send_dividend_tip4));
+                        Map<String, DividendAutoSendResponse.DataDTO> data = vo.getData();
+                        if (vo.getStatus() == 1 && vo.getData() != null) {
+                            int userNum = 0;
+                            int totalMoney = 0;
+                            for (Map.Entry<String, DividendAutoSendResponse.DataDTO> map : data.entrySet()) {
+                                if (map.getValue().getPayStatus() == 1) {
+                                    userNum += 1;
+                                    totalMoney += map.getValue().getSelfMoney();
+                                }
+                            }
+                            showDividendTipDialog(getApplication()
+                                    .getString(R.string.txt_send_dividend_tip1,
+                                            String.valueOf(userNum),
+                                            String.valueOf(totalMoney))
+                            );
                         } else {
                             showTipDialog(vo.getMsg());
                         }
@@ -401,6 +416,74 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                     }
                 });
         addSubscribe(disposable);
+    }
+
+    private void getAutoSend2() {
+
+        if (getmCompositeDisposable() != null) {
+            getmCompositeDisposable().clear();
+        }
+        if (dividendAgrtData == null || dividendAgrtData.getGet() == null) {
+            return;
+        }
+
+        DividendAutoSentQuery query = new DividendAutoSentQuery();
+        DividendAutoSendRequest request = new DividendAutoSendRequest();
+        request.setType(headModel.type);
+        request.setCycle_id(dividendAgrtData.getGet().getCycle_id());
+
+        Disposable disposable = model.getDividendAutoSendStep2Data(query, request)
+                .doOnSubscribe(new Consumer<Subscription>() {
+                    @Override
+                    public void accept(Subscription subscription) throws Exception {
+                        LoadingDialog.show(mActivity.get());
+                    }
+                })
+                .subscribeWith(new HttpCallBack<DividendAutoSendResponse>() {
+                    @Override
+                    public void onResult(DividendAutoSendResponse reeponse) {
+                        if (reeponse.getStatus() == 1) {
+                            showTipDialog(reeponse.getMsg());
+
+                            //重新加载列表数据
+                            headModel.p = 1;
+                            getDividendData();
+                        } else {
+                            ToastUtils.show(reeponse.getMsg(), ToastUtils.ShowType.Fail);
+                        }
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
+                        ToastUtils.show(t.getMessage(), ToastUtils.ShowType.Fail);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    private void showDividendTipDialog(String msg) {
+        DividendTipDialog dialog = new DividendTipDialog(mActivity.get(), msg, new TipDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+                if (pop != null) {
+                    pop.dismiss();
+                }
+            }
+
+            @Override
+            public void onClickRight() {
+                if (pop != null) {
+                    pop.dismiss();
+                }
+                getAutoSend2();
+            }
+        });
+
+        pop = new XPopup.Builder(mActivity.get())
+                .dismissOnTouchOutside(true)
+                .dismissOnBackPressed(true)
+                .asCustom(dialog).show();
     }
 
     /**
