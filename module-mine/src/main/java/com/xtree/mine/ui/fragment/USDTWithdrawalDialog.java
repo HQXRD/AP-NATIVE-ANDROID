@@ -133,11 +133,14 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         //USDT提款设置提款请求 返回model
         viewModel.usdtCashVoMutableLiveData.observe(owner, vo -> {
             usdtCashVo = vo;
-
-            if (usdtCashVo == null || usdtCashVo.channel_list == null || usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()) {
+            //|| usdtCashVo.channel_list == null || usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()
+            if (usdtCashVo == null ) {
                 showErrorByChannel();
+            }else if (!TextUtils.isEmpty(usdtCashVo.message) && getContext().getString(R.string.txt_no_withdrawals_available_tip).equals(usdtCashVo.message)) {
+                //"message": "您今天已没有可用提款次数"
+                refreshError(usdtCashVo.message);
             }
-            //异常
+          /*  //异常
             else if (usdtCashVo.msg_type == 2 || usdtCashVo.msg_type == 1) {
                 final String leftString = getContext().getString(R.string.txt_no_withdrawals_available_tip);
 
@@ -148,7 +151,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
                     dismiss();
                 }
                 return;
-            }
+            }*/
             // 提现选项卡不能为空
             else if (usdtCashVo.channel_list == null || usdtCashVo.channel_list.isEmpty() ||
                     usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()) {
