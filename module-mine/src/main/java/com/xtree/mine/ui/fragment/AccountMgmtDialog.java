@@ -69,7 +69,8 @@ public class AccountMgmtDialog extends BottomPopupView {
                 String type = child.getTag().toString();
                 Bundle bundle = new Bundle();
                 bundle.putString("type", type);
-                String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
+                //String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
+                String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY; // 验证页(可左右滑动)
                 //ctx.startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
 
                 if (!mProfileVo.is_binding_email && !mProfileVo.is_binding_phone) {
