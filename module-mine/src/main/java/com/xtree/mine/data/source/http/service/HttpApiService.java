@@ -524,6 +524,9 @@ public interface HttpApiService {
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<VirtualConfirmVo> postConfirmWithdrawVirtual(@Body Map<String, String> map);
 
+    /**
+     * 常见问题
+     */
     @GET("/help/answer?client=m")
     Flowable<QuestionVo> getQuestionWeb();
 
@@ -533,10 +536,16 @@ public interface HttpApiService {
     @GET("/api/activity/awardrecord?&client=m")
     Flowable<BaseResponse<AwardsRecordVo>> getAwardRecord();
 
+    /**
+     * 删除站内信
+     */
     @POST("/?controller=user&action=messages&tag=deleteselect&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse2> deletePartPersonInfo(@Body Map<String, Object> map);
 
+    /**
+     * 删除所有站内信
+     */
     @GET("/user/messages?tag=deleteall&client=m")
     Flowable<BaseResponse2> deleteAllPersonInfo();
 
