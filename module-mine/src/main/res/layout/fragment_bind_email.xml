@@ -77,9 +77,18 @@
             style="@style/style_info_grey_50"
             android:text="@string/txt_email_will_help_u" />
 
-        <ImageView
-            android:id="@+id/ivw_ok"
-            style="@style/style_ok" />
+        <TextView
+            android:id="@+id/tvw_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/bg_btn_confirm_selector"
+            android:enabled="false"
+            android:gravity="center"
+            android:textColor="@color/clr_white"
+            android:textSize="18sp"
+            android:textStyle="normal" />
 
         <LinearLayout
             android:layout_width="match_parent"

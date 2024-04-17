@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -50,6 +52,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
     private String tokenSign;
     private VerifyVo mVerifyVo;
     private String sendtype = "phone";
+    private TextWatcher textWatcher;
 
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -89,12 +92,29 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
 
     @Override
     public void initView() {
+        binding.tvwOk.setEnabled(false);
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.tvwCode.setOnClickListener(v -> {
             LoadingDialog.show(getContext());
             getCode();
         });
-        binding.ivwOk.setOnClickListener(v -> submit());
+        binding.tvwOk.setOnClickListener(v -> submit());
+        textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setBtn();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+        binding.edtNum.addTextChangedListener(textWatcher);
+        binding.edtCode.addTextChangedListener(textWatcher);
     }
 
     @Override
@@ -446,6 +466,14 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
         binding.tvwCode.setEnabled(false);
         binding.tvwCode.setText(vo.timeoutsec + "s");
         mHandler.sendEmptyMessageDelayed(MSG_TIMER, 1000L);
+    }
+
+    private void setBtn() {
+        if (!binding.edtCode.getText().toString().isEmpty() && !binding.edtNum.getText().toString().isEmpty()) {
+            binding.tvwOk.setEnabled(true);
+        } else {
+            binding.tvwOk.setEnabled(false);
+        }
     }
 
 }
