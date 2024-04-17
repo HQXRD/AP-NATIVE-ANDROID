@@ -370,14 +370,14 @@
                         style="@style/style_menu_white"
                         android:drawableTop="@mipmap/me_account_safty"
                         android:text="@string/me_account_safety"
-                        android:visibility="visible" />
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/tvw_dc_centre"
                         style="@style/style_menu_white"
-                        android:drawableTop="@mipmap/me_dc_centre"
+                        android:drawableTop="@drawable/bg_reward_selector"
                         android:text="@string/me_discount_centre"
-                        android:visibility="gone" />
+                        android:visibility="visible" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,6 +35,7 @@ import com.xtree.mine.vo.ProfitLossReportVo;
 import com.xtree.mine.vo.QuestionVo;
 import com.xtree.mine.vo.RebateReportVo;
 import com.xtree.mine.vo.RechargeReportVo;
+import com.xtree.mine.vo.RewardVo;
 import com.xtree.mine.vo.SettingsVo;
 import com.xtree.mine.vo.ThirdGameTypeVo;
 import com.xtree.mine.vo.ThirdTransferReportVo;
@@ -560,4 +561,10 @@ public interface HttpApiService {
      */
     @GET("/api/app/version?platform=android")
     Flowable<BaseResponse<AppUpdateVo>> getUpdate();
+
+    /**
+     * 获取优惠中心是否有优惠
+     */
+    @GET("/api/activity/reward/?has_pending_reward=1")
+    Flowable<BaseResponse<RewardVo>> getReward();
 }
