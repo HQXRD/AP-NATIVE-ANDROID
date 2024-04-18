@@ -395,15 +395,20 @@ public class GameDividendAgrtViewModel extends BaseViewModel<MineRepository> imp
                             int totalMoney = 0;
                             for (Map.Entry<String, DividendAutoSendResponse.DataDTO> map : data.entrySet()) {
                                 if (map.getValue().getPayStatus() == 1) {
-                                    userNum += 1;
+//                                    userNum += 1;
+                                    userNum = map.getValue().getBillNum();
                                     totalMoney += map.getValue().getSelfMoney();
                                 }
                             }
-                            showDividendTipDialog(getApplication()
-                                    .getString(R.string.txt_send_dividend_tip1,
-                                            String.valueOf(userNum),
-                                            String.valueOf(totalMoney))
-                            );
+                            if (userNum == 0 || totalMoney == 0) {
+                                showTipDialog("下级已结清，无需发放");
+                            } else {
+                                showDividendTipDialog(getApplication()
+                                        .getString(R.string.txt_send_dividend_tip1,
+                                                String.valueOf(userNum),
+                                                String.valueOf(totalMoney))
+                                );
+                            }
                         } else {
                             showTipDialog(vo.getMsg());
                         }
