@@ -28,7 +28,6 @@ import com.xtree.home.databinding.HmItemGameBinding;
 import com.xtree.home.ui.custom.view.TipPMDialog;
 import com.xtree.home.vo.GameVo;
 
-import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -65,6 +64,8 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         binding = HmItemGameBinding.bind(holder.itemView);
         binding.ivwImg.setImageLevel(vo.typeId);
         binding.ivwImg.setOnClickListener(view -> jump(vo));
+        //维护状态或已下架状态，ivwGreyCover抢占点击事件，当前游戏不可进入
+        binding.ivwGreyCover.setOnClickListener(null);
 
         if (vo.status == 0) {
             String txt = ctx.getString(R.string.hm_txt_maintaining, vo.maintenance_start, vo.maintenance_end);
@@ -89,7 +90,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
 
         CfLog.e(getData().size() + "  " + position);
         if ((getData().size() - 1) > position) {
-            CfLog.e("position : " + position + " " + true );
+            CfLog.e("position : " + position + " " + true);
             binding.rlSpace.setVisibility(View.GONE);
         } else {
             binding.rlSpace.setVisibility(View.VISIBLE);
