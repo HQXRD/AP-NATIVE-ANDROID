@@ -28,6 +28,7 @@ import com.xtree.home.databinding.HmItemGameBinding;
 import com.xtree.home.ui.custom.view.TipPMDialog;
 import com.xtree.home.vo.GameVo;
 
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -80,15 +81,10 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
 
         if (vo.twoImage) {
-            binding.ivwSplit.setVisibility(View.INVISIBLE);
-            binding.ivwCoverLeft.setVisibility(View.VISIBLE);
-            binding.ivwCoverRight.setVisibility(View.VISIBLE);
-            binding.ivwCoverLeft.setOnClickListener(view -> jump(vo, true));
-            binding.ivwCoverRight.setOnClickListener(view -> jump(vo, false));
+            binding.layoutFc.setVisibility(View.VISIBLE);
+            setFastCommon(position, vo);
         } else {
-            binding.ivwSplit.setVisibility(View.GONE);
-            binding.ivwCoverLeft.setVisibility(View.GONE);
-            binding.ivwCoverRight.setVisibility(View.GONE);
+            binding.layoutFc.setVisibility(View.GONE);
         }
 
         CfLog.e(getData().size() + "  " + position);
@@ -97,6 +93,44 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             binding.rlSpace.setVisibility(View.GONE);
         } else {
             binding.rlSpace.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * 极速版普通版切换
+     */
+    private void setFastCommon(int position, GameVo vo) {
+        String key;
+        if (vo.cid == 5) {
+            //熊猫体育
+            key = SPKeyGlobal.PM_FAST_COMMON;
+        } else if (vo.cid == 26) {
+            //FB体育
+            key = SPKeyGlobal.FB_FAST_COMMON;
+        } else {
+            key = "";
+        }
+        boolean isFast = SPUtils.getInstance().getBoolean(key, true);
+        if (isFast) {
+            //如果是极速版
+            binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_fast);
+            binding.ivwImg.setOnClickListener(view -> jump(vo, true));
+            binding.ivLeft.setOnClickListener(null);
+            binding.ivRight.setOnClickListener(view -> {
+                CfLog.i("ivRight");
+                SPUtils.getInstance().put(key, false);
+                notifyItemChanged(position);
+            });
+        } else {
+            //普通版
+            binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_common);
+            binding.ivwImg.setOnClickListener(view -> jump(vo, false));
+            binding.ivRight.setOnClickListener(null);
+            binding.ivLeft.setOnClickListener(view -> {
+                CfLog.i("ivLeft");
+                SPUtils.getInstance().put(key, true);
+                notifyItemChanged(position);
+            });
         }
     }
 
