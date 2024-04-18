@@ -269,7 +269,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                             } else {
 
                             }
-                            if (bankCardCashVo.channel_list.get(i).thiriframe_status == 1) {
+                            if (bankCardCashVo.channel_list.get(i).thiriframe_use == 1) {
                                 bankCardCashVo.channel_list.get(i).isWebView = 1;//需要展示webView页面
                             } else {
                                 bankCardCashVo.channel_list.get(i).isWebView = 2;//需要展示webView页面

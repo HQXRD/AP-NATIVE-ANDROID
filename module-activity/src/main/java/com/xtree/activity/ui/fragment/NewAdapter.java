@@ -2,6 +2,7 @@ package com.xtree.activity.ui.fragment;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,12 @@ public class NewAdapter extends CachedAutoRefreshAdapter<NewVo> {
     public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
         NewVo vo = get(position);
         binding = ItemNewBinding.bind(holder.itemView);
+
+        if ((getSize() - 1) == position) {
+            binding.rlSpace.setVisibility(View.VISIBLE);
+        } else {
+            binding.rlSpace.setVisibility(View.GONE);
+        }
 
         Glide.with(ctx).load(vo.h5_image).placeholder(R.mipmap.dc_bg).into(binding.ivwImg);
         binding.tvwTitle.setText(vo.title);
