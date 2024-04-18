@@ -128,7 +128,7 @@ public class MineRepository extends BaseModel implements HttpDataSource, LocalDa
 
     @Override
     public Flowable<DividendAutoSendResponse> getDividendAutoSendStep2Data(DividendAutoSentQuery query, DividendAutoSendRequest request) {
-        return mHttpDataSource.getDividendAutoSendData(query, request)
+        return mHttpDataSource.getDividendAutoSendStep2Data(query, request)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer());
     }

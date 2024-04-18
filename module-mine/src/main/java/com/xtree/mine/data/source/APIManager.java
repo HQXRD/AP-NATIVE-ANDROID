@@ -40,6 +40,8 @@ public class APIManager {
     public static final String GAMEDIVIDENDAGRT_URL = "/pink/index";
     //分红契约-一键发放
     public static final String GAMEDIVIDENDAGRT_AUTOSEND_URL = "/pink/ajaxhub/countpink";
+    //分红契约-一键发放-第二步
+    public static final String GAMEDIVIDENDAGRT_AUTOSEND_STEP2_URL = "/pink/checkout";
     //分红契约-规则详情
     public static final String GAMEDIVIDENDAGRT_DETAIL_URL = "/pink/ajaxhub/contract";
     //分红契约-手动分发-第一步
