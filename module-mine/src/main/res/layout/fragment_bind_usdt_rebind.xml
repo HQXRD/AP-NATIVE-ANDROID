@@ -71,7 +71,8 @@
 
                 <TextView
                     android:id="@+id/tvw_submit_old"
-                    style="@style/style_btn" />
+                    style="@style/style_btn"
+                    android:enabled="false" />
             </LinearLayout>
         </LinearLayout>
 

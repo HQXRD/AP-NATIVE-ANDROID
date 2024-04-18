@@ -566,7 +566,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         int measuredHeight = mHeader.getMeasuredHeight();
         int measuredWidth = mHeader.getMeasuredWidth();
 
-        if (firstGroup != 0 && mLeagueList.get(nextGroup).isHead() && mLeagueList.get(nextGroup).getHeadType() == League.HEAD_TYPE_LIVE_OR_NOLIVE) {
+        if (firstGroup != 0 && nextGroup > -1 && mLeagueList.size() > nextGroup &&
+                mLeagueList.get(nextGroup).isHead() && mLeagueList.get(nextGroup).getHeadType() == League.HEAD_TYPE_LIVE_OR_NOLIVE) {
             if (top < measuredHeight) {
                 int dy = measuredHeight - top;
                 mHeader.layout(0, -dy, measuredWidth, measuredHeight - dy);

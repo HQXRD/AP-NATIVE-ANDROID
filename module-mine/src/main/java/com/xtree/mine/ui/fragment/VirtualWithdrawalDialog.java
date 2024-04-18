@@ -128,13 +128,13 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         //虚拟币提款设置提款请求 返回model
         viewModel.virtualCashVoMutableLiveData.observe(owner, vo -> {
             virtualCashVo = vo;
-            if (virtualCashVo == null || virtualCashVo.rest == null || virtualCashVo.usdtinfo == null || virtualCashVo.usdtinfo.isEmpty()) {
+            //|| virtualCashVo.rest == null || virtualCashVo.usdtinfo == null || virtualCashVo.usdtinfo.isEmpty()
+            if (virtualCashVo == null) {
                 showError();
             } else if (virtualCashVo.msg_type == 1 || virtualCashVo.msg_type == 2) {
-
                 if (TextUtils.equals("您今天已没有可用提款次数", virtualCashVo.message)) {
                     refreshError(virtualCashVo.message);
-                } else {
+                } else if (virtualCashVo.message != null) {
                     ToastUtils.showError(virtualCashVo.message);
                     dismiss();
                 }
@@ -289,7 +289,6 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         binding.tvVirtualMoneyType.setText(usdtSecurityVo.usdt_type);//提款类型
         binding.tvWithdrawalAddressShow.setText(usdtSecurityVo.usdt_card);//提款地址
         binding.tvWithdrawalHandlingFeeShow.setText(usdtSecurityVo.datas.handing_fee);
-
 
         //下一步
         binding.ivConfirmNext.setOnClickListener(v -> {

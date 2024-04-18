@@ -70,7 +70,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     LifecycleOwner owner;
     Context context;
     ChooseInfoVo chooseInfoVo;
-    BasePopupView ppw = null; // 底部弹窗
+    BasePopupView errorPopView = null; // 底部弹窗
 
     private BasePopupView customPopWindow;
     private FragmentActivity mActivity;
@@ -209,17 +209,12 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     ChooseInfoVo.ChannelInfo channel = channelInfo;
                     CfLog.e("channel  = " + channel.toString());
                     if (channel.isBind == false) {
-                        if (!TextUtils.isEmpty(channel.channeluseMessage) && !channel.isBind) {
-                            if (channel.channeluseMessage.contains("首次提款仅可使用银行卡方式提款")) {
-                                showErrorDialog(channel.channeluseMessage);
-                            } else {
-                                showBindDialog(channel, channel.channeluseMessage);
-                            }
+                        if (!TextUtils.isEmpty(channel.channeluseMessage) && channel.channeluseMessage.contains("首次提款仅可使用银行卡方式提款")) {
+                            showBindDialog(channel, channel.channeluseMessage);
                         } else {
                             showErrorDialog(channel.channeluseMessage);
                         }
                     } else if (channel.isBind && TextUtils.isEmpty(channel.channeluseMessage)) {
-                        CfLog.i("txt = " + txt + "isBind = " + channel.isBind + " ||\nChooseAdapter channel = " + channel.toString());
                         if (TextUtils.equals("银行卡提款", txt)) {
                             showBankWithdrawalDialog(channelInfo);
                         } else if (TextUtils.equals("极速微信提款", txt) && TextUtils.equals("bindcardwx", channel.bindType)) {
@@ -232,7 +227,6 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     } else if (channel.isBind && !TextUtils.isEmpty(channel.channeluseMessage)) {
                         showErrorDialog(channel.channeluseMessage);
                     }
-
                 }
 
             });
@@ -240,7 +234,6 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
             binding.lvChoose.setAdapter(adapter);
             binding.llChooseTip.setVisibility(View.VISIBLE);
             binding.tvChooseTutorial.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-            //下划线TextView 点击事件
             binding.tvChooseTutorial.setOnClickListener(v -> {
                 Intent intent = new Intent(getContext(), BrowserActivity.class);
                 intent.putExtra(BrowserActivity.ARG_TITLE, "USDT教程");
@@ -420,20 +413,23 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 显示异常Dialog
      */
     private void showErrorDialog(String showMessage) {
-        ppw = new XPopup.Builder(getContext())
+        if (showMessage == null) {
+            return;
+        }
+        errorPopView = new XPopup.Builder(getContext())
                 .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), showMessage, false, new MsgDialog.ICallBack() {
                     @Override
                     public void onClickLeft() {
-                        ppw.dismiss();
+                        errorPopView.dismiss();
                         //callBack.closeDialog();
                     }
 
                     @Override
                     public void onClickRight() {
-                        ppw.dismiss();
+                        errorPopView.dismiss();
                         // callBack.closeDialog();
                     }
                 }));
-        ppw.show();
+        errorPopView.show();
     }
 }

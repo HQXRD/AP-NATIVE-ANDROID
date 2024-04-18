@@ -137,6 +137,9 @@ public class BindUsdtRebindFragment extends BaseFragment<FragmentBindUsdtRebindB
         viewModel.liveDataRebindCard01.observe(this, vo -> {
             CfLog.i("****** 1 " + vo.flag);
             mConfirmVo = vo;
+            if (vo != null && !TextUtils.isEmpty(vo.flag) && !TextUtils.isEmpty(vo.action)) {
+                binding.tvwSubmitOld.setEnabled(true); // 设置为可点击
+            }
         });
 
         viewModel.liveDataRebindCard02.observe(this, vo -> {

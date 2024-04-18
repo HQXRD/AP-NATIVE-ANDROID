@@ -18,6 +18,7 @@ import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.QuestionVo;
+import com.xtree.mine.vo.RewardVo;
 import com.xtree.mine.vo.VipInfoVo;
 import com.xtree.mine.vo.VipUpgradeInfoVo;
 
@@ -39,6 +40,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<VipUpgradeInfoVo> liveDataVipUpgrade = new SingleLiveData<>(); // Vip升级资讯
     public SingleLiveData<VipInfoVo> liveDataVipInfo = new SingleLiveData<>(); // Vip个人资讯
     public SingleLiveData<String> liveDataQuestionWeb = new SingleLiveData<>(); // 常见问题
+    public SingleLiveData<RewardVo> liveDataReward = new SingleLiveData<>(); // 是否有优惠
 
     public MutableLiveData<AppUpdateVo> liveDataUpdate = new MutableLiveData<>();//更新
 
@@ -177,6 +179,28 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                             ToastUtils.showLong("请重新登录");
                             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
                             finish(); // 关闭页面
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getReward() {
+        Disposable disposable = (Disposable) model.getApiService().getReward()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<RewardVo>() {
+                    @Override
+                    public void onResult(RewardVo vo) {
+                        if (vo != null) {
+                            CfLog.d(vo.toString());
+                            liveDataReward.setValue(vo);
                         }
                     }
 

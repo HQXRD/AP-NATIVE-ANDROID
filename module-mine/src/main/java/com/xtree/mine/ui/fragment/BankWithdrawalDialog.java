@@ -301,9 +301,10 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         viewModel.channelDetailVoMutableLiveData.observe(this.owner, vo -> {
             dismissLoading();
             bankCardCashVo = vo;
-            if (bankCardCashVo == null || bankCardCashVo.banks == null
+           /* || bankCardCashVo.banks == null
                     || bankCardCashVo.banks.isEmpty() || bankCardCashVo.channel_list == null
-                    || bankCardCashVo.channel_list.isEmpty()) {
+                    || bankCardCashVo.channel_list.isEmpty()*/
+            if (bankCardCashVo == null ) {
                 showError();
             } else if (!TextUtils.isEmpty(bankCardCashVo.message) && getContext().getString(R.string.txt_no_withdrawals_available_tip).equals(bankCardCashVo.message)) {
                 //"message": "您今天已没有可用提款次数"
