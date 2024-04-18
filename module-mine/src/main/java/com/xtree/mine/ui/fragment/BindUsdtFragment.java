@@ -84,7 +84,7 @@ public class BindUsdtFragment extends BaseFragment<FragmentBindUsdtBinding, Bind
                 binding2 = ItemBindCardBinding.bind(holder.itemView);
                 UsdtVo vo = get(position);
                 binding2.tvwUserName.setText(vo.user_name);
-                binding2.tvwBindTime.setText(vo.atime);
+                binding2.tvwBindTime.setText(vo.utime);
                 binding2.tvwType.setText(vo.usdt_type);
                 binding2.tvwAccount.setText(vo.usdt_card);
                 binding2.tvwStatus.setVisibility(View.GONE);
