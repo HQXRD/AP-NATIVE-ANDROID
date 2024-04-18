@@ -35,6 +35,11 @@ import me.xtree.mvvmhabit.bus.RxBus;
 @Route(path = RouterFragmentPath.Mine.PAGER_DIVIDENDAGRT_SEND_DIALOG)
 public class DividendAgrtSendDialogFragment extends BaseDialogFragment<DialogDividendagrtSendBinding, DividendAgrtSendViewModel> {
 
+    /**
+     * 发送分红完成
+     */
+    public static final String SENT = DividendAgrtSendDialogFragment.class.getName() + "sent";
+
     private DividendAgrtSendDialogFragment() {
     }
 

@@ -23,6 +23,7 @@ import com.xtree.base.widget.TipDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.ui.rebateagrt.dialog.DividendTipDialog;
+import com.xtree.mine.ui.rebateagrt.fragment.DividendAgrtSendDialogFragment;
 import com.xtree.mine.ui.rebateagrt.model.DividendAgrtSendHeadModel;
 import com.xtree.mine.ui.rebateagrt.model.DividendAgrtSendModel;
 import com.xtree.mine.vo.request.DividendAgrtSendQuery;
@@ -43,6 +44,7 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.http.BaseResponse2;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -232,11 +234,15 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
                     @Override
                     public void onResult(DividendAgrtSendReeponse reeponse) {
                         if (reeponse.getStatus() == 1) {
-                            showTipDialog(reeponse.getMsg());
+                            //发送完成消息
+                            RxBus.getDefault().post(DividendAgrtSendDialogFragment.SENT);
 
+                            total.setValue("0.00");
                             //重新加载列表数据
                             headModel.p = 1;
                             getDividendData();
+
+                            showTipDialog(reeponse.getMsg());
                         } else {
                             ToastUtils.show(reeponse.getMsg(), ToastUtils.ShowType.Fail);
                         }
@@ -252,9 +258,6 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
     }
 
     private synchronized void getDividendData() {
-        if (getmCompositeDisposable() != null) {
-            getmCompositeDisposable().clear();
-        }
 
         gameDividendAgrtRequest.p = headModel.p;
         Disposable disposable = model.getGameDividendAgrtData(gameDividendAgrtRequest)
@@ -327,7 +330,13 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
                                     mobilePage.total_page.equals(String.valueOf(gameDividendAgrtRequest.p))) {
                                 loadMoreWithNoMoreData();
                             } else {
-                                finishLoadMore(true);
+                                //如果本页不包含未结算数据则加载下一页
+                                if (bindModels.size() <= 1) {
+                                    headModel.p++;
+                                    getDividendData();
+                                } else {
+                                    finishLoadMore(true);
+                                }
                             }
                         } else {
                             finishLoadMore(false);
@@ -340,6 +349,7 @@ public class DividendAgrtSendViewModel extends BaseViewModel<MineRepository> imp
                         finishLoadMore(false);
                     }
                 });
+
         addSubscribe(disposable);
     }
 
