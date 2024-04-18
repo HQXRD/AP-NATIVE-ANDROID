@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -46,9 +47,11 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, VerifyViewModel> {
 
     private static final String ARG_TYPE = "type";
+    private static final String ARG_TYPE2 = "type2"; // 绑定成功后,办理其它业务
     private static final String ARG_TOKEN_SIGN = "tokenSign";
     private static final int MSG_TIMER = 3001;
     private String typeName;
+    private String typeName2;
     private String tokenSign;
     private VerifyVo mVerifyVo;
     private String sendtype = "email";
@@ -123,8 +126,9 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
         if (getArguments() != null) {
             typeName = getArguments().getString(ARG_TYPE);
             tokenSign = getArguments().getString(ARG_TOKEN_SIGN);
+            typeName2 = getArguments().getString(ARG_TYPE2);
         }
-        CfLog.i("****** typeName: " + typeName + ", tokenSign:" + tokenSign);
+        CfLog.i("****** typeName: " + typeName + ", tokenSign: " + tokenSign + ", typeName2: " + typeName2);
 
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
         ProfileVo mProfileVo = new Gson().fromJson(json, ProfileVo.class);
@@ -356,6 +360,12 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
             ToastUtils.showLong(R.string.txt_bind_succ);
             //getActivity().finish();
             viewModel.getProfile2();
+
+            // 绑定完成后,去办理其它业务
+            if (!TextUtils.isEmpty(typeName2) && vo != null && !TextUtils.isEmpty(vo.mark) && !TextUtils.isEmpty(vo.tokenSign)) {
+                CfLog.i("*********** goOthers: " + typeName2);
+                viewModel.goOthers(getActivity(), typeName2, vo);
+            }
         });
         viewModel.liveDataSingleVerify2.observe(this, vo -> {
             CfLog.i("*********** 验证成功, 去修改密码");
