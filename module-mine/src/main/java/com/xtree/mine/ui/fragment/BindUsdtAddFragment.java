@@ -43,7 +43,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
     private final String controller = "security";
     private String action = "adduserusdt"; // adduserusdt
     private String mark = "bindusdt"; // bindusdt
-    //private String tokenSign = "";
+    private String tokenSign = ""; // 绑定手机邮箱后直接跳转过来会用到
     private String id = "";
     String type = ""; // ERC20_USDT,TRC20_USDT
     UserUsdtJumpVo mUserUsdtJumpVo;
@@ -102,7 +102,7 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
             CfLog.i(mUserUsdtJumpVo.toString());
             action = mUserUsdtJumpVo.action;
             mark = mUserUsdtJumpVo.mark;
-            //tokenSign = mUserUsdtJumpVo.tokenSign;
+            tokenSign = mUserUsdtJumpVo.tokenSign;
             type = mUserUsdtJumpVo.type;
             //id = mUserUsdtJumpVo.id;
             viewModel.key = mUserUsdtJumpVo.key;
@@ -167,6 +167,8 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
         map.put("controller", controller);
         map.put("action", action);
         map.put("client", "m");
+        map.put("mark", mark); // 绑定手机邮箱后直接跳转过来会用到
+        map.put("check", tokenSign); // 绑定手机邮箱后直接跳转过来会用到
         viewModel.getUsdtType(map);
     }
 
@@ -191,8 +193,8 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
         queryMap.put("controller", controller);
         queryMap.put("action", action);
         queryMap.put("client", "m");
-        //queryMap.put("mark", mark);
-        //queryMap.put("check", tokenSign);
+        queryMap.put("mark", mark); // 绑定手机邮箱后直接跳转过来会用到
+        queryMap.put("check", tokenSign); // 绑定手机邮箱后直接跳转过来会用到
 
         HashMap map = new HashMap();
         map.put("flag", "add");
@@ -216,6 +218,8 @@ public class BindUsdtAddFragment extends BaseFragment<FragmentBindUsdtAddBinding
         queryMap.put("controller", controller);
         queryMap.put("action", action);
         queryMap.put("client", "m");
+        queryMap.put("mark", mark); // 绑定手机邮箱后直接跳转过来会用到
+        queryMap.put("check", tokenSign); // 绑定手机邮箱后直接跳转过来会用到
 
         HashMap map = new HashMap();
         map.put("flag", "confirm");

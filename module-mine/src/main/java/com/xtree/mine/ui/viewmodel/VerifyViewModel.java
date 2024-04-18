@@ -415,7 +415,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                 remind = ctx.getString(R.string.txt_remind_usdt_trc20) + ";\n" + ctx.getString(R.string.txt_remind_usdt_erc20);
                 //url = DomainUtil.getDomain2() + "/user/userusdtinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
                 //startNextPage(ctx, RouterFragmentPath.Mine.PAGER_BIND_USDT, vo);
-                startUsdt(ctx, title, remind, vo, true);
+                startUsdt(ctx, type, title, remind, vo, true);
                 return;
             case Constant.BIND_EBPAY:
                 title = ctx.getString(R.string.txt_bind_ebpay); //"绑定EBPAY";
@@ -456,12 +456,9 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                 //url = DomainUtil.getDomain2() + "/user/userokpayinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
                 break;
             case Constant.BIND_ALIPAY:
-                //"绑定支付宝"
-                startAlipayWechat(ctx, vo, "alipay");
-                return;
             case Constant.BIND_WECHAT:
-                //"绑定微信"
-                startAlipayWechat(ctx, vo, "wechat");
+                // "绑定支付宝" 或 "绑定微信"
+                startAlipayWechat(ctx, type, vo);
                 return;
 
             default:
@@ -469,7 +466,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                 return;
         }
 
-        startUsdt(ctx, title, remind, vo);
+        startUsdt(ctx, type, title, remind, vo);
         //new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, title, url)).show();
         /*Intent it = new Intent(ctx, BrowserActivity.class);
         it.putExtra("url", url);
@@ -477,9 +474,10 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
         ctx.startActivity(it);*/
     }
 
-    private void startAlipayWechat(Context ctx, VerifyVo vo, String type) {
+    private void startAlipayWechat(Context ctx, String type, VerifyVo vo) {
         Bundle bundle = new Bundle();
-        bundle.putString("mark", vo.mark);
+        //bundle.putString("mark", vo.mark);
+        bundle.putString("mark", type); // 20240418 使用type是因为用户绑手机邮箱后直接跳过来但mark还是"bind"
         bundle.putString("tokenSign", vo.tokenSign);
         Intent intent = new Intent(ctx, ContainerActivity.class);
         intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_BIND_ALIPAY_WECHAT);
@@ -487,12 +485,13 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
         ctx.startActivity(intent);
     }
 
-    private void startUsdt(Context ctx, String title, String remind, VerifyVo vo) {
-        startUsdt(ctx, title, remind, vo, false);
+    private void startUsdt(Context ctx, String type, String title, String remind, VerifyVo vo) {
+        startUsdt(ctx, type, title, remind, vo, false);
     }
 
-    private void startUsdt(Context ctx, String title, String remind, VerifyVo vo, boolean isShowType) {
-        String key = vo.mark.replace("bind", ""); // usdt
+    private void startUsdt(Context ctx, String type, String title, String remind, VerifyVo vo, boolean isShowType) {
+        //String key = vo.mark.replace("bind", ""); // usdt
+        String key = type.replace("bind", ""); // usdt 20240418 使用type是因为用户绑手机邮箱后直接跳过来但mark还是"bind"
         UserUsdtJumpVo t = new UserUsdtJumpVo();
         t.title = title;
         t.remind = remind;
