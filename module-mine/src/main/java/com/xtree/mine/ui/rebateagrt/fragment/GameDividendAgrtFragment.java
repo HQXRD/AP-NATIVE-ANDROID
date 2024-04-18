@@ -87,6 +87,9 @@ public class GameDividendAgrtFragment extends BaseFragment<FragmentGameDividenda
                 if (s.equals(DividendAgrtCheckDialogFragment.CREATED)) {
                     viewModel.onResume();
                 }
+                if (s.equals(DividendAgrtSendDialogFragment.SENT)) {
+                    viewModel.onResume();
+                }
             }
             @Override
             public void onError(Throwable e) {
