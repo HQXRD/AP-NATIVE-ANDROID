@@ -552,7 +552,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_horizontal"
                     android:text=""
-                    android:textColor="@color/clr_grey_60"
+                    android:textColor="@color/clr_red_02"
                     android:textSize="16sp" />
 
             </RelativeLayout>
