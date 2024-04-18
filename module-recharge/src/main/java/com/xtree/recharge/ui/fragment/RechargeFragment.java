@@ -1,5 +1,6 @@
 package com.xtree.recharge.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -58,6 +59,8 @@ import com.youth.banner.holder.BannerImageHolder;
 import com.youth.banner.indicator.CircleIndicator;
 import com.youth.banner.listener.OnBannerListener;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -75,6 +78,8 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, RechargeViewModel> {
     private static final int MSG_CLICK_CHANNEL = 1001;
     private static final long REFRESH_DELAY = 30 * 60 * 1000L; // 刷新间隔等待时间(如果长时间没刷新)
+    private Method method;
+    private Object object;
     //RechargeAdapter rechargeAdapter;
     RechargeTypeAdapter mTypeAdapter;
     RechargeChannelAdapter mChannelAdapter;
@@ -95,6 +100,21 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     //HashMap<String, RechargeVo> mapRechargeVo = new HashMap<>(); // 跳转第三方链接的充值渠道
     boolean isShowedProcessPendCount = false; // 是否显示过 "订单未到账" 的提示
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        // 在结束后浮动弹窗被删除
+        if (isShowBack) {
+            try {
+                method = object.getClass().getMethod("removeView");
+                method.invoke(object);
+            } catch (Exception e) {
+                CfLog.e(e.getMessage());
+            }
+        }
+    }
+
     boolean isShowBack = false; // 是否显示返回按钮
     boolean isShowOrderDetail = false; // 是否显示充值订单详情,需要传订单号过来 (待处理的订单详情) 2024-03-27
     ProfileVo mProfileVo = null; // 个人信息
@@ -165,6 +185,20 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     @Override
     public void initView() {
         isShowBack = getArguments().getBoolean("isShowBack");
+
+        // 利用反射呼叫浮动弹窗
+        if (isShowBack) {
+            try {
+                Class myClass = Class.forName("com.xtree.home.ui.custom.view.CustomFloatWindows");
+                Constructor constructor = myClass.getConstructor(Context.class);
+                object = constructor.newInstance(getContext());
+                method = object.getClass().getMethod("show");
+                method.invoke(object);
+            } catch (Exception e) {
+                CfLog.e(e.getMessage());
+            }
+        }
+
         if (isShowBack) {
             binding.ivwBack.setVisibility(View.VISIBLE);
             binding.vTop.setVisibility(View.GONE);
