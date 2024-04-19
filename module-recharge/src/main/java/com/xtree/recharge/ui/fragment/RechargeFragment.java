@@ -134,6 +134,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                         if (child != null) {
                             child.performClick();
                         }
+                        for (int i = 0; i < curPaymentTypeVo.payChannelList.size(); i++) {
+                            if (curPaymentTypeVo.payChannelList.get(i).bid.equals(vo.bid)) {
+                                binding.rcvPayChannel.scrollToPosition(i); // 自动滑动到选中的充值渠道
+                                return;
+                            }
+                        }
                     }
                     break;
                 default:
