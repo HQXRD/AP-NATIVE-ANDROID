@@ -14,6 +14,7 @@ import com.xtree.home.vo.LoginResultVo;
 import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.RechargeReportVo;
 import com.xtree.home.vo.RedPocketVo;
+import com.xtree.home.vo.RewardRedVo;
 import com.xtree.home.vo.SettingsVo;
 import com.xtree.home.vo.VipInfoVo;
 
@@ -145,4 +146,9 @@ public interface HomeApiService {
     @GET("/api/activity/vip/redenvelope")
     Flowable<BaseResponse<RedPocketVo>> getRedPocket();
 
+    /**
+     * 获取优惠中心是否有优惠
+     */
+    @GET("/api/activity/reward/?has_pending_reward=1")
+    Flowable<BaseResponse<RewardRedVo>> getReward();
 }
