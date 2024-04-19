@@ -119,7 +119,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (!TextUtils.isEmpty(token)) {
             CfLog.i("******");
             viewModel.getProfile();
-            checkRedPocket();
+            //viewModel.getRedPocket(); // VIP有没有红包 (小红点)
             viewModel.getRewardRed(); // 主页 我的按钮小红点
         }
     }
@@ -636,10 +636,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (System.currentTimeMillis() - lastCheckTime >= (intervalTime * 60 * 1000)) {
             viewModel.getUpdate();
         }
-    }
-
-    private void checkRedPocket() {
-        viewModel.getRedPocket();
     }
 
     /**
