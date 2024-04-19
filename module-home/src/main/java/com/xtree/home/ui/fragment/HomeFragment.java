@@ -268,7 +268,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
 
         viewModel.liveDataRedPocket.observe(getViewLifecycleOwner(), vo -> {
-            CfLog.e("Check has money : " + vo.money);
+            CfLog.i("Check has money : " + vo.money);
             if (vo.status == 0) {
                 binding.tvwMember.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.hm_ic_member_has_red, 0, 0);
             } else {
@@ -278,9 +278,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
 
     public void initView() {
-        CfLog.e(String.valueOf(getActivity().getClass()));
         if (!isFloating) {
-            CfLog.e("customFloatWindows.show");
+            CfLog.i("customFloatWindows.show");
             customFloatWindows = new CustomFloatWindows(getActivity());
             customFloatWindows.show();
             isFloating = true;

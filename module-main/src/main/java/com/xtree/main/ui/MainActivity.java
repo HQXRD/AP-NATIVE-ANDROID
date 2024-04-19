@@ -180,7 +180,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     public void onMessageEvent(EventVo event) {
         switch (event.getEvent()) {
             case EVENT_CHANGE_TO_ACT:
-                CfLog.d("Change to activity");
+                CfLog.i("Change to activity");
                 navigationController.setSelect(1);
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.hide(showFragment).show(mFragments.get(1));
@@ -188,7 +188,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
                 transaction.commitAllowingStateLoss();
                 break;
             case EVENT_RED_POINT:
-                CfLog.e("open red");
+                CfLog.i("open red");
                 meMenuItem.setHasMessage((boolean) event.getMsg());
                 break;
         }

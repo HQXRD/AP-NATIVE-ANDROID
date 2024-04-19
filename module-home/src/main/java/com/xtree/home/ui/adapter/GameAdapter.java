@@ -88,9 +88,8 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             binding.layoutFc.setVisibility(View.GONE);
         }
 
-        CfLog.e(getData().size() + "  " + position);
+        CfLog.i(getData().size() + "  " + position);
         if ((getData().size() - 1) > position) {
-            CfLog.e("position : " + position + " " + true);
             binding.rlSpace.setVisibility(View.GONE);
         } else {
             binding.rlSpace.setVisibility(View.VISIBLE);
