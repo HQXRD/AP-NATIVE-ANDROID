@@ -1,5 +1,8 @@
 package com.xtree.main.ui;
 
+import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
+import static com.xtree.base.utils.EventConstant.EVENT_RED_POINT;
+
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -11,6 +14,8 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.CfLog;
+import com.xtree.base.vo.EventVo;
 import com.xtree.base.widget.MenuItemView;
 import com.xtree.base.widget.SpecialMenuItemView;
 import com.xtree.main.BR;
@@ -38,8 +43,11 @@ import me.xtree.mvvmhabit.utils.ConvertUtils;
 public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewModel> {
     private List<Fragment> mFragments;
     private Fragment showFragment;
-
     private NavigationController navigationController;
+    private BaseTabItem homeMenuItem;
+    private BaseTabItem activityMenuItem;
+    private BaseTabItem rechargeMenuItem;
+    private BaseTabItem meMenuItem;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -131,12 +139,17 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     }
 
     private void initBottomTab() {
+        homeMenuItem = newItem(R.mipmap.mn_hm_unselected, R.mipmap.mn_hm_selected, getString(R.string.txt_pg_home));
+        activityMenuItem = newItem(R.mipmap.mn_dc_unselected, R.mipmap.mn_dc_selected, getString(R.string.txt_pg_discount));
+        rechargeMenuItem = newItem(R.mipmap.mn_rc_unselected, R.mipmap.mn_rc_selected, getString(R.string.txt_pg_recharge));
+        meMenuItem = newItem(R.mipmap.mn_psn_unselected, R.mipmap.mn_psn_selected, getString(R.string.txt_pg_mine));
+
         navigationController = binding.pagerBottomTab.custom()
-                .addItem(newItem(R.mipmap.mn_hm_unselected, R.mipmap.mn_hm_selected, getString(R.string.txt_pg_home)))
-                .addItem(newItem(R.mipmap.mn_dc_unselected, R.mipmap.mn_dc_selected, getString(R.string.txt_pg_discount)))
+                .addItem(homeMenuItem)
+                .addItem(activityMenuItem)
                 .addItem(newRoundItem(R.mipmap.ic_tab_main))
-                .addItem(newItem(R.mipmap.mn_rc_unselected, R.mipmap.mn_rc_selected, getString(R.string.txt_pg_recharge)))
-                .addItem(newItem(R.mipmap.mn_psn_unselected, R.mipmap.mn_psn_selected, getString(R.string.txt_pg_mine)))
+                .addItem(rechargeMenuItem)
+                .addItem(meMenuItem)
                 .build();
         //底部按钮的点击事件监听
         navigationController.addTabItemSelectedListener(new OnTabItemSelectedListener() {
@@ -164,11 +177,20 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(String event) {
-        navigationController.setSelect(1);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.hide(showFragment).show(mFragments.get(1));
-        showFragment = mFragments.get(1);
-        transaction.commitAllowingStateLoss();
+    public void onMessageEvent(EventVo event) {
+        switch (event.getEvent()) {
+            case EVENT_CHANGE_TO_ACT:
+                CfLog.d("Change to activity");
+                navigationController.setSelect(1);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.hide(showFragment).show(mFragments.get(1));
+                showFragment = mFragments.get(1);
+                transaction.commitAllowingStateLoss();
+                break;
+            case EVENT_RED_POINT:
+                CfLog.e("open red");
+                meMenuItem.setHasMessage((boolean) event.getMsg());
+                break;
+        }
     }
 }
