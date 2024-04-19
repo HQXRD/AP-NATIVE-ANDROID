@@ -1096,7 +1096,10 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         }
         ppwError.show();
     }
-    /**显示绑定未满6小时温馨提示弹窗*/
+
+    /**
+     * 显示绑定未满6小时温馨提示弹窗
+     */
     private void showErrorMessageByTime(final String message, final View view) {
         if (ppwErrorByTime == null) {
             final String title = getContext().getString(R.string.txt_kind_tips);
