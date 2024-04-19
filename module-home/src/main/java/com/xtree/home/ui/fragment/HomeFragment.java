@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -422,6 +423,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         gameAdapter = new GameAdapter(getContext(), mCallBack);
         binding.rcvList.setAdapter(gameAdapter);
+        binding.rcvList.setHasFixedSize(true);
+        ((SimpleItemAnimator)binding.rcvList.getItemAnimator()).setSupportsChangeAnimations(false);
         manager = new LinearLayoutManager(getContext());
         binding.rcvList.setLayoutManager(manager);
         binding.rcvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
