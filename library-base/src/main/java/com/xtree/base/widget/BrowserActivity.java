@@ -163,7 +163,7 @@ public class BrowserActivity extends AppCompatActivity {
         }
         CfLog.d("header: " + header); // new Gson().toJson(header)
         url = getIntent().getStringExtra("url");
-        mWebView.addJavascriptInterface(new WebAppInterface(this, () -> finish()), "android");
+        mWebView.addJavascriptInterface(new WebAppInterface(this, ivwBack, () -> finish()), "android");
         //setCookie(cookie, url); // 设置 cookie
         Uri uri = getIntent().getData();
         if (uri != null && TextUtils.isEmpty(url)) {
@@ -198,9 +198,9 @@ public class BrowserActivity extends AppCompatActivity {
             return;
         }
         if (title.equals("AG真人") && AppUtil.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
-                showTipDialog(SPKeyGlobal.AG_NOT_TIP_TODAY);
+            showTipDialog(SPKeyGlobal.AG_NOT_TIP_TODAY);
         } else if (title.equals("DB真人") && AppUtil.isTipToday(SPKeyGlobal.DB_NOT_TIP_TODAY)) {
-                showTipDialog(SPKeyGlobal.DB_NOT_TIP_TODAY);
+            showTipDialog(SPKeyGlobal.DB_NOT_TIP_TODAY);
         }
     }
 
