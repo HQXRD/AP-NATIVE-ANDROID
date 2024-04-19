@@ -8,11 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.config.SelectMimeType
 import com.luck.picture.lib.entity.LocalMedia
 import com.luck.picture.lib.interfaces.OnResultCallbackListener
+import com.xtree.base.global.SPKeyGlobal
+import com.xtree.base.router.RouterActivityPath
 import com.xtree.base.router.RouterFragmentPath
 import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.ImageUploadUtil
@@ -29,6 +32,7 @@ import com.xtree.mine.vo.UserBankConfirmVo
 import me.xtree.mvvmhabit.base.BaseFragment
 import me.xtree.mvvmhabit.utils.ImageUtils
 import me.xtree.mvvmhabit.utils.KLog
+import me.xtree.mvvmhabit.utils.SPUtils
 import me.xtree.mvvmhabit.utils.ToastUtils
 import java.io.File
 
@@ -156,15 +160,28 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         }
         viewModel.liveDataBindCardResult.observe(this) { vo: UserBankConfirmVo ->
             CfLog.i("******")
-            //getActivity().finish();
             binding.layoutRecharge.visibility = View.VISIBLE
             binding.llConfirm.visibility = View.GONE
-            binding.tvRecharge.setOnClickListener {
-                val bundle = Bundle()
-                bundle.putBoolean("isShowBack", true)
-                startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle)
+            val type = SPUtils.getInstance().getString(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW)
+            binding.tvType.text = type
+            binding.tvType.setOnClickListener {
+                when (type) {
+                    getString(R.string.txt_go_recharge) -> {
+                        val bundle = Bundle()
+                        bundle.putBoolean("isShowBack", true)
+                        startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle)
+                        requireActivity().finish()
+                    }
+
+                    getString(R.string.txt_go_withdraw) -> {
+                        val bundle = Bundle()
+                        bundle.putString("viewType", "HomeView")
+                        ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).withBundle("viewType", bundle)
+                            .navigation()
+                    }
+                }
+                viewModel.getProfile()
             }
-            viewModel.getProfile()
         }
     }
 
@@ -290,6 +307,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         map["wxzfb_id"] = phone
         map["wxzfb_qrcodekey"] = mConfirmVo.wxzfb_qrcodekey
         map["wxzfb_username"] = name
+        LoadingDialog.show(context)
         viewModel.doBindCardBySubmit(queryMap, map)
     }
 
