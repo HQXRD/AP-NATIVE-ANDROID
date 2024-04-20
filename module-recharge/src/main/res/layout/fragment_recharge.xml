@@ -220,6 +220,44 @@
                     android:layout_marginEnd="8dp" />
 
                 <LinearLayout
+                    android:id="@+id/ll_bind_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        style="@style/style_cm_title"
+                        android:layout_marginTop="0dp"
+                        android:text="@string/txt_bind_personal_info"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvw_bind_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/txt_bind_phone"
+                        android:textColor="@color/clr_blue_03"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvw_bind_yhk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/txt_bind_bank_card"
+                        android:textColor="@color/clr_blue_03"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/ll_down"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -227,42 +265,6 @@
                     android:orientation="vertical"
                     android:visibility="gone"
                     tools:visibility="visible">
-
-                    <LinearLayout
-                        android:id="@+id/ll_bind_info"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:visibility="gone"
-                        tools:visibility="visible">
-
-                        <TextView
-                            style="@style/style_cm_title"
-                            android:layout_marginTop="0dp"
-                            android:text="@string/txt_bind_personal_info" />
-
-                        <TextView
-                            android:id="@+id/tvw_bind_phone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/txt_bind_phone"
-                            android:textColor="@color/clr_grey_80"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:id="@+id/tvw_bind_yhk"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/txt_bind_bank_card"
-                            android:textColor="@color/clr_grey_80"
-                            android:textSize="11sp" />
-
-                    </LinearLayout>
 
                     <!-- 以下是各充值渠道的UI -->
                     <LinearLayout
@@ -338,6 +340,8 @@
                         <TextView
                             android:id="@+id/tvw_tip_name"
                             style="@style/style_cm_tip_small_orange"
+                            android:layout_width="match_parent"
+                            android:layout_marginStart="@dimen/layout_margin"
                             android:layout_marginTop="6dp"
                             android:drawableStart="@mipmap/cm_ic_hint_red"
                             android:drawablePadding="2dp"

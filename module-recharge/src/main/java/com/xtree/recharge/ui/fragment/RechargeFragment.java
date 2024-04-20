@@ -86,7 +86,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     AmountAdapter mAmountAdapter;
     double loadMin;
     double loadMax;
-    PaymentTypeVo mPaymentTypeVo;
     //PaymentVo mPaymentVo;
     PaymentDataVo mPaymentDataVo;
     RechargeVo curRechargeVo;
@@ -222,7 +221,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //});
         mTypeAdapter = new RechargeTypeAdapter(getContext(), vo -> {
             CfLog.d(vo.toInfo());
-            mPaymentTypeVo = vo;
             curRechargeVo = null;
             onClickPaymentType(vo);
         });
@@ -281,12 +279,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
         });
 
-        binding.tvwBindPhone.setOnClickListener(v -> {
-            //
-        });
-        binding.tvwBindYhk.setOnClickListener(v -> {
-
-        });
+        binding.tvwBindPhone.setOnClickListener(v -> toBindPhoneNumber());
+        binding.tvwBindYhk.setOnClickListener(v -> toBindCard());
         binding.ivwClear.setOnClickListener(v -> {
             binding.edtName.setText("");
             binding.tvwTipName.setVisibility(View.VISIBLE);
@@ -397,6 +391,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             isBinding = false;
             binding.tvwCurPmt.setText("");
             binding.ivwCurPmt.setImageDrawable(null);
+            binding.llBindInfo.setVisibility(View.GONE);
             binding.llDown.setVisibility(View.GONE);
             //if (curRechargeVo != null) {
             //    View child = binding.rcvPmt.findViewWithTag(curRechargeVo.bid);
@@ -449,6 +444,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         binding.tvwCurPmt.setText(vo.dispay_title);
         String url = DomainUtil.getDomain2() + vo.un_selected_image; // 未选中 彩色图片
         Glide.with(getContext()).load(url).placeholder(R.mipmap.ic_trans_76).into(binding.ivwCurPmt);
+        binding.llBindInfo.setVisibility(View.GONE);
+        binding.llDown.setVisibility(View.GONE); // 隐藏底部 用户输入的部分
         mChannelAdapter.clear();
         mChannelAdapter.addAll(vo.payChannelList);
         setTipBottom(vo); // 设置底部的文字提示
@@ -460,7 +457,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             onClickPayment(vo.payChannelList.get(0));
         } else {
             binding.rcvPayChannel.setVisibility(View.VISIBLE);
-            binding.llDown.setVisibility(View.GONE); // 隐藏底部 用户输入的部分
 
             // 非跳转三方的,默认选中第一个
             RechargeVo vo2 = vo.payChannelList.get(0);
@@ -496,6 +492,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //dr.setLevel(Integer.parseInt(vo.bid));
         //binding.ivwCurPmt.setImageDrawable(dr);
         binding.tvwBankCard.setText("");
+        binding.llBindInfo.setVisibility(View.GONE); // 默认隐藏
         binding.llDown.setVisibility(View.GONE); // 默认隐藏
         //setTipBottom(vo); // 设置底部的文字提示
         setStepBottom(); // 底部的操作步骤 (CNYT和USDT要用)
@@ -510,6 +507,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         if (vo.op_thiriframe_use && vo.phone_needbind) {
             // 绑定手机
             CfLog.i("****** 绑定手机");
+            binding.llBindInfo.setVisibility(View.VISIBLE);
+            binding.tvwBindPhone.setVisibility(View.VISIBLE);
+            binding.tvwBindYhk.setVisibility(View.GONE);
             toBindPhoneNumber();
             return;
         }
@@ -517,6 +517,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         if (vo.view_bank_card && vo.userBankList.isEmpty()) {
             // 绑定YHK
             CfLog.i("****** 绑定YHK");
+            binding.llBindInfo.setVisibility(View.VISIBLE);
+            binding.tvwBindPhone.setVisibility(View.GONE);
+            binding.tvwBindYhk.setVisibility(View.VISIBLE);
             toBindCard();
             return;
         }
@@ -674,7 +677,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     private void toBindCard() {
 
         String msg = getString(R.string.txt_rc_bind_bank_card_pls);
-        MsgDialog dialog = new MsgDialog(getContext(), null, msg, true, new MsgDialog.ICallBack() {
+        MsgDialog dialog = new MsgDialog(getContext(), null, msg, new MsgDialog.ICallBack() {
             @Override
             public void onClickLeft() {
                 ppw2.dismiss();
@@ -685,13 +688,13 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 isBinding = true;
                 Bundle bundle = new Bundle();
                 bundle.putString("type", "bindcard");
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
                 ppw2.dismiss();
             }
         });
         ppw2 = new XPopup.Builder(getContext())
-                .dismissOnTouchOutside(true)
-                .dismissOnBackPressed(true)
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
                 .asCustom(dialog);
         ppw2.show();
 
