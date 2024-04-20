@@ -586,11 +586,11 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         map.put("smstype", "");
 
         map.put("handing_fee", vo.datas.handing_fee);
-        map.put("money", vo.datas.arrive);
+        map.put("money", vo.datas.money);
         map.put("name", vo.name);
         map.put("play_source", "1");
-        map.put("usdt_type", vo.datas.drawal_type);
-        map.put("usdtid", vo.drawal_type);
+        map.put("usdt_type", vo.usdt_type);//选中的提款方式 USDT
+        map.put("usdtid", vo.usdtid); //选中的提款协议
         /* map.put("cardid", "");*/
 
         /* map.put("usdt_type", usdtSecurityVo.usdt_type);*/
