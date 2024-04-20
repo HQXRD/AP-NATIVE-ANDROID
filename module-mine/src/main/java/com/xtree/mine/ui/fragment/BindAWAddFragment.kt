@@ -178,6 +178,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                         bundle.putString("viewType", "HomeView")
                         ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).withBundle("viewType", bundle)
                             .navigation()
+                        requireActivity().finish()
                     }
                 }
                 viewModel.getProfile()
