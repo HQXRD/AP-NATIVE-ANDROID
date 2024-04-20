@@ -76,8 +76,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             setChildClickable(binding.llMenu01, false);
             setChildClickable(binding.llMenu02, false);
             setChildClickable(binding.llMenuClient01, false);
-            setChildClickable(binding.llMenuClient02, false);
-            setChildClickable(binding.llMenuClient03, false);
+            setChildClickable(binding.llMenuClient02, true);
+            setChildClickable(binding.llMenuClient03, true);
         } else {
             binding.ivwSetting.setClickable(true);
             binding.ivwMsg.setClickable(true);
