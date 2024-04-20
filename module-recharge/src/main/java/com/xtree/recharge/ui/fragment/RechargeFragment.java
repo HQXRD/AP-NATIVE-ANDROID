@@ -740,6 +740,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             @Override
             public void onClickRight() {
                 isBinding = true;
+                // 绑定页面显示去充值按钮用
+                SPUtils.getInstance().put(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getString(R.string.txt_go_recharge));
 
                 Bundle bundle = new Bundle();
                 bundle.putString("type", type); // bindcardzfb bindcardwx
