@@ -209,9 +209,12 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 public void onClick(String txt, ChooseInfoVo.ChannelInfo channelInfo) {
 
                     ChooseInfoVo.ChannelInfo channel = channelInfo;
-                    CfLog.e("channel  = " + channel.toString());
+
                     if (channel.isBind == false) {
+                        //CfLog.e("channel.isBind == false " + channel.toString());
                         if (!TextUtils.isEmpty(channel.channeluseMessage) && channel.channeluseMessage.contains("首次提款仅可使用银行卡方式提款")) {
+                            showBindDialog(channel, channel.channeluseMessage);
+                        } else if (!TextUtils.isEmpty(channel.channeluseMessage) && channel.channeluseMessage.contains("尚未绑定")) {
                             showBindDialog(channel, channel.channeluseMessage);
                         } else {
                             showErrorDialog(channel.channeluseMessage);
@@ -377,7 +380,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         } else if (showMessage.contains("尚未绑定极速微信地址")) {
             errorMessage = "请先绑定微信地址后才可提款";
             bindType = getContext().getString(R.string.txt_bind_wechat_type);
-        } else if (showMessage.contains("尚未绑定极速支付宝地址")) {
+        } else if (showMessage.contains("尚未绑定支付宝账号")) {
             errorMessage = "请先绑定支付宝地址后才可提款";
             bindType = getContext().getString(R.string.txt_bind_zfb_type);
         } else {

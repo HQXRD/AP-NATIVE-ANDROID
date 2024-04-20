@@ -176,6 +176,7 @@ public class ChooseInfoVo {
         public String toString() {
             return "ChannelInfo{" +
                     "bindType='" + bindType + '\'' +
+                    ", isBind=" + isBind +
                     ", channeluse=" + channeluse +
                     ", channeluseMessage='" + channeluseMessage + '\'' +
                     ", id='" + id + '\'' +
