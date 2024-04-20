@@ -401,9 +401,10 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         //跳转绑定流程
                         Bundle bundle = new Bundle();
                         bundle.putString("type", finalBindType);
-                        if (TextUtils.equals(finalBindType, getContext().getString(R.string.txt_bind_wechat_type))
+                        if (TextUtils.equals(finalBindType, getContext().getString(R.string.txt_bind_zfb_type))
                                 || TextUtils.equals(finalBindType, getContext().getString(R.string.txt_bind_wechat_type))) {
-                            SPUtils.getInstance().put(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getContext().getString(R.string.txt_go_recharge));
+                            // 绑定页面显示去提款按钮用
+                            SPUtils.getInstance().put(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getContext().getString(R.string.txt_go_withdraw));
                         }
 
                         String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;

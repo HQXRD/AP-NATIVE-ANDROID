@@ -72,7 +72,7 @@ public class AccountMgmtDialog extends BottomPopupView {
                 //String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
                 String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY; // 验证页(可左右滑动)
                 //ctx.startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
-                //传递去充值
+                // 绑定页面显示去充值按钮用
                 SPUtils.getInstance().put(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, ctx.getString(R.string.txt_go_recharge));
 
                 if (!mProfileVo.is_binding_email && !mProfileVo.is_binding_phone) {
