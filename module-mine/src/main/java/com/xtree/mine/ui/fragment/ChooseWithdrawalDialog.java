@@ -75,6 +75,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     BasePopupView errorPopView = null; // 底部弹窗
 
     private BasePopupView customPopWindow;
+    private BasePopupView firstBankPopWindow;
     private FragmentActivity mActivity;
 
     private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
@@ -207,13 +208,10 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
             ChooseAdapter adapter = new ChooseAdapter(context, chooseInfoVo.wdChannelList, new IChooseCallback() {
                 @Override
                 public void onClick(String txt, ChooseInfoVo.ChannelInfo channelInfo) {
-
                     ChooseInfoVo.ChannelInfo channel = channelInfo;
-
                     if (channel.isBind == false) {
-                        //CfLog.e("channel.isBind == false " + channel.toString());
                         if (!TextUtils.isEmpty(channel.channeluseMessage) && channel.channeluseMessage.contains("首次提款仅可使用银行卡方式提款")) {
-                            showBindDialog(channel, channel.channeluseMessage);
+                            showFirstBankDialog(channel.channeluseMessage);
                         } else if (!TextUtils.isEmpty(channel.channeluseMessage) && channel.channeluseMessage.contains("尚未绑定")) {
                             showBindDialog(channel, channel.channeluseMessage);
                         } else {
@@ -366,6 +364,29 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     }
 
     /**
+     * 显示首次绑定
+     */
+    private void showFirstBankDialog(final String showMessage) {
+        if (firstBankPopWindow == null) {
+            firstBankPopWindow = new XPopup.Builder(getContext())
+                    .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), showMessage, false, new MsgDialog.ICallBack() {
+                        @Override
+                        public void onClickLeft() {
+                            firstBankPopWindow.dismiss();
+                        }
+
+                        @Override
+                        public void onClickRight() {
+                            firstBankPopWindow.dismiss();
+                        }
+                    }));
+            firstBankPopWindow.show();
+        } else {
+            firstBankPopWindow.show();
+        }
+    }
+
+    /**
      * 绑定流程
      */
     private void showBindDialog(ChooseInfoVo.ChannelInfo channelInfo, String showMessage) {
@@ -374,10 +395,10 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         if (showMessage.contains("尚未绑定银行卡")) {
             errorMessage = "请先绑定银行卡后才可提款";
             bindType = getContext().getString(R.string.txt_bind_card_type);
-        } else if (showMessage.contains("首次提款仅可使用银行卡方式提款")) {
+        } /*else if (showMessage.contains("首次提款仅可使用银行卡方式提款")) {
             errorMessage = showMessage;
             bindType = getContext().getString(R.string.txt_bind_card_type);
-        } else if (showMessage.contains("尚未绑定极速微信地址")) {
+        }*/ else if (showMessage.contains("尚未绑定极速微信地址")) {
             errorMessage = "请先绑定微信地址后才可提款";
             bindType = getContext().getString(R.string.txt_bind_wechat_type);
         } else if (showMessage.contains("尚未绑定支付宝账号")) {
