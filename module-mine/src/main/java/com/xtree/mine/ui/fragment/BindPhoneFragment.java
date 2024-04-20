@@ -239,7 +239,9 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             map.put("username", username);
             map.put("type", sendtype);
             viewModel.sendCodeByLogin(map);
-
+        } else if (!TextUtils.isEmpty(typeName2)) {
+            CfLog.i(typeName + ", " + typeName2 + ", " + sendtype + ", " + num);
+            viewModel.singleSend3(typeName, sendtype, num); // 绑定+验证
         } else {
             // 获取验证码，然后 跳到其它业务，比如 绑USDT
             //@GET("/api/verify/singlesend")
@@ -380,7 +382,12 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             mVerifyVo = vo;
             ToastUtils.showLong(R.string.txt_verify_succ);
             // 去其它业务 (绑U,绑YHK等)
-            viewModel.goOthers(getActivity(), typeName, vo);
+            if (TextUtils.isEmpty(typeName2)) {
+                viewModel.goOthers(getActivity(), typeName, vo); // 验证
+            } else {
+                viewModel.goOthers(getActivity(), typeName2, vo); // 验证(绑定)
+            }
+
             getActivity().finish();
         });
 

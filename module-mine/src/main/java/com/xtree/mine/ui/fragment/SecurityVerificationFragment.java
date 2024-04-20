@@ -98,18 +98,20 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
 
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
         mProfileVo = new Gson().fromJson(json, ProfileVo.class);
-
+        Bundle bundle = getArguments();
         // 如果手机和邮箱都没有绑定的情况下, 此时应该是先去绑定
         if (mProfileVo != null && !mProfileVo.is_binding_phone && !mProfileVo.is_binding_email) {
             if (!Constant.BIND_PHONE.equals(typeName) && !Constant.BIND_EMAIL.equals(typeName)) {
+                bundle.putString("type", Constant.BIND);
+                bundle.putString("type2", typeName);
                 typeName = Constant.BIND;
             }
         }
 
         //BindPhoneFragment bindPhoneFragment = BindPhoneFragment.newInstance(typeName, tokenSign);
         //BindEmailFragment bindEmailFragment = BindEmailFragment.newInstance(typeName, tokenSign);
-        BindPhoneFragment bindPhoneFragment = BindPhoneFragment.newInstance(getArguments());
-        BindEmailFragment bindEmailFragment = BindEmailFragment.newInstance(getArguments());
+        BindPhoneFragment bindPhoneFragment = BindPhoneFragment.newInstance(bundle);
+        BindEmailFragment bindEmailFragment = BindEmailFragment.newInstance(bundle);
 
         String txtPhone = getString(R.string.txt_phone_num);
         String txtEmail = getString(R.string.txt_email_addr);
