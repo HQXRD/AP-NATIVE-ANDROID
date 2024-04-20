@@ -337,10 +337,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 if (curRechargeVo != null && !TextUtils.isEmpty(curRechargeVo.usdtrate)) {
                     setUsdtRate(curRechargeVo);
                 }
-                if (!TextUtils.isEmpty(s.toString().trim())) {
-                    binding.tvwTipAmount.setVisibility(View.GONE);
-                } else {
+                String amount = s.toString();
+                if (!TextUtils.isEmpty(amount) && (Double.parseDouble(amount) < loadMin || Double.parseDouble(amount) > loadMax)) {
                     binding.tvwTipAmount.setVisibility(View.VISIBLE);
+                } else {
+                    binding.tvwTipAmount.setVisibility(View.GONE);
                 }
 
                 setNextButton();
@@ -579,11 +580,24 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.tvwTipName.setVisibility(View.VISIBLE);
         }
 
+        loadMin = Double.parseDouble(vo.loadmin);
+        loadMax = Double.parseDouble(vo.loadmax);
+        String amount = binding.edtAmount.getText().toString();
+
+        binding.tvwTipAmount.setText(getString(R.string.txt_enter_correct_amount, vo.loadmin, vo.loadmax));
+        binding.tvwTipAmount.setVisibility(View.GONE);
+
         // 有一组金额按钮需要显示出来 (固额和非固额)
         if (vo.fixedamount_channelshow && vo.fixedamount_info.length > 0) {
             binding.edtAmount.setEnabled(false);
             binding.edtAmount.setHint(R.string.txt_choose_recharge_amount); // 请选择金额
             setAmountGrid(vo);
+            // 固额 如果输入框的金额不是固额列表中的其中一个,显示提示文字
+            if (!amount.isEmpty() && !Arrays.asList(vo.fixedamount_info).contains(amount)) {
+                //binding.edtAmount.setText("");
+                binding.tvwTipAmount.setText(getString(R.string.txt_choose_recharge_amount));
+                binding.tvwTipAmount.setVisibility(View.VISIBLE);
+            }
         } else {
             binding.edtAmount.setEnabled(true);
             String hint = getString(R.string.txt_enter_recharge_amount, vo.loadmin, vo.loadmax);
@@ -593,11 +607,13 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             setAmountGrid(vo);
         }
 
-        binding.edtAmount.setText("");
-        binding.tvwTipAmount.setVisibility(View.GONE);
+        //binding.edtAmount.setText(""); // 需求,不要清空上个渠道的充值金额
 
-        loadMin = Double.parseDouble(vo.loadmin);
-        loadMax = Double.parseDouble(vo.loadmax);
+        if (!amount.isEmpty() && (Double.parseDouble(amount) < loadMin || Double.parseDouble(amount) > loadMax)) {
+            //binding.edtAmount.setText("");
+            binding.tvwTipAmount.setVisibility(View.VISIBLE);
+        }
+
         setRate(vo); // 设置汇率提示信息
         setNextButton();
     }
@@ -735,6 +751,14 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         double amount = Double.parseDouble(0 + txt);
         if (amount < loadMin || amount > loadMax) {
             return;
+        }
+
+        if (curRechargeVo.fixedamount_channelshow && curRechargeVo.fixedamount_info.length > 0) {
+            // 固额 如果输入框的金额不是固额列表中的其中一个
+            if (!txt.isEmpty() && !Arrays.asList(curRechargeVo.fixedamount_info).contains(txt)) {
+                // "充值金额异常,请选择列表中的固定金额！",
+                return;
+            }
         }
 
         binding.btnNext.setEnabled(true);

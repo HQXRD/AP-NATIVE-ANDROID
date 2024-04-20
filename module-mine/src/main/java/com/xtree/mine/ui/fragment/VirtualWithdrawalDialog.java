@@ -417,7 +417,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         map.put("flag", "confirm");
         map.put("check", "1");
         map.put("name", "");
-        map.put("money", usdtSecurityVo.datas.arrive);
+        map.put("money", usdtSecurityVo.datas.money);
         map.put("handing_fee", usdtSecurityVo.datas.handing_fee);
         map.put("cardid", "");
         map.put("play_source", "");

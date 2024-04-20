@@ -375,6 +375,7 @@
                                 android:inputType="number"
                                 android:maxLength="9"
                                 android:text=""
+                                android:textSize="13sp"
                                 tools:enabled="false" />
                         </LinearLayout>
 
