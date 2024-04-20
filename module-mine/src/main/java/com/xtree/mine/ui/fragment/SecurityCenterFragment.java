@@ -74,8 +74,7 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
             String type = Constant.RESET_LOGIN_PASSWORD;
             Bundle bundle = new Bundle();
             bundle.putString("type", type);
-            //startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
         });
         //跳转Google动态口令绑定页面
         binding.tvwGoogle.setOnClickListener(v -> {
@@ -100,7 +99,7 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
                 type = Constant.UPDATE_PHONE;
                 Bundle bundle = new Bundle();
                 bundle.putString("type", type);
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
                 return;
             } else if (mProfileVo.is_binding_phone) {
                 type = Constant.UPDATE_PHONE; // 更新
@@ -122,7 +121,7 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
                 type = Constant.UPDATE_EMAIL;
                 Bundle bundle = new Bundle();
                 bundle.putString("type", type);
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
                 return;
             } else if (mProfileVo.is_binding_email) {
                 type = Constant.UPDATE_EMAIL; // 更新
@@ -141,7 +140,7 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
             String type = Constant.BIND_USDT;
             Bundle bundle = new Bundle();
             bundle.putString("type", type);
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
         });*/
 
     }
