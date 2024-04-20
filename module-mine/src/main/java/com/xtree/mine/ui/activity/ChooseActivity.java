@@ -48,6 +48,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
     //1我的钱包点击 礼金  显示钱包流水
     //2我首页点击提款 【我的钱包 点击 去取款】 有提款流水 显示提款流水
     //没有提款流水 则显示 提款列表
+    //从绑定页面 去提款 来的，不传viewType
     private int viewType;
 
     @Override

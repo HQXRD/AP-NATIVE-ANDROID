@@ -162,9 +162,10 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
             CfLog.i("******")
             binding.layoutRecharge.visibility = View.VISIBLE
             binding.llConfirm.visibility = View.GONE
-            val type = SPUtils.getInstance().getString(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW)
+            val type = SPUtils.getInstance().getString(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getString(R.string.txt_go_recharge))
             binding.tvType.text = type
             binding.tvType.setOnClickListener {
+                viewModel.getProfile()
                 when (type) {
                     getString(R.string.txt_go_recharge) -> {
                         val bundle = Bundle()
@@ -175,13 +176,11 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
 
                     getString(R.string.txt_go_withdraw) -> {
                         val bundle = Bundle()
-                        bundle.putString("viewType", "HomeView")
                         ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).withBundle("viewType", bundle)
                             .navigation()
                         requireActivity().finish()
                     }
                 }
-                viewModel.getProfile()
             }
         }
     }
