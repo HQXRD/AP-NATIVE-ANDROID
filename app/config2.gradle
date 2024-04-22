@@ -16,7 +16,7 @@ android {
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_api_list",  "https://preyiang22test.oxldkm.com;"
+            resValue "string", "domain_api_list", "https://preyiang22test.oxldkm.com;"
             resValue "string", "domain_url_list", "https://preyiang2test.oxldkm.com;"
             multiDexEnabled true
             dimension "channelName"
@@ -63,10 +63,10 @@ android {
             dimension "channelName"
         }*/
         // 生产环境 发布用
-        /*eon2_OL {
+        eon2_OL {
             applicationId "com.eon2k.app" // eon2
-            versionName "1.0.1"
-            versionCode 101
+            versionName "1.0.2"
+            versionCode 102
             resValue "string", "app_name", "意昂体育2k"
             resValue "string", "domain_api", "https://www.eon2.org"
             resValue "string", "domain_url", "https://www.u2s4s7.xyz"
@@ -104,7 +104,7 @@ android {
                     "https://www.n5q2b8.xyz;"
             multiDexEnabled true
             dimension "channelName"
-        }*/
+        }
 
     }
 
