@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.SslErrorHandler;
@@ -66,6 +67,8 @@ public class BrowserDialog extends BottomPopupView {
     protected boolean isActivity = false; // 是否来自活动页面
     protected boolean is3rdLink = false; // 是否跳转到三方链接(如果是,就不用带header和cookie了)
     protected boolean isHideTitle = false; // 是否隐藏标题栏
+    boolean isFirstLoad = true; // 是否头一次打开当前网页,加载cookie时用
+    String token;
     ValueCallback<Uri> mUploadCallbackBelow;
     ValueCallback<Uri[]> mUploadCallbackAboveL;
 
@@ -119,6 +122,7 @@ public class BrowserDialog extends BottomPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
+        token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
 
         initView();
 
@@ -135,16 +139,16 @@ public class BrowserDialog extends BottomPopupView {
         tvwTitle.setText(title);
         ivwLoading.setVisibility(View.GONE);
 
-        String cookie = "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN)
+        String cookie = "auth=" + token
                 + ";" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME)
                 + "=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID)
                 + ";";
-        String auth = "bearer " + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        String auth = "bearer " + token;
         CfLog.d("Cookie: " + cookie);
         CfLog.d("Authorization: " + auth);
 
         Map<String, String> header = new HashMap<>();
-        if (!SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).isEmpty()) {
+        if (!TextUtils.isEmpty(token)) {
             header.put("Cookie", cookie);
             header.put("Authorization", auth);
             header.put("Cache-Control", "no-cache");
@@ -165,6 +169,7 @@ public class BrowserDialog extends BottomPopupView {
             //dismiss(); // only the original thread that created a view hierarchy can touch its views.
             ivwClose.post(() -> dismiss());
         }), "android");
+        setWebCookie();
         mWebView.loadUrl(url, header);
 
         ivwClose.setOnClickListener(v -> dismiss());
@@ -242,8 +247,9 @@ public class BrowserDialog extends BottomPopupView {
                 if (is3rdLink) {
                     return;
                 }
-                if (!SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).isEmpty()) {
-                    setCookieInside();
+                if (isFirstLoad) {
+                    isFirstLoad = false;
+                    setWebCookie();
                 }
             }
 
@@ -373,11 +379,21 @@ public class BrowserDialog extends BottomPopupView {
         return (XPopupUtils.getScreenHeight(getContext()) * maxHeight / 100);
     }
 
+    private void setWebCookie() {
+        CfLog.i("******");
+        if (is3rdLink) {
+            CfLog.d("not need cookie.");
+        } else {
+            if (!TextUtils.isEmpty(token)) {
+                setCookieInside();
+            }
+        }
+    }
+
     private void setCookieInside() {
         // auth, _sessionHandler 是验证类业务用的,比如绑USDT/绑YHK
         // AUTH, USER-PROFILE 是给VIP中心/报表 用的
 
-        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         String sessid = SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID);
 
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
