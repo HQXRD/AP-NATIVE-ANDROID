@@ -136,11 +136,14 @@ public class BrowserActivity extends AppCompatActivity {
         Map<String, String> header = new HashMap<>();
         header.put("Cookie", cookie);
         header.put("Authorization", auth);
+        if (isLottery) {
+            header.put("Content-Type", "application/vnd.sc-api.v1.json");
+        }
         header.put("App-RNID", "87jumkljo"); //
 
         //header.put("Source", "8");
         //header.put("UUID", TagUtils.getDeviceId(Utils.getContext()));
-        if (isGame || is3rdLink) {
+        if ((isGame || is3rdLink) && !isLottery) {
             CfLog.d("not need header.");
             header.clear(); // 游戏 header和cookie只带其中一个即可; FB只能带cookie
         }
@@ -485,7 +488,10 @@ public class BrowserActivity extends AppCompatActivity {
         js += "style.type = 'text/css';" + "\n";
         js += "style.id = 'iOS_inject';" + "\n";
         js += "document.head.appendChild(style);" + "\n";
-        js += "document.querySelector('#iOS_inject').innerHTML = '.headerH5{display: none !important;} .all-lottery-all{ margin-top: 0 !important;} .msg{ display: none !important;} .menu{ display: none !important;} .countdown{ margin-right: .8rem;}';" + "\n";
+        js += "document.querySelector('#iOS_inject').innerHTML = '.headerH5{display: none !important;}" +
+                " .rndx{ display: none !important;} .rndxs{ display: none !important;}" +
+                " .all-lottery-all{ margin-top: 0 !important;} .msg{ display: none !important;}" +
+                " .menu{ display: none !important;} .countdown{ margin-right: .8rem;}';" + "\n";
         js += "d.setTime(d.getTime() + (24*60*60*1000));" + "\n";
         js += "let expires = \"expires=\"+ d.toUTCString();" + "\n";
         js += "document.cookie = \"auth=" + token + ";\" + expires + \";path=/\";" + "\n";
