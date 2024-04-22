@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -63,6 +64,7 @@ import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
 import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.bus.Messenger;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -120,6 +122,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private int mHotMatchCount;
     private String mSportName;
     private List<HotLeague> mLeagueItemList;
+    private Bundle mSavedInstanceState;
 
     public List<League> getSettingLeagueList() {
         return settingLeagueList;
@@ -152,6 +155,12 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             sportId = playMethodPos == 4 ? "0" : PMConstants.SPORT_IDS_DEFAULT[1];
         }
         return Integer.valueOf(sportId);
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSavedInstanceState = savedInstanceState;
     }
 
     @Override
@@ -760,6 +769,28 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
     @Override
     public void initViewObservable() {
+        viewModel.reNewViewModel.observe(this, unused -> {
+            if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+                AppViewModelFactory.init();
+            }else {
+                PMAppViewModelFactory.init();
+            }
+            //解除Messenger注册
+            Messenger.getDefault().unregister(viewModel);
+            if (viewModel != null) {
+                viewModel.removeRxBus();
+            }
+            if (binding != null) {
+                binding.unbind();
+            }
+            viewModel = null;
+            initViewDataBinding(mSavedInstanceState);
+            if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+                viewModel.setModel(AppViewModelFactory.getInstance(getApplication()).getRepository());
+            }else {
+                viewModel.setModel(PMAppViewModelFactory.getInstance(getApplication()).getRepository());
+            }
+        });
         viewModel.itemClickEvent.observe(this, s -> ToastUtils.showShort(s));
         viewModel.playMethodTab.observe(this, titleList -> {
             for (int i = 0; i < titleList.length; i++) {

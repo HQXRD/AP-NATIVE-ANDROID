@@ -8,6 +8,7 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -57,7 +58,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     public List<Date> dateList = new ArrayList<>();
 
     public List<Long> hotLeagueList = new ArrayList<>();
-
+    public MutableLiveData<Void> reNewViewModel = new MutableLiveData<>();
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
 
     public SingleLiveData<String[]> playMethodTab = new SingleLiveData<>();

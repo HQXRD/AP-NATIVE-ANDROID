@@ -68,7 +68,7 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
         }
     }
 
-    public BaseModel getmRepository() {
+    public BaseModel getRepository() {
         return mRepository;
     }
 }

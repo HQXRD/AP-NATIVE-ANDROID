@@ -15,20 +15,22 @@ import com.xtree.bet.data.PMInjection;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import me.xtree.mvvmhabit.base.BaseModel;
+
 /**
  * Created by marquis on 2023/11/22.
  */
 public class PMAppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @SuppressLint("StaticFieldLeak")
     private static volatile PMAppViewModelFactory INSTANCE;
-    private final Application mApplication;
+    private static Application mApplication;
     private final BetRepository mRepository;
 
     public static PMAppViewModelFactory getInstance(Application application) {
         if (INSTANCE == null) {
             synchronized (PMAppViewModelFactory.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new PMAppViewModelFactory(application, PMInjection.provideHomeRepository());
+                    INSTANCE = new PMAppViewModelFactory(application, PMInjection.provideHomeRepository(false));
                 }
             }
         }
@@ -45,6 +47,12 @@ public class PMAppViewModelFactory extends ViewModelProvider.NewInstanceFactory 
         this.mRepository = repository;
     }
 
+    public static void init() {
+        synchronized (PMAppViewModelFactory.class) {
+            INSTANCE = new PMAppViewModelFactory(mApplication, PMInjection.provideHomeRepository(true));
+        }
+    }
+
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
@@ -56,5 +64,9 @@ public class PMAppViewModelFactory extends ViewModelProvider.NewInstanceFactory 
                  InstantiationException | InvocationTargetException e) {
             return null;
         }
+    }
+
+    public BaseModel getRepository() {
+        return mRepository;
     }
 }
