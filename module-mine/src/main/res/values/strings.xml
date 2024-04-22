@@ -296,6 +296,9 @@
     <string name="txt_check_your_phone">%1$s，您好！ \n 您的手机号为 \n %2$s \n 请进行短信验证</string>
     <string name="txt_forget_password_finish">恭喜您，您的登入密码已修改完成</string>
     <!--提款流程文字提示-->
+
+    <string name="txt_withdrawal_payment_number">收款账号:</string>
+    <string name="txt_withdrawal_number_accounts">账户数量</string>
     <string name="txt_withdrawal_user_name">用户名:</string>
     <string name="txt_choose_withdrawal_method">请选择提款方式</string>
     <string name="txt_choose_withdrawal_usdt">USDT介绍及提款教程</string>
@@ -320,6 +323,7 @@
     <string name="txt_vip_back_need">流水要求</string>
     <string name="txt_vip_back_need_three_month">保级流水3个月</string>
     <string name="txt_withdrawal_type">提款类型：</string>
+    <string name="txt_withdrawal_confirm_amount">提款金额:</string>
     <string name="txt_withdrawal_enm">提款方式：</string>
     <string name="txt_withdrawal_method">可提款金额：</string>
     <string name="txt_withdrawal_money_tip">实际提款金额：</string>
@@ -342,6 +346,7 @@
     <string name="txt_account_suc_message">账户提款申请成功提款进度请关注站内信通知</string>
     <string name="txt_rate_tip">汇率:</string>
     <string name="txt_actual_number">实际到账个数:</string>
+    <string name="txt_withdrawal_usdt_account">收款USDT账号：</string>
     <string name="txt_receive_usdt_account">收到USDT账户</string>
     <string name="txt_select_virtual_address">请选择虚拟币收款地址</string>
     <string name="txt_ust_trc20_usdt">【嗨钱包USDT】可使用TRC20_USDT类型进行提款</string>
@@ -375,7 +380,7 @@
     <string name="txt_unfinished_activity_flow">未完成活动流水</string>
     <string name="txt_awards_no_money_tip">您未参加任何活动，暂无礼金</string>
     <string name="txt_withdraw_bank_top_tip">%1$s 每天限制提款 %2$s 次，您已提款 %3$s 次，提款时间为 %4$s  至 %5$s  您今日剩余提款额度为 %6$s 元</string>
-    <string name="txt_choose_withdrawal_tip">可用提款余额:%1$s其中%2$s可以使用虚拟币提款取出</string>
+    <string name="txt_choose_withdrawal_tip">可用提款余额:%1$s 元其中%2$s 元可以使用虚拟币提款取出</string>
     <string name="txt_alipay_name">支付宝姓名：</string>
     <string name="txt_wechat_name">微信姓名：</string>
     <string name="txt_alipay_nickname">支付宝昵称：</string>

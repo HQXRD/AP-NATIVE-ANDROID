@@ -243,10 +243,15 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 intent.putExtra(BrowserActivity.ARG_URL, DomainUtil.getDomain2() + "/static/usdt-description/as/usdt_m.html");
                 getContext().startActivity(intent);
             });
-
+            String quota = "";
+            if (TextUtils.equals("0", chooseInfoVo.usdtInfo.quota)) {
+                quota = "0.00";
+            } else {
+                quota = chooseInfoVo.usdtInfo.quota;
+            }
             String tip =
                     String.format(getContext().getString(R.string.txt_choose_withdrawal_tip),
-                            StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))), chooseInfoVo.usdtInfo.quota);
+                            chooseInfoVo.user.availablebalance,quota);
             binding.tvChooseTip.setVisibility(View.VISIBLE);
             binding.tvChooseTip.setText(tip);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -428,7 +433,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                             SPUtils.getInstance().put(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getContext().getString(R.string.txt_go_withdraw));
                         }
 
-                        String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
+                        String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY;//跳转左右滑动样式页面
                         Intent intent = new Intent(getContext(), ContainerActivity.class);
                         intent.putExtra(ContainerActivity.ROUTER_PATH, path);
                         intent.putExtra(ContainerActivity.BUNDLE, bundle);
