@@ -83,6 +83,10 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
      */
     public SingleLiveData<Map<String, List<Integer>>> statisticalData = new SingleLiveData<>();
     public SingleLiveData<List<League>> settingLeagueData = new SingleLiveData<>();
+    /**
+     * 第一次进入主页时
+     */
+    public SingleLiveData<Void> firstNetworkFinishData = new SingleLiveData<>();
     public Map<String, League> mMapSportType = new HashMap<>();
     public boolean mNoLiveMatch;
     public List<League> mLeagueList = new ArrayList<>();

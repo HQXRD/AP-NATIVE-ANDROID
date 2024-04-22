@@ -143,6 +143,7 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
             }
             return;
         }
+        mViewModel.firstNetworkFinishData.call();
         synchronized (this) {
             if(mIsRefresh){
                 mNoLiveheaderLeague = null;

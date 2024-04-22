@@ -13,12 +13,15 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.xtree.base.router.RouterActivityPath;
@@ -26,6 +29,8 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.MenuItemView;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.bet.BR;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.response.fb.HotLeague;
@@ -84,6 +89,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private String mPlatformName;
     private boolean mIsShowLoading = true;
     private boolean mIsChange = true;
+    private boolean mIsFirstNetworkFinished;
     /**
      * 赛事统计数据
      */
@@ -100,6 +106,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private List<Long> mLeagueIdList = new ArrayList<>();
 
     private Disposable timerDisposable;
+    private Disposable firstNetworkFinishedDisposable;
 
     private int searchDatePos;
 
@@ -123,6 +130,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private String mSportName;
     private List<HotLeague> mLeagueItemList;
     private Bundle mSavedInstanceState;
+    private BasePopupView baseGiftFlowView;
 
     public List<League> getSettingLeagueList() {
         return settingLeagueList;
@@ -698,6 +706,35 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         viewModel.addSubscribe(timerDisposable);
     }
 
+    /**
+     *
+     */
+    private void initFirstNetworkFinishTimer() {
+        firstNetworkFinishedDisposable = Observable.interval(0, 5, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> {
+                    if(!mIsFirstNetworkFinished){
+                        final String title = getString(R.string.txt_kind_tips);
+                        String showMessage = "当前您的网络环境较差，如继续游戏将无法保证游戏体验，是否需要使用代理？";
+                        baseGiftFlowView = new XPopup.Builder(this).asCustom(new MsgDialog(this, title, "", showMessage, "继续等待", "使用代理", false, new TipDialog.ICallBack() {
+                            @Override
+                            public void onClickLeft() {
+                                baseGiftFlowView.dismiss();
+                            }
+
+                            @Override
+                            public void onClickRight() {
+                                baseGiftFlowView.dismiss();
+                            }
+                        }));
+                        baseGiftFlowView.show();
+                    }
+                    viewModel.removeSubscribe(firstNetworkFinishedDisposable);
+                });
+        viewModel.addSubscribe(firstNetworkFinishedDisposable);
+    }
+
     private void refreshLeague() {
         int firstVisiblePos = binding.rvLeague.getFirstVisiblePosition();
         int lastVisiblePos = binding.rvLeague.getLastVisiblePosition();
@@ -739,7 +776,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         mOddType = SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE, 1);
         viewModel.statistical(playMethodType);
         viewModel.getUserBalance();
-
+        initFirstNetworkFinishTimer();
     }
 
     @Override
@@ -1031,6 +1068,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             binding.rvLeague.postDelayed(() -> {
 
             }, 1000);*/
+        });
+        viewModel.firstNetworkFinishData.observe(this, unused -> {
+            mIsFirstNetworkFinished = true;
         });
     }
 
