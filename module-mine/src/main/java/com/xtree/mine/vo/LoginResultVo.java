@@ -4,6 +4,22 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class LoginResultVo implements Parcelable {
+    @Override
+    public String toString() {
+        return "LoginResultVo{" +
+                "login_pwd_status='" + login_pwd_status + '\'' +
+                ", token='" + token + '\'' +
+                ", token_type='" + token_type + '\'' +
+                ", expires_in='" + expires_in + '\'' +
+                ", cookie=" + cookie +
+                ", twofa_required=" + twofa_required +
+                ", samewith_securitypwd=" + samewith_securitypwd +
+                ", contacts=" + contacts +
+                ", userName='" + userName + '\'' +
+                '}';
+    }
+
+    public int login_pwd_status ;// 1为弱密码，0为正常
 
     public String token; // "eyJ0eXAi***E2NTY1Ng",
 
@@ -89,18 +105,5 @@ public class LoginResultVo implements Parcelable {
         }
     };
 
-    @Override
-    public String toString() {
-        return "LoginResultVo{" +
-                "token='" + token + '\'' +
-                ", token_type='" + token_type + '\'' +
-                ", expires_in='" + expires_in + '\'' +
-                ", cookie=" + cookie +
-                ", twofa_required=" + twofa_required +
-                ", samewith_securitypwd=" + samewith_securitypwd +
-                ", contacts=" + contacts +
-                ", userName='" + userName + '\'' +
-                '}';
-    }
 
 }

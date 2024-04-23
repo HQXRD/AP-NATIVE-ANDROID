@@ -250,6 +250,7 @@
     <string name="txt_withdraw_close">关闭提现</string>
     <string name="txt_withdraw_balance_money">您的余额不足，无法提款</string>
     <string name="txt_withdraw_fun_timeout">资金密码有效期已过期，请重新输入后提款</string>
+    <string name="txt_withdrawal_network_error">网络链接超时，请检查您的网络后重试</string>
     <!--魔域 提款系统返回文本-->
     <string name="txt_withdraw_password_check">资金密码检查</string>
     <string name="txt_exhausted">您今天已没有可用提款次数</string>
@@ -301,5 +302,14 @@
     <string name="txt_rpt_page">本页合计</string>
     <string name="txt_rpt_total">总合计</string>
     <string name="txt_rpt_level">本级：</string>
-
+    <!-- 修改登录密码 -->
+    <string name="txt_change_login_psw">修改登录密码</string>
+    <string name="txt_change_login_old_psw">旧密码</string>
+    <string name="txt_change_login_new_psw">新密码</string>
+    <string name="txt_change_login_sure_psw">确认新密码</string>
+    <string name="txt_change_login_psw_tip">密码存在安全隐患,请修改密码后进行登录</string>
+    <string name="txt_change_login_old_err">请输入旧密码</string>
+    <string name="txt_change_login_new_err">请输入新密码</string>
+    <string name="txt_change_login_sure_err">请输入确认密码</string>
+    <string name="txt_change_login_err">新密码与确认新密码不一致</string>
 </resources>
