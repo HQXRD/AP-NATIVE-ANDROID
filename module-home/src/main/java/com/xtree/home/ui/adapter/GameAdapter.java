@@ -22,6 +22,7 @@ import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.base.widget.TipGameDialog;
 import com.xtree.home.BuildConfig;
 import com.xtree.home.R;
 import com.xtree.home.databinding.HmItemGameBinding;
@@ -64,8 +65,6 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         binding = HmItemGameBinding.bind(holder.itemView);
         binding.ivwImg.setImageLevel(vo.typeId);
         binding.ivwImg.setOnClickListener(view -> jump(vo));
-        //维护状态或已下架状态，ivwGreyCover抢占点击事件，当前游戏不可进入
-        binding.ivwGreyCover.setOnClickListener(null);
 
         if (vo.status == 0) {
             String txt = ctx.getString(R.string.hm_txt_maintaining, vo.maintenance_start, vo.maintenance_end);
@@ -176,6 +175,13 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
 
         if (vo.isH5) {
+            if (vo.cid == 3 && AppUtil.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
+                showTipDialog(SPKeyGlobal.AG_NOT_TIP_TODAY, "AG真人", vo);
+                return;
+            } else if (vo.cid == 31 && AppUtil.isTipToday(SPKeyGlobal.DB_NOT_TIP_TODAY)) {
+                showTipDialog(SPKeyGlobal.DB_NOT_TIP_TODAY, "DB真人", vo);
+                return;
+            }
             goWeb(vo);
         } else {
             // 跳原生
@@ -214,6 +220,16 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
                         basePopupView.dismiss();
                     }
                 }));
+        basePopupView.show();
+    }
+
+    /**
+     * 当是AG真人或DB真人时弹出弹窗
+     */
+    private void showTipDialog(String key, String title, GameVo vo) {
+        BasePopupView basePopupView = new XPopup.Builder(ctx)
+                .dismissOnTouchOutside(false)
+                .asCustom(new TipGameDialog(ctx, title, key, () -> goWeb(vo)));
         basePopupView.show();
     }
 

@@ -107,7 +107,6 @@ public class BrowserActivity extends AppCompatActivity {
 
         initView();
         title = getIntent().getStringExtra(ARG_TITLE);
-        showAGDBDialog();
         isContainTitle = getIntent().getBooleanExtra(ARG_IS_CONTAIN_TITLE, false);
         isShowLoading = getIntent().getBooleanExtra(ARG_IS_SHOW_LOADING, false);
         isGame = getIntent().getBooleanExtra(ARG_IS_GAME, false);
@@ -192,28 +191,6 @@ public class BrowserActivity extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_loading);
         animation.setRepeatMode(Animation.RESTART);
         animation.setDuration(20 * 1000);
-    }
-
-    /**
-     * 当是AG真人或DB真人时弹出弹窗
-     */
-    private void showAGDBDialog() {
-        CfLog.i("title:" + title);
-        if (TextUtils.isEmpty(title)) {
-            return;
-        }
-        if (title.equals("AG真人") && AppUtil.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
-            showTipDialog(SPKeyGlobal.AG_NOT_TIP_TODAY);
-        } else if (title.equals("DB真人") && AppUtil.isTipToday(SPKeyGlobal.DB_NOT_TIP_TODAY)) {
-            showTipDialog(SPKeyGlobal.DB_NOT_TIP_TODAY);
-        }
-    }
-
-    private void showTipDialog(String key) {
-        BasePopupView basePopupView = new XPopup.Builder(this)
-                .dismissOnTouchOutside(false)
-                .asCustom(new TipGameDialog(this, title, key));
-        basePopupView.show();
     }
 
     private void initView() {
