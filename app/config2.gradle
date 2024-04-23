@@ -22,7 +22,7 @@ android {
             dimension "channelName"
         }
         // 生产环境 测试用
-        /*eon2_uat {
+        eon2_uat {
             applicationId "com.${name.toLowerCase()}.app"
             versionName "1.0.8"
             versionCode 108
@@ -61,7 +61,7 @@ android {
                     "https://www.n5q2b8.xyz;"
             multiDexEnabled true
             dimension "channelName"
-        }*/
+        }
         // 生产环境 发布用
         eon2_OL {
             applicationId "com.eon2k.app" // eon2
