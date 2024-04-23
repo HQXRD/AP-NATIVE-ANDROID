@@ -128,4 +128,16 @@ public class StringUtils {
         }
         return versionCode;
     }
+    /**切割提款用户名*/
+    public  static String splitWithdrawUserName(String  userName){
+
+        if (!userName.contains("@")){
+            return userName;
+        }else {
+            String firstName = userName.substring(0, userName.indexOf("@"));
+            CfLog.e("splitWithdrawUserName = " + firstName);
+            return firstName;
+        }
+
+    }
 }
