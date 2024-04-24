@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.text.HtmlCompat;
+import androidx.core.widget.TextViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -68,7 +70,6 @@ import java.util.List;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -308,6 +309,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
             }
         });
+        // 文字大小可随长度而改变,解决长度太长显示不全的问题(HQAP2-3310)
+        TextViewCompat.setAutoSizeTextTypeWithDefaults(binding.tvwAmountHint, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+        TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(binding.tvwAmountHint, 12, 14, 1, TypedValue.COMPLEX_UNIT_SP);
         binding.edtAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -321,6 +325,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     binding.tvwRealAmount.setText(s.subSequence(0, s.toString().indexOf(".")));
                 } else {
                     binding.tvwRealAmount.setText(s);
+                }
+                if (binding.tvwRealAmount.length() == 0) {
+                    binding.tvwAmountHint.setVisibility(View.VISIBLE);
+                } else {
+                    binding.tvwAmountHint.setVisibility(View.INVISIBLE);
                 }
 
                 // 获取 实际充值金额 (测试环境 银行卡充值3)
@@ -613,7 +622,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 有一组金额按钮需要显示出来 (固额和非固额)
         if (vo.fixedamount_channelshow && vo.fixedamount_info.length > 0) {
             binding.edtAmount.setEnabled(false);
-            binding.edtAmount.setHint(R.string.txt_choose_recharge_amount); // 请选择金额
+            binding.tvwAmountHint.setText(R.string.txt_choose_recharge_amount); // 请选择金额
             setAmountGrid(vo);
             // 固额 如果输入框的金额不是固额列表中的其中一个,显示提示文字
             if (!amount.isEmpty() && !Arrays.asList(vo.fixedamount_info).contains(amount)) {
@@ -624,7 +633,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         } else {
             binding.edtAmount.setEnabled(true);
             String hint = getString(R.string.txt_enter_recharge_amount, vo.loadmin, vo.loadmax);
-            binding.edtAmount.setHint(hint); // 请输入充值金额(最低%1$s元，最高%2$s元)
+            binding.tvwAmountHint.setText(hint); // 请输入充值金额(最低%1$s元，最高%2$s元)
             List<String> list = getFastMoney(vo.loadmin, vo.loadmax);
             vo.fixedamount_info = list.toArray(new String[list.size()]);
             setAmountGrid(vo);
