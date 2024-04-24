@@ -30,6 +30,7 @@ import com.xtree.mine.R;
 import com.xtree.mine.data.Spkey;
 import com.xtree.mine.databinding.ActivityLoginBinding;
 import com.xtree.mine.ui.fragment.AgreementDialog;
+import com.xtree.mine.ui.fragment.ChangeLoginPSWDialog;
 import com.xtree.mine.ui.fragment.GoogleAuthDialog;
 import com.xtree.mine.ui.viewmodel.LoginViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
@@ -52,6 +53,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     private int clickCount = 0; // 点击次数 debug model
     private BasePopupView ppw;
+    private BasePopupView showChangeLoginPSWPopView;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -275,6 +277,10 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             if (vo.twofa_required == 0) {
                 //viewModel.setLoginSucc(vo);
                 TagUtils.tagEvent(getBaseContext(), TagUtils.EVENT_LOGIN);
+                if (vo.login_pwd_status == 1) {
+                    goUpdatePwd();
+                    return;
+                }
                 goMain();
 
             } else if (vo.twofa_required == 1) {
@@ -355,5 +361,24 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             SPUtil.get(getApplication()).put(Spkey.KEY, key);
         }
         return new SecretKeySpec(Base64.decode(key, Base64.DEFAULT), "AES");
+    }
+    /**
+     * 显示修改登录密码Dialog
+     */
+    private void goUpdatePwd() {
+        if (showChangeLoginPSWPopView == null) {
+            showChangeLoginPSWPopView = new XPopup.Builder(this)
+                    .dismissOnBackPressed(false)
+                    .dismissOnTouchOutside(false)
+                    .asCustom(ChangeLoginPSWDialog.newInstance(this, this, new ChangeLoginPSWDialog.IChangeLoginPSWCallBack() {
+                        @Override
+                        public void changeLoginPSWSucc() {
+                            binding.edtPwd.setText("");
+                            SPUtil.get(getApplication()).clear(Spkey.PWD);
+                            showChangeLoginPSWPopView.dismiss();
+                        }
+                    }))
+                    .show();
+        }
     }
 }

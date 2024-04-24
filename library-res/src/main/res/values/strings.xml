@@ -289,4 +289,15 @@
     <string name="txt_rpt_total">总合计</string>
     <string name="txt_rpt_level">本级：</string>
 
+    <!-- 修改登录密码 -->
+    <string name="txt_change_login_psw">修改登录密码</string>
+    <string name="txt_change_login_old_psw">旧密码</string>
+    <string name="txt_change_login_new_psw">新密码</string>
+    <string name="txt_change_login_sure_psw">确认新密码</string>
+    <string name="txt_change_login_psw_tip">密码存在安全隐患,请修改密码后进行登录</string>
+    <string name="txt_change_login_old_err">请输入旧密码</string>
+    <string name="txt_change_login_new_err">请输入新密码</string>
+    <string name="txt_change_login_sure_err">请输入确认密码</string>
+    <string name="txt_change_login_err">新密码与确认新密码不一致</string>
+
 </resources>

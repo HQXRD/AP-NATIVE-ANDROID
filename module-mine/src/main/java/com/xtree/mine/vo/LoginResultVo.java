@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class LoginResultVo implements Parcelable {
+    public int login_pwd_status ;// 1为弱密码，0为正常
 
     public String token; // "eyJ0eXAi***E2NTY1Ng",
 
