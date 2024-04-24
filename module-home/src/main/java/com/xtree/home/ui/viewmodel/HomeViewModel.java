@@ -1,5 +1,7 @@
 package com.xtree.home.ui.viewmodel;
 
+import static com.xtree.base.utils.EventConstant.EVENT_RED_POINT;
+
 import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
@@ -14,6 +16,7 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.AppUpdateVo;
+import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
@@ -29,8 +32,11 @@ import com.xtree.home.vo.GameStatusVo;
 import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.RedPocketVo;
+import com.xtree.home.vo.RewardRedVo;
 import com.xtree.home.vo.SettingsVo;
 import com.xtree.home.vo.VipInfoVo;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -503,6 +509,29 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     public void onFail(BusinessException t) {
                         CfLog.e("error, " + t.toString()); // 活动不存在
                         //super.onFail(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getRewardRed() {
+        Disposable disposable = (Disposable) model.getApiService().getReward()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<RewardRedVo>() {
+                    @Override
+                    public void onResult(RewardRedVo vo) {
+                        if (vo != null) {
+                            CfLog.d(vo.toString());
+                            CfLog.d("Send change red point");
+                            EventBus.getDefault().post(new EventVo(EVENT_RED_POINT, vo.result));
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        //super.onError(t);
                     }
                 });
         addSubscribe(disposable);

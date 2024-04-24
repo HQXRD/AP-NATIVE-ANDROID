@@ -220,6 +220,44 @@
                     android:layout_marginEnd="8dp" />
 
                 <LinearLayout
+                    android:id="@+id/ll_bind_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        style="@style/style_cm_title"
+                        android:layout_marginTop="0dp"
+                        android:text="@string/txt_bind_personal_info"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvw_bind_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/txt_bind_phone"
+                        android:textColor="@color/clr_blue_03"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvw_bind_yhk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:gravity="center_vertical"
+                        android:text="@string/txt_bind_bank_card"
+                        android:textColor="@color/clr_blue_03"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/ll_down"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -228,53 +266,16 @@
                     android:visibility="gone"
                     tools:visibility="visible">
 
-                    <LinearLayout
-                        android:id="@+id/ll_bind_info"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:visibility="gone"
-                        tools:visibility="visible">
-
-                        <TextView
-                            style="@style/style_cm_title"
-                            android:layout_marginTop="0dp"
-                            android:text="@string/txt_bind_personal_info" />
-
-                        <TextView
-                            android:id="@+id/tvw_bind_phone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/txt_bind_phone"
-                            android:textColor="@color/clr_grey_80"
-                            android:textSize="11sp" />
-
-                        <TextView
-                            android:id="@+id/tvw_bind_yhk"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:gravity="center_vertical"
-                            android:text="@string/txt_bind_bank_card"
-                            android:textColor="@color/clr_grey_80"
-                            android:textSize="11sp" />
-
-                    </LinearLayout>
-
                     <!-- 以下是各充值渠道的UI -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/tvw_choose_bank_card"
-                            style="@style/style_cm_title"
-                            android:layout_marginTop="6dp"
-                            android:minWidth="86dp"
+                            style="@style/style_rc_title"
                             android:text="付款银行卡"
                             android:visibility="gone"
                             tools:visibility="visible" />
@@ -283,7 +284,6 @@
                             android:id="@+id/tvw_bank_card"
                             style="@style/style_cm_edit"
                             android:layout_marginStart="4dp"
-                            android:layout_marginTop="6dp"
                             android:layout_marginEnd="@dimen/layout_margin"
                             android:drawableEnd="@mipmap/cm_ic_expand"
                             android:hint="@string/txt_pls_select_payment_card"
@@ -302,12 +302,11 @@
 
                         <TextView
                             android:id="@+id/tvw_title_name"
-                            style="@style/style_cm_title"
-                            android:layout_marginTop="6dp"
-                            android:minWidth="86dp"
+                            style="@style/style_rc_title"
                             android:text="@string/txt_deposit_name"
+                            app:layout_constraintBottom_toBottomOf="@id/edt_name"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="@id/edt_name" />
 
                         <EditText
                             android:id="@+id/edt_name"
@@ -338,6 +337,8 @@
                         <TextView
                             android:id="@+id/tvw_tip_name"
                             style="@style/style_cm_tip_small_orange"
+                            android:layout_width="match_parent"
+                            android:layout_marginStart="@dimen/layout_margin"
                             android:layout_marginTop="6dp"
                             android:drawableStart="@mipmap/cm_ic_hint_red"
                             android:drawablePadding="2dp"
@@ -352,31 +353,51 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:orientation="horizontal">
 
                             <TextView
-                                style="@style/style_cm_title"
-                                android:layout_marginTop="0dp"
-                                android:minWidth="86dp"
-                                android:minEms="4"
-                                android:text="存款金额" />
+                                android:id="@+id/tvw_title_amount"
+                                style="@style/style_rc_title"
+                                android:text="存款金额"
+                                app:layout_constraintBottom_toBottomOf="@id/tvw_amount_hint"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="@id/tvw_amount_hint" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tvw_amount_hint"
+                                style="@style/style_cm_edit"
+                                android:layout_width="0dp"
+                                android:layout_marginStart="4dp"
+                                android:layout_marginEnd="@dimen/layout_margin"
+                                android:text="@string/txt_enter_recharge_amount"
+                                android:textSize="14sp"
+                                android:textColor="@color/clr_txt_color_hint"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/tvw_title_amount"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:enabled="true" />
 
                             <EditText
                                 android:id="@+id/edt_amount"
                                 style="@style/style_cm_edit"
+                                android:layout_width="0dp"
                                 android:layout_marginStart="4dp"
                                 android:layout_marginEnd="@dimen/layout_margin"
-                                android:hint="@string/txt_enter_recharge_amount"
                                 android:imeOptions="actionDone"
                                 android:inputType="number"
                                 android:maxLength="9"
                                 android:text=""
-                                tools:enabled="false" />
-                        </LinearLayout>
+                                android:textSize="14sp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toEndOf="@id/tvw_title_amount"
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:enabled="false"
+                                tools:visibility="gone" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                         <TextView
                             android:id="@+id/tvw_tip_amount"

@@ -1,5 +1,7 @@
 package com.xtree.mine.ui.fragment;
 
+import static com.xtree.base.utils.EventConstant.EVENT_RED_POINT;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -26,6 +28,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.vo.AppUpdateVo;
+import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.BrowserActivity;
@@ -38,6 +41,8 @@ import com.xtree.mine.ui.activity.LoginRegisterActivity;
 import com.xtree.mine.ui.viewmodel.MineViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.VipInfoVo;
+
+import org.greenrobot.eventbus.EventBus;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -83,6 +88,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             setChildClickable(binding.llMenu01, true);
             setChildClickable(binding.llMenu02, true);
             viewModel.readCache(); // 读取缓存
+            viewModel.getReward(); // 获取优惠中心是否显示小红点
         }
     }
 
@@ -521,6 +527,10 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
         });
 
+        viewModel.liveDataReward.observe(this, vo -> {
+            binding.tvwDcCentre.setSelected(vo.result);
+            EventBus.getDefault().post(new EventVo(EVENT_RED_POINT, vo.result));
+        });
     }
 
     /**

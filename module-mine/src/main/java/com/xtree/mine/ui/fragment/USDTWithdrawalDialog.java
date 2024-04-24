@@ -133,11 +133,14 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         //USDT提款设置提款请求 返回model
         viewModel.usdtCashVoMutableLiveData.observe(owner, vo -> {
             usdtCashVo = vo;
-
-            if (usdtCashVo == null || usdtCashVo.channel_list == null || usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()) {
+            //|| usdtCashVo.channel_list == null || usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()
+            if (usdtCashVo == null) {
                 showErrorByChannel();
+            } else if (!TextUtils.isEmpty(usdtCashVo.message) && getContext().getString(R.string.txt_no_withdrawals_available_tip).equals(usdtCashVo.message)) {
+                //"message": "您今天已没有可用提款次数"
+                refreshError(usdtCashVo.message);
             }
-            //异常
+          /*  //异常
             else if (usdtCashVo.msg_type == 2 || usdtCashVo.msg_type == 1) {
                 final String leftString = getContext().getString(R.string.txt_no_withdrawals_available_tip);
 
@@ -148,7 +151,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
                     dismiss();
                 }
                 return;
-            }
+            }*/
             // 提现选项卡不能为空
             else if (usdtCashVo.channel_list == null || usdtCashVo.channel_list.isEmpty() ||
                     usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()) {
@@ -209,7 +212,20 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         CfLog.i("requestData =" + channelInfo.toString());
         viewModel.getChooseWithdrawUSDT(map);
     }
+    private void  initNoticeView(){
+        final String notice = "<font color=#EE5A5A>注意:</font>";
+        String times, count, startTime, endTime, rest;
+        times = "<font color=#EE5A5A>" + String.valueOf(usdtCashVo.times) + "</font>";
+        count = "<font color=#EE5A5A>" + usdtCashVo.count + "</font>";
+        startTime = "<font color=#000000>" + usdtCashVo.wraptime.starttime + "</font>";
+        endTime = "<font color=#000000>" + usdtCashVo.wraptime.endtime + "</font>";
+        rest = StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.rest));
+        String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
+        String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
+        String textSource = String.format(format, notice, times, count, startTime, endTime, testTxt);
 
+        binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
+    }
     /**
      * 刷新初始UI
      */
@@ -225,19 +241,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             firstChannel = usdtCashVo.channel_list.get(0);
             secondChannel = usdtCashVo.channel_list.get(1);
         }
-        final String notice = "<font color=#EE5A5A>注意:</font>";
-        String times, count, startTime, endTime, rest;
-        times = "<font color=#EE5A5A>" + String.valueOf(usdtCashVo.times) + "</font>";
-        count = "<font color=#EE5A5A>" + usdtCashVo.count + "</font>";
-        startTime = "<font color=#000000>" + usdtCashVo.wraptime.starttime + "</font>";
-        endTime = "<font color=#000000>" + usdtCashVo.wraptime.endtime + "</font>";
-        rest = StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.rest));
-        String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
-        String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String textSource = String.format(format, notice, times, count, startTime, endTime, testTxt);
 
-        binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
-
+        initNoticeView();
         binding.tvUserNameShow.setText(usdtCashVo.user.username);
         binding.tvWithdrawalTypeShow.setText("USDT");//提款类型
 
@@ -256,7 +261,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         CfLog.e("firstChannel.title " + firstChannel.toString());
         //默认第一个是trc20
 
-        if (TextUtils.equals("嗨钱包usdt", firstChannel.title)) {
+        /*if (TextUtils.equals("嗨钱包usdt", firstChannel.title)) {
             binding.tvCollectionUsdt.setText(usdtinfoTRC.get(0).usdt_type + " " + usdtinfoTRC.get(0).usdt_card);
             selectUsdtInfo = usdtinfoTRC.get(0);
             type = "TRC";
@@ -264,7 +269,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
             selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
             type = "USDT";
-        }
+        }*/
 
         //关闭软键盘弹起
         binding.etInputMoney.clearFocus();
@@ -279,16 +284,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
 
     private void initListener() {
         hideKeyBoard();
-       /* binding.llUsdt.setOnClickListener(v -> {
-            binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
-            binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
-            type = "USDT";
-        });
-        binding.tvVirtualUsdt.setOnClickListener(v -> {
-            binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
-            binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
-            type = "USDT";
-        });*/
+
         //选中非USDT提款 提币地址更换为支持TRC20
         binding.tvVirtualUsdt.setOnClickListener(v -> {
             binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
@@ -300,7 +296,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
                 type = "USDT";
             }
             //显示地址
-            if (type.equals("USDT")) {
+            if (type.contains("USDT")) {
                 binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
                 selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
                 String temp = selectUsdtInfo.min_money + "元,最高" + selectUsdtInfo.max_money + "元";
@@ -318,10 +314,11 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             }
 
             binding.tvWithdrawalAmountMethod.setText(firstChannel.title);//提款方式
-            CfLog.e("点击 USDT firstChannel.title = " + firstChannel.toString());
+
         });
         //USDT提款
         binding.tvVirtualOther.setOnClickListener(v -> {
+
             binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
             binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
             final String name = binding.tvVirtualOther.getText().toString().trim();
@@ -331,7 +328,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
                 type = "USDT";
             }
             //显示地址
-            if (type.equals("USDT")) {
+            if (type.contains("USDT")) {
                 binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
                 selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
                 String temp = selectUsdtInfo.min_money + "元,最高" + selectUsdtInfo.max_money + "元";
@@ -583,11 +580,11 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         map.put("smstype", "");
 
         map.put("handing_fee", vo.datas.handing_fee);
-        map.put("money", vo.datas.arrive);
+        map.put("money", vo.datas.money);
         map.put("name", vo.name);
         map.put("play_source", "1");
-        map.put("usdt_type", vo.datas.drawal_type);
-        map.put("usdtid", vo.drawal_type);
+        map.put("usdt_type", vo.usdt_type);//选中的提款方式 USDT
+        map.put("usdtid", vo.usdtid); //选中的提款协议
         /* map.put("cardid", "");*/
 
         /* map.put("usdt_type", usdtSecurityVo.usdt_type);*/

@@ -58,6 +58,8 @@ public class RechargeVo {
     public String low_rate_hint; // "1", 当前渠道【{detail.title}】充值到账成功率较低，为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！
     public String accountname; // "",
     public int tips_recommended; // 0,
+    public String bankcardstatus_onepaywx; // false 时需要弹窗提示绑定WX, 默认为null
+    public String bankcardstatus_onepayzfb; // false 时需要弹窗提示绑定ZFB, 默认为null
 
     public String toInfo() {
         return "RechargeVo { " +
@@ -119,6 +121,8 @@ public class RechargeVo {
                 ", low_rate_hint='" + low_rate_hint + '\'' +
                 ", accountname='" + accountname + '\'' +
                 ", tips_recommended=" + tips_recommended +
+                ", bankcardstatus_onepaywx=" + bankcardstatus_onepaywx +
+                ", bankcardstatus_onepayzfb=" + bankcardstatus_onepayzfb +
                 '}';
     }
 }

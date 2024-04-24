@@ -167,13 +167,51 @@ public class LeagueFb implements League{
     }
 
     @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
-
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte(this.isExpand ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isHead ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isSelected ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.matchCount);
+        dest.writeInt(this.sort);
+        dest.writeString(this.leagueName);
+        dest.writeInt(this.headType);
+        dest.writeParcelable(this.leagueInfo, flags);
+        dest.writeTypedList(this.matchList);
     }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return "leagueName--" + getLeagueName();
+    public void readFromParcel(Parcel source) {
+        this.isExpand = source.readByte() != 0;
+        this.isHead = source.readByte() != 0;
+        this.isSelected = source.readByte() != 0;
+        this.matchCount = source.readInt();
+        this.sort = source.readInt();
+        this.leagueName = source.readString();
+        this.headType = source.readInt();
+        this.leagueInfo = source.readParcelable(LeagueInfo.class.getClassLoader());
+        //this.matchList = source.createTypedArrayList(Match.CREATOR);
     }
+
+    protected LeagueFb(Parcel in) {
+        this.isExpand = in.readByte() != 0;
+        this.isHead = in.readByte() != 0;
+        this.isSelected = in.readByte() != 0;
+        this.matchCount = in.readInt();
+        this.sort = in.readInt();
+        this.leagueName = in.readString();
+        this.headType = in.readInt();
+        this.leagueInfo = in.readParcelable(LeagueInfo.class.getClassLoader());
+        //this.matchList = in.createTypedArrayList(Match.CREATOR);
+    }
+
+    public static final Creator<LeagueFb> CREATOR = new Creator<LeagueFb>() {
+        @Override
+        public LeagueFb createFromParcel(Parcel source) {
+            return new LeagueFb(source);
+        }
+
+        @Override
+        public LeagueFb[] newArray(int size) {
+            return new LeagueFb[size];
+        }
+    };
 }

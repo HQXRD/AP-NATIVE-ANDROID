@@ -69,21 +69,24 @@ public class AccountMgmtDialog extends BottomPopupView {
                 String type = child.getTag().toString();
                 Bundle bundle = new Bundle();
                 bundle.putString("type", type);
-                String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
+                //String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
+                String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY; // 验证页(可左右滑动)
                 //ctx.startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
+                // 绑定页面显示去充值按钮用
+                SPUtils.getInstance().put(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, ctx.getString(R.string.txt_go_recharge));
 
                 if (!mProfileVo.is_binding_email && !mProfileVo.is_binding_phone) {
                     dismiss();
                     ppw2 = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), "", getResources().getString(R.string.txt_no_binding), "绑定手机", "绑定邮箱", new TipDialog.ICallBack() {
                         @Override
                         public void onClickLeft() {
-                            startBinding(Constant.BIND_PHONE);
+                            startBinding(Constant.BIND_PHONE, type);
                             ppw2.dismiss();
                         }
 
                         @Override
                         public void onClickRight() {
-                            startBinding(Constant.BIND_EMAIL);
+                            startBinding(Constant.BIND_EMAIL, type);
                             ppw2.dismiss();
                         }
                     })).show();
@@ -110,9 +113,14 @@ public class AccountMgmtDialog extends BottomPopupView {
         return (XPopupUtils.getScreenHeight(getContext()) * 85 / 100);
     }
 
-    private void startBinding(String verify) {
+    /**
+     * @param type  绑手机/邮箱
+     * @param type2 绑YHK/U/ZFB/VX
+     */
+    private void startBinding(String type, String type2) {
         Bundle bundle = new Bundle();
-        bundle.putString("type", verify);
+        bundle.putString("type", type);
+        bundle.putString("type2", type2); // 绑定手机/邮箱后,接着要办的下一个业务 20240418
         Intent intent = new Intent(getContext(), ContainerActivity.class);
         intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY);
         intent.putExtra(ContainerActivity.BUNDLE, bundle);

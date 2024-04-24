@@ -32,6 +32,8 @@ public class SPKeyGlobal {
     public static final String RC_PAYMENT_THIRIFRAME = "rc_payment_thiriframe";
     public static final String WLT_CENTRAL_BLC = "wlt_central_blc";
     public static final String WLT_GAME_ROOM_BLC = "wlt_game_room_blc";
+    public static final String PM_FAST_COMMON = "pm_fast_common";//熊猫体育是极速版or普通版
+    public static final String FB_FAST_COMMON = "fb_fast_common";//FB体育是极速版or普通版
     public static final String FBXC_TOKEN = "fbxc_token";
     public static final String FB_TOKEN = "fb_token";
     public static final String PM_TOKEN = "pm_token";
@@ -48,4 +50,5 @@ public class SPKeyGlobal {
 
     public static final String APP_INTERVAL_TIME = "app_interval_time";//App请求更新时间初始时间
     public static final String APP_LAST_CHECK_TIME = "app_last_check_time";//App请求更新时间
+    public static final String TYPE_RECHARGE_WITHDRAW = "type_recharge_withdraw";//去充值or去提款
 }

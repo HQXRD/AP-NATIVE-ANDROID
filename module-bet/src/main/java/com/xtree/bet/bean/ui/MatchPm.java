@@ -156,7 +156,7 @@ public class MatchPm implements Match {
                 String score = str;
                 if (!TextUtils.isEmpty(score) && score.contains("|")) {
                     score = score.substring(score.indexOf("|") + 1, score.length());
-                    if (!TextUtils.isEmpty(score) && score.contains(":")) {
+                    if (!TextUtils.isEmpty(score) && score.contains(":") && score.split(":").length > 1) {
                         sc.add(Integer.valueOf(score.split(":")[0]));
                         sc.add(Integer.valueOf(score.split(":")[1]));
                     }

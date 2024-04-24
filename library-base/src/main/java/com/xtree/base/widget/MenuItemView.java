@@ -6,13 +6,12 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
-
 
 import com.xtree.base.R;
 
@@ -130,16 +129,16 @@ public class MenuItemView extends BaseTabItem {
     }
 
     public void setIconTopMargin(int px) {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mIcon.getLayoutParams();
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mIcon.getLayoutParams();
         params.topMargin = px; //
         mIcon.setLayoutParams(params);
     }
 
     public void setTextTopMarginOnIcon(int px) {
-        RelativeLayout.LayoutParams titleParams = (RelativeLayout.LayoutParams) mTitle.getLayoutParams();
+        ConstraintLayout.LayoutParams titleParams = (ConstraintLayout.LayoutParams) mTitle.getLayoutParams();
         titleParams.topMargin = px; //
         mTitle.setLayoutParams(titleParams);
-        RelativeLayout.LayoutParams messageParams = (RelativeLayout.LayoutParams) mMessages.getLayoutParams();
+        ConstraintLayout.LayoutParams messageParams = (ConstraintLayout.LayoutParams) mMessages.getLayoutParams();
         messageParams.topMargin = px; //
         mMessages.setLayoutParams(messageParams);
 

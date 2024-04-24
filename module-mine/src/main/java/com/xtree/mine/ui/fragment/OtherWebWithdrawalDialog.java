@@ -138,7 +138,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
                     binding.maskH5View.setVisibility(View.VISIBLE);
                     binding.nsH5View.setVisibility(View.GONE);
                     dismissLoading();
-                    showErrorByChannel();
+                    showErrorByChannel(otherWebWithdrawVo.channel_list.get(0).thiriframe_msg);
                 }
             }
 
@@ -301,10 +301,10 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
     }
 
     /* 由于权限原因弹窗*/
-    private void showErrorByChannel() {
+    private void showErrorByChannel(final String message) {
         if (ppwError == null) {
             final String title = getContext().getString(R.string.txt_kind_tips);
-            final String message = getContext().getString(R.string.txt_withdrawal_not_supported_tip);
+
             ppwError = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, message, true, new TipDialog.ICallBack() {
                 @Override
                 public void onClickLeft() {

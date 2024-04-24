@@ -292,7 +292,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
                 isBinding = true;
                 Bundle bundle = new Bundle();
                 bundle.putString("type", "bindcard");
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
                 ppw2.dismiss();
             }
         });

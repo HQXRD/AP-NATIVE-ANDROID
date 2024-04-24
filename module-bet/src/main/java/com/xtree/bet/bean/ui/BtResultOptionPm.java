@@ -56,6 +56,9 @@ public class BtResultOptionPm implements BtResultOption {
 
     @Override
     public long getMatchTime() {
+        if(detailBean == null || detailBean.beginTime == null){
+            return 0;
+        }
         return Long.valueOf(detailBean.beginTime);
     }
 

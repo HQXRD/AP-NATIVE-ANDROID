@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -44,12 +47,15 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, VerifyViewModel> {
 
     private static final String ARG_TYPE = "type";
+    private static final String ARG_TYPE2 = "type2"; // 绑定成功后,办理其它业务
     private static final String ARG_TOKEN_SIGN = "tokenSign";
     private static final int MSG_TIMER = 3001;
     private String typeName;
+    private String typeName2;
     private String tokenSign;
     private VerifyVo mVerifyVo;
     private String sendtype = "email";
+    private TextWatcher textWatcher;
 
     Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -89,12 +95,29 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
 
     @Override
     public void initView() {
+        binding.tvwOk.setEnabled(false);
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.tvwCode.setOnClickListener(v -> {
             LoadingDialog.show(getContext());
             getCode();
         });
-        binding.ivwOk.setOnClickListener(v -> submit());
+        binding.tvwOk.setOnClickListener(v -> submit());
+        textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setBtn();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+        binding.edtNum.addTextChangedListener(textWatcher);
+        binding.edtCode.addTextChangedListener(textWatcher);
     }
 
     @Override
@@ -103,8 +126,9 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
         if (getArguments() != null) {
             typeName = getArguments().getString(ARG_TYPE);
             tokenSign = getArguments().getString(ARG_TOKEN_SIGN);
+            typeName2 = getArguments().getString(ARG_TYPE2);
         }
-        CfLog.i("****** typeName: " + typeName + ", tokenSign:" + tokenSign);
+        CfLog.i("****** typeName: " + typeName + ", tokenSign: " + tokenSign + ", typeName2: " + typeName2);
 
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
         ProfileVo mProfileVo = new Gson().fromJson(json, ProfileVo.class);
@@ -215,7 +239,9 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
             map.put("username", username);
             map.put("type", sendtype);
             viewModel.sendCodeByLogin(map);
-
+        } else if (!TextUtils.isEmpty(typeName2)) {
+            CfLog.i(typeName + ", " + typeName2 + ", " + sendtype + ", " + num);
+            viewModel.singleSend3(typeName, sendtype, num); // 绑定+验证
         } else {
             // 获取验证码，然后 跳到其它业务，比如 绑USDT
             //@GET("/api/verify/singlesend")
@@ -336,6 +362,12 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
             ToastUtils.showLong(R.string.txt_bind_succ);
             //getActivity().finish();
             viewModel.getProfile2();
+
+            // 绑定完成后,去办理其它业务
+            if (!TextUtils.isEmpty(typeName2) && vo != null && !TextUtils.isEmpty(vo.mark) && !TextUtils.isEmpty(vo.tokenSign)) {
+                CfLog.i("*********** goOthers: " + typeName2);
+                viewModel.goOthers(getActivity(), typeName2, vo);
+            }
         });
         viewModel.liveDataSingleVerify2.observe(this, vo -> {
             CfLog.i("*********** 验证成功, 去修改密码");
@@ -350,7 +382,12 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
             mVerifyVo = vo;
             ToastUtils.showLong(R.string.txt_verify_succ);
             // 去其它业务 (绑U,绑YHK等)
-            viewModel.goOthers(getActivity(), typeName, vo);
+            if (TextUtils.isEmpty(typeName2)) {
+                viewModel.goOthers(getActivity(), typeName, vo); // 验证
+            } else {
+                viewModel.goOthers(getActivity(), typeName2, vo); // 验证(绑定)
+            }
+
             getActivity().finish();
         });
 
@@ -446,6 +483,14 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
         binding.tvwCode.setEnabled(false);
         binding.tvwCode.setText(vo.timeoutsec + "s");
         mHandler.sendEmptyMessageDelayed(MSG_TIMER, 1000L);
+    }
+
+    private void setBtn() {
+        if (!binding.edtCode.getText().toString().isEmpty() && !binding.edtNum.getText().toString().isEmpty()) {
+            binding.tvwOk.setEnabled(true);
+        } else {
+            binding.tvwOk.setEnabled(false);
+        }
     }
 
 }

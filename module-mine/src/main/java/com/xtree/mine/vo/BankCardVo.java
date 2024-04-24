@@ -16,6 +16,6 @@ public class BankCardVo {
     //public String account_name; // "马总",
     public String account; // "************7805",
     public String status; // "1", 1-正常, 3-锁定
-    //public String utime; // "2024-01-01 16:47:50",
-    public String atime; // "2024-01-01 16:47:50"
+    public String utime; // "2024-01-01 16:50:50", 更新时间 (用户可能修改)
+    public String atime; // "2024-01-01 16:47:50", 创建时间
 }

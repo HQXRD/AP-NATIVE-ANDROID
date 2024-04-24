@@ -22,6 +22,9 @@
     <string name="txt_bind_wechat_type">bindcardwx</string>
     <string name="txt_bind_zfb_type">bindcardzfb</string>
 
+    <string name="txt_go_recharge">去充值</string>
+    <string name="txt_go_withdraw">去提款</string>
+
     <string name="txt_bind_card">银行卡管理</string>
     <string name="txt_bind_usdt">绑定USDT</string>
     <string name="txt_bind_ebpay">绑定EBPAY</string>
