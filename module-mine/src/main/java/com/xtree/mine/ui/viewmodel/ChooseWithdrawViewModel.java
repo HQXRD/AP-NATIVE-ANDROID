@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.StringUtils;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.AwardsRecordVo;
@@ -269,13 +270,13 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                             } else {
 
                             }
-                            if (bankCardCashVo.channel_list.get(i).thiriframe_status == 1) {
+                            if (bankCardCashVo.channel_list.get(i).thiriframe_use == 1) {
                                 bankCardCashVo.channel_list.get(i).isWebView = 1;//需要展示webView页面
                             } else {
                                 bankCardCashVo.channel_list.get(i).isWebView = 2;//需要展示webView页面
                             }
                         }
-
+                        bankCardCashVo.user.username = StringUtils.splitWithdrawUserName(bankCardCashVo.user.username);
                         channelDetailVoMutableLiveData.setValue(bankCardCashVo);
                     }
                 });
@@ -293,6 +294,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<PlatWithdrawVo>() {
                     @Override
                     public void onResult(PlatWithdrawVo platwithdrawVo) {
+                        platwithdrawVo.user.username = StringUtils.splitWithdrawUserName(platwithdrawVo.user.username);
                         platwithdrawVoMutableLiveData.setValue(platwithdrawVo);
                     }
                 });
@@ -325,6 +327,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<USDTCashVo>() {
                     @Override
                     public void onResult(USDTCashVo usdtCashVo) {
+                        usdtCashVo.user.username = StringUtils.splitWithdrawUserName(usdtCashVo.user.username);
                         usdtCashVoMutableLiveData.setValue(usdtCashVo);
                     }
                 });
@@ -341,6 +344,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<USDTSecurityVo>() {
                     @Override
                     public void onResult(USDTSecurityVo usdtSecurityVo) {
+                        usdtSecurityVo.user.username = StringUtils.splitWithdrawUserName(usdtSecurityVo.user.username);
                         usdtSecurityVoMutableLiveData.setValue(usdtSecurityVo);
                     }
                 });
@@ -373,6 +377,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<VirtualCashVo>() {
                     @Override
                     public void onResult(VirtualCashVo virtualCashVo) {
+                        virtualCashVo.user.username = StringUtils.splitWithdrawUserName(virtualCashVo.user.username);
                         virtualCashVoMutableLiveData.setValue(virtualCashVo);
                     }
                 });
@@ -389,6 +394,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<VirtualSecurityVo>() {
                     @Override
                     public void onResult(VirtualSecurityVo virtualSecurityVo) {
+                        virtualSecurityVo.user.username = StringUtils.splitWithdrawUserName(virtualSecurityVo.user.username);
                         virtualSecurityVoMutableLiveData.setValue(virtualSecurityVo);
                     }
                 });

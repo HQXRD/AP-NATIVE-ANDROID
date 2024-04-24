@@ -94,6 +94,9 @@ public class BrowserActivity extends AppCompatActivity {
     boolean isContainTitle = false; // 网页自身是否包含标题(少数情况下会包含)
     boolean isGame = false; // 三方游戏, 不需要header和token
     boolean is3rdLink = false; // 是否跳转到三方链接(如果是,就不用带header和cookie了)
+    boolean isFirstLoad = true; // 是否头一次打开当前网页,加载cookie时用
+    String token; // token
+
     ValueCallback<Uri> mUploadCallbackBelow;
     ValueCallback<Uri[]> mUploadCallbackAboveL;
 
@@ -104,13 +107,13 @@ public class BrowserActivity extends AppCompatActivity {
 
         initView();
         title = getIntent().getStringExtra(ARG_TITLE);
-        showAGDBDialog();
         isContainTitle = getIntent().getBooleanExtra(ARG_IS_CONTAIN_TITLE, false);
         isShowLoading = getIntent().getBooleanExtra(ARG_IS_SHOW_LOADING, false);
         isGame = getIntent().getBooleanExtra(ARG_IS_GAME, false);
         isLottery = getIntent().getBooleanExtra(ARG_IS_LOTTERY, false);
         is3rdLink = getIntent().getBooleanExtra(ARG_IS_3RD_LINK, false);
         isHideTitle = getIntent().getBooleanExtra(ARG_IS_HIDE_TITLE, false);
+        token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
 
         if (isHideTitle) {
             clTitle.setVisibility(View.GONE);
@@ -135,18 +138,18 @@ public class BrowserActivity extends AppCompatActivity {
             });
         }
 
-        String cookie = "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN)
+        String cookie = "auth=" + token
                 + ";" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME)
                 + "=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID)
                 + ";";
 
-        String auth = "bearer " + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        String auth = "bearer " + token;
 
         CfLog.d("Cookie: " + cookie);
         CfLog.d("Authorization: " + auth);
 
         Map<String, String> header = new HashMap<>();
-        if (!SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).isEmpty()) {
+        if (!TextUtils.isEmpty(token)) {
             header.put("Cookie", cookie);
             header.put("Authorization", auth);
             header.put("Cache-Control", "no-cache");
@@ -163,7 +166,8 @@ public class BrowserActivity extends AppCompatActivity {
         }
         CfLog.d("header: " + header); // new Gson().toJson(header)
         url = getIntent().getStringExtra("url");
-        mWebView.addJavascriptInterface(new WebAppInterface(this, () -> finish()), "android");
+        mWebView.addJavascriptInterface(new WebAppInterface(this, ivwBack, () -> finish()), "android");
+        setWebCookie();
         //setCookie(cookie, url); // 设置 cookie
         Uri uri = getIntent().getData();
         if (uri != null && TextUtils.isEmpty(url)) {
@@ -187,28 +191,6 @@ public class BrowserActivity extends AppCompatActivity {
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.anim_loading);
         animation.setRepeatMode(Animation.RESTART);
         animation.setDuration(20 * 1000);
-    }
-
-    /**
-     * 当是AG真人或DB真人时弹出弹窗
-     */
-    private void showAGDBDialog() {
-        CfLog.i("title:" + title);
-        if (TextUtils.isEmpty(title)) {
-            return;
-        }
-        if (title.equals("AG真人") && AppUtil.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
-                showTipDialog(SPKeyGlobal.AG_NOT_TIP_TODAY);
-        } else if (title.equals("DB真人") && AppUtil.isTipToday(SPKeyGlobal.DB_NOT_TIP_TODAY)) {
-                showTipDialog(SPKeyGlobal.DB_NOT_TIP_TODAY);
-        }
-    }
-
-    private void showTipDialog(String key) {
-        BasePopupView basePopupView = new XPopup.Builder(this)
-                .dismissOnTouchOutside(false)
-                .asCustom(new TipGameDialog(this, title, key));
-        basePopupView.show();
     }
 
     private void initView() {
@@ -282,14 +264,9 @@ public class BrowserActivity extends AppCompatActivity {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 CfLog.d("onPageStarted url:  " + url);
                 //Log.d("---", "onPageStarted url:  " + url);
-                if (isLottery) {
-                    setLotteryCookieInside();
-                } else if (is3rdLink) {
-                    CfLog.d("not need cookie.");
-                } else {
-                    if (!SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).isEmpty()) {
-                        setCookieInside();
-                    }
+                if (isFirstLoad) {
+                    isFirstLoad = false;
+                    setWebCookie();
                 }
             }
 
@@ -340,7 +317,6 @@ public class BrowserActivity extends AppCompatActivity {
         });
         ivwJump.setOnClickListener(v -> {
             //传递token
-            String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
             String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
             String jumpUrl = DomainUtil.getDomain() + "/static/sessionkeeper.html?token=" + token + "&tokenExpires=3600&url=" + urlBase64;
             CfLog.i("jumpUrl: " + jumpUrl);
@@ -457,11 +433,23 @@ public class BrowserActivity extends AppCompatActivity {
         cm.setAcceptThirdPartyCookies(mWebView, true);
     }
 
+    private void setWebCookie() {
+        CfLog.i("******");
+        if (isLottery) {
+            setLotteryCookieInside();
+        } else if (is3rdLink) {
+            CfLog.d("not need cookie.");
+        } else {
+            if (!TextUtils.isEmpty(token)) {
+                setCookieInside();
+            }
+        }
+    }
+
     private void setCookieInside() {
         // auth, _sessionHandler 是验证类业务用的,比如绑USDT/绑YHK
         // AUTH, USER-PROFILE 是给VIP中心/报表 用的
 
-        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         String sessid = SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID);
 
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
@@ -502,7 +490,6 @@ public class BrowserActivity extends AppCompatActivity {
         // auth, _sessionHandler 是验证类业务用的,比如绑USDT/绑YHK
         // AUTH, USER-PROFILE 是给VIP中心/报表 用的
 
-        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         String sessid = SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID);
 
         String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);

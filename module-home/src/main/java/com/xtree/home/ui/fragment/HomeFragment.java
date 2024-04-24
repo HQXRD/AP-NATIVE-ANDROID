@@ -1,5 +1,7 @@
 package com.xtree.home.ui.fragment;
 
+import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
+
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -32,6 +35,7 @@ import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.AppUpdateVo;
+import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.BrowserActivity;
@@ -115,7 +119,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (!TextUtils.isEmpty(token)) {
             CfLog.i("******");
             viewModel.getProfile();
-            checkRedPocket();
+            //viewModel.getRedPocket(); // VIP有没有红包 (小红点)
+            viewModel.getRewardRed(); // 主页 我的按钮小红点
         }
     }
 
@@ -263,7 +268,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
 
         viewModel.liveDataRedPocket.observe(getViewLifecycleOwner(), vo -> {
-            CfLog.e("Check has money : " + vo.money);
+            CfLog.i("Check has money : " + vo.money);
             if (vo.status == 0) {
                 binding.tvwMember.setCompoundDrawablesWithIntrinsicBounds(0, R.mipmap.hm_ic_member_has_red, 0, 0);
             } else {
@@ -273,9 +278,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     }
 
     public void initView() {
-        CfLog.e(String.valueOf(getActivity().getClass()));
         if (!isFloating) {
-            CfLog.e("customFloatWindows.show");
+            CfLog.i("customFloatWindows.show");
             customFloatWindows = new CustomFloatWindows(getActivity());
             customFloatWindows.show();
             isFloating = true;
@@ -302,12 +306,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         binding.bnrTop.setOnBannerListener((OnBannerListener<BannersVo>) (data, position) -> {
             if (data.link.equals("")) {
-                EventBus.getDefault().post("");
+                EventBus.getDefault().post(new EventVo(EVENT_CHANGE_TO_ACT, ""));
                 return;
             }
             char lastChar = data.link.charAt(data.link.length() - 1);
             if (!Character.isDigit(lastChar)) {
-                EventBus.getDefault().post("");
+                EventBus.getDefault().post(new EventVo(EVENT_CHANGE_TO_ACT, ""));
                 return;
             }
             String aid = "aid=";
@@ -422,6 +426,8 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         gameAdapter = new GameAdapter(getContext(), mCallBack);
         binding.rcvList.setAdapter(gameAdapter);
+        binding.rcvList.setHasFixedSize(true);
+        ((SimpleItemAnimator)binding.rcvList.getItemAnimator()).setSupportsChangeAnimations(false);
         manager = new LinearLayoutManager(getContext());
         binding.rcvList.setLayoutManager(manager);
         binding.rcvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -605,7 +611,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 isBinding = true;
                 Bundle bundle = new Bundle();
                 bundle.putString("type", "bindcard");
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
                 ppw2.dismiss();
             }
         });
@@ -630,10 +636,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (System.currentTimeMillis() - lastCheckTime >= (intervalTime * 60 * 1000)) {
             viewModel.getUpdate();
         }
-    }
-
-    private void checkRedPocket() {
-        viewModel.getRedPocket();
     }
 
     /**

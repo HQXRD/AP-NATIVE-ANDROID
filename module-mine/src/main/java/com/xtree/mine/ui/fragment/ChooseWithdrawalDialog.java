@@ -23,6 +23,7 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
@@ -40,6 +41,7 @@ import com.xtree.mine.vo.ChooseInfoVo;
 import java.util.ArrayList;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
@@ -70,9 +72,10 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     LifecycleOwner owner;
     Context context;
     ChooseInfoVo chooseInfoVo;
-    BasePopupView ppw = null; // 底部弹窗
+    BasePopupView errorPopView = null; // 底部弹窗
 
     private BasePopupView customPopWindow;
+    private BasePopupView firstBankPopWindow;
     private FragmentActivity mActivity;
 
     private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
@@ -205,33 +208,28 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
             ChooseAdapter adapter = new ChooseAdapter(context, chooseInfoVo.wdChannelList, new IChooseCallback() {
                 @Override
                 public void onClick(String txt, ChooseInfoVo.ChannelInfo channelInfo) {
-
                     ChooseInfoVo.ChannelInfo channel = channelInfo;
-
                     if (channel.isBind == false) {
-                        if (!TextUtils.isEmpty(channel.channeluseMessage) && !channel.isBind) {
+                        if (!TextUtils.isEmpty(channel.channeluseMessage) && channel.channeluseMessage.contains("首次提款仅可使用银行卡方式提款")) {
+                            showFirstBankDialog(channel.channeluseMessage);
+                        } else if (!TextUtils.isEmpty(channel.channeluseMessage) && channel.channeluseMessage.contains("尚未绑定")) {
                             showBindDialog(channel, channel.channeluseMessage);
-                        } /*else if (TextUtils.equals("极速支付宝提款", txt) || TextUtils.equals("极速微信提款", txt)) {
-                            showOtherWithdrawalDialog(channelInfo);
-                        }*/ else {
+                        } else {
                             showErrorDialog(channel.channeluseMessage);
                         }
                     } else if (channel.isBind && TextUtils.isEmpty(channel.channeluseMessage)) {
-                        CfLog.i("txt = " + txt +"isBind = " + channel.isBind + " ||\nChooseAdapter channel = " + channel.toString());
                         if (TextUtils.equals("银行卡提款", txt)) {
                             showBankWithdrawalDialog(channelInfo);
-                        } else if (TextUtils.equals("极速微信提款", txt) && TextUtils.equals("bindcardwx" , channel.bindType)) {
+                        } else if (TextUtils.equals("极速微信提款", txt) && TextUtils.equals("bindcardwx", channel.bindType)) {
                             showOtherWXWithdrawalDialog(channelInfo);
-                        } else if (TextUtils.equals("极速支付宝提款", txt) && TextUtils.equals("bindcardzfb" , channel.bindType)) {
+                        } else if (TextUtils.equals("极速支付宝提款", txt) && TextUtils.equals("bindcardzfb", channel.bindType)) {
                             showOtherZFBWithdrawalDialog(channelInfo);
-                        }
-                        else {
+                        } else {
                             showUSDTWithdrawalDialog(channelInfo);
                         }
                     } else if (channel.isBind && !TextUtils.isEmpty(channel.channeluseMessage)) {
                         showErrorDialog(channel.channeluseMessage);
                     }
-
                 }
 
             });
@@ -239,17 +237,21 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
             binding.lvChoose.setAdapter(adapter);
             binding.llChooseTip.setVisibility(View.VISIBLE);
             binding.tvChooseTutorial.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-            //下划线TextView 点击事件
             binding.tvChooseTutorial.setOnClickListener(v -> {
                 Intent intent = new Intent(getContext(), BrowserActivity.class);
                 intent.putExtra(BrowserActivity.ARG_TITLE, "USDT教程");
                 intent.putExtra(BrowserActivity.ARG_URL, DomainUtil.getDomain2() + "/static/usdt-description/as/usdt_m.html");
                 getContext().startActivity(intent);
             });
-
+            String quota = "";
+            if (TextUtils.equals("0", chooseInfoVo.usdtInfo.quota)) {
+                quota = "0.00";
+            } else {
+                quota = chooseInfoVo.usdtInfo.quota;
+            }
             String tip =
                     String.format(getContext().getString(R.string.txt_choose_withdrawal_tip),
-                            StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))), chooseInfoVo.usdtInfo.quota);
+                            chooseInfoVo.user.availablebalance,quota);
             binding.tvChooseTip.setVisibility(View.VISIBLE);
             binding.tvChooseTip.setText(tip);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -358,11 +360,35 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         }
         otherWXPopupView.show();
     }
+
     private void showOtherZFBWithdrawalDialog(final ChooseInfoVo.ChannelInfo info) {
         if (otherZFBPopupView == null) {
             otherZFBPopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(OtherWebWithdrawalDialog.newInstance(getContext(), owner, info));
         }
         otherZFBPopupView.show();
+    }
+
+    /**
+     * 显示首次绑定
+     */
+    private void showFirstBankDialog(final String showMessage) {
+        if (firstBankPopWindow == null) {
+            firstBankPopWindow = new XPopup.Builder(getContext())
+                    .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), showMessage, false, new MsgDialog.ICallBack() {
+                        @Override
+                        public void onClickLeft() {
+                            firstBankPopWindow.dismiss();
+                        }
+
+                        @Override
+                        public void onClickRight() {
+                            firstBankPopWindow.dismiss();
+                        }
+                    }));
+            firstBankPopWindow.show();
+        } else {
+            firstBankPopWindow.show();
+        }
     }
 
     /**
@@ -374,13 +400,13 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         if (showMessage.contains("尚未绑定银行卡")) {
             errorMessage = "请先绑定银行卡后才可提款";
             bindType = getContext().getString(R.string.txt_bind_card_type);
-        } else if (showMessage.contains("首次提款仅可使用银行卡方式提款")) {
+        } /*else if (showMessage.contains("首次提款仅可使用银行卡方式提款")) {
             errorMessage = showMessage;
             bindType = getContext().getString(R.string.txt_bind_card_type);
-        } else if (showMessage.contains("尚未绑定极速微信地址")) {
+        }*/ else if (showMessage.contains("尚未绑定极速微信地址")) {
             errorMessage = "请先绑定微信地址后才可提款";
             bindType = getContext().getString(R.string.txt_bind_wechat_type);
-        } else if (showMessage.contains("尚未绑定极速支付宝地址")) {
+        } else if (showMessage.contains("尚未绑定支付宝账号")) {
             errorMessage = "请先绑定支付宝地址后才可提款";
             bindType = getContext().getString(R.string.txt_bind_zfb_type);
         } else {
@@ -401,8 +427,13 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         //跳转绑定流程
                         Bundle bundle = new Bundle();
                         bundle.putString("type", finalBindType);
+                        if (TextUtils.equals(finalBindType, getContext().getString(R.string.txt_bind_zfb_type))
+                                || TextUtils.equals(finalBindType, getContext().getString(R.string.txt_bind_wechat_type))) {
+                            // 绑定页面显示去提款按钮用
+                            SPUtils.getInstance().put(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getContext().getString(R.string.txt_go_withdraw));
+                        }
 
-                        String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
+                        String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY;//跳转左右滑动样式页面
                         Intent intent = new Intent(getContext(), ContainerActivity.class);
                         intent.putExtra(ContainerActivity.ROUTER_PATH, path);
                         intent.putExtra(ContainerActivity.BUNDLE, bundle);
@@ -418,20 +449,23 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 显示异常Dialog
      */
     private void showErrorDialog(String showMessage) {
-        ppw = new XPopup.Builder(getContext())
+        if (showMessage == null) {
+            return;
+        }
+        errorPopView = new XPopup.Builder(getContext())
                 .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), showMessage, false, new MsgDialog.ICallBack() {
                     @Override
                     public void onClickLeft() {
-                        ppw.dismiss();
+                        errorPopView.dismiss();
                         //callBack.closeDialog();
                     }
 
                     @Override
                     public void onClickRight() {
-                        ppw.dismiss();
+                        errorPopView.dismiss();
                         // callBack.closeDialog();
                     }
                 }));
-        ppw.show();
+        errorPopView.show();
     }
 }

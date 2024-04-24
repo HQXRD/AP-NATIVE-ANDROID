@@ -22,6 +22,7 @@ import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.base.widget.TipGameDialog;
 import com.xtree.home.BuildConfig;
 import com.xtree.home.R;
 import com.xtree.home.databinding.HmItemGameBinding;
@@ -80,23 +81,55 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
 
         if (vo.twoImage) {
-            binding.ivwSplit.setVisibility(View.INVISIBLE);
-            binding.ivwCoverLeft.setVisibility(View.VISIBLE);
-            binding.ivwCoverRight.setVisibility(View.VISIBLE);
-            binding.ivwCoverLeft.setOnClickListener(view -> jump(vo, true));
-            binding.ivwCoverRight.setOnClickListener(view -> jump(vo, false));
+            binding.layoutFc.setVisibility(View.VISIBLE);
+            setFastCommon(position, vo);
         } else {
-            binding.ivwSplit.setVisibility(View.GONE);
-            binding.ivwCoverLeft.setVisibility(View.GONE);
-            binding.ivwCoverRight.setVisibility(View.GONE);
+            binding.layoutFc.setVisibility(View.GONE);
         }
 
-        CfLog.e(getData().size() + "  " + position);
+        CfLog.i(getData().size() + "  " + position);
         if ((getData().size() - 1) > position) {
-            CfLog.e("position : " + position + " " + true );
             binding.rlSpace.setVisibility(View.GONE);
         } else {
             binding.rlSpace.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * 极速版普通版切换
+     */
+    private void setFastCommon(int position, GameVo vo) {
+        String key;
+        if (vo.cid == 5) {
+            //熊猫体育
+            key = SPKeyGlobal.PM_FAST_COMMON;
+        } else if (vo.cid == 26) {
+            //FB体育
+            key = SPKeyGlobal.FB_FAST_COMMON;
+        } else {
+            key = "";
+        }
+        boolean isFast = SPUtils.getInstance().getBoolean(key, true);
+        if (isFast) {
+            //如果是极速版
+            binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_fast);
+            binding.ivwImg.setOnClickListener(view -> jump(vo, true));
+            binding.ivLeft.setOnClickListener(null);
+            binding.ivRight.setOnClickListener(view -> {
+                CfLog.i("ivRight");
+                SPUtils.getInstance().put(key, false);
+                notifyItemChanged(position);
+            });
+        } else {
+            //普通版
+            binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_common);
+            binding.ivwImg.setOnClickListener(view -> jump(vo, false));
+            binding.ivRight.setOnClickListener(null);
+            binding.ivLeft.setOnClickListener(view -> {
+                CfLog.i("ivLeft");
+                SPUtils.getInstance().put(key, true);
+                notifyItemChanged(position);
+            });
         }
     }
 
@@ -142,6 +175,13 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
 
         if (vo.isH5) {
+            if (vo.cid == 3 && AppUtil.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
+                showTipDialog(SPKeyGlobal.AG_NOT_TIP_TODAY, "AG真人", vo);
+                return;
+            } else if (vo.cid == 31 && AppUtil.isTipToday(SPKeyGlobal.DB_NOT_TIP_TODAY)) {
+                showTipDialog(SPKeyGlobal.DB_NOT_TIP_TODAY, "DB真人", vo);
+                return;
+            }
             goWeb(vo);
         } else {
             // 跳原生
@@ -180,6 +220,16 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
                         basePopupView.dismiss();
                     }
                 }));
+        basePopupView.show();
+    }
+
+    /**
+     * 当是AG真人或DB真人时弹出弹窗
+     */
+    private void showTipDialog(String key, String title, GameVo vo) {
+        BasePopupView basePopupView = new XPopup.Builder(ctx)
+                .dismissOnTouchOutside(false)
+                .asCustom(new TipGameDialog(ctx, title, key, () -> goWeb(vo)));
         basePopupView.show();
     }
 

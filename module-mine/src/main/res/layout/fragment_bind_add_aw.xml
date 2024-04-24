@@ -273,13 +273,13 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/tv_recharge"
+                android:id="@+id/tvType"
                 style="@style/style_btn"
                 android:layout_width="140dp"
                 android:textSize="@dimen/bt_text_16sp"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
-                android:text="去充值" />
+                tools:text="@string/txt_go_recharge" />
         </LinearLayout>
     </LinearLayout>
 </layout>

@@ -14,6 +14,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class TipGameDialog extends CenterPopupView {
 
+    ICallBack mCallBack;
     private String title;
     private String key;
     DialogGameTipBinding binding;
@@ -22,10 +23,15 @@ public class TipGameDialog extends CenterPopupView {
         super(context);
     }
 
-    public TipGameDialog(@NonNull Context context, String title, String key) {
+    public TipGameDialog(@NonNull Context context, String title, String key, ICallBack mCallBack) {
         super(context);
         this.title = title;
         this.key = key;
+        this.mCallBack = mCallBack;
+    }
+
+    public interface ICallBack {
+        void onClickConfirm();
     }
 
     @Override
@@ -41,7 +47,10 @@ public class TipGameDialog extends CenterPopupView {
 
     private void initView() {
         binding = DialogGameTipBinding.bind(findViewById(R.id.ll_root));
-        binding.tvwConfirm.setOnClickListener(v -> dismiss());
+        binding.tvwConfirm.setOnClickListener(v -> {
+            mCallBack.onClickConfirm();
+            dismiss();
+        });
         String msg = title + getContext().getString(R.string.text_cancel_tip);
         binding.tvwMsg.setText(msg);
         binding.cbTipPm.setOnCheckedChangeListener((buttonView, isChecked) -> {

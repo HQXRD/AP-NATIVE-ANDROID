@@ -41,7 +41,7 @@ public class AmountAdapter extends CachedAutoRefreshAdapter<String> {
     public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
         String str = get(position);
         binding = ItemAmountBinding.bind(holder.itemView);
-        binding.tvwTitle.setText(str);
+        binding.tvwTitle.setText(str + ctx.getString(R.string.txt_yuan));
         binding.tvwTitle.setSelected(false); // 默认不选中
         binding.tvwTitle.setOnClickListener(v -> {
             CfLog.i(str);

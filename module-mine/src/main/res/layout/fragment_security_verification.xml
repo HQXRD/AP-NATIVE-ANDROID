@@ -44,6 +44,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -71,6 +72,8 @@
             app:tabIndicatorColor="@color/clr_purple_01"
             app:tabMode="scrollable"
             app:tabPadding="2dp"
+            app:tabPaddingEnd="60dp"
+            app:tabPaddingStart="60dp"
             app:tabSelectedTextColor="@color/clr_purple_01"
             app:tabTextColor="@color/black">
 

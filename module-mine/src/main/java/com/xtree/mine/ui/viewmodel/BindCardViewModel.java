@@ -34,8 +34,8 @@ public class BindCardViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<UserBindBaseVo<AWVo>> liveDataAWList = new SingleLiveData<>();
     public SingleLiveData<UserBankProvinceVo> liveDataBankProvinceList = new SingleLiveData<>();
     public SingleLiveData<List<UserBankProvinceVo.AreaVo>> liveDataCityList = new SingleLiveData<>();
-    public SingleLiveData<UserBankConfirmVo> liveDataBindCardCheck = new SingleLiveData<>(); // 绑定银行卡确认
-    public SingleLiveData<UserBankConfirmVo> liveDataBindCardResult = new SingleLiveData<>(); // 绑定银行卡结果
+    public SingleLiveData<UserBankConfirmVo> liveDataBindCardCheck = new SingleLiveData<>(); // 绑定银行卡/支付宝/微信确认
+    public SingleLiveData<UserBankConfirmVo> liveDataBindCardResult = new SingleLiveData<>(); // 绑定银行卡/支付宝/微信结果
     public SingleLiveData<UserBankConfirmVo> liveDataDelCardCheck = new SingleLiveData<>(); // 锁定银行卡-检查
     public SingleLiveData<UserBankConfirmVo> liveDataDelCardResult = new SingleLiveData<>(); // 锁定银行卡结果
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>(); // 个人信息

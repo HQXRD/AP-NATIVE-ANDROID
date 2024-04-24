@@ -21,6 +21,7 @@ import com.xtree.activity.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.activity.vo.CategoryVo;
 import com.xtree.activity.vo.NewVo;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 
 import java.util.ArrayList;
@@ -61,7 +62,8 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
     }
 
     @Override
-    protected void initImmersionBar() {}
+    protected void initImmersionBar() {
+    }
 
     @Override
     public ActivityViewModel initViewModel() {
@@ -93,6 +95,7 @@ public class ActivityFragment extends BaseFragment<FragmentActivityBinding, Acti
 
     @Override
     public void initView() {
+        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
 
         mAdapter = new FragmentStateAdapter(getChildFragmentManager(), getLifecycle()) {
             @NonNull

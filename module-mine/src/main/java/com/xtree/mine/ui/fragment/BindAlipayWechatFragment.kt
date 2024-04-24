@@ -151,6 +151,22 @@ class BindAlipayWechatFragment : BaseFragment<FragmentBindAwBinding, BindCardVie
     override fun initViewObservable() {
         viewModel.liveDataAWList.observe(this) { vo: UserBindBaseVo<AWVo?> ->
             CfLog.i("******")
+            binding.tvwAdd.setOnClickListener { v: View? ->
+                CfLog.i("****** add")
+                val bundle = Bundle()
+                bundle.putString("mark", mark)
+                bundle.putString("tokenSign", tokenSign)
+                bundle.putString("accountName", vo.accountname)
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_AW_ADD, bundle)
+            }
+            // 如果是列表为空的情况,跳到增加页,并关闭当前页(关闭是因为有时会提示最多只能绑定0张卡,或者死循环)
+            if (vo.banklist.isEmpty()) {
+                binding.tvwAdd.performClick() // 跳到增加绑定页
+                requireActivity().finish()
+                return@observe
+            }
+            binding.tvTipTitle.visibility = View.VISIBLE
+
             if (!TextUtils.isEmpty(vo.num)) {
                 var txt = ""
                 when (mark) {
@@ -171,20 +187,7 @@ class BindAlipayWechatFragment : BaseFragment<FragmentBindAwBinding, BindCardVie
                     binding.tvwAdd.visibility = View.GONE
                 }
             }
-            binding.tvwAdd.setOnClickListener { v: View? ->
-                CfLog.i("****** add")
-                val bundle = Bundle()
-                bundle.putString("mark", mark)
-                bundle.putString("tokenSign", tokenSign)
-                bundle.putString("accountName", vo.accountname)
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_AW_ADD, bundle)
-            }
-            // 如果是列表为空的情况,跳到增加页,并关闭当前页(关闭是因为有时会提示最多只能绑定0张卡,或者死循环)
-            if (vo.banklist.isEmpty()) {
-                binding.tvwAdd.performClick() // 跳到增加绑定页
-                requireActivity().finish()
-                return@observe
-            }
+
             if (vo.banklist != null && vo.banklist.isNotEmpty()) {
                 CfLog.i("****** 这是列表")
                 mAdapter.clear()
