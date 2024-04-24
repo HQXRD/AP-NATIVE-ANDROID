@@ -134,9 +134,9 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         viewModel.usdtCashVoMutableLiveData.observe(owner, vo -> {
             usdtCashVo = vo;
             //|| usdtCashVo.channel_list == null || usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()
-            if (usdtCashVo == null ) {
+            if (usdtCashVo == null) {
                 showErrorByChannel();
-            }else if (!TextUtils.isEmpty(usdtCashVo.message) && getContext().getString(R.string.txt_no_withdrawals_available_tip).equals(usdtCashVo.message)) {
+            } else if (!TextUtils.isEmpty(usdtCashVo.message) && getContext().getString(R.string.txt_no_withdrawals_available_tip).equals(usdtCashVo.message)) {
                 //"message": "您今天已没有可用提款次数"
                 refreshError(usdtCashVo.message);
             }
@@ -282,16 +282,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
 
     private void initListener() {
         hideKeyBoard();
-       /* binding.llUsdt.setOnClickListener(v -> {
-            binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
-            binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
-            type = "USDT";
-        });
-        binding.tvVirtualUsdt.setOnClickListener(v -> {
-            binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
-            binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
-            type = "USDT";
-        });*/
+
         //选中非USDT提款 提币地址更换为支持TRC20
         binding.tvVirtualUsdt.setOnClickListener(v -> {
             binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
@@ -321,10 +312,11 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             }
 
             binding.tvWithdrawalAmountMethod.setText(firstChannel.title);//提款方式
-            CfLog.e("点击 USDT firstChannel.title = " + firstChannel.toString());
+
         });
         //USDT提款
         binding.tvVirtualOther.setOnClickListener(v -> {
+
             binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
             binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
             final String name = binding.tvVirtualOther.getText().toString().trim();

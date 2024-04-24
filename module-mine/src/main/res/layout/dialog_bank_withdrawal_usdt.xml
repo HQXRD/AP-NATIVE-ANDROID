@@ -151,8 +151,8 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/ll_virtual_top"
                 android:orientation="vertical"
-                android:visibility="gone"
-                tools:visibility="visible">
+                android:visibility="visible"
+               >
                 <!--显示USDT 嗨钱包 以及注意事项-->
                 <LinearLayout
                     android:id="@+id/ll_virtual_usdt_selector"
