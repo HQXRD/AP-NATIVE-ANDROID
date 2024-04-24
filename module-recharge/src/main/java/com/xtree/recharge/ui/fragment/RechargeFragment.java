@@ -280,8 +280,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
         });
 
-        binding.tvwBindPhone.setOnClickListener(v -> toBindPhoneNumber());
-        binding.tvwBindYhk.setOnClickListener(v -> toBindCard());
+        binding.tvwBindPhone.setOnClickListener(v -> toBindPhonePage());
+        binding.tvwBindYhk.setOnClickListener(v -> toBindPage(Constant.BIND_CARD));
         binding.ivwClear.setOnClickListener(v -> {
             binding.edtName.setText("");
             binding.tvwTipName.setVisibility(View.VISIBLE);
@@ -494,6 +494,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //binding.ivwCurPmt.setImageDrawable(dr);
         binding.tvwBankCard.setText("");
         binding.llBindInfo.setVisibility(View.GONE); // 默认隐藏
+        binding.tvwBindPhone.setVisibility(View.GONE);
+        binding.tvwBindYhk.setVisibility(View.GONE);
         binding.llDown.setVisibility(View.GONE); // 默认隐藏
         //setTipBottom(vo); // 设置底部的文字提示
         setStepBottom(); // 底部的操作步骤 (CNYT和USDT要用)
@@ -505,12 +507,18 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //    return;
         //}
         //if (vo.op_thiriframe_use && vo.phone_needbind && (!vo.view_bank_card || (vo.view_bank_card && !vo.userBankList.isEmpty()))) {
+        if (vo.phone_needbind) {
+            binding.llBindInfo.setVisibility(View.VISIBLE);
+            binding.tvwBindPhone.setVisibility(View.VISIBLE);
+        }
+        if (vo.view_bank_card && vo.userBankList.isEmpty()) {
+            binding.llBindInfo.setVisibility(View.VISIBLE);
+            binding.tvwBindYhk.setVisibility(View.VISIBLE);
+        }
+
         if (vo.op_thiriframe_use && vo.phone_needbind) {
             // 绑定手机
             CfLog.i("****** 绑定手机");
-            binding.llBindInfo.setVisibility(View.VISIBLE);
-            binding.tvwBindPhone.setVisibility(View.VISIBLE);
-            binding.tvwBindYhk.setVisibility(View.GONE);
             toBindPhoneNumber();
             return;
         }
@@ -518,9 +526,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         if (vo.view_bank_card && vo.userBankList.isEmpty()) {
             // 绑定YHK
             CfLog.i("****** 绑定YHK");
-            binding.llBindInfo.setVisibility(View.VISIBLE);
-            binding.tvwBindPhone.setVisibility(View.GONE);
-            binding.tvwBindYhk.setVisibility(View.VISIBLE);
             toBindCard();
             return;
         }
@@ -674,11 +679,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
             @Override
             public void onClickRight() {
-                String type = Constant.BIND_PHONE; // VERIFY_BIND_PHONE
-                if (mProfileVo != null && mProfileVo.is_binding_email) {
-                    type = Constant.VERIFY_BIND_PHONE;
-                }
-                toBindPhoneOrEmail(type);
+                toBindPhonePage();
                 ppw2.dismiss();
             }
         });
@@ -700,10 +701,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
             @Override
             public void onClickRight() {
-                isBinding = true;
-                Bundle bundle = new Bundle();
-                bundle.putString("type", "bindcard");
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
+                toBindPage(Constant.BIND_CARD);
                 ppw2.dismiss();
             }
         });
@@ -715,7 +713,15 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     }
 
-    private void toBindPhoneOrEmail(String type) {
+    private void toBindPhonePage() {
+        String type = Constant.BIND_PHONE; // VERIFY_BIND_PHONE
+        if (mProfileVo != null && mProfileVo.is_binding_email) {
+            type = Constant.VERIFY_BIND_PHONE;
+        }
+        toBindPage(type);
+    }
+
+    private void toBindPage(String type) {
         isBinding = true;
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
@@ -742,13 +748,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 isBinding = true;
                 // 绑定页面显示去充值按钮用
                 SPUtils.getInstance().put(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getString(R.string.txt_go_recharge));
-
-                Bundle bundle = new Bundle();
-                bundle.putString("type", type); // bindcardzfb bindcardwx
-                Intent intent = new Intent(getContext(), ContainerActivity.class);
-                intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY);
-                intent.putExtra(ContainerActivity.BUNDLE, bundle);
-                startActivity(intent);
+                toBindPage(type); // bindcardzfb bindcardwx
                 ppw2.dismiss();
             }
         });
