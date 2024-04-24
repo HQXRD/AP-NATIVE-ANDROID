@@ -212,7 +212,20 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         CfLog.i("requestData =" + channelInfo.toString());
         viewModel.getChooseWithdrawUSDT(map);
     }
+    private void  initNoticeView(){
+        final String notice = "<font color=#EE5A5A>注意:</font>";
+        String times, count, startTime, endTime, rest;
+        times = "<font color=#EE5A5A>" + String.valueOf(usdtCashVo.times) + "</font>";
+        count = "<font color=#EE5A5A>" + usdtCashVo.count + "</font>";
+        startTime = "<font color=#000000>" + usdtCashVo.wraptime.starttime + "</font>";
+        endTime = "<font color=#000000>" + usdtCashVo.wraptime.endtime + "</font>";
+        rest = StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.rest));
+        String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
+        String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
+        String textSource = String.format(format, notice, times, count, startTime, endTime, testTxt);
 
+        binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
+    }
     /**
      * 刷新初始UI
      */
@@ -228,19 +241,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             firstChannel = usdtCashVo.channel_list.get(0);
             secondChannel = usdtCashVo.channel_list.get(1);
         }
-        final String notice = "<font color=#EE5A5A>注意:</font>";
-        String times, count, startTime, endTime, rest;
-        times = "<font color=#EE5A5A>" + String.valueOf(usdtCashVo.times) + "</font>";
-        count = "<font color=#EE5A5A>" + usdtCashVo.count + "</font>";
-        startTime = "<font color=#000000>" + usdtCashVo.wraptime.starttime + "</font>";
-        endTime = "<font color=#000000>" + usdtCashVo.wraptime.endtime + "</font>";
-        rest = StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.rest));
-        String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
-        String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String textSource = String.format(format, notice, times, count, startTime, endTime, testTxt);
 
-        binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
-
+        initNoticeView();
         binding.tvUserNameShow.setText(usdtCashVo.user.username);
         binding.tvWithdrawalTypeShow.setText("USDT");//提款类型
 
@@ -259,7 +261,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         CfLog.e("firstChannel.title " + firstChannel.toString());
         //默认第一个是trc20
 
-        if (TextUtils.equals("嗨钱包usdt", firstChannel.title)) {
+        /*if (TextUtils.equals("嗨钱包usdt", firstChannel.title)) {
             binding.tvCollectionUsdt.setText(usdtinfoTRC.get(0).usdt_type + " " + usdtinfoTRC.get(0).usdt_card);
             selectUsdtInfo = usdtinfoTRC.get(0);
             type = "TRC";
@@ -267,7 +269,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
             selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
             type = "USDT";
-        }
+        }*/
 
         //关闭软键盘弹起
         binding.etInputMoney.clearFocus();
@@ -294,7 +296,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
                 type = "USDT";
             }
             //显示地址
-            if (type.equals("USDT")) {
+            if (type.contains("USDT")) {
                 binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
                 selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
                 String temp = selectUsdtInfo.min_money + "元,最高" + selectUsdtInfo.max_money + "元";
@@ -326,7 +328,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
                 type = "USDT";
             }
             //显示地址
-            if (type.equals("USDT")) {
+            if (type.contains("USDT")) {
                 binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
                 selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
                 String temp = selectUsdtInfo.min_money + "元,最高" + selectUsdtInfo.max_money + "元";
