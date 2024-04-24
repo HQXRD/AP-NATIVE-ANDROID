@@ -25,7 +25,7 @@ android {
             applicationId "com.xcr01.app" // xcsport xcr01
             versionName "1.4.0"
             versionCode 140
-            resValue "string", "app_name", "杏彩R${versionCode}a"
+            resValue "string", "app_name", "杏彩R${versionCode}"
             resValue "string", "domain_url", "https://www.weres.bar"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
