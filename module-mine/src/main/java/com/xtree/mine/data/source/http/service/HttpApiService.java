@@ -236,7 +236,7 @@ public interface HttpApiService {
     Flowable<HashMap<String, List<UserBankProvinceVo.AreaVo>>> getCityList(@Body Map<String, String> map);
 
     /**
-     * 绑定银行卡/支付宝/微信
+     * 绑定银行卡
      *
      * @param queryMap URL拼装用的 controller=security&action=adduserbank&client=m&mark=bindcard&check=***
      * @param map      POST Body 体用的
@@ -244,6 +244,13 @@ public interface HttpApiService {
     @POST("/user/userbankinfo/?")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<UserBankConfirmVo> doBindBankCard(@QueryMap Map<String, String> queryMap, @Body Map<String, String> map);
+
+    /**
+     * 绑定支付宝/微信
+     */
+    @POST("/security/{action}/?")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<UserBankConfirmVo> doBindAW(@Path("action") String action, @QueryMap Map<String, String> queryMap, @Body Map<String, String> map);
 
     /**
      * 锁定银行卡
