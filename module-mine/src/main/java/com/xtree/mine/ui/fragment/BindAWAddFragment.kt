@@ -153,12 +153,12 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
     }
 
     override fun initViewObservable() {
-        viewModel.liveDataBindCardCheck.observe(this) { vo: UserBankConfirmVo ->
+        viewModel.liveDataBindAWCheck.observe(this) { vo: UserBankConfirmVo ->
             CfLog.i("******")
             mConfirmVo = vo
             setConfirmView()
         }
-        viewModel.liveDataBindCardResult.observe(this) { vo: UserBankConfirmVo ->
+        viewModel.liveDataBindAWResult.observe(this) { vo: UserBankConfirmVo ->
             CfLog.i("******")
             binding.layoutRecharge.visibility = View.VISIBLE
             binding.llConfirm.visibility = View.GONE
@@ -225,9 +225,8 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
 
         val fileType = ImageUtils.getImageType(File(imageRealPathString))
         val filedata = "data:" + fileType + ";base64," + ImageUploadUtil.bitmapToString(imageRealPathString)
-        KLog.i("filedata", filedata)
+        //KLog.i("filedata", filedata)
         val map = HashMap<String, Any?>()
-
         map["check"] = tokenSign
         map["entrancetype"] = 0
         map["filetype"] = fileType
@@ -243,7 +242,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         map["wxzfb_username"] = name
 
         LoadingDialog.show(context)
-        viewModel.doBindCardByCheck(queryMap, map)
+        viewModel.doBindAWByCheck(action, queryMap, map)
     }
 
     /**
@@ -308,7 +307,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         map["wxzfb_qrcodekey"] = mConfirmVo.wxzfb_qrcodekey
         map["wxzfb_username"] = name
         LoadingDialog.show(context)
-        viewModel.doBindCardBySubmit(queryMap, map)
+        viewModel.doBindAwBySubmit(action, queryMap, map)
     }
 
 }
