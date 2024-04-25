@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.main.data.MainRepository;
@@ -40,6 +41,7 @@ public class SplashViewModel extends BaseViewModel<MainRepository> {
                         CfLog.i("FBService****** ");
                         SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                        DomainUtil.setFbDomainUrl(fbService.getDomains());
                     }
 
                     @Override
@@ -59,6 +61,7 @@ public class SplashViewModel extends BaseViewModel<MainRepository> {
                     public void onResult(FBService fbService) {
                         SPUtils.getInstance().put(SPKeyGlobal.FBXC_TOKEN, fbService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                        DomainUtil.setFbDomainUrl(fbService.getDomains());
                     }
 
                     @Override

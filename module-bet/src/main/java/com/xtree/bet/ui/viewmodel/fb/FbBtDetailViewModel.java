@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.FBService;
 import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.response.fb.PlayTypeInfo;
@@ -199,7 +200,7 @@ public class FbBtDetailViewModel extends TemplateBtDetailViewModel {
                             SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
                             SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
                         }
-
+                        DomainUtil.setFbDomainUrl(fbService.getDomains());
                         getMatchDetail(mMatchId);
                     }
 

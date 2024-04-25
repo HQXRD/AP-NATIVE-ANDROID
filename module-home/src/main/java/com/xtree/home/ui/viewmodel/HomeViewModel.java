@@ -13,6 +13,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
@@ -174,6 +175,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         CfLog.i("****** ");
                         SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                        DomainUtil.setFbDomainUrl(fbService.getDomains());
                     }
 
                     @Override
@@ -197,6 +199,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     public void onResult(FBService fbService) {
                         SPUtils.getInstance().put(SPKeyGlobal.FBXC_TOKEN, fbService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                        DomainUtil.setFbDomainUrl(fbService.getDomains());
                     }
 
                     @Override

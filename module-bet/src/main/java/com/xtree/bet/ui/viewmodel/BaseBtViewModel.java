@@ -13,6 +13,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
@@ -123,7 +124,7 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
                             SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
                             SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
                         }
-
+                        DomainUtil.setFbDomainUrl(fbService.getDomains());
                         tokenInvalidEvent.call();
                     }
 

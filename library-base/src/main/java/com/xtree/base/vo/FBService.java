@@ -2,9 +2,12 @@ package com.xtree.base.vo;
 
 import android.os.Parcel;
 
+import java.util.List;
+
 public class FBService implements BaseBean{
     private String token;
     private FBServiceFoward forward;
+    private List<String> domains;
 
     public String getToken() {
         return token;
@@ -22,6 +25,14 @@ public class FBService implements BaseBean{
         this.forward = forward;
     }
 
+    public List<String> getDomains() {
+        return domains;
+    }
+
+    public void setDomains(List<String> domains) {
+        this.domains = domains;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -31,11 +42,13 @@ public class FBService implements BaseBean{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.token);
         dest.writeParcelable(this.forward, flags);
+        dest.writeStringList(this.domains);
     }
 
     public void readFromParcel(Parcel source) {
         this.token = source.readString();
         this.forward = source.readParcelable(FBServiceFoward.class.getClassLoader());
+        this.domains = source.createStringArrayList();
     }
 
     public FBService() {
@@ -44,6 +57,7 @@ public class FBService implements BaseBean{
     protected FBService(Parcel in) {
         this.token = in.readString();
         this.forward = in.readParcelable(FBServiceFoward.class.getClassLoader());
+        this.domains = in.createStringArrayList();
     }
 
     public static final Creator<FBService> CREATOR = new Creator<FBService>() {

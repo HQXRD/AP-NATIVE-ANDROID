@@ -10,6 +10,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
 import com.xtree.base.utils.UuidUtil;
@@ -199,6 +200,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                     public void onResult(FBService fbService) {
                         SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                        DomainUtil.setFbDomainUrl(fbService.getDomains());
                         KLog.e("========fbService.getToken()======" + fbService.getToken());
                         //finish();
                         getPMGameTokenApi();
