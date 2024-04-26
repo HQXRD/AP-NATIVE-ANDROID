@@ -209,6 +209,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 @Override
                 public void onClick(String txt, ChooseInfoVo.ChannelInfo channelInfo) {
                     ChooseInfoVo.ChannelInfo channel = channelInfo;
+
                     if (channel.isBind == false) {
                         if (!TextUtils.isEmpty(channel.channeluseMessage) && channel.channeluseMessage.contains("首次提款仅可使用银行卡方式提款")) {
                             showFirstBankDialog(channel.channeluseMessage);
@@ -219,10 +220,11 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         }
                     } else if (channel.isBind && TextUtils.isEmpty(channel.channeluseMessage)) {
                         if (TextUtils.equals("银行卡提款", txt)) {
+
                             showBankWithdrawalDialog(channelInfo);
-                        } else if (TextUtils.equals("极速微信提款", txt) && TextUtils.equals("bindcardwx", channel.bindType)) {
+                        } else if (TextUtils.equals("onepaywx", channel.configkey) && TextUtils.equals("bindcardwx", channel.bindType)) {
                             showOtherWXWithdrawalDialog(channelInfo);
-                        } else if (TextUtils.equals("极速支付宝提款", txt) && TextUtils.equals("bindcardzfb", channel.bindType)) {
+                        } else if (TextUtils.equals("onepayzfb", channel.configkey) && TextUtils.equals("bindcardzfb", channel.bindType)) {
                             showOtherZFBWithdrawalDialog(channelInfo);
                         } else {
                             showUSDTWithdrawalDialog(channelInfo);

@@ -155,6 +155,12 @@
     <string name="txt_set_withdrawal_request">1.设置提款请求</string>
     <string name="text_confirm_withdrawal_message">2.确认提款消息</string>
     <string name="text_over_withdrawal_request">3.完成申请</string>
+
+    <string name="txt_withdrawal_request">设置提款请求</string>
+    <string name="text_withdrawal_confirm">确认提款消息</string>
+    <string name="text_withdrawal_over">完成申请</string>
+
+
     <string name="txt_lottery_info">彩种信息</string>
     <string name="txt_question">常见问题</string>
     <string name="txt_play_intro">玩法介绍</string>
