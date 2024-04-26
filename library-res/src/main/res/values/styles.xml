@@ -540,7 +540,7 @@
     <!--提现Edittext-->
     <style name="style_bank_edit">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">20dp</item>
+        <item name="android:layout_height">38dp</item>
         <item name="android:background">@null</item>
         <item name="android:hint"></item>
         <item name="android:gravity">center_vertical</item>
@@ -900,6 +900,35 @@
         <item name="android:textColor">@color/clr_txt_withdraw_money</item>
         <item name="android:textSize">14sp</item>
     </style>
+    <!--  奥丁 提款 顶部账户数量-->
+    <style name="style_withdraw_confirm_odin_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <!--  奥丁 提款 右侧textview显示 风格-->
+    <style name="style_withdraw_confirm_odin_value">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!--  奥丁提款 设置提款请求 右侧textview显示 风格-->
+    <style name="style_withdraw_request_odin_value">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textSize">14sp</item>
+    </style>
     <!--提款金额 红色 风格-->
     <style name="style_withdraw_amount_value">
         <item name="android:layout_width">wrap_content</item>
@@ -1068,5 +1097,41 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
-
+    <!-- 奥丁通用 按钮 背景为颜色,可变色(大部分地方使用) -->
+    <style name="odin_style_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:background">@drawable/bg_btn_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">@string/txt_submit</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!-- 奥丁 通用 按钮 背景为灰色,可变色(返回/取消等地方使用) -->
+    <style name="odin_style_btn_back" parent="style_btn">
+        <item name="android:background">@drawable/bg_btn_grey_selector</item>
+        <item name="android:text">@string/txt_back</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="odin_style_withdraw_confirm_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <!-- 奥丁 通用 提现顶部View 风格 -->
+    <style name="odin_style_withdraw_top_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">140dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:orientation">vertical</item>
+    </style>
 </resources>

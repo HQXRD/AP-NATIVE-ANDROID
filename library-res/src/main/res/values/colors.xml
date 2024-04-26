@@ -336,5 +336,7 @@
 
     <color name="clr_rc_txt_hi">#5B5768</color>
     <color name="clr_withdrawal_text_bg">@color/clr_main_14</color>
+    <color name="clr_withdrawal_top_text_bg">#2D332F</color>
+    <color name="clr_withdrawal_top_text_default_bg">#C2CEC8</color>
 
 </resources>
