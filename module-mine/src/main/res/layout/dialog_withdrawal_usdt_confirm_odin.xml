@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_confirm_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="2dp"
+    android:background="@color/clr_transparent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:visibility="visible"
+    tools:ignore="MissingDefaultResource">
+
+    <include
+        android:id="@+id/layout_withdrawal_top"
+        layout="@layout/layout_withdrawal_top" />
+
+    <View style="@style/style_withdraw_dividing_line" />
+    <!--确认提款信息-->
+    <LinearLayout style="@style/style_withdraw_confirm_ll">
+
+        <TextView
+            style="@style/style_withdraw_show_title"
+            android:text="@string/txt_withdrawal_user_name" />
+
+        <TextView
+            android:id="@+id/tv_confirm_user_name_show"
+            style="@style/style_withdraw_confirm_odin_value"
+            tools:text="123123123" />
+    </LinearLayout>
+
+    <View style="@style/style_withdraw_dividing_line" />
+
+    <LinearLayout style="@style/style_withdraw_confirm_ll">
+
+        <TextView
+            style="@style/style_withdraw_show_title"
+            android:text="@string/txt_virtual_money_numb" />
+
+        <TextView
+            android:id="@+id/tv_confirm_amount_show"
+            style="@style/style_withdraw_confirm_odin_value"
+            tools:text="123123123" />
+    </LinearLayout>
+
+    <View style="@style/style_withdraw_dividing_line" />
+
+    <LinearLayout style="@style/style_withdraw_confirm_ll">
+
+        <TextView
+            style="@style/style_withdraw_show_title"
+            android:text="@string/txt_withdrawal_type" />
+
+        <TextView
+            android:id="@+id/tv_withdrawal_amount_type_show"
+            style="@style/style_withdraw_confirm_odin_value"
+            tools:text="123123123" />
+    </LinearLayout>
+
+    <View style="@style/style_withdraw_dividing_line" />
+
+    <LinearLayout style="@style/style_withdraw_confirm_ll">
+
+        <TextView
+            style="@style/style_withdraw_show_title"
+            android:text="@string/txt_virtual_type" />
+
+        <TextView
+            android:id="@+id/tv_withdrawal_virtual_type_show"
+            style="@style/style_withdraw_confirm_odin_value"
+            tools:text="123123123" />
+    </LinearLayout>
+
+    <View style="@style/style_withdraw_dividing_line" />
+
+    <LinearLayout style="@style/style_withdraw_confirm_ll">
+
+        <TextView
+            style="@style/style_withdraw_show_title"
+            android:text="@string/txt_withdrawal_address" />
+
+        <TextView
+            android:id="@+id/tv_withdrawal_address_show"
+            style="@style/style_withdraw_confirm_odin_value"
+            tools:text="1231" />
+    </LinearLayout>
+
+    <View style="@style/style_withdraw_dividing_line" />
+
+    <LinearLayout style="@style/style_withdraw_confirm_ll">
+
+        <TextView
+            style="@style/style_withdraw_show_title"
+            android:text="@string/txt_handling_fee" />
+
+        <TextView
+            android:id="@+id/tv_withdrawal_handling_fee_show"
+            style="@style/style_withdraw_confirm_odin_value"
+            tools:text="1231" />
+    </LinearLayout>
+
+    <View style="@style/style_withdraw_dividing_line" />
+
+    <TextView
+        android:id="@+id/withdrawal_next"
+        style="@style/odin_style_btn"
+        android:layout_marginTop="20dp"
+        android:text="@string/txt_confirm"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/dialog_update_cancel"
+        style="@style/odin_style_btn_back"
+        android:layout_marginTop="20dp"
+        android:text="@string/txt_cancel"
+        android:textColor="@color/clr_txt_grey_04"
+        android:textSize="14sp" />
+</LinearLayout>

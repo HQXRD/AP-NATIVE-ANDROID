@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_bank_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/clr_transparent"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:ignore="MissingDefaultResource">
+
+    <!--大额提款View-->
+    <LinearLayout
+        android:id="@+id/ll_bank_withdrawal_view_more"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/ll_bank_userinfo_more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout style="@style/style_withdraw_confirm_ll">
+
+                    <TextView
+                        style="@style/style_withdraw_show_title"
+                        android:text="@string/txt_withdrawal_user_name" />
+
+                    <TextView
+                        android:id="@+id/tv_user_name_show_more"
+                        style="@style/style_withdraw_confirm_value"
+                        tools:text="" />
+                </LinearLayout>
+
+                <View style="@style/style_withdraw_dividing_line" />
+
+                <LinearLayout style="@style/style_withdraw_confirm_ll">
+
+                    <TextView
+                        style="@style/style_withdraw_show_title"
+                        android:text="@string/txt_withdrawal_type" />
+
+                    <TextView
+                        android:id="@+id/tv_withdrawal_type_show_more"
+                        style="@style/style_withdraw_confirm_value"
+                        tools:text="" />
+                </LinearLayout>
+
+                <View style="@style/style_withdraw_dividing_line" />
+
+                <LinearLayout style="@style/style_withdraw_confirm_ll">
+
+                    <TextView
+                        style="@style/style_withdraw_show_title"
+                        android:text="@string/txt_withdrawal_method" />
+
+                    <TextView
+                        android:id="@+id/tv_withdrawal_amount_method_more"
+                        style="@style/style_withdraw_confirm_value"
+                        tools:text="" />
+                </LinearLayout>
+
+                <View style="@style/style_withdraw_dividing_line" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_withdrawal_amount_more"
+                            style="@style/style_withdraw_show_title"
+                            android:text="@string/txt_withdrawal_method_tip" />
+
+                        <TextView
+                            android:id="@+id/tv_withdrawal_amount_show_more"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/tv_withdrawal_amount_more"
+                            android:text=""
+                            android:textColor="@color/red"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <!--  &lt;!&ndash;大额提款 提款金额输入 选择View&ndash;&gt;
+             <LinearLayout
+                 android:id="@+id/ll_bank_amount_input_more"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@id/ll_bank_userinfo_more"
+                 android:layout_marginTop="10dp"
+                 android:orientation="vertical"
+                 android:visibility="visible">
+                 &lt;!&ndash;输入提款信息&ndash;&gt;
+                 <LinearLayout
+                     android:id="@+id/ll_virtual_input_more"
+                     style="@style/style_withdraw_money_bg"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_below="@id/ll_virtual_hint"
+                     android:layout_marginTop="4dp">
+
+                     <RelativeLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent"
+                         android:background="@drawable/bg_withdraw_money_input">
+
+                         <ImageView
+                             android:id="@+id/iv_input_money_more"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_centerVertical="true"
+                             android:layout_marginLeft="10dp"
+                             android:background="@mipmap/me_icon_wlt_bank" />
+
+                         <EditText
+                             android:id="@+id/et_input_money_more"
+                             style="@style/style_bank_edit"
+                             android:layout_alignLeft="@id/iv_input_money_more"
+                             android:layout_marginLeft="18dp"
+                             android:focusable="false"
+                             android:hint="@string/txt_input_money"
+                             android:imeOptions="actionDone"
+                             android:inputType="numberDecimal"
+                             android:numeric="integer" />
+                     </RelativeLayout>
+
+                 </LinearLayout>
+                 &lt;!&ndash;多金额选择View&ndash;&gt;
+                 <LinearLayout
+                     android:id="@+id/ll_select_amount"
+                     style="@style/style_withdraw_money_bg"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     android:layout_below="@id/ll_virtual_hint"
+                     android:layout_marginTop="-1dp"
+                     android:visibility="visible">
+
+                     <RelativeLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent"
+                         android:background="@drawable/bg_withdraw_money_input">
+
+                         <com.xtree.mine.ui.fragment.WithddrawalGridView
+                             android:id="@+id/gv_select_amount_more"
+                             android:layout_width="match_parent"
+                             android:layout_height="match_parent"
+                             android:listSelector="@android:color/transparent"
+                             android:numColumns="4"
+                             android:verticalSpacing="10dp" />
+                     </RelativeLayout>
+
+                 </LinearLayout>
+
+             </LinearLayout>
+             &lt;!&ndash;大额提款 实际提款 提款银行卡 下一步 提示 View&ndash;&gt;
+             <LinearLayout
+                 android:id="@+id/ll_bank_amount_other_more"
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:layout_below="@id/ll_bank_amount_input_more"
+                 android:layout_marginTop="10dp"
+                 android:orientation="vertical"
+                 android:visibility="visible">
+                 &lt;!&ndash;实际提款金额&ndash;&gt;
+                 <LinearLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+
+                     <RelativeLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent">
+
+                         <TextView
+                             android:id="@+id/tv_actual_withdrawal_amount_more"
+                             style="@style/style_withdraw_title"
+                             android:layout_marginTop="4dp"
+                             android:text="@string/txt_actual_withdrawal_amount" />
+
+                         <TextView
+                             android:id="@+id/tv_actual_withdrawal_amount_show_more"
+                             android:layout_width="wrap_content"
+                             android:layout_height="match_parent"
+                             android:layout_below="@id/tv_actual_withdrawal_amount_more"
+                             android:layout_marginTop="8dp"
+                             android:text=""
+                             android:textColor="@color/clr_txt_withdraw_money"
+                             android:textSize="15sp"
+                             android:textStyle="bold" />
+
+                         <View
+                             android:layout_width="match_parent"
+                             android:layout_height="1dp"
+                             android:layout_alignParentBottom="true"
+                             android:background="@color/clr_gap_bg" />
+                     </RelativeLayout>
+                 </LinearLayout>
+                 &lt;!&ndash;实际提款银行卡&ndash;&gt;
+                 <LinearLayout
+                     android:id="@+id/ll_actual_withdrawal_amount_bank_show_more"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content">
+
+                     <RelativeLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent">
+
+                         <TextView
+                             android:id="@+id/tv_actual_withdrawal_bank_more"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_marginTop="1dp"
+                             android:text="@string/txt_payee_bank_card"
+                             android:textColor="@color/clr_txt_withdraw_money"
+                             android:textSize="14sp"
+                             android:textStyle="bold" />
+
+                         <TextView
+                             android:id="@+id/tv_actual_withdrawal_amount_bank_show_more"
+                             android:layout_width="match_parent"
+                             android:layout_height="match_parent"
+                             android:layout_below="@id/tv_actual_withdrawal_bank_more"
+                             android:layout_centerHorizontal="true"
+                             android:layout_marginTop="8dp"
+                             android:drawableEnd="@mipmap/bt_icon_expand"
+                             android:text=""
+                             android:textColor="@color/bt_text_color_primary_1"
+                             android:textSize="16sp" />
+
+                         <View
+                             android:layout_width="match_parent"
+                             android:layout_height="1dp"
+                             android:layout_alignParentBottom="true"
+                             android:background="@color/clr_gap_bg" />
+                     </RelativeLayout>
+                 </LinearLayout>
+                 &lt;!&ndash;下一步 提示&ndash;&gt;
+                 <LinearLayout
+                     android:id="@+id/ll_actual_withdrawal_next_more"
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_marginTop="10dp"
+                     android:layout_weight="1">
+
+                     <RelativeLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="match_parent">
+
+                         <ImageView
+                             android:id="@+id/tv_actual_withdrawal_next_more"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_centerHorizontal="true"
+                             android:background="@mipmap/cm_btn_withdrawal_next" />
+
+                         <TextView
+                             android:id="@+id/tv_actual_withdrawal_tip_more"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_below="@id/tv_actual_withdrawal_next_more"
+                             android:layout_alignLeft="@id/tv_actual_withdrawal_next_more"
+                             android:text="@string/txt_kind_tips"
+                             android:textColor="@color/cl_withdrawal_tip"
+                             android:textSize="14sp" />
+
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_below="@id/tv_actual_withdrawal_tip_more"
+                             android:layout_alignLeft="@id/tv_actual_withdrawal_tip_more"
+                             android:layout_alignRight="@id/tv_actual_withdrawal_next_more"
+                             android:text="@string/txt_kind_tips_count"
+                             android:textColor="@color/cl_withdrawal_tip"
+                             android:textSize="14sp" />
+
+                     </RelativeLayout>
+                 </LinearLayout>
+             </LinearLayout>-->
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
