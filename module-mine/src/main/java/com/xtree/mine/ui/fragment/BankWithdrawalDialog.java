@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
@@ -36,6 +37,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.AttachDialog;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
@@ -99,6 +101,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     private BasePopupView ppw2;//绑卡
     private BasePopupView ppwError = null; // 底部弹窗 (显示错误信息)
     private BasePopupView ppwErrorByTime;
+    private ProfileVo mProfileVo;
 
     public static BankWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo, BankWithdrawalClose bankClose, BankWithdrawaDialogClose dialogClose) {
         BankWithdrawalDialog dialog = new BankWithdrawalDialog(context);
@@ -133,6 +136,9 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         requestData();
         initListener();
         initMoreListener();
+
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        mProfileVo = new Gson().fromJson(json, ProfileVo.class);
 
     }
 
@@ -576,11 +582,32 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      */
     private void refreshUserView(BankCardCashVo bankCardCashVo) {
         if (binding.nsSetWithdrawalRequest.getVisibility() == View.VISIBLE) {
-            binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.username);
+            if (bankCardCashVo.user != null) {
+                if (bankCardCashVo.user.username != null) {
+                    binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.username);
+                } else if (bankCardCashVo.user.nickname != null) {
+                    binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.nickname);
+                }
+            } else if (mProfileVo != null) {
+                final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
+                binding.bankWithdrawalView.tvUserNameShow.setText(name);
+            }
+
             binding.bankWithdrawalView.tvWithdrawalTypeShow.setText("银行卡");
             binding.bankWithdrawalView.tvWithdrawalAmountMethod.setText(bankCardCashVo.user.cafAvailableBalance);
         } else if (binding.nsSetWithdrawalRequestMore.getVisibility() == View.VISIBLE) {
-            binding.tvUserNameShowMore.setText(bankCardCashVo.user.username);
+
+            if (bankCardCashVo.user != null) {
+                if (bankCardCashVo.user.username != null) {
+                    binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.username);
+                } else if (bankCardCashVo.user.nickname != null) {
+                    binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.nickname);
+                }
+            } else if (mProfileVo != null) {
+                final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
+                binding.bankWithdrawalView.tvUserNameShow.setText(name);
+            }
+
             binding.tvWithdrawalTypeShowMore.setText("银行卡");
             binding.tvWithdrawalAmountMethodMore.setText(bankCardCashVo.user.cafAvailableBalance);
         }
@@ -1153,8 +1180,11 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     /*关闭外跳View*/
     private void closeCashPopView() {
-        webPopWindow.closeView();
-        webPopWindow.setVisibility(View.GONE);
+        if (webPopWindow != null) {
+            webPopWindow.closeView();
+            webPopWindow.setVisibility(View.GONE);
+        }
+
     }
 
 }

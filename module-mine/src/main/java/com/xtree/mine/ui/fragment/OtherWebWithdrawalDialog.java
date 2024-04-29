@@ -140,10 +140,54 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
                     dismissLoading();
                     showErrorByChannel(otherWebWithdrawVo.channel_list.get(0).thiriframe_msg);
                 }
+            }else if (!TextUtils.isEmpty(otherWebWithdrawVo.message) && TextUtils.equals(getContext().getString(R.string.txt_no_withdrawals_available_tip),otherWebWithdrawVo.message)) {
+                refreshErrByNumber(otherWebWithdrawVo.message);
+                return;
+            }else{
+                showErrorMessage(otherWebWithdrawVo.message);
             }
 
         });
 
+    }
+    /**
+     * 刷新显示没有提款次数
+     */
+    private void refreshErrByNumber(String message) {
+
+        binding.llVirtualTop.setVisibility(View.GONE);
+        binding.llShowChooseCard.setVisibility(View.GONE);
+        binding.llVirtualUsdtSelector.setVisibility(View.GONE);
+        binding.nsH5View.setVisibility(View.GONE);
+        binding.maskH5View.setVisibility(View.GONE);
+       binding.llBankWithdrawalNumberError.setVisibility(View.VISIBLE);//显示错误信息
+        binding.tvShowNumberErrorMessage.setText(message);
+
+    }
+    private void showErrorMessage(final String message) {
+        if (message ==null || message.isEmpty()){
+            return;
+        }
+
+        if (ppwError == null) {
+            final String title = getContext().getString(R.string.txt_kind_tips);
+
+            ppwError = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, message, true, new TipDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    ppwError.dismiss();
+
+                }
+
+                @Override
+                public void onClickRight() {
+                    ppwError.dismiss();
+
+                }
+            }));
+
+        }
+        ppwError.show();
     }
 
     private void initOtherWebView(final OtherWebWithdrawVo vo) {
