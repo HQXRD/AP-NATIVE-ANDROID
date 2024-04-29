@@ -31,7 +31,6 @@ import java.util.List;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.utils.RxUtils;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 报表
@@ -107,9 +106,10 @@ public class ReportViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onResult(ProfitLossReportVo vo) {
                         CfLog.d("******");
-                        if (vo.msg_type == 2) {
-                            ToastUtils.showLong(vo.message); // 无权限，请联系您的上级
-                        }
+                        // 修改成温馨提示 (MsgDialog)
+                        //if (vo.msg_type == 2) {
+                        //    ToastUtils.showLong(vo.message); // 无权限，请联系您的上级
+                        //}
                         if (vo.aProfitLoss == null) {
                             vo.aProfitLoss = new ArrayList<>();
                         }

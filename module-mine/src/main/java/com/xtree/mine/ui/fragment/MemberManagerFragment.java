@@ -1,12 +1,18 @@
 package com.xtree.mine.ui.fragment;
 
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -119,7 +125,7 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
         binding.rcvMemberManger.setAdapter(adapter);
         binding.rcvMemberManger.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        binding.etUsername.setText(SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME));
+        //binding.etUsername.setText(SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME));
     }
 
     @Override
@@ -154,23 +160,38 @@ public class MemberManagerFragment extends BaseFragment<FragmentMemberManageBind
 
             // 本级
             if (vo.bread != null && !vo.bread.isEmpty()) {
-                //binding.tvwBread.setText("");
-                StringBuffer sb = new StringBuffer();
-                for (MemberManagerVo.UserVo t : vo.bread) {
-                    String modifiedString;
-                    int index = t.username.indexOf("@");
-                    if (index != -1) {
-                        modifiedString = t.username.substring(0, index);
-                    } else {
-                        modifiedString = t.username;
-                    }
-                    sb.append(modifiedString + " > ");
-                }
+                if (vo.bread != null && !vo.bread.isEmpty()) {
+                    SpannableStringBuilder sb = new SpannableStringBuilder();
 
-                if (sb.toString().endsWith(" > ")) {
-                    sb.replace(sb.length() - 3, sb.length(), "");
+                    for (MemberManagerVo.UserVo t : vo.bread) {
+                        // 由于名称为 apple@00 进行分割
+                        String modifiedString = t.username.split("@")[0];
+                        sb.append(modifiedString).append(" > ");
+
+                        ClickableSpan clickableSpan = new ClickableSpan() {
+                            @Override
+                            public void onClick(View view) {
+                                binding.etUsername.setText(modifiedString);
+                                LoadingDialog.show(getContext());
+                                curPage = 0;
+                                searchMember(1);
+                            }
+                        };
+
+                        int startIndex = sb.length() - modifiedString.length() - 3;
+                        int endIndex = sb.length() - 3;
+
+                        sb.setSpan(clickableSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        sb.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), R.color.textColor)), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+
+                    if (sb.toString().endsWith(" > ")) {
+                        sb.replace(sb.length() - 3, sb.length(), "");
+                    }
+
+                    binding.tvwBread.setText(sb);
+                    binding.tvwBread.setMovementMethod(LinkMovementMethod.getInstance());
                 }
-                binding.tvwBread.setText(sb.toString().trim());
             }
         });
     }
