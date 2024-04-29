@@ -357,9 +357,16 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                             SPUtil.get(getApplication()).clear(Spkey.PWD);
                             showChangeLoginPSWPopView.dismiss();
                         }
-                    }))
-                    .show();
+
+                        @Override
+                        public void changeLoginClose() {
+                            showChangeLoginPSWPopView.dismiss();
+
+                        }
+                    })) ;
+
         }
+        showChangeLoginPSWPopView.show();
     }
 
     private void goMain() {
