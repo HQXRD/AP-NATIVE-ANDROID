@@ -28,7 +28,6 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
-import com.xtree.base.utils.StringUtils;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
@@ -219,8 +218,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                             showErrorDialog(channel.channeluseMessage);
                         }
                     } else if (channel.isBind && TextUtils.isEmpty(channel.channeluseMessage)) {
-                        if (TextUtils.equals("银行卡提款", txt)) {
-
+                        if (TextUtils.equals("银行卡提款", txt) || TextUtils.equals("hipaytx", channel.configkey)) {
                             showBankWithdrawalDialog(channelInfo);
                         } else if (TextUtils.equals("onepaywx", channel.configkey) && TextUtils.equals("bindcardwx", channel.bindType)) {
                             showOtherWXWithdrawalDialog(channelInfo);
@@ -253,7 +251,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
             }
             String tip =
                     String.format(getContext().getString(R.string.txt_choose_withdrawal_tip),
-                            chooseInfoVo.user.availablebalance,quota);
+                            chooseInfoVo.user.availablebalance, quota);
             binding.tvChooseTip.setVisibility(View.VISIBLE);
             binding.tvChooseTip.setText(tip);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -415,8 +413,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
             errorMessage = showMessage;
             bindType = channelInfo.bindType;
         }
-        CfLog.e("errorMesssage =  " + errorMessage);
-        String finalBindType = bindType;
+          String finalBindType = bindType;
         customPopWindow = new XPopup.Builder(getContext())
                 .asCustom(new MsgDialog(getContext(), getContext().getString(R.string.txt_kind_tips), errorMessage, false, new MsgDialog.ICallBack() {
                     @Override
