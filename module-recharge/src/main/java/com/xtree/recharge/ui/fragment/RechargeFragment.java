@@ -604,10 +604,16 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         if (vo.realchannel_status && vo.phone_fillin_name) {
             CfLog.i("设置存款人姓名 = " + vo.accountname);
             binding.edtName.setText(vo.accountname);
+            if (!TextUtils.isEmpty(vo.accountname)) {
+                binding.edtName.setEnabled(false);
+                binding.ivwClear.setVisibility(View.INVISIBLE);
+            }
             binding.llName.setVisibility(View.VISIBLE);
             binding.tvwTipName.setVisibility(View.GONE);
         } else {
             binding.edtName.setText("");
+            binding.edtName.setEnabled(true);
+            binding.ivwClear.setVisibility(View.VISIBLE);
             binding.llName.setVisibility(View.GONE);
             binding.tvwTipName.setVisibility(View.VISIBLE);
         }
