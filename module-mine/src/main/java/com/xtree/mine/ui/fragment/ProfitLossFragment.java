@@ -1,6 +1,11 @@
 package com.xtree.mine.ui.fragment;
 
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +16,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
@@ -18,6 +25,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.widget.FilterView;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentReportProfitBinding;
@@ -52,6 +60,8 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
     private String typeId = "0";
     //private String status = "0";
     private String userName = "";
+
+    BasePopupView ppw;
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -221,18 +231,57 @@ public class ProfitLossFragment extends BaseFragment<FragmentReportProfitBinding
                 binding.tvwNoData.setVisibility(View.GONE);
             }
 
+            // 原先为Toast 修改成温馨提示
+            if (vo.msg_type == 2) {
+                ppw = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), "", vo.message, true, new MsgDialog.ICallBack() {
+                    @Override
+                    public void onClickLeft() {
+                        ppw.dismiss();
+                    }
+
+                    @Override
+                    public void onClickRight() {
+                        ppw.dismiss();
+                    }
+                }));
+                ppw.show();
+            }
+
             // 本级
             if (vo.bread != null && !vo.bread.isEmpty()) {
-                //binding.tvwBread.setText("");
-                StringBuffer sb = new StringBuffer();
+                StringBuilder sb = new StringBuilder();
+                SpannableString spannableString = new SpannableString("");
+
                 for (ProfitLossReportVo.UserVo t : vo.bread) {
-                    sb.append(t.username + " > ");
+                    sb.append(t.username).append(" > ");
                 }
 
                 if (sb.toString().endsWith(" > ")) {
                     sb.replace(sb.length() - 3, sb.length(), "");
                 }
-                binding.tvwBread.setText(sb.toString().trim());
+
+                spannableString = new SpannableString(sb.toString().trim());
+
+                for (ProfitLossReportVo.UserVo t : vo.bread) {
+                    ClickableSpan clickableSpan = new ClickableSpan() {
+                        @Override
+                        public void onClick(View view) {
+                            binding.fvMain.setEdit(t.username);
+                            LoadingDialog.show(getContext());
+                            curPage = 0;
+                            requestData(1);
+                        }
+                    };
+
+                    int startIndex = sb.indexOf(t.username);
+                    int endIndex = startIndex + t.username.length();
+
+                    spannableString.setSpan(clickableSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannableString.setSpan(new ForegroundColorSpan(getContext().getResources().getColor(R.color.textColor)), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+
+                binding.tvwBread.setText(spannableString);
+                binding.tvwBread.setMovementMethod(LinkMovementMethod.getInstance());
             }
 
             // 本页合计
