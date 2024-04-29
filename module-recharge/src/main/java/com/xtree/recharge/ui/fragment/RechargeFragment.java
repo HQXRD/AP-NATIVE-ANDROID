@@ -348,6 +348,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     binding.tvwTipAmount.setVisibility(View.GONE);
                 }
 
+                if (!amount.equals(mAmountAdapter.getAmount())) {
+                    mAmountAdapter.setAmount(amount);
+                    mAmountAdapter.notifyDataSetChanged();
+                }
                 setNextButton();
             }
 
