@@ -3,15 +3,15 @@ android {
 
     productFlavors {
         // 测试环境 测试用
-        xingCai_pre {
-            //applicationId "com.${name.toLowerCase()}.app" //
-            applicationId "com.xct01.app" //
+        odin_pre {
+            applicationId "com.${name.toLowerCase()}.app"
+            //applicationId "com.xct01.app" //
             versionName "1.4.1"
             versionCode 141
             //resValue "string", "app_name", "${name}"
-            resValue "string", "app_name", "杏彩T${versionCode}"
+            resValue "string", "app_name", "奥丁T${versionCode}"
             resValue "string", "domain_url", "https://ap3sport.oxldkm.com"
-            resValue "string", "channel_name", "xingcai"  // 渠道名称
+            resValue "string", "channel_name", "odin"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
@@ -21,13 +21,13 @@ android {
             dimension "channelName"
         }
         // 生产环境 测试用
-        xingCai_uat {
-            applicationId "com.xcr01.app" // xcsport xcr01
+        odin_uat {
+            applicationId "com.${name.toLowerCase()}.app"
             versionName "1.4.1"
             versionCode 141
-            resValue "string", "app_name", "杏彩R${versionCode}"
+            resValue "string", "app_name", "奥丁R${versionCode}"
             resValue "string", "domain_url", "https://www.weres.bar"
-            resValue "string", "channel_name", "xingcai"  // 渠道名称
+            resValue "string", "channel_name", "odin"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
@@ -42,13 +42,13 @@ android {
             dimension "channelName"
         }
         // 生产环境 发布用
-        /*xingCai_OL {
-            applicationId "com.xcsport.app" //
-            versionName "1.0.5"
-            versionCode 105
-            resValue "string", "app_name", "杏彩体育"
+        odin {
+            applicationId "com.${name.toLowerCase()}.app"
+            versionName "1.0.0"
+            versionCode 100
+            resValue "string", "app_name", "奥丁体育"
             resValue "string", "domain_url", "https://www.weres.bar"
-            resValue "string", "channel_name", "xingcai"  // 渠道名称
+            resValue "string", "channel_name", "odin"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "44c997f89ac52bdb676418f79a78cc6e"
             resValue "bool", "is_tag", "true" // 是否开启统计
@@ -61,7 +61,7 @@ android {
                     ";https://app.eyoumoban.com:16801"
             multiDexEnabled true
             dimension "channelName"
-        }*/
+        }
 
     }
 
@@ -73,42 +73,13 @@ android {
                 //variant.getPackageApplication().outputDirectory = new File("${project.rootDir.absolutePath}/outputs")
                 //variant.getPackageApplicationProvider().get().outputDirectory = new File("${project.rootDir.absolutePath}/outputs")
                 // 打包文件名
-                def name1 = variant.flavorName.split("_")[0]
-                def name2 = variant.flavorName.split("_")[1]
                 def name = variant.flavorName
-                //outputFileName = "${name}_v${variant.versionCode}_${variant.buildType.name}.apk"
                 def tp = "${if (variant.buildType.name == 'debug') '_db' else ''}"
                 outputFileName = "${name}_v${variant.versionCode}${tp}.apk" // 自己用
-                //outputFileName = "${name}_v${variant.versionCode}.apk"
-                //outputFileName = "${name1}_v${variant.versionCode}_${name2}_${releaseTime()}${tp}.apk" // 发布用
+                //outputFileName = "${name}_v${variant.versionCode}_${releaseTime()}${tp}.apk" // 发布用
             }
         }
     }
-
-    /*applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                // 打包输出路径 发布用
-                //variant.getPackageApplicationProvider().get().outputDirectory = new File("${project.rootDir.absolutePath}/outputs")
-                // 打包文件名
-                //def name = variant.flavorName.split("_")[0]
-                def name = variant.flavorName
-
-                //outputFileName = "${variant.flavorName}_v${variant.versionCode}${tp}_${releaseTime()}.apk"
-                //outputFileName = "${name}_v${variant.versionCode}_${variant.buildType.name}.apk"
-                def tp = "${if (variant.buildType.name == 'debug') '_tt' else ''}"
-                //outputFileName = "${name}_v${variant.versionCode}_${releaseTime()}${tp}.apk"
-                //outputFileName = "${name}_v${variant.versionName.replace(".", "_")}_${releaseTime()}${tp}.apk"
-                outputFileName = "${name}_v${variant.versionCode}a${tp}.apk"
-
-                //var name1 = "${name}".split("_")[0]
-                //var name2 = "${name}".replace("${name1}", "")
-                //outputFileName = "${name1}_v${variant.versionCode}${name2}${tp}.apk"
-            }
-
-        }
-    }*/
 
 }
 
@@ -146,12 +117,10 @@ androidJunkCode {
         debug config
         release config
 
-        xingCaiDebug config2
-        xingCaiRelease config2
-        xingCai_OLDebug config2
-        xingCai_OLRelease config2
-        xingCai_preDebug config2
-        xingCai_preRelease config2
+        odinDebug config2
+        odinRelease config2
+        odin_preDebug config2
+        odin_preRelease config2
     }
 
 }
@@ -166,22 +135,6 @@ static def getPluginPkg() {
     return "com.${getRandomStr()}.plugin.ui"
 }
 
-/**
- * 返回随机数 1-9
- * @return 随机数
- */
-static def getRandomNum() {
-    def num = Math.abs(new Random().nextInt(99))
-    int random = 1 + num.toInteger() % 9
-    return random
-}
-
-static def getRandomNum5() {
-    def num = Math.abs(new Random().nextInt(99))
-    int random = 1 + num.toInteger() % 5
-    return random
-}
-
 static def getRandomStr() {
     def characters = "abcdefghijklmnopqrstuvwxyz"
     def num = Math.abs(new Random().nextInt(99))
@@ -192,24 +145,6 @@ static def getRandomStr() {
         str += characters.charAt(random.nextInt(characters.length()))
     }
     return str
-}
-
-static def getResPrefix() {
-    /*def characters = "abcdefghijklmnopqrstuvwxyz"
-    int length = 2 + Math.abs(new Random().nextInt(3))
-    def str = ""
-    Random random = new Random()
-    for (i in 0..<length) {
-        str += characters.charAt(random.nextInt(characters.length()))
-    }
-    return str*/
-    return "${"${getRandomStr()}".substring(0, 2)}_"
-}
-
-def static buildTime() {
-    //return new Date().format("yyyyMMdd_HHmm", TimeZone.getTimeZone("GMT+8"))
-    return new Date().format("yyyyMMdd-HHmm", TimeZone.getTimeZone("GMT+8"))
-    //return new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+8"))
 }
 
 def static releaseTime() {
