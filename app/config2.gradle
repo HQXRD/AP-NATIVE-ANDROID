@@ -20,7 +20,7 @@ android {
             dimension "channelName"
         }
         // 生产环境 测试用
-        bw_uat {
+        /*bw_uat {
             applicationId "com.${name.toLowerCase()}.app"
             versionName "1.4.1"
             versionCode 141
@@ -39,9 +39,9 @@ android {
                     ";https://app.eyoumoban.com:16801"
             multiDexEnabled true
             dimension "channelName"
-        }
+        }*/
         // 生产环境 发布用
-        bw {
+        /*bw {
             applicationId "com.${name.toLowerCase()}.app"
             versionName "1.0.0"
             versionCode 100
@@ -60,7 +60,7 @@ android {
                     ";https://app.eyoumoban.com:16801"
             multiDexEnabled true
             dimension "channelName"
-        }
+        }*/
 
     }
 
@@ -75,7 +75,7 @@ android {
                 def name = variant.flavorName
                 def tp = "${if (variant.buildType.name == 'debug') '_db' else ''}"
                 outputFileName = "${name}_v${variant.versionCode}${tp}.apk" // 自己用
-                //outputFileName = "${name}_v${variant.versionCode}_${releaseTime()}${tp}.apk" // 发布用
+                outputFileName = "${name}_v${variant.versionCode}_${releaseTime()}${tp}.apk" // 发布用
             }
         }
     }
@@ -122,6 +122,12 @@ androidJunkCode {
         bw_preRelease config2
     }
 
+}
+
+def static buildTime() {
+    //return new Date().format("yyyyMMdd_HHmm", TimeZone.getTimeZone("GMT+8"))
+    return new Date().format("yyyyMMdd-HHmm", TimeZone.getTimeZone("GMT+8"))
+    //return new Date().format("yyyyMMdd", TimeZone.getTimeZone("GMT+8"))
 }
 
 def static releaseTime() {
