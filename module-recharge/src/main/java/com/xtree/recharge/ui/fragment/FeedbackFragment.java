@@ -400,7 +400,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 binding2.tvwTitle.setOnClickListener(v -> {
                     binding.tvwPaymentMethod.setText(vo.name);
                     //feedbackType = 1; //1 微信 2 usdt
-                    if (TextUtils.equals("虚拟货币" , vo.name)) {
+                    if (TextUtils.equals("虚拟货币", vo.name)) {
                         feedbackType = 2;
                         referFeedbackUI("usdt");
                     } else if (vo.name.contains("微信")) {
@@ -925,10 +925,18 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                                 if (imageRealPath.exists()) {
                                     CfLog.i("获取图片地址Base64 ===== " + ImageUploadUtil.bitmapToString(imageRealPathString));
                                     Bitmap bitmap = BitmapFactory.decodeFile(imageRealPathString);
-                                    binding.ivSelectorAdd.setVisibility(View.GONE);
-                                    binding.ivSelectorTipImage.setVisibility(View.VISIBLE);
-                                    binding.ivSelectorTipImage.setImageBitmap(bitmap);
-                                    imageSelector = true;//向界面设置了选中图片
+                                    if (bitmap == null) {
+                                        //未通过文件名取得bitmap
+                                        ToastUtils.showError(getContext().getString(R.string.txt_read_photo_permissions));
+                                        imageSelector = false;//向界面设置了选中图片
+                                        return;
+                                    } else {
+                                        CfLog.i("获取图片地址是 bitmap ====== " + bitmap);
+                                        binding.ivSelectorAdd.setVisibility(View.GONE);
+                                        binding.ivSelectorTipImage.setVisibility(View.VISIBLE);
+                                        binding.ivSelectorTipImage.setImageBitmap(bitmap);
+                                        imageSelector = true;//向界面设置了选中图片
+                                    }
                                 } else {
                                     CfLog.i("获取图片地址不存在是 ====== " + result.get(i).getRealPath());
                                 }

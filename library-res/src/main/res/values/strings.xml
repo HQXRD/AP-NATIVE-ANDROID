@@ -312,4 +312,5 @@
     <string name="txt_change_login_new_err">请输入新密码</string>
     <string name="txt_change_login_sure_err">请输入确认密码</string>
     <string name="txt_change_login_err">新密码与确认新密码不一致</string>
+    <string name="txt_read_photo_permissions">未获得读取文件权限,请您设置通过相关权限</string>
 </resources>
