@@ -43,72 +43,76 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_menu"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="@dimen/layout_margin"
-        android:paddingBottom="36dp">
+        android:layout_height="wrap_content">
 
-        <TextView
-            style="@style/style_choose_account"
-            android:tag="bindcard"
-            android:text="@string/txt_bind_card" />
+        <LinearLayout
+            android:id="@+id/ll_menu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="@dimen/layout_margin"
+            android:paddingBottom="36dp">
 
-        <TextView
-            style="@style/style_choose_account"
-            android:tag="bindusdt"
-            android:text="@string/txt_bind_usdt" />
+            <TextView
+                style="@style/style_choose_account"
+                android:tag="bindcard"
+                android:text="@string/txt_bind_card" />
 
-        <TextView
-            style="@style/style_choose_account"
-            android:tag="bindebpay"
-            android:text="@string/txt_bind_ebpay" />
+            <TextView
+                style="@style/style_choose_account"
+                android:tag="bindusdt"
+                android:text="@string/txt_bind_usdt" />
 
-        <TextView
-            style="@style/style_choose_account"
-            android:tag="bindtopay"
-            android:text="@string/txt_bind_topay" />
+            <TextView
+                style="@style/style_choose_account"
+                android:tag="bindebpay"
+                android:text="@string/txt_bind_ebpay" />
 
-        <TextView
-            style="@style/style_choose_account"
-            android:tag="bindhiwallet"
-            android:text="@string/txt_bind_gcnyt" />
+            <TextView
+                style="@style/style_choose_account"
+                android:tag="bindtopay"
+                android:text="@string/txt_bind_topay" />
 
-        <TextView
-            style="@style/style_choose_account"
-            android:tag="bindmpay"
-            android:text="@string/txt_bind_mpay" />
+            <TextView
+                style="@style/style_choose_account"
+                android:tag="bindhiwallet"
+                android:text="@string/txt_bind_gcnyt" />
 
-        <TextView
-            style="@style/style_choose_account"
-            android:tag="bindgobao"
-            android:text="@string/txt_bind_gobao" />
+            <TextView
+                style="@style/style_choose_account"
+                android:tag="bindmpay"
+                android:text="@string/txt_bind_mpay" />
 
-        <TextView
-            style="@style/style_choose_account"
-            android:tag="bindgopay"
-            android:text="@string/txt_bind_gopay" />
+            <TextView
+                style="@style/style_choose_account"
+                android:tag="bindgobao"
+                android:text="@string/txt_bind_gobao" />
 
-        <TextView
-            style="@style/style_choose_account"
-            android:tag="bindokpay"
-            android:text="@string/txt_bind_okpay" />
+            <TextView
+                style="@style/style_choose_account"
+                android:tag="bindgopay"
+                android:text="@string/txt_bind_gopay" />
 
-        <TextView
-            android:id="@+id/tv_zfb"
-            style="@style/style_choose_account"
-            android:tag="bindcardzfb"
-            android:text="@string/txt_bind_alipay" />
+            <TextView
+                style="@style/style_choose_account"
+                android:tag="bindokpay"
+                android:text="@string/txt_bind_okpay" />
 
-        <TextView
-            android:id="@+id/tv_wx"
-            style="@style/style_choose_account"
-            android:tag="bindcardwx"
-            android:text="@string/txt_bind_wechat" />
+            <TextView
+                android:id="@+id/tv_zfb"
+                style="@style/style_choose_account"
+                android:tag="bindcardzfb"
+                android:text="@string/txt_bind_alipay" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_wx"
+                style="@style/style_choose_account"
+                android:tag="bindcardwx"
+                android:text="@string/txt_bind_wechat" />
 
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>
