@@ -9,14 +9,14 @@ android {
             versionCode 109
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "意昂2T${versionCode}"
-            resValue "string", "domain_api", "https://preyiang22test.oxldkm.com"
+            resValue "string", "domain_api", "https://preyiang2test.oxldkm.com" // 后面可能会改成 https://preyiang22test.oxldkm.com 如后续有连线问题 尝试看看
             resValue "string", "domain_url", "https://preyiang2test.oxldkm.com"
             resValue "string", "channel_name", "eon2"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_api_list", "https://preyiang22test.oxldkm.com;"
+            resValue "string", "domain_api_list", "https://preyiang2test.oxldkm.com;" // 后面可能会改成 https://preyiang22test.oxldkm.com 如后续有连线问题 尝试看看
             resValue "string", "domain_url_list", "https://preyiang2test.oxldkm.com;"
             multiDexEnabled true
             dimension "channelName"
