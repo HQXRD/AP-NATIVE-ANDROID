@@ -19,6 +19,7 @@ import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.bet.util.BtDomainUtil;
 import com.xtree.home.R;
 import com.xtree.home.data.HomeRepository;
 import com.xtree.home.vo.AugVo;
@@ -175,7 +176,9 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         CfLog.i("****** ");
                         SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
-                        DomainUtil.setFbDomainUrl(fbService.getDomains());
+                        BtDomainUtil.setDefaultFbDomainUrl(fbService.getForward().getApiServerAddress());
+                        BtDomainUtil.addFbDomainUrl(fbService.getForward().getApiServerAddress());
+                        BtDomainUtil.setFbDomainUrl(fbService.getDomains());
                     }
 
                     @Override
@@ -199,7 +202,9 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     public void onResult(FBService fbService) {
                         SPUtils.getInstance().put(SPKeyGlobal.FBXC_TOKEN, fbService.getToken());
                         SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
-                        DomainUtil.setFbDomainUrl(fbService.getDomains());
+                        BtDomainUtil.setDefaultFbxcDomainUrl(fbService.getForward().getApiServerAddress());
+                        BtDomainUtil.addFbxcDomainUrl(fbService.getForward().getApiServerAddress());
+                        BtDomainUtil.setFbxcDomainUrl(fbService.getDomains());
                     }
 
                     @Override
@@ -225,6 +230,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
+                        BtDomainUtil.setDefaultPmDomainUrl(pmService.getApiDomain());
                     }
 
                     @Override

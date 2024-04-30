@@ -129,7 +129,7 @@ public class PMListCallBack extends PMHttpCallBack<List<MatchInfo>> {
                 mMapLeague.clear();
                 mMapSportType.clear();
             }
-
+            mViewModel.firstNetworkFinishData.call();
             mIsStepSecond = true;
             leagueGoingList(data);
             mViewModel.saveLeague(this);

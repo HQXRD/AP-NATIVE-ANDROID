@@ -20,6 +20,7 @@
         android:text="默认代理服务器" />
 
     <TextView
+        android:id="@+id/tv_agent_change"
         android:layout_width="48dp"
         android:layout_height="24dp"
         android:layout_alignParentRight="true"
@@ -28,7 +29,7 @@
         android:textColor="@color/bt_color_under_bg_primary_text"
         android:text="切换"
         android:textSize="@dimen/bt_text_10sp"
-        android:background="@drawable/bg_btn_xc"/>
+        android:background="@drawable/bg_btn_radius_8_selector"/>
 
     <View
         android:layout_width="match_parent"

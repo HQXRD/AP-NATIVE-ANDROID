@@ -95,6 +95,7 @@ public class FBRetrofitClient {
 //                .cache(cache)
                 .addInterceptor(new FBHeaderInterceptor())
                 .addInterceptor(new CacheInterceptor(mContext))
+                .addInterceptor(new UrlModifyingInterceptor())
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 .addInterceptor(new HttpLoggingInterceptor(message -> KLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))
                 /*.addInterceptor(new LoggingInterceptor

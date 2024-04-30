@@ -202,13 +202,13 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
 
     @Override
     public void onError(Throwable t) {
-        if (t instanceof ResponseThrowable) {
+        /*if (t instanceof ResponseThrowable) {
             if (((ResponseThrowable) t).code == CODE_14010) {
                 mViewModel.getGameTokenApi();
             } else {
                 mViewModel.getLeagueList(mSportPos, mSportId, mOrderBy, mLeagueIds, mMatchids, mPlayMethodType, mSearchDatePos, mOddType, mIsTimerRefresh, mIsRefresh, mIsStepSecond);
             }
-        }
+        }*/
                         /*if (isRefresh) {
         finishRefresh(false);
     } else {

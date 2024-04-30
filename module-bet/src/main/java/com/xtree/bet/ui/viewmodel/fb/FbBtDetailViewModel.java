@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.net.HttpCallBack;
-import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.FBService;
 import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.response.fb.PlayTypeInfo;
@@ -28,6 +27,7 @@ import com.xtree.bet.bean.ui.PlayTypeFb;
 import com.xtree.bet.constant.FBMarketTag;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
+import com.xtree.bet.util.BtDomainUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -196,11 +196,17 @@ public class FbBtDetailViewModel extends TemplateBtDetailViewModel {
                         if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
                             SPUtils.getInstance().put(SPKeyGlobal.FBXC_TOKEN, fbService.getToken());
                             SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                            BtDomainUtil.setDefaultFbxcDomainUrl(fbService.getForward().getApiServerAddress());
+                            BtDomainUtil.addFbxcDomainUrl(fbService.getForward().getApiServerAddress());
+                            BtDomainUtil.setFbxcDomainUrl(fbService.getDomains());
                         } else {
                             SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
                             SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                            BtDomainUtil.setDefaultFbDomainUrl(fbService.getForward().getApiServerAddress());
+                            BtDomainUtil.addFbDomainUrl(fbService.getForward().getApiServerAddress());
+                            BtDomainUtil.setFbDomainUrl(fbService.getDomains());
                         }
-                        DomainUtil.setFbDomainUrl(fbService.getDomains());
+
                         getMatchDetail(mMatchId);
                     }
 

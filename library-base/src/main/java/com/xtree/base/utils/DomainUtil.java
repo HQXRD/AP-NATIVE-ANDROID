@@ -8,8 +8,6 @@ import java.util.List;
 public class DomainUtil {
 
     private static String domainUrl = "https://www.weres.bar/";
-    private static List<String> fbDomainUrl = new ArrayList<>();
-
     public static String getDomain() {
 
         //domainUrl = "https://app1.dhtjf656.com/";
@@ -33,9 +31,5 @@ public class DomainUtil {
             }
             CfLog.i("domainUrl: " + domainUrl);
         }
-    }
-
-    public static void setFbDomainUrl(List<String> fbDomainUrl) {
-        DomainUtil.fbDomainUrl = fbDomainUrl;
     }
 }
