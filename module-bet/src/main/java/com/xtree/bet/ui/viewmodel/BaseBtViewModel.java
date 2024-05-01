@@ -14,8 +14,11 @@ import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.utils.NumberUtils;
+import com.xtree.base.utils.SystemUtil;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
+import com.xtree.bet.bean.request.UploadExcetionReq;
 import com.xtree.bet.bean.response.fb.BalanceInfo;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.util.BtDomainUtil;
@@ -30,6 +33,7 @@ import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.Utils;
 
 /**
  * Created by marquis
@@ -160,6 +164,32 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
                     @Override
                     public void onError(Throwable t) {
                         //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void uploadException(UploadExcetionReq uploadExcetionReq) {
+        Map<String, String> map = new HashMap<>();
+        map.put("log_tag", uploadExcetionReq.getLogTag());
+        map.put("api_url", uploadExcetionReq.getApiUrl());
+        map.put("device_no", "android-app-" + TagUtils.getDeviceId(Utils.getContext()));
+        //map.put("device_no2", "log_tag");
+        map.put("log_type", uploadExcetionReq.getLogType());
+        map.put("device_type", "9");
+        map.put("device_detail", SystemUtil.getDeviceBrand() + " " + SystemUtil.getDeviceModel() + " " + "Android " + SystemUtil.getSystemVersion());
+        map.put("msg", uploadExcetionReq.getMsg());
+        Disposable disposable = (Disposable) model.getBaseApiService().uploadExcetion(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<String>() {
+                    @Override
+                    public void onResult(String result) {
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+
                     }
                 });
         addSubscribe(disposable);

@@ -17,6 +17,8 @@ public class BtDomainUtil {
 
     public static void setFbDomainUrl(List<String> fbDomainUrl) {
         BtDomainUtil.fbDomainUrl.addAll(fbDomainUrl);
+        BtDomainUtil.fbDomainUrl.addAll(fbDomainUrl);
+        BtDomainUtil.fbDomainUrl.addAll(fbDomainUrl);
     }
 
     public static List<String> getFbDomainUrl() {

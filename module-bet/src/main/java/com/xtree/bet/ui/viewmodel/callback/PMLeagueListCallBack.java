@@ -4,12 +4,17 @@ import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401013;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401026;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401038;
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
 
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.bet.R;
+import com.xtree.bet.bean.request.UploadExcetionReq;
 import com.xtree.bet.bean.response.pm.LeagueInfo;
 import com.xtree.bet.bean.response.pm.MatchInfo;
 import com.xtree.bet.bean.response.pm.MatchListRsp;
@@ -169,7 +174,15 @@ public class PMLeagueListCallBack extends PMHttpCallBack<MatchListRsp> {
     public void onError(Throwable t) {
         if (t instanceof ResponseThrowable) {
             ResponseThrowable error = (ResponseThrowable) t;
-            if (error.code == CODE_401026 || error.code == CODE_401013) {
+            if(error.isHttpError){
+                UploadExcetionReq uploadExcetionReq = new UploadExcetionReq();
+                String domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.PM_API_SERVICE_URL);
+                uploadExcetionReq.setLogTag("pm_url_error");
+                uploadExcetionReq.setApiUrl(domainUrl + "/v1/match/getList");
+                uploadExcetionReq.setLogType("" + ((ResponseThrowable) t).code);
+                uploadExcetionReq.setMsg(((ResponseThrowable) t).message);
+                mViewModel.firstNetworkExceptionData.postValue(uploadExcetionReq);
+            }else if (error.code == CODE_401026 || error.code == CODE_401013) {
                 mViewModel.getGameTokenApi();
             } else if (error.code == CODE_401038) {
                 super.onError(t);

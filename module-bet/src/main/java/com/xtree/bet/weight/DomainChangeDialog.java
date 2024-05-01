@@ -6,9 +6,12 @@ import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.ViewTreeObserver;
 import android.widget.CheckBox;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,12 +22,14 @@ import com.xtree.bet.R;
 import com.xtree.bet.ui.adapter.BtDomainAdapter;
 import com.xtree.bet.util.BtDomainUtil;
 
+import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class DomainChangeDialog extends AttachPopupView {
     private Context mContext;
     private ICallBack mICallBack;
     private RecyclerView rvAgent;
+    private NestedScrollView nsvAgent;
     private CheckBox cbAgent;
     private String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
 
@@ -40,6 +45,8 @@ public class DomainChangeDialog extends AttachPopupView {
 
         cbAgent = findViewById(R.id.cb_agent);
         rvAgent = findViewById(R.id.rv_agent);
+        nsvAgent = findViewById(R.id.nsv_agent);
+
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
         cbAgent.setChecked(isAgent);
         cbAgent.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -55,6 +62,14 @@ public class DomainChangeDialog extends AttachPopupView {
                 rvAgent.setAdapter(new BtDomainAdapter(mContext, BtDomainUtil.getFbDomainUrl(), mICallBack, cbAgent));
             }
         }
+
+        nsvAgent.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+            if(nsvAgent.getHeight() > ConvertUtils.dp2px(140)){
+                ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) nsvAgent.getLayoutParams();
+                params.height = ConvertUtils.dp2px(140);
+                nsvAgent.setLayoutParams(params);
+            }
+        });
     }
 
     @Override

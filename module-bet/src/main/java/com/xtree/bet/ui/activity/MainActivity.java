@@ -36,6 +36,7 @@ import com.xtree.base.widget.MsgDialog;
 import com.xtree.base.widget.TipDialog;
 import com.xtree.bet.BR;
 import com.xtree.bet.R;
+import com.xtree.bet.bean.request.UploadExcetionReq;
 import com.xtree.bet.bean.response.fb.HotLeague;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
@@ -95,6 +96,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private boolean mIsShowLoading = true;
     private boolean mIsChange = true;
     private boolean mIsFirstNetworkFinished;
+    private UploadExcetionReq mUploadExcetionReq;
     /**
      * 赛事统计数据
      */
@@ -112,6 +114,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
     private Disposable timerDisposable;
     private Disposable firstNetworkFinishedDisposable;
+    private Disposable firstNetworkExceptionDisposable;
 
     private int searchDatePos;
 
@@ -175,6 +178,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initFirstNetworkFinishTimer();
+        initFirstNetworkExceptionTimer();
         mSavedInstanceState = savedInstanceState;
     }
 
@@ -746,6 +750,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         }
     }
 
+    /**
+     * 定时刷新赛事列表
+     */
     private void initTimer() {
         if (timerDisposable != null) {
             viewModel.removeSubscribe(timerDisposable);
@@ -761,7 +768,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     }
 
     /**
-     *
+     * 监听第一次进入主页时获取列表数据是否完成，如果未完成，弹出切换线路提示弹窗
      */
     private void initFirstNetworkFinishTimer() {
         firstNetworkFinishedDisposable = Observable.interval(5, 5, TimeUnit.SECONDS)
@@ -774,6 +781,25 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     viewModel.removeSubscribe(firstNetworkFinishedDisposable);
                 });
         viewModel.addSubscribe(firstNetworkFinishedDisposable);
+    }
+
+    /**
+     * 监听第一次进入主页时获取列表数据是否发生异常，如果发生异常，则上报服务器
+     */
+    private void initFirstNetworkExceptionTimer() {
+        firstNetworkExceptionDisposable = Observable.interval(1, 2, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> {
+                    if(mUploadExcetionReq != null) {
+                        showChangeDomainTip();
+                        viewModel.removeSubscribe(firstNetworkFinishedDisposable);
+                        viewModel.uploadException(mUploadExcetionReq);
+                        viewModel.removeSubscribe(firstNetworkExceptionDisposable);
+                        mUploadExcetionReq = null;
+                    }
+                });
+        viewModel.addSubscribe(firstNetworkExceptionDisposable);
     }
 
     /**
@@ -1217,6 +1243,10 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         viewModel.firstNetworkFinishData.observe(this, unused -> {
             mIsFirstNetworkFinished = true;
         });
+        viewModel.firstNetworkExceptionData.observe(this, uploadExcetionReq -> {
+            mUploadExcetionReq = uploadExcetionReq;
+        });
+
     }
 
     /**
