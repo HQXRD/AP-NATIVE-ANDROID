@@ -891,6 +891,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void show1kEntryDialog() {
+        if (TextUtils.isEmpty(hiWalletUrl)) {
+            CfLog.e("hiWalletUrl is empty.");
+            return;
+        }
+
         String title = getString(R.string.txt_kind_tips);
         //String msg = getString(R.string.txt_is_to_open_hiwallet_wallet); //
         String txt = getString(R.string.txt_is_to_open_hiwallet_title); //

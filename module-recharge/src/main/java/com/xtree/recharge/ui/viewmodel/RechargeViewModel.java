@@ -80,8 +80,12 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
 
                     @Override
                     public void onError(Throwable t) {
-                        t.printStackTrace();
-                        super.onError(t);
+                        CfLog.e(t.toString());
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        CfLog.e(t.toString()); // 30435 网络繁忙，无法与CNYT建立连接，请稍后再试
                     }
                 });
 
