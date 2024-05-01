@@ -34,6 +34,7 @@ import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentTransferBinding;
 import com.xtree.mine.ui.viewmodel.MyWalletViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.GameMenusVo;
@@ -59,6 +60,8 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     private int count = 0;
     private boolean filterNoMoney = false;
     private boolean isAutoTransfer = false; // 调用接口前标记/接口返回后使用
+    private AwardsRecordVo awardsRecordVo;//礼物流水
+    private boolean isNetworkAwards = false;//礼物流水网络请求是否已刷新标志位
 
     HashMap<String, GameBalanceVo> map = new HashMap<>();
     ArrayList<GameBalanceVo> listGameBalance = new ArrayList<>();
@@ -101,6 +104,7 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel.readCache(); // 先读取缓存数据
+        viewModel.getAwardRecord();//获取礼物流水
         refreshBalance();
     }
 
@@ -422,6 +426,16 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
             mHandler.sendEmptyMessage(MSG_GAME_BALANCE);
         });
 
+        //获取礼物流水
+        viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
+            awardsRecordVo = vo;
+            isNetworkAwards = true;//增加网络回调标识
+            if (awardsRecordVo != null && awardsRecordVo.list.size() > 0) {
+                binding.llCenterWallet.tvwLockBalance.setText(awardsRecordVo.locked_award_sum);
+            } else {
+                binding.llCenterWallet.tvwLockBalance.setText("0.0000");
+            }
+        });
     }
 
     /**
