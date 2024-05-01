@@ -265,10 +265,17 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                             val imageRealPath = File(imageRealPathString)
                             if (imageRealPath.exists()) {
                                 val bitmap = BitmapFactory.decodeFile(imageRealPathString)
-                                binding.ivSelectorAdd.visibility = View.GONE
-                                binding.ivSelectorTipImage.visibility = View.VISIBLE
-                                binding.ivSelectorTipImage.setImageBitmap(bitmap)
-                                imageSelector = true //向界面设置了选中图片
+                                if (bitmap == null) {
+                                    //未通过文件名取得bitmap
+                                    ToastUtils.showError(requireContext().getString(R.string.txt_read_photo_permissions))
+                                    imageSelector = false //未向界面设置了选中图片
+                                    return
+                                } else {
+                                    binding.ivSelectorAdd.visibility = View.GONE
+                                    binding.ivSelectorTipImage.visibility = View.VISIBLE
+                                    binding.ivSelectorTipImage.setImageBitmap(bitmap)
+                                    imageSelector = true //向界面设置了选中图片
+                                }
                             } else {
                                 CfLog.i("获取图片地址不存在是 ====== " + result[i].realPath)
                             }
