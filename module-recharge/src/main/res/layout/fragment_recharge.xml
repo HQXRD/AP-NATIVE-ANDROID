@@ -372,6 +372,7 @@
                                 style="@style/style_cm_edit"
                                 android:layout_width="0dp"
                                 android:layout_marginStart="4dp"
+                                android:elevation="1dp"
                                 android:layout_marginEnd="@dimen/layout_margin"
                                 android:text="@string/txt_enter_recharge_amount"
                                 android:textSize="14sp"
