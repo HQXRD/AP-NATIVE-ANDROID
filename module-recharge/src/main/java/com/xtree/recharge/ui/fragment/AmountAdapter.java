@@ -54,6 +54,7 @@ public class AmountAdapter extends CachedAutoRefreshAdapter<String> {
         binding.tvwTitle.setSelected(false); // 默认不选中
         if (str.equals(mAmount)) {
             binding.tvwTitle.setSelected(true);
+            curView = binding.tvwTitle;
         }
 
         binding.tvwTitle.setOnClickListener(v -> {
