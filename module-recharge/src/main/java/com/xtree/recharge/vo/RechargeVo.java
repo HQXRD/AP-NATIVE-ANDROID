@@ -43,6 +43,7 @@ public class RechargeVo {
     public boolean nalipayname; // false,
     public boolean fixedamount_channelshow; // false, true
     public String[] fixedamount_info; // [], ["100","200","300","500","1000","2000","3000","5000","10000","20000","30000","50000"]
+    public String[] recommendMoney; // [], ["100","300","500","1000"] 快选金额
     public boolean phone_needbind; // true,
     //public boolean showfee; // false,
     //public int fee; // 0,
@@ -78,6 +79,7 @@ public class RechargeVo {
                 ", userBankList=" + Arrays.toString(userBankList.toArray()) +
                 ", fixedamount_channelshow=" + fixedamount_channelshow +
                 ", fixedamount_info=" + Arrays.toString(fixedamount_info) +
+                ", recommendMoney=" + Arrays.toString(recommendMoney) +
                 '}';
     }
 
@@ -111,6 +113,7 @@ public class RechargeVo {
                 ", nalipayname=" + nalipayname +
                 ", fixedamount_channelshow=" + fixedamount_channelshow +
                 ", fixedamount_info=" + Arrays.toString(fixedamount_info) +
+                ", recommendMoney=" + Arrays.toString(recommendMoney) +
                 ", phone_needbind=" + phone_needbind +
                 ", op_thiriframe_use=" + op_thiriframe_use +
                 ", op_thiriframe_status=" + op_thiriframe_status +

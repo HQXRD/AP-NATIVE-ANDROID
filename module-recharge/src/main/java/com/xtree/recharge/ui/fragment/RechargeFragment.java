@@ -633,7 +633,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         if (vo.fixedamount_channelshow && vo.fixedamount_info.length > 0) {
             binding.edtAmount.setEnabled(false);
             binding.tvwAmountHint.setText(R.string.txt_choose_recharge_amount); // 请选择金额
-            setAmountGrid(vo);
+            setAmountGrid(vo.fixedamount_info);
             // 固额 如果输入框的金额不是固额列表中的其中一个,显示提示文字
             if (!amount.isEmpty() && !Arrays.asList(vo.fixedamount_info).contains(amount)) {
                 //binding.edtAmount.setText("");
@@ -644,9 +644,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.edtAmount.setEnabled(true);
             String hint = getString(R.string.txt_enter_recharge_amount, vo.loadmin, vo.loadmax);
             binding.tvwAmountHint.setText(hint); // 请输入充值金额(最低%1$s元，最高%2$s元)
-            List<String> list = getFastMoney(vo.loadmin, vo.loadmax);
-            vo.fixedamount_info = list.toArray(new String[list.size()]);
-            setAmountGrid(vo);
+            //List<String> list = getFastMoney(vo.loadmin, vo.loadmax);
+            //vo.fixedamount_info = list.toArray(new String[list.size()]);
+            setAmountGrid(vo.recommendMoney);
         }
 
         //binding.edtAmount.setText(""); // 需求,不要清空上个渠道的充值金额
@@ -891,6 +891,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void show1kEntryDialog() {
+        if (TextUtils.isEmpty(hiWalletUrl)) {
+            CfLog.e("hiWalletUrl is empty.");
+            return;
+        }
+
         String title = getString(R.string.txt_kind_tips);
         //String msg = getString(R.string.txt_is_to_open_hiwallet_wallet); //
         String txt = getString(R.string.txt_is_to_open_hiwallet_title); //
@@ -916,9 +921,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         ppw.show();
     }
 
-    private void setAmountGrid(RechargeVo vo) {
-        mAmountAdapter.clear();
-        mAmountAdapter.addAll(Arrays.asList(vo.fixedamount_info));
+    private void setAmountGrid(String[] array) {
+        mAmountAdapter.clear(); // 清空
+        if (array != null && array.length > 0) {
+            mAmountAdapter.addAll(Arrays.asList(array)); // 数组转列表
+        }
     }
 
     private void showBankCardDialog(RechargeVo vo) {
