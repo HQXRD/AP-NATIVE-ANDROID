@@ -178,7 +178,7 @@ public class PMLeagueListCallBack extends PMHttpCallBack<MatchListRsp> {
                 UploadExcetionReq uploadExcetionReq = new UploadExcetionReq();
                 String domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.PM_API_SERVICE_URL);
                 uploadExcetionReq.setLogTag("pm_url_error");
-                uploadExcetionReq.setApiUrl(domainUrl + "/v1/match/getList");
+                uploadExcetionReq.setApiUrl(domainUrl);
                 uploadExcetionReq.setLogType("" + ((ResponseThrowable) t).code);
                 uploadExcetionReq.setMsg(((ResponseThrowable) t).message);
                 mViewModel.firstNetworkExceptionData.postValue(uploadExcetionReq);

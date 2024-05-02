@@ -217,7 +217,7 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
                     domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.FB_API_SERVICE_URL);
                     uploadExcetionReq.setLogTag("fb_url_error");
                 }
-                uploadExcetionReq.setApiUrl(domainUrl + "/v1/match/getList");
+                uploadExcetionReq.setApiUrl(domainUrl);
                 uploadExcetionReq.setLogType("" + ((ResponseThrowable) t).code);
                 uploadExcetionReq.setMsg(((ResponseThrowable) t).message);
                 mViewModel.firstNetworkExceptionData.postValue(uploadExcetionReq);

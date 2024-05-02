@@ -49,7 +49,7 @@ public class BtDomainAdapter extends BaseAdapter<String> {
         }
         binding.tvAgentChange.setOnClickListener(v -> {
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, position);
-            mICallBack.onDomainChange(false, mCbAgent);
+            mICallBack.onDomainChange(false, true, mCbAgent);
             notifyDataSetChanged();
         });
     }

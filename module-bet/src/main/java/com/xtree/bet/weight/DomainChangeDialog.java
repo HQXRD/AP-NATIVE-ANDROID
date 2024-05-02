@@ -52,7 +52,7 @@ public class DomainChangeDialog extends AttachPopupView {
         cbAgent.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_AGENT + mPlatform, isChecked);
-            mICallBack.onDomainChange(isChecked, cbAgent);
+            mICallBack.onDomainChange(isChecked, false, cbAgent);
         });
         if (!isAgent && !TextUtils.equals(mPlatform, PLATFORM_PM)) {
             rvAgent.setLayoutManager(new LinearLayoutManager(mContext));
@@ -64,9 +64,9 @@ public class DomainChangeDialog extends AttachPopupView {
         }
 
         nsvAgent.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
-            if(nsvAgent.getHeight() > ConvertUtils.dp2px(140)){
+            if(nsvAgent.getHeight() > ConvertUtils.dp2px(130)){
                 ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) nsvAgent.getLayoutParams();
-                params.height = ConvertUtils.dp2px(140);
+                params.height = ConvertUtils.dp2px(130);
                 nsvAgent.setLayoutParams(params);
             }
         });
@@ -78,6 +78,12 @@ public class DomainChangeDialog extends AttachPopupView {
     }
 
     public interface ICallBack {
-        void onDomainChange(boolean isChecked, CheckBox checkBox);
+        /**
+         * 监听线路变更
+         * @param useAgent 是否使用代理
+         * @param isChangeDomain 是否点击切换按钮
+         * @param checkBox
+         */
+        void onDomainChange(boolean useAgent, boolean isChangeDomain, CheckBox checkBox);
     }
 }

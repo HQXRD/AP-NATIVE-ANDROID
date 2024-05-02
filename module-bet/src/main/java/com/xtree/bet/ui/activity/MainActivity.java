@@ -76,6 +76,7 @@ import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.Messenger;
+import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -461,8 +462,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      */
     private void setChangeDomainVisible() {
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
-        int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
-        binding.ivChangeDomain.setSelected(isAgent || useLinePosition > 0);
+        binding.ivChangeDomain.setSelected(isAgent);
     }
 
     private void checkChampionHeaderIsExpand() {
@@ -792,9 +792,10 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    if (mUploadExcetionReq != null && !mIsFirstNetworkFinished) {
+                    if (mUploadExcetionReq != null) {
+                        CfLog.e("mIsFirstNetworkFinished========" + mIsFirstNetworkFinished);
                         showChangeDomainTip();
-                        if(firstNetworkFinishedDisposable != null) {
+                        if (firstNetworkFinishedDisposable != null) {
                             viewModel.removeSubscribe(firstNetworkFinishedDisposable);
                         }
                         viewModel.uploadException(mUploadExcetionReq);
@@ -810,6 +811,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 显示切换线路弹窗
      */
     private void showChangeDomainTip() {
+        if(changeAgentTipView != null && changeAgentTipView.isShow()){
+            return;
+        }
         final String title = getString(R.string.txt_kind_tips);
         String showMessage = "当前您的网络环境较差，如继续游戏将无法保证游戏体验，是否需要使用代理？";
         changeAgentTipView = new XPopup.Builder(this).asCustom(new MsgDialog(this, title, "", showMessage, "继续等待", "使用代理", false, new TipDialog.ICallBack() {
@@ -834,15 +838,41 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         if (changeAgentView != null && changeAgentView.isShow()) {
             return;
         }
-        changeAgentView = new XPopup.Builder(MainActivity.this).atView(binding.ivChangeDomain).asCustom(new DomainChangeDialog(MainActivity.this, (isChecked, checkBox) -> {
-            checkBox.setChecked(isChecked);
-            setDomain(isChecked);
+        changeAgentView = new XPopup.Builder(MainActivity.this).atView(binding.ivChangeDomain).asCustom(new DomainChangeDialog(MainActivity.this, (useAgent, isChangeDomain, checkBox) -> {
+            checkBox.setChecked(useAgent);
+            setDomain(useAgent);
             resetViewModel();
             setChangeDomainVisible();
+            uploadException(useAgent, isChangeDomain);
             changeAgentView.dismiss();
         }));
 
         changeAgentView.show();
+    }
+
+    /**
+     * 上传切换线路或开关代理操作日志
+     * @param useAgent
+     * @param isChangeDomain
+     */
+    private void uploadException(boolean useAgent, boolean isChangeDomain) {
+        UploadExcetionReq uploadExcetionReq = new UploadExcetionReq();
+        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        String domainUrl;
+        if (TextUtils.equals(platform, PLATFORM_FBXC)) {
+            domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_API_SERVICE_URL);
+            uploadExcetionReq.setLogTag("fbxc_url_" + (isChangeDomain ? "swithapiaddress" : "swithdelegate"));
+        } else if (TextUtils.equals(platform, PLATFORM_FB)) {
+            domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.FB_API_SERVICE_URL);
+            uploadExcetionReq.setLogTag("fb_url_" + (isChangeDomain ? "swithapiaddress" : "swithdelegate"));
+        } else {
+            domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.PM_API_SERVICE_URL);
+            uploadExcetionReq.setLogTag("pm_url_" + (isChangeDomain ? "swithapiaddress" : "swithdelegate"));
+        }
+        uploadExcetionReq.setApiUrl(domainUrl);
+        uploadExcetionReq.setLogType("-");
+        uploadExcetionReq.setMsg(isChangeDomain ? "切换线路" : useAgent ? "开启默认代理服务器" : "关闭默认代理服务器");
+        viewModel.uploadException(uploadExcetionReq);
     }
 
     /**
@@ -896,7 +926,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getDomain());
                 }
             } else {
-                CfLog.e("useLinePotion========" + useLinePotion);
                 if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
                     SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, BtDomainUtil.getFbxcDomainUrl().get(useLinePotion));
                 } else {
