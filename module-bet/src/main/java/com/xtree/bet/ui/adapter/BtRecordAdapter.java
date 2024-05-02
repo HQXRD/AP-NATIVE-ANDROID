@@ -122,7 +122,7 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         }
 
         BtLayoutBtRecordTimeBinding binding = BtLayoutBtRecordTimeBinding.bind(holder.itemView);
-        binding.tvName.setText(TimeUtils.longFormatString(btRecordTime.getTime(), TimeUtils.FORMAT_MM_DD_1));
+        binding.tvName.setText(TimeUtils.longFormatString(btRecordTime.getTime(), TimeUtils.FORMAT_YY_MM_DD));
         return convertView;
     }
 
@@ -144,11 +144,7 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         BtLayoutBtRecordItemBinding binding = BtLayoutBtRecordItemBinding.bind(holder.itemView);
 
         String cg = btResult.getBetResultOption().size() > 1 ? "串关" : "单关";
-        if (btResult.getBetResultOption().size() > 1) {
-            binding.tvName.setText(mContext.getResources().getString(R.string.bt_bt_result_record_cg, cg, btResult.getCgName(), SPUtils.getInstance().getString(KEY_PLATFORM_NAME)));
-        } else {
-            binding.tvName.setText(cg);
-        }
+        binding.tvName.setText(mContext.getResources().getString(R.string.bt_bt_result_record_cg, cg, btResult.getCgName(), SPUtils.getInstance().getString(KEY_PLATFORM_NAME)));
         binding.rvMatch.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rvMatch.setAdapter(new BtResultOptionAdapter(mContext, btResult.getBetResultOption()));
         binding.tvResultId.setText(mContext.getResources().getString(R.string.bt_bt_result_id_1, btResult.getId()));
