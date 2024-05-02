@@ -59,7 +59,7 @@ public class Constant {
     //public static final String URL_INVITE_FRIEND = "/webapp/#/activity/141"; // 邀请好友
     public static final String URL_INVITE_FRIEND = "/webapp/?isNative=1#/activity/141"; // 邀请好友
     public static final String URL_DC_CENTER = "/webapp/?isNative=1#/report/team/activity/reward"; // 优惠中心
-    public static final String URL_APP_CENTER = "/webapp/#/features"; // 底部几个菜单中间的那个
+    public static final String URL_APP_CENTER = "/webapp/?isNative=1#/features"; // 底部几个菜单中间的那个 赞助页/广告页
     public static final String URL_LOTTERY_INFO = "/static/activity/xc/lotteryInfo.html"; // 彩种信息
     public static final String URL_PLAY_INTRO = "/static/activity/xc/rulesInfo.html"; // 玩法介绍
 
