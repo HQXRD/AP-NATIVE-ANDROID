@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cl_item"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="80dp"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/bg_white_6">
 
     <CheckBox
         android:id="@+id/ckb_msg_check"
@@ -30,24 +32,32 @@
         style="@style/style_bind_confirm_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:maxEms="10"
         android:singleLine="true"
         android:text="13测试"
+        android:textColor="@color/clr_txt_01"
+        android:textSize="@dimen/bt_text_14sp"
+        app:layout_constraintBottom_toTopOf="@id/tvw_msg_date"
         app:layout_constraintStart_toEndOf="@id/ivw_msg_icon"
-        app:layout_constraintTop_toTopOf="@id/ivw_msg_icon" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tvw_msg_date"
         style="@style/style_bind_confirm_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="10dp"
         android:text="2023-10-13 16:08:33"
+        android:textColor="@color/clr_txt_03"
+        android:textSize="@dimen/bt_text_12sp"
         android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="@id/ivw_msg_icon"
-        app:layout_constraintStart_toEndOf="@id/ivw_msg_icon" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ivw_msg_icon"
+        app:layout_constraintTop_toBottomOf="@id/tvw_msg_title" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -67,11 +77,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/clr_grey_22"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    <ImageView
+        android:id="@+id/ivw_msg_red_point"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/ic_red_point"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

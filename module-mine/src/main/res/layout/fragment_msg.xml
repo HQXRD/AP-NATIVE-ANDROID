@@ -64,11 +64,11 @@
             android:padding="2dp"
             app:tabBackground="@color/white"
             app:tabGravity="center"
-            app:tabIndicatorColor="@color/clr_purple_01"
+            app:tabIndicator="@mipmap/bg_msg_tab_line"
             app:tabMode="scrollable"
             app:tabPadding="2dp"
-            app:tabSelectedTextColor="@color/clr_purple_01"
-            app:tabTextColor="@color/black">
+            app:tabSelectedTextColor="@color/clr_txt_01"
+            app:tabTextColor="@color/clr_txt_03">
 
         </com.google.android.material.tabs.TabLayout>
 

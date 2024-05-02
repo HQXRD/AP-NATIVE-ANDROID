@@ -47,7 +47,10 @@ public class MsgPersonListFragment extends BaseFragment<FragmentMsgPersonListBin
         mMsgPersonListAdapter = new MsgPersonListAdapter(getContext(), new MsgPersonListAdapter.ICallBack() {
             @Override
             public void onClick(MsgPersonVo vo) {
-                viewModel.getMessagePerson(changeIdType(vo.id));
+                //viewModel.getMessagePerson(changeIdType(vo.id));
+                Bundle bundle = new Bundle();
+                bundle.putString("msg_person_detail", changeIdType(vo.id));
+                startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG_DETAIL, bundle);
                 for (MsgPersonVo msgPersonVo : msgPersonVoList) {
                     if (msgPersonVo.id == vo.id) {
                         msgPersonVo.is_unread = false;
@@ -218,13 +221,13 @@ public class MsgPersonListFragment extends BaseFragment<FragmentMsgPersonListBin
 
         viewModel.liveDataMsgPersonCount.observe(this, count -> this.count = count);
 
-        viewModel.liveDataMsgPersonInfo.observe(this, vo -> {
-            if (mListMsgInfoDialog != null && mListMsgInfoDialog.isShow()) {
-                return;
-            }
-            mListMsgInfoDialog = (ListMsgInfoDialog) new XPopup.Builder(getContext()).asCustom(new ListMsgInfoDialog(getContext(), null, vo, 80));
-            mListMsgInfoDialog.show();
-        });
+        //viewModel.liveDataMsgPersonInfo.observe(this, vo -> {
+        //    if (mListMsgInfoDialog != null && mListMsgInfoDialog.isShow()) {
+        //        return;
+        //    }
+        //    mListMsgInfoDialog = (ListMsgInfoDialog) new XPopup.Builder(getContext()).asCustom(new ListMsgInfoDialog(getContext(), null, vo, 80));
+        //    mListMsgInfoDialog.show();
+        //});
 
         viewModel.liveDataDeleteAll.observe(this, flag -> {
             curPage = 1;
