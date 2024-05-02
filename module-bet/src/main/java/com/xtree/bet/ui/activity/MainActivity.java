@@ -856,6 +856,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * @param isChangeDomain
      */
     private void uploadException(boolean useAgent, boolean isChangeDomain) {
+        int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
         UploadExcetionReq uploadExcetionReq = new UploadExcetionReq();
         String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
         String domainUrl;
@@ -871,7 +872,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         }
         uploadExcetionReq.setApiUrl(domainUrl);
         uploadExcetionReq.setLogType("-");
-        uploadExcetionReq.setMsg(isChangeDomain ? "切换线路" : useAgent ? "开启默认代理服务器" : "关闭默认代理服务器");
+        uploadExcetionReq.setMsg(isChangeDomain ? "切换线路" + useLinePosition : useAgent ? "开启默认代理服务器" : "关闭默认代理服务器");
         viewModel.uploadException(uploadExcetionReq);
     }
 
