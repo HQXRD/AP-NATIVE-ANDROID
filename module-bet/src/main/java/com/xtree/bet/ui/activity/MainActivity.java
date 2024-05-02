@@ -220,7 +220,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      */
     private void initDomain() {
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
-        CfLog.e("===============" + isAgent);
         int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
 
         if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
@@ -776,7 +775,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     if (!mIsFirstNetworkFinished) {
-                        CfLog.e("initFirstNetworkFinishTimer========" + mIsFirstNetworkFinished);
                         showChangeDomainTip();
                     }
                     if (firstNetworkExceptionDisposable != null) {
@@ -796,12 +794,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    CfLog.e("initFirstNetworkExceptionTimer111111========" + mIsFirstNetworkFinished);
                     if (mUploadExcetionReq != null) {
-                        CfLog.e("initFirstNetworkExceptionTimer222222========" + mIsFirstNetworkFinished);
                         showChangeDomainTip();
                         if (firstNetworkFinishedDisposable != null) {
-                            CfLog.e("initFirstNetworkExceptionTimer3333========" + mIsFirstNetworkFinished);
                             viewModel.removeSubscribe(firstNetworkFinishedDisposable);
                         }
                         viewModel.uploadException(mUploadExcetionReq);
@@ -817,7 +812,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 显示切换线路弹窗
      */
     private void showChangeDomainTip() {
-        if(changeAgentTipView != null && changeAgentTipView.isShow()){
+        boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
+        if(isAgent || (changeAgentTipView != null && changeAgentTipView.isShow())){
             return;
         }
         final String title = getString(R.string.txt_kind_tips);
