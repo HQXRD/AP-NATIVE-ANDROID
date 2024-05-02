@@ -268,17 +268,6 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
     }
 
-    private void goWebView(String title, String path) {
-        String url = DomainUtil.getDomain2() + path;
-        BrowserActivity.start(getContext(), title, url, true);
-    }
-
-    private void goWebView(View v, String path) {
-        String title = ((TextView) v).getText().toString();
-        String url = DomainUtil.getDomain2() + path;
-        BrowserActivity.start(getContext(), title, url, true);
-    }
-
     private void goWebView(View v, String path, boolean isContainTitle) {
         String title = ((TextView) v).getText().toString();
         String url = DomainUtil.getDomain2() + path;
