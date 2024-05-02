@@ -1196,7 +1196,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             webPopWindow.closeView();
             webPopWindow.setVisibility(View.GONE);
         }
-
     }
 
 }
