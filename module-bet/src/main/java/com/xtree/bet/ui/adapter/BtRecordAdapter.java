@@ -144,7 +144,11 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         BtLayoutBtRecordItemBinding binding = BtLayoutBtRecordItemBinding.bind(holder.itemView);
 
         String cg = btResult.getBetResultOption().size() > 1 ? "串关" : "单关";
-        binding.tvName.setText(mContext.getResources().getString(R.string.bt_bt_result_record_cg, cg, btResult.getCgName(), SPUtils.getInstance().getString(KEY_PLATFORM_NAME)));
+        if (btResult.getBetResultOption().size() > 1) {
+            binding.tvName.setText(mContext.getResources().getString(R.string.bt_bt_result_record_cg, cg, btResult.getCgName(), SPUtils.getInstance().getString(KEY_PLATFORM_NAME)));
+        } else {
+            binding.tvName.setText(cg + "-" + SPUtils.getInstance().getString(KEY_PLATFORM_NAME));
+        }
         binding.rvMatch.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rvMatch.setAdapter(new BtResultOptionAdapter(mContext, btResult.getBetResultOption()));
         binding.tvResultId.setText(mContext.getResources().getString(R.string.bt_bt_result_id_1, btResult.getId()));
