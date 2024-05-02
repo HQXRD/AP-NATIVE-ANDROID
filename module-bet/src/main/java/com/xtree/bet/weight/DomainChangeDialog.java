@@ -54,7 +54,7 @@ public class DomainChangeDialog extends AttachPopupView {
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_AGENT + mPlatform, isChecked);
             mICallBack.onDomainChange(isChecked, cbAgent);
         });
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!isAgent && !TextUtils.equals(mPlatform, PLATFORM_PM)) {
             rvAgent.setLayoutManager(new LinearLayoutManager(mContext));
             if(TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
                 rvAgent.setAdapter(new BtDomainAdapter(mContext, BtDomainUtil.getFbxcDomainUrl(), mICallBack, cbAgent));

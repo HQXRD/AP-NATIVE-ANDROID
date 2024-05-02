@@ -223,19 +223,19 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
 
         if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
-            if(isAgent) {
+            if (isAgent) {
                 SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getDomain());
             } else {
                 SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, BtDomainUtil.getFbxcDomainUrl().get(useLinePosition));
             }
         } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
-            if(isAgent) {
+            if (isAgent) {
                 SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getDomain());
             } else {
                 SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, BtDomainUtil.getFbxcDomainUrl().get(useLinePosition));
             }
         } else {
-            if(isAgent) {
+            if (isAgent) {
                 SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getDomain());
             } else {
                 SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDefaultPmDomainUrl());
@@ -781,6 +781,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     viewModel.removeSubscribe(firstNetworkFinishedDisposable);
                 });
         viewModel.addSubscribe(firstNetworkFinishedDisposable);
+        firstNetworkFinishedDisposable = null;
     }
 
     /**
@@ -791,12 +792,15 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    if(mUploadExcetionReq != null) {
+                    if (mUploadExcetionReq != null && !mIsFirstNetworkFinished) {
                         showChangeDomainTip();
-                        viewModel.removeSubscribe(firstNetworkFinishedDisposable);
+                        if(firstNetworkFinishedDisposable != null) {
+                            viewModel.removeSubscribe(firstNetworkFinishedDisposable);
+                        }
                         viewModel.uploadException(mUploadExcetionReq);
                         viewModel.removeSubscribe(firstNetworkExceptionDisposable);
                         mUploadExcetionReq = null;
+                        firstNetworkExceptionDisposable = null;
                     }
                 });
         viewModel.addSubscribe(firstNetworkExceptionDisposable);
@@ -812,29 +816,31 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             @Override
             public void onClickLeft() {
                 changeAgentTipView.dismiss();
+                showChangeDomainDialog();
             }
 
             @Override
             public void onClickRight() {
+                setDomain(true);
+                resetViewModel();
+                setChangeDomainVisible();
                 changeAgentTipView.dismiss();
-                showChangeDomainDialog();
             }
         }));
         changeAgentTipView.show();
     }
 
     private void showChangeDomainDialog() {
-
-            changeAgentView = new XPopup.Builder(MainActivity.this).atView(binding.ivChangeDomain).asCustom(new DomainChangeDialog(MainActivity.this, new DomainChangeDialog.ICallBack() {
-                @Override
-                public void onDomainChange(boolean isChecked, CheckBox checkBox) {
-                    checkBox.setChecked(isChecked);
-                    setDomain(isChecked);
-                    resetViewModel();
-                    setChangeDomainVisible();
-                    changeAgentView.dismiss();
-                }
-            }));
+        if (changeAgentView != null && changeAgentView.isShow()) {
+            return;
+        }
+        changeAgentView = new XPopup.Builder(MainActivity.this).atView(binding.ivChangeDomain).asCustom(new DomainChangeDialog(MainActivity.this, (isChecked, checkBox) -> {
+            checkBox.setChecked(isChecked);
+            setDomain(isChecked);
+            resetViewModel();
+            setChangeDomainVisible();
+            changeAgentView.dismiss();
+        }));
 
         changeAgentView.show();
     }
@@ -874,6 +880,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
     /**
      * 设置当前场馆所用的domain线路
+     *
      * @param isChecked
      */
     private void setDomain(boolean isChecked) {
@@ -882,22 +889,22 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             // FB体育使用线路位置
             int useLinePotion = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
 
-            if(isChecked){
-                if(TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
+            if (isChecked) {
+                if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
                     SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getDomain());
                 } else {
                     SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getDomain());
                 }
             } else {
                 CfLog.e("useLinePotion========" + useLinePotion);
-                if(TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
+                if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
                     SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, BtDomainUtil.getFbxcDomainUrl().get(useLinePotion));
                 } else {
                     SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, BtDomainUtil.getFbDomainUrl().get(useLinePotion));
                 }
             }
         } else {
-            if(isChecked){
+            if (isChecked) {
                 SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getDomain());
             } else {
                 SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDefaultPmDomainUrl());
