@@ -233,7 +233,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             if (isAgent) {
                 SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getDomain());
             } else {
-                SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, BtDomainUtil.getFbxcDomainUrl().get(useLinePosition));
+                SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, BtDomainUtil.getFbDomainUrl().get(useLinePosition));
             }
         } else {
             if (isAgent) {
@@ -776,12 +776,16 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     if (!mIsFirstNetworkFinished) {
+                        CfLog.e("initFirstNetworkFinishTimer========" + mIsFirstNetworkFinished);
                         showChangeDomainTip();
                     }
+                    if (firstNetworkExceptionDisposable != null) {
+                        viewModel.removeSubscribe(firstNetworkExceptionDisposable);
+                    }
                     viewModel.removeSubscribe(firstNetworkFinishedDisposable);
+                    firstNetworkFinishedDisposable = null;
                 });
         viewModel.addSubscribe(firstNetworkFinishedDisposable);
-        firstNetworkFinishedDisposable = null;
     }
 
     /**
@@ -792,17 +796,19 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
+                    CfLog.e("initFirstNetworkExceptionTimer111111========" + mIsFirstNetworkFinished);
                     if (mUploadExcetionReq != null) {
-                        CfLog.e("mIsFirstNetworkFinished========" + mIsFirstNetworkFinished);
+                        CfLog.e("initFirstNetworkExceptionTimer222222========" + mIsFirstNetworkFinished);
                         showChangeDomainTip();
                         if (firstNetworkFinishedDisposable != null) {
+                            CfLog.e("initFirstNetworkExceptionTimer3333========" + mIsFirstNetworkFinished);
                             viewModel.removeSubscribe(firstNetworkFinishedDisposable);
                         }
                         viewModel.uploadException(mUploadExcetionReq);
-                        viewModel.removeSubscribe(firstNetworkExceptionDisposable);
                         mUploadExcetionReq = null;
                         firstNetworkExceptionDisposable = null;
                     }
+                    viewModel.removeSubscribe(firstNetworkExceptionDisposable);
                 });
         viewModel.addSubscribe(firstNetworkExceptionDisposable);
     }
@@ -1281,6 +1287,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             mIsFirstNetworkFinished = true;
         });
         viewModel.firstNetworkExceptionData.observe(this, uploadExcetionReq -> {
+            //CfLog.e(viewModel.firstNetworkExceptionData + "=====");
             mUploadExcetionReq = uploadExcetionReq;
         });
 
