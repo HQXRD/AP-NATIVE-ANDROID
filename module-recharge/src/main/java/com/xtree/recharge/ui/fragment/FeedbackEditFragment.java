@@ -1,10 +1,13 @@
 package com.xtree.recharge.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -695,6 +698,14 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
      * 图片选择
      */
     private void gotoSelectMedia() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                Intent getpermission = new Intent();
+                getpermission.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                startActivity(getpermission);
+                return;
+            }
+        }
         PictureSelector.create(getActivity())
                 .openGallery(SelectMimeType.ofImage())
                 .isDisplayCamera(false)

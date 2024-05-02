@@ -937,6 +937,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 Intent getpermission = new Intent();
                 getpermission.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
                 startActivity(getpermission);
+                return;
             }
         }
 
@@ -958,13 +959,12 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                                 File imageRealPath = new File(imageRealPathString);
                                 if (imageRealPath.exists()) {
                                     Bitmap bitmap = BitmapFactory.decodeFile(imageRealPathString);
-                                    if (bitmap == null){
+                                    if (bitmap == null) {
                                         //未通过文件名取得bitmap
                                         ToastUtils.showError(getContext().getString(R.string.txt_read_photo_permissions));
                                         imageSelector = false;//向界面设置了选中图片
                                         return;
-                                    }
-                                    else{
+                                    } else {
                                         CfLog.i("获取图片地址是 bitmap ====== " + bitmap);
                                         binding.ivSelectorAdd.setVisibility(View.GONE);
                                         binding.ivSelectorTipImage.setVisibility(View.VISIBLE);

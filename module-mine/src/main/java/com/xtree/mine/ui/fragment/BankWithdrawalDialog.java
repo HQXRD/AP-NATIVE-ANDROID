@@ -596,16 +596,17 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             binding.bankWithdrawalView.tvWithdrawalTypeShow.setText("银行卡");
             binding.bankWithdrawalView.tvWithdrawalAmountMethod.setText(bankCardCashVo.user.cafAvailableBalance);
         } else if (binding.nsSetWithdrawalRequestMore.getVisibility() == View.VISIBLE) {
-
+            //大額提款頁面
             if (bankCardCashVo.user != null) {
                 if (bankCardCashVo.user.username != null) {
-                    binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.username);
+                    //tvUserNameShowMore
+                    binding.tvUserNameShowMore.setText(bankCardCashVo.user.username);
                 } else if (bankCardCashVo.user.nickname != null) {
-                    binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.nickname);
+                    binding.tvUserNameShowMore.setText(bankCardCashVo.user.nickname);
                 }
             } else if (mProfileVo != null) {
                 final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
-                binding.bankWithdrawalView.tvUserNameShow.setText(name);
+                binding.tvUserNameShowMore.setText(name);
             }
 
             binding.tvWithdrawalTypeShowMore.setText("银行卡");
