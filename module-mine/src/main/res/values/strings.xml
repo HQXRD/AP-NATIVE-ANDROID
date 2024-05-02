@@ -56,7 +56,7 @@
     <string name="me_register_reinput">请再次输入密码</string>
     <string name="me_choose_account">请选择账号类型</string>
     <string name="me_my_wallet">我的钱包</string>
-    <string name="me_wallet_title">平台中心余额 (元)</string>
+    <string name="me_wallet_title">平台余额</string>
     <string name="me_wallet_deposit">去存款</string>
     <string name="me_wallet_amount">0.0000</string>
     <string name="me_wallet_save">去存款</string>

@@ -989,7 +989,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textColor">@color/clr_txt_01</item>
         <item name="android:textSize">12sp</item>
     </style>
 
@@ -1119,6 +1119,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="odin_style_withdraw_confirm_ll">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>
