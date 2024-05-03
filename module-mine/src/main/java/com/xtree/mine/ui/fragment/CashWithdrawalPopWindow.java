@@ -57,7 +57,7 @@ public class CashWithdrawalPopWindow extends RelativeLayout {
     }
 
     public void closeView() {
-        if (isShow) {
+        if (isShow && floatView != null && windowManager != null) {
             windowManager.removeView(floatView);
             isShow = false;
         }

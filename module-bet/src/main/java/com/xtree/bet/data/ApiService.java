@@ -5,9 +5,11 @@ import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.response.HotLeagueInfo;
 
 import java.util.Map;
+import java.util.Objects;
 
 import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.http.BaseResponse;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -49,4 +51,12 @@ public interface ApiService {
     @POST("/api/sports/obg/getToken?cachedToken=0")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<PMService>> getPMGameTokenApi();
+
+    /**
+     * 异常日志上报
+     * @return
+     */
+    @POST("/api/sports/excaption")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<String>> uploadExcetion(@Body Map<String, String> map);
 }

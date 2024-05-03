@@ -29,7 +29,7 @@ public class ExceptionHandle {
         ResponseThrowable ex;
         if (e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
-            ex = new ResponseThrowable(e, ERROR.HTTP_ERROR);
+            ex = new ResponseThrowable(e, ERROR.HTTP_ERROR, true);
             switch (httpException.code()) {
                 case UNAUTHORIZED:
                     ex.message = "操作未授权";
@@ -61,27 +61,27 @@ public class ExceptionHandle {
             ex.message = "解析错误";
             return ex;
         } else if (e instanceof ConnectException) {
-            ex = new ResponseThrowable(e, ERROR.NETWORD_ERROR);
+            ex = new ResponseThrowable(e, ERROR.NETWORD_ERROR, true);
             ex.message = "连接失败";
             return ex;
         } else if (e instanceof javax.net.ssl.SSLException) {
-            ex = new ResponseThrowable(e, ERROR.SSL_ERROR);
+            ex = new ResponseThrowable(e, ERROR.SSL_ERROR, true);
             ex.message = "证书验证失败";
             return ex;
         } else if (e instanceof ConnectTimeoutException) {
-            ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
+            ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR, true);
             ex.message = "连接超时";
             return ex;
         } else if (e instanceof java.net.SocketTimeoutException) {
-            ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
+            ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR, true);
             ex.message = "连接超时";
             return ex;
         } else if (e instanceof java.net.UnknownHostException) {
-            ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
+            ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR, true);
             ex.message = "主机地址未知";
             return ex;
         }  else if (e instanceof NullPointerException) {
-            ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR);
+            ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR, true);
             ex.message = "主机地址未知";
             return ex;
         }

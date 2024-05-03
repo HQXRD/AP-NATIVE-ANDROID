@@ -117,7 +117,7 @@ public class TipDialog extends CenterPopupView {
         }
         if (!TextUtils.isEmpty(txtLeft)) {
             binding.tvwLeft.setText(txtLeft);
-            if (!txtLeft.equals(getContext().getString(R.string.txt_cancel))) {
+            if (!txtLeft.equals(getContext().getString(R.string.txt_cancel)) && !TextUtils.equals(txtLeft, "继续等待")) {
                 binding.tvwLeft.setBackground(getContext().getDrawable(R.drawable.bg_btn_selector));
                 binding.tvwLeft.setTextColor(getResources().getColor(R.color.clr_text_code_selector));
             }

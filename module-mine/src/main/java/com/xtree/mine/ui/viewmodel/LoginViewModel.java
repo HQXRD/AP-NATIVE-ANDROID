@@ -10,6 +10,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
 import com.xtree.base.utils.UuidUtil;
@@ -189,51 +190,4 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                 });
         addSubscribe(disposable);
     }
-
-    public void getFBGameTokenApi() {
-        Disposable disposable = (Disposable) model.getApiService().getFBGameTokenApi()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<FBService>() {
-                    @Override
-                    public void onResult(FBService fbService) {
-                        SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
-                        SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
-                        KLog.e("========fbService.getToken()======" + fbService.getToken());
-                        //finish();
-                        getPMGameTokenApi();
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);
-    }
-
-    public void getPMGameTokenApi() {
-        Disposable disposable = (Disposable) model.getApiService().getPMGameTokenApi()
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<PMService>() {
-                    @Override
-                    public void onResult(PMService pmService) {
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
-                        KLog.e("========pmService.getToken()======" + pmService.getToken());
-                        //finish();
-                        //liveDataLogin.setValue(null); // 登录成功,重新打开APP
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);
-    }
-
 }

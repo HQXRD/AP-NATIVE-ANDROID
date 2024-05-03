@@ -1,5 +1,6 @@
 package com.xtree.base.widget;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,15 +37,12 @@ import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
-import com.lxj.xpopup.XPopup;
-import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.R;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
-import com.xtree.base.utils.TimeUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -52,7 +50,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
-import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
@@ -95,6 +92,7 @@ public class BrowserActivity extends AppCompatActivity {
     boolean isGame = false; // 三方游戏, 不需要header和token
     boolean is3rdLink = false; // 是否跳转到三方链接(如果是,就不用带header和cookie了)
     boolean isFirstLoad = true; // 是否头一次打开当前网页,加载cookie时用
+    boolean isFirstOpenBrowser = true; // 是否第一次打开webView组件(解决第一次打开webView时传递header/cookie/token失效)
     String token; // token
 
     ValueCallback<Uri> mUploadCallbackBelow;
@@ -114,6 +112,7 @@ public class BrowserActivity extends AppCompatActivity {
         is3rdLink = getIntent().getBooleanExtra(ARG_IS_3RD_LINK, false);
         isHideTitle = getIntent().getBooleanExtra(ARG_IS_HIDE_TITLE, false);
         token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        isFirstOpenBrowser = SPUtils.getInstance().getBoolean(SPKeyGlobal.IS_FIRST_OPEN_BROWSER, true);
 
         if (isHideTitle) {
             clTitle.setVisibility(View.GONE);
@@ -166,8 +165,16 @@ public class BrowserActivity extends AppCompatActivity {
         }
         CfLog.d("header: " + header); // new Gson().toJson(header)
         url = getIntent().getStringExtra("url");
+
+        if (isFirstOpenBrowser) {
+            String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
+            url = DomainUtil.getDomain() + "/static/sessionkeeper.html?token=" + token
+                    + "&tokenExpires=3600&url=" + urlBase64;
+            SPUtils.getInstance().put(SPKeyGlobal.IS_FIRST_OPEN_BROWSER, false);
+        }
+
         mWebView.addJavascriptInterface(new WebAppInterface(this, ivwBack, () -> finish()), "android");
-        setWebCookie();
+        //setWebCookie();
         //setCookie(cookie, url); // 设置 cookie
         Uri uri = getIntent().getData();
         if (uri != null && TextUtils.isEmpty(url)) {
@@ -345,26 +352,19 @@ public class BrowserActivity extends AppCompatActivity {
     }
 
     private void tipSsl(WebView view, SslErrorHandler handler) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        builder.setMessage(R.string.ssl_failed_will_u_continue); // SSL认证失败，是否继续访问？
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                handler.proceed();// 接受https所有网站的证书
+        Activity activity = (Activity) view.getContext();
+        activity.runOnUiThread(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setMessage(R.string.ssl_failed_will_u_continue); // SSL认证失败，是否继续访问？
+            builder.setPositiveButton(R.string.ok, (dialog, which) -> handler.proceed()); // 接受https所有网站的证书
+
+            builder.setNegativeButton(R.string.cancel, (dialog, which) -> handler.cancel());
+
+            AlertDialog dialog = builder.create();
+            if (!isFinishing()) {
+                dialog.show();
             }
         });
-
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                handler.cancel();
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        if (!isFinishing()) {
-            dialog.show();
-        }
     }
 
     private void setWebView(WebView webView) {
@@ -540,48 +540,48 @@ public class BrowserActivity extends AppCompatActivity {
     public static void start(Context ctx, String title, String url, boolean isContainTitle) {
         CfLog.i(title + ", isContainTitle: " + isContainTitle + ", url: " + url);
         Intent it = new Intent(ctx, BrowserActivity.class);
-        it.putExtra(BrowserActivity.ARG_TITLE, title);
-        it.putExtra(BrowserActivity.ARG_URL, url);
-        it.putExtra(BrowserActivity.ARG_IS_CONTAIN_TITLE, isContainTitle);
+        it.putExtra(ARG_TITLE, title);
+        it.putExtra(ARG_URL, url);
+        it.putExtra(ARG_IS_CONTAIN_TITLE, isContainTitle);
         ctx.startActivity(it);
     }
 
     public static void start(Context ctx, String title, String url) {
         CfLog.i(title + ", isContainTitle: " + false + ", url: " + url);
         Intent it = new Intent(ctx, BrowserActivity.class);
-        it.putExtra(BrowserActivity.ARG_TITLE, title);
-        it.putExtra(BrowserActivity.ARG_URL, url);
-        it.putExtra(BrowserActivity.ARG_IS_CONTAIN_TITLE, false);
+        it.putExtra(ARG_TITLE, title);
+        it.putExtra(ARG_URL, url);
+        it.putExtra(ARG_IS_CONTAIN_TITLE, false);
         ctx.startActivity(it);
     }
 
     public static void start(Context ctx, String title, String url, boolean isContainTitle, boolean isGame) {
         CfLog.i(title + ", isContainTitle: " + false + ", url: " + url);
         Intent it = new Intent(ctx, BrowserActivity.class);
-        it.putExtra(BrowserActivity.ARG_TITLE, title);
-        it.putExtra(BrowserActivity.ARG_URL, url);
-        it.putExtra(BrowserActivity.ARG_IS_CONTAIN_TITLE, isContainTitle);
-        it.putExtra(BrowserActivity.ARG_IS_GAME, isGame);
+        it.putExtra(ARG_TITLE, title);
+        it.putExtra(ARG_URL, url);
+        it.putExtra(ARG_IS_CONTAIN_TITLE, isContainTitle);
+        it.putExtra(ARG_IS_GAME, isGame);
         ctx.startActivity(it);
     }
 
     public static void start(Context ctx, String title, String url, boolean isContainTitle, boolean isGame, boolean isShowLoading) {
         CfLog.i(title + ", isContainTitle: " + false + ", url: " + url);
         Intent it = new Intent(ctx, BrowserActivity.class);
-        it.putExtra(BrowserActivity.ARG_TITLE, title);
-        it.putExtra(BrowserActivity.ARG_URL, url);
-        it.putExtra(BrowserActivity.ARG_IS_CONTAIN_TITLE, isContainTitle);
-        it.putExtra(BrowserActivity.ARG_IS_GAME, isGame);
-        it.putExtra(BrowserActivity.ARG_IS_SHOW_LOADING, isShowLoading);
+        it.putExtra(ARG_TITLE, title);
+        it.putExtra(ARG_URL, url);
+        it.putExtra(ARG_IS_CONTAIN_TITLE, isContainTitle);
+        it.putExtra(ARG_IS_GAME, isGame);
+        it.putExtra(ARG_IS_SHOW_LOADING, isShowLoading);
         ctx.startActivity(it);
     }
 
     public static void start(Context ctx, String url) {
         CfLog.i("url: " + url);
         Intent it = new Intent(ctx, BrowserActivity.class);
-        it.putExtra(BrowserActivity.ARG_URL, url);
-        it.putExtra(BrowserActivity.ARG_IS_HIDE_TITLE, true);
-        //it.putExtra(BrowserActivity.ARG_IS_SHOW_LOADING, true);
+        it.putExtra(ARG_URL, url);
+        it.putExtra(ARG_IS_HIDE_TITLE, true);
+        //it.putExtra(ARG_IS_SHOW_LOADING, true);
         ctx.startActivity(it);
     }
 

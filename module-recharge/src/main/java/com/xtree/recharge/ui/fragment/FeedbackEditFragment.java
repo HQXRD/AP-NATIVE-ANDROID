@@ -1,10 +1,13 @@
 package com.xtree.recharge.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -695,6 +698,14 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
      * 图片选择
      */
     private void gotoSelectMedia() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                Intent getpermission = new Intent();
+                getpermission.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                startActivity(getpermission);
+                return;
+            }
+        }
         PictureSelector.create(getActivity())
                 .openGallery(SelectMimeType.ofImage())
                 .isDisplayCamera(false)
@@ -713,11 +724,18 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
                                 File imageRealPath = new File(imageRealPathString);
 
                                 if (imageRealPath.exists()) {
-                                    CfLog.i("获取图片地址Base64 ===== " + ImageUploadUtil.bitmapToString(imageRealPathString));
                                     Bitmap bitmap = BitmapFactory.decodeFile(imageRealPathString);
-                                    binding.ivSelectorTipImage.setVisibility(View.VISIBLE);
-                                    binding.ivSelectorTipImage.setImageBitmap(bitmap);
-                                    imageSelector = true;//向界面设置了选中图片
+                                    if (bitmap == null) {
+                                        //未通过文件名取得bitmap
+                                        ToastUtils.showError(getContext().getString(R.string.txt_read_photo_permissions));
+                                        imageSelector = false;//向界面设置了选中图片
+                                        return;
+                                    } else {
+                                        binding.ivSelectorTipImage.setVisibility(View.VISIBLE);
+                                        binding.ivSelectorTipImage.setImageBitmap(bitmap);
+                                        imageSelector = true;//向界面设置了选中图片
+                                    }
+
                                 } else {
                                     CfLog.i("获取图片地址不存在是 ====== " + result.get(i).getRealPath());
                                 }

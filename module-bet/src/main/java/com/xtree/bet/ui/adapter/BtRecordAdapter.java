@@ -122,7 +122,7 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         }
 
         BtLayoutBtRecordTimeBinding binding = BtLayoutBtRecordTimeBinding.bind(holder.itemView);
-        binding.tvName.setText(TimeUtils.longFormatString(btRecordTime.getTime(), TimeUtils.FORMAT_MM_DD_1));
+        binding.tvName.setText(TimeUtils.longFormatString(btRecordTime.getTime(), TimeUtils.FORMAT_YY_MM_DD));
         return convertView;
     }
 
@@ -147,7 +147,7 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         if (btResult.getBetResultOption().size() > 1) {
             binding.tvName.setText(mContext.getResources().getString(R.string.bt_bt_result_record_cg, cg, btResult.getCgName(), SPUtils.getInstance().getString(KEY_PLATFORM_NAME)));
         } else {
-            binding.tvName.setText(cg);
+            binding.tvName.setText(cg + "-" + SPUtils.getInstance().getString(KEY_PLATFORM_NAME));
         }
         binding.rvMatch.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rvMatch.setAdapter(new BtResultOptionAdapter(mContext, btResult.getBetResultOption()));
@@ -200,7 +200,11 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
             binding.clSettlement.setVisibility(View.VISIBLE);
             binding.clAdSettlement.setVisibility(View.GONE);
             binding.tvAmount.setText(mContext.getResources().getString(R.string.bt_bt_result_bt_amount_1, String.valueOf(btResult.getBtAmount())));
-            binding.tvWin.setText(mContext.getResources().getString(R.string.bt_bt_result_win_1, String.valueOf(btResult.getBtWin())));
+            if(btResult.getStatus() == 5){ // 已结算
+                binding.tvWin.setText(mContext.getResources().getString(R.string.bt_bt_result_win_2, String.valueOf(btResult.userWin())));
+            }else {
+                binding.tvWin.setText(mContext.getResources().getString(R.string.bt_bt_result_win_1, String.valueOf(btResult.getBtWin())));
+            }
         }
         return convertView;
     }

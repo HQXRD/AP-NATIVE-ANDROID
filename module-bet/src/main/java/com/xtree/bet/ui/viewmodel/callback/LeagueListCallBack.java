@@ -2,12 +2,17 @@ package com.xtree.bet.ui.viewmodel.callback;
 
 import static com.xtree.base.net.FBHttpCallBack.CodeRule.CODE_14010;
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
 
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.bet.R;
+import com.xtree.bet.bean.request.UploadExcetionReq;
 import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.response.fb.MatchListRsp;
 import com.xtree.bet.bean.ui.League;
@@ -143,6 +148,7 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
             }
             return;
         }
+        mViewModel.firstNetworkFinishData.call();
         synchronized (this) {
             if(mIsRefresh){
                 mNoLiveheaderLeague = null;
@@ -194,25 +200,33 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
                 mIsStepSecond = false;
             }
             mHasCache = false;
-
-            //CfLog.e("=========getLeagueList========" + sportId + "========" + mLeagueList.size());
         }
     }
 
     @Override
     public void onError(Throwable t) {
         if (t instanceof ResponseThrowable) {
-            if (((ResponseThrowable) t).code == CODE_14010) {
+            if(((ResponseThrowable) t).isHttpError){
+                UploadExcetionReq uploadExcetionReq = new UploadExcetionReq();
+                String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+                String domainUrl = null;
+                if (TextUtils.equals(platform, PLATFORM_FBXC)) {
+                    domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_API_SERVICE_URL);
+                    uploadExcetionReq.setLogTag("fbxc_url_error");
+                } else if (TextUtils.equals(platform, PLATFORM_FB)) {
+                    domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.FB_API_SERVICE_URL);
+                    uploadExcetionReq.setLogTag("fb_url_error");
+                }
+                uploadExcetionReq.setApiUrl(domainUrl);
+                uploadExcetionReq.setLogType("" + ((ResponseThrowable) t).code);
+                uploadExcetionReq.setMsg(((ResponseThrowable) t).message);
+                mViewModel.firstNetworkExceptionData.postValue(uploadExcetionReq);
+            }else if (((ResponseThrowable) t).code == CODE_14010) {
                 mViewModel.getGameTokenApi();
             } else {
                 mViewModel.getLeagueList(mSportPos, mSportId, mOrderBy, mLeagueIds, mMatchids, mPlayMethodType, mSearchDatePos, mOddType, mIsTimerRefresh, mIsRefresh, mIsStepSecond);
             }
         }
-                        /*if (isRefresh) {
-        finishRefresh(false);
-    } else {
-        finishLoadMore(false);
-    }*/
     }
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {
@@ -237,7 +251,6 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
                 mapLeague.put(String.valueOf(matchInfo.lg.id), league);
 
                 mGoingOnLeagueList.add(league);
-                //mMapGoingOnLeague.put(String.valueOf(matchInfo.lg.id), league);
             }
 
             league.getMatchList().add(match);

@@ -15,15 +15,18 @@ import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
@@ -41,6 +44,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 import project.tqyb.com.library_res.databinding.ItemTextBinding;
@@ -53,8 +57,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
     private LifecycleOwner owner;
     ChooseWithdrawViewModel viewModel;
     private ChooseInfoVo.ChannelInfo channelInfo;
-    ArrayList<USDTCashVo.Usdtinfo> usdtinfoTRC = new ArrayList<>(); //TRC20地址 仅用于钱包
-    private USDTCashVo.Usdtinfo selectUsdtInfo;//选中的支付
+    ArrayList<USDTCashVo.USDTInfo> usdtinfoTRC = new ArrayList<>(); //TRC20地址 仅用于钱包
+    private USDTCashVo.USDTInfo selectUsdtInfo;//选中的支付
     private USDTCashVo.Channel firstChannel, secondChannel;
 
     private USDTCashVo usdtCashVo;
@@ -68,6 +72,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
     @NonNull
     DialogBankWithdrawalUsdtBinding binding;
     private String usdtid;//第二步传递的 提款地址ide id
+    private ProfileVo mProfileVo;
 
     public USDTWithdrawalDialog(@NonNull Context context) {
         super(context);
@@ -100,6 +105,9 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         initData();
         initViewObservable();
         requestData();
+
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        mProfileVo = new Gson().fromJson(json, ProfileVo.class);
 
     }
 
@@ -140,18 +148,6 @@ public class USDTWithdrawalDialog extends BottomPopupView {
                 //"message": "您今天已没有可用提款次数"
                 refreshError(usdtCashVo.message);
             }
-          /*  //异常
-            else if (usdtCashVo.msg_type == 2 || usdtCashVo.msg_type == 1) {
-                final String leftString = getContext().getString(R.string.txt_no_withdrawals_available_tip);
-
-                if (TextUtils.equals(leftString, usdtCashVo.message)) {
-                    refreshError(usdtCashVo.message);
-                } else {
-                    ToastUtils.show(usdtCashVo.message, ToastUtils.ShowType.Fail);
-                    dismiss();
-                }
-                return;
-            }*/
             // 提现选项卡不能为空
             else if (usdtCashVo.channel_list == null || usdtCashVo.channel_list.isEmpty() ||
                     usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()) {
@@ -212,7 +208,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         CfLog.i("requestData =" + channelInfo.toString());
         viewModel.getChooseWithdrawUSDT(map);
     }
-    private void  initNoticeView(){
+
+    private void initNoticeView() {
         final String notice = "<font color=#EE5A5A>注意:</font>";
         String times, count, startTime, endTime, rest;
         times = "<font color=#EE5A5A>" + String.valueOf(usdtCashVo.times) + "</font>";
@@ -226,12 +223,14 @@ public class USDTWithdrawalDialog extends BottomPopupView {
 
         binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
     }
+
     /**
      * 刷新初始UI
      */
     private void refreshSetUI() {
         binding.llSetRequestView.setVisibility(View.VISIBLE);
         if (usdtCashVo.channel_list.size() == 1) {
+            binding.llOtherUsdt.setVisibility(View.GONE);
             binding.tvVirtualUsdt.setText(usdtCashVo.channel_list.get(0).title);
             binding.tvVirtualOther.setVisibility(View.GONE);
             firstChannel = usdtCashVo.channel_list.get(0);
@@ -243,7 +242,17 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         }
 
         initNoticeView();
-        binding.tvUserNameShow.setText(usdtCashVo.user.username);
+        if (usdtCashVo.user != null) {
+            if (usdtCashVo.user.username != null) {
+                binding.tvUserNameShow.setText(usdtCashVo.user.username);
+            } else if (usdtCashVo.user.nickname != null) {
+                binding.tvUserNameShow.setText(usdtCashVo.user.nickname);
+            }
+        } else if (mProfileVo != null) {
+            final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
+            binding.tvUserNameShow.setText(name);
+        }
+
         binding.tvWithdrawalTypeShow.setText("USDT");//提款类型
 
         // binding.tvWithdrawalAmountMethod.setText(usdtCashVo.channel_list.get(0).title);//设置收款USDT账户 firstChannel
@@ -422,7 +431,18 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         }
         binding.llSetRequestView.setVisibility(View.GONE);
         binding.llVirtualConfirmView.setVisibility(View.VISIBLE);
-        binding.tvConfirmWithdrawalAmount.setText(usdtCashVo.user.username);
+
+        if (usdtCashVo.user != null) {
+            if (usdtCashVo.user.username != null) {
+                binding.tvConfirmWithdrawalAmount.setText(usdtCashVo.user.username);
+            } else if (usdtCashVo.user.nickname != null) {
+                binding.tvConfirmWithdrawalAmount.setText(usdtCashVo.user.nickname);
+            }
+        } else if (mProfileVo != null) {
+            final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
+            binding.tvConfirmWithdrawalAmount.setText(name);
+        }
+
         binding.tvConfirmWithdrawalTypeShow.setText(StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.user.availablebalance)));
         binding.tvConfirmAmountShow.setText(usdtSecurityVo.usdt_type);
         binding.tvWithdrawalVirtualTypeShow.setText(usdtSecurityVo.usdt_type);
@@ -505,8 +525,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         }
     }
 
-    private void showCollectionDialog(ArrayList<USDTCashVo.Usdtinfo> list) {
-        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<USDTCashVo.Usdtinfo>() {
+    private void showCollectionDialog(ArrayList<USDTCashVo.USDTInfo> list) {
+        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<USDTCashVo.USDTInfo>() {
             @NonNull
             @Override
             public CacheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -517,7 +537,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             @Override
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
-                USDTCashVo.Usdtinfo vo = get(position);
+                USDTCashVo.USDTInfo vo = get(position);
                 selectUsdtInfo = vo;
                 String showMessage = vo.usdt_type + " " + vo.usdt_card;
 

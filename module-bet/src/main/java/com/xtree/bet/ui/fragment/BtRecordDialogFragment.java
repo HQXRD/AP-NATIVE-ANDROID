@@ -161,7 +161,7 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
                 long position = binding.rvRecord.getExpandableListPosition(firstVisibleItem);
                 int groupPosition = binding.rvRecord.getPackedPositionGroup(position);
                 if (tvHeaderName != null && groupPosition != -1) {
-                    tvHeaderName.setText(TimeUtils.longFormatString(btRecordTimes.get(groupPosition).getTime(), TimeUtils.FORMAT_MM_DD_1));
+                    tvHeaderName.setText(TimeUtils.longFormatString(btRecordTimes.get(groupPosition).getTime(), TimeUtils.FORMAT_YY_MM_DD));
                 }
             }
         });

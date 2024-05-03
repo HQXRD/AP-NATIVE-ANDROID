@@ -27,7 +27,8 @@
     <string name="bt_bt_result_bt_ad_settle_result">输/赢：%1$s元</string>
     <string name="bt_bt_result_bt_ad_settle_back">提前兑换返还：%1$s元</string>
     <string name="bt_bt_result_win">可赢金额</string>
-    <string name="bt_bt_result_win_1">可赢金额：%1$s元</string>
+    <string name="bt_bt_result_win_1">最高可赢：%1$s元</string>
+    <string name="bt_bt_result_win_2">输赢：%1$s元</string>
     <string name="bt_bt_result_record">流水：%1$s元</string>
     <string name="bt_bt_result_record_cg">%1$s(%2$s)-%3$s</string>
     <string name="bt_bt_result_record_match_time">比赛时间：%1$s</string>

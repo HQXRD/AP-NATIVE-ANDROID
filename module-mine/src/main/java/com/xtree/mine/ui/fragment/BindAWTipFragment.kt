@@ -26,29 +26,28 @@ class BindAWTipFragment : BaseFragment<FragmentAwTipBinding, BindCardViewModel>(
         when (requireArguments().getString(ARG_MARK)) {
             getString(R.string.txt_bind_zfb_type) -> {
                 binding.tvwTitle.text = getString(R.string.txt_bind_alipay)
-                binding.ivBg.setImageResource(R.mipmap.alipay_tip)
+                binding.ivBg.setImageResource(R.mipmap.me_alipay_tip)
             }
 
             getString(R.string.txt_bind_wechat_type) -> {
                 binding.tvwTitle.text = getString(R.string.txt_bind_wechat)
-                binding.ivBg.setImageResource(R.mipmap.wechat_tip)
+                binding.ivBg.setImageResource(R.mipmap.me_wechat_tip)
             }
         }
     }
 
-
-        override fun initContentView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): Int {
-            return R.layout.fragment_aw_tip
-        }
-
-        override fun initVariableId(): Int {
-            return BR.viewModel
-        }
-
-        override fun initViewModel(): BindCardViewModel {
-            val factory = AppViewModelFactory.getInstance(requireActivity().application)
-            return ViewModelProvider(this, factory)[BindCardViewModel::class.java]
-        }
-
-
+    override fun initContentView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): Int {
+        return R.layout.fragment_aw_tip
     }
+
+    override fun initVariableId(): Int {
+        return BR.viewModel
+    }
+
+    override fun initViewModel(): BindCardViewModel {
+        val factory = AppViewModelFactory.getInstance(requireActivity().application)
+        return ViewModelProvider(this, factory)[BindCardViewModel::class.java]
+    }
+
+
+}

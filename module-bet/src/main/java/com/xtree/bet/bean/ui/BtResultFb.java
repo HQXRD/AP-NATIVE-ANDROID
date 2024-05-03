@@ -44,9 +44,31 @@ public class BtResultFb implements BtResult {
         return btResultInfo.id;
     }
 
+    /**
+     * 是否下单成功
+     * @return
+     */
     @Override
     public boolean isSuccessed() {
         return !(btResultInfo.st == 2 || btResultInfo.st == 3);
+    }
+
+    /**
+     * 注单是否已结算
+     * @return
+     */
+    @Override
+    public boolean isSettled() {
+        return btResultInfo.st == 2 || btResultInfo.st == 3 || btResultInfo.st == 5;
+    }
+
+    /**
+     * 已结算注单用户输赢
+     * @return
+     */
+    @Override
+    public double userWin() {
+        return Double.valueOf(btResultInfo.uwl);
     }
 
     @Override

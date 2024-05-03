@@ -1,6 +1,9 @@
 package com.xtree.home.vo;
 
-public class AugVo {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class AugVo implements Parcelable {
 
     private String id;
     private String cid;
@@ -101,4 +104,60 @@ public class AugVo {
         this.one_level = one_level;
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.cid);
+        dest.writeString(this.code);
+        dest.writeString(this.project_code);
+        dest.writeString(this.cn_name);
+        dest.writeString(this.pt_name);
+        dest.writeString(this.effective_ratio);
+        dest.writeString(this.flash_url);
+        dest.writeString(this.one_level);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.id = source.readString();
+        this.cid = source.readString();
+        this.code = source.readString();
+        this.project_code = source.readString();
+        this.cn_name = source.readString();
+        this.pt_name = source.readString();
+        this.effective_ratio = source.readString();
+        this.flash_url = source.readString();
+        this.one_level = source.readString();
+    }
+
+    public AugVo() {
+    }
+
+    protected AugVo(Parcel in) {
+        this.id = in.readString();
+        this.cid = in.readString();
+        this.code = in.readString();
+        this.project_code = in.readString();
+        this.cn_name = in.readString();
+        this.pt_name = in.readString();
+        this.effective_ratio = in.readString();
+        this.flash_url = in.readString();
+        this.one_level = in.readString();
+    }
+
+    public static final Parcelable.Creator<AugVo> CREATOR = new Parcelable.Creator<AugVo>() {
+        @Override
+        public AugVo createFromParcel(Parcel source) {
+            return new AugVo(source);
+        }
+
+        @Override
+        public AugVo[] newArray(int size) {
+            return new AugVo[size];
+        }
+    };
 }

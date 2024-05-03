@@ -14,11 +14,17 @@ public class HttpDataSourceImpl implements HttpDataSource {
     private FBApiService apiService;
     private volatile static HttpDataSourceImpl INSTANCE = null;
 
-    public static HttpDataSourceImpl getInstance(FBApiService apiService, ApiService baseApiService) {
-        if (INSTANCE == null) {
+    public static HttpDataSourceImpl getInstance(FBApiService apiService, ApiService baseApiService, boolean reNew) {
+        if(reNew){
             synchronized (HttpDataSourceImpl.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new HttpDataSourceImpl(apiService, baseApiService);
+                INSTANCE = new HttpDataSourceImpl(apiService, baseApiService);
+            }
+        }else {
+            if (INSTANCE == null) {
+                synchronized (HttpDataSourceImpl.class) {
+                    if (INSTANCE == null) {
+                        INSTANCE = new HttpDataSourceImpl(apiService, baseApiService);
+                    }
                 }
             }
         }

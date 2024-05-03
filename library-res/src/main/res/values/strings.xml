@@ -96,7 +96,7 @@
 
     <string name="txt_all_status">所有状态</string>
     <string name="txt_received">已到账</string>
-    <string name="txt_unreceived">未到账</string>
+    <string name="txt_unreceived">未领取</string>
 
     <string name="txt_rebate_ty">体育返水</string>
     <string name="txt_rebate_zr">真人返水</string>
@@ -228,4 +228,6 @@
     <string name="txt_precautions">注意事项</string>
     <bool name="is_tag">false</bool>
     <string name="txt_withdrawal_virtual_tip">收款账号</string>
+
+    <string name="txt_read_photo_permissions">未获得读取文件权限,请您设置通过相关权限</string>
 </resources>

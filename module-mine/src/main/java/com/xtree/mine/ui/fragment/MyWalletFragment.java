@@ -21,6 +21,7 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.MsgDialog;
@@ -85,6 +86,10 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
     @Override
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
+
+        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
+
+        binding.ivwMsg.setOnClickListener(v -> startContainerFragment(RouterFragmentPath.Mine.PAGER_MSG));
 
         binding.ivwRefreshBlc.setOnClickListener(v -> {
             viewModel.getBalance();

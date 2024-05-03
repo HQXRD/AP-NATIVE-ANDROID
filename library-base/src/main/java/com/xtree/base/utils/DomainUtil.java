@@ -2,10 +2,12 @@ package com.xtree.base.utils;
 
 import android.text.TextUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DomainUtil {
 
     private static String domainUrl = "https://www.weres.bar/";
-
     public static String getDomain() {
 
         //domainUrl = "https://app1.dhtjf656.com/";
@@ -30,5 +32,4 @@ public class DomainUtil {
             CfLog.i("domainUrl: " + domainUrl);
         }
     }
-
 }

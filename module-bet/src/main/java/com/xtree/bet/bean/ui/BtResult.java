@@ -29,6 +29,16 @@ public interface BtResult extends BaseBean {
      */
     boolean isSuccessed();
     /**
+     * 是否已结算
+     * @return
+     */
+    boolean isSettled();
+    /**
+     * 已结算注单用户输赢
+     * @return
+     */
+    double userWin();
+    /**
      * 获取串关名称，如2串1
      * @return
      */

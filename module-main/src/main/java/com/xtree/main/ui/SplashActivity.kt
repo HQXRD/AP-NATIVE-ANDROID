@@ -151,7 +151,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
             }
             viewModel = null
             initViewDataBinding(mSavedInstanceState)
-            viewModel?.setModel(AppViewModelFactory.getInstance(application).getmRepository())
+            viewModel?.setModel(AppViewModelFactory.getInstance(application).getRepository())
             val token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN)
             if (!TextUtils.isEmpty(token)) {
                 CfLog.i("getFBGameTokenApi init")

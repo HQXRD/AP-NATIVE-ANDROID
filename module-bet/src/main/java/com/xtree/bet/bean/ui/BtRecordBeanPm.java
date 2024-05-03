@@ -49,6 +49,16 @@ public class BtRecordBeanPm implements BtResult {
     }
 
     @Override
+    public boolean isSettled() {
+        return Integer.valueOf(recordsBean.orderStatus) == 1 || Integer.valueOf(recordsBean.orderStatus) == 2 || Integer.valueOf(recordsBean.orderStatus) == 4;
+    }
+
+    @Override
+    public double userWin() {
+        return recordsBean.profitAmount;
+    }
+
+    @Override
     public String getCgName() {
         if(recordsBean == null){
             return "";

@@ -46,6 +46,16 @@ public class BtResultPm implements BtResult {
     }
 
     @Override
+    public boolean isSettled() {
+        return false;
+    }
+
+    @Override
+    public double userWin() {
+        return 0;
+    }
+
+    @Override
     public String getCgName() {
         if(seriesOrderInfo == null){
             return "";

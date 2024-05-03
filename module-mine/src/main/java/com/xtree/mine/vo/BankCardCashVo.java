@@ -10,6 +10,7 @@ import me.xtree.mvvmhabit.http.BaseResponse2;
  * 银行卡取现
  */
 public class BankCardCashVo extends BaseResponse2 {
+
     public String exchangerate;
     public String withdraw_rand_on;
     public int freeWithDrawTimes;
@@ -47,6 +48,7 @@ public class BankCardCashVo extends BaseResponse2 {
      * 用户信息  用户名【username】 提款类型 可提款金额【availablebalance】
      */
     public static class UserInfo {
+        public String nickname; //新增nickname字段
         public String userid;
         public String username;
         public double availablebalance;

@@ -33,8 +33,7 @@ public class StringUtils {
         return initials;
     }
 
-    public static  boolean isInteger(String value)
-    {
+    public static boolean isInteger(String value) {
         try {
             Integer.parseInt(value);
             return true;

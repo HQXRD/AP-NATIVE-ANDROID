@@ -4,12 +4,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bt_page_bg"
+        android:background="@mipmap/cm_bg_page"
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:elevation="3dp"
             android:paddingTop="12dp"
             android:paddingBottom="12dp">
 
@@ -29,6 +31,25 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ivw_cs"
+                    style="@style/style_ic_title_right"
+                    android:src="@mipmap/cm_ic_cs" />
+
+                <ImageView
+                    android:id="@+id/ivw_msg"
+                    style="@style/style_ic_title_right"
+                    android:src="@mipmap/cm_ic_msg" />
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
@@ -38,6 +59,7 @@
             android:layout_marginTop="@dimen/layout_margin"
             android:layout_marginRight="@dimen/layout_margin"
             android:background="@drawable/bg_white_6"
+            android:elevation="3dp"
             android:orientation="vertical"
             android:paddingBottom="10dp">
 
@@ -170,6 +192,7 @@
             android:layout_marginTop="@dimen/layout_margin"
             android:layout_marginEnd="@dimen/layout_margin"
             android:background="@drawable/bg_white_6"
+            android:elevation="3dp"
             android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/me_wallet_center">

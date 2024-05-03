@@ -88,7 +88,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                                 for (int i = 0; i < chooseInfoVo.wdChannelList.size(); i++) {
                                     if (chooseInfoVo.wdChannelList.get(i).configkey.contains("usdt")
                                             || chooseInfoVo.wdChannelList.get(i).title.contains("USDT提款")) {
-                                        chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gcnyt_type);
+                                        chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_usdt_type);
                                         chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.usdtchanneluse_msg;
                                         if (chooseInfoVo.bankcardstatus_usdt) {
                                             chooseInfoVo.wdChannelList.get(i).channeluse = 1;
@@ -212,11 +212,11 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                                         }
                                     }
 
-                                    chooseInfoVoMutableLiveData.setValue(chooseInfoVo);
+                                    // chooseInfoVoMutableLiveData.setValue(chooseInfoVo);
                                 }
+                                chooseInfoVoMutableLiveData.setValue(chooseInfoVo);
                             }
 
-                            chooseInfoVoMutableLiveData.setValue(chooseInfoVo);
                         }
                     }
 
@@ -260,23 +260,35 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<BankCardCashVo>() {
                     @Override
                     public void onResult(BankCardCashVo bankCardCashVo) {
-                        for (int i = 0; i < bankCardCashVo.channel_list.size(); i++) {
-                            BankCardCashVo.ChannelVo cv = bankCardCashVo.channel_list.get(i);
-                            if (!(cv.fixamount_list instanceof String)) {
-                                //针对多金额选项数据封装
-                                for (int j = 0; j < ((ArrayList) cv.fixamount_list).size(); j++) {
-                                    bankCardCashVo.channel_list.get(i).fixamountList.add(((ArrayList) cv.fixamount_list).get(j).toString());
-                                }
-                            } else {
+                        if (bankCardCashVo.channel_list.size() != 0) {
+                            for (int i = 0; i < bankCardCashVo.channel_list.size(); i++) {
+                                BankCardCashVo.ChannelVo cv = bankCardCashVo.channel_list.get(i);
+                                if (!(cv.fixamount_list instanceof String)) {
+                                    //针对多金额选项数据封装
+                                    for (int j = 0; j < ((ArrayList) cv.fixamount_list).size(); j++) {
+                                        bankCardCashVo.channel_list.get(i).fixamountList.add(((ArrayList) cv.fixamount_list).get(j).toString());
+                                    }
+                                } else {
 
-                            }
-                            if (bankCardCashVo.channel_list.get(i).thiriframe_use == 1) {
-                                bankCardCashVo.channel_list.get(i).isWebView = 1;//需要展示webView页面
-                            } else {
-                                bankCardCashVo.channel_list.get(i).isWebView = 2;//需要展示webView页面
+                                }
+                                if (bankCardCashVo.channel_list.get(i).thiriframe_use == 1) {
+                                    bankCardCashVo.channel_list.get(i).isWebView = 1;//需要展示webView页面
+                                } else {
+                                    bankCardCashVo.channel_list.get(i).isWebView = 2;//需要展示webView页面
+                                }
                             }
                         }
-                        bankCardCashVo.user.username = StringUtils.splitWithdrawUserName(bankCardCashVo.user.username);
+                        if (bankCardCashVo.user != null) {
+                            if (bankCardCashVo.user.username != null) {
+                                bankCardCashVo.user.username = StringUtils.splitWithdrawUserName(bankCardCashVo.user.username);
+                            } else if (bankCardCashVo.user.nickname != null) {
+                                bankCardCashVo.user.nickname = StringUtils.splitWithdrawUserName(bankCardCashVo.user.nickname);
+                            }
+
+                        }
+                        if (channelDetailVoMutableLiveData == null) {
+                            channelDetailVoMutableLiveData = new MutableLiveData<>();
+                        }
                         channelDetailVoMutableLiveData.setValue(bankCardCashVo);
                     }
                 });
@@ -294,7 +306,12 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<PlatWithdrawVo>() {
                     @Override
                     public void onResult(PlatWithdrawVo platwithdrawVo) {
-                        platwithdrawVo.user.username = StringUtils.splitWithdrawUserName(platwithdrawVo.user.username);
+                        if (platwithdrawVo.user != null) {
+                            if (platwithdrawVo.user.username != null) {
+                                platwithdrawVo.user.username = StringUtils.splitWithdrawUserName(platwithdrawVo.user.username);
+                            }
+                        }
+
                         platwithdrawVoMutableLiveData.setValue(platwithdrawVo);
                     }
                 });
@@ -327,7 +344,14 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<USDTCashVo>() {
                     @Override
                     public void onResult(USDTCashVo usdtCashVo) {
-                        usdtCashVo.user.username = StringUtils.splitWithdrawUserName(usdtCashVo.user.username);
+                        if (usdtCashVo.user != null) {
+                            if (usdtCashVo.user.username != null) {
+                                usdtCashVo.user.username = StringUtils.splitWithdrawUserName(usdtCashVo.user.username);
+                            } else if (usdtCashVo.user.nickname != null) {
+                                usdtCashVo.user.nickname = StringUtils.splitWithdrawUserName(usdtCashVo.user.nickname);
+                            }
+                        }
+
                         usdtCashVoMutableLiveData.setValue(usdtCashVo);
                     }
                 });
@@ -344,7 +368,14 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<USDTSecurityVo>() {
                     @Override
                     public void onResult(USDTSecurityVo usdtSecurityVo) {
-                        usdtSecurityVo.user.username = StringUtils.splitWithdrawUserName(usdtSecurityVo.user.username);
+                        if (usdtSecurityVo.user != null) {
+                            if (usdtSecurityVo.user.username != null) {
+                                usdtSecurityVo.user.username = StringUtils.splitWithdrawUserName(usdtSecurityVo.user.username);
+                            } else if (usdtSecurityVo.user.nickname != null) {
+                                usdtSecurityVo.user.nickname = StringUtils.splitWithdrawUserName(usdtSecurityVo.user.nickname);
+                            }
+                        }
+
                         usdtSecurityVoMutableLiveData.setValue(usdtSecurityVo);
                     }
                 });
@@ -377,7 +408,14 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<VirtualCashVo>() {
                     @Override
                     public void onResult(VirtualCashVo virtualCashVo) {
-                        virtualCashVo.user.username = StringUtils.splitWithdrawUserName(virtualCashVo.user.username);
+                        if (virtualCashVo.user != null) {
+                            if (virtualCashVo.user.username != null) {
+                                virtualCashVo.user.username = StringUtils.splitWithdrawUserName(virtualCashVo.user.username);
+                            } else if (virtualCashVo.user.nickname != null) {
+                                virtualCashVo.user.nickname = StringUtils.splitWithdrawUserName(virtualCashVo.user.nickname);
+                            }
+                        }
+
                         virtualCashVoMutableLiveData.setValue(virtualCashVo);
                     }
                 });
@@ -394,7 +432,14 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<VirtualSecurityVo>() {
                     @Override
                     public void onResult(VirtualSecurityVo virtualSecurityVo) {
-                        virtualSecurityVo.user.username = StringUtils.splitWithdrawUserName(virtualSecurityVo.user.username);
+                        if (virtualSecurityVo.user != null) {
+                            if (virtualSecurityVo.user.username != null) {
+                                virtualSecurityVo.user.username = StringUtils.splitWithdrawUserName(virtualSecurityVo.user.username);
+                            } else if (virtualSecurityVo.user.nickname != null) {
+                                virtualSecurityVo.user.nickname = StringUtils.splitWithdrawUserName(virtualSecurityVo.user.nickname);
+                            }
+                        }
+
                         virtualSecurityVoMutableLiveData.setValue(virtualSecurityVo);
                     }
                 });
