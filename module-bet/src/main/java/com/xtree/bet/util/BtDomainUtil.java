@@ -16,7 +16,11 @@ public class BtDomainUtil {
     }
 
     public static void setFbDomainUrl(List<String> fbDomainUrl) {
-        BtDomainUtil.fbDomainUrl.addAll(fbDomainUrl);
+        for (String url : fbDomainUrl){
+            if(!BtDomainUtil.fbDomainUrl.contains(url)){
+                BtDomainUtil.fbDomainUrl.add(url);
+            }
+        }
     }
 
     public static List<String> getFbDomainUrl() {
@@ -29,7 +33,11 @@ public class BtDomainUtil {
     }
 
     public static void setFbxcDomainUrl(List<String> fbDomainUrl) {
-        BtDomainUtil.fbxcDomainUrl.addAll(fbDomainUrl);
+        for (String url : fbDomainUrl){
+            if(!BtDomainUtil.fbxcDomainUrl.contains(url)){
+                BtDomainUtil.fbxcDomainUrl.add(url);
+            }
+        }
     }
 
     public static List<String> getFbxcDomainUrl() {
