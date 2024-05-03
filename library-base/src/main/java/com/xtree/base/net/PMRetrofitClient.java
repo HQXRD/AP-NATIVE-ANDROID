@@ -45,17 +45,17 @@ public class PMRetrofitClient {
     private Cache cache = null;
     private File httpCacheDirectory;
 
-    private static class SingletonHolder {
+    /*private static class SingletonHolder {
         private static PMRetrofitClient INSTANCE = new PMRetrofitClient();
-    }
+    }*/
 
     public static PMRetrofitClient getInstance() {
-        return SingletonHolder.INSTANCE;
+        return new PMRetrofitClient();
     }
 
-    public static void init() {
+    /*public static void init() {
         SingletonHolder.INSTANCE = new PMRetrofitClient();
-    }
+    }*/
 
     private PMRetrofitClient() {
         baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.PM_API_SERVICE_URL);
@@ -78,6 +78,7 @@ public class PMRetrofitClient {
 //                .cache(cache)
                 .addInterceptor(new PMHeaderInterceptor())
                 .addInterceptor(new CacheInterceptor(mContext))
+                .addInterceptor(new UrlModifyingInterceptor())
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 .addInterceptor(new PMDecryptInterceptor())
                 .addInterceptor(new HttpLoggingInterceptor(message -> KLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))

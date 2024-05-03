@@ -14,11 +14,17 @@ public class PMHttpDataSourceImpl implements HttpDataSource {
     private PMApiService apiService;
     private volatile static PMHttpDataSourceImpl INSTANCE = null;
 
-    public static PMHttpDataSourceImpl getInstance(PMApiService apiService, ApiService baseApiService) {
-        if (INSTANCE == null) {
+    public static PMHttpDataSourceImpl getInstance(PMApiService apiService, ApiService baseApiService, boolean reNew) {
+        if(reNew){
             synchronized (PMHttpDataSourceImpl.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = new PMHttpDataSourceImpl(apiService, baseApiService);
+                INSTANCE = new PMHttpDataSourceImpl(apiService, baseApiService);
+            }
+        }else {
+            if (INSTANCE == null) {
+                synchronized (PMHttpDataSourceImpl.class) {
+                    if (INSTANCE == null) {
+                        INSTANCE = new PMHttpDataSourceImpl(apiService, baseApiService);
+                    }
                 }
             }
         }

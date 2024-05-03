@@ -7,26 +7,36 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.gyf.immersionbar.ImmersionBar;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.MenuItemView;
+import com.xtree.base.widget.MsgDialog;
+import com.xtree.base.widget.TipDialog;
 import com.xtree.bet.BR;
 import com.xtree.bet.R;
+import com.xtree.bet.bean.request.UploadExcetionReq;
 import com.xtree.bet.bean.response.fb.HotLeague;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.Match;
@@ -46,7 +56,9 @@ import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.fb.FBMainViewModel;
 import com.xtree.bet.ui.viewmodel.pm.PMMainViewModel;
+import com.xtree.bet.util.BtDomainUtil;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
+import com.xtree.bet.weight.DomainChangeDialog;
 import com.xtree.bet.weight.PageHorizontalScrollView;
 
 import java.util.ArrayList;
@@ -63,6 +75,8 @@ import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
 import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.bus.Messenger;
+import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -82,6 +96,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private String mPlatformName;
     private boolean mIsShowLoading = true;
     private boolean mIsChange = true;
+    private boolean mIsFirstNetworkFinished;
+    private UploadExcetionReq mUploadExcetionReq;
     /**
      * 赛事统计数据
      */
@@ -98,6 +114,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private List<Long> mLeagueIdList = new ArrayList<>();
 
     private Disposable timerDisposable;
+    private Disposable firstNetworkFinishedDisposable;
+    private Disposable firstNetworkExceptionDisposable;
 
     private int searchDatePos;
 
@@ -120,6 +138,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private int mHotMatchCount;
     private String mSportName;
     private List<HotLeague> mLeagueItemList;
+    private Bundle mSavedInstanceState;
+    private BasePopupView changeAgentTipView;
+    private BasePopupView changeAgentView;
 
     public List<League> getSettingLeagueList() {
         return settingLeagueList;
@@ -155,6 +176,14 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     }
 
     @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initFirstNetworkFinishTimer();
+        initFirstNetworkExceptionTimer();
+        mSavedInstanceState = savedInstanceState;
+    }
+
+    @Override
     public int initContentView(Bundle savedInstanceState) {
         return R.layout.fragment_main;
     }
@@ -167,6 +196,16 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     @Override
     public void initParam() {
         mPlatform = getIntent().getStringExtra(KEY_PLATFORM);
+        initPlatFormName();
+        SPUtils.getInstance().put(KEY_PLATFORM, mPlatform);
+        SPUtils.getInstance().put(KEY_PLATFORM_NAME, mPlatformName);
+        initDomain();
+    }
+
+    /**
+     * 初始化场馆名称
+     */
+    private void initPlatFormName() {
         if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
             mPlatformName = getString(R.string.bt_platform_name_fbxc);
         } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
@@ -174,9 +213,34 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         } else {
             mPlatformName = getString(R.string.bt_platform_name_pm);
         }
+    }
 
-        SPUtils.getInstance().put(KEY_PLATFORM, mPlatform);
-        SPUtils.getInstance().put(KEY_PLATFORM_NAME, mPlatformName);
+    /**
+     * 初始化场馆domain线路
+     */
+    private void initDomain() {
+        boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
+        int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
+
+        if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
+            if (isAgent) {
+                SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getDomain());
+            } else {
+                SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, BtDomainUtil.getFbxcDomainUrl().get(useLinePosition));
+            }
+        } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+            if (isAgent) {
+                SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getDomain());
+            } else {
+                SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, BtDomainUtil.getFbDomainUrl().get(useLinePosition));
+            }
+        } else {
+            if (isAgent) {
+                SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getDomain());
+            } else {
+                SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDefaultPmDomainUrl());
+            }
+        }
     }
 
     @Override
@@ -219,6 +283,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.srlLeague.setOnRefreshLoadMoreListener(this);
         binding.ivBack.setOnClickListener(this);
         binding.tvBalance.setOnClickListener(this);
+        binding.ivChangeDomain.setOnClickListener(this);
+        setChangeDomainVisible();
         binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -388,6 +454,14 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         });
         binding.rlCg.setOnClickListener(this);
         initBottomTab();
+    }
+
+    /**
+     * 是否使用代理或其他非默认线路
+     */
+    private void setChangeDomainVisible() {
+        boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
+        binding.ivChangeDomain.setSelected(isAgent);
     }
 
     private void checkChampionHeaderIsExpand() {
@@ -675,6 +749,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         }
     }
 
+    /**
+     * 定时刷新赛事列表
+     */
     private void initTimer() {
         if (timerDisposable != null) {
             viewModel.removeSubscribe(timerDisposable);
@@ -689,6 +766,187 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         viewModel.addSubscribe(timerDisposable);
     }
 
+    /**
+     * 监听第一次进入主页时获取列表数据是否完成，如果未完成，弹出切换线路提示弹窗
+     */
+    private void initFirstNetworkFinishTimer() {
+        firstNetworkFinishedDisposable = Observable.interval(5, 5, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> {
+                    if (!mIsFirstNetworkFinished) {
+                        showChangeDomainTip();
+                    }
+                    if (firstNetworkExceptionDisposable != null) {
+                        viewModel.removeSubscribe(firstNetworkExceptionDisposable);
+                    }
+                    viewModel.removeSubscribe(firstNetworkFinishedDisposable);
+                    firstNetworkFinishedDisposable = null;
+                });
+        viewModel.addSubscribe(firstNetworkFinishedDisposable);
+    }
+
+    /**
+     * 监听第一次进入主页时获取列表数据是否发生异常，如果发生异常，则上报服务器
+     */
+    private void initFirstNetworkExceptionTimer() {
+        firstNetworkExceptionDisposable = Observable.interval(1, 2, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(aLong -> {
+                    if (mUploadExcetionReq != null) {
+                        showChangeDomainTip();
+                        if (firstNetworkFinishedDisposable != null) {
+                            viewModel.removeSubscribe(firstNetworkFinishedDisposable);
+                        }
+                        viewModel.uploadException(mUploadExcetionReq);
+                        mUploadExcetionReq = null;
+                        firstNetworkExceptionDisposable = null;
+                    }
+                    viewModel.removeSubscribe(firstNetworkExceptionDisposable);
+                });
+        viewModel.addSubscribe(firstNetworkExceptionDisposable);
+    }
+
+    /**
+     * 显示切换线路弹窗
+     */
+    private void showChangeDomainTip() {
+        boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
+        if(isAgent || (changeAgentTipView != null && changeAgentTipView.isShow())){
+            return;
+        }
+        final String title = getString(R.string.txt_kind_tips);
+        String showMessage = "当前您的网络环境较差，如继续游戏将无法保证游戏体验，是否需要使用代理？";
+        changeAgentTipView = new XPopup.Builder(this).asCustom(new MsgDialog(this, title, "", showMessage, "继续等待", "使用代理", false, new TipDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+                changeAgentTipView.dismiss();
+                showChangeDomainDialog();
+            }
+
+            @Override
+            public void onClickRight() {
+                setDomain(true);
+                resetViewModel();
+                setChangeDomainVisible();
+                changeAgentTipView.dismiss();
+            }
+        }));
+        changeAgentTipView.show();
+    }
+
+    private void showChangeDomainDialog() {
+        if (changeAgentView != null && changeAgentView.isShow()) {
+            return;
+        }
+        changeAgentView = new XPopup.Builder(MainActivity.this).atView(binding.ivChangeDomain).asCustom(new DomainChangeDialog(MainActivity.this, (useAgent, isChangeDomain, checkBox) -> {
+            checkBox.setChecked(useAgent);
+            setDomain(useAgent);
+            resetViewModel();
+            setChangeDomainVisible();
+            uploadException(useAgent, isChangeDomain);
+            changeAgentView.dismiss();
+        }));
+
+        changeAgentView.show();
+    }
+
+    /**
+     * 上传切换线路或开关代理操作日志
+     * @param useAgent
+     * @param isChangeDomain
+     */
+    private void uploadException(boolean useAgent, boolean isChangeDomain) {
+        int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
+        UploadExcetionReq uploadExcetionReq = new UploadExcetionReq();
+        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        String domainUrl;
+        if (TextUtils.equals(platform, PLATFORM_FBXC)) {
+            domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_API_SERVICE_URL);
+            uploadExcetionReq.setLogTag("fbxc_url_" + (isChangeDomain ? "swithapiaddress" : "swithdelegate"));
+        } else if (TextUtils.equals(platform, PLATFORM_FB)) {
+            domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.FB_API_SERVICE_URL);
+            uploadExcetionReq.setLogTag("fb_url_" + (isChangeDomain ? "swithapiaddress" : "swithdelegate"));
+        } else {
+            domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.PM_API_SERVICE_URL);
+            uploadExcetionReq.setLogTag("pm_url_" + (isChangeDomain ? "swithapiaddress" : "swithdelegate"));
+        }
+        uploadExcetionReq.setApiUrl(domainUrl);
+        uploadExcetionReq.setLogType("-");
+        uploadExcetionReq.setMsg(isChangeDomain ? "切换线路" + useLinePosition : useAgent ? "开启默认代理服务器" : "关闭默认代理服务器");
+        viewModel.uploadException(uploadExcetionReq);
+    }
+
+    /**
+     * 更换线路后重置viewmodel
+     */
+    private void resetViewModel() {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            AppViewModelFactory.init();
+        } else {
+            PMAppViewModelFactory.init();
+        }
+        //解除Messenger注册
+        Messenger.getDefault().unregister(viewModel);
+        if (viewModel != null) {
+            viewModel.removeRxBus();
+        }
+        if (binding != null) {
+            binding.unbind();
+        }
+        viewModel = null;
+        initViewDataBinding(mSavedInstanceState);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            viewModel.setModel(AppViewModelFactory.getInstance(getApplication()).getRepository());
+        } else {
+            viewModel.setModel(PMAppViewModelFactory.getInstance(getApplication()).getRepository());
+        }
+        initView();
+        //页面数据初始化方法
+        initData();
+        //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
+        initViewObservable();
+        //注册RxBus
+        viewModel.registerRxBus();
+    }
+
+    /**
+     * 设置当前场馆所用的domain线路
+     *
+     * @param isChecked
+     */
+    private void setDomain(boolean isChecked) {
+        SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_AGENT + mPlatform, isChecked);
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            // FB体育使用线路位置
+            int useLinePotion = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
+
+            if (isChecked) {
+                if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
+                    SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getDomain());
+                } else {
+                    SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getDomain());
+                }
+            } else {
+                if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
+                    SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, BtDomainUtil.getFbxcDomainUrl().get(useLinePotion));
+                } else {
+                    SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, BtDomainUtil.getFbDomainUrl().get(useLinePotion));
+                }
+            }
+        } else {
+            if (isChecked) {
+                SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getDomain());
+            } else {
+                SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDefaultPmDomainUrl());
+            }
+        }
+    }
+
+    /**
+     * 刷新赛事列表
+     */
     private void refreshLeague() {
         int firstVisiblePos = binding.rvLeague.getFirstVisiblePosition();
         int lastVisiblePos = binding.rvLeague.getLastVisiblePosition();
@@ -724,13 +982,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         viewModel.getHotLeague(mPlatform);
         viewModel.setSportItems(playMethodPos, playMethodType);
         viewModel.setPlayMethodTabData();
-        //viewModel.setPlaySearchDateData();
         viewModel.addSubscription();
         mOrderBy = SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ORDERBY, 1);
         mOddType = SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE, 1);
         viewModel.statistical(playMethodType);
         viewModel.getUserBalance();
-
     }
 
     @Override
@@ -760,6 +1016,28 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
     @Override
     public void initViewObservable() {
+        viewModel.reNewViewModel.observe(this, unused -> {
+            if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+                AppViewModelFactory.init();
+            } else {
+                PMAppViewModelFactory.init();
+            }
+            //解除Messenger注册
+            Messenger.getDefault().unregister(viewModel);
+            if (viewModel != null) {
+                viewModel.removeRxBus();
+            }
+            if (binding != null) {
+                binding.unbind();
+            }
+            viewModel = null;
+            initViewDataBinding(mSavedInstanceState);
+            if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+                viewModel.setModel(AppViewModelFactory.getInstance(getApplication()).getRepository());
+            } else {
+                viewModel.setModel(PMAppViewModelFactory.getInstance(getApplication()).getRepository());
+            }
+        });
         viewModel.itemClickEvent.observe(this, s -> ToastUtils.showShort(s));
         viewModel.playMethodTab.observe(this, titleList -> {
             for (int i = 0; i < titleList.length; i++) {
@@ -969,7 +1247,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             if (playMethodPos == 0 || playMethodPos == 3) {
                 mHotMatchCount = hotMatchCount;
                 if (playMethodPos == 0 || playMethodPos == 3) {
-                    if(binding.tabSportType.getTabAt(0) != null) {
+                    if (binding.tabSportType.getTabAt(0) != null) {
                         View view = binding.tabSportType.getTabAt(0).getCustomView();
                         TextView tvHotCount = view.findViewById(R.id.iv_match_count);
                         tvHotCount.setText(String.valueOf(mHotMatchCount));
@@ -1001,6 +1279,14 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
             }, 1000);*/
         });
+        viewModel.firstNetworkFinishData.observe(this, unused -> {
+            mIsFirstNetworkFinished = true;
+        });
+        viewModel.firstNetworkExceptionData.observe(this, uploadExcetionReq -> {
+            //CfLog.e(viewModel.firstNetworkExceptionData + "=====");
+            mUploadExcetionReq = uploadExcetionReq;
+        });
+
     }
 
     /**
@@ -1287,6 +1573,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             Bundle bundle = new Bundle();
             bundle.putBoolean("isShowBack", true);
             startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
+        } else if (id == R.id.iv_change_domain) {
+            showChangeDomainDialog();
         }
     }
 

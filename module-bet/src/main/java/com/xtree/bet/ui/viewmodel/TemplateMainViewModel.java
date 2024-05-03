@@ -8,6 +8,7 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,6 +17,7 @@ import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.bet.R;
+import com.xtree.bet.bean.request.UploadExcetionReq;
 import com.xtree.bet.bean.response.HotLeagueInfo;
 import com.xtree.bet.bean.response.fb.HotLeague;
 import com.xtree.bet.bean.ui.League;
@@ -57,7 +59,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     public List<Date> dateList = new ArrayList<>();
 
     public List<Long> hotLeagueList = new ArrayList<>();
-
+    public MutableLiveData<Void> reNewViewModel = new MutableLiveData<>();
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
 
     public SingleLiveData<String[]> playMethodTab = new SingleLiveData<>();
@@ -82,6 +84,14 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
      */
     public SingleLiveData<Map<String, List<Integer>>> statisticalData = new SingleLiveData<>();
     public SingleLiveData<List<League>> settingLeagueData = new SingleLiveData<>();
+    /**
+     * 第一次进入主页时获取列表数据完成
+     */
+    public SingleLiveData<Void> firstNetworkFinishData = new SingleLiveData<>();
+    /**
+     * 第一次进入主页时获取列表数据发生异常
+     */
+    public SingleLiveData<UploadExcetionReq> firstNetworkExceptionData = new SingleLiveData<>();
     public Map<String, League> mMapSportType = new HashMap<>();
     public boolean mNoLiveMatch;
     public List<League> mLeagueList = new ArrayList<>();

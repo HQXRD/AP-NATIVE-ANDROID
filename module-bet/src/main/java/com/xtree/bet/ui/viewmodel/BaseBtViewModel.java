@@ -14,10 +14,14 @@ import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
 import com.xtree.base.utils.NumberUtils;
+import com.xtree.base.utils.SystemUtil;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
+import com.xtree.bet.bean.request.UploadExcetionReq;
 import com.xtree.bet.bean.response.fb.BalanceInfo;
 import com.xtree.bet.data.BetRepository;
+import com.xtree.bet.util.BtDomainUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,6 +33,7 @@ import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.Utils;
 
 /**
  * Created by marquis
@@ -65,7 +70,7 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
                     @Override
                     public void onError(Throwable t) {
                         //super.onError(t);
-                        getUserBalanceFb();
+                        //getUserBalanceFb();
                     }
                 });
         addSubscribe(disposable);
@@ -86,8 +91,8 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
 
                     @Override
                     public void onError(Throwable t) {
-                        //super.onError(t);
-                        getUserBalancePm();
+                        super.onError(t);
+                        //getUserBalancePm();
                     }
                 });
         addSubscribe(disposable);
@@ -119,9 +124,15 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
                         if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
                             SPUtils.getInstance().put(SPKeyGlobal.FBXC_TOKEN, fbService.getToken());
                             SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                            BtDomainUtil.setDefaultFbxcDomainUrl(fbService.getForward().getApiServerAddress());
+                            BtDomainUtil.addFbxcDomainUrl(fbService.getForward().getApiServerAddress());
+                            BtDomainUtil.setFbxcDomainUrl(fbService.getDomains());
                         } else {
                             SPUtils.getInstance().put(SPKeyGlobal.FB_TOKEN, fbService.getToken());
                             SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, fbService.getForward().getApiServerAddress());
+                            BtDomainUtil.setDefaultFbDomainUrl(fbService.getForward().getApiServerAddress());
+                            BtDomainUtil.addFbDomainUrl(fbService.getForward().getApiServerAddress());
+                            BtDomainUtil.setFbDomainUrl(fbService.getDomains());
                         }
 
                         tokenInvalidEvent.call();
@@ -146,12 +157,39 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
+                        BtDomainUtil.setDefaultPmDomainUrl(pmService.getApiDomain());
                         tokenInvalidEvent.call();
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void uploadException(UploadExcetionReq uploadExcetionReq) {
+        Map<String, String> map = new HashMap<>();
+        map.put("log_tag", uploadExcetionReq.getLogTag());
+        map.put("api_url", uploadExcetionReq.getApiUrl());
+        map.put("device_no", "android-app-" + TagUtils.getDeviceId(Utils.getContext()));
+        //map.put("device_no2", "log_tag");
+        map.put("log_type", uploadExcetionReq.getLogType());
+        map.put("device_type", "9");
+        map.put("device_detail", SystemUtil.getDeviceBrand() + " " + SystemUtil.getDeviceModel() + " " + "Android " + SystemUtil.getSystemVersion());
+        map.put("msg", uploadExcetionReq.getMsg());
+        Disposable disposable = (Disposable) model.getBaseApiService().uploadExcetion(map)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<String>() {
+                    @Override
+                    public void onResult(String result) {
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+
                     }
                 });
         addSubscribe(disposable);

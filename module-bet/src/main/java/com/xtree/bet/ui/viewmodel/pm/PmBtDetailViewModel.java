@@ -26,6 +26,7 @@ import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.bean.ui.PlayTypePm;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
+import com.xtree.bet.util.BtDomainUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -299,6 +300,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                         SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
+                        BtDomainUtil.setDefaultPmDomainUrl(pmService.getApiDomain());
                         getMatchDetail(mMatchId);
                         if(TextUtils.isEmpty(mSportId)) {
                             getCategoryList(String.valueOf(mMatchId), mSportId);

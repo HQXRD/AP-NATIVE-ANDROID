@@ -9,12 +9,14 @@ import androidx.annotation.VisibleForTesting;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.xtree.base.utils.CfLog;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.data.Injection;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import me.xtree.mvvmhabit.base.BaseModel;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
@@ -24,7 +26,7 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
     @SuppressLint("StaticFieldLeak")
     private static volatile AppViewModelFactory FBXC_INSTANCE;
     private static volatile AppViewModelFactory FB_INSTANCE;
-    private final Application mApplication;
+    private static Application mApplication;
     private final BetRepository mRepository;
 
     public static AppViewModelFactory getInstance(Application application) {
@@ -33,7 +35,7 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             if (FBXC_INSTANCE == null) {
                 synchronized (AppViewModelFactory.class) {
                     if (FBXC_INSTANCE == null) {
-                        FBXC_INSTANCE = new AppViewModelFactory(application, Injection.provideHomeRepository());
+                        FBXC_INSTANCE = new AppViewModelFactory(application, Injection.provideHomeRepository(false));
                     }
                 }
             }
@@ -42,7 +44,7 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
             if (FB_INSTANCE == null) {
                 synchronized (AppViewModelFactory.class) {
                     if (FB_INSTANCE == null) {
-                        FB_INSTANCE = new AppViewModelFactory(application, Injection.provideHomeRepository());
+                        FB_INSTANCE = new AppViewModelFactory(application, Injection.provideHomeRepository(false));
                     }
                 }
             }
@@ -71,5 +73,21 @@ public class AppViewModelFactory extends ViewModelProvider.NewInstanceFactory {
                  InstantiationException | InvocationTargetException e) {
             return null;
         }
+    }
+
+    public static void init() {
+        synchronized (AppViewModelFactory.class) {
+            String platform = SPUtils.getInstance().getString("KEY_PLATFORM");
+            if (TextUtils.equals("fbxc", platform)) {
+                FBXC_INSTANCE = new AppViewModelFactory(mApplication, Injection.provideHomeRepository(true));
+            }else {
+                FB_INSTANCE = new AppViewModelFactory(mApplication, Injection.provideHomeRepository(true));
+            }
+            CfLog.e("AppViewModelFactory init");
+        }
+    }
+
+    public BaseModel getRepository() {
+        return mRepository;
     }
 }
