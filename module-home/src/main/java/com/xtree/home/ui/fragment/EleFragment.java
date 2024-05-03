@@ -98,7 +98,7 @@ public class EleFragment extends BaseFragment<FragmentEleBinding, HomeViewModel>
                 @NonNull
                 @Override
                 public Fragment createFragment(int position) {
-                    return new EleChildFragment(position, eleVo, vo);
+                    return EleChildFragment.newInstance(position, eleVo, vo);
                 }
 
                 @Override
