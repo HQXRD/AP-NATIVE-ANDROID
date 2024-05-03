@@ -200,7 +200,11 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
             binding.clSettlement.setVisibility(View.VISIBLE);
             binding.clAdSettlement.setVisibility(View.GONE);
             binding.tvAmount.setText(mContext.getResources().getString(R.string.bt_bt_result_bt_amount_1, String.valueOf(btResult.getBtAmount())));
-            binding.tvWin.setText(mContext.getResources().getString(R.string.bt_bt_result_win_1, String.valueOf(btResult.getBtWin())));
+            if(btResult.getStatus() == 5){ // 已结算
+                binding.tvWin.setText(mContext.getResources().getString(R.string.bt_bt_result_win_2, String.valueOf(btResult.userWin())));
+            }else {
+                binding.tvWin.setText(mContext.getResources().getString(R.string.bt_bt_result_win_1, String.valueOf(btResult.getBtWin())));
+            }
         }
         return convertView;
     }
