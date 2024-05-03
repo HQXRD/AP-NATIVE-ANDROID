@@ -42,7 +42,7 @@ android {
             dimension "channelName"
         }
         // 生产环境 发布用
-        /*xingCai_OL {
+        xingCai_OL {
             applicationId "com.xcsport.app" //
             versionName "1.0.5"
             versionCode 105
@@ -61,7 +61,7 @@ android {
                     ";https://app.eyoumoban.com:16801"
             multiDexEnabled true
             dimension "channelName"
-        }*/
+        }
 
     }
 
