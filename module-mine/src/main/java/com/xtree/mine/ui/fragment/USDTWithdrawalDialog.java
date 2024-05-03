@@ -431,7 +431,18 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         }
         binding.llSetRequestView.setVisibility(View.GONE);
         binding.llVirtualConfirmView.setVisibility(View.VISIBLE);
-        binding.tvConfirmWithdrawalAmount.setText(usdtCashVo.user.username);
+
+        if (usdtCashVo.user != null) {
+            if (usdtCashVo.user.username != null) {
+                binding.tvConfirmWithdrawalAmount.setText(usdtCashVo.user.username);
+            } else if (usdtCashVo.user.nickname != null) {
+                binding.tvConfirmWithdrawalAmount.setText(usdtCashVo.user.nickname);
+            }
+        } else if (mProfileVo != null) {
+            final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
+            binding.tvConfirmWithdrawalAmount.setText(name);
+        }
+
         binding.tvConfirmWithdrawalTypeShow.setText(StringUtils.formatToSeparate(Float.valueOf(usdtCashVo.user.availablebalance)));
         binding.tvConfirmAmountShow.setText(usdtSecurityVo.usdt_type);
         binding.tvWithdrawalVirtualTypeShow.setText(usdtSecurityVo.usdt_type);

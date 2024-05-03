@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,11 +41,12 @@ public class AdsFragment extends BaseFragment<FragmentAdsBinding, HomeViewModel>
 
     @Override
     public void initView() {
-        //initWebView();
+        initWebView();
     }
 
     @Override
-    protected void initImmersionBar() {}
+    protected void initImmersionBar() {
+    }
 
     /**
      * 使用hide和show后，可见不可见切换时，不再执行fragment生命周期方法，
@@ -96,13 +96,12 @@ public class AdsFragment extends BaseFragment<FragmentAdsBinding, HomeViewModel>
             @Override
             public void onPageFinished(WebView view, String url) {
                 CfLog.d("onPageFinished url: " + url);
-                //Log.d("---", "onPageFinished url: " + url);
                 hideLoading();
             }
 
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-//                handler.proceed();
+                //handler.proceed();
                 CfLog.d("onPageFinished url: " + error);
                 hideLoading();
                 if (sslErrorCount < 4) {

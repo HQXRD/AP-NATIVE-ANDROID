@@ -9,12 +9,6 @@
         android:background="@color/clr_white"
         android:orientation="horizontal">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="1000dp"
-            android:visibility="visible" />
-
         <WebView
             android:id="@+id/wv_ads_main"
             android:layout_width="match_parent"
@@ -38,34 +32,5 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
 
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/hm_img_center_01" />
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/hm_img_center_02" />
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/hm_img_center_03" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="64dp" />
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
     </FrameLayout>
 </layout>

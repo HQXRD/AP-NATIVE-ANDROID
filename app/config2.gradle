@@ -80,35 +80,10 @@ android {
                 def tp = "${if (variant.buildType.name == 'debug') '_db' else ''}"
                 outputFileName = "${name}_v${variant.versionCode}${tp}.apk" // 自己用
                 //outputFileName = "${name}_v${variant.versionCode}.apk"
-                //outputFileName = "${name1}_v${variant.versionCode}_${name2}_${releaseTime()}${tp}.apk" // 发布用
+                outputFileName = "${name1}_v${variant.versionCode}_${name2}_${releaseTime()}${tp}.apk" // 发布用
             }
         }
     }
-
-    /*applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                // 打包输出路径 发布用
-                //variant.getPackageApplicationProvider().get().outputDirectory = new File("${project.rootDir.absolutePath}/outputs")
-                // 打包文件名
-                //def name = variant.flavorName.split("_")[0]
-                def name = variant.flavorName
-
-                //outputFileName = "${variant.flavorName}_v${variant.versionCode}${tp}_${releaseTime()}.apk"
-                //outputFileName = "${name}_v${variant.versionCode}_${variant.buildType.name}.apk"
-                def tp = "${if (variant.buildType.name == 'debug') '_tt' else ''}"
-                //outputFileName = "${name}_v${variant.versionCode}_${releaseTime()}${tp}.apk"
-                //outputFileName = "${name}_v${variant.versionName.replace(".", "_")}_${releaseTime()}${tp}.apk"
-                outputFileName = "${name}_v${variant.versionCode}a${tp}.apk"
-
-                //var name1 = "${name}".split("_")[0]
-                //var name2 = "${name}".replace("${name1}", "")
-                //outputFileName = "${name1}_v${variant.versionCode}${name2}${tp}.apk"
-            }
-
-        }
-    }*/
 
 }
 
@@ -154,56 +129,6 @@ androidJunkCode {
         xingCai_preRelease config2
     }
 
-}
-
-/**
- * 返回随机的包名，适合下架比较快的应用
- * @param name 渠道名
- * @return 返回随机的包名 com.xxx.name
- */
-static def getPluginPkg() {
-    // 返回随机的包名 com.xxx.name
-    return "com.${getRandomStr()}.plugin.ui"
-}
-
-/**
- * 返回随机数 1-9
- * @return 随机数
- */
-static def getRandomNum() {
-    def num = Math.abs(new Random().nextInt(99))
-    int random = 1 + num.toInteger() % 9
-    return random
-}
-
-static def getRandomNum5() {
-    def num = Math.abs(new Random().nextInt(99))
-    int random = 1 + num.toInteger() % 5
-    return random
-}
-
-static def getRandomStr() {
-    def characters = "abcdefghijklmnopqrstuvwxyz"
-    def num = Math.abs(new Random().nextInt(99))
-    int length = 2 + num.toInteger() % 5
-    def str = ""
-    Random random = new Random()
-    for (i in 0..<length) {
-        str += characters.charAt(random.nextInt(characters.length()))
-    }
-    return str
-}
-
-static def getResPrefix() {
-    /*def characters = "abcdefghijklmnopqrstuvwxyz"
-    int length = 2 + Math.abs(new Random().nextInt(3))
-    def str = ""
-    Random random = new Random()
-    for (i in 0..<length) {
-        str += characters.charAt(random.nextInt(characters.length()))
-    }
-    return str*/
-    return "${"${getRandomStr()}".substring(0, 2)}_"
 }
 
 def static buildTime() {
