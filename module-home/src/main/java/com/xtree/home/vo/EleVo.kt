@@ -1,10 +1,15 @@
 package com.xtree.home.vo
 
-data class EleVo(
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+class EleVo(
     val count: String,
     val list: List<Ele>
-)
+) : Parcelable
 
+@Parcelize
 data class Ele(
     val added_at: String,
     val cate_id: Int,
@@ -15,7 +20,7 @@ data class Ele(
     val picture: String,
     val platform_id: Int
 
-) {
+) : Parcelable {
     override fun toString(): String {
         //Ele(added_at='null', cate_id=0, code='84', id=3230, is_hot='1', name='赏金女王', picture='/images/pg/84.png', platform_id=19)
         return "Ele(added_at='$added_at', cate_id=$cate_id, code='$code', id=$id, is_hot='$is_hot', name='$name', picture='$picture', platform_id=$platform_id)"

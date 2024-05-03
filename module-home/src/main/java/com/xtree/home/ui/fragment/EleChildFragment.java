@@ -41,10 +41,14 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
     private GameVo gameVo;
     private CachedAutoRefreshAdapter<Ele> adapter;
 
-    public EleChildFragment(int position, EleVo eleVo, GameVo gameVo) {
-        this.position = position;
-        this.eleVo = eleVo;
-        this.gameVo = gameVo;
+    public static EleChildFragment newInstance(int position, EleVo eleVo, GameVo vo) {
+        EleChildFragment fragment = new EleChildFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("position", position);
+        bundle.putParcelable("eleVo", eleVo);
+        bundle.putParcelable("gameVo", vo);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -66,6 +70,14 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
 
     @Override
     public void initView() {
+        //内存不足时，可能出现等于null
+        if (getArguments() == null) {
+            return;
+        }
+        position = getArguments().getInt("position");
+        eleVo = getArguments().getParcelable("eleVo");
+        gameVo = getArguments().getParcelable("gameVo");
+
         binding.rvEleChild.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.rvEleChild.addItemDecoration(new SpacesItemDecoration(10));
         adapter = new CachedAutoRefreshAdapter<Ele>() {
@@ -80,7 +92,7 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
                 EleItemBinding binding = EleItemBinding.bind(holder.itemView);
                 Ele vo1 = get(position);
                 CfLog.i(vo1.toString());
-                Glide.with(EleChildFragment.this.getContext())
+                Glide.with(EleChildFragment.this.requireContext())
                         .load(DomainUtil.getDomain2() + vo1.getPicture())
                         .placeholder(R.mipmap.me_icon_name)
                         .into(binding.ibGame);

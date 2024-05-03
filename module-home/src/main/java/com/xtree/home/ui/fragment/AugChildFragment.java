@@ -34,10 +34,15 @@ import java.util.Objects;
 import me.xtree.mvvmhabit.base.BaseFragment;
 
 public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, HomeViewModel> {
-    ArrayList<AugVo> mList;
 
-    public AugChildFragment(ArrayList<AugVo> arrayList) {
-        mList = arrayList;
+    public static AugChildFragment newInstance(ArrayList<AugVo> augList) {
+        AugChildFragment fragment = new AugChildFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("list", augList);
+        //fragment传参数，谷歌官方建议使用setArguments
+        //使用有参构造函数传参数，依附的Activity重建时，Fragment会调取无参构造函数重建，没有无参构造就会闪退
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Override
@@ -59,6 +64,10 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
 
     @Override
     public void initView() {
+        if (getArguments() == null) {
+            return;
+        }
+        ArrayList<AugVo> list = getArguments().getParcelableArrayList("list");
         binding.rvAugChild.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.rvAugChild.addItemDecoration(new SpacesItemDecoration(10));
         CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<AugVo>() {
@@ -89,7 +98,7 @@ public class AugChildFragment extends BaseFragment<FragmentAugChildBinding, Home
             }
 
         };
-        adapter.addAll(mList);
+        adapter.addAll(list);
         binding.rvAugChild.setAdapter(adapter);
     }
 
