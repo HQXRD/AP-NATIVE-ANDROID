@@ -25,6 +25,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  * H5调用安卓的方法
  */
 public class WebAppInterface {
+    final String TYPE_LOGIN = "goLogin";
     final String TYPE_HOME = "goHome";
     final String TYPE_RECHARGE = "goRecharge";
     final String TYPE_WITHDRAW = "goWithdraw";
@@ -84,6 +85,10 @@ public class WebAppInterface {
             CfLog.i("****** vo: " + vo);
         }
         switch (type) {
+            case TYPE_LOGIN:
+                ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+                close();
+                break;
             case TYPE_HOME:
                 goHome();
                 close();

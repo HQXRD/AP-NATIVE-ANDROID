@@ -15,15 +15,18 @@ import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
@@ -41,6 +44,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 import project.tqyb.com.library_res.databinding.ItemTextBinding;
@@ -64,6 +68,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     DialogBankWithdrawalVirtualBinding binding;
     //private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
     private BasePopupView ppwError = null; // 底部弹窗 (显示错误信息)
+    private ProfileVo mProfileVo;
 
     public VirtualWithdrawalDialog(@NonNull Context context) {
         super(context);
@@ -96,6 +101,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         initViewObservable();
         requestData();
 
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        mProfileVo = new Gson().fromJson(json, ProfileVo.class);
     }
 
     private void initView() {
@@ -196,7 +203,17 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
 
         binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
-        binding.tvUserNameShow.setText(virtualCashVo.user.username);
+        if (virtualCashVo.user != null) {
+            if (virtualCashVo.user.username != null) {
+                binding.tvUserNameShow.setText(virtualCashVo.user.username);
+            } else if (virtualCashVo.user.nickname != null) {
+                binding.tvUserNameShow.setText(virtualCashVo.user.nickname);
+            }
+        } else if (mProfileVo != null) {
+            final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
+            binding.tvUserNameShow.setText(name);
+        }
+
         binding.tvWithdrawalTypeShow.setText(channelInfo.title);
         String quota = virtualCashVo.availablebalance;
 
@@ -282,7 +299,18 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         }
         binding.llSetRequestView.setVisibility(View.GONE);
         binding.llVirtualConfirmView.setVisibility(View.VISIBLE);
-        binding.tvName.setText(virtualCashVo.user.username);
+
+        if (virtualCashVo.user != null) {
+            if (virtualCashVo.user.username != null) {
+                binding.tvName.setText(virtualCashVo.user.username);
+            } else if (virtualCashVo.user.nickname != null) {
+                binding.tvName.setText(virtualCashVo.user.nickname);
+            }
+        } else if (mProfileVo != null) {
+            final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
+            binding.tvName.setText(name);
+        }
+
         binding.tvWithdrawalAmount.setText(StringUtils.formatToSeparate(Float.valueOf(virtualCashVo.user.availablebalance)));
         binding.tvWithdrawalRequestAmount.setText(usdtSecurityVo.datas.money);
         binding.tvWithdrawalActualAmount.setText(usdtSecurityVo.datas.arrive);//实际提款金额

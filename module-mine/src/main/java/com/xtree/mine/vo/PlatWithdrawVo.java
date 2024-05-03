@@ -32,6 +32,7 @@ public class PlatWithdrawVo extends BaseResponse2 {
          * "nickname": "tst033",
          * "messages": "1"
          */
+        public String nickname;
         public String userid;
         public String username;
         public String availablebalance;

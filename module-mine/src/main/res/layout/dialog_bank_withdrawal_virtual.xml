@@ -559,15 +559,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@mipmap/cm_btn_withdrawal_next" />
-
-                        <ImageView
-                            android:id="@+id/iv_previous"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/iv_next"
-                            android:background="@mipmap/cm_btn_withdrawal_previous"
-                            android:visibility="visible" />
-
                     </RelativeLayout>
 
                 </LinearLayout>

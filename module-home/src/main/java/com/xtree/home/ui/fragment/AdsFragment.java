@@ -1,10 +1,10 @@
 package com.xtree.home.ui.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,11 +41,12 @@ public class AdsFragment extends BaseFragment<FragmentAdsBinding, HomeViewModel>
 
     @Override
     public void initView() {
-        //initWebView();
+        initWebView();
     }
 
     @Override
-    protected void initImmersionBar() {}
+    protected void initImmersionBar() {
+    }
 
     /**
      * 使用hide和show后，可见不可见切换时，不再执行fragment生命周期方法，
@@ -95,13 +96,12 @@ public class AdsFragment extends BaseFragment<FragmentAdsBinding, HomeViewModel>
             @Override
             public void onPageFinished(WebView view, String url) {
                 CfLog.d("onPageFinished url: " + url);
-                //Log.d("---", "onPageFinished url: " + url);
                 hideLoading();
             }
 
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-//                handler.proceed();
+                //handler.proceed();
                 CfLog.d("onPageFinished url: " + error);
                 hideLoading();
                 if (sslErrorCount < 4) {
@@ -146,16 +146,17 @@ public class AdsFragment extends BaseFragment<FragmentAdsBinding, HomeViewModel>
     }
 
     private void tipSsl(WebView view, SslErrorHandler handler) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        builder.setMessage(com.xtree.base.R.string.ssl_failed_will_u_continue); // SSL认证失败，是否继续访问？
-        builder.setPositiveButton(com.xtree.base.R.string.ok, (dialog, which) -> {
-            handler.proceed();// 接受https所有网站的证书
+        Activity activity = (Activity) view.getContext();
+        activity.runOnUiThread(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setMessage(com.xtree.base.R.string.ssl_failed_will_u_continue); // SSL认证失败，是否继续访问？
+            builder.setPositiveButton(com.xtree.base.R.string.ok, (dialog, which) -> handler.proceed()); // 接受https所有网站的证书
+
+            builder.setNegativeButton(com.xtree.base.R.string.cancel, (dialog, which) -> handler.cancel());
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
-
-        builder.setNegativeButton(com.xtree.base.R.string.cancel, (dialog, which) -> handler.cancel());
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     private void setWebView(WebView webView) {

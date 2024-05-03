@@ -51,4 +51,6 @@ public class SPKeyGlobal {
     public static final String APP_INTERVAL_TIME = "app_interval_time";//App请求更新时间初始时间
     public static final String APP_LAST_CHECK_TIME = "app_last_check_time";//App请求更新时间
     public static final String TYPE_RECHARGE_WITHDRAW = "type_recharge_withdraw";//去充值or去提款
+    public static final String IS_FIRST_OPEN_BROWSER = "isFirstOpenBrowser"; // 是否第一次打开webView组件
+
 }

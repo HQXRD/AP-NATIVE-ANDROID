@@ -671,7 +671,18 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         binding.nsH5View.setVisibility(View.GONE);//h5隐藏
         binding.nsOverView.setVisibility(View.GONE); //订单结果页面隐藏
         binding.nsConfirmWithdrawalRequest.setVisibility(View.VISIBLE); //确认提款页面隐藏
-        binding.bankConfirmView.tvConfirmUserNameShow.setText(platWithdrawVo.user.username);
+
+        if (platWithdrawVo.user != null) {
+            if (platWithdrawVo.user.username != null) {
+                binding.bankConfirmView.tvConfirmUserNameShow.setText(bankCardCashVo.user.username);
+            } else if (platWithdrawVo.user.nickname != null) {
+                binding.bankConfirmView.tvConfirmUserNameShow.setText(bankCardCashVo.user.nickname);
+            }
+        } else if (mProfileVo != null) {
+            final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
+            binding.bankConfirmView.tvConfirmUserNameShow.setText(name);
+        }
+
         String showMoney = platWithdrawVo.user.cafAvailableBalance;
         binding.bankConfirmView.tvConfirmWithdrawalTypeShow.setText(showMoney);
         String showAmountMoney = platWithdrawVo.datas.money;
@@ -1185,7 +1196,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             webPopWindow.closeView();
             webPopWindow.setVisibility(View.GONE);
         }
-
     }
 
 }

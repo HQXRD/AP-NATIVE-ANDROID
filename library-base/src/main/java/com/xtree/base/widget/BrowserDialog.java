@@ -1,5 +1,6 @@
 package com.xtree.base.widget;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,6 +10,7 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.SslErrorHandler;
@@ -34,6 +36,7 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.R;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -68,6 +71,7 @@ public class BrowserDialog extends BottomPopupView {
     protected boolean is3rdLink = false; // 是否跳转到三方链接(如果是,就不用带header和cookie了)
     protected boolean isHideTitle = false; // 是否隐藏标题栏
     boolean isFirstLoad = true; // 是否头一次打开当前网页,加载cookie时用
+    boolean isFirstOpenBrowser = true; // 是否第一次打开webView组件(解决第一次打开webView时传递header/cookie/token失效)
     String token;
     ValueCallback<Uri> mUploadCallbackBelow;
     ValueCallback<Uri[]> mUploadCallbackAboveL;
@@ -123,6 +127,7 @@ public class BrowserDialog extends BottomPopupView {
     protected void onCreate() {
         super.onCreate();
         token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        isFirstOpenBrowser = SPUtils.getInstance().getBoolean(SPKeyGlobal.IS_FIRST_OPEN_BROWSER, true);
 
         initView();
 
@@ -169,7 +174,14 @@ public class BrowserDialog extends BottomPopupView {
             //dismiss(); // only the original thread that created a view hierarchy can touch its views.
             ivwClose.post(() -> dismiss());
         }), "android");
-        setWebCookie();
+
+        if (isFirstOpenBrowser) {
+            String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
+            url = DomainUtil.getDomain() + "/static/sessionkeeper.html?token=" + token
+                    + "&tokenExpires=3600&url=" + urlBase64;
+            SPUtils.getInstance().put(SPKeyGlobal.IS_FIRST_OPEN_BROWSER, false);
+        }
+        //setWebCookie();
         mWebView.loadUrl(url, header);
 
         ivwClose.setOnClickListener(v -> dismiss());
@@ -291,24 +303,17 @@ public class BrowserDialog extends BottomPopupView {
     }
 
     private void tipSsl(WebView view, SslErrorHandler handler) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        builder.setMessage(R.string.ssl_failed_will_u_continue); // SSL认证失败，是否继续访问？
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                handler.proceed();// 接受https所有网站的证书
-            }
-        });
+        Activity activity = (Activity) view.getContext();
+        activity.runOnUiThread(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setMessage(R.string.ssl_failed_will_u_continue); // SSL认证失败，是否继续访问？
+            builder.setPositiveButton(R.string.ok, (dialog, which) -> handler.proceed()); // 接受https所有网站的证书
 
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                handler.cancel();
-            }
-        });
+            builder.setNegativeButton(R.string.cancel, (dialog, which) -> handler.cancel());
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
     }
 
     /**
