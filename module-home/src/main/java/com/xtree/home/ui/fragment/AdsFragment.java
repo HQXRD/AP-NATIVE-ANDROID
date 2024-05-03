@@ -1,5 +1,6 @@
 package com.xtree.home.ui.fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
@@ -146,16 +147,17 @@ public class AdsFragment extends BaseFragment<FragmentAdsBinding, HomeViewModel>
     }
 
     private void tipSsl(WebView view, SslErrorHandler handler) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        builder.setMessage(com.xtree.base.R.string.ssl_failed_will_u_continue); // SSL认证失败，是否继续访问？
-        builder.setPositiveButton(com.xtree.base.R.string.ok, (dialog, which) -> {
-            handler.proceed();// 接受https所有网站的证书
+        Activity activity = (Activity) view.getContext();
+        activity.runOnUiThread(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setMessage(com.xtree.base.R.string.ssl_failed_will_u_continue); // SSL认证失败，是否继续访问？
+            builder.setPositiveButton(com.xtree.base.R.string.ok, (dialog, which) -> handler.proceed()); // 接受https所有网站的证书
+
+            builder.setNegativeButton(com.xtree.base.R.string.cancel, (dialog, which) -> handler.cancel());
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
-
-        builder.setNegativeButton(com.xtree.base.R.string.cancel, (dialog, which) -> handler.cancel());
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     private void setWebView(WebView webView) {

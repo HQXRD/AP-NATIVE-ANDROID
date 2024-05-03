@@ -1,5 +1,6 @@
 package com.xtree.base.widget;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -291,24 +292,17 @@ public class BrowserDialog extends BottomPopupView {
     }
 
     private void tipSsl(WebView view, SslErrorHandler handler) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-        builder.setMessage(R.string.ssl_failed_will_u_continue); // SSL认证失败，是否继续访问？
-        builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                handler.proceed();// 接受https所有网站的证书
-            }
-        });
+        Activity activity = (Activity) view.getContext();
+        activity.runOnUiThread(() -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setMessage(R.string.ssl_failed_will_u_continue); // SSL认证失败，是否继续访问？
+            builder.setPositiveButton(R.string.ok, (dialog, which) -> handler.proceed()); // 接受https所有网站的证书
 
-        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                handler.cancel();
-            }
-        });
+            builder.setNegativeButton(R.string.cancel, (dialog, which) -> handler.cancel());
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
     }
 
     /**
