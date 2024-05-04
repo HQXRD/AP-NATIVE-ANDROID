@@ -75,7 +75,7 @@
     <string name="me_wallet_dbqp">DB棋牌</string>
     <string name="txt_user_name">用户名</string>
     <string name="txt_user_name_input">请输入用户名</string>
-    <string name="txt_transfer">转账</string>
+    <string name="txt_transfer">平台转账</string>
     <string name="txt_1k_recycle">一键回收</string>
     <string name="txt_auto_transfer">自动免转</string>
     <string name="txt_lock_wallet">锁定钱包</string>
