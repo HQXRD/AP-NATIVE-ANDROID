@@ -115,7 +115,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         //binding.tvwAgreement.setOnClickListener(v -> goMain());
         binding.tvwSkipLogin.setOnClickListener(v -> goMain());
         binding.tvwCs.setOnClickListener(v -> AppUtil.goCustomerService(this));
-
         binding.btnLogin.setOnClickListener(v -> {
             if (!ifAgree()) {
                 ToastUtils.showLong(getResources().getString(R.string.me_agree_hint));
@@ -281,6 +280,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     goUpdatePwd();
                     return;
                 }
+
                 goMain();
 
             } else if (vo.twofa_required == 1) {
@@ -342,6 +342,34 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         edt.setSelection(edt.length());
     }
 
+    /**
+     * 显示修改登录密码Dialog
+     */
+    private void goUpdatePwd() {
+        if (showChangeLoginPSWPopView == null) {
+            showChangeLoginPSWPopView = new XPopup.Builder(this)
+                    .dismissOnBackPressed(false)
+                    .dismissOnTouchOutside(false)
+                    .asCustom(ChangeLoginPSWDialog.newInstance(this, this, new ChangeLoginPSWDialog.IChangeLoginPSWCallBack() {
+                        @Override
+                        public void changeLoginPSWSucc() {
+                            binding.edtPwd.setText("");
+                            SPUtil.get(getApplication()).clear(Spkey.PWD);
+                            showChangeLoginPSWPopView.dismiss();
+                        }
+
+                        @Override
+                        public void changeLoginClose() {
+                            viewModel.clearCache();
+                            showChangeLoginPSWPopView.dismiss();
+
+                        }
+                    }));
+
+        }
+        showChangeLoginPSWPopView.show();
+    }
+
     private void goMain() {
         ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -362,23 +390,5 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         }
         return new SecretKeySpec(Base64.decode(key, Base64.DEFAULT), "AES");
     }
-    /**
-     * 显示修改登录密码Dialog
-     */
-    private void goUpdatePwd() {
-        if (showChangeLoginPSWPopView == null) {
-            showChangeLoginPSWPopView = new XPopup.Builder(this)
-                    .dismissOnBackPressed(false)
-                    .dismissOnTouchOutside(false)
-                    .asCustom(ChangeLoginPSWDialog.newInstance(this, this, new ChangeLoginPSWDialog.IChangeLoginPSWCallBack() {
-                        @Override
-                        public void changeLoginPSWSucc() {
-                            binding.edtPwd.setText("");
-                            SPUtil.get(getApplication()).clear(Spkey.PWD);
-                            showChangeLoginPSWPopView.dismiss();
-                        }
-                    }))
-                    .show();
-        }
-    }
+
 }

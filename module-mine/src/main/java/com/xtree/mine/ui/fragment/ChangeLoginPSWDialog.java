@@ -38,6 +38,7 @@ public class ChangeLoginPSWDialog extends CenterPopupView {
 
     public interface IChangeLoginPSWCallBack {
         void changeLoginPSWSucc();
+        void changeLoginClose();
     }
 
     public ChangeLoginPSWDialog(@NonNull Context context) {
@@ -62,8 +63,12 @@ public class ChangeLoginPSWDialog extends CenterPopupView {
     }
 
     private void initView() {
-        binding.ivwClose.setOnClickListener(v -> dismiss());
-        binding.dialogCancel.setOnClickListener(v -> dismiss());
+        binding.ivwClose.setOnClickListener(v ->{
+            mCallBack.changeLoginClose();
+        } );
+        binding.dialogCancel.setOnClickListener(v ->{
+            mCallBack.changeLoginClose();
+        } );
         binding.dialogConfirm.setOnClickListener(v -> {
             requestData();
         });
