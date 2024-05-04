@@ -360,10 +360,11 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
                         @Override
                         public void changeLoginClose() {
+                            viewModel.clearCache();
                             showChangeLoginPSWPopView.dismiss();
 
                         }
-                    })) ;
+                    }));
 
         }
         showChangeLoginPSWPopView.show();
