@@ -112,7 +112,7 @@ public class AugFragment extends BaseFragment<FragmentAugBinding, HomeViewModel>
                 TabLayout.Tab tab = binding.tbAug.newTab();
                 tab.setText(key);
                 binding.tbAug.addTab(tab);
-                fragmentList.add(new AugChildFragment(augMap.get(key)));
+                fragmentList.add(AugChildFragment.newInstance(augMap.get(key)));
             }
             mAdapter.notifyDataSetChanged();
         });
