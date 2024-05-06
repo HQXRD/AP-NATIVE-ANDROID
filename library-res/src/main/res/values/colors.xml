@@ -176,6 +176,7 @@
     <color name="clr_bg_main">#F2F3F7</color>
     <color name="bg_main">#F5F6FB</color>
     <color name="clr_white">#FFFFFF</color>
+    <color name="clr_white_a30">#4cFFFFFF</color>
     <color name="clr_transparent">#00000000</color>
     <color name="clr_transparent_50">#80000000</color>
 
@@ -204,6 +205,7 @@
     <color name="clr_gray_3">#EFF1F8</color>
     <color name="clr_gray_4">#EEEEED</color>
     <color name="clr_gray_5">#DAD5E2</color>
+    <color name="clr_gray_6">#DFDFDF</color>
     <color name="clr_choose_20">#915783</color>
 
     <!-- 筛选框 灰色 标题 -->
