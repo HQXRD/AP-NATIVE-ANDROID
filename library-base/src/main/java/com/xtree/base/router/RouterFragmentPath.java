@@ -75,6 +75,7 @@ public class RouterFragmentPath {
     public static class Wallet {
         private static final String WALLET = "/wallet";
         public static final String PAGER_TRANSFER = WALLET + "/Transfer";
+        public static final String PAGER_TRANSFER_RESULT = WALLET + "/TransferResult";
         public static final String PAGER_WITHDRAW = WALLET + "/Withdraw";
 
     }

@@ -15,8 +15,8 @@
 
     <ImageView
         android:id="@+id/ivw_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:src="@drawable/me_ic_wlt_level" />
 
     <LinearLayout
@@ -31,21 +31,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="中心钱包"
-            android:textSize="14sp" />
+            android:textColor="@color/clr_txt_03"
+            android:textSize="@dimen/bt_text_12sp" />
 
-        <TextView
-            android:id="@+id/tvw_balance"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/clr_grey_00"
-            android:textSize="14sp"
-            tools:text="9,999.0000" />
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvw_balance_symbol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥"
+                android:textColor="@color/clr_txt_01"
+                android:textSize="@dimen/bt_text_18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvw_balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/clr_txt_01"
+                android:textSize="@dimen/bt_text_18sp"
+                android:textStyle="bold"
+                tools:text="9,999.0000" />
+        </LinearLayout>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/ivw_check"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/cm_ck2_selector" />
+    <!--    <ImageView-->
+    <!--        android:id="@+id/ivw_check"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:src="@drawable/cm_ck2_selector" />-->
 
 </LinearLayout>

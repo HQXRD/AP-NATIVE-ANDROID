@@ -1,5 +1,11 @@
 package com.xtree.mine.ui.fragment;
 
+import static com.xtree.mine.ui.fragment.TransferResultFragment.FROM_PLATFORM;
+import static com.xtree.mine.ui.fragment.TransferResultFragment.IS_SUCCESS;
+import static com.xtree.mine.ui.fragment.TransferResultFragment.RESULT_STRING;
+import static com.xtree.mine.ui.fragment.TransferResultFragment.TO_PLATFORM;
+import static com.xtree.mine.ui.fragment.TransferResultFragment.TRANSFER_MONEY;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -289,7 +295,7 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         Collections.sort(transGameBalanceWithOwnList);
         adapter.addAll(transGameBalanceWithOwnList);
 
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), title, adapter, 75));
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), title, adapter, 75, true));
         ppw.show();
     }
 
@@ -371,11 +377,26 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
 
         viewModel.liveDataTransfer.observe(this, isSuccess -> {
             if (isSuccess) {
-                ToastUtils.showLong(R.string.txt_transfer_success);
                 refreshBalance();
-            } else {
-                ToastUtils.showLong(R.string.txt_transfer_fail);
             }
+
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(IS_SUCCESS, isSuccess);
+            bundle.putString(FROM_PLATFORM, binding.tvwFrom.getText().toString());
+            bundle.putString(TO_PLATFORM, binding.tvwTo.getText().toString());
+            bundle.putString(TRANSFER_MONEY, binding.edtAmount.getText().toString());
+            bundle.putString(RESULT_STRING, "");
+            startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER_RESULT, bundle);
+        });
+
+        viewModel.liveDataTransferError.observe(this, msg -> {
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(IS_SUCCESS, false);
+            bundle.putString(FROM_PLATFORM, binding.tvwFrom.getText().toString());
+            bundle.putString(TO_PLATFORM, binding.tvwTo.getText().toString());
+            bundle.putString(TRANSFER_MONEY, binding.edtAmount.getText().toString());
+            bundle.putString(RESULT_STRING, msg);
+            startContainerFragment(RouterFragmentPath.Wallet.PAGER_TRANSFER_RESULT, bundle);
         });
 
         viewModel.liveDataAutoTrans.observe(this, isSuccess -> {

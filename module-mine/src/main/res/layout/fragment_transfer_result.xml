@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/clr_white"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp">
+
+            <TextView
+                style="@style/style_cm_title"
+                android:text="@string/txt_transfer_detail"
+                app:layout_constraintBaseline_toBaselineOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageView
+                android:id="@+id/ivw_back"
+                style="@style/style_ic_title_back"
+                android:src="@mipmap/cm_ic_back"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ivw_cs"
+                    style="@style/style_ic_title_right"
+                    android:src="@mipmap/cm_ic_cs" />
+
+                <ImageView
+                    android:id="@+id/ivw_msg"
+                    style="@style/style_ic_title_right"
+                    android:src="@mipmap/cm_ic_msg" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/ivm_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="80dp"
+            android:src="@mipmap/ic_transfer_fail" />
+
+        <TextView
+            android:id="@+id/tvw_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:text="@string/txt_transfer_success"
+            android:textColor="@color/clr_txt_01"
+            android:textSize="@dimen/bt_text_18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvw_result_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:text="@string/txt_transfer_success_detail"
+            android:textColor="@color/clr_txt_03"
+            android:textSize="@dimen/bt_text_12sp" />
+
+        <TextView
+            android:id="@+id/tvw_result_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="65dp"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginEnd="65dp"
+            android:text=""
+            android:textColor="@color/clr_txt_03"
+            android:textSize="@dimen/bt_text_12sp" />
+
+        <ImageView
+            android:id="@+id/ivm_continue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/ic_continue_transfer" />
+
+    </LinearLayout>
+</layout>

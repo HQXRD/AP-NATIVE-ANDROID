@@ -23,7 +23,7 @@ public class WalletRoomAdapter extends CachedAutoRefreshAdapter<GameBalanceVo> {
     ItemWalletRoomBinding binding;
 
     View curRoot;
-    View curCheck;
+    //View curCheck;
 
     public interface ICallBack {
         void onClick(GameBalanceVo vo);
@@ -60,22 +60,27 @@ public class WalletRoomAdapter extends CachedAutoRefreshAdapter<GameBalanceVo> {
 
         if (vo.gameAlias.equals(curAlias)) {
             binding.llRoot.setSelected(true);
-            binding.ivwCheck.setSelected(true);
-
+            //binding.ivwCheck.setSelected(true);
+            binding.tvwTitle.setTextColor(ctx.getResources().getColor(R.color.white));
+            binding.tvwBalanceSymbol.setTextColor(ctx.getResources().getColor(R.color.white));
+            binding.tvwBalance.setTextColor(ctx.getResources().getColor(R.color.white));
             curRoot = binding.llRoot;
-            curCheck = binding.ivwCheck;
+            if (!(vo.orderId == 1 || vo.orderId == 2 || vo.orderId == 4 || vo.orderId == 40 || vo.orderId == 20 || vo.orderId == 32)) {
+                binding.ivwLogo.setImageResource(R.mipmap.me_ic_wlt_center_selected);
+            }
+            //curCheck = binding.ivwCheck;
         } else {
             binding.llRoot.setSelected(false);
-            binding.ivwCheck.setSelected(false);
+            //binding.ivwCheck.setSelected(false);
         }
 
         binding.llRoot.setOnClickListener(v -> {
             if (curRoot != null) {
                 curRoot.setSelected(false);
-                curCheck.setSelected(false);
+                //curCheck.setSelected(false);
             }
             binding.llRoot.setSelected(true);
-            binding.ivwCheck.setSelected(true);
+            //binding.ivwCheck.setSelected(true);
             mCallBack.onClick(vo);
         });
     }

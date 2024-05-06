@@ -39,6 +39,7 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<Boolean> liveData1kRecycle = new SingleLiveData<>(); // 1键回收
     public SingleLiveData<Boolean> liveDataAutoTrans = new SingleLiveData<>(); // 自动免转
     public SingleLiveData<Boolean> liveDataTransfer = new SingleLiveData<>(); // 转账
+    public SingleLiveData<String> liveDataTransferError = new SingleLiveData<>(); // 转账失败
     public MutableLiveData<List<GameMenusVo>> liveDataTransGameType = new MutableLiveData<>(); // 可转账的平台
     public MutableLiveData<AwardsRecordVo> awardrecordVoMutableLiveData = new MutableLiveData<>();//流水
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>(); // 个人信息
@@ -215,8 +216,12 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
-                        liveDataTransfer.setValue(false);
                         super.onError(t);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        liveDataTransferError.setValue(t.message);
                     }
                 });
         addSubscribe(disposable);
