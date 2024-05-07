@@ -93,7 +93,7 @@ public class AwardsRecordDialog extends BottomPopupView {
 
     private void initView() {
         binding = DialogChooseAwardsBinding.bind(findViewById(R.id.ll_root));
-        binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_wallet));
+        binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_unfinished_activity));
 
         binding.ivwClose.setOnClickListener(v -> {
             callBack.closeAwardsDialog();
