@@ -178,8 +178,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initFirstNetworkFinishTimer();
-        initFirstNetworkExceptionTimer();
+        //initFirstNetworkFinishTimer();
+        //initFirstNetworkExceptionTimer();
         mSavedInstanceState = savedInstanceState;
     }
 
