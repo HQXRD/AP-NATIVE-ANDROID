@@ -839,6 +839,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         String rightText = "使用代理";
         if (!bGameSwitch) {
             rightText = TextUtils.equals(PLATFORM_PM, mPlatform) ? "null" : "切换线路";
+            showMessage = "当前您的网络环境较差，如继续游戏将无法保证游戏体验，是否需要继续等待？";
         } /*else if (!isAgent) {
             rightText = TextUtils.equals(PLATFORM_PM, mPlatform) ? "使用代理" : "切换线路";
         }*/
