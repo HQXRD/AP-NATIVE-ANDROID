@@ -82,7 +82,7 @@ android {
                 def tp = "${if (variant.buildType.name == 'debug') '_db' else ''}"
                 outputFileName = "${name}_v${variant.versionCode}${tp}.apk" // 自己用
                 //outputFileName = "${name}_v${variant.versionCode}.apk"
-                //outputFileName = "${name1}_v${variant.versionCode}_${name2}_${releaseTime()}${tp}.apk" // 发布用
+                outputFileName = "${name1}_v${variant.versionCode}_${name2}_${releaseTime()}${tp}.apk" // 发布用
             }
         }
     }
