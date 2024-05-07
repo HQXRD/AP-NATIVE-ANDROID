@@ -547,13 +547,13 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
-        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb)) {
+        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb) && vo.paycode.contains("zfb")) {
             // 请先绑定您的支付宝账号
             CfLog.i("****** 绑定ZFB");
             toBindAlipay();
             return;
         }
-        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepaywx)) {
+        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepaywx) && vo.paycode.contains("wx")) {
             // 请先绑定您的微信账号
             CfLog.i("****** 绑定WX");
             toBindWeChat();
@@ -1027,7 +1027,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         float realUsdt = realMoney / Float.parseFloat(vo.usdtrate);
         //String usdt = new DecimalFormat("#.##").format(realUsdt);
         //String usdt = String.format(getString(R.string.format_change_range), realUsdt);
-        String usdt = String.format(getString(R.string.format_change_range), NumberUtils.formatUp(realUsdt, 2),"USDT");
+        String usdt = String.format(getString(R.string.format_change_range), NumberUtils.formatUp(realUsdt, 2), "USDT");
         binding.tvwPrePay.setText(usdt);
     }
 
