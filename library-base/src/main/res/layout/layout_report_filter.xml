@@ -135,9 +135,14 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/layout_margin"
         android:layout_marginEnd="0dp"
+        android:background="@drawable/bg_filter_selector"
         android:minEms="3"
+        android:padding="1dp"
         android:text="@string/txt_query"
-        android:textSize="14sp" />
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
     <ImageView
         android:id="@+id/iv_select"
         android:layout_width="wrap_content"
@@ -145,6 +150,6 @@
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/fab_margin"
         android:background="@mipmap/me_inquire_bg"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </LinearLayout>

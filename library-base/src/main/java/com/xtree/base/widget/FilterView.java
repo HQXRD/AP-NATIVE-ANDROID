@@ -312,7 +312,7 @@ public class FilterView extends LinearLayout {
         };
 
         adapter.addAll(list);
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), title.toString(), adapter));
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), title.toString(), adapter, 40, true));
         ppw.show();
     }
 
