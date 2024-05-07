@@ -470,8 +470,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
                 // showErrorMessage(bankCardCashVo.channel_list.get(0).thiriframe_msg);
 
-                View view = binding.tvShowErrorMessage;
-                showErrorMessageByTime(bankCardCashVo.channel_list.get(0).thiriframe_msg, view);
+                /*View view = binding.tvShowErrorMessage;
+                showErrorMessageByTime(bankCardCashVo.channel_list.get(0).thiriframe_msg, view);*/
             } else {
 
                 binding.nsH5View.setVisibility(View.GONE);//隐藏h5展示
@@ -833,8 +833,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
                     //showErrorMessage(bankCardCashVo.channel_list.get(0).thiriframe_msg);
 
-                    View view = binding.tvShowErrorMessage;
-                    showErrorMessageByTime(bankCardCashVo.channel_list.get(0).thiriframe_msg, view);
+                    /*View view = binding.tvShowErrorMessage;
+                    showErrorMessageByTime(bankCardCashVo.channel_list.get(0).thiriframe_msg, view);*/
                 } else {
                     binding.nsH5View.setVisibility(View.GONE);//隐藏h5展示
                     binding.nsErrorView.setVisibility(View.VISIBLE);//展示错误信息页面
@@ -1138,7 +1138,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
     /**
      * 显示绑定未满6小时温馨提示弹窗
-     */
+
     private void showErrorMessageByTime(final String message, final View view) {
         if (ppwErrorByTime == null) {
             final String title = getContext().getString(R.string.txt_kind_tips);
@@ -1160,6 +1160,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         ppwErrorByTime.show();
 
     }
+     */
 
     private void showErrorMessage(final String message) {
         if (ppwError == null) {
