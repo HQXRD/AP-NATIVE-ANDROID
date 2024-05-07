@@ -15,7 +15,6 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.FBService;
@@ -541,6 +540,24 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getGameSwitch() {
+        Disposable disposable = (Disposable) model.getApiService().getGameSwitch()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<Map<String, String>>() {
+                    @Override
+                    public void onResult(Map<String, String> map) {
+                        SPUtils.getInstance().put(SPKeyGlobal.KEY_STR_GAME_SWITCH, new Gson().toJson(map));
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);

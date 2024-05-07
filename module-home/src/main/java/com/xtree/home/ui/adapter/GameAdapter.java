@@ -258,7 +258,9 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             cgToken = SPUtils.getInstance().getString(SPKeyGlobal.PM_TOKEN);
         }
 
-        if (TextUtils.isEmpty(cgToken)) {
+        String gameSwitch = SPUtils.getInstance().getString(SPKeyGlobal.KEY_STR_GAME_SWITCH);
+
+        if (TextUtils.isEmpty(cgToken) || TextUtils.isEmpty(gameSwitch)) {
             ToastUtils.showShort("场馆初始化中，请稍候...");
         } else {
             ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).

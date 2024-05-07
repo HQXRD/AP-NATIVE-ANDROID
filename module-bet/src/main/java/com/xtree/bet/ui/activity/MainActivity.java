@@ -7,7 +7,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
-import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -27,7 +27,6 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TimeUtils;
@@ -76,7 +75,6 @@ import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.Messenger;
-import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -216,13 +214,29 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     }
 
     /**
+     * 初始化代理UI
+     */
+    private void initAgentUi() {
+        String gameSwitch = SPUtils.getInstance().getString(SPKeyGlobal.KEY_STR_GAME_SWITCH);
+        Map<String, String> mapSwitch = new Gson().fromJson(gameSwitch, Map.class);
+        boolean bGameSwitch = TextUtils.equals(mapSwitch.get(mPlatform), "1");
+        SPUtils.getInstance().put(SPKeyGlobal.KEY_GAME_SWITCH + mPlatform, bGameSwitch);
+        binding.ivChangeDomain.setVisibility(bGameSwitch ? View.VISIBLE : TextUtils.equals(mPlatform, PLATFORM_PM) ? View.GONE : View.VISIBLE);
+        if (!bGameSwitch) {
+            SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_AGENT + mPlatform, false);
+        }
+    }
+
+    /**
      * 初始化场馆domain线路
      */
     private void initDomain() {
+
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
         int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
 
         if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
+
             if (isAgent) {
                 SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getDomain());
             } else {
@@ -285,6 +299,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.tvBalance.setOnClickListener(this);
         binding.ivChangeDomain.setOnClickListener(this);
         setChangeDomainVisible();
+        initAgentUi();
         binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -812,24 +827,42 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 显示切换线路弹窗
      */
     private void showChangeDomainTip() {
+        boolean bGameSwitch = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_GAME_SWITCH + mPlatform);
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
-        if(isAgent || (changeAgentTipView != null && changeAgentTipView.isShow())){
+        if ((bGameSwitch && isAgent) || (changeAgentTipView != null && changeAgentTipView.isShow())) {
             return;
         }
+
         final String title = getString(R.string.txt_kind_tips);
         String showMessage = "当前您的网络环境较差，如继续游戏将无法保证游戏体验，是否需要使用代理？";
-        changeAgentTipView = new XPopup.Builder(this).asCustom(new MsgDialog(this, title, "", showMessage, "继续等待", "使用代理", false, new TipDialog.ICallBack() {
+
+        String rightText = "使用代理";
+        if (!bGameSwitch) {
+            rightText = TextUtils.equals(PLATFORM_PM, mPlatform) ? "null" : "切换线路";
+        } /*else if (!isAgent) {
+            rightText = TextUtils.equals(PLATFORM_PM, mPlatform) ? "使用代理" : "切换线路";
+        }*/
+        final String finalRightText = rightText;
+        changeAgentTipView = new XPopup.Builder(this).asCustom(new MsgDialog(this, title, "", showMessage, "继续等待", rightText, false, new TipDialog.ICallBack() {
             @Override
             public void onClickLeft() {
                 changeAgentTipView.dismiss();
-                showChangeDomainDialog();
+                if(!TextUtils.equals("null", finalRightText) && !TextUtils.equals(PLATFORM_PM, mPlatform)){
+                    if(bGameSwitch) {
+                        showChangeDomainDialog();
+                    }
+                }
             }
 
             @Override
             public void onClickRight() {
-                setDomain(true);
-                resetViewModel();
-                setChangeDomainVisible();
+                if(TextUtils.equals("切换线路", finalRightText)){
+                    showChangeDomainDialog();
+                }else {
+                    setDomain(true);
+                    resetViewModel();
+                    setChangeDomainVisible();
+                }
                 changeAgentTipView.dismiss();
             }
         }));
@@ -854,6 +887,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
     /**
      * 上传切换线路或开关代理操作日志
+     *
      * @param useAgent
      * @param isChangeDomain
      */
