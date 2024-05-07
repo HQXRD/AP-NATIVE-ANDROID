@@ -13,6 +13,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
@@ -92,6 +93,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
      * 第一次进入主页时获取列表数据发生异常
      */
     public SingleLiveData<UploadExcetionReq> firstNetworkExceptionData = new SingleLiveData<>();
+    public SingleLiveData<Map<String, String>> agentSwitchData = new SingleLiveData<>();
     public Map<String, League> mMapSportType = new HashMap<>();
     public boolean mNoLiveMatch;
     public List<League> mLeagueList = new ArrayList<>();
@@ -190,6 +192,27 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
                     betContractListData.postValue(betContract);
                 });
         addSubscribe(mSubscription);
+    }
+
+    /**
+     * 获取场馆代理开关
+     */
+    public void getGameSwitch() {
+        Disposable disposable = (Disposable) model.getBaseApiService().getGameSwitch()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<Map<String, String>>() {
+                    @Override
+                    public void onResult(Map<String, String> map) {
+                        agentSwitchData.postValue(map);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
     }
 
     /**

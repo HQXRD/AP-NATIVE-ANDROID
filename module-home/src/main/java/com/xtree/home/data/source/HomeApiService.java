@@ -151,11 +151,4 @@ public interface HomeApiService {
      */
     @GET("/api/activity/reward/?has_pending_reward=1")
     Flowable<BaseResponse<RewardRedVo>> getReward();
-
-    /**
-     * 获取场馆代理开关
-     */
-    @POST("/api/sports/gsaswitch")
-    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse<Map<String, String>>> getGameSwitch();
 }

@@ -545,24 +545,6 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         addSubscribe(disposable);
     }
 
-    public void getGameSwitch() {
-        Disposable disposable = (Disposable) model.getApiService().getGameSwitch()
-                .compose(RxUtils.schedulersTransformer())
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<Map<String, String>>() {
-                    @Override
-                    public void onResult(Map<String, String> map) {
-                        SPUtils.getInstance().put(SPKeyGlobal.KEY_STR_GAME_SWITCH, new Gson().toJson(map));
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);
-    }
-
     public void readCache() {
         CfLog.i("******");
         Gson gson = new Gson();

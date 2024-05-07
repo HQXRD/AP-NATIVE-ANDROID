@@ -1,14 +1,47 @@
 package com.xtree.bet.util;
 
+import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
+import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
+
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import me.xtree.mvvmhabit.utils.SPUtils;
+
 public class BtDomainUtil {
+    private static List<String> domainUrl = new ArrayList<>();
     private static List<String> fbDomainUrl = new ArrayList<>();
     private static List<String> fbxcDomainUrl = new ArrayList<>();
     private static String defaultFbDomainUrl;
     private static String defaultFbxcDomainUrl;
     private static String defaultPmDomainUrl;
+
+    /**
+     * 是否支持多线路
+     * @return
+     */
+    public static boolean isMutiLine(){
+        return domainUrl.size() > 1;
+    }
+
+    public static List<String> getDomainUrl() {
+        return domainUrl;
+    }
+
+    public static void initDomainUrl() {
+        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        BtDomainUtil.domainUrl.clear();
+        if (TextUtils.equals(platform, PLATFORM_FBXC)) {
+            BtDomainUtil.domainUrl.addAll(BtDomainUtil.getFbxcDomainUrl());
+        } else if (TextUtils.equals(platform, PLATFORM_FB)) {
+            BtDomainUtil.domainUrl.addAll(BtDomainUtil.getFbDomainUrl());
+        } else {
+            BtDomainUtil.domainUrl.add(defaultPmDomainUrl);
+        }
+    }
 
     public static void addFbDomainUrl(String url){
         BtDomainUtil.fbDomainUrl.clear();

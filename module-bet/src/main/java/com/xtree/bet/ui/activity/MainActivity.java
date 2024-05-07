@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -197,6 +198,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         initPlatFormName();
         SPUtils.getInstance().put(KEY_PLATFORM, mPlatform);
         SPUtils.getInstance().put(KEY_PLATFORM_NAME, mPlatformName);
+        BtDomainUtil.initDomainUrl();
         initDomain();
     }
 
@@ -216,12 +218,10 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     /**
      * 初始化代理UI
      */
-    private void initAgentUi() {
-        String gameSwitch = SPUtils.getInstance().getString(SPKeyGlobal.KEY_STR_GAME_SWITCH);
-        Map<String, String> mapSwitch = new Gson().fromJson(gameSwitch, Map.class);
-        boolean bGameSwitch = TextUtils.equals(mapSwitch.get(mPlatform), "1");
+    private void initAgentUi(Map<String, String> mapSwitch) {
+        boolean bGameSwitch = TextUtils.equals(mapSwitch.get(mPlatform), "0");
         SPUtils.getInstance().put(SPKeyGlobal.KEY_GAME_SWITCH + mPlatform, bGameSwitch);
-        binding.ivChangeDomain.setVisibility(bGameSwitch ? View.VISIBLE : TextUtils.equals(mPlatform, PLATFORM_PM) ? View.GONE : View.VISIBLE);
+        binding.ivChangeDomain.setVisibility(bGameSwitch ? View.VISIBLE : !BtDomainUtil.isMutiLine() ? View.GONE : View.VISIBLE);
         if (!bGameSwitch) {
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_AGENT + mPlatform, false);
         }
@@ -231,28 +231,25 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 初始化场馆domain线路
      */
     private void initDomain() {
-
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
         int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
-
         if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
-
             if (isAgent) {
                 SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getDomain());
             } else {
-                SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, BtDomainUtil.getFbxcDomainUrl().get(useLinePosition));
+                SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
             }
         } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
             if (isAgent) {
                 SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getDomain());
             } else {
-                SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, BtDomainUtil.getFbDomainUrl().get(useLinePosition));
+                SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
             }
         } else {
             if (isAgent) {
                 SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getDomain());
             } else {
-                SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDefaultPmDomainUrl());
+                SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
             }
         }
     }
@@ -299,7 +296,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.tvBalance.setOnClickListener(this);
         binding.ivChangeDomain.setOnClickListener(this);
         setChangeDomainVisible();
-        initAgentUi();
         binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -785,42 +781,46 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 监听第一次进入主页时获取列表数据是否完成，如果未完成，弹出切换线路提示弹窗
      */
     private void initFirstNetworkFinishTimer() {
-        firstNetworkFinishedDisposable = Observable.interval(5, 5, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aLong -> {
-                    if (!mIsFirstNetworkFinished) {
-                        showChangeDomainTip();
-                    }
-                    if (firstNetworkExceptionDisposable != null) {
-                        viewModel.removeSubscribe(firstNetworkExceptionDisposable);
-                    }
-                    viewModel.removeSubscribe(firstNetworkFinishedDisposable);
-                    firstNetworkFinishedDisposable = null;
-                });
-        viewModel.addSubscribe(firstNetworkFinishedDisposable);
+        if(BtDomainUtil.isMutiLine()) {
+            firstNetworkFinishedDisposable = Observable.interval(5, 5, TimeUnit.SECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(aLong -> {
+                        if (!mIsFirstNetworkFinished) {
+                            showChangeDomainTip();
+                        }
+                        if (firstNetworkExceptionDisposable != null) {
+                            viewModel.removeSubscribe(firstNetworkExceptionDisposable);
+                        }
+                        viewModel.removeSubscribe(firstNetworkFinishedDisposable);
+                        firstNetworkFinishedDisposable = null;
+                    });
+            viewModel.addSubscribe(firstNetworkFinishedDisposable);
+        }
     }
 
     /**
      * 监听第一次进入主页时获取列表数据是否发生异常，如果发生异常，则上报服务器
      */
     private void initFirstNetworkExceptionTimer() {
-        firstNetworkExceptionDisposable = Observable.interval(1, 2, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(aLong -> {
-                    if (mUploadExcetionReq != null) {
-                        showChangeDomainTip();
-                        if (firstNetworkFinishedDisposable != null) {
-                            viewModel.removeSubscribe(firstNetworkFinishedDisposable);
+        if(BtDomainUtil.isMutiLine()) {
+            firstNetworkExceptionDisposable = Observable.interval(1, 2, TimeUnit.SECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(aLong -> {
+                        if (mUploadExcetionReq != null) {
+                            showChangeDomainTip();
+                            if (firstNetworkFinishedDisposable != null) {
+                                viewModel.removeSubscribe(firstNetworkFinishedDisposable);
+                            }
+                            viewModel.uploadException(mUploadExcetionReq);
+                            mUploadExcetionReq = null;
+                            firstNetworkExceptionDisposable = null;
                         }
-                        viewModel.uploadException(mUploadExcetionReq);
-                        mUploadExcetionReq = null;
-                        firstNetworkExceptionDisposable = null;
-                    }
-                    viewModel.removeSubscribe(firstNetworkExceptionDisposable);
-                });
-        viewModel.addSubscribe(firstNetworkExceptionDisposable);
+                        viewModel.removeSubscribe(firstNetworkExceptionDisposable);
+                    });
+            viewModel.addSubscribe(firstNetworkExceptionDisposable);
+        }
     }
 
     /**
@@ -834,36 +834,16 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         }
 
         final String title = getString(R.string.txt_kind_tips);
-        String showMessage = "当前您的网络环境较差，如继续游戏将无法保证游戏体验，是否需要使用代理？";
-
-        String rightText = "使用代理";
-        if (!bGameSwitch) {
-            rightText = TextUtils.equals(PLATFORM_PM, mPlatform) ? "null" : "切换线路";
-            showMessage = "当前您的网络环境较差，如继续游戏将无法保证游戏体验，是否需要继续等待？";
-        } /*else if (!isAgent) {
-            rightText = TextUtils.equals(PLATFORM_PM, mPlatform) ? "使用代理" : "切换线路";
-        }*/
-        final String finalRightText = rightText;
-        changeAgentTipView = new XPopup.Builder(this).asCustom(new MsgDialog(this, title, "", showMessage, "继续等待", rightText, false, new TipDialog.ICallBack() {
+        String showMessage = "当前您的网络环境较差，如继续游戏将无法保证游戏体验，是否需要继续等待？";
+        changeAgentTipView = new XPopup.Builder(this).asCustom(new MsgDialog(this, title, "", showMessage, "继续等待", "切换线路", false, new TipDialog.ICallBack() {
             @Override
             public void onClickLeft() {
                 changeAgentTipView.dismiss();
-                if(!TextUtils.equals("null", finalRightText) && !TextUtils.equals(PLATFORM_PM, mPlatform)){
-                    if(bGameSwitch) {
-                        showChangeDomainDialog();
-                    }
-                }
             }
 
             @Override
             public void onClickRight() {
-                if(TextUtils.equals("切换线路", finalRightText)){
-                    showChangeDomainDialog();
-                }else {
-                    setDomain(true);
-                    resetViewModel();
-                    setChangeDomainVisible();
-                }
+                showChangeDomainDialog();
                 changeAgentTipView.dismiss();
             }
         }));
@@ -1022,6 +1002,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         mOddType = SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE, 1);
         viewModel.statistical(playMethodType);
         viewModel.getUserBalance();
+        viewModel.getGameSwitch();
     }
 
     @Override
@@ -1320,6 +1301,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         viewModel.firstNetworkExceptionData.observe(this, uploadExcetionReq -> {
             //CfLog.e(viewModel.firstNetworkExceptionData + "=====");
             mUploadExcetionReq = uploadExcetionReq;
+        });
+        viewModel.agentSwitchData.observe(this, switchMap -> {
+            initAgentUi(switchMap);
         });
 
     }

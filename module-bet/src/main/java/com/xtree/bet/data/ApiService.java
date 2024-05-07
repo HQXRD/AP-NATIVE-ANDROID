@@ -59,4 +59,11 @@ public interface ApiService {
     @POST("/api/sports/excaption")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<String>> uploadExcetion(@Body Map<String, String> map);
+
+    /**
+     * 获取场馆代理开关
+     */
+    @POST("/api/sports/gsaswitch")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<Map<String, String>>> getGameSwitch();
 }
