@@ -344,4 +344,7 @@
     <color name="clr_withdrawal_top_text_bg">#2D332F</color>
     <color name="clr_withdrawal_top_text_default_bg">#C2CEC8</color>
 
+    <color name="clr_rc_dialog_btn">#B890E6</color>
+    <color name="clr_dlg_txt_main">#A797F0</color>
+
 </resources>
