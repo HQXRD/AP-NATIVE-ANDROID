@@ -219,7 +219,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 初始化代理UI
      */
     private void initAgentUi(Map<String, String> mapSwitch) {
-        boolean bGameSwitch = TextUtils.equals(mapSwitch.get(mPlatform), "0");
+        boolean bGameSwitch = TextUtils.equals(mapSwitch.get(mPlatform), "1");
         SPUtils.getInstance().put(SPKeyGlobal.KEY_GAME_SWITCH + mPlatform, bGameSwitch);
         binding.ivChangeDomain.setVisibility(bGameSwitch ? View.VISIBLE : !BtDomainUtil.isMutiLine() ? View.GONE : View.VISIBLE);
         if (!bGameSwitch) {

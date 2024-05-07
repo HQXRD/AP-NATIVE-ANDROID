@@ -61,12 +61,15 @@ public class DomainChangeDialog extends AttachPopupView {
         });
 
         if (!isAgent && !TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            nsvAgent.setVisibility(VISIBLE);
             rvAgent.setLayoutManager(new LinearLayoutManager(mContext));
             if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
                 rvAgent.setAdapter(new BtDomainAdapter(mContext, BtDomainUtil.getFbxcDomainUrl(), mICallBack, cbAgent));
             } else {
                 rvAgent.setAdapter(new BtDomainAdapter(mContext, BtDomainUtil.getFbDomainUrl(), mICallBack, cbAgent));
             }
+        } else {
+            nsvAgent.setVisibility(GONE);
         }
 
         nsvAgent.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
