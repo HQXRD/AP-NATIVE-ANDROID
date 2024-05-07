@@ -225,6 +225,7 @@
         <item name="android:padding">12dp</item>
         <item name="android:background">@drawable/btn_acc_item_selector</item>
         <item name="android:textColor">@color/clr_white</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <!-- 提款-item -->
@@ -1119,6 +1120,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="odin_style_withdraw_confirm_ll">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>
