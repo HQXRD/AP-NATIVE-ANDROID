@@ -426,7 +426,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         gameAdapter = new GameAdapter(getContext(), mCallBack);
         binding.rcvList.setAdapter(gameAdapter);
-        binding.rcvList.setHasFixedSize(true);
         ((SimpleItemAnimator)binding.rcvList.getItemAnimator()).setSupportsChangeAnimations(false);
         manager = new LinearLayoutManager(getContext());
         binding.rcvList.setLayoutManager(manager);
