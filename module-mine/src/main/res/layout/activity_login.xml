@@ -8,350 +8,380 @@
         android:layout_height="match_parent"
         android:background="@mipmap/me_login_bg">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/ll_root"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="20dp">
-
-        <ImageView
-            android:id="@+id/login_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:src="@mipmap/me_login_header"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/login_sub_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/me_login_sub_header"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/login_header" />
-
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ll_root"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/login_sub_header">
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/login_area"
-                android:layout_width="0dp"
-                android:layout_height="320dp"
-                android:layout_weight="11"
-                android:background="@mipmap/me_login_area_bg"
-                android:visibility="gone"
-                tools:visibility="visible">
+            <ImageView
+                android:id="@+id/login_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:src="@mipmap/me_login_header"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/me_login_title"
-                    android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/login_sub_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/me_login_sub_header"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/login_header" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/login_sub_header">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/login_area"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:text="@string/me_login"
-                    android:textSize="@dimen/me_text_sp20"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_weight="11"
+                    android:background="@mipmap/me_login_area_bg"
+                    android:visibility="gone"
+                    tools:visibility="gone">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="20dp"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/me_login_title">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/me_login_title"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/me_input_bg"
-                        android:orientation="horizontal">
-
-                        <EditText
-                            android:id="@+id/edt_account"
-                            style="@style/style_cm_edt_account" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="@mipmap/me_input_bg">
-
-                        <EditText
-                            android:id="@+id/edt_pwd"
-                            style="@style/style_cm_edt_pwd" />
-
-                        <CheckBox
-                            android:id="@+id/ckb_eye"
-                            style="@style/style_cm_ckb_eye" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginRight="15dp"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:id="@+id/ckb_remember_pwd"
-                            style="@style/style_cm_ckb_normal"
-                            android:text="@string/me_pwd_rember" />
-
-                        <View
-                            android:layout_width="wrap_content"
-                            android:layout_height="1dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/tvw_forget_pwd"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/me_pwd_forget"
-                            android:textColor="@color/me_text_forget_pwd"
-                            android:textSize="@dimen/me_test_size" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
-                        android:layout_marginTop="20dp"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:id="@+id/ckb_agreement"
-                            style="@style/style_cm_ckb_normal"
-                            android:checked="true"
-                            android:text="@string/me_agreement_hint" />
-
-                        <TextView
-                            android:id="@+id/tvw_agreement"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="@string/me_agreement_content"
-                            android:textColor="@color/me_text_agreement"
-                            android:textSize="@dimen/me_text_size_sp12sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/btn_login"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:background="@mipmap/me_login_logout_bg"
+                        android:layout_marginTop="18dp"
                         android:text="@string/me_login"
-                        android:textColor="@color/white" />
+                        android:textSize="@dimen/me_text_sp20"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="15dp">
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/me_login_title">
 
-                        <TextView
-                            android:id="@+id/tvw_skip_login"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/me_go_round"
-                            android:textSize="@dimen/me_text_size_sp12sp"
-                            android:textStyle="bold" />
+                            android:background="@mipmap/me_input_bg"
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/tvw_cs"
-                            android:layout_width="wrap_content"
+                            <EditText
+                                android:id="@+id/edt_account"
+                                style="@style/style_cm_edt_account" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:text="@string/me_online_service"
-                            android:textSize="@dimen/me_text_size_sp12sp"
-                            android:textStyle="bold" />
+                            android:layout_marginTop="10dp"
+                            android:background="@mipmap/me_input_bg">
 
-                    </RelativeLayout>
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                            <EditText
+                                android:id="@+id/edt_pwd"
+                                style="@style/style_cm_edt_pwd" />
 
-            <RelativeLayout
-                android:id="@+id/to_register_area"
-                android:layout_width="0dp"
-                android:layout_height="320dp"
-                android:layout_weight="2"
-                android:background="@mipmap/me_login_recg"
-                android:orientation="vertical"
-                android:visibility="gone">
+                            <CheckBox
+                                android:id="@+id/ckb_eye"
+                                style="@style/style_cm_ckb_eye" />
+                        </LinearLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@mipmap/me_login_register" />
-            </RelativeLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginRight="15dp"
+                            android:orientation="horizontal">
 
-            <RelativeLayout
-                android:id="@+id/to_login_area"
-                android:layout_width="0dp"
-                android:layout_height="320dp"
-                android:layout_weight="2"
-                android:background="@mipmap/me_to_login_bg"
-                android:orientation="vertical"
-                android:visibility="visible">
+                            <CheckBox
+                                android:id="@+id/ckb_remember_pwd"
+                                style="@style/style_cm_ckb_normal"
+                                android:text="@string/me_pwd_rember" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@mipmap/me_back_login_bg" />
-            </RelativeLayout>
+                            <View
+                                android:layout_width="wrap_content"
+                                android:layout_height="1dp"
+                                android:layout_weight="1" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/me_register_area"
-                android:layout_width="0dp"
-                android:layout_height="320dp"
-                android:layout_weight="11"
-                android:background="@mipmap/me_register_area_bg"
-                android:visibility="gone"
-                tools:visibility="gone">
+                            <TextView
+                                android:id="@+id/tvw_forget_pwd"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/me_pwd_forget"
+                                android:textColor="@color/me_text_forget_pwd"
+                                android:textSize="@dimen/me_test_size" />
+                        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/me_register_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:text="@string/me_register"
-                    android:textSize="@dimen/me_text_sp20"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="20dp"
+                            <CheckBox
+                                android:id="@+id/ckb_agreement"
+                                style="@style/style_cm_ckb_normal"
+                                android:checked="true"
+                                android:text="@string/me_agreement_hint" />
+
+                            <TextView
+                                android:id="@+id/tvw_agreement"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/me_agreement_content"
+                                android:textColor="@color/me_text_agreement"
+                                android:textSize="@dimen/me_text_size_sp12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/btn_login"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:background="@mipmap/me_login_logout_bg"
+                            android:text="@string/me_login"
+                            android:textColor="@color/white" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginBottom="15dp">
+
+                            <TextView
+                                android:id="@+id/tvw_skip_login"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:text="@string/me_go_round"
+                                android:textSize="@dimen/me_text_size_sp12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvw_cs"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:text="@string/me_online_service"
+                                android:textSize="@dimen/me_text_size_sp12sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <RelativeLayout
+                    android:id="@+id/to_register_area"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@mipmap/me_login_recg"
                     android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/me_register_title">
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@mipmap/me_input_bg"
-                        android:orientation="horizontal">
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/me_login_register" />
+                </RelativeLayout>
 
-                        <EditText
-                            android:id="@+id/edt_acc_reg"
-                            android:hint="@string/txt_user_name_should_6_12"
-                            style="@style/style_cm_edt_account" />
+                <RelativeLayout
+                    android:id="@+id/to_login_area"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:background="@mipmap/me_to_login_bg"
+                    android:orientation="vertical"
+                    android:visibility="visible"
+                    tools:visibility="gone">
 
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="@mipmap/me_input_bg">
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/me_back_login_bg" />
+                </RelativeLayout>
 
-                        <EditText
-                            android:id="@+id/edt_pwd1"
-                            android:hint="@string/txt_reset_password_length_error"
-                            style="@style/style_cm_edt_pwd" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/me_register_area"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="11"
+                    android:background="@mipmap/me_register_area_bg"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
-                        <CheckBox
-                            android:id="@+id/ckb_pwd1"
-                            style="@style/style_cm_ckb_eye" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/me_register_title"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="@mipmap/me_input_bg">
-
-                        <EditText
-                            android:id="@+id/edt_pwd2"
-                            android:hint="@string/txt_enter_pwd_again"
-                            style="@style/style_cm_edt_pwd" />
-
-                        <CheckBox
-                            android:id="@+id/ckb_pwd2"
-                            style="@style/style_cm_ckb_eye" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginTop="20dp"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:id="@+id/register_agreement_checkbox"
-                            style="@style/PwdCheckboxStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginTop="2dp"
-                            android:checked="true" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginLeft="2dp"
-                            android:text="@string/me_agreement_hint"
-                            android:textSize="@dimen/me_text_size_sp12sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tvw_agreement_register"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:text="@string/me_agreement_content"
-                            android:textColor="@color/me_text_agreement"
-                            android:textSize="@dimen/me_text_size_sp12sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/btn_register"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:background="@mipmap/me_login_logout_bg"
+                        android:layout_marginTop="18dp"
                         android:text="@string/me_register"
-                        android:textColor="@color/white" />
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                        android:textSize="@dimen/me_text_sp20"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/me_register_title">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@mipmap/me_input_bg"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/edt_acc_reg"
+                                style="@style/style_cm_edt_account"
+                                android:hint="@string/txt_user_name_should_6_12" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvw_username_warning"
+                            style="@style/style_cm_tip_small_orange"
+                            android:layout_marginStart="18dp"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/txt_username_empty"
+                            android:visibility="visible"
+                            tools:visibility="visible" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@mipmap/me_input_bg">
+
+                            <EditText
+                                android:id="@+id/edt_pwd1"
+                                style="@style/style_cm_edt_pwd"
+                                android:hint="@string/txt_reset_password_length_error" />
+
+                            <CheckBox
+                                android:id="@+id/ckb_pwd1"
+                                style="@style/style_cm_ckb_eye" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvw_pwd_warning"
+                            style="@style/style_cm_tip_small_orange"
+                            android:layout_marginStart="18dp"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/txt_pwd_cannot_empty"
+                            android:visibility="visible"
+                            tools:visibility="visible" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@mipmap/me_input_bg">
+
+                            <EditText
+                                android:id="@+id/edt_pwd2"
+                                style="@style/style_cm_edt_pwd"
+                                android:hint="@string/txt_enter_pwd_again" />
+
+                            <CheckBox
+                                android:id="@+id/ckb_pwd2"
+                                style="@style/style_cm_ckb_eye" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvw_pwd_check_warning"
+                            style="@style/style_cm_tip_small_orange"
+                            android:layout_marginStart="18dp"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/txt_pwd_should_same"
+                            android:visibility="invisible"
+                            tools:visibility="visible" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <CheckBox
+                                android:id="@+id/register_agreement_checkbox"
+                                style="@style/PwdCheckboxStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="2dp"
+                                android:checked="true" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="2dp"
+                                android:text="@string/me_agreement_hint"
+                                android:textSize="@dimen/me_text_size_sp12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tvw_agreement_register"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/me_agreement_content"
+                                android:textColor="@color/me_text_agreement"
+                                android:textSize="@dimen/me_text_size_sp12sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/btn_register"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="15dp"
+                            android:background="@drawable/btn_bg_register_enable"
+                            android:text="@string/me_register"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

@@ -1,154 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cl_root"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/clr_transparent"
-    tools:ignore="MissingDefaultResource">
-
-    <ImageView
-        android:id="@+id/ivw_bg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:padding="4dp"
-        android:src="@mipmap/bg_rc_tip_dialog"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/ivw_empty"
-        android:layout_width="0dp"
-        android:layout_height="20dp"
-        android:background="@color/clr_black"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/ivw_bell"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/cm_dialog_bell"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="gone" />
+    android:layout_gravity="center"
+    android:background="@drawable/bg_tip_dialog"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/ivw_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="16dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
         android:contentDescription="close"
-        android:padding="4dp"
-        android:src="@mipmap/ic_pop_close"
-        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
-        app:layout_constraintTop_toTopOf="@id/ivw_bg" />
+        android:padding="0dp"
+        android:src="@mipmap/ic_pop_close" />
 
     <TextView
         android:id="@+id/tvw_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:text="@string/txt_kind_tips"
         android:textColor="@color/clr_black"
         android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
-        app:layout_constraintStart_toStartOf="@id/ivw_bg"
-        app:layout_constraintTop_toTopOf="@id/ivw_bg" />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvw_msg"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="0dp"
         android:gravity="center"
         android:textColor="@color/clr_grey_60"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
-        app:layout_constraintStart_toStartOf="@id/ivw_bg"
-        app:layout_constraintTop_toBottomOf="@id/tvw_title"
+        android:textSize="14sp"
         tools:text="当前渠道【 】充值到账成功率较低，为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！" />
 
-    <com.xtree.base.widget.MaxRecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_main"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="24dp"
-        app:layout_constraintBottom_toTopOf="@id/tvw_use_cur"
-        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
-        app:layout_constraintStart_toStartOf="@id/ivw_bg"
-        app:layout_constraintTop_toBottomOf="@id/tvw_msg" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp" />
 
     <TextView
         android:id="@+id/tvw_use_cur"
-        style="@style/style_btn"
-        android:layout_width="0dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="18dp"
+        style="@style/style_btn_frame"
+        android:layout_width="match_parent"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="0dp"
         android:text="@string/txt_close_dialog_continue_cur"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@id/ckb_not_tip"
-        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
-        app:layout_constraintStart_toStartOf="@id/ivw_bg" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tvw_close"
-        style="@style/style_btn"
-        android:layout_width="0dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="12dp"
+        style="@style/style_btn_frame"
+        android:layout_width="match_parent"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="0dp"
         android:text="@string/txt_rc_i_know_close"
         android:textSize="12sp"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/ckb_not_tip"
-        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
-        app:layout_constraintStart_toStartOf="@id/ivw_bg"
         tools:visibility="visible" />
 
     <CheckBox
         android:id="@+id/ckb_not_tip"
+        style="@style/style_cm_ckb"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/txt_rc_not_tip" />
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:text="@string/txt_rc_not_tip"
-        android:textColor="@color/clr_purple_01"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:theme="@style/style_theme_cm_ckb"
-        app:layout_constraintBottom_toTopOf="@id/ll_bottom"
-        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
-        app:layout_constraintStart_toStartOf="@id/ivw_bg" />
+        android:src="@mipmap/ic_rc_split_line" />
 
     <LinearLayout
         android:id="@+id/ll_bottom"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="46dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
         android:gravity="center"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="@id/ivw_bg"
-        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
-        app:layout_constraintStart_toStartOf="@id/ivw_bg">
+        android:visibility="visible">
 
         <TextView
             android:id="@+id/tvw_tutorial"
@@ -156,7 +99,8 @@
             android:layout_height="wrap_content"
             android:drawableStart="@mipmap/cm_ic_tutorial"
             android:drawablePadding="3dp"
-            android:text="@string/txt_recharge_tutorial" />
+            android:text="@string/txt_recharge_tutorial"
+            android:textColor="@color/clr_grey_00" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -169,8 +113,8 @@
             android:layout_height="wrap_content"
             android:drawableStart="@mipmap/cm_ic_cs2"
             android:drawablePadding="3dp"
-            android:text="@string/txt_contact_custom" />
-
+            android:text="@string/txt_contact_custom"
+            android:textColor="@color/clr_grey_00" />
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,6 +121,8 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
 
     @Override
     public void initView() {
+        binding.ivwTransfer.setEnabled(false);
+
         int auto_thrad_status = SPUtils.getInstance().getInt(SPKeyGlobal.USER_AUTO_THRAD_STATUS);
         if (auto_thrad_status == 1) {
             binding.llCenterWallet.ckbAuto.setChecked(true);
@@ -205,6 +209,23 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
 
         binding.ivwTransfer.setOnClickListener(v -> doTransfer());
 
+        binding.edtAmount.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.ivwTransfer.setEnabled(!binding.edtAmount.getText().toString().isEmpty());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void doTransfer() {

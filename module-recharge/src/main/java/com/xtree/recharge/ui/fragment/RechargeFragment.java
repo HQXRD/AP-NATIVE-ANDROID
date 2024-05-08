@@ -342,6 +342,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     setUsdtRate(curRechargeVo);
                 }
                 String amount = s.toString();
+
+                // 预计支付
+                setPrePay(curRechargeVo, amount);
+
                 if (!TextUtils.isEmpty(amount) && (Double.parseDouble(amount) < loadMin || Double.parseDouble(amount) > loadMax)) {
                     binding.tvwTipAmount.setVisibility(View.VISIBLE);
                 } else {
@@ -543,13 +547,13 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
-        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb)) {
+        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb) && vo.paycode.contains("zfb")) {
             // 请先绑定您的支付宝账号
             CfLog.i("****** 绑定ZFB");
             toBindAlipay();
             return;
         }
-        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepaywx)) {
+        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepaywx) && vo.paycode.contains("wx")) {
             // 请先绑定您的微信账号
             CfLog.i("****** 绑定WX");
             toBindWeChat();
@@ -657,6 +661,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }
 
         setRate(vo); // 设置汇率提示信息
+        setPrePay(vo, amount); // 设置预计支付
         setNextButton();
     }
 
@@ -988,6 +993,44 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     }
 
+    private void setPrePay(RechargeVo vo, String amount) {
+        double realUsdt = Double.parseDouble(0 + amount); // amount 不能为空
+        String type = "";
+        binding.tvwPrePay.setVisibility(View.VISIBLE);
+
+        if (!TextUtils.isEmpty(vo.usdtrate)) {
+            setUsdtRate(vo);
+            return;
+        } else if (vo.paycode.equals("hiwallet")) {
+            type = "CNYT";
+        } else if (vo.paycode.equals("hqppaytopay")) {
+            type = "TOG";
+        } else if (vo.paycode.equals("ebpay")) {
+            type = "EB";
+        } else if (vo.paycode.equals("hqppaygobao")) {
+            type = "GB";
+        } else if (vo.paycode.equals("hqppayokpay")) {
+            type = "OKG";
+        } else if (vo.paycode.equals("hqppaygopay")) {
+            type = "GOP";
+        } else {
+            binding.tvwPrePay.setVisibility(View.GONE);
+        }
+
+        String txt = String.format(getString(R.string.format_change_range), NumberUtils.formatUp(realUsdt, 2), type);
+        binding.tvwPrePay.setText(txt);
+    }
+
+    private void setUsdtRate(RechargeVo vo) {
+        binding.tvwFxRate.setText(getString(R.string.txt_rate_usdt, vo.usdtrate));
+        int realMoney = Integer.parseInt(0 + binding.tvwRealAmount.getText().toString());
+        float realUsdt = realMoney / Float.parseFloat(vo.usdtrate);
+        //String usdt = new DecimalFormat("#.##").format(realUsdt);
+        //String usdt = String.format(getString(R.string.format_change_range), realUsdt);
+        String usdt = String.format(getString(R.string.format_change_range), NumberUtils.formatUp(realUsdt, 2), "USDT");
+        binding.tvwPrePay.setText(usdt);
+    }
+
     /**
      * 重新设置选中的充值渠道 (加载缓存后,选中某个渠道,接口返回的数据回来,重设)
      */
@@ -1120,15 +1163,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     }
 
-    private void setUsdtRate(RechargeVo vo) {
-        binding.tvwFxRate.setText(getString(R.string.txt_rate_usdt, vo.usdtrate));
-        int realMoney = Integer.parseInt(0 + binding.tvwRealAmount.getText().toString());
-        float realUsdt = realMoney / Float.parseFloat(vo.usdtrate);
-        //String usdt = new DecimalFormat("#.##").format(realUsdt);
-        //String usdt = String.format(getString(R.string.format_change_range), realUsdt);
-        String usdt = String.format(getString(R.string.format_change_range), NumberUtils.formatUp(realUsdt, 2));
-        binding.tvwPrePay.setText(usdt);
-    }
+
 
     /*private void setHiWallet(PaymentVo vo) {
         binding.llHiWallet.setVisibility(View.GONE);

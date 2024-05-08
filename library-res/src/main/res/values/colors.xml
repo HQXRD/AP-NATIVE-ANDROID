@@ -21,7 +21,12 @@
     <color name="me_account_end_color">#B097F0</color>
     <color name="me_wallet_detail_color">#A96B94</color>
 
+    <color name="clr_main_01">#5A436C</color>
+    <color name="clr_main_02">#94688E</color>
     <color name="clr_main_14">#665849</color>
+
+    <color name="clr_register_03">#995A436C</color>
+    <color name="clr_register_04">#9994688E</color>
     <!-- 更新模块 -->
     <color name="update_progress_bar_bg">#D0C8DC</color>
     <!-- 更新模块 进度条开始颜色 -->
@@ -338,5 +343,8 @@
     <color name="clr_withdrawal_text_bg">@color/clr_main_14</color>
     <color name="clr_withdrawal_top_text_bg">#2D332F</color>
     <color name="clr_withdrawal_top_text_default_bg">#C2CEC8</color>
+
+    <color name="clr_rc_dialog_btn">#B890E6</color>
+    <color name="clr_dlg_txt_main">#A797F0</color>
 
 </resources>

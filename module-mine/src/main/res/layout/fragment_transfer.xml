@@ -237,7 +237,7 @@
 
                 <TextView
                     style="@style/style_cm_title"
-                    android:text="转账额度" />
+                    android:text="转账金额" />
 
                 <RadioGroup
                     android:id="@+id/rgp_amount"
@@ -292,6 +292,7 @@
                         style="@style/style_cm_edit_amount"
                         android:hint="@string/txt_pls_enter_transfer_amount"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -313,7 +314,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="24dp"
-                    android:src="@mipmap/me_btn_transfer" />
+                    android:src="@drawable/bg_btn_confirm_selector" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

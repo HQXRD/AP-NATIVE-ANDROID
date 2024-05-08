@@ -24,6 +24,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
@@ -138,7 +139,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
 
         //显示钱包流水
         binding.tvwAwardRecord.setOnClickListener(v -> {
-            if (isNetworkAwards) {
+            if (isNetworkAwards ) {
                 //ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
                 if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
                     showAwardsRecord();
@@ -317,17 +318,34 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
      * 显示资金流水
      */
     private void showAwardsRecord() {
-        if (awardPopView == null) {
-            awardPopView = new XPopup.Builder(getContext()).dismissOnBackPressed(true)
+
+        Bundle bundle = new Bundle();
+        bundle.putString("viewType", "Wallet");
+        ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).withBundle("viewType", bundle)
+                .navigation();
+       /* if (awardPopView == null) {
+           *//* awardPopView = new XPopup.Builder(getContext()).dismissOnBackPressed(true)
                     .dismissOnTouchOutside(true)
                     .asCustom(AwardsRecordDialog.newInstance(getContext(), this, awardsRecordVo, 1, () -> {
                         // awardPopView.dismiss();
                         awardPopView = null;
+                    }));*//*
+            awardPopView = new XPopup.Builder(getContext()).dismissOnBackPressed(false)
+                    .dismissOnTouchOutside(false)
+                    .asCustom(WithdrawFlowDialog.newInstance(getContext(), this, awardsRecordVo, new WithdrawFlowDialog.IWithdrawFlowDialogCallBack() {
+                        @Override
+                        public void closeWithdrawFlowDialog() {
+                            LoadingDialog.finish();
+                            // basePopupView = null;
+                            awardPopView.dismiss();
+                            //awardPopView = null;
+                            CfLog.e("showWithdrawFlow  dismiss");
+                        }
                     }));
+
         }
 
-        awardPopView.show();
-
+        awardPopView.show();*/
     }
 
     /**
