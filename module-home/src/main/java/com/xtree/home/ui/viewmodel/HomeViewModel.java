@@ -15,7 +15,6 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.FBService;
@@ -466,8 +465,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         addSubscribe(disposable);
     }
 
-    public void getEle(Context context, int id, int page, int pageSize, String cateId, int isHot) {
-        LoadingDialog.show(context);
+    public void getEle(int id, int page, int pageSize, String cateId, int isHot) {
         HashMap map = new HashMap<>();
         map.put("platform_id", id);
         map.put("page", page);
@@ -481,8 +479,6 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onResult(EleVo vo) {
                         CfLog.i(vo.toString().toString());
-                        Gson gson = new Gson();
-                        SPUtils.getInstance().put(String.valueOf(id), gson.toJson(vo));
                         liveDataEle.setValue(vo);
                     }
 
