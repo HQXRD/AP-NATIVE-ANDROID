@@ -75,7 +75,7 @@
     <string name="me_wallet_dbqp">DB棋牌</string>
     <string name="txt_user_name">用户名</string>
     <string name="txt_user_name_input">请输入用户名</string>
-    <string name="txt_transfer">转账</string>
+    <string name="txt_transfer">平台转账</string>
     <string name="txt_1k_recycle">一键回收</string>
     <string name="txt_auto_transfer">自动免转</string>
     <string name="txt_lock_wallet">锁定钱包</string>
@@ -151,9 +151,12 @@
 
     <string name="txt_change_pwd">修改密码</string>
     <string name="txt_enter_new_pwd">请输入新的登录密码</string>
+    <string name="txt_username_empty">用户名不能为空</string>
     <string name="txt_user_name_should_6_12">用户名为6到12位</string>
+    <string name="txt_user_name_should_char_num">请输入由字母和数字组成的6到12位字符</string>
+    <string name="txt_user_name_should_not_0o">不能以数字0或大小写o开头</string>
     <string name="txt_pwd_should_6_12">密码为6到12位</string>
-    <string name="txt_pwd_should_6_16">请输入由字母和数字组成的6-16位字符</string>
+    <string name="txt_pwd_should_6_16">请输入由字母和数字组成的6–16位字符</string>
     <string name="txt_enter_pwd_again">请再次输入密码</string>
     <string name="txt_pwd_should_same">两次输入密码不一致</string>
 
@@ -394,7 +397,7 @@
     <string name="txt_upload_payment_code">点击上传%s收款二维码截图</string>
     <string name="txt_get_payment_code">查看如何获取%s个人收款码</string>
     <string name="txt_tip_name">请输入姓名</string>
-    <string name="txt_tip_phone">请输入正确格式的手机号码</string>
+    <string name="txt_tip_account">请输入账号</string>
     <string name="txt_tip_nickname">请输入昵称</string>
     <string name="txt_tip_code">请添加%s收款码</string>
     <string name="txt_title_code">如何获取%s个人收款码</string>

@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 class EleVo(
     val count: String,
-    val list: List<Ele>
+    val list: List<Ele>?
 ) : Parcelable
 
 @Parcelize

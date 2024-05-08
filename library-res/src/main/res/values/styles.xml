@@ -225,6 +225,7 @@
         <item name="android:padding">12dp</item>
         <item name="android:background">@drawable/btn_acc_item_selector</item>
         <item name="android:textColor">@color/clr_white</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
     <!-- 提款-item -->
@@ -405,6 +406,33 @@
         <item name="android:textColor">@color/clr_text_code_selector</item>
         <item name="android:textSize">16sp</item>
     </style>
+
+    <!-- 充值 弹窗 按钮 渐变 -->
+    <style name="style_btn_frame">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:background">@drawable/bg_btn_r10_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">@string/txt_submit</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 充值 弹窗 列表项 纯色 -->
+    <style name="style_rdo_recommend">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_btn_r10_white_selector</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_text_main_selector</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
     <!-- 通用 按钮 背景为灰色,可变色(返回/取消等地方使用) -->
     <style name="style_btn_back" parent="style_btn">
         <item name="android:background">@drawable/bg_btn_grey_selector</item>
@@ -711,6 +739,16 @@
     <style name="style_theme_cm_ckb">
         <item name="colorAccent">@color/clr_purple_02</item>
         <item name="colorControlNormal">@color/clr_purple_01</item>
+    </style>
+
+    <style name="style_cm_ckb">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:button">@drawable/ckb_selector</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:textColor">@color/clr_purple_01</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <!-- 我的-账户管理-绑定-新增页 标题 -->
@@ -1119,6 +1157,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="odin_style_withdraw_confirm_ll">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>

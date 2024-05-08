@@ -25,17 +25,17 @@
     <string name="txt_go_recharge">去充值</string>
     <string name="txt_go_withdraw">去提款</string>
 
-    <string name="txt_bind_card">银行卡管理</string>
-    <string name="txt_bind_usdt">绑定USDT</string>
-    <string name="txt_bind_ebpay">绑定EBPAY</string>
-    <string name="txt_bind_topay">绑定TOPAY</string>
-    <string name="txt_bind_gcnyt">绑定CNYT</string>
-    <string name="txt_bind_mpay">绑定MPAY</string>
-    <string name="txt_bind_gobao">绑定GOBAO</string>
-    <string name="txt_bind_gopay">绑定GOPAY</string>
-    <string name="txt_bind_okpay">绑定OKPAY</string>
-    <string name="txt_bind_alipay">绑定支付宝</string>
-    <string name="txt_bind_wechat">绑定微信</string>
+    <string name="txt_bind_card">管理银行卡</string>
+    <string name="txt_bind_usdt">管理USDT</string>
+    <string name="txt_bind_ebpay">管理EBPAY</string>
+    <string name="txt_bind_topay">管理TOPAY</string>
+    <string name="txt_bind_gcnyt">管理CNYT</string>
+    <string name="txt_bind_mpay">管理MPAY</string>
+    <string name="txt_bind_gobao">管理GOBAO</string>
+    <string name="txt_bind_gopay">管理GOPAY</string>
+    <string name="txt_bind_okpay">管理OKPAY</string>
+    <string name="txt_bind_alipay">管理支付宝</string>
+    <string name="txt_bind_wechat">管理微信</string>
     <string name="txt_manage_alipay">管理支付宝</string>
     <string name="txt_manage_wechat">管理微信</string>
     <string name="txt_alipay">支付宝</string>
@@ -159,7 +159,6 @@
     <string name="txt_withdrawal_request">设置提款请求</string>
     <string name="text_withdrawal_confirm">确认提款消息</string>
     <string name="text_withdrawal_over">完成申请</string>
-
 
     <string name="txt_lottery_info">彩种信息</string>
     <string name="txt_question">常见问题</string>

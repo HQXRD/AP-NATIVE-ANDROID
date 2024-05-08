@@ -3,11 +3,11 @@ android {
 
     productFlavors {
         // 测试环境 测试用
-        /*xingCai_pre {
-            //applicationId "com.${name.toLowerCase()}.app" //
-            applicationId "com.xct01.app" //
-            versionName "1.4.1"
-            versionCode 141
+        xingCai_pre {
+            applicationId "com.${name.toLowerCase()}.app" //
+            //applicationId "com.xct01.app" //
+            versionName "1.0.6"
+            versionCode 106
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "杏彩T${versionCode}"
             resValue "string", "domain_url", "https://ap3sport.oxldkm.com"
@@ -22,9 +22,10 @@ android {
         }
         // 生产环境 测试用
         xingCai_uat {
-            applicationId "com.xcr01.app" // xcsport xcr01
-            versionName "1.4.1"
-            versionCode 141
+            applicationId "com.${name.toLowerCase()}.app"
+            //applicationId "com.xcr01.app" // xcsport xcr01
+            versionName "1.0.6"
+            versionCode 106
             resValue "string", "app_name", "杏彩R${versionCode}"
             resValue "string", "domain_url", "https://www.weres.bar"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
@@ -32,17 +33,18 @@ android {
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_url_list", "https://huidu.asbetgame688.com"
-                    "https://app.cpmuseumdimsum.com:16801" + // 灰度不需要
-                    ";https://app.zgntcpgxds.com:16801" + // 灰度不需要
-                    ";https://app.jyuelab.com:16801" + // 灰度不需要
-                    ";https://app.kylinshe.com:16801" + // 灰度不需要
-                    ";https://app.eyoumoban.com:16801" // 灰度不需要
+            resValue "string", "domain_url_list", "https://www.weres.bar" +
+                    //"https://huidu.asbetgame688.com" + // 灰度测试用
+                    ";https://app.cpmuseumdimsum.com:16801" +
+                    ";https://app.zgntcpgxds.com:16801" +
+                    ";https://app.jyuelab.com:16801" +
+                    ";https://app.kylinshe.com:16801" +
+                    ";https://app.eyoumoban.com:16801"
             multiDexEnabled true
             dimension "channelName"
-        }*/
+        }
         // 生产环境 发布用
-        xingCai_OL {
+        /*xingCai_OL {
             applicationId "com.xcsport.app" //
             versionName "1.0.6"
             versionCode 106
@@ -61,7 +63,7 @@ android {
                     ";https://app.eyoumoban.com:16801"
             multiDexEnabled true
             dimension "channelName"
-        }
+        }*/
 
     }
 

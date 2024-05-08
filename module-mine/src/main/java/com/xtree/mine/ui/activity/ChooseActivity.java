@@ -114,9 +114,6 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
                     if (!TextUtils.isEmpty(chooseInfoVo.msg_type) && TextUtils.equals("2", chooseInfoVo.msg_type)) {
                         //异常状态
-                        //showErrorDialog(chooseInfoVo.message);
-                        //callBack.closeDialogByFlow(chooseInfoVo.message);
-                        //this.dismiss();
                         showErrorDialog(chooseInfoVo.message);
 
                     } else if ("chooseInfoVo.wdChannelList is Null".equals(chooseInfoVo.error)) {

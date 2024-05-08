@@ -69,14 +69,9 @@
             <EditText
                 android:id="@+id/et_phone"
                 style="@style/style_cm_edt"
-                android:hint="11位手机号"
-                android:inputType="number"
-                android:maxLength="11" />
-
-            <TextView
-                android:id="@+id/tvw_tip_phone"
-                style="@style/style_cm_tip_small_purple"
-                android:text="@string/txt_bind_phone_number" />
+                android:hint="11位手机号码"
+                android:maxLength="30"
+                />
 
             <TextView
                 android:id="@+id/tv_nickname"

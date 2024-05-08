@@ -30,22 +30,20 @@ import com.xtree.home.vo.Ele;
 import com.xtree.home.vo.EleVo;
 import com.xtree.home.vo.GameVo;
 
-import java.util.ArrayList;
-
 import me.xtree.mvvmhabit.base.BaseFragment;
 
 public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, HomeViewModel> {
 
     private int position;
+    private int curPage = 1;
     private EleVo eleVo;
     private GameVo gameVo;
     private CachedAutoRefreshAdapter<Ele> adapter;
 
-    public static EleChildFragment newInstance(int position, EleVo eleVo, GameVo vo) {
+    public static EleChildFragment newInstance(int position, GameVo vo) {
         EleChildFragment fragment = new EleChildFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("position", position);
-        bundle.putParcelable("eleVo", eleVo);
         bundle.putParcelable("gameVo", vo);
         fragment.setArguments(bundle);
         return fragment;
@@ -75,9 +73,11 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
             return;
         }
         position = getArguments().getInt("position");
-        eleVo = getArguments().getParcelable("eleVo");
         gameVo = getArguments().getParcelable("gameVo");
-
+        binding.refreshLayout.setEnableRefresh(false);
+        binding.refreshLayout.setOnLoadMoreListener(refreshLayout -> {
+            requestData(curPage + 1);
+        });
         binding.rvEleChild.setLayoutManager(new GridLayoutManager(getContext(), 2));
         binding.rvEleChild.addItemDecoration(new SpacesItemDecoration(10));
         adapter = new CachedAutoRefreshAdapter<Ele>() {
@@ -110,18 +110,30 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
             }
 
         };
-        if (position == 0) {
-            adapter.addAll(eleVo.getList());
-        } else {
-            ArrayList<Ele> hotList = new ArrayList();
-            for (Ele ele : eleVo.getList()) {
-                if (ele.is_hot().equals("true") || ele.is_hot().equals("1")) {
-                    hotList.add(ele);
-                }
-            }
-            adapter.addAll(hotList);
-        }
+        requestData(1);
         binding.rvEleChild.setAdapter(adapter);
+    }
+
+    @Override
+    public void initViewObservable() {
+        super.initViewObservable();
+        viewModel.liveDataEle.observe(getViewLifecycleOwner(), eleVo -> {
+            if (eleVo.getList() == null || eleVo.getList().isEmpty()) {
+                binding.refreshLayout.finishLoadMoreWithNoMoreData();
+                return;
+            } else {
+                binding.refreshLayout.finishLoadMore();
+            }
+            adapter.addAll(eleVo.getList());
+            curPage += 1;
+        });
+    }
+
+    /**
+     * 加载更多
+     */
+    private void requestData(int page) {
+        viewModel.getEle(gameVo.cid, page, 20, gameVo.cateId, position);
     }
 
     private static class SpacesItemDecoration extends RecyclerView.ItemDecoration {

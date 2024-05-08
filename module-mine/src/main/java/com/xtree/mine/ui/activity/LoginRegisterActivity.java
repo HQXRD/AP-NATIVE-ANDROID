@@ -53,6 +53,9 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     public static final int REGISTER_TYPE = 0x1002;
 
     private int clickCount = 0; // 点击次数 debug model
+    private boolean mIsAcc = false;
+    private boolean mIsPwd1 = false;
+    private boolean mIsPwd2 = false;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -71,6 +74,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     @Override
     public void initView() {
+        binding.btnRegister.setEnabled(false);
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.loginSubHeader.setOnClickListener(v -> {
             if (clickCount++ > 5) {
@@ -168,9 +172,31 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if (charSequence.toString().length() < 6 || charSequence.toString().length() > 12) {
+                if (binding.edtAccReg.getText().toString().startsWith("0") || binding.edtAccReg.getText().toString().toLowerCase().startsWith("o")) {
+                    binding.tvwUsernameWarning.setVisibility(View.VISIBLE);
+                    binding.tvwUsernameWarning.setText(R.string.txt_user_name_should_not_0o);
+                    mIsAcc = false;
+                } else if (binding.edtAccReg.getText().toString().isEmpty()) {
+                    binding.tvwUsernameWarning.setVisibility(View.VISIBLE);
+                    binding.tvwUsernameWarning.setText(R.string.txt_username_empty);
+                    mIsAcc = false;
+                } else if (!containsLetterAndDigit(binding.edtAccReg.getText().toString())) {
+                    binding.tvwUsernameWarning.setVisibility(View.VISIBLE);
+                    // 请输入由字母和数字组成的6到12位字符 (不能纯数字,不能纯字母,不能字母和数字以外的字符)
+                    binding.tvwUsernameWarning.setText(R.string.txt_user_name_should_char_num);
+                    mIsAcc = false;
+                } else if ((binding.edtAccReg.getText().toString().length() < 6 || binding.edtAccReg.getText().toString().length() > 12)) {
+                    binding.tvwUsernameWarning.setVisibility(View.VISIBLE);
+                    binding.tvwUsernameWarning.setText(R.string.txt_user_name_should_char_num);
                     //ToastUtils.showLong(R.string.txt_user_name_should_6_12);
+                    mIsAcc = false;
+                } else {
+                    binding.tvwUsernameWarning.setVisibility(View.INVISIBLE);
+                    mIsAcc = true;
                 }
+
+                CfLog.e((mIsAcc && mIsPwd1 && mIsPwd2) + "");
+                binding.btnRegister.setEnabled(mIsAcc && mIsPwd1 && mIsPwd2);
             }
 
             @Override
@@ -186,10 +212,35 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if (charSequence.toString().length() < 6 || charSequence.toString().length() > 12) {
-                    //ToastUtils.showLong(R.string.txt_pwd_should_6_12);
-                    //binding.edtPwd1.setError(getString(R.string.txt_pwd_should_6_12));
+                if (binding.edtPwd1.getText().toString().length() < 6
+                        || binding.edtPwd1.getText().toString().length() > 16) {
+                    binding.tvwPwdWarning.setVisibility(View.VISIBLE);
+                    binding.tvwPwdWarning.setText(R.string.txt_user_name_should_char_num);
+                    mIsPwd1 = false;
+                } else if (binding.edtAccReg.getText().toString().isEmpty()) {
+                    binding.tvwPwdWarning.setVisibility(View.VISIBLE);
+                    binding.tvwPwdWarning.setText(R.string.txt_pwd_cannot_empty);
+                    mIsPwd1 = false;
+                } else if (!containsLetterAndDigit(binding.tvwPwdWarning.getText().toString())) {
+                    binding.tvwPwdWarning.setVisibility(View.VISIBLE);
+                    binding.tvwPwdWarning.setText(R.string.txt_user_name_should_char_num);
+                    mIsPwd1 = false;
+                } else {
+                    binding.tvwPwdWarning.setVisibility(View.INVISIBLE);
+                    mIsPwd1 = true;
                 }
+
+                if (!binding.edtPwd1.getText().toString().equals(binding.edtPwd2.getText().toString())) {
+                    binding.tvwPwdCheckWarning.setVisibility(View.VISIBLE);
+                    binding.tvwPwdCheckWarning.setText(R.string.txt_reset_password_not_same_error);
+                    mIsPwd2 = false;
+                } else {
+                    binding.tvwPwdCheckWarning.setVisibility(View.INVISIBLE);
+                    mIsPwd2 = true;
+                }
+
+                CfLog.e((mIsAcc && mIsPwd1 && mIsPwd2) + "");
+                binding.btnRegister.setEnabled(mIsAcc && mIsPwd1 && mIsPwd2);
             }
 
             @Override
@@ -206,10 +257,17 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if (charSequence.length() < 6 || charSequence.length() > 12) {
-                    //ToastUtils.showLong(R.string.txt_pwd_should_6_12);
-                    //binding.edtPwd2.setError(getString(R.string.txt_pwd_should_6_12));
+                if (!binding.edtPwd1.getText().toString().equals(binding.edtPwd2.getText().toString())) {
+                    binding.tvwPwdCheckWarning.setVisibility(View.VISIBLE);
+                    binding.tvwPwdCheckWarning.setText(R.string.txt_reset_password_not_same_error);
+                    mIsPwd2 = false;
+                } else {
+                    binding.tvwPwdCheckWarning.setVisibility(View.INVISIBLE);
+                    mIsPwd2 = true;
                 }
+
+                CfLog.e((mIsAcc && mIsPwd1 && mIsPwd2) + "");
+                binding.btnRegister.setEnabled(mIsAcc && mIsPwd1 && mIsPwd2);
             }
 
             @Override
@@ -377,5 +435,24 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             SPUtil.get(getApplication()).put(Spkey.KEY, key);
         }
         return new SecretKeySpec(Base64.decode(key, Base64.DEFAULT), "AES");
+    }
+
+    private boolean containsLetterAndDigit(String str) {
+        boolean containsLetter = false;
+        boolean containsDigit = false;
+
+        for (char c : str.toCharArray()) {
+            if (Character.isLetter(c)) {
+                containsLetter = true;
+            } else if (Character.isDigit(c)) {
+                containsDigit = true;
+            }
+
+            if (containsLetter && containsDigit) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

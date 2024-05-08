@@ -3,6 +3,7 @@ package com.xtree.mine.ui.fragment
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -115,6 +116,8 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                     qrcodeType = 2
                     binding.ivAwIcon.setImageResource(R.mipmap.ic_alipay)
                     binding.tvMsg.text = getString(R.string.txt_bind_alipay).plus(getString(R.string.txt_succ))
+                    binding.etPhone.hint = "11位手机号码或电子邮箱"
+                    binding.etPhone.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                 }
 
                 getString(R.string.txt_bind_wechat_type) -> {
@@ -131,6 +134,8 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                     qrcodeType = 1
                     binding.ivAwIcon.setImageResource(R.mipmap.ic_wechat)
                     binding.tvMsg.text = getString(R.string.txt_bind_wechat).plus(getString(R.string.txt_succ))
+                    binding.etPhone.hint = "11位手机号码"
+                    binding.etPhone.inputType = InputType.TYPE_CLASS_PHONE
                 }
             }
             binding.etNickname.hint = getString(R.string.txt_input_nickname, typeName)
@@ -204,8 +209,8 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
             ToastUtils.showLong(R.string.txt_tip_name, ToastUtils.ShowType.Fail)
             return
         }
-        if (phone.isEmpty() || phone.length != 11) {
-            ToastUtils.showLong(R.string.txt_tip_phone, ToastUtils.ShowType.Fail)
+        if (phone.isEmpty()) {
+            ToastUtils.showLong(R.string.txt_tip_account, ToastUtils.ShowType.Fail)
             return
         }
         if (nickName.isEmpty()) {

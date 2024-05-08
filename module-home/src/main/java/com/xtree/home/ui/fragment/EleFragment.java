@@ -13,18 +13,15 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.home.BR;
 import com.xtree.home.R;
 import com.xtree.home.databinding.FragmentEleBinding;
 import com.xtree.home.ui.viewmodel.HomeViewModel;
 import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.home.vo.EleVo;
 import com.xtree.home.vo.GameVo;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * PG电子，PP电子，PT电子
@@ -38,16 +35,10 @@ public class EleFragment extends BaseFragment<FragmentEleBinding, HomeViewModel>
     public void initView() {
         vo = getArguments().getParcelable("vo");
 
-        String json = SPUtils.getInstance().getString(String.valueOf(vo.cid));
-        if (!json.isEmpty()) {
-            Gson gson = new Gson();
-            viewModel.liveDataEle.setValue(gson.fromJson(json, EleVo.class));
-        }
         binding.tvwTitle.setText(vo.name);
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
 
         binding.vpEle.setUserInputEnabled(false);
-        binding.vpEle.setOffscreenPageLimit(1);
 
         binding.tbEle.addTab(binding.tbEle.newTab().setText("全部游戏"));
         binding.tbEle.addTab(binding.tbEle.newTab().setText("热门游戏"));
@@ -65,6 +56,20 @@ public class EleFragment extends BaseFragment<FragmentEleBinding, HomeViewModel>
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
+        mAdapter = new FragmentStateAdapter(getChildFragmentManager(), getLifecycle()) {
+            @NonNull
+            @Override
+            public Fragment createFragment(int position) {
+                return EleChildFragment.newInstance(position, vo);
+            }
+
+            @Override
+            public int getItemCount() {
+                return 2;
+            }
+        };
+        binding.vpEle.setAdapter(mAdapter);
     }
 
     @Override
@@ -87,27 +92,6 @@ public class EleFragment extends BaseFragment<FragmentEleBinding, HomeViewModel>
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        viewModel.getEle(getContext(), vo.cid, 1, 300, vo.cateId, 0);
-    }
-
-    @Override
-    public void initViewObservable() {
-        super.initViewObservable();
-        viewModel.liveDataEle.observe(getViewLifecycleOwner(), eleVo -> {
-            mAdapter = new FragmentStateAdapter(getChildFragmentManager(), getLifecycle()) {
-                @NonNull
-                @Override
-                public Fragment createFragment(int position) {
-                    return EleChildFragment.newInstance(position, eleVo, vo);
-                }
-
-                @Override
-                public int getItemCount() {
-                    return 2;
-                }
-            };
-            binding.vpEle.setAdapter(mAdapter);
-        });
     }
 
 }

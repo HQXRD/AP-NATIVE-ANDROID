@@ -190,10 +190,21 @@
                             android:layout_marginStart="@dimen/layout_margin"
                             android:button="@drawable/ic_eye_gold_selector"
                             android:checked="true"
-                            android:paddingEnd="@dimen/layout_margin"
+                            android:paddingStart="6dp"
                             app:layout_constraintBottom_toBottomOf="@+id/total_money_hint"
                             app:layout_constraintLeft_toRightOf="@+id/total_money_hint"
                             app:layout_constraintTop_toTopOf="@+id/total_money_hint" />
+
+                        <ImageView
+                            android:id="@+id/ivw_refresh_blc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:padding="6dp"
+                            android:src="@mipmap/me_refresh_icon"
+                            app:layout_constraintBottom_toBottomOf="@+id/ckb_eye"
+                            app:layout_constraintStart_toEndOf="@+id/ckb_eye"
+                            app:layout_constraintTop_toTopOf="@+id/ckb_eye" />
 
                         <LinearLayout
                             android:id="@+id/money_area"
@@ -212,15 +223,6 @@
                                 android:textSize="32sp"
                                 android:textStyle="bold"
                                 tools:text="1000,000.00" />
-
-                            <ImageView
-                                android:id="@+id/ivw_refresh_blc"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="5dp"
-                                android:padding="6dp"
-                                android:src="@mipmap/me_refresh_icon" />
 
                         </LinearLayout>
 
