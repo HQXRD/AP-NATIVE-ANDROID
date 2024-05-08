@@ -28,6 +28,7 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TimeUtils;
@@ -225,8 +226,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.ivChangeDomain.setVisibility(bGameSwitch ? View.VISIBLE : !BtDomainUtil.isMutiLine() ? View.GONE : View.VISIBLE);
         if (!bGameSwitch) {
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_AGENT + mPlatform, false);
-            SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
             if(isAgent){
+                SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
                 initDomain();
                 resetViewModel();
             }
@@ -239,7 +240,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private void initDomain() {
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
         int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
-        if(useLinePosition >= BtDomainUtil.getDomainUrl().size()){
+        CfLog.e("============useLinePosition====" + useLinePosition);
+        if(useLinePosition > BtDomainUtil.getDomainUrl().size()){
             useLinePosition = 0;
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
         }
@@ -899,7 +901,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         }
         uploadExcetionReq.setApiUrl(domainUrl);
         uploadExcetionReq.setLogType("-");
-        uploadExcetionReq.setMsg(isChangeDomain ? "切换线路" + useLinePosition : useAgent ? "开启默认代理服务器" : "关闭默认代理服务器");
+        uploadExcetionReq.setMsg(isChangeDomain ? "切换线路" + (useLinePosition + 1) : useAgent ? "开启默认代理服务器" : "关闭默认代理服务器");
+        CfLog.e("==============" + uploadExcetionReq.getMsg());
         viewModel.uploadException(uploadExcetionReq);
     }
 

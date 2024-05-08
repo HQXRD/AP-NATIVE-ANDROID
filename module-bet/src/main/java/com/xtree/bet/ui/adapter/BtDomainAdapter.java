@@ -36,6 +36,7 @@ public class BtDomainAdapter extends BaseAdapter<String> {
     protected void convert(ViewHolder holder, String domain, int position) {
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
         int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
+        CfLog.e("useLinePosition=======" + useLinePosition);
         BtLayoutDomainAgentItemBinding binding = BtLayoutDomainAgentItemBinding.bind(holder.itemView);
         if(isAgent){
             binding.tvAgentChange.setVisibility(View.VISIBLE);
