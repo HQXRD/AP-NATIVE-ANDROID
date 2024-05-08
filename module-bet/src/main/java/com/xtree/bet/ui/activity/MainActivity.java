@@ -219,11 +219,17 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 初始化代理UI
      */
     private void initAgentUi(Map<String, String> mapSwitch) {
-        boolean bGameSwitch = TextUtils.equals(mapSwitch.get(mPlatform), "1");
+        boolean bGameSwitch = TextUtils.equals(mapSwitch.get(mPlatform), "0");
         SPUtils.getInstance().put(SPKeyGlobal.KEY_GAME_SWITCH + mPlatform, bGameSwitch);
+        boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
         binding.ivChangeDomain.setVisibility(bGameSwitch ? View.VISIBLE : !BtDomainUtil.isMutiLine() ? View.GONE : View.VISIBLE);
         if (!bGameSwitch) {
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_AGENT + mPlatform, false);
+            SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
+            if(isAgent){
+                initDomain();
+                resetViewModel();
+            }
         }
     }
 
@@ -233,6 +239,10 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private void initDomain() {
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
         int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
+        if(useLinePosition >= BtDomainUtil.getDomainUrl().size()){
+            useLinePosition = 0;
+            SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
+        }
         if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
             if (isAgent) {
                 SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getDomain());
