@@ -741,6 +741,16 @@
         <item name="colorControlNormal">@color/clr_purple_01</item>
     </style>
 
+    <style name="style_cm_ckb">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:button">@drawable/ckb_selector</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:textColor">@color/clr_purple_01</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <!-- 我的-账户管理-绑定-新增页 标题 -->
     <style name="style_bind_title">
         <item name="android:layout_width">wrap_content</item>
