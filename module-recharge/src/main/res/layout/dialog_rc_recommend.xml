@@ -72,16 +72,11 @@
 
     <CheckBox
         android:id="@+id/ckb_not_tip"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/style_cm_ckb"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="12dp"
-        android:text="@string/txt_rc_not_tip"
-        android:textColor="@color/clr_purple_01"
-        android:textSize="12sp"
-        android:textStyle="normal"
-        android:theme="@style/style_theme_cm_ckb" />
+        android:text="@string/txt_rc_not_tip" />
 
     <ImageView
         android:layout_width="wrap_content"

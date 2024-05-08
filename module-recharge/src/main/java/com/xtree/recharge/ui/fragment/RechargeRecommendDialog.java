@@ -66,7 +66,7 @@ public class RechargeRecommendDialog extends CenterPopupView {
     private void initView() {
 
         if (curRechargeVo == null) {
-            binding.tvwUseCur.setVisibility(View.INVISIBLE);
+            binding.tvwUseCur.setVisibility(View.GONE);
             binding.tvwClose.setVisibility(View.VISIBLE); // 充值次数的
             key = SPKeyGlobal.RC_NOT_TIP_TODAY_COUNT;
         } else {
