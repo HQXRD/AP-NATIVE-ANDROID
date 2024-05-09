@@ -213,11 +213,11 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 if (binding.edtPwd1.getText().toString().length() < 6
-                        || binding.edtPwd1.getText().toString().length() > 16) {
+                        || binding.edtPwd1.getText().toString().length() > 12) {
                     binding.tvwPwdWarning.setVisibility(View.VISIBLE);
                     binding.tvwPwdWarning.setText(R.string.txt_user_name_should_char_num);
                     mIsPwd1 = false;
-                } else if (binding.edtAccReg.getText().toString().isEmpty()) {
+                } else if (binding.edtPwd1.getText().toString().isEmpty()) {
                     binding.tvwPwdWarning.setVisibility(View.VISIBLE);
                     binding.tvwPwdWarning.setText(R.string.txt_pwd_cannot_empty);
                     mIsPwd1 = false;
