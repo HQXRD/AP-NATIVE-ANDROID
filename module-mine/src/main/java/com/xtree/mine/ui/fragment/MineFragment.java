@@ -365,6 +365,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
      * 清除本地WebView缓存
      */
     private void clearWebView() {
+        CfLog.i();
         getContext().deleteDatabase("webview.db");
         getContext().deleteDatabase("webviewCache.db");
         WebStorage.getInstance().deleteAllData();
@@ -372,6 +373,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         // 清理WebView缓存的cookie
         CookieManager cm = CookieManager.getInstance();
         cm.removeSessionCookies(null);
+        cm.removeAllCookies(null);
         cm.flush();
     }
 
