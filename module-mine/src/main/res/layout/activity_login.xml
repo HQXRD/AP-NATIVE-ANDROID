@@ -290,7 +290,7 @@
                             <EditText
                                 android:id="@+id/edt_pwd1"
                                 style="@style/style_cm_edt_pwd"
-                                android:hint="@string/txt_reset_password_length_error" />
+                                android:hint="@string/txt_pwd_should_6_16_hint" />
 
                             <CheckBox
                                 android:id="@+id/ckb_pwd1"

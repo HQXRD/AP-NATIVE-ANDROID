@@ -175,7 +175,7 @@ public class BrowserDialog extends BottomPopupView {
             ivwClose.post(() -> dismiss());
         }), "android");
 
-        if (isFirstOpenBrowser) {
+        if (isFirstOpenBrowser && !TextUtils.isEmpty(token)) {
             String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
             url = DomainUtil.getDomain() + "/static/sessionkeeper.html?token=" + token
                     + "&tokenExpires=3600&url=" + urlBase64;

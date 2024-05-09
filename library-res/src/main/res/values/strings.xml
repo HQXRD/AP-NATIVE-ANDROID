@@ -35,9 +35,9 @@
     <string name="txt_bind_gopay">管理GOPAY</string>
     <string name="txt_bind_okpay">管理OKPAY</string>
     <string name="txt_bind_alipay">管理支付宝</string>
-    <string name="txt_bind_wechat">管理微信</string>
+    <string name="txt_bind_wechat">管理微信支付</string>
     <string name="txt_manage_alipay">管理支付宝</string>
-    <string name="txt_manage_wechat">管理微信</string>
+    <string name="txt_manage_wechat">管理微信支付</string>
     <string name="txt_alipay">支付宝</string>
     <string name="txt_wechat">微信</string>
 

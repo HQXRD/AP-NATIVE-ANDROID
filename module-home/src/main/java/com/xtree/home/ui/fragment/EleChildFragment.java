@@ -94,7 +94,7 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
                 CfLog.i(vo1.toString());
                 Glide.with(EleChildFragment.this.requireContext())
                         .load(DomainUtil.getDomain2() + vo1.getPicture())
-                        .placeholder(R.mipmap.me_icon_name)
+                        .placeholder(R.mipmap.cm_placeholder)
                         .into(binding.ibGame);
                 binding.tvGame.setText(vo1.getName());
 

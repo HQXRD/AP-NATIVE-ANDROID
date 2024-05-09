@@ -166,7 +166,7 @@ public class BrowserActivity extends AppCompatActivity {
         CfLog.d("header: " + header); // new Gson().toJson(header)
         url = getIntent().getStringExtra("url");
 
-        if (isFirstOpenBrowser) {
+        if (isFirstOpenBrowser && !TextUtils.isEmpty(token)) {
             String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
             url = DomainUtil.getDomain() + "/static/sessionkeeper.html?token=" + token
                     + "&tokenExpires=3600&url=" + urlBase64;
@@ -424,6 +424,7 @@ public class BrowserActivity extends AppCompatActivity {
     private void setCookie(String cookie, String url) {
         CookieManager cm = CookieManager.getInstance();
         cm.removeSessionCookies(null);
+        cm.removeAllCookies(null);
         cm.flush();
         //cm.removeSessionCookie();
         //CookieSyncManager.getInstance().sync();
