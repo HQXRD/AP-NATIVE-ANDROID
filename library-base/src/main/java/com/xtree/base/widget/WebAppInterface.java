@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.xtree.base.R;
 import com.xtree.base.global.Constant;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
@@ -19,6 +20,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
@@ -84,9 +86,13 @@ public class WebAppInterface {
         if (vo != null) {
             CfLog.i("****** vo: " + vo);
         }
+
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        boolean isLogin = !TextUtils.isEmpty(token);
+
         switch (type) {
             case TYPE_LOGIN:
-                ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+                goLogin();
                 close();
                 break;
             case TYPE_HOME:
@@ -94,11 +100,19 @@ public class WebAppInterface {
                 close();
                 break;
             case TYPE_RECHARGE:
-                goRecharge();
+                if (isLogin) {
+                    goRecharge();
+                } else {
+                    goLogin();
+                }
                 close();
                 break;
             case TYPE_WITHDRAW:
-                goWithdraw();
+                if (isLogin) {
+                    goWithdraw();
+                } else {
+                    goLogin();
+                }
                 close();
                 break;
             case TYPE_CS:
@@ -106,13 +120,21 @@ public class WebAppInterface {
                 close();
                 break;
             case TYPE_VIP:
-                BrowserActivity.start(context, context.getString(R.string.txt_vip_center),
-                        DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
+                if (isLogin) {
+                    BrowserActivity.start(context, context.getString(R.string.txt_vip_center),
+                            DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
+                } else {
+                    goLogin();
+                }
                 close();
                 break;
             case TYPE_GAME:
-                ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
-                        withString("KEY_PLATFORM", "fbxc").navigation();
+                if (isLogin) {
+                    ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
+                            withString("KEY_PLATFORM", "fbxc").navigation();
+                } else {
+                    goLogin();
+                }
                 close();
                 break;
             case TYPE_ACTIVITY_DETAIL:
@@ -143,6 +165,10 @@ public class WebAppInterface {
         if (mCallBack != null) {
             mCallBack.close();
         }
+    }
+
+    private void goLogin() {
+        ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
     }
 
     private void goHome() {
