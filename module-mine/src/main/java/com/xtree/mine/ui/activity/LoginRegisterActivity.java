@@ -195,7 +195,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     mIsAcc = true;
                 }
 
-                CfLog.e((mIsAcc && mIsPwd1 && mIsPwd2) + "");
                 binding.btnRegister.setEnabled(mIsAcc && mIsPwd1 && mIsPwd2);
             }
 
@@ -213,9 +212,9 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 if (binding.edtPwd1.getText().toString().length() < 6
-                        || binding.edtPwd1.getText().toString().length() > 12) {
+                        || binding.edtPwd1.getText().toString().length() > 16) {
                     binding.tvwPwdWarning.setVisibility(View.VISIBLE);
-                    binding.tvwPwdWarning.setText(R.string.txt_user_name_should_char_num);
+                    binding.tvwPwdWarning.setText(R.string.txt_pwd_should_6_16);
                     mIsPwd1 = false;
                 } else if (binding.edtPwd1.getText().toString().isEmpty()) {
                     binding.tvwPwdWarning.setVisibility(View.VISIBLE);
@@ -223,7 +222,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     mIsPwd1 = false;
                 } else if (!containsLetterAndDigit(binding.tvwPwdWarning.getText().toString())) {
                     binding.tvwPwdWarning.setVisibility(View.VISIBLE);
-                    binding.tvwPwdWarning.setText(R.string.txt_user_name_should_char_num);
+                    binding.tvwPwdWarning.setText(R.string.txt_pwd_should_6_16);
                     mIsPwd1 = false;
                 } else {
                     binding.tvwPwdWarning.setVisibility(View.INVISIBLE);
@@ -239,7 +238,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     mIsPwd2 = true;
                 }
 
-                CfLog.e((mIsAcc && mIsPwd1 && mIsPwd2) + "");
+                CfLog.i((mIsAcc && mIsPwd1 && mIsPwd2) + "");
                 binding.btnRegister.setEnabled(mIsAcc && mIsPwd1 && mIsPwd2);
             }
 
@@ -266,7 +265,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     mIsPwd2 = true;
                 }
 
-                CfLog.e((mIsAcc && mIsPwd1 && mIsPwd2) + "");
+                CfLog.i((mIsAcc && mIsPwd1 && mIsPwd2) + "");
                 binding.btnRegister.setEnabled(mIsAcc && mIsPwd1 && mIsPwd2);
             }
 
@@ -286,36 +285,38 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 showAgreementDialog(binding.registerAgreementCheckbox);
                 return;
             }
-            if (TextUtils.isEmpty(account)) {
-                ToastUtils.showLong(getResources().getString(R.string.me_account_hint));
-                binding.edtAccReg.performClick();
-                return;
-            }
 
-            if (account.length() < 6 || account.length() > 12) {
-                ToastUtils.showLong(getResources().getString(R.string.txt_user_name_should_6_12));
-                return;
-            }
-
-            if (TextUtils.isEmpty(pwd1)) {
-                ToastUtils.showLong(getResources().getString(R.string.me_pwd_hint));
-                return;
-            }
-
-            if (pwd1.length() < 6 || pwd1.length() > 12) {
-                ToastUtils.showLong(getResources().getString(R.string.txt_pwd_should_6_12));
-                return;
-            }
-
-            if (TextUtils.isEmpty(pwd2)) {
-                ToastUtils.showLong(R.string.txt_enter_pwd_again);
-                return;
-            }
-
-            if (!pwd2.equals(pwd1)) {
-                ToastUtils.showLong(R.string.txt_pwd_should_same);
-                return;
-            }
+            // 改由UI显示，而非Toast
+            //if (TextUtils.isEmpty(account)) {
+            //    ToastUtils.showLong(getResources().getString(R.string.me_account_hint));
+            //    binding.edtAccReg.performClick();
+            //    return;
+            //}
+            //
+            //if (account.length() < 6 || account.length() > 12) {
+            //    ToastUtils.showLong(getResources().getString(R.string.txt_user_name_should_6_12));
+            //    return;
+            //}
+            //
+            //if (TextUtils.isEmpty(pwd1)) {
+            //    ToastUtils.showLong(getResources().getString(R.string.me_pwd_hint));
+            //    return;
+            //}
+            //
+            //if (pwd1.length() < 6 || pwd1.length() > 16) {
+            //    ToastUtils.showLong(getResources().getString(R.string.txt_pwd_should_6_16_error));
+            //    return;
+            //}
+            //
+            //if (TextUtils.isEmpty(pwd2)) {
+            //    ToastUtils.showLong(R.string.txt_enter_pwd_again);
+            //    return;
+            //}
+            //
+            //if (!pwd2.equals(pwd1)) {
+            //    ToastUtils.showLong(R.string.txt_pwd_should_same);
+            //    return;
+            //}
 
             //验证输入参数
             viewModel.register(account, pwd1);
