@@ -56,6 +56,8 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     private List<GameBalanceVo> transGameBalanceWithOwnList = new ArrayList<>();
     private List<GameMenusVo> transGameList = new ArrayList<>();
     private List<GameBalanceVo> hasMoneyGame = new ArrayList<>();
+    private List<GameBalanceVo> transGameBalanceOnlyCentral = new ArrayList<>(); // 只有中心钱包
+    private List<GameBalanceVo> transGameBalanceNoCentral = new ArrayList<>(); // 没有中心钱包
     private final static int MSG_GAME_BALANCE_NO_ZERO = 1001;
     private final static int MSG_GAME_BALANCE = 1002;
     private final static int MSG_UPDATE_RCV = 1003;
@@ -305,14 +307,40 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     }
 
     private void showDialogChoose(String title, String alias, TextView tvw) {
+        transGameBalanceNoCentral.clear();
+        transGameBalanceOnlyCentral.clear();
+
+        Collections.sort(transGameBalanceWithOwnList);
+        transGameBalanceOnlyCentral.add(transGameBalanceWithOwnList.get(0)); // 排列完后gameAlias为lottery的放到第一个
+
+        for (GameBalanceVo vo : transGameBalanceWithOwnList) {
+            if (!vo.gameAlias.equals("lottery")) {
+                transGameBalanceNoCentral.add(vo);
+            }
+        }
+
+        Collections.sort(transGameBalanceNoCentral);
 
         WalletRoomAdapter adapter = new WalletRoomAdapter(getContext(), alias, vo -> {
+            if (!vo.gameAlias.equals("lottery") && tvw == binding.tvwFrom) {
+                binding.tvwTo.setText(getString(R.string.txt_central_wallet));
+                binding.tvwTo.setTag("lottery");
+            } else if (vo.gameAlias.equals("lottery") && tvw == binding.tvwFrom) {
+                binding.tvwTo.setText(transGameBalanceNoCentral.get(0).gameName);
+                binding.tvwTo.setTag(transGameBalanceNoCentral.get(0).gameAlias);
+            }
             tvw.setText(vo.gameName);
             tvw.setTag(vo.gameAlias);
             ppw.dismiss();
         });
-        Collections.sort(transGameBalanceWithOwnList);
-        adapter.addAll(transGameBalanceWithOwnList);
+        CfLog.e("binding.tvwFrom.getTag() : " + binding.tvwFrom.getTag());
+        if (binding.tvwFrom.getTag().equals("lottery") && tvw == binding.tvwTo) {
+            adapter.addAll(transGameBalanceNoCentral);
+        } else if(binding.tvwTo.getTag().equals("lottery") && tvw == binding.tvwTo) {
+            adapter.addAll(transGameBalanceOnlyCentral);
+        } else {
+            adapter.addAll(transGameBalanceWithOwnList);
+        }
 
         ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), title, adapter, 75));
         ppw.show();
