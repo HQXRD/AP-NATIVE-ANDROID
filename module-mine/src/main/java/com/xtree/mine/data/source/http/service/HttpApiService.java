@@ -573,4 +573,10 @@ public interface HttpApiService {
      */
     @GET("/api/activity/reward/?has_pending_reward=1")
     Flowable<BaseResponse<RewardVo>> getReward();
+
+    /**
+     * 彩票撤单
+     */
+    @GET("/?controller=gameinfo&action=cancelgame&client=m")
+    Flowable<BaseResponse2> cancelGame(@QueryMap Map<String, String> map);
 }

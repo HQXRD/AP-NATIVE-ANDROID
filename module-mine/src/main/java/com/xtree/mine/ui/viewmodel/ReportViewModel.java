@@ -27,9 +27,12 @@ import com.xtree.mine.vo.ThirdTransferReportVo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.http.BaseResponse2;
+import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -53,6 +56,7 @@ public class ReportViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<LotteryReportVo> liveDataCpReport = new MutableLiveData<>(); // 投注记录-列表(彩票)
     public MutableLiveData<LotteryDetailVo> liveDataBtCpDetail = new MutableLiveData<>(); // 投注记录-详情(彩票)
     public MutableLiveData<GameChangeVo> liveDataGameChange = new MutableLiveData<>(); // 游戏账变记录
+    public MutableLiveData<String> liveDataDeleteCp = new MutableLiveData<>(); // 删除彩票投注
 
     public ReportViewModel(@NonNull Application application, MineRepository model) {
         super(application, model);
@@ -341,6 +345,31 @@ public class ReportViewModel extends BaseViewModel<MineRepository> {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
                         liveDataGameChange.setValue(null);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void deleteBtCp(Map<String, String> map) {
+        Disposable disposable = (Disposable) model.getApiService().cancelGame(map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<BaseResponse2>() {
+                    @Override
+                    public void onResult(BaseResponse2 vo) {
+                        CfLog.d("******");
+                        liveDataDeleteCp.setValue(vo.message);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        liveDataDeleteCp.setValue(t.message);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);

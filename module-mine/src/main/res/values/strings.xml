@@ -275,6 +275,8 @@
     <string name="txt_multiple_s">倍数：</string>
     <string name="txt_modes_s">模式：</string>
     <string name="txt_bt_content_s">投注内容：</string>
+    <string name="txt_delete_cp">撤单</string>
+    <string name="txt_delete_cp_msg">确定要撤销订单吗</string>
 
     <string name="txt_cancel_by_self">本人撤单</string>
     <string name="txt_cancel_by_platform">平台撤单</string>
