@@ -336,14 +336,9 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             setBalance();
         }
         if (mVipInfoVo != null) {
-            if (mVipInfoVo.sp.equals("1")) {
-                binding.tvwVip.setText("VIP " + mVipInfoVo.display_level);
-                binding.ivwLevel.setImageLevel(mVipInfoVo.display_level);
-            } else {
-                binding.tvwVip.setText("VIP " + mVipInfoVo.level);
-                binding.ivwLevel.setImageLevel(mVipInfoVo.level);
-            }
-            if (mVipInfoVo.level >= 10) {
+            binding.ivwVip.setImageLevel(mVipInfoVo.display_level);
+            binding.ivwLevel.setImageLevel(mVipInfoVo.display_level);
+            if (mVipInfoVo.display_level >= 10) {
                 binding.ivwLevel.setVisibility(View.INVISIBLE);
                 //binding.ivwLevel10.setVisibility(View.VISIBLE);
                 binding.middleArea.setBackgroundResource(R.mipmap.me_bg_top_10);
