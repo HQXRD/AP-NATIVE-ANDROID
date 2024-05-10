@@ -15,6 +15,7 @@ import com.xtree.base.R;
 public class ListDialog extends BottomPopupView {
 
     String title; // 标题
+    boolean isNew;
     RecyclerView.Adapter adapter;
     int maxHeight = 40; // 最大高度百分比 10-100
 
@@ -45,6 +46,14 @@ public class ListDialog extends BottomPopupView {
         this.maxHeight = maxHeight;
     }
 
+    public ListDialog(@NonNull Context context, String title, RecyclerView.Adapter adapter, int maxHeight, boolean isNew) {
+        super(context);
+        this.title = title;
+        this.adapter = adapter;
+        this.maxHeight = maxHeight;
+        this.isNew = isNew;
+    }
+
     @Override
     protected void onCreate() {
         super.onCreate();
@@ -67,7 +76,11 @@ public class ListDialog extends BottomPopupView {
 
     @Override
     protected int getImplLayoutId() {
-        return R.layout.dialog_list;
+        if (isNew) {
+            return R.layout.dialog_list_new;
+        } else {
+            return R.layout.dialog_list;
+        }
     }
 
     @Override

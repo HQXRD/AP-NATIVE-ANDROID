@@ -195,6 +195,7 @@
     <color name="clr_txt_grey_04">#9F9F9F</color>
     <color name="clr_txt_grey_05">#808080</color>
     <color name="clr_txt_grey_07">#767677</color>
+    <color name="clr_txt_grey_08">#585959</color>
     <color name="clr_grey_03">#E9E9E9</color>
     <color name="clr_grey_05">#D1D1D1</color>
     <color name="clr_grey_07">#F7F7F7</color>
@@ -227,6 +228,10 @@
     <color name="clr_grey_60">#992F2747</color>
     <color name="clr_grey_80">#CC2F2747</color>
     <color name="clr_grey_1">#6C757D</color>
+    <color name="clr_grey_2">#C6C6C6</color>
+
+    <color name="clr_grey_00_a20">#332F2747</color>
+    <color name="clr_grey_00_a50">#802F2747</color>
 
     <color name="clr_white_14">#24FFFFFF</color>
 
@@ -286,6 +291,7 @@
     <color name="clr_red_02">#FF3131</color>
     <!-- 报表-盈亏 绿色 -->
     <color name="clr_green_01">#20B56E</color>
+    <color name="clr_green_02">#E7F7E7</color>
 
     <color name="clr_blue_03">#119BFF</color>
     <color name="clr_blue_05">#376CAA</color>
