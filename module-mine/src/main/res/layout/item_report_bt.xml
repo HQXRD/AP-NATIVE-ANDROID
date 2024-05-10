@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_detail"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/layout_margin"
@@ -16,22 +17,33 @@
             tools:text="Lorraine001" />
 
         <TextView
-            android:id="@+id/tvw_bt_result"
-            style="@style/style_item_report_title_center"
-            android:textColor="@color/clr_text_red_green_selector"
-            tools:text="输" />
-
-        <TextView
             style="@style/style_item_report_title_end"
             android:minEms="3" />
 
         <TextView
-            android:id="@+id/tvw_detail"
             style="@style/style_btn_small"
             android:minEms="3"
             android:text="@string/txt_detail"
-            android:visibility="visible"
-            tools:visibility="visible" />
+            android:visibility="gone"
+            tools:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvw_bt_result"
+            style="@style/style_item_report_title_center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textColor="@color/clr_text_red_green_selector"
+            android:textSize="14sp"
+            android:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/ivw_bt_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:src="@mipmap/ic_win"
+            android:visibility="visible" />
 
     </LinearLayout>
 
@@ -79,6 +91,16 @@
         <TextView
             style="@style/style_item_report_title"
             android:layout_weight="0"
+            android:text="@string/txt_platform_name_s" />
+
+        <TextView
+            android:id="@+id/tvw_plarform_name"
+            style="@style/style_item_report_title"
+            tools:text="ob体育" />
+
+        <TextView
+            style="@style/style_item_report_title"
+            android:layout_weight="0"
             android:text="@string/txt_game_name_s" />
 
         <TextView
@@ -92,12 +114,12 @@
         <TextView
             style="@style/style_item_report_title"
             android:layout_weight="0"
-            android:text="@string/txt_game_code_s" />
+            android:text="@string/txt_bt_time_s" />
 
         <TextView
-            android:id="@+id/tvw_game_code"
+            android:id="@+id/tvw_game_date"
             style="@style/style_item_report_title"
-            tools:text="9536793792****4224" />
+            tools:text="2024-01-12 14:41:22" />
     </LinearLayout>
 
     <LinearLayout style="@style/style_item_ll_row">
@@ -105,12 +127,12 @@
         <TextView
             style="@style/style_item_report_title"
             android:layout_weight="0"
-            android:text="@string/txt_bt_date_s" />
+            android:text="@string/txt_game_code_s" />
 
         <TextView
-            android:id="@+id/tvw_game_date"
+            android:id="@+id/tvw_game_code"
             style="@style/style_item_report_title"
-            tools:text="2024-01-12 14:41:22" />
+            tools:text="9536793792****4224" />
     </LinearLayout>
 
 </LinearLayout>

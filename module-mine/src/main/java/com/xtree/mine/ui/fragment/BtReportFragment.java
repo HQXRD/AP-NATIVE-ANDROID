@@ -135,56 +135,83 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
                 switch (vo.project_BetResult) {
                     case "T":
                         binding2.tvwBtResult.setText(R.string.txt_rst_tie);
+                        binding2.tvwBtResult.setVisibility(View.GONE);
+                        binding2.ivwBtResult.setVisibility(View.VISIBLE);
+                        binding2.ivwBtResult.setImageResource(R.mipmap.ic_draw);
                         binding2.tvwBtResult.setActivated(true);
                         binding2.tvwSum.setActivated(true);
                         break;
                     case "W":
                         binding2.tvwBtResult.setText(R.string.txt_rst_win);
+                        binding2.tvwBtResult.setVisibility(View.GONE);
+                        binding2.ivwBtResult.setVisibility(View.VISIBLE);
+                        binding2.ivwBtResult.setImageResource(R.mipmap.ic_win);
                         binding2.tvwBtResult.setSelected(true);
                         binding2.tvwSum.setSelected(true);
                         break;
                     case "L":
                         binding2.tvwBtResult.setText(R.string.txt_rst_lose);
+                        binding2.tvwBtResult.setVisibility(View.GONE);
+                        binding2.ivwBtResult.setVisibility(View.VISIBLE);
+                        binding2.ivwBtResult.setImageResource(R.mipmap.ic_lose);
                         binding2.tvwBtResult.setSelected(false);
                         binding2.tvwSum.setSelected(false);
                         break;
                     case "C":
                         binding2.tvwBtResult.setText(R.string.txt_rst_c);
+                        binding2.tvwBtResult.setVisibility(View.VISIBLE);
+                        binding2.ivwBtResult.setVisibility(View.GONE);
                         setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
                         break;
                     case "V":
                         binding2.tvwBtResult.setText(R.string.txt_rst_v);
+                        binding2.tvwBtResult.setVisibility(View.VISIBLE);
+                        binding2.ivwBtResult.setVisibility(View.GONE);
                         setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
                         break;
                     case "CO":
                         binding2.tvwBtResult.setText(R.string.txt_rst_co);
+                        binding2.tvwBtResult.setVisibility(View.VISIBLE);
+                        binding2.ivwBtResult.setVisibility(View.GONE);
                         setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
                         break;
                     case "J":
                         binding2.tvwBtResult.setText(R.string.txt_rst_j);
+                        binding2.tvwBtResult.setVisibility(View.VISIBLE);
+                        binding2.ivwBtResult.setVisibility(View.GONE);
                         setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
                         setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
                         break;
                     case "CANCLE_ORD":
                         binding2.tvwBtResult.setText(R.string.txt_rst_cancel_ord);
+                        binding2.tvwBtResult.setVisibility(View.VISIBLE);
+                        binding2.ivwBtResult.setVisibility(View.GONE);
                         setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
                         break;
                     case "HALFLOSE":
                         binding2.tvwBtResult.setText(R.string.txt_rst_half_lose);
+                        binding2.tvwBtResult.setVisibility(View.VISIBLE);
+                        binding2.ivwBtResult.setVisibility(View.GONE);
                         binding2.tvwBtResult.setSelected(false);
                         binding2.tvwSum.setSelected(false);
                         break;
                     case "HALFWIN":
                         binding2.tvwBtResult.setText(R.string.txt_rst_half_win);
+                        binding2.tvwBtResult.setVisibility(View.VISIBLE);
+                        binding2.ivwBtResult.setVisibility(View.GONE);
                         binding2.tvwBtResult.setSelected(true);
                         binding2.tvwSum.setSelected(true);
                         break;
                     case "VOID":
                         binding2.tvwBtResult.setText(R.string.txt_rst_void);
+                        binding2.tvwBtResult.setVisibility(View.VISIBLE);
+                        binding2.ivwBtResult.setVisibility(View.GONE);
                         setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
                         break;
                     default:
                         binding2.tvwBtResult.setText(R.string.txt_rst_def); // 未结算
+                        binding2.tvwBtResult.setVisibility(View.VISIBLE);
+                        binding2.ivwBtResult.setVisibility(View.GONE);
                         setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
                         vo.sum = "--"; // 未结算,显示为 "--" 单号:2863, 2024-03-15
                         break;
@@ -197,11 +224,12 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
                 binding2.tvwBet.setText(vo.project_bet);
                 binding2.tvwWin.setText(win); // --
                 binding2.tvwSum.setText(vo.sum); // color
+                binding2.tvwPlarformName.setText(vo.p);
                 binding2.tvwGameName.setText(vo.project_Game_name);
                 binding2.tvwGameCode.setText(vo.project_Game_code);
                 binding2.tvwGameDate.setText(vo.project_Game_date);
 
-                binding2.tvwDetail.setOnClickListener(v -> {
+                binding2.llDetail.setOnClickListener(v -> {
                     CfLog.i("****** ");
                     BtDetailDialog dialog = BtDetailDialog.newInstance(getActivity(), getViewLifecycleOwner(), vo.project_Game_code, vo.p, getPlatformName(vo.p));
                     new XPopup.Builder(getContext()).asCustom(dialog).show();
@@ -233,7 +261,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
                 binding2.tvwUsername.setText(vo.username);
                 binding2.tvwStatus.setText(viewModel.getLotteryStatus(getContext(), vo));
 
-                binding2.tvwDetail.setOnClickListener(v -> {
+                binding2.llDetail.setOnClickListener(v -> {
                     CfLog.i("****** ");
                     BtCpDetailDialog dialog = BtCpDetailDialog.newInstance(getActivity(), getViewLifecycleOwner(), vo.projectid);
                     new XPopup.Builder(getContext()).asCustom(dialog).show();

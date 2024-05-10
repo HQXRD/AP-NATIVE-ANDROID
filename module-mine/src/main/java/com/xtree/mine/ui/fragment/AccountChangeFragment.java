@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.google.android.material.tabs.TabLayout;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.router.RouterFragmentPath;
@@ -196,37 +195,36 @@ public class AccountChangeFragment extends BaseFragment<FragmentReportBinding, R
         binding.rcvGameChangeMain.setAdapter(mGameAdapter);
 
         // 其他页面也会使用，固xml设定Gone，但
-        binding.tblType.setVisibility(View.VISIBLE);
-
-        binding.tblType.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                CfLog.e(tab.getPosition() + "");
-                if (tab.getPosition() == 0) {
-                    binding.fvMain.setVisibility(View.VISIBLE);
-                    binding.fvGameMain.setVisibility(View.GONE);
-                    binding.refreshLayout.setVisibility(View.VISIBLE);
-                    binding.refreshGameLayout.setVisibility(View.GONE);
-                } else if (tab.getPosition() == 1) {
-                    binding.fvMain.setVisibility(View.GONE);
-                    binding.fvGameMain.setVisibility(View.VISIBLE);
-                    binding.refreshLayout.setVisibility(View.GONE);
-                    binding.refreshGameLayout.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
+        //binding.tblType.setVisibility(View.VISIBLE);
+        //
+        //binding.tblType.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        //
+        //    @Override
+        //    public void onTabSelected(TabLayout.Tab tab) {
+        //        CfLog.e(tab.getPosition() + "");
+        //        if (tab.getPosition() == 0) {
+        //            binding.fvMain.setVisibility(View.VISIBLE);
+        //            binding.fvGameMain.setVisibility(View.GONE);
+        //            binding.refreshLayout.setVisibility(View.VISIBLE);
+        //            binding.refreshGameLayout.setVisibility(View.GONE);
+        //        } else if (tab.getPosition() == 1) {
+        //            binding.fvMain.setVisibility(View.GONE);
+        //            binding.fvGameMain.setVisibility(View.VISIBLE);
+        //            binding.refreshLayout.setVisibility(View.GONE);
+        //            binding.refreshGameLayout.setVisibility(View.VISIBLE);
+        //        }
+        //    }
+        //
+        //    @Override
+        //    public void onTabUnselected(TabLayout.Tab tab) {
+        //
+        //    }
+        //
+        //    @Override
+        //    public void onTabReselected(TabLayout.Tab tab) {
+        //
+        //    }
+        //});
     }
 
     @Override

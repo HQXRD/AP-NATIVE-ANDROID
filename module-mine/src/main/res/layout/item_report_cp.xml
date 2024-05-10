@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_detail"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/layout_margin"
@@ -30,8 +31,8 @@
             style="@style/style_btn_small"
             android:minEms="3"
             android:text="@string/txt_detail"
-            android:visibility="visible"
-            tools:visibility="visible" />
+            android:visibility="invisible"
+            tools:visibility="invisible" />
 
     </LinearLayout>
 
