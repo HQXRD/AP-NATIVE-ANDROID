@@ -499,6 +499,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>
         <item name="android:background">@drawable/bg_edt_selector</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
         <item name="android:hint"></item>
         <item name="android:imeOptions">actionDone</item>
         <item name="android:gravity">center_vertical</item>
@@ -514,6 +515,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>
         <item name="android:background">@color/clr_white</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
         <item name="android:hint"></item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
@@ -527,7 +529,7 @@
     <style name="style_withdraw_edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">30dp</item>
-
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
         <item name="android:hint"></item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
@@ -542,6 +544,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>
         <item name="android:background">@mipmap/cm_bg_input</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
         <item name="android:hint"></item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
@@ -568,6 +571,7 @@
     <!--提现Edittext-->
     <style name="style_bank_edit">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
         <item name="android:layout_height">38dp</item>
         <item name="android:background">@null</item>
         <item name="android:hint"></item>
@@ -582,6 +586,7 @@
     <!--usdt提现Edittext-->
     <style name="style_usdt_edit">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
         <item name="android:layout_height">20dp</item>
         <item name="android:background">@null</item>
         <item name="android:hint"></item>
@@ -635,6 +640,7 @@
     <style name="style_cm_edit_amount">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
         <item name="android:background">@mipmap/cm_bg_input_wht</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:hint"></item>
