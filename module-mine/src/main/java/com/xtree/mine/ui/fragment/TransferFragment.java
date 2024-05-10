@@ -342,7 +342,7 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
             adapter.addAll(transGameBalanceWithOwnList);
         }
 
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), title, adapter, 75));
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), title, adapter, 75, true));
         ppw.show();
     }
 
