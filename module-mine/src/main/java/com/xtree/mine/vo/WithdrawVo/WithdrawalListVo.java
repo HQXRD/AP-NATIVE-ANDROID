@@ -1,5 +1,10 @@
 package com.xtree.mine.vo.WithdrawVo;
 
+import android.widget.BaseAdapter;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
 import me.xtree.mvvmhabit.http.BaseResponse2;
 
 /**
@@ -9,7 +14,44 @@ public class WithdrawalListVo extends BaseResponse2 {
     public String name ;
     public String title;
     public String type;
-    public String enable;
+    public boolean enable;//是否开启 true:开启 false:关闭该提款通道
+    public boolean flag;//是否被选中 true:被选中 false：未被选中
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WithdrawalListVo that = (WithdrawalListVo) o;
+        return Objects.equals(type, that.type) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, title, type, enable);
+    }
+
+    @Override
+    public String toString() {
+        return "WithdrawalListVo{" +
+                "name='" + name + '\'' +
+                ", title='" + title + '\'' +
+                ", type='" + type + '\'' +
+                ", enable='" + enable + '\'' +
+                '}';
+    }
+    /*@Override
+    public String toString() {
+        return "WithdrawalListVo{" +
+                "data=" + data +
+                '}';
+    }
+
+    public ArrayList<WithdrawalItemVo> data;
+
+    public static  class WithdrawalItemVo{
+
+    }*/
+
     /*{
 	"status": 10000,
 	"message": "success",

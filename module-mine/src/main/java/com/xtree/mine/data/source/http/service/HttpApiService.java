@@ -54,10 +54,18 @@ import com.xtree.mine.vo.VipUpgradeInfoVo;
 import com.xtree.mine.vo.VirtualCashVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalBankInfoVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalInfoVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalListVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalQuotaVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalSubmitVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalVerifyVo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import io.reactivex.Flowable;
 import io.reactivex.rxjava3.core.Observable;
@@ -544,6 +552,14 @@ public interface HttpApiService {
     Flowable<BaseResponse<AwardsRecordVo>> getAwardRecord();
 
     /**
+     * 获取流水
+     */
+    @GET("/api/activity/awardrecord?&client=m")
+    Flowable<BaseResponse<AwardsRecordVo>> getAwardRecordOdin();
+
+
+
+    /**
      * 删除站内信
      */
     @POST("/?controller=user&action=messages&tag=deleteselect&client=m")
@@ -573,4 +589,46 @@ public interface HttpApiService {
      */
     @GET("/api/activity/reward/?has_pending_reward=1")
     Flowable<BaseResponse<RewardVo>> getReward();
+
+    /**
+     * 提款获取可用额度
+     */
+    @GET("/api/withdrawal/quota")
+    Flowable<BaseResponse<WithdrawalQuotaVo>> getWithdrawalQuota();
+
+    /**
+     * 获取可提现渠道列表
+     */
+    @GET("/api/withdrawal/list")
+    Flowable<BaseResponse<ArrayList<WithdrawalListVo>>> getWithdrawalList();
+
+    /**
+     * 获取当前渠道详情
+     * /api/withdrawal/info?wtype=ebpay
+     */
+    @GET("/api/withdrawal/info?")
+    Flowable<BaseResponse<WithdrawalInfoVo>> getWithdrawalInfo(@QueryMap Map<String, Object> map);
+    //
+
+    /**
+     * 银行卡 获取当前渠道详情
+     * /api/withdrawal/info?wtype=ebpay
+     */
+    @GET("/api/withdrawal/info?")
+    Flowable<BaseResponse<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@QueryMap Map<String, Object> map);
+
+
+    /**
+     * 删验证当前渠道信息
+     */
+    @POST("/api/withdrawal/verify")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<WithdrawalVerifyVo>> postWithdrawalVerify(@Body Map<String, Object> map);
+    /**
+     * 提款提交
+     */
+    @POST("/api/withdrawal/submit")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<WithdrawalSubmitVo> postWithdrawalSubmit(@Body Map<String, Object> map);
+
 }

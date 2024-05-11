@@ -18,6 +18,7 @@ public class WithdrawalQuotaVo extends BaseResponse2 {
     },
         "timestamp": 1714027704
     }*/
+    public int networkStatus;
     public String fAvailableBalance;
     public String unSportActivityAward ;
     public String quota;

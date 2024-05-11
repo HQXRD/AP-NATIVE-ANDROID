@@ -54,6 +54,7 @@ public class BaseResponse2 {
     //    public List<OrderVo> orders; // {
     //public String pageinfo; // "",
     public String username; // "",
+    public int status;
 
     // 失败/不通过,返回错误信息 msg_detail,msg_type,message
     public String msg_detail;
