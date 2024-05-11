@@ -335,7 +335,7 @@
     <string name="txt_virtual_money_type">提款类型：</string>
     <string name="txt_virtual_money_numb">提款金额：</string>
     <string name="txt_confirm_amount">提款金额方式：</string>
-    <string name="txt_withdrawal_min">单笔最低提现金额:</string>
+    <string name="txt_withdrawal_min">单笔最低提现金额:%1$s元,最高%2$s元</string>
     <string name="txt_input_money">请输入提款金额</string>
     <string name="txt_actual_withdrawal_amount">实际提款金额</string>
     <string name="txt_payee_bank_card">收款银行卡</string>
@@ -345,10 +345,11 @@
     <string name="txt_account_name">开户名：</string>
     <string name="txt_bank_account">银行账户：</string>
     <string name="txt_account_successful">账户提款申请成功</string>
-    <string name="txt_account_suc_message">账户提款申请成功提款进度请关注站内信通知</string>
+    <string name="txt_account_suc_message">提款进度请关注站内信通知</string>
     <string name="txt_rate_tip">汇率:</string>
     <string name="txt_actual_number">实际到账个数:</string>
     <string name="txt_withdrawal_usdt_account">收款USDT账号：</string>
+    <string name="txt_withdrawal_account">收款账号：</string>
     <string name="txt_receive_usdt_account">收到USDT账户</string>
     <string name="txt_select_virtual_address">请选择虚拟币收款地址</string>
     <string name="txt_ust_trc20_usdt">【嗨钱包USDT】可使用TRC20_USDT类型进行提款</string>
@@ -400,7 +401,9 @@
     <string name="txt_tip_nickname">请输入昵称</string>
     <string name="txt_tip_code">请添加%s收款码</string>
     <string name="txt_title_code">如何获取%s个人收款码</string>
+    <string name="txt_single_withdrawal_range">单笔取款范围 %1$s-%2$s 元</string>
     <string name="txt_transfer_success_detail">您已从%s转入%s%s元</string>
     <string name="txt_transfer_fail_detail">您从%s转入%s%s元转账失败</string>
+
 
 </resources>

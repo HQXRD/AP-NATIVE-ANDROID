@@ -7,7 +7,6 @@
     <string name="txt_contact_custom">联系客服</string>
     <string name="txt_recharge_tutorial">充值教程</string>
     <string name="txt_msg_center">消息中心</string>
-    <string name="txt_msg_detail">消息详情</string>
     <string name="txt_kind_tips">温馨提示</string>
 
     <string name="txt_bind_card_type">bindcard</string>
@@ -26,17 +25,17 @@
     <string name="txt_go_recharge">去充值</string>
     <string name="txt_go_withdraw">去提款</string>
 
-    <string name="txt_bind_card">银行卡管理</string>
-    <string name="txt_bind_usdt">绑定USDT</string>
-    <string name="txt_bind_ebpay">绑定EBPAY</string>
-    <string name="txt_bind_topay">绑定TOPAY</string>
-    <string name="txt_bind_gcnyt">绑定CNYT</string>
-    <string name="txt_bind_mpay">绑定MPAY</string>
-    <string name="txt_bind_gobao">绑定GOBAO</string>
-    <string name="txt_bind_gopay">绑定GOPAY</string>
-    <string name="txt_bind_okpay">绑定OKPAY</string>
-    <string name="txt_bind_alipay">绑定支付宝</string>
-    <string name="txt_bind_wechat">绑定微信</string>
+    <string name="txt_bind_card">管理银行卡</string>
+    <string name="txt_bind_usdt">管理USDT</string>
+    <string name="txt_bind_ebpay">管理EBPAY</string>
+    <string name="txt_bind_topay">管理TOPAY</string>
+    <string name="txt_bind_gcnyt">管理CNYT</string>
+    <string name="txt_bind_mpay">管理MPAY</string>
+    <string name="txt_bind_gobao">管理GOBAO</string>
+    <string name="txt_bind_gopay">管理GOPAY</string>
+    <string name="txt_bind_okpay">管理OKPAY</string>
+    <string name="txt_bind_alipay">管理支付宝</string>
+    <string name="txt_bind_wechat">管理微信</string>
     <string name="txt_manage_alipay">管理支付宝</string>
     <string name="txt_manage_wechat">管理微信</string>
     <string name="txt_alipay">支付宝</string>
@@ -97,7 +96,7 @@
 
     <string name="txt_all_status">所有状态</string>
     <string name="txt_received">已到账</string>
-    <string name="txt_unreceived">未到账</string>
+    <string name="txt_unreceived">未领取</string>
 
     <string name="txt_rebate_ty">体育返水</string>
     <string name="txt_rebate_zr">真人返水</string>
@@ -160,7 +159,6 @@
     <string name="txt_withdrawal_request">设置提款请求</string>
     <string name="text_withdrawal_confirm">确认提款消息</string>
     <string name="text_withdrawal_over">完成申请</string>
-
 
     <string name="txt_lottery_info">彩种信息</string>
     <string name="txt_question">常见问题</string>
@@ -229,4 +227,23 @@
     <string name="txt_precautions">注意事项</string>
     <bool name="is_tag">false</bool>
     <string name="txt_withdrawal_virtual_tip">收款账号</string>
+
+    <string name="txt_read_photo_permissions">未获得读取文件权限,请您设置通过相关权限</string>
+    <string name="txt_withdrawal_next">下一步</string>
+    <string name="txt_withdrawal_list_tip">USDT介绍及提款教程</string>
+    <string name="txt_withdrawal_money_again">继续提款</string>
+    <string name="txt_msg_detail">消息中心</string>
+    <string name="txt_withdrawal_bank_top">提款</string>
+    <string name="txt_withdrawal_bank_confirm">银行卡</string>
+    <string name="txt_withdrawal_usdt_top">USDT提款</string>
+    <string name="txt_withdrawal_previous">上一步</string>
+    <string name="txt_withdrawal_ebpay_top">EBPay提款</string>
+    <string name="txt_withdraw_top_number_tip">账户数量 (%1$s/5)</string>
+    <string name="txt_withdraw_input_error_tip">请输入提款金额</string>
+    <string name="txt_withdraw_input_mix_tip">提款金额不能小于最小提款金额</string>
+    <string name="txt_withdraw_input_max_tip">提款金额不能大于最大提款金额</string>
+    <string name="txt_withdraw_address_tip">请选择提款地址</string>
+    <string name="txt_withdraw_top_tip">每天限制提款  %1$s  次，您已提款 %2$s 次， 您今日剩余提款额度为  %3$s 元</string>
+    <string name="txt_select_withdrawal_amount">请选择提款金额</string>
+    <string name="txt_withdrawal_close_info">渠道已关闭</string>
 </resources>
