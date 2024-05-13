@@ -122,6 +122,9 @@ public class TipDialog extends CenterPopupView {
                 binding.tvwLeft.setTextColor(getResources().getColor(R.color.clr_text_code_selector));
             }
         }
+        if(TextUtils.equals(txtRight, "null")){
+            binding.tvwRight.setVisibility(GONE);
+        }
         if (!TextUtils.isEmpty(txtRight)) {
             binding.tvwRight.setText(txtRight);
         }

@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.NumberUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.databinding.BtLayoutDomainAgentItemBinding;
 import com.xtree.bet.weight.DomainChangeDialog;
@@ -36,6 +37,7 @@ public class BtDomainAdapter extends BaseAdapter<String> {
     protected void convert(ViewHolder holder, String domain, int position) {
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
         int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
+        CfLog.e("useLinePosition=======" + useLinePosition);
         BtLayoutDomainAgentItemBinding binding = BtLayoutDomainAgentItemBinding.bind(holder.itemView);
         if(isAgent){
             binding.tvAgentChange.setVisibility(View.VISIBLE);
@@ -45,7 +47,7 @@ public class BtDomainAdapter extends BaseAdapter<String> {
         if(position == useLinePosition){
             binding.tvAgentName.setText("当前线路");
         }else {
-            binding.tvAgentName.setText("线路" + (position + 1));
+            binding.tvAgentName.setText("线路" + NumberUtils.int2chineseNum(position + 1));
         }
         binding.tvAgentChange.setOnClickListener(v -> {
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, position);
