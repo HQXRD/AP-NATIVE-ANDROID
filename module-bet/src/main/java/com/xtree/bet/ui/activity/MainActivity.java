@@ -240,8 +240,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private void initDomain() {
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
         int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
-        CfLog.e("============useLinePosition====" + useLinePosition);
-        if(useLinePosition > BtDomainUtil.getDomainUrl().size()){
+        if(useLinePosition > BtDomainUtil.getDomainUrl().size() - 1){
             useLinePosition = 0;
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
         }
