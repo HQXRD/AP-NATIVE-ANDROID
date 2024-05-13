@@ -6,6 +6,8 @@ import android.net.Uri;
 
 import com.xtree.base.global.Constant;
 
+import me.xtree.mvvmhabit.utils.SPUtils;
+
 public class AppUtil {
 
     /**
@@ -30,6 +32,65 @@ public class AppUtil {
         Uri uri = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         ctx.startActivity(intent);
+    }
+
+    /**
+     * 今日是否弹窗
+     *
+     * @return true:默认弹提示, false:今日不弹提示
+     */
+    public static boolean isTipToday(String key) {
+        String cacheDay = SPUtils.getInstance().getString(key, "");
+        String today = TimeUtils.getCurDate();
+        return !today.equals(cacheDay);
+    }
+
+    /**
+     * 检测手机号是否规范 (HQAP2-3552) <br/>
+     * 1开头共11位，不能是10、11或12开头
+     *
+     * @param num 手机号
+     * @return true:是 false:否
+     */
+    public static boolean isPhone(String num) {
+        String regex = "^1[3456789]\\d{9}$"; // 手机号
+        return num.matches(regex);
+    }
+
+    /**
+     * 检测QQ号是否规范
+     * QQ号码至少包含5位数字的连续数字。
+     *
+     * @param num QQ
+     * @return true:是 false:否
+     */
+    public static boolean isQQ(String num) {
+        String regex = "^\\d{5,}$"; // QQ
+        return num.matches(regex);
+    }
+
+    /**
+     * 检测微信号是否规范
+     * 微信号必须以字母、下划线或中划线开头，长度在6到20位之间，可以包含数字、字母、下划线和减号。
+     *
+     * @param num 微信
+     * @return true:是 false:否
+     */
+    public static boolean isWX(String num) {
+        String regex = "^[a-zA-Z_-][a-zA-Z0-9_-]{5,19}$"; // 微信
+        return num.matches(regex);
+    }
+
+    /**
+     * 检测邮箱是否规范 (HQAP2-3552)  <br/>
+     * 依据Email正则表达式 ^\w+(-+.\w+)*@\w+(-.\w+)*.\w+(-.\w+)*$
+     *
+     * @param num 邮箱
+     * @return true:是 false:否
+     */
+    public static boolean isEmail(String num) {
+        String regex = "^[\\w]+([-+.][\\w]+)*@[\\w]+([-.][\\w]+)*\\.[\\w]+([-.][\\w]+)*$"; // 邮箱
+        return num.matches(regex);
     }
 
 }

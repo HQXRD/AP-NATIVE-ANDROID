@@ -18,6 +18,11 @@
     <string name="txt_bind_gobao_type">bindgobao</string>
     <string name="txt_bind_gopay_type">bindgopay</string>
     <string name="txt_bind_okpay_type">bindokpay</string>
+    <string name="txt_bind_wechat_type">bindcardwx</string>
+    <string name="txt_bind_zfb_type">bindcardzfb</string>
+
+    <string name="txt_go_recharge">去充值</string>
+    <string name="txt_go_withdraw">去提款</string>
 
     <string name="txt_bind_card">管理银行卡</string>
     <string name="txt_bind_wallet">钱包地址管理</string>
@@ -29,6 +34,12 @@
     <string name="txt_bind_gobao">绑定GOBAO</string>
     <string name="txt_bind_gopay">绑定GOPAY</string>
     <string name="txt_bind_okpay">绑定OKPAY</string>
+    <string name="txt_bind_alipay">绑定支付宝</string>
+    <string name="txt_bind_wechat">绑定微信支付</string>
+    <string name="txt_manage_alipay">管理支付宝</string>
+    <string name="txt_manage_wechat">管理微信支付</string>
+    <string name="txt_alipay">支付宝</string>
+    <string name="txt_wechat">微信</string>
     <string name="txt_bind_google">绑定</string>
 
     <string name="txt_remind_card">请输入16到19位数字</string>
@@ -314,4 +325,6 @@
     <string name="txt_change_login_sure_err">请输入确认密码</string>
     <string name="txt_change_login_err">新密码与确认新密码不一致</string>
     <string name="txt_read_photo_permissions">未获得读取文件权限,请您设置通过相关权限</string>
+
+    <string name="txt_precautions">注意事项</string>
 </resources>

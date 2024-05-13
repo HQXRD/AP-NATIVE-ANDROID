@@ -477,6 +477,11 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                 remind = ctx.getString(R.string.txt_remind_okpay);
                 //url = DomainUtil.getDomain2() + "/user/userokpayinfo?check=" + vo.tokenSign + "&mark=" + vo.mark;
                 break;
+            case Constant.BIND_ALIPAY:
+            case Constant.BIND_WECHAT:
+                // "绑定支付宝" 或 "绑定微信"
+                startAlipayWechat(ctx, type, vo);
+                return;
 
             default:
                 CfLog.e("****** type: " + type + ", " + vo.toString());
@@ -489,6 +494,17 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
         it.putExtra("url", url);
         it.putExtra("title", title);
         ctx.startActivity(it);*/
+    }
+
+    private void startAlipayWechat(Context ctx, String type, VerifyVo vo) {
+        Bundle bundle = new Bundle();
+        //bundle.putString("mark", vo.mark);
+        bundle.putString("mark", type); // 20240418 使用type是因为用户绑手机邮箱后直接跳过来但mark还是"bind"
+        bundle.putString("tokenSign", vo.tokenSign);
+        Intent intent = new Intent(ctx, ContainerActivity.class);
+        intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_BIND_ALIPAY_WECHAT);
+        intent.putExtra(ContainerActivity.BUNDLE, bundle);
+        ctx.startActivity(intent);
     }
 
     private void startUsdt(Context ctx, String title, String remind, VerifyVo vo) {

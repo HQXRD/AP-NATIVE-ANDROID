@@ -102,6 +102,18 @@
             android:text="@string/txt_bind_okpay"
             android:visibility="gone" />
 
+        <TextView
+            android:id="@+id/tv_zfb"
+            style="@style/style_choose_account_item"
+            android:tag="bindcardzfb"
+            android:text="@string/txt_manage_alipay" />
+
+        <TextView
+            android:id="@+id/tv_wx"
+            style="@style/style_choose_account_item"
+            android:tag="bindcardwx"
+            android:text="@string/txt_manage_wechat" />
+
     </LinearLayout>
 
 </LinearLayout>

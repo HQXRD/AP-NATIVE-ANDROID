@@ -4,6 +4,7 @@ import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.mine.vo.AWVo;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.AwardsRecordVo;
 import com.xtree.mine.vo.BalanceVo;
@@ -242,6 +243,12 @@ public interface HttpApiService {
     Flowable<UserBindBaseVo<BankCardVo>> getBankCardList(@QueryMap Map<String, String> map);
 
     /**
+     * 获取用户已绑定的支付宝/微信列表
+     */
+    @GET("/user/?controller=user")
+    Flowable<UserBindBaseVo<AWVo>> getAWList(@QueryMap Map<String, String> map);
+
+    /**
      * 获取银行列表/省列表
      * /user/userbankinfo?check=***&mark=bindcard&client=m&controller=security&action=adduserbank
      */
@@ -264,6 +271,13 @@ public interface HttpApiService {
     @POST("/user/userbankinfo/?")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<UserBankConfirmVo> doBindBankCard(@QueryMap Map<String, String> queryMap, @Body Map<String, String> map);
+
+    /**
+     * 绑定支付宝/微信
+     */
+    @POST("/security/{action}/?")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<UserBankConfirmVo> doBindAW(@Path("action") String action, @QueryMap Map<String, String> queryMap, @Body Map<String, String> map);
 
     /**
      * 锁定银行卡

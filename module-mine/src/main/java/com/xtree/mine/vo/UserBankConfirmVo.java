@@ -33,5 +33,8 @@ public class UserBankConfirmVo extends UserBindBaseVo {
     public String id; // "12***63", // 删除绑卡用的
     //public String flag; // "lock",
     public String action; // "deluserbank",
+    public String picurl; // 图片地址
+    public String tyfiletypepe; // 图片类型
+    public String wxzfb_qrcodekey;
 
 }
