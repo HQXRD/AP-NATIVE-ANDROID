@@ -19,7 +19,7 @@
             android:layout_height="match_parent" >
             <TextView
                 android:id="@+id/tv_top_child"
-                android:text="USDT"
+                tools:text="USDT"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
                 android:gravity="center_horizontal"
