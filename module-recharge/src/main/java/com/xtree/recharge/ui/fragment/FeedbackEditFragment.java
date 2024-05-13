@@ -1,10 +1,13 @@
 package com.xtree.recharge.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -695,6 +698,14 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
      * 图片选择
      */
     private void gotoSelectMedia() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                Intent getpermission = new Intent();
+                getpermission.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                startActivity(getpermission);
+                return;
+            }
+        }
         PictureSelector.create(getActivity())
                 .openGallery(SelectMimeType.ofImage())
                 .isDisplayCamera(false)
@@ -713,11 +724,18 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
                                 File imageRealPath = new File(imageRealPathString);
 
                                 if (imageRealPath.exists()) {
-                                    CfLog.i("获取图片地址Base64 ===== " + ImageUploadUtil.bitmapToString(imageRealPathString));
                                     Bitmap bitmap = BitmapFactory.decodeFile(imageRealPathString);
-                                    binding.ivSelectorTipImage.setVisibility(View.VISIBLE);
-                                    binding.ivSelectorTipImage.setImageBitmap(bitmap);
-                                    imageSelector = true;//向界面设置了选中图片
+                                    if (bitmap == null) {
+                                        //未通过文件名取得bitmap
+                                        ToastUtils.showError(getContext().getString(R.string.txt_read_photo_permissions));
+                                        imageSelector = false;//向界面设置了选中图片
+                                        return;
+                                    } else {
+                                        binding.ivSelectorTipImage.setVisibility(View.VISIBLE);
+                                        binding.ivSelectorTipImage.setImageBitmap(bitmap);
+                                        imageSelector = true;//向界面设置了选中图片
+                                    }
+
                                 } else {
                                     CfLog.i("获取图片地址不存在是 ====== " + result.get(i).getRealPath());
                                 }
@@ -793,11 +811,17 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
         String imageDownUrls = DomainUtil.getDomain2() + imageDownUrl; //图片地址
         CfLog.i("imageDownUrls ==" + imageDownUrls);
 
-        String cookie = "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME) + "=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID) + ";";
+        String cookie = "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";"
+                + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME) + "="
+                + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID) + ";";
         cookie = "auth-expires-in=604800; userPasswordCheck=lowPass; " + cookie;
         CfLog.e("cookie: " + cookie);
 
-        GlideUrl glideUrl = new GlideUrl(imageDownUrls, new LazyHeaders.Builder().addHeader("Content-Type", "application/vnd.sc-api.v1.json").addHeader("Authorization", "bearer " + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN)).addHeader("Cookie", cookie).addHeader("UUID", TagUtils.getDeviceId(getContext())).build());
+        GlideUrl glideUrl = new GlideUrl(imageDownUrls, new LazyHeaders.Builder()
+                .addHeader("Content-Type", "application/vnd.sc-api.v1.json")
+                .addHeader("Authorization", "bearer " + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN))
+                .addHeader("Cookie", cookie)
+                .addHeader("UUID", TagUtils.getDeviceId(getContext())).build());
         Glide.with(getContext()).load(glideUrl).placeholder(R.mipmap.ic_loading).error(R.mipmap.me_icon_name).into(binding.ivSelectorTipImage);
 
     }
