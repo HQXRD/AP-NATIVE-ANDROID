@@ -100,8 +100,8 @@
                             android:text="" />
                         <ImageView
                             android:id="@+id/iv_unreceived_orders"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/tvw_unreceived_orders"
                             android:layout_alignLeft="@id/tvw_unreceived_orders"
@@ -148,8 +148,8 @@
                             android:text="" />
                         <ImageView
                             android:id="@+id/iv_payment_method"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/tvw_payment_method"
                             android:layout_alignLeft="@id/tvw_payment_method"
@@ -215,8 +215,8 @@
 
                         <ImageView
                             android:id="@+id/iv_payment_account"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/et_payment_account"
                             android:layout_alignLeft="@id/et_payment_account"
@@ -261,8 +261,8 @@
 
                         <ImageView
                             android:id="@+id/iv_payment_address"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/et_payment_address"
                             android:layout_alignLeft="@id/et_payment_address"
@@ -313,8 +313,8 @@
 
                         <ImageView
                             android:id="@+id/iv_payment_name_info"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/ll_payment_name_info"
                             android:layout_alignLeft="@id/ll_payment_name_info"
@@ -364,8 +364,8 @@
 
                         <ImageView
                             android:id="@+id/iv_collection_name"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/ll_collection_name_info"
                             android:layout_alignLeft="@id/ll_collection_name_info"
@@ -424,8 +424,8 @@
 
                         <ImageView
                             android:id="@+id/iv_selector_tip_collection_name"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_below="@id/ll_protocol_info"
                             android:layout_alignLeft="@id/ll_protocol_info"
                             android:layout_marginTop="10dp"
@@ -465,8 +465,8 @@
                             android:hint="@string/txt_tip_input_wechat_save_numb" />
                         <ImageView
                             android:id="@+id/iv_deposit_amount"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/et_deposit_amount"
                             android:layout_alignLeft="@id/et_deposit_amount"
@@ -759,8 +759,8 @@
                         </LinearLayout>
                         <ImageView
                             android:id="@+id/iv_selector_tip_image_bottom"
-                            android:layout_width="14dp"
-                            android:layout_height="14dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/ll_remittance_screenshot"
                             android:layout_alignLeft="@id/ll_remittance_screenshot"
