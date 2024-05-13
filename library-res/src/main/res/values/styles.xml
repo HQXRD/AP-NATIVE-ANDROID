@@ -926,8 +926,9 @@
         <item name="android:layout_marginEnd">@dimen/layout_margin</item>
         <item name="android:gravity">right</item>
         <item name="android:layout_marginTop">10dp</item>
-        <item name="android:textColor">@color/clr_txt_withdraw_money</item>
+        <item name="android:textColor">@color/clr_txt_01</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
     <!--提款金额 红色 风格-->
     <style name="style_withdraw_amount_value">
@@ -1100,10 +1101,10 @@
     <!-- 奥丁通用 按钮 背景为颜色,可变色(大部分地方使用) -->
     <style name="odin_style_btn">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">48dp</item>
         <item name="android:layout_marginStart">12dp</item>
         <item name="android:layout_marginEnd">12dp</item>
-        <item name="android:background">@drawable/bg_btn_selector</item>
+        <item name="android:background">@drawable/btn_withdraw_selector</item>
         <item name="android:gravity">center</item>
         <item name="android:minEms">5</item>
         <item name="android:padding">6dp</item>
@@ -1113,11 +1114,12 @@
     </style>
     <!-- 奥丁 通用 按钮 背景为灰色,可变色(返回/取消等地方使用) -->
     <style name="odin_style_btn_back" parent="style_btn">
-        <item name="android:background">@drawable/bg_btn_grey_selector</item>
+        <item name="android:background">@mipmap/cm_btn_withdrawal_cancel</item>
         <item name="android:text">@string/txt_back</item>
         <item name="android:textColor">@color/clr_text_code_selector</item>
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">48dp</item>
+
     </style>
 
     <style name="odin_style_withdraw_confirm_ll">
@@ -1134,5 +1136,89 @@
         <item name="android:layout_height">140dp</item>
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:orientation">vertical</item>
+    </style>
+    <!-- 奥丁 提款 下一步 风格 -->
+    <style name="style_withdraw_next_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:background">@mipmap/cm_btn_withdrawal_next</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_text_withdrawal_selector</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!-- 奥丁 提款 上一步 风格 -->
+    <style name="style_withdraw_cancel_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:background">@mipmap/cm_btn_withdrawal_cancel</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_text_withdrawal_selector</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!-- 奥丁 提款 结果下一步 风格 -->
+    <style name="style_withdraw_results_next_btn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:background">@mipmap/iv_continue_confirm_next</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_text_withdrawal_selector</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!-- 奥丁 提款 结果上一步 风格 -->
+    <style name="style_withdraw_results_cancel_btn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:background">@mipmap/iv_continue_confirm_close</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_text_withdrawal_selector</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+
+    <style name="style_withdraw_input_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@mipmap/cm_bg_input</item>
+        <item name="android:hint"></item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">32</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_withdraw_left_title">
+        <item name="android:minEms">6</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/clr_main_18</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>
