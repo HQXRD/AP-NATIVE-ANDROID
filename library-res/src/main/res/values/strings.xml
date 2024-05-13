@@ -144,6 +144,7 @@
     <string name="txt_yes">是</string>
     <string name="txt_no">否</string>
     <string name="txt_tip">提示</string>
+    <string name="txt_google_bind">绑定</string>
     <string name="txt_google_auth_fail">绑定谷歌验证码失败</string>
     <string name="txt_submitted_suc">提交成功</string>
     <string name="txt_usdt">提款账户</string>

@@ -82,8 +82,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/layout_margin</item>
         <item name="android:layout_marginTop">@dimen/layout_margin</item>
-        <item name="android:textColor">@color/clr_txt_02</item>
-        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">@color/clr_txt_01</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <!-- 首页-左边的游戏类型 -->
@@ -572,7 +572,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/layout_margin</item>
         <item name="android:layout_marginEnd">@dimen/layout_margin</item>
-        <item name="android:background">@mipmap/cm_bg_input_wht</item>
+        <item name="android:background">@mipmap/cm_bg_input</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:hint"></item>
         <item name="android:inputType">text</item>
@@ -582,7 +582,7 @@
         <item name="android:tag"></item>
         <item name="android:text"></item>
         <item name="android:textColor">@color/clr_grey_80</item>
-        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textColorHint">@color/clr_txt_04</item>
         <item name="android:textSize">14sp</item>
     </style>
 
@@ -1066,19 +1066,19 @@
 
     <!--谷歌动态口令密钥提示语风格-->
     <style name="style_google_key">
-        <item name="android:textColor">@color/clr_orange_01</item>
+        <item name="android:textColor">@color/clr_txt_emphasize</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <!--谷歌动态口令提示语风格-->
     <style name="style_google_prompt">
-        <item name="android:textColor">@color/clr_grey_00</item>
+        <item name="android:textColor">@color/clr_txt_01</item>
         <item name="android:textSize">12sp</item>
     </style>
 
     <!--谷歌动态口令提示语风格-->
     <style name="style_google_prompt_bottom">
-        <item name="android:textColor">@color/bt_text_color_primary_3</item>
+        <item name="android:textColor">@color/clr_txt_03</item>
         <item name="android:textSize">12sp</item>
     </style>
 
