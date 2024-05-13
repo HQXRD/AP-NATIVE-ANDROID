@@ -101,6 +101,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     //HashMap<String, RechargeVo> mapRechargeVo = new HashMap<>(); // 跳转第三方链接的充值渠道
     boolean isShowedProcessPendCount = false; // 是否显示过 "订单未到账" 的提示
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
+    boolean isHidden = false; // 当前fragment是否隐藏. 解决从充值页切到首页/我的,再打开VIP,再返回,弹出弹窗(您已经充值x次)
 
     @Override
     public void onDetach() {
@@ -399,7 +400,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     @Override
     public void onResume() {
         super.onResume();
-        refresh();
+        CfLog.i("****** isHidden: " + isHidden);
+        if (!isHidden) {
+            refresh(); // 刷新
+        }
     }
 
     private void refresh() {
@@ -446,6 +450,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
+        CfLog.i("****** hidden: " + hidden);
+        isHidden = hidden;
         if (hidden) {   // 不在最前端显示 相当于调用了onPause();
 
         } else {  // 第一次可见，不会执行到这里，只会执行onResume
@@ -1430,7 +1436,13 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     private void showProcessDialog(ProcessingDataVo vo) {
         CfLog.i(vo.toString());
-        if (!isShowedProcessPendCount && (vo.depProcessCnt1 || vo.depProcessCnt3) && !isShowOrderDetail) {
+        // 某些情况下,不用弹窗 (弹订单详情/切到其它页)
+        if (isShowOrderDetail || isHidden) {
+            CfLog.i("showProcessDialog stop.");
+            return;
+        }
+
+        if (!isShowedProcessPendCount && (vo.depProcessCnt1 || vo.depProcessCnt3)) {
             isShowedProcessPendCount = true;
             // 有订单还未到账，为了能您的充值快速到账，请您进行反馈！
             CfLog.i("****** 有订单还未到账，为了能您的充值快速到账，请您进行反馈！");
@@ -1452,7 +1464,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     .asCustom(dialog);
             ppw2.show();
 
-        } else if (vo.userProcessCount > 0 && isTipTodayCount() && !isShowOrderDetail) {
+        } else if (vo.userProcessCount > 0 && isTipTodayCount()) {
             // 您已经连续充值 次, 为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！
             CfLog.i("****** 您已经连续充值 次");
             String msg = getString(R.string.txt_rc_count_low_rate_hint, vo.userProcessCount);
