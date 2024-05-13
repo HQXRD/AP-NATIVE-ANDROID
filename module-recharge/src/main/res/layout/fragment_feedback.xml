@@ -502,7 +502,7 @@
                             android:text="@string/txt_tip_input_usdt_numb" />
                         <EditText
                             android:id="@+id/et_virtual_amount"
-                            style="@style/style_cm_edit"
+                            style="@style/style_cm_edt"
                             android:layout_toRightOf="@id/tv_virtual_amount"
                             android:hint="@string/txt_tip_input_wechat_save_numb" />
                         <ImageView
@@ -587,7 +587,7 @@
 
                         <EditText
                             android:id="@+id/ed_third_order_number"
-                            style="@style/style_cm_edit"
+                            style="@style/style_cm_edt"
                             android:layout_toRightOf="@id/tv_third_order_number"
                             android:hint="@string/txt_tip_input_three_numb" />
 
@@ -630,7 +630,7 @@
                             android:id="@+id/tvw_payment_channel"
                             android:layout_toRightOf="@id/tv_payment_channel"
                             android:drawableEnd="@mipmap/bt_icon_expand"
-                            style="@style/style_cm_edit"
+                            style="@style/style_cm_edt"
                             android:hint="@string/txt_tip_input_wechat_select_pay_way"
                             android:text=""
                             />
@@ -782,13 +782,12 @@
 
                 </LinearLayout>
 
-                <ImageView
+                <TextView
                     android:id="@+id/ivw_next"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="24dp"
-                    android:background="@mipmap/cm_btn_next" />
+                    style="@style/style_withdraw_next_btn"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/txt_withdrawal_next" />
+
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

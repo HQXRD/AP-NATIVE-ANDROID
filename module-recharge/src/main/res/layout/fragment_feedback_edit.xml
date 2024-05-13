@@ -723,13 +723,11 @@
 
                 </LinearLayout>
 
-                <ImageView
+                <TextView
                     android:id="@+id/ivw_next"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="24dp"
-                    android:background="@mipmap/cm_btn_next" />
+                    style="@style/style_withdraw_next_btn"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/txt_withdrawal_next" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
