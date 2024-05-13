@@ -166,6 +166,6 @@ public class DateTimePickerDialog extends BottomPopupView {
     @Override
     protected int getMaxHeight() {
         //return super.getMaxHeight();
-        return (XPopupUtils.getScreenHeight(getContext()) * 30 / 100);
+        return (XPopupUtils.getScreenHeight(getContext()) * 35 / 100);
     }
 }
