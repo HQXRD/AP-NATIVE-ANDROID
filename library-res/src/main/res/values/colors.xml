@@ -228,6 +228,7 @@
     <color name="clr_grey_60">#992F2747</color>
     <color name="clr_grey_80">#CC2F2747</color>
     <color name="clr_grey_1">#6C757D</color>
+    <color name="clr_grey_58">#58FAFAFF</color>
     <color name="clr_grey_2">#C6C6C6</color>
 
     <color name="clr_grey_00_a20">#332F2747</color>
@@ -349,8 +350,11 @@
     <color name="clr_withdrawal_text_bg">@color/clr_main_14</color>
     <color name="clr_withdrawal_top_text_bg">#2D332F</color>
     <color name="clr_withdrawal_top_text_default_bg">#C2CEC8</color>
+    <color name="clr_text_color_hint">#C6C6C6</color>
 
     <color name="clr_rc_dialog_btn">#B890E6</color>
     <color name="clr_dlg_txt_main">#A797F0</color>
+
+    <color name="clr_edt_auth_focused">@color/clr_white</color>
 
 </resources>
