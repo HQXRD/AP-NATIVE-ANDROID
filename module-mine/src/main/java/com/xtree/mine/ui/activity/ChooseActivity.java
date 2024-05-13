@@ -19,8 +19,6 @@ import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentChooseWithdrawBinding;
 import com.xtree.mine.ui.fragment.AwardsRecordDialog;
-import com.xtree.mine.ui.fragment.BankWithdrawalDialog;
-import com.xtree.mine.ui.fragment.ChooseWithdrawalDialog;
 import com.xtree.mine.ui.fragment.WithdrawFlowDialog;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
@@ -232,7 +230,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
     private void showChooseList() {
 
         showMaskLoading();
-        // LoadingDialog.show(this);
+      /*  // LoadingDialog.show(this);
         basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false).dismissOnTouchOutside(false)
                 .moveUpToKeyboard(false)
                 .asCustom(ChooseWithdrawalDialog.newInstance(this, this, new ChooseWithdrawalDialog.IChooseDialogBack() {
@@ -271,7 +269,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                     public void closeBankByNumber() {
                         showNumberDialog("您今日没有可用提款次数");
                     }
-                }, this));
+                }, this));*/
         basePopupView.show();
 
     }

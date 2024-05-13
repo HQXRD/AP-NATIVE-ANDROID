@@ -250,11 +250,12 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
             CfLog.i("未绑定手机/邮箱");
             toBindPhoneNumber();
         } else {
-            Bundle bundle = new Bundle();
+
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_WITHDRAW_LIST);
+            /*Bundle bundle = new Bundle();
             bundle.putString("viewType", "Wallet");
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).withBundle("viewType", bundle)
-                    .navigation();
-
+                    .navigation();*/
         }
     }
 

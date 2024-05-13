@@ -427,7 +427,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         gameAdapter = new GameAdapter(getContext(), mCallBack);
         binding.rcvList.setAdapter(gameAdapter);
         binding.rcvList.setHasFixedSize(true);
-        ((SimpleItemAnimator)binding.rcvList.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) binding.rcvList.getItemAnimator()).setSupportsChangeAnimations(false);
         manager = new LinearLayoutManager(getContext());
         binding.rcvList.setLayoutManager(manager);
         binding.rcvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -541,11 +541,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             CfLog.i("未绑定手机/邮箱");
             toBindPhoneNumber();
         } else {
-            Bundle bundle = new Bundle();
+           /* Bundle bundle = new Bundle();
             bundle.putString("viewType", "HomeView");
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).withBundle("viewType", bundle)
-                    .navigation();
-
+                    .navigation();*/
+            //跳转提款列表
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_WITHDRAW_LIST);
         }
     }
 

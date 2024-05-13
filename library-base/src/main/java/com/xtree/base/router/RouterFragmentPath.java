@@ -1,5 +1,7 @@
 package com.xtree.base.router;
 
+import android.health.connect.datatypes.StepsRecord;
+
 /**
  * 用于组件开发中，ARouter多Fragment跳转的统一路径注册
  * 在这里注册添加路由路径，需要清楚的写好注释，标明功能界面
@@ -70,6 +72,12 @@ public class RouterFragmentPath {
         public static final String PAGER_QUESTION = MINE + "/QUESTION"; // 网页资讯
         public static final String PAGER_CHOOSE = MINE + "/ChooseWithdraw"; // 提款
         public static final String PAGER_MY_WALLET = MINE + "/wallet";
+
+        public static final String PAGER_WITHDRAW_LIST = MINE + "/WithdrawList";//提款列表
+        public static final String PAGER_WITHDRAW_BANK = MINE + "/WithdrawBank";//银行卡提款
+        public static final String PAGER_WITHDRAW_USDT = MINE + "/WithdrawUSDT";//USDT提款
+        public static final String PAGER_WITHDRAW_VIRTUAL = MINE + "/WithdrawVirtual";//虚拟币提款
+        public static final String PAGER_WITHDRAW_OTHER = MINE + "/WithdrawOther";//其他提款
     }
 
     public static class Wallet {

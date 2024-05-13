@@ -41,7 +41,7 @@ public class USDTCashVo extends BaseResponse2 {
     public User user;
     public Wraptime wraptime;
 
-    public ArrayList<Usdtinfo> usdtinfo;
+    public ArrayList<USDTInfo> usdtinfo;
 
     public String availablebalance;
     public String channel_list_use;
@@ -51,10 +51,13 @@ public class USDTCashVo extends BaseResponse2 {
      * 顶部选项卡
      */
     public class Channel {
+
         public String name;
         public String id;
         public String title;
         public String type;
+        //是否选中标志位 true 被选中；false 未被选中
+        public boolean flag;
 
         @Override
         public String toString() {
@@ -67,7 +70,7 @@ public class USDTCashVo extends BaseResponse2 {
         }
     }
 
-    public class Usdtinfo {
+    public class USDTInfo {
 
         public String id;
         public String user_name;
@@ -128,6 +131,7 @@ public class USDTCashVo extends BaseResponse2 {
     }
 
     public class User {
+        public String nickname;
         public String userid;
         public String username;
         public String availablebalance; //可提款金额
@@ -145,4 +149,9 @@ public class USDTCashVo extends BaseResponse2 {
                 "cafAvailableBalance": 997858,
                 "unSportActivityAward": 0*/
     }
+
+
+
+
+
 }
