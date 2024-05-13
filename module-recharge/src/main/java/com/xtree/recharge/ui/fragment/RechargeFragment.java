@@ -994,6 +994,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void setPrePay(RechargeVo vo, String amount) {
+        if (vo == null) {
+            CfLog.i("vo is null.");
+            binding.tvwPrePay.setVisibility(View.GONE);
+            return;
+        }
         double realUsdt = Double.parseDouble(0 + amount); // amount 不能为空
         String type = "";
         binding.tvwPrePay.setVisibility(View.VISIBLE);
