@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_bank_web_request"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_withdrawal"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:ignore="MissingDefaultResource">
+
+    <LinearLayout
+        android:id="@+id/ll_bank_top_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <include
+            android:id="@+id/layout_withdrawal_top"
+            layout="@layout/layout_withdrawal_top" />
+
+    </LinearLayout>
+
+    <View style="@style/style_withdraw_dividing_line" />
+    <!--h5view -->
+    <LinearLayout
+        android:id="@+id/mask_h5_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/clr_white"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+    </LinearLayout>
+
+    <WebView
+        android:id="@+id/ns_h5_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layerType="software"
+        android:visibility="invisible" />
+
+</LinearLayout>

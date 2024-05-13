@@ -353,7 +353,6 @@
                     style="@style/style_withdraw_money_bg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/ll_virtual_hint"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/bg_withdraw_money_input"
                     android:focusable="true"

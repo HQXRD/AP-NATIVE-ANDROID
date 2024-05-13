@@ -141,7 +141,6 @@
         android:id="@+id/ll_bank_amount_other"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ll_bank_amount_input"
         android:layout_marginTop="10dp"
         android:orientation="vertical">
 

@@ -96,7 +96,7 @@
         style="@style/style_withdraw_money_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ll_virtual_hint"
+
         android:layout_marginTop="4dp"
         android:background="@drawable/bg_withdraw_money_input"
         android:focusable="true"
@@ -110,14 +110,13 @@
             android:inputType="numberDecimal" />
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/ll_bank_amount_other"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ll_bank_amount_input"
         android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
         <!--实际提款金额-->
         <LinearLayout style="@style/style_withdraw_confirm_ll">
 
@@ -170,14 +169,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:background="@drawable/ic_info" />
+
             <TextView
                 android:id="@+id/tv_tip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/txt_bank_acc_c"
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="14sp"
-                tools:text="我是测试文案朝辞白帝彩云间，千里江陵一日还。两岸猿声啼不住，轻舟已过万重山。"/>
+                tools:text="我是测试文案朝辞白帝彩云间，千里江陵一日还。两岸猿声啼不住，轻舟已过万重山。" />
 
         </LinearLayout>
 

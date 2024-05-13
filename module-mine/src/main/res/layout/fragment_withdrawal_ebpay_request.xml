@@ -4,11 +4,12 @@
     android:id="@+id/ll_bank_request"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/clr_transparent"
+    android:background="@mipmap/bg_withdrawal"
     android:orientation="vertical"
     android:padding="8dp"
     tools:ignore="MissingDefaultResource">
 
+    <!-- android:background="@color/clr_transparent"-->
     <LinearLayout
         android:id="@+id/ll_usdt_top_info"
         android:layout_width="match_parent"
@@ -16,20 +17,17 @@
         android:orientation="vertical"
         android:visibility="visible">
 
-        <LinearLayout
-            style="@style/odin_style_withdraw_top_ll"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
+        <LinearLayout style="@style/odin_style_withdraw_top_ll">
 
             <TextView
-                android:id="@+id/tv_usdt_request_numbe_accounts"
-                style="@style/style_withdraw_show_title"
-                android:text="@string/txt_withdrawal_user_name"
+                android:id="@+id/tv_request_number"
+                style="@style/style_withdraw_left_title"
+                android:text=""
                 tools:text="账户数量（2/5）" />
 
             <TextView
-                android:id="@+id/tvw_unreceived_orders"
-                style="@style/style_feedback_edit"
+                android:id="@+id/tv_bind_address"
+                style="@style/style_withdraw_input_edit"
                 android:layout_marginTop="10dp"
                 android:drawableEnd="@mipmap/bt_icon_expand"
                 android:singleLine="true"
@@ -44,6 +42,29 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <LinearLayout style="@style/style_withdraw_confirm_ll">
+
+        <ImageView
+            android:id="@+id/iv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/ic_info" />
+
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="我是测试文案朝辞白帝彩云间，千里江陵一日还。两岸猿声啼不住，轻舟已过万重山。" />
+
+    </LinearLayout>
+
+    <View style="@style/style_withdraw_dividing_line" />
 
     <LinearLayout
         android:id="@+id/ll_bank_userinfo"
@@ -62,17 +83,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/txt_withdrawal_method_tip"
-                android:textColor="@color/clr_txt_withdraw_money"
+                android:textColor="@color/clr_main_18"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_request_withdrawal_amount_show"
+                android:id="@+id/tv_withdrawal_single_show"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_withdrawal_amount"
-                android:text="@string/txt_withdrawal_min"
-                android:textColor="@color/red"
+                android:textColor="@color/clr_main_18"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -84,13 +104,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@drawable/bg_withdraw_money_input"
         android:focusable="true"
         android:focusableInTouchMode="true">
-
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
         <EditText
             android:id="@+id/et_input_money"
-            style="@style/style_bank_edit"
+            style="@style/style_withdraw_input_edit"
             android:drawableLeft="@mipmap/me_icon_wlt_bank"
             android:hint="@string/txt_input_money"
             android:inputType="numberDecimal" />
@@ -101,18 +122,19 @@
         android:id="@+id/ll_bank_amount_other"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ll_bank_amount_input"
         android:layout_marginTop="10dp"
         android:orientation="vertical">
 
+        <View style="@style/style_withdraw_dividing_line" />
+
         <LinearLayout style="@style/style_withdraw_confirm_ll">
 
             <TextView
-                style="@style/style_withdraw_show_title"
-                android:text="@string/txt_actual_number" />
+                style="@style/style_withdraw_left_title"
+                android:text="@string/txt_actual_arrival" />
 
             <TextView
-                android:id="@+id/tv_request_number"
+                android:id="@+id/tv_request_money"
                 style="@style/style_withdraw_request_odin_value"
                 tools:text="1231231" />
         </LinearLayout>
@@ -122,11 +144,11 @@
         <LinearLayout style="@style/style_withdraw_confirm_ll">
 
             <TextView
-                style="@style/style_withdraw_show_title"
-                android:text="@string/txt_withdrawal_usdt_account" />
+                style="@style/style_withdraw_left_title"
+                android:text="@string/txt_withdrawal_account" />
 
             <TextView
-                android:id="@+id/tv_request_usdt_account"
+                android:id="@+id/tv_request_account"
                 style="@style/style_withdraw_request_odin_value"
                 tools:text="1231231" />
         </LinearLayout>
@@ -134,39 +156,17 @@
         <View style="@style/style_withdraw_dividing_line" />
 
         <TextView
-            android:id="@+id/withdrawal_next"
-            style="@style/odin_style_btn"
+            android:id="@+id/withdrawal_request_next"
+            style="@style/style_withdraw_next_btn"
             android:layout_marginTop="20dp"
-            android:text="@string/txt_confirm"
-            android:textSize="14sp" />
+            android:text="@string/txt_withdrawal_next" />
 
         <TextView
-            android:id="@+id/dialog_update_cancel"
-            style="@style/odin_style_btn_back"
+            android:id="@+id/withdrawal_request_cancel"
+            style="@style/style_withdraw_cancel_btn"
             android:layout_marginTop="20dp"
-            android:text="@string/txt_cancel"
-            android:textColor="@color/clr_txt_grey_04"
-            android:textSize="14sp" />
-
-        <LinearLayout style="@style/odin_style_withdraw_confirm_ll">
-
-            <ImageView
-                android:id="@+id/iv_tip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/ic_info" />
-
-            <TextView
-                android:id="@+id/tv_tip"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/txt_bank_acc_c"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                tools:text="我是测试文案朝辞白帝彩云间，千里江陵一日还。两岸猿声啼不住，轻舟已过万重山。" />
-
-        </LinearLayout>
+            android:text="@string/txt_withdrawal_previous"
+            android:textColor="@color/clr_txt_grey_04" />
 
     </LinearLayout>
 

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_bank_request"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/bg_withdrawal"
+    android:orientation="vertical"
+    android:padding="8dp"
+    tools:ignore="MissingDefaultResource">
+
+    <LinearLayout
+        android:id="@+id/ll_usdt_top_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout style="@style/odin_style_withdraw_top_ll">
+
+            <TextView
+                android:id="@+id/tv_request_number_accounts"
+                style="@style/style_withdraw_show_title"
+                android:text=""
+                tools:text="账户数量（2/5）" />
+            <TextView
+                android:id="@+id/tv_bind_address"
+                style="@style/style_withdraw_input_edit"
+                android:layout_marginTop="10dp"
+                android:drawableEnd="@mipmap/bt_icon_expand"
+                android:singleLine="true"
+                android:text="" />
+            <include
+                android:id="@+id/layout_withdrawal_top"
+                layout="@layout/layout_withdrawal_top"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout style="@style/style_withdraw_confirm_ll">
+
+        <ImageView
+            android:id="@+id/iv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/ic_info" />
+
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="3"
+            android:text=""
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            tools:text="我是测试文案朝辞白帝彩云间我是测试文案朝辞白帝彩云间我是 /n
+            测试文案朝辞白帝彩云间我是测试文案朝辞白帝彩云间，千里江陵一日还。两岸猿声啼不住，轻舟已过万重山。" />
+
+    </LinearLayout>
+
+    <View style="@style/style_withdraw_dividing_line" />
+    <!--确认提款信息-->
+    <LinearLayout style="@style/style_withdraw_confirm_ll">
+        <TextView
+            style="@style/style_withdraw_left_title"
+            android:text="@string/txt_withdrawal_user_name" />
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            style="@style/style_withdraw_request_odin_value"
+            tools:text="123123123" />
+    </LinearLayout>
+
+    <View style="@style/style_withdraw_dividing_line" />
+
+    <LinearLayout style="@style/style_withdraw_confirm_ll">
+
+        <TextView
+            style="@style/style_withdraw_left_title"
+            android:text="@string/txt_virtual_money_type" />
+
+        <TextView
+            android:id="@+id/tv_amount_type"
+            style="@style/style_withdraw_request_odin_value"
+            tools:text="123123123" />
+    </LinearLayout>
+
+    <View style="@style/style_withdraw_dividing_line" />
+
+    <LinearLayout style="@style/style_withdraw_confirm_ll">
+
+        <TextView
+            style="@style/style_withdraw_left_title"
+            android:text="@string/txt_withdrawal_method" />
+
+        <TextView
+            android:id="@+id/tv_amount_number"
+            style="@style/style_withdraw_request_odin_value"
+            tools:text="123123123" />
+    </LinearLayout>
+
+    <View style="@style/style_withdraw_dividing_line" />
+
+    <LinearLayout
+        android:id="@+id/ll_bank_userinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_withdrawal_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/txt_withdrawal_method_tip"
+                android:textColor="@color/clr_main_18"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_withdrawal_single_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_withdrawal_amount"
+                android:text=""
+                android:textColor="@color/clr_main_18"
+                android:textSize="12sp"
+                tools:text="单笔取款范围" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_virtual_input"
+        style="@style/style_withdraw_money_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
+
+        <EditText
+            android:id="@+id/et_input_money"
+            style="@style/style_withdraw_input_edit"
+            android:drawableLeft="@mipmap/me_icon_wlt_bank"
+            android:hint="@string/txt_input_money"
+            android:inputType="numberDecimal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_bank_amount_other"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout style="@style/style_withdraw_confirm_ll">
+            <TextView
+                style="@style/style_withdraw_left_title"
+                android:text="@string/txt_virtual_money_numb" />
+
+            <TextView
+                android:id="@+id/tv_withdrawal_money"
+                style="@style/style_withdraw_request_odin_value"
+                tools:text="1231231" />
+        </LinearLayout>
+        <View style="@style/style_withdraw_dividing_line" />
+
+        <LinearLayout style="@style/style_withdraw_confirm_ll">
+            <TextView
+                style="@style/style_withdraw_left_title"
+                android:text="@string/txt_rate_tip" />
+            <TextView
+                android:id="@+id/tv_request_rate"
+                style="@style/style_withdraw_request_odin_value"
+                tools:text="1231231" />
+        </LinearLayout>
+        <View style="@style/style_withdraw_dividing_line" />
+
+        <LinearLayout style="@style/style_withdraw_confirm_ll">
+            <TextView
+                style="@style/style_withdraw_left_title"
+                android:text="@string/txt_handling_fee" />
+
+            <TextView
+                android:id="@+id/tv_handling_fee"
+                style="@style/style_withdraw_request_odin_value"
+                tools:text="1231231" />
+        </LinearLayout>
+        <View style="@style/style_withdraw_dividing_line" />
+
+        <LinearLayout style="@style/style_withdraw_confirm_ll">
+            <TextView
+                style="@style/style_withdraw_left_title"
+                android:text="@string/txt_actual_number" />
+
+            <TextView
+                android:id="@+id/tv_actual_number"
+                style="@style/style_withdraw_request_odin_value"
+                tools:text="1231231" />
+        </LinearLayout>
+        <View style="@style/style_withdraw_dividing_line" />
+
+        <LinearLayout style="@style/style_withdraw_confirm_ll">
+            <TextView
+                style="@style/style_withdraw_left_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_withdrawal_usdt_account" />
+            <TextView
+                android:id="@+id/tv_request_account"
+                style="@style/style_withdraw_request_odin_value"
+                tools:text="1231231" />
+        </LinearLayout>
+
+        <View style="@style/style_withdraw_dividing_line" />
+
+        <TextView
+            android:id="@+id/withdrawal_request_next"
+            style="@style/style_withdraw_next_btn"
+            android:layout_marginTop="20dp"
+            android:text="@string/txt_withdrawal_next" />
+
+        <TextView
+            android:id="@+id/withdrawal_request_cancel"
+            style="@style/style_withdraw_cancel_btn"
+            android:layout_marginTop="20dp"
+            android:text="@string/txt_withdrawal_previous"
+            android:textColor="@color/clr_txt_grey_04" />
+
+    </LinearLayout>
+
+</LinearLayout>

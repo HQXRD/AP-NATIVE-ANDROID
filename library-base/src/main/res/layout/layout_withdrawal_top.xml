@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_root_withdrawal_top"
     android:layout_width="match_parent"
-    android:layout_height="52dp"
-    android:background="@color/clr_white"
+    android:layout_height="wrap_content"
+    android:background="@color/clr_transparent"
     android:orientation="vertical">
 
     <LinearLayout

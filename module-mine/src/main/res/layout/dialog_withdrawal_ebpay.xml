@@ -2,12 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_root_usdt"
+    android:id="@+id/ll_root_ebpay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/clr_transparent"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
@@ -20,6 +18,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <ImageView
             android:id="@+id/ivw_back"
             style="@style/style_ic_title_back"
@@ -29,27 +28,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="visible" />
+
         <TextView
             android:id="@+id/tvw_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="USDT提款"
+            android:text=""
             android:textColor="@color/clr_txt_01"
             android:textSize="18sp"
-            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="EBPay提款" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/withdrawal_usdt_request"
+        android:id="@+id/withdrawal_ebpay_request"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
@@ -57,40 +54,44 @@
         android:padding="10dp"
         android:visibility="visible"
         tools:visibility="visible">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
+
             <include
-                android:id="@+id/fragment_withdrawal_usdt_request"
-                layout="@layout/fragment_withdrawal_usdt_request"
-                />
+                android:id="@+id/fragment_withdrawal_ebpay_request"
+                layout="@layout/fragment_withdrawal_ebpay_request" />
 
         </LinearLayout>
 
-
     </androidx.core.widget.NestedScrollView>
+
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/withdrawal_usdt_confirm"
+        android:id="@+id/withdrawal_ebpay_confirm"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
         tools:visibility="gone">
+
         <include
-            android:id="@+id/fragment_withdrawal_usdt_confirm"
-            layout="@layout/fragment_withdrawal_usdt_confirm"
-            />
+            android:id="@+id/fragment_withdrawal_ebpay_confirm"
+            layout="@layout/fragment_withdrawal_ebpay_confirm" />
     </androidx.core.widget.NestedScrollView>
+
     <androidx.core.widget.NestedScrollView
         android:id="@+id/withdrawal_results"
         android:layout_width="match_parent"
-        android:layout_height="1000dp"
+        android:layout_height="match_parent"
         android:visibility="gone"
-        tools:visibility="gone">
+        tools:visibility="visible">
+
         <include
             android:id="@+id/ll_withdrawal_results"
             layout="@layout/dialog_withdraw_money_confirm" />
         />
     </androidx.core.widget.NestedScrollView>
-
 
 </LinearLayout>

@@ -4,15 +4,18 @@
     android:id="@+id/ll_bank_root"
     android:background="@color/bg_main"
     style="@style/style_item_ll_row"
+    android:layout_marginTop="0dp"
     android:orientation="vertical"
     android:padding="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:ignore="MissingDefaultResource">
 
     <!--显示状态 3 确认提款信息View-->
     <LinearLayout
         android:id="@+id/ll_over_apply"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="1000dp"
         android:layout_marginTop="120dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
@@ -24,7 +27,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@mipmap/ic_over_apply" />
+            android:background="@mipmap/ic_over_apply"
+            android:visibility="invisible"/>
 
         <TextView
             android:id="@+id/tv_over_msg"
@@ -34,33 +38,37 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="20dp"
-            android:text="@string/txt_account_successful"
-            android:textColor="@color/cl_over_tip"
-            android:textSize="16sp" />
+            tools:text="@string/txt_account_successful"
+            android:textColor="@color/clr_txt_01"
+            android:textSize="18sp"
+            android:visibility="invisible"/>
 
         <TextView
+            android:id="@+id/tv_over_detailed_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_over_msg"
             android:layout_centerInParent="true"
             android:layout_marginTop="2dp"
             android:text="@string/txt_account_suc_message"
-            android:textColor="@color/cl_over_tip"
-            android:textSize="16sp" />
+            android:textColor="@color/clr_main_18"
+            android:textSize="12sp"
+            android:visibility="invisible"/>
 
-        <ImageView
-            android:id="@+id/iv_continue_confirm_next"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:background="@mipmap/ic_continue" />
+        <TextView
+            android:id="@+id/iv_next"
+            style="@style/style_withdraw_results_next_btn"
+            android:layout_marginTop="20dp"
+            android:text="@string/txt_withdrawal_money_again"
+            />
 
-        <ImageView
-            android:id="@+id/iv_continue_confirm_close"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/iv_continue_confirm_next"
-            android:background="@mipmap/cm_btn_withdrawal_closure" />
+        <TextView
+            android:id="@+id/iv_close"
+            style="@style/style_withdraw_results_cancel_btn"
+            android:layout_marginTop="20dp"
+            android:text="@string/txt_back"
+            android:textColor="@color/clr_txt_grey_04"
+            />
 
     </LinearLayout>
 
