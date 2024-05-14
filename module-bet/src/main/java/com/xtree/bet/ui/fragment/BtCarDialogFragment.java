@@ -1,8 +1,8 @@
 package com.xtree.bet.ui.fragment;
 
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM_NAME;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM_NAME;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
 
 import android.animation.ObjectAnimator;
 import android.app.Application;

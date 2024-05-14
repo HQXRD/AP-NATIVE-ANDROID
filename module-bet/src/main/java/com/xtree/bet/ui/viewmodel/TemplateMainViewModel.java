@@ -1,8 +1,8 @@
 package com.xtree.bet.ui.viewmodel;
 
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
 
 import android.app.Application;
 import android.text.TextUtils;

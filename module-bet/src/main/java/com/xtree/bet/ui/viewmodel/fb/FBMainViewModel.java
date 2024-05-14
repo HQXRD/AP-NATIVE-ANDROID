@@ -12,8 +12,8 @@ import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_LIVE;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_NOMAL;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_TODAY_CG;
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
 
 import android.app.Application;
 import android.text.TextUtils;
