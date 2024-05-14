@@ -4,11 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -32,6 +28,7 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
@@ -72,6 +69,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
     private
     @NonNull
     DialogOtherWithdrawalWebBinding binding;
+    private String jumpUrl;//外跳URL
 
     public OtherWebWithdrawalDialog(@NonNull Context context) {
         super(context);
@@ -115,7 +113,12 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         binding.ivwClose.setOnClickListener(v -> dismiss());
         binding.tvwTitle.setText(chooseInfoVo.title);
         binding.maskH5View.setVisibility(View.VISIBLE);
-
+        //外跳外部浏览器
+        binding.ivwWeb.setOnClickListener(v ->{
+            if (!TextUtils.isEmpty(jumpUrl)) {
+                AppUtil.goBrowser(getContext(), jumpUrl);
+            }
+        });
     }
 
     private void initData() {
@@ -196,6 +199,10 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         if (!StringUtils.isStartHttp(url)) {
             url = DomainUtil.getDomain2() + url;
         }
+        jumpUrl = url ;
+
+        binding.ivwWeb.setVisibility(View.VISIBLE);
+
         //为WebView 页面添加 跳转外部的浮窗
         //showCashPopView(url);
         binding.nsH5View.setVisibility(View.VISIBLE);
@@ -248,8 +255,18 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
                 gotoSelectMedia();
                 return true;
             }
+            @Override
+            public void onProgressChanged(WebView view, int progress) {
+                //显示加载进度
+                super.onProgressChanged(view, progress);
+                binding.webProgress.setVisibility(View.VISIBLE);
+                binding.webProgress.setProgress(progress);
+                binding.webProgress.setVisibility((progress >0 && progress <100) ? View.VISIBLE :View.GONE);
+            }
+
 
         });
+
     }
 
     /**
