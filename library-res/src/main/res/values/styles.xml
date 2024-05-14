@@ -1221,4 +1221,32 @@
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <!-- 通用 按钮 背景为图片,可变色(大部分地方使用) -->
+    <style name="style_sure_btn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:background">@mipmap/bg_dialog_btn_sure</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">@string/txt_submit</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!-- 通用 按钮 背景为图片,可变色(大部分地方使用) -->
+    <style name="style_cancel_btn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:background">@mipmap/bg_dialog_btn_cancel</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">@string/txt_submit</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

@@ -31,23 +31,11 @@
             app:layout_constraintBottom_toTopOf="@id/ivw_bg"
             app:layout_constraintStart_toStartOf="@id/ivw_bg" />
 
-        <ImageView
-            android:id="@+id/ivw_bell"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:src="@mipmap/cm_dialog_update_bell"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/ivw_empty" />
-
         <TextView
             android:id="@+id/tvw_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="30dp"
             android:gravity="center"
             android:text="@string/txt_update"
             android:textColor="@color/clr_black"
@@ -153,15 +141,17 @@
 
             <TextView
                 android:id="@+id/dialog_update_cancel"
-                style="@style/style_btn_back"
+                style="@style/style_cancel_btn"
                 android:text="@string/txt_cancel"
+                android:layout_weight="1"
                 android:textColor="@color/clr_txt_grey_04"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/dialog_update_confirm"
-                style="@style/style_btn"
+                style="@style/style_sure_btn"
                 android:text="@string/txt_confirm"
+                android:layout_weight="1"
                 android:textSize="14sp" />
         </LinearLayout>
 

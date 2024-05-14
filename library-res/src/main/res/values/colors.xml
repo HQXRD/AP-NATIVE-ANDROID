@@ -214,9 +214,9 @@
     <!-- 更新模块 -->
     <color name="update_progress_bar_bg">#D0C8DC</color>
     <!-- 更新模块 进度条开始颜色 -->
-    <color name="update_progress_start_color">#9179E7</color>
+    <color name="update_progress_start_color">#67AC7F</color>
     <!-- 更新模块 进度条结束颜色 -->
-    <color name="update_progress_end_color">#CA9BE6</color>
+    <color name="update_progress_end_color">#84CDA0</color>
     <!-- 投注模块  begin -->
 
     <!-- 通用/遮罩 -->
