@@ -7,10 +7,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.utils.BtDomainUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
-import com.xtree.bet.util.BtDomainUtil;
 import com.xtree.main.data.MainRepository;
 
 import io.reactivex.disposables.Disposable;

@@ -1,8 +1,8 @@
 package com.xtree.bet.weight;
 
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -19,7 +19,7 @@ import com.lxj.xpopup.core.AttachPopupView;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.bet.R;
 import com.xtree.bet.ui.adapter.BtDomainAdapter;
-import com.xtree.bet.util.BtDomainUtil;
+import com.xtree.base.utils.BtDomainUtil;
 
 import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;

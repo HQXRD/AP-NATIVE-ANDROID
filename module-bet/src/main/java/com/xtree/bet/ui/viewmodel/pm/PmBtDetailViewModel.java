@@ -1,6 +1,5 @@
 package com.xtree.bet.ui.viewmodel.pm;
 
-import static com.xtree.base.net.FBHttpCallBack.CodeRule.CODE_14010;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401013;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401026;
 
@@ -26,7 +25,7 @@ import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.bean.ui.PlayTypePm;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
-import com.xtree.bet.util.BtDomainUtil;
+import com.xtree.base.utils.BtDomainUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -36,6 +36,7 @@ public class FBMarketTag {
             map.put("pro", "晋级球队");
             map.put("1st", "赢得冠军");
             map.put("3rd", "赢得季军");
+            map.put("pa", "球员玩法");
         }
         return map.get(code);
     }

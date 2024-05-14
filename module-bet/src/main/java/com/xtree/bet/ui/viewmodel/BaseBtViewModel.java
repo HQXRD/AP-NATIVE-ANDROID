@@ -1,8 +1,8 @@
 package com.xtree.bet.ui.viewmodel;
 
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -21,7 +21,7 @@ import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.request.UploadExcetionReq;
 import com.xtree.bet.bean.response.fb.BalanceInfo;
 import com.xtree.bet.data.BetRepository;
-import com.xtree.bet.util.BtDomainUtil;
+import com.xtree.base.utils.BtDomainUtil;
 
 import java.util.HashMap;
 import java.util.Map;
