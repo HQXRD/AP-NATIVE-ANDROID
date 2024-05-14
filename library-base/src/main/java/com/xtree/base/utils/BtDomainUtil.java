@@ -28,6 +28,20 @@ public class BtDomainUtil {
         return domainUrl.size() > 1;
     }
 
+    /**
+     * 是否存在默认线路
+     * @return
+     */
+    public static boolean hasDefaultLine(String platform){
+        if (TextUtils.equals(platform, PLATFORM_FBXC)) {
+            return !TextUtils.isEmpty(defaultFbxcDomainUrl);
+        } else if (TextUtils.equals(platform, PLATFORM_FB)) {
+            return !TextUtils.isEmpty(defaultFbDomainUrl);
+        } else {
+            return !TextUtils.isEmpty(defaultPmDomainUrl);
+        }
+    }
+
     public static List<String> getDomainUrl() {
         return domainUrl;
     }
