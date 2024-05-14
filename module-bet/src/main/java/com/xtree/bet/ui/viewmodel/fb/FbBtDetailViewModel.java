@@ -2,8 +2,8 @@ package com.xtree.bet.ui.viewmodel.fb;
 
 
 import static com.xtree.base.net.FBHttpCallBack.CodeRule.CODE_14010;
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -27,7 +27,7 @@ import com.xtree.bet.bean.ui.PlayTypeFb;
 import com.xtree.bet.constant.FBMarketTag;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.TemplateBtDetailViewModel;
-import com.xtree.bet.util.BtDomainUtil;
+import com.xtree.base.utils.BtDomainUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;

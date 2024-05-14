@@ -1,5 +1,11 @@
 package com.xtree.bet.ui.activity;
 
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM_NAME;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FB;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+
 import android.animation.ObjectAnimator;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -13,13 +19,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
-import com.google.gson.Gson;
 import com.gyf.immersionbar.ImmersionBar;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -57,7 +61,7 @@ import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.fb.FBMainViewModel;
 import com.xtree.bet.ui.viewmodel.pm.PMMainViewModel;
-import com.xtree.bet.util.BtDomainUtil;
+import com.xtree.base.utils.BtDomainUtil;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 import com.xtree.bet.weight.DomainChangeDialog;
 import com.xtree.bet.weight.PageHorizontalScrollView;
@@ -85,11 +89,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 @Route(path = RouterActivityPath.Bet.PAGER_BET_HOME)
 public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMainViewModel> implements OnRefreshLoadMoreListener, View.OnClickListener {
-    public final static String KEY_PLATFORM = "KEY_PLATFORM";
-    public final static String KEY_PLATFORM_NAME = "KEY_PLATFORM_NAME";
-    public final static String PLATFORM_FBXC = "fbxc";
-    public final static String PLATFORM_FB = "fb";
-    public final static String PLATFORM_PM = "obg";
+
     public final static String BET_EXPAND = "betExpand";
 
     private String mPlatform = PLATFORM_FBXC;

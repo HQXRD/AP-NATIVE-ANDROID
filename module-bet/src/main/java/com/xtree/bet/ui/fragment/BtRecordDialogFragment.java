@@ -1,9 +1,9 @@
 package com.xtree.bet.ui.fragment;
 
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FB;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
 
 import android.app.Application;
 import android.content.DialogInterface;

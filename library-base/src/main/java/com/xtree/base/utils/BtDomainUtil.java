@@ -1,8 +1,4 @@
-package com.xtree.bet.util;
-
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FB;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
+package com.xtree.base.utils;
 
 import android.text.TextUtils;
 
@@ -12,6 +8,11 @@ import java.util.List;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class BtDomainUtil {
+    public final static String KEY_PLATFORM = "KEY_PLATFORM";
+    public final static String KEY_PLATFORM_NAME = "KEY_PLATFORM_NAME";
+    public final static String PLATFORM_FBXC = "fbxc";
+    public final static String PLATFORM_FB = "fb";
+    public final static String PLATFORM_PM = "obg";
     private static List<String> domainUrl = new ArrayList<>();
     private static List<String> fbDomainUrl = new ArrayList<>();
     private static List<String> fbxcDomainUrl = new ArrayList<>();
