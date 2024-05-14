@@ -1,7 +1,7 @@
 package com.xtree.bet.constant;
 
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
 
 import android.text.TextUtils;
 import android.util.ArrayMap;

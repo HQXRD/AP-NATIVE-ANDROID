@@ -16,6 +16,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
+import com.xtree.base.utils.BtDomainUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 
@@ -130,8 +131,12 @@ public class WebAppInterface {
                 break;
             case TYPE_GAME:
                 if (isLogin) {
-                    ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
-                            withString("KEY_PLATFORM", "fbxc").navigation();
+                    if (!BtDomainUtil.hasDefaultLine(BtDomainUtil.PLATFORM_FBXC)) {
+                        ToastUtils.showShort("场馆初始化中，请稍候...");
+                    } else {
+                        ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
+                                withString("KEY_PLATFORM", BtDomainUtil.PLATFORM_FBXC).navigation();
+                    }
                 } else {
                     goLogin();
                 }

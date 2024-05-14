@@ -59,13 +59,14 @@ public class AppUtil {
 
     /**
      * 检测邮箱是否规范 (HQAP2-3552)  <br/>
-     * 依据Email正则表达式 ^\w+(.\w)@\w+(.\w+).\w+(-.\w+)*$
+     * 依据Email正则表达式 ^\w+(-+.\w+)*@\w+(-.\w+)*.\w+(-.\w+)*$
      *
      * @param num 邮箱
      * @return true:是 false:否
+     *
      */
     public static boolean isEmail(String num) {
-        String regex = "^\\w+(.\\w)@\\w+(.\\w+).\\w+(-.\\w+)*$"; // 邮箱
+        String regex = "^[\\w]+([-+.][\\w]+)*@[\\w]+([-.][\\w]+)*\\.[\\w]+([-.][\\w]+)*$"; // 邮箱
         return num.matches(regex);
     }
 

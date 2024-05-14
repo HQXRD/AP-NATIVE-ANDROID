@@ -1,6 +1,6 @@
 package com.xtree.bet.ui.adapter;
 
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM_NAME;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM_NAME;
 
 import android.content.Context;
 import android.text.SpannableString;

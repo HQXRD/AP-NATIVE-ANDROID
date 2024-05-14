@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/layout_margin"
                 android:button="@null"
-                android:drawableStart="@drawable/cm_ic_switch_selector"
+                android:drawableStart="@drawable/cm_ic_switch_selector_transfer"
                 android:drawablePadding="6dp"
                 android:text="@string/txt_hide_no_blc_game"
                 android:textColor="@color/clr_txt_grey_08"
