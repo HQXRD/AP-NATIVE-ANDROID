@@ -28,7 +28,7 @@
     <color name="clr_register_03">#995A436C</color>
     <color name="clr_register_04">#9994688E</color>
     <!-- 更新模块 -->
-    <color name="update_progress_bar_bg">#D0C8DC</color>
+    <color name="update_progress_bar_bg">#F4F4F4</color>
     <!-- 更新模块 进度条开始颜色 -->
     <color name="update_progress_start_color">#9179E7</color>
     <!-- 更新模块 进度条结束颜色 -->

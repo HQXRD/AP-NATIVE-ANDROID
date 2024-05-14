@@ -61,6 +61,17 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/clr_gap_bg" />
+    <ProgressBar
+        android:id="@+id/web_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/down_progressbar_bg"
+        android:max="100"
+        android:progressDrawable="@drawable/withdrawal_progressbar"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <!--顶部显示设置提款请求 以及 通用体现、注意信息-->
     <LinearLayout
@@ -178,21 +189,7 @@
             </LinearLayout>
 
         </RelativeLayout>
-        <ProgressBar
-            android:id="@+id/web_progress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="6dp"
-            android:background="@drawable/down_progressbar_bg"
-            android:max="100"
-            android:layout_gravity="bottom"
-            android:progressDrawable="@drawable/down_progressbar"
-            android:visibility="gone"
-            tools:visibility="visible"
-            android:layout_centerInParent="true"
-            />
+
     </LinearLayout>
 
     <LinearLayout
