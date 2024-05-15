@@ -31,8 +31,6 @@ public class LotteryPickViewModel {
             new ArrayList<Integer>() {
                 {
                     add(R.layout.item_lottery_pick);
-                    add(R.layout.dialog_lottery_play_collection);
-                    add(R.layout.item_lottery_play_collection);
                 }
             });
 
