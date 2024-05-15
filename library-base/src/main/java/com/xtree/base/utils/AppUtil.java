@@ -28,7 +28,7 @@ public class AppUtil {
         if (url.startsWith("/")) {
             url = DomainUtil.getDomain2() + url;
         }
-
+        CfLog.i("url: " + url);
         Uri uri = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         ctx.startActivity(intent);
@@ -63,7 +63,6 @@ public class AppUtil {
      *
      * @param num 邮箱
      * @return true:是 false:否
-     *
      */
     public static boolean isEmail(String num) {
         String regex = "^[\\w]+([-+.][\\w]+)*@[\\w]+([-.][\\w]+)*\\.[\\w]+([-.][\\w]+)*$"; // 邮箱
