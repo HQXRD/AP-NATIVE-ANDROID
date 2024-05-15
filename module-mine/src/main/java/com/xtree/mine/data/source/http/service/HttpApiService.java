@@ -7,7 +7,7 @@ import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.vo.AWVo;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.AwardsRecordVo;
-import com.xtree.mine.vo.BalanceVo;
+import com.xtree.base.vo.BalanceVo;
 import com.xtree.mine.vo.BankCardCashVo;
 import com.xtree.mine.vo.BankCardVo;
 import com.xtree.mine.vo.BtDetailVo;

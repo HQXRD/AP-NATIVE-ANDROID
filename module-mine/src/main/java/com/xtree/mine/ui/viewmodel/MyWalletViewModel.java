@@ -14,7 +14,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.AwardsRecordVo;
-import com.xtree.mine.vo.BalanceVo;
+import com.xtree.base.vo.BalanceVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.GameMenusVo;
 

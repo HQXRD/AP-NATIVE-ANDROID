@@ -37,7 +37,7 @@ import com.xtree.mine.databinding.FragmentTransferBinding;
 import com.xtree.mine.ui.viewmodel.MyWalletViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.AwardsRecordVo;
-import com.xtree.mine.vo.BalanceVo;
+import com.xtree.base.vo.BalanceVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.GameMenusVo;
 
