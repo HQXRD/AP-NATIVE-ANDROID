@@ -32,9 +32,15 @@
     <application android:requestLegacyExternalStorage="true">
         <activity
             android:name=".widget.BrowserActivity"
-            android:exported="false"
+            android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <!--APP更新对应文件-->
         <provider
             android:name="androidx.core.content.FileProvider"

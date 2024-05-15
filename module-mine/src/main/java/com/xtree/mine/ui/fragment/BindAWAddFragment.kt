@@ -18,6 +18,7 @@ import com.luck.picture.lib.interfaces.OnResultCallbackListener
 import com.xtree.base.global.SPKeyGlobal
 import com.xtree.base.router.RouterActivityPath
 import com.xtree.base.router.RouterFragmentPath
+import com.xtree.base.utils.AppUtil
 import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.ImageUploadUtil
 import com.xtree.base.utils.UuidUtil
@@ -209,9 +210,20 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
             ToastUtils.showLong(R.string.txt_tip_name, ToastUtils.ShowType.Fail)
             return
         }
-        if (phone.isEmpty()) {
-            ToastUtils.showLong(R.string.txt_tip_account, ToastUtils.ShowType.Fail)
-            return
+        when (mark) {
+            getString(R.string.txt_bind_zfb_type) -> {
+                if (!(AppUtil.isPhone(phone) || AppUtil.isEmail(phone))) {
+                    ToastUtils.showLong(R.string.txt_tip_account, ToastUtils.ShowType.Fail)
+                    return
+                }
+            }
+
+            getString(R.string.txt_bind_wechat_type) -> {
+                if (!AppUtil.isPhone(phone)) {
+                    ToastUtils.showLong(R.string.txt_tip_account, ToastUtils.ShowType.Fail)
+                    return
+                }
+            }
         }
         if (nickName.isEmpty()) {
             ToastUtils.showLong(R.string.txt_tip_nickname, ToastUtils.ShowType.Fail)

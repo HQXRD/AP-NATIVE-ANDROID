@@ -1,8 +1,8 @@
 package com.xtree.bet.ui.viewmodel;
 
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -13,15 +13,17 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.PMHttpCallBack;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.utils.SystemUtil;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.vo.BalanceVo;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.request.UploadExcetionReq;
 import com.xtree.bet.bean.response.fb.BalanceInfo;
 import com.xtree.bet.data.BetRepository;
-import com.xtree.bet.util.BtDomainUtil;
+import com.xtree.base.utils.BtDomainUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -47,12 +49,31 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
     }
 
     public void getUserBalance(){
-        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        /*String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
         if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
             getUserBalanceFb();
         }else {
             getUserBalancePm();
-        }
+        }*/
+
+        Disposable disposable = (Disposable) model.getBaseApiService().getBalance()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<BalanceVo>() {
+                    @Override
+                    public void onResult(BalanceVo vo) {
+                        CfLog.d(vo.toString());
+                        SPUtils.getInstance().put(SPKeyGlobal.WLT_CENTRAL_BLC, vo.balance);
+                        userBalanceData.postValue(NumberUtils.format(Double.valueOf(vo.balance), 2));
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
     }
 
     private void getUserBalanceFb() {

@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ll_root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
+
+    <RelativeLayout
+        android:id="@+id/bg_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/cm_bg_dialog"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="-1dp"
+        android:background="@color/clr_white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bg_top" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/bg_dialog_top_purple"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +40,8 @@
             android:gravity="center"
             android:text="@string/txt_enter_google_code"
             android:textColor="@color/clr_white"
-            android:textSize="15sp"
+            android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,34 +59,42 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="@dimen/layout_margin"
-        android:paddingBottom="36dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_title">
 
-        <EditText
-            android:id="@+id/edt_code"
-            style="@style/style_cm_edt"
-            android:hint="@string/txt_auth_code"
-            android:imeOptions="actionDone"
-            android:inputType="number"
-            android:maxLength="8" />
-
-        <TextView
-            style="@style/style_cm_tip_small_orange"
-            android:text="@string/txt_check_pin_enter" />
-
-        <TextView
-            android:id="@+id/tvw_ok"
-            style="@style/style_btn"
+        <LinearLayout
+            android:id="@+id/ll_menu"
             android:layout_width="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
-            android:text="@string/txt_confirm" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/layout_margin"
+            android:paddingBottom="36dp">
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/edt_code"
+                style="@style/style_cm_auth_edit"
+                android:hint="@string/txt_auth_code"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="8" />
 
-</LinearLayout>
+            <TextView
+                style="@style/style_cm_tip_small_grey"
+                android:drawableLeft="@mipmap/cm_ic_hint_purple"
+                android:text="@string/txt_check_pin_enter" />
+
+            <TextView
+                android:id="@+id/tvw_ok"
+                style="@style/style_activity_refresh_btn"
+                android:layout_width="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:text="@string/txt_confirm" />
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+

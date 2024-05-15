@@ -224,12 +224,12 @@ public class CustomFloatWindows extends RelativeLayout {
                             if (rechargeOrderVoList.size() > 0) {
                                 rechargeReportAdapter.clear();
                                 rechargeReportAdapter.addAll(rechargeOrderVoList);
-                                floatView.findViewById(R.id.rcv_data).setVisibility(View.VISIBLE);
+                                floatView.findViewById(R.id.cl_floating_content).setVisibility(View.VISIBLE);
                                 floatView.findViewById(R.id.tvw_no_data).setVisibility(View.GONE);
                             } else {
                                 rechargeReportAdapter.clear();
                                 floatView.findViewById(R.id.tvw_no_data).setVisibility(View.VISIBLE);
-                                floatView.findViewById(R.id.rcv_data).setVisibility(View.GONE);
+                                floatView.findViewById(R.id.cl_floating_content).setVisibility(View.GONE);
                             }
                         }
 

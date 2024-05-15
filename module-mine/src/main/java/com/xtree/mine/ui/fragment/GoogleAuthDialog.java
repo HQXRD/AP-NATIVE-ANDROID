@@ -2,7 +2,6 @@ package com.xtree.mine.ui.fragment;
 
 import android.app.Application;
 import android.content.Context;
-import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LifecycleOwner;
