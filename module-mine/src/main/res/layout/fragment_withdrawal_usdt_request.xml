@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:maxLines="3"
             android:text=""
-            android:textColor="@color/black"
+            android:textColor="@color/clr_txt_03"
             android:textSize="14sp"
             tools:text="我是测试文案朝辞白帝彩云间我是测试文案朝辞白帝彩云间我是 /n
             测试文案朝辞白帝彩云间我是测试文案朝辞白帝彩云间，千里江陵一日还。两岸猿声啼不住，轻舟已过万重山。" />
@@ -239,6 +239,8 @@
             android:layout_marginTop="20dp"
             android:text="@string/txt_withdrawal_previous"
             android:textColor="@color/clr_txt_grey_04" />
+
+
 
     </LinearLayout>
 

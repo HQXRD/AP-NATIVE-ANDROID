@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:background="@drawable/ic_info" />
+                android:background="@mipmap/cm_ic_hint_purple" />
 
             <TextView
                 android:id="@+id/tv_tip"
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="3"
                 android:text=""
-                android:textColor="@color/black"
+                android:textColor="@color/clr_txt_03"
                 android:textSize="14sp"
                 tools:text="我是测试文案朝辞白帝彩云间我是测试文案朝辞白帝彩云间我是 /n
             测试文案朝辞白帝彩云间我是测试文案朝辞白帝彩云间，千里江陵一日还。两岸猿声啼不住，轻舟已过万重山。" />
