@@ -28,7 +28,7 @@ import com.xtree.mine.R;
 import com.xtree.mine.databinding.FragmentWithdrawBinding;
 import com.xtree.mine.ui.viewmodel.MyWalletViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.mine.vo.BalanceVo;
+import com.xtree.base.vo.BalanceVo;
 
 import java.util.ArrayList;
 import java.util.Arrays;

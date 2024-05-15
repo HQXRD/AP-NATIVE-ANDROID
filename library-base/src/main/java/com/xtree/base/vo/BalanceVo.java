@@ -1,4 +1,4 @@
-package com.xtree.mine.vo;
+package com.xtree.base.vo;
 
 public class BalanceVo {
 

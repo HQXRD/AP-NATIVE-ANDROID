@@ -1,5 +1,6 @@
 package com.xtree.bet.data;
 
+import com.xtree.base.vo.BalanceVo;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.response.HotLeagueInfo;
@@ -66,4 +67,10 @@ public interface ApiService {
     @POST("/api/sports/gsaswitch")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<Map<String, String>>> getGameSwitch();
+
+    /**
+     * 获取 平台中心余额
+     */
+    @GET("/api/account/balance")
+    Flowable<BaseResponse<BalanceVo>> getBalance();
 }
