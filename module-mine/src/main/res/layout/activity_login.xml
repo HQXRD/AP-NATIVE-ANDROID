@@ -174,8 +174,7 @@
                                 android:layout_centerVertical="true"
                                 android:text="@string/me_go_round"
                                 android:textColor="@color/clr_black"
-                                android:textSize="@dimen/me_text_size_sp12sp"
-                                android:textStyle="bold" />
+                                android:textSize="@dimen/me_text_size_sp12sp" />
 
                             <TextView
                                 android:id="@+id/tvw_cs"
@@ -185,8 +184,7 @@
                                 android:layout_centerVertical="true"
                                 android:text="@string/me_online_service"
                                 android:textColor="@color/clr_black"
-                                android:textSize="@dimen/me_text_size_sp12sp"
-                                android:textStyle="bold" />
+                                android:textSize="@dimen/me_text_size_sp12sp" />
 
                         </RelativeLayout>
                     </LinearLayout>
