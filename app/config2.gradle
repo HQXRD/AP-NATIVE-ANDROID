@@ -46,8 +46,8 @@ android {
         // 生产环境 发布用
         xingCai_OL {
             applicationId "com.xcsport.app" //
-            versionName "1.0.6"
-            versionCode 106
+            versionName "1.0.7"
+            versionCode 107
             resValue "string", "app_name", "杏彩体育"
             resValue "string", "domain_url", "https://www.weres.bar"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
