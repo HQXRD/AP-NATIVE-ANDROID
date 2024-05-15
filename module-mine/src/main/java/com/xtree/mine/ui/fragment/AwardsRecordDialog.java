@@ -14,6 +14,8 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
+import com.lxj.xpopup.widget.SmartDragLayout;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogChooseAwardsBinding;
@@ -27,7 +29,16 @@ import me.xtree.mvvmhabit.utils.Utils;
 /**
  * 奖项流水
  */
-public class AwardsRecordDialog extends BottomPopupView {
+public class AwardsRecordDialog extends BottomPopupView implements ActivityRefreshPopWindow.IActivityRefreshCallback {
+
+    @Override
+    public void OnClickListener() {
+        if (awardsRecordVo != null && !awardsRecordVo.list.isEmpty()){
+            awardsRecordVo.list.clear();
+            adapter.notifyDataSetChanged();
+        }
+        resetRequestData();
+    }
 
     public interface IAwardsDialogBack {
         void closeAwardsDialog();
@@ -38,6 +49,8 @@ public class AwardsRecordDialog extends BottomPopupView {
     ChooseWithdrawViewModel viewModel;
     LifecycleOwner owner;
     private AwardsRecordVo awardsRecordVo;
+    private ChooseAdapter adapter;
+    private ActivityRefreshPopWindow activityPopWindow;
 
     private int viewType;//根据awardsRecordVo 显示页面 0 不显示数据 ；1 显示数据
 
@@ -93,34 +106,56 @@ public class AwardsRecordDialog extends BottomPopupView {
 
     private void initView() {
         binding = DialogChooseAwardsBinding.bind(findViewById(R.id.ll_root));
-        binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_unfinished_activity));
+        binding.tvwTitle.setText(getContext().getString(R.string.txt_tip_activity_withdraw));
 
         binding.ivwClose.setOnClickListener(v -> {
-            callBack.closeAwardsDialog();
+            closePopWindow();
+            //callBack.closeAwardsDialog();
             dismiss();
 
         });
+       /* binding.llReferData.setVisibility(VISIBLE);
+        binding.tvwRefer.setOnClickListener(v->{
+            if (!awardsRecordVo.list.isEmpty()){
+                awardsRecordVo.list.clear();
+                adapter.notifyDataSetChanged();
+            }
+            requestData();
+        });*/
 
-        binding.llChooseTip.setVisibility(View.VISIBLE);
-        String tipText = "";
-        if (viewType == 3) {
-            tipText = "您今日没有可用提款次数";
-        }
+        bottomPopupContainer.dismissOnTouchOutside(true);
+        bottomPopupContainer.setOnCloseListener(new SmartDragLayout.OnCloseListener() {
+            @Override
+            public void onClose() {
+                if (callBack != null) {
+                    closePopWindow();
+                    callBack.closeAwardsDialog();
+                }
+            }
+            @Override
+            public void onDrag(int y, float percent, boolean isScrollUp) {
+
+            }
+            @Override
+            public void onOpen() {
+
+            }
+        });
+
         if (awardsRecordVo !=null){
             if (awardsRecordVo.list!=null &&  !awardsRecordVo.list.isEmpty()) {
-                binding.tvChooseTip.setVisibility(View.GONE);
-                binding.llChooseTip.setVisibility(View.GONE);
-                binding.lvChoose.setVisibility(View.VISIBLE);
-                ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
+                binding.llNoData.setVisibility(View.GONE);
+                binding.scChoose.setVisibility(View.VISIBLE);
+                if (adapter == null){
+                    adapter  = new ChooseAdapter(getContext(), awardsRecordVo.list);
+                }
                 binding.lvChoose.setAdapter(adapter);
             } else {
-                tipText = getContext().getString(R.string.txt_awards_no_money_tip);
-                binding.tvChooseTip.setText(tipText);
-                binding.llChooseTip.setVisibility(View.VISIBLE);
-                binding.lvChoose.setVisibility(View.GONE);
+                binding.scChoose.setVisibility(View.GONE);
+                binding.llNoData.setVisibility(View.VISIBLE);
             }
         }
-
+        showPopWindow();
 
     }
 
@@ -130,11 +165,42 @@ public class AwardsRecordDialog extends BottomPopupView {
 
     private void initViewObservable() {
 
+        viewModel.awardrecordVoMutableLiveData.observe(owner, vo->{
+            awardsRecordVo = vo;
+            if (awardsRecordVo != null && awardsRecordVo.list.size() > 0) {
+                if (adapter == null){
+                    adapter  = new ChooseAdapter(getContext(), awardsRecordVo.list);
+                }
+                adapter.setAwardsRecordInfoArrayList(awardsRecordVo.list);
+                binding.lvChoose.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                binding.lvChoose.setVisibility(View.VISIBLE);
+            } else {
+                binding.lvChoose.setVisibility(View.GONE);
+                binding.llNoData.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    /**
+     * 刷新活动提款流水
+     */
+    private void  requestData(){
+        LoadingDialog.show(getContext());
+        viewModel.getAwardRecord();
+    }
+    private void  resetRequestData(){
+        LoadingDialog.show(getContext());
+        viewModel.getAwardRecord();
     }
 
     private class ChooseAdapter extends BaseAdapter {
         private Context context;
         private ArrayList<AwardsRecordVo.AwardsRecordInfo> awardsRecordInfoArrayList;
+
+        public void setAwardsRecordInfoArrayList(ArrayList<AwardsRecordVo.AwardsRecordInfo> awardsRecordInfoArrayList) {
+            this.awardsRecordInfoArrayList = awardsRecordInfoArrayList;
+        }
 
         public ChooseAdapter(Context context, ArrayList<AwardsRecordVo.AwardsRecordInfo> list) {
             this.context = context;
@@ -160,7 +226,7 @@ public class AwardsRecordDialog extends BottomPopupView {
         public View getView(int position, View convertView, ViewGroup parent) {
             ChooseAdapterViewHolder holder = null;
             if (convertView == null) {
-                convertView = LayoutInflater.from(context).inflate(R.layout.dialog_awards_item, parent, false);
+                convertView = LayoutInflater.from(context).inflate(R.layout.dialog_withdrawa_flow_item, parent, false);
                 holder = new ChooseAdapterViewHolder();
                 holder.showInfoName = (TextView) convertView.findViewById(R.id.tvw_title);
                 holder.showBonus = (TextView) convertView.findViewById(R.id.tvw_title_bonus);
@@ -193,6 +259,21 @@ public class AwardsRecordDialog extends BottomPopupView {
             public TextView showBonus;//奖金
             public TextView showTurnover;//流水
             public TextView showContent;//内容
+        }
+    }
+
+    /*展示外跳View*/
+    private void showPopWindow() {
+        if (activityPopWindow == null) {
+            activityPopWindow = new ActivityRefreshPopWindow(getContext(),this);
+        }
+        activityPopWindow.setVisibility(View.VISIBLE);
+        activityPopWindow.show();
+    }
+    private void  closePopWindow(){
+        if (activityPopWindow !=null){
+            activityPopWindow.closeView();
+            activityPopWindow.setVisibility(View.GONE);
         }
     }
 

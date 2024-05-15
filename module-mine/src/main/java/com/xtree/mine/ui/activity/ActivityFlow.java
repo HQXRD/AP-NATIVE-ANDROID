@@ -66,12 +66,13 @@ public class ActivityFlow extends BaseActivity<FragmentChooseWithdrawBinding, Ch
         if (viewModel != null) {
             viewModel.awardrecordVoMutableLiveData.observe(this, vo -> {
                 awardsRecordVo = vo;
-                if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
+                showAwardsRecord();
+                /*if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
                     showAwardsRecord();
                 } else {
                     CfLog.e("awardsRecordVo is null ");
                     showWallet();
-                }
+                }*/
             });
         }
 

@@ -140,12 +140,12 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
         //显示钱包流水
         binding.tvwAwardRecord.setOnClickListener(v -> {
             if (isNetworkAwards ) {
-                //ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
-                if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
+                ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_MY_WALLET_FLOW).navigation();
+                /*if (awardsRecordVo != null && awardsRecordVo.list != null && awardsRecordVo.list.size() != 0) {
                     showAwardsRecord();
                 } else {
                     showWallet();
-                }
+                }*/
             }
 
         });
@@ -257,7 +257,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
             toBindPhoneNumber();
         } else {
             Bundle bundle = new Bundle();
-            bundle.putString("viewType", "Wallet");
+            bundle.putString("viewType", "showChoose");
             ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).withBundle("viewType", bundle)
                     .navigation();
 
@@ -320,7 +320,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
     private void showAwardsRecord() {
 
         Bundle bundle = new Bundle();
-        bundle.putString("viewType", "Wallet");
+        bundle.putString("viewType", "showAwardsRecord");
         ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).withBundle("viewType", bundle)
                 .navigation();
        /* if (awardPopView == null) {
