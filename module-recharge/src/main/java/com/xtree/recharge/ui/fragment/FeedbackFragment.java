@@ -365,7 +365,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             }
         };
         adapter.addAll(list);
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择未到账订单", adapter, 40));
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择未到账订单", adapter, 40 , true));
         ppw.show();
     }
 
@@ -400,7 +400,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         };
 
         adapter.addAll(orderFeedbackVoArrayList);
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择未到账订单", adapter, 20));
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择未到账订单", adapter, 20 , true));
         ppw.show();
     }
 
@@ -441,7 +441,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         };
 
         adapter.addAll(modeInfoArrayList);
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择支付方式", adapter, 20));
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择支付方式", adapter, 20 , true));
         ppw.show();
 
     }
@@ -478,7 +478,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         };
 
         adapter.addAll(bankInfoArrayList);
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择支付渠道", adapter, 80));
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择支付渠道", adapter, 80 , true));
         ppw.show();
 
     }
@@ -513,7 +513,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
 
         };
         adapter.addAll(protocolInfoArrayList);
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择协议", adapter, 80));
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择协议", adapter, 80 , true));
         ppw.show();
 
     }
