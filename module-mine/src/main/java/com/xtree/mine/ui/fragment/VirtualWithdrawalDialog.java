@@ -404,7 +404,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         adapter.clear();
         adapter.addAll(list);
         String selectString = getContext().getString(R.string.txt_select_add);
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), selectString, adapter, 40));
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), selectString, adapter, 40 , true));
         ppw.show();
     }
 

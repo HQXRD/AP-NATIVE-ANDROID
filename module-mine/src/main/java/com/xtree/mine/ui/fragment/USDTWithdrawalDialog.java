@@ -224,9 +224,9 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             //顶部公告区域
             String formatStr = getContext().getResources().getString(R.string.txt_withdraw_top_tip);
             String count, userCount, totalAmount;
-            count = "<font color=#EE5A5A>" + infoVo.day_rest_count + "</font>";
-            userCount = "<font color=#000000>" + infoVo.day_used_amount + "</font>";
-            totalAmount = "<font color=#000000>" + infoVo.day_rest_amount + "</font>";
+            count = "<font color=#97A89E>" + infoVo.day_rest_count + "</font>";
+            userCount = "<font color=#97A89E>" + infoVo.day_used_amount + "</font>";
+            totalAmount = "<font color=#F35A4E>" + infoVo.day_rest_amount + "</font>";
             String textTipSource = String.format(formatStr, count, userCount, totalAmount);
 
             binding.fragmentWithdrawalUsdtRequest.tvTip.setText(HtmlCompat.fromHtml(textTipSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
@@ -269,6 +269,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
                     }
                 }
             });
+
         }
     }
 
@@ -392,7 +393,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
 
         if (bindAddressPopView == null) {
         }
-        bindAddressPopView = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), selectString, adapter, 40));
+        bindAddressPopView = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), selectString, adapter, 40 , true));
         bindAddressPopView.show();
     }
 

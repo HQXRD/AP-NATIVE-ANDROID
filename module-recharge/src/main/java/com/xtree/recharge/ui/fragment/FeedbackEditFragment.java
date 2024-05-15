@@ -247,7 +247,7 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
         };
 
         adapter.addAll(feedbackCheckVo.banksInfo);
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择支付渠道", adapter, 80));
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择支付渠道", adapter, 80 , true));
         ppw.show();
 
     }
@@ -281,7 +281,7 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
 
         };
         adapter.addAll(feedbackCheckVo.protocolInfo);
-        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择协议", adapter, 80));
+        ppw = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), "请选择协议", adapter, 80 , true));
         ppw.show();
 
     }

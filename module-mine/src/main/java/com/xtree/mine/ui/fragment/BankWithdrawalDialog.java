@@ -256,7 +256,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements BankRecycle
         adapter.clear();
         adapter.addAll(list);
         String selectString = getContext().getString(R.string.txt_select_add);
-        bindAddressPopView = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), selectString, adapter, 50));
+        bindAddressPopView = new XPopup.Builder(getContext()).asCustom(new ListDialog(getContext(), selectString, adapter, 50 , true));
         bindAddressPopView.show();
     }
 
@@ -657,19 +657,29 @@ public class BankWithdrawalDialog extends BottomPopupView implements BankRecycle
             if (view == null) {
                 view = LayoutInflater.from(context).inflate(R.layout.dialog_bank_withdrawal_amount_child, parent, false);
                 holderView = new HolderView();
-                holderView.textView = (TextView) view.findViewById(R.id.tv_top_child);
-                holderView.linear = (LinearLayout) view.findViewById(R.id.cl_title);
+                holderView.textView = (TextView) view.findViewById(R.id.tvw_title);
+               // holderView.linear = (LinearLayout) view.findViewById(R.id.cl_title);
                 view.setTag(holderView);
             } else {
                 holderView = (HolderView) view.getTag();
             }
+/*            finalHolderView.linear.setBackgroundResource(R.mipmap.bg_money_btn_selector);
+        } else {
+            //finalHolderView.linear.setBackgroundResource(R.drawable.bg_dialog_top_bank_amount_noselected);
+            finalHolderView.linear.setBackgroundResource(R.mipmap.bg_money_btn_noselector);*/
+         /*
             if (arrayList.get(position).flag) {
-                holderView.linear.setBackgroundResource(R.drawable.bg_dialog_top_bank_amount_selected);
+                holderView.linear.setBackgroundResource(R.mipmap.bg_money_btn_selector);
             } else {
-                holderView.linear.setBackgroundResource(R.drawable.bg_dialog_top_bank_amount_noselected);
+                holderView.linear.setBackgroundResource(R.mipmap.bg_money_btn_noselector);
             }
-            holderView.setShowAmount(arrayList.get(position).amount);
-
+            holderView.setShowAmount(arrayList.get(position).amount);*/
+            if (arrayList.get(position).flag) {
+                holderView.textView.setBackgroundResource(R.mipmap.bg_money_btn_selector);
+            } else {
+                holderView.textView.setBackgroundResource(R.mipmap.bg_money_btn_noselector);
+            }
+            holderView.textView.setText(arrayList.get(position).amount);
             holderView.getTextView().setOnClickListener(v -> {
 
                 referArray(arrayList.get(position), arrayList);
@@ -678,13 +688,13 @@ public class BankWithdrawalDialog extends BottomPopupView implements BankRecycle
                     callback.callbackWithAmount(arrayList.get(position).amount);
                 }
             });
-            holderView.linear.setOnClickListener(v -> {
+           /* holderView.linear.setOnClickListener(v -> {
                 referArray(arrayList.get(position), arrayList);
                 notifyDataSetChanged();
                 if (callback != null) {
                     callback.callbackWithAmount(arrayList.get(position).amount);
                 }
-            });
+            });*/
             return view;
         }
 
