@@ -3,11 +3,11 @@ android {
 
     productFlavors {
         // 测试环境 测试用
-        /*xingCai_pre {
+        xingCai_pre {
             applicationId "com.${name.toLowerCase()}.app" //
             //applicationId "com.xct01.app" //
-            versionName "1.0.7"
-            versionCode 107
+            versionName "1.0.8"
+            versionCode 108
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "杏彩T${versionCode}"
             resValue "string", "domain_url", "https://ap3sport.oxldkm.com"
@@ -24,8 +24,8 @@ android {
         xingCai_uat {
             applicationId "com.${name.toLowerCase()}.app"
             //applicationId "com.xcr01.app" // xcsport xcr01
-            versionName "1.0.7"
-            versionCode 107
+            versionName "1.0.8"
+            versionCode 108
             resValue "string", "app_name", "杏彩R${versionCode}"
             resValue "string", "domain_url", "https://www.weres.bar"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
@@ -42,12 +42,12 @@ android {
                     ";https://app.eyoumoban.com:16801"
             multiDexEnabled true
             dimension "channelName"
-        }*/
+        }
         // 生产环境 发布用
-        xingCai_OL {
+        /*xingCai_OL {
             applicationId "com.xcsport.app" //
-            versionName "1.0.7"
-            versionCode 107
+            versionName "1.0.8"
+            versionCode 108
             resValue "string", "app_name", "杏彩体育"
             resValue "string", "domain_url", "https://www.weres.bar"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
@@ -63,7 +63,7 @@ android {
                     ";https://app.eyoumoban.com:16801"
             multiDexEnabled true
             dimension "channelName"
-        }
+        }*/
 
     }
 
