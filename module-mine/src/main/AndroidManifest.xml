@@ -12,12 +12,12 @@
         <activity
             android:name=".ui.activity.ChooseActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
+            android:screenOrientation="behind"
             android:theme="@style/style_trans_theme" />
         <activity
             android:name=".ui.activity.ActivityFlow"
             android:exported="false"
-            android:screenOrientation="portrait"
+            android:screenOrientation="behind"
             android:theme="@style/style_trans_theme" />
     </application>
 
