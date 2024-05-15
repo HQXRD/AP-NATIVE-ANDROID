@@ -16,7 +16,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.AppUpdateVo;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.data.MineRepository;
-import com.xtree.mine.vo.BalanceVo;
+import com.xtree.base.vo.BalanceVo;
 import com.xtree.mine.vo.QuestionVo;
 import com.xtree.mine.vo.RewardVo;
 import com.xtree.mine.vo.VipInfoVo;

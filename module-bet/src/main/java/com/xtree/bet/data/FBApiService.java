@@ -1,5 +1,6 @@
 package com.xtree.bet.data;
 
+import com.xtree.base.vo.BalanceVo;
 import com.xtree.bet.bean.request.fb.BtCashOutBetReq;
 import com.xtree.bet.bean.request.fb.BtCashOutPriceReq;
 import com.xtree.bet.bean.request.fb.BtCashOutStatusReq;
@@ -26,6 +27,7 @@ import java.util.Map;
 import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 

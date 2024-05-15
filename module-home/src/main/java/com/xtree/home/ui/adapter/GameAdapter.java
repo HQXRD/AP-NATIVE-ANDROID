@@ -17,6 +17,7 @@ import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.AppUtil;
+import com.xtree.base.utils.BtDomainUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
@@ -258,7 +259,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             cgToken = SPUtils.getInstance().getString(SPKeyGlobal.PM_TOKEN);
         }
 
-        if (TextUtils.isEmpty(cgToken)) {
+        if (TextUtils.isEmpty(cgToken) || !BtDomainUtil.hasDefaultLine(vo.alias)) {
             ToastUtils.showShort("场馆初始化中，请稍候...");
         } else {
             ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).

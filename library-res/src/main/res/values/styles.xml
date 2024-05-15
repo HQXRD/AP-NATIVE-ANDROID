@@ -355,7 +355,7 @@
         <item name="android:layout_marginEnd">@dimen/layout_margin</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:text"></item>
-        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColor">@color/clr_grey_13</item>
         <item name="android:textSize">11sp</item>
     </style>
     <!-- 通用 提示小字 桔红色 -->
@@ -366,9 +366,10 @@
     <!-- 通用 提示小字 桔红色 -->
     <style name="style_cm_tip_small_yellow" parent="style_cm_tip_small_grey">
         <item name="android:text"></item>
-        <item name="android:textColor">@color/clr_orange_02</item>
+        <item name="android:textColor">@color/bt_text_color_primary_3</item>
         <item name="android:textSize">12sp</item>
     </style>
+
     <!-- 通用 提示小字 紫色 -->
     <style name="style_cm_tip_small_purple" parent="style_cm_tip_small_grey">
         <item name="android:text"></item>
@@ -499,6 +500,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>
         <item name="android:background">@drawable/bg_edt_selector</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
         <item name="android:hint"></item>
         <item name="android:imeOptions">actionDone</item>
         <item name="android:gravity">center_vertical</item>
@@ -514,6 +516,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>
         <item name="android:background">@color/clr_white</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
         <item name="android:hint"></item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
@@ -527,7 +530,7 @@
     <style name="style_withdraw_edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">30dp</item>
-
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
         <item name="android:hint"></item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
@@ -542,6 +545,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">42dp</item>
         <item name="android:background">@mipmap/cm_bg_input</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
         <item name="android:hint"></item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
@@ -568,6 +572,7 @@
     <!--提现Edittext-->
     <style name="style_bank_edit">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
         <item name="android:layout_height">38dp</item>
         <item name="android:background">@null</item>
         <item name="android:hint"></item>
@@ -582,6 +587,7 @@
     <!--usdt提现Edittext-->
     <style name="style_usdt_edit">
         <item name="android:layout_width">match_parent</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
         <item name="android:layout_height">20dp</item>
         <item name="android:background">@null</item>
         <item name="android:hint"></item>
@@ -589,7 +595,7 @@
         <item name="android:lines">1</item>
         <item name="android:maxLength">40</item>
         <item name="android:textColor">@color/clr_grey_80</item>
-        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textColorHint">@color/clr_text_color_hint</item>
         <item name="android:textSize">14sp</item>
 
     </style>
@@ -635,6 +641,7 @@
     <style name="style_cm_edit_amount">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:textCursorDrawable">@drawable/edt_cursor</item>
         <item name="android:background">@mipmap/cm_bg_input_wht</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:hint"></item>
@@ -697,16 +704,16 @@
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:background">@null</item>
-        <item name="android:drawablePadding">24dp</item>
+        <item name="android:drawablePadding">5dp</item>
         <item name="android:drawableStart">@mipmap/cm_ic_login_user</item>
         <item name="android:inputType">text</item>
         <item name="android:maxLength">32</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:hint">@string/txt_enter_login_name</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lines">1</item>
-        <item name="android:textColor">@color/clr_black</item>
-        <item name="android:textColorHint">@color/clr_txt_grey_05</item>
+        <item name="android:textColor">@color/clr_awards_txt_black</item>
+        <item name="android:textColorHint">@color/clr_grey_2</item>
     </style>
     <!-- 登录页 密码输入框 -->
     <style name="style_cm_edt_pwd" parent="style_cm_edt_account">
@@ -1172,5 +1179,34 @@
         <item name="android:layout_height">140dp</item>
         <item name="android:layout_marginTop">4dp</item>
         <item name="android:orientation">vertical</item>
+    </style>
+    <!-- 通用 按钮 背景为颜色,可变色(大部分地方使用) -->
+    <style name="style_activity_refresh_btn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:background">@mipmap/cm_btn_long2</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">@string/txt_submit</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <!-- 通用 按钮 背景为颜色,可变色(谷歌验证) -->
+    <style name="style_cm_auth_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@drawable/bg_edt_auth_selector</item>
+        <item name="android:hint"></item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">50</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_color_hint</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

@@ -12,8 +12,8 @@ import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_LIVE;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_NOMAL;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_TODAY_CG;
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
-import static com.xtree.bet.ui.activity.MainActivity.KEY_PLATFORM;
-import static com.xtree.bet.ui.activity.MainActivity.PLATFORM_FBXC;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -51,7 +51,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
 
 import com.xtree.base.net.FBHttpCallBack;
@@ -59,7 +58,6 @@ import com.xtree.bet.ui.viewmodel.MainViewModel;
 import com.xtree.bet.ui.viewmodel.TemplateMainViewModel;
 import com.xtree.bet.ui.viewmodel.callback.LeagueListCallBack;
 
-import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;

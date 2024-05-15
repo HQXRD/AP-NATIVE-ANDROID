@@ -7,7 +7,7 @@ import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.vo.AWVo;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.AwardsRecordVo;
-import com.xtree.mine.vo.BalanceVo;
+import com.xtree.base.vo.BalanceVo;
 import com.xtree.mine.vo.BankCardCashVo;
 import com.xtree.mine.vo.BankCardVo;
 import com.xtree.mine.vo.BtDetailVo;
@@ -573,4 +573,10 @@ public interface HttpApiService {
      */
     @GET("/api/activity/reward/?has_pending_reward=1")
     Flowable<BaseResponse<RewardVo>> getReward();
+
+    /**
+     * 彩票撤单
+     */
+    @GET("/?controller=gameinfo&action=cancelgame&client=m")
+    Flowable<BaseResponse2> cancelGame(@QueryMap Map<String, String> map);
 }

@@ -141,11 +141,9 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         //USDT提款设置提款请求 返回model
         viewModel.usdtCashVoMutableLiveData.observe(owner, vo -> {
             usdtCashVo = vo;
-            //|| usdtCashVo.channel_list == null || usdtCashVo.usdtinfo == null || usdtCashVo.usdtinfo.isEmpty()
             if (usdtCashVo == null) {
                 showErrorByChannel();
             } else if (!TextUtils.isEmpty(usdtCashVo.message) && getContext().getString(R.string.txt_no_withdrawals_available_tip).equals(usdtCashVo.message)) {
-                //"message": "您今天已没有可用提款次数"
                 refreshError(usdtCashVo.message);
             }
             // 提现选项卡不能为空
@@ -268,9 +266,8 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         binding.tvWithdrawalTypeShow1.setText(temp);
         binding.tvInfoExchangeRateShow.setText(usdtCashVo.exchangerate);
         CfLog.e("firstChannel.title " + firstChannel.toString());
-        //默认第一个是trc20
 
-        /*if (TextUtils.equals("嗨钱包usdt", firstChannel.title)) {
+        if (firstChannel.title.contains("嗨钱包")) {
             binding.tvCollectionUsdt.setText(usdtinfoTRC.get(0).usdt_type + " " + usdtinfoTRC.get(0).usdt_card);
             selectUsdtInfo = usdtinfoTRC.get(0);
             type = "TRC";
@@ -278,7 +275,7 @@ public class USDTWithdrawalDialog extends BottomPopupView {
             binding.tvCollectionUsdt.setText(usdtCashVo.usdtinfo.get(0).usdt_type + " " + usdtCashVo.usdtinfo.get(0).usdt_card);
             selectUsdtInfo = usdtCashVo.usdtinfo.get(0);
             type = "USDT";
-        }*/
+        }
 
         //关闭软键盘弹起
         binding.etInputMoney.clearFocus();
@@ -394,6 +391,10 @@ public class USDTWithdrawalDialog extends BottomPopupView {
         });
         //点击下一步
         binding.ivNext.setOnClickListener(v -> {
+            if (selectUsdtInfo == null){
+                ToastUtils.showError("收款虚拟币地址");
+                return;
+            }
             if (binding.etInputMoney.getText().length() > 9) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
             } else if (TextUtils.isEmpty(binding.etInputMoney.getText().toString())) {

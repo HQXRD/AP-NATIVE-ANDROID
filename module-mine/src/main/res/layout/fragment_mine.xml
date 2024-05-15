@@ -46,16 +46,12 @@
                         android:textColor="@color/white"
                         android:textSize="14sp" />
 
-                    <TextView
-                        android:id="@+id/tvw_vip"
-                        android:layout_width="40dp"
-                        android:layout_height="15dp"
+                    <ImageView
+                        android:id="@+id/ivw_vip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:background="@drawable/bg_home_vip"
-                        android:gravity="center"
-                        android:text="VIP 0"
-                        android:textColor="@color/clr_yellow"
-                        android:textSize="10sp" />
+                        android:src="@drawable/cm_ic_vip_level" />
 
                     <View
                         android:layout_width="wrap_content"

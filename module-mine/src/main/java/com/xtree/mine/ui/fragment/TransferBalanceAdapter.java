@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.fragment;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,23 @@ public class TransferBalanceAdapter extends CachedAutoRefreshAdapter<GameBalance
             binding.ivLine.setVisibility(View.GONE);
         } else {
             binding.ivLine.setVisibility(View.VISIBLE);
+        }
+
+        CfLog.i("vo.balance : " + vo.balance);
+
+        if (vo.balance.matches("\\d+\\.\\d{4}") && Double.parseDouble(vo.balance) <= 0.00001) {
+            binding.tvwName.setTextColor(ctx.getResources().getColor(R.color.clr_grey_00_a50));
+            binding.tvwBlc.setTextColor(ctx.getResources().getColor(R.color.clr_txt_grey_08));
+            binding.tvwBlc.setTextSize(14);
+        } else if (vo.balance.matches("\\d+\\.\\d{4}") && Double.parseDouble(vo.balance) > 0) {
+            binding.tvwName.setTextColor(ctx.getResources().getColor(R.color.clr_grey_00_a50));
+            binding.tvwBlc.setTypeface(null, Typeface.BOLD);
+            binding.tvwBlc.setTextColor(ctx.getResources().getColor(R.color.clr_awards_txt_black));
+            binding.tvwBlc.setTextSize(14);
+        } else {
+            binding.tvwName.setTextColor(ctx.getResources().getColor(R.color.clr_grey_00_a20));
+            binding.tvwBlc.setTextColor(ctx.getResources().getColor(R.color.clr_grey_2));
+            binding.tvwBlc.setTextSize(12);
         }
     }
 }

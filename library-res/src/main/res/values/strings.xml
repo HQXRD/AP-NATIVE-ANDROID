@@ -229,4 +229,5 @@
     <string name="txt_withdrawal_virtual_tip">收款账号</string>
 
     <string name="txt_read_photo_permissions">未获得读取文件权限,请您设置通过相关权限</string>
+    <string name="txt_refer_data_tip">刷新</string>
 </resources>
