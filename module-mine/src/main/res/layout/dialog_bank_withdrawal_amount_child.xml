@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp">
+
+    <TextView
+        android:id="@+id/tvw_title"
+        style="@style/style_rdo_amount"
+        android:background="@mipmap/bg_money_btn_selector"
+        android:text=""
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="100" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_root"
@@ -8,16 +31,23 @@
     android:background="@color/clr_transparent"
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
+    &lt;!&ndash; android:background="@drawable/bg_dialog_top_bank_amount_noselected"&ndash;&gt;
     <LinearLayout
         android:id="@+id/cl_title"
-        android:layout_width="64dp"
-        android:layout_height="30dp"
-        android:orientation="horizontal"
-        android:background="@drawable/bg_dialog_top_bank_amount_noselected">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
-            <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@mipmap/bg_money_btn_noselector"
+       >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="USDT"
+            android:gravity="center"
+            android:layout_gravity="center_vertical"
+            />
+
+         &lt;!&ndash;   <TextView
                 android:id="@+id/tv_top_child"
                 tools:text="USDT"
                 android:textColor="@color/white"
@@ -26,9 +56,12 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"/>&ndash;&gt;
+       &lt;!&ndash; <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
         </RelativeLayout>
-
+&ndash;&gt;
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>-->

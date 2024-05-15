@@ -286,7 +286,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/ic_bg_amount_selector</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/clr_purple_05</item>
+        <item name="android:textColor">@color/clr_txt_main</item>
         <item name="android:textSize">12sp</item>
     </style>
 
