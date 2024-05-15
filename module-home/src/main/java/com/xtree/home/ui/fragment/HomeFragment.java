@@ -232,9 +232,38 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.liveDataVipInfo.observe(getViewLifecycleOwner(), vo -> {
             CfLog.d("*** " + vo.toString());
             if (vo.sp.equals("1")) {
-                binding.tvwVip.setText("VIP " + vo.display_level); // display_level
+                binding.ivVip.setBackgroundResource(R.mipmap.home_vip_level_01);
             } else {
-                binding.tvwVip.setText("VIP " + vo.level); // level
+                switch (vo.display_level) {
+                    case 2:
+                        binding.ivVip.setBackgroundResource(R.mipmap.home_vip_level_02);
+                        break;
+                    case 3:
+                        binding.ivVip.setBackgroundResource(R.mipmap.home_vip_level_03);
+                        break;
+                    case 4:
+                        binding.ivVip.setBackgroundResource(R.mipmap.home_vip_level_04);
+                        break;
+                    case 5:
+                        binding.ivVip.setBackgroundResource(R.mipmap.home_vip_level_05);
+                        break;
+                    case 6:
+                        binding.ivVip.setBackgroundResource(R.mipmap.home_vip_level_06);
+                        break;
+                    case 7:
+                        binding.ivVip.setBackgroundResource(R.mipmap.home_vip_level_07);
+                        break;
+                    case 8:
+                        binding.ivVip.setBackgroundResource(R.mipmap.home_vip_level_08);
+                        break;
+                    case 9:
+                        binding.ivVip.setBackgroundResource(R.mipmap.home_vip_level_09);
+                        break;
+                    case 10:
+                        binding.ivVip.setBackgroundResource(R.mipmap.home_vip_level_10);
+                        break;
+
+                }
             }
         });
         //App更新

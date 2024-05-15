@@ -100,16 +100,13 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Lorraine001" />
 
-                    <TextView
-                        android:id="@+id/tvw_vip"
-                        android:layout_width="40dp"
-                        android:layout_height="15dp"
+                    <ImageView
+                        android:id="@+id/iv_vip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
-                        android:background="@drawable/bg_home_vip"
+                        android:background="@mipmap/home_vip_level_00"
                         android:gravity="center"
-                        android:text="VIP 0"
-                        android:textColor="@color/clr_yellow"
-                        android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="@id/tvw_name"
                         app:layout_constraintStart_toEndOf="@id/tvw_name"
                         app:layout_constraintTop_toTopOf="@id/tvw_name" />
@@ -183,7 +180,7 @@
                     android:marqueeRepeatLimit="marquee_forever"
                     android:singleLine="true"
                     android:text=""
-                    android:textColor="@color/clr_hm_txt_grey_03"
+                    android:textColor="@color/clr_txt_01"
                     tools:text="Demo" />
 
                 <ImageView

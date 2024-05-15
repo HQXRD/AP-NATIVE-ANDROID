@@ -122,7 +122,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             });
         } else {
             //普通版
-            binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_common);
+            binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_fast);
             binding.ivwImg.setOnClickListener(view -> jump(vo, false));
             binding.ivRight.setOnClickListener(null);
             binding.ivLeft.setOnClickListener(view -> {
