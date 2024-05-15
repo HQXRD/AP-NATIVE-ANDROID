@@ -211,14 +211,14 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
             @Override
             public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if (binding.edtPwd1.getText().toString().length() < 6
+                if (binding.edtPwd1.getText().toString().isEmpty()) {
+                    binding.tvwPwdWarning.setVisibility(View.VISIBLE);
+                    binding.tvwPwdWarning.setText(R.string.txt_pwd_cannot_empty);
+                    mIsPwd1 = false;
+                }else if (binding.edtPwd1.getText().toString().length() < 6
                         || binding.edtPwd1.getText().toString().length() > 16) {
                     binding.tvwPwdWarning.setVisibility(View.VISIBLE);
                     binding.tvwPwdWarning.setText(R.string.txt_pwd_should_6_16);
-                    mIsPwd1 = false;
-                } else if (binding.edtPwd1.getText().toString().isEmpty()) {
-                    binding.tvwPwdWarning.setVisibility(View.VISIBLE);
-                    binding.tvwPwdWarning.setText(R.string.txt_pwd_cannot_empty);
                     mIsPwd1 = false;
                 } else if (!containsLetterAndDigit(binding.tvwPwdWarning.getText().toString())) {
                     binding.tvwPwdWarning.setVisibility(View.VISIBLE);
