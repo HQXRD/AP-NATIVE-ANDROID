@@ -40,8 +40,25 @@
         <View style="@style/style_dividing_line" />
 
         <TextView
+            android:id="@+id/tvw_tip_hint"
+            style="@style/style_info_grey_50"
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginEnd="@dimen/layout_margin"
+            android:text="@string/txt_email_will_help_u" />
+
+        <TextView
+            android:id="@+id/tvw_tip_warn"
+            style="@style/style_cm_tip_small_orange"
+            android:layout_marginBottom="12dp"
+            android:drawableStart="@mipmap/cm_ic_hint_red"
+            android:drawablePadding="4dp"
+            android:text="@string/txt_enter_valid_email_num"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
+        <TextView
             style="@style/style_security_title"
-            android:text="验证码" />
+            android:text="@string/txt_verify_code" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -57,6 +74,7 @@
                 android:hint="@string/txt_enter_code_pls"
                 android:imeOptions="actionDone"
                 android:inputType="number"
+                android:maxLength="6"
                 android:text=""
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,6 +83,7 @@
             <TextView
                 android:id="@+id/tvw_code"
                 style="@style/style_get_code"
+                android:enabled="false"
                 android:text="@string/txt_get_code"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -74,27 +93,26 @@
         <View style="@style/style_dividing_line" />
 
         <TextView
-            style="@style/style_info_grey_50"
-            android:text="@string/txt_email_will_help_u" />
+            android:id="@+id/tvw_tip_warn2"
+            style="@style/style_cm_tip_small_orange"
+            android:drawableStart="@mipmap/cm_ic_hint_red"
+            android:drawablePadding="4dp"
+            android:text="@string/txt_enter_code_6"
+            android:visibility="invisible"
+            tools:visibility="visible" />
 
         <TextView
             android:id="@+id/tvw_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/bg_btn_confirm_selector"
+            style="@style/style_btn_long"
             android:enabled="false"
-            android:gravity="center"
-            android:textColor="@color/clr_white"
-            android:textSize="18sp"
-            android:textStyle="normal" />
+            android:text="@string/txt_confirm"
+            android:textColor="@color/clr_white" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <TextView
                 style="@style/style_info2_grey_50"
@@ -103,8 +121,10 @@
             <TextView
                 android:id="@+id/tvw_cs"
                 style="@style/style_info2_grey_50"
+                android:layout_marginStart="2dp"
+                android:layout_marginEnd="2dp"
                 android:text="@string/txt_tip_cs_02"
-                android:textColor="@color/clr_blue_03" />
+                android:textColor="@color/clr_purple_12" />
 
             <TextView
                 style="@style/style_info2_grey_50"

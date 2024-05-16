@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,7 @@ import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.UuidUtil;
@@ -72,6 +74,9 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
                     CfLog.i("************ ");
                     binding.tvwCode.setEnabled(true);
                     binding.tvwCode.setText(R.string.txt_get_code);
+                    if (!binding.edtNum.getText().toString().contains("*")) {
+                        binding.edtNum.setEnabled(true);
+                    }
                 }
 
             }
@@ -98,9 +103,11 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
         binding.tvwOk.setEnabled(false);
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.tvwCode.setOnClickListener(v -> {
+            binding.edtNum.setEnabled(false);
             LoadingDialog.show(getContext());
             getCode();
         });
+        binding.tvwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         binding.tvwOk.setOnClickListener(v -> submit());
         textWatcher = new TextWatcher() {
             @Override
@@ -116,6 +123,36 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             public void afterTextChanged(Editable s) {
             }
         };
+        TextWatcher textWatcherNum = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setNum();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+        TextWatcher textWatcherCode = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                setCode();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+        binding.edtNum.addTextChangedListener(textWatcherNum);
+        binding.edtCode.addTextChangedListener(textWatcherCode);
         binding.edtNum.addTextChangedListener(textWatcher);
         binding.edtCode.addTextChangedListener(textWatcher);
     }
@@ -135,8 +172,8 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
         if (mProfileVo != null && mProfileVo.is_binding_phone
                 && !Constant.UPDATE_PHONE2.equals(typeName)
                 && !Constant.VERIFY_BIND_PHONE2.equals(typeName)) {
+            binding.edtNum.setEnabled(false); // 放在前面
             binding.edtNum.setText(mProfileVo.binding_phone_info);
-            binding.edtNum.setEnabled(false);
         }
 
         if (Constant.VERIFY_LOGIN.equals(typeName)) {
@@ -185,6 +222,9 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
                 viewModel.singleSend1("bind", sendtype, num);
             } else {
                 CfLog.d("phone/email is null or error...");
+                if (!num.contains("*")) {
+                    binding.edtNum.setEnabled(true);
+                }
                 LoadingDialog.finish();
             }
 
@@ -355,6 +395,13 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             mHandler.sendEmptyMessageDelayed(MSG_TIMER, 1000L);
 
         });
+        viewModel.liveDataCodeFail.observe(this, vo -> {
+            CfLog.i("***********");
+            binding.tvwCode.setEnabled(true);
+            if (!binding.edtNum.getText().toString().contains("*")) {
+                binding.edtNum.setEnabled(true);
+            }
+        });
         viewModel.liveDataSingleVerify1.observe(this, vo -> {
             CfLog.i("*********** 绑定成功，返回上页");
             //mVerifyVo= vo;
@@ -485,8 +532,43 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
         mHandler.sendEmptyMessageDelayed(MSG_TIMER, 1000L);
     }
 
+    private void setNum() {
+        String num = binding.edtNum.getText().toString().trim();
+        if ((!num.isEmpty() && AppUtil.isPhone(num)) || !binding.edtNum.isEnabled()) {
+            binding.tvwCode.setEnabled(true);
+            binding.tvwTipHint.setVisibility(View.VISIBLE);
+            binding.tvwTipWarn.setVisibility(View.GONE);
+        } else {
+            binding.tvwCode.setEnabled(false);
+            if (num.isEmpty()) {
+                binding.tvwTipHint.setVisibility(View.VISIBLE);
+                binding.tvwTipWarn.setVisibility(View.GONE);
+            } else {
+                binding.tvwTipHint.setVisibility(View.GONE);
+                binding.tvwTipWarn.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    private void setCode() {
+        String code = binding.edtCode.getText().toString().trim();
+        if (code.length() == 6) {
+            binding.tvwTipWarn2.setVisibility(View.INVISIBLE);
+        } else {
+            binding.tvwTipWarn2.setVisibility(View.VISIBLE);
+            if (code.isEmpty()) {
+                binding.tvwTipWarn2.setText(R.string.txt_enter_code_cannot_empty);
+            } else {
+                binding.tvwTipWarn2.setText(R.string.txt_enter_code_6);
+            }
+        }
+    }
+
     private void setBtn() {
-        if (!binding.edtCode.getText().toString().isEmpty() && !binding.edtNum.getText().toString().isEmpty()) {
+        String num = binding.edtNum.getText().toString().trim();
+        String code = binding.edtCode.getText().toString().trim();
+
+        if ((AppUtil.isPhone(num) || !binding.edtNum.isEnabled()) && code.length() == 6) {
             binding.tvwOk.setEnabled(true);
         } else {
             binding.tvwOk.setEnabled(false);

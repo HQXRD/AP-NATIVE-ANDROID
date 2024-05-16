@@ -30,6 +30,7 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.base.ContainerActivity;
+import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -40,6 +41,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<ProfileVo> liveDataProfile = new MutableLiveData<>();
     public MutableLiveData<ProfileVo> liveDataProfile2 = new MutableLiveData<>();
     public MutableLiveData<VerificationCodeVo> liveDataCode = new MutableLiveData<>(); // 发送验证码 绑定用
+    public MutableLiveData<VerificationCodeVo> liveDataCodeFail = new MutableLiveData<>(); // 发送验证码 绑定用(失败)
     //public MutableLiveData<VerificationCodeVo> liveDataCode2 = new MutableLiveData<>(); // 发送验证码 修改登录密码用
     //public MutableLiveData<VerificationCodeVo> liveDataCode3 = new MutableLiveData<>(); // 发送验证码 验证其它业务用
     public MutableLiveData<VerifyVo> liveDataSingleVerify1 = new MutableLiveData<>(); // 验证验证码(首次绑定用)
@@ -174,7 +176,13 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
+                        liveDataCodeFail.setValue(null);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
+                        liveDataCodeFail.setValue(null);
                     }
                 });
         addSubscribe(disposable);
