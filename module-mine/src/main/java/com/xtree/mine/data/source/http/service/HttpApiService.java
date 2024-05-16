@@ -43,6 +43,7 @@ import com.xtree.mine.vo.RebateReportVo;
 import com.xtree.mine.vo.RechargeReportVo;
 import com.xtree.mine.vo.SendMoneyVo;
 import com.xtree.mine.vo.SettingsVo;
+import com.xtree.mine.vo.SpiltDetailVo;
 import com.xtree.mine.vo.ThirdGameTypeVo;
 import com.xtree.mine.vo.ThirdTransferReportVo;
 import com.xtree.mine.vo.USDTCashVo;
@@ -704,4 +705,7 @@ public interface HttpApiService {
      */
     @GET("/security/platwithdraw/?controller=security&action=platwithdraw&ismobile=true&is_tutorial=1&client=m")
     Flowable<OtherWebWithdrawVo> getChooseWithdrawOther(@Query("check") String key, @Query("usdt_type") String flag);
+
+    @GET("https://ap3sport.oxldkm.com/report/getsplitlists?")
+    Flowable<BaseResponse<SpiltDetailVo>> getWithdrawDetails(@QueryMap Map<String, String> map);
 }
