@@ -15,5 +15,5 @@ public class WithdrawOrderVo {
     public String bankname; // "USDT",
     public String finishtime; // "0000-00-00 00:00:00",
     public String agent_rate_cost_amount; // "0.5500"
-
+    public String split_order_if; // 0 不显示分单按钮， 1 显示分单按钮
 }

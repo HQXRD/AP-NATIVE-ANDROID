@@ -1,13 +1,13 @@
 package com.xtree.mine.data.source.http.service;
 
 import com.xtree.base.vo.AppUpdateVo;
+import com.xtree.base.vo.BalanceVo;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.mine.vo.AWVo;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.AwardsRecordVo;
-import com.xtree.base.vo.BalanceVo;
 import com.xtree.mine.vo.BankCardCashVo;
 import com.xtree.mine.vo.BankCardVo;
 import com.xtree.mine.vo.BtDetailVo;
@@ -37,6 +37,7 @@ import com.xtree.mine.vo.RebateReportVo;
 import com.xtree.mine.vo.RechargeReportVo;
 import com.xtree.mine.vo.RewardVo;
 import com.xtree.mine.vo.SettingsVo;
+import com.xtree.mine.vo.SpiltDetailVo;
 import com.xtree.mine.vo.ThirdGameTypeVo;
 import com.xtree.mine.vo.ThirdTransferReportVo;
 import com.xtree.mine.vo.USDTCashVo;
@@ -579,4 +580,7 @@ public interface HttpApiService {
      */
     @GET("/?controller=gameinfo&action=cancelgame&client=m")
     Flowable<BaseResponse2> cancelGame(@QueryMap Map<String, String> map);
+
+    @GET("https://ap3sport.oxldkm.com/report/getsplitlists?")
+    Flowable<BaseResponse<SpiltDetailVo>> getWithdrawDetails(@QueryMap Map<String, String> map);
 }
