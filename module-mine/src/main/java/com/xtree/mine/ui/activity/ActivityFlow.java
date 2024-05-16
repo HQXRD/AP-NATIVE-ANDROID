@@ -87,7 +87,7 @@ public class ActivityFlow extends BaseActivity<FragmentChooseWithdrawBinding, Ch
      * 显示资金流水
      */
     private void showAwardsRecord() {
-        basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
+        basePopupView = new XPopup.Builder(this).dismissOnBackPressed(true)
                 .dismissOnTouchOutside(false)
                 .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, 1, () -> {
                     CfLog.i("AwardsRecordDialog  dismiss");

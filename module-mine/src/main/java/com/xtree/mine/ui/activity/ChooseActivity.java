@@ -162,9 +162,7 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
      * 显示提款流水
      */
     private void showWithdrawFlow() {
-
-        //LoadingDialog.show(this);
-        basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
+        basePopupView = new XPopup.Builder(this).dismissOnBackPressed(true)
                 .dismissOnTouchOutside(false)
                 .asCustom(WithdrawFlowDialog.newInstance(this, this, awardsRecordVo, new WithdrawFlowDialog.IWithdrawFlowDialogCallBack() {
                     @Override
@@ -249,7 +247,6 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                     public void closeDialogByFlow(String money) {
 
                         LoadingDialog.finish();
-                        CfLog.e("--------------------closeDialogByFlow -----------------");
                         showErrorDialog(money);
                         // basePopupView.dismiss();
                     }
