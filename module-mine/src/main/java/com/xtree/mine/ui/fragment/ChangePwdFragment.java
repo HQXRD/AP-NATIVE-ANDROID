@@ -51,6 +51,9 @@ public class ChangePwdFragment extends BaseFragment<FragmentChangePwdBinding, Ve
             binding.edtPwd.setText("");
             binding.edtPwd2.setText("");
         });
+        binding.ivwBack.setOnClickListener( v ->{
+            getActivity().finish();
+        });
         binding.tvwOk.setOnClickListener(v -> {
             String pwd1 = binding.edtPwd.getText().toString();
             String pwd2 = binding.edtPwd2.getText().toString();
