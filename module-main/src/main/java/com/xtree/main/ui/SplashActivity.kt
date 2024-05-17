@@ -164,7 +164,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
         }
         viewModel?.noWebData?.observe(this) {
             ToastUtils.showLong("网络异常，请检查手机网络连接情况")
-            binding?.root?.postDelayed({ finish() }, DELAY_MILLIS)
+            //binding?.root?.postDelayed({ finish() }, DELAY_MILLIS)
+            binding?.root?.postDelayed({ inMain() }, DELAY_MILLIS)
         }
     }
 
