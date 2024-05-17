@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.BaseMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -220,6 +221,11 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String input = s.toString().trim().toString();
+                if (input.length() > 0) {
+                    // 设置光标位置
+                    binding.edtAmount.setSelection(input.length());
+                }
                 binding.ivwTransfer.setEnabled(!binding.edtAmount.getText().toString().isEmpty());
             }
 
@@ -228,6 +234,8 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
 
             }
         });
+        // 屏蔽双击选中、长按选中
+        binding.edtAmount.setMovementMethod( new BaseMovementMethod());
     }
 
     private void doTransfer() {
