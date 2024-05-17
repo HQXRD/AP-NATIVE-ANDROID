@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/txt_kind_tips"
-                android:textColor="@color/clr_black"
+                android:textColor="@color/clr_main_01"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent"
@@ -58,7 +58,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="52dp"
                 android:gravity="center"
-                android:textColor="@color/clr_grey_60"
+                android:textColor="@color/clr_txt_01"
                 android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -96,14 +96,14 @@
 
                 <TextView
                     android:id="@+id/tvw_left"
-                    style="@style/style_btn_back"
+                    style="@style/style_cancel_btn"
                     android:text="@string/txt_cancel"
                     android:textColor="@color/clr_txt_grey_04"
                     android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/tvw_right"
-                    style="@style/style_btn"
+                    style="@style/style_sure_btn"
                     android:text="@string/txt_confirm"
                     android:textSize="14sp" />
             </LinearLayout>

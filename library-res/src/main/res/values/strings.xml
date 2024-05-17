@@ -247,4 +247,6 @@
     <string name="txt_withdraw_top_tip">每天限制提款  %1$s  次，您已提款 %2$s 次， 您今日剩余提款额度为  %3$s 元</string>
     <string name="txt_select_withdrawal_amount">请选择提款金额</string>
     <string name="txt_withdrawal_close_info">渠道已关闭</string>
+    <string name="txt_login_tip">登录</string>
+    <string name="txt_register_tip">注册</string>
 </resources>
