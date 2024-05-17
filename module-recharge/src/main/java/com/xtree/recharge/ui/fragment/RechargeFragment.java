@@ -1464,7 +1464,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     .asCustom(dialog);
             ppw2.show();
 
-        } else if (vo.userProcessCount > 0 && isTipTodayCount()) {
+        } else if ((vo.depProcessCnt1 || vo.depProcessCnt3) && vo.userProcessCount > 0 && isTipTodayCount()) {
             // 您已经连续充值 次, 为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！
             CfLog.i("****** 您已经连续充值 次");
             String msg = getString(R.string.txt_rc_count_low_rate_hint, vo.userProcessCount);
