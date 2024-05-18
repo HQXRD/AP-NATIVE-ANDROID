@@ -14,6 +14,7 @@
         android:layout_marginStart="@dimen/layout_margin"
         android:layout_marginEnd="@dimen/layout_margin"
         android:text="子订单号:"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@id/tvw_money_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/tvw_order_id_title"
         app:layout_constraintTop_toTopOf="@+id/tvw_order_id_title"
         tools:text="WDR0017152024051511392800000051" />
@@ -32,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="金额:"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@id/tvw_margin_money_title"
         app:layout_constraintEnd_toEndOf="@id/tvw_order_id_title"
         app:layout_constraintTop_toBottomOf="@+id/tvw_order_id_title" />
@@ -41,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/tvw_money_title"
         app:layout_constraintTop_toTopOf="@+id/tvw_money_title"
         tools:text="100.00" />
@@ -50,6 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="保证金:"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@id/tvw_result_title"
         app:layout_constraintEnd_toEndOf="@id/tvw_money_title"
         app:layout_constraintTop_toBottomOf="@+id/tvw_money_title" />
@@ -59,6 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/tvw_margin_money_title"
         app:layout_constraintTop_toTopOf="@+id/tvw_margin_money_title"
         tools:text="0.00" />
@@ -68,6 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="提现结果:"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@id/tvw_apply_time_title"
         app:layout_constraintEnd_toEndOf="@id/tvw_margin_money_title"
         app:layout_constraintTop_toBottomOf="@+id/tvw_margin_money_title" />
@@ -77,6 +84,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/tvw_result_title"
         app:layout_constraintTop_toTopOf="@+id/tvw_result_title"
         tools:text="成功" />
@@ -86,6 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="申请时间:"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@id/tvw_finish_time_title"
         app:layout_constraintEnd_toEndOf="@id/tvw_result_title"
         app:layout_constraintTop_toBottomOf="@+id/tvw_result_title" />
@@ -95,6 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/tvw_apply_time_title"
         app:layout_constraintTop_toTopOf="@+id/tvw_apply_time_title"
         tools:text="2024-05-15 11:47:37" />
@@ -104,6 +114,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="完成时间:"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/tvw_apply_time_title"
         app:layout_constraintTop_toBottomOf="@+id/tvw_apply_time_title" />
@@ -113,6 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/tvw_finish_time_title"
         app:layout_constraintTop_toTopOf="@+id/tvw_finish_time_title"
         tools:text="2024-05-15 11:47:38" />
