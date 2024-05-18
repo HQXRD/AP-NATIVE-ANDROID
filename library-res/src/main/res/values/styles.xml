@@ -1259,4 +1259,14 @@
         <item name="android:textColorHint">@color/clr_txt_color_hint</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+    <!-- 重置登录密码 眼睛 睁开/关闭 -->
+    <style name="style_me_cpd_eye">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:button">@drawable/ic_eye_cpd_selector</item>
+        <item name="android:padding">6dp</item>
+    </style>
 </resources>

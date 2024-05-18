@@ -65,6 +65,7 @@
             <EditText
                 android:id="@+id/edt_pwd"
                 style="@style/style_cm_edit_amount"
+                android:drawableLeft="@mipmap/me_ic_psw"
                 android:background="@null"
                 android:hint="@string/txt_pwd_should_6_16"
                 android:inputType="textPassword"
@@ -75,7 +76,7 @@
 
             <CheckBox
                 android:id="@+id/ckb_pwd"
-                style="@style/style_cm_ckb_eye"
+                style="@style/style_me_cpd_eye"
                 android:layout_marginRight="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -95,6 +96,7 @@
                 style="@style/style_cm_edit_amount"
                 android:background="@null"
                 android:hint="@string/txt_enter_pwd_again"
+                android:drawableLeft="@mipmap/me_ic_psw"
                 android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:maxLength="22"
@@ -104,28 +106,39 @@
 
             <CheckBox
                 android:id="@+id/ckb_pwd2"
-                style="@style/style_cm_ckb_eye"
+                style="@style/style_me_cpd_eye"
                 android:layout_marginRight="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <TextView
+            android:id="@+id/tvw_psw_warning"
+            style="@style/style_cm_tip_small_orange"
+            android:layout_height="16dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:drawableLeft="@mipmap/cm_ic_hint_red"
+            android:text="@string/txt_username_empty"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="40dp"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvw_reset"
-                style="@style/style_btn"
+                style="@style/style_btn_short_cancel"
                 android:text="@string/txt_reset" />
 
             <TextView
                 android:id="@+id/tvw_ok"
-                style="@style/style_btn"
+                style="@style/style_btn_short"
                 android:text="@string/txt_confirm" />
         </LinearLayout>
     </LinearLayout>
