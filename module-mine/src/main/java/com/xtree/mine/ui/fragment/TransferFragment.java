@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.BaseMovementMethod;
 import android.view.LayoutInflater;
@@ -28,6 +29,7 @@ import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.UuidUtil;
+import com.xtree.base.vo.BalanceVo;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
@@ -38,7 +40,6 @@ import com.xtree.mine.databinding.FragmentTransferBinding;
 import com.xtree.mine.ui.viewmodel.MyWalletViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.AwardsRecordVo;
-import com.xtree.base.vo.BalanceVo;
 import com.xtree.mine.vo.GameBalanceVo;
 import com.xtree.mine.vo.GameMenusVo;
 
@@ -203,7 +204,21 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
             if (rdo != null) {
                 String txt = rdo.getTag().toString();
                 if (txt.equalsIgnoreCase("MAX")) {
-                    binding.edtAmount.setText(mBalanceVo.balance);
+
+                    String fromString = binding.tvwFrom.getText().toString().trim();
+                    if (TextUtils.equals("中心钱包" ,fromString)){
+                        binding.edtAmount.setText(mBalanceVo.balance);
+                    }else {
+                        for (int i = 0; i < transGameBalanceList.size(); i++) {
+                            if (TextUtils.equals(fromString,transGameBalanceList.get(i).gameName)){
+                                if (!TextUtils.equals("获取余额失败",transGameBalanceList.get(i).balance)){
+                                    binding.edtAmount.setText(transGameBalanceList.get(i).balance);
+                                }else {
+                                    binding.edtAmount.setText("0");
+                                }
+                            }
+                        }
+                    }
                 } else {
                     binding.edtAmount.setText(txt);
                 }
