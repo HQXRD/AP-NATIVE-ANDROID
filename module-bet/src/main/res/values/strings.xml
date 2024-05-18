@@ -63,5 +63,6 @@
     <string name="bt_txt_btn_statement_cost">提前结算本金</string>
     <string name="bt_txt_btn_statement_back">返还额（含本金）</string>
     <string name="bt_txt_btn_statement_amount">CNY:%1$s</string>
+    <string name="txt_game_search">请输入联赛/队伍名称进行搜寻</string>
 
 </resources>
