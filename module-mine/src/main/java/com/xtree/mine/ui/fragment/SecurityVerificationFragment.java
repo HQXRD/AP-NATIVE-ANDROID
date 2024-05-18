@@ -92,7 +92,7 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
             phone = getArguments().getString("phone");
             email = getArguments().getString("email");
         }
-        CfLog.i("****** typeName: " + typeName);
+        CfLog.i("****** typeName: " + typeName + ", tokenSign: " + tokenSign);
         fragmentList.clear();
         tabList.clear();
 
@@ -105,6 +105,7 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
                 bundle.putString("type", Constant.BIND);
                 bundle.putString("type2", typeName);
                 typeName = Constant.BIND;
+                CfLog.i("****** type: " + Constant.BIND + ", type2: " + typeName);
             }
         }
 
@@ -112,6 +113,19 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
         //BindEmailFragment bindEmailFragment = BindEmailFragment.newInstance(typeName, tokenSign);
         BindPhoneFragment bindPhoneFragment = BindPhoneFragment.newInstance(bundle);
         BindEmailFragment bindEmailFragment = BindEmailFragment.newInstance(bundle);
+
+        if (mProfileVo != null && mProfileVo.is_binding_phone && mProfileVo.is_binding_email) {
+            if (Constant.UPDATE_PHONE.equals(typeName)) {
+                Bundle bundle2 = new Bundle(getArguments());
+                bundle2.putString("type", Constant.VERIFY_BIND_PHONE); // 更新手机,使用邮箱验证
+                bindEmailFragment = BindEmailFragment.newInstance(bundle2);
+            }
+            if (Constant.UPDATE_EMAIL.equals(typeName)) {
+                Bundle bundle2 = new Bundle(getArguments());
+                bundle2.putString("type", Constant.VERIFY_BIND_EMAIL); // 更新邮箱,使用手机验证
+                bindPhoneFragment = BindPhoneFragment.newInstance(bundle2);
+            }
+        }
 
         String txtPhone = getString(R.string.txt_phone_num);
         String txtEmail = getString(R.string.txt_email_addr);

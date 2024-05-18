@@ -214,6 +214,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
     private void getCode() {
         Map<String, String> map = new HashMap<>();
         String num = binding.edtNum.getText().toString();
+        CfLog.d("typeName: " + typeName + ", num: " + num);
 
         if (Constant.BIND_PHONE.equals(typeName)) {
             // 发验证码 到新手机, 绑手机用的
@@ -258,7 +259,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             // /api/verify/bindverify
             map.put("flag", "initialSend");
             map.put("sendtype", sendtype);
-            //map.put("updatetype", "phone");  // 网页没有
+            //map.put("updatetype", "email");  // 网页没有
             map.put("num", ""); //
             map.put("nonce", UuidUtil.getID16());
             viewModel.bindVerify1(map);
@@ -267,7 +268,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             // /api/verify/bindverify
             map.put("flag", "bindSend");
             map.put("sendtype", sendtype);
-            //map.put("updatetype", "phone");  // 网页没有
+            //map.put("updatetype", "email");  // 网页没有
             map.put("num", num); //
             map.put("token", tokenSign); // mVerifyVo.tokenSign
             map.put("nonce", UuidUtil.getID16());
@@ -471,7 +472,7 @@ public class BindPhoneFragment extends BaseFragment<FragmentBindPhoneBinding, Ve
             alreadySendCode(vo);
         });
         viewModel.liveDataBindVerify2.observe(this, vo -> {
-            CfLog.i("*********** 验证成功, 跳去修改 邮箱");
+            CfLog.i("*********** 验证成功, 跳去修改 邮箱 " + vo.toString());
             String type = Constant.VERIFY_BIND_EMAIL2; // 另一验证绑自己
             Bundle bundle = new Bundle();
             bundle.putString("type", type);

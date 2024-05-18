@@ -307,7 +307,14 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
+                        liveDataCodeFail.setValue(null);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onFail(t);
+                        liveDataCodeFail.setValue(null);
                     }
                 });
         addSubscribe(disposable);

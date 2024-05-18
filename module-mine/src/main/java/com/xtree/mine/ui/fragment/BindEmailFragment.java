@@ -214,6 +214,7 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
     private void getCode() {
         Map<String, String> map = new HashMap<>();
         String num = binding.edtNum.getText().toString();
+        CfLog.d("typeName: " + typeName + ", num: " + num);
 
         if (Constant.BIND_EMAIL.equals(typeName)) {
             // 发验证码 到新邮箱, 绑邮箱用的
