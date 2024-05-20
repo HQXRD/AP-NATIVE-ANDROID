@@ -12,6 +12,7 @@ import com.xtree.bet.bean.ui.Option;
 
 public class DiscolourTextView extends AppCompatTextView {
     private boolean isBtCar;
+
     public DiscolourTextView(@NonNull Context context) {
         super(context);
     }
@@ -30,12 +31,12 @@ public class DiscolourTextView extends AppCompatTextView {
 
     public void startUp() {
         setTextColor(getContext().getResources().getColor(R.color.bt_color_odd_up));
-        setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bt_icon_odd_up, 0);
+        setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bt_icon_odd_up_line, 0);
         postDelayed(() -> {
             setSelected(isSelected());
-            if(isBtCar){
+            if (isBtCar) {
                 setTextColor(getContext().getResources().getColor(R.color.bt_color_car_dialog_hight_line2));
-            }else{
+            } else {
                 setTextColor(getContext().getResources().getColorStateList(R.color.bt_option_item_odd_selector));
             }
 
@@ -45,12 +46,12 @@ public class DiscolourTextView extends AppCompatTextView {
 
     public void startDown() {
         setTextColor(getContext().getResources().getColor(R.color.bt_color_odd_down));
-        setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bt_icon_odd_down, 0);
+        setCompoundDrawablesWithIntrinsicBounds(0, 0, R.mipmap.bt_icon_odd_down_line, 0);
         postDelayed(() -> {
             setSelected(isSelected());
-            if(isBtCar){
+            if (isBtCar) {
                 setTextColor(getContext().getResources().getColor(R.color.bt_color_car_dialog_hight_line2));
-            }else{
+            } else {
                 setTextColor(getContext().getResources().getColorStateList(R.color.bt_option_item_odd_selector));
             }
             setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
@@ -58,9 +59,9 @@ public class DiscolourTextView extends AppCompatTextView {
     }
 
     public void setOptionOdd(Option option) {
-        if(isBtCar){
+        if (isBtCar) {
             setText("@" + option.getUiShowOdd());
-        }else{
+        } else {
             setText(String.valueOf(option.getUiShowOdd()));
         }
 

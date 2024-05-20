@@ -99,7 +99,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             btWin += odd * cgOddLimit.getBtAmount();
         }
         if (isAdded()) {//BtCarDialogFragment消失后，禁止调用binding
-            binding.tvBtAmount.setText(getString(R.string.bt_bt_pay_1, NumberUtils.format(btAmount, 2)));
+            //binding.tvBtAmount.setText(getString(R.string.bt_bt_pay_1, NumberUtils.format(btAmount, 2)));
             binding.tvTopWin.setText(getString(R.string.bt_bt_top_win, NumberUtils.format(btWin, 2)));
         }
     };
@@ -131,7 +131,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         keyboardView.setParent(binding.nsvOption);
         binding.ivConfirm.setCallBack(() -> {
             int acceptOdds = binding.cbAccept.isChecked() ? 1 : 2;
-            if(TextUtils.equals(mBanlance, "-1")){
+            if (TextUtils.equals(mBanlance, "-1")) {
                 ToastUtils.showLong("正在获取余额信息，请稍候");
                 return;
             }
@@ -139,7 +139,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
             for (CgOddLimit cgOddLimit : cgOddLimitList) {
                 betAmount += cgOddLimit.getBtAmount();
             }
-            if(betAmount > Double.parseDouble(mBanlance)){
+            if (betAmount > Double.parseDouble(mBanlance)) {
                 ToastUtils.showLong("余额不足");
                 return;
             }
@@ -307,8 +307,8 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         viewModel.btResultInfoDate.observe(this, btResults -> {
             TagUtils.tagEvent(getContext(), "bt", platform);
             List<CgOddLimit> cgOddLimits = new ArrayList<>();
-            for(CgOddLimit cgOddLimit : cgOddLimitList){
-                if(cgOddLimit.getBtAmount() > 0){
+            for (CgOddLimit cgOddLimit : cgOddLimitList) {
+                if (cgOddLimit.getBtAmount() > 0) {
                     cgOddLimits.add(cgOddLimit);
                 }
             }
