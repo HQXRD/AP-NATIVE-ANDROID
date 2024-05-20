@@ -206,14 +206,14 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
                 if (txt.equalsIgnoreCase("MAX")) {
 
                     String fromString = binding.tvwFrom.getText().toString().trim();
-                    if (TextUtils.equals("中心钱包" ,fromString)){
+                    if (TextUtils.equals("中心钱包", fromString)) {
                         binding.edtAmount.setText(mBalanceVo.balance);
-                    }else {
+                    } else {
                         for (int i = 0; i < transGameBalanceList.size(); i++) {
-                            if (TextUtils.equals(fromString,transGameBalanceList.get(i).gameName)){
-                                if (!TextUtils.equals("获取余额失败",transGameBalanceList.get(i).balance)){
+                            if (TextUtils.equals(fromString, transGameBalanceList.get(i).gameName)) {
+                                if (!TextUtils.equals("获取余额失败", transGameBalanceList.get(i).balance)) {
                                     binding.edtAmount.setText(transGameBalanceList.get(i).balance);
-                                }else {
+                                } else {
                                     binding.edtAmount.setText("0");
                                 }
                             }
@@ -250,7 +250,7 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
             }
         });
         // 屏蔽双击选中、长按选中
-        binding.edtAmount.setMovementMethod( new BaseMovementMethod());
+        binding.edtAmount.setMovementMethod(new BaseMovementMethod());
     }
 
     private void doTransfer() {
@@ -359,7 +359,7 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         CfLog.e("binding.tvwFrom.getTag() : " + binding.tvwFrom.getTag());
         if (binding.tvwFrom.getTag().equals("lottery") && tvw == binding.tvwTo) {
             adapter.addAll(transGameBalanceNoCentral);
-        } else if(binding.tvwTo.getTag().equals("lottery") && tvw == binding.tvwTo) {
+        } else if (binding.tvwTo.getTag().equals("lottery") && tvw == binding.tvwTo) {
             adapter.addAll(transGameBalanceOnlyCentral);
         } else {
             adapter.addAll(transGameBalanceWithOwnList);
@@ -421,6 +421,9 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
                 mTransferBalanceAdapter = new TransferBalanceAdapter(getContext());
                 binding.rcvAllGameBalance.setAdapter(mTransferBalanceAdapter);
                 mTransferBalanceAdapter.setData(transGameBalanceList);
+                if (binding.ckbHide.isChecked()) {
+                    setGameBalanceNoZero();
+                }
             }
 
             // 这里是要处理转账前,如果勾选了'隐藏无余额场馆'这种情况
