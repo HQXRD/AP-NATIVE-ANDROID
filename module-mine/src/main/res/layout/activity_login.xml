@@ -369,7 +369,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="15dp"
-                            android:background="@drawable/btn_bg_register_enable"
+                            android:background="@drawable/bg_register_unable"
                             android:text="@string/me_register"
                             android:textColor="@color/white" />
                     </LinearLayout>

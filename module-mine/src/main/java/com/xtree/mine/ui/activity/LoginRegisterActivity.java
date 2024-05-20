@@ -77,7 +77,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     @Override
     public void initView() {
-        binding.btnRegister.setEnabled(false);
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.loginSubHeader.setOnClickListener(v -> {
             if (clickCount++ > 5) {
@@ -177,19 +176,21 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         });
 
         binding.edtAccReg.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if (binding.edtAccReg.getText().toString().startsWith("0") || binding.edtAccReg.getText().toString().toLowerCase().startsWith("o")) {
-                    binding.tvwUsernameWarning.setVisibility(View.VISIBLE);
-                    binding.tvwUsernameWarning.setText(R.string.txt_user_name_should_not_0o);
-                    mIsAcc = false;
-                } else if (binding.edtAccReg.getText().toString().isEmpty()) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (binding.edtAccReg.getText().toString().isEmpty()) {
                     binding.tvwUsernameWarning.setVisibility(View.VISIBLE);
                     binding.tvwUsernameWarning.setText(R.string.txt_username_empty);
+                    mIsAcc = false;
+                } else if (binding.edtAccReg.getText().toString().startsWith("0") || binding.edtAccReg.getText().toString().toLowerCase().startsWith("o")) {
+                    binding.tvwUsernameWarning.setVisibility(View.VISIBLE);
+                    binding.tvwUsernameWarning.setText(R.string.txt_user_name_should_not_0o);
                     mIsAcc = false;
                 } else if (!containsLetterAndDigit(binding.edtAccReg.getText().toString())) {
                     binding.tvwUsernameWarning.setVisibility(View.VISIBLE);
@@ -206,27 +207,33 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     mIsAcc = true;
                 }
 
-                binding.btnRegister.setEnabled(mIsAcc && mIsPwd1 && mIsPwd2);
+                if (mIsAcc && mIsPwd1 && mIsPwd2) {
+                    binding.btnRegister.setBackgroundResource(R.drawable.bg_register_enable);
+                } else {
+                    binding.btnRegister.setBackgroundResource(R.drawable.bg_register_unable);
+                }
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
         binding.edtPwd1.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (binding.edtPwd1.getText().toString().isEmpty()) {
                     binding.tvwPwdWarning.setVisibility(View.VISIBLE);
                     binding.tvwPwdWarning.setText(R.string.txt_pwd_cannot_empty);
                     mIsPwd1 = false;
-                }else if (binding.edtPwd1.getText().toString().length() < 6
+                } else if (binding.edtPwd1.getText().toString().length() < 6
                         || binding.edtPwd1.getText().toString().length() > 16) {
                     binding.tvwPwdWarning.setVisibility(View.VISIBLE);
                     binding.tvwPwdWarning.setText(R.string.txt_pwd_should_6_16);
@@ -240,9 +247,11 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     mIsPwd1 = true;
                 }
 
-                if (!binding.edtPwd1.getText().toString().equals(binding.edtPwd2.getText().toString())) {
+                if (binding.edtPwd2.getText().toString().isEmpty()) {
+                    mIsPwd2 = false;
+                } else if (!binding.edtPwd1.getText().toString().equals(binding.edtPwd2.getText().toString())) {
                     binding.tvwPwdCheckWarning.setVisibility(View.VISIBLE);
-                    binding.tvwPwdCheckWarning.setText(R.string.txt_reset_password_not_same_error);
+                    binding.tvwPwdCheckWarning.setText(R.string.txt_pwd_should_same);
                     mIsPwd2 = false;
                 } else {
                     binding.tvwPwdCheckWarning.setVisibility(View.INVISIBLE);
@@ -250,26 +259,35 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 }
 
                 CfLog.i((mIsAcc && mIsPwd1 && mIsPwd2) + "");
-                binding.btnRegister.setEnabled(mIsAcc && mIsPwd1 && mIsPwd2);
+                if (mIsAcc && mIsPwd1 && mIsPwd2) {
+                    binding.btnRegister.setBackgroundResource(R.drawable.bg_register_enable);
+                } else {
+                    binding.btnRegister.setBackgroundResource(R.drawable.bg_register_unable);
+                }
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable s) {
 
             }
         });
 
         binding.edtPwd2.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
-                if (!binding.edtPwd1.getText().toString().equals(binding.edtPwd2.getText().toString())) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (binding.edtPwd2.getText().toString().isEmpty()) {
                     binding.tvwPwdCheckWarning.setVisibility(View.VISIBLE);
-                    binding.tvwPwdCheckWarning.setText(R.string.txt_reset_password_not_same_error);
+                    binding.tvwPwdCheckWarning.setText(R.string.txt_pwd_is_empty);
+                    mIsPwd2 = false;
+                } else if (!binding.edtPwd1.getText().toString().equals(binding.edtPwd2.getText().toString())) {
+                    binding.tvwPwdCheckWarning.setVisibility(View.VISIBLE);
+                    binding.tvwPwdCheckWarning.setText(R.string.txt_pwd_should_same);
                     mIsPwd2 = false;
                 } else {
                     binding.tvwPwdCheckWarning.setVisibility(View.INVISIBLE);
@@ -277,11 +295,15 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 }
 
                 CfLog.i((mIsAcc && mIsPwd1 && mIsPwd2) + "");
-                binding.btnRegister.setEnabled(mIsAcc && mIsPwd1 && mIsPwd2);
+                if (mIsAcc && mIsPwd1 && mIsPwd2) {
+                    binding.btnRegister.setBackgroundResource(R.drawable.bg_register_enable);
+                } else {
+                    binding.btnRegister.setBackgroundResource(R.drawable.bg_register_unable);
+                }
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(Editable s) {
 
             }
         });
@@ -294,6 +316,28 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             if (!binding.registerAgreementCheckbox.isChecked()) {
                 ToastUtils.showLong(getResources().getString(R.string.me_agree_hint));
                 showAgreementDialog(binding.registerAgreementCheckbox);
+                return;
+            }
+
+            if (account.isEmpty()) {
+                binding.tvwUsernameWarning.setVisibility(View.VISIBLE);
+                binding.tvwUsernameWarning.setText(R.string.txt_username_empty);
+                mIsAcc = false;
+            }
+
+            if (pwd1.isEmpty()) {
+                binding.tvwPwdWarning.setVisibility(View.VISIBLE);
+                binding.tvwPwdWarning.setText(R.string.txt_pwd_cannot_empty);
+                mIsPwd1 = false;
+            }
+
+            if (pwd2.isEmpty()) {
+                binding.tvwPwdCheckWarning.setVisibility(View.VISIBLE);
+                binding.tvwPwdCheckWarning.setText(R.string.txt_pwd_should_same);
+                mIsPwd2 = false;
+            }
+
+            if (!mIsAcc || !mIsPwd1 || !mIsPwd2) {
                 return;
             }
 
