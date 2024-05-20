@@ -27,6 +27,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.SPUtil;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Spkey;
@@ -43,6 +44,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
+import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterActivityPath.Mine.PAGER_LOGIN_REGISTER)
@@ -56,6 +58,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     private boolean mIsAcc = false;
     private boolean mIsPwd1 = false;
     private boolean mIsPwd2 = false;
+    private BasePopupView  verifyPopView;//认证PoPView
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -379,19 +382,8 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         });
 
         viewModel.liveDataLoginFail.observe(this, vo -> {
-            CfLog.d(vo.toString());
             if (vo.code == HttpCallBack.CodeRule.CODE_20208) {
-                TagUtils.tagEvent(getBaseContext(), TagUtils.EVENT_LOGIN);
-                String acc = binding.edtAccount.getText().toString().trim();
-                HashMap<String, Object> map = (HashMap<String, Object>) vo.data;
-                LoginResultVo vo2 = (LoginResultVo) map.get("data");
-                Bundle bundle = new Bundle();
-                bundle.putString("type", Constant.VERIFY_LOGIN);
-                bundle.putString("username", acc);
-                bundle.putString("map", map.get("loginArgs").toString());
-                bundle.putString("phone", vo2.contacts.phone);
-                bundle.putString("email", vo2.contacts.email);
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
+                showVerifyDialog(vo);
             }
 
         });
@@ -455,5 +447,47 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         }
 
         return false;
+    }
+
+    /**
+     * 显示认证Dialog
+     * @param vo
+     */
+    private void showVerifyDialog(final BusinessException vo){
+        String msg = getString(R.string.txt_ip_error_tip);
+        final String title = getString(R.string.txt_kind_tips);
+        verifyPopView = new XPopup.Builder(this)
+                .dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asCustom(new MsgDialog(this, title, msg, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+                verifyPopView.dismiss();
+            }
+
+            @Override
+            public void onClickRight() {
+                goSecurityVerify(vo);
+                verifyPopView.dismiss();
+            }
+        }));
+        verifyPopView.show();
+    }
+
+    /**
+     * 跳转安全验证
+     */
+    private void  goSecurityVerify(final BusinessException vo){
+        TagUtils.tagEvent(getBaseContext(), TagUtils.EVENT_LOGIN);
+        String acc = binding.edtAccount.getText().toString().trim();
+        HashMap<String, Object> map = (HashMap<String, Object>) vo.data;
+        LoginResultVo vo2 = (LoginResultVo) map.get("data");
+        Bundle bundle = new Bundle();
+        bundle.putString("type", Constant.VERIFY_LOGIN);
+        bundle.putString("username", acc);
+        bundle.putString("map", map.get("loginArgs").toString());
+        bundle.putString("phone", vo2.contacts.phone);
+        bundle.putString("email", vo2.contacts.email);
+        startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
     }
 }
