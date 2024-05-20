@@ -90,12 +90,16 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             binding.loginArea.setVisibility(View.VISIBLE);
             binding.toLoginArea.setVisibility(View.GONE);
             binding.meRegisterArea.setVisibility(View.GONE);
+            binding.tvwRegisterWarning.setVisibility(View.GONE);
+            binding.ivwRegisterWarning.setVisibility(View.GONE);
         }
         if (viewType == REGISTER_TYPE) {
             binding.toLoginArea.setVisibility(View.VISIBLE);
             binding.meRegisterArea.setVisibility(View.VISIBLE);
             binding.toRegisterArea.setVisibility(View.GONE);
             binding.loginArea.setVisibility(View.GONE);
+            binding.tvwRegisterWarning.setVisibility(View.VISIBLE);
+            binding.ivwRegisterWarning.setVisibility(View.VISIBLE);
         }
 
         boolean isRememberPwd = SPUtil.get(getApplication()).get(Spkey.REMEMBER_PWD, false);
@@ -157,12 +161,16 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             binding.meRegisterArea.setVisibility(View.VISIBLE);
             binding.toRegisterArea.setVisibility(View.GONE);
             binding.loginArea.setVisibility(View.GONE);
+            binding.tvwRegisterWarning.setVisibility(View.VISIBLE);
+            binding.ivwRegisterWarning.setVisibility(View.VISIBLE);
         });
         binding.toLoginArea.setOnClickListener(v -> {
             binding.toRegisterArea.setVisibility(View.VISIBLE);
             binding.loginArea.setVisibility(View.VISIBLE);
             binding.toLoginArea.setVisibility(View.GONE);
             binding.meRegisterArea.setVisibility(View.GONE);
+            binding.tvwRegisterWarning.setVisibility(View.GONE);
+            binding.ivwRegisterWarning.setVisibility(View.GONE);
         });
 
         binding.edtAccReg.addTextChangedListener(new TextWatcher() {
