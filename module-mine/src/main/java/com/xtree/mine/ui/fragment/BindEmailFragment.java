@@ -455,6 +455,7 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
             binding.edtNum.setEnabled(true);
             binding.edtNum.setText("");
             binding.edtCode.setText("");
+            binding.tvwTipWarn2.setVisibility(View.INVISIBLE);
             binding.edtNum.performClick();
 
         });
