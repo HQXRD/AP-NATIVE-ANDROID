@@ -1,8 +1,6 @@
 package com.xtree.recharge.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -102,26 +100,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     boolean isShowedProcessPendCount = false; // 是否显示过 "订单未到账" 的提示
     boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
     boolean isHidden = false; // 当前fragment是否隐藏. 解决从充值页切到首页/我的,再打开VIP,再返回,弹出弹窗(您已经充值x次)
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        // 在结束后浮动弹窗被删除
-        if (isShowBack) {
-            try {
-                method = object.getClass().getMethod("removeView");
-                method.invoke(object);
-            } catch (Exception e) {
-                CfLog.e(e.getMessage());
-            }
-        }
-    }
-
     boolean isShowBack = false; // 是否显示返回按钮
     boolean isShowOrderDetail = false; // 是否显示充值订单详情,需要传订单号过来 (待处理的订单详情) 2024-03-27
     ProfileVo mProfileVo = null; // 个人信息
     // HQAP2-2963 这几个充值渠道 内部浏览器要加个外跳的按钮 2024-03-23
     String[] arrayBrowser = new String[]{"onepayfix3", "onepayfix4", "onepayfix5", "onepayfix6"};
+    List<String> payCodeList = new ArrayList<>(); // 含弹出支付窗口的充值渠道类型列表(从缓存加载用)
     long lastRefresh = System.currentTimeMillis(); // 上次刷新时间
 
     Handler mHandler = new Handler(Looper.getMainLooper()) {
@@ -279,7 +263,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         binding.tvwDownload.setOnClickListener(v -> {
             // 下载嗨钱包
             String url = Constant.URL_DOWNLOAD_HI_WALLET;
-            getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            AppUtil.goBrowser(getContext(), url);
         });
 
         binding.tvwBindPhone.setOnClickListener(v -> toBindPhonePage());
@@ -403,6 +387,20 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i("****** isHidden: " + isHidden);
         if (!isHidden) {
             refresh(); // 刷新
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        // 在结束后浮动弹窗被删除
+        if (isShowBack) {
+            try {
+                method = object.getClass().getMethod("removeView");
+                method.invoke(object);
+            } catch (Exception e) {
+                CfLog.e(e.getMessage());
+            }
         }
     }
 
@@ -1237,6 +1235,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             setRecommendList(); // 推荐的充值列表
             setMainList(list); // 显示充值列表九宫格
         });
+        viewModel.liveDataPayCodeArr.observe(getViewLifecycleOwner(), list -> {
+            CfLog.d();
+            payCodeList.clear();
+            payCodeList.addAll(list);
+        });
         viewModel.liveDataTutorial.observe(getViewLifecycleOwner(), url -> tutorialUrl = url);
 
         viewModel.liveDataRecharge.observe(getViewLifecycleOwner(), vo -> {
@@ -1312,7 +1315,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //        + ",juxinwex2,juxinzfb1,juxinzfb2,hqppay,ebpay,cryptohqppay2,cryptotrchqppay2"
         //        + ",hqppaytopay,hiwallet,hqppay6";
         //List<String> payCodeList = Arrays.asList(payCodes.split(",")); // payCodeArr
-        List<String> payCodeList = mPaymentDataVo.payCodeArr;
+        //List<String> payCodeList = mPaymentDataVo.payCodeArr; // mPaymentDataVo 为null
         boolean isInArr = payCodeList.contains(vo.bankcode);
         CfLog.i(" bankcode: " + vo.bankcode + ", isInArr: " + isInArr + " isbank: " + vo.isbank + ", isusdt: " + vo.isusdt);
         if (vo.bankcode.equals("ucim") && vo.isRedirectMode && vo.isredirect) {
@@ -1357,7 +1360,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             CfLog.i(vo.payname + ", jump: " + url);
 
             // 弹窗
-            //getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
             new XPopup.Builder(getContext())
                     .moveUpToKeyboard(true)
                     .dismissOnTouchOutside(false)
