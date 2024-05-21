@@ -45,7 +45,7 @@ public class RechargeOrderBankDialog extends BottomPopupView {
     private void initView() {
         binding = DialogRcOrderBankBinding.bind(findViewById(R.id.ll_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
-        binding.tvwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
+        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         binding.tvwTitle.setText(mRechargePayVo.payname);
         binding.tvwMoney.setText(mRechargePayVo.money);
 
@@ -58,6 +58,7 @@ public class RechargeOrderBankDialog extends BottomPopupView {
         binding.tvwToBankNameDetail.setText(mRechargePayVo.toBankNameDetail);
         binding.tvwBankAcctName.setText(mRechargePayVo.bankacctname);
         binding.tvwBankAcctCard.setText(mRechargePayVo.bankacctcard);
+        binding.tvwMoney2.setText(mRechargePayVo.money);
 
         binding.tvw01.setText("1. " + binding.tvw01.getText().toString());
         binding.tvw02.setText("2. " + binding.tvw02.getText().toString());
@@ -69,11 +70,14 @@ public class RechargeOrderBankDialog extends BottomPopupView {
         binding.tvwCopyBranch.setOnClickListener(v -> copy(mRechargePayVo.toBankNameDetail));
         binding.tvwCopyAccName.setOnClickListener(v -> copy(mRechargePayVo.bankacctname));
         binding.tvwCopyAccNum.setOnClickListener(v -> copy(mRechargePayVo.bankacctcard));
+        binding.tvwCopyMoney.setOnClickListener(v -> copy(mRechargePayVo.money));
+        binding.tvwCopyMoney2.setOnClickListener(v -> copy(mRechargePayVo.money));
 
         binding.tvwToHelp.setOnClickListener(v -> goHelp());
 
-        String bankInfo = mRechargePayVo.toBankName + "\n" + mRechargePayVo.toBankNameDetail + "\n" + mRechargePayVo.bankacctname + "\n" + mRechargePayVo.bankacctcard;
-        binding.tvwOk.setOnClickListener(v -> copy(bankInfo));
+        //String bankInfo = mRechargePayVo.toBankName + "\n" + mRechargePayVo.toBankNameDetail + "\n" + mRechargePayVo.bankacctname + "\n" + mRechargePayVo.bankacctcard;
+        //binding.tvwOk.setOnClickListener(v -> copy(bankInfo));
+        binding.tvwOk.setOnClickListener(v -> dismiss());
     }
 
     private void copy(String txt) {
