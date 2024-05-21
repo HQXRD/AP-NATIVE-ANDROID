@@ -42,7 +42,7 @@ public class RechargeOrderUsdtDialog extends BottomPopupView {
     private void initView() {
         binding = DialogRcOrderUsdtBinding.bind(findViewById(R.id.ll_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
-        binding.tvwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
+        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         binding.tvwTitle.setText(mRechargePayVo.payname);
         binding.tvwMoney.setText(mRechargePayVo.money);
         binding.tvwRateAmount.setText(mRechargePayVo.rateamount);
@@ -53,6 +53,7 @@ public class RechargeOrderUsdtDialog extends BottomPopupView {
         txt = "<font color=#EE5A5A> " + txt + " </font>"; // 加彩色
         txt = getContext().getString(R.string.txt_rc_submit_succ_pay_in_minutes_pls, txt).replace("\n", "<br>");
         binding.tvwMaxExpireTime.setText(HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_LEGACY));
+        binding.tvwUsdtType.setText(mRechargePayVo.udtType);
 
         binding.tvwOk.setOnClickListener(v -> dismiss());
 
@@ -70,6 +71,7 @@ public class RechargeOrderUsdtDialog extends BottomPopupView {
         if (mRechargePayVo.isqrcode) {
             binding.ivwQrcode.setImageBitmap(QrcodeUtil.getQrcode(mRechargePayVo.qrcodeurl)); // 设置二维码图片
         }
+        binding.tvwCopyRateAmount.setOnClickListener(v -> copy(mRechargePayVo.rateamount));
         binding.tvwCopy.setOnClickListener(v -> copy(mRechargePayVo.qrcodeurl));
     }
 
