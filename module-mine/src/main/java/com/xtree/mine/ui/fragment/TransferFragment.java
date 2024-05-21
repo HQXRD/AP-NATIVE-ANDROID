@@ -1,5 +1,6 @@
 package com.xtree.mine.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,7 +12,8 @@ import android.text.method.BaseMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RadioButton;
+import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -74,6 +76,8 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     BalanceVo mBalanceVo = new BalanceVo("0"); // 中心钱包
     BasePopupView ppw = null; // 底部弹窗
     TransferBalanceAdapter mTransferBalanceAdapter;
+    private AmountViewViewAdapter amountViewViewAdapter;
+    private ArrayList<AmountVo> amountVoArrayList = new ArrayList<>();
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -199,7 +203,34 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
             binding.tvwTo.setText(tmpTitle);
         });
 
-        binding.rgpAmount.setOnCheckedChangeListener((group, checkedId) -> {
+        initAmountList();
+        amountViewViewAdapter = new AmountViewViewAdapter(getContext(), amountVoArrayList, new IAmountCallback() {
+            @Override
+            public void callbackWithAmount(String txt) {
+                if (txt.equalsIgnoreCase("MAX")) {
+
+                    String fromString = binding.tvwFrom.getText().toString().trim();
+                    if (TextUtils.equals("中心钱包", fromString)) {
+                        binding.edtAmount.setText(mBalanceVo.balance);
+                    } else {
+                        for (int i = 0; i < transGameBalanceList.size(); i++) {
+                            if (TextUtils.equals(fromString, transGameBalanceList.get(i).gameName)) {
+                                if (!TextUtils.equals("获取余额失败", transGameBalanceList.get(i).balance)) {
+                                    binding.edtAmount.setText(transGameBalanceList.get(i).balance);
+                                } else {
+                                    binding.edtAmount.setText("0");
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    binding.edtAmount.setText(txt);
+                }
+            }
+        });
+        binding.rgpAmount.setAdapter(amountViewViewAdapter);
+
+        /*binding.rgpAmount.setOnCheckedChangeListener((group, checkedId) -> {
             RadioButton rdo = group.findViewById(checkedId);
             if (rdo != null) {
                 String txt = rdo.getTag().toString();
@@ -223,7 +254,7 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
                     binding.edtAmount.setText(txt);
                 }
             }
-        });
+        });*/
 
         binding.ivwTransfer.setOnClickListener(v -> doTransfer());
 
@@ -240,6 +271,9 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
                 if (input.length() > 0) {
                     // 设置光标位置
                     binding.edtAmount.setSelection(input.length());
+                } else if (input == null || input.length() == 0) {
+                    referArray(amountVoArrayList);
+                    amountViewViewAdapter.notifyDataSetChanged();
                 }
                 binding.ivwTransfer.setEnabled(!binding.edtAmount.getText().toString().isEmpty());
             }
@@ -556,5 +590,133 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         Collections.sort(hasMoneyGame);
         filterNoMoney = !filterNoMoney;
         mHandler.sendEmptyMessage(MSG_UPDATE_RCV);
+    }
+
+    private class AmountVo {
+        public String amount;
+        public boolean flag;
+    }
+
+    /**
+     * 定义GridViewViewAdapter 显示大额固额金额选择
+     */
+    private static class AmountViewViewAdapter extends BaseAdapter {
+        public IAmountCallback callback;
+        private Context context;
+        public ArrayList<AmountVo> arrayList;
+
+        public AmountViewViewAdapter(Context context, ArrayList<AmountVo> list, IAmountCallback callback) {
+            super();
+            this.context = context;
+            this.arrayList = list;
+            this.callback = callback;
+        }
+
+        @Override
+        public int getCount() {
+            return this.arrayList.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return arrayList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View view, ViewGroup parent) {
+            HolderView holderView = null;
+            if (view == null) {
+                view = LayoutInflater.from(context).inflate(R.layout.transfer_amount, parent, false);
+                holderView = new HolderView();
+                holderView.textView = (TextView) view.findViewById(R.id.tvw_title);
+                view.setTag(holderView);
+            } else {
+                holderView = (HolderView) view.getTag();
+            }
+            if (arrayList.get(position).flag) {
+                holderView.textView.setBackgroundResource(R.mipmap.cm_ic_bg_selected);
+            } else {
+                holderView.textView.setBackgroundResource(R.mipmap.ic_bg_blc);
+            }
+            holderView.textView.setText(arrayList.get(position).amount);
+            holderView.getTextView().setOnClickListener(v -> {
+
+                referInlineArray(arrayList.get(position), arrayList);
+                notifyDataSetChanged();
+                if (callback != null) {
+                    callback.callbackWithAmount(arrayList.get(position).amount);
+                }
+            });
+            return view;
+        }
+
+        private void referInlineArray(AmountVo vo, ArrayList<AmountVo> arrayList) {
+            for (int i = 0; i < arrayList.size(); i++) {
+                if (arrayList.get(i).amount.equals(vo.amount)) {
+                    arrayList.get(i).flag = true;
+                } else {
+                    arrayList.get(i).flag = false;
+                }
+
+            }
+        }
+
+        private class HolderView {
+            private String showAmount;
+
+            public void setShowAmount(String showAmount) {
+                this.showAmount = showAmount;
+                this.textView.setText(showAmount);
+            }
+
+            public String getShowAmount() {
+                return showAmount;
+            }
+
+            private TextView textView;
+            private LinearLayout linear;
+
+            public void setTextView(TextView textView) {
+                this.textView = textView;
+            }
+
+            public TextView getTextView() {
+                return textView;
+            }
+        }
+    }
+
+    private void referArray(ArrayList<AmountVo> arrayList) {
+        for (int i = 0; i < arrayList.size(); i++) {
+            arrayList.get(i).flag = false;
+        }
+    }
+
+    private void initAmountList() {
+        AmountVo vo1 = new AmountVo();
+        vo1.amount = 100 + "";
+        vo1.flag = false;
+
+        AmountVo vo2 = new AmountVo();
+        vo2.amount = 1000 + "";
+        vo2.flag = false;
+
+        AmountVo vo3 = new AmountVo();
+        vo3.amount = 10000 + "";
+        vo3.flag = false;
+
+        AmountVo vo4 = new AmountVo();
+        vo4.amount = "MAX";
+        vo4.flag = false;
+
+        amountVoArrayList.add(vo1);
+        amountVoArrayList.add(vo2);
+        amountVoArrayList.add(vo3);
+        amountVoArrayList.add(vo4);
     }
 }
