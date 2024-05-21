@@ -305,8 +305,8 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
             binding.clAlreadyLogin.setVisibility(View.INVISIBLE);
 
             // 未登录状态下,直接跳到登录页,并关闭当前页
-            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
-            getActivity().finish();
+            //ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
+            //getActivity().finish();
         } else {
             CfLog.i("****** already login");
             binding.llLogin.setVisibility(View.GONE);
