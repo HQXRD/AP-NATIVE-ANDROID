@@ -272,6 +272,44 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <!-- 充值页 弹窗 -->
+    <style name="style_rc_dlg_ll">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="style_rc_dlg_key">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">start</item>
+        <item name="android:minEms">1</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_rc_dlg_value">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">end</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_rc_dlg_copy">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:gravity">end</item>
+        <item name="android:textColor">@color/clr_purple_12</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <!-- 通用 标题 样式 -->
     <style name="style_forget_password_info_title">
         <item name="android:layout_width">wrap_content</item>
@@ -369,6 +407,13 @@
     <style name="style_cm_tip_small_yellow" parent="style_cm_tip_small_grey">
         <item name="android:text"></item>
         <item name="android:textColor">@color/bt_text_color_primary_3</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <!-- 通用 提示小字 桔黄色 -->
+    <style name="style_cm_tip_small_yellow2" parent="style_cm_tip_small_grey">
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_orange_08</item>
         <item name="android:textSize">12sp</item>
     </style>
 
@@ -541,9 +586,9 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:layout_marginTop">12dp</item>
-        <item name="android:layout_marginStart">24dp</item>
-        <item name="android:layout_marginEnd">24dp</item>
-        <item name="android:background">@color/clr_white</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginEnd">12dp</item>
+        <item name="android:background">@color/clr_div_line</item>
     </style>
 
     <style name="style_cm_edit">

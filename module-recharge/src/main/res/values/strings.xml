@@ -106,6 +106,8 @@
 
     <string name="txt_rc_1k_copy_card">一键复制银行卡所有信息</string>
     <string name="txt_rc_only_bank_card">仅支持银行卡转账，其它充值方式将无法到账。</string>
+    <string name="txt_rc_only_x_card">仅支持%1$s转账，其它充值方式将无法到账。</string>
+    <string name="txt_rc_kw_recharge">充值</string>
     <string name="txt_rc_only_bank_card_no_others">本充值方式仅支持银行卡转账，其它充值方式将无法到账。</string>
     <string name="txt_rc_order_amount_and_transfer_should_same">“订单金额”与网银转账金额不符，将无法到账。</string>
     <string name="txt_login_online_banking_transfer">登录网银，点击“转账汇款”，输入上方收款信息。</string>
