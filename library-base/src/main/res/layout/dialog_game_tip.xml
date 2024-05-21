@@ -8,11 +8,11 @@
 
     <ImageView
         android:id="@+id/ivw_bg"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="410dp"
         android:layout_marginTop="60dp"
-        android:background="@mipmap/cm_dialog_bg"
         android:padding="4dp"
+        android:background="@mipmap/bg_rc_tip_dialog"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,9 +22,9 @@
         android:id="@+id/ivw_bell"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
         android:src="@mipmap/cm_dialog_bell"
         android:visibility="visible"
+        android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toTopOf="@+id/tvw_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:gravity="center"
-        android:text="@string/txt_kind_tips"
+        android:text="温馨提示"
         android:textColor="@color/clr_black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -49,21 +49,22 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="32dp"
-        android:textColor="@color/textColor"
+        android:textColor="@color/clr_grey_13"
+        tools:text="@string/text_cancel_tip"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvw_title"
-        tools:text="@string/text_cancel_tip" />
-<!-- android:background="@drawable/bg_btn_xc"-->
+        app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+        app:layout_constraintStart_toStartOf="@id/ivw_bg"
+        app:layout_constraintTop_toBottomOf="@+id/tvw_title" />
+
+
     <TextView
         android:id="@+id/tvw_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="30dp"
-       android:background="@mipmap/cm_btn_short"
+        android:layout_margin="20dp"
+        android:background="@mipmap/cm_btn_short"
         android:gravity="center"
         android:padding="10dp"
         android:text="@string/ok"
@@ -73,20 +74,41 @@
         app:layout_constraintStart_toStartOf="@+id/tvw_msg"
         app:layout_constraintTop_toBottomOf="@+id/tvw_msg" />
 
+
     <CheckBox
         android:id="@+id/cb_tip_pm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="50dp"
         style="@style/style_cm_ckb"
         android:text="@string/txt_rc_not_tip"
-        android:textColor="@color/clr_purple_12"
-        android:textSize="12sp"
         android:theme="@style/PMTipCheckBoxTheme"
-        app:layout_constraintBottom_toBottomOf="@+id/ivw_bg"
+        android:textSize="12sp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/clr_purple_01"
         app:layout_constraintEnd_toEndOf="@+id/tvw_msg"
         app:layout_constraintStart_toStartOf="@+id/tvw_msg"
         app:layout_constraintTop_toBottomOf="@+id/tvw_confirm" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:src="@mipmap/ic_rc_split_line"
+        app:layout_constraintEnd_toEndOf="@+id/cb_tip_pm"
+        app:layout_constraintStart_toStartOf="@+id/cb_tip_pm"
+        app:layout_constraintTop_toBottomOf="@+id/cb_tip_pm"/>
+
+    <TextView
+        android:id="@+id/tvw_cs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableStart="@mipmap/cm_ic_cs2"
+        android:layout_marginBottom="30dp"
+        android:drawablePadding="3dp"
+        android:text="@string/txt_contact_custom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
