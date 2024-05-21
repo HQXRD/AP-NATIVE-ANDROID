@@ -162,6 +162,7 @@ public class BrowserActivity extends AppCompatActivity {
             CfLog.d("not need header.");
             header.clear(); // 游戏 header和cookie只带其中一个即可; FB只能带cookie
         }
+        header.put("App-RNID", "87jumkljo"); //
         CfLog.d("header: " + header); // new Gson().toJson(header)
         url = getIntent().getStringExtra("url");
 
