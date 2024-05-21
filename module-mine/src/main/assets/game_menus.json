@@ -501,6 +501,22 @@
     "unionId": "gameId_1522c889-e034-4865-8fd1-e758377c9d3d"
   },
   {
+    "cid": 80,
+    "name": "瓦力棋牌",
+    "alias": "WALI",
+    "key": "wali",
+    "needTransfer": true,
+    "forward": {
+      "chess": {
+        "route": "GameFrame"
+      }
+    },
+    "cate": "chess",
+    "cateName": "棋牌",
+    "unionKey": "obgqp",
+    "unionId": "gameId_32c2016f-7906-4161-90fe-bad5371c4bd6"
+  },
+  {
     "cid": 200,
     "name": "彩票",
     "key": "caipao",
