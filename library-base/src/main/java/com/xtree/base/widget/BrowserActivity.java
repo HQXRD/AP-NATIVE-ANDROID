@@ -37,6 +37,7 @@ import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 import com.xtree.base.R;
+import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
@@ -173,7 +174,20 @@ public class BrowserActivity extends AppCompatActivity {
             SPUtils.getInstance().put(SPKeyGlobal.IS_FIRST_OPEN_BROWSER, false);
         }
 
-        mWebView.addJavascriptInterface(new WebAppInterface(this, ivwBack, () -> finish()), "android");
+        mWebView.addJavascriptInterface(new WebAppInterface(this, ivwBack, new WebAppInterface.ICallBack() {
+            @Override
+            public void close() {
+                String url2 = getIntent().getStringExtra("url") + "";
+                if (!url2.contains(Constant.URL_VIP_CENTER)) {
+                    finish();
+                }
+            }
+
+            @Override
+            public void goBack() {
+                finish();
+            }
+        }), "android");
         //setWebCookie();
         //setCookie(cookie, url); // 设置 cookie
         Uri uri = getIntent().getData();
