@@ -52,6 +52,7 @@ public class ChangePwdFragment extends BaseFragment<FragmentChangePwdBinding, Ve
         binding.tvwReset.setOnClickListener(v -> {
             binding.edtPwd.setText("");
             binding.edtPwd2.setText("");
+            binding.tvwPswWarning.setVisibility(View.INVISIBLE);
         });
         binding.ivwBack.setOnClickListener( v ->{
             getActivity().finish();
@@ -74,7 +75,7 @@ public class ChangePwdFragment extends BaseFragment<FragmentChangePwdBinding, Ve
                 showError(getString(R.string.txt_chang_psw_input_length_error));
                 return;
             }
-            if (!pwd1.matches("^[0-9a-zA-Z]+$") || !pwd2.matches("^[0-9a-zA-Z]+$")){
+            if (!containsLetterAndDigit(pwd1) || !containsLetterAndDigit(pwd2)){
                 showError(getString(R.string.txt_chang_psw_input_format_error));
                 return;
             }
@@ -147,4 +148,23 @@ public class ChangePwdFragment extends BaseFragment<FragmentChangePwdBinding, Ve
         binding.tvwPswWarning.setText(message);
 
     }
+    private boolean containsLetterAndDigit(String str) {
+        boolean containsLetter = false;
+        boolean containsDigit = false;
+
+        for (char c : str.toCharArray()) {
+            if (Character.isLetter(c)) {
+                containsLetter = true;
+            } else if (Character.isDigit(c)) {
+                containsDigit = true;
+            }
+
+            if (containsLetter && containsDigit) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
