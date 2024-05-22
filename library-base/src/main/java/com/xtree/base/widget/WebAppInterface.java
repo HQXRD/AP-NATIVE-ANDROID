@@ -47,6 +47,8 @@ public class WebAppInterface {
 
     public interface ICallBack {
         void close();
+
+        void goBack();
     }
 
     public WebAppInterface(Context context, View mView, ICallBack mCallBack) {
@@ -151,6 +153,8 @@ public class WebAppInterface {
                 //close(); // 不能close,否则上级页面关闭,弹窗也被关闭
                 break;
             case TYPE_BACK:
+                goBack();
+                break;
             case TYPE_CLOSE:
                 close();
                 break;
@@ -169,6 +173,12 @@ public class WebAppInterface {
     private void close() {
         if (mCallBack != null) {
             mCallBack.close();
+        }
+    }
+
+    private void goBack() {
+        if (mCallBack != null) {
+            mCallBack.goBack();
         }
     }
 

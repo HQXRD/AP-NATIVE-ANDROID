@@ -5,7 +5,6 @@ package com.xtree.base.router;
  * 在这里注册添加路由路径，需要清楚的写好注释，标明功能界面
  * Created by goldze on 2018/6/21
  */
-
 public class RouterActivityPath {
     /**
      * 主业务组件
@@ -53,4 +52,13 @@ public class RouterActivityPath {
         private static final String BET = "/bet";
         public static final String PAGER_BET_HOME = BET + "/home";
     }
+
+    /**
+     * 组件页
+     */
+    public static class Widget {
+        private static final String WIDGET = "/widget";
+        public static final String PAGER_BROWSER = WIDGET + "/browser";
+    }
+
 }
