@@ -78,6 +78,8 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
     TransferBalanceAdapter mTransferBalanceAdapter;
     private AmountViewViewAdapter amountViewViewAdapter;
     private ArrayList<AmountVo> amountVoArrayList = new ArrayList<>();
+    private boolean isMax = false ;
+    private String maxInput ;
 
     private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
@@ -208,10 +210,11 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
             @Override
             public void callbackWithAmount(String txt) {
                 if (txt.equalsIgnoreCase("MAX")) {
-
+                    isMax = true;
                     String fromString = binding.tvwFrom.getText().toString().trim();
                     if (TextUtils.equals("中心钱包", fromString)) {
                         binding.edtAmount.setText(mBalanceVo.balance);
+                        maxInput = mBalanceVo.balance;
                     } else {
                         for (int i = 0; i < transGameBalanceList.size(); i++) {
                             if (TextUtils.equals(fromString, transGameBalanceList.get(i).gameName)) {
@@ -224,42 +227,16 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
                         }
                     }
                 } else {
+                    isMax = false ;
                     binding.edtAmount.setText(txt);
                 }
             }
         });
         binding.rgpAmount.setAdapter(amountViewViewAdapter);
 
-        /*binding.rgpAmount.setOnCheckedChangeListener((group, checkedId) -> {
-            RadioButton rdo = group.findViewById(checkedId);
-            if (rdo != null) {
-                String txt = rdo.getTag().toString();
-                if (txt.equalsIgnoreCase("MAX")) {
-
-                    String fromString = binding.tvwFrom.getText().toString().trim();
-                    if (TextUtils.equals("中心钱包", fromString)) {
-                        binding.edtAmount.setText(mBalanceVo.balance);
-                    } else {
-                        for (int i = 0; i < transGameBalanceList.size(); i++) {
-                            if (TextUtils.equals(fromString, transGameBalanceList.get(i).gameName)) {
-                                if (!TextUtils.equals("获取余额失败", transGameBalanceList.get(i).balance)) {
-                                    binding.edtAmount.setText(transGameBalanceList.get(i).balance);
-                                } else {
-                                    binding.edtAmount.setText("0");
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    binding.edtAmount.setText(txt);
-                }
-            }
-        });*/
-
         binding.ivwTransfer.setOnClickListener(v -> doTransfer());
 
         binding.edtAmount.addTextChangedListener(new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -271,6 +248,26 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
                 if (input.length() > 0) {
                     // 设置光标位置
                     binding.edtAmount.setSelection(input.length());
+                    if (TextUtils.equals(input, "100")){
+                        amountVoArrayList.get(0).flag = true;
+                        referAmountArray(amountVoArrayList.get(0) ,amountVoArrayList);
+                        amountViewViewAdapter.notifyDataSetChanged();
+                    } else if (TextUtils.equals(input ,"1000")) {
+                        amountVoArrayList.get(1).flag = true;
+                        referAmountArray(amountVoArrayList.get(1) ,amountVoArrayList);
+                        amountViewViewAdapter.notifyDataSetChanged();
+                    } else if (TextUtils.equals( input, "10000")) {
+                        amountVoArrayList.get(2).flag = true;
+                        referAmountArray(amountVoArrayList.get(2) ,amountVoArrayList);
+                        amountViewViewAdapter.notifyDataSetChanged();
+                    } else if (TextUtils.equals(input ,maxInput)) {
+                        amountVoArrayList.get(3).flag = true;
+                        referAmountArray(amountVoArrayList.get(3) ,amountVoArrayList);
+                        amountViewViewAdapter.notifyDataSetChanged();
+                    } else {
+                        referArray(amountVoArrayList);
+                        amountViewViewAdapter.notifyDataSetChanged();
+                    }
                 } else if (input == null || input.length() == 0) {
                     referArray(amountVoArrayList);
                     amountViewViewAdapter.notifyDataSetChanged();
@@ -696,7 +693,16 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
             arrayList.get(i).flag = false;
         }
     }
+    private void  referAmountArray(AmountVo vo ,ArrayList<AmountVo> arrayList){
+        for (int i = 0; i < arrayList.size(); i++) {
 
+            if (arrayList.get(i).amount.equals(vo.amount)) {
+                arrayList.get(i).flag = true;
+            } else {
+                arrayList.get(i).flag = false;
+            }
+        }
+    }
     private void initAmountList() {
         AmountVo vo1 = new AmountVo();
         vo1.amount = 100 + "";
