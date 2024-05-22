@@ -13,14 +13,15 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
+import com.xtree.base.vo.BaseBean;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.request.UploadExcetionReq;
 import com.xtree.bet.bean.response.HotLeagueInfo;
 import com.xtree.bet.bean.response.fb.HotLeague;
+import com.xtree.bet.bean.response.fb.MatchInfo;
 import com.xtree.bet.bean.ui.League;
 import com.xtree.bet.bean.ui.LeagueFb;
 import com.xtree.bet.bean.ui.LeaguePm;
@@ -99,6 +100,14 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     public List<League> mLeagueList = new ArrayList<>();
     public List<League> mGoingOnLeagueList = new ArrayList<>();
     public League mNoLiveheaderLeague;
+    /**
+     * 正在进行中的比赛
+     */
+    public List<BaseBean> mLiveMatchList = new ArrayList<>();
+    /**
+     * 未开始的比赛
+     */
+    public List<BaseBean> mNoliveMatchList = new ArrayList<>();
     public boolean mHasCache;
     public int mCurrentPage = 1;
     /**
@@ -118,12 +127,20 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         return mNoLiveheaderLeague;
     }
 
-    public List<League> getmLeagueList() {
+    public List<League> getLeagueList() {
         return mLeagueList;
     }
 
     public List<League> getGoingOnLeagueList() {
         return mGoingOnLeagueList;
+    }
+
+    public List<BaseBean> getLiveMatchList() {
+        return mLiveMatchList;
+    }
+
+    public List<BaseBean> getNoliveMatchList() {
+        return mNoliveMatchList;
     }
 
     public TemplateMainViewModel(@NonNull Application application, BetRepository model) {
@@ -261,7 +278,7 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
      *
      * @param league
      */
-    public void buildNoLiveHeaderLeague(League league, int noLiveMatchSize) {
+    /*public void buildNoLiveHeaderLeague(League league, int noLiveMatchSize) {
         if (!mGoingOnLeagueList.isEmpty() && mLeagueList.isEmpty()) {
             mLeagueList.addAll(mGoingOnLeagueList);
             mNoLiveheaderLeague = league;
@@ -283,17 +300,8 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
                 mLeagueList.add(mNoLiveheaderLeague);
             }
             mNoLiveMatch = false;
-        } /*else if(mCurrentPage == 1){
-            if (noLiveMatch) {
-                noLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_game_waiting));
-            } else {
-                noLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_all_league));
-            }
-            mLeagueList.add(noLiveheaderLeague);
-            CfLog.e("======noLiveheaderLeague == null========");
-            //noLiveMatch = false;
-        }*/
-    }
+        }
+    }*/
 
     /**
      * 新建进行中比赛种类头部信息，足球、篮球等
@@ -355,10 +363,6 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         } else {
             leagueNoLiveListData.postValue(leagueList);
         }
-        //CfLog.e("=========mHasCache=========" + mHasCache);
-        /*if(!mHasCache) {
-            CfLog.e("=========mHasCache=========" + mHasCache);
-        }*/
     }
 
     public void showChampionCache(String sportId, int playMethodType) {
@@ -370,8 +374,6 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
         List<Match> matchList = new Gson().fromJson(json, listType);
 
         championMatchListData.postValue(matchList);
-
-        CfLog.e("=========mHasCache=========" + mHasCache);
     }
 
 }

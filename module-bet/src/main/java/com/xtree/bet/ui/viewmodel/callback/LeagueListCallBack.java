@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.FBHttpCallBack;
+import com.xtree.base.vo.BaseBean;
 import com.xtree.bet.R;
 import com.xtree.bet.bean.request.UploadExcetionReq;
 import com.xtree.bet.bean.response.fb.MatchInfo;
@@ -31,7 +32,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
@@ -56,13 +56,21 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
      * 是否获取今日中未开赛比赛列表
      */
     private boolean mIsStepSecond;
-    private boolean mNoLiveMatch;
     private Map<String, League> mMapSportType = new HashMap<>();
     private List<League> mLeagueList = new ArrayList<>();
     private List<League> mGoingOnLeagueList = new ArrayList<>();
     private Map<String, League> mMapLeague = new HashMap<>();
     private Map<String, Match> mMapMatch = new HashMap<>();
     private List<Match> mMatchList = new ArrayList<>();
+    private String searchWord;
+    /**
+     * 正在进行中的比赛
+     */
+    private List<BaseBean> mLiveMatchList = new ArrayList<>();
+    /**
+     * 未开始的比赛
+     */
+    private List<BaseBean> mNoliveMatchList = new ArrayList<>();
     private League mNoLiveheaderLeague;
 
     public Map<String, League> getMapSportType() {
@@ -93,15 +101,25 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
         return mNoLiveheaderLeague;
     }
 
+    public List<BaseBean> getLiveMatchList() {
+        return mLiveMatchList;
+    }
+
+    public List<BaseBean> getNoliveMatchList() {
+        return mNoliveMatchList;
+    }
+
     public void saveLeague() {
         if (!mIsRefresh || mIsStepSecond) {
-            mLeagueList = mViewModel.getmLeagueList();
+            mLeagueList = mViewModel.getLeagueList();
             mGoingOnLeagueList = mViewModel.getGoingOnLeagueList();
             mMapLeague = mViewModel.getMapLeague();
             mMatchList = mViewModel.getMatchList();
             mMapMatch = mViewModel.getMapMatch();
             mMapSportType = mViewModel.getMapSportType();
             mNoLiveheaderLeague = mViewModel.getNoLiveheaderLeague();
+            mLiveMatchList = mViewModel.getLiveMatchList();
+            mNoliveMatchList = mViewModel.getNoliveMatchList();
         }
     }
 
@@ -179,11 +197,13 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
             if (mFinalType == 1) { // 滚球
                 if (mNeedSecondStep) {
                     mIsStepSecond = true;
+                    mLiveMatchList.addAll(matchListRsp.records);
                     leagueGoingList(matchListRsp.records);
                     mViewModel.saveLeague(this);
                     mViewModel.getLeagueList(mSportPos, mSportId, mOrderBy, mLeagueIds, mMatchids, 3, mSearchDatePos, mOddType, false, mIsRefresh, mIsStepSecond);
                 } else {
                     leagueAdapterList(matchListRsp.records);
+                    mNoliveMatchList.addAll(matchListRsp.records);
                     mViewModel.leagueLiveListData.postValue(mLeagueList);
                     if (mCurrentPage == 1) {
                         SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + mSearchDatePos + mSportId, new Gson().toJson(mLeagueList));
@@ -192,6 +212,7 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
                 }
             } else {
                 leagueAdapterList(matchListRsp.records);
+                mNoliveMatchList.addAll(matchListRsp.records);
                 mViewModel.leagueNoLiveListData.postValue(mLeagueList);
                 mViewModel.saveLeague(this);
                 if (mCurrentPage == 1) {
@@ -227,6 +248,51 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
                 mViewModel.getLeagueList(mSportPos, mSportId, mOrderBy, mLeagueIds, mMatchids, mPlayMethodType, mSearchDatePos, mOddType, mIsTimerRefresh, mIsRefresh, mIsStepSecond);
             }
         }
+    }
+
+    public void searchMatch(String searchWord){
+        mLeagueList.clear();
+        mMapLeague.clear();
+        mMapSportType.clear();
+        mNoLiveheaderLeague = null;
+        if(!TextUtils.isEmpty(searchWord)) {
+            if (!mLiveMatchList.isEmpty()) {
+                List<MatchInfo> matchInfoList = new ArrayList<>();
+                for (BaseBean matchInfo : mLiveMatchList) {
+                    MatchFb matchFb = new MatchFb((MatchInfo) matchInfo);
+                    if (matchFb.getLeague().getLeagueName().contains(searchWord) || matchFb.getTeamMain().contains(searchWord) || matchFb.getTeamVistor().contains(searchWord)) {
+                        matchInfoList.add((MatchInfo) matchInfo);
+                    }
+                }
+                leagueGoingList(matchInfoList);
+            }
+            if (!mNoliveMatchList.isEmpty()) {
+                List<MatchInfo> matchInfoList = new ArrayList<>();
+                for (BaseBean matchInfo : mNoliveMatchList) {
+                    MatchFb matchFb = new MatchFb((MatchInfo) matchInfo);
+                    if (matchFb.getLeague().getLeagueName().contains(searchWord) || matchFb.getTeamMain().contains(searchWord) || matchFb.getTeamVistor().contains(searchWord)) {
+                        matchInfoList.add((MatchInfo) matchInfo);
+                    }
+                }
+                leagueAdapterList(matchInfoList);
+            }
+        }else{
+            if(!mLiveMatchList.isEmpty()) {
+                List<MatchInfo> matchInfoList = new ArrayList<>();
+                for (BaseBean matchInfo : mLiveMatchList) {
+                    matchInfoList.add((MatchInfo) matchInfo);
+                }
+                leagueGoingList(matchInfoList);
+            }
+            if (!mNoliveMatchList.isEmpty()) {
+                List<MatchInfo> matchInfoList = new ArrayList<>();
+                for (BaseBean matchInfo : mNoliveMatchList) {
+                    matchInfoList.add((MatchInfo) matchInfo);
+                }
+                leagueAdapterList(matchInfoList);
+            }
+        }
+        mViewModel.leagueNoLiveListData.postValue(mLeagueList);
     }
 
     private void leagueGoingList(List<MatchInfo> matchInfoList) {
@@ -272,6 +338,45 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
     }
 
     /**
+     * @param matchInfoList
+     * @return
+     */
+    private void leagueAdapterList(List<MatchInfo> matchInfoList) {
+        int noLiveMatchSize = matchInfoList == null ? 0 : matchInfoList.size();
+        buildNoLiveHeaderLeague(new LeagueFb(), noLiveMatchSize);
+        Map<String, League> mapLeague = new HashMap<>();
+        for (MatchInfo matchInfo : matchInfoList) {
+            if (FBConstants.getPlayTypeId(String.valueOf(matchInfo.sid)) == null) {
+                continue;
+            }
+            Match match = new MatchFb(matchInfo);
+            buildNoLiveSportHeader(match, new LeagueFb());
+            League league = mMapLeague.get(String.valueOf(matchInfo.lg.id));
+            if (league == null) {
+                league = new LeagueFb(matchInfo.lg);
+                mapLeague.put(String.valueOf(matchInfo.lg.id), league);
+
+                mLeagueList.add(league);
+                mMapLeague.put(String.valueOf(matchInfo.lg.id), league);
+            }
+
+            league.getMatchList().add(match);
+
+            if (mMapMatch.get(String.valueOf(match.getId())) == null) {
+                mMapMatch.put(String.valueOf(match.getId()), match);
+                mMatchList.add(match);
+            } else {
+                int index = mMatchList.indexOf(mMapMatch.get(String.valueOf(match.getId())));
+                if (index > -1) {
+                    mMapMatch.put(String.valueOf(match.getId()), match);
+                    mMatchList.set(index, match);
+                }
+            }
+        }
+
+    }
+
+    /**
      * 新建进行中的联赛分类信息
      *
      * @param liveheaderLeague
@@ -310,16 +415,7 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
                 mLeagueList.add(mNoLiveheaderLeague);
             }
             mViewModel.mNoLiveMatch = false;
-        } /*else if(mCurrentPage == 1){
-            if (noLiveMatch) {
-                noLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_game_waiting));
-            } else {
-                noLiveheaderLeague.setLeagueName(Utils.getContext().getResources().getString(R.string.bt_all_league));
-            }
-            mLeagueList.add(noLiveheaderLeague);
-            CfLog.e("======noLiveheaderLeague == null========");
-            //noLiveMatch = false;
-        }*/
+        }
     }
 
     /**
@@ -366,45 +462,6 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
         } else {
             sportHeader.setMatchCount(1);
         }
-    }
-
-    /**
-     * @param matchInfoList
-     * @return
-     */
-    private void leagueAdapterList(List<MatchInfo> matchInfoList) {
-        int noLiveMatchSize = matchInfoList == null ? 0 : matchInfoList.size();
-        buildNoLiveHeaderLeague(new LeagueFb(), noLiveMatchSize);
-        Map<String, League> mapLeague = new HashMap<>();
-        for (MatchInfo matchInfo : matchInfoList) {
-            if (FBConstants.getPlayTypeId(String.valueOf(matchInfo.sid)) == null) {
-                continue;
-            }
-            Match match = new MatchFb(matchInfo);
-            buildNoLiveSportHeader(match, new LeagueFb());
-            League league = mMapLeague.get(String.valueOf(matchInfo.lg.id));
-            if (league == null) {
-                league = new LeagueFb(matchInfo.lg);
-                mapLeague.put(String.valueOf(matchInfo.lg.id), league);
-
-                mLeagueList.add(league);
-                mMapLeague.put(String.valueOf(matchInfo.lg.id), league);
-            }
-
-            league.getMatchList().add(match);
-
-            if (mMapMatch.get(String.valueOf(match.getId())) == null) {
-                mMapMatch.put(String.valueOf(match.getId()), match);
-                mMatchList.add(match);
-            } else {
-                int index = mMatchList.indexOf(mMapMatch.get(String.valueOf(match.getId())));
-                if (index > -1) {
-                    mMapMatch.put(String.valueOf(match.getId()), match);
-                    mMatchList.set(index, match);
-                }
-            }
-        }
-
     }
 
     /**

@@ -320,6 +320,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             public void onTabSelected(TabLayout.Tab tab) {
                 ((TextView) tab.getCustomView()).setTextSize(16);
                 if (playMethodPos != tab.getPosition()) {
+                    hideSearchView();
                     mIsChange = true;
                     mLeagueIdList.clear();
                     binding.srlLeague.resetNoMoreData();
@@ -376,6 +377,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (sportTypePos != tab.getPosition()) {
+                    hideSearchView();
                     binding.srlLeague.resetNoMoreData();
                     searchDatePos = 0;
                     mIsChange = true;
@@ -412,6 +414,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (searchDatePos != tab.getPosition()) {
+                    hideSearchView();
                     mLeagueList.clear();
                     mLeagueGoingOnList.clear();
                     binding.srlLeague.resetNoMoreData();
@@ -441,6 +444,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             public void onTabSelected(TabLayout.Tab tab) {
 
                 if (hotLeaguePos != tab.getPosition()) {
+                    hideSearchView();
                     hotLeaguePos = tab.getPosition();
                     mLeagueList.clear();
                     mLeagueGoingOnList.clear();
@@ -503,7 +507,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     @Override
                     public void run() {
                         String search = binding.edtGameSearch.getText().toString();
-                        searchGame(search);
+                        viewModel.searchMatch(search, playMethodPos == 4);
                     }
                 };
 
@@ -817,7 +821,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    refreshLeague();
+                    //refreshLeague();
                     viewModel.statistical(playMethodType);
                 });
         viewModel.addSubscribe(timerDisposable);
@@ -1645,9 +1649,18 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             binding.clGameSearch.setVisibility(View.VISIBLE);
             binding.clTab.setVisibility(View.GONE);
         } else if (id == R.id.tvw_cancel) {
-            binding.clGameSearch.setVisibility(View.GONE);
-            binding.clTab.setVisibility(View.VISIBLE);
+            hideSearchView();
+            viewModel.searchMatch(null, playMethodPos == 4);
         }
+    }
+
+    /**
+     * 隐藏搜索UI
+     */
+    private void hideSearchView() {
+        binding.clGameSearch.setVisibility(View.GONE);
+        binding.clTab.setVisibility(View.VISIBLE);
+        binding.edtGameSearch.setText("");
     }
 
     @Override
@@ -1662,9 +1675,5 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         mIsShowLoading = false;
         getMatchData(String.valueOf(getSportId()), mOrderBy, mLeagueIdList, null,
                 playMethodType, searchDatePos, false, false);
-    }
-
-    private void searchGame(String search) {
-
     }
 }

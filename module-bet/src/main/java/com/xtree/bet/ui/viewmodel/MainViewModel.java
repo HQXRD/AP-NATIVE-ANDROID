@@ -75,4 +75,5 @@ public interface MainViewModel {
      * @param leagueIds
      */
     void getHotMatchCount(int playMethodType, List<Long> leagueIds);
+    void searchMatch(String searchWord, boolean isChampion);
 }
