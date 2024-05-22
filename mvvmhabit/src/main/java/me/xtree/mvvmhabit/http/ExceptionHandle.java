@@ -12,7 +12,6 @@ import java.net.ConnectException;
 
 import retrofit2.HttpException;
 
-
 /**
  * Created by goldze on 2017/5/11.
  */
@@ -35,6 +34,7 @@ public class ExceptionHandle {
                     ex.message = "操作未授权";
                     break;
                 case FORBIDDEN:
+                    ex.code = FORBIDDEN;
                     ex.message = "抱歉，当前国家或地区不支持服务"; //"请求被拒绝";
                     break;
                 case NOT_FOUND:
@@ -80,18 +80,16 @@ public class ExceptionHandle {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR, true);
             ex.message = "主机地址未知";
             return ex;
-        }  else if (e instanceof NullPointerException) {
+        } else if (e instanceof NullPointerException) {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR, true);
             ex.message = "主机地址未知";
             return ex;
-        }
-        else {
+        } else {
             ex = new ResponseThrowable(e, ERROR.UNKNOWN);
             ex.message = "未知错误";
             return ex;
         }
     }
-
 
     /**
      * 约定异常

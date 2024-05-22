@@ -30,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.luck.picture.lib.basic.PictureSelector;
@@ -39,6 +40,7 @@ import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 import com.xtree.base.R;
 import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
@@ -58,6 +60,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  * 彩票: 带header, 隐藏标题头;
  * 三方链接: (三方游戏/H5充值) 不带header和token;
  */
+@Route(path = RouterActivityPath.Widget.PAGER_BROWSER)
 public class BrowserActivity extends AppCompatActivity {
     public static final String ARG_TITLE = "title";
     public static final String ARG_URL = "url";
