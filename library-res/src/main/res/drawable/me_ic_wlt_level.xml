@@ -22,6 +22,9 @@
         android:drawable="@mipmap/me_ic_wlt_obgdj"
         android:maxLevel="40" />
     <item
+        android:drawable="@mipmap/me_ic_wlt_wali"
+        android:maxLevel="80" />
+    <item
         android:drawable="@mipmap/me_ic_wlt_center"
         android:maxLevel="100" />
 </level-list>
