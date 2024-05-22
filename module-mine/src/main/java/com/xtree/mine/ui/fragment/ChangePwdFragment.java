@@ -79,6 +79,10 @@ public class ChangePwdFragment extends BaseFragment<FragmentChangePwdBinding, Ve
                 showError(getString(R.string.txt_chang_psw_input_format_error));
                 return;
             }
+            if (!isLetterDigit(pwd1) || !isLetterDigit(pwd2) ){
+                showError(getString(R.string.txt_chang_psw_input_format_error));
+                return;
+            }
 
             String public_key = SPUtils.getInstance().getString("public_key",
                     "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDW+Gv8Xmk+EdTLQUU5fEAzhlVuFrI7GN4a8N\\/B0Oe63ORK8oBE1pK+t5U5Iz89K4zf7nX+tqQvzND5Z57NMwyqTYYb3TMbrKgjqF1K2YW08OaubjpdohMnDIibmPXNtrbRZpOf2xIaApR+wpqGS+Xw0LzKA8JPYDOPO4lseAtqVwIDAQAB");
@@ -93,6 +97,10 @@ public class ChangePwdFragment extends BaseFragment<FragmentChangePwdBinding, Ve
             viewModel.changePwd(map);
         });
 
+    }
+    private static  boolean isLetterDigit(String str){
+        String regex = "^[a-zA-Z0-9]+$";
+        return str.matches(regex);
     }
 
     @Override
