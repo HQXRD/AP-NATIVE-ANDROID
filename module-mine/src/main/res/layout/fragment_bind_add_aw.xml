@@ -40,11 +40,69 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
+            android:id="@+id/ll_verify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/style_cm_tip_small_orange"
+                android:text="@string/txt_note_asterisks_cannot_empty" />
+
+            <TextView
+                android:id="@+id/tvw_old_name"
+                style="@style/style_bind_title"
+                android:text="@string/txt_verify_name" />
+
+            <EditText
+                android:id="@+id/edt_old_name"
+                style="@style/style_cm_edt"
+                android:hint="@string/txt_enter_account_name"
+                android:maxLength="16"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tvw_name_warning"
+                style="@style/style_cm_tip_small_grey"
+                android:text="@string/txt_enter_the_last_acc_name" />
+
+            <TextView
+                android:id="@+id/tvw_old_acc"
+                style="@style/style_bind_title"
+                android:text="@string/txt_verify_acc" />
+
+            <EditText
+                android:id="@+id/edt_old_acc"
+                style="@style/style_cm_edt"
+                android:hint="@string/txt_enter_bank_num"
+                android:imeOptions="actionDone"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tvw_acc_warning"
+                style="@style/style_cm_tip_small_grey"
+                android:text="@string/txt_enter_last_bank_card_num" />
+
+            <LinearLayout style="@style/style_cm_btn_ll">
+
+                <TextView
+                    android:id="@+id/tvw_old_back"
+                    style="@style/style_btn_back" />
+
+                <TextView
+                    android:id="@+id/tvw_old_submit"
+                    style="@style/style_btn" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/ll_add"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="visible">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 style="@style/style_cm_tip_small_orange"
@@ -70,13 +128,14 @@
                 android:id="@+id/et_phone"
                 style="@style/style_cm_edt"
                 android:hint="11位手机号码"
-                android:maxLength="30"
-                />
+                android:maxLength="30" />
+
             <TextView
                 android:id="@+id/tv_tip_account"
                 style="@style/style_cm_tip_small_orange"
-                android:text="微信绑定的账户格式"
-                android:textSize="@dimen/bt_text_12sp" />
+                android:textSize="@dimen/bt_text_12sp"
+                tools:text="微信绑定的账户格式" />
+
             <TextView
                 android:id="@+id/tv_nickname"
                 style="@style/style_bind_title"
@@ -155,11 +214,11 @@
                 android:id="@+id/ivw_next"
                 style="@style/style_btn"
                 android:layout_width="140dp"
-                android:textSize="@dimen/bt_text_16sp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:padding="8dp"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/txt_next_step" />
+                android:text="@string/txt_next_step"
+                android:textSize="@dimen/bt_text_16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -255,9 +314,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:orientation="vertical"
             android:visibility="gone"
-            tools:visibility="visible"
-            android:orientation="vertical">
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/iv_aw_icon"
@@ -267,20 +326,20 @@
             <TextView
                 android:id="@+id/tv_msg"
                 android:layout_width="wrap_content"
-                android:textSize="20sp"
-                tools:text="绑定微信成功"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:textStyle="bold"
                 android:textColor="@color/textColor"
-                android:layout_height="wrap_content" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="绑定微信成功" />
 
             <TextView
                 android:id="@+id/tvType"
                 style="@style/style_btn"
                 android:layout_width="140dp"
-                android:textSize="@dimen/bt_text_16sp"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
+                android:textSize="@dimen/bt_text_16sp"
                 tools:text="@string/txt_go_recharge" />
         </LinearLayout>
     </LinearLayout>
