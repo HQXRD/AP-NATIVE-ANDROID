@@ -48,6 +48,7 @@ public class RechargeOrderBankDialog extends BottomPopupView {
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         binding.tvwTitle.setText(mRechargePayVo.payname);
         binding.tvwMoney.setText(mRechargePayVo.money);
+        AppUtil.setTypeFaceDin(getContext(), binding.tvwMoney);
 
         String txt = mRechargePayVo.maxexpiretime + getContext().getString(R.string.txt_minutes); // xx分钟
         txt = "<font color=#EE5A5A> " + txt + " </font>"; // 加彩色

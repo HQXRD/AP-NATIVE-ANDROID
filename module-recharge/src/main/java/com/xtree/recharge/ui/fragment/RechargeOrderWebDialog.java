@@ -61,6 +61,7 @@ public class RechargeOrderWebDialog extends BottomPopupView {
         String key = mRechargePayVo.payname.replace(getContext().getString(R.string.txt_rc_kw_recharge), "");
         String tip = getContext().getString(R.string.txt_rc_only_x_card, key);
         binding.tvwTipChannel.setText(tip);
+        AppUtil.setTypeFaceDin(getContext(), binding.tvwMoney);
 
         String txt = mRechargePayVo.maxexpiretime + getContext().getString(R.string.txt_minutes); // xx分钟
         txt = "<font color=#EE5A5A> " + txt + " </font>"; // 加彩色
