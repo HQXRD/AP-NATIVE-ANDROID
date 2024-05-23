@@ -18,6 +18,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
@@ -45,6 +46,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.http.BusinessException;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterActivityPath.Mine.PAGER_LOGIN_REGISTER)
@@ -58,7 +60,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     private boolean mIsAcc = false;
     private boolean mIsPwd1 = false;
     private boolean mIsPwd2 = false;
-    private BasePopupView  verifyPopView;//认证PoPView
+    private BasePopupView verifyPopView;//认证PoPView
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -372,9 +374,15 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             //    ToastUtils.showLong(R.string.txt_pwd_should_same);
             //    return;
             //}
-
-            //验证输入参数
-            viewModel.register(account, pwd1);
+            final String code =
+                    SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE);
+            if (code == null) {
+                //验证输入参数
+                viewModel.register(account, pwd1, null);
+            } else {
+                //验证输入参数
+                viewModel.register(account, pwd1, code);
+            }
 
         });
 
@@ -503,33 +511,34 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     /**
      * 显示认证Dialog
+     *
      * @param vo
      */
-    private void showVerifyDialog(final BusinessException vo){
+    private void showVerifyDialog(final BusinessException vo) {
         String msg = getString(R.string.txt_ip_error_tip);
         final String title = getString(R.string.txt_kind_tips);
         verifyPopView = new XPopup.Builder(this)
                 .dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
                 .asCustom(new MsgDialog(this, title, msg, new MsgDialog.ICallBack() {
-            @Override
-            public void onClickLeft() {
-                verifyPopView.dismiss();
-            }
+                    @Override
+                    public void onClickLeft() {
+                        verifyPopView.dismiss();
+                    }
 
-            @Override
-            public void onClickRight() {
-                goSecurityVerify(vo);
-                verifyPopView.dismiss();
-            }
-        }));
+                    @Override
+                    public void onClickRight() {
+                        goSecurityVerify(vo);
+                        verifyPopView.dismiss();
+                    }
+                }));
         verifyPopView.show();
     }
 
     /**
      * 跳转安全验证
      */
-    private void  goSecurityVerify(final BusinessException vo){
+    private void goSecurityVerify(final BusinessException vo) {
         TagUtils.tagEvent(getBaseContext(), TagUtils.EVENT_LOGIN);
         String acc = binding.edtAccount.getText().toString().trim();
         HashMap<String, Object> map = (HashMap<String, Object>) vo.data;

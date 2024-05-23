@@ -121,13 +121,19 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         RetrofitClient.init();
     }
 
-    public void register(String userName, String pwd) {
+    public void register(String userName, String pwd ,String code) {
         HashMap<String, String> map = new HashMap();
         map.put("carryAuth", "false");
-        map.put("code", "");
+        if (code == null){
+            map.put("code", "");
+        }else {
+            map.put("code", code);
+        }
+
         map.put("nonce", UuidUtil.getID16());
         map.put("username", userName);
         map.put("userpass", pwd); // 明文
+
 
         Disposable disposable = (Disposable) model.getApiService().register(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
