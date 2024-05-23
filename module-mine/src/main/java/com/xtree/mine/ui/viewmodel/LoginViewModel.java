@@ -92,7 +92,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
 
                     @Override
                     public void onFail(BusinessException t) {
-                        super.onFail(t); // 弹提示
+                        //super.onFail(t); // 弹提示 (改成弹窗提示了)
                         KLog.e(t.toString());
 
                         if (t.code == HttpCallBack.CodeRule.CODE_20208) {
@@ -101,8 +101,8 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                             map2.put("data", t.data);
                             t.data = map2;
                             liveDataLoginFail.setValue(t);
-                        } else if (t.code == HttpCallBack.CodeRule.CODE_30018) {
-
+                        } else {
+                            super.onFail(t);
                         }
 
                     }
