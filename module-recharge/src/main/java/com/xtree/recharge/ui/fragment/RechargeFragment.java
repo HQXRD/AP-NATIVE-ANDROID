@@ -1,5 +1,6 @@
 package com.xtree.recharge.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -46,6 +47,8 @@ import com.xtree.recharge.vo.ProcessingDataVo;
 import com.xtree.recharge.vo.RechargePayVo;
 import com.xtree.recharge.vo.RechargeVo;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -62,6 +65,8 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 @Route(path = RouterFragmentPath.Recharge.PAGER_RECHARGE)
 public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, RechargeViewModel> {
 
+    private Method method;
+    private Object object;
     RechargeAdapter rechargeAdapter;
     AmountAdapter mAmountAdapter;
     double loadMin;
@@ -123,6 +128,20 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     @Override
     public void initView() {
         isShowBack = getArguments().getBoolean("isShowBack");
+
+        // 利用反射呼叫浮动弹窗
+        if (isShowBack) {
+            try {
+                Class myClass = Class.forName("com.xtree.home.ui.custom.view.CustomFloatWindows");
+                Constructor constructor = myClass.getConstructor(Context.class);
+                object = constructor.newInstance(getContext());
+                method = object.getClass().getMethod("show");
+                method.invoke(object);
+            } catch (Exception e) {
+                CfLog.e(e.getMessage());
+            }
+        }
+
         if (isShowBack) {
             binding.ivwBack.setVisibility(View.VISIBLE);
             binding.vTop.setVisibility(View.GONE);
@@ -823,6 +842,20 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             mProfileVo = vo;
         });
 
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        // 在结束后浮动弹窗被删除
+        if (isShowBack) {
+            try {
+                method = object.getClass().getMethod("removeView");
+                method.invoke(object);
+            } catch (Exception e) {
+                CfLog.e(e.getMessage());
+            }
+        }
     }
 
     @Override
