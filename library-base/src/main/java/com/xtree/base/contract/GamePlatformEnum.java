@@ -14,6 +14,7 @@ public enum GamePlatformEnum {
     DBEGAME("DB电竞", "obgdj"),
     YY("云游棋牌", "yy"),
     DB("DB棋牌", "obgqp"),
+    WALI("瓦力棋牌", "wali"),
     ;
 
     private String name;
@@ -40,6 +41,8 @@ public enum GamePlatformEnum {
                 return DB;
             case "lottery":
                 return CENTER;
+            case "wali":
+                return WALI;
             default:
                 return NULL;
         }
@@ -61,6 +64,8 @@ public enum GamePlatformEnum {
                 return DB;
             case "中心钱包":
                 return CENTER;
+            case "瓦力棋牌":
+                return WALI;
             default:
                 return null;
         }
