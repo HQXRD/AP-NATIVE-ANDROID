@@ -323,7 +323,7 @@
                             style="@style/style_cm_tip_small_orange"
                             android:layout_marginStart="18dp"
                             android:layout_marginTop="2dp"
-                            android:text="@string/txt_pwd_should_same"
+                            android:text="@string/txt_pwd_is_empty"
                             android:visibility="invisible"
                             tools:visibility="visible" />
 

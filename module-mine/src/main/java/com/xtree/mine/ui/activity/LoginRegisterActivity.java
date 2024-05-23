@@ -333,7 +333,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
             if (pwd2.isEmpty()) {
                 binding.tvwPwdCheckWarning.setVisibility(View.VISIBLE);
-                binding.tvwPwdCheckWarning.setText(R.string.txt_pwd_should_same);
+                binding.tvwPwdCheckWarning.setText(R.string.txt_pwd_is_empty);
                 mIsPwd2 = false;
             }
 
