@@ -101,6 +101,11 @@ public class ChooseInfoMoYuVo {
     public String okpaychanneluse_msg;
     public int bankchanneluse;
     public String bankchanneluse_msg;
+
+    public boolean bankcardstatus_onepayzfb;//支付宝标志位
+    public String onepayzfbchanneluse_msg;//支付宝提示语
+    public boolean bankcardstatus_onepaywx;//微信标志位
+    public String onepaywxchanneluse_msg;//微信提示语
     /*
     "usdtchanneluse":0,
     "usdtchanneluse_msg":"首次提款仅可使用银行卡方式提款！",

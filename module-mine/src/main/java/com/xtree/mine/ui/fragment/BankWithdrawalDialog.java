@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
@@ -39,6 +40,7 @@ import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.UuidUtil;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
@@ -94,6 +96,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     private BasePopupView ppw2;//绑卡
     private BasePopupView ppwError;//显示异常View
     private String checkCode;
+    private ProfileVo mProfileVo;
 
     public static BankWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo, BankWithdrawalClose bankClose) {
         BankWithdrawalDialog dialog = new BankWithdrawalDialog(context);
@@ -138,6 +141,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         initListener();
         initMoreListener();
 
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        mProfileVo = new Gson().fromJson(json, ProfileVo.class);
     }
 
     private void initView() {
@@ -563,11 +568,29 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      */
     private void refreshUserView(BankCardCashMoYuVo bankCardCashVo) {
         if (binding.nsSetWithdrawalRequest.getVisibility() == View.VISIBLE) {
-            binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.username);
+            if (bankCardCashVo.user != null) {
+                if (bankCardCashVo.user.username != null) {
+                    binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.username);
+                } else if (bankCardCashVo.user.nickname != null) {
+                    binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.nickname);
+                }
+            } else if (mProfileVo != null) {
+                final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
+                binding.bankWithdrawalView.tvUserNameShow.setText(name);
+            }
             binding.bankWithdrawalView.tvWithdrawalTypeShow.setText("银行卡");
             binding.bankWithdrawalView.tvWithdrawalAmountMethod.setText(bankCardCashVo.user.cafAvailableBalance);
         } else if (binding.nsSetWithdrawalRequestMore.getVisibility() == View.VISIBLE) {
-            binding.tvUserNameShowMore.setText(bankCardCashVo.user.username);
+            if (bankCardCashVo.user != null) {
+                if (bankCardCashVo.user.username != null) {
+                    binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.username);
+                } else if (bankCardCashVo.user.nickname != null) {
+                    binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.nickname);
+                }
+            } else if (mProfileVo != null) {
+                final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
+                binding.bankWithdrawalView.tvUserNameShow.setText(name);
+            }
             binding.tvWithdrawalTypeShowMore.setText("银行卡");
             binding.tvWithdrawalAmountMethodMore.setText(bankCardCashVo.user.cafAvailableBalance);
         }

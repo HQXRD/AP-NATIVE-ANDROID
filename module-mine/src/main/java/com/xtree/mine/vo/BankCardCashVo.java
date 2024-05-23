@@ -47,6 +47,7 @@ public class BankCardCashVo extends BaseResponse2 {
      * 用户信息  用户名【username】 提款类型 可提款金额【availablebalance】
      */
     public static class UserInfo {
+        public String nickname; //新增nickname字段
         public String userid;
         public String username;
         public double availablebalance;

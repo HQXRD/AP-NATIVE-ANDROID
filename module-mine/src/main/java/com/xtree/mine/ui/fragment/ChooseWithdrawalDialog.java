@@ -23,6 +23,7 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
@@ -41,6 +42,7 @@ import com.xtree.mine.vo.ChooseInfoVo;
 import java.util.ArrayList;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
@@ -70,6 +72,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     private ChooseInfoMoYuVo chooseInfoVo;
     private BasePopupView customPopWindow = null; // 公共弹窗 底部弹窗
     private BasePopupView bindCardPopWindow = null; // 绑定银行卡 底部弹窗
+    private BasePopupView otherWXPopupView = null;
+    private BasePopupView otherZFBPopupView = null;
     private BasePopupView loadingView = null;
     private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
     private FragmentActivity mActivity;
@@ -212,7 +216,6 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     public void onClick(String txt, ChooseInfoVo.ChannelInfo channelInfo) {
 
                         ChooseInfoVo.ChannelInfo channel = channelInfo;
-                        CfLog.i("ChooseAdapter channel = " + channel.toString());
                         if (channel.isBind == false) {
                             if (!TextUtils.isEmpty(channel.channeluseMessage) && !channel.isBind) {
                                 showBindDialog(channel, channel.channeluseMessage);
@@ -220,41 +223,18 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                                 showErrorDialog(channel.channeluseMessage);
                             }
                         } else if (channel.isBind && TextUtils.isEmpty(channel.channeluseMessage)) {
-                            if (TextUtils.equals("银行卡提款", txt)) {
+                            if (TextUtils.equals("银行卡提款", txt) || TextUtils.equals("hipaytx", channel.configkey)) {
                                 showBankWithdrawalDialog(channelInfo, checkCode);
+                            }else if (TextUtils.equals("onepaywx", channel.configkey) && TextUtils.equals("bindcardwx", channel.bindType)) {
+                                showOtherWXWithdrawalDialog(channelInfo);
+                            } else if (TextUtils.equals("onepayzfb", channel.configkey) && TextUtils.equals("bindcardzfb", channel.bindType)) {
+                                showOtherZFBWithdrawalDialog(channelInfo);
                             } else {
                                 showUSDTWithdrawalDialog(channelInfo, checkCode);
                             }
-                        } else if (channel.isBind &&!TextUtils.isEmpty(channel.channeluseMessage)) {
+                        } else if (channel.isBind && !TextUtils.isEmpty(channel.channeluseMessage)) {
                             showErrorDialog(channel.channeluseMessage);
                         }
-                  /*  if (channel.channeluse == 0)//显示弹窗
-                    {
-                        CfLog.e("channel.channeluse == 0");
-                        if (TextUtils.equals("bindcard", channel.bindType) && (channel.flag == false)) {
-                            CfLog.e("channel.channeluse == 0 bindcard = " + channel.channeluseMessage);
-                            showBankMessageDialog(channel, channel.channeluseMessage);
-                        } else if (channel.channeluseMessage.contains("首次提款仅可使用银行卡方式提款")) {
-                            showErrorDialog(channel.channeluseMessage);
-                        } else {
-                            showMessageDialog(channelInfo, channel.channeluseMessage);
-                        }
-
-                        CfLog.i("conClick" + channelInfo.channeluseMessage);
-
-                    } else {
-                        CfLog.e("channel.channeluse == 1");
-                        if (chooseInfoVo.bankchanneluse == 1 && TextUtils.equals("银行卡提款", txt)) {
-                            showBankWithdrawalDialog(channelInfo, checkCode);
-                        }
-                        //银行卡提现通打开，但点击的不是银行卡提款
-                        else if (chooseInfoVo.bankchanneluse == 1 && !TextUtils.equals("银行卡提款", txt)) {
-                            showUSDTWithdrawalDialog(channelInfo, checkCode);
-                        } else if (chooseInfoVo.bankchanneluse == 0) {
-                            //未绑定银行卡 显示绑定银行卡
-                            toBindCard();
-                        }
-                    }*/
                     }
 
                 });
@@ -384,6 +364,25 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     }
 
     /**
+     * 显示支付宝 微信提款方式
+     *
+     * @param info
+     */
+    private void showOtherWXWithdrawalDialog(final ChooseInfoVo.ChannelInfo info) {
+        if (otherWXPopupView == null) {
+            otherWXPopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(OtherWebWithdrawalDialog.newInstance(getContext(), owner, info));
+        }
+        otherWXPopupView.show();
+    }
+
+    private void showOtherZFBWithdrawalDialog(final ChooseInfoVo.ChannelInfo info) {
+        if (otherZFBPopupView == null) {
+            otherZFBPopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).asCustom(OtherWebWithdrawalDialog.newInstance(getContext(), owner, info));
+        }
+        otherZFBPopupView.show();
+    }
+
+    /**
      * 跳转银行卡提款页面
      */
     private void showBankWithdrawalDialog(ChooseInfoVo.ChannelInfo channelInfo, final String checkCode) {
@@ -408,16 +407,15 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 显示绑定Dialog
      */
     private void showBindDialog(ChooseInfoVo.ChannelInfo channelInfo, String showMessage) {
-        String errorMessage ="";
+        String errorMessage = "";
         String bindType = "";
-        if (showMessage.contains("尚未绑定银行卡")){
-             errorMessage = "请先绑定银行卡后才可提款";
-            bindType= getContext().getString(R.string.txt_bind_card_type);
-        }else if (showMessage.contains("首次提款仅可使用银行卡方式提款")){
+        if (showMessage.contains("尚未绑定银行卡")) {
+            errorMessage = "请先绑定银行卡后才可提款";
+            bindType = getContext().getString(R.string.txt_bind_card_type);
+        } else if (showMessage.contains("首次提款仅可使用银行卡方式提款")) {
             errorMessage = showMessage;
-            bindType= getContext().getString(R.string.txt_bind_card_type);
-        }
-        else {
+            bindType = getContext().getString(R.string.txt_bind_card_type);
+        } else {
             errorMessage = showMessage;
             bindType = channelInfo.bindType;
         }
@@ -435,6 +433,11 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         //跳转绑定流程
                         Bundle bundle = new Bundle();
                         bundle.putString("type", finalBindType);
+                        if (TextUtils.equals(finalBindType, getContext().getString(R.string.txt_bind_zfb_type))
+                                || TextUtils.equals(finalBindType, getContext().getString(R.string.txt_bind_wechat_type))) {
+                            // 绑定页面显示去提款按钮用
+                           // SPUtils.getInstance().put(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getContext().getString(R.string.txt_go_withdraw));
+                        }
 
                         String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
                         Intent intent = new Intent(getContext(), ContainerActivity.class);

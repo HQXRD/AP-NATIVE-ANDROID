@@ -19,17 +19,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.UuidUtil;
+import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
@@ -48,6 +51,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 import project.tqyb.com.library_res.databinding.ItemTextBinding;
@@ -77,6 +81,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
     private BasePopupView ppwError = null; // 底部弹窗 (显示错误信息)
 
     private String usdtid;//第二步传递的 提款地址ide id
+    private ProfileVo mProfileVo;
 
     public USDTWithdrawalDialog(@NonNull Context context) {
         super(context);
@@ -119,7 +124,8 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         initData();
         initViewObservable();
         requestData();
-
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        mProfileVo = new Gson().fromJson(json, ProfileVo.class);
     }
 
     private void initView() {
@@ -279,7 +285,18 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
 
         binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
-        binding.tvUserNameShow.setText(cashMoYuVo.user.username);
+        //binding.tvUserNameShow.setText(cashMoYuVo.user.username);
+        if (cashMoYuVo.user != null) {
+            if (cashMoYuVo.user.username != null) {
+                binding.tvUserNameShow.setText(cashMoYuVo.user.username);
+            } else if (cashMoYuVo.user.nickname != null) {
+                binding.tvUserNameShow.setText(cashMoYuVo.user.nickname);
+            }
+        } else if (mProfileVo != null) {
+            final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
+            binding.tvUserNameShow.setText(name);
+        }
+
         binding.tvWithdrawalTypeShow.setText(cashMoYuVo.usdtinfo.get(0).usdt_type);//提款类型
         String quota = cashMoYuVo.availablebalance;
 

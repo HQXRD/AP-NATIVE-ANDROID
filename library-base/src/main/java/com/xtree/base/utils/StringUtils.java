@@ -33,8 +33,7 @@ public class StringUtils {
         return initials;
     }
 
-    public static  boolean isInteger(String value)
-    {
+    public static boolean isInteger(String value) {
         try {
             Integer.parseInt(value);
             return true;
@@ -127,5 +126,17 @@ public class StringUtils {
             versionCode = pi.versionCode + "";
         }
         return versionCode;
+    }
+
+    public  static String splitWithdrawUserName(String  userName){
+
+        if (!userName.contains("@")){
+            return userName;
+        }else {
+            String firstName = userName.substring(0, userName.indexOf("@"));
+            CfLog.e("splitWithdrawUserName = " + firstName);
+            return firstName;
+        }
+
     }
 }

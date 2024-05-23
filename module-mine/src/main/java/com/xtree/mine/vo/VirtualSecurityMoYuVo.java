@@ -71,6 +71,7 @@ public class VirtualSecurityMoYuVo {
 
     public class  User
     {
+        public String nickname;
         public String userid ;
         public String username ;
         public String availablebalance ; //可提款金额

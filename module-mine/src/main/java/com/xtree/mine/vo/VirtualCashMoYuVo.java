@@ -101,6 +101,7 @@ public class VirtualCashMoYuVo extends BaseResponse2 {
     public User user;
 
     public class User {
+        public String nickname;
         public String userid;
         public String username;
         public String availablebalance; //可提款金额
