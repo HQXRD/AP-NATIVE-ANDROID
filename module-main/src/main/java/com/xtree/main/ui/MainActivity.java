@@ -16,7 +16,6 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
-import com.xtree.base.serive.AccessibilityUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClipboardUtil;
 import com.xtree.base.vo.EventVo;

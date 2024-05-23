@@ -147,6 +147,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         }
                         ToastUtils.showLong("注册成功");
                         vo.userName = userName;
+                        vo.userpass = pwd;
                         setLoginSucc(vo);
                         // 登录成功后获取FB体育请求服务地址
                         //getFBGameTokenApi();
