@@ -257,6 +257,8 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
     @Override
     public void searchMatch(String searchWord, boolean isChampion) {
+        mSearchWord = searchWord;
+        mIsChampion = isChampion;
         if(!isChampion) {
             if(mPmHttpCallBack != null) {
                 ((PMLeagueListCallBack) mPmHttpCallBack).searchMatch(searchWord);
@@ -530,6 +532,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                         if (isRefresh) {
                             mChampionMatchList.clear();
+                            mChampionMatchInfoList.clear();
                         }
 
                         getUC().getDismissDialogEvent().call();
@@ -547,8 +550,12 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                             }
                         }
                         mChampionMatchInfoList.addAll(matchListRsp.data);
-                        championLeagueList(matchListRsp.data);
-                        championMatchListData.postValue(mChampionMatchList);
+                        if (TextUtils.isEmpty(mSearchWord)) {
+                            championLeagueList(matchListRsp.data);
+                            championMatchListData.postValue(mChampionMatchList);
+                        }else {
+                            searchMatch(mSearchWord, true);
+                        }
                         if (mCurrentPage == 1) {
                             SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + playMethodType + sportId, new Gson().toJson(mChampionMatchList));
                         }

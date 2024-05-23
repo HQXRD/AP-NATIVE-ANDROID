@@ -118,6 +118,8 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
      * 当前选择的玩法
      */
     public int mPlayMethodType;
+    public String mSearchWord;
+    public boolean mIsChampion;
 
     public Map<String, League> getMapSportType() {
         return mMapSportType;
@@ -167,12 +169,12 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
 
     }
 
-    public void setHotLeagueList(String sportName){
-        if(TextUtils.equals("足球", sportName)){
+    public void setHotLeagueList(String sportName) {
+        if (TextUtils.equals("足球", sportName)) {
             leagueItemData.postValue(Constants.getHotFootBallLeagueTopList());
-        }else if(TextUtils.equals("篮球", sportName)){
+        } else if (TextUtils.equals("篮球", sportName)) {
             leagueItemData.postValue(Constants.getHotBasketBallLeagueTopList());
-        }else {
+        } else {
             leagueItemData.postValue(null);
         }
     }
@@ -350,30 +352,38 @@ public abstract class TemplateMainViewModel extends BaseBtViewModel implements M
     }
 
     public void showCache(String sportId, int playMethodType, int searchDatePos) {
-        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        String json = SPUtils.getInstance().getString(BT_LEAGUE_LIST_CACHE + playMethodType + searchDatePos + sportId);
-        mHasCache = !TextUtils.isEmpty(json);
-        json = TextUtils.isEmpty(json) ? "[]" : json;
-        Gson gson = new GsonBuilder().serializeNulls().registerTypeAdapter(Match.class, new MatchDeserializer()).create();
-        Type listType = TextUtils.equals(platform, PLATFORM_PM) ? new TypeToken<List<LeaguePm>>() { }.getType() : new TypeToken<List<LeagueFb>>() { }.getType();
-        List<League> leagueList = gson.fromJson(json, listType);
+        if (TextUtils.isEmpty(mSearchWord)) {
+            String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+            String json = SPUtils.getInstance().getString(BT_LEAGUE_LIST_CACHE + playMethodType + searchDatePos + sportId);
+            mHasCache = !TextUtils.isEmpty(json);
+            json = TextUtils.isEmpty(json) ? "[]" : json;
+            Gson gson = new GsonBuilder().serializeNulls().registerTypeAdapter(Match.class, new MatchDeserializer()).create();
+            Type listType = TextUtils.equals(platform, PLATFORM_PM) ? new TypeToken<List<LeaguePm>>() {
+            }.getType() : new TypeToken<List<LeagueFb>>() {
+            }.getType();
+            List<League> leagueList = gson.fromJson(json, listType);
 
-        if (playMethodType == 1) { // 滚球
-            leagueLiveListData.postValue(leagueList);
-        } else {
-            leagueNoLiveListData.postValue(leagueList);
+            if (playMethodType == 1) { // 滚球
+                leagueLiveListData.postValue(leagueList);
+            } else {
+                leagueNoLiveListData.postValue(leagueList);
+            }
         }
     }
 
     public void showChampionCache(String sportId, int playMethodType) {
-        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        String json = SPUtils.getInstance().getString(BT_LEAGUE_LIST_CACHE + playMethodType + sportId);
-        mHasCache = !TextUtils.isEmpty(json);
-        json = TextUtils.isEmpty(json) ? "[]" : json;
-        Type listType = TextUtils.equals(platform, PLATFORM_PM) ? new TypeToken<List<MatchPm>>() { }.getType() : new TypeToken<List<MatchFb>>() { }.getType();
-        List<Match> matchList = new Gson().fromJson(json, listType);
+        if (TextUtils.isEmpty(mSearchWord)) {
+            String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+            String json = SPUtils.getInstance().getString(BT_LEAGUE_LIST_CACHE + playMethodType + sportId);
+            mHasCache = !TextUtils.isEmpty(json);
+            json = TextUtils.isEmpty(json) ? "[]" : json;
+            Type listType = TextUtils.equals(platform, PLATFORM_PM) ? new TypeToken<List<MatchPm>>() {
+            }.getType() : new TypeToken<List<MatchFb>>() {
+            }.getType();
+            List<Match> matchList = new Gson().fromJson(json, listType);
 
-        championMatchListData.postValue(matchList);
+            championMatchListData.postValue(matchList);
+        }
     }
 
 }

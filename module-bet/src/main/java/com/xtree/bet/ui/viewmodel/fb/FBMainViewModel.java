@@ -298,6 +298,8 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     }
 
     public void searchMatch(String searchWord, boolean isChampion) {
+        mSearchWord = searchWord;
+        mIsChampion = isChampion;
         if(!isChampion) {
             mLeagueListCallBack.searchMatch(searchWord);
         }else {
@@ -384,6 +386,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         getUC().getDismissDialogEvent().call();
                         if (isRefresh) {
                             mChampionMatchList.clear();
+                            mChampionMatchInfoList.clear();
                             mChampionMatchMap.clear();
                             if (matchListRsp != null && mCurrentPage == matchListRsp.getPages()) {
                                 loadMoreWithNoMoreData();
@@ -398,8 +401,12 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                             }
                         }
                         mChampionMatchInfoList.addAll(matchListRsp.records);
-                        championLeagueList(matchListRsp.records);
-                        championMatchListData.postValue(mChampionMatchList);
+                        if (TextUtils.isEmpty(mSearchWord)) {
+                            championLeagueList(matchListRsp.records);
+                            championMatchListData.postValue(mChampionMatchList);
+                        }else {
+                            searchMatch(mSearchWord, true);
+                        }
                         if (mCurrentPage == 1) {
                             SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + playMethodType + sportId, new Gson().toJson(mChampionMatchList));
                         }
