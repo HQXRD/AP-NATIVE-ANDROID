@@ -54,6 +54,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
 
         /*网络异常关闭Dialog*/
         void closeDialogByError();
+
         void closeDialogByBind();
     }
 
@@ -71,7 +72,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     private BasePopupView loadingView = null;
 
     private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
-    private FragmentActivity mActivity ;
+    private FragmentActivity mActivity;
 
     @Override
     protected int getImplLayoutId() {
@@ -97,7 +98,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         return dialog;
     }
 
-    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose, final String checkCode , final FragmentActivity mActivity ) {
+    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose, final String checkCode, final FragmentActivity mActivity) {
         ChooseWithdrawalDialog dialog = new ChooseWithdrawalDialog(context);
 
         dialog.context = context;
@@ -105,7 +106,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         dialog.callBack = callBack;
         dialog.bankWithdrawalClose = bankWithdrawalClose;
         dialog.checkCode = checkCode;
-        dialog.mActivity = mActivity ;
+        dialog.mActivity = mActivity;
         return dialog;
     }
 
@@ -223,35 +224,9 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         } else {
                             showUSDTWithdrawalDialog(channelInfo, checkCode);
                         }
-                    } else if (channel.isBind &&!TextUtils.isEmpty(channel.channeluseMessage)) {
+                    } else if (channel.isBind && !TextUtils.isEmpty(channel.channeluseMessage)) {
                         showErrorDialog(channel.channeluseMessage);
                     }
-                  /*  if (channel.channeluse == 0)//显示弹窗
-                    {
-
-                        if (TextUtils.equals("bindcard", channel.bindType) && (channel.flag == false)) {
-                            showBankMessageDialog(channel, channel.channeluseMessage);
-                        } else if (channel.channeluseMessage.contains("首次提款仅可使用银行卡方式提款")) {
-                            showErrorDialog(channel.channeluseMessage);
-                        } else {
-                            showMessageDialog(channelInfo, channel.channeluseMessage);
-                        }
-
-                        CfLog.i("conClick" + channelInfo.channeluseMessage);
-
-                    } else {
-
-                        if (chooseInfoVo.bankchanneluse == 1 && TextUtils.equals("银行卡提款", txt)) {
-                            showBankWithdrawalDialog(channelInfo, checkCode);
-                        }
-                        //银行卡提现通打开，但点击的不是银行卡提款
-                        else if (chooseInfoVo.bankchanneluse == 1 && !TextUtils.equals("银行卡提款", txt)) {
-                            showUSDTWithdrawalDialog(channelInfo, checkCode);
-                        } else if (chooseInfoVo.bankchanneluse == 0) {
-                            //未绑定银行卡 显示绑定银行卡
-                            toBindCard();
-                        }
-                    }*/
                 }
 
             });
@@ -267,11 +242,11 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 getContext().startActivity(intent);
             });
             String tip = "";
-            if (!chooseInfoVo.bankcardstatus_usdt  && !chooseInfoVo.bankcardstatus_ebpay){
+            if (!chooseInfoVo.bankcardstatus_usdt && !chooseInfoVo.bankcardstatus_ebpay) {
                 tip =
                         String.format(getContext().getString(R.string.txt_choose_withdrawal_nobind_tip),
                                 StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))));
-            }else {
+            } else {
                 tip =
                         String.format(getContext().getString(R.string.txt_choose_withdrawal_tip),
                                 StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))), chooseInfoVo.usdtInfo.quota);
@@ -424,18 +399,19 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         customPopWindow.show();
     }
 
-    /**显示绑卡*/
+    /**
+     * 显示绑卡
+     */
     private void showBindDialog(ChooseInfoVo.ChannelInfo channelInfo, String showMessage) {
-        String errorMessage ="";
+        String errorMessage = "";
         String bindType = "";
-        if (showMessage.contains("尚未绑定银行卡")){
+        if (showMessage.contains("尚未绑定银行卡")) {
             errorMessage = "请先绑定银行卡后才可提款";
-            bindType= getContext().getString(R.string.txt_bind_card_type);
-        }else if (showMessage.contains("首次提款仅可使用银行卡方式提款")){
+            bindType = getContext().getString(R.string.txt_bind_card_type);
+        } else if (showMessage.contains("首次提款仅可使用银行卡方式提款")) {
             errorMessage = showMessage;
-            bindType= getContext().getString(R.string.txt_bind_card_type);
-        }
-        else {
+            bindType = getContext().getString(R.string.txt_bind_card_type);
+        } else {
             errorMessage = showMessage;
             bindType = channelInfo.bindType;
         }
