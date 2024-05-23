@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.google.gson.Gson
 import com.luck.picture.lib.basic.PictureSelector
 import com.luck.picture.lib.config.PictureMimeType
 import com.luck.picture.lib.config.SelectMimeType
@@ -22,6 +23,7 @@ import com.xtree.base.utils.AppUtil
 import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.ImageUploadUtil
 import com.xtree.base.utils.UuidUtil
+import com.xtree.base.vo.ProfileVo
 import com.xtree.base.widget.GlideEngine
 import com.xtree.base.widget.ImageFileCompressEngine
 import com.xtree.base.widget.LoadingDialog
@@ -59,6 +61,8 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
     private var imageSelector = false //是否已选择图片
     private var imageUri: Uri? = null
     private var typeName = ""
+    var mProfileVo: ProfileVo? = null
+    var digitCount = 0
 
     companion object {
         private const val ARG_TOKEN_SIGN = "tokenSign"
@@ -90,6 +94,28 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         binding.tvPaymentCode.setOnClickListener {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_AW_TIP, arguments)
         }
+
+        val json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE)
+        mProfileVo = Gson().fromJson(json, ProfileVo::class.java)
+        if (mProfileVo != null && digitCount > 0) {
+            binding.llVerify.visibility = View.VISIBLE
+            binding.llAdd.visibility = View.GONE
+            binding.llConfirm.visibility = View.GONE
+            binding.tvwOldName.visibility = View.GONE
+            binding.edtOldName.visibility = View.GONE
+            binding.tvwNameWarning.visibility = View.GONE
+            binding.tvwOldAcc.text = resources.getText(R.string.txt_verify_addr)
+            binding.edtOldAcc.inputType = InputType.TYPE_CLASS_TEXT
+            binding.edtOldAcc.hint = resources.getText(R.string.txt_enter_wallet_addr)
+            binding.tvwAccWarning.visibility = View.GONE
+            binding.tvwAccWarning.hint = resources.getText(R.string.txt_verify_addr_warning)
+        } else {
+            binding.llVerify.visibility = View.VISIBLE
+            binding.llAdd.visibility = View.GONE
+            binding.llConfirm.visibility = View.GONE
+        }
+        binding.tvwOldBack.setOnClickListener { requireActivity().finish() }
+        binding.tvwOldSubmit.setOnClickListener { doVerify() }
     }
 
     private fun initArguments() {
@@ -97,6 +123,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
             tokenSign = requireArguments().getString(ARG_TOKEN_SIGN)
             mark = requireArguments().getString(ARG_MARK)
             accountName = requireArguments().getString("accountName")
+            digitCount = requireArguments().getInt("digitCount", 0)
             if (!accountName.isNullOrEmpty()) {
                 binding.etName.setText(accountName)
                 binding.etName.isEnabled = false
@@ -167,12 +194,12 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         }
         viewModel.liveDataBindAWResult.observe(this) { vo: UserBankConfirmVo ->
             CfLog.i("******")
+            viewModel.getProfile()
             binding.layoutRecharge.visibility = View.VISIBLE
             binding.llConfirm.visibility = View.GONE
             val type = SPUtils.getInstance().getString(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getString(R.string.txt_go_recharge))
             binding.tvType.text = type
             binding.tvType.setOnClickListener {
-                viewModel.getProfile()
                 when (type) {
                     getString(R.string.txt_go_recharge) -> {
                         val bundle = Bundle()
@@ -190,6 +217,15 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                 }
             }
         }
+
+        viewModel.liveDataVerify.observe(this) { isSuccess: Boolean ->
+            CfLog.i("******")
+            if (isSuccess) {
+                binding.llVerify.visibility = View.GONE
+                binding.llAdd.visibility = View.VISIBLE
+                binding.llConfirm.visibility = View.GONE
+            }
+        }
     }
 
     private fun setConfirmView() {
@@ -200,6 +236,39 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
         binding.tvwNicknameContent.text = nickName
         val bitmap = BitmapFactory.decodeFile(imageRealPathString)
         binding.ivCode.setImageBitmap(bitmap)
+    }
+
+    private fun doVerify() {
+        val account = binding.edtOldAcc.text.toString().trim()
+        val account_name = binding.edtOldName.text.toString().trim()
+        if (mProfileVo!!.binding_usdt_info != null && digitCount > 0) {
+            if (account.isEmpty()) {
+                ToastUtils.showLong(R.string.txt_enter_verify_wallet_addr)
+                return
+            }
+        }
+        if (account.isEmpty()) {
+            ToastUtils.showLong(R.string.txt_enter_bank_num)
+            return
+        }
+        if (account_name.isEmpty() && digitCount == 0) {
+            ToastUtils.showLong(R.string.txt_enter_account_name)
+            return
+        }
+        val qMap = HashMap<String, Any>()
+        qMap["client"] = "m"
+        qMap["1"] = 1
+        val map = java.util.HashMap<String, Any?>()
+        map["account"] = account
+        if (mProfileVo != null && digitCount > 0) {
+            map["account_name"] = ""
+            map["is_digital"] = "1"
+        } else {
+            map["account_name"] = account_name
+            map["is_digital"] = "0"
+        }
+        map["nonce"] = UuidUtil.getID16()
+        viewModel.doVerify(qMap, map)
     }
 
     private fun doNext() {

@@ -157,6 +157,8 @@ class BindAlipayWechatFragment : BaseFragment<FragmentBindAwBinding, BindCardVie
                 bundle.putString("mark", mark)
                 bundle.putString("tokenSign", tokenSign)
                 bundle.putString("accountName", vo.accountname)
+                bundle.putInt("digitCount", vo.my_bind_counts.digit_count)
+
                 startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_AW_ADD, bundle)
             }
             // 如果是列表为空的情况,跳到增加页,并关闭当前页(关闭是因为有时会提示最多只能绑定0张卡,或者死循环)

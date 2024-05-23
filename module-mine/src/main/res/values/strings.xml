@@ -167,7 +167,7 @@
     <string name="txt_enter_wallet_old_addr">请输入旧的钱包地址</string>
     <string name="txt_verify_name">*上次绑定银行卡开户名</string>
     <string name="txt_verify_acc">*上次绑定银行卡号</string>
-    <string name="txt_verify_addr">*上次绑定錢包地址</string>
+    <string name="txt_verify_addr">*上次绑定钱包地址</string>
     <string name="txt_verify_addr_warning">请输入最新绑定钱包地址</string>
     <string name="txt_enter_verify_wallet_addr">请输入上次绑定的钱包地址</string>
 
