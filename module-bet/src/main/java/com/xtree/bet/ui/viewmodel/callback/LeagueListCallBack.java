@@ -238,6 +238,7 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
 
     @Override
     public void onError(Throwable t) {
+        mViewModel.getUC().getDismissDialogEvent().call();
         if (t instanceof ResponseThrowable) {
             if(((ResponseThrowable) t).isHttpError){
                 UploadExcetionReq uploadExcetionReq = new UploadExcetionReq();

@@ -564,6 +564,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onError(Throwable t) {
+                        getUC().getDismissDialogEvent().call();
                         if (t instanceof ResponseThrowable) {
                             ResponseThrowable error = (ResponseThrowable) t;
                             if (error.code == CODE_401026 || error.code == CODE_401013) {

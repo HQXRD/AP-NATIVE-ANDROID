@@ -153,6 +153,7 @@ public class PMListCallBack extends PMHttpCallBack<List<MatchInfo>> {
 
     @Override
     public void onError(Throwable t) {
+        mViewModel.getUC().getDismissDialogEvent().call();
         if (!mIsTimerRefresh) {
             if (t instanceof ResponseThrowable) {
                 ResponseThrowable error = (ResponseThrowable) t;

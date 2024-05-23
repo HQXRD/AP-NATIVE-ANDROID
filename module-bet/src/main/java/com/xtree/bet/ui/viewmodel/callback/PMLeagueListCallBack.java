@@ -180,6 +180,7 @@ public class PMLeagueListCallBack extends PMHttpCallBack<MatchListRsp> {
 
     @Override
     public void onError(Throwable t) {
+        mViewModel.getUC().getDismissDialogEvent().call();
         if (t instanceof ResponseThrowable) {
             ResponseThrowable error = (ResponseThrowable) t;
             if (error.isHttpError) {

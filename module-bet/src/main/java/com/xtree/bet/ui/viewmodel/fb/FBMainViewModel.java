@@ -415,6 +415,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onError(Throwable t) {
+                        getUC().getDismissDialogEvent().call();
                         if (t instanceof ResponseThrowable) {
                             if (((ResponseThrowable) t).code == CODE_14010) {
                                 getGameTokenApi();
