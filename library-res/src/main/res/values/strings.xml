@@ -327,4 +327,8 @@
     <string name="txt_read_photo_permissions">未获得读取文件权限,请您设置通过相关权限</string>
 
     <string name="txt_precautions">注意事项</string>
+
+    <string name="txt_withdrawal">提款</string>
+    <string name="txt_no_withdrawals_available_tip">您今天已没有可用提款次数</string>
+
 </resources>

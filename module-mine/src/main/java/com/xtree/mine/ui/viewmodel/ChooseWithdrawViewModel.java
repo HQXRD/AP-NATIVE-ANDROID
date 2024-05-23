@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.StringUtils;
 import com.xtree.mine.R;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.AwardsRecordVo;
@@ -17,6 +18,7 @@ import com.xtree.mine.vo.ChooseInfoMoYuVo;
 import com.xtree.mine.vo.ChooseInfoVo;
 import com.xtree.mine.vo.FundPassWordVerifyVo;
 import com.xtree.mine.vo.FundPassWordVo;
+import com.xtree.mine.vo.OtherWebWithdrawVo;
 import com.xtree.mine.vo.PlatWithdrawConfirmMoYuVo;
 import com.xtree.mine.vo.PlatWithdrawConfirmVo;
 import com.xtree.mine.vo.PlatWithdrawMoYuVo;
@@ -73,6 +75,8 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<VirtualSecurityMoYuVo> virtualSecurityMoYuVoMutableLiveData = new MutableLiveData<>();//魔域 虚拟币 确认提款信息
     public MutableLiveData<VirtualConfirmMoYuVo> virtualConfirmMuYuVoMutableLiveData = new MutableLiveData<>();//魔域  虚拟币完成提款申请
 
+    public MutableLiveData<OtherWebWithdrawVo> otherWebWithdrawVoMutableLiveData = new MutableLiveData<>();//微信、支付宝提款
+
     public ChooseWithdrawViewModel(@NonNull Application application) {
         super(application);
     }
@@ -100,7 +104,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                             for (int i = 0; i < chooseInfoVo.wdChannelList.size(); i++) {
                                 if (chooseInfoVo.wdChannelList.get(i).configkey.contains("usdt")
                                         || chooseInfoVo.wdChannelList.get(i).title.contains("USDT提款")) {
-                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_gcnyt_type);
+                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_usdt_type);
                                     chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.usdtchanneluse_msg;
                                     if (chooseInfoVo.bankcardstatus_usdt) {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 1;
@@ -360,6 +364,28 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                                         chooseInfoVo.wdChannelList.get(i).channeluse = 0;
                                         chooseInfoVo.wdChannelList.get(i).isBind = false;
                                     }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("onepayzfb")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("极速支付宝提款")) {
+                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_zfb_type);
+                                    chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.onepayzfbchanneluse_msg;
+                                    if (chooseInfoVo.bankcardstatus_onepayzfb) {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 1;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
+                                } else if (chooseInfoVo.wdChannelList.get(i).configkey.contains("onepaywx")
+                                        || chooseInfoVo.wdChannelList.get(i).title.contains("极速微信提款")) {
+                                    chooseInfoVo.wdChannelList.get(i).bindType = getApplication().getString(R.string.txt_bind_wechat_type);
+                                    chooseInfoVo.wdChannelList.get(i).channeluseMessage = chooseInfoVo.onepaywxchanneluse_msg;
+                                    if (chooseInfoVo.bankcardstatus_onepaywx) {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 1;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = true;
+                                    } else {
+                                        chooseInfoVo.wdChannelList.get(i).channeluse = 0;
+                                        chooseInfoVo.wdChannelList.get(i).isBind = false;
+                                    }
                                 }
                             }
                             chooseInfoMoYuVoMutableLiveData.setValue(chooseInfoVo);
@@ -468,6 +494,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                                 } else {
                                     bankCardCashVo.channel_list.get(i).isWebView = 2;//需要展示webView页面
                                 }
+
                                 //isShowErrorView
                           /*  if (TextUtils.isEmpty(bankCardCashVo.channel_list.get(i).thiriframe_msg))
                             {
@@ -478,6 +505,14 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                                 bankCardCashVo.channel_list.get(i).isShowErrorView = 0;
                             }
 */
+                            }
+                            if (bankCardCashVo.user != null) {
+                                if (bankCardCashVo.user.username != null) {
+                                    bankCardCashVo.user.username = StringUtils.splitWithdrawUserName(bankCardCashVo.user.username);
+                                } else if (bankCardCashVo.user.nickname != null) {
+                                    bankCardCashVo.user.nickname = StringUtils.splitWithdrawUserName(bankCardCashVo.user.nickname);
+                                }
+
                             }
                             bankCardCashMoYuVoMutableLiveData.setValue(bankCardCashVo);
                         } else if (!TextUtils.isEmpty(bankCardCashVo.ur_here) && bankCardCashVo.ur_here.equals("资金密码检查")) {
@@ -518,6 +553,11 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<PlatWithdrawMoYuVo>() {
                     @Override
                     public void onResult(PlatWithdrawMoYuVo platWithdrawVo) {
+                        if (platWithdrawVo.user != null) {
+                            if (platWithdrawVo.user.username != null) {
+                                platWithdrawVo.user.username = StringUtils.splitWithdrawUserName(platWithdrawVo.user.username);
+                            }
+                        }
 
                         platWithdrawMoYuVoMutableLiveData.setValue(platWithdrawVo);
                     }
@@ -584,6 +624,14 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<USDTCashMoYuVo>() {
                     @Override
                     public void onResult(USDTCashMoYuVo usdtCashVo) {
+                        if (usdtCashVo.user != null) {
+                            if (usdtCashVo.user.username != null) {
+                                usdtCashVo.user.username = StringUtils.splitWithdrawUserName(usdtCashVo.user.username);
+                            } else if (usdtCashVo.user.nickname != null) {
+                                usdtCashVo.user.nickname = StringUtils.splitWithdrawUserName(usdtCashVo.user.nickname);
+                            }
+                        }
+
                         usdtCashMoYuVoMutableLiveData.setValue(usdtCashVo);
                     }
                 });
@@ -616,6 +664,13 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<USDTSecurityMoYuVo>() {
                     @Override
                     public void onResult(USDTSecurityMoYuVo usdtSecurityVo) {
+                        if (usdtSecurityVo.user != null) {
+                            if (usdtSecurityVo.user.username != null) {
+                                usdtSecurityVo.user.username = StringUtils.splitWithdrawUserName(usdtSecurityVo.user.username);
+                            } else if (usdtSecurityVo.user.nickname != null) {
+                                usdtSecurityVo.user.nickname = StringUtils.splitWithdrawUserName(usdtSecurityVo.user.nickname);
+                            }
+                        }
                         usdtSecurityMoYuVoMutableLiveData.setValue(usdtSecurityVo);
                     }
                 });
@@ -680,6 +735,13 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<VirtualCashMoYuVo>() {
                     @Override
                     public void onResult(VirtualCashMoYuVo virtualCashVo) {
+                        if (virtualCashVo.user != null) {
+                            if (virtualCashVo.user.username != null) {
+                                virtualCashVo.user.username = StringUtils.splitWithdrawUserName(virtualCashVo.user.username);
+                            } else if (virtualCashVo.user.nickname != null) {
+                                virtualCashVo.user.nickname = StringUtils.splitWithdrawUserName(virtualCashVo.user.nickname);
+                            }
+                        }
                         virtualCashMoYuVoMutableLiveData.setValue(virtualCashVo);
                     }
                 });
@@ -712,6 +774,13 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 .subscribeWith(new HttpCallBack<VirtualSecurityMoYuVo>() {
                     @Override
                     public void onResult(VirtualSecurityMoYuVo virtualSecurityVo) {
+                        if(virtualSecurityVo.user != null) {
+                            if (virtualSecurityVo.user.username != null) {
+                                virtualSecurityVo.user.username = StringUtils.splitWithdrawUserName(virtualSecurityVo.user.username);
+                            } else if (virtualSecurityVo.user.nickname != null) {
+                                virtualSecurityVo.user.nickname = StringUtils.splitWithdrawUserName(virtualSecurityVo.user.nickname);
+                            }
+                        }
                         virtualSecurityMoYuVoMutableLiveData.setValue(virtualSecurityVo);
                     }
                 });
@@ -827,5 +896,47 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                 });
         addSubscribe(disposable);
     }
+    /*获取其他提款方式*/
+    public void getWithdrawOther(final String type) {
+        Disposable disposable = (Disposable) model.getApiService().getChooseWithdrawOther(type)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<OtherWebWithdrawVo>() {
+                    @Override
+                    public void onResult(OtherWebWithdrawVo vo) {
+                        CfLog.e("getWithdrawOther =  " + vo.toString());
+                        if (vo != null) {
+                            otherWebWithdrawVoMutableLiveData.setValue(vo);
+                        }
+                    }
 
+                    //增加网络异常抓取
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);  ex.message = "连接超时";
+                        Throwable throwable = t;
+                        String message = throwable.getMessage();
+                        CfLog.e("onError message =  " + message);
+                        AwardsRecordVo awardrecordVo = new AwardsRecordVo();
+                        //链接超时
+                        awardrecordVo.networkStatus = 1; //链接超时
+                        awardrecordVoMutableLiveData.setValue(awardrecordVo);
+
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        // super.onFail(t);
+                        String message = t.getMessage();
+                        CfLog.e("onError message =  " + message);
+                        AwardsRecordVo awardrecordVo = new AwardsRecordVo();
+                        //链接超时
+                        awardrecordVo.networkStatus = 1; //链接超时
+                        awardrecordVoMutableLiveData.setValue(awardrecordVo);
+                    }
+
+                });
+        addSubscribe(disposable);
+
+    }
 }

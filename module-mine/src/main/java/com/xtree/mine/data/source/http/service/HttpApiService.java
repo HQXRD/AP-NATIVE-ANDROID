@@ -35,6 +35,7 @@ import com.xtree.mine.vo.MsgInfoVo;
 import com.xtree.mine.vo.MsgListVo;
 import com.xtree.mine.vo.MsgPersonInfoVo;
 import com.xtree.mine.vo.MsgPersonListVo;
+import com.xtree.mine.vo.OtherWebWithdrawVo;
 import com.xtree.mine.vo.PlatWithdrawConfirmMoYuVo;
 import com.xtree.mine.vo.PlatWithdrawConfirmVo;
 import com.xtree.mine.vo.PlatWithdrawMoYuVo;
@@ -740,4 +741,10 @@ public interface HttpApiService {
     @POST("/api/user/verifylastbind?")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<Map<String, String>> verifyAcc(@QueryMap Map<String, Object> qMap, @Body Map<String, Object> map);
+
+    /**
+     * other提款 微信支付宝
+     */
+    @GET("/security/platwithdraw?1=1&client=m")
+    Flowable<OtherWebWithdrawVo> getChooseWithdrawOther(@Query("usdt_type") String key);
 }
