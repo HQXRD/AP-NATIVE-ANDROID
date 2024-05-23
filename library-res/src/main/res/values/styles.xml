@@ -81,6 +81,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
         <item name="android:layout_marginTop">@dimen/layout_margin</item>
         <item name="android:textColor">@color/clr_txt_black_01</item>
         <item name="android:textSize">17sp</item>
@@ -256,6 +257,7 @@
         <item name="android:textColor">@color/clr_purple_05</item>
         <item name="android:textSize">12sp</item>
     </style>
+
     <!-- 充值页-底部 提示小字 灰色 -->
     <style name="style_rc_tip_small_grey" parent="style_cm_tip_small_grey">
         <item name="android:textColor">@color/clr_grey_40</item>
@@ -273,6 +275,73 @@
     </style>
 
     <!-- 充值页 弹窗 -->
+    <style name="style_rc_dlg_root">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/clr_transparent</item>
+    </style>
+
+    <style name="style_rc_dlg_bg_top">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:src">@mipmap/bg_google_auth</item>
+    </style>
+
+    <style name="style_rc_dlg_bg_top2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginTop">-2dp</item>
+        <item name="android:scaleType">fitStart</item>
+        <item name="android:src">@color/clr_white</item>
+    </style>
+
+    <style name="style_rc_dlg_bg_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:src">@mipmap/bg_dlg_top</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="style_rc_dlg_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_white</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="style_rc_dlg_close">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:src">@mipmap/ic_pop_close3</item>
+    </style>
+
+    <style name="style_rc_dlg_cs">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:src">@mipmap/cm_ic_cs3</item>
+    </style>
+
+    <style name="style_rc_dlg_money">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">48sp</item>
+    </style>
+
+    <style name="style_rc_dlg_hourglass">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@mipmap/cm_ic_hourglass</item>
+    </style>
+
     <style name="style_rc_dlg_ll">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -308,6 +377,22 @@
         <item name="android:gravity">end</item>
         <item name="android:textColor">@color/clr_purple_12</item>
         <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_rc_exp_bank_top">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">24dp</item>
+    </style>
+
+    <style name="style_rc_exp_bank_info_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:textColor">@color/clr_black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <!-- 通用 标题 样式 -->
@@ -422,6 +507,22 @@
         <item name="android:text"></item>
         <item name="android:textColor">@color/clr_purple_02</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="style_cm_tip_small_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_txt_black_03</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_cm_tip_small_title_warn" parent="style_cm_tip_small_title">
+        <item name="android:drawableStart">@mipmap/cm_ic_hint_purple</item>
     </style>
 
     <!-- 通用 下一步按钮 -->
