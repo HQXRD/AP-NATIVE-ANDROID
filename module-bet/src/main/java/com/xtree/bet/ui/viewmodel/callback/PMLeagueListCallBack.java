@@ -159,12 +159,17 @@ public class PMLeagueListCallBack extends PMHttpCallBack<MatchListRsp> {
             }
         }
         mNoliveMatchList.addAll(matchListRsp.data);
-        leagueAdapterList(matchListRsp.data);
-        if (mFinalType == 1) { // 滚球
-            mViewModel.leagueLiveListData.postValue(mLeagueList);
-        } else {
-            mViewModel.leagueNoLiveListData.postValue(mLeagueList);
+        if(TextUtils.isEmpty(mViewModel.mSearchWord)){
+            leagueAdapterList(matchListRsp.data);
+            if (mFinalType == 1) { // 滚球
+                mViewModel.leagueLiveListData.postValue(mLeagueList);
+            } else {
+                mViewModel.leagueNoLiveListData.postValue(mLeagueList);
+            }
+        }else{
+            searchMatch(mViewModel.mSearchWord);
         }
+
         if (mCurrentPage == 1) {
             SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + mSearchDatePos + mSportId, new Gson().toJson(mLeagueList));
         }
@@ -175,6 +180,7 @@ public class PMLeagueListCallBack extends PMHttpCallBack<MatchListRsp> {
 
     @Override
     public void onError(Throwable t) {
+        mViewModel.getUC().getDismissDialogEvent().call();
         if (t instanceof ResponseThrowable) {
             ResponseThrowable error = (ResponseThrowable) t;
             if (error.isHttpError) {

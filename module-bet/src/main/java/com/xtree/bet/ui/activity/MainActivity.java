@@ -94,7 +94,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMainViewModel> implements OnRefreshLoadMoreListener, View.OnClickListener {
 
     public final static String BET_EXPAND = "betExpand";
-
+    private boolean isFirstInto = true;
     private String mPlatform = PLATFORM_FBXC;
     private String mPlatformName;
     private boolean mIsShowLoading = true;
@@ -503,11 +503,15 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             @Override
             public void afterTextChanged(Editable s) {
                 // 在文本改变后调用，设置一个新的 Runnable
+
                 searchRunnable = new Runnable() {
                     @Override
                     public void run() {
-                        String search = binding.edtGameSearch.getText().toString();
-                        viewModel.searchMatch(search, playMethodPos == 4);
+                        if(!isFirstInto){
+                            String search = binding.edtGameSearch.getText().toString();
+                            viewModel.searchMatch(search, playMethodPos == 4);
+                        }
+                        isFirstInto = false;
                     }
                 };
 
@@ -1661,6 +1665,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.clGameSearch.setVisibility(View.GONE);
         binding.clTab.setVisibility(View.VISIBLE);
         binding.edtGameSearch.setText("");
+        viewModel.mSearchWord = null;
     }
 
     @Override

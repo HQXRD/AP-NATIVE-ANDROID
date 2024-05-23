@@ -143,7 +143,9 @@ public class PMListCallBack extends PMHttpCallBack<List<MatchInfo>> {
             mViewModel.firstNetworkFinishData.call();
             mIsStepSecond = true;
             mLiveMatchList.addAll(data);
-            leagueGoingList(data);
+            if(TextUtils.isEmpty(mViewModel.mSearchWord)) {
+                leagueGoingList(data);
+            }
             mViewModel.saveLeague(this);
             mViewModel.getLeagueList(mSportPos, mSportId, mOrderBy, mLeagueIds, mMatchids, 2, mSearchDatePos, mOddType, false, mIsRefresh, mIsStepSecond);
         }
@@ -151,6 +153,7 @@ public class PMListCallBack extends PMHttpCallBack<List<MatchInfo>> {
 
     @Override
     public void onError(Throwable t) {
+        mViewModel.getUC().getDismissDialogEvent().call();
         if (!mIsTimerRefresh) {
             if (t instanceof ResponseThrowable) {
                 ResponseThrowable error = (ResponseThrowable) t;

@@ -48,6 +48,7 @@ public class RechargeOrderUsdtDialog extends BottomPopupView {
         binding.tvwRateAmount.setText(mRechargePayVo.rateamount);
         binding.tvwRate.setText(mRechargePayVo.rate);
         binding.tvwQrcodeUrl.setText(mRechargePayVo.qrcodeurl);
+        AppUtil.setTypeFaceDin(getContext(), binding.tvwMoney);
 
         String txt = mRechargePayVo.maxexpiretime + getContext().getString(R.string.txt_minutes); // xx分钟
         txt = "<font color=#EE5A5A> " + txt + " </font>"; // 加彩色

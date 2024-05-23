@@ -62,7 +62,7 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
     private Map<String, League> mMapLeague = new HashMap<>();
     private Map<String, Match> mMapMatch = new HashMap<>();
     private List<Match> mMatchList = new ArrayList<>();
-    private String searchWord;
+
     /**
      * 正在进行中的比赛
      */
@@ -198,22 +198,34 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
                 if (mNeedSecondStep) {
                     mIsStepSecond = true;
                     mLiveMatchList.addAll(matchListRsp.records);
-                    leagueGoingList(matchListRsp.records);
+                    if(TextUtils.isEmpty(mViewModel.mSearchWord)) {
+                        leagueGoingList(matchListRsp.records);
+                    }
                     mViewModel.saveLeague(this);
                     mViewModel.getLeagueList(mSportPos, mSportId, mOrderBy, mLeagueIds, mMatchids, 3, mSearchDatePos, mOddType, false, mIsRefresh, mIsStepSecond);
                 } else {
-                    leagueAdapterList(matchListRsp.records);
                     mNoliveMatchList.addAll(matchListRsp.records);
-                    mViewModel.leagueLiveListData.postValue(mLeagueList);
+                    if(TextUtils.isEmpty(mViewModel.mSearchWord)){
+                        leagueAdapterList(matchListRsp.records);
+                        mViewModel.leagueLiveListData.postValue(mLeagueList);
+                    }else{
+                        searchMatch(mViewModel.mSearchWord);
+                    }
+
                     if (mCurrentPage == 1) {
                         SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + mSearchDatePos + mSportId, new Gson().toJson(mLeagueList));
                     }
                     mViewModel.saveLeague(this);
                 }
             } else {
-                leagueAdapterList(matchListRsp.records);
                 mNoliveMatchList.addAll(matchListRsp.records);
-                mViewModel.leagueNoLiveListData.postValue(mLeagueList);
+                if(TextUtils.isEmpty(mViewModel.mSearchWord)){
+                    leagueAdapterList(matchListRsp.records);
+                    mViewModel.leagueNoLiveListData.postValue(mLeagueList);
+                }else{
+                    searchMatch(mViewModel.mSearchWord);
+                }
+
                 mViewModel.saveLeague(this);
                 if (mCurrentPage == 1) {
                     SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + mSearchDatePos + mSportId, new Gson().toJson(mLeagueList));
@@ -226,6 +238,7 @@ public class LeagueListCallBack extends FBHttpCallBack<MatchListRsp> {
 
     @Override
     public void onError(Throwable t) {
+        mViewModel.getUC().getDismissDialogEvent().call();
         if (t instanceof ResponseThrowable) {
             if(((ResponseThrowable) t).isHttpError){
                 UploadExcetionReq uploadExcetionReq = new UploadExcetionReq();

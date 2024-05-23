@@ -3,28 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/clr_transparent">
+    style="@style/style_rc_dlg_root">
 
     <ImageView
         android:id="@+id/ivw_bg_top"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="0dp"
-        android:adjustViewBounds="true"
-        android:src="@mipmap/bg_google_auth"
+        style="@style/style_rc_dlg_bg_top"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/ivw_bg_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="-2dp"
-        android:scaleType="fitStart"
-        android:src="@color/clr_white"
+        style="@style/style_rc_dlg_bg_top2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,22 +30,14 @@
 
         <ImageView
             android:id="@+id/ivw_top"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:src="@mipmap/bg_dlg_top"
-            android:visibility="invisible"
+            style="@style/style_rc_dlg_bg_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvw_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/clr_white"
-            android:textSize="18sp"
+            style="@style/style_rc_dlg_title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -64,24 +46,14 @@
 
         <ImageView
             android:id="@+id/ivw_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/layout_margin"
-            android:contentDescription="close"
-            android:padding="4dp"
-            android:src="@mipmap/ic_pop_close3"
+            style="@style/style_rc_dlg_close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/ivw_cs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="6dp"
-            android:contentDescription="close"
-            android:padding="4dp"
-            android:src="@mipmap/cm_ic_cs3"
+            style="@style/style_rc_dlg_cs"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/ivw_close"
             app:layout_constraintTop_toTopOf="parent" />
@@ -109,10 +81,7 @@
 
                 <TextView
                     android:id="@+id/tvw_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="48sp"
+                    style="@style/style_rc_dlg_money"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -154,10 +123,7 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/cm_ic_hourglass" />
+                <ImageView style="@style/style_rc_dlg_hourglass" />
 
                 <ImageView
                     android:layout_width="1dp"
@@ -294,22 +260,15 @@
                     android:text="@string/txt_copy" />
             </LinearLayout>
 
-            <!--<TextView
-                android:id="@+id/tvw_ok"
-                style="@style/style_btn_long"
-                android:text="@string/txt_rc_1k_copy_card" />-->
             <TextView
                 android:id="@+id/tvw_ok"
                 style="@style/style_btn_long"
                 android:text="@string/txt_rc_already_pay" />
 
             <TextView
-                style="@style/style_cm_tip_small_grey"
+                style="@style/style_cm_tip_small_title_warn"
                 android:layout_marginTop="36dp"
-                android:drawableStart="@mipmap/cm_ic_hint_purple"
-                android:drawablePadding="4dp"
-                android:text="@string/txt_notice_c"
-                android:textSize="12sp" />
+                android:text="@string/txt_notice_c" />
 
             <TextView
                 android:id="@+id/tvw_01"
