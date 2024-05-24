@@ -140,10 +140,15 @@
     <string name="txt_enter_new_phone">请输入新手机</string>
     <string name="txt_enter_new_email">请输入新邮箱</string>
     <string name="txt_enter_phone_num">请输入11位的手机号码</string>
+    <string name="txt_enter_valid_phone_num">请输入正确的手机号</string>
+    <string name="txt_enter_valid_email_num">邮箱格式不正确</string>
+    <string name="txt_enter_code_error">验证码错误</string>
+    <string name="txt_enter_code_cannot_empty">验证码不能为空</string>
+    <string name="txt_enter_code_6">请输入6位数字的验证码</string>
     <string name="txt_enter_email_pls">请输入邮箱地址</string>
     <string name="txt_enter_code_pls">请输入验证码</string>
     <string name="txt_verify_code">验证码</string>
-    <string name="txt_email_will_help_u">邮箱将有助于您找回账号，同时也是客服人员确认您身份的重要依据</string>
+    <string name="txt_email_will_help_u">邮箱将有助于您找回账号，同时也是客服人员确认您身份的重要依据\n</string>
     <string name="txt_phone_will_help_u">手机号码将有助于您找回账号，同时也是客服人员确认您身份的重要依据</string>
     <string name="txt_tip_cs_01">遇到问题 ？联系</string>
     <string name="txt_tip_cs_02">人工客服</string>
@@ -158,7 +163,8 @@
     <string name="txt_pwd_should_6_16_hint">密码为6–16位</string>
     <string name="txt_pwd_should_6_16">请输入由字母和数字组成的6–16位字符</string>
     <string name="txt_enter_pwd_again">请再次输入密码</string>
-    <string name="txt_pwd_should_same">两次输入密码不一致</string>
+    <string name="txt_pwd_is_empty">确认密码不能为空</string>
+    <string name="txt_pwd_should_same">两次密码输入不一致</string>
 
     <string name="txt_enter_bank_num">请输入银行卡号</string>
     <string name="txt_enter_account_name">请输入开户人姓名</string>
@@ -405,4 +411,5 @@
     <string name="txt_tip_code">请添加%s收款码</string>
     <string name="txt_title_code">如何获取%s个人收款码</string>
     <string name="txt_no_data_tip">暂无数据</string>
+    <string name="txt_check_detail">查看详情</string>
 </resources>

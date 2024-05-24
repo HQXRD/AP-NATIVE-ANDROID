@@ -58,11 +58,11 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
 
     @Override
     protected void convert(View itemView, CgOddLimit cgOddLimit, int position) {
-        KLog.i("cgOddLimit",(cgOddLimit == null) +"   "+position);
+        KLog.i("cgOddLimit", (cgOddLimit == null) + "   " + position);
         if (cgOddLimit == null) {
             return;
         }
-        if (getItemCount() > 1 ||  !TextUtils.equals("单关", cgOddLimit.getCgName())) { // 串关
+        if (getItemCount() > 1 || !TextUtils.equals("单关", cgOddLimit.getCgName())) { // 串关
 
             itemView.findViewById(R.id.csl_cg_dan).setVisibility(View.GONE);
             itemView.findViewById(R.id.csl_cg_cc).setVisibility(View.VISIBLE);
@@ -102,24 +102,24 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
             disableShowInput(etAmount);
 
             etAmount.setOnFocusChangeListener((v, hasFocus) -> {
-                if(hasFocus) {
+                if (hasFocus) {
                     keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_cc), cgOddLimit.getCMax());
                     itemView.findViewById(R.id.csl_win_cc).setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     itemView.findViewById(R.id.csl_win_cc).setVisibility(View.GONE);
                 }
-                if(hasFocus && !keyboardView.isShowing()) {
+                if (hasFocus && !keyboardView.isShowing()) {
                     mKeyBoardListener.showKeyBoard(true);
                 }
 
             });
 
             etAmount.setOnClickListener(view -> {
-                if(!etAmount.hasFocus()) {
+                if (!etAmount.hasFocus()) {
                     keyboardView.setEditText(etAmount, itemView.findViewById(R.id.csl_cg_cc), cgOddLimit.getCMax());
                 }
                 itemView.findViewById(R.id.csl_win_cc).setVisibility(View.VISIBLE);
-                if(!keyboardView.isShowing()) {
+                if (!keyboardView.isShowing()) {
                     mKeyBoardListener.showKeyBoard(true);
                 }
             });
@@ -139,7 +139,7 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     textChanged(etAmount, charSequence, cgOddLimit, cgOddLimit.getDMin(), cgOddLimit.getDMax(), cgOddLimit.getDOdd(),
-                            R.string.bt_bt_win, R.string.bt_bt_pay, itemView.findViewById(R.id.tv_win_dan), itemView.findViewById(R.id.tv_pay_dan), itemView.findViewById(R.id.csl_win_dan));
+                            R.string.bt_bt_win, R.string.bt_bt_pay_1, itemView.findViewById(R.id.tv_win_dan), itemView.findViewById(R.id.tv_pay_dan), itemView.findViewById(R.id.csl_win_dan));
                 }
 
                 @Override
@@ -175,8 +175,8 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
      * @param odd            赔率
      * @param winResStringId 可赢金额 string id
      * @param payResStringId 投注金额 string id
-     * @param tvWin       可赢金额 textview
-     * @param tvPay       投注金额 textview
+     * @param tvWin          可赢金额 textview
+     * @param tvPay          投注金额 textview
      * @param cslWin         单关或串关groupview
      */
     private void textChanged(EditText etAmount, CharSequence charSequence,
@@ -229,7 +229,7 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
             cslWin.setVisibility(View.VISIBLE);
             cgOddLimit.setBtAmount(TextUtils.isEmpty(etAmount.getText()) ? 0 : Double.valueOf(etAmount.getText().toString()));
         } else {
-            if(!sizeChange) {
+            if (!sizeChange) {
                 cslWin.setVisibility(View.VISIBLE);
             }
             cgOddLimit.setBtAmount(0);
@@ -237,11 +237,10 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
             tvPay.setText(mContext.getResources().getString(payResStringId, "0"));
         }
 
-        if(mTextChangedListener != null) {
+        if (mTextChangedListener != null) {
             mTextChangedListener.onTextChanged();
         }
     }
-
 
     public void disableShowInput(EditText editText) {
         if (android.os.Build.VERSION.SDK_INT <= 10) {

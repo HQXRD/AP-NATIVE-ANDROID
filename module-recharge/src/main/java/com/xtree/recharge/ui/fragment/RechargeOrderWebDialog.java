@@ -1,8 +1,8 @@
 package com.xtree.recharge.ui.fragment;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -20,6 +20,8 @@ import com.xtree.base.widget.MsgDialog;
 import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.DialogRcOrderWebBinding;
 import com.xtree.recharge.vo.RechargePayVo;
+
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class RechargeOrderWebDialog extends BottomPopupView {
 
@@ -53,15 +55,20 @@ public class RechargeOrderWebDialog extends BottomPopupView {
     private void initView() {
         binding = DialogRcOrderWebBinding.bind(findViewById(R.id.ll_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
-        binding.tvwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
+        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         binding.tvwTitle.setText(mRechargePayVo.payname);
         binding.tvwMoney.setText(mRechargePayVo.money);
+        String key = mRechargePayVo.payname.replace(getContext().getString(R.string.txt_rc_kw_recharge), "");
+        String tip = getContext().getString(R.string.txt_rc_only_x_card, key);
+        binding.tvwTipChannel.setText(tip);
+        AppUtil.setTypeFaceDin(getContext(), binding.tvwMoney);
 
         String txt = mRechargePayVo.maxexpiretime + getContext().getString(R.string.txt_minutes); // xx分钟
         txt = "<font color=#EE5A5A> " + txt + " </font>"; // 加彩色
         txt = getContext().getString(R.string.txt_rc_submit_succ_pay_in_minutes_pls, txt).replace("\n", "<br>");
         binding.tvwMaxExpireTime.setText(HtmlCompat.fromHtml(txt, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
+        binding.tvwCopyMoney.setOnClickListener(v -> copy(mRechargePayVo.money));
         binding.tvwOk.setOnClickListener(v -> dismiss());
         binding.tvwShowPay.setOnClickListener(v -> showTipDialog());
 
@@ -71,10 +78,12 @@ public class RechargeOrderWebDialog extends BottomPopupView {
 
         if (mRechargePayVo.isqrcode) {
             binding.tvwQrcodeUrl.setText(mRechargePayVo.qrcodeurl);
+            binding.tvwQrcodeTitle.setVisibility(View.VISIBLE);
             binding.llQrcodeUrl.setVisibility(View.VISIBLE);
             binding.ivwQrcode.setVisibility(View.VISIBLE);
             binding.tvwOk.setVisibility(View.VISIBLE);
             binding.tvwShowPay.setVisibility(View.GONE); // 隐藏
+            binding.tvwTipChannel.setVisibility(View.INVISIBLE);
         }
 
     }
@@ -144,9 +153,17 @@ public class RechargeOrderWebDialog extends BottomPopupView {
                 }
             }
             CfLog.i(mRechargePayVo.payname + ", jump: " + url);
-            //  弹窗
-            getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            // 弹窗
+            AppUtil.goBrowser(getContext(), url);
         }
+    }
+
+    private void copy(String txt) {
+        CfLog.d(txt);
+        ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData cd = ClipData.newPlainText("txt", txt);
+        cm.setPrimaryClip(cd);
+        ToastUtils.showLong(R.string.txt_copied);
     }
 
     @Override

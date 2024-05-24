@@ -51,90 +51,53 @@
         android:layout_height="2dp"
         android:background="@color/clr_gap_bg" />
 
-    <androidx.core.widget.NestedScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="0dp"
         android:background="@color/clr_white">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/sc_choose"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <!--<androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_loading"
-                android:layout_width="100dp"
-                android:layout_height="120dp"
-                android:layout_gravity="center"
-                android:visibility="gone"
-                android:background="@drawable/bg_loading_black">
-
-                <ImageView
-                    android:id="@+id/ivw_loading_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:background="@drawable/bg_loading_white"
-                    android:src="@mipmap/loading_icon"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tvw_loading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="杏彩体育"
-                    android:textColor="@color/clr_white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/ivw_loading_icon" />
-
-                <ImageView
-                    android:id="@+id/ivw_loading"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="10dp"
-                    android:src="@mipmap/loading"
-                    android:textColor="@color/clr_white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tvw_loading" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>-->
-
-            <LinearLayout
-                android:id="@+id/ll_choose_tip"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/bt_text_20sp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="@dimen/bt_text_20sp"
-                android:orientation="vertical"
-                android:visibility="gone"
-                tools:visibility="visible">
-
-                <TextView
-                    android:id="@+id/tv_choose_tip"
-                    style="@style/style_usdt_tutorial"
-                    android:layout_marginTop="6dp"
-                    android:gravity="center"
-                    android:text="@string/txt_awards_no_money_tip"
-                    android:textColor="@color/black"
-                    android:textSize="15dp"
-                    android:visibility="visible" />
-            </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:background="@color/clr_white"
+            android:visibility="visible"
+            tools:visibility="gone">
 
             <com.xtree.mine.ui.viewmodel.ChooseListViewForScrollview
                 android:id="@+id/lv_choose"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:divider="@null"
                 android:listSelector="@android:color/transparent"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                android:visibility="visible" />
+
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:id="@+id/ll_no_data"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/iv_no_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@mipmap/bg_no_data_tip" />
+
+            </RelativeLayout>
+
         </LinearLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+
 </LinearLayout>

@@ -51,8 +51,8 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="32dp"
-        android:textColor="@color/textColor"
-        android:text="熊猫体育结算波动较为频繁，为保证您的最佳体验，推荐您至”杏彩体育“进行游戏。"
+        android:textColor="@color/clr_grey_13"
+        android:text="熊猫体育结算波动较为频繁，为保证您的最佳体验，推荐您至“杏彩体育”进行游戏。"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="@id/ivw_bg"
         app:layout_constraintStart_toStartOf="@id/ivw_bg"
@@ -65,7 +65,8 @@
         android:layout_marginStart="70dp"
         android:layout_marginTop="26dp"
         android:layout_marginEnd="70dp"
-        android:textColor="@color/clr_purple_01"
+        style="@style/style_rdo_recommend"
+        android:textColor="@color/clr_purple_f0"
         android:background="@drawable/bg_btn_pm"
         android:gravity="center"
         android:padding="10dp"
@@ -82,7 +83,7 @@
         android:layout_marginStart="70dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="70dp"
-        android:background="@drawable/bg_btn_xc"
+        style="@style/style_btn_frame"
         android:gravity="center"
         android:padding="10dp"
         android:text="进入杏彩体育"
@@ -96,14 +97,24 @@
         android:id="@+id/cb_tip_pm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+        style="@style/style_cm_ckb"
         android:text="@string/txt_rc_not_tip"
         android:theme="@style/PMTipCheckBoxTheme"
         android:textSize="12sp"
+        android:layout_marginTop="16dp"
         android:textColor="@color/clr_purple_01"
         app:layout_constraintEnd_toEndOf="@+id/tvw_msg"
         app:layout_constraintStart_toStartOf="@+id/tvw_msg"
         app:layout_constraintTop_toBottomOf="@+id/tvw_fb" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:src="@mipmap/ic_rc_split_line"
+        app:layout_constraintEnd_toEndOf="@+id/cb_tip_pm"
+        app:layout_constraintStart_toStartOf="@+id/cb_tip_pm"
+        app:layout_constraintTop_toBottomOf="@+id/cb_tip_pm"/>
 
     <TextView
         android:id="@+id/tvw_cs"
@@ -114,6 +125,7 @@
         android:drawablePadding="3dp"
         android:text="@string/txt_contact_custom"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/tvw_msg" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

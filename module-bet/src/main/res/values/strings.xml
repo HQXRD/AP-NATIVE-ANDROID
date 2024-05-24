@@ -8,11 +8,12 @@
     <string name="bt_play_type_dx">全场大小</string>
     <string name="bt_car_add_match">增加赛事</string>
     <string name="bt_bt_confirm_option">投注</string>
-    <string name="bt_bt_win">预计可赢：%1$sRMB</string>
-    <string name="bt_bt_win_dan">%1$sRMB</string>
+    <string name="bt_bt_win">预计可赢：%1$s</string>
+    <string name="bt_bt_win_1">%1$s</string>
+    <string name="bt_bt_win_dan">%1$s</string>
     <string name="bt_bt_top_win">最高可赢：%1$s</string>
-    <string name="bt_bt_pay">小计：%1$sRMB</string>
-    <string name="bt_bt_pay_1">合计%1$s</string>
+    <string name="bt_bt_pay">%1$s</string>
+    <string name="bt_bt_pay_1">小计：%1$s</string>
     <string name="bt_bt_keyboadr_max">最大</string>
     <string name="bt_bt_is_not_allow_crossover">该玩法不支持串关</string>
     <string name="bt_bt_must_have_two_match">至少选择两场比赛</string>
@@ -26,7 +27,7 @@
     <string name="bt_bt_result_bt_ad_settle_cost">提前兑换本金：%1$s元</string>
     <string name="bt_bt_result_bt_ad_settle_result">输/赢：%1$s元</string>
     <string name="bt_bt_result_bt_ad_settle_back">提前兑换返还：%1$s元</string>
-    <string name="bt_bt_result_win">可赢金额</string>
+    <string name="bt_bt_result_win">最高可赢</string>
     <string name="bt_bt_result_win_1">最高可赢：%1$s元</string>
     <string name="bt_bt_result_win_2">输赢：%1$s元</string>
     <string name="bt_bt_result_record">流水：%1$s元</string>
@@ -63,5 +64,6 @@
     <string name="bt_txt_btn_statement_cost">提前结算本金</string>
     <string name="bt_txt_btn_statement_back">返还额（含本金）</string>
     <string name="bt_txt_btn_statement_amount">CNY:%1$s</string>
+    <string name="txt_game_search">请输入联赛/队伍名称进行搜寻</string>
 
 </resources>

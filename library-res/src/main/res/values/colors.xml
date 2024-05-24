@@ -199,6 +199,7 @@
     <color name="clr_grey_03">#E9E9E9</color>
     <color name="clr_grey_05">#D1D1D1</color>
     <color name="clr_grey_07">#F7F7F7</color>
+    <color name="clr_grey_09">#A9A9A9</color>
 
     <color name="clr_grey_22">#38D9D9D9</color>
     <color name="clr_grey_080">#CCD9D9D9</color>
@@ -243,6 +244,8 @@
     <color name="clr_purple_09">#D6CEF9</color>
     <color name="clr_purple_12">#A17DF5</color>
 
+    <color name="clr_purple_f0">#A797F0</color>
+
     <!-- 按钮背景 左中右/上中下 -->
     <color name="clr_purple_bg01">#E5BFFC</color>
     <color name="clr_purple_bg03">#AF8BE6</color>
@@ -273,6 +276,7 @@
     <color name="clr_purple_11">#C381B6</color>
     <color name="clr_purple_13">#BB74AE</color>
     <color name="clr_purple_14">#98628E</color>
+    <color name="clr_purple_15">#C3B8C2</color>
 
     <color name="clr_orange_01">#FF804B</color>
     <color name="clr_orange_02">#FF8A00</color>
@@ -281,7 +285,9 @@
     <color name="clr_orange_05">#22FD714B</color>
     <color name="clr_orange_06">#FF3C07</color>
     <color name="clr_orange_07">#F47070</color>
+    <color name="clr_orange_08">#E07900</color>
 
+    <color name="clr_red_19">#F35A4E</color>
     <color name="clr_red_21">#F47070</color>
     <color name="clr_red_23">#F57171</color>
     <color name="clr_red_25">#E59595</color>
@@ -351,6 +357,9 @@
     <color name="clr_withdrawal_top_text_bg">#2D332F</color>
     <color name="clr_withdrawal_top_text_default_bg">#C2CEC8</color>
     <color name="clr_text_color_hint">#C6C6C6</color>
+
+    <!-- 分隔线 -->
+    <color name="clr_div_line">#F2F3F7</color>
 
     <color name="clr_rc_dialog_btn">#B890E6</color>
     <color name="clr_dlg_txt_main">#A797F0</color>

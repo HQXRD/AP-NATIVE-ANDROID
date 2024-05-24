@@ -70,6 +70,7 @@ public class TipDialog extends CenterPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
+
         initView();
     }
 
@@ -90,19 +91,20 @@ public class TipDialog extends CenterPopupView {
             binding.tvwTitle.setText(title);
         }
         if (!TextUtils.isEmpty(title2)) {
+            binding.tvwTitle.setVisibility(View.GONE);
             binding.tvwTitle2.setText(title2);
 
-            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams)binding.tvwMsg.getLayoutParams();
-            layoutParams.topToBottom = R.id.tvw_title2;
-            binding.tvwMsg.setLayoutParams(layoutParams);
-
-            ConstraintLayout.LayoutParams layoutParams2 = (ConstraintLayout.LayoutParams)binding.tvwMsg2.getLayoutParams();
-            layoutParams2.topToBottom = R.id.tvw_title2;
-            binding.tvwMsg.setLayoutParams(layoutParams2);
+            //ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams)binding.tvwMsg.getLayoutParams();
+            //layoutParams.topToBottom = R.id.tvw_title2;
+            //binding.tvwMsg.setLayoutParams(layoutParams);
+            //
+            //ConstraintLayout.LayoutParams layoutParams2 = (ConstraintLayout.LayoutParams)binding.tvwMsg2.getLayoutParams();
+            //layoutParams2.topToBottom = R.id.tvw_title2;
+            //binding.tvwMsg.setLayoutParams(layoutParams2);
         }
 
         binding.tvwMsg.setText(msg);
-        if (msg.length() > 39) {
+        /*if (msg.length() > 39) {
             binding.tvwMsg2.setMovementMethod(ScrollingMovementMethod.getInstance());
             binding.tvwMsg.setVisibility(View.GONE);
             binding.tvwMsg2.setText(msg);
@@ -110,7 +112,7 @@ public class TipDialog extends CenterPopupView {
             ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams)binding.layoutTvw.getLayoutParams();
             layoutParams.topToBottom = R.id.tvw_msg2;
             binding.layoutTvw.setLayoutParams(layoutParams);
-        }
+        }*/
 
         if (isSingleBtn) {
             binding.tvwLeft.setVisibility(View.GONE);
@@ -118,11 +120,11 @@ public class TipDialog extends CenterPopupView {
         if (!TextUtils.isEmpty(txtLeft)) {
             binding.tvwLeft.setText(txtLeft);
             if (!txtLeft.equals(getContext().getString(R.string.txt_cancel)) && !TextUtils.equals(txtLeft, "继续等待")) {
-                binding.tvwLeft.setBackground(getContext().getDrawable(R.drawable.bg_btn_selector));
-                binding.tvwLeft.setTextColor(getResources().getColor(R.color.clr_text_code_selector));
+                binding.tvwLeft.setBackground(getContext().getDrawable(R.drawable.bg_btn_short_selector));
+                binding.tvwLeft.setTextColor(getResources().getColor(R.color.clr_text_btn_selector));
             }
         }
-        if(TextUtils.equals(txtRight, "null")){
+        if (TextUtils.equals(txtRight, "null")) {
             binding.tvwRight.setVisibility(GONE);
         }
         if (!TextUtils.isEmpty(txtRight)) {

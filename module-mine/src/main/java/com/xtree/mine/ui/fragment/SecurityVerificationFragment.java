@@ -40,6 +40,7 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
     private ArrayList<String> tabList = new ArrayList<>();
     private FragmentStateAdapter mAdapter;
     private String typeName;
+    private String typeName2; // 绑定手机邮箱后,跳转的类型
     private String tokenSign;
     ProfileVo mProfileVo;
     private String phone; // 异地登录验证用
@@ -92,7 +93,7 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
             phone = getArguments().getString("phone");
             email = getArguments().getString("email");
         }
-        CfLog.i("****** typeName: " + typeName);
+        CfLog.i("****** typeName: " + typeName + ", tokenSign: " + tokenSign);
         fragmentList.clear();
         tabList.clear();
 
@@ -102,9 +103,11 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
         // 如果手机和邮箱都没有绑定的情况下, 此时应该是先去绑定
         if (mProfileVo != null && !mProfileVo.is_binding_phone && !mProfileVo.is_binding_email) {
             if (!Constant.BIND_PHONE.equals(typeName) && !Constant.BIND_EMAIL.equals(typeName)) {
-                bundle.putString("type", Constant.BIND);
-                bundle.putString("type2", typeName);
-                typeName = Constant.BIND;
+                typeName = Constant.BIND; // 绑定手机/邮箱
+                typeName2 = getArguments().getString(ARG_TYPE); // 绑定后的跳转
+                bundle.putString("type", typeName);
+                bundle.putString("type2", typeName2);
+                CfLog.i("****** type: " + typeName + ", type2: " + typeName2);
             }
         }
 
@@ -112,6 +115,19 @@ public class SecurityVerificationFragment extends BaseFragment<FragmentSecurityV
         //BindEmailFragment bindEmailFragment = BindEmailFragment.newInstance(typeName, tokenSign);
         BindPhoneFragment bindPhoneFragment = BindPhoneFragment.newInstance(bundle);
         BindEmailFragment bindEmailFragment = BindEmailFragment.newInstance(bundle);
+
+        if (mProfileVo != null && mProfileVo.is_binding_phone && mProfileVo.is_binding_email) {
+            if (Constant.UPDATE_PHONE.equals(typeName)) {
+                Bundle bundle2 = new Bundle(getArguments());
+                bundle2.putString("type", Constant.VERIFY_BIND_PHONE); // 更新手机,使用邮箱验证
+                bindEmailFragment = BindEmailFragment.newInstance(bundle2);
+            }
+            if (Constant.UPDATE_EMAIL.equals(typeName)) {
+                Bundle bundle2 = new Bundle(getArguments());
+                bundle2.putString("type", Constant.VERIFY_BIND_EMAIL); // 更新邮箱,使用手机验证
+                bindPhoneFragment = BindPhoneFragment.newInstance(bundle2);
+            }
+        }
 
         String txtPhone = getString(R.string.txt_phone_num);
         String txtEmail = getString(R.string.txt_email_addr);

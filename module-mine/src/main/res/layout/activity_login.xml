@@ -34,6 +34,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/login_header" />
 
             <LinearLayout
+                android:id="@+id/ll_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -275,13 +276,12 @@
                             android:layout_marginStart="18dp"
                             android:layout_marginTop="2dp"
                             android:text="@string/txt_username_empty"
-                            android:visibility="visible"
+                            android:visibility="invisible"
                             tools:visibility="visible" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
                             android:background="@mipmap/me_input_bg">
 
                             <EditText
@@ -300,19 +300,18 @@
                             android:layout_marginStart="18dp"
                             android:layout_marginTop="2dp"
                             android:text="@string/txt_pwd_cannot_empty"
-                            android:visibility="visible"
+                            android:visibility="invisible"
                             tools:visibility="visible" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
                             android:background="@mipmap/me_input_bg">
 
                             <EditText
                                 android:id="@+id/edt_pwd2"
                                 style="@style/style_cm_edt_pwd"
-                                android:hint="@string/txt_enter_pwd_again" />
+                                android:hint="@string/txt_pwd_should_6_16_hint" />
 
                             <CheckBox
                                 android:id="@+id/ckb_pwd2"
@@ -324,7 +323,7 @@
                             style="@style/style_cm_tip_small_orange"
                             android:layout_marginStart="18dp"
                             android:layout_marginTop="2dp"
-                            android:text="@string/txt_pwd_should_same"
+                            android:text="@string/txt_pwd_is_empty"
                             android:visibility="invisible"
                             tools:visibility="visible" />
 
@@ -370,13 +369,40 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             android:layout_marginBottom="15dp"
-                            android:background="@drawable/btn_bg_register_enable"
+                            android:background="@drawable/bg_register_unable"
                             android:text="@string/me_register"
                             android:textColor="@color/white" />
                     </LinearLayout>
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvw_register_warning"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_register_warning"
+                android:paddingStart="24dp"
+                android:paddingTop="6dp"
+                android:paddingEnd="6dp"
+                android:paddingBottom="6dp"
+                android:text="为保护您的个人信息安全，防止盗号风险，不要用QQ号和手机号做为您的用户名哦！"
+                app:layout_constraintEnd_toEndOf="@id/ll_content"
+                app:layout_constraintStart_toStartOf="@id/ll_content"
+                app:layout_constraintTop_toBottomOf="@id/ll_content" />
+
+            <ImageView
+                android:id="@+id/ivw_register_warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="6dp"
+                android:src="@mipmap/ic_warning_hint"
+                app:layout_constraintStart_toStartOf="@id/tvw_register_warning"
+                app:layout_constraintTop_toTopOf="@id/tvw_register_warning" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

@@ -59,7 +59,7 @@ public abstract class TemplateBtCarViewModel extends BaseBtViewModel implements 
      */
     public void gotoToday(){
         BtCarManager.setIsCg(false);
-        BtCarManager.clearBtCar();
+        //BtCarManager.clearBtCar();
         RxBus.getDefault().postSticky(new BetContract(BetContract.ACTION_OPEN_TODAY));
     }
 

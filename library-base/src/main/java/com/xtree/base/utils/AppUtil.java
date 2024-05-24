@@ -2,7 +2,10 @@ package com.xtree.base.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.widget.TextView;
 
 import com.xtree.base.global.Constant;
 
@@ -31,6 +34,7 @@ public class AppUtil {
         CfLog.i("url: " + url);
         Uri uri = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         ctx.startActivity(intent);
     }
 
@@ -67,6 +71,12 @@ public class AppUtil {
     public static boolean isEmail(String num) {
         String regex = "^[\\w]+([-+.][\\w]+)*@[\\w]+([-.][\\w]+)*\\.[\\w]+([-.][\\w]+)*$"; // 邮箱
         return num.matches(regex);
+    }
+
+    public static void setTypeFaceDin(Context ctx, TextView tvw) {
+        AssetManager am = ctx.getAssets();
+        Typeface tf = Typeface.createFromAsset(am, "fonts/D-DIN-PRO-500-Medium.ttf");
+        tvw.setTypeface(tf);
     }
 
 }

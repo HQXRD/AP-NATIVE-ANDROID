@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -75,34 +76,62 @@
 
     <View style="@style/style_filter_info_dividing" />
 
-    <LinearLayout
-        style="@style/style_item_ll_row"
-        android:layout_marginTop="6dp">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <TextView
-            style="@style/style_item_report_title"
-            android:layout_weight="0"
-            android:minEms="0"
-            android:text="@string/txt_submit_time_s" />
+        <LinearLayout
+            android:id="@+id/ll_top"
+            style="@style/style_item_ll_row"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="6dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tvw_accept_time"
-            style="@style/style_item_report_title"
-            tools:text="2024-01-11 09:00:00" />
-    </LinearLayout>
+            <TextView
+                style="@style/style_item_report_title"
+                android:layout_weight="0"
+                android:minEms="0"
+                android:text="@string/txt_submit_time_s" />
 
-    <LinearLayout style="@style/style_item_ll_row">
+            <TextView
+                android:id="@+id/tvw_accept_time"
+                style="@style/style_item_report_title"
+                android:layout_width="wrap_content"
+                tools:text="2024-01-11 09:00:00" />
+        </LinearLayout>
 
-        <TextView
-            style="@style/style_item_report_title"
-            android:layout_weight="0"
-            android:minEms="0"
-            android:text="@string/txt_income_time_s" />
+        <LinearLayout
+            android:id="@+id/ll_bottom"
+            style="@style/style_item_ll_row"
+            android:layout_width="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_top">
 
-        <TextView
-            android:id="@+id/tvw_finish_time"
-            style="@style/style_item_report_title"
-            tools:text="2024-01-11 16:00:00" />
-    </LinearLayout>
+            <TextView
+                style="@style/style_item_report_title"
+                android:layout_weight="0"
+                android:minEms="0"
+                android:text="@string/txt_income_time_s" />
+
+            <TextView
+                android:id="@+id/tvw_finish_time"
+                style="@style/style_item_report_title"
+                tools:text="2024-01-11 16:00:00" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_btn_r10_selector"
+            android:text="@string/txt_check_detail"
+            android:textColor="@color/clr_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

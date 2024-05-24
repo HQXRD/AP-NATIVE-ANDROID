@@ -9,7 +9,10 @@ import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
 import android.animation.ObjectAnimator;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
@@ -32,6 +35,7 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.BtDomainUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
@@ -61,7 +65,6 @@ import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.fb.FBMainViewModel;
 import com.xtree.bet.ui.viewmodel.pm.PMMainViewModel;
-import com.xtree.base.utils.BtDomainUtil;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
 import com.xtree.bet.weight.DomainChangeDialog;
 import com.xtree.bet.weight.PageHorizontalScrollView;
@@ -91,7 +94,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMainViewModel> implements OnRefreshLoadMoreListener, View.OnClickListener {
 
     public final static String BET_EXPAND = "betExpand";
-
+    private boolean isFirstInto = true;
     private String mPlatform = PLATFORM_FBXC;
     private String mPlatformName;
     private boolean mIsShowLoading = true;
@@ -141,6 +144,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private Bundle mSavedInstanceState;
     private BasePopupView changeAgentTipView;
     private BasePopupView changeAgentView;
+
+    private Handler mHandler = new Handler();
+    private Runnable searchRunnable;
 
     public List<League> getSettingLeagueList() {
         return settingLeagueList;
@@ -226,7 +232,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.ivChangeDomain.setVisibility(bGameSwitch ? View.VISIBLE : !BtDomainUtil.isMutiLine() ? View.GONE : View.VISIBLE);
         if (!bGameSwitch) {
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_AGENT + mPlatform, false);
-            if(isAgent){
+            if (isAgent) {
                 SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
                 initDomain();
                 resetViewModel();
@@ -240,7 +246,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private void initDomain() {
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
         int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
-        if(useLinePosition > BtDomainUtil.getDomainUrl().size() - 1){
+        if (useLinePosition > BtDomainUtil.getDomainUrl().size() - 1) {
             useLinePosition = 0;
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
         }
@@ -306,13 +312,17 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.ivBack.setOnClickListener(this);
         binding.tvBalance.setOnClickListener(this);
         binding.ivChangeDomain.setOnClickListener(this);
+        binding.ivwGameSearch.setOnClickListener(this);
+        binding.tvwCancel.setOnClickListener(this);
         setChangeDomainVisible();
         binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 ((TextView) tab.getCustomView()).setTextSize(16);
                 if (playMethodPos != tab.getPosition()) {
+                    hideSearchView();
                     mIsChange = true;
+                    isFirstInto = true;
                     mLeagueIdList.clear();
                     binding.srlLeague.resetNoMoreData();
                     searchDatePos = 0;
@@ -334,7 +344,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     mLeagueList.clear();
                     viewModel.setSportIcons(playMethodPos);
                     viewModel.setSportItems(playMethodPos, playMethodType);
-
 
                     if (playMethodPos == 2 || playMethodPos == 3) {
                         binding.tabSearchDate.setVisibility(View.VISIBLE);
@@ -369,9 +378,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (sportTypePos != tab.getPosition()) {
+                    hideSearchView();
                     binding.srlLeague.resetNoMoreData();
                     searchDatePos = 0;
                     mIsChange = true;
+                    isFirstInto = true;
                     mLeagueIdList.clear();
                     showSearchDate();
                     sportTypePos = tab.getPosition();
@@ -405,10 +416,12 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (searchDatePos != tab.getPosition()) {
+                    hideSearchView();
                     mLeagueList.clear();
                     mLeagueGoingOnList.clear();
                     binding.srlLeague.resetNoMoreData();
                     mIsChange = true;
+                    isFirstInto = true;
                     if (playMethodPos == 2 || playMethodPos == 3) {
                         searchDatePos = tab.getPosition();
                         viewModel.statistical(playMethodType);
@@ -434,11 +447,13 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             public void onTabSelected(TabLayout.Tab tab) {
 
                 if (hotLeaguePos != tab.getPosition()) {
+                    hideSearchView();
                     hotLeaguePos = tab.getPosition();
                     mLeagueList.clear();
                     mLeagueGoingOnList.clear();
                     binding.srlLeague.resetNoMoreData();
                     mIsChange = true;
+                    isFirstInto = true;
                     mLeagueIdList.clear();
                     mLeagueIdList.addAll(mLeagueItemList.get(hotLeaguePos).leagueid);
                     viewModel.statistical(playMethodType);
@@ -476,6 +491,38 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         });
         binding.rlCg.setOnClickListener(this);
         initBottomTab();
+
+        binding.edtGameSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mHandler.removeCallbacks(searchRunnable);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // 在文本改变后调用，设置一个新的 Runnable
+
+                searchRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        if(!isFirstInto){
+                            String search = binding.edtGameSearch.getText().toString();
+                            viewModel.searchMatch(search, playMethodPos == 4);
+                        }
+                        isFirstInto = false;
+                    }
+                };
+
+                // 延迟 1 秒后执行 Runnable
+                mHandler.postDelayed(searchRunnable, 1000);
+            }
+        });
     }
 
     /**
@@ -792,7 +839,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 监听第一次进入主页时获取列表数据是否完成，如果未完成，弹出切换线路提示弹窗
      */
     private void initFirstNetworkFinishTimer() {
-        if(BtDomainUtil.isMutiLine()) {
+        if (BtDomainUtil.isMutiLine()) {
             firstNetworkFinishedDisposable = Observable.interval(5, 5, TimeUnit.SECONDS)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -814,7 +861,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 监听第一次进入主页时获取列表数据是否发生异常，如果发生异常，则上报服务器
      */
     private void initFirstNetworkExceptionTimer() {
-        if(BtDomainUtil.isMutiLine()) {
+        if (BtDomainUtil.isMutiLine()) {
             firstNetworkExceptionDisposable = Observable.interval(1, 2, TimeUnit.SECONDS)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -1606,7 +1653,23 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
         } else if (id == R.id.iv_change_domain) {
             showChangeDomainDialog();
+        } else if (id == R.id.ivw_game_search) {
+            binding.clGameSearch.setVisibility(View.VISIBLE);
+            binding.clTab.setVisibility(View.GONE);
+        } else if (id == R.id.tvw_cancel) {
+            hideSearchView();
+            viewModel.searchMatch(null, playMethodPos == 4);
         }
+    }
+
+    /**
+     * 隐藏搜索UI
+     */
+    private void hideSearchView() {
+        binding.clGameSearch.setVisibility(View.GONE);
+        binding.clTab.setVisibility(View.VISIBLE);
+        binding.edtGameSearch.setText("");
+        viewModel.mSearchWord = null;
     }
 
     @Override

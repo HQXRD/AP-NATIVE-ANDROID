@@ -32,8 +32,6 @@ import com.xtree.bet.bean.ui.Match;
 import com.xtree.bet.bean.ui.MatchPm;
 import com.xtree.bet.bean.ui.Option;
 import com.xtree.bet.bean.ui.OptionList;
-import com.xtree.bet.bean.ui.PlayGroup;
-import com.xtree.bet.bean.ui.PlayGroupPm;
 import com.xtree.bet.bean.ui.PlayType;
 import com.xtree.bet.constant.Constants;
 import com.xtree.bet.constant.PMConstants;
@@ -63,14 +61,16 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
     private List<Match> mMatchList = new ArrayList<>();
     private List<Match> mChampionMatchList = new ArrayList<>();
     private Map<String, Match> mMapMatch = new HashMap<>();
-    Map<String, League> mMapLeague = new HashMap<>();
+    private Map<String, League> mMapLeague = new HashMap<>();
+    private List<MatchInfo> mChampionMatchInfoList = new ArrayList<>();
     private Map<String, List<Integer>> sportCountMap = new HashMap<>();
-
     private List<MenuInfo> mMenuInfoList = new ArrayList<>();
+    private PMHttpCallBack mPmHttpCallBack;
+
     private int mGoingOnPageSize = 300;
     private int mPageSize = 20;
 
-    public void saveLeague(PMListCallBack pmListCallBack){
+    public void saveLeague(PMListCallBack pmListCallBack) {
         mLeagueList = pmListCallBack.getLeagueList();
         mGoingOnLeagueList = pmListCallBack.getGoingOnLeagueList();
         mMapLeague = pmListCallBack.getMapLeague();
@@ -79,7 +79,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         mMapSportType = pmListCallBack.getMapSportType();
     }
 
-    public void saveLeague(PMLeagueListCallBack pmListCallBack){
+    public void saveLeague(PMLeagueListCallBack pmListCallBack) {
         mLeagueList = pmListCallBack.getLeagueList();
         mGoingOnLeagueList = pmListCallBack.getGoingOnLeagueList();
         mMapLeague = pmListCallBack.getMapLeague();
@@ -253,6 +253,32 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         addSubscribe(disposable);
     }
 
+    @Override
+    public void searchMatch(String searchWord, boolean isChampion) {
+        mSearchWord = searchWord;
+        mIsChampion = isChampion;
+        if(!isChampion) {
+            if(mPmHttpCallBack != null) {
+                ((PMLeagueListCallBack) mPmHttpCallBack).searchMatch(searchWord);
+            }
+        }else {
+            mChampionMatchList.clear();
+            if (!TextUtils.isEmpty(searchWord)) {
+                List<MatchInfo> matchInfoList = new ArrayList<>();
+                for (MatchInfo matchInfo : mChampionMatchInfoList) {
+                    MatchPm matchPm = new MatchPm(matchInfo);
+                    if (matchPm.getLeague().getLeagueName().contains(searchWord)) {
+                        matchInfoList.add(matchInfo);
+                    }
+                }
+                championLeagueList(matchInfoList);
+            } else {
+                championLeagueList(mChampionMatchInfoList);
+            }
+            championMatchListData.postValue(mChampionMatchList);
+        }
+    }
+
     /**
      * 获取赛事列表
      *
@@ -300,7 +326,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
 
         if (mCurrentPage == 1 && !isTimerRefresh && !isStepSecond) {
-            showCache(sportId, mPlayMethodType, searchDatePos);
+            //showCache(sportId, mPlayMethodType, searchDatePos);
         }
 
         PMListReq pmListReq = new PMListReq();
@@ -402,170 +428,28 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         if (isRefresh) {
             mNoLiveheaderLeague = null;
         }
-        PMHttpCallBack pmHttpCallBack;
 
 
         if ((type == 1 && needSecondStep) // 获取今日中的全部滚球赛事列表
                 || isTimerRefresh) { // 定时刷新赔率变更
-            pmHttpCallBack = new PMListCallBack(this, mHasCache, isTimerRefresh, isRefresh, mPlayMethodType, sportPos, sportId,
+            PMListCallBack httpCallBack = new PMListCallBack(this, mHasCache, isTimerRefresh, isRefresh, mPlayMethodType, sportPos, sportId,
                     orderBy, leagueIds, searchDatePos, oddType, matchidList);
-            /*pmHttpCallBack = new PMHttpCallBack<List<MatchInfo>>() {
-                @Override
-                protected void onStart() {
-                    super.onStart();
-                    if (!isTimerRefresh && !mHasCache) {
-                        getUC().getShowDialogEvent().postValue("");
-                    }
-                }
+            Disposable disposable = (Disposable) flowable
+                    .compose(RxUtils.schedulersTransformer()) //线程调度
+                    .compose(RxUtils.exceptionTransformer())
+                    .subscribeWith(httpCallBack);
+            addSubscribe(disposable);
 
-                @Override
-                public void onResult(List<MatchInfo> data) {
-                    if (isTimerRefresh) { // 定时刷新赔率变更
-                        if (data.size() != matchidList.size()) {
-                            List<Long> matchIdList = new ArrayList<>();
-                            getLeagueList(sportPos, sportId, orderBy, leagueIds, matchIdList, playMethodType, searchDatePos, oddType, false, true);
-                        } else {
-                            setOptionOddChange(data);
-                            leagueLiveTimerListData.postValue(mLeagueList);
-                        }
-                    } else {  // 获取今日中的全部滚球赛事列表
-                        if (isRefresh) {
-                            mLeagueList.clear();
-                            mMapLeague.clear();
-                            mMapSportType.clear();
-                        }
-
-                        mIsStepSecond = true;
-                        leagueGoingList(data);
-                        getLeagueList(sportPos, sportId, orderBy, leagueIds, matchidList, 2, searchDatePos, oddType, false, isRefresh);
-                        *//*if (finalType == 1) { // 滚球
-                            if (needSecondStep) {
-                                isStepSecond = true;
-                                leagueGoingList(data);
-                                getLeagueList(sportPos, sportId, orderBy, leagueIds, matchidList, 2, searchDatePos, oddType, false, isRefresh);
-                            } else {
-                                getUC().getDismissDialogEvent().call();
-                                leagueAdapterList(data);
-                                leagueGoingOnListData.postValue(mLeagueList);
-                            }
-                        } else {
-                            leagueAdapterList(data);
-                            leagueWaitingListData.postValue(mLeagueList);
-                        }*//*
-
-
-                        *//*if (isRefresh) {
-                            finishRefresh(true);
-                        } else {
-                            if (data != null && data.isEmpty()) {
-                                loadMoreWithNoMoreData();
-                            } else {
-                                finishLoadMore(true);
-                            }
-                        }*//*
-                    }
-                }
-
-                @Override
-                public void onError(Throwable t) {
-                    if (!isTimerRefresh) {
-                        if (t instanceof ResponseThrowable) {
-                            ResponseThrowable error = (ResponseThrowable) t;
-                            if (error.code == CODE_401026 || error.code == CODE_401013) {
-                                getGameTokenApi();
-                            } else if (error.code == CODE_401038) {
-                                ToastUtils.showShort(error.getMessage());
-                                tooManyRequestsEvent.call();
-                            } else {
-                                getLeagueList(sportPos, sportId, orderBy, leagueIds, matchidList, playMethodType, searchDatePos, oddType, isTimerRefresh, isRefresh);
-                            }
-                        }
-                    }
-                    //getUC().getDismissDialogEvent().call();
-                }
-            };*/
         } else {
-            pmHttpCallBack = new PMLeagueListCallBack(this, mHasCache, isTimerRefresh, isRefresh, mCurrentPage, mPlayMethodType, sportPos, sportId,
+            mPmHttpCallBack = new PMLeagueListCallBack(this, mHasCache, isTimerRefresh, isRefresh, mCurrentPage, mPlayMethodType, sportPos, sportId,
                     orderBy, leagueIds, searchDatePos, oddType, matchidList,
                     finalType, isStepSecond);
-            /*pmHttpCallBack = new PMHttpCallBack<MatchListRsp>() {
-                @Override
-                protected void onStart() {
-                    super.onStart();
-                    if (!mHasCache && !mIsStepSecond) {
-                        getUC().getShowDialogEvent().postValue("");
-                    }
-                }
-
-                @Override
-                public void onResult(MatchListRsp matchListRsp) {
-                    getUC().getDismissDialogEvent().call();
-                    if (isRefresh) {
-                        if (!mIsStepSecond) {
-                            mLeagueList.clear();
-                            mMapLeague.clear();
-                            mMapSportType.clear();
-                        }
-                        if (matchListRsp != null && mCurrentPage == matchListRsp.getPages()) {
-                            loadMoreWithNoMoreData();
-                        } else {
-                            finishRefresh(true);
-                        }
-                    } else {
-                        if (matchListRsp != null && mCurrentPage == matchListRsp.getPages()) {
-                            loadMoreWithNoMoreData();
-                        } else {
-                            finishLoadMore(true);
-                        }
-                    }
-
-                    leagueAdapterList(matchListRsp.data);
-                    if (finalType == 1) { // 滚球
-                        leagueLiveListData.postValue(mLeagueList);
-                    } else {
-                        leagueNoLiveListData.postValue(mLeagueList);
-                    }
-                    if (mCurrentPage == 1) {
-                        SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + searchDatePos + sportId, new Gson().toJson(mLeagueList));
-                    }
-                    mHasCache = false;
-                    mIsStepSecond = false;
-                    *//*if (finalType == 1) { // 滚球
-                        if (needSecondStep) {
-                            leagueGoingList(matchListRsp.data);
-                            getLeagueList(sportPos, sportId, orderBy, leagueIds, matchidList, 2, searchDatePos, oddType, false, isRefresh);
-                        } else {
-                            leagueAdapterList(matchListRsp.data);
-                            leagueGoingOnListData.postValue(mLeagueList);
-                        }
-                    } else {
-                        leagueAdapterList(matchListRsp.data);
-                        leagueWaitingListData.postValue(mLeagueList);
-                    }*//*
-                }
-
-                @Override
-                public void onError(Throwable t) {
-                    if (t instanceof ResponseThrowable) {
-                        ResponseThrowable error = (ResponseThrowable) t;
-                        if (error.code == CODE_401026 || error.code == CODE_401013) {
-                            getGameTokenApi();
-                        } else if (error.code == CODE_401038) {
-                            ToastUtils.showShort(error.getMessage());
-                            tooManyRequestsEvent.call();
-                        } else {
-                            getLeagueList(sportPos, sportId, orderBy, leagueIds, matchidList, playMethodType, searchDatePos, oddType, isTimerRefresh, isRefresh);
-                        }
-                    }
-                }
-            };*/
+            Disposable disposable = (Disposable) flowable
+                    .compose(RxUtils.schedulersTransformer()) //线程调度
+                    .compose(RxUtils.exceptionTransformer())
+                    .subscribeWith(mPmHttpCallBack);
+            addSubscribe(disposable);
         }
-
-        Disposable disposable = (Disposable) flowable
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(pmHttpCallBack);
-        addSubscribe(disposable);
     }
 
     /**
@@ -646,6 +530,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                         if (isRefresh) {
                             mChampionMatchList.clear();
+                            mChampionMatchInfoList.clear();
                         }
 
                         getUC().getDismissDialogEvent().call();
@@ -662,9 +547,13 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                                 finishLoadMore(true);
                             }
                         }
-
-                        championLeagueList(matchListRsp.data);
-                        championMatchListData.postValue(mChampionMatchList);
+                        mChampionMatchInfoList.addAll(matchListRsp.data);
+                        if (TextUtils.isEmpty(mSearchWord)) {
+                            championLeagueList(matchListRsp.data);
+                            championMatchListData.postValue(mChampionMatchList);
+                        }else {
+                            searchMatch(mSearchWord, true);
+                        }
                         if (mCurrentPage == 1) {
                             SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + playMethodType + sportId, new Gson().toJson(mChampionMatchList));
                         }
@@ -673,6 +562,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onError(Throwable t) {
+                        getUC().getDismissDialogEvent().call();
                         if (t instanceof ResponseThrowable) {
                             ResponseThrowable error = (ResponseThrowable) t;
                             if (error.code == CODE_401026 || error.code == CODE_401013) {
@@ -811,47 +701,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      * @param matchInfoList
      * @return
      */
-    private void leagueAdapterList(List<MatchInfo> matchInfoList) {
-        int noLiveMatchSize = matchInfoList == null ? 0 : matchInfoList.size();
-        buildNoLiveHeaderLeague(new LeaguePm(), noLiveMatchSize);
-
-        Map<String, League> mapLeague = new HashMap<>();
-        for (MatchInfo matchInfo : matchInfoList) {
-            Match match = new MatchPm(matchInfo);
-            buildNoLiveSportHeader(match, new LeaguePm());
-
-            League league = mMapLeague.get(String.valueOf(matchInfo.tid));
-            if (league == null) {
-                LeagueInfo leagueInfo = new LeagueInfo();
-                leagueInfo.picUrlthumb = matchInfo.lurl;
-                leagueInfo.nameText = matchInfo.tn;
-                leagueInfo.tournamentId = Long.valueOf(matchInfo.tid);
-                league = new LeaguePm(leagueInfo);
-                mapLeague.put(String.valueOf(matchInfo.tid), league);
-
-                mLeagueList.add(league);
-                mMapLeague.put(String.valueOf(matchInfo.tid), league);
-            }
-            league.getMatchList().add(match);
-
-
-            if (mMapMatch.get(String.valueOf(match.getId())) == null) {
-                mMapMatch.put(String.valueOf(match.getId()), match);
-                mMatchList.add(match);
-            } else {
-                int index = mMatchList.indexOf(mMapMatch.get(String.valueOf(match.getId())));
-                if (index > -1) {
-                    mMatchList.set(index, match);
-                }
-            }
-        }
-
-    }
-
-    /**
-     * @param matchInfoList
-     * @return
-     */
     private void championLeagueList(List<MatchInfo> matchInfoList) {
         if (!matchInfoList.isEmpty()) {
             Match header = new MatchPm();
@@ -861,61 +710,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
                 Match match = new MatchPm(matchInfo);
                 mChampionMatchList.add(match);
             }
-        }
-    }
-
-    /**
-     * 设置赔率变化
-     *
-     * @param matchInfoList
-     */
-    private void setOptionOddChange(List<MatchInfo> matchInfoList) {
-        List<Match> newMatchList = new ArrayList<>();
-
-        for (MatchInfo matchInfo : matchInfoList) {
-            Match newMatch = new MatchPm(matchInfo);
-            newMatchList.add(newMatch);
-        }
-
-        List<Option> newOptonList = getMatchOptionList(newMatchList);
-        List<Option> oldOptonList = getMatchOptionList(mMatchList);
-
-        for (Option newOption : newOptonList) {
-            for (Option oldOption : oldOptonList) {
-                if (oldOption != null && newOption != null
-                        && oldOption.getRealOdd() != newOption.getRealOdd()
-                        && TextUtils.equals(oldOption.getCode(), newOption.getCode())) {
-                    newOption.setChange(oldOption.getRealOdd());
-                    break;
-                }
-            }
-        }
-
-        for (Match match : newMatchList) {
-            Match oldMatch = mMapMatch.get(String.valueOf(match.getId()));
-            if (oldMatch != null) {
-                int index = mMatchList.indexOf(oldMatch);
-                if (index > -1) {
-                    mMatchList.set(mMatchList.indexOf(oldMatch), match);
-                }
-            }
-        }
-
-        for (Match match : newMatchList) {
-            for (League league : mLeagueList) {
-                if (!league.isHead() && league.isExpand()) {
-                    Match oldMatch = mMapMatch.get(String.valueOf(match.getId()));
-                    if (oldMatch != null) {
-                        int index = league.getMatchList().indexOf(oldMatch);
-                        if (index > -1) {
-                            league.getMatchList().set(index, match);
-                            mMapMatch.put(String.valueOf(match.getId()), match);
-                            break;
-                        }
-                    }
-                }
-            }
-
         }
     }
 
@@ -960,30 +754,6 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             }
         }
 
-    }
-
-    private List<Option> getMatchOptionList(List<Match> matchList) {
-        List<Option> optionList = new ArrayList<>();
-        for (Match match : matchList) {
-            PlayGroup newPlayGroup = new PlayGroupPm(match.getPlayTypeList());
-
-            for (PlayType playType : newPlayGroup.getPlayTypeList()) {
-                playType.getOptionLists();
-                for (Option option : playType.getOptionList(match.getSportId())) {
-                    if (option == null) {
-                        continue;
-                    }
-                    StringBuffer code = new StringBuffer();
-                    code.append(match.getId());
-                    if (option != null) {
-                        code.append(option.getId());
-                    }
-                    option.setCode(code.toString());
-                    optionList.add(option);
-                }
-            }
-        }
-        return optionList;
     }
 
     private List<Option> getChampionMatchOptionList(List<Match> matchList) {

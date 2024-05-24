@@ -46,11 +46,12 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<String> liveData1kEntry = new SingleLiveData<>();
     //public SingleLiveData<List<RechargeVo>> liveDataRechargeList = new SingleLiveData<>(); // 充值列表(从缓存加载用)
     public SingleLiveData<List<PaymentTypeVo>> liveDataPayTypeList = new SingleLiveData<>(); // 充值列表(大类型 从缓存加载用)
+    public SingleLiveData<List<String>> liveDataPayCodeArr = new SingleLiveData<>(); // 含弹出支付窗口的充值渠道类型列表(从缓存加载用)
     public SingleLiveData<String> liveDataTutorial = new SingleLiveData<>(); // 充值教程(从缓存加载用)
     public SingleLiveData<RechargeVo> liveDataRecharge = new SingleLiveData<>(); // 充值详情
     public SingleLiveData<RechargePayVo> liveDataRechargePay = new SingleLiveData<>(); // 充值提交结果
     public SingleLiveData<Map<String, String>> liveDataSignal = new SingleLiveData<>(); // 人工客服暗号
-    public SingleLiveData<RechargeOrderDetailVo> liveDataOrderDetail = new SingleLiveData<>(); // 人工客服暗号
+    public SingleLiveData<RechargeOrderDetailVo> liveDataOrderDetail = new SingleLiveData<>(); // 订单详情
     public SingleLiveData<List<BannersVo>> liveDataRcBanners = new SingleLiveData<>(); // 轮播图
     public SingleLiveData<FeedbackVo> feedbackVoSingleLiveData = new SingleLiveData<>();//进入反馈页面回去的数据
     public SingleLiveData<FeedbackImageUploadVo> imageUploadVoSingleLiveData = new SingleLiveData<>();//feedback图片上传
@@ -399,6 +400,8 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
         }.getType());
         if (vo2 != null) {
             //liveDataPayment.setValue(vo);
+            //liveDataPaymentData.setValue(vo2);
+            liveDataPayCodeArr.setValue(vo2.payCodeArr);
             liveDataPayTypeList.setValue(vo2.chongzhiList);
             liveDataTutorial.setValue(vo2.bankdirect_url);
         }

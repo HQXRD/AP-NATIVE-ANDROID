@@ -15,6 +15,7 @@ import java.util.List;
 
 public class CgBtResultAdapter extends BaseAdapter<BtResult> {
     private List<CgOddLimit> cgOddLimitList;
+
     public CgBtResultAdapter(Context context, List<CgOddLimit> cgOddLimitList, List<BtResult> datas) {
         super(context, datas);
         this.cgOddLimitList = cgOddLimitList;
@@ -38,18 +39,18 @@ public class CgBtResultAdapter extends BaseAdapter<BtResult> {
             binding.tvAmountCc.setText(mContext.getResources().getString(R.string.bt_bt_pay, String.valueOf(cgOddLimit.getBtTotalAmount())));
             binding.tvWinCc.setText(mContext.getResources().getString(R.string.bt_bt_win_dan, NumberUtils.format(cgOddLimit.getWin(cgOddLimit.getBtAmount()), 2)));
             binding.tvResult.setText(btResult.getStatusDesc());
-            if(btResult.isSuccessed()){
+            if (btResult.isSuccessed()) {
                 binding.tvResult.setTextColor(mContext.getResources().getColor(R.color.bt_color_bt_result_success));
-            }else{
+            } else {
                 binding.tvResult.setTextColor(mContext.getResources().getColor(R.color.bt_color_bt_result_failed));
             }
         } else {
             binding.cslCgDan.setVisibility(View.VISIBLE);
             binding.cslCgCc.setVisibility(View.GONE);
             binding.tvAmountDan.setText(mContext.getResources().getString(R.string.bt_bt_pay, NumberUtils.format(cgOddLimit.getBtAmount(), 2)));
-            binding.tvWinDan.setText(mContext.getResources().getString(R.string.bt_bt_win, NumberUtils.format(cgOddLimit.getWin(cgOddLimit.getBtAmount()), 2)));
+            binding.tvWinDan.setText(mContext.getResources().getString(R.string.bt_bt_win_1, NumberUtils.format(cgOddLimit.getWin(cgOddLimit.getBtAmount()), 2)));
         }
-        if(btResult != null) {
+        if (btResult != null) {
             binding.tvBtId.setText(btResult.getId());
         }
     }

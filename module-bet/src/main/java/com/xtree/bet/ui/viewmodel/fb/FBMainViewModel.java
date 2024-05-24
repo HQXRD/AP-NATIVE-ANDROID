@@ -12,8 +12,6 @@ import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_LIVE;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_NOMAL;
 import static com.xtree.bet.constant.FBConstants.SPORT_NAMES_TODAY_CG;
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
-import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
-import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -21,11 +19,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.net.HttpCallBack;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.TimeUtils;
-import com.xtree.base.vo.FBService;
 import com.xtree.bet.bean.response.fb.LeagueInfo;
 import com.xtree.bet.bean.response.fb.MatchTypeInfo;
 import com.xtree.bet.bean.response.fb.MatchTypeStatisInfo;
@@ -73,6 +67,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
     private Map<String, Match> mMapMatch = new HashMap<>();
 
     private List<Match> mChampionMatchList = new ArrayList<>();
+    private List<MatchInfo> mChampionMatchInfoList = new ArrayList<>();
     private Map<String, Match> mChampionMatchMap = new HashMap<>();
     private StatisticalInfo mStatisticalInfo;
     private Map<String, List<Integer>> sportCountMap = new HashMap<>();
@@ -87,6 +82,8 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         mMapMatch = leagueListCallBack.getMapMatch();
         mMapSportType = leagueListCallBack.getMapSportType();
         mNoLiveheaderLeague = leagueListCallBack.getNoLiveheaderLeague();
+        mLiveMatchList = leagueListCallBack.getLiveMatchList();
+        mNoliveMatchList = leagueListCallBack.getNoliveMatchList();
     }
 
     public Map<String, League> getMapLeague() {
@@ -289,105 +286,38 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
             fBListReq.setSize(pageSize);
         }
 
-        LeagueListCallBack leagueListCallBack = new LeagueListCallBack(this, mHasCache, isTimerRefresh, isRefresh, mCurrentPage, mPlayMethodType, sportPos, sportId,
+        mLeagueListCallBack = new LeagueListCallBack(this, mHasCache, isTimerRefresh, isRefresh, mCurrentPage, mPlayMethodType, sportPos, sportId,
                 orderBy, leagueIds, searchDatePos, oddType, matchids,
                 needSecondStep, finalType, isStepSecond);
 
         Disposable disposable = (Disposable) model.getApiService().getFBList(fBListReq)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(leagueListCallBack);
-                /*.subscribeWith(new FBHttpCallBack<MatchListRsp>() {
-                    @Override
-                    protected void onStart() {
-                        super.onStart();
-                        if (!isTimerRefresh && !mHasCache) {
-                            getUC().getShowDialogEvent().postValue("");
-                        }
-                    }
-
-                    @Override
-                    public void onResult(MatchListRsp matchListRsp) {
-
-                        if (isTimerRefresh) {
-                            if (matchListRsp.records.size() != matchids.size()) {
-                                List<Long> matchIdList = new ArrayList<>();
-                                getLeagueList(sportPos, sportId, orderBy, leagueIds, matchIdList, playMethodType, searchDatePos, oddType, false, true);
-                            } else {
-                                setOptionOddChange(matchListRsp.records);
-                                leagueGoingOnTimerListData.postValue(mLeagueList);
-                            }
-                            return;
-                        }
-                        synchronized (this) {
-                            CfLog.e("Thread.currentThread().getName()========" + Thread.currentThread().getName());
-                            if (isRefresh && !needSecondStep) {
-                                mLeagueList.clear();
-                                mMapLeague.clear();
-                                mMapSportType.clear();
-                            }
-
-                            if (!needSecondStep) {
-                                getUC().getDismissDialogEvent().call();
-                                if (isRefresh) {
-                                    if (matchListRsp != null && mCurrentPage == matchListRsp.getPages()) {
-                                        loadMoreWithNoMoreData();
-                                    } else {
-                                        finishRefresh(true);
-                                    }
-                                } else {
-                                    if (matchListRsp != null && mCurrentPage == matchListRsp.getPages()) {
-                                        loadMoreWithNoMoreData();
-                                    } else {
-                                        finishLoadMore(true);
-                                    }
-                                }
-                            }
-
-                            if (finalType == 1) { // 滚球
-                                if (needSecondStep) {
-                                    mIsStepSecond = true;
-                                    leagueGoingList(matchListRsp.records);
-                                    getLeagueList(sportPos, sportId, orderBy, leagueIds, matchids, 3, searchDatePos, oddType, false, isRefresh);
-                                } else {
-                                    leagueAdapterList(matchListRsp.records);
-                                    leagueGoingOnListData.postValue(mLeagueList);
-                                    if (mCurrentPage == 1) {
-                                        SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + searchDatePos + sportId, new Gson().toJson(mLeagueList));
-                                    }
-                                }
-                            } else {
-                                leagueAdapterList(matchListRsp.records);
-                                leagueWaitingListData.postValue(mLeagueList);
-                                if (mCurrentPage == 1) {
-                                    SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + mPlayMethodType + searchDatePos + sportId, new Gson().toJson(mLeagueList));
-                                }
-                                mIsStepSecond = false;
-                            }
-                            mHasCache = false;
-
-                            //CfLog.e("=========getLeagueList========" + sportId + "========" + mLeagueList.size());
-                        }
-
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        if (t instanceof ResponseThrowable) {
-                            if (((ResponseThrowable) t).code == CODE_14010) {
-                                getGameTokenApi();
-                            } else {
-                                getLeagueList(sportPos, sportId, orderBy, leagueIds, matchids, playMethodType, searchDatePos, oddType, isTimerRefresh, isRefresh);
-                            }
-                        }
-                        *//*if (isRefresh) {
-                            finishRefresh(false);
-                        } else {
-                            finishLoadMore(false);
-                        }*//*
-                    }
-                });*/
+                .subscribeWith(mLeagueListCallBack);
         addSubscribe(disposable);
+    }
+
+    public void searchMatch(String searchWord, boolean isChampion) {
+        mSearchWord = searchWord;
+        mIsChampion = isChampion;
+        if(!isChampion) {
+            mLeagueListCallBack.searchMatch(searchWord);
+        }else {
+            mChampionMatchList.clear();
+            if (!TextUtils.isEmpty(searchWord)) {
+                List<MatchInfo> matchInfoList = new ArrayList<>();
+                for (MatchInfo matchInfo : mChampionMatchInfoList) {
+                    MatchFb matchFb = new MatchFb(matchInfo);
+                    if (matchFb.getLeague().getLeagueName().contains(searchWord)) {
+                        matchInfoList.add(matchInfo);
+                    }
+                }
+                championLeagueList(matchInfoList);
+            } else {
+                championLeagueList(mChampionMatchInfoList);
+            }
+            championMatchListData.postValue(mChampionMatchList);
+        }
     }
 
     /**
@@ -456,6 +386,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                         getUC().getDismissDialogEvent().call();
                         if (isRefresh) {
                             mChampionMatchList.clear();
+                            mChampionMatchInfoList.clear();
                             mChampionMatchMap.clear();
                             if (matchListRsp != null && mCurrentPage == matchListRsp.getPages()) {
                                 loadMoreWithNoMoreData();
@@ -469,10 +400,13 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                                 finishLoadMore(true);
                             }
                         }
-
-                        championLeagueList(matchListRsp.records);
-                        CfLog.e("=========mChampionMatchList=========" + mChampionMatchList.size());
-                        championMatchListData.postValue(mChampionMatchList);
+                        mChampionMatchInfoList.addAll(matchListRsp.records);
+                        if (TextUtils.isEmpty(mSearchWord)) {
+                            championLeagueList(matchListRsp.records);
+                            championMatchListData.postValue(mChampionMatchList);
+                        }else {
+                            searchMatch(mSearchWord, true);
+                        }
                         if (mCurrentPage == 1) {
                             SPUtils.getInstance().put(BT_LEAGUE_LIST_CACHE + playMethodType + sportId, new Gson().toJson(mChampionMatchList));
                         }
@@ -481,6 +415,7 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
 
                     @Override
                     public void onError(Throwable t) {
+                        getUC().getDismissDialogEvent().call();
                         if (t instanceof ResponseThrowable) {
                             if (((ResponseThrowable) t).code == CODE_14010) {
                                 getGameTokenApi();
@@ -488,11 +423,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                                 getChampionList(sportPos, sportId, orderBy, leagueIds, matchids, playMethodType, oddType, isTimerRefresh, isRefresh);
                             }
                         }
-                        /*if (isRefresh) {
-                            finishRefresh(false);
-                        } else {
-                            finishLoadMore(false);
-                        }*/
                     }
                 });
         addSubscribe(disposable);
@@ -581,88 +511,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
         return SPORT_NAMES;
     }
 
-    private void leagueGoingList(List<MatchInfo> matchInfoList) {
-        if (matchInfoList.isEmpty()) {
-            mNoLiveMatch = true;
-            return;
-        }
-
-        League liveheaderLeague = new LeagueFb();
-        buildLiveHeaderLeague(liveheaderLeague);
-
-        Map<String, League> mapLeague = new HashMap<>();
-        Map<String, League> mapSportType = new HashMap<>();
-        for (MatchInfo matchInfo : matchInfoList) {
-            Match match = new MatchFb(matchInfo);
-            buildLiveSportHeader(mapSportType, match, new LeagueFb());
-
-            League league = mapLeague.get(String.valueOf(matchInfo.lg.id));
-
-            if (league == null) {
-                league = new LeagueFb(matchInfo.lg);
-                mapLeague.put(String.valueOf(matchInfo.lg.id), league);
-
-                mGoingOnLeagueList.add(league);
-                //mMapGoingOnLeague.put(String.valueOf(matchInfo.lg.id), league);
-            }
-
-            league.getMatchList().add(match);
-
-
-            if (mMapMatch.get(String.valueOf(match.getId())) == null) {
-                mMapMatch.put(String.valueOf(match.getId()), match);
-                mMatchList.add(match);
-            } else {
-                int index = mMatchList.indexOf(mMapMatch.get(String.valueOf(match.getId())));
-                if (index > -1) {
-                    mMapMatch.put(String.valueOf(match.getId()), match);
-                    mMatchList.set(index, match);
-                }
-            }
-
-        }
-
-    }
-
-    /**
-     * @param matchInfoList
-     * @return
-     */
-    private void leagueAdapterList(List<MatchInfo> matchInfoList) {
-        int noLiveMatchSize = matchInfoList == null ? 0 : matchInfoList.size();
-        buildNoLiveHeaderLeague(new LeagueFb(), noLiveMatchSize);
-        Map<String, League> mapLeague = new HashMap<>();
-        for (MatchInfo matchInfo : matchInfoList) {
-            if (FBConstants.getPlayTypeId(String.valueOf(matchInfo.sid)) == null) {
-                continue;
-            }
-            Match match = new MatchFb(matchInfo);
-            buildNoLiveSportHeader(match, new LeagueFb());
-            League league = mMapLeague.get(String.valueOf(matchInfo.lg.id));
-            if (league == null) {
-                league = new LeagueFb(matchInfo.lg);
-                mapLeague.put(String.valueOf(matchInfo.lg.id), league);
-
-                mLeagueList.add(league);
-                mMapLeague.put(String.valueOf(matchInfo.lg.id), league);
-            }
-
-            league.getMatchList().add(match);
-
-            if (mMapMatch.get(String.valueOf(match.getId())) == null) {
-                mMapMatch.put(String.valueOf(match.getId()), match);
-                mMatchList.add(match);
-            } else {
-                int index = mMatchList.indexOf(mMapMatch.get(String.valueOf(match.getId())));
-                if (index > -1) {
-                    mMapMatch.put(String.valueOf(match.getId()), match);
-                    mMatchList.set(index, match);
-                }
-            }
-        }
-
-    }
-
     /**
      * @param matchInfoList
      * @return
@@ -677,62 +525,6 @@ public class FBMainViewModel extends TemplateMainViewModel implements MainViewMo
                 mChampionMatchList.add(match);
                 mChampionMatchMap.put(String.valueOf(match.getId()), match);
             }
-        }
-    }
-
-    /**
-     * 设置赔率变化
-     *
-     * @param matchInfoList
-     */
-    public void setOptionOddChange(List<MatchInfo> matchInfoList) {
-        List<Match> newMatchList = new ArrayList<>();
-
-        for (MatchInfo matchInfo : matchInfoList) {
-            Match newMatch = new MatchFb(matchInfo);
-            newMatchList.add(newMatch);
-        }
-
-        List<Option> newOptonList = getMatchOptionList(newMatchList);
-        List<Option> oldOptonList = getMatchOptionList(mMatchList);
-
-        for (Option newOption : newOptonList) {
-            for (Option oldOption : oldOptonList) {
-                if (oldOption != null && newOption != null
-                        && oldOption.getRealOdd() != newOption.getRealOdd()
-                        && TextUtils.equals(oldOption.getCode(), newOption.getCode())) {
-                    newOption.setChange(oldOption.getRealOdd());
-                    break;
-                }
-            }
-        }
-
-        for (Match match : newMatchList) {
-            Match oldMatch = mMapMatch.get(String.valueOf(match.getId()));
-
-            if (oldMatch != null) {
-                int index = mMatchList.indexOf(oldMatch);
-                if (index > -1) {
-                    mMatchList.set(mMatchList.indexOf(oldMatch), match);
-                }
-            }
-        }
-
-        for (Match match : newMatchList) {
-            for (League league : mLeagueList) {
-                if (!league.isHead() && league.isExpand()) {
-                    Match oldMatch = mMapMatch.get(String.valueOf(match.getId()));
-                    if (oldMatch != null) {
-                        int index = league.getMatchList().indexOf(oldMatch);
-                        if (index > -1) {
-                            league.getMatchList().set(index, match);
-                            mMapMatch.put(String.valueOf(match.getId()), match);
-                            break;
-                        }
-                    }
-                }
-            }
-
         }
     }
 

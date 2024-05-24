@@ -105,23 +105,84 @@
                     app:tabPaddingStart="5dp"
                     app:tabRippleColor="@android:color/transparent" />
 
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tab_fb_league"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_tab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/bt_page_up_bg"
+                    app:layout_constraintTop_toBottomOf="@+id/tab_sport_type">
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tab_fb_league"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:background="@color/bt_page_up_bg"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textSize="10sp"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toStartOf="@id/ivw_game_search"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:tabIndicatorHeight="0dp"
+                        app:tabMaxWidth="80dp"
+                        app:tabMinWidth="50dp"
+                        app:tabMode="scrollable"
+                        app:tabPaddingEnd="5dp"
+                        app:tabPaddingStart="5dp"
+                        app:tabRippleColor="@android:color/transparent" />
+
+                    <ImageView
+                        android:id="@+id/ivw_game_search"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:paddingEnd="4dp"
+                        android:src="@mipmap/ic_game_search"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_game_search"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:background="@color/bt_page_up_bg"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="10dp"
-                    android:textSize="10sp"
                     android:visibility="gone"
-                    app:layout_constraintTop_toBottomOf="@+id/tab_sport_type"
-                    app:tabIndicatorHeight="0dp"
-                    app:tabMaxWidth="80dp"
-                    app:tabMinWidth="50dp"
-                    app:tabMode="scrollable"
-                    app:tabPaddingEnd="5dp"
-                    app:tabPaddingStart="5dp"
-                    app:tabRippleColor="@android:color/transparent" />
+                    app:layout_constraintTop_toBottomOf="@+id/rl_play_method">
+
+                    <EditText
+                        android:id="@+id/edt_game_search"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_margin="3dp"
+                        android:background="@drawable/bg_game_search"
+                        android:drawableStart="@mipmap/ic_game_search"
+                        android:drawablePadding="6dp"
+                        android:hint="@string/txt_game_search"
+                        android:paddingStart="6dp"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/tvw_cancel"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvw_cancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
+                        android:gravity="center"
+                        android:text="@string/txt_cancel"
+                        android:textColor="@color/clr_grey_13"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.core.widget.NestedScrollView
                     android:id="@+id/nsv_league"
@@ -263,8 +324,5 @@
             android:layout_marginBottom="255dp"
             android:src="@drawable/bt_change_domain_selector" />
     </RelativeLayout>
-
-
-
 
 </layout>

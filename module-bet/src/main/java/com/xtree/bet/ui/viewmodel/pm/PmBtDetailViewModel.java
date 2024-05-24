@@ -37,6 +37,7 @@ import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by marquis
@@ -81,6 +82,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                         if (error.code == CODE_401026 || error.code == CODE_401013) {
                             getGameTokenApi();
                         }
+                        ToastUtils.showShort(error.message);
                     }
                 });
         addSubscribe(disposable);

@@ -3,8 +3,6 @@ package com.xtree.base.widget;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -35,6 +33,7 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.R;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 
@@ -169,10 +168,18 @@ public class BrowserDialog extends BottomPopupView {
             CfLog.d("not need header.");
             header.clear();
         }
-        mWebView.addJavascriptInterface(new WebAppInterface(getContext(), ivwClose, () -> {
-            CfLog.i("*******");
-            //dismiss(); // only the original thread that created a view hierarchy can touch its views.
-            ivwClose.post(() -> dismiss());
+        header.put("App-RNID", "87jumkljo");
+           mWebView.addJavascriptInterface(new WebAppInterface(getContext(), ivwClose, new WebAppInterface.ICallBack() {
+            @Override
+            public void close() {
+                //dismiss(); // only the original thread that created a view hierarchy can touch its views.
+                ivwClose.post(() -> dismiss());
+            }
+
+            @Override
+            public void goBack() {
+                ivwClose.post(() -> dismiss());
+            }
         }), "android");
 
         if (isFirstOpenBrowser && !TextUtils.isEmpty(token)) {
@@ -215,9 +222,7 @@ public class BrowserDialog extends BottomPopupView {
                         + ",\n userAgent: " + userAgent
                 );*/
                 //Log.d("---", "onDownloadStart url: " + url);
-                Uri uri = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                getContext().startActivity(intent);
+                AppUtil.goBrowser(getContext(), url);
             }
         });
 

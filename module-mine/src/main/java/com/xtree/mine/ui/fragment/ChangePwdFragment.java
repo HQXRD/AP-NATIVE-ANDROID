@@ -2,7 +2,9 @@ package com.xtree.mine.ui.fragment;
 
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
@@ -50,21 +52,40 @@ public class ChangePwdFragment extends BaseFragment<FragmentChangePwdBinding, Ve
         binding.tvwReset.setOnClickListener(v -> {
             binding.edtPwd.setText("");
             binding.edtPwd2.setText("");
+            binding.tvwPswWarning.setVisibility(View.INVISIBLE);
         });
+        binding.ivwBack.setOnClickListener( v ->{
+            getActivity().finish();
+        });
+
         binding.tvwOk.setOnClickListener(v -> {
             String pwd1 = binding.edtPwd.getText().toString();
             String pwd2 = binding.edtPwd2.getText().toString();
 
-            if (pwd1.isEmpty()) {
-                ToastUtils.showLong(R.string.txt_pwd_cannot_empty);
+            if (pwd1.isEmpty() || pwd2.isEmpty())
+            {
+                showError(getString(R.string.txt_chang_psw_input_error));
                 return;
             }
             if (!pwd1.equals(pwd2)) {
-                ToastUtils.showLong(R.string.txt_pwd_not_same);
+                showError(getString(R.string.txt_chang_psw_input_twice_error));
+                return;
+            }
+            if (pwd1.length() < 6 || pwd1.length() > 16 ||pwd2.length() < 6 || pwd2.length() > 16  ){
+                showError(getString(R.string.txt_chang_psw_input_length_error));
+                return;
+            }
+            if (!containsLetterAndDigit(pwd1) || !containsLetterAndDigit(pwd2)){
+                showError(getString(R.string.txt_chang_psw_input_format_error));
+                return;
+            }
+            if (!isLetterDigit(pwd1) || !isLetterDigit(pwd2) ){
+                showError(getString(R.string.txt_chang_psw_input_format_error));
                 return;
             }
 
-            String public_key = SPUtils.getInstance().getString("public_key", "");
+            String public_key = SPUtils.getInstance().getString("public_key",
+                    "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDW+Gv8Xmk+EdTLQUU5fEAzhlVuFrI7GN4a8N\\/B0Oe63ORK8oBE1pK+t5U5Iz89K4zf7nX+tqQvzND5Z57NMwyqTYYb3TMbrKgjqF1K2YW08OaubjpdohMnDIibmPXNtrbRZpOf2xIaApR+wpqGS+Xw0LzKA8JPYDOPO4lseAtqVwIDAQAB");
             String loginpass = RSAEncrypt.encrypt2(pwd1, public_key);
 
             HashMap<String, String> map = new HashMap<>();
@@ -76,6 +97,10 @@ public class ChangePwdFragment extends BaseFragment<FragmentChangePwdBinding, Ve
             viewModel.changePwd(map);
         });
 
+    }
+    private static  boolean isLetterDigit(String str){
+        String regex = "^[a-zA-Z0-9]+$";
+        return str.matches(regex);
     }
 
     @Override
@@ -120,6 +145,34 @@ public class ChangePwdFragment extends BaseFragment<FragmentChangePwdBinding, Ve
             edt.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         }
         edt.setSelection(edt.length());
+    }
+
+
+    private void  showError(final String message){
+        if (TextUtils.isEmpty(message) ||  message == null){
+            return;
+        }
+        binding.tvwPswWarning.setVisibility(View.VISIBLE);
+        binding.tvwPswWarning.setText(message);
+
+    }
+    private boolean containsLetterAndDigit(String str) {
+        boolean containsLetter = false;
+        boolean containsDigit = false;
+
+        for (char c : str.toCharArray()) {
+            if (Character.isLetter(c)) {
+                containsLetter = true;
+            } else if (Character.isDigit(c)) {
+                containsDigit = true;
+            }
+
+            if (containsLetter && containsDigit) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

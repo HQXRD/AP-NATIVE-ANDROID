@@ -429,6 +429,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
         map.put("lotteryid", "0");
         map.put("methodid", "0");
         map.put("ischild", "0");
+        map.put("bet_result", status); // 0-全部, 1-已结算, 2-未结算
         map.put("p", "" + page);
         map.put("pn", "20");
         map.put("client", "m");

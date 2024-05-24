@@ -11,7 +11,7 @@ public class SettingsVo implements Parcelable {
 
     public String public_key; // "-----BEGIN PUBLIC KEY-----MIGf***AQAB-----END PUBLIC KEY-----"
     public String barrage_api_url; // "wss://www.shenbofilm.com/wss/"
-    public String promption_code; // "kygprka"
+    public String promption_code; // "kygprka" 回传注册接口的code
     public String default_promption_code; // "kygprb"
     public String customer_service_url; // "https://www.mjooh9i.com/service/chatlink.html"
     // ["https://www.mjooh9i.com/service/chatlink.html", "https://www.5trfg4g.com/service/chatlink.html"]

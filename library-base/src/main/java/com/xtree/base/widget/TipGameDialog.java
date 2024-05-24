@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.lxj.xpopup.core.CenterPopupView;
 import com.xtree.base.R;
 import com.xtree.base.databinding.DialogGameTipBinding;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.TimeUtils;
 
 import me.xtree.mvvmhabit.utils.KLog;
@@ -53,6 +54,8 @@ public class TipGameDialog extends CenterPopupView {
         });
         String msg = title + getContext().getString(R.string.text_cancel_tip);
         binding.tvwMsg.setText(msg);
+        binding.tvwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
+
         binding.cbTipPm.setOnCheckedChangeListener((buttonView, isChecked) -> {
             KLog.i("isChecked", isChecked);
             if (isChecked) {

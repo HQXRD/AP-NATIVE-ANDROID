@@ -3,7 +3,6 @@ package com.xtree.base.widget;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -31,6 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.luck.picture.lib.basic.PictureSelector;
@@ -38,7 +38,9 @@ import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 import com.xtree.base.R;
+import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
@@ -58,6 +60,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  * 彩票: 带header, 隐藏标题头;
  * 三方链接: (三方游戏/H5充值) 不带header和token;
  */
+@Route(path = RouterActivityPath.Widget.PAGER_BROWSER)
 public class BrowserActivity extends AppCompatActivity {
     public static final String ARG_TITLE = "title";
     public static final String ARG_URL = "url";
@@ -163,6 +166,7 @@ public class BrowserActivity extends AppCompatActivity {
             CfLog.d("not need header.");
             header.clear(); // 游戏 header和cookie只带其中一个即可; FB只能带cookie
         }
+        header.put("App-RNID", "87jumkljo"); //
         CfLog.d("header: " + header); // new Gson().toJson(header)
         url = getIntent().getStringExtra("url");
 
@@ -173,7 +177,20 @@ public class BrowserActivity extends AppCompatActivity {
             SPUtils.getInstance().put(SPKeyGlobal.IS_FIRST_OPEN_BROWSER, false);
         }
 
-        mWebView.addJavascriptInterface(new WebAppInterface(this, ivwBack, () -> finish()), "android");
+        mWebView.addJavascriptInterface(new WebAppInterface(this, ivwBack, new WebAppInterface.ICallBack() {
+            @Override
+            public void close() {
+                String url2 = getIntent().getStringExtra("url") + "";
+                if (!url2.contains(Constant.URL_VIP_CENTER)) {
+                    finish();
+                }
+            }
+
+            @Override
+            public void goBack() {
+                finish();
+            }
+        }), "android");
         //setWebCookie();
         //setCookie(cookie, url); // 设置 cookie
         Uri uri = getIntent().getData();
@@ -231,9 +248,7 @@ public class BrowserActivity extends AppCompatActivity {
                         + ",\n userAgent: " + userAgent
                 );*/
                 //Log.d("---", "onDownloadStart url: " + url);
-                Uri uri = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+                AppUtil.goBrowser(getBaseContext(), url);
             }
         });
 
@@ -328,12 +343,7 @@ public class BrowserActivity extends AppCompatActivity {
             String jumpUrl = DomainUtil.getDomain() + "/static/sessionkeeper.html?token=" + token + "&tokenExpires=3600&url=" + urlBase64;
             CfLog.i("jumpUrl: " + jumpUrl);
             // 跳至外部浏览器
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(jumpUrl));
-            try {
-                startActivity(intent);
-            } catch (Exception e) {
-                CfLog.e("链接错误或无浏览器 " + e);
-            }
+            AppUtil.goBrowser(getBaseContext(), url);
         });
     }
 

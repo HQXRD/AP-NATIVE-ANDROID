@@ -7,7 +7,7 @@
         android:endColor="@color/bt_page_up_bg"
         android:startColor="@color/bt_page_up_bg" />
     <corners
-        android:topLeftRadius="14dp"
-        android:topRightRadius="14dp" />
+        android:topLeftRadius="20dp"
+        android:topRightRadius="20dp" />
 
 </shape>
