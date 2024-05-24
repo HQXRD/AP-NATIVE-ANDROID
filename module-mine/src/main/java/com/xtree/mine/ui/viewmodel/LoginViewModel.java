@@ -128,8 +128,8 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
     public void register(String userName, String pwd, String code) {
         HashMap<String, String> map = new HashMap();
         map.put("carryAuth", "false");
-        if (code == null) {
-            map.put("code", "");
+        if (code == null || TextUtils.isEmpty(code)) {
+            map.put("code", "jgrpkka");//默认推广code
         } else {
             map.put("code", code);
         }
@@ -138,6 +138,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         map.put("username", userName);
         map.put("userpass", pwd); // 明文
 
+        CfLog.e("code1=" + map);
         Disposable disposable = (Disposable) model.getApiService().register(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())

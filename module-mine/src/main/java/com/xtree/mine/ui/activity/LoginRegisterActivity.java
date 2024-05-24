@@ -480,10 +480,11 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     String netCode = strings[2];
                     CfLog.e("ClipboardUtil = " + netCode);
                     code = netCode;
-                    // SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, netCode);
+                }
+                else {
+                    CfLog.e("********strings.length!=3");
                 }
             } else {
-                //SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE_DEFAULT, "jgrpkka");
                 viewModel.getPromotion();
             }
         }
@@ -592,7 +593,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
     }
 
-    private void hideRegister(){
+    private void hideRegister() {
         binding.tvwUsernameWarning.setVisibility(View.INVISIBLE);
         binding.tvwPwdWarning.setVisibility(View.INVISIBLE);
         binding.tvwPwdCheckWarning.setVisibility(View.INVISIBLE);
