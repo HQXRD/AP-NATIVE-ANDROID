@@ -69,9 +69,9 @@ public class BtCpDetailDialog extends BottomPopupView {
             showDialog();
         });
 
-        binding.btnDeleteCpBig.setOnClickListener(v -> {
-            showDialog();
-        });
+        //binding.btnDeleteCpBig.setOnClickListener(v -> {
+        //    showDialog();
+        //});
     }
 
     private void initData() {
@@ -94,7 +94,7 @@ public class BtCpDetailDialog extends BottomPopupView {
                 @Override
                 public void onClickRight() {
                     binding.btnDeleteCp.setVisibility(View.INVISIBLE);
-                    binding.btnDeleteCpBig.setVisibility(View.INVISIBLE);
+                    //binding.btnDeleteCpBig.setVisibility(View.INVISIBLE);
                     ppw2.dismiss();
                 }
             }));
@@ -124,7 +124,7 @@ public class BtCpDetailDialog extends BottomPopupView {
 
         if (vo.iscancel.equals("0") && vo.isgetprize.equals("0")) {
             binding.btnDeleteCp.setVisibility(View.VISIBLE);
-            binding.btnDeleteCpBig.setVisibility(View.VISIBLE);
+            //binding.btnDeleteCpBig.setVisibility(View.VISIBLE);
         }
 
     }

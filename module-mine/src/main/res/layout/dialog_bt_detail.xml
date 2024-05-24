@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/me_wallet_account"
+            android:text="投注详情"
             android:textColor="@color/clr_white"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -217,12 +217,12 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_advance_settle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:id="@+id/tvw_betting_detail_title"
                     style="@style/style_item_report_title_end2"
-                    android:layout_marginTop="@dimen/layout_margin"
                     android:text="下注内容："
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
