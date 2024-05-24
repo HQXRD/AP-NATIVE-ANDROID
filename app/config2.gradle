@@ -3,7 +3,7 @@ android {
 
     productFlavors {
         // 测试环境 测试用
-        xingCai_pre {
+        /*xingCai_pre {
             applicationId "com.${name.toLowerCase()}.app" //
             //applicationId "com.xct01.app" //
             versionName "1.0.8"
@@ -42,9 +42,9 @@ android {
                     ";https://app.eyoumoban.com:16801"
             multiDexEnabled true
             dimension "channelName"
-        }
+        }*/
         // 生产环境 发布用
-        /*xingCai_OL {
+        xingCai_OL {
             applicationId "com.xcsport.app" //
             versionName "1.0.8"
             versionCode 108
@@ -63,7 +63,7 @@ android {
                     ";https://app.eyoumoban.com:16801"
             multiDexEnabled true
             dimension "channelName"
-        }*/
+        }
 
     }
 
