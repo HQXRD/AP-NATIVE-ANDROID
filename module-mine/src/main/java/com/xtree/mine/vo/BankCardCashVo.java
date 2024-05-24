@@ -6,16 +6,25 @@ import java.util.Objects;
 
 import me.xtree.mvvmhabit.http.BaseResponse2;
 
-/**
- * 银行卡取现
- */
+/*【魔域】银行卡提款 信息展示bean*/
 public class BankCardCashVo extends BaseResponse2 {
+
+    public int networkStatus;//1 网络链接超时 ；2 网络链接异常 ；0 网络链接正常
+
+    /*"nextcontroller": "security",
+	"nextaction": "platwithdraw",
+	"ur_here": "资金密码检查",
+	异常情况 需要弹出资金密码检查
+	*/
+    public String nextcontroller;
+    public String nextaction;
+    public String ur_here;
     public String exchangerate;
     public String withdraw_rand_on;
     public int freeWithDrawTimes;
     public int usdtfee;
     public String ourfee;
-    public String ur_here;
+
     public int times;//每日限制提款次数
     public String count;//已提款次数
     //"{"6":[100,100000],"7":[100,100000],"23":[100,50000],"10":[100,100000]}"
@@ -41,13 +50,13 @@ public class BankCardCashVo extends BaseResponse2 {
     public String pub_channel_id;
     public String pub_channel_token;
 
-    public UserInfo user;
+    public BankCardCashVo.UserInfo user;
 
     /**
      * 用户信息  用户名【username】 提款类型 可提款金额【availablebalance】
      */
     public static class UserInfo {
-        public String nickname; //新增nickname字段
+        public String nickname;
         public String userid;
         public String username;
         public double availablebalance;
@@ -204,7 +213,7 @@ public class BankCardCashVo extends BaseResponse2 {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            ChannelVo channelVo = (ChannelVo) o;
+            BankCardCashVo.ChannelVo channelVo = (BankCardCashVo.ChannelVo) o;
             return flag == channelVo.flag && thiriframe_use == channelVo.thiriframe_use && thiriframe_status == channelVo.thiriframe_status && fixamount_list_status == channelVo.fixamount_list_status && min_money == channelVo.min_money && max_money == channelVo.max_money && Objects.equals(typenum, channelVo.typenum) && Objects.equals(name, channelVo.name) && Objects.equals(thiriframe_url, channelVo.thiriframe_url) && Objects.equals(fixamount_list, channelVo.fixamount_list) && Objects.equals(fixamountList, channelVo.fixamountList) && Objects.equals(fee_ratio, channelVo.fee_ratio);
         }
 

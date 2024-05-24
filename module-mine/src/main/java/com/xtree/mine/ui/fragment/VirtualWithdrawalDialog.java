@@ -33,9 +33,9 @@ import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalVirtualBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.ChooseInfoVo;
-import com.xtree.mine.vo.VirtualCashMoYuVo;
-import com.xtree.mine.vo.VirtualConfirmMoYuVo;
-import com.xtree.mine.vo.VirtualSecurityMoYuVo;
+import com.xtree.mine.vo.VirtualCashVo;
+import com.xtree.mine.vo.VirtualConfirmVo;
+import com.xtree.mine.vo.VirtualSecurityVo;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -56,11 +56,11 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     ChooseWithdrawViewModel viewModel;
     private ChooseInfoVo.ChannelInfo channelInfo;
 
-    private VirtualCashMoYuVo.UsdtInfo selectUsdtInfo;//选中的支付
-    private VirtualCashMoYuVo virtualCashVo;
+    private VirtualCashVo.UsdtInfo selectUsdtInfo;//选中的支付
+    private VirtualCashVo virtualCashVo;
 
-    private VirtualSecurityMoYuVo usdtSecurityVo;
-    private VirtualConfirmMoYuVo usdtConfirmVo;
+    private VirtualSecurityVo usdtSecurityVo;
+    private VirtualConfirmVo usdtConfirmVo;
     @NonNull
     DialogBankWithdrawalVirtualBinding binding;
     private BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose;
@@ -362,8 +362,8 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     /**
      * 显示USDT收款地址
      */
-    private void showCollectionDialog(ArrayList<VirtualCashMoYuVo.UsdtInfo> list) {
-        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<VirtualCashMoYuVo.UsdtInfo>() {
+    private void showCollectionDialog(ArrayList<VirtualCashVo.UsdtInfo> list) {
+        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<VirtualCashVo.UsdtInfo>() {
             @NonNull
             @Override
             public CacheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -374,7 +374,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
             @Override
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
-                VirtualCashMoYuVo.UsdtInfo vo = get(position);
+                VirtualCashVo.UsdtInfo vo = get(position);
                 String showMessage = vo.usdt_type + " " + vo.usdt_card;
 
                 binding2.tvwTitle.setText(showMessage);
@@ -421,7 +421,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     /**
      * 设置提款 请求 下一步
      */
-    private void requestWithdrawVirtual(String money, String realCount, String usdtId, String checkCode, final VirtualCashMoYuVo virtualCashVo) {
+    private void requestWithdrawVirtual(String money, String realCount, String usdtId, String checkCode, final VirtualCashVo virtualCashVo) {
 
         HashMap<String, String> map = new HashMap<>();
         map.put("action", "platwithdraw");
@@ -442,7 +442,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     /**
      * 设置提款 完成申请
      */
-    private void requestConfirmVirtual(VirtualSecurityMoYuVo vo) {
+    private void requestConfirmVirtual(VirtualSecurityVo vo) {
         LoadingDialog.show(getContext());
         HashMap<String, String> map = new HashMap<>();
 

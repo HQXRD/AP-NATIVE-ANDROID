@@ -4,18 +4,25 @@ import java.util.ArrayList;
 
 import me.xtree.mvvmhabit.http.BaseResponse2;
 
-/**
- * USDT 提款请求返回体
- */
+/*魔域USDT 提款页面 信息*/
 public class USDTCashVo extends BaseResponse2 {
+    /*"nextcontroller": "security",
+"nextaction": "platwithdraw",
+"ur_here": "资金密码检查",
+异常情况 需要弹出资金密码检查
+*/
+    public String nextcontroller;
+    public String nextaction;
+    public String ur_here;
+
     public String count;//今日提款次数
-    public String rest;//今日提款额度
+    public String rest;//今日提款额度啊
     public String id;
     public String exchangerate;//汇率
     public String withdraw_rand_on;
     public String freeWithDrawTimes;
     public String ourfee;
-    public String ur_here;
+
     public String times;//显示提款次数
     public String limitarr;
     public String d_max_money;
@@ -39,9 +46,9 @@ public class USDTCashVo extends BaseResponse2 {
             "": "7.2"*/
 
     public User user;
-    public Wraptime wraptime;
+    public WrapTime wraptime;
 
-    public ArrayList<Usdtinfo> usdtinfo;
+    public ArrayList<UsdtInfo> usdtinfo;
 
     public String availablebalance;
     public String channel_list_use;
@@ -50,11 +57,12 @@ public class USDTCashVo extends BaseResponse2 {
     /**
      * 顶部选项卡
      */
-    public class Channel {
+    public static class Channel {
         public String name;
         public String id;
         public String title;
         public String type;
+        public boolean flag;
 
         @Override
         public String toString() {
@@ -67,7 +75,7 @@ public class USDTCashVo extends BaseResponse2 {
         }
     }
 
-    public class Usdtinfo {
+    public class UsdtInfo {
 
         public String id;
         public String user_name;
@@ -92,7 +100,7 @@ public class USDTCashVo extends BaseResponse2 {
         public String username;
         public String min_money;
         public String max_money;
-        public String quota ;//虚拟币提款余额
+        public String quota;//虚拟币提款余额
 
         /*"id": "3212",
                 "user_name": "tst033@as",
@@ -121,14 +129,14 @@ public class USDTCashVo extends BaseResponse2 {
                 "max_money": 133213*/
     }
 
-    public class Wraptime {
+    public class WrapTime {
         public String starttime;
         public String endtime;
 
     }
 
     public class User {
-        public String nickname ;
+        public String nickname;
         public String userid;
         public String username;
         public String availablebalance; //可提款金额

@@ -11,20 +11,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xtree.mine.R;
-import com.xtree.mine.vo.USDTCashMoYuVo;
+import com.xtree.mine.vo.USDTCashVo;
 
 import java.util.ArrayList;
 
 /* USDT提款顶顶 选项卡View*/
 public class FruitHorUSDTRecyclerViewAdapter extends RecyclerView.Adapter {
     public interface IUSDTFruitHorCallback {
-        void callbackWithFruitHor(USDTCashMoYuVo.Channel selectVo);
+        void callbackWithFruitHor(USDTCashVo.Channel selectVo);
     }
 
-    private ArrayList<USDTCashMoYuVo.Channel> arrayList;
+    private ArrayList<USDTCashVo.Channel> arrayList;
     private IUSDTFruitHorCallback callback;
 
-    public FruitHorUSDTRecyclerViewAdapter(ArrayList<USDTCashMoYuVo.Channel> arrayList, IUSDTFruitHorCallback callback) {
+    public FruitHorUSDTRecyclerViewAdapter(ArrayList<USDTCashVo.Channel> arrayList, IUSDTFruitHorCallback callback) {
         super();
         this.arrayList = arrayList;
         this.callback = callback;
@@ -33,8 +33,8 @@ public class FruitHorUSDTRecyclerViewAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_bank_withdrawal_top_child , parent,false) ;
-        final USDTViewHolder viewHolder = new USDTViewHolder(itemView) ;
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_bank_withdrawal_top_child, parent, false);
+        final USDTViewHolder viewHolder = new USDTViewHolder(itemView);
 
         return viewHolder;
     }
@@ -59,7 +59,7 @@ public class FruitHorUSDTRecyclerViewAdapter extends RecyclerView.Adapter {
         });
     }
 
-    private void referArray(USDTCashMoYuVo.Channel viewModel, ArrayList<USDTCashMoYuVo.Channel> arrayList) {
+    private void referArray(USDTCashVo.Channel viewModel, ArrayList<USDTCashVo.Channel> arrayList) {
         for (int i = 0; i < arrayList.size(); i++) {
             if (arrayList.get(i).name.equals(viewModel.name)) {
                 arrayList.get(i).flag = true;

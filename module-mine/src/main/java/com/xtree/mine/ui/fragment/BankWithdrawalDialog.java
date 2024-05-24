@@ -49,7 +49,7 @@ import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalBankBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
-import com.xtree.mine.vo.BankCardCashMoYuVo;
+import com.xtree.mine.vo.BankCardCashVo;
 import com.xtree.mine.vo.ChooseInfoVo;
 import com.xtree.mine.vo.PlatWithdrawConfirmMoYuVo;
 import com.xtree.mine.vo.PlatWithdrawMoYuVo;
@@ -80,9 +80,9 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     private GridViewViewAdapter adapter;
     private LifecycleOwner owner;
     private int selectType = 0;//默认设置顶部选项卡
-    private BankCardCashMoYuVo.ChanneBankVo channeBankVo; //选中的银行
-    private BankCardCashMoYuVo bankCardCashVo;//银行卡提现model
-    private BankCardCashMoYuVo.ChannelVo selectChanneVo;
+    private BankCardCashVo.ChanneBankVo channeBankVo; //选中的银行
+    private BankCardCashVo bankCardCashVo;//银行卡提现model
+    private BankCardCashVo.ChannelVo selectChanneVo;
     private PlatWithdrawMoYuVo platWithdrawVo;//提交订单后返回model
     private PlatWithdrawConfirmMoYuVo platWithdrawConfirmVo;//确认订单后返回的model
 
@@ -413,7 +413,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /**
      * 刷新第一次获取数据后选择的View
      */
-    public void refreshInitView(BankCardCashMoYuVo bankCardCashVo) {
+    public void refreshInitView(BankCardCashVo bankCardCashVo) {
         //关闭软键盘
         binding.bankWithdrawalView.etInputMoney.clearFocus();
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -511,7 +511,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         settings.setSupportZoom(true);
     }
 
-    private void refreshTopUI(BankCardCashMoYuVo bankCardCashVo) {
+    private void refreshTopUI(BankCardCashVo bankCardCashVo) {
         for (int i = 0; i < bankCardCashVo.channel_list.size(); i++) {
             if (i == 0) {
                 bankCardCashVo.channel_list.get(0).flag = true;
@@ -532,7 +532,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /**
      * 刷新注意View
      */
-    private void refreshNoticeView(BankCardCashMoYuVo bankCardCashVo) {
+    private void refreshNoticeView(BankCardCashVo bankCardCashVo) {
         final String notice = "<font color=#99A0B1>注意:</font>";
         String times, count, startTime, endTime, rest;
         times = "<font color=#99A0B1>" + String.valueOf(bankCardCashVo.times) + "</font>";
@@ -550,7 +550,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /**
      * 刷新单输入View
      */
-    private void refreshRequestView(BankCardCashMoYuVo bankCardCashVo, BankCardCashMoYuVo.ChannelVo channelVo) {
+    private void refreshRequestView(BankCardCashVo bankCardCashVo, BankCardCashVo.ChannelVo channelVo) {
         refreshUserView(bankCardCashVo);
         refreshAmountUI(bankCardCashVo, channelVo);
     }
@@ -558,7 +558,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /**
      * 刷新多金额选择View
      */
-    private void refreshRequestMoreView(BankCardCashMoYuVo bankCardCashVo, BankCardCashMoYuVo.ChannelVo channelVo) {
+    private void refreshRequestMoreView(BankCardCashVo bankCardCashVo, BankCardCashVo.ChannelVo channelVo) {
         refreshUserView(bankCardCashVo);
         refreshAmountUI(bankCardCashVo, channelVo);
     }
@@ -566,7 +566,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /**
      * 刷新用户信息View
      */
-    private void refreshUserView(BankCardCashMoYuVo bankCardCashVo) {
+    private void refreshUserView(BankCardCashVo bankCardCashVo) {
         if (binding.nsSetWithdrawalRequest.getVisibility() == View.VISIBLE) {
             if (bankCardCashVo.user != null) {
                 if (bankCardCashVo.user.username != null) {
@@ -600,7 +600,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /**
      * 刷新提现金额、收款银行开信息
      */
-    private void refreshAmountUI(BankCardCashMoYuVo bankCardCashVo, BankCardCashMoYuVo.ChannelVo channelVo) {
+    private void refreshAmountUI(BankCardCashVo bankCardCashVo, BankCardCashVo.ChannelVo channelVo) {
         String textSource = "单笔最低提现金额：" + channelVo.min_money + ",最高:" + channelVo.max_money;
         if (binding.nsSetWithdrawalRequest.getVisibility() == View.VISIBLE) {
             binding.bankWithdrawalView.tvWithdrawalAmountShow.setText(textSource);
@@ -625,7 +625,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      *
      * @param channelVo
      */
-    private void refreshSelectAmountUI(BankCardCashMoYuVo.ChannelVo channelVo) {
+    private void refreshSelectAmountUI(BankCardCashVo.ChannelVo channelVo) {
         if (channelVo.fixamountList.size() > 0) {
             if (adapter == null) {
                 adapter = new GridViewViewAdapter(context, (ArrayList<String>) channelVo.fixamountList, this);
@@ -770,7 +770,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      * 顶部选项卡点击回调
      */
     @Override
-    public void callbackWithFruitHor(BankCardCashMoYuVo.ChannelVo selectVO) {
+    public void callbackWithFruitHor(BankCardCashVo.ChannelVo selectVO) {
         selectChanneVo = selectVO;//设置选中的channelVo
         if (selectVO.isShowErrorView == 1) //展示错误信息
         {
@@ -848,8 +848,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /**
      * 显示银行卡信息
      */
-    private void popShowBank(BankCardCashMoYuVo bankCardCashVo) {
-        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<BankCardCashMoYuVo.ChanneBankVo>() {
+    private void popShowBank(BankCardCashVo bankCardCashVo) {
+        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<BankCardCashVo.ChanneBankVo>() {
 
             @NonNull
             @Override
@@ -861,7 +861,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             @Override
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
-                BankCardCashMoYuVo.ChanneBankVo vo = get(position);
+                BankCardCashVo.ChanneBankVo vo = get(position);
                 channeBankVo = vo;
                 String showMessage = vo.bank_name + " " + vo.account;
                 binding2.tvwTitle.setText(showMessage);
@@ -879,8 +879,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         ppw.show();
     }
 
-    private void popShowBankMore(BankCardCashMoYuVo bankCardCashVo) {
-        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<BankCardCashMoYuVo.ChanneBankVo>() {
+    private void popShowBankMore(BankCardCashVo bankCardCashVo) {
+        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<BankCardCashVo.ChanneBankVo>() {
 
             @NonNull
             @Override
@@ -892,7 +892,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             @Override
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
-                BankCardCashMoYuVo.ChanneBankVo vo = get(position);
+                BankCardCashVo.ChanneBankVo vo = get(position);
                 channeBankVo = vo;
                 String showMessage = vo.bank_name + " " + vo.account;
                 binding2.tvwTitle.setText(showMessage);

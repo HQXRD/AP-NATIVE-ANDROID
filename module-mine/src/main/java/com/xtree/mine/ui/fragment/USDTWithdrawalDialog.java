@@ -43,9 +43,9 @@ import com.xtree.mine.databinding.DialogBankWithdrawalUsdtBinding;
 import com.xtree.mine.databinding.DialogWithdrawalUsdtConfirmBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.ChooseInfoVo;
-import com.xtree.mine.vo.USDTCashMoYuVo;
-import com.xtree.mine.vo.USDTConfirmMoYuVo;
-import com.xtree.mine.vo.USDTSecurityMoYuVo;
+import com.xtree.mine.vo.USDTCashVo;
+import com.xtree.mine.vo.USDTConfirmVo;
+import com.xtree.mine.vo.USDTSecurityVo;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -63,14 +63,14 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
     private LifecycleOwner owner;
     ChooseWithdrawViewModel viewModel;
     private ChooseInfoVo.ChannelInfo channelInfo;
-    ArrayList<USDTCashMoYuVo.UsdtInfo> UsdtInfoTRC = new ArrayList<>(); //TRC20地址 仅用于钱包
-    private USDTCashMoYuVo.UsdtInfo selectUsdtInfo;//选中的支付
-    private USDTCashMoYuVo.Channel selectorTopChannel;//选中的支付通道
+    ArrayList<USDTCashVo.UsdtInfo> UsdtInfoTRC = new ArrayList<>(); //TRC20地址 仅用于钱包
+    private USDTCashVo.UsdtInfo selectUsdtInfo;//选中的支付
+    private USDTCashVo.Channel selectorTopChannel;//选中的支付通道
 
-    private USDTCashMoYuVo cashMoYuVo;
+    private USDTCashVo cashMoYuVo;
 
-    private USDTSecurityMoYuVo usdtSecurityVo;
-    private USDTConfirmMoYuVo usdtConfirmVo;
+    private USDTSecurityVo usdtSecurityVo;
+    private USDTConfirmVo usdtConfirmVo;
     private BankWithdrawalDialog.BankWithdrawalClose bankClose;
     private
     @NonNull
@@ -96,7 +96,8 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         return dialog;
     }
 
-    public static USDTWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo, BankWithdrawalDialog.BankWithdrawalClose bankClose, final String checkCode, final String usdtType) {
+    public static USDTWithdrawalDialog newInstance(Context context, LifecycleOwner owner, ChooseInfoVo.ChannelInfo channelInfo,
+                                                   BankWithdrawalDialog.BankWithdrawalClose bankClose, final String checkCode, final String usdtType) {
         USDTWithdrawalDialog dialog = new USDTWithdrawalDialog(context);
         dialog.owner = owner;
         dialog.channelInfo = channelInfo;
@@ -242,7 +243,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         viewModel.getChooseWithdrawUSDTMoYu(checkCode, usdtType);
     }
 
-    private void refreshTopUI(USDTCashMoYuVo vo) {
+    private void refreshTopUI(USDTCashVo vo) {
 
         for (int i = 0; i < vo.channel_list.size(); i++) {
             if (i == 0) {
@@ -482,8 +483,8 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         }
     }
 
-    private void showCollectionDialog(ArrayList<USDTCashMoYuVo.UsdtInfo> list) {
-        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<USDTCashMoYuVo.UsdtInfo>() {
+    private void showCollectionDialog(ArrayList<USDTCashVo.UsdtInfo> list) {
+        CachedAutoRefreshAdapter adapter = new CachedAutoRefreshAdapter<USDTCashVo.UsdtInfo>() {
             @NonNull
             @Override
             public CacheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -494,7 +495,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
             @Override
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
-                USDTCashMoYuVo.UsdtInfo vo = get(position);
+                USDTCashVo.UsdtInfo vo = get(position);
                 selectUsdtInfo = vo;
                 String showMessage = vo.usdt_type + " " + vo.usdt_card;
 
@@ -520,7 +521,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
     /**
      * 设置提款 请求 下一步
      */
-    private void requestWithdrawUSDT(String money, String realCount, String usdtId, String checkCode, final USDTCashMoYuVo cashMoYuVo) {
+    private void requestWithdrawUSDT(String money, String realCount, String usdtId, String checkCode, final USDTCashVo cashMoYuVo) {
         LoadingDialog.show(getContext());
 
       /*  "action": "platwithdraw",
@@ -553,7 +554,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
     /**
      * 设置提款 完成申请
      */
-    private void requestConfirmUSDT(String money, String realCount, String handingFee, String usdt_type, String usdtType, String checkCode, USDTSecurityMoYuVo usdtSecurityVo) {
+    private void requestConfirmUSDT(String money, String realCount, String handingFee, String usdt_type, String usdtType, String checkCode, USDTSecurityVo usdtSecurityVo) {
        /* {
          "controller": "security",
             "action": "platwithdraw",
@@ -590,7 +591,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
     }
 
     @Override
-    public void callbackWithFruitHor(USDTCashMoYuVo.Channel selectVo) {
+    public void callbackWithFruitHor(USDTCashVo.Channel selectVo) {
 
         //点击了不同头部 数显View
         if (selectVo.id.equals(selectUsdtInfo.id)) {

@@ -28,9 +28,7 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.widget.GlideEngine;
 import com.xtree.base.widget.ImageFileCompressEngine;
@@ -52,7 +50,7 @@ import java.util.Map;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
-public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHorOtherRecyclerViewAdapter.IOtherFruitHorCallback{
+public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHorOtherRecyclerViewAdapter.IOtherFruitHorCallback {
 
     private LifecycleOwner owner;
     private ChooseWithdrawViewModel viewModel;
@@ -67,16 +65,17 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
     @NonNull
     DialogOtherWithdrawalWebBinding binding;
     private String jumpUrl;//外跳URL
-
+    private String checkCode;
 
     public OtherWebWithdrawalDialog(@NonNull Context context) {
         super(context);
     }
 
-    public static OtherWebWithdrawalDialog newInstance(Context context, LifecycleOwner owner, final ChooseInfoVo.ChannelInfo chooseInfoVo) {
+    public static OtherWebWithdrawalDialog newInstance(Context context, LifecycleOwner owner, final ChooseInfoVo.ChannelInfo chooseInfoVo, final String checkCode) {
         OtherWebWithdrawalDialog dialog = new OtherWebWithdrawalDialog(context);
         dialog.owner = owner;
         dialog.chooseInfoVo = chooseInfoVo;
+        dialog.checkCode = checkCode;
         CfLog.i("OtherWebWithdrawalDialog  dialog.chooseInfoVo = " + dialog.chooseInfoVo.toString());
         return dialog;
     }
@@ -128,8 +127,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
                 if (TextUtils.equals("1", otherWebWithdrawVo.channel_list.get(0).thiriframe_status)
                         && !TextUtils.isEmpty(otherWebWithdrawVo.channel_list.get(0).thiriframe_url)) {
                     refreshSetUI();
-                }
-                else if (otherWebWithdrawVo.channel_list.get(0).thiriframe_msg != null
+                } else if (otherWebWithdrawVo.channel_list.get(0).thiriframe_msg != null
                         && !TextUtils.isEmpty(otherWebWithdrawVo.channel_list.get(0).thiriframe_msg)) {
                     //异常状态
                     binding.maskH5View.setVisibility(View.VISIBLE);
@@ -137,16 +135,17 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
                     dismissLoading();
                     showErrorByChannel(otherWebWithdrawVo.channel_list.get(0).thiriframe_msg);
                 }
-            }else if (!TextUtils.isEmpty(otherWebWithdrawVo.message) && TextUtils.equals(getContext().getString(R.string.txt_no_withdrawals_available_tip),otherWebWithdrawVo.message)) {
+            } else if (!TextUtils.isEmpty(otherWebWithdrawVo.message) && TextUtils.equals(getContext().getString(R.string.txt_no_withdrawals_available_tip), otherWebWithdrawVo.message)) {
                 refreshErrByNumber(otherWebWithdrawVo.message);
                 return;
-            }else{
+            } else {
                 showErrorMessage(otherWebWithdrawVo.message);
             }
 
         });
 
     }
+
     /**
      * 刷新显示没有提款次数
      */
@@ -161,8 +160,9 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         binding.tvShowNumberErrorMessage.setText(message);
 
     }
+
     private void showErrorMessage(final String message) {
-        if (message ==null || message.isEmpty()){
+        if (message == null || message.isEmpty()) {
             return;
         }
 
@@ -249,6 +249,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
                 gotoSelectMedia();
                 return true;
             }
+
             @Override
             public void onProgressChanged(WebView view, int progress) {
                 //显示加载进度
@@ -257,7 +258,6 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
                 binding.webProgress.setProgress(progress);
                 binding.webProgress.setVisibility((progress >0 && progress <100) ? View.VISIBLE :View.GONE);*/
             }
-
 
         });
 
@@ -315,7 +315,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         }
 
         //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
-        final  String notice = "<font color=#EE5A5A>注意:</font>";
+        final String notice = "<font color=#EE5A5A>注意:</font>";
         String times, count, starttime, endtime, rest;
         times = "<font color=#EE5A5A>" + String.valueOf(otherWebWithdrawVo.times) + "</font>";
         count = "<font color=#EE5A5A>" + otherWebWithdrawVo.count + "</font>";
@@ -324,7 +324,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         rest = StringUtils.formatToSeparate(Float.valueOf(otherWebWithdrawVo.rest));
         String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String textSource = String.format(format,notice, times, count, starttime, endtime, testTxt);
+        String textSource = String.format(format, notice, times, count, starttime, endtime, testTxt);
 
         binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
@@ -352,7 +352,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
 
     private void requestData() {
         showMaskLoading();
-        viewModel.getWithdrawOther(chooseInfoVo.type);
+        viewModel.getWithdrawOther(checkCode, chooseInfoVo.type);
     }
 
     /* 由于权限原因弹窗*/

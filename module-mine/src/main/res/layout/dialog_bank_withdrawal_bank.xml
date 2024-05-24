@@ -27,14 +27,14 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text=""
-            tools:text="123123123123"
             android:textColor="@color/clr_filter_txt_black"
             android:textSize="15sp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="123123123123" />
 
         <ImageView
             android:id="@+id/ivw_close"
@@ -160,9 +160,9 @@
                     android:id="@+id/tv_show_notice_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Demo"
                     android:textColor="@color/clr_grey_13"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    tools:text="Demo" />
 
             </LinearLayout>
         </RelativeLayout>
@@ -479,7 +479,7 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-    <!--h5view com.xtree.mine.ui.fragment.ScrollWebView-->
+
     <LinearLayout
         android:id="@+id/mask_h5_view"
         android:layout_width="match_parent"
