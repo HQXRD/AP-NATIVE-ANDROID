@@ -5,6 +5,7 @@ import com.xtree.base.vo.BalanceVo;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.vo.PromotionCodeVo;
 import com.xtree.mine.vo.AWVo;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.AwardsRecordVo;
@@ -96,6 +97,12 @@ public interface HttpApiService {
 
     @GET("/api/settings/?")
     Flowable<BaseResponse<SettingsVo>> getSettings(@QueryMap Map<String, String> filters);
+
+    /**
+     * 获取 默认 推荐 code
+     */
+    @GET("/default/promotioncode")
+    Flowable<BaseResponse<PromotionCodeVo>> getPromotion();
 
     /**
      * 获取 个人信息

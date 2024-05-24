@@ -4,19 +4,18 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
 import com.xtree.base.utils.UuidUtil;
-import com.xtree.base.vo.FBService;
-import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.vo.PromotionCodeVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.SettingsVo;
@@ -37,6 +36,8 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<LoginResultVo> liveDataLogin = new SingleLiveData<>();
     public SingleLiveData<BusinessException> liveDataLoginFail = new SingleLiveData<>();
     public SingleLiveData<LoginResultVo> liveDataReg = new SingleLiveData<>();
+    public MutableLiveData<SettingsVo> liveDataSettings = new MutableLiveData<>();
+    public MutableLiveData<PromotionCodeVo> promotionCodeVoMutableLiveData = new MutableLiveData<>();
     String public_key;
 
     public LoginViewModel(@NonNull Application application, MineRepository repository) {
@@ -90,13 +91,12 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onError(Throwable t) {
                         KLog.e(t.toString());
-                        //super.onError(t);
-                        ToastUtils.showLong("登录异常，请重试");
+                        super.onError(t);
                     }
 
                     @Override
                     public void onFail(BusinessException t) {
-                        super.onFail(t); // 弹提示
+                        //super.onFail(t); // 弹提示 (改成弹窗提示了)
                         KLog.e(t.toString());
 
                         if (t.code == HttpCallBack.CodeRule.CODE_20208) {
@@ -105,8 +105,8 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                             map2.put("data", t.data);
                             t.data = map2;
                             liveDataLoginFail.setValue(t);
-                        } else if (t.code == HttpCallBack.CodeRule.CODE_30018) {
-
+                        } else {
+                            super.onFail(t);
                         }
 
                     }
@@ -125,10 +125,15 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         RetrofitClient.init();
     }
 
-    public void register(String userName, String pwd) {
+    public void register(String userName, String pwd, String code) {
         HashMap<String, String> map = new HashMap();
         map.put("carryAuth", "false");
-        map.put("code", "");
+        if (code == null) {
+            map.put("code", "");
+        } else {
+            map.put("code", code);
+        }
+
         map.put("nonce", UuidUtil.getID16());
         map.put("username", userName);
         map.put("userpass", pwd); // 明文
@@ -145,6 +150,7 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                         }
                         ToastUtils.showLong("注册成功");
                         vo.userName = userName;
+                        vo.userpass = pwd;
                         setLoginSucc(vo);
                         // 登录成功后获取FB体育请求服务地址
                         //getFBGameTokenApi();
@@ -155,7 +161,6 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         KLog.e(t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("注册失败");
                     }
                 });
         addSubscribe(disposable);
@@ -180,12 +185,37 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
 
                         SPUtils.getInstance().put(SPKeyGlobal.PUBLIC_KEY, public_key);
                         SPUtils.getInstance().put("customer_service_url", vo.customer_service_url);
+                        SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, vo.promption_code);//推广code
+
+                        liveDataSettings.setValue(vo);
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取 pro接口的code
+     */
+    public void getPromotion() {
+        Disposable disposable = (Disposable) model.getApiService().getPromotion()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<PromotionCodeVo>() {
+
+                    @Override
+                    public void onResult(PromotionCodeVo promotionCodeVo) {
+                        SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, promotionCodeVo.domian);//推广code
+                        promotionCodeVoMutableLiveData.setValue(promotionCodeVo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);

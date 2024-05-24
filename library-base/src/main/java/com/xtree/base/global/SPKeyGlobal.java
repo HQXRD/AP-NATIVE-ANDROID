@@ -59,4 +59,6 @@ public class SPKeyGlobal {
     public static final String TYPE_RECHARGE_WITHDRAW = "type_recharge_withdraw";//去充值or去提款
     public static final String IS_FIRST_OPEN_BROWSER = "isFirstOpenBrowser"; // 是否第一次打开webView组件
 
+    public static final String PROMOTION_CODE ="PromotionCode";//注册推广码
+
 }
