@@ -76,7 +76,7 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -88,7 +88,7 @@
                     tools:text="tom" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -100,7 +100,7 @@
                     tools:text="经典**乐" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -112,7 +112,7 @@
                     tools:text="73234576653****7766" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -124,7 +124,7 @@
                     tools:text="2024-01-13 13:53:53" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -136,7 +136,7 @@
                     tools:text="AAA" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -148,7 +148,7 @@
                     tools:text="跑得快" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -160,7 +160,7 @@
                     tools:text="1.8000" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -172,7 +172,7 @@
                     tools:text="AAA" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -185,7 +185,7 @@
                     tools:text="3.51" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -198,7 +198,7 @@
             </LinearLayout>
 
             <LinearLayout
-                style="@style/style_item_ll_row"
+                style="@style/style_item_ll_row_2"
                 android:visibility="gone"
                 tools:visibility="visible">
 
@@ -248,7 +248,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="全场 滚球 0.81" />
 
-                    <!--<LinearLayout style="@style/style_item_ll_row">-->
+                    <!--<LinearLayout style="@style/style_item_ll_row_2">-->
 
                     <!--    <TextView-->
                     <!--        android:id="@+id/tvw_competition_name"-->
@@ -256,7 +256,7 @@
                     <!--        tools:text="NCAA美国大学生篮球联赛 " />-->
                     <!--</LinearLayout>-->
 
-                    <!--<LinearLayout style="@style/style_item_ll_row">-->
+                    <!--<LinearLayout style="@style/style_item_ll_row_2">-->
 
                     <!--    <TextView-->
                     <!--        android:id="@+id/tvw_game_type"-->
@@ -264,7 +264,7 @@
                     <!--        tools:text="Basketball(2024-01-12 13:00:00)" />-->
                     <!--</LinearLayout>-->
 
-                    <!--<LinearLayout style="@style/style_item_ll_row">-->
+                    <!--<LinearLayout style="@style/style_item_ll_row_2">-->
 
                     <!--    <TextView-->
                     <!--        android:id="@+id/tvw_match_name"-->

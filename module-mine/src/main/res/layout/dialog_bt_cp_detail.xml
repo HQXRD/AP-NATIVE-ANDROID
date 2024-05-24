@@ -73,7 +73,7 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -86,7 +86,7 @@
 
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -98,7 +98,7 @@
                     tools:text="D20240130-141***EEF" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -110,7 +110,7 @@
                     tools:text="testkite" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -122,7 +122,7 @@
                     tools:text="河内5分彩" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -144,7 +144,7 @@
                     android:visibility="invisible" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -157,7 +157,7 @@
             </LinearLayout>
 
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -169,7 +169,7 @@
                     tools:text="后三码后三直选" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -181,7 +181,7 @@
                     tools:text="30176" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -194,7 +194,7 @@
                     tools:text="0.0000" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -207,7 +207,7 @@
                     tools:text="0.0000" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
@@ -219,7 +219,7 @@
                     tools:text="1" />
             </LinearLayout>
 
-            <LinearLayout style="@style/style_item_ll_row">
+            <LinearLayout style="@style/style_item_ll_row_2">
 
                 <TextView
                     style="@style/style_item_report_title_end2"
