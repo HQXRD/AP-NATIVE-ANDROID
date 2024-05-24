@@ -56,6 +56,7 @@ import java.util.List;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -364,6 +365,20 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             toBindCard();
             return;
         }
+
+        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb) && vo.paycode.contains("zfb")) {
+            // 请先绑定您的支付宝账号
+            CfLog.i("****** 绑定ZFB");
+            toBindAlipay();
+            return;
+        }
+        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepaywx) && vo.paycode.contains("wx")) {
+            // 请先绑定您的微信账号
+            CfLog.i("****** 绑定WX");
+            toBindWeChat();
+            return;
+        }
+
         CfLog.i("****** not need bind...");
 
         if (vo.op_thiriframe_use && !vo.phone_needbind) {
@@ -526,6 +541,43 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
         startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
+    }
+
+    private void toBindAlipay() {
+        toBindAlipayWechat(getString(R.string.txt_bind_zfb_type), getString(R.string.txt_rc_bind_alipay_pls));
+    }
+
+    private void toBindWeChat() {
+        toBindAlipayWechat(getString(R.string.txt_bind_wechat_type), getString(R.string.txt_rc_bind_wechat_pls));
+    }
+
+    private void toBindAlipayWechat(String type, String msg) {
+        MsgDialog dialog = new MsgDialog(getContext(), null, msg, new MsgDialog.ICallBack() {
+            @Override
+            public void onClickLeft() {
+                ppw2.dismiss();
+            }
+
+            @Override
+            public void onClickRight() {
+                isBinding = true;
+                // 绑定页面显示去充值按钮用
+                SPUtils.getInstance().put(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getString(R.string.txt_go_recharge));
+
+                Bundle bundle = new Bundle();
+                bundle.putString("type", type); // bindcardzfb bindcardwx
+                Intent intent = new Intent(getContext(), ContainerActivity.class);
+                intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY);
+                intent.putExtra(ContainerActivity.BUNDLE, bundle);
+                startActivity(intent);
+                ppw2.dismiss();
+            }
+        });
+        ppw2 = new XPopup.Builder(getContext())
+                .dismissOnTouchOutside(false)
+                .dismissOnBackPressed(false)
+                .asCustom(dialog);
+        ppw2.show();
     }
 
     /**
