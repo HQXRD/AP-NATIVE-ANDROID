@@ -141,6 +141,7 @@ public class PMLeagueListCallBack extends PMHttpCallBack<MatchListRsp> {
     public void onResult(MatchListRsp matchListRsp) {
         mViewModel.getUC().getDismissDialogEvent().call();
         if (mIsRefresh) {
+            mNoliveMatchList.clear();
             if (!mIsStepSecond) {
                 mLeagueList.clear();
                 mMapLeague.clear();
