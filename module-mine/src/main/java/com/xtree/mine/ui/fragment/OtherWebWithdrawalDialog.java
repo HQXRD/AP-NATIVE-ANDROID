@@ -28,7 +28,9 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.base.widget.GlideEngine;
 import com.xtree.base.widget.ImageFileCompressEngine;
@@ -110,7 +112,12 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         binding.ivwClose.setOnClickListener(v -> dismiss());
         binding.tvwTitle.setText(chooseInfoVo.title);
         binding.maskH5View.setVisibility(View.VISIBLE);
-
+        //外跳外部浏览器
+        binding.ivwWeb.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(jumpUrl)) {
+                AppUtil.goBrowser(getContext(), jumpUrl);
+            }
+        });
     }
 
     private void initData() {
@@ -190,13 +197,12 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
     private void initOtherWebView(final OtherWebWithdrawVo vo) {
         //成功状态
         String url = vo.channel_list.get(0).thiriframe_url;
-     /*   if (!StringUtils.isStartHttp(url)) {
+        if (url !=null &&!StringUtils.isStartHttp(url)) {
             url = DomainUtil.getDomain2() + url;
         }
         jumpUrl = url ;
 
         binding.ivwWeb.setVisibility(View.VISIBLE);
-*/
         //为WebView 页面添加 跳转外部的浮窗
         //showCashPopView(url);
         binding.nsH5View.setVisibility(View.VISIBLE);
