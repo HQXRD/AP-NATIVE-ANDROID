@@ -130,8 +130,10 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         map.put("carryAuth", "false");
         if (code == null || TextUtils.isEmpty(code)) {
             map.put("code", "jgrpkka");//默认推广code
+            map.put("id", "jgrpkka");//默认推广code
         } else {
             map.put("code", code);
+            map.put("id", code);//默认推广code
         }
 
         map.put("nonce", UuidUtil.getID16());
