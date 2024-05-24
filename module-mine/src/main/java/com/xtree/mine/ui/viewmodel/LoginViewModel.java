@@ -4,6 +4,7 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.google.gson.Gson;
 import com.xtree.base.global.SPKeyGlobal;
@@ -14,6 +15,7 @@ import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.home.vo.PromotionCodeVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.SettingsVo;
@@ -34,6 +36,8 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
     public SingleLiveData<LoginResultVo> liveDataLogin = new SingleLiveData<>();
     public SingleLiveData<BusinessException> liveDataLoginFail = new SingleLiveData<>();
     public SingleLiveData<LoginResultVo> liveDataReg = new SingleLiveData<>();
+    public MutableLiveData<SettingsVo> liveDataSettings = new MutableLiveData<>();
+    public MutableLiveData<PromotionCodeVo> promotionCodeVoMutableLiveData = new MutableLiveData<>();
     String public_key;
 
     public LoginViewModel(@NonNull Application application, MineRepository repository) {
@@ -182,6 +186,32 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
 
                         SPUtils.getInstance().put(SPKeyGlobal.PUBLIC_KEY, public_key);
                         SPUtils.getInstance().put("customer_service_url", vo.customer_service_url);
+                        SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, vo.promption_code);//推广code
+
+                        liveDataSettings.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取 pro接口的code
+     */
+    public void getPromotion() {
+        Disposable disposable = (Disposable) model.getApiService().getPromotion()
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<PromotionCodeVo>() {
+
+                    @Override
+                    public void onResult(PromotionCodeVo promotionCodeVo) {
+                        SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, promotionCodeVo.domian);//推广code
+                        promotionCodeVoMutableLiveData.setValue(promotionCodeVo);
                     }
 
                     @Override

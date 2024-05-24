@@ -89,21 +89,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if(hasFocus){
-           String text =  ClipboardUtil.getText(this);
-            if (text != null){
-                String [] strings = text.split("code=");
-                if (strings !=null && strings.length == 2){
-                    String code = strings[1];
-                    SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, code);
-                }
-            }
-        }
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
