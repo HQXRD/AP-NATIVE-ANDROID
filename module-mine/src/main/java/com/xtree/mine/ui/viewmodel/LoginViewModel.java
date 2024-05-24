@@ -15,7 +15,7 @@ import com.xtree.base.utils.MD5Util;
 import com.xtree.base.utils.RSAEncrypt;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
-import com.xtree.home.vo.PromotionCodeVo;
+import com.xtree.base.vo.PromotionCodeVo;
 import com.xtree.mine.data.MineRepository;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.SettingsVo;
@@ -125,19 +125,18 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
         RetrofitClient.init();
     }
 
-    public void register(String userName, String pwd ,String code) {
+    public void register(String userName, String pwd, String code) {
         HashMap<String, String> map = new HashMap();
         map.put("carryAuth", "false");
-        if (code == null){
+        if (code == null) {
             map.put("code", "");
-        }else {
+        } else {
             map.put("code", code);
         }
 
         map.put("nonce", UuidUtil.getID16());
         map.put("username", userName);
         map.put("userpass", pwd); // 明文
-
 
         Disposable disposable = (Disposable) model.getApiService().register(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度

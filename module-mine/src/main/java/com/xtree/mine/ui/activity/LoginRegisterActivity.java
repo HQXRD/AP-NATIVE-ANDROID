@@ -29,8 +29,8 @@ import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.ClipboardUtil;
 import com.xtree.base.utils.SPUtil;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.vo.PromotionCodeVo;
 import com.xtree.base.widget.MsgDialog;
-import com.xtree.home.vo.PromotionCodeVo;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Spkey;
@@ -381,7 +381,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             //    ToastUtils.showLong(R.string.txt_pwd_should_same);
             //    return;
             //}
-            final String code =
+            final String netCode =
                     SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE);
             if (code != null) {
                 viewModel.register(account, pwd1, code);

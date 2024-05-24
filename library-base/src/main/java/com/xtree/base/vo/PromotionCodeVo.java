@@ -1,7 +1,6 @@
-package com.xtree.home.vo;
+package com.xtree.base.vo;
 
 import me.xtree.mvvmhabit.http.BaseResponse2;
-
 /**
  * 注册新账户获取 第一步 code
  */

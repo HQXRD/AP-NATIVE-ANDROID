@@ -5,7 +5,7 @@ import com.xtree.base.vo.BalanceVo;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.base.vo.ProfileVo;
-import com.xtree.home.vo.PromotionCodeVo;
+import com.xtree.base.vo.PromotionCodeVo;
 import com.xtree.mine.vo.AWVo;
 import com.xtree.mine.vo.AccountChangeVo;
 import com.xtree.mine.vo.AwardsRecordVo;

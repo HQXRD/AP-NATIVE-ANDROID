@@ -3,7 +3,6 @@ package com.xtree.main.ui;
 import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
 import static com.xtree.base.utils.EventConstant.EVENT_RED_POINT;
 
-import android.content.ClipboardManager;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -13,11 +12,9 @@ import androidx.fragment.app.FragmentTransaction;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.gyf.immersionbar.ImmersionBar;
-import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.ClipboardUtil;
 import com.xtree.base.vo.EventVo;
 import com.xtree.base.widget.MenuItemView;
 import com.xtree.base.widget.SpecialMenuItemView;
@@ -38,7 +35,6 @@ import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
-import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * Created by goldze on 2018/6/21
@@ -52,9 +48,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     private BaseTabItem activityMenuItem;
     private BaseTabItem rechargeMenuItem;
     private BaseTabItem meMenuItem;
-
-    private ClipboardManager clipboardManager;
-    private ClipboardManager.OnPrimaryClipChangedListener clipChangedListener;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
