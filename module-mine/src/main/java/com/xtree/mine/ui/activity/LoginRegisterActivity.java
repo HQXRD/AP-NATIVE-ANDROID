@@ -18,6 +18,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
@@ -25,9 +26,11 @@ import com.xtree.base.utils.AESUtil;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
+import com.xtree.base.utils.ClipboardUtil;
 import com.xtree.base.utils.SPUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.MsgDialog;
+import com.xtree.home.vo.PromotionCodeVo;
 import com.xtree.mine.BR;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Spkey;
@@ -37,6 +40,7 @@ import com.xtree.mine.ui.fragment.GoogleAuthDialog;
 import com.xtree.mine.ui.viewmodel.LoginViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.LoginResultVo;
+import com.xtree.mine.vo.SettingsVo;
 
 import java.util.HashMap;
 
@@ -45,6 +49,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.http.BusinessException;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 @Route(path = RouterActivityPath.Mine.PAGER_LOGIN_REGISTER)
@@ -58,7 +63,11 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     private boolean mIsAcc = false;
     private boolean mIsPwd1 = false;
     private boolean mIsPwd2 = false;
-    private BasePopupView  verifyPopView;//认证PoPView
+    private BasePopupView verifyPopView;//认证PoPView
+    private SettingsVo settingsVo;
+    private PromotionCodeVo promotionCodeVo;
+    private final String PROMOTION_CODE_DEFAULT = "jgrpkka";
+    private String code;//剪切板获取的code
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -372,10 +381,15 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             //    ToastUtils.showLong(R.string.txt_pwd_should_same);
             //    return;
             //}
-
-            //验证输入参数
-            viewModel.register(account, pwd1);
-
+            final String code =
+                    SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE);
+            if (code != null) {
+                viewModel.register(account, pwd1, code);
+            } else if (code == null && netCode != null) {
+                viewModel.register(account, pwd1, netCode);
+            } else if (code == null && netCode == null) {
+                viewModel.register(account, pwd1, PROMOTION_CODE_DEFAULT);
+            }
         });
 
     }
@@ -439,6 +453,38 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             }
 
         });
+        //获取seting接口数据
+        viewModel.liveDataSettings.observe(this, vo -> {
+            settingsVo = vo;
+        });
+        //获取pro接口数据
+        viewModel.promotionCodeVoMutableLiveData.observe(this, vo -> {
+            promotionCodeVo = vo;
+        });
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+
+            String text = ClipboardUtil.getText(this);
+            CfLog.e("onWindowFocusChanged=" + text);
+            //promotionCode|*$#|ykrugupa 这种格式 是杏彩推广code形式
+            if (text != null && text.contains("promotionCode|*$#|") || text.contains("promotionCode|")) {
+
+                String[] strings = text.split("\\|");
+                if (strings != null && strings.length == 3) {
+                    String netCode = strings[2];
+                    CfLog.e("ClipboardUtil = " + netCode);
+                    code = netCode;
+                    // SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, netCode);
+                }
+            } else {
+                //SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE_DEFAULT, "jgrpkka");
+                viewModel.getPromotion();
+            }
+        }
     }
 
     @Override
@@ -503,33 +549,34 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     /**
      * 显示认证Dialog
+     *
      * @param vo
      */
-    private void showVerifyDialog(final BusinessException vo){
+    private void showVerifyDialog(final BusinessException vo) {
         String msg = getString(R.string.txt_ip_error_tip);
         final String title = getString(R.string.txt_kind_tips);
         verifyPopView = new XPopup.Builder(this)
                 .dismissOnBackPressed(false)
                 .dismissOnTouchOutside(false)
                 .asCustom(new MsgDialog(this, title, msg, new MsgDialog.ICallBack() {
-            @Override
-            public void onClickLeft() {
-                verifyPopView.dismiss();
-            }
+                    @Override
+                    public void onClickLeft() {
+                        verifyPopView.dismiss();
+                    }
 
-            @Override
-            public void onClickRight() {
-                goSecurityVerify(vo);
-                verifyPopView.dismiss();
-            }
-        }));
+                    @Override
+                    public void onClickRight() {
+                        goSecurityVerify(vo);
+                        verifyPopView.dismiss();
+                    }
+                }));
         verifyPopView.show();
     }
 
     /**
      * 跳转安全验证
      */
-    private void  goSecurityVerify(final BusinessException vo){
+    private void goSecurityVerify(final BusinessException vo) {
         TagUtils.tagEvent(getBaseContext(), TagUtils.EVENT_LOGIN);
         String acc = binding.edtAccount.getText().toString().trim();
         HashMap<String, Object> map = (HashMap<String, Object>) vo.data;
