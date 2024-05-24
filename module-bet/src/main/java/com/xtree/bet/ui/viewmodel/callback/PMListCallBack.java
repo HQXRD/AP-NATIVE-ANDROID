@@ -139,6 +139,7 @@ public class PMListCallBack extends PMHttpCallBack<List<MatchInfo>> {
                 mLeagueList.clear();
                 mMapLeague.clear();
                 mMapSportType.clear();
+                mLiveMatchList.clear();
             }
             mViewModel.firstNetworkFinishData.call();
             mIsStepSecond = true;
@@ -163,7 +164,7 @@ public class PMListCallBack extends PMHttpCallBack<List<MatchInfo>> {
                     super.onError(t);
                     mViewModel.tooManyRequestsEvent.call();
                 } else {
-                    mViewModel.getLeagueList(mSportPos, mSportId, mOrderBy, mLeagueIds, mMatchids, mPlayMethodType, mSearchDatePos, mOddType, mIsTimerRefresh, mIsRefresh);
+                    //mViewModel.getLeagueList(mSportPos, mSportId, mOrderBy, mLeagueIds, mMatchids, mPlayMethodType, mSearchDatePos, mOddType, mIsTimerRefresh, mIsRefresh);
                 }
             }
         }

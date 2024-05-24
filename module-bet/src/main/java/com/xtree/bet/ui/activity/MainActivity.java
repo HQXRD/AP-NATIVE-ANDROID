@@ -322,6 +322,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 if (playMethodPos != tab.getPosition()) {
                     hideSearchView();
                     mIsChange = true;
+                    isFirstInto = true;
                     mLeagueIdList.clear();
                     binding.srlLeague.resetNoMoreData();
                     searchDatePos = 0;
@@ -381,6 +382,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     binding.srlLeague.resetNoMoreData();
                     searchDatePos = 0;
                     mIsChange = true;
+                    isFirstInto = true;
                     mLeagueIdList.clear();
                     showSearchDate();
                     sportTypePos = tab.getPosition();
@@ -419,6 +421,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     mLeagueGoingOnList.clear();
                     binding.srlLeague.resetNoMoreData();
                     mIsChange = true;
+                    isFirstInto = true;
                     if (playMethodPos == 2 || playMethodPos == 3) {
                         searchDatePos = tab.getPosition();
                         viewModel.statistical(playMethodType);
@@ -450,6 +453,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     mLeagueGoingOnList.clear();
                     binding.srlLeague.resetNoMoreData();
                     mIsChange = true;
+                    isFirstInto = true;
                     mLeagueIdList.clear();
                     mLeagueIdList.addAll(mLeagueItemList.get(hotLeaguePos).leagueid);
                     viewModel.statistical(playMethodType);
@@ -825,7 +829,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
-                    //refreshLeague();
+                    refreshLeague();
                     viewModel.statistical(playMethodType);
                 });
         viewModel.addSubscribe(timerDisposable);
