@@ -64,7 +64,7 @@ public class BtDetailDialog extends BottomPopupView {
     }
 
     private void initView() {
-        binding = DialogBtDetailBinding.bind(findViewById(R.id.ll_root));
+        binding = DialogBtDetailBinding.bind(findViewById(R.id.cl_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
     }
 
@@ -109,7 +109,7 @@ public class BtDetailDialog extends BottomPopupView {
 
         // 是否提前结算
         if (!TextUtils.isEmpty(vo.project_advance_settle)) {
-            binding.llAdvanceSettle.setVisibility(View.VISIBLE);
+            binding.clAdvanceSettle.setVisibility(View.VISIBLE);
             int resTxt = vo.project_advance_settle.equals("1") ? R.string.txt_yes : R.string.txt_no;
             binding.tvwAdvanceSettle.setText(resTxt);
         }

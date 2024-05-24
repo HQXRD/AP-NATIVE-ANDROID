@@ -62,7 +62,7 @@ public class BtCpDetailDialog extends BottomPopupView {
     }
 
     private void initView() {
-        binding = DialogBtCpDetailBinding.bind(findViewById(R.id.ll_root));
+        binding = DialogBtCpDetailBinding.bind(findViewById(R.id.cl_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
 
         binding.btnDeleteCp.setOnClickListener(v -> {
