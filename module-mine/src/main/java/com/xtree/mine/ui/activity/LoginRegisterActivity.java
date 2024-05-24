@@ -107,6 +107,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         if (viewType == REGISTER_TYPE) {
             binding.toLoginArea.setVisibility(View.VISIBLE);
             binding.meRegisterArea.setVisibility(View.VISIBLE);
+            hideRegister();
             binding.toRegisterArea.setVisibility(View.GONE);
             binding.loginArea.setVisibility(View.GONE);
             binding.tvwRegisterWarning.setVisibility(View.VISIBLE);
@@ -180,6 +181,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             binding.loginArea.setVisibility(View.VISIBLE);
             binding.toLoginArea.setVisibility(View.GONE);
             binding.meRegisterArea.setVisibility(View.GONE);
+            hideRegister();
             binding.tvwRegisterWarning.setVisibility(View.GONE);
             binding.ivwRegisterWarning.setVisibility(View.GONE);
         });
@@ -588,5 +590,14 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         bundle.putString("phone", vo2.contacts.phone);
         bundle.putString("email", vo2.contacts.email);
         startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
+    }
+
+    private void hideRegister(){
+        binding.tvwUsernameWarning.setVisibility(View.INVISIBLE);
+        binding.tvwPwdWarning.setVisibility(View.INVISIBLE);
+        binding.tvwPwdCheckWarning.setVisibility(View.INVISIBLE);
+        binding.tvwUsernameWarning.setText(R.string.txt_username_empty);
+        binding.tvwPwdWarning.setText(R.string.txt_pwd_cannot_empty);
+        binding.tvwPwdCheckWarning.setText(R.string.txt_pwd_is_empty);
     }
 }
