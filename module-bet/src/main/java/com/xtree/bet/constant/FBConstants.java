@@ -275,7 +275,7 @@ public class FBConstants {
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [5,10815], code: \"LaLiga\", name: \"西甲\"}", HotLeague.class));
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [6,10807], code: \"BVB\", name: \"德甲\"}", HotLeague.class));
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [7,10983], code: \"Ligue1\", name: \"法甲\"}", HotLeague.class));
-            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [8], code: \"CSL\", name: \"中超\"}", HotLeague.class));
+            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [8,10403], code: \"CSL\", name: \"中超\"}", HotLeague.class));
         }
         return hotFootBallLeagueTopList;
     }
