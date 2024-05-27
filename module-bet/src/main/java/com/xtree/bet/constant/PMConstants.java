@@ -172,7 +172,7 @@ public class PMConstants {
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [5,320,1682748470622372141], code: \"LaLiga\", name: \"西甲\"}", HotLeague.class));
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [6,32230,276,29569], code: \"BVB\", name: \"德甲\"}", HotLeague.class));
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [7,79,343264595247255555], code: \"Ligue1\", name: \"法甲\"}", HotLeague.class));
-            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [8,1682748478869187623], code: \"CSL\", name: \"中超\"}", HotLeague.class));
+            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [8,6344,1682748478869187623], code: \"CSL\", name: \"中超\"}", HotLeague.class));
         }
         return hotFootBallLeagueTopList;
     }
