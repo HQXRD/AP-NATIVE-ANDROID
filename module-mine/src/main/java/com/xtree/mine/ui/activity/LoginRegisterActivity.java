@@ -446,7 +446,13 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
         viewModel.liveDataReg.observe(this, vo -> {
             TagUtils.tagEvent(getBaseContext(), "reg");
-            goMain();
+            //注册成功后直接登录
+            if (vo != null && vo.userName != null && vo.userpass != null) {
+                viewModel.login(vo.userName, vo.userpass);
+            } else {
+                CfLog.e("*********** userName /userpass is Null");
+                goMain();
+            }
         });
 
         viewModel.liveDataLoginFail.observe(this, vo -> {
@@ -480,8 +486,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     String netCode = strings[2];
                     CfLog.e("ClipboardUtil = " + netCode);
                     code = netCode;
-                }
-                else {
+                } else {
                     CfLog.e("********strings.length!=3");
                 }
             } else {
