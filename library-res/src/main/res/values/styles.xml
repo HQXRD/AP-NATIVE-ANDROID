@@ -395,6 +395,25 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="style_rc_exp_bank_status">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_purple_02</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_rc_exp_bank_status2" parent="style_rc_exp_bank_status">
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:drawableTop">@mipmap/cm_ic_time_left</item>
+    </style>
+
     <!-- 通用 标题 样式 -->
     <style name="style_forget_password_info_title">
         <item name="android:layout_width">wrap_content</item>
