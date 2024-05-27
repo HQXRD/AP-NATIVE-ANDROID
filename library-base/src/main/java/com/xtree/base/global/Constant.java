@@ -66,6 +66,7 @@ public class Constant {
     public static final String URL_RC_CNYT_TUTORIAL = "/activity/activity_48/index.html?type=cnyt"; // cnyt充值教程
     public static final String URL_RC_USDT_TUTORIAL = "/activity/activity_48/index.html?type=usdt"; // usdt充值教程
     public static final String URL_DOWNLOAD_HI_WALLET = "https://www.hiwalletapp.com/download"; // 下载嗨钱包
+    public static final String URL_PAGE_403 = "/error/ap/403.html"; // 403页面 "抱歉，当前国家或地区不支持服务"; "请求被拒绝";
     public static final String CHOOSEACTIVITY_CHOOSE_ENTER_TYPE = "giftMoney";//获取礼金
 
     public static final int CHOOSEACTIVITY_CHOOSE_TYPE = 0x1888; //获取礼金

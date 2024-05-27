@@ -35,7 +35,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils
 class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() {
 
     private val MSG_IN_MAIN: Int = 100 // 消息类型
-    private val DELAY_MILLIS: Long = 2500L // 延长时间
+    private val DELAY_MILLIS: Long = 100L // 延长时间
     private var mSavedInstanceState: Bundle? = null
     private var mHandler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {

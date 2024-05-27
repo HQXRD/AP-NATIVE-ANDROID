@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.xtree.base">
 
-    <uses-permission android:name="android.permission.GET_CLIPBOARD_SERVICE"/>
+    <uses-permission android:name="android.permission.GET_CLIPBOARD_SERVICE" />
     <uses-permission android:name="android.permission.READ_CLIPBOARD" />
     <uses-permission android:name="android.permission.WRITE_CLIPBOARD" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -44,6 +44,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".widget.ForbiddenActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait" />
         <!--APP更新对应文件-->
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -55,11 +59,7 @@
                 android:resource="@xml/file_paths" />
 
         </provider>
-        <service android:name=".serive.MyAccessibilityService"
-            android:enabled="true"
-            android:exported="true"/>
 
     </application>
-
 
 </manifest>
