@@ -147,6 +147,8 @@ public class BrowserDialog extends BottomPopupView {
             CfLog.d("not need header.");
             header.clear();
         }
+        header.put("App-RNID", "87jumkljo"); //
+        CfLog.d("header: " + header);
         mWebView.loadUrl(url, header);
 
         ivwClose.setOnClickListener(new OnClickListener() {
