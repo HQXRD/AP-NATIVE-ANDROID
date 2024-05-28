@@ -4,6 +4,7 @@ import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.FeedbackCheckVo;
 import com.xtree.recharge.vo.FeedbackImageUploadVo;
 import com.xtree.recharge.vo.FeedbackVo;
+import com.xtree.recharge.vo.PayOrderDataVo;
 import com.xtree.recharge.vo.PaymentDataVo;
 import com.xtree.recharge.vo.PaymentVo;
 import com.xtree.recharge.vo.RechargeOrderDetailVo;
@@ -118,6 +119,16 @@ public interface ApiService {
     @POST("/api/deposit/rechargepay/{bid}")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<Object>> rechargePay(@Path("bid") String bid, @Body Map<String, String> map);
+
+    /**
+     * 提交充值 (极速充值)
+     *
+     * @param map
+     * @return
+     */
+    @GET("/api/deposit/createorder")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<PayOrderDataVo>> createOrder(@QueryMap Map<String, String> map);
 
     /**
      * 获取人工充值暗号
