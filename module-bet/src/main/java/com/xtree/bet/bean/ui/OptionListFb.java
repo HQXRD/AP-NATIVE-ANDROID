@@ -9,10 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OptionListFb implements OptionList {
+    private String className;
     OptionDataListInfo optionDataListInfo;
 
     public OptionListFb(OptionDataListInfo optionDataListInfo){
         this.optionDataListInfo = optionDataListInfo;
+        this.className = getClass().getSimpleName();
     }
 
     public long getId() {
@@ -77,14 +79,17 @@ public class OptionListFb implements OptionList {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.className);
         dest.writeParcelable(this.optionDataListInfo, flags);
     }
 
     public void readFromParcel(Parcel source) {
+        this.className = source.readString();
         this.optionDataListInfo = source.readParcelable(OptionDataListInfo.class.getClassLoader());
     }
 
     protected OptionListFb(Parcel in) {
+        this.className = in.readString();
         this.optionDataListInfo = in.readParcelable(OptionDataListInfo.class.getClassLoader());
     }
 
