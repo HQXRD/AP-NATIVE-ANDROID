@@ -362,6 +362,10 @@
     <color name="clr_withdrawal_top_text_default_bg">#C2CEC8</color>
     <color name="clr_text_color_hint">#C6C6C6</color>
 
+    <!-- 主页底部按钮文字颜色 -->
+    <color name="main_bottom_unselect">#C7C7C7</color>
+    <color name="main_bottom_select">#ffffff</color>
+
     <!-- 分隔线 -->
     <color name="clr_div_line">#F2F3F7</color>
 
