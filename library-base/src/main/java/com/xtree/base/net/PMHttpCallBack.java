@@ -1,5 +1,7 @@
 package com.xtree.base.net;
 
+import com.xtree.base.utils.AppUtil;
+
 import io.reactivex.subscribers.DisposableSubscriber;
 import me.xtree.mvvmhabit.http.PMBaseResponse;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
@@ -64,6 +66,10 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
         KLog.e("error: " + t.toString());
         if (t instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) t;
+            if (rError.code == 403) {
+                AppUtil.goWeb403();
+                return;
+            }
             ToastUtils.showShort(rError.message);
             return;
         }
