@@ -127,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="@dimen/layout_margin"
-                android:drawableStart="@mipmap/mine_bonus"
+                android:drawableStart="@mipmap/me_withdrawal_flow_lock"
                 android:drawableEnd="@mipmap/mine_wallet_hints"
                 android:drawablePadding="4dp"
                 android:gravity="center"

@@ -7,7 +7,9 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.xtree.base.global.Constant;
+import com.xtree.base.router.RouterActivityPath;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -36,6 +38,14 @@ public class AppUtil {
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         ctx.startActivity(intent);
+    }
+
+    public static void goWeb403() {
+        CfLog.i("*********");
+        String url = DomainUtil.getDomain2() + Constant.URL_PAGE_403;
+        ARouter.getInstance().build(RouterActivityPath.Widget.PAGER_FORBIDDEN)
+                .withString("title", "访问限制")
+                .withString("url", url).navigation();
     }
 
     /**
