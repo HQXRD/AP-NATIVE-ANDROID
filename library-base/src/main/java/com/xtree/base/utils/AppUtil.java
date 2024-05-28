@@ -32,6 +32,10 @@ public class AppUtil {
 
         if (url.startsWith("/")) {
             url = DomainUtil.getDomain2() + url;
+        } else if (!url.startsWith("http")) {
+            url = DomainUtil.getDomain2() + "/" + url;
+        } else {
+            // 正常 url
         }
         CfLog.i("url: " + url);
         Uri uri = Uri.parse(url);
