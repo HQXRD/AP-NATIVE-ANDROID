@@ -5,6 +5,10 @@ import android.app.Application;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+
+import com.drake.brv.utils.BRV;
+
+import me.xtree.mvvmhabit.BR;
 import me.xtree.mvvmhabit.utils.Utils;
 
 /**
@@ -18,6 +22,12 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         setApplication(this);
+
+        initBRV();
+    }
+
+    private void initBRV() {
+        BRV.INSTANCE.setModelId(BR.m);
     }
 
     /**
