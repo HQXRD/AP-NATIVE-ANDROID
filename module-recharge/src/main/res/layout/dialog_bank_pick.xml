@@ -23,26 +23,28 @@
 
             <ImageView
                 android:id="@+id/ivw_bg_top"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="0dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:src="@mipmap/bg_google_auth"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0"/>
 
             <ImageView
                 android:id="@+id/ivw_bg_bottom"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="-2dp"
                 android:scaleType="fitStart"
                 android:src="@color/clr_white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ivw_bg_top" />
+                app:layout_constraintTop_toBottomOf="@id/ivw_bg_top"
+                app:layout_constraintVertical_bias="0"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_title"
@@ -55,7 +57,7 @@
                 <ImageView
                     android:id="@+id/ivw_top"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:adjustViewBounds="true"
                     android:src="@mipmap/bg_dlg_top"
                     android:visibility="invisible"
@@ -116,7 +118,7 @@
                             style="@style/style_cm_auth_edit"
                             android:hint="输入关键字搜索银行"
                             android:imeOptions="actionSearch"
-                            android:inputType="number"
+                            android:inputType="text"
                             android:maxLength="24"
                             textChangedListener="@{model}"
                             app:layout_constraintEnd_toEndOf="parent"
