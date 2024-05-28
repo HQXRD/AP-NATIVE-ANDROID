@@ -695,7 +695,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     }
 
     private void onScrollLeague(int firstVisibleItem) {
-        if (mHeader == null || mLeagueList == null || mLeagueList.isEmpty()) {
+        if (mHeader == null || mLeagueList == null || mLeagueList.isEmpty() || firstVisibleItem < 0) {
             return;
         }
         int firstGroup = binding.rvLeague.getPackedPositionGroup(binding.rvLeague.getExpandableListPosition(firstVisibleItem));
