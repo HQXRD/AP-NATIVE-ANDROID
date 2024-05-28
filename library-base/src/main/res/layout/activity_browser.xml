@@ -26,6 +26,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cl_title" />
 
+    <ProgressBar
+        android:id="@+id/pb_main"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:background="@color/clr_bg_light_main"
+        android:max="100"
+        android:progressDrawable="@drawable/me_level_progressbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/wv_main"
+        tools:progress="20" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_title"
         android:layout_width="match_parent"

@@ -37,6 +37,7 @@ import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 import com.xtree.base.R;
+import com.xtree.base.databinding.ActivityBrowserBinding;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
@@ -91,11 +92,14 @@ public class BrowserActivity extends AppCompatActivity {
     boolean is3rdLink = false; // 是否跳转到三方链接(如果是,就不用带header和cookie了)
     ValueCallback<Uri> mUploadCallbackBelow;
     ValueCallback<Uri[]> mUploadCallbackAboveL;
+    ActivityBrowserBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_browser);
+        binding = ActivityBrowserBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        //setContentView(R.layout.activity_browser);
 
         initView();
         title = getIntent().getStringExtra(ARG_TITLE);
@@ -219,6 +223,17 @@ public class BrowserActivity extends AppCompatActivity {
 
         // 上传文件
         mWebView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                // 网页加载进度
+                if (newProgress > 0 && newProgress < 100) {
+                    binding.pbMain.setProgress(newProgress);
+                    binding.pbMain.setVisibility(View.VISIBLE);
+                } else {
+                    binding.pbMain.setVisibility(View.GONE);
+                }
+            }
 
             /**
              * For Android >= 4.1
