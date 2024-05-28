@@ -1,10 +1,9 @@
 package com.xtree.base.net;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
-import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.widget.LoadingDialog;
 
 import io.reactivex.subscribers.DisposableSubscriber;
@@ -126,7 +125,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             ToastUtils.showShort(rError.message);
             KLog.e("code: " + rError.code);
             if (rError.code == 403) {
-                goWeb403();
+                AppUtil.goWeb403();
             }
             return;
         } else if (t instanceof BusinessException) {
@@ -147,14 +146,6 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
     @Override
     public void onComplete() {
         LoadingDialog.finish();
-    }
-
-    private void goWeb403() {
-        KLog.i("*********");
-        String url = DomainUtil.getDomain2() + Constant.URL_PAGE_403;
-        ARouter.getInstance().build(RouterActivityPath.Widget.PAGER_FORBIDDEN)
-                .withString("title", "访问限制")
-                .withString("url", url).navigation();
     }
 
     public static final class CodeRule {
