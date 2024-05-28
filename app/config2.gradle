@@ -77,8 +77,7 @@ android {
             resValue "string", "mixpanel_token", "cce6df315eee2c445da416c6b717f114"
             resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "ms_secret_key", "0ad1d127-3d6e-47f0-8904-1fd9eff9d97b"
-            resValue "string", "domain_api_list", "https://www.eon2.org;" +
-                    "https://app1.r4n2h7.xyz;" +
+            resValue "string", "domain_api_list", "https://app1.r4n2h7.xyz;" +
                     "https://app2.q1i9z8.xyz;" +
                     "https://app3.h1g8d8.xyz;" +
                     "https://app4.k1b3i6.xyz;" +
@@ -97,8 +96,7 @@ android {
                     "http://43.128.11.58:46803;" +
                     "https://app.7jcvs.com:46803;"
 
-            resValue "string", "domain_url_list", "https://www.eon2.org;" +
-                    "https://www.u2s4s7.xyz;" +
+            resValue "string", "domain_url_list", "https://www.u2s4s7.xyz;" +
                     "https://www.d4v2o1.xyz;" +
                     "https://www.o9s9u4.xyz;" +
                     "https://www.h4r3a2.xyz;" +
