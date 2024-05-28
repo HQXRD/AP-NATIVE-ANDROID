@@ -1,9 +1,14 @@
 package com.xtree.recharge.vo;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class RechargeVo {
+
+    //{"status":0,"msg":"","data":{"bid":"176","paycode":"onepayfix3","type":"OTHER","typename":"其他","title":"小额网银渠道","loadmax":"30000","loadmin":"100","firemark":0,"randturnauto":0,"recharge_auto_minus_turn_on":false,"recharge_auto_minus_max":"","recharge_auto_minus_min":"","rechargedecimal_status":false,"sortnum":1,"recommend":0,"view_bank_card":true,"recharge_pattern":3,"phone_fillin_name":true,"ptype":1,"user_bank_info":{"1283079":"交通银行--*************0040"},"realchannel_status":true,"isusdt":false,"udtType":null,"usdtrate":"","depositfee_disabled":false,"depositfee_rate":"0.00","isdisabled":"0","isrechgetime":true,"starttime":1716825600,"endtime":1716911940,"addcredittimes":"10000","addcreditminsec":30,"PayCardId":"2116","namountdecimal":false,"nalipayname":false,"fixedamount_channelshow":false,"fixedamount_info":[],"phone_needbind":false,"showfee":true,"fee":"3","op_series":true,"op_thiriframe_use":true,"op_thiriframe_status":true,"op_thiriframe_msg":"","op_thiriframe_url":"https://pre-infogen.1-pay.co/op1/auction/bankcard/payment/eyJpdiI6ImYrRUpqWEhCenhsRDRjcTljVnRWYXc9PSIsInZhbHVlIjoiZ0RlbVNsZFhnaDRmQjV1RnIxVWZRVW14UGpyQmVRNzY5ZU5FU2hDTVBTUW1WMkVHY1g5dmxETU5xNjMrcjlOalp1MGFHNXdGZWZ3aHdQUGtxMzdGNzU3LzM2d2F0MnZOTGMvM1YvTk1HQ2h4c1NOR21FWHNMVDdaOWV5emUza3p4a2tGbnZoTE05WGo0V1hXVFAwQXFndk9wamh0QzYvWkRSQnZvUi9kYTYzbDE0MnFVKzdtOFBqUzlvR2lPSVE0OU93cUVWMVRmejd6SHU5Q2tMQUdzUzFYNVJ3VU04TWhYcVZqRWFaMExmMHBxNG5aVStnc3A2RDZrenYwTnpONTJZNU54ZDJEWHN3dFlPYUcrTjh1RUp3dGNkQUlKNTVaYWRVRnRKN2dTVzZxbG1xczlHYnRNSzZMUVhGcXAvc1dQN09zOW01MDBXbkhCSWx6TDArdHBsVHhkdkNRL21PWjRyb3NTSTFOZTA2SHJXR3kzdXA2ankrOGVEOVhObTdGNjFMV0pjaFpoWGFBWWo3N2c4TUMwSVVKZkhPMU91MVdMRmNwbnhFYlFLZFdWdkdsSEdnS2MwTEJSem0vUVMveWtIbXZVYUl4YWVrTWdodzRtZEVPY3FUaHNpMzdpWUNHMTJYU01iNVN5NEF3QTdMbFFOLy9zQ0toQWtEL0pjd094Qk5jaEs0bEswSUI1UmQ1aTFCbkZEZFV5VVJpMDJ6NHpPWjJVY2JkMjVyUG5Ha0RDaCtldW5IZ3JiaVdQN3laNzV6WkdRQWViUFpPV2NneVZSdUdwWXlhcERGMFZJd0tMRktTamFvaGwvUlZwN3pnTkVxMEE4cVAweU04dUdtQ2dFeDBFMERtK0E0eEtONmZqZGxwOUZQVDFWY3BMM0dwZEtLczYzbWZNL0FENk9DSTF6dXg5UCszWGlDRjhvc3JQOW84UXpxS2I1QlpCc1B6ZnpObVJsRU9YSnNzbnlvaTFVa2ZJTklRT1U2MUZHMUZNMlVNVjN0S24wTHhoMlFtIiwibWFjIjoiM2EzMDk2OWYxNWJiMDBiZTNhZWJhZTQwYzkwNzFiN2JjYTRiNzU0YzBiYjEyZjlhNjg4ZmQ5ZTdhMzZiYzRlZiIsInRhZyI6IiJ9","op_amount_list":[100,200,300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1500,1600,2000,3000,5000],"op_bank_list":{"top":[{"bank_code":"ZJCZ","bank_name":"浙江稠州商业"},{"bank_code":"ZYB","bank_name":"中原银行"},{"bank_code":"ZJRC","bank_name":"浙江农信"},{"bank_code":"ZJTL","bank_name":"泰隆银行"},{"bank_code":"ZYCB","bank_name":"濮阳中原村镇银行"},{"bank_code":"行动西安银行","bank_name":"行动西安银行"}],"hot":[{"bank_code":"BCM","bank_name":"交通银行"}],"others":[{"bank_code":"ABC","bank_name":"中国农业银行"},{"bank_code":"ALPay","bank_name":"智慧支付"},{"bank_code":"BBL_XHR","bank_name":"泰国盘谷银行"},{"bank_code":"BCM","bank_name":"交通银行"},{"bank_code":"BOC","bank_name":"中国银行"},{"bank_code":"BOIM","bank_name":"内蒙古银行"},{"bank_code":"CCB","bank_name":"中国建设银行"},{"bank_code":"CEB","bank_name":"光大"},{"bank_code":"CGB","bank_name":"广发银行CGB"},{"bank_code":"CIB","bank_name":"兴业"},{"bank_code":"CMB","bank_name":"招行"},{"bank_code":"CMBC","bank_name":"民生银行"},{"bank_code":"CNCB","bank_name":"中信银行"},{"bank_code":"CZB","bank_name":"浙商银行"},{"bank_code":"EPay","bank_name":"易付"},{"bank_code":"HAPPY","bank_name":"樂付"},{"bank_code":"HDFC","bank_name":"HDFC Bank"},{"bank_code":"HXB","bank_name":"华夏银行"},{"bank_code":"ICBC","bank_name":"中国工商银行"},{"bank_code":"KKBK","bank_name":"科塔克馬辛德拉銀行"},{"bank_code":"KT","bank_name":"开泰银行"},{"bank_code":"KTB","bank_name":"泰京银行"},{"bank_code":"PAB","bank_name":"平安銀行"},{"bank_code":"PAY168","bank_name":"壹陆捌收单平台"},{"bank_code":"RCB","bank_name":"农村商业银行"},{"bank_code":"RCC","bank_name":"农村信用合作社"},{"bank_code":"SCB_XHR","bank_name":"泰国汇商银行"},{"bank_code":"Seagod","bank_name":"海神新平台"},{"bank_code":"SPD","bank_name":"浦发"},{"bank_code":"UTIB","bank_name":"艾克塞斯銀行"},{"bank_code":"PSBC","bank_name":"中国邮政储蓄银行"},{"bank_code":"AQQ","bank_name":"QQQQBANK"},{"bank_code":"ICIC","bank_name":"印度工業信貸投資銀行"},{"bank_code":"JSBC","bank_name":"江苏银行"},{"bank_code":"TRX","bank_name":"TRONTRX"},{"bank_code":"TRXUSDT","bank_name":"TRONUSDT"},{"bank_code":"YESB_XHR","bank_name":"YES BANK"},{"bank_code":"ACB","bank_name":"亚洲商业银行"},{"bank_code":"HXCB","bank_name":"桦川融兴村镇银行"},{"bank_code":"YNRC","bank_name":"云南农信银行"},{"bank_code":"LRC","bank_name":"辽宁省农村信用社联合社"},{"bank_code":"KirbyBank","bank_name":"KirbyBank"},{"bank_code":"HDB","bank_name":"邯郸银行"},{"bank_code":"BOB","bank_name":"北京银行"},{"bank_code":"BJRC","bank_name":"北京农商银行"},{"bank_code":"CDB","bank_name":"承德银行"},{"bank_code":"EGB","bank_name":"恒丰银行"},{"bank_code":"KLB","bank_name":"昆仑银行"},{"bank_code":"SRC","bank_name":"上海农商银行"},{"bank_code":"ZJCZ","bank_name":"浙江稠州商业"},{"bank_code":"BOHRB","bank_name":"哈尔滨银行"},{"bank_code":"CCBN","bank_name":"中信银行"},{"bank_code":"CDRCB","bank_name":"成都农商银行"},{"bank_code":"NJCB","bank_name":"南京银行"},{"bank_code":"TJCB","bank_name":"天津银行"},{"bank_code":"BOG","bank_name":"广州银行"},{"bank_code":"HSB","bank_name":"徽商银行"},{"bank_code":"SDRC","bank_name":"山东农村商业银行"},{"bank_code":"XIB","bank_name":"厦门国际银行"},{"bank_code":"CSCB","bank_name":"长沙银行"},{"bank_code":"DRCBCL","bank_name":"东莞农村商业银行"},{"bank_code":"ZYB","bank_name":"中原银行"},{"bank_code":"CSRC","bank_name":"常熟农商银行"},{"bank_code":"LFB","bank_name":"廊坊银行"},{"bank_code":"LYBANK","bank_name":"洛阳银行"},{"bank_code":"BQD","bank_name":"青岛银行"},{"bank_code":"NBCB","bank_name":"宁波银行"},{"bank_code":"BODL","bank_name":"大连银行"},{"bank_code":"BOXA","bank_name":"西安银行"},{"bank_code":"HBB","bank_name":"河北银行"},{"bank_code":"HBCL","bank_name":"湖北银行"},{"bank_code":"LZB","bank_name":"兰州银行"},{"bank_code":"XMB","bank_name":"厦门银行"},{"bank_code":"ZJRC","bank_name":"浙江农信"},{"bank_code":"CRBC","bank_name":"珠海华润银行"},{"bank_code":"STB","bank_name":"四川天府银行"},{"bank_code":"SDEB","bank_name":"顺德农村商业银行"},{"bank_code":"SZRCB","bank_name":"深圳农村商业银行"},{"bank_code":"JXB","bank_name":"江西银行"},{"bank_code":"FJCB","bank_name":"福建省农村信用社联合社"},{"bank_code":"HZCB","bank_name":"杭州银行"},{"bank_code":"ZJTL","bank_name":"泰隆银行"},{"bank_code":"CQB","bank_name":"重庆银行"},{"bank_code":"QLB","bank_name":"齐鲁银行"},{"bank_code":"HXBANK","bank_name":"华夏银行"},{"bank_code":"BOSC","bank_name":"上海银行"},{"bank_code":"SCRC","bank_name":"四川农信银行"},{"bank_code":"BOJJ","bank_name":"九江银行"},{"bank_code":"BOTS","bank_name":"唐山银行"},{"bank_code":"GRC","bank_name":"广州农村商业银行"},{"bank_code":"BBG","bank_name":"广西北部湾银行"},{"bank_code":"BOD","bank_name":"东莞银行"},{"bank_code":"BOJL","bank_name":"吉林银行"},{"bank_code":"BOZJK","bank_name":"张家口银行"},{"bank_code":"CSRB","bank_name":"长沙农商银行"},{"bank_code":"GDRC","bank_name":"广东农信(广东农商)"},{"bank_code":"GZCB","bank_name":"贵州农信"},{"bank_code":"GZRC","bank_name":"赣州银行"},{"bank_code":"HKB","bank_name":"汉口银行"},{"bank_code":"HNRC","bank_name":"河南农村信用社"},{"bank_code":"HRC","bank_name":"湖北农信"},{"bank_code":"JSNX","bank_name":"江苏省农村信用社联合社"},{"bank_code":"JSHB","bank_name":"晋商银行"},{"bank_code":"MYB","bank_name":"浙江网商银行"},{"bank_code":"NBBANK","bank_name":"宁波银行"},{"bank_code":"TZB","bank_name":"台州银行"},{"bank_code":"YHGM","bank_name":"广西银海国民村镇银行"},{"bank_code":"HBRC","bank_name":"河北农信"},{"bank_code":"HLJRC","bank_name":"黑龙江农信"},{"bank_code":"JLRC","bank_name":"吉林农信"},{"bank_code":"ARCU","bank_name":"安徽农商"},{"bank_code":"GDB","bank_name":"广发银行"},{"bank_code":"NACZ","bank_name":"宁安融兴村镇银行"},{"bank_code":"ZYCB","bank_name":"濮阳中原村镇银行"},{"bank_code":"行动西安银行","bank_name":"行动西安银行"},{"bank_code":"SXCB","bank_name":"陕西信合"},{"bank_code":"GZB","bank_name":"贵州银行"},{"bank_code":"CAB","bank_name":"长安银行"},{"bank_code":"QZB","bank_name":"泉州银行"},{"bank_code":"TCRCB","bank_name":"江苏太仓农村商业银行"},{"bank_code":"ALIPAY","bank_name":"支付宝"},{"bank_code":"JFB","bank_name":"支付宝"},{"bank_code":"QSB","bank_name":"齐商银行"},{"bank_code":"USF","bank_name":"云闪付"},{"bank_code":"WI","bank_name":"微信"},{"bank_code":"WHCCB","bank_name":"威海市商业银行"},{"bank_code":"HLM","bank_name":"汇来米"}],"userbank":["交通银行"]},"recharge_json_channel":true,"recharge_json_count_once":200,"recharge_json_day_notsucc":30,"isrecharge_additional":false,"low_rate_hint":0,"accountname":"李白","tips_recommended":0,"agent_rate_cost":"2|7.00","recommendMoney":["3000","8800","14600","30000"]},"timestamp":1716881633}
 
     public String bid; // "122",
     public String paycode; // "hqppayzfb3",
@@ -61,6 +66,18 @@ public class RechargeVo {
     public int tips_recommended; // 0,
     public String bankcardstatus_onepaywx; // false 时需要弹窗提示绑定WX, 默认为null
     public String bankcardstatus_onepayzfb; // false 时需要弹窗提示绑定ZFB, 默认为null
+
+    /**
+     * opAmountList
+     */
+    @SerializedName("op_amount_list")
+    private List<Integer> opAmountList;
+    /**
+     * opBankList
+     */
+    @SerializedName("op_bank_list")
+    private OpBankListDTO opBankList;
+
 
     public String toInfo() {
         return "RechargeVo { " +
@@ -127,5 +144,91 @@ public class RechargeVo {
                 ", bankcardstatus_onepaywx=" + bankcardstatus_onepaywx +
                 ", bankcardstatus_onepayzfb=" + bankcardstatus_onepayzfb +
                 '}';
+    }
+
+    public List<Integer> getOpAmountList() {
+        return opAmountList;
+    }
+
+    public void setOpAmountList(List<Integer> opAmountList) {
+        this.opAmountList = opAmountList;
+    }
+
+    public OpBankListDTO getOpBankList() {
+        return opBankList;
+    }
+
+    public void setOpBankList(OpBankListDTO opBankList) {
+        this.opBankList = opBankList;
+    }
+    public static class OpBankListDTO {
+        /**
+         * top
+         */
+        @SerializedName("top")
+        private List<BankInfoDTO> top;
+        /**
+         * hot
+         */
+        @SerializedName("hot")
+        private List<BankInfoDTO> hot;
+        /**
+         * others
+         */
+        @SerializedName("others")
+        private List<BankInfoDTO> others;
+
+        public List<BankInfoDTO> getTop() {
+            return top;
+        }
+
+        public void setTop(List<BankInfoDTO> top) {
+            this.top = top;
+        }
+
+        public List<BankInfoDTO> getHot() {
+            return hot;
+        }
+
+        public void setHot(List<BankInfoDTO> hot) {
+            this.hot = hot;
+        }
+
+        public List<BankInfoDTO> getOthers() {
+            return others;
+        }
+
+        public void setOthers(List<BankInfoDTO> others) {
+            this.others = others;
+        }
+
+        public static class BankInfoDTO {
+            /**
+             * bankCode
+             */
+            @SerializedName("bank_code")
+            private String bankCode;
+            /**
+             * bankName
+             */
+            @SerializedName("bank_name")
+            private String bankName;
+
+            public String getBankCode() {
+                return bankCode;
+            }
+
+            public void setBankCode(String bankCode) {
+                this.bankCode = bankCode;
+            }
+
+            public String getBankName() {
+                return bankName;
+            }
+
+            public void setBankName(String bankName) {
+                this.bankName = bankName;
+            }
+        }
     }
 }

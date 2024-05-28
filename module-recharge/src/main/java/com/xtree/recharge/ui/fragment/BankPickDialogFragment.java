@@ -17,6 +17,7 @@ import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.DialogBankPickBinding;
 import com.xtree.recharge.ui.viewmodel.BankPickViewModel;
+import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 
 import java.util.Objects;
@@ -61,7 +62,12 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
     public void initData() {
         super.initData();
         binding.setVariable(BR.model, viewModel);
-        binding.getModel().initData(getActivity());
+
+        RechargeViewModel viewmodel = new ViewModelProvider(getActivity()).get(RechargeViewModel.class);
+        AppViewModelFactory instance = AppViewModelFactory.getInstance(getActivity().getApplication());
+        viewmodel.setModel(instance.getmRepository());
+
+        binding.getModel().initData(viewmodel);
     }
 
     @Override

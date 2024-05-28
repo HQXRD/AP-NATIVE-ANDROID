@@ -1,72 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
 
-    <ImageView
-        style="@style/style_rc_exp_bank_top"
-        android:src="@mipmap/rc_exp_bank_step_1" />
+<layout>
 
-    <TextView
-        style="@style/style_rc_exp_bank_status"
-        android:drawableStart="@mipmap/rc_exp_bank_rst_1"
-        android:text="订单已提交" />
+    <data>
 
-    <View style="@style/style_dividing_line" />
+        <variable
+            name="model"
+            type="com.xtree.recharge.ui.viewmodel.ExTransferViewModel" />
+    </data>
 
-    <TextView
-        style="@style/style_rc_exp_bank_info_title"
-        android:text="订单处理中，请稍等..." />
-
-    <LinearLayout style="@style/style_rc_dlg_ll">
-
-        <TextView
-            style="@style/style_rc_dlg_key"
-            android:text="订单号" />
-
-        <TextView
-            style="@style/style_rc_dlg_value"
-            android:textColor="@color/clr_black"
-            tools:text="PAY00123456789" />
-    </LinearLayout>
-
-    <LinearLayout style="@style/style_rc_dlg_ll">
-
-        <TextView
-            style="@style/style_rc_dlg_key"
-            android:text="金额" />
-
-        <TextView
-            style="@style/style_rc_dlg_value"
-            android:textColor="@color/clr_black"
-            tools:text="100" />
-    </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_margin"
-        android:layout_marginBottom="@dimen/layout_margin"
-        android:text="*系统正在加急安排您本次充值申请，请耐心等候"
-        android:textColor="@color/clr_grey_09" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/layout_margin"
-        android:layout_marginBottom="@dimen/layout_margin"
-        android:drawableStart="@mipmap/cm_ic_countdown"
-        android:drawablePadding="6dp"
-        android:gravity="center"
-        android:text="05:00"
-        android:textColor="@color/clr_purple_02" />
+        <ImageView
+            style="@style/style_rc_exp_bank_top"
+            android:src="@mipmap/rc_exp_bank_step_1" />
 
-    <TextView
-        android:id="@+id/tvw_ok"
-        style="@style/style_btn_long"
-        android:text="取消等待" />
+        <TextView
+            style="@style/style_rc_exp_bank_status"
+            android:drawableStart="@mipmap/rc_exp_bank_rst_1"
+            android:text="订单已提交" />
 
-</LinearLayout>
+        <View style="@style/style_dividing_line" />
+
+        <TextView
+            style="@style/style_rc_exp_bank_info_title"
+            android:text="订单处理中，请稍等..." />
+
+        <LinearLayout style="@style/style_rc_dlg_ll">
+
+            <TextView
+                style="@style/style_rc_dlg_key"
+                android:text="订单号" />
+
+            <TextView
+                style="@style/style_rc_dlg_value"
+                android:textColor="@color/clr_black"
+                tools:text="PAY00123456789" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/style_rc_dlg_ll">
+
+            <TextView
+                style="@style/style_rc_dlg_key"
+                android:text="金额" />
+
+            <TextView
+                style="@style/style_rc_dlg_value"
+                android:textColor="@color/clr_black"
+                tools:text="100" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginBottom="@dimen/layout_margin"
+            android:text="*系统正在加急安排您本次充值申请，请耐心等候"
+            android:textColor="@color/clr_grey_09" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginBottom="@dimen/layout_margin"
+            android:drawableStart="@mipmap/cm_ic_countdown"
+            android:drawablePadding="6dp"
+            android:gravity="center"
+            android:text="@{model.paymentTime}"
+            android:textColor="@color/clr_purple_02" />
+
+        <TextView
+            android:id="@+id/tvw_ok"
+            style="@style/style_btn_long"
+            android:text="取消等待" />
+
+    </LinearLayout>
+</layout>
