@@ -5,13 +5,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.recharge.R;
 import com.xtree.recharge.data.RechargeRepository;
 import com.xtree.recharge.ui.model.BankPickModel;
+import com.xtree.recharge.vo.RechargeVo;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -47,17 +47,37 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
                 }
             });
 
-    public void initData(FragmentActivity fragmentActivity) {
-        BankPickModel m = new BankPickModel("光大银行");
-        mBindDatas.getValue().add(m);
-        lastTimeDatas.setValue(m);
-        List<BindModel> bindModels = topTenDatas.getValue();
-        bindModels.add(m);
-        bindModels.add(m);
-        bindModels.add(m);
-        bindModels.add(m);
-        hotDatas.getValue().add(m);
-        otherDatas.getValue().add(m);
+    public RechargeViewModel rechargeViewModel;
+
+    public void initData(RechargeViewModel rechargeViewModel) {
+        this.rechargeViewModel = rechargeViewModel;
+
+        RechargeVo rechargeVo = rechargeViewModel.liveDataRecharge.getValue();
+        if (rechargeVo != null) {
+
+            RechargeVo.OpBankListDTO opBankList = rechargeVo.getOpBankList();
+
+            hotDatas.getValue().clear();
+            topTenDatas.getValue().clear();
+            otherDatas.getValue().clear();
+            mBindDatas.getValue().clear();
+            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : opBankList.getHot()) {
+                BankPickModel m = new BankPickModel(bankInfoDTO.getBankCode(), bankInfoDTO.getBankName());
+                hotDatas.getValue().add(m);
+            }
+            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : opBankList.getTop()) {
+                BankPickModel m = new BankPickModel(bankInfoDTO.getBankCode(), bankInfoDTO.getBankName());
+                topTenDatas.getValue().add(m);
+            }
+            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : opBankList.getOthers()) {
+                BankPickModel m = new BankPickModel(bankInfoDTO.getBankCode(), bankInfoDTO.getBankName());
+                otherDatas.getValue().add(m);
+            }
+//            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : opBankList.getUserbank()) {
+//                BankPickModel m = new BankPickModel(bankInfoDTO.getBankCode(), bankInfoDTO.getBankName());
+//                mBindDatas.getValue().add(m);
+//            }
+        }
     }
 
     @Override

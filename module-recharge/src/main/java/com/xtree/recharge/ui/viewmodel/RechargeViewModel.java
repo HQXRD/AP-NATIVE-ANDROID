@@ -59,9 +59,14 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<FeedbackCheckVo> feedbackCheckVoSingleLiveData = new SingleLiveData<>();//feedbackCheck 反馈查看页面
     public SingleLiveData<ProfileVo> liveDataProfile = new SingleLiveData<>();
 
-    public RechargeViewModel(@NonNull Application application, RechargeRepository repository) {
-        super(application, repository);
+    public RechargeViewModel(@NonNull Application application) {
+        super(application);
     }
+
+    public RechargeViewModel(@NonNull Application application, RechargeRepository model) {
+        super(application, model);
+    }
+
 
     /**
      * 获取 一键进入 的链接

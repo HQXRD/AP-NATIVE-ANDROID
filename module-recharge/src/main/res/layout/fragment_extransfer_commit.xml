@@ -53,7 +53,8 @@
 
         <include
             android:id="@+id/ll_step_1"
-            layout="@layout/layout_rc_exp_bank_1" />
+            layout="@layout/layout_rc_exp_bank_1"
+            model="@{model}"/>
 
         <include
             android:id="@+id/ll_step_bottom"

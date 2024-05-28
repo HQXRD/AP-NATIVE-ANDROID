@@ -151,8 +151,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     @Override
     public RechargeViewModel initViewModel() {
-        AppViewModelFactory factory = AppViewModelFactory.getInstance(getActivity().getApplication());
-        return new ViewModelProvider(this, factory).get(RechargeViewModel.class);
+        RechargeViewModel viewmodel = new ViewModelProvider(getActivity()).get(RechargeViewModel.class);
+        AppViewModelFactory instance = AppViewModelFactory.getInstance(getActivity().getApplication());
+        viewmodel.setModel(instance.getmRepository());
+        return viewmodel;
     }
 
     @Override

@@ -8,10 +8,20 @@ import com.xtree.base.mvvm.recyclerview.BindModel;
  */
 public class BankPickModel extends BindModel {
 
-    private String bankName = "";
+    private String bankCode;
+    private String bankName;
 
-    public BankPickModel(String bankName) {
+    public BankPickModel(String bankCode, String bankName) {
+        this.bankCode = bankCode;
         this.bankName = bankName;
+    }
+
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 
     public String getBankName() {

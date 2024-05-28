@@ -1,71 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+<layout>
 
-    <TextView
-        style="@style/style_rc_exp_bank_status"
-        android:drawableStart="@mipmap/rc_exp_bank_rst_5"
-        android:text="待确认付款"
-        android:textColor="@color/clr_red_19" />
+    <data>
 
-    <View style="@style/style_dividing_line" />
+        <variable
+            name="model"
+            type="com.xtree.recharge.ui.viewmodel.ExTransferViewModel" />
+    </data>
 
-    <TextView
-        style="@style/style_rc_exp_bank_info_title"
-        android:text="您已确认付款，请耐心等待到账" />
-
-    <LinearLayout style="@style/style_rc_dlg_ll">
-
-        <TextView
-            style="@style/style_rc_dlg_key"
-            android:text="申请充值时间" />
-
-        <TextView
-            style="@style/style_rc_dlg_value"
-            android:textColor="@color/clr_black"
-            tools:text="2024-01-23  11:00:07" />
-    </LinearLayout>
-
-    <LinearLayout style="@style/style_rc_dlg_ll">
-
-        <TextView
-            style="@style/style_rc_dlg_key"
-            android:text="订单号" />
-
-        <TextView
-            style="@style/style_rc_dlg_value"
-            android:textColor="@color/clr_black"
-            tools:text="PAY00123456789" />
-    </LinearLayout>
-
-    <LinearLayout style="@style/style_rc_dlg_ll">
-
-        <TextView
-            style="@style/style_rc_dlg_key"
-            android:text="@string/txt_bank_rc_amount" />
-
-        <TextView
-            android:id="@+id/tvw_money2"
-            style="@style/style_rc_dlg_value"
-            tools:text="XXX" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvw_ok"
-        style="@style/style_btn_long"
-        android:text="关闭" />
-
-    <TextView
-        style="@style/style_cm_tip_small_grey"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:drawableStart="@mipmap/cm_ic_hint_purple"
-        android:drawablePadding="4dp"
-        android:text="若有任何订单问题，请立即联系客服，并提供区间流水明细，以利确认到账情况及处理您的保证金返还"
-        android:textSize="12sp" />
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <TextView
+            style="@style/style_rc_exp_bank_status"
+            android:drawableStart="@mipmap/rc_exp_bank_rst_5"
+            android:text="待确认付款"
+            android:textColor="@color/clr_red_19" />
+
+        <View style="@style/style_dividing_line" />
+
+        <TextView
+            style="@style/style_rc_exp_bank_info_title"
+            android:text="您已确认付款，请耐心等待到账" />
+
+        <LinearLayout style="@style/style_rc_dlg_ll">
+
+            <TextView
+                style="@style/style_rc_dlg_key"
+                android:text="申请充值时间" />
+
+            <TextView
+                style="@style/style_rc_dlg_value"
+                android:textColor="@color/clr_black"
+                tools:text="2024-01-23  11:00:07" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/style_rc_dlg_ll">
+
+            <TextView
+                style="@style/style_rc_dlg_key"
+                android:text="订单号" />
+
+            <TextView
+                style="@style/style_rc_dlg_value"
+                android:textColor="@color/clr_black"
+                tools:text="PAY00123456789" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/style_rc_dlg_ll">
+
+            <TextView
+                style="@style/style_rc_dlg_key"
+                android:text="@string/txt_bank_rc_amount" />
+
+            <TextView
+                android:id="@+id/tvw_money2"
+                style="@style/style_rc_dlg_value"
+                tools:text="XXX" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvw_ok"
+            style="@style/style_btn_long"
+            android:text="关闭" />
+
+        <TextView
+            style="@style/style_cm_tip_small_grey"
+            android:layout_width="match_parent"
+            android:drawableStart="@mipmap/cm_ic_hint_purple"
+            android:drawablePadding="4dp"
+            android:text="若有任何订单问题，请立即联系客服，并提供区间流水明细，以利确认到账情况及处理您的保证金返还"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+</layout>
