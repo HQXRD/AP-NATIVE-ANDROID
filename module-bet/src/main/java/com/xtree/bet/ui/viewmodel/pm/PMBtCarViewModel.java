@@ -206,6 +206,7 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
         btReq.setSeriesOrders(seriesOrders);
         if(seriesOrders.isEmpty()){
             noBetAmountDate.call();
+            return;
         }
 
         Disposable disposable = (Disposable) model.getPMApiService().bet(btReq)
