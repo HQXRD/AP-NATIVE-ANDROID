@@ -53,7 +53,8 @@
 
         <include
             android:id="@+id/ll_step_1"
-            layout="@layout/layout_rc_exp_bank_5" />
+            layout="@layout/layout_rc_exp_bank_5"
+            model="@{model}"/>
 
     </LinearLayout>
 </layout>
