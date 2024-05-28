@@ -6,6 +6,10 @@
         <variable
             name="model"
             type="com.xtree.recharge.ui.viewmodel.ExTransferViewModel" />
+
+        <import type="androidx.core.content.ContextCompat" />
+
+        <import type="com.xtree.recharge.R" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -64,7 +68,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="118dp"
             android:layout_margin="@dimen/layout_margin"
             android:gravity="center"
             android:orientation="horizontal">
@@ -72,9 +76,18 @@
             <ImageView
                 android:id="@+id/ivw_pic"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@mipmap/rc_exp_receipt"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                android:scaleType="center"
+                tools:src="@mipmap/rc_exp_receipt"
+                placeholder="@{ContextCompat.getDrawable(context,R.mipmap.rc_exp_receipt)}"
+                imageUrl="@{model.voucher}"
+                android:onClick="@{() -> model.gotoSelectMedia()}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0"/>
 
             <TextView
                 android:id="@+id/tvw_21"
@@ -115,9 +128,11 @@
                 android:paddingTop="2dp"
                 android:paddingEnd="8dp"
                 android:paddingBottom="2dp"
+                android:layout_marginBottom="2dp"
                 android:text="回执单示例"
                 android:textColor="@color/clr_white"
                 android:textSize="12sp"
+                android:onClick="@{() -> model.showExample()}"
                 app:layout_constraintBottom_toBottomOf="@+id/ivw_pic"
                 app:layout_constraintStart_toStartOf="@+id/tvw_21" />
 
