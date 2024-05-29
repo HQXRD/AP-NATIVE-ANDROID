@@ -49,12 +49,6 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
     }
 
     public void getUserBalance(){
-        /*String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
-            getUserBalanceFb();
-        }else {
-            getUserBalancePm();
-        }*/
 
         Disposable disposable = (Disposable) model.getBaseApiService().getBalance()
                 .compose(RxUtils.schedulersTransformer())
@@ -71,49 +65,6 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);
-    }
-
-    private void getUserBalanceFb() {
-        Map<String, String> map = new HashMap<>();
-        map.put("languageType", "CMN");
-        Disposable disposable = (Disposable) model.getApiService().getUserBanlace(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new FBHttpCallBack<BalanceInfo>() {
-                    @Override
-                    public void onResult(BalanceInfo balanceInfo) {
-                        userBalanceData.postValue(NumberUtils.format(Double.valueOf(balanceInfo.bl), 2));
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        //super.onError(t);
-                        //getUserBalanceFb();
-                    }
-                });
-        addSubscribe(disposable);
-    }
-
-    private void getUserBalancePm() {
-        Map<String, String> map = new HashMap<>();
-        String token = SPUtils.getInstance().getString(SPKeyGlobal.PM_TOKEN);
-        map.put("teken", token);
-        Disposable disposable = (Disposable) model.getPMApiService().getUserBanlace(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new PMHttpCallBack<com.xtree.bet.bean.response.pm.BalanceInfo>() {
-                    @Override
-                    public void onResult(com.xtree.bet.bean.response.pm.BalanceInfo balanceInfo) {
-                        userBalanceData.postValue(NumberUtils.format(balanceInfo.amount, 2));
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        super.onError(t);
-                        //getUserBalancePm();
                     }
                 });
         addSubscribe(disposable);
