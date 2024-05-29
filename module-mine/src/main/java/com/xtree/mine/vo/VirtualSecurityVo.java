@@ -1,9 +1,18 @@
 package com.xtree.mine.vo;
 
-import java.util.ArrayList;
-
-/*虚拟币提款 第一步返回的model*/
 public class VirtualSecurityVo {
+
+    public String msg_type  ; //2
+    public String message ;//"message": "抱歉，您的提款金额累计超过今日最高提款金额，请确认后再进行操作"
+
+    /*"nextcontroller": "security",
+"nextaction": "platwithdraw",
+"ur_here": "资金密码检查",
+异常情况 需要弹出资金密码检查
+*/
+    public String nextcontroller ;
+    public String nextaction ;
+    public String  ur_here ;
 
     /* "usdt_card":"******r123",
             "usdtid":3209,
@@ -31,12 +40,11 @@ public class VirtualSecurityVo {
     public String channel_child ;
     public String earnest_money_pl ;
     public String earnest_money ;
-    public boolean check ;
-    public String availablebalance ;
-    public String ur_here ;
+    public String check ;
+
     public String ourfee ;
     public String name ;
-    public USDTSecurityVo.Security datas ;
+    public Security datas ;
     public  class  Security
     {
         public String money ;
@@ -59,7 +67,7 @@ public class VirtualSecurityVo {
                  "plot_id":"54"*/
     }
 
-    public USDTSecurityVo.User user ;
+    public User user ;
 
     public class  User
     {

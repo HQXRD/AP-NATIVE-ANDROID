@@ -4,7 +4,16 @@ import java.util.ArrayList;
 
 import me.xtree.mvvmhabit.http.BaseResponse2;
 
+/* 虚拟币提款 */
 public class VirtualCashVo extends BaseResponse2 {
+    /*"nextcontroller": "security",
+"nextaction": "platwithdraw",
+"ur_here": "资金密码检查",
+异常情况 需要弹出资金密码检查
+*/
+    public String nextcontroller ;
+    public String nextaction ;
+    public String  ur_here ;
     public String count;//今日提款次数
     public String rest;//今日提款额度
     public String id;
@@ -12,7 +21,7 @@ public class VirtualCashVo extends BaseResponse2 {
     public String withdraw_rand_on;
     public String freeWithDrawTimes;
     public String ourfee;
-    public String ur_here;
+
     public String times;//显示提款次数
     public String limitarr;
     public String d_max_money;

@@ -1,13 +1,21 @@
 package com.xtree.mine.vo;
 
 public class VirtualConfirmVo {
+    /*"nextcontroller": "security",
+"nextaction": "platwithdraw",
+"ur_here": "资金密码检查",
+异常情况 需要弹出资金密码检查
+*/
+    public String nextcontroller ;
+    public String nextaction ;
+    public String  ur_here ;
     @Override
     public String toString() {
         return "VirtualConfirmVo{" +
-         "user=" + user +
-         ", msg_detail='" + msg_detail + '\'' +
-         ", msg_type='" + msg_type + '\'' +
-         '}';
+                "user=" + user +
+                ", msg_detail='" + msg_detail + '\'' +
+                ", msg_type='" + msg_type + '\'' +
+                '}';
     }
 
     public User user;

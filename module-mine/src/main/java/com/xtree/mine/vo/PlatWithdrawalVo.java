@@ -3,9 +3,9 @@ package com.xtree.mine.vo;
 import me.xtree.mvvmhabit.http.BaseResponse2;
 
 /**
- * [魔域] 提款确认信息页面信息
+ *  提款确认信息页面信息
  */
-public class PlatWithdrawMoYuVo extends BaseResponse2 {
+public class PlatWithdrawalVo extends BaseResponse2 {
 
     //public String sTarget ;// "sTarget": "top",
     //public String status ;// "status": 20106,
