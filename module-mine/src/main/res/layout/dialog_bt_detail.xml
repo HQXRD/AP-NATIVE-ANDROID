@@ -242,10 +242,19 @@
                     tools:visibility="visible">
 
                     <TextView
+                        android:id="@+id/tvw_bet_title"
+                        style="@style/style_item_report_value_2"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="3x4*4" />
+
+                    <TextView
                         android:id="@+id/tvw_bet_content"
                         style="@style/style_item_report_value_2"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvw_bet_title"
                         tools:text="全场 滚球 0.81" />
 
                     <!--<LinearLayout style="@style/style_item_ll_row_2">-->
