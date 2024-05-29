@@ -1,5 +1,6 @@
 package com.xtree.mine.ui.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -29,6 +30,10 @@ public class ActivityFlow extends BaseActivity<FragmentChooseWithdrawBinding, Ch
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //修复Android 8.0版本 Activity 设置为透明主题造成的崩溃
+        if (Build.VERSION.SDK_INT == 26 && isTranslucentOrFloating()) {
+            fixOrientation(this);
+        }
         super.onCreate(savedInstanceState);
 
         LoadingDialog.show(this);
