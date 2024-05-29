@@ -91,6 +91,30 @@ public class BtDetailDialog extends BottomPopupView {
         } else if (vo.project_BetResult.equals("W")) {
             binding.tvwBtResult.setText(R.string.txt_rst_win);
             binding.tvwBtResult.setSelected(true);
+        } else if (vo.project_BetResult.equals("C")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_c);
+            binding.tvwBtResult.setActivated(true);
+        } else if (vo.project_BetResult.equals("V")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_v);
+            binding.tvwBtResult.setActivated(true);
+        } else if (vo.project_BetResult.equals("CO")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_co);
+            binding.tvwBtResult.setActivated(true);
+        } else if (vo.project_BetResult.equals("J")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_j);
+            binding.tvwBtResult.setActivated(true);
+        } else if (vo.project_BetResult.equals("CANCLE_ORD")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_cancel_ord);
+            binding.tvwBtResult.setActivated(true);
+        } else if (vo.project_BetResult.equals("HALFLOSE")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_half_lose);
+            binding.tvwBtResult.setActivated(true);
+        } else if (vo.project_BetResult.equals("HALFWIN")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_half_win);
+            binding.tvwBtResult.setActivated(true);
+        } else if (vo.project_BetResult.equals("VOID")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_void);
+            binding.tvwBtResult.setActivated(true);
         } else {
             binding.tvwBtResult.setText(R.string.txt_unsettle); // 未结算
             binding.tvwBtResult.setActivated(true);
