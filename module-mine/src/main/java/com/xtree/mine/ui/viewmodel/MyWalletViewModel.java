@@ -57,18 +57,17 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<AwardsRecordVo>() {
                     @Override
-                    public void onResult(AwardsRecordVo awardrecordVo) {
-                        if (awardrecordVo != null) {
-                            awardrecordVoMutableLiveData.setValue(awardrecordVo);
+                    public void onResult(AwardsRecordVo vo) {
+                        if (vo != null) {
+                            awardrecordVoMutableLiveData.setValue(vo);
                         } else {
-                            CfLog.i("awardrecordVo IS NULL ");
+                            CfLog.i("vo IS NULL ");
                         }
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
-                        //ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -109,7 +108,7 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                 }
                 liveDataTransGameType.setValue(canUseTransGame);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                CfLog.e(e.toString());
             }
         }).run();
     }
