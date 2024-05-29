@@ -28,15 +28,15 @@ public class FbDataView extends BaseDetailDataView implements View.OnClickListen
     @Override
     public void setMatch(Match match, boolean isMatchList){
         List<Integer> scoreYellowCard = match.getScore(String.valueOf(PMConstants.SCORE_TYPE_YELLOW_CARD));
-        String yellowCard = getResources().getString(R.string.bt_detail_yellow_card, scoreYellowCard.get(0), scoreYellowCard.get(1));
+        String yellowCard = hasScore(scoreYellowCard) ? getResources().getString(R.string.bt_detail_yellow_card, scoreYellowCard.get(0), scoreYellowCard.get(1))  : "  -";
         ((TextView)findViewById(R.id.tv_yellow_card)).setText(yellowCard);
 
         List<Integer> scoreRedCard = match.getScore(String.valueOf(PMConstants.SCORE_TYPE_RED_CARD));
-        String redCard = getResources().getString(R.string.bt_detail_red_card, scoreRedCard.get(0), scoreRedCard.get(1));
+        String redCard = hasScore(scoreYellowCard) ? getResources().getString(R.string.bt_detail_red_card, scoreRedCard.get(0), scoreRedCard.get(1)) : "  -";
         ((TextView)findViewById(R.id.tv_red_card)).setText(redCard);
 
         List<Integer> scoreCornor = match.getScore(String.valueOf(PMConstants.SCORE_TYPE_CORNER));
-        String cornorCard = getResources().getString(R.string.bt_detail_cornor, scoreCornor.get(0), scoreCornor.get(1));
+        String cornorCard = hasScore(scoreYellowCard) ? getResources().getString(R.string.bt_detail_cornor, scoreCornor.get(0), scoreCornor.get(1)) : "  -";
         ((TextView)findViewById(R.id.tv_cornor)).setText(cornorCard);
         findViewById(R.id.iv_cornor).setSelected(match.hasCornor());
     }
