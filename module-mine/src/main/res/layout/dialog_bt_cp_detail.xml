@@ -81,7 +81,7 @@
 
                 <TextView
                     android:id="@+id/tvw_write_time"
-                    style="@style/style_item_report_value"
+                    style="@style/style_item_report_value_2"
                     tools:text="2024-01-13 13:53:53" />
 
             </LinearLayout>
@@ -94,7 +94,7 @@
 
                 <TextView
                     android:id="@+id/tvw_project_id"
-                    style="@style/style_item_report_value"
+                    style="@style/style_item_report_value_2"
                     tools:text="D20240130-141***EEF" />
             </LinearLayout>
 
@@ -106,7 +106,7 @@
 
                 <TextView
                     android:id="@+id/tvw_username"
-                    style="@style/style_item_report_value"
+                    style="@style/style_item_report_value_2"
                     tools:text="testkite" />
             </LinearLayout>
 
@@ -118,7 +118,7 @@
 
                 <TextView
                     android:id="@+id/tvw_lottery_name"
-                    style="@style/style_item_report_value"
+                    style="@style/style_item_report_value_2"
                     tools:text="河内5分彩" />
             </LinearLayout>
 
@@ -130,7 +130,7 @@
 
                 <TextView
                     android:id="@+id/tvw_issue"
-                    style="@style/style_item_report_value"
+                    style="@style/style_item_report_value_2"
                     tools:text="20240130-141" />
 
                 <Button
@@ -152,7 +152,7 @@
 
                 <TextView
                     android:id="@+id/tvw_status"
-                    style="@style/style_item_report_value"
+                    style="@style/style_item_report_value_2"
                     tools:text="未中奖" />
             </LinearLayout>
 
@@ -165,7 +165,7 @@
 
                 <TextView
                     android:id="@+id/tvw_method_name"
-                    style="@style/style_item_report_value"
+                    style="@style/style_item_report_value_2"
                     tools:text="后三码后三直选" />
             </LinearLayout>
 
@@ -177,7 +177,7 @@
 
                 <TextView
                     android:id="@+id/tvw_no_code"
-                    style="@style/style_item_report_value"
+                    style="@style/style_item_report_value_2"
                     tools:text="30176" />
             </LinearLayout>
 
@@ -189,7 +189,7 @@
 
                 <TextView
                     android:id="@+id/tvw_total_price"
-                    style="@style/style_item_report_value"
+                    style="@style/style_item_report_value_2"
                     android:textColor="@color/clr_red_01"
                     tools:text="0.0000" />
             </LinearLayout>
@@ -202,7 +202,7 @@
 
                 <TextView
                     android:id="@+id/tvw_bonus"
-                    style="@style/style_item_report_value"
+                    style="@style/style_item_report_value_2"
                     android:textColor="@color/clr_red_01"
                     tools:text="0.0000" />
             </LinearLayout>
@@ -215,7 +215,7 @@
 
                 <TextView
                     android:id="@+id/tvw_multiple"
-                    style="@style/style_item_report_value"
+                    style="@style/style_item_report_value_2"
                     tools:text="1" />
             </LinearLayout>
 
@@ -227,7 +227,7 @@
 
                 <TextView
                     android:id="@+id/tvw_modes"
-                    style="@style/style_item_report_value"
+                    style="@style/style_item_report_value_2"
                     tools:text="厘" />
             </LinearLayout>
 
@@ -261,7 +261,7 @@
 
                     <TextView
                         android:id="@+id/tvw_code"
-                        style="@style/style_item_report_value"
+                        style="@style/style_item_report_value_2"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="1,1,1" />
