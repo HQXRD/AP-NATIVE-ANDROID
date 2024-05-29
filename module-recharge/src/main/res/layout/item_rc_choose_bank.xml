@@ -15,5 +15,6 @@
         android:maxWidth="156dp"
         android:elevation="3dp"
         android:text="@{m.bankName}"
+        android:onClick="@{() -> m.click()}"
         tools:text="某某银行" />
 </layout>

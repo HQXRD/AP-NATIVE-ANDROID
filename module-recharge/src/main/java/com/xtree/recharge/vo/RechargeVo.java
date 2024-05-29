@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class RechargeVo {
@@ -177,6 +178,33 @@ public class RechargeVo {
          */
         @SerializedName("others")
         private List<BankInfoDTO> others;
+
+        /**
+         * others
+         */
+        @SerializedName("used")
+        private List<BankInfoDTO> used;
+
+        /**
+         * 用户绑定银行
+         */
+        private HashMap<String, String> mBind;
+
+        public List<BankInfoDTO> getUsed() {
+            return used;
+        }
+
+        public void setUsed(List<BankInfoDTO> used) {
+            this.used = used;
+        }
+
+        public HashMap<String, String> getmBind() {
+            return mBind;
+        }
+
+        public void setmBind(HashMap<String, String> mBind) {
+            this.mBind = mBind;
+        }
 
         public List<BankInfoDTO> getTop() {
             return top;

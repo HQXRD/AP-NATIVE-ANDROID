@@ -9,14 +9,16 @@ public class ExCreateOrderRequest {
 
     private String pid;
     private String payAmount;
-    private String payBankCode;
+    private String payBankCode = "";
     private String payName;
+    private String userBankId = "";
 
-    public ExCreateOrderRequest(String pid, String payAmount, String payBankCode, String payName) {
-        this.pid = pid;
-        this.payAmount = payAmount;
-        this.payBankCode = payBankCode;
-        this.payName = payName;
+    public String getUserBankId() {
+        return userBankId;
+    }
+
+    public void setUserBankId(String userBankId) {
+        this.userBankId = userBankId;
     }
 
     public String getPid() {

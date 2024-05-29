@@ -10,9 +10,11 @@ import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.data.source.request.ExOrderCancelRequest;
 import com.xtree.recharge.data.source.request.ExReceiptUploadRequest;
 import com.xtree.recharge.data.source.request.ExReceiptocrRequest;
+import com.xtree.recharge.data.source.request.ExRechargeOrderCheckRequest;
 import com.xtree.recharge.data.source.response.ExBankInfoResponse;
 import com.xtree.recharge.data.source.response.ExCreateOrderResponse;
 import com.xtree.recharge.data.source.response.ExReceiptocrResponse;
+import com.xtree.recharge.data.source.response.ExRechargeOrderCheckResponse;
 
 import java.util.Map;
 
@@ -134,6 +136,19 @@ public class HttpDataSourceImpl implements HttpDataSource {
             public BaseResponse apply(ResponseBody responseBody) throws Exception {
                 return JSON.parseObject(responseBody.string(),
                         new TypeReference<BaseResponse>() {
+                        });
+            }
+        });
+    }
+
+    @Override
+    public Flowable<ExRechargeOrderCheckResponse> rechargeOrderCheck(ExRechargeOrderCheckRequest request) {
+        Map<String, Object> map = JSON.parseObject(JSON.toJSONString(request), type);
+        return apiService.get(APIManager.DEPOSIT_RECHARGEORDERCHECK_URL,map).map(new Function<ResponseBody, ExRechargeOrderCheckResponse>() {
+            @Override
+            public ExRechargeOrderCheckResponse apply(ResponseBody responseBody) throws Exception {
+                return JSON.parseObject(responseBody.string(),
+                        new TypeReference<ExRechargeOrderCheckResponse>() {
                         });
             }
         });

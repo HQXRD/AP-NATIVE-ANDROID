@@ -12,9 +12,11 @@ import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.data.source.request.ExOrderCancelRequest;
 import com.xtree.recharge.data.source.request.ExReceiptUploadRequest;
 import com.xtree.recharge.data.source.request.ExReceiptocrRequest;
+import com.xtree.recharge.data.source.request.ExRechargeOrderCheckRequest;
 import com.xtree.recharge.data.source.response.ExBankInfoResponse;
 import com.xtree.recharge.data.source.response.ExCreateOrderResponse;
 import com.xtree.recharge.data.source.response.ExReceiptocrResponse;
+import com.xtree.recharge.data.source.response.ExRechargeOrderCheckResponse;
 
 import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.base.BaseModel;
@@ -110,6 +112,11 @@ public class RechargeRepository extends BaseModel implements HttpDataSource, Loc
     @Override
     public Flowable<BaseResponse> rechargeReceiptUpload(ExReceiptUploadRequest request) {
         return mHttpDataSource.rechargeReceiptUpload(request);
+    }
+
+    @Override
+    public Flowable<ExRechargeOrderCheckResponse> rechargeOrderCheck(ExRechargeOrderCheckRequest request) {
+        return mHttpDataSource.rechargeOrderCheck(request);
     }
 
 }

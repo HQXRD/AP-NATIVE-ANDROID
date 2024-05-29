@@ -37,6 +37,7 @@ public class ExSlipExampleDialogFragment extends BaseDialogFragment<DialogEreply
     public static void show(FragmentActivity activity) {
         ExSlipExampleDialogFragment fragment = new ExSlipExampleDialogFragment();
         fragment.show(activity.getSupportFragmentManager(), ExSlipExampleDialogFragment.class.getName());
+        activity.getSupportFragmentManager().executePendingTransactions();
     }
 
     @Override
