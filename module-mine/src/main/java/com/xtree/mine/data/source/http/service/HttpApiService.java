@@ -35,9 +35,7 @@ import com.xtree.mine.vo.MsgListVo;
 import com.xtree.mine.vo.MsgPersonInfoVo;
 import com.xtree.mine.vo.MsgPersonListVo;
 import com.xtree.mine.vo.OtherWebWithdrawVo;
-import com.xtree.mine.vo.PlatWithdrawConfirmMoYuVo;
 import com.xtree.mine.vo.PlatWithdrawConfirmVo;
-import com.xtree.mine.vo.PlatWithdrawMoYuVo;
 import com.xtree.mine.vo.PlatWithdrawVo;
 import com.xtree.mine.vo.ProfitLossReportVo;
 import com.xtree.mine.vo.QuestionVo;
@@ -568,14 +566,14 @@ public interface HttpApiService {
     /*银行卡提款信息确认 （魔域）*/
     @POST("/security/platwithdraw?client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<PlatWithdrawMoYuVo> postMoYuPlatWithdrawBank(@Body Map<String, String> map);
+    Flowable<PlatWithdrawVo> postMoYuPlatWithdrawBank(@Body Map<String, String> map);
 
     /*
      * 银行卡确认提交 完成【魔域】
      */
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<PlatWithdrawConfirmMoYuVo> postMoYuConfirmWithdrawBank(@Body Map<String, String> map);
+    Flowable<PlatWithdrawConfirmVo> postMoYuConfirmWithdrawBank(@Body Map<String, String> map);
 
     /*
      * USDT获取提款方式【魔域】

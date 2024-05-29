@@ -134,21 +134,6 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         binding.ivwClose.setOnClickListener(v -> dismiss());
         binding.tvwTitle.setText(channelInfo.title);
 
-        //显示设置请求View
-        /*if (binding.llVirtualTop.getVisibility() == View.VISIBLE) {
-            //点击嗨钱包
-            binding.llOtherUsdt.setOnClickListener(v -> {
-                binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
-                binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
-                binding.tvWithdrawalTypeShow.setText("USDT");//提款类型
-            });
-            //点击usdt
-            binding.llUsdt.setOnClickListener(v -> {
-                binding.llOtherUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_noselected);
-                binding.llUsdt.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
-                binding.tvWithdrawalTypeShow.setText("USDT");//提款类型
-            });
-        }*/
     }
 
     private void initData() {

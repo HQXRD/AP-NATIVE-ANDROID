@@ -17,8 +17,8 @@ import com.xtree.mine.vo.ChooseInfoMoYuVo;
 import com.xtree.mine.vo.FundPassWordVerifyVo;
 import com.xtree.mine.vo.FundPassWordVo;
 import com.xtree.mine.vo.OtherWebWithdrawVo;
-import com.xtree.mine.vo.PlatWithdrawConfirmMoYuVo;
-import com.xtree.mine.vo.PlatWithdrawMoYuVo;
+import com.xtree.mine.vo.PlatWithdrawConfirmVo;
+import com.xtree.mine.vo.PlatWithdrawVo;
 import com.xtree.mine.vo.USDTCashVo;
 import com.xtree.mine.vo.USDTConfirmVo;
 import com.xtree.mine.vo.USDTSecurityVo;
@@ -44,8 +44,8 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<FundPassWordVerifyVo> fundPassWordVerifyVoMutableLiveData = new MutableLiveData<FundPassWordVerifyVo>();//魔域 输入资金密码/谷歌验证码
     public MutableLiveData<ChooseInfoMoYuVo> chooseInfoMoYuVoMutableLiveData = new MutableLiveData<>();//魔域 获取提款列表
     public MutableLiveData<BankCardCashVo> bankCardCashMoYuVoMutableLiveData = new MutableLiveData<>();//魔域 银行卡提款 信息展示bean
-    public MutableLiveData<PlatWithdrawMoYuVo> platWithdrawMoYuVoMutableLiveData = new MutableLiveData<>();// 魔域 银行卡提款 提交
-    public MutableLiveData<PlatWithdrawConfirmMoYuVo> platWithdrawConfirmMoYuVoMutableLiveData = new MutableLiveData<>();// 魔域 银行卡提款 确认
+    public MutableLiveData<PlatWithdrawVo> platWithdrawMoYuVoMutableLiveData = new MutableLiveData<>();// 魔域 银行卡提款 提交
+    public MutableLiveData<PlatWithdrawConfirmVo> platWithdrawConfirmMoYuVoMutableLiveData = new MutableLiveData<>();// 魔域 银行卡提款 确认
 
     public MutableLiveData<USDTCashVo> usdtCashMoYuVoMutableLiveData = new MutableLiveData<>();// 魔域 USDT提款获取页面信息
     public MutableLiveData<USDTSecurityVo> usdtSecurityMoYuVoMutableLiveData = new MutableLiveData<>();// 魔域 USDT 确认提款信息
@@ -274,16 +274,6 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
                                     bankCardCashVo.channel_list.get(i).isWebView = 2;//需要展示webView页面
                                 }
 
-                                //isShowErrorView
-                          /*  if (TextUtils.isEmpty(bankCardCashVo.channel_list.get(i).thiriframe_msg))
-                            {
-                                bankCardCashVo.channel_list.get(i).isShowErrorView = 1;
-                            }
-                            else
-                            {
-                                bankCardCashVo.channel_list.get(i).isShowErrorView = 0;
-                            }
-*/
                             }
                             if (bankCardCashVo.user != null) {
                                 if (bankCardCashVo.user.username != null) {
@@ -313,9 +303,9 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
         Disposable disposable = (Disposable) model.getApiService().postMoYuPlatWithdrawBank(map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<PlatWithdrawMoYuVo>() {
+                .subscribeWith(new HttpCallBack<PlatWithdrawVo>() {
                     @Override
-                    public void onResult(PlatWithdrawMoYuVo platWithdrawVo) {
+                    public void onResult(PlatWithdrawVo platWithdrawVo) {
                         if (platWithdrawVo.user != null) {
                             if (platWithdrawVo.user.username != null) {
                                 platWithdrawVo.user.username = StringUtils.splitWithdrawUserName(platWithdrawVo.user.username);
@@ -335,9 +325,9 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
         Disposable disposable = (Disposable) model.getApiService().postMoYuConfirmWithdrawBank(map)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<PlatWithdrawConfirmMoYuVo>() {
+                .subscribeWith(new HttpCallBack<PlatWithdrawConfirmVo>() {
                     @Override
-                    public void onResult(PlatWithdrawConfirmMoYuVo platWithdrawConfirmMoYuVo) {
+                    public void onResult(PlatWithdrawConfirmVo platWithdrawConfirmMoYuVo) {
                         platWithdrawConfirmMoYuVoMutableLiveData.setValue(platWithdrawConfirmMoYuVo);
                     }
 
