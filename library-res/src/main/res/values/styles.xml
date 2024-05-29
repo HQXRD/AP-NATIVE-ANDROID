@@ -1087,9 +1087,16 @@
 
     <!-- 报表 列表项 值 黑色 靠左 -->
     <style name="style_item_report_value" parent="style_item_report_base">
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:textColor">@color/clr_awards_txt_black</item>
+    </style>
+
+    <!-- 报表 列表项 值 黑色 靠左 -->
+    <style name="style_item_report_value_2" parent="style_item_report_base">
         <item name="android:layout_marginStart">@dimen/layout_margin</item>
         <item name="android:textColor">@color/clr_awards_txt_black</item>
     </style>
+
     <!-- 报表 列表项 值 黑色 居中 -->
     <style name="style_item_report_value_center" parent="style_item_report_value">
         <item name="android:gravity">center</item>

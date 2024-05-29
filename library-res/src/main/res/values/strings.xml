@@ -137,7 +137,7 @@
     <string name="txt_rst_c">撤单</string>
     <string name="txt_rst_v">未结算</string>
     <string name="txt_rst_co">提前结算</string>
-    <string name="txt_rst_j">拒单</string>
+    <string name="txt_rst_j">投注失败</string>
     <string name="txt_rst_cancel_ord">取消</string>
     <string name="txt_rst_half_lose">输一半</string>
     <string name="txt_rst_half_win">赢一半</string>
@@ -238,4 +238,6 @@
     <string name="txt_chang_psw_input_length_error">密码长度为6-16位</string>
     <string name="txt_chang_psw_input_twice_error">两次密码输入不一致</string>
     <string name="txt_chang_psw_input_format_error">密码格式不正确,请重新你输入</string>
+
+    <string name="txt_insufficient_balance">" 余额不足"</string>
 </resources>
