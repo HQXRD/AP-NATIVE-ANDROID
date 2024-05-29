@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 主页底部按钮文字颜色 -->
+    <color name="main_bottom_unselect">#C7C7C7</color>
+    <color name="main_bottom_select">#ffffff</color>
+</resources>
