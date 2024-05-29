@@ -186,7 +186,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 利用反射呼叫浮动弹窗
         if (isShowBack) {
             try {
-                Class myClass = Class.forName("com.xtree.home.ui.custom.view.CustomFloatWindows");
+                Class myClass = Class.forName("com.xtree.home.ui.custom.view.RechargeFloatingWindows");
                 Constructor constructor = myClass.getConstructor(Context.class);
                 object = constructor.newInstance(getContext());
                 method = object.getClass().getMethod("show");

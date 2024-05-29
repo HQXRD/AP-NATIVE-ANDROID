@@ -1,19 +1,9 @@
 package com.xtree.home.ui.custom.view;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-import static android.content.Context.WINDOW_SERVICE;
-
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PixelFormat;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.RelativeLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +16,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.widget.BrowserDialog;
+import com.xtree.base.widget.FloatingWindows;
 import com.xtree.home.R;
 import com.xtree.home.data.source.HomeApiService;
 import com.xtree.home.data.source.HttpDataSource;
@@ -44,137 +35,67 @@ import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
-public class CustomFloatWindows extends RelativeLayout {
-    private Context ctx;
-    private WindowManager windowManager;
-    private View floatView;
+public class RechargeFloatingWindows extends FloatingWindows {
     private CompositeDisposable mCompositeDisposable;
     private boolean isSearch = true;
-    private boolean isShow = false;
     RechargeReportAdapter rechargeReportAdapter;
     HomeApiService apiService = RetrofitClient.getInstance().create(HomeApiService.class);
     HttpDataSource httpDataSource = HttpDataSourceImpl.getInstance(apiService);
-    WindowManager.LayoutParams floatLp;
 
-    public CustomFloatWindows(Context context) {
+    public RechargeFloatingWindows(Context context) {
         super(context);
-        ctx = context;
-
         mCompositeDisposable = new CompositeDisposable();
-
-        initView();
-
-        initData();
+        onCreate(R.layout.floating_recharge);
     }
 
-    public void removeView() {
-        CfLog.e("Close floatView start");
-        if (windowManager != null && floatView != null && isShow) {
-            CfLog.e("Close floatView");
-            windowManager.removeView(floatView);
-            isShow = false;
-        }
-    }
+    @Override
+    public void initData() {
+        setStartLocation();
 
-    public void show() {
-        if (!isShow) {
-            windowManager.addView(floatView, floatLp);
-            isShow = true;
-        }
-    }
-
-    private void initView() {
-        windowManager = (WindowManager) ctx.getSystemService(WINDOW_SERVICE);
-        LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(LAYOUT_INFLATER_SERVICE);
-        floatView = inflater.inflate(R.layout.floating_icon, null);
-
-        RecyclerView rcvData = floatView.findViewById(R.id.rcv_data);
-        rechargeReportAdapter = new RechargeReportAdapter(ctx, vo -> {
-            floatView.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);
-            floatView.findViewById(R.id.ll_line).setVisibility(View.GONE);
+        RecyclerView rcvData = secondaryLayout.findViewById(R.id.rcv_data);
+        rechargeReportAdapter = new RechargeReportAdapter(mContext, vo -> {
+            secondaryLayout.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);
+            llLine.setVisibility(View.GONE);
             if (vo.orderurl.isEmpty()) {
                 //new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, vo.payport_nickname, DomainUtil.getDomain2()
                 // + "/webapp/#/depositetail/" + vo.id)).show();
                 goOrderDetail(vo.id);
             } else {
-                new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, vo.payport_nickname, vo.orderurl)).show();
+                new XPopup.Builder(mContext).asCustom(new BrowserDialog(mContext, vo.payport_nickname, vo.orderurl)).show();
             }
         });
         rcvData.setAdapter(rechargeReportAdapter);
-        LinearLayoutManager manager = new LinearLayoutManager(ctx);
+        LinearLayoutManager manager = new LinearLayoutManager(mContext);
         rcvData.setLayoutManager(manager);
 
-        floatLp = new WindowManager.LayoutParams(
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-                PixelFormat.TRANSLUCENT
-        );
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-
-        floatLp.gravity = Gravity.TOP;
-        floatLp.x = displayMetrics.widthPixels / 2 - 100;
-        floatLp.y = displayMetrics.heightPixels / 2 + 100;
-
-        floatView.findViewById(R.id.ivw_close).setOnClickListener(v -> {
-            floatView.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);
-            floatView.findViewById(R.id.ll_line).setVisibility(View.GONE);
+        secondaryLayout.findViewById(R.id.ivw_close).setOnClickListener(v -> {
+            secondaryLayout.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);
+            llLine.setVisibility(View.GONE);
         });
 
-        floatView.findViewById(R.id.tvw_record).setOnClickListener(v -> {
+        secondaryLayout.findViewById(R.id.tvw_record).setOnClickListener(v -> {
             if (ClickUtil.isFastClick()) {
                 return;
             }
 
-            Intent intent = new Intent(ctx, ContainerActivity.class);
+            Intent intent = new Intent(mContext, ContainerActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_RECHARGE_WITHDRAW);
-            ctx.startActivity(intent);
-            floatView.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);
-            floatView.findViewById(R.id.ll_line).setVisibility(View.GONE);
+            mContext.startActivity(intent);
+            secondaryLayout.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);
+            llLine.setVisibility(View.GONE);
         });
 
-        floatView.findViewById(R.id.ivw_icon).setOnTouchListener(new View.OnTouchListener() {
-            final WindowManager.LayoutParams floatWindowLayoutUpdateParam = floatLp;
-            double x;
-            double y;
-            double px;
-            double py;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        x = floatWindowLayoutUpdateParam.x;
-                        y = floatWindowLayoutUpdateParam.y;
-                        px = event.getRawX();
-                        py = event.getRawY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        floatWindowLayoutUpdateParam.x = (int) ((x + event.getRawX()) - px);
-                        floatWindowLayoutUpdateParam.y = (int) ((y + event.getRawY()) - py);
-                        windowManager.updateViewLayout(floatView, floatWindowLayoutUpdateParam);
-                        break;
-                }
-                return false;
-            }
-        });
-
-        floatView.findViewById(R.id.ivw_icon).setOnClickListener(v -> {
-            floatView.findViewById(R.id.cl_floating_window).setVisibility(View.VISIBLE);
-            floatView.findViewById(R.id.ll_line).setVisibility(View.VISIBLE);
+        mainLayout.setOnClickListener(v -> {
+            secondaryLayout.findViewById(R.id.cl_floating_window).setVisibility(View.VISIBLE);
+            llLine.setVisibility(View.VISIBLE);
             if (!isSearch) {
                 CfLog.i("search the data");
                 getReportData();
                 isSearch = true;
             }
         });
-    }
 
-    private void initData() {
         getReportData();
     }
 
@@ -224,12 +145,12 @@ public class CustomFloatWindows extends RelativeLayout {
                             if (rechargeOrderVoList.size() > 0) {
                                 rechargeReportAdapter.clear();
                                 rechargeReportAdapter.addAll(rechargeOrderVoList);
-                                floatView.findViewById(R.id.cl_floating_content).setVisibility(View.VISIBLE);
-                                floatView.findViewById(R.id.tvw_no_data).setVisibility(View.GONE);
+                                secondaryLayout.findViewById(R.id.cl_floating_content).setVisibility(View.VISIBLE);
+                                secondaryLayout.findViewById(R.id.tvw_no_data).setVisibility(View.GONE);
                             } else {
                                 rechargeReportAdapter.clear();
-                                floatView.findViewById(R.id.tvw_no_data).setVisibility(View.VISIBLE);
-                                floatView.findViewById(R.id.cl_floating_content).setVisibility(View.GONE);
+                                secondaryLayout.findViewById(R.id.tvw_no_data).setVisibility(View.VISIBLE);
+                                secondaryLayout.findViewById(R.id.cl_floating_content).setVisibility(View.GONE);
                             }
                         }
 

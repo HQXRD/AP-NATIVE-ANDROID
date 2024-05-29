@@ -44,7 +44,7 @@ import com.xtree.home.BR;
 import com.xtree.home.R;
 import com.xtree.home.databinding.FragmentHomeBinding;
 import com.xtree.home.ui.adapter.GameAdapter;
-import com.xtree.home.ui.custom.view.CustomFloatWindows;
+import com.xtree.home.ui.custom.view.RechargeFloatingWindows;
 import com.xtree.home.ui.viewmodel.HomeViewModel;
 import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.home.vo.BannersVo;
@@ -71,7 +71,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 @Route(path = RouterFragmentPath.Home.PAGER_HOME)
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
-    CustomFloatWindows customFloatWindows;
+    RechargeFloatingWindows mRechargeFloatingWindows;
     GameAdapter gameAdapter;
     private int curPId = 0; // 当前选中的游戏大类型 1体育,2真人,3电子,4电竞,5棋牌,6彩票
     private ProfileVo mProfileVo; //最新的用戶信息
@@ -279,13 +279,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     public void initView() {
         if (!isFloating) {
-            CfLog.i("customFloatWindows.show");
-            customFloatWindows = new CustomFloatWindows(getActivity());
-            customFloatWindows.show();
+            CfLog.i("rechargeFloatingWindows.show");
+            mRechargeFloatingWindows = new RechargeFloatingWindows(getActivity());
+            mRechargeFloatingWindows.show();
             isFloating = true;
         }
         if (SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).equals("")) {
-            customFloatWindows.removeView();
+            mRechargeFloatingWindows.removeView();
             isFloating = false;
         }
         //用户余额点击
@@ -426,7 +426,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         gameAdapter = new GameAdapter(getContext(), mCallBack);
         binding.rcvList.setAdapter(gameAdapter);
-        ((SimpleItemAnimator)binding.rcvList.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) binding.rcvList.getItemAnimator()).setSupportsChangeAnimations(false);
         manager = new LinearLayoutManager(getContext());
         binding.rcvList.setLayoutManager(manager);
         binding.rcvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
