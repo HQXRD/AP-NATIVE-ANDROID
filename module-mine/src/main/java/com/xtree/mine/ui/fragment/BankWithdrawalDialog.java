@@ -51,8 +51,8 @@ import com.xtree.mine.databinding.DialogBankWithdrawalBankBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.BankCardCashVo;
 import com.xtree.mine.vo.ChooseInfoVo;
-import com.xtree.mine.vo.PlatWithdrawConfirmMoYuVo;
-import com.xtree.mine.vo.PlatWithdrawMoYuVo;
+import com.xtree.mine.vo.PlatWithdrawConfirmVo;
+import com.xtree.mine.vo.PlatWithdrawVo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -83,8 +83,8 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     private BankCardCashVo.ChanneBankVo channeBankVo; //选中的银行
     private BankCardCashVo bankCardCashVo;//银行卡提现model
     private BankCardCashVo.ChannelVo selectChanneVo;
-    private PlatWithdrawMoYuVo platWithdrawVo;//提交订单后返回model
-    private PlatWithdrawConfirmMoYuVo platWithdrawConfirmVo;//确认订单后返回的model
+    private PlatWithdrawVo platWithdrawVo;//提交订单后返回model
+    private PlatWithdrawConfirmVo platWithdrawConfirmVo;//确认订单后返回的model
 
     private BankWithdrawalClose bankClose;//关闭提现
 
@@ -321,8 +321,14 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             bankCardCashVo = vo;
             dismissLoading();
             if (bankCardCashVo == null || bankCardCashVo.banks == null || bankCardCashVo.rest == null) {
-                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
-                dismiss();
+                if (bankCardCashVo.msg_type == 2 && !TextUtils.isEmpty(bankCardCashVo.message)) {
+                    showError(bankCardCashVo.message);
+                    return;
+                } else {
+                    ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                    dismiss();
+                }
+
             } else if (bankCardCashVo.msg_type == 1 || bankCardCashVo.msg_type == 2) {
                 ToastUtils.showError(bankCardCashVo.message);
                 dismiss();
@@ -357,8 +363,14 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         viewModel.platWithdrawMoYuVoMutableLiveData.observe(this.owner, vo -> {
             platWithdrawVo = vo;
             if (platWithdrawVo == null || platWithdrawVo.datas == null || platWithdrawVo.user == null) {
-                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
-                dismiss();
+                // 针对异常情况
+                if (platWithdrawVo.msg_type == 2 && !TextUtils.isEmpty(platWithdrawVo.message)) {
+                    ToastUtils.showError(platWithdrawVo.message);
+                    return;
+                } else {
+                    ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                    dismiss();
+                }
             } else if (platWithdrawVo.datas != null) {
                 refreshWithdrawView(platWithdrawVo);
             } else if (getContext().getString(R.string.txt_withdraw_password_check).equals(platWithdrawVo.ur_here)) {
@@ -378,8 +390,14 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         viewModel.platWithdrawConfirmMoYuVoMutableLiveData.observe(this.owner, ov -> {
             TagUtils.tagEvent(getContext(), "wd", "bkc");
             if (ov == null || ov.user == null) {
-                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
-                dismiss();
+                // 针对异常情况
+                if (ov.msg_type == 2 && !TextUtils.isEmpty(ov.message)) {
+                    ToastUtils.showError(ov.message);
+                    return;
+                } else {
+                    ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                    dismiss();
+                }
             } else {
                 platWithdrawConfirmVo = ov;
                 refreshWithdrawConfirmView(platWithdrawConfirmVo);
@@ -639,7 +657,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /**
      * 刷新确认提交订单页面
      */
-    private void refreshWithdrawView(PlatWithdrawMoYuVo platWithdrawVo) {
+    private void refreshWithdrawView(PlatWithdrawVo platWithdrawVo) {
         binding.llShowChooseCard.setVisibility(View.GONE);//顶部通用、大额提现View隐藏
         binding.llShowNoticeInfo.setVisibility(View.GONE); //顶部提示信息隐藏
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -708,7 +726,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     /**
      * 刷新提交点订单后页面
      */
-    private void refreshWithdrawConfirmView(PlatWithdrawConfirmMoYuVo vo) {
+    private void refreshWithdrawConfirmView(PlatWithdrawConfirmVo vo) {
         //msg_type 1 2 状态均为成功
         if (vo.msg_type == 1 || (vo.msg_type == 2 && TextUtils.equals("账户提款申请成功", vo.msg_detail))) {
             //成功

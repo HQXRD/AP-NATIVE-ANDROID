@@ -197,10 +197,10 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
     private void initOtherWebView(final OtherWebWithdrawVo vo) {
         //成功状态
         String url = vo.channel_list.get(0).thiriframe_url;
-        if (url !=null &&!StringUtils.isStartHttp(url)) {
+        if (url != null && !StringUtils.isStartHttp(url)) {
             url = DomainUtil.getDomain2() + url;
         }
-        jumpUrl = url ;
+        jumpUrl = url;
 
         binding.ivwWeb.setVisibility(View.VISIBLE);
         //为WebView 页面添加 跳转外部的浮窗
@@ -338,14 +338,6 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
 
     private void refreshTopUI(OtherWebWithdrawVo vo) {
 
-        for (int i = 0; i < vo.channel_list.size(); i++) {
-          /*  if (i == 0) {
-                vo.channel_list.get(0).flag = true;
-            } else {
-                vo.channel_list.get(i).flag = false;
-            }
-            selectorTopChannel = vo.channel_list.get(0);*/
-        }
         recyclerViewAdapter = new FruitHorOtherRecyclerViewAdapter(vo.channel_list, this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

@@ -160,8 +160,13 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         viewModel.usdtCashMoYuVoMutableLiveData.observe(owner, vo -> {
             cashMoYuVo = vo;
             if (cashMoYuVo == null || cashMoYuVo.usdtinfo == null || cashMoYuVo.count == null || cashMoYuVo.rest == null) {
-                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
-                dismiss();
+                if (cashMoYuVo.msg_type == 2 && !TextUtils.isEmpty(cashMoYuVo.message)) {
+                    showError(cashMoYuVo.message);
+                    return;
+                } else {
+                    ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                    dismiss();
+                }
             }
             //异常
             else if (cashMoYuVo.msg_type == 2 || cashMoYuVo.msg_type == 1) {
@@ -196,8 +201,15 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         viewModel.usdtSecurityMoYuVoMutableLiveData.observe(owner, vo -> {
             usdtSecurityVo = vo;
             if (usdtSecurityVo == null || usdtSecurityVo.datas == null) {
-                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
-                dismiss();
+                if (usdtSecurityVo.msg_type == 2 && !TextUtils.isEmpty(usdtSecurityVo.message)) {
+                    showError(usdtSecurityVo.message);
+                    dismiss();
+                    return;
+                } else {
+                    ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                    dismiss();
+                }
+
             } else if (getContext().getString(R.string.txt_withdraw_password_check).equals(usdtSecurityVo.ur_here)) {
                 //业务异常跳转资金安全密码
                 ToastUtils.showError("业务异常跳转资金安全密码");
