@@ -2,6 +2,7 @@ package com.xtree.mine.ui.activity;
 
 import static com.xtree.base.router.RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -42,9 +43,10 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
     private BasePopupView baseGiftFlowView = null;//礼物流水
     private BasePopupView baseFlowErrorView = null;//流水异常
+    private BasePopupView activityFlowView = null;//活动提款流水
     private AwardsRecordVo awardsRecordVo;
     private ChooseInfoVo chooseInfoVo;
-
+    private String type;
     //1我的钱包点击 礼金  显示钱包流水
     //2我首页点击提款 【我的钱包 点击 去取款】 有提款流水 显示提款流水
     //没有提款流水 则显示 提款列表
@@ -53,6 +55,11 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //修复Android 8.0版本 Activity 设置为透明主题造成的崩溃
+        if (Build.VERSION.SDK_INT == 26 && isTranslucentOrFloating()) {
+            fixOrientation(this);
+        }
+
         super.onCreate(savedInstanceState);
 
     }
@@ -82,6 +89,9 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
     public void initData() {
         LoadingDialog.show(this);
         viewModel.getAwardRecord();
+        //showAwardsRecord 显示活动流水
+        //showChoose 显示提款列表
+
     }
 
     @Override
@@ -139,25 +149,6 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
         return super.dispatchTouchEvent(ev);
     }
 
-    /**/
-    private void showAwardsRecord() {
-        LoadingDialog.show(this);
-        basePopupView = new XPopup.Builder(this).dismissOnBackPressed(false)
-                .dismissOnTouchOutside(false)
-                .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, new AwardsRecordDialog.IAwardsDialogBack() {
-                    @Override
-                    public void closeAwardsDialog() {
-                        LoadingDialog.finish();
-                        basePopupView.dismiss();
-                        finish();
-                        CfLog.i("AwardsRecordDialog  dismiss");
-                    }
-                }));
-
-        basePopupView.show();
-
-    }
-
     /**
      * 显示提款流水
      */
@@ -175,6 +166,19 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                 }));
         basePopupView.show();
 
+    }
+
+    /**
+     * 显示活动提款流水
+     */
+    private void showActivityFlow() {
+        activityFlowView = new XPopup.Builder(this).dismissOnBackPressed(false)
+                .dismissOnTouchOutside(false)
+                .asCustom(AwardsRecordDialog.newInstance(this, this, awardsRecordVo, 0, () -> {
+                    activityFlowView.dismiss();
+                    finish();
+                }));
+        activityFlowView.show();
     }
 
     /* 流水不足显示弹窗*/

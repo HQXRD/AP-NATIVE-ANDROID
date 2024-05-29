@@ -2,6 +2,8 @@ package me.xtree.mvvmhabit.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.inputmethod.InputMethodManager;
 
@@ -17,6 +19,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.gyf.immersionbar.ImmersionBar;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Map;
@@ -26,7 +30,6 @@ import me.xtree.mvvmhabit.base.BaseViewModel.ParameterField;
 import me.xtree.mvvmhabit.bus.Messenger;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.MaterialDialogUtils;
-
 
 /**
  * Created by goldze on 2017/6/15.
@@ -134,7 +137,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
             binding.setVariable(viewModelId, viewModel);
         }
     }
-
 
     /**
      * =====================================================================
@@ -329,5 +331,45 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      */
     public <T extends ViewModel> T createViewModel(FragmentActivity activity, Class<T> cls) {
         return new ViewModelProvider(activity).get(cls);
+    }
+
+    /**
+     * 检查方向
+     *
+     * @param chooseActivity
+     */
+    protected static void fixOrientation(BaseActivity chooseActivity) {
+        try {
+            Class activityClass = BaseActivity.class;
+            Field mActivityInfoField = activityClass.getDeclaredField("mActivityInfo");
+            mActivityInfoField.setAccessible(true);
+            ActivityInfo activityInfo = (ActivityInfo) mActivityInfoField.get(chooseActivity);
+            //设置屏幕不固定
+            activityInfo.screenOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+        } catch (Exception e) {
+            KLog.e("********* fixOrientation e=" + e.toString());
+        }
+    }
+
+    /**
+     * 检查Activity是否为透明
+     *
+     * @return
+     */
+    protected boolean isTranslucentOrFloating() {
+        boolean isTranslucentOrFloating = false;
+        try {
+            int[] styleableRes = (int[]) Class.forName("com.android.internal.R$styleable").getField("Window").get(null);
+            final TypedArray typedArray = obtainStyledAttributes(styleableRes);
+            Method method = ActivityInfo.class.getMethod("isTranslucentOrFloating", TypedArray.class);
+            method.setAccessible(true);
+            isTranslucentOrFloating = (boolean) method.invoke(null, typedArray);
+            method.setAccessible(false);
+
+        } catch (Exception e) {
+            KLog.e("********* isTranslucentOrFloating e=" + e.toString());
+        }
+
+        return isTranslucentOrFloating;
     }
 }
