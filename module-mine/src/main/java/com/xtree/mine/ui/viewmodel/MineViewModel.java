@@ -83,8 +83,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
-                        super.onError(t);
-                        ToastUtils.showLong("请求失败");
+                        //super.onError(t);
                     }
                 });
         addSubscribe(disposable);
@@ -161,7 +160,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
-                        super.onError(t);
+                        //super.onError(t);
                     }
                 });
         addSubscribe(disposable);
@@ -281,8 +280,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
-                        CfLog.e("error, " + t.toString());
-
+                        CfLog.e("error, " + t);
                     }
                 });
         addSubscribe(disposable);
