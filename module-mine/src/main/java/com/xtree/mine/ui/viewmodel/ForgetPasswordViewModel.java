@@ -20,7 +20,6 @@ import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class ForgetPasswordViewModel extends BaseViewModel<MineRepository> {
     private String mUsername;
@@ -57,7 +56,6 @@ public class ForgetPasswordViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -87,7 +85,6 @@ public class ForgetPasswordViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -119,7 +116,6 @@ public class ForgetPasswordViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -153,10 +149,8 @@ public class ForgetPasswordViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
     }
 }
-
