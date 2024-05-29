@@ -4,6 +4,7 @@ import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.FeedbackCheckVo;
 import com.xtree.recharge.vo.FeedbackImageUploadVo;
 import com.xtree.recharge.vo.FeedbackVo;
+import com.xtree.recharge.vo.PayOrderDataVo;
 import com.xtree.recharge.vo.PaymentDataVo;
 import com.xtree.recharge.vo.PaymentVo;
 import com.xtree.recharge.vo.RechargeOrderDetailVo;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.http.BaseResponse;
+import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -25,6 +27,47 @@ import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface ApiService {
+
+    /**
+     * GET
+     *
+     * @param url 接口名称
+     * @return 返回体
+     */
+    @GET("{url}")
+    Flowable<ResponseBody> get(@Path(value = "url", encoded = true) String url);
+
+    /**
+     * GET
+     *
+     * @param url 接口名称
+     * @param map 拼接参数
+     * @return 返回体
+     */
+    @GET("{url}")
+    Flowable<ResponseBody> get(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) Map<String, Object> map);
+
+    /**
+     * POST
+     *
+     * @param url 接口名称
+     * @param map body
+     * @return 返回体
+     */
+    @POST("{url}")
+    Flowable<ResponseBody> post(@Path(value = "url", encoded = true) String url, @Body Map<String, Object> map);
+
+    /**
+     * POST
+     *
+     * @param url  接口名称
+     * @param qmap 拼接参数
+     * @param map  body
+     * @return 返回体
+     */
+    @POST("{url}")
+    Flowable<ResponseBody> post(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) Map<String, Object> qmap, @Body Map<String, Object> map);
+
 
     @FormUrlEncoded
     @POST("auth/login")
@@ -76,6 +119,16 @@ public interface ApiService {
     @POST("/api/deposit/rechargepay/{bid}")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<Object>> rechargePay(@Path("bid") String bid, @Body Map<String, String> map);
+
+    /**
+     * 提交充值 (极速充值)
+     *
+     * @param map
+     * @return
+     */
+    @GET("/api/deposit/createorder")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<PayOrderDataVo>> createOrder(@QueryMap Map<String, String> map);
 
     /**
      * 获取人工充值暗号

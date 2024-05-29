@@ -17,6 +17,7 @@ import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.FeedbackCheckVo;
 import com.xtree.recharge.vo.FeedbackImageUploadVo;
 import com.xtree.recharge.vo.FeedbackVo;
+import com.xtree.recharge.vo.PayOrderDataVo;
 import com.xtree.recharge.vo.PaymentDataVo;
 import com.xtree.recharge.vo.PaymentTypeVo;
 import com.xtree.recharge.vo.PaymentVo;
@@ -34,7 +35,6 @@ import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 充值页 ViewModel
@@ -50,6 +50,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<String> liveDataTutorial = new SingleLiveData<>(); // 充值教程(从缓存加载用)
     public SingleLiveData<RechargeVo> liveDataRecharge = new SingleLiveData<>(); // 充值详情
     public SingleLiveData<RechargePayVo> liveDataRechargePay = new SingleLiveData<>(); // 充值提交结果
+    public SingleLiveData<PayOrderDataVo> liveDataExpOrderData = new SingleLiveData<>(); // 充值点下一步 (极速充值)
     public SingleLiveData<Map<String, String>> liveDataSignal = new SingleLiveData<>(); // 人工客服暗号
     public SingleLiveData<RechargeOrderDetailVo> liveDataOrderDetail = new SingleLiveData<>(); // 订单详情
     public SingleLiveData<List<BannersVo>> liveDataRcBanners = new SingleLiveData<>(); // 轮播图
@@ -59,9 +60,14 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<FeedbackCheckVo> feedbackCheckVoSingleLiveData = new SingleLiveData<>();//feedbackCheck 反馈查看页面
     public SingleLiveData<ProfileVo> liveDataProfile = new SingleLiveData<>();
 
-    public RechargeViewModel(@NonNull Application application, RechargeRepository repository) {
-        super(application, repository);
+    public RechargeViewModel(@NonNull Application application) {
+        super(application);
     }
+
+    public RechargeViewModel(@NonNull Application application, RechargeRepository model) {
+        super(application, model);
+    }
+
 
     /**
      * 获取 一键进入 的链接
@@ -306,8 +312,22 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("提交充值请求失败");
                     }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void createOrder(Map<String, String> map) {
+        Disposable disposable = (Disposable) model.getApiService().createOrder(map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<PayOrderDataVo>() {
+                    @Override
+                    public void onResult(PayOrderDataVo vo) {
+                        CfLog.d("********");
+                        liveDataExpOrderData.setValue(vo);
+                    }
+
                 });
         addSubscribe(disposable);
     }

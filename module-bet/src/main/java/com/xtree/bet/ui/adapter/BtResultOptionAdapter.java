@@ -29,9 +29,10 @@ import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class BtResultOptionAdapter extends BaseAdapter<BtResultOption> {
-
-    public BtResultOptionAdapter(Context context, List<BtResultOption> datas) {
+    private boolean mIsAdvanceSettlement;
+    public BtResultOptionAdapter(Context context, List<BtResultOption> datas, boolean isAdvanceSettlement) {
         super(context, datas);
+        mIsAdvanceSettlement = isAdvanceSettlement;
     }
 
     @Override
@@ -58,7 +59,9 @@ public class BtResultOptionAdapter extends BaseAdapter<BtResultOption> {
         }else {
             binding.tvResult.setVisibility(View.INVISIBLE);
         }
-        binding.tvResult.setText(option.getBtResult());
-        binding.tvResult.setTextColor(mContext.getResources().getColor(option.getResultColor()));
+        if(!mIsAdvanceSettlement) {
+            binding.tvResult.setText(option.getBtResult());
+            binding.tvResult.setTextColor(mContext.getResources().getColor(option.getResultColor()));
+        }
     }
 }

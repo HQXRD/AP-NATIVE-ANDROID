@@ -16,10 +16,12 @@ import java.util.List;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class PlayTypePm implements PlayType{
+    private String className;
     private PlayTypeInfo playTypeInfo;
 
     public PlayTypePm(PlayTypeInfo playTypeInfo){
         this.playTypeInfo = playTypeInfo;
+        this.className = getClass().getSimpleName();
     }
 
     @Override
@@ -153,14 +155,17 @@ public class PlayTypePm implements PlayType{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.className);
         dest.writeParcelable(this.playTypeInfo, flags);
     }
 
     public void readFromParcel(Parcel source) {
+        this.className = source.readString();
         this.playTypeInfo = source.readParcelable(PlayTypeInfo.class.getClassLoader());
     }
 
     protected PlayTypePm(Parcel in) {
+        this.className = in.readString();
         this.playTypeInfo = in.readParcelable(PlayTypeInfo.class.getClassLoader());
     }
 

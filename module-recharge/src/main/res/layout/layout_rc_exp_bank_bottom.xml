@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="@dimen/layout_margin"
+        android:text="重要提醒"
+        android:textColor="@color/clr_txt_black_03" />
+
+    <TextView
+        style="@style/style_cm_tip_small_grey"
+        android:layout_width="match_parent"
+        android:text="1. 勿重复支付！切勿订单超时付款！否则无法查询！\n2. 转账后请立即上传回单凭证点击确认付款。未在规定时间内操作完成，该笔充值不会上分，损失用户需自行承担" />
+
+    <TextView
+        style="@style/style_cm_tip_small_orange"
+        android:layout_width="match_parent"
+        android:layout_marginTop="2dp"
+        android:text="3. P图骗分和洗钱，绑定的银行卡和手机号，录入国家反诈APP处理；同时冻结游戏账号及其资金\n4. 若获取银行卡后使用微信支付宝遇到风控，请使用手机网银支付" />
+
+</LinearLayout>

@@ -12,12 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OptionListPm implements OptionList {
+    private String className;
     OptionDataListInfo optionDataListInfo;
     PlayTypeInfo playTypeInfo;
 
     public OptionListPm(OptionDataListInfo optionDataListInfo, PlayTypeInfo playTypeInfo){
         this.optionDataListInfo = optionDataListInfo;
         this.playTypeInfo = playTypeInfo;
+        this.className = getClass().getSimpleName();
     }
 
     public long getId() {
@@ -88,15 +90,21 @@ public class OptionListPm implements OptionList {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.className);
         dest.writeParcelable(this.optionDataListInfo, flags);
+        dest.writeParcelable(this.playTypeInfo, flags);
     }
 
     public void readFromParcel(Parcel source) {
+        this.className = source.readString();
         this.optionDataListInfo = source.readParcelable(OptionDataListInfo.class.getClassLoader());
+        this.playTypeInfo = source.readParcelable(PlayTypeInfo.class.getClassLoader());
     }
 
     protected OptionListPm(Parcel in) {
+        this.className = in.readString();
         this.optionDataListInfo = in.readParcelable(OptionDataListInfo.class.getClassLoader());
+        this.playTypeInfo = in.readParcelable(PlayTypeInfo.class.getClassLoader());
     }
 
     public static final Creator<OptionListPm> CREATOR = new Creator<OptionListPm>() {

@@ -150,7 +150,7 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
             binding.tvName.setText(cg + "-" + SPUtils.getInstance().getString(KEY_PLATFORM_NAME));
         }
         binding.rvMatch.setLayoutManager(new LinearLayoutManager(mContext));
-        binding.rvMatch.setAdapter(new BtResultOptionAdapter(mContext, btResult.getBetResultOption()));
+        binding.rvMatch.setAdapter(new BtResultOptionAdapter(mContext, btResult.getBetResultOption(), btResult.isAdvanceSettlement()));
         binding.tvResultId.setText(mContext.getResources().getString(R.string.bt_bt_result_id_1, btResult.getId()));
         binding.tvBtTime.setText(mContext.getResources().getString(R.string.bt_bt_result_bt_time, TimeUtils.longFormatString(btResult.getBtDate(), TimeUtils.FORMAT_YY_MM_DD_HH_MM)));
         binding.tvBtResult.setText(btResult.getStatusDesc());
