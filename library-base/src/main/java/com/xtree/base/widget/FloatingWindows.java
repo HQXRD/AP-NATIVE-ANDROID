@@ -79,6 +79,10 @@ public abstract class FloatingWindows extends RelativeLayout {
         mainLayout.addView(secondaryLayout, params);
     }
 
+    protected void removeSecond() {
+        mainLayout.removeView(secondaryLayout);
+    }
+
     public void setIcon(int icon) {
         ivwIcon.setImageResource(icon);
     }

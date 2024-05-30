@@ -66,7 +66,7 @@ import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.fb.FBMainViewModel;
 import com.xtree.bet.ui.viewmodel.pm.PMMainViewModel;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
-import com.xtree.bet.weight.DomainChangeDialog;
+import com.xtree.bet.weight.BettingNetFloatingWindows;
 import com.xtree.bet.weight.PageHorizontalScrollView;
 
 import java.util.ArrayList;
@@ -132,6 +132,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private int mOrderBy = 1;
     private int mOddType = 1;
 
+    private boolean isFloating = false;
+
     private NavigationController navigationController;
     private MenuItemView refreshMenu;
     private View mHeader;
@@ -144,6 +146,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private Bundle mSavedInstanceState;
     private BasePopupView changeAgentTipView;
     private BasePopupView changeAgentView;
+    private BettingNetFloatingWindows mBettingNetFloatingWindows;
 
     private Handler mHandler = new Handler();
     private Runnable searchRunnable;
@@ -229,7 +232,29 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         boolean bGameSwitch = TextUtils.equals(mapSwitch.get(mPlatform), "1");
         SPUtils.getInstance().put(SPKeyGlobal.KEY_GAME_SWITCH + mPlatform, bGameSwitch);
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
-        binding.ivChangeDomain.setVisibility(bGameSwitch ? View.VISIBLE : !BtDomainUtil.isMutiLine() ? View.GONE : View.VISIBLE);
+
+        if (!bGameSwitch) {
+            if (!BtDomainUtil.isMutiLine()) {
+                if (!isFloating) {
+                    mBettingNetFloatingWindows.removeView();
+                    isFloating = false;
+                }
+            } else {
+                if (!isFloating) {
+                    CfLog.i("bettingNetFloatingWindows.show");
+                    mBettingNetFloatingWindows.show();
+                    isFloating = true;
+                }
+
+            }
+        } else {
+            if (!isFloating) {
+                CfLog.i("bettingNetFloatingWindows.show");
+                mBettingNetFloatingWindows.show();
+                isFloating = true;
+            }
+        }
+
         if (!bGameSwitch) {
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_AGENT + mPlatform, false);
             if (isAgent) {
@@ -311,10 +336,19 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.srlLeague.setOnRefreshLoadMoreListener(this);
         binding.ivBack.setOnClickListener(this);
         binding.tvBalance.setOnClickListener(this);
-        binding.ivChangeDomain.setOnClickListener(this);
         binding.ivwGameSearch.setOnClickListener(this);
         binding.tvwCancel.setOnClickListener(this);
+
+        mBettingNetFloatingWindows = BettingNetFloatingWindows.getInstance(this, (useAgent, isChangeDomain, checkBox) -> {
+            checkBox.setChecked(useAgent);
+            setDomain(useAgent);
+            resetViewModel();
+            setChangeDomainVisible();
+            uploadException(useAgent, isChangeDomain);
+            mBettingNetFloatingWindows.hideSecondaryLayout();
+        });
         setChangeDomainVisible();
+
         binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -511,7 +545,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 searchRunnable = new Runnable() {
                     @Override
                     public void run() {
-                        if(!isFirstInto){
+                        if (!isFirstInto) {
                             String search = binding.edtGameSearch.getText().toString();
                             viewModel.searchMatch(search, playMethodPos == 4);
                         }
@@ -530,7 +564,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      */
     private void setChangeDomainVisible() {
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
-        binding.ivChangeDomain.setSelected(isAgent);
+        mBettingNetFloatingWindows.setIsSelected(isAgent);
     }
 
     private void checkChampionHeaderIsExpand() {
@@ -901,27 +935,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
             @Override
             public void onClickRight() {
-                showChangeDomainDialog();
+                //showChangeDomainDialog();
                 changeAgentTipView.dismiss();
             }
         }));
         changeAgentTipView.show();
-    }
-
-    private void showChangeDomainDialog() {
-        if (changeAgentView != null && changeAgentView.isShow()) {
-            return;
-        }
-        changeAgentView = new XPopup.Builder(MainActivity.this).atView(binding.ivChangeDomain).asCustom(new DomainChangeDialog(MainActivity.this, (useAgent, isChangeDomain, checkBox) -> {
-            checkBox.setChecked(useAgent);
-            setDomain(useAgent);
-            resetViewModel();
-            setChangeDomainVisible();
-            uploadException(useAgent, isChangeDomain);
-            changeAgentView.dismiss();
-        }));
-
-        changeAgentView.show();
     }
 
     /**
@@ -1085,6 +1103,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         super.onDestroy();
         BtCarManager.destroy();
         SPUtils.getInstance(BET_EXPAND).clear();
+        mBettingNetFloatingWindows.clearInstance();
     }
 
     List<Integer> playMethodTypeList = new ArrayList<>();
@@ -1651,8 +1670,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             Bundle bundle = new Bundle();
             bundle.putBoolean("isShowBack", true);
             startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
-        } else if (id == R.id.iv_change_domain) {
-            showChangeDomainDialog();
         } else if (id == R.id.ivw_game_search) {
             binding.clGameSearch.setVisibility(View.VISIBLE);
             binding.clTab.setVisibility(View.GONE);
