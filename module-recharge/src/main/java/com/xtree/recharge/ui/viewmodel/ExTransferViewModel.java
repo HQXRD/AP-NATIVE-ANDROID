@@ -340,9 +340,13 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             return;
         }
 
+        if (mActivity != null && mActivity.get() != null) {
+            LoadingDialog.show(mActivity.get());
+        }
+
         ExOrderCancelRequest request = new ExOrderCancelRequest(cOrderData.getPid(), pOrderData.getPlatformOrder());
 
-        Disposable disposable = (Disposable) model.cancelOrderWait(request)
+        Disposable disposable = (Disposable) model.cancelOrderProcess(request)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<BaseResponse>() {
@@ -353,8 +357,6 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 });
 
         addSubscribe(disposable);
-
-        LoadingDialog.show(mActivity.get());
     }
 
     /**
@@ -365,6 +367,10 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         ExCreateOrderRequest cOrderData = createOrderInfoData.getValue();
         if (pOrderData == null || cOrderData == null) {
             return;
+        }
+
+        if (mActivity != null && mActivity.get() != null) {
+            LoadingDialog.show(mActivity.get());
         }
 
         ExOrderCancelRequest request = new ExOrderCancelRequest(cOrderData.getPid(), pOrderData.getPlatformOrder());
@@ -380,8 +386,6 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 });
 
         addSubscribe(disposable);
-
-        LoadingDialog.show(mActivity.get());
     }
 
     /**

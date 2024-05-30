@@ -75,13 +75,13 @@ public class ExTransferPayeeFragment extends BaseFragment<FragmentExtransferPaye
     public void initData() {
         super.initData();
 
-        binding.getModel().setActivity(getActivity());
+        binding.getModel().setActivity(requireActivity());
         binding.getModel().canonicalName = getClass().getCanonicalName();
 
         ExCreateOrderRequest createOrderInfo = RxBus.getDefault().getStickyEvent(ExCreateOrderRequest.class);
         if (createOrderInfo != null) {
             RxBus.getDefault().removeAllStickyEvents();
-            binding.getModel().initData(getActivity(),createOrderInfo);
+            binding.getModel().initData(requireActivity(),createOrderInfo);
         }
     }
 
