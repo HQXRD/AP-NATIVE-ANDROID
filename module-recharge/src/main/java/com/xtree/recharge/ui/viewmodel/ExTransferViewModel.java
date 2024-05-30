@@ -583,21 +583,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
 
     public void toConfirm() {
         startContainerActivity(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CONFIRM);
-        Stack<Activity> activityStack = AppManager.getActivityStack();
-        for (Activity activity : activityStack) {
-            FragmentActivity fa = (FragmentActivity) activity;
-            for (Fragment fragment : fa.getSupportFragmentManager().getFragments()) {
-                if (fragment.getClass().getCanonicalName().equals(ExTransferCommitFragment.class.getCanonicalName())) {
-                    fa.finish();
-                }
-                if (fragment.getClass().getCanonicalName().equals(ExTransferPayeeFragment.class.getCanonicalName())) {
-                    fa.finish();
-                }
-                if (fragment.getClass().getCanonicalName().equals(ExTransferVoucherFragment.class.getCanonicalName())) {
-                    fa.finish();
-                }
-            }
-        }
+        close();
     }
 
     public void toVoucher() {
@@ -607,24 +593,6 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     public void toFail() {
         startContainerActivity(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_FAIL);
         close();
-        Stack<Activity> activityStack = AppManager.getActivityStack();
-        for (Activity activity : activityStack) {
-            FragmentActivity fa = (FragmentActivity) activity;
-            for (Fragment fragment : fa.getSupportFragmentManager().getFragments()) {
-                if (fragment.getClass().getCanonicalName().equals(ExTransferCommitFragment.class.getCanonicalName())) {
-                    fa.finish();
-                }
-                if (fragment.getClass().getCanonicalName().equals(ExTransferConfirmFragment.class.getCanonicalName())) {
-                    fa.finish();
-                }
-                if (fragment.getClass().getCanonicalName().equals(ExTransferPayeeFragment.class.getCanonicalName())) {
-                    fa.finish();
-                }
-                if (fragment.getClass().getCanonicalName().equals(ExTransferVoucherFragment.class.getCanonicalName())) {
-                    fa.finish();
-                }
-            }
-        }
     }
 
     /**
