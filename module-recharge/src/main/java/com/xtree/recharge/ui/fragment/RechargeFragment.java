@@ -567,7 +567,13 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 Bundle bundle = new Bundle();
                 bundle.putString("type", type); // bindcardzfb bindcardwx
                 Intent intent = new Intent(getContext(), ContainerActivity.class);
-                intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY);
+                String path;
+                if (mProfileVo.has_securitypwd) {
+                    path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
+                } else {
+                    path = RouterFragmentPath.Mine.PAGER_FUNDS_PWD;
+                }
+                intent.putExtra(ContainerActivity.ROUTER_PATH, path);
                 intent.putExtra(ContainerActivity.BUNDLE, bundle);
                 startActivity(intent);
                 ppw2.dismiss();
