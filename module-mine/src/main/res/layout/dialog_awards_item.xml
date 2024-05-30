@@ -86,6 +86,28 @@
             app:layout_constraintRight_toRightOf="@id/awards_line"
             app:layout_constraintTop_toTopOf="@id/tvw_required_turnover"
             tools:text="剩余流水：123456789.00" />
+        <View
+            android:id="@+id/venues_line"
+            style="@style/style_awards_line"
+            android:layout_marginTop="6dp"
+            app:layout_constraintStart_toStartOf="@id/tvw_required_turnover"
+            app:layout_constraintTop_toBottomOf="@id/tvw_required_turnover" />
+
+        <TextView
+            android:id="@+id/tvw_venues"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center|left"
+            android:text=""
+            android:textColor="@color/bt_text_color_primary_3"
+            android:textSize="14sp"
+            android:visibility="visible"
+            app:layout_constraintStart_toStartOf="@id/venues_line"
+            app:layout_constraintTop_toTopOf="@id/venues_line"
+            tools:text="场馆:PT真人,BBIN真人,沙巴体育,AG真人,WM真人,KGAME棋牌,VR真人,SEXY真人,幸运棋牌,PM体育,BTI体育,AU棋牌,BC体育,杏彩体育,BTIOW体育,PT2真人,CQ9,JDB真人,YY棋牌,VA棋牌,Q4,FB体育,杏吧,LH体育,特兔棋牌,彩票,IM电竞,PM真人,PM棋牌,MG电子,开元棋牌,SG捕鱼,BG真人,IM体育,PM电竞,PG电子,PP电子,AVIA泛亚,AG电子,AG捕鱼,PT电子,BBIN电子,瓦力棋牌" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

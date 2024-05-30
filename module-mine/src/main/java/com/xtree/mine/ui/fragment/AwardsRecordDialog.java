@@ -98,23 +98,23 @@ public class AwardsRecordDialog extends BottomPopupView {
         if (viewType == 3) {
             tipText = "您今日没有可用提款次数";
         }
-        if (awardsRecordVo !=null){
-            if (!TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) &&!TextUtils.isEmpty(awardsRecordVo.locked_award_sum)  &&awardsRecordVo.list!=null &&  !awardsRecordVo.list.isEmpty()){
-                tipText  = String.format(getContext().getString(R.string.txt_awards_flow_title) , awardsRecordVo.withdraw_dispensing_money) ;
+        if (awardsRecordVo != null) {
+            if (!TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money) && !TextUtils.isEmpty(awardsRecordVo.locked_award_sum) && awardsRecordVo.list != null && !awardsRecordVo.list.isEmpty()) {
+                tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
                 binding.tvChooseTip.setText(tipText);
                 binding.llChooseTip.setVisibility(View.VISIBLE);
                 binding.lvChoose.setVisibility(View.VISIBLE);
                 ChooseAdapter adapter = new ChooseAdapter(getContext(), awardsRecordVo.list);
                 binding.lvChoose.setAdapter(adapter);
 
-            } else if (TextUtils.equals("0.00" , awardsRecordVo.locked_award_sum) && !TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money)) {
-                tipText  = String.format(getContext().getString(R.string.txt_awards_flow_title) , awardsRecordVo.withdraw_dispensing_money) ;
+            } else if (TextUtils.equals("0.00", awardsRecordVo.locked_award_sum) && !TextUtils.isEmpty(awardsRecordVo.withdraw_dispensing_money)) {
+                tipText = String.format(getContext().getString(R.string.txt_awards_flow_title), awardsRecordVo.withdraw_dispensing_money);
                 binding.tvChooseTip.setText(tipText);
                 binding.llChooseTip.setVisibility(View.VISIBLE);
                 binding.lvChoose.setVisibility(View.GONE);
                 binding.tvWithdrawalAwardsTitle.setVisibility(View.GONE);
 
-            } else if (awardsRecordVo.list!=null &&  !awardsRecordVo.list.isEmpty()) {
+            } else if (awardsRecordVo.list != null && !awardsRecordVo.list.isEmpty()) {
                 binding.tvChooseTip.setVisibility(View.GONE);
                 binding.llChooseTip.setVisibility(View.GONE);
                 binding.lvChoose.setVisibility(View.VISIBLE);
@@ -173,6 +173,7 @@ public class AwardsRecordDialog extends BottomPopupView {
                 holder.showBonus = (TextView) convertView.findViewById(R.id.tvw_title_bonus);
                 holder.showTurnover = (TextView) convertView.findViewById(R.id.tvw_required_turnover);
                 holder.showContent = (TextView) convertView.findViewById(R.id.tvw_title_content);
+                holder.showVenues =  (TextView)convertView.findViewById(R.id.tvw_venues);
                 convertView.setTag(holder);
             } else {
                 holder = (ChooseAdapterViewHolder) convertView.getTag();
@@ -192,6 +193,12 @@ public class AwardsRecordDialog extends BottomPopupView {
                 holder.showContent.setText(remainTurnover);
             }
 
+            if (TextUtils.isEmpty(info.bet_source_trans)){
+                holder.showVenues.setVisibility(GONE);
+            }else {
+                holder.showVenues.setText("场馆："+info.bet_source_trans);
+            }
+
             return convertView;
         }
 
@@ -200,6 +207,7 @@ public class AwardsRecordDialog extends BottomPopupView {
             public TextView showBonus;//奖金
             public TextView showTurnover;//流水
             public TextView showContent;//内容
+            public TextView showVenues;//显示场馆
         }
     }
 

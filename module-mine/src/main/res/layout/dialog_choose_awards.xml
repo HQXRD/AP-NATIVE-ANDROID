@@ -129,7 +129,7 @@
                 android:id="@+id/tv_withdrawal_awards_title"
                 style="@style/style_usdt_tutorial"
                 android:layout_marginLeft="18dp"
-                android:layout_marginTop="100dp"
+                android:layout_marginTop="60dp"
                 android:gravity="center|left"
                 android:text="@string/txt_unfinished_activity_flow"
                 android:textColor="@color/clr_awards_txt_black"
