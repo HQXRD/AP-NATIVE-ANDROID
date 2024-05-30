@@ -1,5 +1,6 @@
 package com.xtree.recharge.ui.viewmodel;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,9 +10,12 @@ import android.provider.Settings;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.MutableLiveData;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.config.SelectMimeType;
@@ -31,11 +35,16 @@ import com.xtree.recharge.data.source.request.ExReceiptUploadRequest;
 import com.xtree.recharge.data.source.request.ExReceiptocrRequest;
 import com.xtree.recharge.data.source.request.ExRechargeOrderCheckRequest;
 import com.xtree.recharge.data.source.response.ExBankInfoResponse;
+import com.xtree.recharge.data.source.response.ExReceiptUploadResponse;
 import com.xtree.recharge.data.source.response.ExReceiptocrResponse;
 import com.xtree.recharge.data.source.response.ExRechargeOrderCheckResponse;
 import com.xtree.recharge.ui.fragment.BankPickDialogFragment;
 import com.xtree.recharge.ui.fragment.ExSlipExampleDialogFragment;
 import com.xtree.recharge.ui.fragment.extransfer.ExTransferCommitFragment;
+import com.xtree.recharge.ui.fragment.extransfer.ExTransferConfirmFragment;
+import com.xtree.recharge.ui.fragment.extransfer.ExTransferFailFragment;
+import com.xtree.recharge.ui.fragment.extransfer.ExTransferPayeeFragment;
+import com.xtree.recharge.ui.fragment.extransfer.ExTransferVoucherFragment;
 import com.xtree.recharge.ui.model.BankPickModel;
 import com.xtree.recharge.vo.RechargeVo;
 
@@ -48,12 +57,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.utils.RxUtils;
@@ -86,17 +98,19 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     //订单充值银行卡信息
     public MutableLiveData<ExBankInfoResponse> bankInfoData = new MutableLiveData<>();
     //付款银行
-    public MutableLiveData<String> bankOfPayment = new MutableLiveData<>();
+    public MutableLiveData<String> bankCodeOfPayment = new MutableLiveData<>();
+    public MutableLiveData<String> bankNameOfPayment = new MutableLiveData<>();
     //付款卡号
     public MutableLiveData<String> bankNumberOfPayment = new MutableLiveData<>();
     private WeakReference<FragmentActivity> mActivity = null;
-    private RechargeVo.OpBankListDTO opBankListData;
     public String canonicalName;
 
     public void initData(FragmentActivity mActivity, ExCreateOrderRequest createOrderInfo) {
         setActivity(mActivity);
 
         createOrderInfoData.setValue(createOrderInfo);
+
+        close();
 
         getOrder();
     }
@@ -140,6 +154,95 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                             deadlinesData.setValue("请于 " + data.getExpireTime() + " 内完成支付");
                             cancleWaitTimeKeeping();
                             cancleOrderTimeKeeping();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        t.printStackTrace();
+                        super.onError(t);
+                    }
+                });
+
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 查看当前订单信息
+     */
+    public void checkOrder() {
+
+        ExRechargeOrderCheckResponse.DataDTO pOrderData = payOrderData.getValue();
+        ExCreateOrderRequest cOrderData = createOrderInfoData.getValue();
+        if (pOrderData == null || cOrderData == null) {
+            return;
+        }
+
+        ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(cOrderData.getPid());
+        Disposable disposable = (Disposable) model.rechargeOrderCheck(request)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<ExRechargeOrderCheckResponse>() {
+                    @Override
+                    public void onResult(ExRechargeOrderCheckResponse vo) {
+                        CfLog.d(vo.toString());
+
+                        ExRechargeOrderCheckResponse.DataDTO data = vo.getData();
+                        if (data != null) {
+                            payOrderData.setValue(data);
+                            String status = data.getStatus();
+                            switch (status) {
+                                case "11":
+                                    if (bankInfoData.getValue() == null) {
+                                        ExBankInfoResponse bankInfo = new ExBankInfoResponse();
+                                        bankInfo.setBankAccount(data.getBankAccount());
+                                        bankInfo.setBankArea(data.getBankArea());
+                                        bankInfo.setBankCode(data.getBankCode());
+                                        bankInfo.setBankAccountName(data.getBankAccountName());
+                                        bankInfo.setMerchantOrder(data.getMerchantOrder());
+                                        bankInfo.setPayAmount(data.getPayAmount());
+                                        bankInfo.setAllowCancel(data.getAllowCancel());
+                                        bankInfo.setAllowCancelTime(data.getAllowCancelTime());
+                                        bankInfo.setExpireTime(data.getExpireTime());
+
+                                        bankInfoData.setValue(bankInfo);
+                                    }
+
+                                    if (canonicalName.equals(ExTransferCommitFragment.class.getCanonicalName())) {
+                                        toPayee();
+                                    }
+                                    break;
+                                case "12":
+                                    if (bankInfoData.getValue() == null) {
+                                        ExBankInfoResponse bankInfo = new ExBankInfoResponse();
+                                        bankInfo.setBankAccount(data.getBankAccount());
+                                        bankInfo.setBankArea(data.getBankArea());
+                                        bankInfo.setBankCode(data.getBankCode());
+                                        bankInfo.setBankAccountName(data.getBankAccountName());
+                                        bankInfo.setMerchantOrder(data.getMerchantOrder());
+                                        bankInfo.setPayAmount(data.getPayAmount());
+                                        bankInfo.setAllowCancel(data.getAllowCancel());
+                                        bankInfo.setAllowCancelTime(data.getAllowCancelTime());
+                                        bankInfo.setExpireTime(data.getExpireTime());
+
+                                        bankInfoData.setValue(bankInfo);
+                                    }
+                                    break;
+                                case "01":
+                                case "02":
+                                case "03":
+                                case "04":
+                                case "06":
+                                case "061":
+                                case "065":
+                                case "066":
+                                case "07":
+                                case "08":
+                                case "09":
+                                case "10":
+                                    toFail();
+                                    break;
+                            }
                         }
                     }
 
@@ -236,7 +339,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 .subscribeWith(new HttpCallBack<BaseResponse>() {
                     @Override
                     public void onResult(BaseResponse response) {
-                        close();
+                        toFail();
                     }
                 });
 
@@ -267,7 +370,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 .subscribeWith(new HttpCallBack<BaseResponse>() {
                     @Override
                     public void onResult(BaseResponse response) {
-                        close();
+                        toFail();
                     }
                 });
 
@@ -280,7 +383,12 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     public void uploadVoucher() {
         ExRechargeOrderCheckResponse.DataDTO pOrderData = payOrderData.getValue();
         ExCreateOrderRequest cOrderData = createOrderInfoData.getValue();
-        if (pOrderData == null || cOrderData == null || voucher.getValue() == null) {
+        if (pOrderData == null || cOrderData == null) {
+            return;
+        }
+
+        if (voucher.getValue() == null) {
+            ToastUtils.show("请提交回执单", ToastUtils.ShowType.Default);
             return;
         }
 
@@ -289,7 +397,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             return;
         }
 
-        if (bankOfPayment.getValue() == null) {
+        if (bankCodeOfPayment.getValue() == null) {
             ToastUtils.show("请选择付款银行", ToastUtils.ShowType.Default);
             return;
         }
@@ -298,19 +406,23 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         request.setPid(cOrderData.getPid());
         request.setReceipt(ImageUploadUtil.bitmapToString(voucher.getValue().getPath()));
         request.setPlatformOrder(pOrderData.getPlatformOrder());
-        request.setPayBankCode(bankOfPayment.getValue());
+        request.setPayBankCode(bankCodeOfPayment.getValue());
         request.setPayAccount(bankNumberOfPayment.getValue());
         request.setPayName(cOrderData.getPayName());
 
         Disposable disposable = (Disposable) model.rechargeReceiptUpload(request)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<ExReceiptocrResponse>() {
+                .doOnSubscribe(new Consumer<Subscription>() {
                     @Override
-                    public void onResult(ExReceiptocrResponse response) {
-                        if (response != null) {
-                            toConfirm();
-                        }
+                    public void accept(Subscription subscription) throws Exception {
+                        LoadingDialog.show(mActivity.get());
+                    }
+                })
+                .subscribeWith(new HttpCallBack<ExReceiptUploadResponse>() {
+                    @Override
+                    public void onResult(ExReceiptUploadResponse response) {
+                        toConfirm();
                     }
                 });
 
@@ -341,11 +453,18 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         Disposable disposable = (Disposable) model.rechargeReceiptOCR(request)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
+                .doOnSubscribe(new Consumer<Subscription>() {
+                    @Override
+                    public void accept(Subscription subscription) throws Exception {
+                        LoadingDialog.show(mActivity.get());
+                    }
+                })
                 .subscribeWith(new HttpCallBack<ExReceiptocrResponse>() {
                     @Override
                     public void onResult(ExReceiptocrResponse response) {
                         if (response != null) {
-                            bankOfPayment.setValue(response.getBankcode());
+                            bankCodeOfPayment.setValue(response.getBankcode());
+                            bankNameOfPayment.setValue(getBankNameByCode(response.getBankcode()));
                             bankNumberOfPayment.setValue(response.getPayAccount());
                         }
                     }
@@ -354,102 +473,64 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         addSubscribe(disposable);
     }
 
-    public void showBankList() {
-        BankPickDialogFragment.show(mActivity.get(),opBankListData).setOnPickListner(new BankPickDialogFragment.onPickListner() {
-            @Override
-            public void onPick(BankPickModel model) {
-                bankOfPayment.setValue(model.getBankCode());
-            }
-        });
-    }
-
-    /**
-     * 查看当前订单信息
-     */
-    public void checkOrder() {
-
-        ExRechargeOrderCheckResponse.DataDTO pOrderData = payOrderData.getValue();
-        ExCreateOrderRequest cOrderData = createOrderInfoData.getValue();
-        if (pOrderData == null || cOrderData == null) {
-            return;
+    private String getBankNameByCode(String bankCode) {
+        ExRechargeOrderCheckResponse.DataDTO pvalue = payOrderData.getValue();
+        if (pvalue == null) {
+            return "";
         }
 
-        ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(cOrderData.getPid());
-        Disposable disposable = (Disposable) model.rechargeOrderCheck(request)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<ExRechargeOrderCheckResponse>() {
+        String bankName = "";
+        ExRechargeOrderCheckResponse.DataDTO.OpBankListDTO opBankList = pvalue.getOpBankList();
+        ArrayList<RechargeVo.OpBankListDTO.BankInfoDTO> bankInfoDTOS = new ArrayList<>();
+        bankInfoDTOS.addAll(opBankList.getHot());
+        bankInfoDTOS.addAll(opBankList.getOthers());
+        bankInfoDTOS.addAll(opBankList.getUsed());
+        bankInfoDTOS.addAll(opBankList.getTop());
+
+        for (RechargeVo.OpBankListDTO.BankInfoDTO b : bankInfoDTOS) {
+            if (b.getBankCode().equals(bankCode)) {
+                bankName = b.getBankName();
+                break;
+            }
+        }
+        return bankName;
+    }
+
+    public void showBankList() {
+
+        ExRechargeOrderCheckResponse.DataDTO pvalue = payOrderData.getValue();
+        if (pvalue == null) {
+            return;
+        }
+        HashMap<String, String> map = null;
+        if (pvalue.getUserBankInfo() != null) {
+            String jsonString = JSON.toJSONString(pvalue.getUserBankInfo());
+            map = JSON.parseObject(jsonString,
+                    new TypeReference<HashMap<String, String>>() {
+                    });
+        }
+
+        ExRechargeOrderCheckResponse.DataDTO.OpBankListDTO opBankList = pvalue.getOpBankList();
+
+        RechargeVo.OpBankListDTO bankSearchData = new RechargeVo.OpBankListDTO();
+        bankSearchData.setHot(opBankList.getHot());
+        bankSearchData.setOthers(opBankList.getOthers());
+        bankSearchData.setTop(opBankList.getTop());
+        bankSearchData.setUsed(opBankList.getUsed());
+        opBankList.setmBind(map);
+
+        BankPickDialogFragment.show(mActivity.get(), bankSearchData)
+                .setOnPickListner(new BankPickDialogFragment.onPickListner() {
                     @Override
-                    public void onResult(ExRechargeOrderCheckResponse vo) {
-                        CfLog.d(vo.toString());
-
-                        ExRechargeOrderCheckResponse.DataDTO data = vo.getData();
-                        if (data != null) {
-                            String status = data.getStatus();
-                            switch (status) {
-                                case "11":
-                                    if (bankInfoData.getValue() == null) {
-                                        ExBankInfoResponse bankInfo = new ExBankInfoResponse();
-                                        bankInfo.setBankAccount(data.getBankAccount());
-                                        bankInfo.setBankArea(data.getBankArea());
-                                        bankInfo.setBankCode(data.getBankCode());
-                                        bankInfo.setBankAccountName(data.getBankAccountName());
-                                        bankInfo.setMerchantOrder(data.getMerchantOrder());
-                                        bankInfo.setPayAmount(data.getPayAmount());
-                                        bankInfo.setAllowCancel(data.getAllowCancel());
-                                        bankInfo.setAllowCancelTime(data.getAllowCancelTime());
-                                        bankInfo.setExpireTime(data.getExpireTime());
-
-                                        bankInfoData.setValue(bankInfo);
-                                    }
-
-                                    if (canonicalName.equals(ExTransferCommitFragment.class.getCanonicalName())) {
-                                        toPayee();
-                                    }
-                                    break;
-                                case "12":
-                                    if (bankInfoData.getValue() == null) {
-                                        ExBankInfoResponse bankInfo = new ExBankInfoResponse();
-                                        bankInfo.setBankAccount(data.getBankAccount());
-                                        bankInfo.setBankArea(data.getBankArea());
-                                        bankInfo.setBankCode(data.getBankCode());
-                                        bankInfo.setBankAccountName(data.getBankAccountName());
-                                        bankInfo.setMerchantOrder(data.getMerchantOrder());
-                                        bankInfo.setPayAmount(data.getPayAmount());
-                                        bankInfo.setAllowCancel(data.getAllowCancel());
-                                        bankInfo.setAllowCancelTime(data.getAllowCancelTime());
-                                        bankInfo.setExpireTime(data.getExpireTime());
-
-                                        bankInfoData.setValue(bankInfo);
-                                    }
-                                    break;
-                                case "01":
-                                case "02":
-                                case "03":
-                                case "04":
-                                case "06":
-                                case "061":
-                                case "065":
-                                case "066":
-                                case "07":
-                                case "08":
-                                case "09":
-                                case "10":
-                                    toFail();
-                                    close();
-                                    break;
-                            }
+                    public void onPick(BankPickModel model) {
+                        if (TextUtils.isEmpty(model.getBankCode())) {
+                            bankCodeOfPayment.setValue(model.getBankId());
+                        } else {
+                            bankCodeOfPayment.setValue(model.getBankCode());
                         }
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        t.printStackTrace();
-                        super.onError(t);
+                        bankNameOfPayment.setValue(model.getBankName());
                     }
                 });
-
-        addSubscribe(disposable);
     }
 
     /**
@@ -465,6 +546,24 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
 
     public void toConfirm() {
         startContainerActivity(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CONFIRM);
+        Stack<Activity> activityStack = AppManager.getActivityStack();
+        for (Activity activity : activityStack) {
+            FragmentActivity fa = (FragmentActivity) activity;
+            for (Fragment fragment : fa.getSupportFragmentManager().getFragments()) {
+                if (fragment.getClass().getCanonicalName().equals(ExTransferCommitFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+                if (fragment.getClass().getCanonicalName().equals(ExTransferConfirmFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+                if (fragment.getClass().getCanonicalName().equals(ExTransferPayeeFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+                if (fragment.getClass().getCanonicalName().equals(ExTransferVoucherFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+            }
+        }
     }
 
     public void toVoucher() {
@@ -473,6 +572,25 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
 
     public void toFail() {
         startContainerActivity(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_FAIL);
+        close();
+        Stack<Activity> activityStack = AppManager.getActivityStack();
+        for (Activity activity : activityStack) {
+            FragmentActivity fa = (FragmentActivity) activity;
+            for (Fragment fragment : fa.getSupportFragmentManager().getFragments()) {
+                if (fragment.getClass().getCanonicalName().equals(ExTransferCommitFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+                if (fragment.getClass().getCanonicalName().equals(ExTransferConfirmFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+                if (fragment.getClass().getCanonicalName().equals(ExTransferPayeeFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+                if (fragment.getClass().getCanonicalName().equals(ExTransferVoucherFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+            }
+        }
     }
 
     /**
@@ -532,7 +650,32 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         if (getmCompositeDisposable() != null) {
             getmCompositeDisposable().clear();
         }
-        startContainerActivity(RouterFragmentPath.Recharge.PAGER_RECHARGE);
+    }
+
+    public void finish() {
+        close();
+
+        Stack<Activity> activityStack = AppManager.getActivityStack();
+        for (Activity activity : activityStack) {
+            FragmentActivity fa = (FragmentActivity) activity;
+            for (Fragment fragment : fa.getSupportFragmentManager().getFragments()) {
+                if (fragment.getClass().getCanonicalName().equals(ExTransferCommitFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+                if (fragment.getClass().getCanonicalName().equals(ExTransferConfirmFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+                if (fragment.getClass().getCanonicalName().equals(ExTransferPayeeFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+                if (fragment.getClass().getCanonicalName().equals(ExTransferVoucherFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+                if (fragment.getClass().getCanonicalName().equals(ExTransferFailFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+            }
+        }
     }
 
     @Override

@@ -58,7 +58,7 @@ public class ExReceiptocrRequest {
     }
 
     public String getNonce() {
-        return UuidUtil.getID16();
+        return UuidUtil.getID24();
     }
 
     public void setNonce(String nonce) {

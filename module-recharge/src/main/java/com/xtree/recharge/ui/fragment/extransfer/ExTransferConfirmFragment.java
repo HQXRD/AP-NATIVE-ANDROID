@@ -80,6 +80,7 @@ public class ExTransferConfirmFragment extends BaseFragment<FragmentExtransferCo
 
         ExCreateOrderRequest createOrderInfo = RxBus.getDefault().getStickyEvent(ExCreateOrderRequest.class);
         if (createOrderInfo != null) {
+            RxBus.getDefault().removeAllStickyEvents();
             binding.getModel().initData(getActivity(),createOrderInfo);
         }
     }

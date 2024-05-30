@@ -81,6 +81,7 @@ public class ExTransferCommitFragment extends BaseFragment<FragmentExtransferCom
 
         ExCreateOrderRequest createOrderInfo = RxBus.getDefault().getStickyEvent(ExCreateOrderRequest.class);
         if (createOrderInfo != null) {
+            RxBus.getDefault().removeAllStickyEvents();
             binding.getModel().initData(getActivity(),createOrderInfo);
         }
     }
@@ -95,6 +96,7 @@ public class ExTransferCommitFragment extends BaseFragment<FragmentExtransferCom
                 String canonicalName = (String) params.get(BaseViewModel.ParameterField.CANONICAL_NAME);
                 Bundle bundle = (Bundle) params.get(BaseViewModel.ParameterField.BUNDLE);
                 startContainerFragment(canonicalName, bundle);
+                getActivity().finish();
             }
         });
     }

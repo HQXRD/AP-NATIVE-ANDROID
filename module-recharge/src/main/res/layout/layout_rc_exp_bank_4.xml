@@ -154,7 +154,7 @@
             android:id="@+id/tvw_ok"
             style="@style/style_btn_long"
             android:text="关闭"
-            android:onClick="@{() -> model.close()}"/>
+            android:onClick="@{() -> model.finish()}"/>
 
         <TextView
             style="@style/style_cm_tip_small_grey"

@@ -13,6 +13,7 @@ import com.xtree.recharge.data.source.request.ExReceiptocrRequest;
 import com.xtree.recharge.data.source.request.ExRechargeOrderCheckRequest;
 import com.xtree.recharge.data.source.response.ExBankInfoResponse;
 import com.xtree.recharge.data.source.response.ExCreateOrderResponse;
+import com.xtree.recharge.data.source.response.ExReceiptUploadResponse;
 import com.xtree.recharge.data.source.response.ExReceiptocrResponse;
 import com.xtree.recharge.data.source.response.ExRechargeOrderCheckResponse;
 
@@ -118,7 +119,7 @@ public class HttpDataSourceImpl implements HttpDataSource {
     @Override
     public Flowable<BaseResponse<ExReceiptocrResponse>> rechargeReceiptOCR(ExReceiptocrRequest request) {
         Map<String, Object> map = JSON.parseObject(JSON.toJSONString(request), type);
-        return apiService.post(APIManager.DEPOSIT_RECHARGERECEIPTOCR_URL,map).map(new Function<ResponseBody, BaseResponse<ExReceiptocrResponse>>() {
+        return apiService.ocr(map).map(new Function<ResponseBody, BaseResponse<ExReceiptocrResponse>>() {
             @Override
             public BaseResponse<ExReceiptocrResponse> apply(ResponseBody responseBody) throws Exception {
                 return JSON.parseObject(responseBody.string(),
@@ -129,13 +130,13 @@ public class HttpDataSourceImpl implements HttpDataSource {
     }
 
     @Override
-    public Flowable<BaseResponse> rechargeReceiptUpload(ExReceiptUploadRequest request) {
+    public Flowable<BaseResponse<ExReceiptUploadResponse>> rechargeReceiptUpload(ExReceiptUploadRequest request) {
         Map<String, Object> map = JSON.parseObject(JSON.toJSONString(request), type);
-        return apiService.post(APIManager.DEPOSIT_RECHARGERECEIPTUPLOAD_URL,map).map(new Function<ResponseBody, BaseResponse>() {
+        return apiService.rechargeReceiptUpload(map).map(new Function<ResponseBody, BaseResponse<ExReceiptUploadResponse>>() {
             @Override
-            public BaseResponse apply(ResponseBody responseBody) throws Exception {
+            public BaseResponse<ExReceiptUploadResponse> apply(ResponseBody responseBody) throws Exception {
                 return JSON.parseObject(responseBody.string(),
-                        new TypeReference<BaseResponse>() {
+                        new TypeReference<BaseResponse<ExReceiptUploadResponse>>() {
                         });
             }
         });

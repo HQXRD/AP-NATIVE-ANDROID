@@ -168,7 +168,7 @@
             <TextView
                 android:id="@+id/tvw_bank_card"
                 style="@style/style_cm_edit"
-                android:text="@{model.bankOfPayment}"
+                android:text="@{model.bankNameOfPayment}"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="@dimen/layout_margin"
                 android:drawableEnd="@mipmap/cm_ic_expand"

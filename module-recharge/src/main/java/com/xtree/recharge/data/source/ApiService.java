@@ -198,4 +198,11 @@ public interface ApiService {
     @GET("/api/deposit/customerinfos?")
     Flowable<BaseResponse<Object>> feedbackCheckImage(@Query("starttime") String starttime);
 
+    @POST("/api/deposit/rechargeReceiptOCR")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<ResponseBody> ocr(@Body Map<String, Object> map);
+
+    @POST("/api/deposit/rechargeReceiptUpload")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<ResponseBody> rechargeReceiptUpload(@Body Map<String, Object> map);
 }

@@ -992,13 +992,16 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         if (vo.paycode.contains(ONEPAYFIX)) {
             // 极速充值
-
-            String jsonString = JSON.toJSONString(viewModel.paymentLiveData.getValue().user_bank_info);
+            RechargeVo re = viewModel.paymentLiveData.getValue();
+            if (re == null || re.user_bank_info == null || re.getOpBankList() == null) {
+                return;
+            }
+            String jsonString = JSON.toJSONString(re.user_bank_info);
             HashMap<String, String> map = JSON.parseObject(jsonString,
                     new TypeReference<HashMap<String, String>>() {
                     });
 
-            RechargeVo.OpBankListDTO opBankList = viewModel.paymentLiveData.getValue().getOpBankList();
+            RechargeVo.OpBankListDTO opBankList = re.getOpBankList();
             opBankList.setmBind(map);
             BankPickDialogFragment.show(getActivity(), opBankList)
                     .setOnPickListner(new BankPickDialogFragment.onPickListner() {
@@ -1382,6 +1385,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             switch (status) {
                 case "11":
                     startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE);
+                    break;
+                case "03":
+                    startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT);
                     break;
                 case "12":
                     startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CONFIRM);

@@ -307,7 +307,6 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                             switch (status) {
                                 case "01":
                                 case "02":
-                                case "03":
                                 case "04":
                                 case "06":
                                 case "061":

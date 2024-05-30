@@ -71,50 +71,57 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
             mBindDatas.getValue().clear();
             lastTimeDatas.getValue().clear();
 
-            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getHot()) {
-                BankPickModel m = new BankPickModel();
-                m.setItemType(2);
-                m.setBankCode(bankInfoDTO.getBankCode());
-                m.setBankName(bankInfoDTO.getBankName());
-                m.setClick(itemClick);
-                hotDatas.getValue().add(m);
-            }
-            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getTop()) {
-                BankPickModel m = new BankPickModel();
-                m.setItemType(3);
-                m.setBankCode(bankInfoDTO.getBankCode());
-                m.setBankName(bankInfoDTO.getBankName());
-                m.setClick(itemClick);
-                topTenDatas.getValue().add(m);
-            }
-            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getOthers()) {
-                BankPickModel m = new BankPickModel();
-                m.setItemType(3);
-                m.setBankCode(bankInfoDTO.getBankCode());
-                m.setBankName(bankInfoDTO.getBankName());
-                m.setClick(itemClick);
-                otherDatas.getValue().add(m);
-            }
-            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getUsed()) {
-                BankPickModel m = new BankPickModel();
-                m.setItemType(1);
-                m.setBankCode(bankInfoDTO.getBankCode());
-                m.setBankName(bankInfoDTO.getBankName());
-                m.setClick(itemClick);
-                lastTimeDatas.getValue().add(m);
-            }
-            for (Map.Entry<String, String> entry : bankListData.getmBind().entrySet()) {
-                BankPickModel m = new BankPickModel();
-                m.setItemType(0);
-                m.setBankId(entry.getKey());
-                String value = entry.getValue();
-                if (value.contains("-")) {
-                    String[] split = value.split("--");
-                    value = split[0];
+            if (bankListData.getUsed()!=null)
+                for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getHot()) {
+                    BankPickModel m = new BankPickModel();
+                    m.setItemType(2);
+                    m.setBankCode(bankInfoDTO.getBankCode());
+                    m.setBankName(bankInfoDTO.getBankName());
+                    m.setClick(itemClick);
+                    hotDatas.getValue().add(m);
                 }
-                m.setBankName(value);
-                m.setClick(itemClick);
-                mBindDatas.getValue().add(m);
+            if (bankListData.getUsed()!=null)
+                for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getTop()) {
+                    BankPickModel m = new BankPickModel();
+                    m.setItemType(3);
+                    m.setBankCode(bankInfoDTO.getBankCode());
+                    m.setBankName(bankInfoDTO.getBankName());
+                    m.setClick(itemClick);
+                    topTenDatas.getValue().add(m);
+                }
+            if (bankListData.getUsed()!=null)
+                for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getOthers()) {
+                    BankPickModel m = new BankPickModel();
+                    m.setItemType(3);
+                    m.setBankCode(bankInfoDTO.getBankCode());
+                    m.setBankName(bankInfoDTO.getBankName());
+                    m.setClick(itemClick);
+                    otherDatas.getValue().add(m);
+                }
+            if (bankListData.getUsed() != null) {
+                for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getUsed()) {
+                    BankPickModel m = new BankPickModel();
+                    m.setItemType(1);
+                    m.setBankCode(bankInfoDTO.getBankCode());
+                    m.setBankName(bankInfoDTO.getBankName());
+                    m.setClick(itemClick);
+                    lastTimeDatas.getValue().add(m);
+                }
+            }
+            if (bankListData.getmBind() != null) {
+                for (Map.Entry<String, String> entry : bankListData.getmBind().entrySet()) {
+                    BankPickModel m = new BankPickModel();
+                    m.setItemType(0);
+                    m.setBankId(entry.getKey());
+                    String value = entry.getValue();
+                    if (value.contains("-")) {
+                        String[] split = value.split("--");
+                        value = split[0];
+                    }
+                    m.setBankName(value);
+                    m.setClick(itemClick);
+                    mBindDatas.getValue().add(m);
+                }
             }
         }
     }

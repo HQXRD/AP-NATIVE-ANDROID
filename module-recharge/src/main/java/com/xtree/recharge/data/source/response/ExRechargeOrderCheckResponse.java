@@ -1,7 +1,9 @@
 package com.xtree.recharge.data.source.response;
 
 import com.google.gson.annotations.SerializedName;
+import com.xtree.recharge.vo.RechargeVo;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -14,7 +16,7 @@ public class ExRechargeOrderCheckResponse {
      * status
      */
     @SerializedName("status")
-    private String status;
+    private int status;
     /**
      * message
      */
@@ -31,11 +33,11 @@ public class ExRechargeOrderCheckResponse {
     @SerializedName("timestamp")
     private int timestamp;
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -90,15 +92,30 @@ public class ExRechargeOrderCheckResponse {
         @SerializedName("payAccount")
         private String payAccount;
         /**
-         * merchantOrder
+         * payBankName
          */
-        @SerializedName("merchant_order")
-        private String merchantOrder;
+        @SerializedName("payBankName")
+        private String payBankName;
+        /**
+         * returncode
+         */
+        @SerializedName("returncode")
+        private String returncode;
         /**
          * status
          */
         @SerializedName("status")
         private String status;
+        /**
+         * message
+         */
+        @SerializedName("message")
+        private String message;
+        /**
+         * merchantOrder
+         */
+        @SerializedName("merchant_order")
+        private String merchantOrder;
         /**
          * createTime
          */
@@ -155,15 +172,15 @@ public class ExRechargeOrderCheckResponse {
         @SerializedName("bank_area")
         private String bankArea;
         /**
-         * qrcode
-         */
-        @SerializedName("qrcode")
-        private String qrcode;
-        /**
          * opBankList
          */
         @SerializedName("op_bank_list")
         private OpBankListDTO opBankList;
+        /**
+         * userBankInfo
+         */
+        @SerializedName("user_bank_info")
+        private Object userBankInfo;
 
         public String getPlatformOrder() {
             return platformOrder;
@@ -205,12 +222,20 @@ public class ExRechargeOrderCheckResponse {
             this.payAccount = payAccount;
         }
 
-        public String getMerchantOrder() {
-            return merchantOrder;
+        public String getPayBankName() {
+            return payBankName;
         }
 
-        public void setMerchantOrder(String merchantOrder) {
-            this.merchantOrder = merchantOrder;
+        public void setPayBankName(String payBankName) {
+            this.payBankName = payBankName;
+        }
+
+        public String getReturncode() {
+            return returncode;
+        }
+
+        public void setReturncode(String returncode) {
+            this.returncode = returncode;
         }
 
         public String getStatus() {
@@ -219,6 +244,22 @@ public class ExRechargeOrderCheckResponse {
 
         public void setStatus(String status) {
             this.status = status;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        public void setMessage(String message) {
+            this.message = message;
+        }
+
+        public String getMerchantOrder() {
+            return merchantOrder;
+        }
+
+        public void setMerchantOrder(String merchantOrder) {
+            this.merchantOrder = merchantOrder;
         }
 
         public String getCreateTime() {
@@ -309,14 +350,6 @@ public class ExRechargeOrderCheckResponse {
             this.bankArea = bankArea;
         }
 
-        public String getQrcode() {
-            return qrcode;
-        }
-
-        public void setQrcode(String qrcode) {
-            this.qrcode = qrcode;
-        }
-
         public OpBankListDTO getOpBankList() {
             return opBankList;
         }
@@ -325,57 +358,78 @@ public class ExRechargeOrderCheckResponse {
             this.opBankList = opBankList;
         }
 
+        public Object getUserBankInfo() {
+            return userBankInfo;
+        }
+
+        public void setUserBankInfo(Object userBankInfo) {
+            this.userBankInfo = userBankInfo;
+        }
+
         public static class OpBankListDTO {
             /**
              * used
              */
             @SerializedName("used")
-            private List<?> used;
+            private List<RechargeVo.OpBankListDTO.BankInfoDTO> used;
             /**
              * top
              */
             @SerializedName("top")
-            private List<TopDTO> top;
+            private List<RechargeVo.OpBankListDTO.BankInfoDTO> top;
             /**
              * hot
              */
             @SerializedName("hot")
-            private List<HotDTO> hot;
+            private List<RechargeVo.OpBankListDTO.BankInfoDTO> hot;
             /**
              * others
              */
             @SerializedName("others")
-            private List<OthersDTO> others;
+            private List<RechargeVo.OpBankListDTO.BankInfoDTO> others;
 
-            public List<?> getUsed() {
+            /**
+             * 用户绑定银行
+             */
+            private HashMap<String, String> mBind;
+
+            public HashMap<String, String> getmBind() {
+                return mBind;
+            }
+
+            public void setmBind(HashMap<String, String> mBind) {
+                this.mBind = mBind;
+            }
+
+            public List<RechargeVo.OpBankListDTO.BankInfoDTO> getUsed() {
                 return used;
             }
 
-            public void setUsed(List<?> used) {
+            public void setUsed(List<RechargeVo.OpBankListDTO.BankInfoDTO> used) {
                 this.used = used;
             }
 
-            public List<TopDTO> getTop() {
+            public List<RechargeVo.OpBankListDTO.BankInfoDTO> getTop() {
                 return top;
             }
 
-            public void setTop(List<TopDTO> top) {
+            public void setTop(List<RechargeVo.OpBankListDTO.BankInfoDTO> top) {
                 this.top = top;
             }
 
-            public List<HotDTO> getHot() {
+            public List<RechargeVo.OpBankListDTO.BankInfoDTO> getHot() {
                 return hot;
             }
 
-            public void setHot(List<HotDTO> hot) {
+            public void setHot(List<RechargeVo.OpBankListDTO.BankInfoDTO> hot) {
                 this.hot = hot;
             }
 
-            public List<OthersDTO> getOthers() {
+            public List<RechargeVo.OpBankListDTO.BankInfoDTO> getOthers() {
                 return others;
             }
 
-            public void setOthers(List<OthersDTO> others) {
+            public void setOthers(List<RechargeVo.OpBankListDTO.BankInfoDTO> others) {
                 this.others = others;
             }
 
