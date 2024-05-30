@@ -24,8 +24,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
 import com.bumptech.glide.Glide;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -53,6 +51,7 @@ import com.xtree.recharge.databinding.FragmentRechargeBinding;
 import com.xtree.recharge.ui.model.BankPickModel;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.recharge.vo.BankCardVo;
 import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.PaymentDataVo;
 import com.xtree.recharge.vo.PaymentTypeVo;
@@ -992,33 +991,44 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         if (vo.paycode.contains(ONEPAYFIX)) {
             // 极速充值
-            RechargeVo re = viewModel.paymentLiveData.getValue();
-            if (re == null || re.user_bank_info == null || re.getOpBankList() == null) {
-                return;
-            }
-            String jsonString = JSON.toJSONString(re.user_bank_info);
-            HashMap<String, String> map = JSON.parseObject(jsonString,
-                    new TypeReference<HashMap<String, String>>() {
-                    });
-
-            RechargeVo.OpBankListDTO opBankList = re.getOpBankList();
-            opBankList.setmBind(map);
-            BankPickDialogFragment.show(getActivity(), opBankList)
-                    .setOnPickListner(new BankPickDialogFragment.onPickListner() {
-                        @Override
-                        public void onPick(BankPickModel model) {
-                            if (TextUtils.isEmpty(model.getBankCode())) {
-                                bankId = model.getBankId();
-                            } else {
-                                bankCode = model.getBankCode();
-                            }
-                            binding.tvwBankCard.setText(model.getBankName());
-                        }
-                    });
+            showBankCardExDialog(vo);
         } else {
             // 普通充值
             showBankCardDialog(vo);
         }
+    }
+
+    /**
+     * 极速充值银行卡选择弹窗
+     */
+    private void showBankCardExDialog(RechargeVo vo) {
+        RechargeVo re = viewModel.paymentLiveData.getValue();
+        if (re == null|| re.getOpBankList() == null) {
+            return;
+        }
+
+        RechargeVo.OpBankListDTO opBankList = re.getOpBankList();
+        ArrayList<RechargeVo.OpBankListDTO.BankInfoDTO> bankInfoDTOS = new ArrayList<>();
+        for (BankCardVo bankCardVo : vo.userBankList) {
+            RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO = new RechargeVo.OpBankListDTO.BankInfoDTO();
+            bankInfoDTO.setBankCode(bankCardVo.id);
+            bankInfoDTO.setBankName(bankCardVo.name);
+            bankInfoDTOS.add(bankInfoDTO);
+        }
+        opBankList.setmBind(bankInfoDTOS);
+
+        BankPickDialogFragment.show(getActivity(), opBankList)
+                .setOnPickListner(new BankPickDialogFragment.onPickListner() {
+                    @Override
+                    public void onPick(BankPickModel model) {
+                        if (TextUtils.isEmpty(model.getBankCode())) {
+                            bankId = model.getBankId();
+                        } else {
+                            bankCode = model.getBankCode();
+                        }
+                        binding.tvwBankCard.setText(model.getBankName());
+                    }
+                });
     }
 
     private void showBankCardDialog(RechargeVo vo) {

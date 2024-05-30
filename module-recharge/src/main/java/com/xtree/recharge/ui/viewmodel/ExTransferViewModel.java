@@ -48,8 +48,6 @@ import com.xtree.recharge.ui.fragment.extransfer.ExTransferVoucherFragment;
 import com.xtree.recharge.ui.model.BankPickModel;
 import com.xtree.recharge.vo.RechargeVo;
 
-import org.reactivestreams.Subscription;
-
 import java.io.File;
 import java.lang.ref.WeakReference;
 import java.text.ParseException;
@@ -58,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
@@ -65,7 +64,6 @@ import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.BaseResponse;
@@ -171,6 +169,8 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 });
 
         addSubscribe(disposable);
+
+        LoadingDialog.show(mActivity.get());
     }
 
     /**
@@ -186,7 +186,10 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     long l = cancleOrderDifference - aLong;
                     leftTimeData.setValue("剩余支付时间：" + formatSeconds(l));
 
-                    checkOrder();
+                    //轮训三秒间隔
+                    if (aLong % 3 == 0) {
+                        checkOrder();
+                    }
                 })
                 .doOnComplete(new Action() {
                     @Override
@@ -342,12 +345,6 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         Disposable disposable = (Disposable) model.cancelOrderWait(request)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .doOnSubscribe(new Consumer<Subscription>() {
-                    @Override
-                    public void accept(Subscription subscription) throws Exception {
-                        LoadingDialog.show(mActivity.get());
-                    }
-                })
                 .subscribeWith(new HttpCallBack<BaseResponse>() {
                     @Override
                     public void onResult(BaseResponse response) {
@@ -356,6 +353,8 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 });
 
         addSubscribe(disposable);
+
+        LoadingDialog.show(mActivity.get());
     }
 
     /**
@@ -373,12 +372,6 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         Disposable disposable = (Disposable) model.cancelOrderWait(request)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .doOnSubscribe(new Consumer<Subscription>() {
-                    @Override
-                    public void accept(Subscription subscription) throws Exception {
-                        LoadingDialog.show(mActivity.get());
-                    }
-                })
                 .subscribeWith(new HttpCallBack<BaseResponse>() {
                     @Override
                     public void onResult(BaseResponse response) {
@@ -387,6 +380,8 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 });
 
         addSubscribe(disposable);
+
+        LoadingDialog.show(mActivity.get());
     }
 
     /**
@@ -425,12 +420,6 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         Disposable disposable = (Disposable) model.rechargeReceiptUpload(request)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .doOnSubscribe(new Consumer<Subscription>() {
-                    @Override
-                    public void accept(Subscription subscription) throws Exception {
-                        LoadingDialog.show(mActivity.get());
-                    }
-                })
                 .subscribeWith(new HttpCallBack<ExReceiptUploadResponse>() {
                     @Override
                     public void onResult(ExReceiptUploadResponse response) {
@@ -439,7 +428,10 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 });
 
         addSubscribe(disposable);
+
+        LoadingDialog.show(mActivity.get());
     }
+
     /**
      * 上传图片OCR识别
      */
@@ -465,12 +457,6 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         Disposable disposable = (Disposable) model.rechargeReceiptOCR(request)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .doOnSubscribe(new Consumer<Subscription>() {
-                    @Override
-                    public void accept(Subscription subscription) throws Exception {
-                        LoadingDialog.show(mActivity.get());
-                    }
-                })
                 .subscribeWith(new HttpCallBack<ExReceiptocrResponse>() {
                     @Override
                     public void onResult(ExReceiptocrResponse response) {
@@ -483,6 +469,8 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 });
 
         addSubscribe(disposable);
+
+        LoadingDialog.show(mActivity.get());
     }
 
     /**
@@ -529,13 +517,20 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         }
 
         ExRechargeOrderCheckResponse.DataDTO.OpBankListDTO opBankList = pvalue.getOpBankList();
+        ArrayList<RechargeVo.OpBankListDTO.BankInfoDTO> bankInfoDTOS = new ArrayList<>();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO = new RechargeVo.OpBankListDTO.BankInfoDTO();
+            bankInfoDTO.setBankCode(entry.getKey());
+            bankInfoDTO.setBankName(entry.getValue());
+            bankInfoDTOS.add(bankInfoDTO);
+        }
 
         RechargeVo.OpBankListDTO bankSearchData = new RechargeVo.OpBankListDTO();
         bankSearchData.setHot(opBankList.getHot());
         bankSearchData.setOthers(opBankList.getOthers());
         bankSearchData.setTop(opBankList.getTop());
         bankSearchData.setUsed(opBankList.getUsed());
-        opBankList.setmBind(map);
+        bankSearchData.setmBind(bankInfoDTOS);
 
         BankPickDialogFragment.show(mActivity.get(), bankSearchData)
                 .setOnPickListner(new BankPickDialogFragment.onPickListner() {
@@ -593,9 +588,6 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             FragmentActivity fa = (FragmentActivity) activity;
             for (Fragment fragment : fa.getSupportFragmentManager().getFragments()) {
                 if (fragment.getClass().getCanonicalName().equals(ExTransferCommitFragment.class.getCanonicalName())) {
-                    fa.finish();
-                }
-                if (fragment.getClass().getCanonicalName().equals(ExTransferConfirmFragment.class.getCanonicalName())) {
                     fa.finish();
                 }
                 if (fragment.getClass().getCanonicalName().equals(ExTransferPayeeFragment.class.getCanonicalName())) {
