@@ -21,6 +21,9 @@
     <string name="bt_detail_yellow_card">黄牌%1$d-%2$d</string>
     <string name="bt_detail_red_card">红牌%1$d-%2$d</string>
     <string name="bt_detail_cornor">角球%1$d-%2$d</string>
+    <string name="bt_detail_yellow_card_empty">黄牌%1$s</string>
+    <string name="bt_detail_red_card_empty">红牌%1$s</string>
+    <string name="bt_detail_cornor_empty">角球%1$s</string>
     <string name="bt_detail_score">%1$d-%2$d</string>
     <string name="bt_bt_result_bt_amount">投注金额</string>
     <string name="bt_bt_result_bt_amount_1">投注金额：%1$s元</string>

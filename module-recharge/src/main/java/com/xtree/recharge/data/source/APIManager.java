@@ -21,5 +21,6 @@ public class APIManager {
     public static final String DEPOSIT_RECHARGERECEIPTOCR_URL = DEPOSIT_API + "rechargeReceiptOCR";
     //上传付款凭证
     public static final String DEPOSIT_RECHARGERECEIPTUPLOAD_URL = DEPOSIT_API + "rechargeReceiptUpload";
-
+    //查询订单信息
+    public static final String DEPOSIT_RECHARGEORDERCHECK_URL = DEPOSIT_API + "rechargeOrderQuery";
 }
