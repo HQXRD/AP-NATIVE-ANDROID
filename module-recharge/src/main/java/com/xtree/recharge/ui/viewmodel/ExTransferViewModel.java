@@ -35,6 +35,7 @@ import com.xtree.recharge.data.source.response.ExReceiptocrResponse;
 import com.xtree.recharge.data.source.response.ExRechargeOrderCheckResponse;
 import com.xtree.recharge.ui.fragment.BankPickDialogFragment;
 import com.xtree.recharge.ui.fragment.ExSlipExampleDialogFragment;
+import com.xtree.recharge.ui.fragment.extransfer.ExTransferCommitFragment;
 import com.xtree.recharge.ui.model.BankPickModel;
 import com.xtree.recharge.vo.RechargeVo;
 
@@ -56,6 +57,7 @@ import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by KAKA on 2024/5/28.
@@ -89,6 +91,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     public MutableLiveData<String> bankNumberOfPayment = new MutableLiveData<>();
     private WeakReference<FragmentActivity> mActivity = null;
     private RechargeVo.OpBankListDTO opBankListData;
+    public String canonicalName;
 
     public void initData(FragmentActivity mActivity, ExCreateOrderRequest createOrderInfo) {
         setActivity(mActivity);
@@ -199,7 +202,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         return differenceInSeconds;
     }
 
-    private void setActivity(FragmentActivity mActivity) {
+    public void setActivity(FragmentActivity mActivity) {
         this.mActivity = new WeakReference<>(mActivity);
     }
 
@@ -281,6 +284,16 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             return;
         }
 
+        if (bankNumberOfPayment.getValue() == null) {
+            ToastUtils.show("请输入付款账号", ToastUtils.ShowType.Default);
+            return;
+        }
+
+        if (bankOfPayment.getValue() == null) {
+            ToastUtils.show("请选择付款银行", ToastUtils.ShowType.Default);
+            return;
+        }
+
         ExReceiptUploadRequest request = new ExReceiptUploadRequest();
         request.setPid(cOrderData.getPid());
         request.setReceipt(ImageUploadUtil.bitmapToString(voucher.getValue().getPath()));
@@ -313,9 +326,16 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             return;
         }
 
+        String imageBase64 = ImageUploadUtil.bitmapToString(voucher.getValue().getPath());
+
+        if (TextUtils.isEmpty(imageBase64)) {
+            ToastUtils.show("图片无法识别，请重选", ToastUtils.ShowType.Default);
+            return;
+        }
+
         ExReceiptocrRequest request = new ExReceiptocrRequest();
         request.setPid(cOrderData.getPid());
-        request.setReceipt(ImageUploadUtil.bitmapToString(voucher.getValue().getPath()));
+        request.setReceipt(imageBase64);
         request.setPlatformOrder(pOrderData.getPlatformOrder());
 
         Disposable disposable = (Disposable) model.rechargeReceiptOCR(request)
@@ -381,6 +401,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                                         bankInfo.setExpireTime(data.getExpireTime());
 
                                         bankInfoData.setValue(bankInfo);
+                                    }
+
+                                    if (canonicalName.equals(ExTransferCommitFragment.class.getCanonicalName())) {
                                         toPayee();
                                     }
                                     break;

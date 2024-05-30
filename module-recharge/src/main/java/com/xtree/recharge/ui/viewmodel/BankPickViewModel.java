@@ -48,7 +48,10 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
     public final MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
                 {
-                    add(R.layout.item_rc_choose_bank);
+                    add(R.layout.item_rc_choose_bank1);
+                    add(R.layout.item_rc_choose_bank2);
+                    add(R.layout.item_rc_choose_bank3);
+                    add(R.layout.item_rc_choose_bank4);
                 }
             });
 
@@ -57,6 +60,9 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
     public void initData(RechargeVo.OpBankListDTO bankListData) {
         this.bankListData = bankListData;
 
+        searchDatas.getValue().clear();
+        showSearch.setValue(false);
+
         if (bankListData != null) {
 
             hotDatas.getValue().clear();
@@ -64,8 +70,10 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
             otherDatas.getValue().clear();
             mBindDatas.getValue().clear();
             lastTimeDatas.getValue().clear();
+
             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getHot()) {
                 BankPickModel m = new BankPickModel();
+                m.setItemType(2);
                 m.setBankCode(bankInfoDTO.getBankCode());
                 m.setBankName(bankInfoDTO.getBankName());
                 m.setClick(itemClick);
@@ -73,6 +81,7 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
             }
             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getTop()) {
                 BankPickModel m = new BankPickModel();
+                m.setItemType(3);
                 m.setBankCode(bankInfoDTO.getBankCode());
                 m.setBankName(bankInfoDTO.getBankName());
                 m.setClick(itemClick);
@@ -80,6 +89,7 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
             }
             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getOthers()) {
                 BankPickModel m = new BankPickModel();
+                m.setItemType(3);
                 m.setBankCode(bankInfoDTO.getBankCode());
                 m.setBankName(bankInfoDTO.getBankName());
                 m.setClick(itemClick);
@@ -87,6 +97,7 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
             }
             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getUsed()) {
                 BankPickModel m = new BankPickModel();
+                m.setItemType(1);
                 m.setBankCode(bankInfoDTO.getBankCode());
                 m.setBankName(bankInfoDTO.getBankName());
                 m.setClick(itemClick);
@@ -94,6 +105,7 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
             }
             for (Map.Entry<String, String> entry : bankListData.getmBind().entrySet()) {
                 BankPickModel m = new BankPickModel();
+                m.setItemType(0);
                 m.setBankId(entry.getKey());
                 String value = entry.getValue();
                 if (value.contains("-")) {
@@ -147,7 +159,12 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
         for (BindModel allBank : allBanks) {
             BankPickModel bank = (BankPickModel) allBank;
             if (bank.getBankName().contains(sc)) {
-                searchList.add(bank);
+                BankPickModel banknew = new BankPickModel();
+                banknew.setItemType(3);
+                banknew.setBankId(bank.getBankId());
+                banknew.setBankName(bank.getBankName());
+                banknew.setBankCode(bank.getBankCode());
+                searchList.add(banknew);
             }
         }
 

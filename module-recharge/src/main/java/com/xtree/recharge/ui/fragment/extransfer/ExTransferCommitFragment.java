@@ -76,6 +76,9 @@ public class ExTransferCommitFragment extends BaseFragment<FragmentExtransferCom
     public void initData() {
         super.initData();
 
+        binding.getModel().setActivity(getActivity());
+        binding.getModel().canonicalName = getClass().getCanonicalName();
+
         ExCreateOrderRequest createOrderInfo = RxBus.getDefault().getStickyEvent(ExCreateOrderRequest.class);
         if (createOrderInfo != null) {
             binding.getModel().initData(getActivity(),createOrderInfo);
@@ -94,5 +97,15 @@ public class ExTransferCommitFragment extends BaseFragment<FragmentExtransferCom
                 startContainerFragment(canonicalName, bundle);
             }
         });
+    }
+
+    @Override
+    public boolean isBackPressed() {
+
+        if (viewModel != null) {
+            viewModel.close();
+        }
+
+        return super.isBackPressed();
     }
 }

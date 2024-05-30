@@ -74,6 +74,10 @@ public class ExTransferConfirmFragment extends BaseFragment<FragmentExtransferCo
     @Override
     public void initData() {
         super.initData();
+
+        binding.getModel().setActivity(getActivity());
+        binding.getModel().canonicalName = getClass().getCanonicalName();
+
         ExCreateOrderRequest createOrderInfo = RxBus.getDefault().getStickyEvent(ExCreateOrderRequest.class);
         if (createOrderInfo != null) {
             binding.getModel().initData(getActivity(),createOrderInfo);

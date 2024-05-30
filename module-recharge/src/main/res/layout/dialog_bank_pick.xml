@@ -94,68 +94,81 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.core.widget.NestedScrollView
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/search_layout"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cl_title">
+                app:layout_constraintTop_toBottomOf="@id/cl_title"
+                app:layout_constraintVertical_bias="0">
+
+                <EditText
+                    android:id="@+id/edt_key"
+                    style="@style/style_cm_auth_edit"
+                    android:hint="输入关键字搜索银行"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLength="24"
+                    textChangedListener="@{model}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:src="@mipmap/ic_game_search"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/tip_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@drawable/bg_rc_exp_c6"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="4dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/search_layout"
+                app:layout_constraintVertical_bias="0">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawableStart="@mipmap/rc_exp_warn"
+                    android:drawablePadding="6dp"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:text="请选择正确的付款银行，否则将严重影响上分时间"
+                    android:textColor="@color/clr_rc_exp_choose_bank_txt" />
+            </LinearLayout>
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tip_layout"
+                app:layout_constraintVertical_bias="0">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="12dp"
                     android:orientation="vertical">
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp">
-
-                        <EditText
-                            android:id="@+id/edt_key"
-                            style="@style/style_cm_auth_edit"
-                            android:hint="输入关键字搜索银行"
-                            android:imeOptions="actionSearch"
-                            android:inputType="text"
-                            android:maxLength="24"
-                            textChangedListener="@{model}"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="8dp"
-                            android:src="@mipmap/ic_game_search"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:background="@drawable/bg_rc_exp_c6"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="4dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:drawableStart="@mipmap/rc_exp_warn"
-                            android:drawablePadding="6dp"
-                            android:gravity="center"
-                            android:textSize="12sp"
-                            android:text="请选择正确的付款银行，否则将严重影响上分时间"
-                            android:textColor="@color/clr_rc_exp_choose_bank_txt" />
-                    </LinearLayout>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -164,7 +177,7 @@
                         android:textSize="14sp"
                         android:textColor="@color/clr_txt_black_01"
                         android:text="您的绑定卡银行"
-                        android:visibility="@{model.showSearch?View.GONE:View.VISIBLE}"/>
+                        android:visibility="@{model.showSearch||model.mBindDatas.size()==0?View.GONE:View.VISIBLE}"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
@@ -173,8 +186,8 @@
                         itemData="@{model.mBindDatas}"
                         itemViewType="@{model.itemType}"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="3"
-                        android:visibility="@{model.showSearch?View.GONE:View.VISIBLE}"/>
+                        app:spanCount="2"
+                        android:visibility="@{model.showSearch||model.mBindDatas.size()==0?View.GONE:View.VISIBLE}"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -183,7 +196,7 @@
                         android:textSize="14sp"
                         android:textColor="@color/clr_txt_black_01"
                         android:text="您上次选择的银行"
-                        android:visibility="@{model.showSearch?View.GONE:View.VISIBLE}"/>
+                        android:visibility="@{model.showSearch||model.lastTimeDatas.size()==0?View.GONE:View.VISIBLE}"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
@@ -192,8 +205,8 @@
                         itemData="@{model.lastTimeDatas}"
                         itemViewType="@{model.itemType}"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                        app:spanCount="3"
-                        android:visibility="@{model.showSearch?View.GONE:View.VISIBLE}"/>
+                        app:spanCount="2"
+                        android:visibility="@{model.showSearch||model.lastTimeDatas.size()==0?View.GONE:View.VISIBLE}"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -202,7 +215,7 @@
                         android:textSize="14sp"
                         android:textColor="@color/clr_txt_black_01"
                         android:text="十大银行"
-                        android:visibility="@{model.showSearch?View.GONE:View.VISIBLE}"/>
+                        android:visibility="@{model.showSearch||model.topTenDatas.size()==0?View.GONE:View.VISIBLE}"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
@@ -212,7 +225,7 @@
                         itemViewType="@{model.itemType}"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="3"
-                        android:visibility="@{model.showSearch?View.GONE:View.VISIBLE}"/>
+                        android:visibility="@{model.showSearch||model.topTenDatas.size()==0?View.GONE:View.VISIBLE}"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -221,7 +234,7 @@
                         android:textSize="14sp"
                         android:textColor="@color/clr_txt_black_01"
                         android:text="热门银行"
-                        android:visibility="@{model.showSearch?View.GONE:View.VISIBLE}"/>
+                        android:visibility="@{model.showSearch||model.hotDatas.size()==0?View.GONE:View.VISIBLE}"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
@@ -231,7 +244,7 @@
                         itemViewType="@{model.itemType}"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="3"
-                        android:visibility="@{model.showSearch?View.GONE:View.VISIBLE}"/>
+                        android:visibility="@{model.showSearch||model.hotDatas.size()==0?View.GONE:View.VISIBLE}"/>
 
                     <TextView
                         android:layout_width="match_parent"
@@ -240,7 +253,7 @@
                         android:textSize="14sp"
                         android:textColor="@color/clr_txt_black_01"
                         android:text="其它银行"
-                        android:visibility="@{model.showSearch?View.GONE:View.VISIBLE}"/>
+                        android:visibility="@{model.showSearch||model.otherDatas.size()==0?View.GONE:View.VISIBLE}"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
@@ -250,7 +263,7 @@
                         itemViewType="@{model.itemType}"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="3"
-                        android:visibility="@{model.showSearch?View.GONE:View.VISIBLE}"/>
+                        android:visibility="@{model.showSearch||model.otherDatas.size()==0?View.GONE:View.VISIBLE}"/>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
@@ -262,9 +275,9 @@
                         app:spanCount="3"
                         android:visibility="@{model.showSearch?View.VISIBLE:View.GONE}"/>
 
-
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </FrameLayout>

@@ -72,7 +72,8 @@ public class ExTransferFailFragment extends BaseFragment<FragmentExtransferFailB
     @Override
     public void initData() {
         super.initData();
-
+        binding.getModel().setActivity(getActivity());
+        binding.getModel().canonicalName = getClass().getCanonicalName();
     }
 
     @Override

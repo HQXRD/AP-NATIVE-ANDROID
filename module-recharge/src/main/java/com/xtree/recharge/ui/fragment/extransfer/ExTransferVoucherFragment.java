@@ -72,7 +72,8 @@ public class ExTransferVoucherFragment extends BaseFragment<FragmentExtransferVo
     @Override
     public void initData() {
         super.initData();
-
+        binding.getModel().setActivity(getActivity());
+        binding.getModel().canonicalName = getClass().getCanonicalName();
     }
 
     @Override
@@ -87,5 +88,15 @@ public class ExTransferVoucherFragment extends BaseFragment<FragmentExtransferVo
                 startContainerFragment(canonicalName, bundle);
             }
         });
+    }
+
+    @Override
+    public boolean isBackPressed() {
+
+        if (viewModel != null) {
+            viewModel.close();
+        }
+
+        return super.isBackPressed();
     }
 }
