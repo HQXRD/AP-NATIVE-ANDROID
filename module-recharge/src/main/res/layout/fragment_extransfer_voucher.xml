@@ -14,10 +14,9 @@
         android:layout_margin="4dp"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:paddingTop="12dp"
             android:paddingBottom="12dp">
 
@@ -25,7 +24,9 @@
                 android:id="@+id/ivw_back"
                 style="@style/style_ic_title_back"
                 android:layout_gravity="center"
-                android:visibility="visible" />
+                android:visibility="gone"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"/>
 
             <TextView
                 android:id="@+id/tvw_title"
@@ -37,14 +38,17 @@
                 android:layout_marginTop="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="小额网银" />
+                android:text="小额网银"
+                android:layout_centerInParent="true"/>
 
             <ImageView
                 android:id="@+id/ivw_cs"
                 style="@style/style_ic_title_right"
                 android:layout_gravity="center"
-                android:src="@mipmap/cm_ic_cs" />
-        </LinearLayout>
+                android:src="@mipmap/cm_ic_cs"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
 
         <View
             style="@style/style_dividing_line"

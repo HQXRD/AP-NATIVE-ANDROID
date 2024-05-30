@@ -17,20 +17,47 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
+import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ImageUploadUtil;
 import com.xtree.base.widget.GlideEngine;
 import com.xtree.base.widget.ImageFileCompressEngine;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.recharge.data.RechargeRepository;
+import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
+import com.xtree.recharge.data.source.request.ExOrderCancelRequest;
+import com.xtree.recharge.data.source.request.ExReceiptUploadRequest;
+import com.xtree.recharge.data.source.request.ExReceiptocrRequest;
+import com.xtree.recharge.data.source.request.ExRechargeOrderCheckRequest;
+import com.xtree.recharge.data.source.response.ExBankInfoResponse;
+import com.xtree.recharge.data.source.response.ExReceiptocrResponse;
+import com.xtree.recharge.data.source.response.ExRechargeOrderCheckResponse;
+import com.xtree.recharge.ui.fragment.BankPickDialogFragment;
 import com.xtree.recharge.ui.fragment.ExSlipExampleDialogFragment;
+import com.xtree.recharge.ui.fragment.extransfer.ExTransferCommitFragment;
+import com.xtree.recharge.ui.model.BankPickModel;
+import com.xtree.recharge.vo.RechargeVo;
+
+import org.reactivestreams.Subscription;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.http.BaseResponse;
+import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * Created by KAKA on 2024/5/28.
@@ -45,29 +72,137 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         super(application, model);
     }
 
-    public MutableLiveData<String> paymentTime = new MutableLiveData<>();
+    //倒计时 剩余时间
+    public MutableLiveData<String> leftTimeData = new MutableLiveData<>();
+    //截止時間
+    public MutableLiveData<String> deadlinesData = new MutableLiveData<>();
     public MutableLiveData<String> waitTime = new MutableLiveData<>();
     //凭证图片
     public MutableLiveData<Uri> voucher = new MutableLiveData<>();
-
+    //订单生成信息
+    public MutableLiveData<ExRechargeOrderCheckResponse.DataDTO> payOrderData = new MutableLiveData<>();
+    //订单请求信息
+    public MutableLiveData<ExCreateOrderRequest> createOrderInfoData = new MutableLiveData<>();
+    //订单充值银行卡信息
+    public MutableLiveData<ExBankInfoResponse> bankInfoData = new MutableLiveData<>();
+    //付款银行
+    public MutableLiveData<String> bankOfPayment = new MutableLiveData<>();
+    //付款卡号
+    public MutableLiveData<String> bankNumberOfPayment = new MutableLiveData<>();
     private WeakReference<FragmentActivity> mActivity = null;
+    private RechargeVo.OpBankListDTO opBankListData;
+    public String canonicalName;
 
-    public void initData(FragmentActivity mActivity) {
+    public void initData(FragmentActivity mActivity, ExCreateOrderRequest createOrderInfo) {
         setActivity(mActivity);
 
-        int timeCount = 60 * 30;
-        Flowable.intervalRange(0, timeCount, 0, 1, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(aLong -> {
-                    long l = timeCount - aLong;
-                    paymentTime.setValue(formatSeconds(l));
-                })
-                .doOnComplete(() -> {
-                })
-                .subscribe();
+        createOrderInfoData.setValue(createOrderInfo);
+
+        getOrder();
     }
 
-    private void setActivity(FragmentActivity mActivity) {
+    /**
+     * 获取订单信息
+     */
+    public void getOrder() {
+
+        ExCreateOrderRequest cOrderData = createOrderInfoData.getValue();
+        if (cOrderData == null) {
+            return;
+        }
+
+        ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(cOrderData.getPid());
+        Disposable disposable = (Disposable) model.rechargeOrderCheck(request)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<ExRechargeOrderCheckResponse>() {
+                    @Override
+                    public void onResult(ExRechargeOrderCheckResponse vo) {
+                        CfLog.d(vo.toString());
+
+                        ExRechargeOrderCheckResponse.DataDTO data = vo.getData();
+                        if (data != null) {
+
+                            payOrderData.setValue(data);
+
+                            ExBankInfoResponse bankInfo = new ExBankInfoResponse();
+                            bankInfo.setBankAccount(data.getBankAccount());
+                            bankInfo.setBankArea(data.getBankArea());
+                            bankInfo.setBankCode(data.getBankCode());
+                            bankInfo.setBankAccountName(data.getBankAccountName());
+                            bankInfo.setMerchantOrder(data.getMerchantOrder());
+                            bankInfo.setPayAmount(data.getPayAmount());
+                            bankInfo.setAllowCancel(data.getAllowCancel());
+                            bankInfo.setAllowCancelTime(data.getAllowCancelTime());
+                            bankInfo.setExpireTime(data.getExpireTime());
+                            bankInfoData.setValue(bankInfo);
+
+                            deadlinesData.setValue("请于 " + data.getExpireTime() + " 内完成支付");
+                            cancleWaitTimeKeeping();
+                            cancleOrderTimeKeeping();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        t.printStackTrace();
+                        super.onError(t);
+                    }
+                });
+
+        addSubscribe(disposable);
+    }
+
+    private void cancleOrderTimeKeeping() {
+        ExRechargeOrderCheckResponse.DataDTO value = payOrderData.getValue();
+        String expireTime = value.getExpireTime();
+        long cancleOrderDifference = getDifferenceTimeByNow(expireTime);
+        Disposable disposable = (Disposable) Flowable.intervalRange(0, cancleOrderDifference, 0, 1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(aLong -> {
+                    long l = cancleOrderDifference - aLong;
+                    leftTimeData.setValue("剩余支付时间：" + formatSeconds(l));
+
+                    checkOrder();
+                })
+                .doOnComplete(this::toFail)
+                .subscribe();
+        addSubscribe(disposable);
+    }
+
+    private void cancleWaitTimeKeeping() {
+        ExRechargeOrderCheckResponse.DataDTO value = payOrderData.getValue();
+        if (value.getAllowCancelWait() == 1) {
+            String cancelWaitTime = value.getCancelWaitTime();
+            long cancelWaitDifference = getDifferenceTimeByNow(cancelWaitTime);
+            Disposable disposable = (Disposable) Flowable.intervalRange(0, cancelWaitDifference, 0, 1, TimeUnit.SECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnNext(aLong -> {
+                        long l = cancelWaitDifference - aLong;
+                        waitTime.setValue(formatSeconds(l));
+                    })
+                    .doOnComplete(this::toFail)
+                    .subscribe();
+            addSubscribe(disposable);
+        }
+    }
+
+    private long getDifferenceTimeByNow(String time) {
+        long differenceInSeconds = 0;
+        Date now = null;
+        Date end = null;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            now = Calendar.getInstance().getTime();
+            end = format.parse(time);
+            differenceInSeconds = Math.abs((now.getTime() - end.getTime()) / 1000);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return differenceInSeconds;
+    }
+
+    public void setActivity(FragmentActivity mActivity) {
         this.mActivity = new WeakReference<>(mActivity);
     }
 
@@ -80,15 +215,241 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     /**
      * 取消订单
      */
-    public void cancle() {
+    public void cancleOrder() {
+        ExRechargeOrderCheckResponse.DataDTO pOrderData = payOrderData.getValue();
+        ExCreateOrderRequest cOrderData = createOrderInfoData.getValue();
+        if (pOrderData == null || cOrderData == null) {
+            return;
+        }
 
+        ExOrderCancelRequest request = new ExOrderCancelRequest(cOrderData.getPid(), pOrderData.getPlatformOrder());
+
+        Disposable disposable = (Disposable) model.cancelOrderWait(request)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .doOnSubscribe(new Consumer<Subscription>() {
+                    @Override
+                    public void accept(Subscription subscription) throws Exception {
+                        LoadingDialog.show(mActivity.get());
+                    }
+                })
+                .subscribeWith(new HttpCallBack<BaseResponse>() {
+                    @Override
+                    public void onResult(BaseResponse response) {
+                        close();
+                    }
+                });
+
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 取消订单
+     */
+    public void cancleWait() {
+        ExRechargeOrderCheckResponse.DataDTO pOrderData = payOrderData.getValue();
+        ExCreateOrderRequest cOrderData = createOrderInfoData.getValue();
+        if (pOrderData == null || cOrderData == null) {
+            return;
+        }
+
+        ExOrderCancelRequest request = new ExOrderCancelRequest(cOrderData.getPid(), pOrderData.getPlatformOrder());
+
+        Disposable disposable = (Disposable) model.cancelOrderWait(request)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .doOnSubscribe(new Consumer<Subscription>() {
+                    @Override
+                    public void accept(Subscription subscription) throws Exception {
+                        LoadingDialog.show(mActivity.get());
+                    }
+                })
+                .subscribeWith(new HttpCallBack<BaseResponse>() {
+                    @Override
+                    public void onResult(BaseResponse response) {
+                        close();
+                    }
+                });
+
+        addSubscribe(disposable);
     }
 
     /**
      * 上传凭证
      */
     public void uploadVoucher() {
+        ExRechargeOrderCheckResponse.DataDTO pOrderData = payOrderData.getValue();
+        ExCreateOrderRequest cOrderData = createOrderInfoData.getValue();
+        if (pOrderData == null || cOrderData == null || voucher.getValue() == null) {
+            return;
+        }
 
+        if (bankNumberOfPayment.getValue() == null) {
+            ToastUtils.show("请输入付款账号", ToastUtils.ShowType.Default);
+            return;
+        }
+
+        if (bankOfPayment.getValue() == null) {
+            ToastUtils.show("请选择付款银行", ToastUtils.ShowType.Default);
+            return;
+        }
+
+        ExReceiptUploadRequest request = new ExReceiptUploadRequest();
+        request.setPid(cOrderData.getPid());
+        request.setReceipt(ImageUploadUtil.bitmapToString(voucher.getValue().getPath()));
+        request.setPlatformOrder(pOrderData.getPlatformOrder());
+        request.setPayBankCode(bankOfPayment.getValue());
+        request.setPayAccount(bankNumberOfPayment.getValue());
+        request.setPayName(cOrderData.getPayName());
+
+        Disposable disposable = (Disposable) model.rechargeReceiptUpload(request)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<ExReceiptocrResponse>() {
+                    @Override
+                    public void onResult(ExReceiptocrResponse response) {
+                        if (response != null) {
+                            toConfirm();
+                        }
+                    }
+                });
+
+        addSubscribe(disposable);
+    }
+    /**
+     * 上传图片OCR识别
+     */
+    public void ocr() {
+        ExRechargeOrderCheckResponse.DataDTO pOrderData = payOrderData.getValue();
+        ExCreateOrderRequest cOrderData = createOrderInfoData.getValue();
+        if (pOrderData == null || cOrderData == null || voucher.getValue() == null) {
+            return;
+        }
+
+        String imageBase64 = ImageUploadUtil.bitmapToString(voucher.getValue().getPath());
+
+        if (TextUtils.isEmpty(imageBase64)) {
+            ToastUtils.show("图片无法识别，请重选", ToastUtils.ShowType.Default);
+            return;
+        }
+
+        ExReceiptocrRequest request = new ExReceiptocrRequest();
+        request.setPid(cOrderData.getPid());
+        request.setReceipt(imageBase64);
+        request.setPlatformOrder(pOrderData.getPlatformOrder());
+
+        Disposable disposable = (Disposable) model.rechargeReceiptOCR(request)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<ExReceiptocrResponse>() {
+                    @Override
+                    public void onResult(ExReceiptocrResponse response) {
+                        if (response != null) {
+                            bankOfPayment.setValue(response.getBankcode());
+                            bankNumberOfPayment.setValue(response.getPayAccount());
+                        }
+                    }
+                });
+
+        addSubscribe(disposable);
+    }
+
+    public void showBankList() {
+        BankPickDialogFragment.show(mActivity.get(),opBankListData).setOnPickListner(new BankPickDialogFragment.onPickListner() {
+            @Override
+            public void onPick(BankPickModel model) {
+                bankOfPayment.setValue(model.getBankCode());
+            }
+        });
+    }
+
+    /**
+     * 查看当前订单信息
+     */
+    public void checkOrder() {
+
+        ExRechargeOrderCheckResponse.DataDTO pOrderData = payOrderData.getValue();
+        ExCreateOrderRequest cOrderData = createOrderInfoData.getValue();
+        if (pOrderData == null || cOrderData == null) {
+            return;
+        }
+
+        ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(cOrderData.getPid());
+        Disposable disposable = (Disposable) model.rechargeOrderCheck(request)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<ExRechargeOrderCheckResponse>() {
+                    @Override
+                    public void onResult(ExRechargeOrderCheckResponse vo) {
+                        CfLog.d(vo.toString());
+
+                        ExRechargeOrderCheckResponse.DataDTO data = vo.getData();
+                        if (data != null) {
+                            String status = data.getStatus();
+                            switch (status) {
+                                case "11":
+                                    if (bankInfoData.getValue() == null) {
+                                        ExBankInfoResponse bankInfo = new ExBankInfoResponse();
+                                        bankInfo.setBankAccount(data.getBankAccount());
+                                        bankInfo.setBankArea(data.getBankArea());
+                                        bankInfo.setBankCode(data.getBankCode());
+                                        bankInfo.setBankAccountName(data.getBankAccountName());
+                                        bankInfo.setMerchantOrder(data.getMerchantOrder());
+                                        bankInfo.setPayAmount(data.getPayAmount());
+                                        bankInfo.setAllowCancel(data.getAllowCancel());
+                                        bankInfo.setAllowCancelTime(data.getAllowCancelTime());
+                                        bankInfo.setExpireTime(data.getExpireTime());
+
+                                        bankInfoData.setValue(bankInfo);
+                                    }
+
+                                    if (canonicalName.equals(ExTransferCommitFragment.class.getCanonicalName())) {
+                                        toPayee();
+                                    }
+                                    break;
+                                case "12":
+                                    if (bankInfoData.getValue() == null) {
+                                        ExBankInfoResponse bankInfo = new ExBankInfoResponse();
+                                        bankInfo.setBankAccount(data.getBankAccount());
+                                        bankInfo.setBankArea(data.getBankArea());
+                                        bankInfo.setBankCode(data.getBankCode());
+                                        bankInfo.setBankAccountName(data.getBankAccountName());
+                                        bankInfo.setMerchantOrder(data.getMerchantOrder());
+                                        bankInfo.setPayAmount(data.getPayAmount());
+                                        bankInfo.setAllowCancel(data.getAllowCancel());
+                                        bankInfo.setAllowCancelTime(data.getAllowCancelTime());
+                                        bankInfo.setExpireTime(data.getExpireTime());
+
+                                        bankInfoData.setValue(bankInfo);
+                                    }
+                                    break;
+                                case "01":
+                                case "02":
+                                case "03":
+                                case "04":
+                                case "06":
+                                case "061":
+                                case "065":
+                                case "066":
+                                case "07":
+                                case "08":
+                                case "09":
+                                case "10":
+                                    toFail();
+                                    close();
+                                    break;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        t.printStackTrace();
+                        super.onError(t);
+                    }
+                });
+
+        addSubscribe(disposable);
     }
 
     /**
@@ -96,6 +457,22 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
      */
     public void confirmationPayment() {
 
+    }
+
+    public void toPayee() {
+        startContainerActivity(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE);
+    }
+
+    public void toConfirm() {
+        startContainerActivity(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CONFIRM);
+    }
+
+    public void toVoucher() {
+        startContainerActivity(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_VOUCHER);
+    }
+
+    public void toFail() {
+        startContainerActivity(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_FAIL);
     }
 
     /**
@@ -140,6 +517,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                                 }
                                 CfLog.i("获取图片地址是 uri ====== " + voucher.getValue());
                             }
+                            ocr();
                         }
                     }
 
@@ -150,17 +528,20 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 });
     }
 
-    /**
-     * 上传图片
-     */
-    private void uploadImage(String imageFile) {
-//        HashMap<String, String> uploadMap = new HashMap<String, String>();
-//        uploadMap.put("type", "m4");
-//        uploadMap.put("nonce", UuidUtil.getID16());//传入UUID);
-//        uploadMap.put("filetype", "image/png");
-//        uploadMap.put("filedata", ImageUploadUtil.bitmapToString(imageFile));
-//        viewModel.feedbackImageUp(uploadMap);
+    public void close() {
+        if (getmCompositeDisposable() != null) {
+            getmCompositeDisposable().clear();
+        }
+        startContainerActivity(RouterFragmentPath.Recharge.PAGER_RECHARGE);
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mActivity != null) {
+            mActivity.clear();
+            mActivity = null;
+        }
+    }
 }
 

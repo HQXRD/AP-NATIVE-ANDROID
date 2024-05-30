@@ -10,6 +10,10 @@
         <import type="androidx.core.content.ContextCompat" />
 
         <import type="com.xtree.recharge.R" />
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -43,7 +47,8 @@
             <TextView
                 android:id="@+id/tvw_time_left"
                 style="@style/style_rc_exp_bank_status2"
-                android:text="剩余支付时间：29:59"
+                android:text="@{model.leftTimeData}"
+                tools:text="剩余支付时间：29:59"
                 app:layout_constraintBottom_toTopOf="@+id/tvw_time_end"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivw_01"
@@ -55,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:gravity="center"
+                android:text="@{model.deadlinesData}"
                 android:textColor="@color/clr_grey_09"
                 app:layout_constraintBottom_toBottomOf="@+id/ivw_01"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -152,7 +158,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:orientation="horizontal"
-            android:visibility="gone"
+            android:visibility="@{TextUtils.isEmpty(model.bankNumberOfPayment)?View.GONE:View.VISIBLE}"
             tools:visibility="visible">
 
             <TextView
@@ -162,10 +168,12 @@
             <TextView
                 android:id="@+id/tvw_bank_card"
                 style="@style/style_cm_edit"
+                android:text="@{model.bankOfPayment}"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="@dimen/layout_margin"
                 android:drawableEnd="@mipmap/cm_ic_expand"
-                tools:text="XX银行" />
+                tools:text="XX银行"
+                android:onClick="@{() -> model.showBankList()}"/>
         </LinearLayout>
 
         <LinearLayout
@@ -174,7 +182,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:orientation="horizontal"
-            android:visibility="gone"
+            android:visibility="@{TextUtils.isEmpty(model.bankNumberOfPayment)?View.GONE:View.VISIBLE}"
             tools:visibility="visible">
 
             <TextView
@@ -185,9 +193,11 @@
             <EditText
                 android:id="@+id/tvw_bank_acc"
                 style="@style/style_cm_edit"
+                android:text="@={model.bankNumberOfPayment}"
                 android:layout_marginStart="4dp"
                 android:layout_marginEnd="@dimen/layout_margin"
                 android:maxLength="19"
+                android:inputType="number"
                 tools:text="1234 5678 9000 1234" />
         </LinearLayout>
 
@@ -199,7 +209,8 @@
             <TextView
                 android:id="@+id/tvw_left"
                 style="@style/style_btn_short_cancel"
-                android:text="上一步" />
+                android:text="上一步"
+                android:onClick="@{() -> model.onBackPressed()}"/>
 
             <View
                 android:layout_width="36dp"
@@ -208,13 +219,14 @@
             <TextView
                 android:id="@+id/tvw_right"
                 style="@style/style_btn_short"
-                android:text="确认提交" />
+                android:text="确认提交"
+                android:onClick="@{() -> model.uploadVoucher()}"/>
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvw_ok"
-            style="@style/style_btn_long"
-            android:text="@string/txt_confirm" />
+<!--        <TextView-->
+<!--            android:id="@+id/tvw_ok"-->
+<!--            style="@style/style_btn_long"-->
+<!--            android:text="@string/txt_confirm" />-->
 
     </LinearLayout>
 </layout>

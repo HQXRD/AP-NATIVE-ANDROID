@@ -6,6 +6,8 @@
         <variable
             name="model"
             type="com.xtree.recharge.ui.viewmodel.ExTransferViewModel" />
+
+        <import type="com.xtree.base.utils.StringUtils" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,6 +40,7 @@
 
             <TextView
                 style="@style/style_rc_dlg_value"
+                android:text="@{model.payOrderData.merchantOrder}"
                 android:textColor="@color/clr_black"
                 tools:text="PAY00123456789" />
         </LinearLayout>
@@ -51,12 +54,15 @@
             <TextView
                 android:id="@+id/tvw_to_bank_name"
                 style="@style/style_rc_dlg_value"
+                android:text="@{model.bankInfoData.bankCode}"
                 tools:text="XXX" />
 
             <TextView
                 android:id="@+id/tvw_copy_bank_name"
                 style="@style/style_rc_dlg_copy"
-                android:text="@string/txt_copy" />
+                android:text="@string/txt_copy"
+                android:onClick="@{() -> StringUtils.copy(model.bankInfoData.bankCode)}"/>
+
         </LinearLayout>
 
         <LinearLayout style="@style/style_rc_dlg_ll">
@@ -68,12 +74,14 @@
             <TextView
                 android:id="@+id/tvw_to_bank_name_detail"
                 style="@style/style_rc_dlg_value"
+                android:text="@{model.bankInfoData.bankArea}"
                 tools:text="XXX" />
 
             <TextView
                 android:id="@+id/tvw_copy_branch"
                 style="@style/style_rc_dlg_copy"
-                android:text="@string/txt_copy" />
+                android:text="@string/txt_copy"
+                android:onClick="@{() -> StringUtils.copy(model.bankInfoData.bankArea)}"/>
         </LinearLayout>
 
         <LinearLayout style="@style/style_rc_dlg_ll">
@@ -85,12 +93,14 @@
             <TextView
                 android:id="@+id/tvw_bank_acct_name"
                 style="@style/style_rc_dlg_value"
+                android:text="@{model.bankInfoData.bankAccountName}"
                 tools:text="XXX" />
 
             <TextView
                 android:id="@+id/tvw_copy_acc_name"
                 style="@style/style_rc_dlg_copy"
-                android:text="@string/txt_copy" />
+                android:text="@string/txt_copy"
+                android:onClick="@{() -> StringUtils.copy(model.bankInfoData.bankAccountName)}"/>
         </LinearLayout>
 
         <LinearLayout style="@style/style_rc_dlg_ll">
@@ -102,12 +112,14 @@
             <TextView
                 android:id="@+id/tvw_bank_acct_card"
                 style="@style/style_rc_dlg_value"
+                android:text="@{model.bankInfoData.bankAccount}"
                 tools:text="XXX" />
 
             <TextView
                 android:id="@+id/tvw_copy_acc_num"
                 style="@style/style_rc_dlg_copy"
-                android:text="@string/txt_copy" />
+                android:text="@string/txt_copy"
+                android:onClick="@{() -> StringUtils.copy(model.bankInfoData.bankAccount)}"/>
         </LinearLayout>
 
         <LinearLayout style="@style/style_rc_dlg_ll">
@@ -119,12 +131,14 @@
             <TextView
                 android:id="@+id/tvw_money2"
                 style="@style/style_rc_dlg_value"
+                android:text="@{model.bankInfoData.payAmount}"
                 tools:text="XXX" />
 
             <TextView
                 android:id="@+id/tvw_copy_money2"
                 style="@style/style_rc_dlg_copy"
-                android:text="@string/txt_copy" />
+                android:text="@string/txt_copy"
+                android:onClick="@{() -> StringUtils.copy(model.bankInfoData.payAmount)}"/>
         </LinearLayout>
 
         <TextView
@@ -139,7 +153,8 @@
         <TextView
             android:id="@+id/tvw_ok"
             style="@style/style_btn_long"
-            android:text="关闭" />
+            android:text="关闭"
+            android:onClick="@{() -> model.close()}"/>
 
         <TextView
             style="@style/style_cm_tip_small_grey"

@@ -6,9 +6,11 @@ import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.data.source.request.ExOrderCancelRequest;
 import com.xtree.recharge.data.source.request.ExReceiptUploadRequest;
 import com.xtree.recharge.data.source.request.ExReceiptocrRequest;
+import com.xtree.recharge.data.source.request.ExRechargeOrderCheckRequest;
 import com.xtree.recharge.data.source.response.ExBankInfoResponse;
 import com.xtree.recharge.data.source.response.ExCreateOrderResponse;
 import com.xtree.recharge.data.source.response.ExReceiptocrResponse;
+import com.xtree.recharge.data.source.response.ExRechargeOrderCheckResponse;
 
 import io.reactivex.Flowable;
 import me.xtree.mvvmhabit.http.BaseResponse;
@@ -49,4 +51,9 @@ public interface HttpDataSource {
      * 上传付款凭证
      */
     Flowable<BaseResponse> rechargeReceiptUpload(ExReceiptUploadRequest request);
+
+    /**
+     * 查询订单信息
+     */
+    Flowable<ExRechargeOrderCheckResponse> rechargeOrderCheck(ExRechargeOrderCheckRequest request);
 }

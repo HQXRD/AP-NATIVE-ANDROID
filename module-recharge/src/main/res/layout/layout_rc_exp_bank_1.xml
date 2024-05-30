@@ -7,6 +7,8 @@
         <variable
             name="model"
             type="com.xtree.recharge.ui.viewmodel.ExTransferViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,6 +41,7 @@
 
             <TextView
                 style="@style/style_rc_dlg_value"
+                android:text="@{model.payOrderData.merchantOrder}"
                 android:textColor="@color/clr_black"
                 tools:text="PAY00123456789" />
         </LinearLayout>
@@ -51,6 +54,7 @@
 
             <TextView
                 style="@style/style_rc_dlg_value"
+                android:text="@{model.payOrderData.payAmount}"
                 android:textColor="@color/clr_black"
                 tools:text="100" />
         </LinearLayout>
@@ -71,13 +75,16 @@
             android:drawableStart="@mipmap/cm_ic_countdown"
             android:drawablePadding="6dp"
             android:gravity="center"
-            android:text="@{model.paymentTime}"
-            android:textColor="@color/clr_purple_02" />
+            android:text="@{model.waitTime}"
+            android:textColor="@color/clr_purple_02"
+            android:visibility="@{model.payOrderData.allowCancelWait==1?View.VISIBLE:View.GONE}"/>
 
         <TextView
             android:id="@+id/tvw_ok"
             style="@style/style_btn_long"
-            android:text="取消等待" />
+            android:text="取消等待"
+            android:onClick="@{() -> model.cancleWait()}"
+            android:visibility="@{model.payOrderData.allowCancelWait==1?View.VISIBLE:View.GONE}"/>
 
     </LinearLayout>
 </layout>
