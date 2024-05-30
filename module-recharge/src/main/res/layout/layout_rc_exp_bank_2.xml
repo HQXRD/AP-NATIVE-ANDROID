@@ -9,6 +9,8 @@
             type="com.xtree.recharge.ui.viewmodel.ExTransferViewModel" />
 
         <import type="com.xtree.base.utils.StringUtils" />
+
+        <import type="android.view.View" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -187,27 +189,31 @@
             android:text="[转账金额务必与订单金额一致]"
             android:textColor="@color/clr_grey_09" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tvw_left"
                 style="@style/style_btn_short_cancel"
                 android:text="@string/txt_cancel"
-                android:onClick="@{() -> model.cancleOrder()}"/>
-
-            <View
-                android:layout_width="36dp"
-                android:layout_height="1dp" />
+                android:onClick="@{() -> model.cancleOrder()}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvw_right"/>
 
             <TextView
                 android:id="@+id/tvw_right"
                 style="@style/style_btn_short"
                 android:text="上传凭证"
-                android:onClick="@{() -> model.toVoucher()}"/>
-        </LinearLayout>
+                android:onClick="@{() -> model.toVoucher()}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvw_left"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             style="@style/style_cm_tip_small_grey"

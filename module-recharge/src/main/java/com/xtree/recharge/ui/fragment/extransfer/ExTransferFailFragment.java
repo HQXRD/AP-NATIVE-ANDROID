@@ -89,4 +89,14 @@ public class ExTransferFailFragment extends BaseFragment<FragmentExtransferFailB
             }
         });
     }
+
+    @Override
+    public boolean isBackPressed() {
+
+        if (viewModel != null) {
+            viewModel.finish();
+        }
+
+        return true;
+    }
 }

@@ -1367,6 +1367,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT);
         });
 
+        //当前是否有极速订单
         viewModel.curOrder.observe(getViewLifecycleOwner(),vo ->{
             String realName = binding.edtName.getText().toString().trim();
             String txt = binding.tvwRealAmount.getText().toString();
@@ -1386,10 +1387,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 case "11":
                     startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE);
                     break;
-                case "03":
+                case "13":
                     startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT);
                     break;
-                case "12":
+                case "14":
                     startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CONFIRM);
                     break;
             }

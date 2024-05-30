@@ -64,6 +64,7 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.base.BaseViewModel;
@@ -89,6 +90,8 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     //截止時間
     public MutableLiveData<String> deadlinesData = new MutableLiveData<>();
     public MutableLiveData<String> waitTime = new MutableLiveData<>();
+    //是否可以取消订单 true 可以
+    public MutableLiveData<Boolean> cancleOrderStatus = new MutableLiveData<>(true);
     //凭证图片
     public MutableLiveData<Uri> voucher = new MutableLiveData<>();
     //订单生成信息
@@ -139,6 +142,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
 
                             payOrderData.setValue(data);
 
+                            checkCancleState();
+                            checkOrderStatus();
+
                             ExBankInfoResponse bankInfo = new ExBankInfoResponse();
                             bankInfo.setBankAccount(data.getBankAccount());
                             bankInfo.setBankArea(data.getBankArea());
@@ -168,6 +174,56 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     }
 
     /**
+     * 设置订单超时计时器
+     */
+    private void cancleOrderTimeKeeping() {
+        ExRechargeOrderCheckResponse.DataDTO value = payOrderData.getValue();
+        String expireTime = value.getExpireTime();
+        long cancleOrderDifference = getDifferenceTimeByNow(expireTime);
+        Disposable disposable = (Disposable) Flowable.intervalRange(0, cancleOrderDifference, 0, 1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(aLong -> {
+                    long l = cancleOrderDifference - aLong;
+                    leftTimeData.setValue("剩余支付时间：" + formatSeconds(l));
+
+                    checkOrder();
+                })
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        toFail();
+                    }
+                })
+                .subscribe();
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 设置订单匹配计时器
+     */
+    private void cancleWaitTimeKeeping() {
+        ExRechargeOrderCheckResponse.DataDTO value = payOrderData.getValue();
+        if (value.getAllowCancelWait() == 1) {
+            String cancelWaitTime = value.getCancelWaitTime();
+            long cancelWaitDifference = getDifferenceTimeByNow(cancelWaitTime);
+            Disposable disposable = (Disposable) Flowable.intervalRange(0, cancelWaitDifference, 0, 1, TimeUnit.SECONDS)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnNext(aLong -> {
+                        long l = cancelWaitDifference - aLong;
+                        waitTime.setValue(formatSeconds(l));
+                    })
+                    .doOnComplete(new Action() {
+                        @Override
+                        public void run() throws Exception {
+                            toFail();
+                        }
+                    })
+                    .subscribe();
+            addSubscribe(disposable);
+        }
+    }
+
+    /**
      * 查看当前订单信息
      */
     public void checkOrder() {
@@ -190,59 +246,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                         ExRechargeOrderCheckResponse.DataDTO data = vo.getData();
                         if (data != null) {
                             payOrderData.setValue(data);
-                            String status = data.getStatus();
-                            switch (status) {
-                                case "11":
-                                    if (bankInfoData.getValue() == null) {
-                                        ExBankInfoResponse bankInfo = new ExBankInfoResponse();
-                                        bankInfo.setBankAccount(data.getBankAccount());
-                                        bankInfo.setBankArea(data.getBankArea());
-                                        bankInfo.setBankCode(data.getBankCode());
-                                        bankInfo.setBankAccountName(data.getBankAccountName());
-                                        bankInfo.setMerchantOrder(data.getMerchantOrder());
-                                        bankInfo.setPayAmount(data.getPayAmount());
-                                        bankInfo.setAllowCancel(data.getAllowCancel());
-                                        bankInfo.setAllowCancelTime(data.getAllowCancelTime());
-                                        bankInfo.setExpireTime(data.getExpireTime());
 
-                                        bankInfoData.setValue(bankInfo);
-                                    }
-
-                                    if (canonicalName.equals(ExTransferCommitFragment.class.getCanonicalName())) {
-                                        toPayee();
-                                    }
-                                    break;
-                                case "12":
-                                    if (bankInfoData.getValue() == null) {
-                                        ExBankInfoResponse bankInfo = new ExBankInfoResponse();
-                                        bankInfo.setBankAccount(data.getBankAccount());
-                                        bankInfo.setBankArea(data.getBankArea());
-                                        bankInfo.setBankCode(data.getBankCode());
-                                        bankInfo.setBankAccountName(data.getBankAccountName());
-                                        bankInfo.setMerchantOrder(data.getMerchantOrder());
-                                        bankInfo.setPayAmount(data.getPayAmount());
-                                        bankInfo.setAllowCancel(data.getAllowCancel());
-                                        bankInfo.setAllowCancelTime(data.getAllowCancelTime());
-                                        bankInfo.setExpireTime(data.getExpireTime());
-
-                                        bankInfoData.setValue(bankInfo);
-                                    }
-                                    break;
-                                case "01":
-                                case "02":
-                                case "03":
-                                case "04":
-                                case "06":
-                                case "061":
-                                case "065":
-                                case "066":
-                                case "07":
-                                case "08":
-                                case "09":
-                                case "10":
-                                    toFail();
-                                    break;
-                            }
+                            checkCancleState();
+                            checkOrderStatus();
                         }
                     }
 
@@ -256,63 +262,69 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         addSubscribe(disposable);
     }
 
-    private void cancleOrderTimeKeeping() {
-        ExRechargeOrderCheckResponse.DataDTO value = payOrderData.getValue();
-        String expireTime = value.getExpireTime();
-        long cancleOrderDifference = getDifferenceTimeByNow(expireTime);
-        Disposable disposable = (Disposable) Flowable.intervalRange(0, cancleOrderDifference, 0, 1, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(aLong -> {
-                    long l = cancleOrderDifference - aLong;
-                    leftTimeData.setValue("剩余支付时间：" + formatSeconds(l));
+    /**
+     * 检查订单状态
+     */
+    private void checkOrderStatus() {
+        ExRechargeOrderCheckResponse.DataDTO data = payOrderData.getValue();
+        String status = data.getStatus();
+        switch (status) {
+            case "11":
+                if (bankInfoData.getValue() == null) {
+                    ExBankInfoResponse bankInfo = new ExBankInfoResponse();
+                    bankInfo.setBankAccount(data.getBankAccount());
+                    bankInfo.setBankArea(data.getBankArea());
+                    bankInfo.setBankCode(data.getBankCode());
+                    bankInfo.setBankAccountName(data.getBankAccountName());
+                    bankInfo.setMerchantOrder(data.getMerchantOrder());
+                    bankInfo.setPayAmount(data.getPayAmount());
+                    bankInfo.setAllowCancel(data.getAllowCancel());
+                    bankInfo.setAllowCancelTime(data.getAllowCancelTime());
+                    bankInfo.setExpireTime(data.getExpireTime());
 
-                    checkOrder();
-                })
-                .doOnComplete(this::toFail)
-                .subscribe();
-        addSubscribe(disposable);
-    }
+                    bankInfoData.setValue(bankInfo);
+                }
 
-    private void cancleWaitTimeKeeping() {
-        ExRechargeOrderCheckResponse.DataDTO value = payOrderData.getValue();
-        if (value.getAllowCancelWait() == 1) {
-            String cancelWaitTime = value.getCancelWaitTime();
-            long cancelWaitDifference = getDifferenceTimeByNow(cancelWaitTime);
-            Disposable disposable = (Disposable) Flowable.intervalRange(0, cancelWaitDifference, 0, 1, TimeUnit.SECONDS)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnNext(aLong -> {
-                        long l = cancelWaitDifference - aLong;
-                        waitTime.setValue(formatSeconds(l));
-                    })
-                    .doOnComplete(this::toFail)
-                    .subscribe();
-            addSubscribe(disposable);
+                if (canonicalName.equals(ExTransferCommitFragment.class.getCanonicalName())) {
+                    toPayee();
+                }
+                break;
+            case "14":
+                if (bankInfoData.getValue() == null) {
+                    ExBankInfoResponse bankInfo = new ExBankInfoResponse();
+                    bankInfo.setBankAccount(data.getBankAccount());
+                    bankInfo.setBankArea(data.getBankArea());
+                    bankInfo.setBankCode(data.getBankCode());
+                    bankInfo.setBankAccountName(data.getBankAccountName());
+                    bankInfo.setMerchantOrder(data.getMerchantOrder());
+                    bankInfo.setPayAmount(data.getPayAmount());
+                    bankInfo.setAllowCancel(data.getAllowCancel());
+                    bankInfo.setAllowCancelTime(data.getAllowCancelTime());
+                    bankInfo.setExpireTime(data.getExpireTime());
+
+                    bankInfoData.setValue(bankInfo);
+                }
+                break;
+            case "03":
+                toFail();
+                break;
         }
     }
 
-    private long getDifferenceTimeByNow(String time) {
-        long differenceInSeconds = 0;
-        Date now = null;
-        Date end = null;
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            now = Calendar.getInstance().getTime();
-            end = format.parse(time);
-            differenceInSeconds = Math.abs((now.getTime() - end.getTime()) / 1000);
-        } catch (ParseException e) {
-            e.printStackTrace();
+    /**
+     * 检查是否可以取消订单
+     */
+    private void checkCancleState() {
+        ExRechargeOrderCheckResponse.DataDTO pvalue = payOrderData.getValue();
+        if (pvalue.getAllowCancel() == 1) {
+            if (getDifferenceTimeByNow(pvalue.getAllowCancelTime()) > 0) {
+                cancleOrderStatus.setValue(false);
+            } else {
+                cancleOrderStatus.setValue(true);
+            }
+        } else {
+            cancleOrderStatus.setValue(false);
         }
-        return differenceInSeconds;
-    }
-
-    public void setActivity(FragmentActivity mActivity) {
-        this.mActivity = new WeakReference<>(mActivity);
-    }
-
-    public String formatSeconds(long seconds) {
-        long minutes = seconds / 60;
-        long remainingSeconds = seconds % 60;
-        return String.format("%02d:%02d", minutes, remainingSeconds);
     }
 
     /**
@@ -347,7 +359,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     }
 
     /**
-     * 取消订单
+     * 取消等待
      */
     public void cancleWait() {
         ExRechargeOrderCheckResponse.DataDTO pOrderData = payOrderData.getValue();
@@ -473,6 +485,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         addSubscribe(disposable);
     }
 
+    /**
+     * 通过bankCode获取bankName
+     */
     private String getBankNameByCode(String bankCode) {
         ExRechargeOrderCheckResponse.DataDTO pvalue = payOrderData.getValue();
         if (pvalue == null) {
@@ -496,6 +511,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         return bankName;
     }
 
+    /**
+     * 银行选择器
+     */
     public void showBankList() {
 
         ExRechargeOrderCheckResponse.DataDTO pvalue = payOrderData.getValue();
@@ -534,10 +552,34 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     }
 
     /**
-     * 确认付款
+     * 获取现在距离时间过去了多久
      */
-    public void confirmationPayment() {
+    private long getDifferenceTimeByNow(String time) {
+        long differenceInSeconds = 0;
+        Date now = null;
+        Date end = null;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            now = Calendar.getInstance().getTime();
+            end = format.parse(time);
+            differenceInSeconds = Math.abs((now.getTime() - end.getTime()) / 1000);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return differenceInSeconds;
+    }
 
+    public void setActivity(FragmentActivity mActivity) {
+        this.mActivity = new WeakReference<>(mActivity);
+    }
+
+    /**
+     * 解析时间
+     */
+    public String formatSeconds(long seconds) {
+        long minutes = seconds / 60;
+        long remainingSeconds = seconds % 60;
+        return String.format("%02d:%02d", minutes, remainingSeconds);
     }
 
     public void toPayee() {
@@ -646,14 +688,25 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 });
     }
 
+    /**
+     * 清理资源
+     */
     public void close() {
         if (getmCompositeDisposable() != null) {
             getmCompositeDisposable().clear();
         }
     }
 
+    /**
+     * 清理所有极速流程页面
+     */
     public void finish() {
         close();
+
+        if (mActivity != null) {
+            mActivity.clear();
+            mActivity = null;
+        }
 
         Stack<Activity> activityStack = AppManager.getActivityStack();
         for (Activity activity : activityStack) {

@@ -54,14 +54,23 @@
             style="@style/style_dividing_line"
             android:layout_margin="0dp" />
 
-        <include
-            android:id="@+id/ll_step_1"
-            layout="@layout/layout_rc_exp_bank_1"
-            model="@{model}"/>
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <include
+                    android:id="@+id/ll_step_1"
+                    layout="@layout/layout_rc_exp_bank_1"
+                    model="@{model}"/>
 
-        <include
-            android:id="@+id/ll_step_bottom"
-            layout="@layout/layout_rc_exp_bank_bottom" />
+                <include
+                    android:id="@+id/ll_step_bottom"
+                    layout="@layout/layout_rc_exp_bank_bottom" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 </layout>

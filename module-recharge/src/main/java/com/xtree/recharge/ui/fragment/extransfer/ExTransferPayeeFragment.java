@@ -103,9 +103,9 @@ public class ExTransferPayeeFragment extends BaseFragment<FragmentExtransferPaye
     public boolean isBackPressed() {
 
         if (viewModel != null) {
-            viewModel.close();
+            viewModel.finish();
         }
 
-        return super.isBackPressed();
+        return true;
     }
 }

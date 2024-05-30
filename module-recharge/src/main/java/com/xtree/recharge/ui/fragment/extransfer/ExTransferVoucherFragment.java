@@ -89,14 +89,4 @@ public class ExTransferVoucherFragment extends BaseFragment<FragmentExtransferVo
             }
         });
     }
-
-    @Override
-    public boolean isBackPressed() {
-
-        if (viewModel != null) {
-            viewModel.close();
-        }
-
-        return super.isBackPressed();
-    }
 }
