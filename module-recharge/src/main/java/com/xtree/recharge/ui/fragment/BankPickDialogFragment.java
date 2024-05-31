@@ -1,5 +1,6 @@
 package com.xtree.recharge.ui.fragment;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
@@ -48,7 +50,7 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
         return fragment;
     }
 
-    public interface onPickListner{
+    public interface onPickListner {
         void onPick(BankPickModel model);
     }
 
@@ -56,6 +58,8 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
 
     @Override
     public void initView() {
+        binding.getRoot().setOnClickListener(v -> dismissAllowingStateLoss());
+        binding.llRoot.setOnClickListener(v -> hideKeyBoard());
     }
 
     @Override
@@ -109,12 +113,22 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
         window.setAttributes(params);
         View decorView = window.getDecorView();
         decorView.setBackground(new ColorDrawable(Color.TRANSPARENT));
+        getDialog().setCanceledOnTouchOutside(true);
     }
 
     public void setOnPickListner(BankPickDialogFragment.onPickListner onPickListner) {
         this.onPickListner = onPickListner;
         if (viewModel != null) {
             viewModel.setOnPickListner(onPickListner);
+        }
+    }
+
+    public void hideKeyBoard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive()) {
+            if (getActivity().getCurrentFocus() != null && getActivity().getCurrentFocus().getWindowToken() != null) {
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
 }

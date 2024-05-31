@@ -164,12 +164,13 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
 
         for (BindModel allBank : allBanks) {
             BankPickModel bank = (BankPickModel) allBank;
-            if (bank.getBankName().contains(sc)) {
+            if (bank.getBankName().toLowerCase().contains(sc.toLowerCase())) {
                 BankPickModel banknew = new BankPickModel();
                 banknew.setItemType(3);
                 banknew.setBankId(bank.getBankId());
                 banknew.setBankName(bank.getBankName());
                 banknew.setBankCode(bank.getBankCode());
+                banknew.setClick(itemClick);
                 searchList.add(banknew);
             }
         }
