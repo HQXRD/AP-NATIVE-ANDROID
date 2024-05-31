@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 public class RechargeVo {
@@ -69,16 +68,10 @@ public class RechargeVo {
     public String bankcardstatus_onepayzfb; // false 时需要弹窗提示绑定ZFB, 默认为null
 
     /**
-     * opAmountList
-     */
-    @SerializedName("op_amount_list")
-    private List<Integer> opAmountList;
-    /**
      * opBankList
      */
     @SerializedName("op_bank_list")
     private OpBankListDTO opBankList;
-
 
     public String toInfo() {
         return "RechargeVo { " +
@@ -147,14 +140,6 @@ public class RechargeVo {
                 '}';
     }
 
-    public List<Integer> getOpAmountList() {
-        return opAmountList;
-    }
-
-    public void setOpAmountList(List<Integer> opAmountList) {
-        this.opAmountList = opAmountList;
-    }
-
     public OpBankListDTO getOpBankList() {
         return opBankList;
     }
@@ -162,6 +147,7 @@ public class RechargeVo {
     public void setOpBankList(OpBankListDTO opBankList) {
         this.opBankList = opBankList;
     }
+
     public static class OpBankListDTO {
         /**
          * top
@@ -188,7 +174,7 @@ public class RechargeVo {
         /**
          * 用户绑定银行
          */
-        private HashMap<String, String> mBind;
+        private List<BankInfoDTO> mBind;
 
         public List<BankInfoDTO> getUsed() {
             return used;
@@ -198,11 +184,11 @@ public class RechargeVo {
             this.used = used;
         }
 
-        public HashMap<String, String> getmBind() {
+        public List<BankInfoDTO> getmBind() {
             return mBind;
         }
 
-        public void setmBind(HashMap<String, String> mBind) {
+        public void setmBind(List<BankInfoDTO> mBind) {
             this.mBind = mBind;
         }
 

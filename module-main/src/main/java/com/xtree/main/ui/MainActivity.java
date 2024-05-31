@@ -123,7 +123,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
         normalItemView.setSelectedDrawable(getResources().getDrawable(drawableSelect));
         normalItemView.setTextDefaultColor(getResources().getColor(R.color.main_bottom_unselect));
         normalItemView.setTextCheckedColor(getResources().getColor(R.color.main_bottom_select));
-        normalItemView.setIconTopMargin(ConvertUtils.dp2px(35f));
+        normalItemView.setIconTopMargin(ConvertUtils.dp2px(29f));
+        normalItemView.setIconWH(ConvertUtils.dp2px(30f), ConvertUtils.dp2px(30f));
         normalItemView.setTextTopMarginOnIcon(ConvertUtils.dp2px(1.5f));
         return normalItemView;
     }
@@ -134,7 +135,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     private BaseTabItem newRoundItem(int drawable) {
         SpecialMenuItemView mainTab = new SpecialMenuItemView(this);
         mainTab.initialize(drawable, drawable, "");
-        mainTab.setIconBottomMargin(60);
         return mainTab;
     }
 

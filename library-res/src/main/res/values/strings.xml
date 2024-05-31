@@ -219,6 +219,8 @@
     <string name="txt_withdraw_flow">提款流水</string>
     <string name="txt_withdrawal">提款</string>
     <string name="txt_withdraw_bank_top_tip">注意：每天限制提款 %1$s 次，您已提款 %2$s 次，提款时间为 %3$s  至 %4$s  您今日剩余提款额度为 %5$s 元</string>
+    <string name="txt_withdraw_flow_close_tip">适用： %1$s 等 %2$s</string>
+    <string name="txt_withdraw_flow_open_tip">适用： %1$s %2$s</string>
     <string name="domain_url">http</string>
     <string name="domain_url_list">http;http</string>
     <string name="channel_name">xingcai</string>

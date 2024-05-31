@@ -65,8 +65,8 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<Object> feedbackAddSingleLiveData = new SingleLiveData<>();//feedback 下一步接口
     public SingleLiveData<FeedbackCheckVo> feedbackCheckVoSingleLiveData = new SingleLiveData<>();//feedbackCheck 反馈查看页面
     public SingleLiveData<ProfileVo> liveDataProfile = new SingleLiveData<>();
-    public SingleLiveData<RechargeVo> paymentLiveData = new SingleLiveData<>();
-    public SingleLiveData<ExRechargeOrderCheckResponse> curOrder = new SingleLiveData<>();
+    public SingleLiveData<ExRechargeOrderCheckResponse> liveDataCurOrder = new SingleLiveData<>(); // 极速充值 未完成的订单(跳到订单页)
+    public SingleLiveData<Boolean> liveDataExpNoOrder = new SingleLiveData<>(); // 极速充值 没有未完成的订单 (显示银行/姓名/金额/下一步)
 
     public RechargeViewModel(@NonNull Application application) {
         super(application);
@@ -75,7 +75,6 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public RechargeViewModel(@NonNull Application application, RechargeRepository model) {
         super(application, model);
     }
-
 
     /**
      * 获取 一键进入 的链接
@@ -263,32 +262,8 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     }
 
     /**
-     * 获取 充值详情
-     *
-     * @param bid bid
-     */
-    public void getPaymentData(String bid) {
-        Disposable disposable = (Disposable) model.getApiService().getPayment(bid)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<RechargeVo>() {
-                    @Override
-                    public void onResult(RechargeVo vo) {
-                        CfLog.d(vo.toString());
-                        paymentLiveData.setValue(vo);
-                    }
-                    @Override
-                    public void onError(Throwable t) {
-                        t.printStackTrace();
-                        super.onError(t);
-                    }
-                });
-
-        addSubscribe(disposable);
-    }
-
-    /**
      * 查看当前是否有订单
+     *
      * @param bid
      */
     public void checkOrder(String bid) {
@@ -305,17 +280,9 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                         if (data != null) {
                             String status = data.getStatus();
                             switch (status) {
-                                case "01":
-                                case "02":
-                                case "04":
-                                case "06":
-                                case "061":
-                                case "065":
-                                case "066":
-                                case "07":
-                                case "08":
-                                case "09":
-                                case "10":
+                                case "00": //成功
+                                case "03": //失败
+                                    liveDataExpNoOrder.setValue(true);
                                     break;
                                 default:
                                     long differenceInSeconds = 0;
@@ -329,17 +296,29 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                                         e.printStackTrace();
                                     }
                                     if (differenceInSeconds < 0) {
-                                        curOrder.setValue(vo);
+                                        liveDataCurOrder.setValue(vo);
+                                    } else {
+                                        liveDataExpNoOrder.setValue(true); // 订单无效/没有订单
                                     }
                                     break;
                             }
+                        } else {
+                            liveDataExpNoOrder.setValue(true); // 订单无效/没有订单
                         }
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        t.printStackTrace();
+                        CfLog.e(t.toString());
                         super.onError(t);
+                        liveDataExpNoOrder.setValue(true);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        CfLog.e(t.toString());
+                        super.onFail(t);
+                        liveDataExpNoOrder.setValue(true);
                     }
                 });
 

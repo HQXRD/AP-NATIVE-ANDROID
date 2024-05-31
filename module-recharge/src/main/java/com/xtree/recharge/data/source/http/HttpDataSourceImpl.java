@@ -119,7 +119,7 @@ public class HttpDataSourceImpl implements HttpDataSource {
     @Override
     public Flowable<BaseResponse<ExReceiptocrResponse>> rechargeReceiptOCR(ExReceiptocrRequest request) {
         Map<String, Object> map = JSON.parseObject(JSON.toJSONString(request), type);
-        return apiService.ocr(map).map(new Function<ResponseBody, BaseResponse<ExReceiptocrResponse>>() {
+        return apiService.post(APIManager.DEPOSIT_RECHARGERECEIPTOCR_URL,map).map(new Function<ResponseBody, BaseResponse<ExReceiptocrResponse>>() {
             @Override
             public BaseResponse<ExReceiptocrResponse> apply(ResponseBody responseBody) throws Exception {
                 return JSON.parseObject(responseBody.string(),
@@ -132,7 +132,7 @@ public class HttpDataSourceImpl implements HttpDataSource {
     @Override
     public Flowable<BaseResponse<ExReceiptUploadResponse>> rechargeReceiptUpload(ExReceiptUploadRequest request) {
         Map<String, Object> map = JSON.parseObject(JSON.toJSONString(request), type);
-        return apiService.rechargeReceiptUpload(map).map(new Function<ResponseBody, BaseResponse<ExReceiptUploadResponse>>() {
+        return apiService.post(APIManager.DEPOSIT_RECHARGERECEIPTUPLOAD_URL,map).map(new Function<ResponseBody, BaseResponse<ExReceiptUploadResponse>>() {
             @Override
             public BaseResponse<ExReceiptUploadResponse> apply(ResponseBody responseBody) throws Exception {
                 return JSON.parseObject(responseBody.string(),
