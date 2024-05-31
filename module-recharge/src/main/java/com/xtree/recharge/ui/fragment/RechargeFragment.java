@@ -292,6 +292,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void refresh() {
+        viewModel.readProfileVo();
         if (isBinding) {
             isBinding = false;
             binding.tvwCurPmt.setText("");
@@ -364,6 +365,23 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             CfLog.i("****** 绑定YHK");
             toBindCard();
             return;
+        }
+
+        boolean isZFB = "false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb) && vo.paycode.contains("zfb");
+        boolean isWX = "false".equalsIgnoreCase(vo.bankcardstatus_onepaywx) && vo.paycode.contains("wx");
+        // 支付宝和微信 需要绑定银行卡 (产品要求的) 2024-05-30
+        if ((isZFB || isWX)) {
+            if (mProfileVo == null) {
+                CfLog.i("mProfileVo is null, read it again... ");
+                viewModel.readProfileVo();
+                return;
+            }
+            if (!mProfileVo.is_binding_card) {
+                // 绑定YHK
+                CfLog.i("****** 绑定YHK");
+                toBindCard();
+                return;
+            }
         }
 
         if ("false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb) && vo.paycode.contains("zfb")) {
@@ -524,7 +542,13 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 isBinding = true;
                 Bundle bundle = new Bundle();
                 bundle.putString("type", "bindcard");
-                startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
+                String path;
+                if (mProfileVo.has_securitypwd) {
+                    path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
+                } else {
+                    path = RouterFragmentPath.Mine.PAGER_FUNDS_PWD;
+                }
+                startContainerFragment(path, bundle);
                 ppw2.dismiss();
             }
         });

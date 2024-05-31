@@ -307,9 +307,13 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
             liveDataTutorial.setValue(vo.bankdirect_url);
         }
 
-        json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
-        ProfileVo mProfileVo = gson.fromJson(json, ProfileVo.class);
-        if (vo != null) {
+        readProfileVo();
+    }
+
+    public void readProfileVo() {
+        String json = SPUtils.getInstance().getString(SPKeyGlobal.HOME_PROFILE);
+        ProfileVo mProfileVo = new Gson().fromJson(json, ProfileVo.class);
+        if (mProfileVo != null) {
             liveDataProfile.setValue(mProfileVo);
         }
 
