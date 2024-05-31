@@ -265,8 +265,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 // 原生的,或者需要请求接口的
                 CfLog.w("******: " + vo);
             }
-            // 33:MG电子 17:CQ9娱乐 已下架 奥丁电子下一版再上线
-            if (vo.status == 2 || vo.cid == 17 || vo.cid == 33 || vo.cid == 43) {
+            // 33:MG电子 17:CQ9娱乐 已下架 奥丁电子下一版再上线 杏彩体育2（109版本暂时隐藏）
+            if (vo.status == 2 || vo.cid == 17 || vo.cid == 33 || vo.cid == 43 || vo.cid == 42) {
                 // 已下架,不要加到列表里面了
                 CfLog.w("not show: " + vo);
                 continue;
@@ -346,7 +346,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
 
                         SPUtils.getInstance().put(SPKeyGlobal.PUBLIC_KEY, public_key);
                         SPUtils.getInstance().put("customer_service_url", vo.customer_service_url);
-                        SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE , vo.promption_code);//推广code
+                        SPUtils.getInstance().put(SPKeyGlobal.PROMOTION_CODE, vo.promption_code);//推广code
 
                         liveDataSettings.setValue(vo);
                     }
