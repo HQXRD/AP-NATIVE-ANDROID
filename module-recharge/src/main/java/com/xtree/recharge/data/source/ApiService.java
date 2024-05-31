@@ -55,6 +55,7 @@ public interface ApiService {
      * @return 返回体
      */
     @POST("{url}")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<ResponseBody> post(@Path(value = "url", encoded = true) String url, @Body Map<String, Object> map);
 
     /**
@@ -66,6 +67,7 @@ public interface ApiService {
      * @return 返回体
      */
     @POST("{url}")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<ResponseBody> post(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) Map<String, Object> qmap, @Body Map<String, Object> map);
 
 
@@ -197,12 +199,4 @@ public interface ApiService {
      */
     @GET("/api/deposit/customerinfos?")
     Flowable<BaseResponse<Object>> feedbackCheckImage(@Query("starttime") String starttime);
-
-    @POST("/api/deposit/rechargeReceiptOCR")
-    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<ResponseBody> ocr(@Body Map<String, Object> map);
-
-    @POST("/api/deposit/rechargeReceiptUpload")
-    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<ResponseBody> rechargeReceiptUpload(@Body Map<String, Object> map);
 }

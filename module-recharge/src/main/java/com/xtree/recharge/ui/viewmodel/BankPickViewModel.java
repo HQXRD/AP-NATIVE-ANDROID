@@ -17,7 +17,6 @@ import com.xtree.recharge.vo.RechargeVo;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.functions.Consumer;
 import me.xtree.mvvmhabit.base.BaseViewModel;
@@ -109,11 +108,11 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
                 }
             }
             if (bankListData.getmBind() != null) {
-                for (Map.Entry<String, String> entry : bankListData.getmBind().entrySet()) {
+                for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getmBind()) {
                     BankPickModel m = new BankPickModel();
                     m.setItemType(0);
-                    m.setBankId(entry.getKey());
-                    String value = entry.getValue();
+                    m.setBankId(bankInfoDTO.getBankCode());
+                    String value = bankInfoDTO.getBankName();
                     if (value.contains("-")) {
                         String[] split = value.split("--");
                         value = split[0];

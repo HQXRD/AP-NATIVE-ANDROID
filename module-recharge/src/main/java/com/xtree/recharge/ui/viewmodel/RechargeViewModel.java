@@ -305,18 +305,8 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                         if (data != null) {
                             String status = data.getStatus();
                             switch (status) {
-                                case "01":
-                                case "02":
-                                case "04":
-                                case "06":
-                                case "061":
-                                case "065":
-                                case "066":
-                                case "07":
-                                case "08":
-                                case "09":
-                                case "10":
-                                    break;
+                                case "00": //成功
+                                case "03": //失败
                                 default:
                                     long differenceInSeconds = 0;
                                     try {

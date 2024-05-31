@@ -97,4 +97,14 @@ public class ExTransferConfirmFragment extends BaseFragment<FragmentExtransferCo
             }
         });
     }
+
+    @Override
+    public boolean isBackPressed() {
+
+        if (viewModel != null) {
+            viewModel.finish();
+        }
+
+        return true;
+    }
 }
