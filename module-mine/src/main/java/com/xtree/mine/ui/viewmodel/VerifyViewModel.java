@@ -81,7 +81,6 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -121,7 +120,6 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -175,7 +173,6 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -227,7 +224,6 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -264,7 +260,6 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -302,7 +297,6 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -324,7 +318,6 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
