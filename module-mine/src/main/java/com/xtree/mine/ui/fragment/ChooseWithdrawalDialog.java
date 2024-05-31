@@ -23,6 +23,7 @@ import com.lxj.xpopup.core.BasePopupView;
 import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
@@ -40,6 +41,7 @@ import com.xtree.mine.vo.ChooseInfoVo;
 import java.util.ArrayList;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
+import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 
@@ -433,7 +435,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                         if (TextUtils.equals(finalBindType, getContext().getString(R.string.txt_bind_zfb_type))
                                 || TextUtils.equals(finalBindType, getContext().getString(R.string.txt_bind_wechat_type))) {
                             // 绑定页面显示去提款按钮用
-                            // SPUtils.getInstance().put(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getContext().getString(R.string.txt_go_withdraw));
+                            SPUtils.getInstance().put(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getContext().getString(R.string.txt_go_withdraw));
                         }
 
                         String path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;

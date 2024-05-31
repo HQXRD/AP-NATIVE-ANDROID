@@ -82,8 +82,9 @@ public class BindCardViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onResult(UserBindBaseVo<AWVo> vo) {
                         CfLog.d("******");
-                        if (vo.msg_type == 1) {
-                            ToastUtils.showLong(vo.message); // 页面超时！请重试。
+                        if (vo.msg_type == 1 || vo.msg_type == 2) {
+                            ToastUtils.showLong(vo.message); // 异常 2-用户无此访问权限
+                            finish();
                         } else {
                             liveDataAWList.setValue(vo);
                         }

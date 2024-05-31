@@ -163,7 +163,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                     binding.ivAwIcon.setImageResource(R.mipmap.ic_wechat)
                     binding.tvMsg.text = getString(R.string.txt_bind_wechat).plus(getString(R.string.txt_succ))
                     binding.etPhone.hint = "微信号/手机号码/QQ号码/邮箱地址"
-                    binding.etPhone.inputType = InputType.TYPE_CLASS_PHONE
+                    binding.etPhone.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
                 }
             }
             binding.tvTipAccount.text = typeName.plus("绑定的账户格式")
@@ -209,9 +209,7 @@ class BindAWAddFragment : BaseFragment<FragmentBindAddAwBinding, BindCardViewMod
                     }
 
                     getString(R.string.txt_go_withdraw) -> {
-                        val bundle = Bundle()
-                        ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).withBundle("viewType", bundle)
-                            .navigation()
+                        ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_CHOOSE_WITHDRAW).navigation()
                         requireActivity().finish()
                     }
                 }

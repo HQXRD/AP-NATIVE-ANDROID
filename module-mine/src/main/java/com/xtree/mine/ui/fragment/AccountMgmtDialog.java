@@ -53,6 +53,8 @@ public class AccountMgmtDialog extends BottomPopupView {
                 String path;
                 //ctx.startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE, bundle);
 
+                // 绑定页面显示去充值按钮用
+                SPUtils.getInstance().put(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, ctx.getString(R.string.txt_go_recharge));
                 if (mProfileVo.has_securitypwd) {
                     path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
                     Intent intent = new Intent(getContext(), ContainerActivity.class);

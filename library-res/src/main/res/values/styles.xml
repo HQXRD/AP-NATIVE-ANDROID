@@ -414,7 +414,7 @@
     <style name="style_btn_back" parent="style_btn">
         <item name="android:background">@drawable/bg_btn_grey_selector</item>
         <item name="android:text">@string/txt_back</item>
-        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:textColor">@color/clr_txt_grey_04</item>
     </style>
     <!-- 通用 小按钮 背景为颜色,可变色 (重新绑定) -->
     <style name="style_btn_small">
