@@ -17,7 +17,7 @@ public class AwardsRecordVo {
                 '}';
     }
 
-    public int  networkStatus ;//1 网络链接超时 ；2 网络链接异常 ；0 网络链接正常
+    public int networkStatus;//1 网络链接超时 ；2 网络链接异常 ；0 网络链接正常
     public String locked_award_sum;
     public String withdraw_dispensing_money; //仍需要XXX才可提
     public ArrayList<AwardsRecordInfo> list;

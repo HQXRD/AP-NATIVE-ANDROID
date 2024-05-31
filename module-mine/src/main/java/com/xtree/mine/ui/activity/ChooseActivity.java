@@ -102,7 +102,9 @@ public class ChooseActivity extends BaseActivity<FragmentChooseWithdrawBinding, 
                 //withdraw_dispensing_money 礼物流水
                 //locked_award_sum 锁定金额
 
-                if (awardsRecordVo != null && awardsRecordVo.list != null && (!TextUtils.equals("0.00", awardsRecordVo.withdraw_dispensing_money) || !TextUtils.equals("0.00", awardsRecordVo.locked_award_sum))) {
+                if (awardsRecordVo != null && awardsRecordVo.list != null
+                        && (!TextUtils.equals("0.00", awardsRecordVo.withdraw_dispensing_money)
+                        || !TextUtils.equals("0.00", awardsRecordVo.locked_award_sum))) {
                     showWithdrawFlow();
                 } else if (awardsRecordVo.networkStatus == 1) {
                     //链接超时
