@@ -3,7 +3,6 @@ package com.xtree.recharge.ui.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -201,7 +200,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         binding.tvwDownload.setOnClickListener(v -> {
             // 下载嗨钱包
             String url = Constant.URL_DOWNLOAD_HI_WALLET;
-            getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            AppUtil.goBrowser(getContext(), url);
         });
 
         binding.tvwBindPhone.setOnClickListener(v -> {

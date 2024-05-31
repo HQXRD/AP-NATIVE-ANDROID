@@ -1,8 +1,6 @@
 package com.xtree.recharge.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -145,7 +143,7 @@ public class RechargeOrderWebDialog extends BottomPopupView {
             }
             CfLog.i(mRechargePayVo.payname + ", jump: " + url);
             //  弹窗
-            getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            AppUtil.goBrowser(getContext(), url);
         }
     }
 
