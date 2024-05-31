@@ -31,7 +31,7 @@ import com.xtree.base.mvvm.recyclerview.BindModel
  */
 
 @BindingAdapter(
-    value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId"],
+    value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId", "viewPool"],
     requireAll = false
 )
 fun RecyclerView.init(
@@ -40,11 +40,14 @@ fun RecyclerView.init(
     itemViewType: List<Int>?,
     onBindListener: BaseDatabindingAdapter.onBindListener?,
     dividerDrawableId: Int?,
+    viewPool: RecyclerView.RecycledViewPool?,
 ) {
 
     if (itemData == null || itemViewType == null) {
         return
     }
+
+    viewPool?.let { setRecycledViewPool(it) }
 
     adapter?.run {
 
