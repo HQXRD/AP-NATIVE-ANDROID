@@ -3,7 +3,6 @@ package com.xtree.base.widget;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -32,6 +31,7 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.R;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 
 import java.io.File;
@@ -186,9 +186,7 @@ public class BrowserDialog extends BottomPopupView {
                         + ",\n userAgent: " + userAgent
                 );*/
                 //Log.d("---", "onDownloadStart url: " + url);
-                Uri uri = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                getContext().startActivity(intent);
+                AppUtil.goBrowser(getContext(), url);
             }
         });
 

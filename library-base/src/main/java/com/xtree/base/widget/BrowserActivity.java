@@ -215,9 +215,7 @@ public class BrowserActivity extends AppCompatActivity {
                         + ",\n userAgent: " + userAgent
                 );*/
                 //Log.d("---", "onDownloadStart url: " + url);
-                Uri uri = Uri.parse(url);
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+                AppUtil.goBrowser(getBaseContext(), url);
             }
         });
 
@@ -329,12 +327,7 @@ public class BrowserActivity extends AppCompatActivity {
             String jumpUrl = DomainUtil.getDomain2() + "/static/sessionkeeper.html?token=" + token + "&tokenExpires=3600&url=" + urlBase64;
             CfLog.i("jumpUrl: " + jumpUrl);
             // 跳至外部浏览器
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(jumpUrl));
-            try {
-                startActivity(intent);
-            } catch (Exception e) {
-                CfLog.e("链接错误或无浏览器 " + e);
-            }
+            AppUtil.goBrowser(getBaseContext(), jumpUrl);
         });
     }
 
