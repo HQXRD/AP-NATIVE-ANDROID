@@ -2,7 +2,6 @@ package com.xtree.mine.ui.fragment;
 
 import android.content.Intent;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -23,6 +22,7 @@ import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.StringUtils;
@@ -273,14 +273,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         binding.tvwHelp.setOnClickListener(v -> {
             //BrowserActivity.start(getContext(), ((TextView) v).getText().toString(), DomainUtil.getDomain2() + Constant.URL_HELP, false, false, true, true);
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(DomainUtil.getDomain2() + Constant.URL_HELP));
-            startActivity(intent);
+            AppUtil.goBrowser(getContext(), DomainUtil.getDomain2() + Constant.URL_HELP);
         });
         binding.tvwHelpClient.setOnClickListener(v -> {
             //BrowserActivity.start(getContext(), ((TextView) v).getText().toString(), DomainUtil.getDomain2() + Constant.URL_HELP, false, false, true, true);
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_INFO);
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(DomainUtil.getDomain2() + Constant.URL_HELP));
-            startActivity(intent);
+            AppUtil.goBrowser(getContext(), DomainUtil.getDomain2() + Constant.URL_HELP);
         });
 
         binding.tvwLogin.setOnClickListener(v -> {
