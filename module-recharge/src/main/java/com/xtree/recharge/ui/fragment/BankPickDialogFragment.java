@@ -1,15 +1,18 @@
 package com.xtree.recharge.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
@@ -56,10 +59,40 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
 
     private BankPickDialogFragment.onPickListner onPickListner;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void initView() {
         binding.getRoot().setOnClickListener(v -> dismissAllowingStateLoss());
-        binding.llRoot.setOnClickListener(v -> hideKeyBoard());
+        binding.llRoot.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // 判断是否点击在EditText之外的区域
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                   EditText editText = binding.edtKey;
+                    if (!isTouchInsideView(event, editText)) {
+                        // 隐藏键盘
+                        hideKeyboard(editText);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
+        binding.listLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // 判断是否点击在EditText之外的区域
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    EditText editText = binding.edtKey;
+                    if (!isTouchInsideView(event, editText)) {
+                        // 隐藏键盘
+                        hideKeyboard(editText);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -106,6 +139,9 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
     @Override
     public void onStart() {
         super.onStart();
+        getDialog().setCanceledOnTouchOutside(true);
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
         Window window = Objects.requireNonNull(getDialog()).getWindow();
         WindowManager.LayoutParams params = Objects.requireNonNull(window).getAttributes();
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
@@ -113,7 +149,6 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
         window.setAttributes(params);
         View decorView = window.getDecorView();
         decorView.setBackground(new ColorDrawable(Color.TRANSPARENT));
-        getDialog().setCanceledOnTouchOutside(true);
     }
 
     public void setOnPickListner(BankPickDialogFragment.onPickListner onPickListner) {
@@ -123,12 +158,19 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
         }
     }
 
-    public void hideKeyBoard() {
-        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm.isActive()) {
-            if (getActivity().getCurrentFocus() != null && getActivity().getCurrentFocus().getWindowToken() != null) {
-                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-            }
+    private boolean isTouchInsideView(MotionEvent event, View view) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        int x = (int) event.getRawX();
+        int y = (int) event.getRawY();
+        if (x < location[0] || x > (location[0] + view.getWidth()) || y < location[1] || y > (location[1] + view.getHeight())) {
+            return false;
         }
+        return true;
+    }
+
+    private void hideKeyboard(View view) {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
