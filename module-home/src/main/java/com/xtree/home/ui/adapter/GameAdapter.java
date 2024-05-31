@@ -1,5 +1,7 @@
 package com.xtree.home.ui.adapter;
 
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
+
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -255,6 +257,8 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             cgToken = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_TOKEN);
         } else if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
             cgToken = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
+        } else if (TextUtils.equals(vo.alias, PLATFORM_PMXC)) {
+            cgToken = SPUtils.getInstance().getString(SPKeyGlobal.PMXC_TOKEN);
         } else {
             cgToken = SPUtils.getInstance().getString(SPKeyGlobal.PM_TOKEN);
         }

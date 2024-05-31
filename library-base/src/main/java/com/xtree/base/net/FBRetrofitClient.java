@@ -1,5 +1,7 @@
 package com.xtree.base.net;
 
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
+
 import android.content.Context;
 import android.text.TextUtils;
 
@@ -71,7 +73,7 @@ public class FBRetrofitClient {
         baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.FB_API_SERVICE_URL);
 
         String platform = SPUtils.getInstance().getString("KEY_PLATFORM");
-        if(TextUtils.equals(platform, "fbxc")) {
+        if(TextUtils.equals(platform, PLATFORM_FBXC)) {
             baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_API_SERVICE_URL);
         } else {
             baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.FB_API_SERVICE_URL);

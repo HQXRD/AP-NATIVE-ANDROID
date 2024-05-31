@@ -1,6 +1,9 @@
 package com.xtree.base.net;
 
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
+
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.xtree.base.global.SPKeyGlobal;
 
@@ -59,6 +62,13 @@ public class PMRetrofitClient {
 
     private PMRetrofitClient() {
         baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.PM_API_SERVICE_URL);
+
+        String platform = SPUtils.getInstance().getString("KEY_PLATFORM");
+        if(TextUtils.equals(platform, PLATFORM_PMXC)) {
+            baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.PMXC_API_SERVICE_URL);
+        } else {
+            baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.PM_API_SERVICE_URL);
+        }
 
         if (httpCacheDirectory == null) {
             httpCacheDirectory = new File(mContext.getCacheDir(), "goldze_cache");
