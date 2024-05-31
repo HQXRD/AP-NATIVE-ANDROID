@@ -592,7 +592,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 } else if (bankCardCashVo.user.nickname != null) {
                     binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.nickname);
                 }
-            } else if (mProfileVo != null) {
+            } else if (mProfileVo != null && mProfileVo.username != null) {
                 final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
                 binding.bankWithdrawalView.tvUserNameShow.setText(name);
             }
@@ -605,7 +605,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 } else if (bankCardCashVo.user.nickname != null) {
                     binding.bankWithdrawalView.tvUserNameShow.setText(bankCardCashVo.user.nickname);
                 }
-            } else if (mProfileVo != null) {
+            } else if (mProfileVo != null && mProfileVo.username != null) {
                 final String name = StringUtils.splitWithdrawUserName(mProfileVo.username);
                 binding.bankWithdrawalView.tvUserNameShow.setText(name);
             }
