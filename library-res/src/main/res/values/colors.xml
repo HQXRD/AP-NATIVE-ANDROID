@@ -220,6 +220,7 @@
     <!--提款流水 项目名称 黑色 值 -->
     <color name="clr_awards_txt_black">#0C0319</color>
 
+
     <color name="clr_grey_menu">#767677</color>
 
     <color name="clr_grey_00">#2F2747</color>
@@ -375,5 +376,7 @@
     <color name="clr_rc_exp_choose_bank_txt">@color/clr_red_24</color>
 
     <color name="clr_edt_auth_focused">@color/clr_white</color>
+    <!-- 绑定谷歌验证文字颜色 -->
+    <color name="clr_google_txt_black">#0C0319</color>
 
 </resources>
