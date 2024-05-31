@@ -48,7 +48,6 @@ import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.databinding.FragmentRechargeBinding;
-import com.xtree.recharge.ui.model.BankPickModel;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.recharge.vo.BankCardVo;
@@ -523,6 +522,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     private void onClickPayment2(RechargeVo vo) {
         CfLog.i("****** " + vo.title);
         bankId = "";
+        bankCode = "";
         //binding.tvwCurPmt.setText(vo.title); // 用大类的名字
         //Drawable dr = getContext().getDrawable(R.drawable.rc_ic_pmt_selector);
         //dr.setLevel(Integer.parseInt(vo.bid));
@@ -582,9 +582,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         //极速充值获取银行卡信息
         if (vo.paycode.contains(ONEPAYFIX)) {
-            viewModel.getPaymentData(vo.bid);
-            viewModel.checkOrder(vo.bid);
+            viewModel.checkOrder(vo.bid); // 查极速充值的未完成订单
+            viewModel.getPayment(vo.bid); // 查详情,显示快选金额,银行列表用
             LoadingDialog.show(getContext()); // Loading
+            return;
         }
 
         // 打开网页类型的
@@ -604,6 +605,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
+        onClickPayment3(vo);
+    }
+
+    private void onClickPayment3(RechargeVo vo) {
         CfLog.i("****** llDown is visible");
         binding.llDown.setVisibility(View.VISIBLE); // 下面的部分显示
 
@@ -625,7 +630,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.tvwChooseBankCard.setVisibility(View.VISIBLE);
             binding.tvwBankCard.setVisibility(View.VISIBLE);
             binding.tvwBankCard.setOnClickListener(v -> showBankCard(vo)); // 选择银行卡
-            if (!vo.userBankList.isEmpty()) {
+            if (!vo.userBankList.isEmpty() && !vo.paycode.contains(ONEPAYFIX)) {
                 bankId = vo.userBankList.get(0).id;
                 binding.tvwBankCard.setText(vo.userBankList.get(0).name);
             }
@@ -839,6 +844,14 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         if (curRechargeVo.paycode.equals("manual")) {
             return;
         }
+
+        // 极速充值 bankId,bankCode 至少要有一个非空
+        if (curRechargeVo.paycode.contains(ONEPAYFIX)) {
+            if (TextUtils.isEmpty(bankId) && TextUtils.isEmpty(bankCode)) {
+                return;
+            }
+        }
+
         if (curRechargeVo.view_bank_card) {
             if (TextUtils.isEmpty(bankId)) {
                 return;
@@ -1002,8 +1015,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
      * 极速充值银行卡选择弹窗
      */
     private void showBankCardExDialog(RechargeVo vo) {
-        RechargeVo re = viewModel.paymentLiveData.getValue();
-        if (re == null|| re.getOpBankList() == null) {
+        RechargeVo re = curRechargeVo; // viewModel.paymentLiveData.getValue();
+        if (re == null || re.getOpBankList() == null) {
             return;
         }
 
@@ -1018,16 +1031,14 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         opBankList.setmBind(bankInfoDTOS);
 
         BankPickDialogFragment.show(getActivity(), opBankList)
-                .setOnPickListner(new BankPickDialogFragment.onPickListner() {
-                    @Override
-                    public void onPick(BankPickModel model) {
-                        if (TextUtils.isEmpty(model.getBankCode())) {
-                            bankId = model.getBankId();
-                        } else {
-                            bankCode = model.getBankCode();
-                        }
-                        binding.tvwBankCard.setText(model.getBankName());
+                .setOnPickListner(model -> {
+                    CfLog.d(model.toString());
+                    if (TextUtils.isEmpty(model.getBankCode())) {
+                        bankId = model.getBankId();
+                    } else {
+                        bankCode = model.getBankCode();
                     }
+                    binding.tvwBankCard.setText(model.getBankName());
                 });
     }
 
@@ -1340,6 +1351,13 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             CfLog.d(vo.toString());
             //mapRechargeVo.put(vo.bid, vo);
             //SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
+            curRechargeVo = vo;
+            // 极速充值
+            if (vo.paycode.contains(ONEPAYFIX)) {
+                // 银行列表,搜索页会用到
+                return;
+            }
+
             if (TextUtils.isEmpty(vo.op_thiriframe_url)) {
                 ToastUtils.showError(vo.op_thiriframe_msg);
                 return;
@@ -1378,7 +1396,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         });
 
         //当前是否有极速订单
-        viewModel.curOrder.observe(getViewLifecycleOwner(),vo ->{
+        viewModel.liveDataCurOrder.observe(getViewLifecycleOwner(), vo -> {
             String realName = binding.edtName.getText().toString().trim();
             String txt = binding.tvwRealAmount.getText().toString();
             ExCreateOrderRequest request = new ExCreateOrderRequest();
@@ -1404,6 +1422,12 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CONFIRM);
                     break;
             }
+        });
+
+        // 无极速订单, 显示点击渠道后需要显示的 选择银行卡/姓名/金额等
+        viewModel.liveDataExpNoOrder.observe(this, isNoOrder -> {
+            CfLog.i("*****");
+            onClickPayment3(curRechargeVo);
         });
 
         viewModel.liveDataRcBanners.observe(this, list -> {

@@ -27,6 +27,15 @@ public class BankPickModel extends BindModel {
         }
     }
 
+    @Override
+    public String toString() {
+        return "BankPickModel { " +
+                "bankId='" + bankId + '\'' +
+                ", bankCode='" + bankCode + '\'' +
+                ", bankName='" + bankName + '\'' +
+                '}';
+    }
+
     public String getBankId() {
         return bankId;
     }
