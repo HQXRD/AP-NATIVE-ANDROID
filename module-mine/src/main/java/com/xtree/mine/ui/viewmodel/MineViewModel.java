@@ -97,8 +97,7 @@ public class MineViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
-                        super.onError(t);
-                        ToastUtils.showLong("请求失败");
+                        //super.onError(t);
                     }
                 });
         addSubscribe(disposable);
