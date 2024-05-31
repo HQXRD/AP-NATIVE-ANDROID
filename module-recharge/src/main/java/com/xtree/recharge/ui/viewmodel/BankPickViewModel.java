@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.recharge.R;
@@ -17,8 +18,11 @@ import com.xtree.recharge.vo.RechargeVo;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Completable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 
 /**
@@ -41,6 +45,7 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
     public final MutableLiveData<List<BindModel>> otherDatas = new MutableLiveData<>(new ArrayList<>());
     public final MutableLiveData<List<BindModel>> searchDatas = new MutableLiveData<>(new ArrayList<>());
     public final MutableLiveData<Boolean> showSearch = new MutableLiveData<>(false);
+    public RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
 
     private BankPickDialogFragment.onPickListner onPickListner;
 
@@ -64,64 +69,75 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
 
         if (bankListData != null) {
 
-            hotDatas.getValue().clear();
-            topTenDatas.getValue().clear();
-            otherDatas.getValue().clear();
-            mBindDatas.getValue().clear();
-            lastTimeDatas.getValue().clear();
+            Completable.timer(100, TimeUnit.MICROSECONDS)
+                    .fromRunnable(() -> {
+                        ArrayList<BindModel> hot = new ArrayList<>();
+                        ArrayList<BindModel> top = new ArrayList<>();
+                        ArrayList<BindModel> other = new ArrayList<>();
+                        ArrayList<BindModel> mbind = new ArrayList<>();
+                        ArrayList<BindModel> last = new ArrayList<>();
 
-            if (bankListData.getUsed()!=null)
-                for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getHot()) {
-                    BankPickModel m = new BankPickModel();
-                    m.setItemType(2);
-                    m.setBankCode(bankInfoDTO.getBankCode());
-                    m.setBankName(bankInfoDTO.getBankName());
-                    m.setClick(itemClick);
-                    hotDatas.getValue().add(m);
-                }
-            if (bankListData.getUsed()!=null)
-                for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getTop()) {
-                    BankPickModel m = new BankPickModel();
-                    m.setItemType(3);
-                    m.setBankCode(bankInfoDTO.getBankCode());
-                    m.setBankName(bankInfoDTO.getBankName());
-                    m.setClick(itemClick);
-                    topTenDatas.getValue().add(m);
-                }
-            if (bankListData.getUsed()!=null)
-                for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getOthers()) {
-                    BankPickModel m = new BankPickModel();
-                    m.setItemType(3);
-                    m.setBankCode(bankInfoDTO.getBankCode());
-                    m.setBankName(bankInfoDTO.getBankName());
-                    m.setClick(itemClick);
-                    otherDatas.getValue().add(m);
-                }
-            if (bankListData.getUsed() != null) {
-                for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getUsed()) {
-                    BankPickModel m = new BankPickModel();
-                    m.setItemType(1);
-                    m.setBankCode(bankInfoDTO.getBankCode());
-                    m.setBankName(bankInfoDTO.getBankName());
-                    m.setClick(itemClick);
-                    lastTimeDatas.getValue().add(m);
-                }
-            }
-            if (bankListData.getmBind() != null) {
-                for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getmBind()) {
-                    BankPickModel m = new BankPickModel();
-                    m.setItemType(0);
-                    m.setBankId(bankInfoDTO.getBankCode());
-                    String value = bankInfoDTO.getBankName();
-                    if (value.contains("-")) {
-                        String[] split = value.split("--");
-                        value = split[0];
-                    }
-                    m.setBankName(value);
-                    m.setClick(itemClick);
-                    mBindDatas.getValue().add(m);
-                }
-            }
+                        if (bankListData.getUsed()!=null)
+                            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getHot()) {
+                                BankPickModel m = new BankPickModel();
+                                m.setItemType(2);
+                                m.setBankCode(bankInfoDTO.getBankCode());
+                                m.setBankName(bankInfoDTO.getBankName());
+                                m.setClick(itemClick);
+                                hot.add(m);
+                            }
+                        if (bankListData.getUsed()!=null)
+                            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getTop()) {
+                                BankPickModel m = new BankPickModel();
+                                m.setItemType(3);
+                                m.setBankCode(bankInfoDTO.getBankCode());
+                                m.setBankName(bankInfoDTO.getBankName());
+                                m.setClick(itemClick);
+                                top.add(m);
+                            }
+                        if (bankListData.getUsed()!=null)
+                            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getOthers()) {
+                                BankPickModel m = new BankPickModel();
+                                m.setItemType(3);
+                                m.setBankCode(bankInfoDTO.getBankCode());
+                                m.setBankName(bankInfoDTO.getBankName());
+                                m.setClick(itemClick);
+                                other.add(m);
+                            }
+                        if (bankListData.getUsed() != null) {
+                            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getUsed()) {
+                                BankPickModel m = new BankPickModel();
+                                m.setItemType(1);
+                                m.setBankCode(bankInfoDTO.getBankCode());
+                                m.setBankName(bankInfoDTO.getBankName());
+                                m.setClick(itemClick);
+                                last.add(m);
+                            }
+                        }
+                        if (bankListData.getmBind() != null) {
+                            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getmBind()) {
+                                BankPickModel m = new BankPickModel();
+                                m.setItemType(0);
+                                m.setBankId(bankInfoDTO.getBankCode());
+                                String value = bankInfoDTO.getBankName();
+                                if (value.contains("-")) {
+                                    String[] split = value.split("--");
+                                    value = split[0];
+                                }
+                                m.setBankName(value);
+                                m.setClick(itemClick);
+                                mbind.add(m);
+                            }
+                        }
+                        hotDatas.postValue(hot);
+                        otherDatas.postValue(other);
+                        topTenDatas.postValue(top);
+                        lastTimeDatas.postValue(last);
+                        mBindDatas.postValue(mbind);
+                    })
+                    .observeOn(Schedulers.io())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe();
         }
     }
 

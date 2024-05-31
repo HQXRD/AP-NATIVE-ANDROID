@@ -102,8 +102,8 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
 
     @Override
     public BankPickViewModel initViewModel() {
-        AppViewModelFactory factory = AppViewModelFactory.getInstance(requireActivity().getApplication());
-        return new ViewModelProvider(requireActivity(), factory).get(BankPickViewModel.class);
+        AppViewModelFactory factory = AppViewModelFactory.getInstance(getActivity().getApplication());
+        return new ViewModelProvider(this, factory).get(BankPickViewModel.class);
     }
 
     @Override
@@ -112,7 +112,10 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
         binding.setVariable(BR.model, viewModel);
 
         RechargeVo.OpBankListDTO bankList = RxBus.getDefault().getStickyEvent(RechargeVo.OpBankListDTO.class);
-        binding.getModel().initData(bankList);
+        if (bankList != null) {
+            RxBus.getDefault().removeStickyEvent(RechargeVo.OpBankListDTO.class);
+            binding.getModel().initData(bankList);
+        }
 
         if (onPickListner != null) {
             binding.getModel().setOnPickListner(onPickListner);

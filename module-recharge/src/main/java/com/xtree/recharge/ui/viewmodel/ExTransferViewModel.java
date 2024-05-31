@@ -89,7 +89,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     public MutableLiveData<String> deadlinesData = new MutableLiveData<>();
     public MutableLiveData<String> waitTime = new MutableLiveData<>();
     //是否可以取消订单 true 可以
-    public MutableLiveData<Boolean> cancleOrderStatus = new MutableLiveData<>(true);
+    public MutableLiveData<Boolean> cancleOrderStatus = new MutableLiveData<>(false);
+    //是否可以取消匹配 true 可以
+    public MutableLiveData<Boolean> cancleOrderWaitStatus = new MutableLiveData<>(false);
     //凭证图片
     public MutableLiveData<Uri> voucher = new MutableLiveData<>();
     //订单生成信息
@@ -141,6 +143,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                             payOrderData.setValue(data);
 
                             checkCancleState();
+                            checkCancleWaitState();
                             checkOrderStatus();
 
                             ExBankInfoResponse bankInfo = new ExBankInfoResponse();
@@ -251,6 +254,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                             payOrderData.setValue(data);
 
                             checkCancleState();
+                            checkCancleWaitState();
                             checkOrderStatus();
                         }
                     }
@@ -321,12 +325,28 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         ExRechargeOrderCheckResponse.DataDTO pvalue = payOrderData.getValue();
         if (pvalue.getAllowCancel() == 1) {
             if (getDifferenceTimeByNow(pvalue.getAllowCancelTime()) > 0) {
-                cancleOrderStatus.setValue(false);
-            } else {
                 cancleOrderStatus.setValue(true);
+            } else {
+                cancleOrderStatus.setValue(false);
             }
         } else {
             cancleOrderStatus.setValue(false);
+        }
+    }
+
+    /**
+     * 检查是否可以取消订单匹配
+     */
+    private void checkCancleWaitState() {
+        ExRechargeOrderCheckResponse.DataDTO pvalue = payOrderData.getValue();
+        if (pvalue.getAllowCancelWait() == 1) {
+            if (getDifferenceTimeByNow(pvalue.getCancelWaitTime()) > 0) {
+                cancleOrderWaitStatus.setValue(true);
+            } else {
+                cancleOrderWaitStatus.setValue(false);
+            }
+        } else {
+            cancleOrderWaitStatus.setValue(false);
         }
     }
 

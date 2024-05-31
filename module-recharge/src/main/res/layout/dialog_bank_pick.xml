@@ -173,6 +173,7 @@
                         android:layout_marginTop="16dp"
                         itemData="@{model.mBindDatas}"
                         itemViewType="@{model.itemType}"
+                        viewPool="@{model.recycledViewPool}"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="2"
                         android:visibility="@{model.showSearch||model.mBindDatas.size()==0?View.GONE:View.VISIBLE}"/>
@@ -192,6 +193,7 @@
                         android:layout_marginTop="16dp"
                         itemData="@{model.lastTimeDatas}"
                         itemViewType="@{model.itemType}"
+                        viewPool="@{model.recycledViewPool}"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="2"
                         android:visibility="@{model.showSearch||model.lastTimeDatas.size()==0?View.GONE:View.VISIBLE}"/>
@@ -211,6 +213,7 @@
                         android:layout_marginTop="16dp"
                         itemData="@{model.topTenDatas}"
                         itemViewType="@{model.itemType}"
+                        viewPool="@{model.recycledViewPool}"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="3"
                         android:visibility="@{model.showSearch||model.topTenDatas.size()==0?View.GONE:View.VISIBLE}"/>
@@ -230,6 +233,7 @@
                         android:layout_marginTop="16dp"
                         itemData="@{model.hotDatas}"
                         itemViewType="@{model.itemType}"
+                        viewPool="@{model.recycledViewPool}"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="3"
                         android:visibility="@{model.showSearch||model.hotDatas.size()==0?View.GONE:View.VISIBLE}"/>
@@ -249,6 +253,7 @@
                         android:layout_marginTop="16dp"
                         itemData="@{model.otherDatas}"
                         itemViewType="@{model.itemType}"
+                        viewPool="@{model.recycledViewPool}"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="3"
                         android:visibility="@{model.showSearch||model.otherDatas.size()==0?View.GONE:View.VISIBLE}"/>
@@ -259,6 +264,7 @@
                         android:layout_marginTop="16dp"
                         itemData="@{model.searchDatas}"
                         itemViewType="@{model.itemType}"
+                        viewPool="@{model.recycledViewPool}"
                         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                         app:spanCount="3"
                         android:visibility="@{model.showSearch?View.VISIBLE:View.GONE}"/>

@@ -25,40 +25,43 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_line">
-
-        <ImageView
-            android:id="@+id/iv_icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:paddingTop="5dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:src="@mipmap/bt_record_league_logo"/>
-
-        <TextView
-            android:id="@+id/tv_league_name"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/rl_title"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_icon"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:maxWidth="220dp"
-            android:padding="5dp"
-            android:textColor="@color/bt_text_color_primary_3"
-            android:textSize="@dimen/bt_text_10sp"
-            tools:text="墨西哥甲级联赛" />
+            app:layout_constraintStart_toStartOf="parent">
+            <ImageView
+                android:id="@+id/iv_icon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:paddingTop="5dp"
+                android:src="@mipmap/bt_record_league_logo"/>
 
-        <TextView
-            android:id="@+id/tv_match_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:padding="5dp"
-            android:textColor="@color/bt_text_color_primary_3"
-            android:textSize="@dimen/bt_text_10sp"
-            tools:text="比赛时间：2023-11-01 18:00" />
+            <TextView
+                android:id="@+id/tv_league_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/tv_match_time"
+                android:layout_toRightOf="@+id/iv_icon"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:padding="5dp"
+                android:textColor="@color/bt_text_color_primary_3"
+                android:textSize="@dimen/bt_text_10sp"
+                tools:text="墨西哥甲级联赛" />
+
+            <TextView
+                android:id="@+id/tv_match_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:padding="5dp"
+                android:textColor="@color/bt_text_color_primary_3"
+                android:textSize="@dimen/bt_text_10sp"
+                tools:text="比赛时间：2023-11-01 18:00" />
+        </RelativeLayout>
+
 
         <ImageView
             android:id="@+id/iv_name"
@@ -67,7 +70,7 @@
             android:background="@drawable/bt_bg_bt_car_match_name"
             android:layout_marginTop="10dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_league_name" />
+            app:layout_constraintTop_toBottomOf="@+id/rl_title" />
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
@@ -75,7 +78,7 @@
             android:textColor="@color/bt_text_color_primary_1"
             android:textSize="@dimen/bt_text_13sp"
             app:layout_constraintStart_toEndOf="@+id/iv_name"
-            app:layout_constraintTop_toBottomOf="@+id/tv_league_name"
+            app:layout_constraintTop_toBottomOf="@+id/rl_title"
             android:layout_marginStart="5dp"
             android:layout_marginTop="10dp"
             tools:text="布鲁斯特" />
@@ -112,7 +115,7 @@
             android:textSize="@dimen/bt_text_18sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_league_name"
+            app:layout_constraintTop_toBottomOf="@id/rl_title"
             tools:text="2.04" />
 
         <TextView
