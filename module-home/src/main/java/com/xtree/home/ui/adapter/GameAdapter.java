@@ -81,12 +81,12 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             binding.ivwGreyCover.setVisibility(View.GONE);
         }
 
-        if (vo.twoImage) {
-            binding.layoutFc.setVisibility(View.VISIBLE);
-            setFastCommon(position, vo);
-        } else {
-            binding.layoutFc.setVisibility(View.GONE);
-        }
+        //if (vo.twoImage) {
+        //    binding.layoutFc.setVisibility(View.VISIBLE);
+        //    setFastCommon(position, vo);
+        //} else {
+        //    binding.layoutFc.setVisibility(View.GONE);
+        //}
 
         CfLog.i(getData().size() + "  " + position);
         if ((getData().size() - 1) > position) {
