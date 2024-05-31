@@ -12,6 +12,8 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.recharge.data.RechargeRepository;
+import com.xtree.recharge.data.source.request.ExRechargeOrderCheckRequest;
+import com.xtree.recharge.data.source.response.ExRechargeOrderCheckResponse;
 import com.xtree.recharge.vo.BankCardVo;
 import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.FeedbackCheckVo;
@@ -25,6 +27,10 @@ import com.xtree.recharge.vo.RechargeOrderDetailVo;
 import com.xtree.recharge.vo.RechargePayVo;
 import com.xtree.recharge.vo.RechargeVo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +65,8 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<Object> feedbackAddSingleLiveData = new SingleLiveData<>();//feedback 下一步接口
     public SingleLiveData<FeedbackCheckVo> feedbackCheckVoSingleLiveData = new SingleLiveData<>();//feedbackCheck 反馈查看页面
     public SingleLiveData<ProfileVo> liveDataProfile = new SingleLiveData<>();
+    public SingleLiveData<RechargeVo> paymentLiveData = new SingleLiveData<>();
+    public SingleLiveData<ExRechargeOrderCheckResponse> curOrder = new SingleLiveData<>();
 
     public RechargeViewModel(@NonNull Application application) {
         super(application);
@@ -241,6 +249,81 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     public void onResult(RechargeVo vo) {
                         CfLog.d(vo.toString());
                         liveDataRecharge.setValue(vo);
+
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        t.printStackTrace();
+                        super.onError(t);
+                    }
+                });
+
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取 充值详情
+     *
+     * @param bid bid
+     */
+    public void getPaymentData(String bid) {
+        Disposable disposable = (Disposable) model.getApiService().getPayment(bid)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<RechargeVo>() {
+                    @Override
+                    public void onResult(RechargeVo vo) {
+                        CfLog.d(vo.toString());
+                        paymentLiveData.setValue(vo);
+                    }
+                    @Override
+                    public void onError(Throwable t) {
+                        t.printStackTrace();
+                        super.onError(t);
+                    }
+                });
+
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 查看当前是否有订单
+     * @param bid
+     */
+    public void checkOrder(String bid) {
+        ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(bid);
+        Disposable disposable = (Disposable) model.rechargeOrderCheck(request)
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<ExRechargeOrderCheckResponse>() {
+                    @Override
+                    public void onResult(ExRechargeOrderCheckResponse vo) {
+                        CfLog.d(vo.toString());
+
+                        ExRechargeOrderCheckResponse.DataDTO data = vo.getData();
+                        if (data != null) {
+                            String status = data.getStatus();
+                            switch (status) {
+                                case "00": //成功
+                                case "03": //失败
+                                default:
+                                    long differenceInSeconds = 0;
+                                    try {
+                                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                        Date now = Calendar.getInstance().getTime();
+                                        Date end = null;
+                                        end = format.parse(vo.getData().getExpireTime());
+                                        differenceInSeconds = (now.getTime() - end.getTime());
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    if (differenceInSeconds < 0) {
+                                        curOrder.setValue(vo);
+                                    }
+                                    break;
+                            }
+                        }
                     }
 
                     @Override

@@ -384,7 +384,8 @@
     <string name="txt_delete_part_msg">您确定要删除选中的消息吗? 已删除的消息将不可再恢复</string>
     <string name="txt_confirm_deltet">确认删除</string>
     <string name="txt_delete_msg_title">删除站内信?</string>
-    <string name="txt_awards_flow_title">抱歉，您的有效流水不足，仍需%s才可提款</string>
+    <string name="txt_awards_flow_title">抱歉，您尚需有效流水%s才可提款。</string>
+    <string name="txt_awards_flow_list_title">抱歉，您尚需有效流水%1$s才可提款。其中，解锁%2$s笔礼金，需分别完成%3$s笔活动有效流水。</string>
     <string name="txt_awards_bonus_tip">奖金： %s</string>
     <string name="txt_awards_required_turnover_tip">所需流水:%s</string>
     <string name="txt_awards_remain_turnover_tip">剩余流水:%s</string>

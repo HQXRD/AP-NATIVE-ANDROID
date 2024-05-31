@@ -3,11 +3,6 @@ package me.xtree.mvvmhabit.base;
 import android.app.Application;
 import android.os.Bundle;
 
-
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Map;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.Lifecycle;
@@ -15,6 +10,10 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 
 import com.trello.rxlifecycle4.LifecycleProvider;
+
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -61,6 +60,11 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
     public void removeSubscribe(Disposable disposable) {
         mCompositeDisposable.remove(disposable);
     }
+
+    public CompositeDisposable getmCompositeDisposable() {
+        return mCompositeDisposable;
+    }
+
 
     /**
      * 注入RxLifecycle生命周期

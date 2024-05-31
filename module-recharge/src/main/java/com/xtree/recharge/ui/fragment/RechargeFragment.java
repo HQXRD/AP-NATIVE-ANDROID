@@ -33,6 +33,7 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.utils.TagUtils;
@@ -45,9 +46,12 @@ import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
+import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.databinding.FragmentRechargeBinding;
+import com.xtree.recharge.ui.model.BankPickModel;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.recharge.vo.BankCardVo;
 import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.PaymentDataVo;
 import com.xtree.recharge.vo.PaymentTypeVo;
@@ -68,6 +72,7 @@ import java.util.List;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
+import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -546,34 +551,41 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.tvwBindYhk.setVisibility(View.VISIBLE);
         }
 
-        if (vo.op_thiriframe_use && vo.phone_needbind) {
-            // 绑定手机
-            CfLog.i("****** 绑定手机");
-            toBindPhoneNumber();
-            return;
-        }
-        //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
-        if (vo.view_bank_card && vo.userBankList.isEmpty()) {
-            // 绑定YHK
-            CfLog.i("****** 绑定YHK");
-            toBindCard();
-            return;
-        }
-
-        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb) && vo.paycode.contains("zfb")) {
-            // 请先绑定您的支付宝账号
-            CfLog.i("****** 绑定ZFB");
-            toBindAlipay();
-            return;
-        }
-        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepaywx) && vo.paycode.contains("wx")) {
-            // 请先绑定您的微信账号
-            CfLog.i("****** 绑定WX");
-            toBindWeChat();
-            return;
-        }
+//        if (vo.op_thiriframe_use && vo.phone_needbind) {
+//            // 绑定手机
+//            CfLog.i("****** 绑定手机");
+//            toBindPhoneNumber();
+//            return;
+//        }
+//        //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
+//        if (vo.view_bank_card && vo.userBankList.isEmpty()) {
+//            // 绑定YHK
+//            CfLog.i("****** 绑定YHK");
+//            toBindCard();
+//            return;
+//        }
+//
+//        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb) && vo.paycode.contains("zfb")) {
+//            // 请先绑定您的支付宝账号
+//            CfLog.i("****** 绑定ZFB");
+//            toBindAlipay();
+//            return;
+//        }
+//        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepaywx) && vo.paycode.contains("wx")) {
+//            // 请先绑定您的微信账号
+//            CfLog.i("****** 绑定WX");
+//            toBindWeChat();
+//            return;
+//        }
 
         CfLog.i("****** not need bind...");
+
+        //极速充值获取银行卡信息
+        if (vo.paycode.contains(ONEPAYFIX)) {
+            viewModel.getPaymentData(vo.bid);
+            viewModel.checkOrder(vo.bid);
+            LoadingDialog.show(getContext()); // Loading
+        }
 
         // 打开网页类型的
         if (vo.op_thiriframe_use && !vo.phone_needbind && !vo.paycode.contains(ONEPAYFIX)) {
@@ -918,8 +930,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         Map<String, String> map = new HashMap<>();
         map.put("pid", curRechargeVo.bid); // 渠道ID
         map.put("payAmount", txt); // 金额
-        map.put("payBankCode", bankCode); // 付款银行编号(和userBankId字段二选一)【可选】 ABC
-        map.put("userBankId", bankId); // 用户绑定的银行卡id【可选】 1283086
+        if (TextUtils.isEmpty(bankCode)) {
+            map.put("userBankId", bankId); // 用户绑定的银行卡id【可选】 1283086
+        } else {
+            map.put("payBankCode", bankCode); // 付款银行编号(和userBankId字段二选一)【可选】 ABC
+        }
         map.put("payName", realName); // 付款人
         map.put("nonce", UuidUtil.getID16());
         CfLog.i(map.toString());
@@ -970,13 +985,50 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
      * @param vo 充值渠道
      */
     private void showBankCard(RechargeVo vo) {
+        if (ClickUtil.isFastClick()) {
+            return;
+        }
+
         if (vo.paycode.contains(ONEPAYFIX)) {
             // 极速充值
-            showBankCardDialog(vo);
+            showBankCardExDialog(vo);
         } else {
             // 普通充值
             showBankCardDialog(vo);
         }
+    }
+
+    /**
+     * 极速充值银行卡选择弹窗
+     */
+    private void showBankCardExDialog(RechargeVo vo) {
+        RechargeVo re = viewModel.paymentLiveData.getValue();
+        if (re == null|| re.getOpBankList() == null) {
+            return;
+        }
+
+        RechargeVo.OpBankListDTO opBankList = re.getOpBankList();
+        ArrayList<RechargeVo.OpBankListDTO.BankInfoDTO> bankInfoDTOS = new ArrayList<>();
+        for (BankCardVo bankCardVo : vo.userBankList) {
+            RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO = new RechargeVo.OpBankListDTO.BankInfoDTO();
+            bankInfoDTO.setBankCode(bankCardVo.id);
+            bankInfoDTO.setBankName(bankCardVo.name);
+            bankInfoDTOS.add(bankInfoDTO);
+        }
+        opBankList.setmBind(bankInfoDTOS);
+
+        BankPickDialogFragment.show(getActivity(), opBankList)
+                .setOnPickListner(new BankPickDialogFragment.onPickListner() {
+                    @Override
+                    public void onPick(BankPickModel model) {
+                        if (TextUtils.isEmpty(model.getBankCode())) {
+                            bankId = model.getBankId();
+                        } else {
+                            bankCode = model.getBankCode();
+                        }
+                        binding.tvwBankCard.setText(model.getBankName());
+                    }
+                });
     }
 
     private void showBankCardDialog(RechargeVo vo) {
@@ -1309,6 +1361,49 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         viewModel.liveDataExpOrderData.observe(getViewLifecycleOwner(), vo -> {
             CfLog.i(vo.toString());
 
+            String realName = binding.edtName.getText().toString().trim();
+            String txt = binding.tvwRealAmount.getText().toString();
+            ExCreateOrderRequest request = new ExCreateOrderRequest();
+            request.setPid(curRechargeVo.bid);
+            request.setPayAmount(txt);
+            if (TextUtils.isEmpty(bankCode)) {
+                request.setUserBankId(bankId);
+            } else {
+                request.setPayBankCode(bankCode);
+            }
+            request.setPayName(realName);
+
+            RxBus.getDefault().postSticky(request);
+            startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT);
+        });
+
+        //当前是否有极速订单
+        viewModel.curOrder.observe(getViewLifecycleOwner(),vo ->{
+            String realName = binding.edtName.getText().toString().trim();
+            String txt = binding.tvwRealAmount.getText().toString();
+            ExCreateOrderRequest request = new ExCreateOrderRequest();
+            request.setPid(curRechargeVo.bid);
+            request.setPayAmount(txt);
+            if (TextUtils.isEmpty(bankCode)) {
+                request.setUserBankId(bankId);
+            } else {
+                request.setPayBankCode(bankCode);
+            }
+            request.setPayName(realName);
+
+            RxBus.getDefault().postSticky(request);
+            String status = vo.getData().getStatus();
+            switch (status) {
+                case "11":
+                    startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE);
+                    break;
+                case "13":
+                    startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT);
+                    break;
+                case "14":
+                    startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CONFIRM);
+                    break;
+            }
         });
 
         viewModel.liveDataRcBanners.observe(this, list -> {
@@ -1334,7 +1429,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         viewModel.liveDataProfile.observe(this, vo -> {
             mProfileVo = vo;
         });
-
     }
 
     @Override

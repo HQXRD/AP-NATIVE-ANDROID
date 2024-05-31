@@ -178,6 +178,33 @@ public class RechargeVo {
         @SerializedName("others")
         private List<BankInfoDTO> others;
 
+        /**
+         * others
+         */
+        @SerializedName("used")
+        private List<BankInfoDTO> used;
+
+        /**
+         * 用户绑定银行
+         */
+        private List<BankInfoDTO> mBind;
+
+        public List<BankInfoDTO> getUsed() {
+            return used;
+        }
+
+        public void setUsed(List<BankInfoDTO> used) {
+            this.used = used;
+        }
+
+        public List<BankInfoDTO> getmBind() {
+            return mBind;
+        }
+
+        public void setmBind(List<BankInfoDTO> mBind) {
+            this.mBind = mBind;
+        }
+
         public List<BankInfoDTO> getTop() {
             return top;
         }

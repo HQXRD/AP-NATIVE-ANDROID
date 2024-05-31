@@ -95,7 +95,7 @@ public class ExReceiptUploadRequest {
     }
 
     public String getNonce() {
-        return UuidUtil.getID24();
+        return UuidUtil.getID16();
     }
 
     public void setNonce(String nonce) {

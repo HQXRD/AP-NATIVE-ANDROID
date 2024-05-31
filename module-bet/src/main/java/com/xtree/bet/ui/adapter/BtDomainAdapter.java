@@ -11,7 +11,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.NumberUtils;
 import com.xtree.bet.R;
 import com.xtree.bet.databinding.BtLayoutDomainAgentItemBinding;
-import com.xtree.bet.weight.DomainChangeDialog;
+import com.xtree.bet.weight.BettingNetFloatingWindows;
 import com.zhy.adapter.recyclerview.base.ViewHolder;
 
 import java.util.List;
@@ -19,15 +19,16 @@ import java.util.List;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class BtDomainAdapter extends BaseAdapter<String> {
-    private DomainChangeDialog.ICallBack mICallBack;
+    private BettingNetFloatingWindows.ICallBack mICallBack;
     private CheckBox mCbAgent;
     private String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+
     @Override
     public int layoutId() {
         return R.layout.bt_layout_domain_agent_item;
     }
 
-    public BtDomainAdapter(Context context, List<String> datas, DomainChangeDialog.ICallBack iCallBack, CheckBox checkBox) {
+    public BtDomainAdapter(Context context, List<String> datas, BettingNetFloatingWindows.ICallBack iCallBack, CheckBox checkBox) {
         super(context, datas);
         mICallBack = iCallBack;
         mCbAgent = checkBox;
@@ -39,14 +40,14 @@ public class BtDomainAdapter extends BaseAdapter<String> {
         int useLinePosition = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
         CfLog.e("useLinePosition=======" + useLinePosition);
         BtLayoutDomainAgentItemBinding binding = BtLayoutDomainAgentItemBinding.bind(holder.itemView);
-        if(isAgent){
+        if (isAgent) {
             binding.tvAgentChange.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             binding.tvAgentChange.setVisibility(useLinePosition != position ? View.VISIBLE : View.INVISIBLE);
         }
-        if(position == useLinePosition){
+        if (position == useLinePosition) {
             binding.tvAgentName.setText("当前线路");
-        }else {
+        } else {
             binding.tvAgentName.setText("线路" + NumberUtils.int2chineseNum(position + 1));
         }
         binding.tvAgentChange.setOnClickListener(v -> {

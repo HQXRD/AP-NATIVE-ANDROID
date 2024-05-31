@@ -7,6 +7,10 @@
         <variable
             name="model"
             type="com.xtree.recharge.ui.viewmodel.ExTransferViewModel" />
+
+        <import type="com.xtree.base.utils.StringUtils" />
+
+        <import type="android.view.View" />
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -39,7 +43,8 @@
             <TextView
                 android:id="@+id/tvw_time_left"
                 style="@style/style_rc_exp_bank_status2"
-                android:text="剩余支付时间：29:59"
+                android:text="@{model.leftTimeData}"
+                tools:text="剩余支付时间：29:25"
                 app:layout_constraintBottom_toTopOf="@+id/tvw_time_end"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ivw_01"
@@ -51,6 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:gravity="center"
+                android:text="@{model.deadlinesData}"
                 android:textColor="@color/clr_grey_09"
                 app:layout_constraintBottom_toBottomOf="@+id/ivw_01"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -75,6 +81,7 @@
             <TextView
                 style="@style/style_rc_dlg_value"
                 android:textColor="@color/clr_black"
+                android:text="@{model.bankInfoData.merchantOrder}"
                 tools:text="PAY00123456789" />
         </LinearLayout>
 
@@ -87,12 +94,14 @@
             <TextView
                 android:id="@+id/tvw_to_bank_name"
                 style="@style/style_rc_dlg_value"
+                android:text="@{model.bankInfoData.bankCode}"
                 tools:text="XXX" />
 
             <TextView
                 android:id="@+id/tvw_copy_bank_name"
                 style="@style/style_rc_dlg_copy"
-                android:text="@string/txt_copy" />
+                android:text="@string/txt_copy"
+                android:onClick="@{() -> StringUtils.copy(model.bankInfoData.bankCode)}"/>
         </LinearLayout>
 
         <LinearLayout style="@style/style_rc_dlg_ll">
@@ -104,12 +113,14 @@
             <TextView
                 android:id="@+id/tvw_to_bank_name_detail"
                 style="@style/style_rc_dlg_value"
+                android:text="@{model.bankInfoData.bankArea}"
                 tools:text="XXX" />
 
             <TextView
                 android:id="@+id/tvw_copy_branch"
                 style="@style/style_rc_dlg_copy"
-                android:text="@string/txt_copy" />
+                android:text="@string/txt_copy"
+                android:onClick="@{() -> StringUtils.copy(model.bankInfoData.bankArea)}"/>
         </LinearLayout>
 
         <LinearLayout style="@style/style_rc_dlg_ll">
@@ -121,12 +132,14 @@
             <TextView
                 android:id="@+id/tvw_bank_acct_name"
                 style="@style/style_rc_dlg_value"
+                android:text="@{model.bankInfoData.bankAccountName}"
                 tools:text="XXX" />
 
             <TextView
                 android:id="@+id/tvw_copy_acc_name"
                 style="@style/style_rc_dlg_copy"
-                android:text="@string/txt_copy" />
+                android:text="@string/txt_copy"
+                android:onClick="@{() -> StringUtils.copy(model.bankInfoData.bankAccountName)}"/>
         </LinearLayout>
 
         <LinearLayout style="@style/style_rc_dlg_ll">
@@ -138,12 +151,14 @@
             <TextView
                 android:id="@+id/tvw_bank_acct_card"
                 style="@style/style_rc_dlg_value"
+                android:text="@{model.bankInfoData.bankAccount}"
                 tools:text="XXX" />
 
             <TextView
                 android:id="@+id/tvw_copy_acc_num"
                 style="@style/style_rc_dlg_copy"
-                android:text="@string/txt_copy" />
+                android:text="@string/txt_copy"
+                android:onClick="@{() -> StringUtils.copy(model.bankInfoData.bankAccount)}"/>
         </LinearLayout>
 
         <LinearLayout style="@style/style_rc_dlg_ll">
@@ -155,12 +170,14 @@
             <TextView
                 android:id="@+id/tvw_money2"
                 style="@style/style_rc_dlg_value"
+                android:text="@{model.bankInfoData.payAmount}"
                 tools:text="XXX" />
 
             <TextView
                 android:id="@+id/tvw_copy_money2"
                 style="@style/style_rc_dlg_copy"
-                android:text="@string/txt_copy" />
+                android:text="@string/txt_copy"
+                android:onClick="@{() -> StringUtils.copy(model.bankInfoData.payAmount)}"/>
         </LinearLayout>
 
         <TextView
@@ -172,25 +189,31 @@
             android:text="[转账金额务必与订单金额一致]"
             android:textColor="@color/clr_grey_09" />
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tvw_left"
                 style="@style/style_btn_short_cancel"
-                android:text="@string/txt_cancel" />
-
-            <View
-                android:layout_width="36dp"
-                android:layout_height="1dp" />
+                android:text="@string/txt_cancel"
+                android:onClick="@{() -> model.cancleOrder()}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/tvw_right"/>
 
             <TextView
                 android:id="@+id/tvw_right"
                 style="@style/style_btn_short"
-                android:text="上传凭证" />
-        </LinearLayout>
+                android:text="上传凭证"
+                android:onClick="@{() -> model.toVoucher()}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvw_left"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             style="@style/style_cm_tip_small_grey"

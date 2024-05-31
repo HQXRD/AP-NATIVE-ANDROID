@@ -10,9 +10,12 @@ import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.data.source.request.ExOrderCancelRequest;
 import com.xtree.recharge.data.source.request.ExReceiptUploadRequest;
 import com.xtree.recharge.data.source.request.ExReceiptocrRequest;
+import com.xtree.recharge.data.source.request.ExRechargeOrderCheckRequest;
 import com.xtree.recharge.data.source.response.ExBankInfoResponse;
 import com.xtree.recharge.data.source.response.ExCreateOrderResponse;
+import com.xtree.recharge.data.source.response.ExReceiptUploadResponse;
 import com.xtree.recharge.data.source.response.ExReceiptocrResponse;
+import com.xtree.recharge.data.source.response.ExRechargeOrderCheckResponse;
 
 import java.util.Map;
 
@@ -127,13 +130,26 @@ public class HttpDataSourceImpl implements HttpDataSource {
     }
 
     @Override
-    public Flowable<BaseResponse> rechargeReceiptUpload(ExReceiptUploadRequest request) {
+    public Flowable<BaseResponse<ExReceiptUploadResponse>> rechargeReceiptUpload(ExReceiptUploadRequest request) {
         Map<String, Object> map = JSON.parseObject(JSON.toJSONString(request), type);
-        return apiService.post(APIManager.DEPOSIT_RECHARGERECEIPTUPLOAD_URL,map).map(new Function<ResponseBody, BaseResponse>() {
+        return apiService.post(APIManager.DEPOSIT_RECHARGERECEIPTUPLOAD_URL,map).map(new Function<ResponseBody, BaseResponse<ExReceiptUploadResponse>>() {
             @Override
-            public BaseResponse apply(ResponseBody responseBody) throws Exception {
+            public BaseResponse<ExReceiptUploadResponse> apply(ResponseBody responseBody) throws Exception {
                 return JSON.parseObject(responseBody.string(),
-                        new TypeReference<BaseResponse>() {
+                        new TypeReference<BaseResponse<ExReceiptUploadResponse>>() {
+                        });
+            }
+        });
+    }
+
+    @Override
+    public Flowable<ExRechargeOrderCheckResponse> rechargeOrderCheck(ExRechargeOrderCheckRequest request) {
+        Map<String, Object> map = JSON.parseObject(JSON.toJSONString(request), type);
+        return apiService.get(APIManager.DEPOSIT_RECHARGEORDERCHECK_URL,map).map(new Function<ResponseBody, ExRechargeOrderCheckResponse>() {
+            @Override
+            public ExRechargeOrderCheckResponse apply(ResponseBody responseBody) throws Exception {
+                return JSON.parseObject(responseBody.string(),
+                        new TypeReference<ExRechargeOrderCheckResponse>() {
                         });
             }
         });

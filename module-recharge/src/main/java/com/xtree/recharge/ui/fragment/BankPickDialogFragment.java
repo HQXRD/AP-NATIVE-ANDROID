@@ -1,5 +1,6 @@
 package com.xtree.recharge.ui.fragment;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
@@ -16,13 +18,15 @@ import androidx.lifecycle.ViewModelProvider;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.DialogBankPickBinding;
+import com.xtree.recharge.ui.model.BankPickModel;
 import com.xtree.recharge.ui.viewmodel.BankPickViewModel;
-import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.recharge.vo.RechargeVo;
 
 import java.util.Objects;
 
 import me.xtree.mvvmhabit.base.BaseDialogFragment;
+import me.xtree.mvvmhabit.bus.RxBus;
 
 /**
  * Created by KAKA on 2024/5/27.
@@ -38,13 +42,24 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
      *
      * @param activity 获取FragmentManager
      */
-    public static void show(FragmentActivity activity) {
+    public static BankPickDialogFragment show(FragmentActivity activity, RechargeVo.OpBankListDTO bankList) {
+        RxBus.getDefault().postSticky(bankList);
         BankPickDialogFragment fragment = new BankPickDialogFragment();
         fragment.show(activity.getSupportFragmentManager(), BankPickDialogFragment.class.getName());
+        activity.getSupportFragmentManager().executePendingTransactions();
+        return fragment;
     }
+
+    public interface onPickListner {
+        void onPick(BankPickModel model);
+    }
+
+    private BankPickDialogFragment.onPickListner onPickListner;
 
     @Override
     public void initView() {
+        binding.getRoot().setOnClickListener(v -> dismissAllowingStateLoss());
+        binding.llRoot.setOnClickListener(v -> hideKeyBoard());
     }
 
     @Override
@@ -54,8 +69,8 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
 
     @Override
     public BankPickViewModel initViewModel() {
-        AppViewModelFactory factory = AppViewModelFactory.getInstance(getActivity().getApplication());
-        return new ViewModelProvider(this, factory).get(BankPickViewModel.class);
+        AppViewModelFactory factory = AppViewModelFactory.getInstance(requireActivity().getApplication());
+        return new ViewModelProvider(requireActivity(), factory).get(BankPickViewModel.class);
     }
 
     @Override
@@ -63,11 +78,12 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
         super.initData();
         binding.setVariable(BR.model, viewModel);
 
-        RechargeViewModel viewmodel = new ViewModelProvider(getActivity()).get(RechargeViewModel.class);
-        AppViewModelFactory instance = AppViewModelFactory.getInstance(getActivity().getApplication());
-        viewmodel.setModel(instance.getmRepository());
+        RechargeVo.OpBankListDTO bankList = RxBus.getDefault().getStickyEvent(RechargeVo.OpBankListDTO.class);
+        binding.getModel().initData(bankList);
 
-        binding.getModel().initData(viewmodel);
+        if (onPickListner != null) {
+            binding.getModel().setOnPickListner(onPickListner);
+        }
     }
 
     @Override
@@ -97,5 +113,22 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
         window.setAttributes(params);
         View decorView = window.getDecorView();
         decorView.setBackground(new ColorDrawable(Color.TRANSPARENT));
+        getDialog().setCanceledOnTouchOutside(true);
+    }
+
+    public void setOnPickListner(BankPickDialogFragment.onPickListner onPickListner) {
+        this.onPickListner = onPickListner;
+        if (viewModel != null) {
+            viewModel.setOnPickListner(onPickListner);
+        }
+    }
+
+    public void hideKeyBoard() {
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive()) {
+            if (getActivity().getCurrentFocus() != null && getActivity().getCurrentFocus().getWindowToken() != null) {
+                imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
     }
 }
