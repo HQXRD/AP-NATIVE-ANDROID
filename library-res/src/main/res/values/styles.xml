@@ -1349,7 +1349,7 @@
 
     <!--谷歌动态口令提示语风格-->
     <style name="style_google_prompt">
-        <item name="android:textColor">@color/clr_grey_00</item>
+        <item name="android:textColor">@color/clr_google_txt_black</item>
         <item name="android:textSize">12sp</item>
     </style>
 
@@ -1451,5 +1451,25 @@
         <item name="android:layout_marginRight">16dp</item>
         <item name="android:button">@drawable/ic_eye_cpd_selector</item>
         <item name="android:padding">6dp</item>
+    </style>
+
+    <!-- 谷歌绑定输入框 带边框,占一整行的 -->
+    <style name="style_google_edt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:background">@mipmap/cm_bg_input_wht</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:hint"></item>
+        <item name="android:inputType">text</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">64</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:tag"></item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_grey_2</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>
