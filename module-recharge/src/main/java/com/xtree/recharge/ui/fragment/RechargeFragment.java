@@ -551,32 +551,32 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.tvwBindYhk.setVisibility(View.VISIBLE);
         }
 
-//        if (vo.op_thiriframe_use && vo.phone_needbind) {
-//            // 绑定手机
-//            CfLog.i("****** 绑定手机");
-//            toBindPhoneNumber();
-//            return;
-//        }
-//        //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
-//        if (vo.view_bank_card && vo.userBankList.isEmpty()) {
-//            // 绑定YHK
-//            CfLog.i("****** 绑定YHK");
-//            toBindCard();
-//            return;
-//        }
-//
-//        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb) && vo.paycode.contains("zfb")) {
-//            // 请先绑定您的支付宝账号
-//            CfLog.i("****** 绑定ZFB");
-//            toBindAlipay();
-//            return;
-//        }
-//        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepaywx) && vo.paycode.contains("wx")) {
-//            // 请先绑定您的微信账号
-//            CfLog.i("****** 绑定WX");
-//            toBindWeChat();
-//            return;
-//        }
+        if (vo.op_thiriframe_use && vo.phone_needbind) {
+            // 绑定手机
+            CfLog.i("****** 绑定手机");
+            toBindPhoneNumber();
+            return;
+        }
+        //if (vo.op_thiriframe_use && vo.userBankList.isEmpty() && vo.view_bank_card && !vo.phone_needbind) {
+        if (vo.view_bank_card && vo.userBankList.isEmpty()) {
+            // 绑定YHK
+            CfLog.i("****** 绑定YHK");
+            toBindCard();
+            return;
+        }
+
+        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb) && vo.paycode.contains("zfb")) {
+            // 请先绑定您的支付宝账号
+            CfLog.i("****** 绑定ZFB");
+            toBindAlipay();
+            return;
+        }
+        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepaywx) && vo.paycode.contains("wx")) {
+            // 请先绑定您的微信账号
+            CfLog.i("****** 绑定WX");
+            toBindWeChat();
+            return;
+        }
 
         CfLog.i("****** not need bind...");
 
