@@ -199,7 +199,7 @@
 
             <LinearLayout
                 style="@style/style_item_ll_row_2"
-                android:visibility="gone"
+                android:visibility="visible"
                 tools:visibility="visible">
 
                 <TextView
