@@ -14,6 +14,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 /**
@@ -73,4 +74,10 @@ public interface ApiService {
      */
     @GET("/api/account/balance")
     Flowable<BaseResponse<BalanceVo>> getBalance();
+
+    /**
+     * 获取PM/FB游戏的链接
+     */
+    @GET("/api/game/{gameAlias}/playurl")
+    Flowable<BaseResponse<Map<String, Object>>> getPlayUrl(@Path("gameAlias") String gameAlias, @QueryMap Map<String, String> map);
 }
