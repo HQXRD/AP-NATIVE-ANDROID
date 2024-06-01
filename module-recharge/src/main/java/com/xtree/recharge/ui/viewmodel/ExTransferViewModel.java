@@ -2,6 +2,7 @@ package com.xtree.recharge.ui.viewmodel;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -677,9 +678,15 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     public void gotoSelectMedia() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (!Environment.isExternalStorageManager()) {
-                Intent getpermission = new Intent();
-                getpermission.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
-                mActivity.get().startActivity(getpermission);
+                Intent appIntent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                appIntent.setData(Uri.parse("package:" + mActivity.get().getPackageName()));
+                try {
+                    mActivity.get().startActivity(appIntent);
+                } catch (ActivityNotFoundException ex) {
+                    ex.printStackTrace();
+                    Intent allFileIntent = new Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                    mActivity.get().startActivity(allFileIntent);
+                }
                 return;
             }
         }
