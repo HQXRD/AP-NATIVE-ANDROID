@@ -1390,6 +1390,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 request.setPayBankCode(bankCode);
             }
             request.setPayName(realName);
+            request.setPayBankName(binding.tvwBankCard.getText().toString());
 
             RxBus.getDefault().postSticky(request);
             startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT);
@@ -1408,6 +1409,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 request.setPayBankCode(bankCode);
             }
             request.setPayName(realName);
+            request.setPayBankName(binding.tvwBankCard.getText().toString());
 
             RxBus.getDefault().postSticky(request);
             String status = vo.getData().getStatus();

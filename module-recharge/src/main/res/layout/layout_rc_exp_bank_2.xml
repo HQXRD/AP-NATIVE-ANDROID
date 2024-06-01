@@ -72,6 +72,20 @@
             style="@style/style_rc_exp_bank_info_title"
             android:text="充值银行卡信息" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:paddingStart="4dp"
+            android:paddingEnd="4dp "
+            android:background="@drawable/shape_solid_clrmain34_c8"
+            android:text="@{model.tip1}"
+            android:textColor="@color/clr_filter_txt_gray"
+            android:textSize="12sp"
+            android:gravity="center"/>
+
         <LinearLayout style="@style/style_rc_dlg_ll">
 
             <TextView
@@ -218,10 +232,12 @@
 
         <TextView
             style="@style/style_cm_tip_small_grey"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:drawableStart="@mipmap/cm_ic_hint_purple"
             android:drawablePadding="4dp"
-            android:text="请转账成功后务必及时确认！否则可能造成延迟上分"
-            android:textSize="12sp" />
+            android:text="@{model.tip2}"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_gravity="center"/>
     </LinearLayout>
 </layout>

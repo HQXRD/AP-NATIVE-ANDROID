@@ -12,6 +12,15 @@ public class ExCreateOrderRequest {
     private String payBankCode = "";
     private String payName;
     private String userBankId = "";
+    private String payBankName = "";
+
+    public String getPayBankName() {
+        return payBankName;
+    }
+
+    public void setPayBankName(String payBankName) {
+        this.payBankName = payBankName;
+    }
 
     public String getUserBankId() {
         return userBankId;
