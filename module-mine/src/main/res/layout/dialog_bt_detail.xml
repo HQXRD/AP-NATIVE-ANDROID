@@ -64,10 +64,11 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginBottom="0dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cl_title">
+        app:layout_constraintTop_toBottomOf="@id/cl_title"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
             android:id="@+id/ll_main"
@@ -235,7 +236,6 @@
                     android:background="@drawable/bg_white_4"
                     android:padding="3dp"
                     android:visibility="gone"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/tvw_betting_detail_title"
                     app:layout_constraintTop_toTopOf="@id/tvw_betting_detail_title"
@@ -244,8 +244,9 @@
                     <TextView
                         android:id="@+id/tvw_bet_title"
                         style="@style/style_item_report_value_2"
+                        android:layout_width="0dp"
                         android:textStyle="bold"
-                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="3x4*4" />
@@ -253,6 +254,8 @@
                     <TextView
                         android:id="@+id/tvw_bet_content"
                         style="@style/style_item_report_value_2"
+                        android:layout_width="0dp"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvw_bet_title"
                         tools:text="全场 滚球 0.81" />
@@ -284,11 +287,13 @@
                     <include
                         android:id="@+id/ll_detail"
                         layout="@layout/layout_bt_detail_match"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="2dp"
                         android:layout_marginTop="10dp"
                         android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/tvw_bet_content"
                         tools:visibility="visible" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
