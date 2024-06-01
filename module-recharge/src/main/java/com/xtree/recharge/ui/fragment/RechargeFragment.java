@@ -277,6 +277,22 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         binding.tvwBindPhone.setOnClickListener(v -> toBindPhonePage());
         binding.tvwBindYhk.setOnClickListener(v -> toBindPage(Constant.BIND_CARD));
+        binding.tvwBankCard.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                CfLog.d("onTextChanged name: " + s);
+                setNextButton();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
         binding.ivwClear.setOnClickListener(v -> {
             binding.edtName.setText("");
             binding.tvwTipName.setVisibility(View.VISIBLE);
@@ -845,15 +861,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
-        // 极速充值 bankId,bankCode 至少要有一个非空
-        if (curRechargeVo.paycode.contains(ONEPAYFIX)) {
-            if (TextUtils.isEmpty(bankId) && TextUtils.isEmpty(bankCode)) {
-                return;
-            }
-        }
-
+        // 普通银行卡充值 bankId非空; 极速充值 bankId,bankCode 至少要有一个非空
         if (curRechargeVo.view_bank_card) {
-            if (TextUtils.isEmpty(bankId)) {
+            if (TextUtils.isEmpty(bankId) && TextUtils.isEmpty(bankCode)) {
                 return;
             }
         }
@@ -1390,6 +1400,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 request.setPayBankCode(bankCode);
             }
             request.setPayName(realName);
+            request.setPayBankName(binding.tvwBankCard.getText().toString());
 
             RxBus.getDefault().postSticky(request);
             startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT);
@@ -1408,6 +1419,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 request.setPayBankCode(bankCode);
             }
             request.setPayName(realName);
+            request.setPayBankName(binding.tvwBankCard.getText().toString());
 
             RxBus.getDefault().postSticky(request);
             String status = vo.getData().getStatus();

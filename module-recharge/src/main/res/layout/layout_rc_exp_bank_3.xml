@@ -75,7 +75,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="118dp"
-            android:layout_margin="@dimen/layout_margin"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -99,30 +102,43 @@
                 android:id="@+id/tvw_21"
                 style="@style/style_rc_exp_bank_info_title"
                 android:layout_marginStart="@dimen/layout_margin"
+                android:layout_marginTop="0dp"
                 android:text="*"
                 android:textColor="@color/clr_red_01"
                 app:layout_constraintStart_toEndOf="@id/ivw_pic"
-                app:layout_constraintTop_toTopOf="@id/ivw_pic" />
+                app:layout_constraintTop_toTopOf="@id/ivw_pic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"/>
 
             <TextView
                 android:id="@+id/tvw_21a"
                 style="@style/style_rc_exp_bank_info_title"
                 android:layout_marginStart="2dp"
-                android:text="回执单示例"
+                android:layout_marginTop="0dp"
+                android:text="回执单"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/tvw_21"
                 app:layout_constraintTop_toTopOf="@id/ivw_pic" />
 
             <TextView
                 android:id="@+id/tvw_22"
                 style="@style/style_cm_tip_small_orange"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="0dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="0dp"
                 android:text="需含银行戳章、交易时间与金额、收/付款人姓名、完整卡号(卡号***要点开完整显示)"
                 android:textColor="@color/clr_red_19"
+                android:textSize="12sp"
+                app:layout_constrainedWidth="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tvw_21"
-                app:layout_constraintTop_toBottomOf="@id/tvw_21" />
+                app:layout_constraintTop_toBottomOf="@id/tvw_21"
+                app:layout_constraintBottom_toTopOf="@id/tvw_23"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"/>
 
             <TextView
                 android:id="@+id/tvw_23"
@@ -150,6 +166,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="@dimen/layout_margin"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="12sp"
             android:text="*仅支持图片格式为png、jpg、jpeg，且大小不超过15MB" />
 
         <LinearLayout

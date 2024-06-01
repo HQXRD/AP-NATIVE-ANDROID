@@ -12,6 +12,8 @@
         android:layout_marginStart="6dp"
         android:layout_marginTop="@dimen/layout_margin"
         android:text="重要提醒"
+        android:textStyle="bold"
+        android:textSize="14sp"
         android:textColor="@color/clr_txt_black_03" />
 
     <TextView

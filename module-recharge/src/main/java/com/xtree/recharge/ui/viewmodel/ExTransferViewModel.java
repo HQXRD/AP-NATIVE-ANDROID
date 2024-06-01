@@ -7,7 +7,10 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -28,6 +31,7 @@ import com.xtree.base.utils.ImageUploadUtil;
 import com.xtree.base.widget.GlideEngine;
 import com.xtree.base.widget.ImageFileCompressEngine;
 import com.xtree.base.widget.LoadingDialog;
+import com.xtree.recharge.R;
 import com.xtree.recharge.data.RechargeRepository;
 import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.data.source.request.ExOrderCancelRequest;
@@ -105,6 +109,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     public MutableLiveData<String> bankNameOfPayment = new MutableLiveData<>();
     //付款卡号
     public MutableLiveData<String> bankNumberOfPayment = new MutableLiveData<>();
+    //充值提示
+    public MutableLiveData<SpannableString> tip1 = new MutableLiveData<>();
+    public MutableLiveData<SpannableString> tip2 = new MutableLiveData<>();
     private WeakReference<FragmentActivity> mActivity = null;
     public String canonicalName;
 
@@ -116,6 +123,8 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         close();
 
         getOrder();
+
+
     }
 
     /**
@@ -141,6 +150,8 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                         if (data != null) {
 
                             payOrderData.setValue(data);
+
+                            initTip();
 
                             checkCancleState();
                             checkCancleWaitState();
@@ -174,6 +185,40 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         addSubscribe(disposable);
 
         LoadingDialog.show(mActivity.get());
+    }
+
+    private void initTip() {
+        ExRechargeOrderCheckResponse.DataDTO pValue = payOrderData.getValue();
+        if (pValue == null) {
+            return;
+        }
+        String payName = pValue.getPayName();
+        String payBankName = pValue.getPayBankName();
+        String tip1String = "请使用" +
+                payName +
+                "的" +
+                payBankName +
+                "卡充值，确保后续可成功提现";
+        int color = mActivity.get().getResources().getColor(R.color.clr_red_24);
+        ForegroundColorSpan colorSpan1 = new ForegroundColorSpan(color);
+        ForegroundColorSpan colorSpan2 = new ForegroundColorSpan(color);
+        ForegroundColorSpan colorSpan3 = new ForegroundColorSpan(color);
+        ForegroundColorSpan colorSpan4 = new ForegroundColorSpan(color);
+
+        SpannableString tip1Sp = new SpannableString(tip1String);
+        tip1Sp.setSpan(colorSpan1, tip1String.indexOf(payName),
+                tip1String.indexOf(payName) + payName.length(),
+                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        tip1Sp.setSpan(colorSpan2, tip1String.indexOf(payBankName),
+                tip1String.indexOf(payBankName) + payBankName.length(),
+                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        tip1.setValue(tip1Sp);
+
+        SpannableString tip2Sp = new SpannableString("请转账成功后务必及时确认！否则可能造成延迟上分");
+        tip2Sp.setSpan(colorSpan3, 3, 5, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        tip2Sp.setSpan(colorSpan4, tip2Sp.length() - 4, tip2Sp.length(),
+                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+        tip2.setValue(tip2Sp);
     }
 
     /**
