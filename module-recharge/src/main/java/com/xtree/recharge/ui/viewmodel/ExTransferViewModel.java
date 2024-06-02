@@ -229,6 +229,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         ExRechargeOrderCheckResponse.DataDTO value = payOrderData.getValue();
         String expireTime = value.getExpireTime();
         long cancleOrderDifference = getDifferenceTimeByNow(expireTime);
+
+        if (cancleOrderDifference <= 0) {
+            toFail();
+            return;
+        }
         Disposable disposable = (Disposable) Flowable.intervalRange(0, cancleOrderDifference, 0, 1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(aLong -> {
@@ -258,6 +263,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         if (value.getAllowCancelWait() == 1) {
             String cancelWaitTime = value.getCancelWaitTime();
             long cancelWaitDifference = getDifferenceTimeByNow(cancelWaitTime);
+            if (cancelWaitDifference <= 0) {
+                toFail();
+                return;
+            }
+
             Disposable disposable = (Disposable) Flowable.intervalRange(0, cancelWaitDifference, 0, 1, TimeUnit.SECONDS)
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnNext(aLong -> {
@@ -371,9 +381,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         ExRechargeOrderCheckResponse.DataDTO pvalue = payOrderData.getValue();
         if (pvalue.getAllowCancel() == 1) {
             if (getDifferenceTimeByNow(pvalue.getAllowCancelTime()) > 0) {
-                cancleOrderStatus.setValue(true);
-            } else {
                 cancleOrderStatus.setValue(false);
+            } else {
+                cancleOrderStatus.setValue(true);
             }
         } else {
             cancleOrderStatus.setValue(false);
@@ -387,9 +397,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         ExRechargeOrderCheckResponse.DataDTO pvalue = payOrderData.getValue();
         if (pvalue.getAllowCancelWait() == 1) {
             if (getDifferenceTimeByNow(pvalue.getCancelWaitTime()) > 0) {
-                cancleOrderWaitStatus.setValue(true);
+                cancleOrderStatus.setValue(false);
             } else {
-                cancleOrderWaitStatus.setValue(false);
+                cancleOrderStatus.setValue(true);
             }
         } else {
             cancleOrderWaitStatus.setValue(false);
@@ -627,7 +637,10 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             now = Calendar.getInstance().getTime();
             end = format.parse(time);
-            differenceInSeconds = Math.abs((now.getTime() - end.getTime()) / 1000);
+            long t = now.getTime() - end.getTime();
+            if (t < 0) {
+                differenceInSeconds = Math.abs(t) / 1000;
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }
