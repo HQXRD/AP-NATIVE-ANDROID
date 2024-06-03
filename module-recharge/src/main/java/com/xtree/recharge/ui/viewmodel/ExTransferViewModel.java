@@ -229,11 +229,10 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         ExRechargeOrderCheckResponse.DataDTO value = payOrderData.getValue();
         String expireTime = value.getExpireTime();
         long cancleOrderDifference = getDifferenceTimeByNow(expireTime);
-
         if (cancleOrderDifference <= 0) {
-            toFail();
             return;
         }
+
         Disposable disposable = (Disposable) Flowable.intervalRange(0, cancleOrderDifference, 0, 1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(aLong -> {
@@ -264,7 +263,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             String cancelWaitTime = value.getCancelWaitTime();
             long cancelWaitDifference = getDifferenceTimeByNow(cancelWaitTime);
             if (cancelWaitDifference <= 0) {
-                toFail();
+                cancleOrderWaitStatus.setValue(false);
                 return;
             }
 
@@ -277,7 +276,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     .doOnComplete(new Action() {
                         @Override
                         public void run() throws Exception {
-                            toFail();
+                            cancleOrderWaitStatus.setValue(false);
                         }
                     })
                     .subscribe();
@@ -379,7 +378,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
      */
     private void checkCancleState() {
         ExRechargeOrderCheckResponse.DataDTO pvalue = payOrderData.getValue();
-        if (pvalue.getAllowCancel() == 1) {
+        if (pvalue.getStatus().equals("11") && pvalue.getAllowCancel() == 1) {
             if (getDifferenceTimeByNow(pvalue.getAllowCancelTime()) > 0) {
                 cancleOrderStatus.setValue(false);
             } else {
@@ -395,11 +394,14 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
      */
     private void checkCancleWaitState() {
         ExRechargeOrderCheckResponse.DataDTO pvalue = payOrderData.getValue();
-        if (pvalue.getAllowCancelWait() == 1) {
+        if (pvalue == null) {
+            return;
+        }
+        if (pvalue.getStatus().equals("13") && pvalue.getAllowCancelWait() == 1) {
             if (getDifferenceTimeByNow(pvalue.getCancelWaitTime()) > 0) {
-                cancleOrderStatus.setValue(false);
-            } else {
                 cancleOrderStatus.setValue(true);
+            } else {
+                cancleOrderStatus.setValue(false);
             }
         } else {
             cancleOrderWaitStatus.setValue(false);
@@ -433,6 +435,10 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 });
 
         addSubscribe(disposable);
+
+        if (mActivity.get() != null) {
+            LoadingDialog.show(mActivity.get());
+        }
     }
 
     /**
@@ -462,6 +468,10 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 });
 
         addSubscribe(disposable);
+
+        if (mActivity.get() != null) {
+            LoadingDialog.show(mActivity.get());
+        }
     }
 
     /**
@@ -550,7 +560,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
 
         addSubscribe(disposable);
 
-        LoadingDialog.show(mActivity.get());
+        if (mActivity.get() != null) {
+            LoadingDialog.show(mActivity.get());
+        }
     }
 
     /**
@@ -638,6 +650,24 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             now = Calendar.getInstance().getTime();
             end = format.parse(time);
             long t = now.getTime() - end.getTime();
+            if (t < 0) {
+                differenceInSeconds = Math.abs(t) / 1000;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return differenceInSeconds;
+    }
+
+    private long getDifferenceTime(String start, String end) {
+        long differenceInSeconds = 0;
+        Date startDate = null;
+        Date endDate = null;
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            startDate = format.parse(start);
+            endDate = format.parse(end);
+            long t = startDate.getTime() - endDate.getTime();
             if (t < 0) {
                 differenceInSeconds = Math.abs(t) / 1000;
             }
