@@ -48,6 +48,10 @@ public class SPKeyGlobal {
     public static final String PM_API_SERVICE_URL = "pm_api_service_url";
     public static final String PM_IMG_SERVICE_URL = "PM_IMG_SERVICE_URL";
     public static final String PM_USER_ID = "PM_USER_ID";
+    public static final String PMXC_TOKEN = "PMXC_TOKEN";
+    public static final String PMXC_API_SERVICE_URL = "PMXC_API_SERVICE_URL";
+    public static final String PMXC_IMG_SERVICE_URL = "PMXC_IMG_SERVICE_URL";
+    public static final String PMXC_USER_ID = "PMXC_USER_ID";
     public static final String MSG_INFO = "msg_info";
     public static final String MSG_PERSON_INFO = "msg_person_info";
     public static final String VIP_INFO = "vip_info";
@@ -60,5 +64,4 @@ public class SPKeyGlobal {
     public static final String IS_FIRST_OPEN_BROWSER = "isFirstOpenBrowser"; // 是否第一次打开webView组件
 
     public static final String PROMOTION_CODE ="PromotionCode";//注册推广码
-
 }

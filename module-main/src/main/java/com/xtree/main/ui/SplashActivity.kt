@@ -157,6 +157,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                 CfLog.i("getFBGameTokenApi init")
                 viewModel?.getFBGameTokenApi()
                 viewModel?.getFBXCGameTokenApi()
+                viewModel?.getPMXCGameTokenApi()
                 viewModel?.getPMGameTokenApi()
             } else {
                 mHandler.sendEmptyMessageDelayed(MSG_IN_MAIN, DELAY_MILLIS)

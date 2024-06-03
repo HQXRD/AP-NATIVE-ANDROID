@@ -3,6 +3,7 @@ package com.xtree.bet.weight;
 import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 
 import android.content.Context;
 import android.os.Handler;
@@ -85,7 +86,7 @@ public class BettingNetFloatingWindows extends FloatingWindows {
             rlAgent.setVisibility(bGameSwitchCheck ? VISIBLE : GONE);
 
             boolean isAgentCheck = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
-            if (!isAgentCheck && !TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            if (!isAgentCheck && !TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
                 nsvAgent.setVisibility(VISIBLE);
                 rvAgent.setLayoutManager(new LinearLayoutManager(mContext));
                 if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
@@ -100,7 +101,7 @@ public class BettingNetFloatingWindows extends FloatingWindows {
             hideSecondaryLayout();
         });
 
-        if (!isAgent && !TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!isAgent && !TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             nsvAgent.setVisibility(VISIBLE);
             rvAgent.setLayoutManager(new LinearLayoutManager(mContext));
             if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {

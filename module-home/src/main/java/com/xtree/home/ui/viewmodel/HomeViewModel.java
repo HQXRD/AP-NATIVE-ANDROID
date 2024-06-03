@@ -244,6 +244,32 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         addSubscribe(disposable);
     }
 
+    public void getPMXCGameTokenApi() {
+        String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
+        if (TextUtils.isEmpty(token)) {
+            return;
+        }
+        Disposable disposable = (Disposable) model.getApiService().getPMXCGameTokenApi()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<PMService>() {
+                    @Override
+                    public void onResult(PMService pmService) {
+                        SPUtils.getInstance().put(SPKeyGlobal.PMXC_TOKEN, pmService.getToken());
+                        SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, pmService.getApiDomain());
+                        SPUtils.getInstance().put(SPKeyGlobal.PMXC_IMG_SERVICE_URL, pmService.getImgDomain());
+                        SPUtils.getInstance().put(SPKeyGlobal.PMXC_USER_ID, pmService.getUserId());
+                        BtDomainUtil.setDefaultPmDomainUrl(pmService.getApiDomain());
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
     private List<GameVo> joinList(List<GameVo> a, List<GameStatusVo> b) {
         List<GameVo> mList = new ArrayList<>();
         for (GameVo vo : a) {
