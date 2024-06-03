@@ -25,6 +25,8 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
@@ -115,7 +117,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     public MutableLiveData<SpannableString> tip2 = new MutableLiveData<>();
     private WeakReference<FragmentActivity> mActivity = null;
     public String canonicalName;
-    private LoadingDialog loadingDialog = null;
+    private BasePopupView loadingDialog = null;
 
     public void initData(FragmentActivity mActivity, ExCreateOrderRequest createOrderInfo) {
         setActivity(mActivity);
@@ -143,7 +145,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             if (loadingDialog != null) {
                 loadingDialog.dismiss();
             }
-            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog = new XPopup.Builder(mActivity.get())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(new LoadingDialog(mActivity.get()))
+                    .show();
             loadingDialog.show();
         }
 
@@ -436,7 +442,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             if (loadingDialog != null) {
                 loadingDialog.dismiss();
             }
-            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog = new XPopup.Builder(mActivity.get())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(new LoadingDialog(mActivity.get()))
+                    .show();
             loadingDialog.show();
         }
 
@@ -481,7 +491,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             if (loadingDialog != null) {
                 loadingDialog.dismiss();
             }
-            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog = new XPopup.Builder(mActivity.get())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(new LoadingDialog(mActivity.get()))
+                    .show();
             loadingDialog.show();
         }
 
@@ -540,7 +554,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             if (loadingDialog != null) {
                 loadingDialog.dismiss();
             }
-            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog = new XPopup.Builder(mActivity.get())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(new LoadingDialog(mActivity.get()))
+                    .show();
             loadingDialog.show();
         }
 
@@ -598,7 +616,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             if (loadingDialog != null) {
                 loadingDialog.dismiss();
             }
-            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog = new XPopup.Builder(mActivity.get())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(new LoadingDialog(mActivity.get()))
+                    .show();
             loadingDialog.show();
         }
 
