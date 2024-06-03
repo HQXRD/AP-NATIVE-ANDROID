@@ -18,7 +18,7 @@
         <TextView
             style="@style/style_rc_exp_bank_status"
             android:drawableStart="@mipmap/rc_exp_bank_rst_5"
-            android:text="待确认付款"
+            android:text="订单已失败"
             android:textColor="@color/clr_red_19" />
 
         <View style="@style/style_dividing_line" />
