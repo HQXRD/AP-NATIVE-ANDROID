@@ -100,6 +100,7 @@
                     android:inputType="text"
                     android:maxLength="24"
                     textChangedListener="@{model}"
+                    android:background="@drawable/shape_solide_clrgrey58_stroke_white_1_c4"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

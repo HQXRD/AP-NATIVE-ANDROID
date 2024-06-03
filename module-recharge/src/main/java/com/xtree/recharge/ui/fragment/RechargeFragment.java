@@ -1025,7 +1025,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
      * 极速充值银行卡选择弹窗
      */
     private void showBankCardExDialog(RechargeVo vo) {
-        RechargeVo re = curRechargeVo; // viewModel.paymentLiveData.getValue();
+        RechargeVo re = viewModel.liveDataRecharge.getValue(); // viewModel.paymentLiveData.getValue();
         if (re == null || re.getOpBankList() == null) {
             return;
         }

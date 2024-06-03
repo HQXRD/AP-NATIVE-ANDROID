@@ -115,6 +115,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     public MutableLiveData<SpannableString> tip2 = new MutableLiveData<>();
     private WeakReference<FragmentActivity> mActivity = null;
     public String canonicalName;
+    private LoadingDialog loadingDialog = null;
 
     public void initData(FragmentActivity mActivity, ExCreateOrderRequest createOrderInfo) {
         setActivity(mActivity);
@@ -138,6 +139,14 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             return;
         }
 
+        if (mActivity != null && mActivity.get() != null) {
+            if (loadingDialog != null) {
+                loadingDialog.dismiss();
+            }
+            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog.show();
+        }
+
         ExRechargeOrderCheckRequest request = new ExRechargeOrderCheckRequest(cOrderData.getPid());
         Disposable disposable = (Disposable) model.rechargeOrderCheck(request)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
@@ -146,6 +155,10 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     @Override
                     public void onResult(ExRechargeOrderCheckResponse vo) {
                         CfLog.d(vo.toString());
+
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
 
                         ExRechargeOrderCheckResponse.DataDTO data = vo.getData();
                         if (data != null) {
@@ -180,12 +193,13 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     public void onError(Throwable t) {
                         t.printStackTrace();
                         super.onError(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
                     }
                 });
 
         addSubscribe(disposable);
-
-        LoadingDialog.show(mActivity.get());
     }
 
     private void initTip() {
@@ -419,7 +433,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         }
 
         if (mActivity != null && mActivity.get() != null) {
-            LoadingDialog.show(mActivity.get());
+            if (loadingDialog != null) {
+                loadingDialog.dismiss();
+            }
+            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog.show();
         }
 
         ExOrderCancelRequest request = new ExOrderCancelRequest(cOrderData.getPid(), pOrderData.getPlatformOrder());
@@ -430,15 +448,23 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 .subscribeWith(new HttpCallBack<BaseResponse>() {
                     @Override
                     public void onResult(BaseResponse response) {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+
                         toFail();
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
                     }
                 });
 
         addSubscribe(disposable);
-
-        if (mActivity.get() != null) {
-            LoadingDialog.show(mActivity.get());
-        }
     }
 
     /**
@@ -452,7 +478,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         }
 
         if (mActivity != null && mActivity.get() != null) {
-            LoadingDialog.show(mActivity.get());
+            if (loadingDialog != null) {
+                loadingDialog.dismiss();
+            }
+            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog.show();
         }
 
         ExOrderCancelRequest request = new ExOrderCancelRequest(cOrderData.getPid(), pOrderData.getPlatformOrder());
@@ -463,15 +493,22 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 .subscribeWith(new HttpCallBack<BaseResponse>() {
                     @Override
                     public void onResult(BaseResponse response) {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
                         toFail();
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
                     }
                 });
 
         addSubscribe(disposable);
-
-        if (mActivity.get() != null) {
-            LoadingDialog.show(mActivity.get());
-        }
     }
 
     /**
@@ -499,6 +536,14 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             return;
         }
 
+        if (mActivity != null && mActivity.get() != null) {
+            if (loadingDialog != null) {
+                loadingDialog.dismiss();
+            }
+            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog.show();
+        }
+
         ExReceiptUploadRequest request = new ExReceiptUploadRequest();
         request.setPid(cOrderData.getPid());
         request.setReceipt(ImageUploadUtil.bitmapToString(voucher.getValue().getPath()));
@@ -513,13 +558,23 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 .subscribeWith(new HttpCallBack<ExReceiptUploadResponse>() {
                     @Override
                     public void onResult(ExReceiptUploadResponse response) {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+
                         toConfirm();
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
                     }
                 });
 
         addSubscribe(disposable);
-
-        LoadingDialog.show(mActivity.get());
     }
 
     /**
@@ -539,6 +594,14 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             return;
         }
 
+        if (mActivity != null && mActivity.get() != null) {
+            if (loadingDialog != null) {
+                loadingDialog.dismiss();
+            }
+            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog.show();
+        }
+
         ExReceiptocrRequest request = new ExReceiptocrRequest();
         request.setPid(cOrderData.getPid());
         request.setReceipt(imageBase64);
@@ -550,19 +613,29 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 .subscribeWith(new HttpCallBack<ExReceiptocrResponse>() {
                     @Override
                     public void onResult(ExReceiptocrResponse response) {
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+
                         if (response != null) {
                             bankCodeOfPayment.setValue(response.getBankcode());
                             bankNameOfPayment.setValue(getBankNameByCode(response.getBankcode()));
                             bankNumberOfPayment.setValue(response.getPayAccount());
+                        } else {
+                            ToastUtils.show("图片无法识别，请重选", ToastUtils.ShowType.Default);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
                         }
                     }
                 });
 
         addSubscribe(disposable);
-
-        if (mActivity.get() != null) {
-            LoadingDialog.show(mActivity.get());
-        }
     }
 
     /**
