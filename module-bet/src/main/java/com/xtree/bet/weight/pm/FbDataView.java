@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 
 import com.xtree.bet.R;
 import com.xtree.bet.bean.ui.Match;
-import com.xtree.bet.constant.FBConstants;
 import com.xtree.bet.constant.PMConstants;
 import com.xtree.bet.weight.BaseDetailDataView;
 
@@ -27,6 +26,9 @@ public class FbDataView extends BaseDetailDataView implements View.OnClickListen
 
     @Override
     public void setMatch(Match match, boolean isMatchList){
+        List<Integer> matchScore = match.getFirstHalfScore();
+        ((TextView)findViewById(R.id.tv_half_score)).setText(match.isFootBallSecondHalf() ? getResources().getString(R.string.bt_detail_score_second_half, matchScore.get(0), matchScore.get(1))  : "");
+
         List<Integer> scoreYellowCard = match.getScore(String.valueOf(PMConstants.SCORE_TYPE_YELLOW_CARD));
         String yellowCard = hasScore(scoreYellowCard) ? getResources().getString(R.string.bt_detail_yellow_card, scoreYellowCard.get(0), scoreYellowCard.get(1))  : getResources().getString(R.string.bt_detail_yellow_card_empty, " -");
         ((TextView)findViewById(R.id.tv_yellow_card)).setText(yellowCard);

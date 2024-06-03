@@ -107,6 +107,10 @@ public class PMConstants {
      */
     public static String SCORE_TYPE_SCORE = "S1";
     /**
+     * 比分类型-上半场比分
+     */
+    public static String SCORE_TYPE_SCORE_SECOND_HALF = "S2";
+    /**
      * 比分类型-角球
      */
     public static String SCORE_TYPE_CORNER = "S5";

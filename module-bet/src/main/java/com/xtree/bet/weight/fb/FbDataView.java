@@ -26,6 +26,9 @@ public class FbDataView extends BaseDetailDataView implements View.OnClickListen
     }
 
     public void setMatch(Match match){
+        List<Integer> matchScore = match.getFirstHalfScore();
+        ((TextView)findViewById(R.id.tv_half_score)).setText(match.isFootBallSecondHalf() ? getResources().getString(R.string.bt_detail_score_second_half, matchScore.get(0), matchScore.get(1))  : "");
+
         List<Integer> scoreYellowCard = match.getScore(String.valueOf(FBConstants.SCORE_TYPE_YELLOW_CARD));
         String yellowCard = hasScore(scoreYellowCard) ? getResources().getString(R.string.bt_detail_yellow_card, scoreYellowCard.get(0), scoreYellowCard.get(1))  : getResources().getString(R.string.bt_detail_yellow_card_empty, " -");
         ((TextView)findViewById(R.id.tv_yellow_card)).setText(yellowCard);
