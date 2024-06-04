@@ -3,6 +3,7 @@ package com.xtree.home.ui.custom.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -56,10 +57,12 @@ public class RechargeFloatingWindows extends FloatingWindows {
         rechargeReportAdapter = new RechargeReportAdapter(mContext, vo -> {
             secondaryLayout.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);
             llLine.setVisibility(View.GONE);
-            if (vo.orderurl.isEmpty()) {
+            if (vo.sysParamPrefix.contains("onepayfix") && !TextUtils.isEmpty(vo.bankId)) {
+                goOrderDetail(vo); // 极速充值
+            } else if (vo.orderurl.isEmpty()) {
                 //new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, vo.payport_nickname, DomainUtil.getDomain2()
                 // + "/webapp/#/depositetail/" + vo.id)).show();
-                goOrderDetail(vo.id);
+                goOrderDetail(vo);
             } else {
                 new XPopup.Builder(mContext).asCustom(new BrowserDialog(mContext, vo.payport_nickname, vo.orderurl)).show();
             }
@@ -99,11 +102,12 @@ public class RechargeFloatingWindows extends FloatingWindows {
         getReportData();
     }
 
-    private void goOrderDetail(String id) {
+    private void goOrderDetail(RechargeOrderVo vo) {
         Bundle bundle = new Bundle();
         bundle.putBoolean("isShowBack", true);
         bundle.putBoolean("isShowOrderDetail", true);
-        bundle.putString("orderDetailId", id);
+        bundle.putString("orderDetailId", vo.id);
+        bundle.putParcelable("obj", vo);
         Intent intent = new Intent(getContext(), ContainerActivity.class);
         intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Recharge.PAGER_RECHARGE);
         if (bundle != null) {
