@@ -122,7 +122,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         //t.printStackTrace();
         if (t instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) t;
-            ToastUtils.showShort(rError.message);
+            ToastUtils.showLong(rError.message + " [" + rError.code + "]");
             KLog.e("code: " + rError.code);
             if (rError.code == 403) {
                 AppUtil.goWeb403();
@@ -130,7 +130,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             return;
         } else if (t instanceof BusinessException) {
             BusinessException rError = (BusinessException) t;
-            ToastUtils.showShort(rError.message);
+            ToastUtils.showLong(rError.message + " [" + rError.code + "]");
             return;
         }
         //其他全部甩锅网络异常
@@ -140,7 +140,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
     public void onFail(BusinessException t) {
         LoadingDialog.finish();
         KLog.e("error: " + t.toString());
-        ToastUtils.showShort(t.message);
+        ToastUtils.showLong(t.message + " [" + t.code + "]");
     }
 
     @Override

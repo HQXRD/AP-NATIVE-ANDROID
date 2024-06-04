@@ -33,6 +33,16 @@ public class ExRechargeOrderCheckResponse {
     @SerializedName("timestamp")
     private int timestamp;
 
+    @Override
+    public String toString() {
+        return "ExRechargeOrderCheckResponse{" +
+                "status=" + status +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                ", timestamp=" + timestamp +
+                '}';
+    }
+
     public int getStatus() {
         return status;
     }
@@ -66,6 +76,9 @@ public class ExRechargeOrderCheckResponse {
     }
 
     public static class DataDTO {
+
+        private String bid; // 充值渠道id (自己加的,极速充值 从悬浮按钮跳转到订单详情用)
+
         /**
          * platformOrder
          */
@@ -181,6 +194,44 @@ public class ExRechargeOrderCheckResponse {
          */
         @SerializedName("user_bank_info")
         private Object userBankInfo;
+
+        @Override
+        public String toString() {
+            return "DataDTO { " +
+                    "bid='" + bid + '\'' +
+                    ", platformOrder='" + platformOrder + '\'' +
+                    ", payAmount='" + payAmount + '\'' +
+                    ", payBankCode='" + payBankCode + '\'' +
+                    ", payName='" + payName + '\'' +
+                    ", payAccount='" + payAccount + '\'' +
+                    ", payBankName='" + payBankName + '\'' +
+                    ", returncode='" + returncode + '\'' +
+                    ", status='" + status + '\'' +
+                    ", message='" + message + '\'' +
+                    ", merchantOrder='" + merchantOrder + '\'' +
+                    ", createTime='" + createTime + '\'' +
+                    ", expireTime='" + expireTime + '\'' +
+                    ", allowCancelWait=" + allowCancelWait +
+                    ", cancelWaitTime='" + cancelWaitTime + '\'' +
+                    ", allowCancel=" + allowCancel +
+                    ", allowCancelTime='" + allowCancelTime + '\'' +
+                    ", bankAccount='" + bankAccount + '\'' +
+                    ", bankAccountName='" + bankAccountName + '\'' +
+                    ", bankCode='" + bankCode + '\'' +
+                    ", bankName='" + bankName + '\'' +
+                    ", bankArea='" + bankArea + '\'' +
+                    ", opBankList=" + opBankList +
+                    ", userBankInfo=" + userBankInfo +
+                    '}';
+        }
+
+        public String getBid() {
+            return bid;
+        }
+
+        public void setBid(String bid) {
+            this.bid = bid;
+        }
 
         public String getPlatformOrder() {
             return platformOrder;

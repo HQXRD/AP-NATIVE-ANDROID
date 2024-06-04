@@ -505,35 +505,34 @@ public interface HttpApiService {
     Flowable<USDTCashVo> getChooseWithdrawUSDT(@QueryMap Map<String, String> map);
 
     /**
-     * 银行卡提款提交
+     * USDT提款提交
      */
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<USDTSecurityVo> postPlatWithdrawUSDT(@Body Map<String, String> map);
 
     /**
-     * 银行卡确认提交
+     * USDT确认提交
      */
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<USDTConfirmVo> postConfirmWithdrawUSDT(@Body Map<String, String> map);
 
     /**
-     * USDT获取提款方式
+     * 虚拟币获取提款方式
      */
-    //https://ap3sport.oxldkm.com/security/platwithdraw/?controller=security&action=platwithdraw&check=&ismobile=true&usdt_type=4&is_tutorial=1&client=m
     @GET("/security/platwithdraw/?controller=security&action=platwithdraw&check=&ismobile=true&is_tutorial=1&client=m")
     Flowable<VirtualCashVo> getChooseWithdrawVirtual(@QueryMap Map<String, String> map);
 
     /**
-     * 银行卡提款提交
+     * 虚拟币提款提交
      */
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<VirtualSecurityVo> postPlatWithdrawVirtual(@Body Map<String, String> map);
 
     /**
-     * 银行卡确认提交
+     * 虚拟币确认提交
      */
     @POST("/security/platwithdraw?1=1&client=m")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
