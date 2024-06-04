@@ -59,9 +59,9 @@
     <string name="me_wallet_title">平台中心余额 (元)</string>
     <string name="me_wallet_deposit">去存款</string>
     <string name="me_wallet_amount">0.0000</string>
-    <string name="me_wallet_save">去存款</string>
-    <string name="me_wallet_transfer">去转账</string>
-    <string name="me_wallet_withdraw">去取款</string>
+    <string name="me_wallet_save">充值</string>
+    <string name="me_wallet_transfer">转账</string>
+    <string name="me_wallet_withdraw">提款</string>
     <string name="me_wallet_account">账户管理</string>
     <string name="me_wallet_record">充提记录</string>
     <string name="me_wallet_details">钱包明细</string>

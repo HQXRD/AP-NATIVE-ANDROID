@@ -231,7 +231,7 @@ public class MyWalletFragment extends BaseFragment<FragmentMyWalletBinding, MyWa
             if (awardsRecordVo != null && awardsRecordVo.list.size() > 0) {
                 binding.tvwAwardRecord.setText(awardsRecordVo.locked_award_sum);
             } else {
-                binding.tvwAwardRecord.setText("0.0000");
+                binding.tvwAwardRecord.setText("0.00");
             }
         });
     }
