@@ -151,8 +151,7 @@
                 android:layout_height="match_parent"
                 android:layout_below="@id/ll_virtual_top"
                 android:orientation="vertical"
-                android:visibility="visible"
-               >
+                android:visibility="visible">
                 <!--显示USDT 嗨钱包 以及注意事项-->
                 <LinearLayout
                     android:id="@+id/ll_virtual_usdt_selector"
@@ -167,66 +166,21 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
+                        <!--显示选项卡-->
                         <LinearLayout
+                            android:id="@+id/ll_show_choose_card"
                             android:layout_width="match_parent"
-                            android:layout_height="34dp"
-                            android:orientation="vertical">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="1dp"
+                            android:orientation="horizontal"
+                            android:visibility="visible">
 
-                            <RelativeLayout
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/rv_show_choose_card"
                                 android:layout_width="match_parent"
-                                android:layout_height="34dp">
+                                android:layout_height="30dp">
 
-                                <LinearLayout
-                                    android:id="@+id/ll_usdt"
-                                    android:layout_width="82dp"
-                                    android:layout_height="30dp"
-                                    android:background="@drawable/bg_dialog_top_bank_selected"
-                                    android:orientation="horizontal">
-
-                                    <RelativeLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
-
-                                        <TextView
-                                            android:id="@+id/tv_virtual_usdt"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_centerHorizontal="true"
-                                            android:layout_centerVertical="true"
-                                            android:layout_gravity="center"
-                                            android:gravity="center_horizontal"
-                                            android:text="USDT"
-                                            android:textColor="@color/white" />
-                                    </RelativeLayout>
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:id="@+id/ll_other_usdt"
-                                    android:layout_width="82dp"
-                                    android:layout_height="30dp"
-                                    android:layout_marginLeft="10dp"
-                                    android:layout_toRightOf="@id/ll_usdt"
-                                    android:background="@drawable/bg_dialog_top_bank_noselected"
-                                    android:orientation="horizontal">
-
-                                    <RelativeLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
-
-                                        <TextView
-                                            android:id="@+id/tv_virtual_other"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_centerHorizontal="true"
-                                            android:layout_centerVertical="true"
-                                            android:layout_gravity="center"
-                                            android:gravity="center_horizontal"
-                                            android:text="嗨钱包USDT"
-                                            android:textColor="@color/white" />
-                                    </RelativeLayout>
-                                </LinearLayout>
-                            </RelativeLayout>
+                            </androidx.recyclerview.widget.RecyclerView>
 
                         </LinearLayout>
 
@@ -275,20 +229,6 @@
 
                         <TextView
                             android:id="@+id/tv_withdrawal_type_show"
-                            style="@style/style_withdraw_confirm_value"
-                            tools:text="" />
-                    </LinearLayout>
-
-                    <View style="@style/style_withdraw_dividing_line" />
-
-                    <LinearLayout style="@style/style_withdraw_confirm_ll">
-
-                        <TextView
-                            style="@style/style_withdraw_show_title"
-                            android:text="@string/txt_withdrawal_enm" />
-
-                        <TextView
-                            android:id="@+id/tv_withdrawal_amount_method"
                             style="@style/style_withdraw_confirm_value"
                             tools:text="" />
                     </LinearLayout>
@@ -363,6 +303,10 @@
                     android:background="@drawable/bg_withdraw_money_input"
                     android:focusable="true"
                     android:focusableInTouchMode="true">
+
+                    <EditText
+                        android:layout_width="0dp"
+                        android:layout_height="0dp" />
 
                     <EditText
                         android:id="@+id/et_input_money"
