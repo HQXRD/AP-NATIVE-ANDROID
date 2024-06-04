@@ -226,7 +226,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
 
         binding.tvwTiyuGuize.setOnClickListener(v -> {
-            goWebView(v, Constant.URL_SPORT_RULES, false);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_SPORT_REGULAR);
         });
 
         //检查更新

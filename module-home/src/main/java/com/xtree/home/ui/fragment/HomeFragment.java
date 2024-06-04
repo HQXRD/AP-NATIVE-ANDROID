@@ -253,9 +253,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.liveDataVipInfo.observe(getViewLifecycleOwner(), vo -> {
             CfLog.d("*** " + vo.toString());
             if (vo.sp.equals("1")) {
-                binding.tvwVip.setText("VIP " + vo.display_level); // display_level
+                binding.ivwVip.setImageLevel(vo.display_level); // display_level
             } else {
-                binding.tvwVip.setText("VIP " + vo.level); // level
+                binding.ivwVip.setImageLevel(vo.level); // level
             }
         });
         //App更新

@@ -53,7 +53,7 @@ public class WalletRoomAdapter extends CachedAutoRefreshAdapter<GameBalanceVo> {
         CfLog.d(vo.toString());
 
         binding = ItemWalletRoomBinding.bind(holder.itemView);
-        binding.ivwLogo.setImageLevel(vo.orderId);
+        binding.ivwLogo.setImageLevel(vo.sortId);
         binding.tvwTitle.setText(vo.gameName);
         binding.tvwBalance.setText(vo.balance);
         chooseIcon(vo);
@@ -81,23 +81,23 @@ public class WalletRoomAdapter extends CachedAutoRefreshAdapter<GameBalanceVo> {
     }
 
     private void chooseIcon(GameBalanceVo vo) {
-        switch (vo.orderId) {
+        switch (vo.sortId) {
             case 1:
                 binding.ivwLogo.setImageResource(R.mipmap.me_ic_wlt_pt);
                 break;
             case 2:
                 binding.ivwLogo.setImageResource(R.mipmap.me_ic_wlt_bbin);
                 break;
-            case 4:
+            case 3:
                 binding.ivwLogo.setImageResource(R.mipmap.me_ic_wlt_ag);
                 break;
-            case 40:
+            case 4:
                 binding.ivwLogo.setImageResource(R.mipmap.me_ic_wlt_obgdj);
                 break;
-            case 20:
+            case 5:
                 binding.ivwLogo.setImageResource(R.mipmap.me_ic_wlt_yy);
                 break;
-            case 32:
+            case 6:
                 binding.ivwLogo.setImageResource(R.mipmap.me_ic_wlt_obgqp);
                 break;
             default:

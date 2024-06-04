@@ -155,6 +155,33 @@
             android:layout_height="1dp"
             android:background="@color/bt_color_line" />
 
+        <RelativeLayout
+            android:id="@+id/layout_go_sport_regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="体育规则"
+                android:textColor="@color/bt_text_color_primary_1"
+                android:textSize="@dimen/bt_text_14sp" />
+
+            <ImageView
+                android:id="@+id/iv_go_sport_regular"
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:layout_alignParentRight="true"
+                android:adjustViewBounds="true"
+                android:src="@mipmap/bt_go_sport_regular" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/bt_color_line" />
+
         <TextView
             android:id="@+id/tv_close"
             android:layout_width="wrap_content"
