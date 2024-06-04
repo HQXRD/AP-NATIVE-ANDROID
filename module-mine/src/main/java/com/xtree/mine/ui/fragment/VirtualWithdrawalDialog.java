@@ -155,8 +155,14 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         viewModel.virtualSecurityVoMutableLiveData.observe(owner, vo -> {
             usdtSecurityVo = vo;
             if (usdtSecurityVo == null || usdtSecurityVo.datas == null) {
-                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
-                dismiss();
+                if (usdtSecurityVo.msg_type == 2 && !TextUtils.isEmpty(usdtSecurityVo.message)){
+                    showErrorMessage(usdtSecurityVo.message);
+                    return;
+                }else {
+                    ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+                    dismiss();
+                }
+
             } else {
                 refreshSecurityUI();
             }
@@ -273,7 +279,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
             } else if (Double.valueOf(binding.etInputMoney.getText().toString()) < Double.valueOf(selectUsdtInfo.min_money)) {
                 ToastUtils.showLong(R.string.txt_input_amount_tip);
-            } else {
+            }  else {
                 hideKeyBoard();
                 requestWithdrawVirtual();
             }
@@ -484,4 +490,28 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
         ppwError.show();
     }
 
+    /**
+     *  显示错误提示信息
+     * @param message
+     */
+    private void showErrorMessage(final String message) {
+        if (ppwError == null) {
+            final String title = getContext().getString(R.string.txt_kind_tips);
+            ppwError = new XPopup.Builder(getContext()).asCustom(new MsgDialog(getContext(), title, message, true, new TipDialog.ICallBack() {
+                @Override
+                public void onClickLeft() {
+                    ppwError.dismiss();
+
+                }
+
+                @Override
+                public void onClickRight() {
+                    ppwError.dismiss();
+
+                }
+            }));
+
+        }
+        ppwError.show();
+    }
 }
