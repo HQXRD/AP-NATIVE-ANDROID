@@ -61,6 +61,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 public class HomeViewModel extends BaseViewModel<HomeRepository> {
 
     public MutableLiveData<List<BannersVo>> liveDataBanner = new MutableLiveData<>();
+    public MutableLiveData<List<BannersVo>> liveDataECLink = new MutableLiveData<>();
     public MutableLiveData<List<NoticeVo>> liveDataNotice = new MutableLiveData<>();
     //public MutableLiveData<List<GameStatusVo>> liveDataGameStatus = new MutableLiveData<>();
     public MutableLiveData<List<GameVo>> liveDataGames = new MutableLiveData<>();
@@ -97,6 +98,25 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         }
                         SPUtils.getInstance().put(SPKeyGlobal.HOME_BANNER_LIST, new Gson().toJson(list));
                         liveDataBanner.setValue(list);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e(t.toString());
+                        //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getECLink() {
+        Disposable disposable = (Disposable) model.getApiService().getECLink()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<List<BannersVo>>() {
+                    @Override
+                    public void onResult(List<BannersVo> list) {
+                        liveDataECLink.setValue(list);
                     }
 
                     @Override
@@ -291,8 +311,8 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 // 原生的,或者需要请求接口的
                 CfLog.w("******: " + vo);
             }
-            // 33:MG电子 17:CQ9娱乐 已下架 奥丁电子下一版再上线 杏彩体育2（109版本暂时隐藏）
-            if (vo.status == 2 || vo.cid == 17 || vo.cid == 33 || vo.cid == 43 || vo.cid == 42) {
+            // 33:MG电子 17:CQ9娱乐 已下架 奥丁电子下一版再上线
+            if (vo.status == 2 || vo.cid == 17 || vo.cid == 33 || vo.cid == 43) {
                 // 已下架,不要加到列表里面了
                 CfLog.w("not show: " + vo);
                 continue;
