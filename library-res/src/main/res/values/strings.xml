@@ -243,4 +243,6 @@
 
     <string name="txt_insufficient_balance">" 余额不足"</string>
     <string name="txt_no_withdrawal_address_for_this_withdrawal_type">暂时没有该提款类型的提款地址</string>
+    <string name="txt_no_withdrawal_address_for_trc20_type">暂时没有该提款类型的提款地址</string>
+
 </resources>
