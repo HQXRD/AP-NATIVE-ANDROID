@@ -53,42 +53,45 @@ public class ExceptionHandle {
                     ex.message = "网络错误";
                     break;
             }
-            return ex;
+            ex.message = ex.message + " [" + httpException.code() + "]";
+            // return ex;
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException || e instanceof MalformedJsonException) {
             ex = new ResponseThrowable(e, ERROR.PARSE_ERROR);
             ex.message = "解析错误";
-            return ex;
+            // return ex;
         } else if (e instanceof ConnectException) {
             ex = new ResponseThrowable(e, ERROR.NETWORD_ERROR, true);
             ex.message = "连接失败";
-            return ex;
+            // return ex;
         } else if (e instanceof javax.net.ssl.SSLException) {
             ex = new ResponseThrowable(e, ERROR.SSL_ERROR, true);
             ex.message = "证书验证失败";
-            return ex;
+            // return ex;
         } else if (e instanceof ConnectTimeoutException) {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR, true);
             ex.message = "连接超时";
-            return ex;
+            // return ex;
         } else if (e instanceof java.net.SocketTimeoutException) {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR, true);
             ex.message = "连接超时";
-            return ex;
+            // return ex;
         } else if (e instanceof java.net.UnknownHostException) {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR, true);
             ex.message = "主机地址未知";
-            return ex;
+            // return ex;
         } else if (e instanceof NullPointerException) {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR, true);
             ex.message = "主机地址未知";
-            return ex;
+            // return ex;
         } else {
             ex = new ResponseThrowable(e, ERROR.UNKNOWN);
             ex.message = "未知错误";
-            return ex;
+            // return ex;
         }
+        ex.message = ex.message + " [" + ex.getMessage() + "]";
+        return ex;
     }
 
     /**

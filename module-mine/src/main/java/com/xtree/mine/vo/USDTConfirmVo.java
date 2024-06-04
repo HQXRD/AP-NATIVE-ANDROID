@@ -1,7 +1,9 @@
 package com.xtree.mine.vo;
 
+import me.xtree.mvvmhabit.http.BaseResponse2;
+
 /*USDT提款确认后返回的model*/
-public class USDTConfirmVo {
+public class USDTConfirmVo extends BaseResponse2 {
     public User user;
     public String  msg_detail ;
     public String  msg_type;

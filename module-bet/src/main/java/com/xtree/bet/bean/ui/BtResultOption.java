@@ -65,4 +65,10 @@ public interface BtResultOption extends BaseBean {
      * @return
      */
     int getResultColor();
+
+    /**
+     * 获取盘口类型
+     * @return
+     */
+    String getMarketType();
 }
