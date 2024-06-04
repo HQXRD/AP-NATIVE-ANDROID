@@ -118,7 +118,7 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
         betOptionReq.setOptionType(betConfirmOption.getOptionType());
         betOptionReq.setOdds(betConfirmOption.getOption().getRealOdd());
         betOptionReq.setMarketId(betConfirmOption.getOptionList().getId());
-        betOptionReq.setOddsFormat(SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE));
+        betOptionReq.setOddsFormat(SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE, 1));
 
         singleBetReq.addBetOptionList(betOptionReq);
         singleBetListReq.addSingleBetList(singleBetReq);
@@ -163,7 +163,7 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
             betOptionReq.setOptionType(betConfirmOption.getOptionType());
             betOptionReq.setOdds(betConfirmOption.getOption().getRealOdd());
             betOptionReq.setMarketId(betConfirmOption.getOptionList().getId());
-            betOptionReq.setOddsFormat(1);
+            betOptionReq.setOddsFormat(SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE, 1));
             btMultipleListReq.addBtOptionList(betOptionReq);
         }
 
