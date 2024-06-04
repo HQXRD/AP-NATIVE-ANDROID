@@ -120,4 +120,9 @@ public class BtResultOptionPm implements BtResultOption {
             return R.color.bt_color_option_draw;
         }
     }
+
+    @Override
+    public String getMarketType() {
+        return TextUtils.equals(detailBean.marketType, "EU") ? "欧洲盘" : "香港盘";
+    }
 }

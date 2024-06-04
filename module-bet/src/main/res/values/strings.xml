@@ -39,7 +39,7 @@
     <string name="bt_bt_result_record_match_time">比赛时间：%1$s</string>
     <string name="bt_bt_result_id">注单号</string>
     <string name="bt_bt_result_id_1">订单号：%1$s</string>
-    <string name="bt_bt_result_bt_time">投注时间：%1$s</string>
+    <string name="bt_bt_result_bt_time">投注时间：%1$s（%2$s）</string>
     <string name="bt_bt_btn_comfirm">确 认</string>
     <string name="bt_bt_btn_colse">关 闭</string>
     <string name="bt_bt_tip_success">注单已确认</string>
