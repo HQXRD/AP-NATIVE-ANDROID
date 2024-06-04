@@ -32,6 +32,7 @@ import com.xtree.home.databinding.HmItemGameBinding;
 import com.xtree.home.ui.custom.view.TipPMDialog;
 import com.xtree.home.vo.GameVo;
 
+import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -250,7 +251,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             }
         }
     }
-
+    int time;
     private void goApp(GameVo vo) {
         String cgToken;
         if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
@@ -264,7 +265,18 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
 
         if (TextUtils.isEmpty(cgToken) || !BtDomainUtil.hasDefaultLine(vo.alias)) {
-            ToastUtils.showShort("场馆初始化中，请稍候...");
+            if(time < 3) {
+                ToastUtils.showShort("场馆初始化中，请稍候...");
+                time++;
+            }else {
+                ToastUtils.showShort("场馆初始化失败，即将重启应用，请保证手机网络通畅");
+                binding.getRoot().postDelayed(() -> {
+                    AppManager.getAppManager().AppExit();
+                    ARouter.getInstance().build(RouterActivityPath.Main.PAGER_SPLASH).
+                            withString("KEY_PLATFORM", vo.alias).navigation();
+                }, 2000);
+
+            }
         } else {
             ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
                     withString("KEY_PLATFORM", vo.alias).navigation();
