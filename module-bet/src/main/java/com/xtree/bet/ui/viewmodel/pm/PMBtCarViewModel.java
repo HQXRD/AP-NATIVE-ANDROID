@@ -199,7 +199,7 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
                     orderDetail.setPlayId(Long.valueOf(betConfirmOption.getPlayType().getId()));
                     orderDetail.setPlayOptionsId(betConfirmOption.getOption().getId());
                     orderDetail.setPlaceNum(betConfirmOption.getPlaceNum());
-                    int marketType = SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE);
+                    int marketType = SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE, 1);
                     orderDetail.setMarketTypeFinally(marketType == 1 ? "EU" : "HK");
                     orderDetailList.add(orderDetail);
                 }
