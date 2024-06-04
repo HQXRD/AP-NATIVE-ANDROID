@@ -4,6 +4,7 @@ import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.FeedbackCheckVo;
 import com.xtree.recharge.vo.FeedbackImageUploadVo;
 import com.xtree.recharge.vo.FeedbackVo;
+import com.xtree.recharge.vo.HiWalletVo;
 import com.xtree.recharge.vo.PayOrderDataVo;
 import com.xtree.recharge.vo.PaymentDataVo;
 import com.xtree.recharge.vo.PaymentVo;
@@ -70,7 +71,6 @@ public interface ApiService {
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<ResponseBody> post(@Path(value = "url", encoded = true) String url, @QueryMap(encoded = true) Map<String, Object> qmap, @Body Map<String, Object> map);
 
-
     @FormUrlEncoded
     @POST("auth/login")
     Flowable<BaseResponse<Object>> login(@Field("username") String username, @Field("password") String password);
@@ -83,7 +83,7 @@ public interface ApiService {
      */
     @POST("/api/deposit/payments/login/hiwallet")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
-    Flowable<BaseResponse<Map<String, String>>> get1kEntry(@Body Map<String, String> map);
+    Flowable<BaseResponse<HiWalletVo>> get1kEntry(@Body Map<String, String> map);
 
     /**
      * 获取 充值列表(分大小类)
