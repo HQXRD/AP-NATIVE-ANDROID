@@ -15,6 +15,7 @@ import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
+import com.xtree.base.vo.RechargeOrderVo;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.FloatingWindows;
 import com.xtree.home.R;
@@ -22,7 +23,6 @@ import com.xtree.home.data.source.HomeApiService;
 import com.xtree.home.data.source.HttpDataSource;
 import com.xtree.home.data.source.http.HttpDataSourceImpl;
 import com.xtree.home.ui.adapter.RechargeReportAdapter;
-import com.xtree.home.vo.RechargeOrderVo;
 import com.xtree.home.vo.RechargeReportVo;
 
 import java.util.ArrayList;

@@ -1,5 +1,7 @@
 package com.xtree.home.vo;
 
+import com.xtree.base.vo.RechargeOrderVo;
+
 import java.util.List;
 
 import me.xtree.mvvmhabit.http.BaseResponse2;

@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.vo.RechargeOrderVo;
 import com.xtree.home.R;
-import com.xtree.home.vo.RechargeOrderVo;
 
 public class RechargeReportAdapter extends CachedAutoRefreshAdapter<RechargeOrderVo> {
     Context ctx;
@@ -73,7 +73,7 @@ public class RechargeReportAdapter extends CachedAutoRefreshAdapter<RechargeOrde
                 String message = (String.valueOf(seconds / 60).length() == 2 ? String.valueOf((seconds / 60)) : "0" + (seconds / 60)) + ":"
                         + (String.valueOf(seconds % 60).length() == 2 ? (seconds % 60) : "0" + (seconds % 60));
 
-                CfLog.i(message);
+                //CfLog.d(message);
                 itemTime.setText(message);
             }
 
