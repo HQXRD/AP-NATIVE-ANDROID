@@ -177,7 +177,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:orientation="horizontal"
-            android:visibility="@{TextUtils.isEmpty(model.bankNumberOfPayment)?View.GONE:View.VISIBLE}"
+            android:visibility="@{model.showBankEdit?View.VISIBLE:View.GONE}"
             tools:visibility="visible">
 
             <TextView
@@ -201,7 +201,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:orientation="horizontal"
-            android:visibility="@{TextUtils.isEmpty(model.bankNumberOfPayment)?View.GONE:View.VISIBLE}"
+            android:visibility="@{model.showBankEdit?View.VISIBLE:View.GONE}"
             tools:visibility="visible">
 
             <TextView

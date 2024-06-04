@@ -74,6 +74,7 @@ import io.reactivex.functions.Action;
 import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.BaseResponse;
+import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -112,6 +113,8 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     public MutableLiveData<String> bankNameOfPayment = new MutableLiveData<>();
     //付款卡号
     public MutableLiveData<String> bankNumberOfPayment = new MutableLiveData<>();
+    //上传凭证页面 是否显示银行卡信息输入框
+    public MutableLiveData<Boolean> showBankEdit = new MutableLiveData<>(false);
     //充值提示
     public MutableLiveData<SpannableString> tip1 = new MutableLiveData<>();
     public MutableLiveData<SpannableString> tip2 = new MutableLiveData<>();
@@ -127,8 +130,6 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         close();
 
         getOrder();
-
-
     }
 
     /**
@@ -199,6 +200,14 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     public void onError(Throwable t) {
                         t.printStackTrace();
                         super.onError(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
                         if (loadingDialog != null) {
                             loadingDialog.dismiss();
                         }
@@ -472,6 +481,14 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                             loadingDialog.dismiss();
                         }
                     }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+                    }
                 });
 
         addSubscribe(disposable);
@@ -520,6 +537,14 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                             loadingDialog.dismiss();
                         }
                     }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+                    }
                 });
 
         addSubscribe(disposable);
@@ -540,12 +565,12 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             return;
         }
 
-        if (bankNumberOfPayment.getValue() == null) {
+        if (TextUtils.isEmpty(bankNumberOfPayment.getValue())) {
             ToastUtils.show("请输入付款账号", ToastUtils.ShowType.Default);
             return;
         }
 
-        if (bankCodeOfPayment.getValue() == null) {
+        if (TextUtils.isEmpty(bankCodeOfPayment.getValue())) {
             ToastUtils.show("请选择付款银行", ToastUtils.ShowType.Default);
             return;
         }
@@ -586,6 +611,13 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+                    }
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
                         if (loadingDialog != null) {
                             loadingDialog.dismiss();
                         }
@@ -646,11 +678,21 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                         } else {
                             ToastUtils.show("图片无法识别，请重选", ToastUtils.ShowType.Default);
                         }
-                    }
 
+                        showBankEdit.setValue(true);
+                    }
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+                        showBankEdit.setValue(true);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
                         if (loadingDialog != null) {
                             loadingDialog.dismiss();
                         }
@@ -872,15 +914,43 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     }
 
     /**
-     * 清理所有极速流程页面
+     * 清除数据
      */
-    public void finish() {
-        close();
+    private void clear() {
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+            loadingDialog = null;
+        }
 
         if (mActivity != null) {
             mActivity.clear();
             mActivity = null;
         }
+
+        canonicalName = null;
+        showBankEdit.setValue(false);
+        cancleOrderWaitStatus.setValue(false);
+        cancleOrderStatus.setValue(false);
+        bankNumberOfPayment.setValue(null);
+        bankNameOfPayment.setValue(null);
+        bankCodeOfPayment.setValue(null);
+        bankInfoData.setValue(null);
+        createOrderInfoData.setValue(null);
+        payOrderData.setValue(null);
+        voucher.setValue(null);
+        waitTime.setValue(null);
+        deadlinesData.setValue(null);
+        leftTimeData.setValue(null);
+        tip1.setValue(null);
+    }
+
+    /**
+     * 清理所有极速流程页面
+     */
+    public void finish() {
+        close();
+
+        clear();
 
         Stack<Activity> activityStack = AppManager.getActivityStack();
         for (Activity activity : activityStack) {
