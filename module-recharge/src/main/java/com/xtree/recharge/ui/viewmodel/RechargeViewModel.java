@@ -274,11 +274,11 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                 .subscribeWith(new HttpCallBack<ExRechargeOrderCheckResponse>() {
                     @Override
                     public void onResult(ExRechargeOrderCheckResponse vo) {
-                        vo.getData().setBid(bid); // 跳转要用
                         CfLog.d(vo.toString());
 
                         ExRechargeOrderCheckResponse.DataDTO data = vo.getData();
                         if (data != null) {
+                            vo.getData().setBid(bid); // 跳转要用
                             String status = data.getStatus();
                             switch (status) {
                                 case "00": //成功
@@ -305,6 +305,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                                     break;
                             }
                         } else {
+                            CfLog.w("no order...");
                             liveDataExpNoOrder.setValue(true); // 订单无效/没有订单
                         }
                     }
