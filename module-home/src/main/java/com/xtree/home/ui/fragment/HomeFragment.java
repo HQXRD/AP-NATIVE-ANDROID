@@ -46,6 +46,7 @@ import com.xtree.home.BR;
 import com.xtree.home.R;
 import com.xtree.home.databinding.FragmentHomeBinding;
 import com.xtree.home.ui.adapter.GameAdapter;
+import com.xtree.home.ui.custom.view.ECAnimDialog;
 import com.xtree.home.ui.custom.view.RechargeFloatingWindows;
 import com.xtree.home.ui.viewmodel.HomeViewModel;
 import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
@@ -187,6 +188,23 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.liveDataBanner.observe(getViewLifecycleOwner(), list -> {
             // banner
             binding.bnrTop.setDatas(list);
+        });
+        viewModel.liveDataECLink.observe(getViewLifecycleOwner(), list -> {
+            if (list == null || list.isEmpty() || list.get(0).app_target_link == null || list.get(0).app_target_link.isEmpty()) {
+                return;
+            }
+            String url = list.get(0).app_target_link;
+            int lastSlashIndex = url.lastIndexOf('/');
+            if (lastSlashIndex == -1) {
+                return;
+            }
+            url = url.substring(lastSlashIndex + 1);
+
+            BasePopupView ppw = new XPopup.Builder(getContext())
+                    .dismissOnBackPressed(true)
+                    .dismissOnTouchOutside(false)
+                    .asCustom(new ECAnimDialog(requireContext(), getString(url)));
+            ppw.show();
         });
 
         viewModel.liveDataNotice.observe(getViewLifecycleOwner(), list -> {
@@ -485,6 +503,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         }
 
         initFootball();
+    }
+
+    @Override
+    public void initData() {
+        boolean isLogin = getArguments().getBoolean("isLogin", false);
+        if (isLogin) {
+            viewModel.getECLink();
+        }
     }
 
     private void initFootball() {

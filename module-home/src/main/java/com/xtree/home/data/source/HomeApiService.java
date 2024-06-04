@@ -46,6 +46,12 @@ public interface HomeApiService {
     Flowable<BaseResponse<List<BannersVo>>> getBanners();
 
     /**
+     * 获取首页欧洲杯跳转链接
+     */
+    @GET("/api/bns/11/banners?limit=20")
+    Flowable<BaseResponse<List<BannersVo>>> getECLink();
+
+    /**
      * 获取 公告列表
      */
     @GET("/api/notice/list?page=1&per_page=10&sort=-istop,-sendtime")
