@@ -274,6 +274,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                 .subscribeWith(new HttpCallBack<ExRechargeOrderCheckResponse>() {
                     @Override
                     public void onResult(ExRechargeOrderCheckResponse vo) {
+                        vo.getData().setBid(bid); // 跳转要用
                         CfLog.d(vo.toString());
 
                         ExRechargeOrderCheckResponse.DataDTO data = vo.getData();
@@ -295,6 +296,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                                     } catch (ParseException e) {
                                         e.printStackTrace();
                                     }
+                                    CfLog.i("sec: " + differenceInSeconds);
                                     if (differenceInSeconds < 0) {
                                         liveDataCurOrder.setValue(vo);
                                     } else {

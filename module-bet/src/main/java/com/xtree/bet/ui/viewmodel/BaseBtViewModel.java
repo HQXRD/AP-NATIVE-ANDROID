@@ -3,6 +3,7 @@ package com.xtree.bet.ui.viewmodel;
 import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -71,7 +72,7 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
 
     public void getGameTokenApi() {
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             getFBGameTokenApi();
         } else {
             getPMGameTokenApi();
@@ -118,17 +119,34 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
     }
 
     public void getPMGameTokenApi() {
-        Disposable disposable = (Disposable) model.getBaseApiService().getPMGameTokenApi()
+        Flowable<BaseResponse<PMService>> flowable;
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
+            flowable = model.getBaseApiService().getPMXCGameTokenApi();
+        } else {
+            flowable = model.getBaseApiService().getPMGameTokenApi();
+        }
+        Disposable disposable = (Disposable) flowable
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<PMService>() {
                     @Override
                     public void onResult(PMService pmService) {
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
-                        BtDomainUtil.setDefaultPmDomainUrl(pmService.getApiDomain());
+
+                        if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
+                            SPUtils.getInstance().put(SPKeyGlobal.PMXC_TOKEN, pmService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, pmService.getApiDomain());
+                            SPUtils.getInstance().put(SPKeyGlobal.PMXC_IMG_SERVICE_URL, pmService.getImgDomain());
+                            SPUtils.getInstance().put(SPKeyGlobal.PMXC_USER_ID, pmService.getUserId());
+                            BtDomainUtil.setDefaultPmxcDomainUrl(pmService.getApiDomain());
+                        } else {
+                            SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
+                            SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
+                            SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
+                            BtDomainUtil.setDefaultPmDomainUrl(pmService.getApiDomain());
+                        }
+
                         tokenInvalidEvent.call();
                     }
 

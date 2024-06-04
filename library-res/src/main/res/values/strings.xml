@@ -242,4 +242,5 @@
     <string name="txt_chang_psw_input_format_error">密码格式不正确,请重新你输入</string>
 
     <string name="txt_insufficient_balance">" 余额不足"</string>
+    <string name="txt_no_withdrawal_address_for_this_withdrawal_type">暂时没有该提款类型的提款地址</string>
 </resources>

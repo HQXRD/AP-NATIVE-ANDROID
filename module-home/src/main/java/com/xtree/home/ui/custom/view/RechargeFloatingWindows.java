@@ -3,6 +3,7 @@ package com.xtree.home.ui.custom.view;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import com.xtree.base.net.RetrofitClient;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
+import com.xtree.base.vo.RechargeOrderVo;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.FloatingWindows;
 import com.xtree.home.R;
@@ -22,7 +24,6 @@ import com.xtree.home.data.source.HomeApiService;
 import com.xtree.home.data.source.HttpDataSource;
 import com.xtree.home.data.source.http.HttpDataSourceImpl;
 import com.xtree.home.ui.adapter.RechargeReportAdapter;
-import com.xtree.home.vo.RechargeOrderVo;
 import com.xtree.home.vo.RechargeReportVo;
 
 import java.util.ArrayList;
@@ -56,10 +57,12 @@ public class RechargeFloatingWindows extends FloatingWindows {
         rechargeReportAdapter = new RechargeReportAdapter(mContext, vo -> {
             secondaryLayout.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);
             llLine.setVisibility(View.GONE);
-            if (vo.orderurl.isEmpty()) {
+            if (vo.sysParamPrefix.contains("onepayfix") && !TextUtils.isEmpty(vo.bankId)) {
+                goOrderDetail(vo); // 极速充值
+            } else if (vo.orderurl.isEmpty()) {
                 //new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, vo.payport_nickname, DomainUtil.getDomain2()
                 // + "/webapp/#/depositetail/" + vo.id)).show();
-                goOrderDetail(vo.id);
+                goOrderDetail(vo);
             } else {
                 new XPopup.Builder(mContext).asCustom(new BrowserDialog(mContext, vo.payport_nickname, vo.orderurl)).show();
             }
@@ -99,11 +102,12 @@ public class RechargeFloatingWindows extends FloatingWindows {
         getReportData();
     }
 
-    private void goOrderDetail(String id) {
+    private void goOrderDetail(RechargeOrderVo vo) {
         Bundle bundle = new Bundle();
         bundle.putBoolean("isShowBack", true);
         bundle.putBoolean("isShowOrderDetail", true);
-        bundle.putString("orderDetailId", id);
+        bundle.putString("orderDetailId", vo.id);
+        bundle.putParcelable("obj", vo);
         Intent intent = new Intent(getContext(), ContainerActivity.class);
         intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Recharge.PAGER_RECHARGE);
         if (bundle != null) {

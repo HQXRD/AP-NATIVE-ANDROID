@@ -1,9 +1,9 @@
 package com.xtree.mine.vo;
 
-import java.util.ArrayList;
+import me.xtree.mvvmhabit.http.BaseResponse2;
 
 /*虚拟币提款 第一步返回的model*/
-public class VirtualSecurityVo {
+public class VirtualSecurityVo extends BaseResponse2 {
 
     /* "usdt_card":"******r123",
             "usdtid":3209,

@@ -115,6 +115,15 @@ public class MatchFb implements Match{
     }
 
     /**
+     * 是否足球比赛下半场
+     * @return
+     */
+    @Override
+    public boolean isFootBallSecondHalf() {
+        return matchInfo.mc.pe == 1003 || matchInfo.mc.pe == 1004;
+    }
+
+    /**
      * 获取走表时间，以秒为单位，如250秒，客户端用秒去转换成时分秒时间
      * @return
      */
@@ -150,6 +159,26 @@ public class MatchFb implements Match{
         if(matchInfo.nsg != null && !matchInfo.nsg.isEmpty()) {
             for (ScoreInfo scoreInfo : matchInfo.nsg) {
                 if (TextUtils.equals(String.valueOf(scoreInfo.tyg), type[0])) {
+                    return scoreInfo.sc;
+                }
+            }
+        }
+        List<Integer> sc = new ArrayList<>();
+        sc.add(0);
+        sc.add(0);
+        return sc;
+    }
+
+    /**
+     * 获取上半场比分信息
+     * @return
+     */
+    @Override
+    public List<Integer> getFirstHalfScore() {
+        if(matchInfo.nsg != null && !matchInfo.nsg.isEmpty()) {
+            for (ScoreInfo scoreInfo : matchInfo.nsg) {
+                if (TextUtils.equals(String.valueOf(scoreInfo.tyg), String.valueOf(FBConstants.SCORE_TYPE_SCORE)) &&
+                        TextUtils.equals(String.valueOf(scoreInfo.pe), "1002")) {
                     return scoreInfo.sc;
                 }
             }

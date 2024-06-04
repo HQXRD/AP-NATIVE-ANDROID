@@ -1,5 +1,7 @@
 package com.xtree.base.net;
 
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
+
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -30,7 +32,7 @@ public class FBHeaderInterceptor implements Interceptor {
         String platform = SPUtils.getInstance().getString("KEY_PLATFORM");
         String token;
 
-        if(TextUtils.equals(platform, "fbxc")) {
+        if(TextUtils.equals(platform, PLATFORM_FBXC)) {
             token = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_TOKEN);
         } else {
             token = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);

@@ -152,7 +152,7 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
         binding.rvMatch.setLayoutManager(new LinearLayoutManager(mContext));
         binding.rvMatch.setAdapter(new BtResultOptionAdapter(mContext, btResult.getBetResultOption(), btResult.isAdvanceSettlement()));
         binding.tvResultId.setText(mContext.getResources().getString(R.string.bt_bt_result_id_1, btResult.getId()));
-        binding.tvBtTime.setText(mContext.getResources().getString(R.string.bt_bt_result_bt_time, TimeUtils.longFormatString(btResult.getBtDate(), TimeUtils.FORMAT_YY_MM_DD_HH_MM)));
+        binding.tvBtTime.setText(mContext.getResources().getString(R.string.bt_bt_result_bt_time, TimeUtils.longFormatString(btResult.getBtDate(), TimeUtils.FORMAT_YY_MM_DD_HH_MM), btResult.getBetResultOption().get(0).getMarketType()));
         binding.tvBtResult.setText(btResult.getStatusDesc());
         binding.tvResultId.setOnClickListener(v -> {
             StringUtils.copy(btResult.getId());

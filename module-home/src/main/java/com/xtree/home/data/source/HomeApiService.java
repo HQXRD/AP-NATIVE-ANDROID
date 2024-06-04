@@ -116,6 +116,13 @@ public interface HomeApiService {
     Flowable<BaseResponse<PMService>> getPMGameTokenApi();
 
     /**
+     * 获取 PM杏彩体育2请求服务地址
+     */
+    @POST("/api/sports/obgzy/getToken?cachedToken=1")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<PMService>> getPMXCGameTokenApi();
+
+    /**
      * 获取 AUG LIST
      */
     @GET("/augame/list")

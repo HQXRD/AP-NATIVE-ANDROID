@@ -2,6 +2,7 @@ package com.xtree.bet.constant;
 
 import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 
 import android.text.TextUtils;
 import android.util.ArrayMap;
@@ -71,7 +72,7 @@ public class Constants {
      */
     public static String getScoreType(){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             return String.valueOf(FBConstants.SCORE_TYPE_SCORE);
         }else {
             return PMConstants.SCORE_TYPE_SCORE;
@@ -84,7 +85,7 @@ public class Constants {
      */
     public static String getRedCardType(){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             return String.valueOf(FBConstants.SCORE_TYPE_RED_CARD);
         }else {
             return PMConstants.SCORE_TYPE_RED_CARD;
@@ -97,7 +98,7 @@ public class Constants {
      */
     public static String getYellowCardType(){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             return String.valueOf(FBConstants.SCORE_TYPE_YELLOW_CARD);
         }else {
             return PMConstants.SCORE_TYPE_YELLOW_CARD;
@@ -106,7 +107,7 @@ public class Constants {
 
     public static int getBgMatchDetailTop(String sportId){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             return FBConstants.getBgMatchDetailTop(sportId);
         }else {
             return PMConstants.getBgMatchDetailTop(sportId);
@@ -119,7 +120,7 @@ public class Constants {
      */
     public static String getFbSportId(){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             return FBConstants.SPORT_ID_FB;
         }else {
             return PMConstants.SPORT_ID_FB;
@@ -132,7 +133,7 @@ public class Constants {
      */
     public static String getBsbSportId(){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             return FBConstants.SPORT_ID_BSB;
         }else {
             return PMConstants.SPORT_ID_BSB;
@@ -145,7 +146,7 @@ public class Constants {
      */
     public static int getHotLeagueIcon(String code){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             return FBConstants.getHotLeagueIcon(code);
         }else {
             return PMConstants.getHotLeagueIcon(code);
@@ -158,7 +159,7 @@ public class Constants {
      */
     public static List<HotLeague> getHotFootBallLeagueTopList(){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             return FBConstants.getHotFootBallLeagueTopList();
         }else {
             return PMConstants.getHotFootBallLeagueTopList();
@@ -171,7 +172,7 @@ public class Constants {
      */
     public static List<HotLeague> getHotBasketBallLeagueTopList(){
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             return FBConstants.getHotBasketFootBallLeagueTopList();
         }else {
             return PMConstants.getHotBasketFootBallLeagueTopList();

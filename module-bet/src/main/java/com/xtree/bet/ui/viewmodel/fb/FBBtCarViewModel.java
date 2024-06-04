@@ -22,6 +22,7 @@ import com.xtree.bet.bean.ui.BtResult;
 import com.xtree.bet.bean.ui.BtResultFb;
 import com.xtree.bet.bean.ui.CgOddLimit;
 import com.xtree.bet.bean.ui.CgOddLimitFb;
+import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.data.BetRepository;
 import com.xtree.bet.ui.viewmodel.TemplateBtCarViewModel;
 
@@ -31,6 +32,7 @@ import java.util.List;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 /**
  * Created by marquis
@@ -116,7 +118,7 @@ public class FBBtCarViewModel extends TemplateBtCarViewModel {
         betOptionReq.setOptionType(betConfirmOption.getOptionType());
         betOptionReq.setOdds(betConfirmOption.getOption().getRealOdd());
         betOptionReq.setMarketId(betConfirmOption.getOptionList().getId());
-        betOptionReq.setOddsFormat(1);
+        betOptionReq.setOddsFormat(SPUtils.getInstance().getInt(SPKey.BT_MATCH_LIST_ODDTYPE));
 
         singleBetReq.addBetOptionList(betOptionReq);
         singleBetListReq.addSingleBetList(singleBetReq);

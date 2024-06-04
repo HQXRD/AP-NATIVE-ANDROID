@@ -168,6 +168,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             viewModel.getFBGameTokenApi();
             viewModel.getFBXCGameTokenApi();
             viewModel.getPMGameTokenApi();
+            viewModel.getPMXCGameTokenApi();
         }
     }
 

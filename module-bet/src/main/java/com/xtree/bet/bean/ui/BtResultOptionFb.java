@@ -22,8 +22,8 @@ public class BtResultOptionFb implements BtResultOption {
 
         btResultMap.put("0", "未结算");
         btResultMap.put("2", "走水");
-        btResultMap.put("3", "全输");
-        btResultMap.put("4", "全赢");
+        btResultMap.put("3", "输");
+        btResultMap.put("4", "赢");
         btResultMap.put("5", "赢半");
         btResultMap.put("6", "输半");
         btResultMap.put("7", "玩法取消");
@@ -107,5 +107,10 @@ public class BtResultOptionFb implements BtResultOption {
         } else {
             return R.color.bt_color_option_draw;
         }
+    }
+
+    @Override
+    public String getMarketType() {
+        return btResultOptionInfo.of == 1 ? "欧洲盘" : "香港盘";
     }
 }

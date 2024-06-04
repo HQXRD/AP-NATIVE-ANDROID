@@ -5,6 +5,7 @@ import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM_NAME;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FB;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 
 import android.animation.ObjectAnimator;
 import android.content.res.ColorStateList;
@@ -287,6 +288,12 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             } else {
                 SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
             }
+        } else if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
+            if (isAgent) {
+                SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, DomainUtil.getDomain());
+            } else {
+                SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
+            }
         } else {
             if (isAgent) {
                 SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getDomain());
@@ -308,7 +315,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
     @Override
     public TemplateMainViewModel initViewModel() {
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
             return new ViewModelProvider(this, factory).get(FBMainViewModel.class);
         } else {
@@ -974,7 +981,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 更换线路后重置viewmodel
      */
     private void resetViewModel() {
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             AppViewModelFactory.init();
         } else {
             PMAppViewModelFactory.init();
@@ -989,7 +996,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         }
         viewModel = null;
         initViewDataBinding(mSavedInstanceState);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             viewModel.setModel(AppViewModelFactory.getInstance(getApplication()).getRepository());
         } else {
             viewModel.setModel(PMAppViewModelFactory.getInstance(getApplication()).getRepository());
@@ -1010,7 +1017,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      */
     private void setDomain(boolean isChecked) {
         SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_AGENT + mPlatform, isChecked);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             // FB体育使用线路位置
             int useLinePotion = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
 
@@ -1111,7 +1118,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     @Override
     public void initViewObservable() {
         viewModel.reNewViewModel.observe(this, unused -> {
-            if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
                 AppViewModelFactory.init();
             } else {
                 PMAppViewModelFactory.init();
@@ -1126,7 +1133,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
             viewModel = null;
             initViewDataBinding(mSavedInstanceState);
-            if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
                 viewModel.setModel(AppViewModelFactory.getInstance(getApplication()).getRepository());
             } else {
                 viewModel.setModel(PMAppViewModelFactory.getInstance(getApplication()).getRepository());

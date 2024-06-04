@@ -13,12 +13,14 @@ public class BtDomainUtil {
     public final static String PLATFORM_FBXC = "fbxc";
     public final static String PLATFORM_FB = "fb";
     public final static String PLATFORM_PM = "obg";
+    public final static String PLATFORM_PMXC = "obgzy";
     private static List<String> domainUrl = new ArrayList<>();
     private static List<String> fbDomainUrl = new ArrayList<>();
     private static List<String> fbxcDomainUrl = new ArrayList<>();
     private static String defaultFbDomainUrl;
     private static String defaultFbxcDomainUrl;
     private static String defaultPmDomainUrl;
+    private static String defaultPmxcDomainUrl;
 
     /**
      * 是否支持多线路
@@ -37,6 +39,8 @@ public class BtDomainUtil {
             return !TextUtils.isEmpty(defaultFbxcDomainUrl);
         } else if (TextUtils.equals(platform, PLATFORM_FB)) {
             return !TextUtils.isEmpty(defaultFbDomainUrl);
+        } else if (TextUtils.equals(platform, PLATFORM_PMXC)) {
+            return !TextUtils.isEmpty(defaultPmxcDomainUrl);
         } else {
             return !TextUtils.isEmpty(defaultPmDomainUrl);
         }
@@ -53,6 +57,8 @@ public class BtDomainUtil {
             BtDomainUtil.domainUrl.addAll(BtDomainUtil.getFbxcDomainUrl());
         } else if (TextUtils.equals(platform, PLATFORM_FB)) {
             BtDomainUtil.domainUrl.addAll(BtDomainUtil.getFbDomainUrl());
+        } else if (TextUtils.equals(platform, PLATFORM_PMXC)) {
+            BtDomainUtil.domainUrl.add(defaultPmxcDomainUrl);
         } else {
             BtDomainUtil.domainUrl.add(defaultPmDomainUrl);
         }
@@ -106,5 +112,13 @@ public class BtDomainUtil {
 
     public static void setDefaultPmDomainUrl(String defaultPmDomainUrl) {
         BtDomainUtil.defaultPmDomainUrl = defaultPmDomainUrl;
+    }
+
+    public static String getDefaultPmxcDomainUrl() {
+        return defaultPmxcDomainUrl;
+    }
+
+    public static void setDefaultPmxcDomainUrl(String defaultPmxcDomainUrl) {
+        BtDomainUtil.defaultPmxcDomainUrl = defaultPmxcDomainUrl;
     }
 }

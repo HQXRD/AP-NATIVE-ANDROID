@@ -48,6 +48,12 @@ public interface Match extends BaseBean {
     String getStage();
 
     /**
+     * 是否足球比赛下半场
+     * @return
+     */
+    boolean isFootBallSecondHalf();
+
+    /**
      * 获取走表时间，以秒为单位，如250秒，客户端用秒去转换成时分秒时间
      * @return
      */
@@ -66,6 +72,11 @@ public interface Match extends BaseBean {
      * @return
      */
     List<Integer> getScore(String... type);
+    /**
+     * 获取上半场比分信息
+     * @return
+     */
+    List<Integer> getFirstHalfScore();
     /**
      * 获取比分信息
      * @param type 比分类型，例如角球、黄牌等

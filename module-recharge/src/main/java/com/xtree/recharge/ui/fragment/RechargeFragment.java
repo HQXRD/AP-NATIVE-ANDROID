@@ -40,6 +40,7 @@ import com.xtree.base.utils.TagUtils;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.vo.RechargeOrderVo;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.ListDialog;
 import com.xtree.base.widget.LoadingDialog;
@@ -1025,7 +1026,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
      * 极速充值银行卡选择弹窗
      */
     private void showBankCardExDialog(RechargeVo vo) {
-        RechargeVo re = curRechargeVo; // viewModel.paymentLiveData.getValue();
+        RechargeVo re = viewModel.liveDataRecharge.getValue(); // viewModel.paymentLiveData.getValue();
         if (re == null || re.getOpBankList() == null) {
             return;
         }
@@ -1082,7 +1083,15 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         isShowOrderDetail = getArguments().getBoolean("isShowOrderDetail");
         if (isShowOrderDetail) {
             String id = getArguments().getString("orderDetailId");
-            viewModel.getOrderDetail(id);
+            RechargeOrderVo vo = getArguments().getParcelable("obj");
+            CfLog.i("RechargeOrderVo: " + (vo != null));
+            if (vo != null && vo.sysParamPrefix.contains(ONEPAYFIX)) {
+                CfLog.i("RechargeOrderVo, bankId: " + vo.bankId);
+                viewModel.checkOrder(vo.bankId); // 根据充值渠道ID 查询订单详情 (极速充值)
+            } else {
+                viewModel.getOrderDetail(id); // 普通充值
+            }
+
         }
 
     }
@@ -1408,18 +1417,21 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         //当前是否有极速订单
         viewModel.liveDataCurOrder.observe(getViewLifecycleOwner(), vo -> {
-            String realName = binding.edtName.getText().toString().trim();
-            String txt = binding.tvwRealAmount.getText().toString();
+            CfLog.i("****** liveDataCurOrder");
+            // 可能是用户点极速充值渠道来的; 也可能是从悬浮的未完成订单跳过来的(curRechargeVo为空)
+            //String realName = binding.edtName.getText().toString().trim();
+            //String txt = binding.tvwRealAmount.getText().toString();
             ExCreateOrderRequest request = new ExCreateOrderRequest();
-            request.setPid(curRechargeVo.bid);
-            request.setPayAmount(txt);
-            if (TextUtils.isEmpty(bankCode)) {
-                request.setUserBankId(bankId);
-            } else {
-                request.setPayBankCode(bankCode);
-            }
-            request.setPayName(realName);
-            request.setPayBankName(binding.tvwBankCard.getText().toString());
+            request.setPid(vo.getData().getBid()); // curRechargeVo.bid
+            request.setPayAmount(vo.getData().getPayAmount()); // txt
+            //if (TextUtils.isEmpty(bankCode)) {
+            //    request.setUserBankId(bankId);
+            //} else {
+            //    request.setPayBankCode(bankCode);
+            //}
+            request.setPayBankCode(vo.getData().getPayBankCode()); // bankCode
+            request.setPayName(vo.getData().getPayName()); // realName
+            request.setPayBankName(vo.getData().getPayBankName()); // binding.tvwBankCard.getText().toString()
 
             RxBus.getDefault().postSticky(request);
             String status = vo.getData().getStatus();
@@ -1432,6 +1444,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     break;
                 case "14":
                     startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CONFIRM);
+                    break;
+                default:
+                    CfLog.w("status: " + status);
                     break;
             }
         });

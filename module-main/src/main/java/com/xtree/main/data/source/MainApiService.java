@@ -32,4 +32,12 @@ public interface MainApiService {
     @POST("/api/sports/obg/getToken?cachedToken=1")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<PMService>> getPMGameTokenApi();
+
+    /**
+     * 获取 PM杏彩体育2请求服务地址
+     * @return
+     */
+    @POST("/api/sports/obgzy/getToken?cachedToken=1")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<PMService>> getPMXCGameTokenApi();
 }
