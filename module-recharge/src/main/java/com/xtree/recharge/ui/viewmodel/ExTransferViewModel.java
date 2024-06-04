@@ -12,6 +12,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -25,6 +26,8 @@ import com.luck.picture.lib.config.PictureMimeType;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
+import com.lxj.xpopup.XPopup;
+import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
@@ -72,6 +75,7 @@ import io.reactivex.functions.Action;
 import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.BaseResponse;
+import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -110,12 +114,14 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     public MutableLiveData<String> bankNameOfPayment = new MutableLiveData<>();
     //付款卡号
     public MutableLiveData<String> bankNumberOfPayment = new MutableLiveData<>();
+    //上传凭证页面 是否显示银行卡信息输入框
+    public MutableLiveData<Boolean> showBankEdit = new MutableLiveData<>(false);
     //充值提示
     public MutableLiveData<SpannableString> tip1 = new MutableLiveData<>();
     public MutableLiveData<SpannableString> tip2 = new MutableLiveData<>();
     private WeakReference<FragmentActivity> mActivity = null;
     public String canonicalName;
-    private LoadingDialog loadingDialog = null;
+    private BasePopupView loadingDialog = null;
 
     public void initData(FragmentActivity mActivity, ExCreateOrderRequest createOrderInfo) {
         setActivity(mActivity);
@@ -125,8 +131,6 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         close();
 
         getOrder();
-
-
     }
 
     /**
@@ -143,7 +147,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             if (loadingDialog != null) {
                 loadingDialog.dismiss();
             }
-            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog = new XPopup.Builder(mActivity.get())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(new LoadingDialog(mActivity.get()))
+                    .show();
             loadingDialog.show();
         }
 
@@ -193,6 +201,14 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     public void onError(Throwable t) {
                         t.printStackTrace();
                         super.onError(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
                         if (loadingDialog != null) {
                             loadingDialog.dismiss();
                         }
@@ -345,7 +361,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         ExRechargeOrderCheckResponse.DataDTO data = payOrderData.getValue();
         String status = data.getStatus();
         switch (status) {
-            case "11":
+            case "11": //系统查核中
                 if (bankInfoData.getValue() == null) {
                     ExBankInfoResponse bankInfo = new ExBankInfoResponse();
                     bankInfo.setBankAccount(data.getBankAccount());
@@ -365,7 +381,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     toPayee();
                 }
                 break;
-            case "14":
+            case "14": // 回单审核中
                 if (bankInfoData.getValue() == null) {
                     ExBankInfoResponse bankInfo = new ExBankInfoResponse();
                     bankInfo.setBankAccount(data.getBankAccount());
@@ -381,8 +397,16 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     bankInfoData.setValue(bankInfo);
                 }
                 break;
-            case "03":
+            case "03": //失败
                 toFail();
+                break;
+            case "00": //成功
+                if (!canonicalName.equals(ExTransferConfirmFragment.class.getCanonicalName())) {
+                    toConfirm();
+                }
+                ToastUtils.show("该渠道充值订单已成功", Toast.LENGTH_LONG, 1);
+                break;
+            case "13": //配对中
                 break;
         }
     }
@@ -436,7 +460,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             if (loadingDialog != null) {
                 loadingDialog.dismiss();
             }
-            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog = new XPopup.Builder(mActivity.get())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(new LoadingDialog(mActivity.get()))
+                    .show();
             loadingDialog.show();
         }
 
@@ -462,6 +490,14 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                             loadingDialog.dismiss();
                         }
                     }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+                    }
                 });
 
         addSubscribe(disposable);
@@ -481,7 +517,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             if (loadingDialog != null) {
                 loadingDialog.dismiss();
             }
-            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog = new XPopup.Builder(mActivity.get())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(new LoadingDialog(mActivity.get()))
+                    .show();
             loadingDialog.show();
         }
 
@@ -506,6 +546,14 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                             loadingDialog.dismiss();
                         }
                     }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+                    }
                 });
 
         addSubscribe(disposable);
@@ -526,13 +574,13 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             return;
         }
 
-        if (bankNumberOfPayment.getValue() == null) {
-            ToastUtils.show("请输入付款账号", ToastUtils.ShowType.Default);
+        if (TextUtils.isEmpty(bankCodeOfPayment.getValue())) {
+            ToastUtils.show("请选择付款银行", ToastUtils.ShowType.Default);
             return;
         }
 
-        if (bankCodeOfPayment.getValue() == null) {
-            ToastUtils.show("请选择付款银行", ToastUtils.ShowType.Default);
+        if (TextUtils.isEmpty(bankNumberOfPayment.getValue())) {
+            ToastUtils.show("请输入付款账号", ToastUtils.ShowType.Default);
             return;
         }
 
@@ -540,7 +588,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             if (loadingDialog != null) {
                 loadingDialog.dismiss();
             }
-            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog = new XPopup.Builder(mActivity.get())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(new LoadingDialog(mActivity.get()))
+                    .show();
             loadingDialog.show();
         }
 
@@ -572,6 +624,13 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                             loadingDialog.dismiss();
                         }
                     }
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+                    }
                 });
 
         addSubscribe(disposable);
@@ -598,7 +657,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             if (loadingDialog != null) {
                 loadingDialog.dismiss();
             }
-            loadingDialog = new LoadingDialog(mActivity.get());
+            loadingDialog = new XPopup.Builder(mActivity.get())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(new LoadingDialog(mActivity.get()))
+                    .show();
             loadingDialog.show();
         }
 
@@ -624,11 +687,21 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                         } else {
                             ToastUtils.show("图片无法识别，请重选", ToastUtils.ShowType.Default);
                         }
-                    }
 
+                        showBankEdit.setValue(true);
+                    }
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
+                        if (loadingDialog != null) {
+                            loadingDialog.dismiss();
+                        }
+                        showBankEdit.setValue(true);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        super.onFail(t);
                         if (loadingDialog != null) {
                             loadingDialog.dismiss();
                         }
@@ -769,7 +842,6 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
 
     public void toConfirm() {
         startContainerActivity(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CONFIRM);
-        close();
     }
 
     public void toVoucher() {
@@ -850,15 +922,43 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     }
 
     /**
-     * 清理所有极速流程页面
+     * 清除数据
      */
-    public void finish() {
-        close();
+    private void clear() {
+        if (loadingDialog != null) {
+            loadingDialog.dismiss();
+            loadingDialog = null;
+        }
 
         if (mActivity != null) {
             mActivity.clear();
             mActivity = null;
         }
+
+        canonicalName = null;
+        showBankEdit.setValue(false);
+        cancleOrderWaitStatus.setValue(false);
+        cancleOrderStatus.setValue(false);
+        bankNumberOfPayment.setValue(null);
+        bankNameOfPayment.setValue(null);
+        bankCodeOfPayment.setValue(null);
+        bankInfoData.setValue(null);
+        createOrderInfoData.setValue(null);
+        payOrderData.setValue(null);
+        voucher.setValue(null);
+        waitTime.setValue(null);
+        deadlinesData.setValue(null);
+        leftTimeData.setValue(null);
+        tip1.setValue(null);
+    }
+
+    /**
+     * 清理所有极速流程页面
+     */
+    public void finish() {
+        close();
+
+        clear();
 
         Stack<Activity> activityStack = AppManager.getActivityStack();
         for (Activity activity : activityStack) {
