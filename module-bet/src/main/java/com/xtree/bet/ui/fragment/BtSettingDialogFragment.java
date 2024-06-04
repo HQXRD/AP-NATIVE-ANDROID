@@ -10,12 +10,16 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.ClickUtil;
+import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.widget.BrowserActivity;
 import com.xtree.bet.R;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
@@ -80,6 +84,7 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
             RxBus.getDefault().post(new BetContract(BetContract.ACTION_MARKET_CHANGE, market));
             SPUtils.getInstance().put(SPKey.BT_MATCH_LIST_ODDTYPE, market);
         });
+        binding.ivGoSportRegular.setOnClickListener(v -> startContainerFragment(RouterFragmentPath.Mine.PAGER_SPORT_REGULAR));
         long[] leagues = getArguments().getLongArray(KEY_LEAGUEIDS);
         if (leagues != null && leagues.length > 0) {
             for (int i = 0; i < leagues.length; i++) {
@@ -162,5 +167,11 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
             PMAppViewModelFactory factory = PMAppViewModelFactory.getInstance((Application) Utils.getContext());
             return new ViewModelProvider(this, factory).get(PMBtCarViewModel.class);
         }
+    }
+
+    private void goWebView(View v, String path, boolean isContainTitle) {
+        String title = ((TextView) v).getText().toString();
+        String url = DomainUtil.getDomain2() + path;
+        BrowserActivity.start(getContext(), title, url, isContainTitle);
     }
 }
