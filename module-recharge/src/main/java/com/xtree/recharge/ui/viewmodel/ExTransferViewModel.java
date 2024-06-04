@@ -12,6 +12,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -360,7 +361,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         ExRechargeOrderCheckResponse.DataDTO data = payOrderData.getValue();
         String status = data.getStatus();
         switch (status) {
-            case "11":
+            case "11": //系统查核中
                 if (bankInfoData.getValue() == null) {
                     ExBankInfoResponse bankInfo = new ExBankInfoResponse();
                     bankInfo.setBankAccount(data.getBankAccount());
@@ -380,7 +381,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     toPayee();
                 }
                 break;
-            case "14":
+            case "14": // 回单审核中
                 if (bankInfoData.getValue() == null) {
                     ExBankInfoResponse bankInfo = new ExBankInfoResponse();
                     bankInfo.setBankAccount(data.getBankAccount());
@@ -396,8 +397,16 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     bankInfoData.setValue(bankInfo);
                 }
                 break;
-            case "03":
+            case "03": //失败
                 toFail();
+                break;
+            case "00": //成功
+                if (!canonicalName.equals(ExTransferConfirmFragment.class.getCanonicalName())) {
+                    toConfirm();
+                }
+                ToastUtils.show("该渠道充值订单已成功", Toast.LENGTH_LONG, 1);
+                break;
+            case "13": //配对中
                 break;
         }
     }
@@ -565,13 +574,13 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
             return;
         }
 
-        if (TextUtils.isEmpty(bankNumberOfPayment.getValue())) {
-            ToastUtils.show("请输入付款账号", ToastUtils.ShowType.Default);
+        if (TextUtils.isEmpty(bankCodeOfPayment.getValue())) {
+            ToastUtils.show("请选择付款银行", ToastUtils.ShowType.Default);
             return;
         }
 
-        if (TextUtils.isEmpty(bankCodeOfPayment.getValue())) {
-            ToastUtils.show("请选择付款银行", ToastUtils.ShowType.Default);
+        if (TextUtils.isEmpty(bankNumberOfPayment.getValue())) {
+            ToastUtils.show("请输入付款账号", ToastUtils.ShowType.Default);
             return;
         }
 
@@ -833,7 +842,6 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
 
     public void toConfirm() {
         startContainerActivity(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CONFIRM);
-        close();
     }
 
     public void toVoucher() {
