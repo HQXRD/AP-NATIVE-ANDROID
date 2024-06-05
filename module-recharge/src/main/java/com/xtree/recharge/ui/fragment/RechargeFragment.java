@@ -1393,6 +1393,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             // 极速充值
             if (vo.paycode.contains(ONEPAYFIX)) {
                 // 银行列表,搜索页会用到
+                onClickPayment3(vo);
                 return;
             }
 
@@ -1473,7 +1474,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 无极速订单, 显示点击渠道后需要显示的 选择银行卡/姓名/金额等
         viewModel.liveDataExpNoOrder.observe(this, isNoOrder -> {
             CfLog.i("*****");
-            onClickPayment3(curRechargeVo);
+            //onClickPayment3(curRechargeVo); // 这里的数据有时不准,使用查询详情返回来的数据
         });
 
         viewModel.liveDataRcBanners.observe(this, list -> {
