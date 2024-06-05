@@ -53,6 +53,7 @@ import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.recharge.vo.BankCardVo;
 import com.xtree.recharge.vo.BannersVo;
+import com.xtree.recharge.vo.HiWalletVo;
 import com.xtree.recharge.vo.PaymentDataVo;
 import com.xtree.recharge.vo.PaymentTypeVo;
 import com.xtree.recharge.vo.ProcessingDataVo;
@@ -102,6 +103,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     String bankId = ""; // 用户绑定的银行卡ID
     String bankCode = ""; // 付款银行编号 (极速充值用) ABC
     String hiWalletUrl; // 一键进入 HiWallet钱包
+    HiWalletVo mHiWalletVo; // 一键进入 HiWallet钱包
     String tutorialUrl; // 充值教程
     List<RechargeVo> mRecommendList = new ArrayList<>(); // 推荐的充值渠道列表
     //HashMap<String, RechargeVo> mapRechargeVo = new HashMap<>(); // 跳转第三方链接的充值渠道
@@ -380,6 +382,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             // 下一步
             if (curRechargeVo.paycode.contains(ONEPAYFIX)) {
                 goNext2(); // 极速充值
+            } else if (curRechargeVo.paycode.contains("hiwallet")) {
+                goHiWallet(); // 嗨钱包
             } else {
                 goNext(); // 普通充值
             }
@@ -965,6 +969,21 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         viewModel.createOrder(map);
     }
 
+    private void goHiWallet() {
+        TagUtils.tagEvent(getContext(), "rc", curRechargeVo.bid); // 打点
+        if (mHiWalletVo != null && !mHiWalletVo.is_registered) {
+            // 弹窗 目前登入账号尚未绑定嗨钱包账号，确认是否继续操作？
+            new XPopup.Builder(getContext())
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(false)
+                    .asCustom(new RechargeHiWalletDialog(getContext(), mHiWalletVo, () -> goNext()))
+                    .show();
+        } else {
+            // 下一步
+            goNext();
+        }
+    }
+
     private void show1kEntryDialog() {
         if (TextUtils.isEmpty(hiWalletUrl)) {
             CfLog.e("hiWalletUrl is empty.");
@@ -1296,8 +1315,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     }
 
-
-
     /*private void setHiWallet(PaymentVo vo) {
         binding.llHiWallet.setVisibility(View.GONE);
         for (RechargeVo t : vo.chongzhiList) {
@@ -1323,9 +1340,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     @Override
     public void initViewObservable() {
 
-        viewModel.liveData1kEntry.observe(this, url -> {
+        viewModel.liveData1kEntry.observe(this, vo -> {
             // 一键进入 HiWallet钱包
-            hiWalletUrl = url;
+            CfLog.i(vo.toString());
+            hiWalletUrl = vo.login_url;
+            mHiWalletVo = vo;
         });
 
         //viewModel.liveDataPayment.observe(getViewLifecycleOwner(), vo -> {

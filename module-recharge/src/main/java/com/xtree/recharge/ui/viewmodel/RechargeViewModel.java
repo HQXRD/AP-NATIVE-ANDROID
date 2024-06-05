@@ -19,6 +19,7 @@ import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.FeedbackCheckVo;
 import com.xtree.recharge.vo.FeedbackImageUploadVo;
 import com.xtree.recharge.vo.FeedbackVo;
+import com.xtree.recharge.vo.HiWalletVo;
 import com.xtree.recharge.vo.PayOrderDataVo;
 import com.xtree.recharge.vo.PaymentDataVo;
 import com.xtree.recharge.vo.PaymentTypeVo;
@@ -49,7 +50,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<String> itemClickEvent = new SingleLiveData<>();
     public SingleLiveData<PaymentVo> liveDataPayment = new SingleLiveData<>(); // (从接口加载用)
     public SingleLiveData<PaymentDataVo> liveDataPaymentData = new SingleLiveData<>(); // (从接口加载用)
-    public SingleLiveData<String> liveData1kEntry = new SingleLiveData<>();
+    public SingleLiveData<HiWalletVo> liveData1kEntry = new SingleLiveData<>();
     //public SingleLiveData<List<RechargeVo>> liveDataRechargeList = new SingleLiveData<>(); // 充值列表(从缓存加载用)
     public SingleLiveData<List<PaymentTypeVo>> liveDataPayTypeList = new SingleLiveData<>(); // 充值列表(大类型 从缓存加载用)
     public SingleLiveData<List<String>> liveDataPayCodeArr = new SingleLiveData<>(); // 含弹出支付窗口的充值渠道类型列表(从缓存加载用)
@@ -85,11 +86,11 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
         Disposable disposable = (Disposable) model.getApiService().get1kEntry(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<Map<String, String>>() {
+                .subscribeWith(new HttpCallBack<HiWalletVo>() {
                     @Override
-                    public void onResult(Map<String, String> vo) {
+                    public void onResult(HiWalletVo vo) {
                         CfLog.d(vo.toString());
-                        liveData1kEntry.setValue(vo.get("login_url"));
+                        liveData1kEntry.setValue(vo);
                     }
 
                     @Override

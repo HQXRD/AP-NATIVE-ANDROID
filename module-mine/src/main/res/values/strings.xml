@@ -59,9 +59,9 @@
     <string name="me_wallet_title">平台中心余额 (元)</string>
     <string name="me_wallet_deposit">去存款</string>
     <string name="me_wallet_amount">0.0000</string>
-    <string name="me_wallet_save">去存款</string>
-    <string name="me_wallet_transfer">去转账</string>
-    <string name="me_wallet_withdraw">去取款</string>
+    <string name="me_wallet_save">充值</string>
+    <string name="me_wallet_transfer">转账</string>
+    <string name="me_wallet_withdraw">提款</string>
     <string name="me_wallet_account">账户管理</string>
     <string name="me_wallet_record">充提记录</string>
     <string name="me_wallet_details">钱包明细</string>
@@ -413,4 +413,6 @@
     <string name="txt_title_code">如何获取%s个人收款码</string>
     <string name="txt_no_data_tip">暂无数据</string>
     <string name="txt_check_detail">查看详情</string>
+    <string name="txt_sport_official">杏彩体育官方版</string>
+    <string name="txt_sport_inter">杏彩体育旗舰版</string>
 </resources>

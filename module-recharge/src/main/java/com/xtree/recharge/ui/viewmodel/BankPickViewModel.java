@@ -177,6 +177,8 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
         allBanks.addAll(topTenDatas.getValue());
         allBanks.addAll(hotDatas.getValue());
         allBanks.addAll(otherDatas.getValue());
+        allBanks.addAll(mBindDatas.getValue());
+        allBanks.addAll(lastTimeDatas.getValue());
 
         for (BindModel allBank : allBanks) {
             BankPickModel bank = (BankPickModel) allBank;
