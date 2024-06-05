@@ -108,7 +108,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     List<RechargeVo> mRecommendList = new ArrayList<>(); // 推荐的充值渠道列表
     //HashMap<String, RechargeVo> mapRechargeVo = new HashMap<>(); // 跳转第三方链接的充值渠道
     boolean isShowedProcessPendCount = false; // 是否显示过 "订单未到账" 的提示
-    boolean isBinding = false; // 是否正在跳转到其它页面绑定手机/YHK (跳转后回来刷新用)
+    boolean isNeedRefresh = false; // 是否正在跳转到其它页面 (绑定手机/YHK) (跳转后回来刷新用)
+    boolean isNeedReset = false; // 是否正在跳转到其它页面 (极速充值订单) (跳转后回来刷新用)
     boolean isHidden = false; // 当前fragment是否隐藏. 解决从充值页切到首页/我的,再打开VIP,再返回,弹出弹窗(您已经充值x次)
     boolean isShowBack = false; // 是否显示返回按钮
     boolean isShowOrderDetail = false; // 是否显示充值订单详情,需要传订单号过来 (待处理的订单详情) 2024-03-27
@@ -441,8 +442,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     private void refresh() {
         CfLog.i("******");
         viewModel.readProfile();
-        if (isBinding) {
-            isBinding = false;
+        if (isNeedRefresh) {
+            isNeedRefresh = false;
             resetView();
 
             //curRechargeVo = null; // 如果为空,连续点击x.bid会空指针
@@ -451,7 +452,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             lastRefresh = System.currentTimeMillis();
             return;
         }
-
+        if (isNeedReset) {
+            resetView();
+        }
         if (System.currentTimeMillis() - lastRefresh > REFRESH_DELAY) {
             CfLog.i("******");
             viewModel.getPaymentsTypeList(); // 长时间没有刷新,刷新一下数据
@@ -803,7 +806,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void toBindPage(String type) {
-        isBinding = true;
+        isNeedRefresh = true;
         Bundle bundle = new Bundle();
         bundle.putString("type", type);
         startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
@@ -826,7 +829,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
             @Override
             public void onClickRight() {
-                isBinding = true;
+                isNeedRefresh = true;
                 // 绑定页面显示去充值按钮用
                 SPUtils.getInstance().put(SPKeyGlobal.TYPE_RECHARGE_WITHDRAW, getString(R.string.txt_go_recharge));
                 toBindPage(type); // bindcardzfb bindcardwx
@@ -1392,7 +1395,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 极速充值 点下一步返回结果, 应跳转到 提交订单/转账汇款页
         viewModel.liveDataExpOrderData.observe(getViewLifecycleOwner(), vo -> {
             CfLog.i(vo.toString());
-            resetView(); // 取消选中,如果用户再点击,又要查未完成订单和详情
+            isNeedReset = true; // 取消选中,如果用户再点击,又要查未完成订单和详情
             String realName = binding.edtName.getText().toString().trim();
             String txt = binding.tvwRealAmount.getText().toString();
             ExCreateOrderRequest request = new ExCreateOrderRequest();
@@ -1432,15 +1435,15 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             String status = vo.getData().getStatus();
             switch (status) {
                 case "11":
-                    resetView();
+                    isNeedReset = true;
                     startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE);
                     break;
                 case "13":
-                    resetView();
+                    isNeedReset = true;
                     startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT);
                     break;
                 case "14":
-                    resetView();
+                    isNeedReset = true;
                     startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CONFIRM);
                     break;
                 default:
