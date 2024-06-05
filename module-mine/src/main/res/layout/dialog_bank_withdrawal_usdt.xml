@@ -334,7 +334,7 @@
                         <TextView
                             android:id="@+id/tv_info_withdrawal_amount"
                             style="@style/style_withdraw_bottom_title"
-                            android:text="@string/txt_withdrawal_method" />
+                            android:text="@string/txt_withdrawal_confirm_amount" />
 
                         <TextView
                             android:id="@+id/tv_info_withdrawal_amount_show"

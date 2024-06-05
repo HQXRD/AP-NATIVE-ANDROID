@@ -155,6 +155,7 @@
     <string name="txt_tip_cs_03">解决</string>
 
     <string name="txt_change_pwd">修改密码</string>
+    <string name="txt_reset_pwd">重置登录密码</string>
     <string name="txt_enter_new_pwd">请输入新的登录密码</string>
     <string name="txt_username_empty">用户名不能为空</string>
     <string name="txt_user_name_should_6_12">用户名为6–12位</string>
@@ -336,7 +337,7 @@
     <string name="txt_withdrawal_type">提款类型：</string>
     <string name="txt_withdrawal_confirm_amount">提款金额:</string>
     <string name="txt_withdrawal_enm">提款方式：</string>
-    <string name="txt_withdrawal_method">提款金额：</string>
+    <string name="txt_withdrawal_method">可提款金额：</string>
     <string name="txt_withdrawal_money_tip">实际提款金额：</string>
     <string name="txt_withdrawal_method_tip">提款金额</string>
     <string name="txt_confirm_withdrawal_amount">可提款金额：</string>
