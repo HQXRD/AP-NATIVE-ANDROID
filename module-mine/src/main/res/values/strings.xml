@@ -336,7 +336,7 @@
     <string name="txt_withdrawal_type">提款类型：</string>
     <string name="txt_withdrawal_confirm_amount">提款金额:</string>
     <string name="txt_withdrawal_enm">提款方式：</string>
-    <string name="txt_withdrawal_method">可提款金额：</string>
+    <string name="txt_withdrawal_method">提款金额：</string>
     <string name="txt_withdrawal_money_tip">实际提款金额：</string>
     <string name="txt_withdrawal_method_tip">提款金额</string>
     <string name="txt_confirm_withdrawal_amount">可提款金额：</string>
@@ -360,7 +360,7 @@
     <string name="txt_withdrawal_usdt_account">收款USDT账号：</string>
     <string name="txt_receive_usdt_account">收到USDT账户</string>
     <string name="txt_select_virtual_address">请选择虚拟币收款地址</string>
-    <string name="txt_ust_trc20_usdt">【嗨钱包USDT】可使用TRC20_USDT类型进行提款</string>
+    <string name="txt_ust_trc20_usdt">【嗨钱包USDT】仅可使用TRC20_USDT类型进行提款</string>
     <string name="txt_actual_arrival">实际提款金额：</string>
     <string name="txt_withdrawal_address">提款地址:</string>
     <string name="txt_handling_fee">手续费:</string>
