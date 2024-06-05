@@ -601,23 +601,20 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         CfLog.i("****** not need bind...");
 
-        //极速充值获取银行卡信息
-        if (isOnePayFix(vo)) {
-            CfLog.d(vo.title + " , " + vo.bid);
-            viewModel.checkOrder(vo.bid); // 查极速充值的未完成订单
-            viewModel.getPayment(vo.bid); // 查详情,显示快选金额,银行列表用
-            LoadingDialog.show(getContext()); // Loading
-            return;
-        }
-
         // 打开网页类型的
-        if (vo.op_thiriframe_use && !vo.phone_needbind && !isOnePayFix(vo)) {
+        if (vo.op_thiriframe_use && !vo.phone_needbind) {
             CfLog.d(vo.title + ", jump: " + vo.op_thiriframe_url);
-            TagUtils.tagEvent(getContext(), "rc", vo.bid); // 打点
             binding.llDown.setVisibility(View.GONE); // 下面的部分隐藏
             if (!TextUtils.isEmpty(vo.op_thiriframe_url)) {
+                TagUtils.tagEvent(getContext(), "rc", vo.bid); // 打点
                 String url = DomainUtil.getDomain2() + vo.op_thiriframe_url;
                 showWebPayDialog(vo.title, url);
+            } else if (vo.paycode.contains(ONE_PAY_FIX)) {
+                // 极速充值
+                CfLog.i(vo.bid + " , " + vo.title + " , " + vo.paycode);
+                viewModel.checkOrder(vo.bid); // 查极速充值的未完成订单
+                viewModel.getPayment(vo.bid); // 查详情,显示快选金额,银行列表用
+                LoadingDialog.show(getContext()); // Loading
             } else {
                 // 如果没有链接,调详情接口获取
                 viewModel.getPayment(vo.bid);
