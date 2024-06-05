@@ -31,7 +31,7 @@
 
         <TextView
             style="@style/style_rc_exp_bank_info_title"
-            android:text="订单处理中，请稍等..." />
+            android:text="匹配账号中，请稍等..." />
 
         <LinearLayout style="@style/style_rc_dlg_ll">
 
