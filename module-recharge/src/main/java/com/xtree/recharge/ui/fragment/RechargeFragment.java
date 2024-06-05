@@ -24,6 +24,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.bumptech.glide.Glide;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -51,7 +53,6 @@ import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.databinding.FragmentRechargeBinding;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
-import com.xtree.recharge.vo.BankCardVo;
 import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.HiWalletVo;
 import com.xtree.recharge.vo.PaymentDataVo;
@@ -1053,13 +1054,22 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         RechargeVo.OpBankListDTO opBankList = re.getOpBankList();
         ArrayList<RechargeVo.OpBankListDTO.BankInfoDTO> bankInfoDTOS = new ArrayList<>();
-        for (BankCardVo bankCardVo : vo.userBankList) {
-            RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO = new RechargeVo.OpBankListDTO.BankInfoDTO();
-            bankInfoDTO.setBankCode(bankCardVo.id);
-            bankInfoDTO.setBankName(bankCardVo.name);
-            bankInfoDTOS.add(bankInfoDTO);
+        HashMap<String, String> map = null;
+        if (vo.user_bank_info != null) {
+            String jsonString = JSON.toJSONString(vo.user_bank_info);
+            map = JSON.parseObject(jsonString,
+                    new TypeReference<HashMap<String, String>>() {
+                    });
         }
-        opBankList.setmBind(bankInfoDTOS);
+        if (map != null) {
+            for (Map.Entry<String, String> entry : map.entrySet()) {
+                RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO = new RechargeVo.OpBankListDTO.BankInfoDTO();
+                bankInfoDTO.setBankCode(entry.getKey());
+                bankInfoDTO.setBankName(entry.getValue());
+                bankInfoDTOS.add(bankInfoDTO);
+            }
+            opBankList.setmBind(bankInfoDTOS);
+        }
 
         BankPickDialogFragment.show(getActivity(), opBankList)
                 .setOnPickListner(model -> {

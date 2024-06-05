@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class RechargeVo {
 
@@ -146,6 +147,25 @@ public class RechargeVo {
 
     public void setOpBankList(OpBankListDTO opBankList) {
         this.opBankList = opBankList;
+    }
+
+    public Object getUser_bank_info() {
+        return user_bank_info;
+    }
+
+    public void setUser_bank_info(Object user_bank_info) {
+        this.user_bank_info = user_bank_info;
+
+        if (user_bank_info != null) {
+            if (user_bank_info instanceof Map) {
+                userBankList.clear();
+                Map<String, String> map = (Map<String, String>) user_bank_info;
+                for (Map.Entry<String, String> entry : map.entrySet()) {
+                    BankCardVo vo3 = new BankCardVo(entry.getKey(), entry.getValue());
+                    userBankList.add(vo3);
+                }
+            }
+        }
     }
 
     public static class OpBankListDTO {
