@@ -510,7 +510,11 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
                 binding.nsSetWithdrawalRequestMore.setVisibility(View.GONE);//多金额页面隐藏
                 binding.nsConfirmWithdrawalRequest.setVisibility(View.GONE); //确认提款页面隐藏
                 binding.nsH5View.setVisibility(View.GONE);//h5隐藏
-                refreshRequestView(bankCardCashVo, bankCardCashVo.channel_list.get(0));
+                if (bankCardCashVo != null && !bankCardCashVo.channel_list.isEmpty()){
+                    refreshRequestView(bankCardCashVo, bankCardCashVo.channel_list.get(0));
+                }else{
+                    CfLog.e("bankCardCashVo.channel_list.isEmpty()");
+                }
             }
         }
 
@@ -625,9 +629,12 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 binding.bankWithdrawalView.tvWithdrawalAmountShow.setTextColor(getContext().getColor(R.color.clr_withdrawal_text_tip));
             }
-            String bankInfoString = bankCardCashVo.banks.get(0).bank_name + " " + bankCardCashVo.banks.get(0).account;
-            binding.bankWithdrawalView.tvActualWithdrawalAmountBankShow.setText(bankInfoString);
-
+            if (!bankCardCashVo.banks.isEmpty()){
+                String bankInfoString = bankCardCashVo.banks.get(0).bank_name + " " + bankCardCashVo.banks.get(0).account;
+                binding.bankWithdrawalView.tvActualWithdrawalAmountBankShow.setText(bankInfoString);
+            }else{
+                CfLog.e("bankCardCashVo.banks  is null");
+            }
         } else if (binding.nsSetWithdrawalRequestMore.getVisibility() == View.VISIBLE) {
             binding.tvWithdrawalAmountShowMore.setText(textSource);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -635,7 +642,10 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             }
             binding.tvActualWithdrawalAmountBankShowMore.setText(bankCardCashVo.banks.get(0).bank_name + " " + bankCardCashVo.banks.get(0).account);
         }
-        channeBankVo = bankCardCashVo.banks.get(0);
+        if (!bankCardCashVo.banks.isEmpty()){
+            channeBankVo = bankCardCashVo.banks.get(0);
+        }
+
     }
 
     /**
