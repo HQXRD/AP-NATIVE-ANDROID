@@ -84,7 +84,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
 public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, RechargeViewModel> {
     private static final int MSG_CLICK_CHANNEL = 1001;
     private static final long REFRESH_DELAY = 30 * 60 * 1000L; // 刷新间隔等待时间(如果长时间没刷新)
-    private static final String ONEPAYFIX = "onepayfix"; // 极速充值包含的关键字
+    private static final String ONE_PAY_FIX = "onepayfix"; // 极速充值包含的关键字
 
     private Method method;
     private Object object;
@@ -380,7 +380,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         binding.btnNext.setOnClickListener(v -> {
             // 下一步
-            if (curRechargeVo.paycode.contains(ONEPAYFIX)) {
+            if (isOnePayFix(curRechargeVo)) {
                 goNext2(); // 极速充值
             } else if (curRechargeVo.paycode.contains("hiwallet")) {
                 goHiWallet(); // 嗨钱包
@@ -602,7 +602,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i("****** not need bind...");
 
         //极速充值获取银行卡信息
-        if (vo.paycode.contains(ONEPAYFIX)) {
+        if (isOnePayFix(vo)) {
+            CfLog.d(vo.title + " , " + vo.bid);
             viewModel.checkOrder(vo.bid); // 查极速充值的未完成订单
             viewModel.getPayment(vo.bid); // 查详情,显示快选金额,银行列表用
             LoadingDialog.show(getContext()); // Loading
@@ -610,7 +611,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }
 
         // 打开网页类型的
-        if (vo.op_thiriframe_use && !vo.phone_needbind && !vo.paycode.contains(ONEPAYFIX)) {
+        if (vo.op_thiriframe_use && !vo.phone_needbind && !isOnePayFix(vo)) {
             CfLog.d(vo.title + ", jump: " + vo.op_thiriframe_url);
             TagUtils.tagEvent(getContext(), "rc", vo.bid); // 打点
             binding.llDown.setVisibility(View.GONE); // 下面的部分隐藏
@@ -651,7 +652,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.tvwChooseBankCard.setVisibility(View.VISIBLE);
             binding.tvwBankCard.setVisibility(View.VISIBLE);
             binding.tvwBankCard.setOnClickListener(v -> showBankCard(vo)); // 选择银行卡
-            if (!vo.userBankList.isEmpty() && !vo.paycode.contains(ONEPAYFIX)) {
+            if (!vo.userBankList.isEmpty() && !isOnePayFix(vo)) {
                 bankId = vo.userBankList.get(0).id;
                 binding.tvwBankCard.setText(vo.userBankList.get(0).name);
             }
@@ -1032,7 +1033,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
-        if (vo.paycode.contains(ONEPAYFIX)) {
+        if (isOnePayFix(vo)) {
             // 极速充值
             showBankCardExDialog(vo);
         } else {
@@ -1104,7 +1105,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             String id = getArguments().getString("orderDetailId");
             RechargeOrderVo vo = getArguments().getParcelable("obj");
             CfLog.i("RechargeOrderVo: " + (vo != null));
-            if (vo != null && vo.sysParamPrefix.contains(ONEPAYFIX)) {
+            // 极速充值 带有onepayfix且bankId非空
+            if (vo != null && vo.sysParamPrefix.contains(ONE_PAY_FIX) && !TextUtils.isEmpty(vo.bankId)) {
                 CfLog.i("RechargeOrderVo, bankId: " + vo.bankId);
                 viewModel.checkOrder(vo.bankId); // 根据充值渠道ID 查询订单详情 (极速充值)
             } else {
@@ -1391,7 +1393,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             //SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
             curRechargeVo = vo;
             // 极速充值
-            if (vo.paycode.contains(ONEPAYFIX)) {
+            if (isOnePayFix(vo)) {
                 // 银行列表,搜索页会用到
                 onClickPayment3(vo);
                 return;
@@ -1511,6 +1513,25 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             // 修复频繁点击充值页和其它页时 有时会出现两个弹窗
         });
         super.onDestroyView();
+    }
+
+    /**
+     * 是否极速充值 2024-06-05
+     *
+     * @param vo 充值渠道详情
+     * @return true:是 false:否
+     */
+    private boolean isOnePayFix(RechargeVo vo) {
+        RechargeVo.OpBankListDTO bk = vo.getOpBankList();
+        if (bk == null) {
+            return false;
+        }
+
+        if (vo.paycode.contains(ONE_PAY_FIX) && (!bk.getTop().isEmpty() || !bk.getOthers().isEmpty()
+                || !bk.getUsed().isEmpty() || !bk.getHot().isEmpty())) {
+            return true;
+        }
+        return false;
     }
 
     /**
