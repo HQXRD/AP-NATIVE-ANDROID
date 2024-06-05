@@ -378,7 +378,15 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 }
 
                 if (canonicalName.equals(ExTransferCommitFragment.class.getCanonicalName())) {
-                    toPayee();
+                    try {
+                        String payAmount = bankInfoData.getValue().getPayAmount();
+                        int amount = Integer.parseInt(payAmount);
+                        if (amount > 0) {
+                            toPayee();
+                        }
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case "14": // 回单审核中
