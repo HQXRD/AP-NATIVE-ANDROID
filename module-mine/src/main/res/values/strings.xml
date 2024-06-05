@@ -155,6 +155,7 @@
     <string name="txt_tip_cs_03">解决</string>
 
     <string name="txt_change_pwd">修改密码</string>
+    <string name="txt_reset_pwd">重置登录密码</string>
     <string name="txt_enter_new_pwd">请输入新的登录密码</string>
     <string name="txt_username_empty">用户名不能为空</string>
     <string name="txt_user_name_should_6_12">用户名为6–12位</string>
@@ -360,7 +361,7 @@
     <string name="txt_withdrawal_usdt_account">收款USDT账号：</string>
     <string name="txt_receive_usdt_account">收到USDT账户</string>
     <string name="txt_select_virtual_address">请选择虚拟币收款地址</string>
-    <string name="txt_ust_trc20_usdt">【嗨钱包USDT】可使用TRC20_USDT类型进行提款</string>
+    <string name="txt_ust_trc20_usdt">【嗨钱包USDT】仅可使用TRC20_USDT类型进行提款</string>
     <string name="txt_actual_arrival">实际提款金额：</string>
     <string name="txt_withdrawal_address">提款地址:</string>
     <string name="txt_handling_fee">手续费:</string>
