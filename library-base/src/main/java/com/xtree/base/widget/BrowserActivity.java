@@ -231,6 +231,9 @@ public class BrowserActivity extends AppCompatActivity {
                 } else {
                     binding.pbMain.setVisibility(View.GONE);
                 }
+                if (newProgress > 75) {
+                    LoadingDialog.finish();
+                }
             }
 
             /**
