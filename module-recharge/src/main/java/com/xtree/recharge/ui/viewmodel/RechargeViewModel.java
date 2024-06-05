@@ -248,6 +248,13 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     @Override
                     public void onResult(RechargeVo vo) {
                         CfLog.d(vo.toString());
+                        if (vo.user_bank_info != null && vo.user_bank_info instanceof Map) {
+                            Map<String, String> map = (Map<String, String>) vo.user_bank_info;
+                            for (Map.Entry<String, String> entry : map.entrySet()) {
+                                BankCardVo vo3 = new BankCardVo(entry.getKey(), entry.getValue());
+                                vo.userBankList.add(vo3);
+                            }
+                        }
                         liveDataRecharge.setValue(vo);
 
                     }
