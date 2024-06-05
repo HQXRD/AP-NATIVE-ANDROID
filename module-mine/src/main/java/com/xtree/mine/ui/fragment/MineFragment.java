@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
 import android.webkit.WebStorage;
 import android.widget.TextView;
 
@@ -464,6 +465,12 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         getContext().deleteDatabase("webview.db");
         getContext().deleteDatabase("webviewCache.db");
         WebStorage.getInstance().deleteAllData();
+
+        // 清理WebView缓存的cookie
+        CookieManager cm = CookieManager.getInstance();
+        cm.removeSessionCookies(null);
+        cm.removeAllCookies(null);
+        cm.flush();
     }
 
     private void showAccountMgmt() {
