@@ -160,6 +160,11 @@ public class ExRechargeOrderCheckResponse {
         @SerializedName("allow_cancel_time")
         private String allowCancelTime;
         /**
+         * payAmountStatus
+         */
+        @SerializedName("payAmountStatus")
+        private String payAmountStatus;
+        /**
          * bankAccount
          */
         @SerializedName("bank_account")
@@ -415,6 +420,14 @@ public class ExRechargeOrderCheckResponse {
 
         public void setUserBankInfo(Object userBankInfo) {
             this.userBankInfo = userBankInfo;
+        }
+
+        public String getPayAmountStatus() {
+            return payAmountStatus;
+        }
+
+        public void setPayAmountStatus(String payAmountStatus) {
+            this.payAmountStatus = payAmountStatus;
         }
 
         public static class OpBankListDTO {
