@@ -443,28 +443,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         viewModel.readProfile();
         if (isBinding) {
             isBinding = false;
-            binding.tvwCurPmt.setText("");
-            binding.ivwCurPmt.setImageDrawable(null);
-            binding.llBindInfo.setVisibility(View.GONE);
-            binding.llDown.setVisibility(View.GONE);
-            //if (curRechargeVo != null) {
-            //    View child = binding.rcvPmt.findViewWithTag(curRechargeVo.bid);
-            //    if (child != null) {
-            //        child.setSelected(false); // 已选中的取消掉,刷新等待时间有点长
-            //    }
-            //}
-
-            // 这里不点击选中是因为有些渠道会弹窗要求绑定手机/YHK 会出现死循环,(然后又要和其它端保持一致)
-            //if (curPaymentTypeVo != null) {
-            //    View childType = binding.rcvPmt.findViewWithTag(curPaymentTypeVo.id);
-            //    if (childType != null) {
-            //        childType.performClick();
-            //    }
-            //}
-            // 要求从绑定页返回,不要选中充值方式 (和其它端保持一致)
-            mTypeAdapter.reset(); // 重置,不选中
-            mChannelAdapter.clear(); // 清空
-            binding.llCurPmt.setVisibility(View.GONE); // 隐藏当前充值方式
+            resetView();
 
             //curRechargeVo = null; // 如果为空,连续点击x.bid会空指针
             //viewModel.getPayments(); // 绑定回来,刷新数据
@@ -477,6 +456,34 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             CfLog.i("******");
             viewModel.getPaymentsTypeList(); // 长时间没有刷新,刷新一下数据
         }
+    }
+
+    /**
+     * 设置为未选中, 相当于初始化
+     */
+    private void resetView() {
+        binding.tvwCurPmt.setText("");
+        binding.ivwCurPmt.setImageDrawable(null);
+        binding.llBindInfo.setVisibility(View.GONE);
+        binding.llDown.setVisibility(View.GONE);
+        //if (curRechargeVo != null) {
+        //    View child = binding.rcvPmt.findViewWithTag(curRechargeVo.bid);
+        //    if (child != null) {
+        //        child.setSelected(false); // 已选中的取消掉,刷新等待时间有点长
+        //    }
+        //}
+
+        // 这里不点击选中是因为有些渠道会弹窗要求绑定手机/YHK 会出现死循环,(然后又要和其它端保持一致)
+        //if (curPaymentTypeVo != null) {
+        //    View childType = binding.rcvPmt.findViewWithTag(curPaymentTypeVo.id);
+        //    if (childType != null) {
+        //        childType.performClick();
+        //    }
+        //}
+        // 要求从绑定页返回,不要选中充值方式 (和其它端保持一致)
+        mTypeAdapter.reset(); // 重置,不选中
+        mChannelAdapter.clear(); // 清空
+        binding.llCurPmt.setVisibility(View.GONE); // 隐藏当前充值方式
     }
 
     @Override
@@ -897,39 +904,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
     private void goNext() {
         CfLog.i("******");
-        if (curRechargeVo == null) {
-            ToastUtils.showLong(R.string.pls_choose_recharge_type);
-            return;
-        }
-
-        if (curRechargeVo.paycode.equals("manual")) {
-            LoadingDialog.show(getContext());
-            viewModel.getManualSignal();
-            return;
-        }
-
-        if (curRechargeVo.view_bank_card) {
-            if (TextUtils.isEmpty(bankId)) {
-                ToastUtils.showLong(getString(R.string.txt_pls_select_payment_card));
-                return;
-            }
-        }
-
-        String realName = binding.edtName.getText().toString().trim();
-        if (curRechargeVo.realchannel_status && curRechargeVo.phone_fillin_name) {
-            if (TextUtils.isEmpty(realName)) {
-                ToastUtils.showLong(getString(R.string.txt_pls_enter_ur_real_name));
-                return;
-            }
-        }
-
-        String txt = binding.tvwRealAmount.getText().toString();
-        double amount = Double.parseDouble(0 + txt);
-        if (amount < loadMin || amount > loadMax) {
-            txt = String.format(getString(R.string.txt_recharge_range), curRechargeVo.loadmin, curRechargeVo.loadmax);
-            ToastUtils.showLong(txt);
-            return;
-        }
+        String realName = binding.edtName.getText().toString().trim(); // 姓名
+        String txt = binding.tvwRealAmount.getText().toString(); // 金额
         TagUtils.tagEvent(getContext(), "rc", curRechargeVo.bid); // 打点
 
         LoadingDialog.show(getContext()); // Loading
@@ -968,8 +944,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void goHiWallet() {
-        TagUtils.tagEvent(getContext(), "rc", curRechargeVo.bid); // 打点
         if (mHiWalletVo != null && !mHiWalletVo.is_registered) {
+            TagUtils.tagEvent(getContext(), "rc", curRechargeVo.bid); // 打点
             // 弹窗 目前登入账号尚未绑定嗨钱包账号，确认是否继续操作？
             new XPopup.Builder(getContext())
                     .dismissOnTouchOutside(false)
@@ -1416,7 +1392,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 极速充值 点下一步返回结果, 应跳转到 提交订单/转账汇款页
         viewModel.liveDataExpOrderData.observe(getViewLifecycleOwner(), vo -> {
             CfLog.i(vo.toString());
-
+            resetView(); // 取消选中,如果用户再点击,又要查未完成订单和详情
             String realName = binding.edtName.getText().toString().trim();
             String txt = binding.tvwRealAmount.getText().toString();
             ExCreateOrderRequest request = new ExCreateOrderRequest();
@@ -1456,12 +1432,15 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             String status = vo.getData().getStatus();
             switch (status) {
                 case "11":
+                    resetView();
                     startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_PAYEE);
                     break;
                 case "13":
+                    resetView();
                     startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_COMMIT);
                     break;
                 case "14":
+                    resetView();
                     startContainerFragment(RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CONFIRM);
                     break;
                 default:
