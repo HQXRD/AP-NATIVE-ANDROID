@@ -14,6 +14,7 @@ import java.math.RoundingMode;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class OptionPm implements Option{
+    private String className;
     private int change;
     private OptionInfo optionInfo;
 
@@ -24,12 +25,14 @@ public class OptionPm implements Option{
 
     public OptionPm(OptionInfo optionInfo){
         this.optionInfo = optionInfo;
+        this.className = getClass().getSimpleName();
     }
 
     public OptionPm(OptionInfo optionInfo, OptionDataListInfo optionList, PlayTypeInfo playTypeInfo){
         this.optionInfo = optionInfo;
         this.optionList = optionList;
         this.playTypeInfo = playTypeInfo;
+        this.className = getClass().getSimpleName();
     }
 
     @Override
@@ -228,15 +231,30 @@ public class OptionPm implements Option{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.className);
+        dest.writeInt(this.change);
         dest.writeParcelable(this.optionInfo, flags);
+        dest.writeString(this.code);
+        dest.writeParcelable(this.optionList, flags);
+        dest.writeParcelable(this.playTypeInfo, flags);
     }
 
     public void readFromParcel(Parcel source) {
+        this.className = source.readString();
+        this.change = source.readInt();
         this.optionInfo = source.readParcelable(OptionInfo.class.getClassLoader());
+        this.code = source.readString();
+        this.optionList = source.readParcelable(OptionDataListInfo.class.getClassLoader());
+        this.playTypeInfo = source.readParcelable(PlayTypeInfo.class.getClassLoader());
     }
 
     protected OptionPm(Parcel in) {
+        this.className = in.readString();
+        this.change = in.readInt();
         this.optionInfo = in.readParcelable(OptionInfo.class.getClassLoader());
+        this.code = in.readString();
+        this.optionList = in.readParcelable(OptionDataListInfo.class.getClassLoader());
+        this.playTypeInfo = in.readParcelable(PlayTypeInfo.class.getClassLoader());
     }
 
     public static final Creator<OptionPm> CREATOR = new Creator<OptionPm>() {

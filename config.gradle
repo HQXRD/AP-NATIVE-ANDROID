@@ -84,7 +84,11 @@ ext {
             "PictureCompress"                      : "io.github.lucksiege:compress:v3.10.4",
             "appcenter-analytics"                  : "com.microsoft.appcenter:appcenter-analytics:5.0.4",
             "appcenter-crashes"                    : "com.microsoft.appcenter:appcenter-crashes:5.0.4",
-            "event-bus"                            : "org.greenrobot:eventbus:3.3.1"
+            "event-bus"                            : "org.greenrobot:eventbus:3.3.1",
+            "brv"                                  : "com.github.liangjingkanji:BRV:1.5.8",
+            // Kotlin反射库
+            "kotlin-stdlib"                        : "org.jetbrains.kotlin:kotlin-stdlib:1.6.10",
+            "kotlin-reflect"                       : "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
     ]
 }
 

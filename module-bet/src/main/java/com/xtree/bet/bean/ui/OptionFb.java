@@ -12,6 +12,7 @@ import java.math.RoundingMode;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class OptionFb implements Option {
+    private String className;
     private int change;
     private OptionInfo mOptionInfo;
 
@@ -21,11 +22,13 @@ public class OptionFb implements Option {
 
     public OptionFb(OptionInfo optionInfo) {
         this.mOptionInfo = optionInfo;
+        this.className = getClass().getSimpleName();
     }
 
     public OptionFb(OptionInfo optionInfo, OptionDataListInfo optionList) {
         this.mOptionInfo = optionInfo;
         this.optionList = optionList;
+        this.className = getClass().getSimpleName();
     }
 
     @Override
@@ -236,15 +239,27 @@ public class OptionFb implements Option {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.className);
+        dest.writeInt(this.change);
         dest.writeParcelable(this.mOptionInfo, flags);
+        dest.writeString(this.code);
+        dest.writeParcelable(this.optionList, flags);
     }
 
     public void readFromParcel(Parcel source) {
+        this.className = source.readString();
+        this.change = source.readInt();
         this.mOptionInfo = source.readParcelable(OptionInfo.class.getClassLoader());
+        this.code = source.readString();
+        this.optionList = source.readParcelable(OptionDataListInfo.class.getClassLoader());
     }
 
     protected OptionFb(Parcel in) {
+        this.className = in.readString();
+        this.change = in.readInt();
         this.mOptionInfo = in.readParcelable(OptionInfo.class.getClassLoader());
+        this.code = in.readString();
+        this.optionList = in.readParcelable(OptionDataListInfo.class.getClassLoader());
     }
 
     public static final Creator<OptionFb> CREATOR = new Creator<OptionFb>() {

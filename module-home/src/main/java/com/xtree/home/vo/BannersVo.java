@@ -19,7 +19,7 @@ public class BannersVo implements Parcelable {
     public String position_pop; // "1"
     public String unlogin_pop; // "0"
     public String login_pop; // "0"
-    public String pop_image; // "https://jxpicture.julaohuivip.com/2023/11/01/xnty_H5_banner0348.jpg"
+    //public String pop_image; // "https://jxpicture.julaohuivip.com/2023/11/01/xnty_H5_banner0348.jpg"
     public String ad_position; // "4"
     public String pop_image_type; // "0"
     public String user_pop; // "1"
@@ -46,7 +46,6 @@ public class BannersVo implements Parcelable {
         position_pop = in.readString();
         unlogin_pop = in.readString();
         login_pop = in.readString();
-        pop_image = in.readString();
         ad_position = in.readString();
         pop_image_type = in.readString();
         user_pop = in.readString();
@@ -71,7 +70,6 @@ public class BannersVo implements Parcelable {
         dest.writeString(position_pop);
         dest.writeString(unlogin_pop);
         dest.writeString(login_pop);
-        dest.writeString(pop_image);
         dest.writeString(ad_position);
         dest.writeString(pop_image_type);
         dest.writeString(user_pop);
@@ -114,7 +112,6 @@ public class BannersVo implements Parcelable {
                 ", position_pop='" + position_pop + '\'' +
                 ", unlogin_pop='" + unlogin_pop + '\'' +
                 ", login_pop='" + login_pop + '\'' +
-                ", pop_image='" + pop_image + '\'' +
                 ", ad_position='" + ad_position + '\'' +
                 ", pop_image_type='" + pop_image_type + '\'' +
                 ", user_pop='" + user_pop + '\'' +

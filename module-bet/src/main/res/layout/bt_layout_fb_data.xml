@@ -1,63 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/iv_yellow_card"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:background="@color/yellow"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
         <TextView
-            android:id="@+id/tv_yellow_card"
+            android:id="@+id/tv_half_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="黄牌"
+            tools:text="上半场1-0"
             android:textColor="@color/bt_color_under_bg_primary_text"
-            android:textSize="@dimen/bt_text_10sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_yellow_card"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_red_card"
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginStart="12dp"
-            android:background="@color/red"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_yellow_card"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_red_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="红牌"
-            android:textColor="@color/bt_color_under_bg_primary_text"
-            android:textSize="@dimen/bt_text_10sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_red_card"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="@dimen/bt_text_10sp"/>
 
         <ImageView
             android:id="@+id/iv_cornor"
             android:layout_width="12dp"
             android:layout_height="12dp"
             android:layout_marginStart="12dp"
-            android:background="@drawable/bt_match_list_cornor_selector"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tv_red_card"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:background="@drawable/bt_match_list_cornor_selector" />
 
         <TextView
             android:id="@+id/tv_cornor"
@@ -65,10 +30,38 @@
             android:layout_height="wrap_content"
             android:text="角球"
             android:textColor="@color/bt_color_under_bg_primary_text"
-            android:textSize="@dimen/bt_text_10sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_cornor"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="@dimen/bt_text_10sp"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/iv_yellow_card"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="12dp"
+            android:background="@color/yellow" />
+
+        <TextView
+            android:id="@+id/tv_yellow_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="黄牌"
+            android:textColor="@color/bt_color_under_bg_primary_text"
+            android:textSize="@dimen/bt_text_10sp" />
+
+        <ImageView
+            android:id="@+id/iv_red_card"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="12dp"
+            android:background="@color/red" />
+
+        <TextView
+            android:id="@+id/tv_red_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="红牌"
+            android:textColor="@color/bt_color_under_bg_primary_text"
+            android:textSize="@dimen/bt_text_10sp" />
+
+
+    </LinearLayout>
 </layout>

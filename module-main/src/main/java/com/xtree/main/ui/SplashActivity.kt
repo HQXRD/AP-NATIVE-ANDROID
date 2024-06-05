@@ -7,6 +7,7 @@ import android.os.Looper
 import android.os.Message
 import android.text.TextUtils
 import androidx.lifecycle.ViewModelProvider
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.drake.net.Get
 import com.drake.net.NetConfig
 import com.drake.net.tag.RESPONSE
@@ -15,6 +16,7 @@ import com.drake.net.utils.fastest
 import com.drake.net.utils.scopeNet
 import com.xtree.base.global.SPKeyGlobal
 import com.xtree.base.net.RetrofitClient
+import com.xtree.base.router.RouterActivityPath
 import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.DomainUtil
 import com.xtree.base.utils.TagUtils
@@ -32,6 +34,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils
 /**
  * 冷启动
  */
+@Route(path = RouterActivityPath.Main.PAGER_SPLASH)
 class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() {
 
     private val MSG_IN_MAIN: Int = 100 // 消息类型
@@ -157,6 +160,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                 CfLog.i("getFBGameTokenApi init")
                 viewModel?.getFBGameTokenApi()
                 viewModel?.getFBXCGameTokenApi()
+                viewModel?.getPMXCGameTokenApi()
                 viewModel?.getPMGameTokenApi()
             } else {
                 mHandler.sendEmptyMessageDelayed(MSG_IN_MAIN, DELAY_MILLIS)

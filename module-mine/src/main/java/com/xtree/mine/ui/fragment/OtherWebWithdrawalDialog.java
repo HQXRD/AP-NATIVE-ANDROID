@@ -114,7 +114,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         binding.tvwTitle.setText(chooseInfoVo.title);
         binding.maskH5View.setVisibility(View.VISIBLE);
         //外跳外部浏览器
-        binding.ivwWeb.setOnClickListener(v ->{
+        binding.ivwWeb.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(jumpUrl)) {
                 AppUtil.goBrowser(getContext(), jumpUrl);
             }
@@ -143,16 +143,17 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
                     dismissLoading();
                     showErrorByChannel(otherWebWithdrawVo.channel_list.get(0).thiriframe_msg);
                 }
-            }else if (!TextUtils.isEmpty(otherWebWithdrawVo.message) && TextUtils.equals(getContext().getString(R.string.txt_no_withdrawals_available_tip),otherWebWithdrawVo.message)) {
+            } else if (!TextUtils.isEmpty(otherWebWithdrawVo.message) && TextUtils.equals(getContext().getString(R.string.txt_no_withdrawals_available_tip), otherWebWithdrawVo.message)) {
                 refreshErrByNumber(otherWebWithdrawVo.message);
                 return;
-            }else{
+            } else {
                 showErrorMessage(otherWebWithdrawVo.message);
             }
 
         });
 
     }
+
     /**
      * 刷新显示没有提款次数
      */
@@ -163,12 +164,13 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         binding.llVirtualUsdtSelector.setVisibility(View.GONE);
         binding.nsH5View.setVisibility(View.GONE);
         binding.maskH5View.setVisibility(View.GONE);
-       binding.llBankWithdrawalNumberError.setVisibility(View.VISIBLE);//显示错误信息
+        binding.llBankWithdrawalNumberError.setVisibility(View.VISIBLE);//显示错误信息
         binding.tvShowNumberErrorMessage.setText(message);
 
     }
+
     private void showErrorMessage(final String message) {
-        if (message ==null || message.isEmpty()){
+        if (message == null || message.isEmpty()) {
             return;
         }
 
@@ -199,7 +201,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         if (!StringUtils.isStartHttp(url)) {
             url = DomainUtil.getDomain2() + url;
         }
-        jumpUrl = url ;
+        jumpUrl = url;
 
         binding.ivwWeb.setVisibility(View.VISIBLE);
 
@@ -255,15 +257,15 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
                 gotoSelectMedia();
                 return true;
             }
+
             @Override
             public void onProgressChanged(WebView view, int progress) {
                 //显示加载进度
                 super.onProgressChanged(view, progress);
                 binding.webProgress.setVisibility(View.VISIBLE);
                 binding.webProgress.setProgress(progress);
-                binding.webProgress.setVisibility((progress >0 && progress <100) ? View.VISIBLE :View.GONE);
+                binding.webProgress.setVisibility((progress > 0 && progress < 100) ? View.VISIBLE : View.GONE);
             }
-
 
         });
 
@@ -321,7 +323,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         }
 
         //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
-        final  String notice = "<font color=#EE5A5A>注意:</font>";
+        final String notice = "<font color=#EE5A5A>注意:</font>";
         String times, count, starttime, endtime, rest;
         times = "<font color=#EE5A5A>" + String.valueOf(otherWebWithdrawVo.times) + "</font>";
         count = "<font color=#EE5A5A>" + otherWebWithdrawVo.count + "</font>";
@@ -330,22 +332,13 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         rest = StringUtils.formatToSeparate(Float.valueOf(otherWebWithdrawVo.rest));
         String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
         String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String textSource = String.format(format,notice, times, count, starttime, endtime, testTxt);
+        String textSource = String.format(format, notice, times, count, starttime, endtime, testTxt);
 
         binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
     }
 
     private void refreshTopUI(OtherWebWithdrawVo vo) {
-
-        for (int i = 0; i < vo.channel_list.size(); i++) {
-          /*  if (i == 0) {
-                vo.channel_list.get(0).flag = true;
-            } else {
-                vo.channel_list.get(i).flag = false;
-            }
-            selectorTopChannel = vo.channel_list.get(0);*/
-        }
         recyclerViewAdapter = new FruitHorOtherRecyclerViewAdapter(vo.channel_list, this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

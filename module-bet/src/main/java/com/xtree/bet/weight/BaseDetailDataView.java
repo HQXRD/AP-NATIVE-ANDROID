@@ -186,4 +186,8 @@ public abstract class BaseDetailDataView extends ConstraintLayout{
         }
         return null;
     }
+
+    public boolean hasScore(List<Integer> score){
+        return score.get(0) > 0 || score.get(1) > 0;
+    }
 }

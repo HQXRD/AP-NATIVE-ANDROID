@@ -49,6 +49,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import me.xtree.mvvmhabit.base.BaseActivity;
 import me.xtree.mvvmhabit.http.BusinessException;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -136,7 +137,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         binding.tvwForgetPwd.setOnClickListener(v -> goForgetPassword());
 
         //binding.tvwAgreement.setOnClickListener(v -> goMain());
-        binding.tvwSkipLogin.setOnClickListener(v -> goMain());
+        binding.tvwSkipLogin.setOnClickListener(v -> goMain(false));
         binding.tvwCs.setOnClickListener(v -> AppUtil.goCustomerService(this));
 
         binding.btnLogin.setOnClickListener(v -> {
@@ -427,14 +428,14 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             if (vo.twofa_required == 0) {
                 //viewModel.setLoginSucc(vo);
                 TagUtils.tagEvent(getBaseContext(), TagUtils.EVENT_LOGIN);
-                goMain();
+                goMain(true);
 
             } else if (vo.twofa_required == 1) {
                 CfLog.i("*********** 去谷歌验证...");
                 GoogleAuthDialog dialog = new GoogleAuthDialog(this, this, () -> {
                     viewModel.setLoginSucc(vo);
                     TagUtils.tagEvent(getBaseContext(), TagUtils.EVENT_LOGIN);
-                    goMain();
+                    goMain(true);
                 });
                 new XPopup.Builder(this)
                         .dismissOnBackPressed(false)
@@ -446,7 +447,13 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
         viewModel.liveDataReg.observe(this, vo -> {
             TagUtils.tagEvent(getBaseContext(), "reg");
-            goMain();
+            //注册成功后直接登录
+            if (vo != null && vo.userName != null && vo.userpass != null) {
+                viewModel.login(vo.userName, vo.userpass);
+            } else {
+                CfLog.e("*********** userName /userpass is Null");
+                goMain(false);
+            }
         });
 
         viewModel.liveDataLoginFail.observe(this, vo -> {
@@ -480,8 +487,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                     String netCode = strings[2];
                     CfLog.e("ClipboardUtil = " + netCode);
                     code = netCode;
-                }
-                else {
+                } else {
                     CfLog.e("********strings.length!=3");
                 }
             } else {
@@ -494,7 +500,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     public void onBackPressed() {
         super.onBackPressed();
         // 用户点返回按钮时,要打开首页(有些页面跳转到登录页的同时,也会关闭自己)
-        goMain();
+        goMain(false);
     }
 
     private boolean ifAgree() {
@@ -510,9 +516,11 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         edt.setSelection(edt.length());
     }
 
-    private void goMain() {
+    private void goMain(boolean isLogin) {
+        KLog.i("isLogin", isLogin + "");
         ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK)
+                .withBoolean("isLogin", isLogin)
                 .navigation();
         finish();
     }

@@ -79,7 +79,6 @@ public class MsgViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -100,7 +99,6 @@ public class MsgViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -138,7 +136,6 @@ public class MsgViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -159,7 +156,6 @@ public class MsgViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -187,7 +183,7 @@ public class MsgViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("删除失败");
+                        //ToastUtils.showLong("删除失败");
                         liveDataDeletePart.setValue(false);
                     }
                 });
@@ -212,7 +208,7 @@ public class MsgViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("删除失败");
+                        //ToastUtils.showLong("删除失败");
                         liveDataDeleteAll.setValue(false);
                     }
                 });

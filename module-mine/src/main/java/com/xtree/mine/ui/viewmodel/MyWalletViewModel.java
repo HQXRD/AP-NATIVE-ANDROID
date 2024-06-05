@@ -57,18 +57,17 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<AwardsRecordVo>() {
                     @Override
-                    public void onResult(AwardsRecordVo awardrecordVo) {
-                        if (awardrecordVo != null) {
-                            awardrecordVoMutableLiveData.setValue(awardrecordVo);
+                    public void onResult(AwardsRecordVo vo) {
+                        if (vo != null) {
+                            awardrecordVoMutableLiveData.setValue(vo);
                         } else {
-                            CfLog.i("awardrecordVo IS NULL ");
+                            CfLog.i("vo IS NULL ");
                         }
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
-                        //ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -109,7 +108,7 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                 }
                 liveDataTransGameType.setValue(canUseTransGame);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                CfLog.e(e.toString());
             }
         }).run();
     }
@@ -234,10 +233,10 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
         if (json.equals("[]")) {
             list.add(new GameBalanceVo("pt", "PT娱乐", 1, " "));
             list.add(new GameBalanceVo("bbin", "BBIN娱乐", 2, " "));
-            list.add(new GameBalanceVo("ag", "AG街机捕鱼", 4, " "));
-            list.add(new GameBalanceVo("obgdj", "DB电竞", 40, " "));
-            list.add(new GameBalanceVo("yy", "云游棋牌", 20, " "));
-            list.add(new GameBalanceVo("obgqp", "DB棋牌", 32, " "));
+            list.add(new GameBalanceVo("ag", "AG街机捕鱼", 3, " "));
+            list.add(new GameBalanceVo("obgdj", "DB电竞", 4, " "));
+            list.add(new GameBalanceVo("yy", "云游棋牌", 5, " "));
+            list.add(new GameBalanceVo("obgqp", "DB棋牌", 6, " "));
         } else {
             list = gson.fromJson(json, new TypeToken<List<GameBalanceVo>>() {
             }.getType());
@@ -263,16 +262,16 @@ public class MyWalletViewModel extends BaseViewModel<MineRepository> {
                 t = new GameBalanceVo(gameAlias, "BBIN娱乐", 2, balance);
                 break;
             case "ag":
-                t = new GameBalanceVo(gameAlias, "AG街机捕鱼", 4, balance);
+                t = new GameBalanceVo(gameAlias, "AG街机捕鱼", 3, balance);
                 break;
             case "obgdj":
-                t = new GameBalanceVo(gameAlias, "DB电竞", 40, balance);
+                t = new GameBalanceVo(gameAlias, "DB电竞", 4, balance);
                 break;
             case "yy":
-                t = new GameBalanceVo(gameAlias, "云游棋牌", 20, balance);
+                t = new GameBalanceVo(gameAlias, "云游棋牌", 5, balance);
                 break;
             case "obgqp":
-                t = new GameBalanceVo(gameAlias, "DB棋牌", 32, balance);
+                t = new GameBalanceVo(gameAlias, "DB棋牌", 6, balance);
                 break;
             default:
                 t = new GameBalanceVo("维护中", "维护中", 0, "--");

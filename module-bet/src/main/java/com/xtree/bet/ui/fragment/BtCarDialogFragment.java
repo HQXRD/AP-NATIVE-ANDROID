@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
+import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.MsgDialog;
@@ -140,7 +141,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 betAmount += cgOddLimit.getBtAmount();
             }
             if (betAmount > Double.parseDouble(mBanlance)) {
-                ToastUtils.showLong("余额不足");
+                ToastUtils.showLong(getResources().getString(R.string.txt_insufficient_balance));
                 return;
             }
             viewModel.bet(betConfirmOptionList, cgOddLimitList, acceptOdds);
@@ -319,6 +320,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         });
         viewModel.userBalanceData.observe(this, balance -> {
             mBanlance = balance;
+            SPUtils.getInstance().put(keyboardView.KEY_USER_BALANCE, mBanlance);
             binding.tvBalance.setText(balance);
         });
         viewModel.noBetAmountDate.observe(this, unused -> {

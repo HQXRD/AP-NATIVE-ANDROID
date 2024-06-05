@@ -21,7 +21,6 @@ import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 谷歌验证 ViewModel
@@ -76,7 +75,6 @@ public class GooglePwdViewModel extends BaseViewModel<MineRepository> {
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
                         super.onError(t);
-                        ToastUtils.showLong("请求失败");
                     }
                 });
         addSubscribe(disposable);
@@ -95,6 +93,7 @@ public class GooglePwdViewModel extends BaseViewModel<MineRepository> {
 
                     @Override
                     public void onFail(BusinessException t) {
+                        CfLog.e("****** " + t.toString());
                         super.onFail(t);
                     }
                 });
@@ -122,8 +121,7 @@ public class GooglePwdViewModel extends BaseViewModel<MineRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e("error, " + t.toString());
-                        super.onError(t);
-                        ToastUtils.showLong("请求失败");
+                        //super.onError(t);
                     }
                 });
         addSubscribe(disposable);

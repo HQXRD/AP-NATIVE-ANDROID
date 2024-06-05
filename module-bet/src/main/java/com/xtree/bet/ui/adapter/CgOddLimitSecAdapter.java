@@ -2,7 +2,9 @@ package com.xtree.bet.ui.adapter;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
@@ -90,12 +92,13 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    textChanged(etAmount, charSequence, cgOddLimit, cgOddLimit.getCMin(), cgOddLimit.getCMax(), cgOddLimit.getCOdd(),
-                            R.string.bt_bt_win, R.string.bt_bt_pay, itemView.findViewById(R.id.tv_win_cc), itemView.findViewById(R.id.tv_pay_cc), itemView.findViewById(R.id.csl_win_cc));
+
                 }
 
                 @Override
                 public void afterTextChanged(Editable editable) {
+                    textChanged(etAmount, etAmount.getText(), cgOddLimit, cgOddLimit.getCMin(), cgOddLimit.getCMax(), cgOddLimit.getCOdd(),
+                            R.string.bt_bt_win, R.string.bt_bt_pay, itemView.findViewById(R.id.tv_win_cc), itemView.findViewById(R.id.tv_pay_cc), itemView.findViewById(R.id.csl_win_cc));
                     etAmount.setSelection(TextUtils.isEmpty(etAmount.getText()) ? 0 : etAmount.getText().toString().length());
                 }
             });
@@ -138,12 +141,13 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    textChanged(etAmount, charSequence, cgOddLimit, cgOddLimit.getDMin(), cgOddLimit.getDMax(), cgOddLimit.getDOdd(),
-                            R.string.bt_bt_win, R.string.bt_bt_pay_1, itemView.findViewById(R.id.tv_win_dan), itemView.findViewById(R.id.tv_pay_dan), itemView.findViewById(R.id.csl_win_dan));
+
                 }
 
                 @Override
                 public void afterTextChanged(Editable editable) {
+                    textChanged(etAmount, etAmount.getText(), cgOddLimit, cgOddLimit.getDMin(), cgOddLimit.getDMax(), cgOddLimit.getDOdd(),
+                            R.string.bt_bt_win, R.string.bt_bt_pay_1, itemView.findViewById(R.id.tv_win_dan), itemView.findViewById(R.id.tv_pay_dan), itemView.findViewById(R.id.csl_win_dan));
                     etAmount.setSelection(TextUtils.isEmpty(etAmount.getText()) ? 0 : etAmount.getText().toString().length());
                 }
             });
@@ -165,6 +169,8 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
             });
         }
     }
+
+    Disposable disposable;
 
     /**
      * @param etAmount
@@ -200,25 +206,27 @@ public class CgOddLimitSecAdapter extends CgOddLimitView.Adapter<CgOddLimit> {
                 tvPay.setText(mContext.getResources().getString(payResStringId, String.valueOf(amount * cgOddLimit.getBtCount())));
                 if (!flag) {
                     flag = true;
-                    Disposable disposable = Observable.timer(2, TimeUnit.SECONDS).subscribe(aLong -> {
+                    disposable = Observable.timer(2, TimeUnit.SECONDS).subscribe(aLong -> {
                         if (TextUtils.isEmpty(etAmount.getText()) || Double.valueOf(etAmount.getText().toString()) >= minValue) {
                             flag = false;
                             return;
                         }
                         ((BaseActivity) mContext).runOnUiThread(() -> {
-                            etAmount.setText(String.valueOf(minValue));
+                            etAmount.setText(NumberUtils.format(minValue, 0));
                             //etAmount.setSelection(String.valueOf(minValue).length());
 
                             tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * minValue - amount, 2)));
                             tvPay.setText(mContext.getResources().getString(payResStringId, NumberUtils.format(minValue * cgOddLimit.getBtCount(), 2)));
                             flag = false;
                         });
-
+                        if(disposable.isDisposed())
+                        disposable.dispose();
                     });
+
                 }
 
             } else if (amount > maxValue) {
-                etAmount.setText(String.valueOf(maxValue));
+                etAmount.setText(NumberUtils.format(maxValue, 0));
                 //etAmount.setSelection(String.valueOf(maxValue).length());
                 tvWin.setText(mContext.getResources().getString(winResStringId, NumberUtils.format(odd * maxValue - maxValue, 2)));
                 tvPay.setText(mContext.getResources().getString(payResStringId, NumberUtils.format(maxValue * cgOddLimit.getBtCount(), 2)));

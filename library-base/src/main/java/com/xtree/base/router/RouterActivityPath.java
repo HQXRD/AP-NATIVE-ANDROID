@@ -13,6 +13,7 @@ public class RouterActivityPath {
         private static final String MAIN = "/main";
         /*主业务界面*/
         public static final String PAGER_MAIN = MAIN + "/Main";
+        public static final String PAGER_SPLASH = MAIN + "/Splash";
     }
 
     /**

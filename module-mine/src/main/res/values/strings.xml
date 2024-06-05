@@ -59,9 +59,9 @@
     <string name="me_wallet_title">平台中心余额 (元)</string>
     <string name="me_wallet_deposit">去存款</string>
     <string name="me_wallet_amount">0.0000</string>
-    <string name="me_wallet_save">去存款</string>
-    <string name="me_wallet_transfer">去转账</string>
-    <string name="me_wallet_withdraw">去取款</string>
+    <string name="me_wallet_save">充值</string>
+    <string name="me_wallet_transfer">转账</string>
+    <string name="me_wallet_withdraw">提款</string>
     <string name="me_wallet_account">账户管理</string>
     <string name="me_wallet_record">充提记录</string>
     <string name="me_wallet_details">钱包明细</string>
@@ -155,6 +155,7 @@
     <string name="txt_tip_cs_03">解决</string>
 
     <string name="txt_change_pwd">修改密码</string>
+    <string name="txt_reset_pwd">重置登录密码</string>
     <string name="txt_enter_new_pwd">请输入新的登录密码</string>
     <string name="txt_username_empty">用户名不能为空</string>
     <string name="txt_user_name_should_6_12">用户名为6–12位</string>
@@ -360,7 +361,7 @@
     <string name="txt_withdrawal_usdt_account">收款USDT账号：</string>
     <string name="txt_receive_usdt_account">收到USDT账户</string>
     <string name="txt_select_virtual_address">请选择虚拟币收款地址</string>
-    <string name="txt_ust_trc20_usdt">【嗨钱包USDT】可使用TRC20_USDT类型进行提款</string>
+    <string name="txt_ust_trc20_usdt">【嗨钱包USDT】仅可使用TRC20_USDT类型进行提款</string>
     <string name="txt_actual_arrival">实际提款金额：</string>
     <string name="txt_withdrawal_address">提款地址:</string>
     <string name="txt_handling_fee">手续费:</string>
@@ -384,7 +385,8 @@
     <string name="txt_delete_part_msg">您确定要删除选中的消息吗? 已删除的消息将不可再恢复</string>
     <string name="txt_confirm_deltet">确认删除</string>
     <string name="txt_delete_msg_title">删除站内信?</string>
-    <string name="txt_awards_flow_title">抱歉，您的有效流水不足，仍需%s才可提款</string>
+    <string name="txt_awards_flow_title">抱歉，您尚需有效流水%s才可提款。</string>
+    <string name="txt_awards_flow_list_title">抱歉，您尚需有效流水%1$s才可提款。其中，解锁%2$s笔礼金，需分别完成%3$s笔活动有效流水。</string>
     <string name="txt_awards_bonus_tip">奖金： %s</string>
     <string name="txt_awards_required_turnover_tip">所需流水:%s</string>
     <string name="txt_awards_remain_turnover_tip">剩余流水:%s</string>
@@ -412,4 +414,6 @@
     <string name="txt_title_code">如何获取%s个人收款码</string>
     <string name="txt_no_data_tip">暂无数据</string>
     <string name="txt_check_detail">查看详情</string>
+    <string name="txt_sport_official">杏彩体育官方版</string>
+    <string name="txt_sport_inter">杏彩体育旗舰版</string>
 </resources>

@@ -254,6 +254,17 @@ public class BrowserActivity extends AppCompatActivity {
 
         // 上传文件
         mWebView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                // 网页加载进度
+                CfLog.d("******* newProgress: " + newProgress);
+                if (newProgress > 0 && newProgress < 100) {
+                    if (newProgress >= 75) {
+                        LoadingDialog.finish();
+                    }
+                }
+            }
 
             /**
              * For Android >= 4.1

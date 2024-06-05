@@ -107,6 +107,10 @@ public class PMConstants {
      */
     public static String SCORE_TYPE_SCORE = "S1";
     /**
+     * 比分类型-上半场比分
+     */
+    public static String SCORE_TYPE_SCORE_SECOND_HALF = "S2";
+    /**
      * 比分类型-角球
      */
     public static String SCORE_TYPE_CORNER = "S5";
@@ -145,6 +149,8 @@ public class PMConstants {
     public static int getHotLeagueIcon(String code){
         if(mapHotLeagueIconTop.isEmpty()){
             mapHotLeagueIconTop.put("allleague", R.drawable.bt_hot_league_item_epl_selector);
+            mapHotLeagueIconTop.put("EURO", R.drawable.bt_hot_league_item_euro_selector);
+            mapHotLeagueIconTop.put("CONMEBOL", R.drawable.bt_hot_league_item_conmebol_selector);
             mapHotLeagueIconTop.put("UCL", R.drawable.bt_hot_league_item_ucl_selector);
             mapHotLeagueIconTop.put("EPL", R.drawable.bt_hot_league_item_epl_selector);
             mapHotLeagueIconTop.put("SEA", R.drawable.bt_hot_league_item_sea_selector);
@@ -166,13 +172,15 @@ public class PMConstants {
         if(hotFootBallLeagueTopList.isEmpty()){
             Gson gson = new Gson();
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [], code: \"allleague\", name: \"全部\"}", HotLeague.class));
+            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [33163,1196925222286433163], code: \"EURO\", name: \"欧洲杯\"}", HotLeague.class));
+            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [151,10011000151], code: \"CONMEBOL\", name: \"美洲杯\"}", HotLeague.class));
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [2,6408,352541568130764801], code: \"UCL\", name: \"欧冠\"}", HotLeague.class));
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [3,180,29461,1682748461414224369], code: \"EPL\", name: \"英超\"}", HotLeague.class));
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [4,239], code: \"SEA\", name: \"意甲\"}", HotLeague.class));
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [5,320,1682748470622372141], code: \"LaLiga\", name: \"西甲\"}", HotLeague.class));
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [6,32230,276,29569], code: \"BVB\", name: \"德甲\"}", HotLeague.class));
             hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [7,79,343264595247255555], code: \"Ligue1\", name: \"法甲\"}", HotLeague.class));
-            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [8,1682748478869187623], code: \"CSL\", name: \"中超\"}", HotLeague.class));
+            hotFootBallLeagueTopList.add(gson.fromJson("{ leagueid: [8,6344,1682748478869187623], code: \"CSL\", name: \"中超\"}", HotLeague.class));
         }
         return hotFootBallLeagueTopList;
     }

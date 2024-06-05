@@ -392,7 +392,25 @@
         <item name="android:layout_marginBottom">12dp</item>
         <item name="android:textColor">@color/clr_black</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="style_rc_exp_bank_status">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_purple_02</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_rc_exp_bank_status2" parent="style_rc_exp_bank_status">
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:drawablePadding">2dp</item>
+        <item name="android:drawableTop">@mipmap/cm_ic_time_left</item>
     </style>
 
     <!-- 通用 标题 样式 -->
@@ -1068,9 +1086,16 @@
 
     <!-- 报表 列表项 值 黑色 靠左 -->
     <style name="style_item_report_value" parent="style_item_report_base">
+        <item name="android:layout_marginStart">2dp</item>
+        <item name="android:textColor">@color/clr_awards_txt_black</item>
+    </style>
+
+    <!-- 报表 列表项 值 黑色 靠左 -->
+    <style name="style_item_report_value_2" parent="style_item_report_base">
         <item name="android:layout_marginStart">@dimen/layout_margin</item>
         <item name="android:textColor">@color/clr_awards_txt_black</item>
     </style>
+
     <!-- 报表 列表项 值 黑色 居中 -->
     <style name="style_item_report_value_center" parent="style_item_report_value">
         <item name="android:gravity">center</item>
@@ -1323,7 +1348,7 @@
 
     <!--谷歌动态口令提示语风格-->
     <style name="style_google_prompt">
-        <item name="android:textColor">@color/clr_grey_00</item>
+        <item name="android:textColor">@color/clr_google_txt_black</item>
         <item name="android:textSize">12sp</item>
     </style>
 
@@ -1425,5 +1450,25 @@
         <item name="android:layout_marginRight">16dp</item>
         <item name="android:button">@drawable/ic_eye_cpd_selector</item>
         <item name="android:padding">6dp</item>
+    </style>
+
+    <!-- 谷歌绑定输入框 带边框,占一整行的 -->
+    <style name="style_google_edt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:background">@mipmap/cm_bg_input_wht</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:hint"></item>
+        <item name="android:inputType">text</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">64</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:tag"></item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_grey_2</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

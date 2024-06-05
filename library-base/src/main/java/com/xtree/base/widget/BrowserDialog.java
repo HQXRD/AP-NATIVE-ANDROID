@@ -169,7 +169,7 @@ public class BrowserDialog extends BottomPopupView {
             header.clear();
         }
         header.put("App-RNID", "87jumkljo");
-           mWebView.addJavascriptInterface(new WebAppInterface(getContext(), ivwClose, new WebAppInterface.ICallBack() {
+        mWebView.addJavascriptInterface(new WebAppInterface(getContext(), ivwClose, new WebAppInterface.ICallBack() {
             @Override
             public void close() {
                 //dismiss(); // only the original thread that created a view hierarchy can touch its views.
@@ -228,6 +228,17 @@ public class BrowserDialog extends BottomPopupView {
 
         // 上传文件
         mWebView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                // 网页加载进度
+                CfLog.d("******* newProgress: " + newProgress);
+                if (newProgress > 0 && newProgress < 100) {
+                    if (newProgress >= 75) {
+                        LoadingDialog.finish();
+                    }
+                }
+            }
 
             /**
              * For Android >= 4.1

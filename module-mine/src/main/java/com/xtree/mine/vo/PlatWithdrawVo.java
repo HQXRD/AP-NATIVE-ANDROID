@@ -91,6 +91,25 @@ public class PlatWithdrawVo extends BaseResponse2 {
          "handing_fee":"0.00",
          "fee_ratio":0
          */
-
+        @Override
+        public String toString() {
+            return "PlatwithdrawInfo{" +
+                    "money='" + money + '\'' +
+                    ", user_regtime='" + user_regtime + '\'' +
+                    ", bankname='" + bankname + '\'' +
+                    ", province='" + province + '\'' +
+                    ", bankcity='" + bankcity + '\'' +
+                    ", truename='" + truename + '\'' +
+                    ", bankno='" + bankno + '\'' +
+                    ", cardid='" + cardid + '\'' +
+                    ", user_bindbanktime='" + user_bindbanktime + '\'' +
+                    ", drawal_type='" + drawal_type + '\'' +
+                    ", channel_typenum=" + channel_typenum +
+                    ", earnest_money=" + earnest_money +
+                    ", arrive='" + arrive + '\'' +
+                    ", handing_fee='" + handing_fee + '\'' +
+                    ", fee_ratio=" + fee_ratio +
+                    '}';
+        }
     }
 }

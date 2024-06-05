@@ -1,5 +1,7 @@
 package com.xtree.home.ui.adapter;
 
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
+
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -30,6 +32,7 @@ import com.xtree.home.databinding.HmItemGameBinding;
 import com.xtree.home.ui.custom.view.TipPMDialog;
 import com.xtree.home.vo.GameVo;
 
+import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -81,12 +84,12 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             binding.ivwGreyCover.setVisibility(View.GONE);
         }
 
-        if (vo.twoImage) {
-            binding.layoutFc.setVisibility(View.VISIBLE);
-            setFastCommon(position, vo);
-        } else {
-            binding.layoutFc.setVisibility(View.GONE);
-        }
+        //if (vo.twoImage) {
+        //    binding.layoutFc.setVisibility(View.VISIBLE);
+        //    setFastCommon(position, vo);
+        //} else {
+        //    binding.layoutFc.setVisibility(View.GONE);
+        //}
 
         CfLog.i(getData().size() + "  " + position);
         if ((getData().size() - 1) > position) {
@@ -248,19 +251,32 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             }
         }
     }
-
+    int time;
     private void goApp(GameVo vo) {
         String cgToken;
         if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
             cgToken = SPUtils.getInstance().getString(SPKeyGlobal.FBXC_TOKEN);
         } else if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
             cgToken = SPUtils.getInstance().getString(SPKeyGlobal.FB_TOKEN);
+        } else if (TextUtils.equals(vo.alias, PLATFORM_PMXC)) {
+            cgToken = SPUtils.getInstance().getString(SPKeyGlobal.PMXC_TOKEN);
         } else {
             cgToken = SPUtils.getInstance().getString(SPKeyGlobal.PM_TOKEN);
         }
 
         if (TextUtils.isEmpty(cgToken) || !BtDomainUtil.hasDefaultLine(vo.alias)) {
-            ToastUtils.showShort("场馆初始化中，请稍候...");
+            if(time < 3) {
+                ToastUtils.showShort("场馆初始化中，请稍候...");
+                time++;
+            }else {
+                ToastUtils.showShort("场馆初始化失败，即将重启应用，请保证手机网络通畅");
+                binding.getRoot().postDelayed(() -> {
+                    AppManager.getAppManager().AppExit();
+                    ARouter.getInstance().build(RouterActivityPath.Main.PAGER_SPLASH).
+                            withString("KEY_PLATFORM", vo.alias).navigation();
+                }, 2000);
+
+            }
         } else {
             ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
                     withString("KEY_PLATFORM", vo.alias).navigation();

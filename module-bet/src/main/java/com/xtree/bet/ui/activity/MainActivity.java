@@ -5,6 +5,7 @@ import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM_NAME;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FB;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 
 import android.animation.ObjectAnimator;
 import android.content.res.ColorStateList;
@@ -66,7 +67,7 @@ import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.fb.FBMainViewModel;
 import com.xtree.bet.ui.viewmodel.pm.PMMainViewModel;
 import com.xtree.bet.weight.AnimatedExpandableListViewMax;
-import com.xtree.bet.weight.DomainChangeDialog;
+import com.xtree.bet.weight.BettingNetFloatingWindows;
 import com.xtree.bet.weight.PageHorizontalScrollView;
 
 import java.util.ArrayList;
@@ -132,6 +133,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private int mOrderBy = 1;
     private int mOddType = 1;
 
+    private boolean isFloating = false;
+
     private NavigationController navigationController;
     private MenuItemView refreshMenu;
     private View mHeader;
@@ -144,6 +147,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private Bundle mSavedInstanceState;
     private BasePopupView changeAgentTipView;
     private BasePopupView changeAgentView;
+    private BettingNetFloatingWindows mBettingNetFloatingWindows;
 
     private Handler mHandler = new Handler();
     private Runnable searchRunnable;
@@ -229,7 +233,29 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         boolean bGameSwitch = TextUtils.equals(mapSwitch.get(mPlatform), "1");
         SPUtils.getInstance().put(SPKeyGlobal.KEY_GAME_SWITCH + mPlatform, bGameSwitch);
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
-        binding.ivChangeDomain.setVisibility(bGameSwitch ? View.VISIBLE : !BtDomainUtil.isMutiLine() ? View.GONE : View.VISIBLE);
+
+        if (!bGameSwitch) {
+            if (!BtDomainUtil.isMutiLine()) {
+                if (!isFloating) {
+                    mBettingNetFloatingWindows.removeView();
+                    isFloating = false;
+                }
+            } else {
+                if (!isFloating) {
+                    CfLog.i("bettingNetFloatingWindows.show");
+                    mBettingNetFloatingWindows.show();
+                    isFloating = true;
+                }
+
+            }
+        } else {
+            if (!isFloating) {
+                CfLog.i("bettingNetFloatingWindows.show");
+                mBettingNetFloatingWindows.show();
+                isFloating = true;
+            }
+        }
+
         if (!bGameSwitch) {
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_AGENT + mPlatform, false);
             if (isAgent) {
@@ -262,6 +288,12 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             } else {
                 SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
             }
+        } else if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
+            if (isAgent) {
+                SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, DomainUtil.getDomain());
+            } else {
+                SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
+            }
         } else {
             if (isAgent) {
                 SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getDomain());
@@ -283,7 +315,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
     @Override
     public TemplateMainViewModel initViewModel() {
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             AppViewModelFactory factory = AppViewModelFactory.getInstance(getApplication());
             return new ViewModelProvider(this, factory).get(FBMainViewModel.class);
         } else {
@@ -311,10 +343,19 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.srlLeague.setOnRefreshLoadMoreListener(this);
         binding.ivBack.setOnClickListener(this);
         binding.tvBalance.setOnClickListener(this);
-        binding.ivChangeDomain.setOnClickListener(this);
         binding.ivwGameSearch.setOnClickListener(this);
         binding.tvwCancel.setOnClickListener(this);
+
+        mBettingNetFloatingWindows = BettingNetFloatingWindows.getInstance(this, (useAgent, isChangeDomain, checkBox) -> {
+            checkBox.setChecked(useAgent);
+            setDomain(useAgent);
+            resetViewModel();
+            setChangeDomainVisible();
+            uploadException(useAgent, isChangeDomain);
+            mBettingNetFloatingWindows.hideSecondaryLayout();
+        });
         setChangeDomainVisible();
+
         binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -511,7 +552,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 searchRunnable = new Runnable() {
                     @Override
                     public void run() {
-                        if(!isFirstInto){
+                        if (!isFirstInto) {
                             String search = binding.edtGameSearch.getText().toString();
                             viewModel.searchMatch(search, playMethodPos == 4);
                         }
@@ -530,7 +571,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      */
     private void setChangeDomainVisible() {
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
-        binding.ivChangeDomain.setSelected(isAgent);
+        mBettingNetFloatingWindows.setIsSelected(isAgent);
     }
 
     private void checkChampionHeaderIsExpand() {
@@ -695,7 +736,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     }
 
     private void onScrollLeague(int firstVisibleItem) {
-        if (mHeader == null || mLeagueList == null || mLeagueList.isEmpty()) {
+        if (mHeader == null || mLeagueList == null || mLeagueList.isEmpty() || firstVisibleItem < 0) {
             return;
         }
         int firstGroup = binding.rvLeague.getPackedPositionGroup(binding.rvLeague.getExpandableListPosition(firstVisibleItem));
@@ -901,27 +942,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
             @Override
             public void onClickRight() {
-                showChangeDomainDialog();
+                //showChangeDomainDialog();
                 changeAgentTipView.dismiss();
             }
         }));
         changeAgentTipView.show();
-    }
-
-    private void showChangeDomainDialog() {
-        if (changeAgentView != null && changeAgentView.isShow()) {
-            return;
-        }
-        changeAgentView = new XPopup.Builder(MainActivity.this).atView(binding.ivChangeDomain).asCustom(new DomainChangeDialog(MainActivity.this, (useAgent, isChangeDomain, checkBox) -> {
-            checkBox.setChecked(useAgent);
-            setDomain(useAgent);
-            resetViewModel();
-            setChangeDomainVisible();
-            uploadException(useAgent, isChangeDomain);
-            changeAgentView.dismiss();
-        }));
-
-        changeAgentView.show();
     }
 
     /**
@@ -956,7 +981,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 更换线路后重置viewmodel
      */
     private void resetViewModel() {
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             AppViewModelFactory.init();
         } else {
             PMAppViewModelFactory.init();
@@ -971,7 +996,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         }
         viewModel = null;
         initViewDataBinding(mSavedInstanceState);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             viewModel.setModel(AppViewModelFactory.getInstance(getApplication()).getRepository());
         } else {
             viewModel.setModel(PMAppViewModelFactory.getInstance(getApplication()).getRepository());
@@ -992,7 +1017,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      */
     private void setDomain(boolean isChecked) {
         SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_AGENT + mPlatform, isChecked);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             // FB体育使用线路位置
             int useLinePotion = SPUtils.getInstance().getInt(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
 
@@ -1085,6 +1110,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         super.onDestroy();
         BtCarManager.destroy();
         SPUtils.getInstance(BET_EXPAND).clear();
+        mBettingNetFloatingWindows.clearInstance();
     }
 
     List<Integer> playMethodTypeList = new ArrayList<>();
@@ -1092,7 +1118,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     @Override
     public void initViewObservable() {
         viewModel.reNewViewModel.observe(this, unused -> {
-            if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
                 AppViewModelFactory.init();
             } else {
                 PMAppViewModelFactory.init();
@@ -1107,7 +1133,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
             viewModel = null;
             initViewDataBinding(mSavedInstanceState);
-            if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+            if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
                 viewModel.setModel(AppViewModelFactory.getInstance(getApplication()).getRepository());
             } else {
                 viewModel.setModel(PMAppViewModelFactory.getInstance(getApplication()).getRepository());
@@ -1651,8 +1677,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             Bundle bundle = new Bundle();
             bundle.putBoolean("isShowBack", true);
             startContainerFragment(RouterFragmentPath.Recharge.PAGER_RECHARGE, bundle);
-        } else if (id == R.id.iv_change_domain) {
-            showChangeDomainDialog();
         } else if (id == R.id.ivw_game_search) {
             binding.clGameSearch.setVisibility(View.VISIBLE);
             binding.clTab.setVisibility(View.GONE);

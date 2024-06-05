@@ -105,4 +105,26 @@ public class SplashViewModel extends BaseViewModel<MainRepository> {
         addSubscribe(disposable);
     }
 
+    public void getPMXCGameTokenApi() {
+        Disposable disposable = (Disposable) model.getApiService().getPMXCGameTokenApi()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<PMService>() {
+                    @Override
+                    public void onResult(PMService pmService) {
+                        SPUtils.getInstance().put(SPKeyGlobal.PMXC_TOKEN, pmService.getToken());
+                        SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, pmService.getApiDomain());
+                        SPUtils.getInstance().put(SPKeyGlobal.PMXC_IMG_SERVICE_URL, pmService.getImgDomain());
+                        SPUtils.getInstance().put(SPKeyGlobal.PMXC_USER_ID, pmService.getUserId());
+                        BtDomainUtil.setDefaultPmxcDomainUrl(pmService.getApiDomain());
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e(t.toString());
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
 }

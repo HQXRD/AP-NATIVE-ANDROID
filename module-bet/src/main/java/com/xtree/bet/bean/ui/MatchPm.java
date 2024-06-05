@@ -111,6 +111,15 @@ public class MatchPm implements Match {
     }
 
     /**
+     * 是否足球比赛下半场
+     * @return
+     */
+    @Override
+    public boolean isFootBallSecondHalf() {
+        return TextUtils.equals(matchInfo.mmp, "7") || TextUtils.equals(matchInfo.mmp, "31");
+    }
+
+    /**
      * 获取走表时间，以秒为单位，如250秒，客户端用秒去转换成时分秒时间
      *
      * @return
@@ -167,6 +176,15 @@ public class MatchPm implements Match {
         sc.add(0);
         sc.add(0);
         return sc;
+    }
+
+    /**
+     * 获取上半场比分信息
+     * @return
+     */
+    @Override
+    public List<Integer> getFirstHalfScore() {
+        return getScore(new String[]{String.valueOf(PMConstants.SCORE_TYPE_SCORE_SECOND_HALF)});
     }
 
     /**
@@ -336,7 +354,7 @@ public class MatchPm implements Match {
      */
     @Override
     public String getIconVisitor() {
-        if (matchInfo == null || matchInfo.malu != null || matchInfo.malu.isEmpty()) {
+        if (matchInfo == null || matchInfo.malu == null || matchInfo.malu.isEmpty()) {
             return "";
         }
         String logoUrl = matchInfo.malu.get(0);

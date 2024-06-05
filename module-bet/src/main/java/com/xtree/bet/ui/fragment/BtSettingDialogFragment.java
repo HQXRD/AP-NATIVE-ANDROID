@@ -1,7 +1,9 @@
 package com.xtree.bet.ui.fragment;
 
 import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FB;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 
 import android.app.Application;
 import android.os.Bundle;
@@ -9,19 +11,25 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
+import com.xtree.base.utils.ClickUtil;
+import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.widget.BrowserActivity;
 import com.xtree.bet.R;
 import com.xtree.bet.constant.SPKey;
 import com.xtree.bet.contract.BetContract;
 import com.xtree.bet.databinding.BtDialogSettingBinding;
 import com.xtree.bet.ui.activity.MainActivity;
 import com.xtree.bet.ui.viewmodel.TemplateBtCarViewModel;
+import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.factory.PMAppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.fb.FBBtCarViewModel;
-import com.xtree.bet.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.bet.ui.viewmodel.pm.PMBtCarViewModel;
 
 import java.util.ArrayList;
@@ -42,10 +50,10 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
     private List<Long> mLeagueIdList = new ArrayList<>();
     private String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
 
-    public static BtSettingDialogFragment getInstance(List<Long> leagueIdList){
+    public static BtSettingDialogFragment getInstance(List<Long> leagueIdList) {
         BtSettingDialogFragment btResultDialogFragment = new BtSettingDialogFragment();
         Bundle bundle = new Bundle();
-        if(!leagueIdList.isEmpty()) {
+        if (!leagueIdList.isEmpty()) {
             long[] leagueIdArray = new long[leagueIdList.size()];
             for (int i = 0; i < leagueIdList.size(); i++) {
                 leagueIdArray[i] = leagueIdList.get(i);
@@ -77,19 +85,31 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
             RxBus.getDefault().post(new BetContract(BetContract.ACTION_MARKET_CHANGE, market));
             SPUtils.getInstance().put(SPKey.BT_MATCH_LIST_ODDTYPE, market);
         });
+        binding.ivGoSportRegular.setOnClickListener(v -> startContainerFragment(RouterFragmentPath.Mine.PAGER_SPORT_REGULAR));
         long[] leagues = getArguments().getLongArray(KEY_LEAGUEIDS);
-        if(leagues != null && leagues.length > 0) {
+        if (leagues != null && leagues.length > 0) {
             for (int i = 0; i < leagues.length; i++) {
                 mLeagueIdList.add(leagues[i]);
             }
         }
-        if(mLeagueIdList == null || mLeagueIdList.isEmpty()){
+        if (mLeagueIdList == null || mLeagueIdList.isEmpty()) {
             binding.llLeague.setVisibility(View.VISIBLE);
             binding.tvHaschoised.setVisibility(View.GONE);
-        }else{
+        } else {
             binding.llLeague.setVisibility(View.GONE);
             binding.tvHaschoised.setVisibility(View.VISIBLE);
             binding.tvHaschoised.setText("(已选" + mLeagueIdList.size() + ")");
+        }
+        if (TextUtils.equals(mPlatform, PLATFORM_PM) || TextUtils.equals(mPlatform, PLATFORM_FB)) {
+            binding.layoutGoWeb.setVisibility(View.VISIBLE);
+            binding.ivGoWeb.setOnClickListener(v -> {
+                if(ClickUtil.isFastClick()){
+                    return;
+                }
+                viewModel.getPlayUrl(mPlatform);
+            });
+        } else {
+            binding.layoutGoWeb.setVisibility(View.GONE);
         }
 
     }
@@ -118,17 +138,21 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
 
     @Override
     public void initViewObservable() {
+        viewModel.liveDataPlayUrl.observe(getViewLifecycleOwner(), map -> {
+            String url = map.get("url").toString();
+            AppUtil.goBrowser(getContext(), url);
+        });
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if(id == R.id.tv_close){
+        if (id == R.id.tv_close) {
             dismiss();
         } else if (id == R.id.tv_more) {
             dismiss();
-            if(getActivity() instanceof MainActivity) {
-                MainActivity activity = (MainActivity)getActivity();
+            if (getActivity() instanceof MainActivity) {
+                MainActivity activity = (MainActivity) getActivity();
                 BtLeagueDialogFragment btLeagueDialogFragment = BtLeagueDialogFragment.getInstance(activity.getSettingLeagueList(), activity.getSportId(), activity.getPlayMethodType(), mLeagueIdList);
                 btLeagueDialogFragment.show(getParentFragmentManager(), "BtLeagueDialogFragment");
             }
@@ -137,12 +161,18 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
 
     @Override
     public TemplateBtCarViewModel initViewModel() {
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             AppViewModelFactory factory = AppViewModelFactory.getInstance((Application) Utils.getContext());
             return new ViewModelProvider(this, factory).get(FBBtCarViewModel.class);
         } else {
             PMAppViewModelFactory factory = PMAppViewModelFactory.getInstance((Application) Utils.getContext());
             return new ViewModelProvider(this, factory).get(PMBtCarViewModel.class);
         }
+    }
+
+    private void goWebView(View v, String path, boolean isContainTitle) {
+        String title = ((TextView) v).getText().toString();
+        String url = DomainUtil.getDomain2() + path;
+        BrowserActivity.start(getContext(), title, url, isContainTitle);
     }
 }

@@ -91,6 +91,30 @@ public class BtDetailDialog extends BottomPopupView {
         } else if (vo.project_BetResult.equals("W")) {
             binding.tvwBtResult.setText(R.string.txt_rst_win);
             binding.tvwBtResult.setSelected(true);
+        } else if (vo.project_BetResult.equals("C")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_c);
+            binding.tvwBtResult.setActivated(true);
+        } else if (vo.project_BetResult.equals("V")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_v);
+            binding.tvwBtResult.setActivated(true);
+        } else if (vo.project_BetResult.equals("CO")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_co);
+            binding.tvwBtResult.setActivated(true);
+        } else if (vo.project_BetResult.equals("J")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_j);
+            binding.tvwBtResult.setActivated(true);
+        } else if (vo.project_BetResult.equals("CANCLE_ORD")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_cancel_ord);
+            binding.tvwBtResult.setActivated(true);
+        } else if (vo.project_BetResult.equals("HALFLOSE")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_half_lose);
+            binding.tvwBtResult.setActivated(true);
+        } else if (vo.project_BetResult.equals("HALFWIN")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_half_win);
+            binding.tvwBtResult.setActivated(true);
+        } else if (vo.project_BetResult.equals("VOID")) {
+            binding.tvwBtResult.setText(R.string.txt_rst_void);
+            binding.tvwBtResult.setActivated(true);
         } else {
             binding.tvwBtResult.setText(R.string.txt_unsettle); // 未结算
             binding.tvwBtResult.setActivated(true);
@@ -117,6 +141,7 @@ public class BtDetailDialog extends BottomPopupView {
         // content 类型会变化, 大部分情况是BtContentVo, 少数情况是String.
         if (vo.content instanceof Map) {
             BtDetailVo.BtContentVo mBtContentVo = new Gson().fromJson(new Gson().toJson(vo.content), BtDetailVo.BtContentVo.class);
+            binding.tvwBetTitle.setText(mBtContentVo.title);
             if (mBtContentVo.list != null && !mBtContentVo.list.isEmpty()) {
                 for (int i = 0; i < mBtContentVo.list.size(); i++) {
                     BtDetailVo.BtContentItemVo t = mBtContentVo.list.get(i);
@@ -137,6 +162,7 @@ public class BtDetailDialog extends BottomPopupView {
         if (TextUtils.isEmpty(t.SportsName)) {
             // 有4个字段
             binding.llBetContent.setVisibility(View.VISIBLE); // 显示出来
+            binding.tvwBetTitle.setVisibility(View.VISIBLE);
             binding.tvwBetContent.append(t.bet_content + "\n" + t.competition_name + "\n" + t.game_type + "\n" + t.match_name + "\n\n");
             //binding.tvwBetContent.setText(t.bet_content);
             //binding.tvwCompetitionName.setText(t.competition_name);
@@ -153,7 +179,7 @@ public class BtDetailDialog extends BottomPopupView {
             //binding.llDetail.tvwPlaycontent.setText(t.playcontent);
             //binding.llDetail.tvwBetContent.setText(t.bet_content);
             //binding.llDetail.tvwOdds.setText(t.Odds);
-
+            binding.tvwBetTitle.setVisibility(View.VISIBLE);
             LayoutBtDetailMatchBinding binding2 = LayoutBtDetailMatchBinding.inflate(LayoutInflater.from(getContext()));
             binding2.llRoot.setVisibility(View.VISIBLE); // 显示出来
             binding2.tvwSportsName.setText(t.SportsName);

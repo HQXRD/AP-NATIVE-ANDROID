@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.xtree.recharge.ui.viewmodel.ExTransferViewModel" />
+
+        <import type="androidx.core.content.ContextCompat" />
+
+        <import type="com.xtree.recharge.R" />
+
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            style="@style/style_rc_exp_bank_top"
+            android:src="@mipmap/rc_exp_bank_step_3" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:layout_marginBottom="@dimen/layout_margin"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivw_01"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/rc_exp_bank_rst_3"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/tvw_time_left"
+                style="@style/style_rc_exp_bank_status2"
+                android:text="@{model.leftTimeData}"
+                tools:text="剩余支付时间：29:59"
+                app:layout_constraintBottom_toTopOf="@+id/tvw_time_end"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivw_01"
+                app:layout_constraintTop_toTopOf="@id/ivw_01" />
+
+            <TextView
+                android:id="@+id/tvw_time_end"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:gravity="center"
+                android:text="@{model.deadlinesData}"
+                android:textColor="@color/clr_grey_09"
+                app:layout_constraintBottom_toBottomOf="@+id/ivw_01"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvw_time_left"
+                app:layout_constraintTop_toBottomOf="@id/tvw_time_left"
+                tools:text="请于 2024-01-23  10:19:21 内完成支付" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View style="@style/style_dividing_line" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="118dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivw_pic"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                android:scaleType="center"
+                tools:src="@mipmap/rc_exp_receipt"
+                placeholder="@{ContextCompat.getDrawable(context,R.mipmap.rc_exp_receipt)}"
+                imageUrl="@{model.voucher}"
+                android:onClick="@{() -> model.gotoSelectMedia()}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_bias="0"/>
+
+            <TextView
+                android:id="@+id/tvw_21"
+                style="@style/style_rc_exp_bank_info_title"
+                android:layout_marginStart="@dimen/layout_margin"
+                android:layout_marginTop="0dp"
+                android:text="*"
+                android:textColor="@color/clr_red_01"
+                app:layout_constraintStart_toEndOf="@id/ivw_pic"
+                app:layout_constraintTop_toTopOf="@id/ivw_pic"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"/>
+
+            <TextView
+                android:id="@+id/tvw_21a"
+                style="@style/style_rc_exp_bank_info_title"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="0dp"
+                android:text="回执单"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/tvw_21"
+                app:layout_constraintTop_toTopOf="@id/ivw_pic" />
+
+            <TextView
+                android:id="@+id/tvw_22"
+                style="@style/style_cm_tip_small_orange"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginStart="0dp"
+                android:text="需含银行戳章、交易时间与金额、收/付款人姓名、完整卡号(卡号***要点开完整显示)"
+                android:textColor="@color/clr_red_19"
+                android:textSize="12sp"
+                app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvw_21"
+                app:layout_constraintTop_toBottomOf="@id/tvw_21"
+                app:layout_constraintBottom_toTopOf="@id/tvw_23"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintHorizontal_bias="0"/>
+
+            <TextView
+                android:id="@+id/tvw_23"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_btn_main_c10"
+                android:elevation="2dp"
+                android:paddingStart="8dp"
+                android:paddingTop="2dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="2dp"
+                android:layout_marginBottom="2dp"
+                android:text="回执单示例"
+                android:textColor="@color/clr_white"
+                android:textSize="12sp"
+                android:onClick="@{() -> model.showExample()}"
+                app:layout_constraintBottom_toBottomOf="@+id/ivw_pic"
+                app:layout_constraintStart_toStartOf="@+id/tvw_21" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            style="@style/style_cm_tip_small_grey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
+            android:layout_marginBottom="@dimen/layout_margin"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:textSize="12sp"
+            android:text="*仅支持图片格式为png、jpg、jpeg，且大小不超过15MB" />
+
+        <LinearLayout
+            android:id="@+id/ll_bank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            android:visibility="@{model.showBankEdit?View.VISIBLE:View.GONE}"
+            tools:visibility="visible">
+
+            <TextView
+                style="@style/style_rc_title"
+                android:text="您的付款银行" />
+
+            <TextView
+                android:id="@+id/tvw_bank_card"
+                style="@style/style_cm_edit"
+                android:text="@{model.bankNameOfPayment}"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="@dimen/layout_margin"
+                android:drawableEnd="@mipmap/cm_ic_expand"
+                tools:text="XX银行"
+                android:onClick="@{() -> model.showBankList()}"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_acc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            android:visibility="@{model.showBankEdit?View.VISIBLE:View.GONE}"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/tvw_choose_bank_card"
+                style="@style/style_rc_title"
+                android:text="您的付款账号" />
+
+            <EditText
+                android:id="@+id/tvw_bank_acc"
+                style="@style/style_cm_edit"
+                android:text="@={model.bankNumberOfPayment}"
+                android:layout_marginStart="4dp"
+                android:layout_marginEnd="@dimen/layout_margin"
+                android:maxLength="19"
+                android:inputType="number"
+                tools:text="1234 5678 9000 1234" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/tvw_left"
+                style="@style/style_btn_short_cancel"
+                android:text="上一步"
+                android:onClick="@{() -> model.onBackPressed()}"/>
+
+            <View
+                android:layout_width="36dp"
+                android:layout_height="1dp" />
+
+            <TextView
+                android:id="@+id/tvw_right"
+                style="@style/style_btn_short"
+                android:text="确认提交"
+                android:onClick="@{() -> model.uploadVoucher()}"/>
+        </LinearLayout>
+
+<!--        <TextView-->
+<!--            android:id="@+id/tvw_ok"-->
+<!--            style="@style/style_btn_long"-->
+<!--            android:text="@string/txt_confirm" />-->
+
+    </LinearLayout>
+</layout>

@@ -3,16 +3,17 @@ package com.xtree.bet.ui.viewmodel;
 import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 
 import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.net.FBHttpCallBack;
 import com.xtree.base.net.HttpCallBack;
-import com.xtree.base.net.PMHttpCallBack;
+import com.xtree.base.utils.BtDomainUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.utils.SystemUtil;
@@ -21,9 +22,7 @@ import com.xtree.base.vo.BalanceVo;
 import com.xtree.base.vo.FBService;
 import com.xtree.base.vo.PMService;
 import com.xtree.bet.bean.request.UploadExcetionReq;
-import com.xtree.bet.bean.response.fb.BalanceInfo;
 import com.xtree.bet.data.BetRepository;
-import com.xtree.base.utils.BtDomainUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,17 +43,12 @@ import me.xtree.mvvmhabit.utils.Utils;
 public class BaseBtViewModel extends BaseViewModel<BetRepository> {
     public SingleLiveData<String> userBalanceData = new SingleLiveData<>();
     public SingleLiveData<Void> tokenInvalidEvent = new SingleLiveData<>();
+    public MutableLiveData<Map> liveDataPlayUrl = new MutableLiveData<>();
     public BaseBtViewModel(@NonNull Application application, BetRepository model) {
         super(application, model);
     }
 
-    public void getUserBalance(){
-        /*String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
-            getUserBalanceFb();
-        }else {
-            getUserBalancePm();
-        }*/
+    public void getUserBalance() {
 
         Disposable disposable = (Disposable) model.getBaseApiService().getBalance()
                 .compose(RxUtils.schedulersTransformer())
@@ -76,54 +70,11 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
         addSubscribe(disposable);
     }
 
-    private void getUserBalanceFb() {
-        Map<String, String> map = new HashMap<>();
-        map.put("languageType", "CMN");
-        Disposable disposable = (Disposable) model.getApiService().getUserBanlace(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new FBHttpCallBack<BalanceInfo>() {
-                    @Override
-                    public void onResult(BalanceInfo balanceInfo) {
-                        userBalanceData.postValue(NumberUtils.format(Double.valueOf(balanceInfo.bl), 2));
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        //super.onError(t);
-                        //getUserBalanceFb();
-                    }
-                });
-        addSubscribe(disposable);
-    }
-
-    private void getUserBalancePm() {
-        Map<String, String> map = new HashMap<>();
-        String token = SPUtils.getInstance().getString(SPKeyGlobal.PM_TOKEN);
-        map.put("teken", token);
-        Disposable disposable = (Disposable) model.getPMApiService().getUserBanlace(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new PMHttpCallBack<com.xtree.bet.bean.response.pm.BalanceInfo>() {
-                    @Override
-                    public void onResult(com.xtree.bet.bean.response.pm.BalanceInfo balanceInfo) {
-                        userBalanceData.postValue(NumberUtils.format(balanceInfo.amount, 2));
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-                        super.onError(t);
-                        //getUserBalancePm();
-                    }
-                });
-        addSubscribe(disposable);
-    }
-
-    public void getGameTokenApi(){
+    public void getGameTokenApi() {
         String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        if (!TextUtils.equals(mPlatform, PLATFORM_PM)) {
+        if (!TextUtils.equals(mPlatform, PLATFORM_PM) && !TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             getFBGameTokenApi();
-        }else {
+        } else {
             getPMGameTokenApi();
         }
     }
@@ -168,17 +119,34 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
     }
 
     public void getPMGameTokenApi() {
-        Disposable disposable = (Disposable) model.getBaseApiService().getPMGameTokenApi()
+        Flowable<BaseResponse<PMService>> flowable;
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
+            flowable = model.getBaseApiService().getPMXCGameTokenApi();
+        } else {
+            flowable = model.getBaseApiService().getPMGameTokenApi();
+        }
+        Disposable disposable = (Disposable) flowable
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<PMService>() {
                     @Override
                     public void onResult(PMService pmService) {
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
-                        SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
-                        BtDomainUtil.setDefaultPmDomainUrl(pmService.getApiDomain());
+
+                        if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
+                            SPUtils.getInstance().put(SPKeyGlobal.PMXC_TOKEN, pmService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, pmService.getApiDomain());
+                            SPUtils.getInstance().put(SPKeyGlobal.PMXC_IMG_SERVICE_URL, pmService.getImgDomain());
+                            SPUtils.getInstance().put(SPKeyGlobal.PMXC_USER_ID, pmService.getUserId());
+                            BtDomainUtil.setDefaultPmxcDomainUrl(pmService.getApiDomain());
+                        } else {
+                            SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
+                            SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
+                            SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
+                            BtDomainUtil.setDefaultPmDomainUrl(pmService.getApiDomain());
+                        }
+
                         tokenInvalidEvent.call();
                     }
 
@@ -216,4 +184,37 @@ public class BaseBtViewModel extends BaseViewModel<BetRepository> {
         addSubscribe(disposable);
     }
 
+    public void getPlayUrl(String gameAlias) {
+
+        int autoThrad = SPUtils.getInstance().getInt(SPKeyGlobal.USER_AUTO_THRAD_STATUS);
+
+        HashMap<String, String> map = new HashMap();
+        map.put("autoThrad", autoThrad + "");
+        map.put("h5judge", "1");
+        map.put("id", "");
+
+        Disposable disposable = (Disposable) model.getBaseApiService().getPlayUrl(gameAlias, map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<Map<String, Object>>() {
+                    @Override
+                    public void onResult(Map<String, Object> vo) {
+                        // "url": "https://user-h5-bw3.d91a21f.com?token=7c9c***039a"
+                        // "url": { "launch_url": "https://cdn-ali.***.com/h5V01/h5.html?sn=dy12&xxx" }
+                        CfLog.i("111111111"+vo.toString());
+                        if (!vo.containsKey("url")) {
+                            return;
+                        }
+                        CfLog.i("111111112"+vo.toString());
+                        liveDataPlayUrl.setValue(vo);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e("error, " + t.toString());
+                        super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
 }

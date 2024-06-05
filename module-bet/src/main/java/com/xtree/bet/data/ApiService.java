@@ -14,6 +14,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
 /**
@@ -54,6 +55,14 @@ public interface ApiService {
     Flowable<BaseResponse<PMService>> getPMGameTokenApi();
 
     /**
+     * 获取 PM杏彩体育2请求服务地址
+     * @return
+     */
+    @POST("/api/sports/obgzy/getToken?cachedToken=0")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse<PMService>> getPMXCGameTokenApi();
+
+    /**
      * 异常日志上报
      * @return
      */
@@ -73,4 +82,10 @@ public interface ApiService {
      */
     @GET("/api/account/balance")
     Flowable<BaseResponse<BalanceVo>> getBalance();
+
+    /**
+     * 获取PM/FB游戏的链接
+     */
+    @GET("/api/game/{gameAlias}/playurl")
+    Flowable<BaseResponse<Map<String, Object>>> getPlayUrl(@Path("gameAlias") String gameAlias, @QueryMap Map<String, String> map);
 }

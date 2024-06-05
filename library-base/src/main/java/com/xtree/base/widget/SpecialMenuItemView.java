@@ -118,9 +118,4 @@ public class SpecialMenuItemView extends BaseTabItem {
         mCheckedTextColor = color;
     }
 
-    public void setIconBottomMargin(int px) {
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mIcon.getLayoutParams();
-        params.bottomMargin = px; //
-        mIcon.setLayoutParams(params);
-    }
 }

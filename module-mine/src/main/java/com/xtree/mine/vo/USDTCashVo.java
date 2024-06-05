@@ -9,7 +9,6 @@ import me.xtree.mvvmhabit.http.BaseResponse2;
  */
 public class USDTCashVo extends BaseResponse2 {
 
-
     public String count;//今日提款次数
     public String rest;//今日提款额度
     public String id;
@@ -69,6 +68,7 @@ public class USDTCashVo extends BaseResponse2 {
                     ", type='" + type + '\'' +
                     '}';
         }
+
     }
 
     /**
@@ -164,7 +164,7 @@ public class USDTCashVo extends BaseResponse2 {
     }
 
     public class User {
-        public String nickname ;
+        public String nickname;
         public String userid;
         public String username;
         public String availablebalance; //可提款金额
@@ -182,9 +182,5 @@ public class USDTCashVo extends BaseResponse2 {
                 "cafAvailableBalance": 997858,
                 "unSportActivityAward": 0*/
     }
-
-
-
-
 
 }

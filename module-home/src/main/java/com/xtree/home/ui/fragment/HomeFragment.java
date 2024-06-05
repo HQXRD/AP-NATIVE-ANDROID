@@ -21,6 +21,8 @@ import androidx.recyclerview.widget.SimpleItemAnimator;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
@@ -44,7 +46,8 @@ import com.xtree.home.BR;
 import com.xtree.home.R;
 import com.xtree.home.databinding.FragmentHomeBinding;
 import com.xtree.home.ui.adapter.GameAdapter;
-import com.xtree.home.ui.custom.view.CustomFloatWindows;
+import com.xtree.home.ui.custom.view.ECAnimDialog;
+import com.xtree.home.ui.custom.view.RechargeFloatingWindows;
 import com.xtree.home.ui.viewmodel.HomeViewModel;
 import com.xtree.home.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.home.vo.BannersVo;
@@ -71,7 +74,7 @@ import me.xtree.mvvmhabit.utils.ToastUtils;
  */
 @Route(path = RouterFragmentPath.Home.PAGER_HOME)
 public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewModel> {
-    CustomFloatWindows customFloatWindows;
+    RechargeFloatingWindows mRechargeFloatingWindows;
     GameAdapter gameAdapter;
     private int curPId = 0; // 当前选中的游戏大类型 1体育,2真人,3电子,4电竞,5棋牌,6彩票
     private ProfileVo mProfileVo; //最新的用戶信息
@@ -166,6 +169,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             viewModel.getFBGameTokenApi();
             viewModel.getFBXCGameTokenApi();
             viewModel.getPMGameTokenApi();
+            viewModel.getPMXCGameTokenApi();
         }
     }
 
@@ -184,6 +188,23 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.liveDataBanner.observe(getViewLifecycleOwner(), list -> {
             // banner
             binding.bnrTop.setDatas(list);
+        });
+        viewModel.liveDataECLink.observe(getViewLifecycleOwner(), list -> {
+            if (list == null || list.isEmpty() || list.get(0).app_target_link == null || list.get(0).app_target_link.isEmpty()) {
+                return;
+            }
+            String url = list.get(0).app_target_link;
+            int lastSlashIndex = url.lastIndexOf('/');
+            if (lastSlashIndex == -1) {
+                return;
+            }
+            url = url.substring(lastSlashIndex + 1);
+
+            BasePopupView ppw = new XPopup.Builder(getContext())
+                    .dismissOnBackPressed(true)
+                    .dismissOnTouchOutside(false)
+                    .asCustom(new ECAnimDialog(requireContext(), getString(url)));
+            ppw.show();
         });
 
         viewModel.liveDataNotice.observe(getViewLifecycleOwner(), list -> {
@@ -232,9 +253,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.liveDataVipInfo.observe(getViewLifecycleOwner(), vo -> {
             CfLog.d("*** " + vo.toString());
             if (vo.sp.equals("1")) {
-                binding.tvwVip.setText("VIP " + vo.display_level); // display_level
+                binding.ivwVip.setImageLevel(vo.display_level); // display_level
             } else {
-                binding.tvwVip.setText("VIP " + vo.level); // level
+                binding.ivwVip.setImageLevel(vo.level); // level
             }
         });
         //App更新
@@ -279,13 +300,13 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     public void initView() {
         if (!isFloating) {
-            CfLog.i("customFloatWindows.show");
-            customFloatWindows = new CustomFloatWindows(getActivity());
-            customFloatWindows.show();
+            CfLog.i("rechargeFloatingWindows.show");
+            mRechargeFloatingWindows = new RechargeFloatingWindows(getActivity());
+            mRechargeFloatingWindows.show();
             isFloating = true;
         }
         if (SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).equals("")) {
-            customFloatWindows.removeView();
+            mRechargeFloatingWindows.removeView();
             isFloating = false;
         }
         //用户余额点击
@@ -426,7 +447,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         gameAdapter = new GameAdapter(getContext(), mCallBack);
         binding.rcvList.setAdapter(gameAdapter);
-        ((SimpleItemAnimator)binding.rcvList.getItemAnimator()).setSupportsChangeAnimations(false);
+        ((SimpleItemAnimator) binding.rcvList.getItemAnimator()).setSupportsChangeAnimations(false);
         manager = new LinearLayoutManager(getContext());
         binding.rcvList.setLayoutManager(manager);
         binding.rcvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -481,6 +502,26 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             });
         }
 
+        initFootball();
+    }
+
+    @Override
+    public void initData() {
+        boolean isLogin = getArguments().getBoolean("isLogin", false);
+        if (isLogin) {
+            //viewModel.getECLink();
+        }
+    }
+
+    private void initFootball() {
+        RequestOptions options = new RequestOptions()
+                .fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.DATA);
+        Glide.with(this)
+                .asGif()
+                .load(R.mipmap.hm_football_gif)
+                .apply(options)
+                .into(binding.ivGif);
     }
 
     private String getString(String result) {

@@ -134,6 +134,13 @@ public class MenuItemView extends BaseTabItem {
         mIcon.setLayoutParams(params);
     }
 
+    public void setIconWH(int w, int h) {
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) mIcon.getLayoutParams();
+        params.width = w;
+        params.height = h;
+        mIcon.setLayoutParams(params);
+    }
+
     public void setTextTopMarginOnIcon(int px) {
         ConstraintLayout.LayoutParams titleParams = (ConstraintLayout.LayoutParams) mTitle.getLayoutParams();
         titleParams.topMargin = px; //

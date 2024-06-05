@@ -66,6 +66,7 @@ public class RouterFragmentPath {
         public static final String PAGER_VIP_UPGRADE = MINE + "/VipUpgrade"; // VIP升级资讯
         public static final String PAGER_VIP_INFO = MINE + "/VipInfo"; // VIP资讯
         public static final String PAGER_INFO = MINE + "/Info"; // 帮助中心
+        public static final String PAGER_SPORT_REGULAR = MINE + "/SportRegular"; // 体育规则
         public static final String PAGER_QUESTION = MINE + "/QUESTION"; // 网页资讯
         public static final String PAGER_CHOOSE = MINE + "/ChooseWithdraw"; // 提款
         public static final String PAGER_MY_WALLET = MINE + "/wallet";
@@ -84,6 +85,21 @@ public class RouterFragmentPath {
         public static final String PAGER_RECHARGE_FEEDBACK = RECHARGE + "/RechargeFeedback"; // 反馈填表
         public static final String PAGER_RECHARGE_FEEDBACK_EDIT = RECHARGE + "/RechargeFeedbackEdit"; // 反馈修改页面
         public static final String PAGER_RECHARGE_FEEDBACK_DETAIL = RECHARGE + "/RechargeFeedbackDetail"; // 反馈详情(充提记录)
+    }
+
+    public static class Transfer {
+        private static final String Transfer = "/transfer";
+        //极速转账-提交订单
+        public static final String PAGER_TRANSFER_EX_COMMIT = Transfer + "/ExTransferCommitFragment";
+        //极速转账-确认付款
+        public static final String PAGER_TRANSFER_EX_CONFIRM = Transfer + "/ExTransferConfirmFragment";
+        //极速转账-失败
+        public static final String PAGER_TRANSFER_EX_FAIL = Transfer + "/ExTransferFailFragment";
+        //极速转账-转账汇款
+        public static final String PAGER_TRANSFER_EX_PAYEE = Transfer + "/ExTransferPayeeFragment";
+        //极速转账-上传凭证
+        public static final String PAGER_TRANSFER_EX_VOUCHER = Transfer + "/ExTransferVoucherFragment";
+
     }
 
     /**
