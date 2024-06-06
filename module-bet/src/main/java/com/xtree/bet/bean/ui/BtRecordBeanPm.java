@@ -30,7 +30,7 @@ public class BtRecordBeanPm implements BtResult {
 
     @Override
     public int getStatus() {
-        return 0;
+        return Integer.valueOf(recordsBean.orderStatus);
     }
 
     @Override

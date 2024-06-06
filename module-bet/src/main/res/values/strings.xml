@@ -61,6 +61,7 @@
     <string name="bt_platform_name_fbxc">杏彩体育</string>
     <string name="bt_platform_name_fb">FB体育</string>
     <string name="bt_platform_name_pm">熊猫体育</string>
+    <string name="bt_platform_name_pmxc">杏彩体育旗舰版</string>
     <string name="bt_txt_odds">自动接受更好赔率</string>
     <string name="bt_txt_settlement_odds">接受提前兑换估值变化</string>
     <string name="bt_txt_statement_odds">提前兑换规则声明</string>

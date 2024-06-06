@@ -221,8 +221,10 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             mPlatformName = getString(R.string.bt_platform_name_fbxc);
         } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
             mPlatformName = getString(R.string.bt_platform_name_fb);
-        } else {
+        } else if (TextUtils.equals(mPlatform, PLATFORM_PM)){
             mPlatformName = getString(R.string.bt_platform_name_pm);
+        } else {
+            mPlatformName = getString(R.string.bt_platform_name_pmxc);
         }
     }
 

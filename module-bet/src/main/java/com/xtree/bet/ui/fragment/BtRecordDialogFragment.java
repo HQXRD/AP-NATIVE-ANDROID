@@ -310,8 +310,10 @@ public class BtRecordDialogFragment extends BaseDialogFragment<BtDialogBtRecordB
                 mPlatformName = getString(R.string.bt_platform_name_fbxc);
             } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
                 mPlatformName = getString(R.string.bt_platform_name_fb);
-            } else {
+            } else if (TextUtils.equals(mPlatform, PLATFORM_PM)){
                 mPlatformName = getString(R.string.bt_platform_name_pm);
+            } else {
+                mPlatformName = getString(R.string.bt_platform_name_pmxc);
             }
             bundle.putString("typeName", mPlatformName);
             bundle.putInt("status", isSettled ? 1 : 2);
