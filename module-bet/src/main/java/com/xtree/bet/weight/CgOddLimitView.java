@@ -69,10 +69,10 @@ public class CgOddLimitView extends LinearLayout {
         protected abstract void convert(View view, T t, int position);
 
         public void setNewData(List<T> datas) {
-            if (datas.size() < mDatas.size()) {
+            if (datas.size() < mDatas.size() || datas.size() < viewList.size()) {
                 sizeChange = true;
                 KLog.e("viewList", viewList.size() + "   " + mDatas.size() + "   " + datas.size());
-                for (int i = 0; i < mDatas.size() - datas.size(); i++) {
+                for (int i = 0; i < viewList.size() - datas.size(); i++) {
                     if (i >= viewList.size()) {
                         break;
                     }
