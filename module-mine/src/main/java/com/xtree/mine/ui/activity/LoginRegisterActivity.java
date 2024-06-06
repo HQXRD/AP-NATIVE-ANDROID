@@ -352,37 +352,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 return;
             }
 
-            // 改由UI显示，而非Toast
-            //if (TextUtils.isEmpty(account)) {
-            //    ToastUtils.showLong(getResources().getString(R.string.me_account_hint));
-            //    binding.edtAccReg.performClick();
-            //    return;
-            //}
-            //
-            //if (account.length() < 6 || account.length() > 12) {
-            //    ToastUtils.showLong(getResources().getString(R.string.txt_user_name_should_6_12));
-            //    return;
-            //}
-            //
-            //if (TextUtils.isEmpty(pwd1)) {
-            //    ToastUtils.showLong(getResources().getString(R.string.me_pwd_hint));
-            //    return;
-            //}
-            //
-            //if (pwd1.length() < 6 || pwd1.length() > 16) {
-            //    ToastUtils.showLong(getResources().getString(R.string.txt_pwd_should_6_16_error));
-            //    return;
-            //}
-            //
-            //if (TextUtils.isEmpty(pwd2)) {
-            //    ToastUtils.showLong(R.string.txt_enter_pwd_again);
-            //    return;
-            //}
-            //
-            //if (!pwd2.equals(pwd1)) {
-            //    ToastUtils.showLong(R.string.txt_pwd_should_same);
-            //    return;
-            //}
             final String netCode =
                     SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE);
             if (code != null) {
