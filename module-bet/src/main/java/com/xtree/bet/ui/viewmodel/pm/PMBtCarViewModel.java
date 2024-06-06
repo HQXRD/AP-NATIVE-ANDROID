@@ -67,6 +67,7 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
     public void batchBetMatchMarketOfJumpLine(List<BetConfirmOption> betConfirmOptionList) {
         mSearchBetConfirmOptionList = betConfirmOptionList;
         BtCarReq btCarReq = new BtCarReq();
+        btCarReq.setCuid();
         List<BtCarReq.BetMatchMarket> betMatchMarketList = new ArrayList<>();
         for (BetConfirmOption betConfirmOption : betConfirmOptionList) {
             BtCarReq.BetMatchMarket betMatchMarket = new BtCarReq.BetMatchMarket();
@@ -116,6 +117,7 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
      */
     private void queryMarketMaxMinBetMoney(List<BetConfirmOption> betConfirmOptionList) {
         BtCarCgReq btCarCgReq = new BtCarCgReq();
+        btCarCgReq.setCuid();
         List<BtCarCgReq.OrderMaxBetMoney> orderMaxBetMonieList = new ArrayList<>();
         for (BetConfirmOption betConfirmOption : betConfirmOptionList) {
             BtCarCgReq.OrderMaxBetMoney orderMaxBetMoney = new BtCarCgReq.OrderMaxBetMoney();
@@ -178,6 +180,7 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
             return;
         }
         BtReq btReq = new BtReq();
+        btReq.setCuid();
         btReq.setAcceptOdds(acceptOdds);
         List<SeriesOrder> seriesOrders = new ArrayList<>();
         for (CgOddLimit cgOddLimit : cgOddLimitList) {

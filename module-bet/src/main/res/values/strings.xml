@@ -58,9 +58,10 @@
     <string name="bt_txt_match_ended">盘口已关闭\n当前无法进行投注</string>
     <string name="bt_txt_tutorial">盘口教程</string>
     <string name="bt_txt_no_amount">请输入投注金额</string>
-    <string name="bt_platform_name_fbxc">杏彩体育</string>
+    <string name="bt_platform_name_fbxc">杏彩体育官方</string>
     <string name="bt_platform_name_fb">FB体育</string>
     <string name="bt_platform_name_pm">熊猫体育</string>
+    <string name="bt_platform_name_pmxc">杏彩体育旗舰</string>
     <string name="bt_txt_odds">自动接受更好赔率</string>
     <string name="bt_txt_settlement_odds">接受提前兑换估值变化</string>
     <string name="bt_txt_statement_odds">提前兑换规则声明</string>

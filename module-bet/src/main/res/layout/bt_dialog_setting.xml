@@ -159,6 +159,7 @@
             android:id="@+id/layout_go_sport_regular"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:padding="16dp">
 
             <TextView

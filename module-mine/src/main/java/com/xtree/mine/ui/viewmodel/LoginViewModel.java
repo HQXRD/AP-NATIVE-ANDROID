@@ -128,13 +128,17 @@ public class LoginViewModel extends BaseViewModel<MineRepository> {
     public void register(String userName, String pwd, String code) {
         HashMap<String, String> map = new HashMap();
         map.put("carryAuth", "false");
-        if (code == null || TextUtils.isEmpty(code)) {
-            map.put("code", "jgrpkka");//默认推广code
-            map.put("id", "jgrpkka");//默认推广code
+
+     /*   if (code == null) {
+            //未获取到推广码 回传官方推广code
+            map.put("code", "kygprka");
+            map.put("id", "kygprka");
         } else {
             map.put("code", code);
-            map.put("id", code);//默认推广code
-        }
+            map.put("id", code);//
+        }*/
+        map.put("code", code);
+        map.put("id", code);//
 
         map.put("nonce", UuidUtil.getID16());
         map.put("username", userName);

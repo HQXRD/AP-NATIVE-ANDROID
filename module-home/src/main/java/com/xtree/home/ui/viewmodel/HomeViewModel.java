@@ -279,7 +279,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, pmService.getApiDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PMXC_IMG_SERVICE_URL, pmService.getImgDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PMXC_USER_ID, pmService.getUserId());
-                        BtDomainUtil.setDefaultPmDomainUrl(pmService.getApiDomain());
+                        BtDomainUtil.setDefaultPmxcDomainUrl(pmService.getApiDomain());
                     }
 
                     @Override
@@ -310,6 +310,9 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
             if (vo.cid == 0 || TextUtils.isEmpty(vo.playURL)) {
                 // 原生的,或者需要请求接口的
                 CfLog.w("******: " + vo);
+            }
+            if(vo.cid == 42){
+                vo.status = 1;
             }
             // 33:MG电子 17:CQ9娱乐 已下架 奥丁电子下一版再上线
             if (vo.status == 2 || vo.cid == 17 || vo.cid == 33 || vo.cid == 43) {

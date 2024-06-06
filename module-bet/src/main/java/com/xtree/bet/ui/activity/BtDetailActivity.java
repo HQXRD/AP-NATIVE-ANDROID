@@ -205,9 +205,10 @@ public class BtDetailActivity extends GSYBaseActivityDetail<StandardGSYVideoPlay
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(aLong -> {
                     viewModel.getMatchDetail(mMatch.getId());
-                    if (!mCategories.isEmpty() && mCategories.size() > tabPos) {
+                    viewModel.getCategoryList(String.valueOf(mMatch.getId()), mMatch.getSportId());
+                    /*if (!mCategories.isEmpty() && mCategories.size() > tabPos) {
                         viewModel.getCategoryList(String.valueOf(mMatch.getId()), mMatch.getSportId());
-                    }
+                    }*/
                 })
         );
     }

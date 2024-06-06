@@ -1,5 +1,9 @@
 package com.xtree.bet.bean.ui;
 
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
+
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.text.TextUtils;
@@ -52,7 +56,12 @@ public class LeaguePm implements League{
 
     @Override
     public String getIcon() {
-        String domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);
+        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        String domain = SPUtils.getInstance().getString(SPKeyGlobal.PMXC_IMG_SERVICE_URL);
+        if (TextUtils.equals(platform, PLATFORM_PM) || TextUtils.equals(platform, PLATFORM_PMXC)) {
+            domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);
+        }
+
         if(TextUtils.isEmpty(leagueInfo.picUrlthumb)){
             return "";
         }

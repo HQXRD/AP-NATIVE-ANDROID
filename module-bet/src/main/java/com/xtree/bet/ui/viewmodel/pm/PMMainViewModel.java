@@ -3,6 +3,8 @@ package com.xtree.bet.ui.viewmodel.pm;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401013;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401026;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401038;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 import static com.xtree.bet.constant.PMConstants.SPORT_ICON_ADDITIONAL;
 import static com.xtree.bet.constant.PMConstants.SPORT_IDS;
 import static com.xtree.bet.constant.PMConstants.SPORT_IDS_DEFAULT;
@@ -203,6 +205,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
             return;
         }
         PMListReq pmListReq = new PMListReq();
+        pmListReq.setCuid();
         pmListReq.setCpn(mCurrentPage);
         pmListReq.setCps(mGoingOnPageSize);
         String sportIds = "";
@@ -326,10 +329,11 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
 
         if (mCurrentPage == 1 && !isTimerRefresh && !isStepSecond) {
-            //showCache(sportId, mPlayMethodType, searchDatePos);
+            showCache(sportId, mPlayMethodType, searchDatePos);
         }
 
         PMListReq pmListReq = new PMListReq();
+        pmListReq.setCuid();
         pmListReq.setEuid(String.valueOf(sportId));
         pmListReq.setMids(matchidList);
 
@@ -481,6 +485,7 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
         }
 
         PMListReq pmListReq = new PMListReq();
+        pmListReq.setCuid();
         pmListReq.setType(playMethodType);
         pmListReq.setSort(orderBy);
         pmListReq.setCpn(mCurrentPage);
@@ -589,7 +594,11 @@ public class PMMainViewModel extends TemplateMainViewModel implements MainViewMo
      */
     public void statistical(int playMethodType) {
         Map<String, String> map = new HashMap<>();
+        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
         map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PM_USER_ID));
+        if(TextUtils.equals(platform, PLATFORM_PMXC)){
+            map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PMXC_USER_ID));
+        }
         map.put("sys", "7");
 
         Disposable disposable = (Disposable) model.getPMApiService().initPB(map)

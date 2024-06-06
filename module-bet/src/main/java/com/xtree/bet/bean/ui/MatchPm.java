@@ -1,5 +1,9 @@
 package com.xtree.bet.bean.ui;
 
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
+
 import android.os.Parcel;
 import android.text.TextUtils;
 
@@ -337,7 +341,11 @@ public class MatchPm implements Match {
             return "";
         }
         String logoUrl = matchInfo.mhlu.get(0);
-        String domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);
+        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        String domain = SPUtils.getInstance().getString(SPKeyGlobal.PMXC_IMG_SERVICE_URL);
+        if (TextUtils.equals(platform, PLATFORM_PM) || TextUtils.equals(platform, PLATFORM_PMXC)) {
+            domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);
+        }
         if (domain.endsWith("/") && logoUrl.startsWith("/")) {
             return domain.substring(domain.indexOf("/")) + logoUrl;
         } else if (!domain.endsWith("/") && !logoUrl.startsWith("/")) {
@@ -358,7 +366,11 @@ public class MatchPm implements Match {
             return "";
         }
         String logoUrl = matchInfo.malu.get(0);
-        String domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);
+        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        String domain = SPUtils.getInstance().getString(SPKeyGlobal.PMXC_IMG_SERVICE_URL);
+        if (TextUtils.equals(platform, PLATFORM_PM) || TextUtils.equals(platform, PLATFORM_PMXC)) {
+            domain = SPUtils.getInstance().getString(SPKeyGlobal.PM_IMG_SERVICE_URL);
+        }
         if (domain.endsWith("/") && logoUrl.startsWith("/")) {
             return domain.substring(domain.indexOf("/")) + logoUrl;
         } else if (!domain.endsWith("/") && !logoUrl.startsWith("/")) {

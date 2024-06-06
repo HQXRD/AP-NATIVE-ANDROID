@@ -66,8 +66,6 @@ public class PMRetrofitClient {
         String platform = SPUtils.getInstance().getString("KEY_PLATFORM");
         if(TextUtils.equals(platform, PLATFORM_PMXC)) {
             baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.PMXC_API_SERVICE_URL);
-        } else {
-            baseUrl = SPUtils.getInstance().getString(SPKeyGlobal.PM_API_SERVICE_URL);
         }
 
         if (httpCacheDirectory == null) {

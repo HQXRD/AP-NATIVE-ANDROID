@@ -1,5 +1,10 @@
 package com.xtree.bet.bean.request.pm;
 
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
+
+import android.text.TextUtils;
+
 import com.xtree.base.global.SPKeyGlobal;
 
 import java.util.List;
@@ -76,8 +81,11 @@ public class PMListReq {
         this.sort = sort;
     }
 
-    public void setCuid(String cuid) {
-        this.cuid = cuid;
+    public void setCuid() {
+        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if(TextUtils.equals(platform, PLATFORM_PMXC)){
+            this.cuid = SPUtils.getInstance().getString(SPKeyGlobal.PMXC_USER_ID);
+        }
     }
 
     public void setMd(String md) {

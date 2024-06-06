@@ -1,6 +1,5 @@
 package com.xtree.base.net;
 
-import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 
 import android.text.TextUtils;
