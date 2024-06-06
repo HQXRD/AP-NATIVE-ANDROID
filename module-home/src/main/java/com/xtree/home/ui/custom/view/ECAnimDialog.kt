@@ -32,11 +32,10 @@ class ECAnimDialog(context: Context, private val url: String) : BasePopupView(co
             dismiss()
         }
 
-        //屏幕的一半高度-（layoutTop的高度+marginTop-10）
-        val height1 = XPopupUtils.getScreenHeight(context) / 2f - ConvertUtils.dp2px((175 - 10).toFloat())
-        //ivBottom的高度+marginBottom-10-屏幕的一半高度
+        val height1 = XPopupUtils.getScreenHeight(context) / 2f - ConvertUtils.dp2px((258 + 20 + 20 - 40).toFloat())
+
         val height2 =
-            ConvertUtils.dp2px((76 - 25).toFloat()) - XPopupUtils.getScreenHeight(context) / 2f + getNavigationBarHeight(context)
+            ConvertUtils.dp2px((103 + 20).toFloat()) - XPopupUtils.getScreenHeight(context) / 2f
 
         KLog.i(
             "height", "$height1     $height2" + "      " + XPopupUtils.getScreenHeight(context) + "     " + XPopupUtils.getNavBarHeight() +

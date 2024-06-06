@@ -25,7 +25,7 @@
         <ImageView
             android:id="@+id/iv_top"
             android:layout_width="wrap_content"
-            android:layout_height="135dp"
+            android:layout_height="258dp"
             android:layout_marginTop="20dp"
             android:src="@mipmap/ec_pop_top"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +36,7 @@
     <ImageView
         android:id="@+id/iv_bottom"
         android:layout_width="wrap_content"
-        android:layout_height="56dp"
+        android:layout_height="103dp"
         android:layout_marginBottom="20dp"
         android:src="@mipmap/ec_pop_bottom"
         app:layout_constraintBottom_toBottomOf="parent"

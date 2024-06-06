@@ -31,7 +31,7 @@
 
         <TextView
             style="@style/style_rc_exp_bank_info_title"
-            android:text="订单处理中，请稍等..." />
+            android:text="匹配账号中，请稍等..." />
 
         <LinearLayout style="@style/style_rc_dlg_ll">
 
@@ -77,14 +77,14 @@
             android:gravity="center"
             android:text="@{model.waitTime}"
             android:textColor="@color/clr_purple_02"
-            android:visibility="@{model.cancleOrderWaitStatus?View.VISIBLE:View.GONE}"/>
+            android:visibility="visible"/>
 
         <TextView
             android:id="@+id/tvw_ok"
             style="@style/style_btn_long"
             android:text="取消等待"
             android:onClick="@{() -> model.cancleWait()}"
-            android:visibility="@{model.cancleOrderWaitStatus?View.VISIBLE:View.GONE}"/>
+            android:visibility="gone"/>
 
     </LinearLayout>
 </layout>
