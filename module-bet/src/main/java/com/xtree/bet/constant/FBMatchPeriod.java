@@ -90,7 +90,7 @@ public class FBMatchPeriod {
 
 
 
-            // 排球
+            // 棒球
             map.put("7001", "未开始");
             map.put("7003", "第一局");
             map.put("7004", "打破第一顶第一底");

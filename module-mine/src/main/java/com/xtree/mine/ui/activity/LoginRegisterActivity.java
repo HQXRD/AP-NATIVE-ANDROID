@@ -67,7 +67,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     private BasePopupView verifyPopView;//认证PoPView
     private SettingsVo settingsVo;
     private PromotionCodeVo promotionCodeVo;
-    private final String PROMOTION_CODE_DEFAULT = "jgrpkka";
     private String code;//剪切板获取的code
 
     @Override
@@ -353,37 +352,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
                 return;
             }
 
-            // 改由UI显示，而非Toast
-            //if (TextUtils.isEmpty(account)) {
-            //    ToastUtils.showLong(getResources().getString(R.string.me_account_hint));
-            //    binding.edtAccReg.performClick();
-            //    return;
-            //}
-            //
-            //if (account.length() < 6 || account.length() > 12) {
-            //    ToastUtils.showLong(getResources().getString(R.string.txt_user_name_should_6_12));
-            //    return;
-            //}
-            //
-            //if (TextUtils.isEmpty(pwd1)) {
-            //    ToastUtils.showLong(getResources().getString(R.string.me_pwd_hint));
-            //    return;
-            //}
-            //
-            //if (pwd1.length() < 6 || pwd1.length() > 16) {
-            //    ToastUtils.showLong(getResources().getString(R.string.txt_pwd_should_6_16_error));
-            //    return;
-            //}
-            //
-            //if (TextUtils.isEmpty(pwd2)) {
-            //    ToastUtils.showLong(R.string.txt_enter_pwd_again);
-            //    return;
-            //}
-            //
-            //if (!pwd2.equals(pwd1)) {
-            //    ToastUtils.showLong(R.string.txt_pwd_should_same);
-            //    return;
-            //}
             final String netCode =
                     SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE);
             if (code != null) {
@@ -391,7 +359,8 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             } else if (code == null && netCode != null) {
                 viewModel.register(account, pwd1, netCode);
             } else if (code == null && netCode == null) {
-                viewModel.register(account, pwd1, PROMOTION_CODE_DEFAULT);
+                //为获取推广码 使用默认的推广码
+                viewModel.register(account, pwd1, "kygprka");
             }
         });
 
