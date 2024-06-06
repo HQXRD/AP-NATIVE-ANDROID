@@ -16,6 +16,7 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class TipPMDialog extends CenterPopupView {
 
+    private String key;
     ICallBack mCallBack;
 
     DialogPmTipBinding binding;
@@ -30,8 +31,9 @@ public class TipPMDialog extends CenterPopupView {
         void onClickFB();
     }
 
-    public TipPMDialog(@NonNull Context context, ICallBack mCallBack) {
+    public TipPMDialog(@NonNull Context context, String key, ICallBack mCallBack) {
         super(context);
+        this.key = key;
         this.mCallBack = mCallBack;
     }
 
@@ -52,7 +54,13 @@ public class TipPMDialog extends CenterPopupView {
         binding.tvwPm.setOnClickListener(v -> mCallBack.onClickPM());
         binding.tvwFb.setOnClickListener(v -> mCallBack.onClickFB());
 
-        String key= SPKeyGlobal.PM_NOT_TIP_TODAY;
+        if (key.equals(SPKeyGlobal.PM_NOT_TIP_TODAY)) {
+            binding.tvwMsg.setText("熊猫体育结算波动较为频繁，为保证您的最佳体验，推荐您至“杏彩体育官方”进行游戏。");
+            binding.tvwPm.setText("继续进入熊猫体育");
+        } else if (key.equals(SPKeyGlobal.PMXC_NOT_TIP_TODAY)) {
+            binding.tvwMsg.setText("杏彩体育旗舰结算波动较为频繁，为保证您的最佳体验，推荐您至“杏彩体育官方”进行游戏。");
+            binding.tvwPm.setText("继续进入杏彩体育旗舰");
+        }
         binding.cbTipPm.setOnCheckedChangeListener((buttonView, isChecked) -> {
             KLog.i("isChecked", isChecked);
             if (isChecked) {
