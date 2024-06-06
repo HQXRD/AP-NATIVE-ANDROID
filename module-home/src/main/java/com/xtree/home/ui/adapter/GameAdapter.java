@@ -1,7 +1,5 @@
 package com.xtree.home.ui.adapter;
 
-import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
-
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -45,6 +43,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
     public final static String PLATFORM_FBXC = "fbxc";
     public final static String PLATFORM_FB = "fb";
     public final static String PLATFORM_PM = "obg";
+    public final static String PLATFORM_PMXC = "obgzy";
     private BasePopupView basePopupView;
 
     public interface ICallBack {
@@ -166,7 +165,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         if (vo.twoImage) {
             //熊猫场馆弹窗判断
             if (vo.alias.equals(PLATFORM_PM) && AppUtil.isTipToday(SPKeyGlobal.PM_NOT_TIP_TODAY)) {
-                showPMDialog(vo, isLeft);
+                showPMDialog(vo, SPKeyGlobal.PM_NOT_TIP_TODAY, isLeft);
                 return;
             }
 
@@ -175,6 +174,12 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             } else {
                 goWeb(vo);
             }
+            return;
+        }
+
+        //杏彩体育旗舰场馆弹窗判断
+        if (vo.alias.equals(PLATFORM_PMXC) && AppUtil.isTipToday(SPKeyGlobal.PMXC_NOT_TIP_TODAY)) {
+            showPMDialog(vo, SPKeyGlobal.PMXC_NOT_TIP_TODAY, isLeft);
             return;
         }
 
@@ -194,14 +199,14 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
     }
 
-    private void showPMDialog(GameVo vo, boolean isLeft) {
+    private void showPMDialog(GameVo vo, String key, boolean isLeft) {
         if (basePopupView != null && basePopupView.isShow()) {
             return;
         }
         //点击熊猫体育，弹出弹窗
         basePopupView = new XPopup.Builder(ctx)
                 .dismissOnTouchOutside(false)
-                .asCustom(new TipPMDialog(ctx, new TipPMDialog.ICallBack() {
+                .asCustom(new TipPMDialog(ctx, key, new TipPMDialog.ICallBack() {
                     @Override
                     public void onClickPM() {
                         //熊猫体育
@@ -251,7 +256,9 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             }
         }
     }
+
     int time;
+
     private void goApp(GameVo vo) {
         String cgToken;
         if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
@@ -265,10 +272,10 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
 
         if (TextUtils.isEmpty(cgToken) || !BtDomainUtil.hasDefaultLine(vo.alias)) {
-            if(time < 3) {
+            if (time < 3) {
                 ToastUtils.showShort("场馆初始化中，请稍候...");
                 time++;
-            }else {
+            } else {
                 ToastUtils.showShort("场馆初始化失败，即将重启应用，请保证手机网络通畅");
                 binding.getRoot().postDelayed(() -> {
                     AppManager.getAppManager().AppExit();
