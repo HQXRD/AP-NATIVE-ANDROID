@@ -188,8 +188,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //initFirstNetworkFinishTimer();
-        //initFirstNetworkExceptionTimer();
+        initFirstNetworkFinishTimer();
+        initFirstNetworkExceptionTimer();
         mSavedInstanceState = savedInstanceState;
     }
 
@@ -966,6 +966,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         } else if (TextUtils.equals(platform, PLATFORM_FB)) {
             domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.FB_API_SERVICE_URL);
             uploadExcetionReq.setLogTag("fb_url_" + (isChangeDomain ? "swithapiaddress" : "swithdelegate"));
+        } else if (TextUtils.equals(platform, PLATFORM_PMXC)) {
+            domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.PMXC_API_SERVICE_URL);
+            uploadExcetionReq.setLogTag("pmzy_url_" + (isChangeDomain ? "swithapiaddress" : "swithdelegate"));
         } else {
             domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.PM_API_SERVICE_URL);
             uploadExcetionReq.setLogTag("pm_url_" + (isChangeDomain ? "swithapiaddress" : "swithdelegate"));
@@ -1036,9 +1039,17 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
         } else {
             if (isChecked) {
-                SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getDomain());
+                if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
+                    SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, DomainUtil.getDomain());
+                } else {
+                    SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getDomain());
+                }
             } else {
-                SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDefaultPmDomainUrl());
+                if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
+                    SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, BtDomainUtil.getDefaultPmxcDomainUrl());
+                } else {
+                    SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDefaultPmDomainUrl());
+                }
             }
         }
     }

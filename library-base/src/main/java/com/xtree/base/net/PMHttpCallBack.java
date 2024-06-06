@@ -34,6 +34,7 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
             case PMHttpCallBack.CodeRule.CODE_401038:
             case PMHttpCallBack.CodeRule.CODE_400524:
             case PMHttpCallBack.CodeRule.CODE_400527:
+            case PMHttpCallBack.CodeRule.CODE_408028:
                 onError(ex);
                 break;
             case PMHttpCallBack.CodeRule.CODE_400489:
@@ -182,5 +183,10 @@ public abstract class PMHttpCallBack<T> extends DisposableSubscriber<T> {
          * 提前结算异常
          */
         public static final int CODE_402038 = 402038;
+
+        /**
+         * 没开通视频权限
+         */
+        public static final int CODE_408028 = 408028;
     }
 }

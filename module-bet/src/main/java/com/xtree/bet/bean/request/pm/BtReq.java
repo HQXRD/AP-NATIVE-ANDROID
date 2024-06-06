@@ -1,5 +1,10 @@
 package com.xtree.bet.bean.request.pm;
 
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
+
+import android.text.TextUtils;
+
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.TagUtils;
 
@@ -32,6 +37,13 @@ public class BtReq {
      */
     //private int openMiltSingle = 0;
     private int preBet = 0;
+
+    public void setCuid() {
+        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if(TextUtils.equals(platform, PLATFORM_PMXC)){
+            this.cuid = SPUtils.getInstance().getString(SPKeyGlobal.PMXC_USER_ID);
+        }
+    }
 
     public int getDeviceType() {
         return deviceType;

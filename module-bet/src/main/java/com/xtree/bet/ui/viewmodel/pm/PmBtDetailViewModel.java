@@ -2,6 +2,8 @@ package com.xtree.bet.ui.viewmodel.pm;
 
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401013;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401026;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 
 import android.app.Application;
 import android.text.TextUtils;
@@ -33,7 +35,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.reactivex.Flowable;
 import io.reactivex.disposables.Disposable;
+import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -176,10 +180,14 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
 
     @Override
     public void getMatchOddsInfoPB(String mid, String mcid) {
+        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
         Map<String, String> map = new HashMap<>();
         map.put("mid", mid);
         map.put("mcid", mcid);
         map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PM_USER_ID));
+        if(TextUtils.equals(platform, PLATFORM_PMXC)){
+            map.put("cuid", SPUtils.getInstance().getString(SPKeyGlobal.PMXC_USER_ID));
+        }
 
         Disposable disposable = (Disposable) model.getPMApiService().getMatchOddsInfoPB(map)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
@@ -291,7 +299,7 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
     }
 
     public void getGameTokenApi() {
-        Disposable disposable = (Disposable) model.getBaseApiService().getPMGameTokenApi()
+        /*Disposable disposable = (Disposable) model.getBaseApiService().getPMGameTokenApi()
                 .compose(RxUtils.schedulersTransformer()) //线程调度
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpCallBack<PMService>() {
@@ -302,6 +310,46 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                         SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
                         BtDomainUtil.setDefaultPmDomainUrl(pmService.getApiDomain());
+                        getMatchDetail(mMatchId);
+                        if(TextUtils.isEmpty(mSportId)) {
+                            getCategoryList(String.valueOf(mMatchId), mSportId);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);*/
+
+        Flowable<BaseResponse<PMService>> flowable;
+        String mPlatform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
+            flowable = model.getBaseApiService().getPMXCGameTokenApi();
+        } else {
+            flowable = model.getBaseApiService().getPMGameTokenApi();
+        }
+        Disposable disposable = (Disposable) flowable
+                .compose(RxUtils.schedulersTransformer()) //线程调度
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<PMService>() {
+                    @Override
+                    public void onResult(PMService pmService) {
+
+                        if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
+                            SPUtils.getInstance().put(SPKeyGlobal.PMXC_TOKEN, pmService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, pmService.getApiDomain());
+                            SPUtils.getInstance().put(SPKeyGlobal.PMXC_IMG_SERVICE_URL, pmService.getImgDomain());
+                            SPUtils.getInstance().put(SPKeyGlobal.PMXC_USER_ID, pmService.getUserId());
+                            BtDomainUtil.setDefaultPmxcDomainUrl(pmService.getApiDomain());
+                        } else {
+                            SPUtils.getInstance().put(SPKeyGlobal.PM_TOKEN, pmService.getToken());
+                            SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, pmService.getApiDomain());
+                            SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
+                            SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
+                            BtDomainUtil.setDefaultPmDomainUrl(pmService.getApiDomain());
+                        }
                         getMatchDetail(mMatchId);
                         if(TextUtils.isEmpty(mSportId)) {
                             getCategoryList(String.valueOf(mMatchId), mSportId);

@@ -2,6 +2,7 @@ package com.xtree.bet.ui.adapter;
 
 import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -361,7 +362,7 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
 
         PlayGroup playGroup;
 
-        if (!TextUtils.equals(platform, PLATFORM_PM)) {
+        if (!TextUtils.equals(platform, PLATFORM_PM) && !TextUtils.equals(platform, PLATFORM_PMXC)) {
             playGroup = new PlayGroupFb(match.getPlayTypeList());
         } else {
             playGroup = new PlayGroupPm(match.getPlayTypeList());

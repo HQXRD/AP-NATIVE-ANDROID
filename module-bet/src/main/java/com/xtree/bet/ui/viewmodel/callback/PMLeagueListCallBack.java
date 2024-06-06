@@ -3,6 +3,11 @@ package com.xtree.bet.ui.viewmodel.callback;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401013;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401026;
 import static com.xtree.base.net.PMHttpCallBack.CodeRule.CODE_401038;
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FB;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 import static com.xtree.bet.constant.SPKey.BT_LEAGUE_LIST_CACHE;
 
 import android.text.TextUtils;
@@ -186,7 +191,17 @@ public class PMLeagueListCallBack extends PMHttpCallBack<MatchListRsp> {
             ResponseThrowable error = (ResponseThrowable) t;
             if (error.isHttpError) {
                 UploadExcetionReq uploadExcetionReq = new UploadExcetionReq();
-                String domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.PM_API_SERVICE_URL);
+
+                String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+                String domainUrl = null;
+                if (TextUtils.equals(platform, PLATFORM_PMXC)) {
+                    domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.PMXC_API_SERVICE_URL);
+                    uploadExcetionReq.setLogTag("pmzy_url_error");
+                } else if (TextUtils.equals(platform, PLATFORM_PM)) {
+                    domainUrl = SPUtils.getInstance().getString(SPKeyGlobal.PM_API_SERVICE_URL);
+                    uploadExcetionReq.setLogTag("pm_url_error");
+                }
+
                 uploadExcetionReq.setLogTag("pm_url_error");
                 uploadExcetionReq.setApiUrl(domainUrl);
                 uploadExcetionReq.setLogType("" + ((ResponseThrowable) t).code);

@@ -2,6 +2,7 @@ package com.xtree.bet.ui.fragment;
 
 import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 
 import android.app.Application;
 import android.os.Bundle;
@@ -95,7 +96,7 @@ public class BtResultDialogFragment extends BaseDialogFragment<BtLayoutBtResultB
                 .registerTypeAdapter(PlayType.class , new PlayTypeDeserializer())
                 .create();
         String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
-        Type listType = TextUtils.equals(platform, PLATFORM_PM) ? new TypeToken<List<BetConfirmOptionPm>>() {
+        Type listType = TextUtils.equals(platform, PLATFORM_PM) || TextUtils.equals(platform, PLATFORM_PMXC) ? new TypeToken<List<BetConfirmOptionPm>>() {
         }.getType() : new TypeToken<List<BetConfirmOptionFb>>() {
         }.getType();
         betConfirmOptionList = gson.fromJson(getArguments().getString(KEY_BT_OPTION), listType);

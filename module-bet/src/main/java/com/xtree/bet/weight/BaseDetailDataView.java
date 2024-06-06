@@ -2,6 +2,7 @@ package com.xtree.bet.weight;
 
 import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
 import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -145,7 +146,7 @@ public abstract class BaseDetailDataView extends ConstraintLayout{
     public static BaseDetailDataView getInstance(Context context, Match match, boolean isMatchList){
         String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
         String sport = match.getSportId();
-        if (!TextUtils.equals(platform, PLATFORM_PM)) {
+        if (!TextUtils.equals(platform, PLATFORM_PM) && !TextUtils.equals(platform, PLATFORM_PMXC)) {
             if (sport.equals(FBConstants.SPORT_ID_FB)) {
                 return new FbDataView(context, match);
             } else if (sport.equals(FBConstants.SPORT_ID_BSB)) {

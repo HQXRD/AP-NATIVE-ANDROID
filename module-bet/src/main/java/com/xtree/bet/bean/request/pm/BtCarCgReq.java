@@ -1,5 +1,10 @@
 package com.xtree.bet.bean.request.pm;
 
+import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
+
+import android.text.TextUtils;
+
 import com.xtree.base.global.SPKeyGlobal;
 
 import java.util.ArrayList;
@@ -10,6 +15,12 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 public class BtCarCgReq {
     private String cuid = SPUtils.getInstance().getString(SPKeyGlobal.PM_USER_ID);
     private List<OrderMaxBetMoney> orderMaxBetMoney = new ArrayList<>();
+    public void setCuid() {
+        String platform = SPUtils.getInstance().getString(KEY_PLATFORM);
+        if(TextUtils.equals(platform, PLATFORM_PMXC)){
+            this.cuid = SPUtils.getInstance().getString(SPKeyGlobal.PMXC_USER_ID);
+        }
+    }
 
     public void setOrderMaxBetMoney(List<OrderMaxBetMoney> orderMaxBetMoney) {
         this.orderMaxBetMoney = orderMaxBetMoney;
