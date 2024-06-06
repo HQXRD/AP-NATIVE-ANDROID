@@ -67,7 +67,6 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     private BasePopupView verifyPopView;//认证PoPView
     private SettingsVo settingsVo;
     private PromotionCodeVo promotionCodeVo;
-    private final String PROMOTION_CODE_DEFAULT = "jgrpkka";
     private String code;//剪切板获取的code
 
     @Override
@@ -391,7 +390,8 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             } else if (code == null && netCode != null) {
                 viewModel.register(account, pwd1, netCode);
             } else if (code == null && netCode == null) {
-                viewModel.register(account, pwd1, PROMOTION_CODE_DEFAULT);
+                //为获取推广码 使用默认的推广码
+                viewModel.register(account, pwd1, "kygprka");
             }
         });
 
