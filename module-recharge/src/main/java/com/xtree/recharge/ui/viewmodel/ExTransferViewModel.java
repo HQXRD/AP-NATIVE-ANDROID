@@ -122,6 +122,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     private WeakReference<FragmentActivity> mActivity = null;
     public String canonicalName;
     private BasePopupView loadingDialog = null;
+    public MutableLiveData<RechargeViewModel> rechargeLiveData = new MutableLiveData<>();
+    //标题
+    public MutableLiveData<String> titleLiveData = new MutableLiveData<>("小额网银");
 
     public void initData(FragmentActivity mActivity, ExCreateOrderRequest createOrderInfo) {
         setActivity(mActivity);
@@ -915,6 +918,15 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 });
     }
 
+    public void setRechargeViewModel(RechargeViewModel rechargeViewModel) {
+        rechargeLiveData.setValue(rechargeViewModel);
+        //设置标题
+        RechargeVo rechargeVo = rechargeViewModel.curRechargeLiveData.getValue();
+        if (rechargeVo != null) {
+            titleLiveData.setValue(rechargeVo.title);
+        }
+    }
+
     /**
      * 清理资源
      */
@@ -936,6 +948,10 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         if (mActivity != null) {
             mActivity.clear();
             mActivity = null;
+        }
+
+        if (rechargeLiveData != null && rechargeLiveData.getValue() != null) {
+            rechargeLiveData.setValue(null);
         }
 
         canonicalName = null;
