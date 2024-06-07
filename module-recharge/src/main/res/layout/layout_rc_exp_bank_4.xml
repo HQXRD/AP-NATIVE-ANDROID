@@ -43,6 +43,12 @@
                 android:text="@{model.payOrderData.merchantOrder}"
                 android:textColor="@color/clr_black"
                 tools:text="PAY00123456789" />
+
+            <TextView
+                style="@style/style_rc_dlg_copy"
+                android:text="@string/txt_copy"
+                android:onClick="@{() -> StringUtils.copy(model.payOrderData.merchantOrder)}"/>
+
         </LinearLayout>
 
         <LinearLayout style="@style/style_rc_dlg_ll">
