@@ -197,7 +197,7 @@ public class PMBtCarViewModel extends TemplateBtCarViewModel {
                     orderDetail.setMarketId(betConfirmOption.getPlayTypeId());
                     orderDetail.setMatchId(Long.valueOf(betConfirmOption.getMatchId()));
                     orderDetail.setMatchType(betConfirmOption.getOptionList().getMatchType());
-                    orderDetail.setOddFinally(String.valueOf(betConfirmOption.getOption().getRealOdd()));
+                    orderDetail.setOddFinally(String.valueOf(betConfirmOption.getOption().getUiShowOdd()));
                     orderDetail.setOdds((long) betConfirmOption.getOption().getBodd());
                     orderDetail.setPlayId(Long.valueOf(betConfirmOption.getPlayType().getId()));
                     orderDetail.setPlayOptionsId(betConfirmOption.getOption().getId());
