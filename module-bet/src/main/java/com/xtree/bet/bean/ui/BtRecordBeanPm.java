@@ -55,6 +55,9 @@ public class BtRecordBeanPm implements BtResult {
 
     @Override
     public double userWin() {
+        if(recordsBean == null || recordsBean.profitAmount == null){
+            return 0;
+        }
         return recordsBean.profitAmount;
     }
 

@@ -442,7 +442,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements USDTFruitHo
         binding.llOverApply.setVisibility(View.VISIBLE);
         //msg_type 为2 或者msg_detail为账户提款申请成功
 
-        if (TextUtils.equals("账户提款申请成功", usdtConfirmVo.msg_detail) && usdtConfirmVo.msg_type.equals("2")) {
+        if (TextUtils.equals("账户提款申请成功", usdtConfirmVo.msg_detail) && usdtConfirmVo.msg_type == 2) {
             binding.ivOverApply.setBackgroundResource(R.mipmap.ic_over_apply);
         } else if (usdtConfirmVo.error != null) {
             binding.tvOverMsg.setText("账户提款申请失败");

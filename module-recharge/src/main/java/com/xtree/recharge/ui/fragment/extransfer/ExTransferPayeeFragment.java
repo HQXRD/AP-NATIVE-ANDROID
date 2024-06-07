@@ -20,6 +20,7 @@ import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
 import com.xtree.recharge.databinding.FragmentExtransferPayeeBinding;
 import com.xtree.recharge.ui.fragment.RechargeFragment;
 import com.xtree.recharge.ui.viewmodel.ExTransferViewModel;
+import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
 
 import java.util.Map;
@@ -68,6 +69,7 @@ public class ExTransferPayeeFragment extends BaseFragment<FragmentExtransferPaye
         ExTransferViewModel viewmodel = new ViewModelProvider(fragmentActivity).get(ExTransferViewModel.class);
         AppViewModelFactory instance = AppViewModelFactory.getInstance(requireActivity().getApplication());
         viewmodel.setModel(instance.getmRepository());
+        viewmodel.setRechargeViewModel(new ViewModelProvider(fragmentActivity).get(RechargeViewModel.class));
         return viewmodel;
     }
 

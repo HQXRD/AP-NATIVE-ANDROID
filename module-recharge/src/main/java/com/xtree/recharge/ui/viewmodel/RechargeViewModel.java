@@ -56,6 +56,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<List<String>> liveDataPayCodeArr = new SingleLiveData<>(); // 含弹出支付窗口的充值渠道类型列表(从缓存加载用)
     public SingleLiveData<String> liveDataTutorial = new SingleLiveData<>(); // 充值教程(从缓存加载用)
     public SingleLiveData<RechargeVo> liveDataRecharge = new SingleLiveData<>(); // 充值详情
+    public SingleLiveData<RechargeVo> curRechargeLiveData = new SingleLiveData<>(); // 当前充值详情
     public SingleLiveData<RechargePayVo> liveDataRechargePay = new SingleLiveData<>(); // 充值提交结果
     public SingleLiveData<PayOrderDataVo> liveDataExpOrderData = new SingleLiveData<>(); // 充值点下一步 (极速充值)
     public SingleLiveData<Map<String, String>> liveDataSignal = new SingleLiveData<>(); // 人工客服暗号
