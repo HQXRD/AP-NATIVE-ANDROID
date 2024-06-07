@@ -222,6 +222,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         mTypeAdapter = new RechargeTypeAdapter(getContext(), vo -> {
             CfLog.d(vo.toInfo());
             curRechargeVo = null;
+            viewModel.curRechargeLiveData.setValue(curRechargeVo);
             onClickPaymentType(vo);
         });
 
@@ -233,6 +234,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         mChannelAdapter = new RechargeChannelAdapter(getContext(), vo -> {
             CfLog.i(vo.toInfo());
             curRechargeVo = vo;
+            viewModel.curRechargeLiveData.setValue(curRechargeVo);
             onClickPayment(vo);
         });
         binding.rcvPayChannel.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -520,6 +522,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         if (vo.payChannelList.size() == 1) {
             binding.rcvPayChannel.setVisibility(View.GONE);
             curRechargeVo = vo.payChannelList.get(0);
+            viewModel.curRechargeLiveData.setValue(curRechargeVo);
             onClickPayment(vo.payChannelList.get(0));
         } else {
             binding.rcvPayChannel.setVisibility(View.VISIBLE);
@@ -1185,6 +1188,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                     for (RechargeVo t2 : t.payChannelList) {
                         if (curRechargeVo.bid.equals(t2.bid)) {
                             curRechargeVo = t2;
+                            viewModel.curRechargeLiveData.setValue(curRechargeVo);
                             return;
                         }
                     }
@@ -1368,6 +1372,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             //mapRechargeVo.put(vo.bid, vo);
             //SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
             curRechargeVo = vo;
+            viewModel.curRechargeLiveData.setValue(curRechargeVo);
             // 极速充值
             if (isOnePayFix(vo)) {
                 // 银行列表,搜索页会用到
