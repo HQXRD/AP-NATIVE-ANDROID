@@ -12,12 +12,11 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.global.Constant;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.DomainUtil;
@@ -86,7 +85,14 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
             RxBus.getDefault().post(new BetContract(BetContract.ACTION_MARKET_CHANGE, market));
             SPUtils.getInstance().put(SPKey.BT_MATCH_LIST_ODDTYPE, market);
         });
-        binding.ivGoSportRegular.setOnClickListener(v -> startContainerFragment(RouterFragmentPath.Mine.PAGER_SPORT_REGULAR));
+
+        binding.ivGoSportRegular.setOnClickListener(v -> {
+            if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
+                goWebView(getString(R.string.txt_sport_official), Constant.URL_SPORT_RULES_OFFICIAL, false);
+            } else if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
+                goWebView(getString(R.string.txt_sport_inter), Constant.URL_SPORT_RULES_INTER, false);
+            }
+        });
         long[] leagues = getArguments().getLongArray(KEY_LEAGUEIDS);
         if (leagues != null && leagues.length > 0) {
             for (int i = 0; i < leagues.length; i++) {
@@ -176,8 +182,7 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
         }
     }
 
-    private void goWebView(View v, String path, boolean isContainTitle) {
-        String title = ((TextView) v).getText().toString();
+    private void goWebView(String title, String path, boolean isContainTitle) {
         String url = DomainUtil.getDomain2() + path;
         BrowserActivity.start(getContext(), title, url, isContainTitle);
     }
