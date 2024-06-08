@@ -1511,8 +1511,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return false;
         }
 
-        if (vo.paycode.contains(ONE_PAY_FIX) && (!bk.getTop().isEmpty() || !bk.getOthers().isEmpty()
-                || !bk.getUsed().isEmpty() || !bk.getHot().isEmpty())) {
+        boolean isNotEmpty = (bk.getTop() != null && !bk.getTop().isEmpty())
+                || (bk.getOthers() != null && !bk.getOthers().isEmpty())
+                || (bk.getUsed() != null && !bk.getUsed().isEmpty())
+                || (bk.getHot() != null && !bk.getHot().isEmpty());
+        if (vo.paycode.contains(ONE_PAY_FIX) && isNotEmpty) {
             return true;
         }
         return false;
