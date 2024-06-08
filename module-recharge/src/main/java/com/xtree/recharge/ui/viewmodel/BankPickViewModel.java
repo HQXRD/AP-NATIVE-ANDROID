@@ -77,7 +77,7 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
                         ArrayList<BindModel> mbind = new ArrayList<>();
                         ArrayList<BindModel> last = new ArrayList<>();
 
-                        if (bankListData.getUsed()!=null)
+                        if (bankListData.getHot()!=null)
                             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getHot()) {
                                 BankPickModel m = new BankPickModel();
                                 m.setItemType(2);
@@ -86,7 +86,7 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
                                 m.setClick(itemClick);
                                 hot.add(m);
                             }
-                        if (bankListData.getUsed()!=null)
+                        if (bankListData.getTop()!=null)
                             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getTop()) {
                                 BankPickModel m = new BankPickModel();
                                 m.setItemType(3);
@@ -95,7 +95,7 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
                                 m.setClick(itemClick);
                                 top.add(m);
                             }
-                        if (bankListData.getUsed()!=null)
+                        if (bankListData.getOthers()!=null)
                             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getOthers()) {
                                 BankPickModel m = new BankPickModel();
                                 m.setItemType(3);
