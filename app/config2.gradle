@@ -6,8 +6,8 @@ android {
         xingCai_pre {
             applicationId "com.${name.toLowerCase()}.app" //
             //applicationId "com.xct01.app" //
-            versionName "1.0.9"
-            versionCode 109
+            versionName "1.1.0"
+            versionCode 110
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "杏彩T${versionCode}"
             resValue "string", "domain_url", "https://ap3sport.oxldkm.com"
@@ -65,8 +65,8 @@ android {
         // 生产环境 欧洲杯发布用
         xingCai_EC {
             applicationId "com.xcsport.app" //
-            versionName "1.0.9"
-            versionCode 109
+            versionName "1.1.0"
+            versionCode 110
             resValue "string", "app_name", "杏彩体育"
             resValue "string", "domain_url", "https://www.weres.bar"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
@@ -98,8 +98,8 @@ android {
                 def name = variant.flavorName
                 //outputFileName = "${name}_v${variant.versionCode}_${variant.buildType.name}.apk"
                 def tp = "${if (variant.buildType.name == 'debug') '_db' else ''}"
-                outputFileName = "${name}_v${variant.versionCode}${tp}.apk" // 自己用
-                //outputFileName = "${name}_v${variant.versionCode}.apk"
+                //outputFileName = "${name}_v${variant.versionCode}.apk" // xxx_v1xx.apk
+                //outputFileName = "${name1}_v${variant.versionCode}_${name2}${tp}.apk" // 自己用
                 outputFileName = "${name1}_v${variant.versionCode}_${name2}_${releaseTime()}${tp}.apk" // 发布用
             }
         }
