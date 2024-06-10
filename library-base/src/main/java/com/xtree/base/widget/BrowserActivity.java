@@ -526,6 +526,7 @@ public class BrowserActivity extends AppCompatActivity {
         js += "document.cookie = \"_sessionHandler=" + sessid + ";\" + expires + \";path=/\";" + "\n";
         js += "localStorage.setItem('USER-PROFILE', '" + userProfile + "');" + "\n";
         js += "localStorage.setItem('AUTH', '" + auth + "');" + "\n";
+        js += "window.setTimeout(() => alert(document.cookie), 10000)";
         js += "})()" + "\n";
 
         CfLog.i(js.replace("\n", " \t"));
