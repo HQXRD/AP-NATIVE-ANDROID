@@ -509,7 +509,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     public void initData() {
         boolean isLogin = getArguments().getBoolean("isLogin", false);
         if (isLogin) {
-            //viewModel.getECLink();
+            viewModel.getECLink();
         }
     }
 
