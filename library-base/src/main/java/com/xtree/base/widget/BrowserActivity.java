@@ -572,11 +572,22 @@ public class BrowserActivity extends AppCompatActivity {
         js += "const style = document.createElement('style');" + "\n";
         js += "style.type = 'text/css';" + "\n";
         js += "style.id = 'iOS_inject';" + "\n";
-        js += "document.head.appendChild(style);" + "\n";
-        js += "document.querySelector('#iOS_inject').innerHTML = '.headerH5{display: none !important;}" +
+        js += "if (document.head) {" + "\n";
+        js += "  document.head.appendChild(style);" + "\n";
+        js += "  console.log('Style element added to head');" + "\n";
+        js += "} else {" + "\n";
+        js += "  console.error('document.head is null');" + "\n";
+        js += "}" + "\n";
+        js += "const styleElement = document.querySelector('#iOS_inject');" + "\n";
+        js += "if (styleElement) {" + "\n";
+        js += "  styleElement.innerHTML = '.headerH5{display: none !important;}" +
                 " .rndx{ display: none !important;} .rndxs{ display: none !important;}" +
                 " .all-lottery-all{ margin-top: 0 !important;} .msg{ display: none !important;}" +
                 " .menu{ display: none !important;} .countdown{ margin-right: .8rem;}';" + "\n";
+        js += "  console.log('CSS rules added to style element');" + "\n";
+        js += "} else {" + "\n";
+        js += "  console.error('Style element with id iOS_inject not found');" + "\n";
+        js += "}" + "\n";
         js += "d.setTime(d.getTime() + (24*60*60*1000));" + "\n";
         js += "let expires = \"expires=\"+ d.toUTCString();" + "\n";
         js += "document.cookie = \"auth=" + token + ";\" + expires + \";path=/\";" + "\n";
