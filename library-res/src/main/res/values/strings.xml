@@ -202,8 +202,11 @@
     1. 请先下载注册USDT虚拟钱包账号\n
     2. 登录USDT虚拟钱包账号，并购买适量的USDT\n
     3. 在USDT虚拟钱包中通过【转账】进行进行扫码支付或输入收款地址进行支付\n
-    4.平台填写金额应当与汇款金额完全一致，否则将无法及时到账\n
+    4. 平台填写金额应当与汇款金额完全一致，否则将无法及时到账\n
     </string>
+    <string name="txt_rc_hi_wlt_content">目前登入账号尚未绑定嗨钱包账号，\n确认是否继续操作？</string>
+    <string name="txt_rc_hi_reg">注册嗨钱包</string>
+    <string name="txt_rc_hi_down">下载嗨钱包</string>
 
     <string name="txt_update">版本更新</string>
     <string name="txt_update_tip">更新中，请稍候...</string>
