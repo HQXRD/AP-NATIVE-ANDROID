@@ -15,23 +15,20 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.CookieManager;
-import android.webkit.DownloadListener;
+import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
@@ -39,12 +36,14 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.just.agentweb.AgentWeb;
+import com.just.agentweb.WebChromeClient;
+import com.just.agentweb.WebViewClient;
 import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 import com.xtree.base.R;
-import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
@@ -59,12 +58,20 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.SPUtils;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.dnsoverhttps.DnsOverHttps;
 
 /**
  * 浏览器页面 <p/>
@@ -87,7 +94,8 @@ public class BrowserActivity extends AppCompatActivity {
     View clTitle;
     TextView tvwTitle;
     ImageView ivwBack;
-    WebView mWebView;
+    AgentWeb agentWeb;
+    ViewGroup mWebView;
     //ImageView ivwLaunch;
     ImageView ivwCs;
     ImageView ivwMsg;
@@ -193,20 +201,21 @@ public class BrowserActivity extends AppCompatActivity {
             SPUtils.getInstance().put(SPKeyGlobal.IS_FIRST_OPEN_BROWSER, false);
         }
 
-        mWebView.addJavascriptInterface(new WebAppInterface(this, ivwBack, new WebAppInterface.ICallBack() {
-            @Override
-            public void close() {
-                String url2 = getIntent().getStringExtra("url") + "";
-                if (!url2.contains(Constant.URL_VIP_CENTER)) {
-                    finish();
-                }
-            }
+        //mWebView.addJavascriptInterface(new WebAppInterface(this, ivwBack, new WebAppInterface.ICallBack() {
+        //    @Override
+        //    public void close() {
+        //        String url2 = getIntent().getStringExtra("url") + "";
+        //        if (!url2.contains(Constant.URL_VIP_CENTER)) {
+        //            finish();
+        //        }
+        //    }
+        //
+        //    @Override
+        //    public void goBack() {
+        //        finish();
+        //    }
+        //}), "android");
 
-            @Override
-            public void goBack() {
-                finish();
-            }
-        }), "android");
         //setWebCookie();
         //setCookie(cookie, url); // 设置 cookie
         Uri uri = getIntent().getData();
@@ -220,7 +229,12 @@ public class BrowserActivity extends AppCompatActivity {
             if (isShowLoading) {
                 LoadingDialog.show2(this);
             }
-            mWebView.loadUrl(url, header);
+            //mWebView.loadUrl(url, header);
+            try {
+                initAgentWeb(url, header);
+            } catch (UnknownHostException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         if (isGame) {
@@ -249,113 +263,104 @@ public class BrowserActivity extends AppCompatActivity {
         ivwBack.setOnClickListener(v -> finish());
 
         mWebView.setFitsSystemWindows(true);
-        setWebView(mWebView);
+        //setWebView(mWebView);
 
         mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(this);
         mTopSpeedDomainFloatingWindows.show();
 
         // 下载文件
-        mWebView.setDownloadListener(new DownloadListener() {
-            @Override
-            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-                CfLog.d("onDownloadStart url: " + url);
-                /*CfLog.i("url: " + url
-                        + ",\n contentLength: " + contentLength
-                        + " (" + contentLength / 1024 / 1024 + "." + 100 * (contentLength / 1024 % 1024) / 1024 + "M)"
-                        + ",\n mimetype: " + mimetype
-                        + ",\n contentDisposition: " + contentDisposition
-                        + ",\n userAgent: " + userAgent
-                );*/
-                //Log.d("---", "onDownloadStart url: " + url);
-                AppUtil.goBrowser(getBaseContext(), url);
-            }
-        });
+        //mWebView.setDownloadListener(new DownloadListener() {
+        //    @Override
+        //    public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+        //        CfLog.d("onDownloadStart url: " + url);
+        //        /*CfLog.i("url: " + url
+        //                + ",\n contentLength: " + contentLength
+        //                + " (" + contentLength / 1024 / 1024 + "." + 100 * (contentLength / 1024 % 1024) / 1024 + "M)"
+        //                + ",\n mimetype: " + mimetype
+        //                + ",\n contentDisposition: " + contentDisposition
+        //                + ",\n userAgent: " + userAgent
+        //        );*/
+        //        //Log.d("---", "onDownloadStart url: " + url);
+        //        AppUtil.goBrowser(getBaseContext(), url);
+        //    }
+        //});
 
-        // 上传文件
-        mWebView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                super.onProgressChanged(view, newProgress);
-                // 网页加载进度
-                CfLog.d("******* newProgress: " + newProgress);
-                if (newProgress > 0 && newProgress < 100) {
-                    if (newProgress >= 75) {
-                        LoadingDialog.finish();
+
+    }
+
+    private void initAgentWeb(String url, Map<String, String> header) throws UnknownHostException {
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        cookieManager.setAcceptThirdPartyCookies(new WebView(this), true);
+        cookieManager.setCookie(url, "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";" + "_sessionHandler=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID));
+        cookieManager.flush();
+
+        agentWeb = AgentWeb.with(this)
+                .setAgentWebParent(findViewById(R.id.wv_main), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+                .useDefaultIndicator() // 使用默认的加载进度条
+                .additionalHttpHeader(url, header)
+                //.setAgentWebWebSettings(new IAgentWebSettings() {
+                //    @Override
+                //    public IAgentWebSettings toSetting(WebView webView) {
+                //        WebSettings settings = webView.getSettings();
+                //        settings.setJavaScriptEnabled(true);
+                //        settings.setDomStorageEnabled(true);
+                //        settings.setDatabaseEnabled(true);
+                //        //settings.setAppCacheEnabled(true);
+                //        settings.setUseWideViewPort(true);
+                //        //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+                //        //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+                //        settings.setLoadWithOverviewMode(true);
+                //        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+                //        settings.setLoadsImagesAutomatically(true);
+                //        return null;
+                //    }
+                //
+                //    @Override
+                //    public WebSettings getWebSettings() {
+                //        return null;
+                //    }
+                //})
+                .setWebViewClient(new CustomWebViewClient()) // 设置 WebViewClient
+                .setWebChromeClient(new WebChromeClient() {
+                    @Override
+                    public void onProgressChanged(WebView view, int newProgress) {
+                        super.onProgressChanged(view, newProgress);
+                        // 网页加载进度
+                        if (newProgress > 75) {
+                            LoadingDialog.finish();
+                        }
                     }
-                }
-            }
 
-            /**
-             * For Android >= 4.1
-             * 16(Android 4.1.2) <= API <= 20(Android 4.4W.2)回调此方法
-             */
-            public void openFileChooser(ValueCallback<Uri> valueCallback, String acceptType, String capture) {
-                CfLog.i("*********");
-                mUploadCallbackBelow = valueCallback;
-                //openImageChooserActivity();
-                gotoSelectMedia();
-            }
 
-            /**
-             * For Android >= 5.0
-             * API >= 21(Android 5.0.1)回调此方法
-             */
-            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
-                CfLog.i("*********");
-                // (1)该方法回调时说明版本API >= 21，此时将结果赋值给 mUploadCallbackAboveL，使之 != null
-                mUploadCallbackAboveL = filePathCallback;
-                //openImageChooserActivity();
-                gotoSelectMedia();
-                return true;
-            }
+                    /**
+                     * For Android >= 4.1
+                     * 16(Android 4.1.2) <= API <= 20(Android 4.4W.2)回调此方法
+                     */
+                    public void openFileChooser(ValueCallback<Uri> valueCallback, String acceptType, String capture) {
+                        CfLog.i("*********");
+                        mUploadCallbackBelow = valueCallback;
+                        //openImageChooserActivity();
+                        gotoSelectMedia();
+                    }
 
-        });
+                    /**
+                     * For Android >= 5.0
+                     * API >= 21(Android 5.0.1)回调此方法
+                     */
+                    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+                        CfLog.i("*********");
+                        // (1)该方法回调时说明版本API >= 21，此时将结果赋值给 mUploadCallbackAboveL，使之 != null
+                        mUploadCallbackAboveL = filePathCallback;
+                        //openImageChooserActivity();
+                        gotoSelectMedia();
+                        return true;
+                    }
 
-        mWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                CfLog.d("onPageStarted url:  " + url);
-                //Log.d("---", "onPageStarted url:  " + url);
-                if (isFirstLoad) {
-                    isFirstLoad = false;
-                    setWebCookie();
-                }
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                CfLog.d("onPageFinished url: " + url);
-                //Log.d("---", "onPageFinished url: " + url);
-                hideLoading();
-            }
-
-            @Override
-            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                //handler.proceed();
-                hideLoading();
-                if (sslErrorCount < 4) {
-                    sslErrorCount++;
-                    tipSsl(view, handler);
-                } else {
-                    handler.proceed();
-                }
-            }
-
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                CfLog.e("errorCode: " + errorCode + ", description: " + description + ", failingUrl: " + failingUrl);
-                hideLoading();
-                Toast.makeText(getBaseContext(), R.string.network_failed, Toast.LENGTH_SHORT).show();
-            }
-
-            @Nullable
-            @Override
-            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                CfLog.e("访问地址：" + request.getUrl());
-                return super.shouldInterceptRequest(view, request);
-            }
-
-        });
+                }) // 设置 WebChromeClient
+                .createAgentWeb() // 创建 AgentWeb
+                .ready()
+                .go(url); // 加载网页
 
     }
 
@@ -414,19 +419,19 @@ public class BrowserActivity extends AppCompatActivity {
         });
     }
 
-    private void setWebView(WebView webView) {
-        WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setDomStorageEnabled(true);
-        settings.setDatabaseEnabled(true);
-        //settings.setAppCacheEnabled(true);
-        settings.setUseWideViewPort(true);
-        //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
-        settings.setLoadWithOverviewMode(true);
-        settings.setJavaScriptCanOpenWindowsAutomatically(true);
-        settings.setLoadsImagesAutomatically(true);
-    }
+    //private void setWebView(WebView webView) {
+    //    WebSettings settings = webView.getSettings();
+    //    settings.setJavaScriptEnabled(true);
+    //    settings.setDomStorageEnabled(true);
+    //    settings.setDatabaseEnabled(true);
+    //    //settings.setAppCacheEnabled(true);
+    //    settings.setUseWideViewPort(true);
+    //    //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+    //    //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
+    //    settings.setLoadWithOverviewMode(true);
+    //    settings.setJavaScriptCanOpenWindowsAutomatically(true);
+    //    settings.setLoadsImagesAutomatically(true);
+    //}
 
     /**
      * 图片选择
@@ -469,6 +474,7 @@ public class BrowserActivity extends AppCompatActivity {
     }
 
     private void setCookie(String cookie, String url) {
+        CookieSyncManager.createInstance(this);
         CookieManager cm = CookieManager.getInstance();
         cm.removeSessionCookies(null);
         cm.removeAllCookies(null);
@@ -477,8 +483,6 @@ public class BrowserActivity extends AppCompatActivity {
         //CookieSyncManager.getInstance().sync();
         cm.setAcceptCookie(true);
         cm.setCookie(url, cookie);
-
-        cm.setAcceptThirdPartyCookies(mWebView, true);
     }
 
     private void setWebCookie() {
@@ -528,9 +532,9 @@ public class BrowserActivity extends AppCompatActivity {
 
         CfLog.i(js.replace("\n", " \t"));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            mWebView.evaluateJavascript(js, null);
+            agentWeb.getWebCreator().getWebView().evaluateJavascript(js, null);
         } else {
-            mWebView.loadUrl("javascript:" + js);
+            agentWeb.getWebCreator().getWebView().loadUrl("javascript:" + js);
         }
     }
 
@@ -573,9 +577,9 @@ public class BrowserActivity extends AppCompatActivity {
 
         CfLog.i(js.replace("\n", " \t"));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            mWebView.evaluateJavascript(js, null);
+            agentWeb.getWebCreator().getWebView().evaluateJavascript(js, null);
         } else {
-            mWebView.loadUrl("javascript:" + js);
+            agentWeb.getWebCreator().getWebView().loadUrl("javascript:" + js);
         }
     }
 
@@ -635,6 +639,10 @@ public class BrowserActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        // 销毁 AgentWeb
+        if (agentWeb != null) {
+            agentWeb.destroy();
+        }
         super.onDestroy();
 
         EventBus.getDefault().unregister(this);
@@ -655,4 +663,79 @@ public class BrowserActivity extends AppCompatActivity {
                 break;
         }
     }
+
+    public class CustomWebViewClient extends WebViewClient {
+        private OkHttpClient client;
+
+        public CustomWebViewClient() throws UnknownHostException {
+            // 初始化 OkHttpClient 并配置自定义的 DNS 解析
+            client = new OkHttpClient.Builder()
+                    .dns(new DnsOverHttps.Builder()
+                            .client(new OkHttpClient())
+                            .url(HttpUrl.get("https://114.114.114.114/dns-query"))
+                            .bootstrapDnsHosts(InetAddress.getByName("114.114.114.114"),InetAddress.getByName("8.8.8.8") )
+                            .build())
+                    .build();
+        }
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+            String url = request.getUrl().toString();
+            Request httpRequest = new Request.Builder().url(url).build();
+
+            try {
+                Response response = client.newCall(httpRequest).execute();
+                return new WebResourceResponse(
+                        response.header("content-type"),
+                        response.header("content-encoding"),
+                        response.body().byteStream()
+                );
+            } catch (IOException e) {
+                e.printStackTrace();
+                return super.shouldInterceptRequest(view, request);
+            }
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            CfLog.d("onPageStarted url:  " + url);
+            //Log.d("---", "onPageStarted url:  " + url);
+            if (isLottery) {
+                setLotteryCookieInside();
+            } else if (is3rdLink) {
+                CfLog.d("not need cookie.");
+            } else {
+                if (!SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).isEmpty()) {
+                    setCookieInside();
+                }
+            }
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            CfLog.d("onPageFinished url: " + url);
+            //Log.d("---", "onPageFinished url: " + url);
+            hideLoading();
+        }
+
+        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            //handler.proceed();
+            hideLoading();
+            if (sslErrorCount < 4) {
+                sslErrorCount++;
+                tipSsl(view, handler);
+            } else {
+                handler.proceed();
+            }
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            CfLog.e("errorCode: " + errorCode + ", description: " + description + ", failingUrl: " + failingUrl);
+            hideLoading();
+            Toast.makeText(getBaseContext(), R.string.network_failed, Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

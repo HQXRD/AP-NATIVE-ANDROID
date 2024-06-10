@@ -84,5 +84,10 @@ dependencies {
     api rootProject.ext.dependencies["event-bus"]
     api rootProject.ext.dependencies["lottie"]
 
+    api rootProject.ext.dependencies["agentweb-core"]
+    api rootProject.ext.dependencies["agentweb-file"]
+    api rootProject.ext.dependencies["agentweb-download"]
+
     api rootProject.ext.dependencies["constraintlayout"]
+    api rootProject.ext.dependencies["okhttp-dnsoverhttps"]
 }
