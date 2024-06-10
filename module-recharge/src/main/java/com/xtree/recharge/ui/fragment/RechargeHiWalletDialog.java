@@ -57,19 +57,19 @@ public class RechargeHiWalletDialog extends CenterPopupView {
         binding = DialogHiwalletBinding.bind(findViewById(R.id.ll_root));
 
         binding.ivwClose.setOnClickListener(v -> {
-            mCallBack.callBack();
             dismiss();
         });
         binding.tvwOk.setOnClickListener(v -> {
-            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), "", mHiWalletVo.login_url)).show();
             mCallBack.callBack();
             dismiss();
         });
         binding.tvwReg.setOnClickListener(v -> {
             new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), "", mHiWalletVo.login_url)).show();
+            dismiss();
         });
         binding.tvwDownload.setOnClickListener(v -> {
             AppUtil.goBrowser(getContext(), Constant.URL_DOWNLOAD_HI_WALLET);
+            dismiss();
         });
 
     }

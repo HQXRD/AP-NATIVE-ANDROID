@@ -34,7 +34,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="4dp"
         android:gravity="start"
-        android:text="目前登入账号尚未绑定嗨钱包账号，\n确认是否继续操作？"
+        android:text="@string/txt_rc_hi_wlt_content"
         android:textColor="@color/clr_grey_60"
         android:textSize="15sp"
         tools:visibility="visible" />
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableStart="@mipmap/rc_reg_hi_wallet"
-            android:text="注册嗨钱包"
+            android:text="@string/txt_rc_hi_reg"
             android:textColor="@color/clr_txt_black_01" />
 
         <View
@@ -73,7 +73,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableStart="@mipmap/rc_down_hi_wallet"
-            android:text="下载嗨钱包"
+            android:text="@string/txt_rc_hi_down"
             android:textColor="@color/clr_txt_black_01" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="64dp"
+        android:layout_height="wrap_content"
+        android:contentDescription="for show reg and download."
+        android:visibility="visible" />
 </LinearLayout>
