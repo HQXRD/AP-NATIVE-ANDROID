@@ -89,7 +89,10 @@ ext {
             // Kotlin反射库
             "kotlin-stdlib"                        : "org.jetbrains.kotlin:kotlin-stdlib:1.6.10",
             "kotlin-reflect"                       : "org.jetbrains.kotlin:kotlin-reflect:1.6.10",
-            "flexbox"                              : "com.google.android.flexbox:flexbox:3.0.0"
+            "flexbox"                              : "com.google.android.flexbox:flexbox:3.0.0",
+            "agentweb-core"                        : "io.github.justson:agentweb-core:v5.1.1-androidx",
+            "agentweb-file"                        : "io.github.justson:agentweb-filechooser:v5.1.1-androidx",
+            "agentweb-download"                    : "com.github.Justson:Downloader:v5.0.4-androidx"
     ]
 }
 

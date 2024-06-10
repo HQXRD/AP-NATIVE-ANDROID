@@ -77,6 +77,10 @@ dependencies {
     api rootProject.ext.dependencies["appcenter-crashes"]
     api rootProject.ext.dependencies["event-bus"]
 
+    api rootProject.ext.dependencies["agentweb-core"]
+    api rootProject.ext.dependencies["agentweb-file"]
+    api rootProject.ext.dependencies["agentweb-download"]
+
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
 }
