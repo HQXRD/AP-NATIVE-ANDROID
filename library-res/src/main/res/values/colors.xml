@@ -342,8 +342,8 @@
     <color name="cl_withdrawal_amount">#6D6C72</color>
     <color name="cl_withdrawal_tip">#D24859</color>
     <color name="cl_over_tip">#8F8F8F</color>
-    <color name="cl_awards_end">#ECE6F9</color>
-    <color name="cl_awards_start">#ECEFF9</color>
+    <color name="cl_awards_end">#FFFFFF</color>
+    <color name="cl_awards_start">#ECE6F9</color>
 
     <color name="clr_f3f5f6">#F3F5F6</color>
     <color name="clr_rc_manual_1">#CC6A74</color>
@@ -380,5 +380,6 @@
     <!-- 绑定谷歌验证文字颜色 -->
     <color name="clr_google_txt_black">#0C0319</color>
     <color name="clr_withdrawal_usdt_tip">#4B4B4B</color>
-
+    <!-- 提款流水边框颜色 -->
+    <color name="clr_flow_item_stroke">#87C6C5C7</color>
 </resources>
