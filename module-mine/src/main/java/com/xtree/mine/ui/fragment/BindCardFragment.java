@@ -178,7 +178,9 @@ public class BindCardFragment extends BaseFragment<FragmentBindCardBinding, Bind
 
                 Bundle bundle = new Bundle();
                 bundle.putString("id", mAdapter.get(0).id);
-                bundle.putString("accountName", vo.accountname);
+                if (vo.banklist != null && !vo.banklist.isEmpty()) {
+                    bundle.putString("accountName", vo.banklist.get(0).account_name);
+                }
                 startContainerFragment(RouterFragmentPath.Mine.PAGER_BIND_CARD_LOCK, bundle);
             });
         });
