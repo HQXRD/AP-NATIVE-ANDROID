@@ -394,7 +394,7 @@
     <string name="txt_unfinished_activity_flow">未完成活动流水</string>
     <string name="txt_awards_no_money_tip">您未参加任何活动，暂无礼金</string>
     <string name="txt_withdraw_bank_top_tip">%1$s 每天限制提款 %2$s 次，您已提款 %3$s 次，提款时间为 %4$s  至 %5$s  您今日剩余提款额度为 %6$s 元</string>
-    <string name="txt_choose_withdrawal_tip">可用提款余额:%1$s 元其中%2$s 元可以使用虚拟币提款取出</string>
+    <string name="txt_choose_withdrawal_tip">可用提款余额:%1$s ,其中虚拟币提款额度为%2$s 元</string>
     <string name="txt_alipay_name">支付宝姓名：</string>
     <string name="txt_wechat_name">微信姓名：</string>
     <string name="txt_alipay_nickname">支付宝昵称：</string>

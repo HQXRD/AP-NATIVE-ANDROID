@@ -107,7 +107,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
-        LoadingDialog.show(getContext());
+
         initView();
         initData();
         LoadingDialog.show(getContext());
@@ -201,6 +201,9 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
         loadingView.dismiss();
     }
 
+    /**
+     *  刷新UI
+     */
     private void referUI() {
         CfLog.e("referUI = " + chooseInfoVo.wdChannelList.size());
         if (chooseInfoVo.wdChannelList.size() > 0) {
@@ -236,11 +239,10 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
             });
             binding.lvChoose.setVisibility(View.VISIBLE);
             binding.lvChoose.setAdapter(adapter);
-            binding.llChooseTip.setVisibility(View.VISIBLE);
-            binding.tvChooseTutorial.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+
             binding.tvChooseTutorial.setOnClickListener(v -> {
                 Intent intent = new Intent(getContext(), BrowserActivity.class);
-                intent.putExtra(BrowserActivity.ARG_TITLE, "USDT教程");
+                intent.putExtra(BrowserActivity.ARG_TITLE, getContext().getString(R.string.txt_withdrawal_usdt_tip));
                 intent.putExtra(BrowserActivity.ARG_URL, DomainUtil.getDomain2() + "/static/usdt-description/as/usdt_m.html");
                 getContext().startActivity(intent);
             });
@@ -256,7 +258,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
             binding.tvChooseTip.setVisibility(View.VISIBLE);
             binding.tvChooseTip.setText(tip);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                binding.tvChooseTip.setTextColor(getContext().getColor(R.color.red));
+                binding.tvChooseTip.setTextColor(getContext().getColor(R.color.clr_grey_13));
             }
             LoadingDialog.finish();
         }
@@ -328,12 +330,14 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
      * 跳转银行卡提款页面
      */
     private void showBankWithdrawalDialog(ChooseInfoVo.ChannelInfo channelInfo) {
-        bankPopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false).moveUpToKeyboard(false).asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose, new BankWithdrawalDialog.BankWithdrawaDialogClose() {
-            @Override
-            public void closeBankByNumber() {
-                bankPopupView.dismiss();
-            }
-        }));
+        bankPopupView = new XPopup.Builder(getContext()).moveUpToKeyboard(false)
+                .moveUpToKeyboard(false)
+                .asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, channelInfo, bankWithdrawalClose, new BankWithdrawalDialog.BankWithdrawaDialogClose() {
+                    @Override
+                    public void closeBankByNumber() {
+                        bankPopupView.dismiss();
+                    }
+                }));
         bankPopupView.show();
     }
 
@@ -469,4 +473,5 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 }));
         errorPopView.show();
     }
+
 }
