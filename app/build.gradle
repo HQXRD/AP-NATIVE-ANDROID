@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     //插件id和前面mavenCentral的不一样
     //开头是io.github不是com.github
-    id "io.github.qq549631030.android-junk-code" version "1.3.2"
+    id "io.github.qq549631030.android-junk-code" version "1.3.3"
 }
 apply from: 'config2.gradle'
 //apply plugin: 'kotlin-kapt'
@@ -41,11 +41,10 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.cfg
-            //zipAlignEnabled true
-            minifyEnabled false // 是否开启混淆
+            //zipAlignEnabled true 已默认启用，不需要显式配置
+            minifyEnabled true // 是否开启混淆
             //shrinkResources true // 移除无用资源
-            //proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             signingConfig signingConfigs.cfg
