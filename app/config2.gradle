@@ -3,23 +3,23 @@ android {
 
     productFlavors {
         // 测试环境 测试用
-        eon2_pre {
+        hengxing5_pre {
             applicationId "com.${name.toLowerCase()}.app"
             versionName "1.0.6"
             versionCode 106
             //resValue "string", "app_name", "${name}"
-            resValue "string", "app_name", "意昂2T${versionCode}"
+            resValue "string", "app_name", "恒行5T${versionCode}"
             // 后面可能会改成 https://preyiang22test.oxldkm.com 如后续有连线问题 尝试看看
-            resValue "string", "domain_api", "https://preyiang2test.oxldkm.com"
-            resValue "string", "domain_url", "https://preyiang2test.oxldkm.com"
-            resValue "string", "channel_name", "eon2"  // 渠道名称
+            resValue "string", "domain_api", "https://hxing5pre.hxing5vip.com"
+            resValue "string", "domain_url", "https://hxing5pre.hxing5vip.com"
+            resValue "string", "channel_name", "hengxing5"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
             // 后面可能会改成 https://preyiang22test.oxldkm.com 如后续有连线问题 尝试看看
-            resValue "string", "domain_api_list", "https://preyiang2test.oxldkm.com;"
-            resValue "string", "domain_url_list", "https://preyiang2test.oxldkm.com;"
+            resValue "string", "domain_api_list", "https://hxing5pre.hxing5vip.com;"
+            resValue "string", "domain_url_list", "https://hxing5pre.hxing5vip.com;"
             multiDexEnabled true
             dimension "channelName"
         }
@@ -28,80 +28,42 @@ android {
             applicationId "com.${name.toLowerCase()}.app"
             versionName "1.0.6"
             versionCode 106
-            resValue "string", "app_name", "意昂2R${versionCode}"
-            resValue "string", "domain_api", "https://www.eon2.org"
-            resValue "string", "domain_url", "https://www.eon2.org"
-            resValue "string", "channel_name", "eon2"  // 渠道名称
+            resValue "string", "app_name", "恒行5R${versionCode}"
+            resValue "string", "domain_api", "https://hxing5pre.hxing5vip.com"
+            resValue "string", "domain_url", "https://hxing5pre.hxing5vip.com"
+            resValue "string", "channel_name", "hengxing5"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_api_list", "https://app1.r4n2h7.xyz;" +
-                    "https://app2.q1i9z8.xyz;" +
-                    "https://app3.h1g8d8.xyz;" +
-                    "https://app4.k1b3i6.xyz;" +
-                    "https://app5.v3k2o5.xyz;" +
-                    "https://app1.d7p7i2.xyz;" +
-                    "https://app2.o1m3m9.xyz;" +
-                    "https://app3.l9y7e5.xyz;" +
-                    "https://app1.q6g4c6.xyz;" +
-                    "https://app2.s2f6z5.xyz;" +
-                    "https://app3.e5b4f7.xyz;" +
-                    "https://app1.s9o5w5.xyz;" +
-                    "https://app2.t6y2m4.xyz;" +
-                    "https://app3.t1l4c3.xyz;" +
-                    "https://app.7jcvs.com:46803;" +
-                    "http://43.137.39.194:46803;" +
-                    "http://43.128.11.58:46803;" +
-                    "https://app.7jcvs.com:46803;"
+            resValue "string", "domain_api_list", "https://hxing5pre.hxing5vip.com;" +
+                    "https://hxing5pre.hxing5vip.com;" +
+                    "https://hxing5pre.hxing5vip.com;"
 
-            resValue "string", "domain_url_list", "https://www.u2s4s7.xyz;" +
-                    "https://www.d4v2o1.xyz;" +
-                    "https://www.o9s9u4.xyz;" +
-                    "https://www.h4r3a2.xyz;" +
-                    "https://www.j9b1x3.xyz;" +
-                    "https://www.n5q2b8.xyz;"
+            resValue "string", "domain_url_list", "https://hxing5pre.hxing5vip.com;" +
+                    "https://hxing5pre.hxing5vip.com;"
             multiDexEnabled true
             dimension "channelName"
         }
         // 生产环境 发布用
-        eon2_OL {
-            applicationId "com.eon2.app" // eon2
+        hengxing5_OL {
+            applicationId "com.hengxing5.app" // hengxing5
             versionName "1.0.6"
             versionCode 106
             resValue "string", "app_name", "意昂体育2"
-            resValue "string", "domain_api", "https://www.eon2.org"
-            resValue "string", "domain_url", "https://www.u2s4s7.xyz"
-            resValue "string", "channel_name", "eon2"  // 渠道名称
+            resValue "string", "domain_api", "https://hxing5pre.hxing5vip.com"
+            resValue "string", "domain_url", "https://hxing5pre.hxing5vip.com"
+            resValue "string", "channel_name", "hengxing5"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "cce6df315eee2c445da416c6b717f114"
             resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "ms_secret_key", "0ad1d127-3d6e-47f0-8904-1fd9eff9d97b"
-            resValue "string", "domain_api_list", "https://app1.r4n2h7.xyz;" +
-                    "https://app2.q1i9z8.xyz;" +
-                    "https://app3.h1g8d8.xyz;" +
-                    "https://app4.k1b3i6.xyz;" +
-                    "https://app5.v3k2o5.xyz;" +
-                    "https://app1.d7p7i2.xyz;" +
-                    "https://app2.o1m3m9.xyz;" +
-                    "https://app3.l9y7e5.xyz;" +
-                    "https://app1.q6g4c6.xyz;" +
-                    "https://app2.s2f6z5.xyz;" +
-                    "https://app3.e5b4f7.xyz;" +
-                    "https://app1.s9o5w5.xyz;" +
-                    "https://app2.t6y2m4.xyz;" +
-                    "https://app3.t1l4c3.xyz;" +
-                    "https://app.7jcvs.com:46803;" +
-                    "http://43.137.39.194:46803;" +
-                    "http://43.128.11.58:46803;" +
-                    "https://app.7jcvs.com:46803;"
+            resValue "string", "domain_api_list", "https://hxing5pre.hxing5vip.com;" +
+                    "https://hxing5pre.hxing5vip.com;" +
+                    "https://hxing5pre.hxing5vip.com;"
 
-            resValue "string", "domain_url_list", "https://www.u2s4s7.xyz;" +
-                    "https://www.d4v2o1.xyz;" +
-                    "https://www.o9s9u4.xyz;" +
-                    "https://www.h4r3a2.xyz;" +
-                    "https://www.j9b1x3.xyz;" +
-                    "https://www.n5q2b8.xyz;"
+            resValue "string", "domain_url_list", "https://hxing5pre.hxing5vip.com;" +
+                    "https://hxing5pre.hxing5vip.com;"
             multiDexEnabled true
             dimension "channelName"
         }
@@ -121,8 +83,8 @@ android {
                 def name2 = variant.flavorName.split("_")[1]
                 //outputFileName = "${name}_v${variant.versionCode}_${variant.buildType.name}.apk"
                 def tp = "${if (variant.buildType.name == 'debug') '_db' else ''}"
-                outputFileName = "${name}_v${variant.versionCode}${tp}.apk"
                 //outputFileName = "${name}_v${variant.versionCode}.apk"
+                //outputFileName = "${name1}_v${variant.versionCode}_${name2}${tp}.apk"
                 outputFileName = "${name1}_v${variant.versionCode}_${name2}_${releaseTime()}${tp}.apk"
             }
         }
@@ -152,7 +114,7 @@ androidJunkCode {
         //是否排除生成Activity的Java文件,默认false(layout和写入AndroidManifest.xml还会执行)，主要用于处理类似神策全埋点编译过慢问题
         otherCountPerPackage = 50 //每个包下生成其它类的数量
         methodCountPerClass = 20 //每个类下生成方法数量
-        resPrefix = "abc_"  //生成的layout、drawable、string等资源名前缀
+        resPrefix = "zzz_"  //生成的layout、drawable、string等资源名前缀
         drawableCount = 15  //生成drawable资源数量
         stringCount = 50  //生成string数量
     }
@@ -163,12 +125,12 @@ androidJunkCode {
         debug config
         release config
 
-        eon2Debug config2
-        eon2Release config2
-        eon2_preDebug config2
-        eon2_preRelease config2
-        eon2_OLDebug config2
-        eon2_OLRelease config2
+        hengxing5Debug config2
+        hengxing5Release config2
+        hengxing5_preDebug config2
+        hengxing5_preRelease config2
+        hengxing5_OLDebug config2
+        hengxing5_OLRelease config2
     }
 
 }
