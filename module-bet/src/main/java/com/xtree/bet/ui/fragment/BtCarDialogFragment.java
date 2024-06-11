@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.MsgDialog;
@@ -97,12 +98,12 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
         double btWin = 0;
         for (CgOddLimit cgOddLimit : cgOddLimitList) {
             btAmount += cgOddLimit.getBtAmount();
-            double odd = cgOddLimitList.size() > 1 ? cgOddLimit.getCOdd() : cgOddLimit.getDOdd();
+            double odd = betConfirmOptionList.size() > 1 ? cgOddLimit.getCOdd() : cgOddLimit.getDOdd();
             btWin += odd * cgOddLimit.getBtAmount();
         }
+        CfLog.e("btwin========" + btWin);
         if (isAdded()) {//BtCarDialogFragment消失后，禁止调用binding
-            //binding.tvBtAmount.setText(getString(R.string.bt_bt_pay_1, NumberUtils.format(btAmount, 2)));
-            binding.tvTopWin.setText(getString(R.string.bt_bt_top_win, NumberUtils.format(btWin, 2)));
+            binding.tvTopWin.setText(getString(R.string.bt_bt_top_win, NumberUtils.format(btWin - btAmount, 2)));
         }
     };
 
