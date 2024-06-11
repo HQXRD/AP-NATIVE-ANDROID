@@ -6,8 +6,8 @@ android {
         xingCai_pre {
             applicationId "com.${name.toLowerCase()}.app" //
             //applicationId "com.xct01.app" //
-            versionName "1.1.0"
-            versionCode 110
+            versionName "1.1.1"
+            versionCode 111
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "杏彩T${versionCode}"
             resValue "string", "domain_url", "https://ap3sport.oxldkm.com"
@@ -65,8 +65,8 @@ android {
         // 生产环境 欧洲杯发布用
         xingCai_EC {
             applicationId "com.xcsport.app" //
-            versionName "1.1.0"
-            versionCode 110
+            versionName "1.1.1"
+            versionCode 111
             resValue "string", "app_name", "杏彩体育"
             resValue "string", "domain_url", "https://www.weres.bar"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
