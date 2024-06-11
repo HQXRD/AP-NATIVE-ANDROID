@@ -46,6 +46,7 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
     private String openString;//打开状态文本
     private int textViewStatus = 0;//textView 打开关闭状态 0 为关闭；1为打开
     private String foldTxt;//折叠文本
+    private boolean isSingleLine = false;//是否为单行
 
     /**
      * 获取textView 状态
@@ -142,12 +143,26 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
      */
     private void splitFoldString(String text) {
         if (!text.contains(",")) {
+            foldTxt = text;
+            isSingleLine = true;
             return;
         }
         ///PT真人,BBIN真人,
         String subString = text.substring(0, text.length() - 1);
         String[] split = subString.split(",");
-        foldTxt = split[0] + "," + split[1];
+        if (split.length > 3) {
+            foldTxt = split[0] + "," + split[1] + "," + split[2];
+        } else if (split.length == 2) {
+            foldTxt = split[0] + "," + split[1];
+            isSingleLine = true;
+        } else if (split.length == 1) {
+            foldTxt = split[0];
+            isSingleLine = true;
+        } else {
+            isSingleLine = true;
+            foldTxt = subString;
+        }
+
     }
 
     public void setText(String text, final int index) {
@@ -175,12 +190,12 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
 
             }
             // 设置字体变色 需要单独封装
-            String times;
+          /*  String times;
             times = "<font color=#0C0319>" + foldTxt + "</font>";
             String testTxt = "<font color=#A17DF5>" + "查看" + "</font>";
             String format = getContext().getResources().getString(R.string.txt_withdraw_flow_close_tip);
             String textSource = String.format(format, times, testTxt);
-            tv_expandable_content.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
+            tv_expandable_content.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));*/
         } else {
             //如果之前已经初始化过了，则使用保存的状态，无需再获取一次
             switch (state) {
@@ -197,13 +212,28 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
                     tv_expand_or_collapse.setVisibility(View.VISIBLE);
                     break;
             }
-            String times;
+            /*String times;
+            times = "<font color=#0C0319>" + foldTxt + "</font>";
+            String testTxt = "<font color=#A17DF5>" + "  查看" + "</font>";
+            String format = getContext().getResources().getString(R.string.txt_withdraw_flow_close_tip);
+            String textSource = String.format(format, times, testTxt);
+            tv_expandable_content.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));*/
+        }
+        String times;
+        if (isSingleLine){
+            //单行文本 不显示查看字体
+            times = "<font color=#0C0319>" + foldTxt + "</font>";
+            String format = getContext().getResources().getString(R.string.txt_withdraw_flow_close_single);
+            String textSource = String.format(format, times);
+            tv_expandable_content.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
+        }else{
             times = "<font color=#0C0319>" + foldTxt + "</font>";
             String testTxt = "<font color=#A17DF5>" + "  查看" + "</font>";
             String format = getContext().getResources().getString(R.string.txt_withdraw_flow_close_tip);
             String textSource = String.format(format, times, testTxt);
             tv_expandable_content.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
         }
+
 
         setVisibility(TextUtils.isEmpty(text) ? View.GONE : View.VISIBLE);
     }
@@ -213,47 +243,51 @@ public class ExpandableTextView extends LinearLayout implements View.OnClickList
         int state = mCollapsedStatus.get(position);
         //两种状态下对应动作
         if (state == STATE_COLLAPSED) {
-            // 打开状态
-            CfLog.e("state == STATE_COLLAPSED");
-            tv_expandable_content.setMaxLines(Integer.MAX_VALUE);
-            mCollapsedStatus.put(position, STATE_EXPANDED);
+            if (!isSingleLine){
+                // 打开状态
+                CfLog.e("state == STATE_COLLAPSED");
+                tv_expandable_content.setMaxLines(Integer.MAX_VALUE);
+                mCollapsedStatus.put(position, STATE_EXPANDED);
 
-            if (null != expandStatusChangedListener) {
-                expandStatusChangedListener.onChanged(true);
-            }
-            //打开状态
-            if (expandStatusListener != null) {
-                this.expandStatusListener.onStatusChange(true);
+                if (null != expandStatusChangedListener) {
+                    expandStatusChangedListener.onChanged(true);
+                }
+                //打开状态
+                if (expandStatusListener != null) {
+                    this.expandStatusListener.onStatusChange(true);
+                }
+
+                String times;
+                times = "<font color=#0C0319>" + openString + "</font>";
+                String testTxt = "<font color=#A17DF5>" + "收起" + "</font>";
+                String format = getContext().getResources().getString(R.string.txt_withdraw_flow_open_tip);
+                String textSource = String.format(format, times, testTxt);
+                tv_expandable_content.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
             }
 
-            String times;
-            times = "<font color=#0C0319>" + openString + "</font>";
-            String testTxt = "<font color=#A17DF5>" + "收起" + "</font>";
-            String format = getContext().getResources().getString(R.string.txt_withdraw_flow_open_tip);
-            String textSource = String.format(format, times, testTxt);
-            tv_expandable_content.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
         } else if (state == STATE_EXPANDED) {
             //折叠状态
             CfLog.e("state == STATE_EXPANDED");
-            tv_expandable_content.setMaxLines(MAX_COLLAPSED_LINES);
-            mCollapsedStatus.put(position, STATE_COLLAPSED);
+            if (!isSingleLine){
+                tv_expandable_content.setMaxLines(MAX_COLLAPSED_LINES);
+                mCollapsedStatus.put(position, STATE_COLLAPSED);
 
-            if (null != expandStatusChangedListener) {
-                expandStatusChangedListener.onChanged(false);
+                if (null != expandStatusChangedListener) {
+                    expandStatusChangedListener.onChanged(false);
+                }
+                //手动关闭状态
+                if (expandStatusListener != null) {
+                    this.expandStatusListener.onStatusChange(false);
+                }
+
+                String times;
+                times = "<font color=#0C0319>" + foldTxt + "</font>";
+                String testTxt = "<font color=#A17DF5>" + "查看" + "</font>";
+                String format = getContext().getResources().getString(R.string.txt_withdraw_flow_close_tip);
+                String textSource = String.format(format, times, testTxt);
+                tv_expandable_content.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
             }
-            //手动关闭状态
-            if (expandStatusListener != null) {
-                this.expandStatusListener.onStatusChange(false);
-            }
-
-            String times;
-            times = "<font color=#0C0319>" + foldTxt + "</font>";
-            String testTxt = "<font color=#A17DF5>" + "查看" + "</font>";
-            String format = getContext().getResources().getString(R.string.txt_withdraw_flow_close_tip);
-            String textSource = String.format(format, times, testTxt);
-            tv_expandable_content.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
-
         }
     }
 
