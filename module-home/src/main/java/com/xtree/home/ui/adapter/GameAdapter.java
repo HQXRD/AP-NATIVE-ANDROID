@@ -178,7 +178,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
 
         //杏彩体育旗舰场馆弹窗判断
-        if (vo.alias.equals(PLATFORM_PMXC) && AppUtil.isTipToday(SPKeyGlobal.PMXC_NOT_TIP_TODAY)) {
+        if (PLATFORM_PMXC.equals(vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PMXC_NOT_TIP_TODAY)) {
             showPMDialog(vo, SPKeyGlobal.PMXC_NOT_TIP_TODAY, isLeft);
             return;
         }
