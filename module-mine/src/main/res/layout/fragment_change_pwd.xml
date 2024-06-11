@@ -29,7 +29,7 @@
 
             <TextView
                 style="@style/style_cm_title"
-                android:text="@string/txt_change_pwd"
+                android:text="@string/txt_reset_pwd"
                 app:layout_constraintBaseline_toBaselineOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

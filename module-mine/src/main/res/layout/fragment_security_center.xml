@@ -12,6 +12,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@mipmap/me_security_center"
         tools:context=".ui.fragment.SecurityCenterFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,7 +27,7 @@
 
             <TextView
                 style="@style/style_cm_title"
-                android:text="@string/txt_security_center"
+                android:text=""
                 app:layout_constraintBaseline_toBaselineOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -47,7 +48,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@mipmap/me_security_center"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cl_title" />
 
@@ -57,16 +57,18 @@
             android:layout_height="12dp"
             android:background="@color/clr_blue_03"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@id/ivw_top"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toTopOf="@id/ivw_top"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="80dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:background="@drawable/bg_white"
             android:orientation="vertical"
+            android:layout_marginLeft="@dimen/bt_text_10sp"
+            android:layout_marginRight="@dimen/bt_text_10sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvw_space">
 
@@ -81,6 +83,7 @@
                 android:drawableStart="@mipmap/me_sc_pwd"
                 android:drawableEnd="@mipmap/cm_ic_to_right"
                 android:drawablePadding="6dp"
+                android:gravity="center_vertical"
                 android:padding="@dimen/layout_margin"
                 android:text="@string/txt_login_pwd" />
 
@@ -95,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@mipmap/me_sc_google"
                 android:drawableEnd="@mipmap/cm_ic_to_right"
+                android:gravity="center_vertical"
                 android:drawablePadding="6dp"
                 android:padding="@dimen/layout_margin"
                 android:text="@string/txt_google_code" />
@@ -110,6 +114,7 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@mipmap/me_sc_phone"
                 android:drawableEnd="@mipmap/cm_ic_to_right"
+                android:gravity="center_vertical"
                 android:drawablePadding="6dp"
                 android:padding="@dimen/layout_margin"
                 android:text="@string/txt_bind_phone" />
@@ -125,6 +130,7 @@
                 android:layout_height="wrap_content"
                 android:drawableStart="@mipmap/me_sc_email"
                 android:drawableEnd="@mipmap/cm_ic_to_right"
+                android:gravity="center_vertical"
                 android:drawablePadding="6dp"
                 android:padding="@dimen/layout_margin"
                 android:text="@string/txt_bind_email" />
@@ -132,7 +138,10 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/clr_grey_080" />
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="12dp" />
 
             <!--<TextView
                 android:id="@+id/tvw_usdt"
