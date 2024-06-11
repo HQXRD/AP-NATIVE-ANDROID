@@ -208,7 +208,7 @@ public class BrowserDialog extends BottomPopupView {
 
         mWebView.setFitsSystemWindows(true);
         setWebView(mWebView);
-        LoadingDialog.show(mContext);
+        LoadingDialog.show2(mContext);
         // 下载文件
         mWebView.setDownloadListener(new DownloadListener() {
             @Override

@@ -202,7 +202,7 @@ public class BrowserActivity extends AppCompatActivity {
             finish();
         } else {
             if (isShowLoading) {
-                LoadingDialog.show(this);
+                LoadingDialog.show2(this);
             }
             mWebView.loadUrl(url, header);
         }
