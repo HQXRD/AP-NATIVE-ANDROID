@@ -251,4 +251,10 @@
     <string name="txt_sport_official">杏彩体育官方版</string>
     <string name="txt_sport_inter">杏彩体育旗舰版</string>
 
+    <string name="txt_bind_tip">您还未绑定%1$s,是否前往绑定?</string>
+    <string name="txt_bind_other_type_tip">您还未绑定%1$s地址,是否前往绑定?</string>
+    <string name="txt_bind_error_sys_tip">您尚未绑定</string>
+    <string name="txt_bind_bank_tip">银行卡</string>
+    <string name="txt_withdrawal_usdt_tip">USDT介绍及提款教程</string>
+
 </resources>
