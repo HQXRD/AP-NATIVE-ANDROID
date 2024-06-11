@@ -6,8 +6,8 @@ android {
         xingCai_pre {
             applicationId "com.${name.toLowerCase()}.app" //
             //applicationId "com.xct01.app" //
-            versionName "1.1.0"
-            versionCode 110
+            versionName "1.2.0"
+            versionCode 120
             //resValue "string", "app_name", "${name}"
             resValue "string", "app_name", "杏彩T${versionCode}"
             resValue "string", "domain_url", "https://ap3sport.oxldkm.com"
@@ -24,8 +24,8 @@ android {
         /*xingCai_uat {
             applicationId "com.${name.toLowerCase()}.app"
             //applicationId "com.xcr01.app" // xcsport xcr01
-            versionName "1.0.9"
-            versionCode 109
+            versionName "1.2.0"
+            versionCode 120
             resValue "string", "app_name", "杏彩R${versionCode}"
             resValue "string", "domain_url", "https://www.weres.bar"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
@@ -45,8 +45,8 @@ android {
         // 生产环境 发布用
         /*xingCai_OL {
             applicationId "com.xcsport.app" //
-            versionName "1.0.9"
-            versionCode 109
+            versionName "1.2.0"
+            versionCode 120
             resValue "string", "app_name", "杏彩体育"
             resValue "string", "domain_url", "https://www.weres.bar"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
@@ -65,14 +65,14 @@ android {
         // 生产环境 欧洲杯发布用
         xingCai_EC {
             applicationId "com.xcsport.app" //
-            versionName "1.1.0"
-            versionCode 110
+            versionName "1.2.0"
+            versionCode 120
             resValue "string", "app_name", "杏彩体育"
             resValue "string", "domain_url", "https://www.weres.bar"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "44c997f89ac52bdb676418f79a78cc6e"
-            resValue "bool", "is_tag", "true" // 是否开启统计
+            resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "efa54723-d17f-40a5-ba10-95f6a4ec7832"
             resValue "string", "domain_url_list", "https://www.weres.bar" +
                     ";https://app.cpmuseumdimsum.com:16801" +
@@ -129,10 +129,10 @@ androidJunkCode {
         excludeActivityJavaFile = false
         //是否排除生成Activity的Java文件,默认false(layout和写入AndroidManifest.xml还会执行)，主要用于处理类似神策全埋点编译过慢问题
         otherCountPerPackage = 50 //每个包下生成其它类的数量
-        methodCountPerClass = 30 //每个类下生成方法数量
+        methodCountPerClass = 10 //每个类下生成方法数量
         resPrefix = "sc_"  //生成的layout、drawable、string等资源名前缀
-        drawableCount = 15  //生成drawable资源数量
-        stringCount = 200  //生成string数量
+        drawableCount = 5  //生成drawable资源数量
+        stringCount = 20  //生成string数量
     }
 
     variantConfig {
