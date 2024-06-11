@@ -183,6 +183,7 @@
     <color name="clr_white">#FFFFFF</color>
     <color name="clr_transparent">#00000000</color>
     <color name="clr_transparent_50">#80000000</color>
+    <color name="clr_transparent_70">#B2000000</color>"
 
     <color name="clr_black">#000000</color>
     <color name="clr_txt_black">#000000</color>

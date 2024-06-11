@@ -86,6 +86,7 @@ ext {
             "appcenter-crashes"                    : "com.microsoft.appcenter:appcenter-crashes:5.0.4",
             "event-bus"                            : "org.greenrobot:eventbus:3.3.1",
             "brv"                                  : "com.github.liangjingkanji:BRV:1.5.8",
+            "lottie"                               : "com.airbnb.android:lottie:6.4.0",
             // Kotlin反射库
             "kotlin-stdlib"                        : "org.jetbrains.kotlin:kotlin-stdlib:1.6.10",
             "kotlin-reflect"                       : "org.jetbrains.kotlin:kotlin-reflect:1.6.10"
