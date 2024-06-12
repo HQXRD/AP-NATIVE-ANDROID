@@ -74,11 +74,25 @@ android {
             resValue "string", "mixpanel_token", "44c997f89ac52bdb676418f79a78cc6e"
             resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "ms_secret_key", "efa54723-d17f-40a5-ba10-95f6a4ec7832"
-            resValue "string", "domain_url_list", "https://www.weres.bar" +
-                    ";https://app.cpmuseumdimsum.com:16801" +
+            resValue "string", "domain_url_list", "http://43.128.11.58:16804" +
+                    ";http://43.137.39.194:16803" +
                     ";https://app.zgntcpgxds.com:16801" +
-                    ";https://app.jyuelab.com:16801" +
-                    ";https://app.eyoumoban.com:16801"
+                    ";http://101.43.19.60:16803" +
+                    ";http://139.186.248.198:16803" +
+                    ";https://app1.xbgxe380.com" +
+                    ";https://app1.djjbz649.com" +
+                    ";https://app1.onfsg.vip" +
+                    ";https://app1.iswkv878.com" +
+                    ";https://app2.wlvgg.vip" +
+                    ";https://app2.qfzuw.vip" +
+                    ";https://app2.hlqrg.vip" +
+                    ";https://app2.iefix.vip" +
+                    ";https://app3.gjqki.vip" +
+                    ";https://app3.hcueo.vip" +
+                    ";https://app3.yrxez.vip" +
+                    ";https://app3.zxsri.vip" +
+                    ";https://app4.hncqz.vip" +
+                    ";https://app5.cpyut.vip"
             multiDexEnabled true
             dimension "channelName"
         }
