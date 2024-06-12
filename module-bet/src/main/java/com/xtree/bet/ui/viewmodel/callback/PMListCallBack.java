@@ -155,7 +155,7 @@ public class PMListCallBack extends PMHttpCallBack<List<MatchInfo>> {
     @Override
     public void onError(Throwable t) {
         mViewModel.getUC().getDismissDialogEvent().call();
-        if (!mIsTimerRefresh) {
+        //if (!mIsTimerRefresh) {
             if (t instanceof ResponseThrowable) {
                 ResponseThrowable error = (ResponseThrowable) t;
                 if (error.code == CODE_401026 || error.code == CODE_401013) {
@@ -167,7 +167,7 @@ public class PMListCallBack extends PMHttpCallBack<List<MatchInfo>> {
                     //mViewModel.getLeagueList(mSportPos, mSportId, mOrderBy, mLeagueIds, mMatchids, mPlayMethodType, mSearchDatePos, mOddType, mIsTimerRefresh, mIsRefresh);
                 }
             }
-        }
+        //}
     }
 
     /**

@@ -85,8 +85,9 @@ public class PmBtDetailViewModel extends TemplateBtDetailViewModel {
                         ResponseThrowable error = (ResponseThrowable) t;
                         if (error.code == CODE_401026 || error.code == CODE_401013) {
                             getGameTokenApi();
+                        }else {
+                            ToastUtils.showShort(error.message);
                         }
-                        ToastUtils.showShort(error.message);
                     }
                 });
         addSubscribe(disposable);
