@@ -84,9 +84,8 @@
 
             <ImageView
                 android:id="@+id/ivw_pic"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:adjustViewBounds="true"
+                android:layout_width="118dp"
+                android:layout_height="118dp"
                 android:scaleType="center"
                 tools:src="@mipmap/rc_exp_receipt"
                 placeholder="@{ContextCompat.getDrawable(context,R.mipmap.rc_exp_receipt)}"
