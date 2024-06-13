@@ -28,10 +28,10 @@ android {
 
     signingConfigs {
         cfg {
-            storeFile file("xingcai.jks")
-            storePassword "xingcai666a"
+            storeFile file("xingcai02.jks")
+            storePassword "AZUP35Y01TKumN0613"
             keyAlias "app"
-            keyPassword "xingcai666a"
+            keyPassword "AZUP35Y01TKumN0613"
 
             v1SigningEnabled true
             v2SigningEnabled true
