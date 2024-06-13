@@ -66,7 +66,7 @@ android {
         }*/
         // 生产环境 欧洲杯发布用
         xingCai_EC {
-            applicationId "com.xcsport.app" //
+            applicationId "com.sptxc.app" // com.xcsport.app
             versionName "1.1.3"
             versionCode 113
             resValue "string", "app_name", "杏彩体育"
@@ -128,8 +128,8 @@ android {
                 //outputFileName = "${name}_v${variant.versionCode}_${variant.buildType.name}.apk"
                 def tp = "${if (variant.buildType.name == 'debug') '_db' else ''}"
                 //outputFileName = "${name}_v${variant.versionCode}.apk" // xxx_v1xx.apk
-                //outputFileName = "${name1}_v${variant.versionCode}_${name2}${tp}.apk" // 自己用
-                outputFileName = "${name1}_v${variant.versionCode}_${name2}_${releaseTime()}${tp}.apk" // 发布用
+                outputFileName = "${name1}_v${variant.versionCode}_${name2}${tp}.apk" // 自己用
+                //outputFileName = "${name1}_v${variant.versionCode}_${name2}_${releaseTime()}${tp}.apk" // 发布用
             }
         }
     }
