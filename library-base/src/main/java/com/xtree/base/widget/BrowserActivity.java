@@ -351,10 +351,10 @@ public class BrowserActivity extends AppCompatActivity {
         ivwJump.setOnClickListener(v -> {
             //传递token
             String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
-            String jumpUrl = DomainUtil.getDomain() + "/static/sessionkeeper.html?token=" + token + "&tokenExpires=3600&url=" + urlBase64;
+            String jumpUrl = DomainUtil.getDomain2() + "/static/sessionkeeper.html?token=" + token + "&tokenExpires=3600&url=" + urlBase64;
             CfLog.i("jumpUrl: " + jumpUrl);
             // 跳至外部浏览器
-            AppUtil.goBrowser(getBaseContext(), url);
+            AppUtil.goBrowser(getBaseContext(), jumpUrl);
         });
     }
 
