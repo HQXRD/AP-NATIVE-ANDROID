@@ -134,7 +134,7 @@
     <string name="txt_rst_tie">平</string>
     <string name="txt_rst_win">赢</string>
     <string name="txt_rst_lose">输</string>
-    <string name="txt_rst_c">撤单</string>
+    <string name="txt_rst_c">投注失败</string>
     <string name="txt_rst_v">未结算</string>
     <string name="txt_rst_co">提前结算</string>
     <string name="txt_rst_j">投注失败</string>

@@ -281,7 +281,7 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
             listType.addAll(list);
             binding.fvMain.setData(listType);
 
-            queryByVenue(); // 针对从场馆跳过来,需要查询某个平台的
+            queryByVenue(list); // 针对从场馆跳过来,需要查询某个平台的
         });
 
         viewModel.liveDataBtReport.observe(this, vo -> {
@@ -362,15 +362,22 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
         return "--";
     }
 
-    private void queryByVenue() {
+    private void queryByVenue(List<BtPlatformVo> btPlatformVos) {
         if (getArguments() == null) {
             return;
         }
 
-        String typeId = getArguments().getString("typeId");
+        String typeId = getArguments().getString("typeId").toUpperCase();
         String typeName = getArguments().getString("typeName");
+
+        for (BtPlatformVo vo : btPlatformVos) {
+            if (vo.code.equals(typeId)) {
+                typeName = vo.cn_name;
+            }
+        }
+
         int status = getArguments().getInt("status", 0); // 0-全部, 1-已结算, 2-未结算
-        CfLog.i("typeId: " + typeId + ", typeName: " + typeName + ", status: " + status);
+        CfLog.e("typeId: " + typeId + ", typeName: " + typeName + ", status: " + status);
 
         if (TextUtils.isEmpty(typeId)) {
             return;
