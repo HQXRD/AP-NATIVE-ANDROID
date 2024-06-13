@@ -178,7 +178,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
 
         //杏彩体育旗舰场馆弹窗判断
-        //vo的属性值有可能为空，java的equals不能使用null.equals
+        //vo的属性值有可能为空，java的equals不能使用null.equals（java的缺陷）,建议使用TextUtils.equals
         if (TextUtils.equals(PLATFORM_PMXC, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PMXC_NOT_TIP_TODAY)) {
             showPMDialog(vo, SPKeyGlobal.PMXC_NOT_TIP_TODAY, isLeft);
             return;
