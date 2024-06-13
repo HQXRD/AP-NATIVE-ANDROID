@@ -83,7 +83,4 @@ dependencies {
     implementation rootProject.ext.dependencies["lottie"]
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-
-    //comm100 客服SDK
-    api files('libs/visitor-client-v1.1.aar')
 }

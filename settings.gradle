@@ -13,10 +13,11 @@ include ":gsyVideoPlayer",
         ":gsyVideoPlayer-base",
         ":gsyVideoPlayer-proxy_cache"
 
-        /*":gsyVideoPlayer-armv5",
-        ":gsyVideoPlayer-x86",
-        ":gsyVideoPlayer-x86_64",
-        ":gsyVideoPlayer-ex_so",
-        ":gsyVideoPlayer-exo_player2"*/
+/*":gsyVideoPlayer-armv5",
+":gsyVideoPlayer-x86",
+":gsyVideoPlayer-x86_64",
+":gsyVideoPlayer-ex_so",
+":gsyVideoPlayer-exo_player2"*/
 
 //include ':module-sign', ':module-work', ':module-msg', ':module-user'
+include ':LocalRepo:VisitorLBS'

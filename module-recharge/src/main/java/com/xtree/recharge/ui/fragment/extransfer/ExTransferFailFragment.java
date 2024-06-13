@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
-import com.xtree.base.widget.Comm100ChatWindows;
+import com.xtree.recharge.ui.widget.Comm100ChatWindows;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.FragmentExtransferFailBinding;
