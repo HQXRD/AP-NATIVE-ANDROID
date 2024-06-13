@@ -53,6 +53,17 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
         return fragment;
     }
 
+    public static BankPickDialogFragment show(FragmentActivity activity, RechargeVo.OpBankListDTO bankList, String curBank) {
+        RxBus.getDefault().postSticky(bankList);
+        BankPickDialogFragment fragment = new BankPickDialogFragment();
+        fragment.show(activity.getSupportFragmentManager(), BankPickDialogFragment.class.getName());
+        activity.getSupportFragmentManager().executePendingTransactions();
+        if (curBank != null) {
+            fragment.setCurBank(curBank);
+        }
+        return fragment;
+    }
+
     public interface onPickListner {
         void onPick(BankPickModel model);
     }
@@ -160,5 +171,18 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
     private void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    /**
+     * 显示已选择银行
+     */
+    public void setCurBank(String bankName) {
+        if (binding != null) {
+            binding.edtKey.setText(bankName);
+            binding.edtKey.requestFocus();
+            if (viewModel != null) {
+                viewModel.showSearch.setValue(false);
+            }
+        }
     }
 }

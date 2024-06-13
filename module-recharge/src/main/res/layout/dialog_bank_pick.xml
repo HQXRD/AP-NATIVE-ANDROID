@@ -100,7 +100,9 @@
                     android:inputType="text"
                     android:maxLength="24"
                     textChangedListener="@{model}"
-                    android:background="@drawable/shape_solide_clrgrey58_stroke_white_1_c4"
+                    android:textColor="@color/clr_purple_12"
+                    android:textColorHint="@color/clr_text_color_hint"
+                    android:background="@drawable/selector_bank_pick_bg"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

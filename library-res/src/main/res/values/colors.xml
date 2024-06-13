@@ -353,6 +353,7 @@
     <color name="clr_edt_def">#C7C4D0</color>
     <color name="clr_edt_pressed">#F9C1DC</color>
     <color name="clr_edt_focused">#B5A9FF</color>
+    <color name="clr_edt_focused2">#A17DF5</color>
     <color name="clr_edt_disabled">#F0EEF4</color>
 
     <!-- 输入框 hint -->

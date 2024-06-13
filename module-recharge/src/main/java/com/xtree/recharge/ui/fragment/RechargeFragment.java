@@ -1053,7 +1053,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }
         opBankList.setmBind(bankInfoDTOS);
 
-        BankPickDialogFragment.show(getActivity(), opBankList)
+        String string = binding.tvwBankCard.getText().toString();
+        BankPickDialogFragment.show(getActivity(), opBankList, string)
                 .setOnPickListner(model -> {
                     CfLog.d(model.toString());
                     if (TextUtils.isEmpty(model.getBankCode())) {
