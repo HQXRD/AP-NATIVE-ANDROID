@@ -67,6 +67,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
     override fun initView() {
         init()
         initTag()
+        setFasterApi()
         setFasterDomain()
     }
 
@@ -76,16 +77,26 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
          * 当前预埋域名列表
          */
         lateinit var mCurDomainList: HashSet<String>
+        lateinit var mCurApiList: HashSet<String>
     }
 
     init {
         mCurDomainList = HashSet()
+        mCurApiList = HashSet()
     }
 
     private fun addDomainList(domainList: List<String>) {
         domainList.forEachIndexed { _, s ->
             run {
                 mCurDomainList.add(s)
+            }
+        }
+    }
+
+    private fun addApiList(list: List<String>) {
+        list.forEachIndexed { _, s ->
+            run {
+                mCurApiList.add(s)
             }
         }
     }
@@ -103,7 +114,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                     CfLog.i("$host")
                     NetConfig.host = host
                     DomainUtil.setDomainUrl(host)
-                    RetrofitClient.init() // 重置URL
+                    //RetrofitClient.init() // 重置URL
                     viewModel?.reNewViewModel?.postValue(null)
                     data
                 }
@@ -118,21 +129,70 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
         }
     }
 
+    private fun getFastestApi() {
+        scopeNet {
+            // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
+            val domainTasks = mCurApiList.map { host ->
+                Get<String>(
+                    "$host/point.bmp",
+                    absolutePath = true,
+                    tag = RESPONSE,
+                    uid = "the_fastest_api"
+                ).transform { data ->
+                    CfLog.i("$host")
+                    NetConfig.host = host
+                    DomainUtil.setApiUrl(host)
+                    RetrofitClient.init() // 重置URL
+                    viewModel?.reNewViewModel?.postValue(null)
+                    data
+                }
+            }
+            try {
+                fastest(domainTasks, uid = "the_fastest_api")
+            } catch (e: Exception) {
+                CfLog.e(e.toString())
+                e.printStackTrace()
+                viewModel?.noWebData?.postValue(null)
+            }
+        }
+    }
+
     private fun init() {
-        val url = getString(R.string.domain_url)
+        val api = getString(R.string.domain_api) // 不能为空,必须正确
+        val url = getString(R.string.domain_url) // 如果为空或者不正确,转用API的
+
+        if (api.startsWith("http://") || api.startsWith("https://")) {
+            DomainUtil.setApiUrl(url)
+            RetrofitClient.init() // 重置URL
+        }
+
         if (url.startsWith("http://") || url.startsWith("https://")) {
             DomainUtil.setDomainUrl(url)
-            RetrofitClient.init() // 重置URL
+            //RetrofitClient.init() // 重置URL
+        } else {
+            DomainUtil.setDomainUrl(api)
         }
     }
 
     /**
      * 线路竞速
      */
+    private fun setFasterApi() {
+        val apis = getString(R.string.domain_api_list) // 不能为空,必须正确
+        val apiList = listOf(*apis.split(";".toRegex()).dropLastWhile { it.isEmpty() }
+            .toTypedArray())
+        addApiList(apiList)
+        getFastestApi()
+    }
+
     private fun setFasterDomain() {
-        val urls = getString(R.string.domain_url_list)
+        var urls = getString(R.string.domain_url_list) // 如果为空或者不正确,转用API的
+        if (urls.length < 10) {
+            urls = getString(R.string.domain_api_list) // 如果域名列表为空,就使用API列表
+        }
         val list = listOf(*urls.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
+
         addDomainList(list)
         getFastestDomain()
     }
