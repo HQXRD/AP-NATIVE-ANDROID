@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -135,57 +134,63 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
                 switch (vo.project_BetResult) {
                     case "T":
                         binding2.tvwBtResult.setText(R.string.txt_rst_tie);
-                        binding2.tvwBtResult.setActivated(true);
-                        binding2.tvwSum.setActivated(true);
+                        binding2.tvwBtResult.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
+                        binding2.tvwSum.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
                         break;
                     case "W":
                         binding2.tvwBtResult.setText(R.string.txt_rst_win);
-                        binding2.tvwBtResult.setSelected(true);
-                        binding2.tvwSum.setSelected(true);
+                        binding2.tvwBtResult.setTextColor(getResources().getColor(R.color.clr_red_01));
+                        binding2.tvwSum.setTextColor(getResources().getColor(R.color.clr_red_01));
                         break;
                     case "L":
                         binding2.tvwBtResult.setText(R.string.txt_rst_lose);
-                        binding2.tvwBtResult.setSelected(false);
-                        binding2.tvwSum.setSelected(false);
+                        binding2.tvwBtResult.setTextColor(getResources().getColor(R.color.clr_green_01));
+                        binding2.tvwSum.setTextColor(getResources().getColor(R.color.clr_green_01));
                         break;
                     case "C":
                         binding2.tvwBtResult.setText(R.string.txt_rst_c);
-                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        binding2.tvwBtResult.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
+                        binding2.tvwSum.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
                         break;
                     case "V":
                         binding2.tvwBtResult.setText(R.string.txt_rst_v);
-                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        binding2.tvwBtResult.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
+                        binding2.tvwSum.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
                         break;
                     case "CO":
                         binding2.tvwBtResult.setText(R.string.txt_rst_co);
-                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        binding2.tvwBtResult.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
+                        binding2.tvwSum.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
                         break;
                     case "J":
                         binding2.tvwBtResult.setText(R.string.txt_rst_j);
-                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
-                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        binding2.tvwBtResult.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
+                        binding2.tvwSum.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
                         break;
                     case "CANCLE_ORD":
                         binding2.tvwBtResult.setText(R.string.txt_rst_cancel_ord);
-                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        binding2.tvwBtResult.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
+                        binding2.tvwSum.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
                         break;
                     case "HALFLOSE":
                         binding2.tvwBtResult.setText(R.string.txt_rst_half_lose);
-                        binding2.tvwBtResult.setSelected(false);
-                        binding2.tvwSum.setSelected(false);
+                        binding2.tvwBtResult.setTextColor(getResources().getColor(R.color.clr_green_01));
+                        binding2.tvwSum.setTextColor(getResources().getColor(R.color.clr_green_01));
                         break;
                     case "HALFWIN":
                         binding2.tvwBtResult.setText(R.string.txt_rst_half_win);
-                        binding2.tvwBtResult.setSelected(true);
-                        binding2.tvwSum.setSelected(true);
+                        binding2.tvwBtResult.setTextColor(getResources().getColor(R.color.clr_red_01));
+                        binding2.tvwSum.setTextColor(getResources().getColor(R.color.clr_red_01));
                         break;
                     case "VOID":
                         binding2.tvwBtResult.setText(R.string.txt_rst_void);
-                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        binding2.tvwBtResult.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
+                        binding2.tvwSum.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
                         break;
                     default:
                         binding2.tvwBtResult.setText(R.string.txt_rst_def); // 未结算
-                        setResultDefColor(binding2.tvwBtResult, binding2.tvwSum);
+                        binding2.tvwBtResult.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
+                        binding2.tvwSum.setTextColor(getResources().getColor(R.color.clr_filter_txt_black));
                         vo.sum = "--"; // 未结算,显示为 "--" 单号:2863, 2024-03-15
                         break;
                 }
@@ -196,7 +201,11 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
                 //binding2.tvwBtResult.setText(vo.project_BetResult); // T,L,W
                 binding2.tvwBet.setText(vo.project_bet);
                 binding2.tvwWin.setText(win); // --
-                binding2.tvwSum.setText(vo.sum); // color
+                if (vo.project_BetResult.equals("V")) {
+                    binding2.tvwSum.setText("--"); // color
+                } else {
+                    binding2.tvwSum.setText(vo.sum); // color
+                }
                 binding2.tvwGameName.setText(vo.project_Game_name);
                 binding2.tvwGameCode.setText(vo.project_Game_code);
                 binding2.tvwGameDate.setText(vo.project_Game_date);
@@ -345,11 +354,6 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
 
         });
 
-    }
-
-    private void setResultDefColor(TextView tvwBtResult, TextView tvwSum) {
-        tvwBtResult.setActivated(true);
-        tvwSum.setActivated(true);
     }
 
     private String getPlatformName(String code) {
