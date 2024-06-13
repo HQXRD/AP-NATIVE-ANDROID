@@ -12,13 +12,13 @@ import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.recharge.R;
 import com.xtree.recharge.data.RechargeRepository;
 import com.xtree.recharge.ui.fragment.BankPickDialogFragment;
+import com.xtree.recharge.ui.model.BankPickGroupModel;
 import com.xtree.recharge.ui.model.BankPickModel;
 import com.xtree.recharge.vo.RechargeVo;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Completable;
 import io.reactivex.functions.Consumer;
@@ -38,16 +38,24 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
         super(application, model);
     }
 
-    public final MutableLiveData<List<BindModel>> mBindDatas = new MutableLiveData<>(new ArrayList<>());
-    public final MutableLiveData<List<BindModel>> lastTimeDatas = new MutableLiveData<>(new ArrayList<>());
-    public final MutableLiveData<List<BindModel>> topTenDatas = new MutableLiveData<>(new ArrayList<>());
-    public final MutableLiveData<List<BindModel>> hotDatas = new MutableLiveData<>(new ArrayList<>());
-    public final MutableLiveData<List<BindModel>> otherDatas = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<BindModel>> mBindDatas = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<BindModel>> lastTimeDatas = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<BindModel>> topTenDatas = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<BindModel>> hotDatas = new MutableLiveData<>(new ArrayList<>());
+    private final MutableLiveData<List<BindModel>> otherDatas = new MutableLiveData<>(new ArrayList<>());
     public final MutableLiveData<List<BindModel>> searchDatas = new MutableLiveData<>(new ArrayList<>());
+    public final MutableLiveData<List<BindModel>> groupDatas = new MutableLiveData<>(new ArrayList<>());
     public final MutableLiveData<Boolean> showSearch = new MutableLiveData<>(false);
     public RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
 
     private BankPickDialogFragment.onPickListner onPickListner;
+
+    public final MutableLiveData<ArrayList<Integer>> groupItemType = new MutableLiveData<>(
+            new ArrayList<Integer>() {
+                {
+                    add(R.layout.item_rc_choose_bank_group);
+                }
+            });
 
     public final MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
@@ -69,51 +77,15 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
 
         if (bankListData != null) {
 
-            Completable.timer(100, TimeUnit.MICROSECONDS)
-                    .fromRunnable(() -> {
+            Completable.fromRunnable(() -> {
+
+                        ArrayList<BindModel> group = new ArrayList<>();
                         ArrayList<BindModel> hot = new ArrayList<>();
                         ArrayList<BindModel> top = new ArrayList<>();
                         ArrayList<BindModel> other = new ArrayList<>();
                         ArrayList<BindModel> mbind = new ArrayList<>();
                         ArrayList<BindModel> last = new ArrayList<>();
 
-                        if (bankListData.getHot()!=null)
-                            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getHot()) {
-                                BankPickModel m = new BankPickModel();
-                                m.setItemType(2);
-                                m.setBankCode(bankInfoDTO.getBankCode());
-                                m.setBankName(bankInfoDTO.getBankName());
-                                m.setClick(itemClick);
-                                hot.add(m);
-                            }
-                        if (bankListData.getTop()!=null)
-                            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getTop()) {
-                                BankPickModel m = new BankPickModel();
-                                m.setItemType(3);
-                                m.setBankCode(bankInfoDTO.getBankCode());
-                                m.setBankName(bankInfoDTO.getBankName());
-                                m.setClick(itemClick);
-                                top.add(m);
-                            }
-                        if (bankListData.getOthers()!=null)
-                            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getOthers()) {
-                                BankPickModel m = new BankPickModel();
-                                m.setItemType(3);
-                                m.setBankCode(bankInfoDTO.getBankCode());
-                                m.setBankName(bankInfoDTO.getBankName());
-                                m.setClick(itemClick);
-                                other.add(m);
-                            }
-                        if (bankListData.getUsed() != null) {
-                            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getUsed()) {
-                                BankPickModel m = new BankPickModel();
-                                m.setItemType(1);
-                                m.setBankCode(bankInfoDTO.getBankCode());
-                                m.setBankName(bankInfoDTO.getBankName());
-                                m.setClick(itemClick);
-                                last.add(m);
-                            }
-                        }
                         if (bankListData.getmBind() != null) {
                             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getmBind()) {
                                 BankPickModel m = new BankPickModel();
@@ -128,12 +100,85 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
                                 m.setClick(itemClick);
                                 mbind.add(m);
                             }
+                            BankPickGroupModel mBindGroup = new BankPickGroupModel();
+                            mBindGroup.setTitle("您的绑定卡银行");
+                            mBindGroup.setItemTypes(itemType.getValue());
+                            mBindGroup.bindModels.set(mbind);
+                            mBindGroup.setSpaceCount(2);
+                            group.add(mBindGroup);
                         }
+
+                        if (bankListData.getUsed() != null) {
+                            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getUsed()) {
+                                BankPickModel m = new BankPickModel();
+                                m.setItemType(1);
+                                m.setBankCode(bankInfoDTO.getBankCode());
+                                m.setBankName(bankInfoDTO.getBankName());
+                                m.setClick(itemClick);
+                                last.add(m);
+                            }
+                            BankPickGroupModel usedGroup = new BankPickGroupModel();
+                            usedGroup.setTitle("您上次选择的银行");
+                            usedGroup.setItemTypes(itemType.getValue());
+                            usedGroup.bindModels.set(last);
+                            usedGroup.setSpaceCount(2);
+                            group.add(usedGroup);
+                        }
+
+                        if (bankListData.getTop()!=null){
+                            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getTop()) {
+                                BankPickModel m = new BankPickModel();
+                                m.setItemType(3);
+                                m.setBankCode(bankInfoDTO.getBankCode());
+                                m.setBankName(bankInfoDTO.getBankName());
+                                m.setClick(itemClick);
+                                top.add(m);
+                            }
+                            BankPickGroupModel topGroup = new BankPickGroupModel();
+                            topGroup.setTitle("十大银行");
+                            topGroup.setItemTypes(itemType.getValue());
+                            topGroup.bindModels.set(top);
+                            group.add(topGroup);
+                        }
+
+                        if (bankListData.getHot()!=null){
+                            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getHot()) {
+                                BankPickModel m = new BankPickModel();
+                                m.setItemType(2);
+                                m.setBankCode(bankInfoDTO.getBankCode());
+                                m.setBankName(bankInfoDTO.getBankName());
+                                m.setClick(itemClick);
+                                hot.add(m);
+                            }
+                            BankPickGroupModel hotGroup = new BankPickGroupModel();
+                            hotGroup.setTitle("热门银行");
+                            hotGroup.setItemTypes(itemType.getValue());
+                            hotGroup.bindModels.set(hot);
+                            group.add(hotGroup);
+                        }
+
+                        if (bankListData.getOthers()!=null){
+                            for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getOthers()) {
+                                BankPickModel m = new BankPickModel();
+                                m.setItemType(3);
+                                m.setBankCode(bankInfoDTO.getBankCode());
+                                m.setBankName(bankInfoDTO.getBankName());
+                                m.setClick(itemClick);
+                                other.add(m);
+                            }
+                            BankPickGroupModel othersGroup = new BankPickGroupModel();
+                            othersGroup.setTitle("其他银行");
+                            othersGroup.setItemTypes(itemType.getValue());
+                            othersGroup.bindModels.set(other);
+                            group.add(othersGroup);
+                        }
+
                         hotDatas.postValue(hot);
                         otherDatas.postValue(other);
                         topTenDatas.postValue(top);
                         lastTimeDatas.postValue(last);
                         mBindDatas.postValue(mbind);
+                        groupDatas.postValue(group);
                     })
                     .observeOn(Schedulers.io())
                     .subscribeOn(Schedulers.io())

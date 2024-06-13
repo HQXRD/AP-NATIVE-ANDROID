@@ -33,7 +33,7 @@ import me.xtree.mvvmhabit.bus.RxBus;
 
 /**
  * Created by KAKA on 2024/5/27.
- * Describe:
+ * Describe: 银行卡选择弹窗
  */
 public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBinding, BankPickViewModel> {
 
@@ -69,21 +69,6 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
                 // 判断是否点击在EditText之外的区域
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                    EditText editText = binding.edtKey;
-                    if (!isTouchInsideView(event, editText)) {
-                        // 隐藏键盘
-                        hideKeyboard(editText);
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-        binding.listLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // 判断是否点击在EditText之外的区域
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    EditText editText = binding.edtKey;
                     if (!isTouchInsideView(event, editText)) {
                         // 隐藏键盘
                         hideKeyboard(editText);
