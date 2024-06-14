@@ -186,6 +186,14 @@ public class USDTWithdrawalDialog extends BottomPopupView implements USDTFruitHo
                 ToastUtils.showError(infoVo.message);
             } else*/
             if (infoVo != null && !infoVo.user_bank_info.isEmpty()) {
+                trc20BankInfoList.clear();
+                for (int i = 0; i < infoVo.user_bank_info.size(); i++) {
+                    WithdrawalInfoVo.UserBankInfo bankInfo = infoVo.user_bank_info.get(i);
+                    //将TRC20地址组装在一起
+                    if (TextUtils.equals("TRC20_USDT", bankInfo.usdt_type)) {
+                        trc20BankInfoList.add(bankInfo);
+                    }
+                }
                 //业务正常 刷新页面
                 refreshChangeUI(changVo, infoVo);
             } else {
@@ -402,6 +410,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements USDTFruitHo
                 binding.tvBindAddress.setText(showAddress);
             } else {
                 selectorBankInfo = null;
+                binding.tvBindAddress.setText(" ");
             }
         } else {
             //收款地址 设置默认数据
@@ -411,6 +420,8 @@ public class USDTWithdrawalDialog extends BottomPopupView implements USDTFruitHo
                 selectorBankInfo = infoVo.user_bank_info.get(0);
                 binding.tvBindAddress.setText(showAddress);
             } else {
+                selectorBankInfo = null;
+                binding.tvBindAddress.setText(" ");
                 CfLog.e("****************** infoVo.user_bank_info is  null *********** ");
             }
         }
