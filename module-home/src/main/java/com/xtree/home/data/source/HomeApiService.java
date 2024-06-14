@@ -12,6 +12,7 @@ import com.xtree.home.vo.EleVo;
 import com.xtree.home.vo.GameStatusVo;
 import com.xtree.home.vo.LoginResultVo;
 import com.xtree.home.vo.NoticeVo;
+import com.xtree.home.vo.PaymentDataVo;
 import com.xtree.home.vo.RechargeReportVo;
 import com.xtree.home.vo.RedPocketVo;
 import com.xtree.home.vo.RewardRedVo;
@@ -30,6 +31,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 
 public interface HomeApiService {
@@ -164,4 +166,17 @@ public interface HomeApiService {
      */
     @GET("/api/activity/reward/?has_pending_reward=1")
     Flowable<BaseResponse<RewardRedVo>> getReward();
+
+    /**
+     * 获取 充值列表(分大小类)
+     */
+    @GET("/api/deposit/paymentsclassify?getinfo=true")
+    Flowable<BaseResponse<PaymentDataVo>> getPaymentsTypeList();
+
+    /**
+     * 获取 充值类型详情 (跳转链接用的)
+     */
+    @GET("/api/deposit/payments?")
+    Flowable<BaseResponse<PaymentDataVo.RechargeVo>> getPayment(@Query("bid") String bid);
+
 }
