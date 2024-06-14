@@ -1055,8 +1055,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
      * 极速充值银行卡选择弹窗
      */
     private void showBankCardExDialog(RechargeVo vo) {
-        RechargeVo re = viewModel.liveDataRecharge.getValue(); // viewModel.paymentLiveData.getValue();
+        RechargeVo re = vo; // liveData 可能为空
         if (re == null || re.getOpBankList() == null) {
+            CfLog.e("****** bank list is null.");
             return;
         }
 
@@ -1117,7 +1118,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             CfLog.i("RechargeOrderVo: " + (vo != null));
             // 极速充值 带有onepayfix且bankId非空
             if (vo != null && vo.sysParamPrefix.contains(ONE_PAY_FIX) && !TextUtils.isEmpty(vo.bankId)) {
-                if(TextUtils.isEmpty(vo.orderurl)) {
+                if (TextUtils.isEmpty(vo.orderurl)) {
                     CfLog.i("RechargeOrderVo, bankId: " + vo.bankId);
                     viewModel.checkOrder(vo.bankId); // 根据充值渠道ID 查询订单详情 (极速充值)
                     viewModel.liveDataExpTitle.setValue(vo.payport_nickname);
@@ -1514,7 +1515,6 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 无极速订单, 显示点击渠道后需要显示的 选择银行卡/姓名/金额等
         viewModel.liveDataExpNoOrder.observe(this, isNoOrder -> {
             CfLog.i("*****");
-            onClickPayment3(curRechargeVo); // 这里的数据有时不准,使用查询详情返回来的数据
             viewModel.liveDataExpTitle.setValue(null);
         });
 
