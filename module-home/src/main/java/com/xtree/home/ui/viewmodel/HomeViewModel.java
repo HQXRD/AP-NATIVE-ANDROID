@@ -32,6 +32,7 @@ import com.xtree.home.vo.EleVo;
 import com.xtree.home.vo.GameStatusVo;
 import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
+import com.xtree.home.vo.PaymentDataVo;
 import com.xtree.home.vo.RedPocketVo;
 import com.xtree.home.vo.RewardRedVo;
 import com.xtree.home.vo.SettingsVo;
@@ -75,6 +76,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     public MutableLiveData<RedPocketVo> liveDataRedPocket = new MutableLiveData<>();
     public MutableLiveData<AppUpdateVo> liveDataUpdate = new MutableLiveData<>();//更新
 
+    HashMap<String, PaymentDataVo.RechargeVo> mapRechargeVo = new HashMap<>(); // 缓存的,充值渠道
     String public_key;
 
     public HomeViewModel(@NonNull Application application, HomeRepository repository) {
@@ -311,7 +313,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 // 原生的,或者需要请求接口的
                 CfLog.w("******: " + vo);
             }
-            if(vo.cid == 42){
+            if (vo.cid == 42) {
                 vo.status = 1;
             }
             // 33:MG电子 17:CQ9娱乐 已下架 奥丁电子下一版再上线
@@ -643,6 +645,87 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         CfLog.e("error, " + t.toString());
                     }
                 });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取 充值列表
+     */
+    public void getPaymentsTypeList() {
+        Disposable disposable = (Disposable) model.getApiService().getPaymentsTypeList()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<PaymentDataVo>() {
+                    @Override
+                    public void onResult(PaymentDataVo vo) {
+                        CfLog.i(new Gson().toJson(vo));
+                        //CfLog.d("chongzhiListCount: " + vo.chongzhiListCount);
+                        if (vo == null || vo.chongzhiList == null || vo.chongzhiList.isEmpty()) {
+                            return;
+                        }
+
+                        for (int i = 0; i < vo.chongzhiList.size(); i++) {
+                            PaymentDataVo.PaymentTypeVo t = vo.chongzhiList.get(i);
+                            if (t.payChannelList == null || t.payChannelList.isEmpty()) {
+                                continue;
+                            }
+
+                            for (int j = 0; j < t.payChannelList.size(); j++) {
+                                PaymentDataVo.RechargeVo vo2 = t.payChannelList.get(j);
+                                if (vo2.user_bank_info != null) {
+                                    if (vo2.user_bank_info instanceof Map) {
+                                        Map<String, String> map = (Map<String, String>) vo2.user_bank_info;
+                                        for (Map.Entry<String, String> entry : map.entrySet()) {
+                                            PaymentDataVo.RechargeVo.BankCardVo vo3 = new PaymentDataVo.RechargeVo.BankCardVo(entry.getKey(), entry.getValue());
+                                            vo2.userBankList.add(vo3);
+                                        }
+                                    }
+                                }
+                                if (vo2.op_thiriframe_use && !vo2.phone_needbind) {
+                                    getPaymentDetail(vo2.bid); // 查详情
+                                }
+                            }
+                        }
+                        SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_TYPE_OBJ, new Gson().toJson(vo));
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e(t.toString());
+                    }
+                });
+
+        addSubscribe(disposable);
+    }
+
+    public void getPaymentDetail(String bid) {
+        Disposable disposable = (Disposable) model.getApiService().getPayment(bid)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<PaymentDataVo.RechargeVo>() {
+                    @Override
+                    public void onResult(PaymentDataVo.RechargeVo vo) {
+                        CfLog.d(vo.toString());
+                        if (vo.user_bank_info != null && vo.user_bank_info instanceof Map) {
+                            Map<String, String> map = (Map<String, String>) vo.user_bank_info;
+                            for (Map.Entry<String, String> entry : map.entrySet()) {
+                                PaymentDataVo.RechargeVo.BankCardVo vo3 = new PaymentDataVo.RechargeVo.BankCardVo(entry.getKey(), entry.getValue());
+                                vo.userBankList.add(vo3);
+                            }
+                        }
+
+                        CfLog.d("****** op_thiriframe_url: " + vo.title + ", " + vo.op_thiriframe_url);
+                        CfLog.d("****** " + new Gson().toJson(vo));
+                        mapRechargeVo.put(vo.bid, vo);
+                        SPUtils.getInstance().put(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, new Gson().toJson(mapRechargeVo));
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e(t.toString());
+                    }
+                });
+
         addSubscribe(disposable);
     }
 

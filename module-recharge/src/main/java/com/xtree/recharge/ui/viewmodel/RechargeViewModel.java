@@ -56,6 +56,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<List<String>> liveDataPayCodeArr = new SingleLiveData<>(); // 含弹出支付窗口的充值渠道类型列表(从缓存加载用)
     public SingleLiveData<String> liveDataTutorial = new SingleLiveData<>(); // 充值教程(从缓存加载用)
     public SingleLiveData<RechargeVo> liveDataRecharge = new SingleLiveData<>(); // 充值详情
+    public SingleLiveData<RechargeVo> liveDataRechargeCache = new SingleLiveData<>(); // 充值详情,缓存用的
     public SingleLiveData<RechargeVo> curRechargeLiveData = new SingleLiveData<>(); // 当前充值详情
     public SingleLiveData<RechargePayVo> liveDataRechargePay = new SingleLiveData<>(); // 充值提交结果
     public SingleLiveData<PayOrderDataVo> liveDataExpOrderData = new SingleLiveData<>(); // 充值点下一步 (极速充值)
@@ -235,12 +236,18 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
         addSubscribe(disposable);
     }
 
+    public void getPaymentCache(String bid) {
+        getPaymentDetail(bid, liveDataRechargeCache);
+    }
+
+    public void getPayment(String bid) {
+        getPaymentDetail(bid, liveDataRecharge);
+    }
+
     /**
      * 获取 充值详情
-     *
-     * @param bid bid
      */
-    public void getPayment(String bid) {
+    private void getPaymentDetail(String bid, SingleLiveData<RechargeVo> liveData) {
 
         Disposable disposable = (Disposable) model.getApiService().getPayment(bid)
                 .compose(RxUtils.schedulersTransformer()) //线程调度
@@ -256,14 +263,14 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                                 vo.userBankList.add(vo3);
                             }
                         }
-                        liveDataRecharge.setValue(vo);
+                        liveData.setValue(vo);
 
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        t.printStackTrace();
-                        super.onError(t);
+                        CfLog.e(t.toString());
+                        //super.onError(t);
                     }
                 });
 
