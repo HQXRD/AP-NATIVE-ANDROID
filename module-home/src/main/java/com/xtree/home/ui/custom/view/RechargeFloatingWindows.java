@@ -2,6 +2,7 @@ package com.xtree.home.ui.custom.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -118,11 +119,31 @@ public class RechargeFloatingWindows extends FloatingWindows {
 
     private void getReportData() {
         new Thread(() -> {
+            String startTime = "";
+            String endTime = "";
+            Calendar calendar;
+            int year;
+            int month;
+            int day;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                calendar = Calendar.getInstance();
+                year = calendar.get(Calendar.YEAR);
+                month = calendar.get(Calendar.MONTH) + 1;
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                endTime = year + "-" + month + "-" + day + " 23:59:59";
+
+                calendar.add(Calendar.DAY_OF_MONTH, -1);
+                year = calendar.get(Calendar.YEAR);
+                month = calendar.get(Calendar.MONTH) + 1;
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                startTime = year + "-" + month + "-" + day + " 00:00:00";
+            }
+
             HashMap<String, String> map = new HashMap<>();
-            map.put("userid", SPUtils.getInstance().getString(SPKeyGlobal.USER_ID));
+            map.put("startTime", startTime);
+            map.put("endTime", endTime);
             map.put("p", "1");
-            map.put("page_size", "30");
-            map.put("recharge_json", "true");
+            map.put("pn", "30");
             map.put("client", "m");
 
             Disposable disposable = (Disposable) httpDataSource.getApiService().getRechargeReport(map)
