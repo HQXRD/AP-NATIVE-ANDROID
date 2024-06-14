@@ -98,9 +98,10 @@ public class RetrofitClient {
 //                .cache(cache)
                 //.addInterceptor(new BaseInterceptor(headers))
                 .addInterceptor(new HeaderInterceptor())
+                .addInterceptor(new DecompressInterceptor())
                 .addInterceptor(new CacheInterceptor(mContext))
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
-                //.addInterceptor(new HttpLoggingInterceptor(message -> KLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))
+//                .addInterceptor(new HttpLoggingInterceptor(message -> KLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addInterceptor(new LoggingInterceptor
                         .Builder()//构建者模式
                         .loggable(BuildConfig.DEBUG) //是否开启日志打印
