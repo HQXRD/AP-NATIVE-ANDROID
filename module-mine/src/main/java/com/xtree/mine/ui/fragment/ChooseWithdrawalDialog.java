@@ -680,7 +680,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                 if (TextUtils.equals("0", quotaVo.quota)) {
                     quota = "0.00";
                 } else {
-                    quota = quotaVo.quota;
+                    quota =String.format("%.2f",Double.valueOf(quotaVo.quota)) ;
                 }
                 String tip =
                         String.format(getContext().getString(R.string.txt_choose_withdrawal_tip),
@@ -703,6 +703,11 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
      * @return
      */
     private ArrayList<WithdrawalListVo> sortTypeList(ArrayList<WithdrawalListVo> infoList) {
+        //列表去重
+        TreeSet treeSet =  new TreeSet(infoList);
+        infoList.clear();
+        infoList.addAll(treeSet);
+
         CfLog.e("sortTypeList  infoList1= " + infoList.size());
         ArrayList<WithdrawalListVo> arrayList = new ArrayList<WithdrawalListVo>();
         for (int i = 0; i < infoList.size(); i++) {
@@ -714,6 +719,9 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
         HashSet set = new HashSet(arrayList);
         arrayList.clear();
         arrayList.addAll(set);
+        Collections.reverse(arrayList);
+        //列表排序
+        Collections.sort(arrayList);
         Collections.reverse(arrayList);
         return arrayList;
     }
