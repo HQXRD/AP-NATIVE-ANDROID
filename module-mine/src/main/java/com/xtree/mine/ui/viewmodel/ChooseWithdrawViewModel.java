@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
 import com.xtree.base.net.HttpCallBack;
+import com.xtree.base.net.HttpWithdrawalCallBack;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.StringUtils;
 import com.xtree.mine.R;
@@ -23,6 +24,12 @@ import com.xtree.mine.vo.USDTSecurityVo;
 import com.xtree.mine.vo.VirtualCashVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalBankInfoVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalInfoVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalListVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalQuotaVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalSubmitVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalVerifyVo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,6 +59,20 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     public MutableLiveData<AwardsRecordVo> awardrecordVoMutableLiveData = new MutableLiveData<>();//流水
 
     public MutableLiveData<OtherWebWithdrawVo> otherWebWithdrawVoMutableLiveData = new MutableLiveData<>();//微信、支付宝提款
+
+    public MutableLiveData<WithdrawalQuotaVo> quotaVoMutableLiveData = new MutableLiveData<>();//获取提款额度
+    public MutableLiveData<ArrayList<WithdrawalListVo>> withdrawalListVoMutableLiveData = new MutableLiveData();//获取提现渠道
+
+    public MutableLiveData<WithdrawalInfoVo> withdrawalInfoVoMutableLiveData = new MutableLiveData<>();// 获取提现渠道 错误信息
+    public MutableLiveData<String> withdrawalListErrorData = new MutableLiveData<>();// 获取提现渠道 错误信息
+    public MutableLiveData<WithdrawalBankInfoVo> withdrawalBankInfoVoMutableLiveData = new MutableLiveData<>();// 银行卡获取提款渠道详细信息
+    public MutableLiveData<String> bankInfoVoErrorData = new MutableLiveData<>();// / 银行卡获取提款渠道详细信息 错误信息
+
+    public MutableLiveData<WithdrawalVerifyVo> verifyVoMutableLiveData = new MutableLiveData<>();//验证当前渠道信息
+    public MutableLiveData<String> verifyVoErrorData = new MutableLiveData<>();//验证当前渠道信息 错位信息
+    public MutableLiveData<WithdrawalSubmitVo> submitVoMutableLiveData = new MutableLiveData<>();//提款提交
+
+    public MutableLiveData<String> submitVoErrorData = new MutableLiveData<>();//提款提交
 
     public ChooseWithdrawViewModel(@NonNull Application application) {
         super(application);
@@ -551,6 +572,250 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
 
     }
+
+    //接入提款新接口
+
+    /**
+     * 提款获取可用额度
+     */
+    public void getWithdrawQuota() {
+        Disposable disposable = (Disposable) model.getApiService().getWithdrawalQuota()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpWithdrawalCallBack<WithdrawalQuotaVo>() {
+                    @Override
+                    public void onResult(WithdrawalQuotaVo vo) {
+                        quotaVoMutableLiveData.setValue(vo);
+                    }
+
+                    //增加网络异常抓取
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);  ex.message = "连接超时";
+                        Throwable throwable = t;
+                        String message = throwable.getMessage();
+                        CfLog.e("onError message =  " + message);
+                        WithdrawalQuotaVo vo = new WithdrawalQuotaVo();
+                        //链接超时
+                        vo.networkStatus = 1; //链接超时
+                        quotaVoMutableLiveData.setValue(vo);
+
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        // super.onFail(t);
+                        String message = t.getMessage();
+                        CfLog.e("onError message =  " + message);
+                        WithdrawalQuotaVo vo = new WithdrawalQuotaVo();
+                        //链接超时
+                        vo.networkStatus = 1; //链接超时
+                        quotaVoMutableLiveData.setValue(vo);
+                    }
+
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取可提现渠道列表
+     */
+    public void getWithdrawalList() {
+        Disposable disposable = (Disposable) model.getApiService().getWithdrawalList()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpWithdrawalCallBack<ArrayList<WithdrawalListVo>>() {
+                    @Override
+                    public void onResult(ArrayList<WithdrawalListVo> withdrawalListVos) {
+                        withdrawalListVoMutableLiveData.setValue(withdrawalListVos);
+                    }
+
+                    //增加网络异常抓取
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);  ex.message = "连接超时";
+
+                        CfLog.e("onError message =  " + t.toString());
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        // super.onFail(t);
+                        CfLog.e("onError message =  " + t.toString());
+                    }
+
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 获取当前渠道详情
+     */
+    public void getWithdrawalInfo(final String name) {
+        Disposable disposable = (Disposable) model.getApiService().getWithdrawalInfo(name)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpWithdrawalCallBack<WithdrawalInfoVo>() {
+                    @Override
+                    public void onResult(WithdrawalInfoVo vo) {
+                        withdrawalInfoVoMutableLiveData.setValue(vo);
+                    }
+
+                    //增加网络异常抓取
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);  ex.message = "连接超时";
+                        BusinessException exception = (BusinessException) t;
+                        String errorMessage = t.getMessage();
+                        CfLog.e("onError --->exception.getMessage()=" + exception.getMessage() + "|t.getMessage()=" + t.getMessage());
+                        withdrawalListErrorData.setValue(errorMessage);
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        BusinessException exception = (BusinessException) t;
+                        String errorMessage = exception.message;
+                        CfLog.e("onFail --->errorMessage=" + errorMessage + "|t.getMessage()=" + t.getMessage());
+                        withdrawalListErrorData.setValue(errorMessage);
+                        CfLog.e("withdrawalInfoVoMutableLiveData onFail message =  " + t.toString());
+
+                    }
+
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 银行卡提现 获取当前渠道详情
+     */
+    public void getWithdrawalBankInfo(final String name) {
+        Disposable disposable = (Disposable) model.getApiService().getWithdrawalBankInfo(name)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpWithdrawalCallBack<WithdrawalBankInfoVo>() {
+                    @Override
+                    public void onResult(WithdrawalBankInfoVo vo) {
+                        //开启固额
+                        if (vo.money_fixed) {
+                            if (vo.money_options instanceof ArrayList) {
+                                ArrayList list = (ArrayList) vo.money_options;
+                                for (int i = 0; i < list.size(); i++) {
+                                    if (list.get(i) instanceof String) {
+                                        vo.fixamountList.add((String) list.get(i));
+                                        WithdrawalBankInfoVo.WithdrawalAmountVo amountVo = new WithdrawalBankInfoVo.WithdrawalAmountVo();
+                                        amountVo.amount = (String) list.get(i);
+                                        amountVo.flag = false;
+
+                                        vo.amountVoList.add(amountVo);
+                                    }
+                                }
+                            }
+                        }
+                        for (String key : vo.fixamountList) {
+                            CfLog.e("getWithdrawalBankInfo key=" + key);
+                        }
+
+                        withdrawalBankInfoVoMutableLiveData.setValue(vo);
+                    }
+
+                    //增加网络异常抓取
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);  ex.message = "连接超时";
+
+                        CfLog.e("withdrawalInfoVoMutableLiveData onError message =  " + t.toString());
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        // super.onFail(t);
+                        BusinessException exception = (BusinessException) t;
+                        String errorMessage = exception.message;
+                        CfLog.e("onFail --->errorMessage=" + errorMessage + "|t.getMessage()=" + t.getMessage());
+                        bankInfoVoErrorData.setValue(errorMessage);
+                        CfLog.e("withdrawalInfoVoMutableLiveData onFail message =  " + t.toString());
+                    }
+
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 验证当前渠道信息
+     *
+     * @param map
+     */
+    public void postWithdrawalVerify(final HashMap<String, Object> map) {
+        Disposable disposable = (Disposable) model.getApiService().postWithdrawalVerify(map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpWithdrawalCallBack<WithdrawalVerifyVo>() {
+                    @Override
+                    public void onResult(WithdrawalVerifyVo vo) {
+                        CfLog.e("postWithdrawalVerify  vo .getStatus = " + vo);
+                        verifyVoMutableLiveData.setValue(vo);
+                    }
+
+                    //增加网络异常抓取
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);  ex.message = "连接超时";
+
+                        CfLog.e("onError message =  " + t.toString());
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        // super.onFail(t);
+                        CfLog.e("onError message =  " + t.toString());
+                        BusinessException exception = (BusinessException) t;
+                        String errorMessage = exception.message;
+                        CfLog.e("onFail --->errorMessage=" + errorMessage + "|t.getMessage()=" + t.getMessage());
+                        verifyVoErrorData.setValue(errorMessage);
+                    }
+
+                });
+        addSubscribe(disposable);
+    }
+
+    /**
+     * 验证当前渠道信息
+     *
+     * @param map
+     */
+    public void postWithdrawalSubmit(final HashMap<String, Object> map) {
+        Disposable disposable = (Disposable) model.getApiService().postWithdrawalSubmit(map)
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpWithdrawalCallBack<WithdrawalSubmitVo>() {
+                    @Override
+                    public void onResult(WithdrawalSubmitVo vo) {
+                        CfLog.e("withdrawalInfoVoMutableLiveData  vo .getStatus = " + vo);
+                        submitVoMutableLiveData.setValue(vo);
+                    }
+
+                    //增加网络异常抓取
+                    @Override
+                    public void onError(Throwable t) {
+                        //super.onError(t);  ex.message = "连接超时";
+
+                        CfLog.e("onError message =  " + t.toString());
+                    }
+
+                    @Override
+                    public void onFail(BusinessException t) {
+                        // super.onFail(t);
+                        CfLog.e("onError message =  " + t.toString());
+                        BusinessException exception = (BusinessException) t;
+                        String errorMessage = exception.message;
+                        CfLog.e("onFail --->errorMessage=" + errorMessage + "|t.getMessage()=" + t.getMessage());
+                        submitVoErrorData.setValue(errorMessage);
+                    }
+
+                });
+        addSubscribe(disposable);
+    }
+
 }
 
 

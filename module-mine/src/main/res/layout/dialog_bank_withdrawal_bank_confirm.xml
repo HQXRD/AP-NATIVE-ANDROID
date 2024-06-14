@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_bank_root"
-    android:background="@color/bg_main"
     style="@style/style_item_ll_row"
+    android:background="@color/bg_main"
     android:orientation="vertical"
     android:padding="8dp"
     tools:ignore="MissingDefaultResource">
@@ -25,7 +25,7 @@
                 android:text="@string/txt_withdrawal_user_name" />
 
             <TextView
-                android:id="@+id/tv_confirm_user_name_show"
+                android:id="@+id/tv_user_name"
                 style="@style/style_withdraw_confirm_value"
                 tools:text="DEMO" />
         </LinearLayout>
@@ -40,20 +40,6 @@
 
             <TextView
                 android:id="@+id/tv_confirm_withdrawal_type_show"
-                style="@style/style_withdraw_confirm_value"
-                tools:text="" />
-        </LinearLayout>
-
-        <View style="@style/style_withdraw_dividing_line" />
-
-        <LinearLayout style="@style/style_withdraw_confirm_ll">
-
-            <TextView
-                style="@style/style_withdraw_show_title"
-                android:text="@string/txt_withdrawal_method" />
-
-            <TextView
-                android:id="@+id/tv_confirm_amount_show"
                 style="@style/style_withdraw_confirm_value"
                 tools:text="" />
         </LinearLayout>
@@ -81,7 +67,7 @@
                 android:text="@string/txt_bank_name_open" />
 
             <TextView
-                android:id="@+id/tv_withdrawal_actual_arrival_show"
+                android:id="@+id/tv_withdrawal_bank_name_show"
                 style="@style/style_withdraw_confirm_value"
                 tools:text="" />
         </LinearLayout>
@@ -95,7 +81,7 @@
                 android:text="@string/txt_bank_name_location" />
 
             <TextView
-                android:id="@+id/tv_withdrawal_exchange_rate_show"
+                android:id="@+id/tv_withdrawal_bank_address_show"
                 style="@style/style_withdraw_confirm_value"
                 tools:text="" />
         </LinearLayout>
@@ -149,14 +135,13 @@
 
     <include
         android:id="@+id/ll_over_apply"
+        layout="@layout/dialog_withdraw_money_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:visibility="gone"
-        layout="@layout/dialog_withdraw_money_confirm"/>
+        android:visibility="gone" />
     <!--显示状态 3 确认提款信息View-->
-
 
 </LinearLayout>
