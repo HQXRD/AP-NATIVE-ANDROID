@@ -59,7 +59,7 @@ public class RechargeFloatingWindows extends FloatingWindows {
             llLine.setVisibility(View.GONE);
             if (vo.sysParamPrefix.contains("onepayfix") && !TextUtils.isEmpty(vo.bankId)) {
                 goOrderDetail(vo); // 极速充值
-            } else if (vo.orderurl.isEmpty()) {
+            } else if (TextUtils.isEmpty(vo.orderurl)) {
                 //new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, vo.payport_nickname, DomainUtil.getDomain2()
                 // + "/webapp/#/depositetail/" + vo.id)).show();
                 goOrderDetail(vo);

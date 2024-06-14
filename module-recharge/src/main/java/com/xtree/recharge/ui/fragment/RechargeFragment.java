@@ -1117,8 +1117,13 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             CfLog.i("RechargeOrderVo: " + (vo != null));
             // 极速充值 带有onepayfix且bankId非空
             if (vo != null && vo.sysParamPrefix.contains(ONE_PAY_FIX) && !TextUtils.isEmpty(vo.bankId)) {
-                CfLog.i("RechargeOrderVo, bankId: " + vo.bankId);
-                viewModel.checkOrder(vo.bankId); // 根据充值渠道ID 查询订单详情 (极速充值)
+                if(TextUtils.isEmpty(vo.orderurl)) {
+                    CfLog.i("RechargeOrderVo, bankId: " + vo.bankId);
+                    viewModel.checkOrder(vo.bankId); // 根据充值渠道ID 查询订单详情 (极速充值)
+                } else {
+                    //goPay(vo);
+                    new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), "", vo.orderurl)).show();
+                }
             } else {
                 viewModel.getOrderDetail(id); // 普通充值
             }
@@ -1508,7 +1513,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 无极速订单, 显示点击渠道后需要显示的 选择银行卡/姓名/金额等
         viewModel.liveDataExpNoOrder.observe(this, isNoOrder -> {
             CfLog.i("*****");
-            //onClickPayment3(curRechargeVo); // 这里的数据有时不准,使用查询详情返回来的数据
+            onClickPayment3(curRechargeVo); // 这里的数据有时不准,使用查询详情返回来的数据
         });
 
         viewModel.liveDataRcBanners.observe(this, list -> {
