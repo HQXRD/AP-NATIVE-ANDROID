@@ -146,7 +146,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private List<HotLeague> mLeagueItemList;
     private Bundle mSavedInstanceState;
     private BasePopupView changeAgentTipView;
-    private BasePopupView changeAgentView;
     private BettingNetFloatingWindows mBettingNetFloatingWindows;
 
     private Handler mHandler = new Handler();
@@ -1379,6 +1378,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     sportTypePos = 1;
                 }
             }*/
+            viewModel.getHotLeague(mPlatform);
+            viewModel.statistical(playMethodType);
             getMatchData(sportId, mOrderBy, mLeagueIdList, null,
                     playMethodType, searchDatePos, false, true);
         });

@@ -662,7 +662,20 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             binding.tvwChooseBankCard.setVisibility(View.VISIBLE);
             binding.tvwBankCard.setVisibility(View.VISIBLE);
             binding.tvwBankCard.setOnClickListener(v -> showBankCard(vo)); // 选择银行卡
-            if (!vo.userBankList.isEmpty() && !isOnePayFix(vo)) {
+            if (isOnePayFix(vo)) {
+                if (vo.getOpBankList() != null && vo.getOpBankList().getUsed() != null
+                        && !vo.getOpBankList().getUsed().isEmpty()) {
+                    bankCode = vo.getOpBankList().getUsed().get(0).getBankCode();
+                    binding.tvwBankCard.setText(vo.getOpBankList().getUsed().get(0).getBankName());
+                } else if (!vo.userBankList.isEmpty()) {
+                    String txt = vo.userBankList.get(0).name;
+                    if (txt.contains("--")) {
+                        txt = txt.split("--")[0];
+                    }
+                    bankId = vo.userBankList.get(0).id;
+                    binding.tvwBankCard.setText(txt);
+                }
+            } else if (!vo.userBankList.isEmpty()) {
                 bankId = vo.userBankList.get(0).id;
                 binding.tvwBankCard.setText(vo.userBankList.get(0).name);
             }
@@ -1040,7 +1053,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         }
         opBankList.setmBind(bankInfoDTOS);
 
-        BankPickDialogFragment.show(getActivity(), opBankList)
+        String string = binding.tvwBankCard.getText().toString();
+        BankPickDialogFragment.show(getActivity(), opBankList, string)
                 .setOnPickListner(model -> {
                     CfLog.d(model.toString());
                     if (TextUtils.isEmpty(model.getBankCode())) {

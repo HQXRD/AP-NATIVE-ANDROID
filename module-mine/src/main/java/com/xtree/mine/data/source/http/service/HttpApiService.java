@@ -56,7 +56,14 @@ import com.xtree.mine.vo.VipUpgradeInfoVo;
 import com.xtree.mine.vo.VirtualCashVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalBankInfoVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalInfoVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalListVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalQuotaVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalSubmitVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalVerifyVo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,6 +72,7 @@ import io.reactivex.Flowable;
 import io.reactivex.rxjava3.core.Observable;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.BaseResponse2;
+import me.xtree.mvvmhabit.http.BaseResponse3;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -589,4 +597,43 @@ public interface HttpApiService {
 
     @GET("https://ap3sport.oxldkm.com/report/getsplitlists?")
     Flowable<BaseResponse<SpiltDetailVo>> getWithdrawDetails(@QueryMap Map<String, String> map);
+
+    /**
+     * 提款获取可用额度
+     */
+    @GET("/api/withdrawal/quota")
+    Flowable<BaseResponse3<WithdrawalQuotaVo>> getWithdrawalQuota();
+
+    /**
+     * 获取可提现渠道列表
+     */
+    @GET("/api/withdrawal/list")
+    Flowable<BaseResponse3<ArrayList<WithdrawalListVo>>> getWithdrawalList();
+
+    /**
+     * 获取当前渠道详情
+     * /api/withdrawal/info?wtype=ebpay
+     */
+    @GET("/api/withdrawal/info/{key}")
+    Flowable<BaseResponse3<WithdrawalInfoVo>> getWithdrawalInfo(@Path("key") String key);
+
+    /**
+     * 银行卡提现获取当前渠道详情
+     */
+    @GET("/api/withdrawal/info/{key}")
+    Flowable<BaseResponse3<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@Path("key") String key);
+
+    /**
+     * 验证当前渠道信息
+     */
+    @POST("/api/withdrawal/verify")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse3<WithdrawalVerifyVo>> postWithdrawalVerify(@Body Map<String, Object> map);
+
+    /**
+     * 提款提交
+     */
+    @POST("/api/withdrawal/submit")
+    @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
+    Flowable<BaseResponse3<WithdrawalSubmitVo>> postWithdrawalSubmit(@Body Map<String, Object> map);
 }

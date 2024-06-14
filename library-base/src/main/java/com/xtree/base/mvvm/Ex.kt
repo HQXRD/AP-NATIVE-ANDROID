@@ -15,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.drake.brv.utils.bindingAdapter
 import com.drake.brv.utils.divider
+import com.drake.brv.utils.grid
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
 import com.google.android.material.tabs.TabLayout
@@ -32,7 +33,7 @@ import com.xtree.base.mvvm.recyclerview.BindModel
  */
 
 @BindingAdapter(
-    value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId", "viewPool"],
+    value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId", "viewPool","spanCount"],
     requireAll = false
 )
 fun RecyclerView.init(
@@ -42,6 +43,7 @@ fun RecyclerView.init(
     onBindListener: BaseDatabindingAdapter.onBindListener?,
     dividerDrawableId: Int?,
     viewPool: RecyclerView.RecycledViewPool?,
+    spanCount: Int?,
 ) {
 
     if (itemData == null || itemViewType == null) {
@@ -63,7 +65,7 @@ fun RecyclerView.init(
         }
     } ?: run {
         when (layoutManager) {
-            null -> if (this.layoutManager == null) linear()
+            null -> if (this.layoutManager == null) spanCount?.run { grid(spanCount) } ?: run { linear() }
             else -> this.layoutManager = layoutManager
         }
 

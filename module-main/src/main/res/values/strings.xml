@@ -6,11 +6,13 @@
     <string name="txt_pg_mine">我的</string>
 
     <string name="app_name">杏彩体育</string>
-    <string name="domain_url">http</string>
-    <string name="domain_url_list">http;http</string>
-    <string name="channel_name">xingcai</string>
-    <string name="build_time">20240112</string>
-    <string name="mixpanel_token">abc123</string>
-    <string name="ms_secret_key">abc123</string>
-    <bool name="is_tag">false</bool>
+    <!--<string name="domain_url">http</string>-->
+    <!--<string name="domain_url_list">http;http</string>-->
+    <!--<string name="domain_api">http</string>-->
+    <!--<string name="domain_api_list">http;http</string>-->
+    <!--<string name="channel_name">xingcai</string>-->
+    <!--<string name="build_time">20240112</string>-->
+    <!--<string name="mixpanel_token">abc123</string>-->
+    <!--<string name="ms_secret_key">abc123</string>-->
+    <!--<bool name="is_tag">false</bool>-->
 </resources>

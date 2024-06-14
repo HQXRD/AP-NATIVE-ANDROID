@@ -1,4 +1,4 @@
-package com.xtree.base.widget;
+package com.xtree.recharge.ui.widget;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,12 +6,13 @@ import android.content.Intent;
 import com.comm100.livechat.ChatActivity;
 import com.comm100.livechat.VisitorClientInterface;
 import com.xtree.base.R;
+import com.xtree.base.widget.FloatingWindows;
 
 /**
  * Created by KAKA on 2024/6/12.
  * Describe: comm100 聊天
  */
-public class Comm100ChatWindows extends FloatingWindows{
+public class Comm100ChatWindows extends FloatingWindows {
 
     /**
      * onepay 客服配置
