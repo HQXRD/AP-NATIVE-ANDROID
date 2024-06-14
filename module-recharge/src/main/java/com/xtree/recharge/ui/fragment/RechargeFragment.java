@@ -1120,6 +1120,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 if(TextUtils.isEmpty(vo.orderurl)) {
                     CfLog.i("RechargeOrderVo, bankId: " + vo.bankId);
                     viewModel.checkOrder(vo.bankId); // 根据充值渠道ID 查询订单详情 (极速充值)
+                    viewModel.liveDataExpTitle.setValue(vo.payport_nickname);
                 } else {
                     //goPay(vo);
                     new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), "", vo.orderurl)).show();
@@ -1514,6 +1515,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         viewModel.liveDataExpNoOrder.observe(this, isNoOrder -> {
             CfLog.i("*****");
             onClickPayment3(curRechargeVo); // 这里的数据有时不准,使用查询详情返回来的数据
+            viewModel.liveDataExpTitle.setValue(null);
         });
 
         viewModel.liveDataRcBanners.observe(this, list -> {

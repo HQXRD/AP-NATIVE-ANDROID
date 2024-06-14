@@ -70,6 +70,7 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
     public SingleLiveData<ProfileVo> liveDataProfile = new SingleLiveData<>();
     public SingleLiveData<ExRechargeOrderCheckResponse> liveDataCurOrder = new SingleLiveData<>(); // 极速充值 未完成的订单(跳到订单页)
     public SingleLiveData<Boolean> liveDataExpNoOrder = new SingleLiveData<>(); // 极速充值 没有未完成的订单 (显示银行/姓名/金额/下一步)
+    public SingleLiveData<String> liveDataExpTitle = new SingleLiveData<>(); // 极速充值流程渠道标题
 
     public RechargeViewModel(@NonNull Application application) {
         super(application);
