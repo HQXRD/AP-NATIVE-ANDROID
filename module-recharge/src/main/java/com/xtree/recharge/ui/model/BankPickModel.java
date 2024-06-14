@@ -2,7 +2,7 @@ package com.xtree.recharge.ui.model;
 
 import com.xtree.base.mvvm.recyclerview.BindModel;
 
-import io.reactivex.functions.Consumer;
+import java.util.Objects;
 
 /**
  * Created by KAKA on 2024/5/27.
@@ -15,17 +15,6 @@ public class BankPickModel extends BindModel {
     //三方银行卡code
     private String bankCode;
     private String bankName;
-    private Consumer<BindModel> click;
-
-    public void click() {
-        if (click != null) {
-            try {
-                click.accept(this);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }
-    }
 
     @Override
     public String toString() {
@@ -44,10 +33,6 @@ public class BankPickModel extends BindModel {
         this.bankId = bankId;
     }
 
-    public void setClick(Consumer<BindModel> click) {
-        this.click = click;
-    }
-
     public String getBankCode() {
         return bankCode;
     }
@@ -62,5 +47,18 @@ public class BankPickModel extends BindModel {
 
     public void setBankName(String bankName) {
         this.bankName = bankName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BankPickModel myClass = (BankPickModel) o;
+        return Objects.equals(bankName, myClass.bankName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bankName);
     }
 }

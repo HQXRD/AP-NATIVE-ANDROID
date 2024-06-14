@@ -166,6 +166,7 @@
                 android:layout_margin="12dp"
                 itemData="@{model.searchDatas}"
                 itemViewType="@{model.itemType}"
+                onBindListener="@{model.searchListener}"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="3"
                 android:visibility="@{model.showSearch?View.VISIBLE:View.GONE}"

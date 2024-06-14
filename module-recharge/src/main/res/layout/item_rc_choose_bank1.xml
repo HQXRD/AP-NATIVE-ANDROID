@@ -18,6 +18,5 @@
         android:background="@mipmap/icon_ex_bankpick_bg1"
         android:text="@{m.bankName}"
         android:textColor="@color/clr_white"
-        android:onClick="@{() -> m.click()}"
         tools:text="某某银行" />
 </layout>

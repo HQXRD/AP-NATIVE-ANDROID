@@ -29,6 +29,7 @@
             android:layout_marginTop="16dp"
             itemData="@{m.bindModels}"
             itemViewType="@{m.itemTypes}"
+            onBindListener="@{m.onBindListen}"
             viewPool="@{m.recycledViewPool}"
             spanCount="@{m.spaceCount}" />
 

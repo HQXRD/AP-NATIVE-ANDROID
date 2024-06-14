@@ -6,6 +6,7 @@ import androidx.databinding.ObservableField;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class BankPickGroupModel extends BindModel {
     private ArrayList<Integer> itemTypes;
     private RecyclerView.RecycledViewPool recycledViewPool;
     private int spaceCount = 3;
+    private BaseDatabindingAdapter.onBindListener onBindListen;
 
     public BankPickGroupModel() {
         recycledViewPool = new RecyclerView.RecycledViewPool();
@@ -62,5 +64,21 @@ public class BankPickGroupModel extends BindModel {
 
     public RecyclerView.LayoutManager getLayoutManager(View view) {
         return new GridLayoutManager(view.getContext(), spaceCount);
+    }
+
+    public ObservableField<List<BindModel>> getBindModels() {
+        return bindModels;
+    }
+
+    public void setBindModels(ObservableField<List<BindModel>> bindModels) {
+        this.bindModels = bindModels;
+    }
+
+    public BaseDatabindingAdapter.onBindListener getOnBindListen() {
+        return onBindListen;
+    }
+
+    public void setOnBindListen(BaseDatabindingAdapter.onBindListener onBindListen) {
+        this.onBindListen = onBindListen;
     }
 }

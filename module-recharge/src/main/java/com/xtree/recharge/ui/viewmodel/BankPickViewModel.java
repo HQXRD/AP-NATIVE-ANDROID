@@ -3,11 +3,14 @@ package com.xtree.recharge.ui.viewmodel;
 import android.app.Application;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.drake.brv.BindingAdapter;
+import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter;
 import com.xtree.base.mvvm.recyclerview.BindModel;
 import com.xtree.recharge.R;
 import com.xtree.recharge.data.RechargeRepository;
@@ -21,7 +24,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 
@@ -47,16 +49,14 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
     public final MutableLiveData<List<BindModel>> groupDatas = new MutableLiveData<>(new ArrayList<>());
     public final MutableLiveData<Boolean> showSearch = new MutableLiveData<>(false);
     public RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
-
+    public RechargeVo.OpBankListDTO bankListData;
     private BankPickDialogFragment.onPickListner onPickListner;
-
     public final MutableLiveData<ArrayList<Integer>> groupItemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
                 {
                     add(R.layout.item_rc_choose_bank_group);
                 }
             });
-
     public final MutableLiveData<ArrayList<Integer>> itemType = new MutableLiveData<>(
             new ArrayList<Integer>() {
                 {
@@ -67,7 +67,55 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
                 }
             });
 
-    public RechargeVo.OpBankListDTO bankListData;
+    /**
+     * 银行卡搜索的回调
+     */
+    public BaseDatabindingAdapter.onBindListener searchListener = new BaseDatabindingAdapter.onBindListener() {
+        @Override
+        public void onBind(@NonNull BindingAdapter.BindingViewHolder bindingViewHolder, @NonNull View view, int itemViewType) {
+        }
+
+        @Override
+        public void onItemClick(int modelPosition, int layoutPosition, int itemViewType) {
+            List<BindModel> value = searchDatas.getValue();
+            if (value != null && !value.isEmpty()) {
+                BindModel model = value.get(modelPosition);
+                clickBank(model);
+            }
+        }
+    };
+
+    /**
+     * 获取银行卡组的回调
+     */
+    private BaseDatabindingAdapter.onBindListener getBindListen(MutableLiveData<List<BindModel>> liveData) {
+        return new BaseDatabindingAdapter.onBindListener() {
+            @Override
+            public void onBind(@NonNull BindingAdapter.BindingViewHolder bindingViewHolder, @NonNull View view, int itemViewType) {
+            }
+
+            @Override
+            public void onItemClick(int modelPosition, int layoutPosition, int itemViewType) {
+                List<BindModel> value = liveData.getValue();
+                if (value != null && !value.isEmpty()) {
+                    BindModel model = value.get(modelPosition);
+                    clickBank(model);
+                }
+            }
+        };
+    }
+
+    /**
+     * 点选银行卡操作
+     */
+    private void clickBank(BindModel model) {
+        if (model instanceof BankPickModel && bankListData != null) {
+            if (onPickListner != null) {
+                onPickListner.onPick((BankPickModel) model);
+            }
+            finish();
+        }
+    }
 
     public void initData(RechargeVo.OpBankListDTO bankListData) {
         this.bankListData = bankListData;
@@ -97,7 +145,6 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
                                     value = split[0];
                                 }
                                 m.setBankName(value);
-                                m.setClick(itemClick);
                                 mbind.add(m);
                             }
                             BankPickGroupModel mBindGroup = new BankPickGroupModel();
@@ -105,6 +152,7 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
                             mBindGroup.setItemTypes(itemType.getValue());
                             mBindGroup.bindModels.set(mbind);
                             mBindGroup.setSpaceCount(2);
+                            mBindGroup.setOnBindListen(getBindListen(mBindDatas));
                             group.add(mBindGroup);
                         }
 
@@ -114,7 +162,6 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
                                 m.setItemType(1);
                                 m.setBankCode(bankInfoDTO.getBankCode());
                                 m.setBankName(bankInfoDTO.getBankName());
-                                m.setClick(itemClick);
                                 last.add(m);
                             }
                             BankPickGroupModel usedGroup = new BankPickGroupModel();
@@ -122,54 +169,55 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
                             usedGroup.setItemTypes(itemType.getValue());
                             usedGroup.bindModels.set(last);
                             usedGroup.setSpaceCount(2);
+                            usedGroup.setOnBindListen(getBindListen(lastTimeDatas));
                             group.add(usedGroup);
                         }
 
-                        if (bankListData.getTop()!=null){
+                        if (bankListData.getTop() != null) {
                             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getTop()) {
                                 BankPickModel m = new BankPickModel();
                                 m.setItemType(3);
                                 m.setBankCode(bankInfoDTO.getBankCode());
                                 m.setBankName(bankInfoDTO.getBankName());
-                                m.setClick(itemClick);
                                 top.add(m);
                             }
                             BankPickGroupModel topGroup = new BankPickGroupModel();
                             topGroup.setTitle("十大银行");
                             topGroup.setItemTypes(itemType.getValue());
                             topGroup.bindModels.set(top);
+                            topGroup.setOnBindListen(getBindListen(topTenDatas));
                             group.add(topGroup);
                         }
 
-                        if (bankListData.getHot()!=null){
+                        if (bankListData.getHot() != null) {
                             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getHot()) {
                                 BankPickModel m = new BankPickModel();
                                 m.setItemType(2);
                                 m.setBankCode(bankInfoDTO.getBankCode());
                                 m.setBankName(bankInfoDTO.getBankName());
-                                m.setClick(itemClick);
                                 hot.add(m);
                             }
                             BankPickGroupModel hotGroup = new BankPickGroupModel();
                             hotGroup.setTitle("热门银行");
                             hotGroup.setItemTypes(itemType.getValue());
                             hotGroup.bindModels.set(hot);
+                            hotGroup.setOnBindListen(getBindListen(hotDatas));
                             group.add(hotGroup);
                         }
 
-                        if (bankListData.getOthers()!=null){
+                        if (bankListData.getOthers() != null) {
                             for (RechargeVo.OpBankListDTO.BankInfoDTO bankInfoDTO : bankListData.getOthers()) {
                                 BankPickModel m = new BankPickModel();
                                 m.setItemType(3);
                                 m.setBankCode(bankInfoDTO.getBankCode());
                                 m.setBankName(bankInfoDTO.getBankName());
-                                m.setClick(itemClick);
                                 other.add(m);
                             }
                             BankPickGroupModel othersGroup = new BankPickGroupModel();
                             othersGroup.setTitle("其他银行");
                             othersGroup.setItemTypes(itemType.getValue());
                             othersGroup.bindModels.set(other);
+                            othersGroup.setOnBindListen(getBindListen(otherDatas));
                             group.add(othersGroup);
                         }
 
@@ -185,18 +233,6 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
                     .subscribe();
         }
     }
-
-    private final Consumer<BindModel> itemClick = new Consumer<BindModel>() {
-        @Override
-        public void accept(BindModel model) throws Exception {
-            if (model instanceof BankPickModel && bankListData != null) {
-                if (onPickListner != null) {
-                    onPickListner.onPick((BankPickModel) model);
-                }
-                finish();
-            }
-        }
-    };
 
     public void setOnPickListner(BankPickDialogFragment.onPickListner onPickListner) {
         this.onPickListner = onPickListner;
@@ -217,7 +253,7 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
         //模糊搜索
         String sc = s.toString().trim();
 
-        ArrayList<BindModel> searchList = new ArrayList<>();
+        ArrayList<BankPickModel> searchList = new ArrayList<>();
         ArrayList<BindModel> allBanks = new ArrayList<>();
         allBanks.addAll(topTenDatas.getValue());
         allBanks.addAll(hotDatas.getValue());
@@ -233,12 +269,11 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
                 banknew.setBankId(bank.getBankId());
                 banknew.setBankName(bank.getBankName());
                 banknew.setBankCode(bank.getBankCode());
-                banknew.setClick(itemClick);
                 searchList.add(banknew);
             }
         }
 
-        HashSet<BindModel> set = new HashSet<>(searchList);
+        HashSet<BankPickModel> set = new HashSet<>(searchList);
         List<BindModel> list = new ArrayList<>(set);
         searchDatas.setValue(list);
         showSearch.setValue(!sc.isEmpty());
