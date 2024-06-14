@@ -383,6 +383,15 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
             }
 
         });
+        // 验证当前渠道信息 错误信息
+        viewModel.verifyVoErrorData.observe(owner, vo -> {
+            final String message = vo;
+            if (message != null && !TextUtils.isEmpty(message)) {
+                showErrorDialog(message);
+            } else {
+                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+            }
+        });
         //完成提交
         viewModel.submitVoMutableLiveData.observe(owner, vo -> {
             submitVo = vo;
@@ -398,6 +407,15 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
                 }
             }
 
+        });
+        //提款完成申请 错误信息
+        viewModel.submitVoErrorData.observe(owner, vo -> {
+            final String message = vo;
+            if (message != null && !TextUtils.isEmpty(message)) {
+                refreshSubmitUI(null, message);
+            } else {
+                ToastUtils.showError(getContext().getString(R.string.txt_network_error));
+            }
         });
         //完成提交 状态确认页面
         viewModel.submitVoErrorData.observe(owner, vo -> {

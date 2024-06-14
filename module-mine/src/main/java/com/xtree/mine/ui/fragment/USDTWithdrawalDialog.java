@@ -154,7 +154,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements USDTFruitHo
         // 验证当前渠道信息 错误信息
         viewModel.verifyVoErrorData.observe(owner, vo -> {
             final String message = vo;
-            if (message != null && TextUtils.isEmpty(message)) {
+            if (message != null && !TextUtils.isEmpty(message)) {
                 showErrorDialog(message);
             } else {
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
