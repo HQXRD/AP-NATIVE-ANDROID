@@ -42,7 +42,7 @@ android {
         release {
             signingConfig signingConfigs.cfg
             //zipAlignEnabled true 已默认启用，不需要显式配置
-            minifyEnabled true // 是否开启混淆
+            minifyEnabled false // 是否开启混淆
             //shrinkResources true // 移除无用资源
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
