@@ -14,15 +14,18 @@ import com.drake.net.tag.RESPONSE
 import com.drake.net.transform.transform
 import com.drake.net.utils.fastest
 import com.drake.net.utils.scopeNet
+import com.google.gson.Gson
 import com.xtree.base.global.SPKeyGlobal
 import com.xtree.base.net.RetrofitClient
 import com.xtree.base.router.RouterActivityPath
+import com.xtree.base.utils.AESUtil
 import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.DomainUtil
 import com.xtree.base.utils.TagUtils
 import com.xtree.main.BR
 import com.xtree.main.BuildConfig
 import com.xtree.main.R
+import com.xtree.main.bean.Domain
 import com.xtree.main.databinding.ActivitySplashBinding
 import com.xtree.main.ui.viewmodel.SplashViewModel
 import com.xtree.main.ui.viewmodel.factory.AppViewModelFactory
@@ -30,6 +33,7 @@ import me.xtree.mvvmhabit.base.BaseActivity
 import me.xtree.mvvmhabit.bus.Messenger
 import me.xtree.mvvmhabit.utils.SPUtils
 import me.xtree.mvvmhabit.utils.ToastUtils
+import java.util.concurrent.CancellationException
 
 /**
  * 冷启动
@@ -40,9 +44,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
     private val MSG_IN_MAIN: Int = 100 // 消息类型
     private val DELAY_MILLIS: Long = 100L // 延长时间
     private var mSavedInstanceState: Bundle? = null
+    private var mIsH5DomainEmpty: Boolean = false
     private var mHandler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
-            //super.handleMessage(msg)
             inMain()
         }
     }
@@ -67,8 +71,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
     override fun initView() {
         init()
         initTag()
-        setFasterApi()
-        setFasterDomain()
+        setThirdFasterDomain()
+        setFasterApiDomain()
+        setFasterH5Domain()
+        //setFasterApiDomain()
+        //getThirdFastestDomain()
     }
 
     companion object {
@@ -76,72 +83,90 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
         /**
          * 当前预埋域名列表
          */
-        lateinit var mCurDomainList: HashSet<String>
-        lateinit var mCurApiList: HashSet<String>
+        lateinit var mCurH5DomainList: MutableList<String>
+        lateinit var mCurApiDomainList: MutableList<String>
+        lateinit var mThirdDomainList: MutableList<String>
     }
 
     init {
-        mCurDomainList = HashSet()
-        mCurApiList = HashSet()
+        mCurH5DomainList = ArrayList()
+        mCurApiDomainList = ArrayList()
+        mThirdDomainList = ArrayList()
     }
 
-    private fun addDomainList(domainList: List<String>) {
+    private fun addH5DomainList(domainList: List<String>) {
         domainList.forEachIndexed { _, s ->
             run {
-                mCurDomainList.add(s)
+                mCurH5DomainList.add(s)
             }
         }
     }
 
-    private fun addApiList(list: List<String>) {
+    private fun addApiDomainList(list: List<String>) {
         list.forEachIndexed { _, s ->
             run {
-                mCurApiList.add(s)
+                mCurApiDomainList.add(s)
             }
         }
     }
 
-    private fun getFastestDomain() {
+    private fun addThirdDomainList(domainList: List<String>) {
+        domainList.forEachIndexed { _, s ->
+            run {
+                mThirdDomainList.add(s)
+            }
+        }
+    }
+
+    private fun getFastestH5Domain(isThird: Boolean) {
         scopeNet {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
-            val domainTasks = mCurDomainList.map { host ->
+            val domainTasks = mCurH5DomainList.map { host ->
                 Get<String>(
                     "$host/point.bmp",
                     absolutePath = true,
                     tag = RESPONSE,
-                    uid = "the_fastest_line"
+                    uid = "the_fastest_line_h5"
                 ).transform { data ->
-                    CfLog.i("$host")
+                    CfLog.e("域名：H5------$host")
                     NetConfig.host = host
                     DomainUtil.setDomainUrl(host)
-                    //RetrofitClient.init() // 重置URL
-                    viewModel?.reNewViewModel?.postValue(null)
+                    getFastestApiDomain(isThird = false)
                     data
                 }
             }
             try {
-                fastest(domainTasks, uid = "the_fastest_line")
+                fastest(domainTasks, uid = "the_fastest_line_h5")
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 e.printStackTrace()
-                viewModel?.noWebData?.postValue(null)
+                if (e !is CancellationException) {
+                    if (isThird) {
+                        mIsH5DomainEmpty = true
+                    }
+                    getThirdFastestDomain(isH5 = true)
+
+                }
             }
         }
     }
 
-    private fun getFastestApi() {
+    private fun getFastestApiDomain(isThird: Boolean) {
         scopeNet {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
-            val domainTasks = mCurApiList.map { host ->
+            val domainTasks = mCurApiDomainList.map { host ->
                 Get<String>(
                     "$host/point.bmp",
                     absolutePath = true,
                     tag = RESPONSE,
                     uid = "the_fastest_api"
                 ).transform { data ->
-                    CfLog.i("$host")
+                    CfLog.e("域名：api------$host---$isThird")
                     NetConfig.host = host
                     DomainUtil.setApiUrl(host)
+                    if(mIsH5DomainEmpty){
+                        DomainUtil.setDomainUrl(host)
+                    }
                     RetrofitClient.init() // 重置URL
                     viewModel?.reNewViewModel?.postValue(null)
                     data
@@ -152,7 +177,55 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 e.printStackTrace()
-                viewModel?.noWebData?.postValue(null)
+                if (e !is CancellationException) {
+                    if (isThird) {
+                        viewModel?.noWebData?.postValue(null)
+                    } else {
+                        getThirdFastestDomain(isH5 = false)
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 三方域名存储地址竞速
+     */
+    private fun getThirdFastestDomain(isH5: Boolean) {
+        scopeNet {
+            // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
+            val domainTasks = mThirdDomainList.map { host ->
+                Get<String>(
+                    "$host",
+                    absolutePath = true,
+                    tag = RESPONSE,
+                    uid = "the_fastest_line_third"
+                ) { addHeader("App-RNID", "87jumkljo") }.transform { data ->
+                    CfLog.i("$host")
+                    var domainJson =
+                        AESUtil.decryptData(data, "wnIem4HOB2RKzhiqpaqbZuxtp7T36afAHH88BUht/2Y=")
+                    val domain: Domain = Gson().fromJson(domainJson, Domain::class.java)
+                    mCurApiDomainList = domain.api
+                    mCurH5DomainList = domain.h5
+                    if (isH5) {
+                        getFastestH5Domain(isThird = true)
+                    } else {
+                        getFastestApiDomain(isThird = true)
+                    }
+                    data
+                }
+            }
+            try {
+                fastest(domainTasks, uid = "the_fastest_line_third")
+            } catch (e: Exception) {
+                CfLog.e(e.toString())
+                e.printStackTrace()
+                if (!isH5) {
+                    viewModel?.noWebData?.postValue(null)
+                } else {
+                    mIsH5DomainEmpty = true
+                    getFastestApiDomain(isThird = false)
+                }
             }
         }
     }
@@ -163,12 +236,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
 
         if (api.startsWith("http://") || api.startsWith("https://")) {
             DomainUtil.setApiUrl(url)
-            RetrofitClient.init() // 重置URL
         }
 
         if (url.startsWith("http://") || url.startsWith("https://")) {
             DomainUtil.setDomainUrl(url)
-            //RetrofitClient.init() // 重置URL
         } else {
             DomainUtil.setDomainUrl(api)
         }
@@ -177,24 +248,33 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
     /**
      * 线路竞速
      */
-    private fun setFasterApi() {
+    private fun setFasterApiDomain() {
         val apis = getString(R.string.domain_api_list) // 不能为空,必须正确
         val apiList = listOf(*apis.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
-        addApiList(apiList)
-        getFastestApi()
+        addApiDomainList(apiList)
     }
 
-    private fun setFasterDomain() {
+    private fun setFasterH5Domain() {
         var urls = getString(R.string.domain_url_list) // 如果为空或者不正确,转用API的
-        if (urls.length < 10) {
+        /*if (urls.length < 10) {
             urls = getString(R.string.domain_api_list) // 如果域名列表为空,就使用API列表
-        }
+        }*/
         val list = listOf(*urls.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
 
-        addDomainList(list)
-        getFastestDomain()
+        addH5DomainList(list)
+        getFastestH5Domain(isThird = false)
+    }
+
+    /**
+     * 设置三方存储domain域名地址
+     */
+    private fun setThirdFasterDomain() {
+        val urls = getString(R.string.domain_url_list_third)
+        val list = listOf(*urls.split(";".toRegex()).dropLastWhile { it.isEmpty() }
+            .toTypedArray())
+        addThirdDomainList(list)
     }
 
     override fun initViewObservable() {
@@ -248,19 +328,6 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
      * 进入主页面
      */
     private fun inMain() {
-
-        /*if (TextUtils.isEmpty(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN))) {
-            ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER)
-                .withInt(
-                    Constant.LoginRegisterActivity_ENTER_TYPE,
-                    Constant.LoginRegisterActivity_LOGIN_TYPE
-                )
-                .navigation();
-            finish();
-        } else {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish();
-        }*/
         mHandler.removeMessages(MSG_IN_MAIN)
         startActivity(Intent(this, MainActivity::class.java))
         finish()

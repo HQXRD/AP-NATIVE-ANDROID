@@ -19,6 +19,14 @@ android {
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
             resValue "string", "domain_api_list", "https://ap3sport.oxldkm.com;"
             resValue "string", "domain_url_list", "https://ap3sport.oxldkm.com;"
+            resValue "string", "domain_url_list_third", "https://scdnapp.l3s7n5.com/xc/app_config.json" +
+                    ";https://scdnapp.b4k4p3.com/xc/app_config.json" +
+                    ";https://scdnapp.s2s3b7.com/xc/app_config.json" +
+                    ";https://scdnapp.f6i8s7.com/xc/app_config.json" +
+                    ";https://cn2app.e2f9f5.com/xc/app_config.json" +
+                    ";https://cn2app.q5o4v3.com/xc/app_config.json" +
+                    ";https://cn2app.e9f6s7.com/xc/app_config.json" +
+                    ";https://cn2app.v2a1c6.com/xc/app_config.json"
             multiDexEnabled true
             dimension "channelName"
         }
@@ -61,6 +69,14 @@ android {
                     ";https://app.zgntcpgxds.com:16801" +
                     ";https://app.jyuelab.com:16801" +
                     ";https://app.eyoumoban.com:16801"
+            resValue "string", "domain_url_list_third", "https://scdnapp.l3s7n5.com/xc/app_config.json" +
+                    ";https://scdnapp.b4k4p3.com/xc/app_config.json" +
+                    ";https://scdnapp.s2s3b7.com/xc/app_config.json" +
+                    ";https://scdnapp.f6i8s7.com/xc/app_config.json" +
+                    ";https://cn2app.e2f9f5.com/xc/app_config.json" +
+                    ";https://cn2app.q5o4v3.com/xc/app_config.json" +
+                    ";https://cn2app.e9f6s7.com/xc/app_config.json" +
+                    ";https://cn2app.v2a1c6.com/xc/app_config.json"
             multiDexEnabled true
             dimension "channelName"
         }*/
@@ -108,6 +124,14 @@ android {
                     ";https://h53.h7y7p2.com" +
                     ";https://h54.y7g2n9.com" +
                     ";https://h55.y7t9j5.com"
+            resValue "string", "domain_url_list_third", "https://scdnapp.l3s7n5.com/xc/app_config.json" +
+                    ";https://scdnapp.b4k4p3.com/xc/app_config.json" +
+                    ";https://scdnapp.s2s3b7.com/xc/app_config.json" +
+                    ";https://scdnapp.f6i8s7.com/xc/app_config.json" +
+                    ";https://cn2app.e2f9f5.com/xc/app_config.json" +
+                    ";https://cn2app.q5o4v3.com/xc/app_config.json" +
+                    ";https://cn2app.e9f6s7.com/xc/app_config.json" +
+                    ";https://cn2app.v2a1c6.com/xc/app_config.json"
             multiDexEnabled true
             dimension "channelName"
         }

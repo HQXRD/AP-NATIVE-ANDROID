@@ -231,7 +231,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 初始化代理UI
      */
     private void initAgentUi(Map<String, String> mapSwitch) {
-        boolean bGameSwitch = TextUtils.equals(mapSwitch.get(mPlatform), "1");
+        boolean bGameSwitch = TextUtils.equals(mapSwitch.get(mPlatform), "0");
         SPUtils.getInstance().put(SPKeyGlobal.KEY_GAME_SWITCH + mPlatform, bGameSwitch);
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
 
@@ -279,25 +279,25 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         }
         if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
             if (isAgent) {
-                SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getDomain());
+                SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getApiUrl());
             } else {
                 SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
             }
         } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
             if (isAgent) {
-                SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getDomain());
+                SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getApiUrl());
             } else {
                 SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
             }
         } else if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             if (isAgent) {
-                SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, DomainUtil.getDomain());
+                SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, DomainUtil.getApiUrl());
             } else {
                 SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
             }
         } else {
             if (isAgent) {
-                SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getDomain());
+                SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getApiUrl());
             } else {
                 SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
             }
@@ -1027,9 +1027,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
             if (isChecked) {
                 if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
-                    SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getDomain());
+                    SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getApiUrl());
                 } else {
-                    SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getDomain());
+                    SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getApiUrl());
                 }
             } else {
                 if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
@@ -1041,9 +1041,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         } else {
             if (isChecked) {
                 if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
-                    SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, DomainUtil.getDomain());
+                    SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, DomainUtil.getApiUrl());
                 } else {
-                    SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getDomain());
+                    SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getApiUrl());
                 }
             } else {
                 if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {

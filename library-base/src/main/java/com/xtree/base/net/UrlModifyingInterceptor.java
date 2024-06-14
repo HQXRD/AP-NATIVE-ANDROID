@@ -51,7 +51,7 @@ public class UrlModifyingInterceptor implements Interceptor {
         }
 
         // 修改URL
-        HttpUrl modifiedUrl = builder.scheme(originalUrl.scheme()).host(originalUrl.host()).build();
+        HttpUrl modifiedUrl = builder.scheme(originalUrl.scheme()).host(originalUrl.host()).port(originalUrl.port()).build();
 
         // 创建新的请求
         Request newRequest = originalRequest.newBuilder()
