@@ -37,6 +37,7 @@
 
 -keep class me.xtree.mvvmhabit.http.BaseResponse { *; }
 -keep class me.xtree.mvvmhabit.http.BaseResponse2 { *; }
+-keep class me.xtree.mvvmhabit.http.PMBaseResponse { *; }
 
 #-------------------------------------------------------------------------
 
@@ -277,7 +278,7 @@
 #----------------------------------------------------------------------------
 
 #---------------------------------webview------------------------------------
--keepclassmembers class com.xtree.base.widget.BorwserWebView {
+-keepclassmembers class com.xtree.base.widget.BrowserActivity {
    public *;
 }
 -keepclassmembers class * extends android.webkit.WebViewClient {
@@ -301,9 +302,7 @@
 # -keep class * implements com.alibaba.android.arouter.facade.template.IProvider
 #----------------------------------------------------------------------------
 
-#---------------------------------AndroidJunkCode------------------------------------
-#为config2配置的packageBase
+
 -keep class com.xtree.** {*;}
-#----------------------------------------------------------------------------
 
 -keep class com.xtree.base.base.**{*;}
