@@ -687,17 +687,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                         }
 
                         if (response != null) {
-                            bankCodeOfPayment.setValue(null);
-                            bankNameOfPayment.setValue(null);
-                            bankNumberOfPayment.setValue(null);
-
                             bankCodeOfPayment.setValue(response.getBankcode());
                             bankNameOfPayment.setValue(getBankNameByCode(response.getBankcode()));
-                            String payAccount = response.getPayAccount();
-
-                            if (!TextUtils.isEmpty(payAccount) && isNumeric(payAccount)) {
-                                bankNumberOfPayment.setValue(payAccount);
-                            }
+                            bankNumberOfPayment.setValue(response.getPayAccount());
                         } else {
                             ToastUtils.show("图片无法识别，请重选", ToastUtils.ShowType.Default);
                         }
