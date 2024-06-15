@@ -550,11 +550,11 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i("****** " + vo.title);
 
         // 替换为缓存的
-        if (mapRechargeVo.containsKey(vo.bid) && TextUtils.isEmpty(vo.op_thiriframe_url)) {
-            vo = mapRechargeVo.get(vo.bid);
-            curRechargeVo = vo;
-            CfLog.i("****** update: " + vo.toString());
-        }
+        //if (mapRechargeVo.containsKey(vo.bid) && TextUtils.isEmpty(vo.op_thiriframe_url)) {
+        //    vo = mapRechargeVo.get(vo.bid);
+        //    curRechargeVo = vo;
+        //    CfLog.i("****** update: " + vo.toString());
+        //}
 
         boolean isRecommend = vo.tips_recommended == 1;
         if ("1".equals(vo.low_rate_hint) && !isRecommend && !mRecommendList.isEmpty() && isTipTodayLow()) {
@@ -1391,13 +1391,13 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             setHiWallet(vo); // 显示/隐藏底部的 下载嗨钱包
 
             // 查询某些充值渠道的详情
-            for (PaymentTypeVo typeVo : vo.chongzhiList) {
-                for (RechargeVo vo3 : typeVo.payChannelList) {
-                    if (vo3.op_thiriframe_use && !vo3.phone_needbind) {
-                        viewModel.getPaymentCache(vo3.bid);
-                    }
-                }
-            }
+            //for (PaymentTypeVo typeVo : vo.chongzhiList) {
+            //    for (RechargeVo vo3 : typeVo.payChannelList) {
+            //        if (vo3.op_thiriframe_use && !vo3.phone_needbind) {
+            //            viewModel.getPaymentCache(vo3.bid);
+            //        }
+            //    }
+            //}
         });
         viewModel.liveDataRechargeCache.observe(getViewLifecycleOwner(), vo -> {
             // 某些充值渠道的详情
