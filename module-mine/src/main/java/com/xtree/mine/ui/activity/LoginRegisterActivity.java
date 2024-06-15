@@ -354,11 +354,11 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
             final String netCode =
                     SPUtils.getInstance().getString(SPKeyGlobal.PROMOTION_CODE);
-            if (code != null) {
+            if (code != null && !TextUtils.isEmpty(code)) {
                 viewModel.register(account, pwd1, code);
-            } else if (code == null && netCode != null) {
+            } else if ((code != null && !TextUtils.isEmpty(code)) &&(netCode != null &&!TextUtils.isEmpty(netCode))) {
                 viewModel.register(account, pwd1, netCode);
-            } else if (code == null && netCode == null) {
+            } else {
                 //为获取推广码 使用默认的推广码
                 viewModel.register(account, pwd1, "kygprka");
             }
