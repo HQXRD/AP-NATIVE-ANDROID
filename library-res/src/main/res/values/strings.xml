@@ -134,7 +134,7 @@
     <string name="txt_rst_tie">平</string>
     <string name="txt_rst_win">赢</string>
     <string name="txt_rst_lose">输</string>
-    <string name="txt_rst_c">撤单</string>
+    <string name="txt_rst_c">投注失败</string>
     <string name="txt_rst_v">未结算</string>
     <string name="txt_rst_co">提前结算</string>
     <string name="txt_rst_j">投注失败</string>
@@ -222,10 +222,14 @@
     <string name="txt_withdraw_flow">提款流水</string>
     <string name="txt_withdrawal">提款</string>
     <string name="txt_withdraw_bank_top_tip">注意：每天限制提款 %1$s 次，您已提款 %2$s 次，提款时间为 %3$s  至 %4$s  您今日剩余提款额度为 %5$s 元</string>
+    <string name="txt_withdraw_flow_close_single">适用： %1$s </string>
     <string name="txt_withdraw_flow_close_tip">适用： %1$s 等 %2$s</string>
     <string name="txt_withdraw_flow_open_tip">适用： %1$s %2$s</string>
     <string name="domain_url">http</string>
     <string name="domain_url_list">http;http</string>
+    <string name="domain_url_list_third">http;http</string>
+    <string name="domain_api">http</string>
+    <string name="domain_api_list">http;http</string>
     <string name="channel_name">xingcai</string>
     <string name="build_time">20240112</string>
     <string name="mixpanel_token">abc123</string>
@@ -251,4 +255,17 @@
     <string name="txt_sport_official">杏彩体育官方版</string>
     <string name="txt_sport_inter">杏彩体育旗舰版</string>
 
+    <string name="txt_bind_tip">您还未绑定%1$s,是否前往绑定?</string>
+    <string name="txt_bind_other_type_tip">您还未绑定%1$s地址,是否前往绑定?</string>
+    <string name="txt_bind_error_sys_tip">您尚未绑定</string>
+    <string name="txt_bind_bank_tip">银行卡</string>
+    <string name="txt_bind_usdt_tip">USDT提款</string>
+    <string name="txt_withdrawal_usdt_tip">USDT介绍及提款教程</string>
+    <string name="txt_single_withdrawal_range">单笔取款范围 %1$s-%2$s 元</string>
+    <string name="txt_withdraw_input_error_tip">请输入提款金额</string>
+    <string name="txt_withdraw_input_mix_tip">提款金额不能小于最小提款金额</string>
+    <string name="txt_withdraw_input_max_tip">提款金额不能大于最大提款金额</string>
+    <string name="txt_withdraw_address_tip">请选择提款地址</string>
+    <string name="txt_withdraw_submit_tip">账户提款申请成功</string>、
+    <string name="txt_withdrawal_usdt_title">USDT提款</string>
 </resources>

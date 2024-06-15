@@ -164,7 +164,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
 
         if (vo.twoImage) {
             //熊猫场馆弹窗判断
-            if (vo.alias.equals(PLATFORM_PM) && AppUtil.isTipToday(SPKeyGlobal.PM_NOT_TIP_TODAY)) {
+            if (TextUtils.equals(PLATFORM_PM, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PM_NOT_TIP_TODAY)) {
                 showPMDialog(vo, SPKeyGlobal.PM_NOT_TIP_TODAY, isLeft);
                 return;
             }
@@ -178,7 +178,8 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
 
         //杏彩体育旗舰场馆弹窗判断
-        if (vo.alias.equals(PLATFORM_PMXC) && AppUtil.isTipToday(SPKeyGlobal.PMXC_NOT_TIP_TODAY)) {
+        //vo的属性值有可能为空，java的equals不能使用null.equals（java的缺陷）,建议使用TextUtils.equals
+        if (TextUtils.equals(PLATFORM_PMXC, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PMXC_NOT_TIP_TODAY)) {
             showPMDialog(vo, SPKeyGlobal.PMXC_NOT_TIP_TODAY, isLeft);
             return;
         }

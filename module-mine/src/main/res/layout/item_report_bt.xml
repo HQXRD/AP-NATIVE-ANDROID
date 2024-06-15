@@ -18,7 +18,6 @@
         <TextView
             android:id="@+id/tvw_bt_result"
             style="@style/style_item_report_title_center"
-            android:textColor="@color/clr_text_red_green_selector"
             tools:text="输" />
 
         <TextView
@@ -65,7 +64,6 @@
         <TextView
             android:id="@+id/tvw_sum"
             style="@style/style_item_report_value_end"
-            android:textColor="@color/clr_text_red_green_selector"
             tools:text="-5" />
     </LinearLayout>
 

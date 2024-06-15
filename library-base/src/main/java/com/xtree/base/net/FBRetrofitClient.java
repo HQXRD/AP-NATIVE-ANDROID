@@ -5,14 +5,10 @@ import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.xtree.base.BuildConfig;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.TagUtils;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -21,17 +17,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.xtree.mvvmhabit.http.cookie.CookieJarImpl;
 import me.xtree.mvvmhabit.http.cookie.store.PersistentCookieStore;
-import me.xtree.mvvmhabit.http.interceptor.BaseInterceptor;
 import me.xtree.mvvmhabit.http.interceptor.CacheInterceptor;
-import me.xtree.mvvmhabit.http.interceptor.logging.Level;
-import me.xtree.mvvmhabit.http.interceptor.logging.LoggingInterceptor;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
 import okhttp3.Cache;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
-import okhttp3.internal.platform.Platform;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -97,7 +89,7 @@ public class FBRetrofitClient {
 //                .cache(cache)
                 .addInterceptor(new FBHeaderInterceptor())
                 .addInterceptor(new CacheInterceptor(mContext))
-                .addInterceptor(new UrlModifyingInterceptor())
+                .addInterceptor(new BtUrlModifyingInterceptor())
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 .addInterceptor(new HttpLoggingInterceptor(message -> KLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))
                 /*.addInterceptor(new LoggingInterceptor

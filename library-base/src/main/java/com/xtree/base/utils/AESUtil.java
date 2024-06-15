@@ -5,6 +5,7 @@ import android.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 public class AESUtil {
     public static SecretKey getRSAKeyPair() throws Exception {
@@ -31,6 +32,16 @@ public class AESUtil {
     public static String decryptData(String data, SecretKey secretKey) throws Exception {
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
+
+        byte[] encryptedBytes = Base64.decode(data, Base64.DEFAULT);
+        byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
+
+        return new String(decryptedBytes);
+    }
+
+    public static String decryptData(String data, String secretKey) throws Exception {
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(Base64.decode(secretKey, Base64.DEFAULT), "AES"));
 
         byte[] encryptedBytes = Base64.decode(data, Base64.DEFAULT);
         byte[] decryptedBytes = cipher.doFinal(encryptedBytes);

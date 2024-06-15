@@ -34,7 +34,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/ivw_close"
+            android:id="@+id/ivw_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="close"
@@ -262,7 +262,7 @@
                         <TextView
                             android:id="@+id/tv_user_name_show"
                             style="@style/style_withdraw_confirm_value"
-                            tools:text="" />
+                            tools:text="123131" />
                     </LinearLayout>
 
                     <View style="@style/style_withdraw_dividing_line" />
@@ -346,28 +346,14 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/tv_mini_single_withdrawal"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:text="@string/txt_withdrawal_min"
-                                android:textColor="@color/red"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/textView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="" />
-
-                            <TextView
-                                android:id="@+id/tv_withdrawal_type_show1"
+                                android:id="@+id/tv_withdrawal_single_show"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="1dp"
-                                android:layout_toRightOf="@id/tv_mini_single_withdrawal"
                                 android:text=""
                                 android:textColor="@color/red"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                tools:text="12312313" />
                         </RelativeLayout>
                     </LinearLayout>
 
@@ -512,7 +498,7 @@
                                 android:background="@drawable/bg_withdraw_money_input">
 
                                 <TextView
-                                    android:id="@+id/tv_collection_usdt"
+                                    android:id="@+id/tv_bind_address"
                                     style="@style/style_usdt_edit"
                                     android:layout_marginLeft="10dp"
                                     android:drawableRight="@mipmap/bt_icon_expand"
@@ -611,11 +597,7 @@
 
                     <View style="@style/style_withdraw_dividing_line" />
 
-
-
-                    <LinearLayout
-                        style="@style/style_withdraw_confirm_ll"
-                      >
+                    <LinearLayout style="@style/style_withdraw_confirm_ll">
 
                         <TextView
                             style="@style/style_withdraw_show_title"
@@ -627,9 +609,7 @@
                             tools:text="123123" />
                     </LinearLayout>
 
-                    <View
-                        style="@style/style_withdraw_dividing_line"
-                       />
+                    <View style="@style/style_withdraw_dividing_line" />
 
                     <LinearLayout style="@style/style_withdraw_confirm_ll">
 
@@ -658,8 +638,6 @@
                     </LinearLayout>
 
                     <View style="@style/style_withdraw_dividing_line" />
-
-
 
                     <LinearLayout style="@style/style_withdraw_confirm_ll">
 
@@ -728,7 +706,7 @@
                 android:gravity="center_vertical"
                 android:orientation="vertical"
                 android:visibility="gone"
-                tools:visibility="gone">
+                tools:visibility="visible">
 
                 <ImageView
                     android:id="@+id/iv_over_apply"

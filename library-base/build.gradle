@@ -49,6 +49,7 @@ dependencies {
     api project(':library-res')
     //核心基础库(由于这是例子, 所以这里采用远程依赖的方式, 可根据实际情况自行换成源码依赖，源码地址：https://github.com/goldze/MVVMHabit)
     api project(':mvvmhabit')
+    api 'com.github.liangjingkanji:Net:2.3.9'
     /*api project(':base-adapter-library')
     api project(':baseadapter-recyclerview')*/
 
@@ -80,7 +81,7 @@ dependencies {
     api rootProject.ext.dependencies["appcenter-analytics"]
     api rootProject.ext.dependencies["appcenter-crashes"]
     api rootProject.ext.dependencies["event-bus"]
+    implementation rootProject.ext.dependencies["lottie"]
 
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-
 }

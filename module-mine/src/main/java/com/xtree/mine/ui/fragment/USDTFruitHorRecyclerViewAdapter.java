@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xtree.mine.R;
-import com.xtree.mine.vo.USDTCashVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalListVo;
 
 import java.util.ArrayList;
 
@@ -20,14 +20,14 @@ import java.util.ArrayList;
 public class USDTFruitHorRecyclerViewAdapter extends RecyclerView.Adapter {
 
     public interface IUSDTFruitHorCallback {
-        void callbackWithUSDTFruitHor(USDTCashVo.Channel selectVo);
+        void callbackWithUSDTFruitHor(WithdrawalListVo selectVo);
     }
 
     private Context context;
-    private ArrayList<USDTCashVo.Channel> arrayList;
+    private ArrayList<WithdrawalListVo> arrayList;
     private IUSDTFruitHorCallback callback;
 
-    public USDTFruitHorRecyclerViewAdapter(final Context context, ArrayList<USDTCashVo.Channel> arrayList, IUSDTFruitHorCallback callback) {
+    public USDTFruitHorRecyclerViewAdapter(final Context context, ArrayList<WithdrawalListVo> arrayList, IUSDTFruitHorCallback callback) {
         super();
         this.context = context;
         this.arrayList = arrayList;
@@ -62,7 +62,7 @@ public class USDTFruitHorRecyclerViewAdapter extends RecyclerView.Adapter {
         });
     }
 
-    private void referArray(USDTCashVo.Channel viewModel, ArrayList<USDTCashVo.Channel> arrayList) {
+    private void referArray(WithdrawalListVo viewModel, ArrayList<WithdrawalListVo> arrayList) {
         for (int i = 0; i < arrayList.size(); i++) {
             if (arrayList.get(i).title.equals(viewModel.title)) {
                 arrayList.get(i).flag = true;

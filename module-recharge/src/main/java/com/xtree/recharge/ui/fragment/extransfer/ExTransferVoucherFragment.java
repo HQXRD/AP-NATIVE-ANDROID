@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
+import com.xtree.recharge.ui.widget.Comm100ChatWindows;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.FragmentExtransferVoucherBinding;
@@ -36,10 +37,14 @@ import me.xtree.mvvmhabit.base.BaseViewModel;
 @Route(path = RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_VOUCHER)
 public class ExTransferVoucherFragment extends BaseFragment<FragmentExtransferVoucherBinding, ExTransferViewModel> {
 
+    private Comm100ChatWindows serviceChatFlow;
+
     @Override
     public void initView() {
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
+        serviceChatFlow = new Comm100ChatWindows(requireActivity());
+        serviceChatFlow.show();
     }
 
     @Override
@@ -57,11 +62,15 @@ public class ExTransferVoucherFragment extends BaseFragment<FragmentExtransferVo
         Stack<Activity> activityStack = AppManager.getActivityStack();
         FragmentActivity fragmentActivity = requireActivity();
         for (Activity activity : activityStack) {
-            FragmentActivity fa = (FragmentActivity) activity;
-            for (Fragment fragment : fa.getSupportFragmentManager().getFragments()) {
-                if (fragment.getClass().getCanonicalName().equals(RechargeFragment.class.getCanonicalName())) {
-                    fragmentActivity = fa;
+            try {
+                FragmentActivity fa = (FragmentActivity) activity;
+                for (Fragment fragment : fa.getSupportFragmentManager().getFragments()) {
+                    if (fragment.getClass().getCanonicalName().equals(RechargeFragment.class.getCanonicalName())) {
+                        fragmentActivity = fa;
+                    }
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
         ExTransferViewModel viewmodel = new ViewModelProvider(fragmentActivity).get(ExTransferViewModel.class);
@@ -90,5 +99,13 @@ public class ExTransferVoucherFragment extends BaseFragment<FragmentExtransferVo
                 startContainerFragment(canonicalName, bundle);
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (serviceChatFlow != null) {
+            serviceChatFlow.removeView();
+        }
     }
 }

@@ -920,10 +920,19 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
 
     public void setRechargeViewModel(RechargeViewModel rechargeViewModel) {
         rechargeLiveData.setValue(rechargeViewModel);
-        //设置标题
+
+        //充值页当前选择的渠道
         RechargeVo rechargeVo = rechargeViewModel.curRechargeLiveData.getValue();
         if (rechargeVo != null) {
+            //设置标题
             titleLiveData.setValue(rechargeVo.title);
+            return;
+        }
+
+        //外部传入的极速渠道名称
+        String expTitleValue = rechargeViewModel.liveDataExpTitle.getValue();
+        if (!TextUtils.isEmpty(expTitleValue)) {
+            titleLiveData.setValue(expTitleValue);
         }
     }
 

@@ -146,7 +146,6 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
     private List<HotLeague> mLeagueItemList;
     private Bundle mSavedInstanceState;
     private BasePopupView changeAgentTipView;
-    private BasePopupView changeAgentView;
     private BettingNetFloatingWindows mBettingNetFloatingWindows;
 
     private Handler mHandler = new Handler();
@@ -280,25 +279,25 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         }
         if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
             if (isAgent) {
-                SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getDomain());
+                SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getApiUrl());
             } else {
                 SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
             }
         } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
             if (isAgent) {
-                SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getDomain());
+                SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getApiUrl());
             } else {
                 SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
             }
         } else if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
             if (isAgent) {
-                SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, DomainUtil.getDomain());
+                SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, DomainUtil.getApiUrl());
             } else {
                 SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
             }
         } else {
             if (isAgent) {
-                SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getDomain());
+                SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getApiUrl());
             } else {
                 SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
             }
@@ -1028,9 +1027,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
 
             if (isChecked) {
                 if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
-                    SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getDomain());
+                    SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getApiUrl());
                 } else {
-                    SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getDomain());
+                    SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getApiUrl());
                 }
             } else {
                 if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
@@ -1042,9 +1041,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         } else {
             if (isChecked) {
                 if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
-                    SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, DomainUtil.getDomain());
+                    SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, DomainUtil.getApiUrl());
                 } else {
-                    SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getDomain());
+                    SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getApiUrl());
                 }
             } else {
                 if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
@@ -1379,6 +1378,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                     sportTypePos = 1;
                 }
             }*/
+            viewModel.getHotLeague(mPlatform);
+            viewModel.statistical(playMethodType);
             getMatchData(sportId, mOrderBy, mLeagueIdList, null,
                     playMethodType, searchDatePos, false, true);
         });

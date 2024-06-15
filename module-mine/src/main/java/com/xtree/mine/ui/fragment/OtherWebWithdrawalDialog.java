@@ -43,6 +43,10 @@ import com.xtree.mine.databinding.DialogOtherWithdrawalWebBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.ChooseInfoVo;
 import com.xtree.mine.vo.OtherWebWithdrawVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalInfoVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalListVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalSubmitVo;
+import com.xtree.mine.vo.WithdrawVo.WithdrawalVerifyVo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -71,15 +75,29 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
     DialogOtherWithdrawalWebBinding binding;
     private String jumpUrl;//外跳URL
 
+    private String wtype;
+    private WithdrawalInfoVo.UserBankInfo selectorBankInfo;//选中的支付地址
+    private WithdrawalListVo listVo;
+    private WithdrawalInfoVo infoVo;
+
+    private WithdrawalVerifyVo verifyVo;
+    private WithdrawalSubmitVo submitVo;
+
     public OtherWebWithdrawalDialog(@NonNull Context context) {
         super(context);
     }
 
-    public static OtherWebWithdrawalDialog newInstance(Context context, LifecycleOwner owner, final ChooseInfoVo.ChannelInfo chooseInfoVo) {
+    public static OtherWebWithdrawalDialog newInstance(Context context, LifecycleOwner owner, final String wtype,
+                                                       final WithdrawalListVo listVo,
+                                                       final WithdrawalInfoVo infoVo) {
         OtherWebWithdrawalDialog dialog = new OtherWebWithdrawalDialog(context);
         dialog.owner = owner;
-        dialog.chooseInfoVo = chooseInfoVo;
-        CfLog.i("OtherWebWithdrawalDialog  dialog.chooseInfoVo = " + dialog.chooseInfoVo.toString());
+        dialog.wtype = wtype;
+        dialog.listVo = listVo;
+        dialog.infoVo = infoVo;
+        if (dialog.infoVo.fast_iframe_url != null && !TextUtils.isEmpty(dialog.infoVo.fast_iframe_url)) {
+            dialog.jumpUrl = dialog.infoVo.fast_iframe_url;
+        }
         return dialog;
     }
 
@@ -105,14 +123,15 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
 
     private void initView() {
         binding = DialogOtherWithdrawalWebBinding.bind(findViewById(R.id.ll_root_other));
-        if (chooseInfoVo != null && !TextUtils.isEmpty(chooseInfoVo.title)) {
-            binding.tvwTitle.setText(chooseInfoVo.title);
+        if (listVo != null && !TextUtils.isEmpty(listVo.title)) {
+            binding.tvwTitle.setText(listVo.title);
         } else {
             binding.tvwTitle.setText(getContext().getString(R.string.txt_withdrawal));
         }
         binding.ivwClose.setOnClickListener(v -> dismiss());
-        binding.tvwTitle.setText(chooseInfoVo.title);
+
         binding.maskH5View.setVisibility(View.VISIBLE);
+        refreshSetUI();
         //外跳外部浏览器
         binding.ivwWeb.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(jumpUrl)) {
@@ -128,7 +147,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
     private void initViewObservable() {
 
         viewModel.otherWebWithdrawVoMutableLiveData.observe(owner, vo -> {
-            dismissLoading();
+            //dismissLoading();
             otherWebWithdrawVo = vo;
             if (otherWebWithdrawVo.channel_list != null && !otherWebWithdrawVo.channel_list.isEmpty()) {
 
@@ -195,9 +214,9 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         ppwError.show();
     }
 
-    private void initOtherWebView(final OtherWebWithdrawVo vo) {
+    private void initOtherWebView(final WithdrawalInfoVo vo) {
         //成功状态
-        String url = vo.channel_list.get(0).thiriframe_url;
+        String url = vo.fast_iframe_url;
         if (!StringUtils.isStartHttp(url)) {
             url = DomainUtil.getDomain2() + url;
         }
@@ -315,26 +334,24 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
      * 刷新初始UI
      */
     private void refreshSetUI() {
-        if (otherWebWithdrawVo.channel_list.isEmpty() || otherWebWithdrawVo.channel_list == null) {
+  /*      if (infoVo.channel_list.isEmpty() || otherWebWithdrawVo.channel_list == null) {
             binding.llShowChooseCard.setVisibility(View.GONE);
         } else {
             refreshTopUI(otherWebWithdrawVo);
+            binding.llShowChooseCard.setVisibility(View.GONE);
             initOtherWebView(otherWebWithdrawVo);
-        }
+        }*/
+        binding.llShowChooseCard.setVisibility(View.GONE);
+        initOtherWebView(infoVo);
+        //顶部公告区域
+        String formatStr = getContext().getResources().getString(R.string.txt_withdraw_top_tip);
+        String count, userCount, totalAmount;
+        count = "<font color=#0C0319>" + infoVo.day_total_count + "</font>";
+        userCount = "<font color=#F35A4E>" + infoVo.day_used_count + "</font>";
+        totalAmount = "<font color=#F35A4E>" + infoVo.day_rest_amount + "</font>";
+        String textTipSource = String.format(formatStr, count, userCount, totalAmount);
 
-        //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
-        final String notice = "<font color=#EE5A5A>注意:</font>";
-        String times, count, starttime, endtime, rest;
-        times = "<font color=#EE5A5A>" + String.valueOf(otherWebWithdrawVo.times) + "</font>";
-        count = "<font color=#EE5A5A>" + otherWebWithdrawVo.count + "</font>";
-        starttime = "<font color=#000000>" + otherWebWithdrawVo.wraptime.starttime + "</font>";
-        endtime = "<font color=#000000>" + otherWebWithdrawVo.wraptime.endtime + "</font>";
-        rest = StringUtils.formatToSeparate(Float.valueOf(otherWebWithdrawVo.rest));
-        String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
-        String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String textSource = String.format(format, notice, times, count, starttime, endtime, testTxt);
-
-        binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
+        binding.tvNotice.setText(HtmlCompat.fromHtml(textTipSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
     }
 
@@ -350,8 +367,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
     }
 
     private void requestData() {
-        showMaskLoading();
-        viewModel.getWithdrawOther(chooseInfoVo.type);
+
     }
 
     /* 由于权限原因弹窗*/
@@ -387,7 +403,9 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
 
     /*关闭loading*/
     private void dismissLoading() {
-        maskLoadPopView.dismiss();
+        if (maskLoadPopView != null) {
+            maskLoadPopView.dismiss();
+        }
     }
 
     private void initWebView(final WebView webView) {

@@ -4,13 +4,13 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.utils.DomainUtil;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.List;
 import java.util.Set;
 
-import me.xtree.mvvmhabit.utils.SPUtils;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -20,22 +20,12 @@ public class UrlModifyingInterceptor implements Interceptor {
     @NonNull
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
-        String platform = SPUtils.getInstance().getString("KEY_PLATFORM");
-        boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + platform);
-        if (!isAgent) {
-            return chain.proceed(chain.request());
-        }
 
         Request originalRequest = chain.request();
         HttpUrl originalUrl = originalRequest.url();
 
         List<String> paths = originalUrl.encodedPathSegments();
         HttpUrl.Builder builder = new HttpUrl.Builder();
-        if (TextUtils.equals("obg", platform)) {
-            builder.addPathSegment("proxyobg");
-        } else {
-            builder.addPathSegment("proxyfb");
-        }
 
         for (int i = 0; i < paths.size(); i++) {
             builder.addPathSegment(paths.get(i));
@@ -49,9 +39,11 @@ public class UrlModifyingInterceptor implements Interceptor {
                 builder.addQueryParameter(queryParameterName, value);
             }
         }
-
+        String scheme = DomainUtil.getApiUrl().startsWith("http:") ? "http" : "https";
+        URL url = new URL(DomainUtil.getApiUrl());
+        int port = url.getPort() > 0 ? url.getPort() : TextUtils.equals(scheme, "http") ? 80 : 443;
         // 修改URL
-        HttpUrl modifiedUrl = builder.scheme(originalUrl.scheme()).host(originalUrl.host()).build();
+        HttpUrl modifiedUrl = builder.scheme(scheme).host(url.getHost()).port(port).build();
 
         // 创建新的请求
         Request newRequest = originalRequest.newBuilder()

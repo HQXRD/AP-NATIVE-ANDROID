@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.trello.rxlifecycle4.LifecycleProvider;
@@ -241,6 +242,8 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         private SingleLiveData<Void> finishEvent;
         private SingleLiveData<Integer> smartRefreshListenerEvent;
         private SingleLiveData<Void> onBackPressedEvent;
+        private MutableLiveData<Void> reStartActivity = new MutableLiveData<>();
+        private MutableLiveData<Void> noWebData = new MutableLiveData<>();
 
         public SingleLiveData<String> getShowDialogEvent() {
             return showDialogEvent = createLiveData(showDialogEvent);
@@ -269,6 +272,7 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         public SingleLiveData<Void> getOnBackPressedEvent() {
             return onBackPressedEvent = createLiveData(onBackPressedEvent);
         }
+
 
         private <T> SingleLiveData<T> createLiveData(SingleLiveData<T> liveData) {
             if (liveData == null) {

@@ -43,6 +43,11 @@ public abstract class FloatingWindows extends RelativeLayout {
         initData();
     }
 
+    protected void onCreate() {
+        initView(0);
+        initData();
+    }
+
     public void removeView() {
         if (mWindowManager != null && floatView != null && isShow) {
             CfLog.i("Close floatView");
@@ -92,7 +97,9 @@ public abstract class FloatingWindows extends RelativeLayout {
         mWindowManager = (WindowManager) mContext.getSystemService(WINDOW_SERVICE);
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(LAYOUT_INFLATER_SERVICE);
         floatView = inflater.inflate(R.layout.floating_icon, null);
-        secondaryLayout = inflater.inflate(layout, null);
+        if (layout != 0) {
+            secondaryLayout = inflater.inflate(layout, null);
+        }
 
         floatLp = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,

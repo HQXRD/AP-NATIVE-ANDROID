@@ -18,7 +18,7 @@ public class BtResultFb implements BtResult {
     static {
         statusMap.put("0", "未确认");
         statusMap.put("1", "确认中");
-        statusMap.put("2", "已拒单");
+        statusMap.put("2", "投注失败");
         statusMap.put("3", "已取消");
         statusMap.put("4", "投注成功");
         statusMap.put("5", "已结算");

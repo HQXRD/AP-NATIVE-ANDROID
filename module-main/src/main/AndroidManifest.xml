@@ -4,6 +4,7 @@
     <application>
         <activity
             android:name=".ui.SplashActivity"
+            android:launchMode="singleInstance"
             android:exported="true"
             android:theme="@style/AppTheme.Start">
             <intent-filter>

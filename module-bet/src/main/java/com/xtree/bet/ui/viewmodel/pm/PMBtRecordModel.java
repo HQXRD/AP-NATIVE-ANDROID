@@ -166,6 +166,7 @@ public class PMBtRecordModel extends TemplateBtRecordModel {
                             if (error.code == CODE_400524) {
                                 btUpdateCashOutBet.postValue(orderId);
                             } else if (error.code == CODE_401026 || error.code == CODE_401013) {
+                                btUpdateCashOutStatus.postValue(false);
                                 getGameTokenApi();
                             } else if (error.code == CODE_401038) {
                                 ToastUtils.showShort("请求速度太快，请稍候重试");

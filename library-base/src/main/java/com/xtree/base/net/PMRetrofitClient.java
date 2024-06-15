@@ -86,7 +86,7 @@ public class PMRetrofitClient {
 //                .cache(cache)
                 .addInterceptor(new PMHeaderInterceptor())
                 .addInterceptor(new CacheInterceptor(mContext))
-                .addInterceptor(new UrlModifyingInterceptor())
+                .addInterceptor(new BtUrlModifyingInterceptor())
                 .sslSocketFactory(sslParams.sSLSocketFactory, sslParams.trustManager)
                 .addInterceptor(new PMDecryptInterceptor())
                 .addInterceptor(new HttpLoggingInterceptor(message -> KLog.d(message)).setLevel(HttpLoggingInterceptor.Level.BODY))

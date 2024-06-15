@@ -48,7 +48,7 @@ public class CgBtResultAdapter extends BaseAdapter<BtResult> {
             binding.cslCgDan.setVisibility(View.VISIBLE);
             binding.cslCgCc.setVisibility(View.GONE);
             binding.tvAmountDan.setText(mContext.getResources().getString(R.string.bt_bt_pay, NumberUtils.format(cgOddLimit.getBtAmount(), 2)));
-            binding.tvWinDan.setText(mContext.getResources().getString(R.string.bt_bt_win_1, NumberUtils.format(cgOddLimit.getWin(cgOddLimit.getBtAmount()), 2)));
+            binding.tvWinDan.setText(mContext.getResources().getString(R.string.bt_bt_win_1, NumberUtils.format(cgOddLimit.getWin(cgOddLimit.getBtAmount()) - cgOddLimit.getBtAmount(), 2)));
         }
         if (btResult != null) {
             binding.tvBtId.setText(btResult.getId());

@@ -183,6 +183,7 @@
     <color name="clr_white">#FFFFFF</color>
     <color name="clr_transparent">#00000000</color>
     <color name="clr_transparent_50">#80000000</color>
+    <color name="clr_transparent_70">#B2000000</color>"
 
     <color name="clr_black">#000000</color>
     <color name="clr_txt_black">#000000</color>
@@ -219,7 +220,6 @@
     <color name="clr_filter_txt_black">#1E1E1E</color>
     <!--提款流水 项目名称 黑色 值 -->
     <color name="clr_awards_txt_black">#0C0319</color>
-
 
     <color name="clr_grey_menu">#767677</color>
 
@@ -342,8 +342,8 @@
     <color name="cl_withdrawal_amount">#6D6C72</color>
     <color name="cl_withdrawal_tip">#D24859</color>
     <color name="cl_over_tip">#8F8F8F</color>
-    <color name="cl_awards_end">#ECE6F9</color>
-    <color name="cl_awards_start">#ECEFF9</color>
+    <color name="cl_awards_end">#FFFFFF</color>
+    <color name="cl_awards_start">#ECE6F9</color>
 
     <color name="clr_f3f5f6">#F3F5F6</color>
     <color name="clr_rc_manual_1">#CC6A74</color>
@@ -353,6 +353,7 @@
     <color name="clr_edt_def">#C7C4D0</color>
     <color name="clr_edt_pressed">#F9C1DC</color>
     <color name="clr_edt_focused">#B5A9FF</color>
+    <color name="clr_edt_focused2">#A17DF5</color>
     <color name="clr_edt_disabled">#F0EEF4</color>
 
     <!-- 输入框 hint -->
@@ -379,5 +380,7 @@
     <color name="clr_edt_auth_focused">@color/clr_white</color>
     <!-- 绑定谷歌验证文字颜色 -->
     <color name="clr_google_txt_black">#0C0319</color>
-
+    <color name="clr_withdrawal_usdt_tip">#4B4B4B</color>
+    <!-- 提款流水边框颜色 -->
+    <color name="clr_flow_item_stroke">#87C6C5C7</color>
 </resources>

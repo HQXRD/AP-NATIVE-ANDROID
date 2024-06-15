@@ -4,6 +4,8 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.AppUtil;
+import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ChangeLineUtil;
 import com.xtree.base.widget.LoadingDialog;
 
 import io.reactivex.subscribers.DisposableSubscriber;
@@ -110,6 +112,10 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 // 谷歌验证
                 onFail(ex);
                 break;
+            case HttpCallBack.CodeRule.CODE_100002:
+                ToastUtils.showShort("域名被劫持"  + "，切换线路中...");
+                ChangeLineUtil.getInstance().start();
+                break;
             default:
                 KLog.e("status is not normal: " + baseResponse);
                 onFail(ex);
@@ -128,6 +134,10 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             KLog.e("code: " + rError.code);
             if (rError.code == 403) {
                 AppUtil.goWeb403();
+            }else{
+                CfLog.e("无法访问：" + rError.getMessage());
+                ToastUtils.showShort("无法访问：" + rError.getMessage() + "，切换线路中...");
+                ChangeLineUtil.getInstance().start();
             }
             return;
         } else if (t instanceof BusinessException) {
@@ -154,6 +164,10 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         //请求成功, 正确的操作方式
         static final int CODE_0 = 0;
         static final int CODE_10000 = 10000;
+        /**
+         * 返回数据非json
+         */
+        static final int CODE_100002 = 100002;
         //请求失败，不打印Message
         static final int CODE_300 = 300;
         //请求失败，打印Message
@@ -189,7 +203,4 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         static final int CODE_20217 = 20217; //已修改密码或被踢出
     }
 
-    public static final class FBCodeRule {
-        static final int PB_CODE_14010 = 14010;
-    }
 }

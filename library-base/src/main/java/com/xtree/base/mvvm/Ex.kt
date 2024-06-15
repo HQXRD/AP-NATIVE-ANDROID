@@ -1,5 +1,6 @@
 package com.xtree.base.mvvm
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -14,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.drake.brv.utils.bindingAdapter
 import com.drake.brv.utils.divider
+import com.drake.brv.utils.grid
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
 import com.google.android.material.tabs.TabLayout
@@ -31,7 +33,7 @@ import com.xtree.base.mvvm.recyclerview.BindModel
  */
 
 @BindingAdapter(
-    value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId", "viewPool"],
+    value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId", "viewPool","spanCount"],
     requireAll = false
 )
 fun RecyclerView.init(
@@ -41,6 +43,7 @@ fun RecyclerView.init(
     onBindListener: BaseDatabindingAdapter.onBindListener?,
     dividerDrawableId: Int?,
     viewPool: RecyclerView.RecycledViewPool?,
+    spanCount: Int?,
 ) {
 
     if (itemData == null || itemViewType == null) {
@@ -62,7 +65,7 @@ fun RecyclerView.init(
         }
     } ?: run {
         when (layoutManager) {
-            null -> if (this.layoutManager == null) linear()
+            null -> if (this.layoutManager == null) spanCount?.run { grid(spanCount) } ?: run { linear() }
             else -> this.layoutManager = layoutManager
         }
 
@@ -140,6 +143,7 @@ fun EditText.init(textChangedListener: TextWatcher?) {
     textChangedListener?.let { addTextChangedListener(it) }
 }
 
+@SuppressLint("CheckResult")
 @BindingAdapter(
     value = ["imageUrl", "placeholder", "error", "fallback", "loadWidth", "loadHeight", "cacheEnable"],
     requireAll = false
@@ -161,14 +165,13 @@ fun setImageUrl(
     val diskCacheStrategy = if (cacheEnable == true) DiskCacheStrategy.AUTOMATIC else DiskCacheStrategy.NONE
     // 设置编码格式，在Android 11(R)上面使用高清无损压缩格式 WEBP_LOSSLESS ， Android 11 以下使用PNG格式，PNG格式时会忽略设置的 quality 参数。
     val encodeFormat = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) Bitmap.CompressFormat.WEBP_LOSSLESS else Bitmap.CompressFormat.PNG
-    Glide.with(view.context)
+    val glide = Glide.with(view.context)
         .asDrawable()
         .load(source)
         .placeholder(placeholder)
         .error(error)
         .fallback(fallback)
         .thumbnail(0.33f)
-        .override(widthSize, heightSize)
         .skipMemoryCache(false)
         .sizeMultiplier(0.5f)
         .format(DecodeFormat.PREFER_ARGB_8888)
@@ -176,5 +179,10 @@ fun setImageUrl(
         .encodeQuality(80)
         .diskCacheStrategy(diskCacheStrategy)
         .transition(DrawableTransitionOptions.withCrossFade())
-        .into(view)
+    width?.let {
+        if (it > 0) {
+            glide.override(widthSize, heightSize)
+        }
+    }
+    glide.into(view)
 }

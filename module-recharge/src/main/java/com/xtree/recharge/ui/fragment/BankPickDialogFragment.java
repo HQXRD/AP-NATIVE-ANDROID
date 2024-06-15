@@ -33,7 +33,7 @@ import me.xtree.mvvmhabit.bus.RxBus;
 
 /**
  * Created by KAKA on 2024/5/27.
- * Describe:
+ * Describe: 银行卡选择弹窗
  */
 public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBinding, BankPickViewModel> {
 
@@ -53,6 +53,17 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
         return fragment;
     }
 
+    public static BankPickDialogFragment show(FragmentActivity activity, RechargeVo.OpBankListDTO bankList, String curBank) {
+        RxBus.getDefault().postSticky(bankList);
+        BankPickDialogFragment fragment = new BankPickDialogFragment();
+        fragment.show(activity.getSupportFragmentManager(), BankPickDialogFragment.class.getName());
+        activity.getSupportFragmentManager().executePendingTransactions();
+        if (curBank != null) {
+            fragment.setCurBank(curBank);
+        }
+        return fragment;
+    }
+
     public interface onPickListner {
         void onPick(BankPickModel model);
     }
@@ -69,21 +80,6 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
                 // 判断是否点击在EditText之外的区域
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                    EditText editText = binding.edtKey;
-                    if (!isTouchInsideView(event, editText)) {
-                        // 隐藏键盘
-                        hideKeyboard(editText);
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-        binding.listLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                // 判断是否点击在EditText之外的区域
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    EditText editText = binding.edtKey;
                     if (!isTouchInsideView(event, editText)) {
                         // 隐藏键盘
                         hideKeyboard(editText);
@@ -175,5 +171,18 @@ public class BankPickDialogFragment extends BaseDialogFragment<DialogBankPickBin
     private void hideKeyboard(View view) {
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    /**
+     * 显示已选择银行
+     */
+    public void setCurBank(String bankName) {
+        if (binding != null) {
+            binding.edtKey.setText(bankName);
+            binding.edtKey.requestFocus();
+            if (viewModel != null) {
+                viewModel.showSearch.setValue(false);
+            }
+        }
     }
 }

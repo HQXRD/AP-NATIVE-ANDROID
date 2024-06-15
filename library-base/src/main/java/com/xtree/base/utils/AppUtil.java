@@ -11,6 +11,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.xtree.base.global.Constant;
 import com.xtree.base.router.RouterActivityPath;
 
+import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class AppUtil {
@@ -46,6 +47,7 @@ public class AppUtil {
 
     public static void goWeb403() {
         CfLog.i("*********");
+        AppManager.getAppManager().AppExit();
         String url = DomainUtil.getDomain2() + Constant.URL_PAGE_403;
         ARouter.getInstance().build(RouterActivityPath.Widget.PAGER_FORBIDDEN)
                 .withString("title", "访问限制")

@@ -165,7 +165,9 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_show_choose_card"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp">
+                    android:layout_height="30dp"
+                    android:clipToPadding="false"
+                    android:paddingRight="10dp">
 
                 </androidx.recyclerview.widget.RecyclerView>
 
@@ -182,7 +184,7 @@
                 android:visibility="visible">
 
                 <TextView
-                    android:id="@+id/tv_show_notice_info"
+                    android:id="@+id/tv_notice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -631,7 +633,7 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
-
+    <!--显示状态 3 确认提款信息View-->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/ns_over_view"
         android:layout_width="match_parent"
