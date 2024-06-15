@@ -231,7 +231,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
      * 初始化代理UI
      */
     private void initAgentUi(Map<String, String> mapSwitch) {
-        boolean bGameSwitch = TextUtils.equals(mapSwitch.get(mPlatform), "0");
+        boolean bGameSwitch = TextUtils.equals(mapSwitch.get(mPlatform), "1");
         SPUtils.getInstance().put(SPKeyGlobal.KEY_GAME_SWITCH + mPlatform, bGameSwitch);
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
 
