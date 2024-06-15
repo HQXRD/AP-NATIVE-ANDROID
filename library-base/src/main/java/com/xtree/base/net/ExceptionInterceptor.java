@@ -7,6 +7,7 @@ import android.util.Base64;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
+import com.xtree.base.utils.CfLog;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -52,16 +53,21 @@ public class ExceptionInterceptor implements Interceptor {
 
         if(isJSONType(result)){
             return response;
-        }else {
-            BaseResponse baseResponse = new BaseResponse();
-            baseResponse.setStatus(CODE_100002);
-            try {
-                result = new Gson().toJson(baseResponse);
-                ResponseBody resultResponseBody = ResponseBody.create(contentType, result);
-                response = response.newBuilder().body(resultResponseBody).build();
-            }catch (IllegalArgumentException e){
-                e.printStackTrace();
-            }finally {
+        } else {
+            if(result.contains("诈骗")) {
+                CfLog.e("被劫持地址：" + request.url());
+                BaseResponse baseResponse = new BaseResponse();
+                baseResponse.setStatus(CODE_100002);
+                try {
+                    result = new Gson().toJson(baseResponse);
+                    ResponseBody resultResponseBody = ResponseBody.create(contentType, result);
+                    response = response.newBuilder().body(resultResponseBody).build();
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                } finally {
+                    return response;
+                }
+            }else {
                 return response;
             }
         }

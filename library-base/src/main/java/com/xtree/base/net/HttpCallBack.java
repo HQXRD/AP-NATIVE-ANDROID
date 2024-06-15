@@ -4,6 +4,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.AppUtil;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ChangeLineUtil;
 import com.xtree.base.widget.LoadingDialog;
 
@@ -16,7 +17,6 @@ import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
-    private ChangeLineUtil changeLineUtil = new ChangeLineUtil();
     public abstract void onResult(T t);
 
     @Override
@@ -113,8 +113,8 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 onFail(ex);
                 break;
             case HttpCallBack.CodeRule.CODE_100002:
-                ToastUtils.showShort("被劫持");
-                new ChangeLineUtil().start();
+                ToastUtils.showLong("域名被劫持"  + "，切换线路中...");
+                ChangeLineUtil.getInstance().start();
                 break;
             default:
                 KLog.e("status is not normal: " + baseResponse);
@@ -134,6 +134,10 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             KLog.e("code: " + rError.code);
             if (rError.code == 403) {
                 AppUtil.goWeb403();
+            }else{
+                CfLog.e("无法访问：" + rError.getMessage());
+                ToastUtils.showLong("无法访问：" + rError.getMessage() + "，切换线路中...");
+                ChangeLineUtil.getInstance().start();
             }
             return;
         } else if (t instanceof BusinessException) {

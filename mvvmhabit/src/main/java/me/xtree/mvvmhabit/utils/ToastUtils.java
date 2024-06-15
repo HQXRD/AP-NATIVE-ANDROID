@@ -402,7 +402,6 @@ public final class ToastUtils {
      */
     private static void show(CharSequence text, int duration) {
         //show(text ,duration, 0);
-        Log.e("test", "toast===" + text.toString());
         show(text, ShowType.Default);
 
      /*   cancel();

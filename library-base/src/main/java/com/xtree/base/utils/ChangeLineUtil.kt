@@ -12,31 +12,38 @@ import com.xtree.base.R
 import com.xtree.base.net.RetrofitClient
 import com.xtree.base.vo.Domain
 import me.xtree.mvvmhabit.base.AppManager
+import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
 import java.util.concurrent.CancellationException
 
-class ChangeLineUtil {
-    private var mIsH5DomainEmpty: Boolean = false
-    companion object {
-
-        /**
-         * 当前预埋域名列表
-         */
-        lateinit var mCurH5DomainList: MutableList<String>
-        lateinit var mCurApiDomainList: MutableList<String>
-        lateinit var mThirdDomainList: MutableList<String>
-    }
+class ChangeLineUtil private constructor() {
 
     init {
         mCurH5DomainList = ArrayList()
         mCurApiDomainList = ArrayList()
         mThirdDomainList = ArrayList()
     }
+    companion object {
+        @JvmStatic
+        val instance: ChangeLineUtil by lazy { ChangeLineUtil() }
+        /**
+         * 当前预埋域名列表
+         */
+        lateinit var mCurH5DomainList: MutableList<String>
+        lateinit var mCurApiDomainList: MutableList<String>
+        lateinit var mThirdDomainList: MutableList<String>
+        private var mIsH5DomainEmpty: Boolean = false
+        private var mIsRunning: Boolean = false
+    }
 
     fun start(){
-        setThirdFasterDomain()
-        setFasterApiDomain()
-        setFasterH5Domain()
+        if(!mIsRunning) {
+            CfLog.e("=====开始切换线路========")
+            mIsRunning = true
+            setThirdFasterDomain()
+            setFasterApiDomain()
+            setFasterH5Domain()
+        }
     }
 
     private fun addH5DomainList(domainList: List<String>) {
@@ -84,7 +91,6 @@ class ChangeLineUtil {
                 fastest(domainTasks, uid = "the_fastest_line_h5")
             } catch (e: Exception) {
                 CfLog.e(e.toString())
-                e.printStackTrace()
                 if (e !is CancellationException) {
                     if (isThird) {
                         mIsH5DomainEmpty = true
@@ -101,7 +107,7 @@ class ChangeLineUtil {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurApiDomainList.map { host ->
                 Get<String>(
-                    "$host/api/bns/4/banners?limit=2", // /point.bmp
+                    "$host/point.bmp", /*api/bns/4/banners?limit=2*/
                     absolutePath = true,
                     tag = RESPONSE,
                     uid = "the_fastest_api"
@@ -115,6 +121,7 @@ class ChangeLineUtil {
                     //RetrofitClient.init() // 重置URL
                     val activity = AppManager.getAppManager().currentActivity()
                     activity.startActivity(Intent(activity, activity.javaClass))
+                    mIsRunning = false
                     //viewModel?.reNewViewModel?.postValue(null)
                     data
                 }
@@ -123,10 +130,11 @@ class ChangeLineUtil {
                 fastest(domainTasks, uid = "the_fastest_api")
             } catch (e: Exception) {
                 CfLog.e(e.toString())
-                e.printStackTrace()
                 if (e !is CancellationException) {
                     if (isThird) {
                         //viewModel?.noWebData?.postValue(null)
+                        ToastUtils.showLong("网络异常，请检查手机网络连接情况")
+                        mIsRunning = false
                     } else {
                         getThirdFastestDomain(isH5 = false)
                     }
@@ -166,9 +174,10 @@ class ChangeLineUtil {
                 fastest(domainTasks, uid = "the_fastest_line_third")
             } catch (e: Exception) {
                 CfLog.e(e.toString())
-                e.printStackTrace()
                 if (!isH5) {
                     //viewModel?.noWebData?.postValue(null)
+                    ToastUtils.showLong("网络异常，请检查手机网络连接情况")
+                    mIsRunning = false
                 } else {
                     mIsH5DomainEmpty = true
                     getFastestApiDomain(isThird = false)
