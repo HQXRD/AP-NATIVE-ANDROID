@@ -690,9 +690,17 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                         }
 
                         if (response != null) {
+                            bankCodeOfPayment.setValue(null);
+                            bankNameOfPayment.setValue(null);
+                            bankNumberOfPayment.setValue(null);
+
                             bankCodeOfPayment.setValue(response.getBankcode());
                             bankNameOfPayment.setValue(getBankNameByCode(response.getBankcode()));
-                            bankNumberOfPayment.setValue(response.getPayAccount());
+                            String payAccount = response.getPayAccount();
+
+                            if (!TextUtils.isEmpty(payAccount) && isNumeric(payAccount)) {
+                                bankNumberOfPayment.setValue(payAccount);
+                            }
                         } else {
                             ToastUtils.show("图片无法识别，请重选", ToastUtils.ShowType.Default);
                         }
@@ -718,6 +726,14 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 });
 
         addSubscribe(disposable);
+    }
+
+    /**
+     * 判断是否全为数字
+     */
+    private boolean isNumeric(String str) {
+        // 使用正则表达式判断是否全为数字
+        return str.matches("\\d+");
     }
 
     /**
