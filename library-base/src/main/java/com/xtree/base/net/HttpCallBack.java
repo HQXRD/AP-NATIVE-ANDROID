@@ -113,7 +113,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 onFail(ex);
                 break;
             case HttpCallBack.CodeRule.CODE_100002:
-                ToastUtils.showShort("域名被劫持"  + "，切换线路中...");
+                ToastUtils.showShort("当前网络环境异常，切换线路中..."); // ("域名被劫持"  + "，切换线路中...");
                 ChangeLineUtil.getInstance().start();
                 break;
             default:
