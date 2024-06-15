@@ -1,4 +1,4 @@
-package com.xtree.main.bean;
+package com.xtree.base.vo;
 
 import java.util.List;
 

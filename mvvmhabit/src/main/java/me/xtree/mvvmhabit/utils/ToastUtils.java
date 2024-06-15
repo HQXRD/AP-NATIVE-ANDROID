@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -401,6 +402,7 @@ public final class ToastUtils {
      */
     private static void show(CharSequence text, int duration) {
         //show(text ,duration, 0);
+        Log.e("test", "toast===" + text.toString());
         show(text, ShowType.Default);
 
      /*   cancel();
