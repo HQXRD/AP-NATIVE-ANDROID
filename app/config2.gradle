@@ -91,7 +91,7 @@ android {
             resValue "string", "channel_name", "xingcai"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "44c997f89ac52bdb676418f79a78cc6e"
-            resValue "bool", "is_tag", "false" // 是否开启统计
+            resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "ms_secret_key", "efa54723-d17f-40a5-ba10-95f6a4ec7832"
             resValue "string", "domain_api_list", ";https://app.zgntcpgxds.com:16801" +
                     ";http://43.128.11.58:16804" +
