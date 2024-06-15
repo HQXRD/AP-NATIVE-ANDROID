@@ -211,14 +211,7 @@
         <item name="android:textColor">@color/clr_text_code_selector</item>
         <item name="android:textSize">12sp</item>
     </style>
-    <!-- 我的-安全中心-验证 确定 -->
-    <style name="style_ok">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_marginTop">36dp</item>
-        <item name="android:src">@drawable/bt_ok_selector</item>
-    </style>
+
     <!-- 我的-账户管理-item -->
     <style name="style_choose_account">
         <item name="android:layout_width">match_parent</item>
@@ -1053,6 +1046,9 @@
         <item name="android:orientation">horizontal</item>
     </style>
 
+    <style name="style_item_ll_row_0" parent="style_item_ll_row">
+        <item name="android:layout_marginTop">0dp</item>
+    </style>
     <!-- 报表 列表项 标题和值 基类 -->
     <style name="style_item_report_base">
         <item name="android:layout_width">wrap_content</item>

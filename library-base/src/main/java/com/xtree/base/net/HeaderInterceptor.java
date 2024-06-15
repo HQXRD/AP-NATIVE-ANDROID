@@ -6,8 +6,6 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.utils.TagUtils;
 
 import java.io.IOException;
-import java.util.Map;
-import java.util.Set;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.Utils;
@@ -38,6 +36,7 @@ public class HeaderInterceptor implements Interceptor {
         builder.addHeader("App-RNID", "87jumkljo"); //
         builder.addHeader("Source", "9");
         builder.addHeader("UUID", TagUtils.getDeviceId(Utils.getContext()));
+        builder.addHeader("X-Crypto", "yes");
         //请求信息
         return chain.proceed(builder.build());
     }
