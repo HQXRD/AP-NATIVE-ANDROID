@@ -107,7 +107,7 @@ class ChangeLineUtil private constructor() {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurApiDomainList.map { host ->
                 Get<String>(
-                    "$host/point.bmp", /*api/bns/4/banners?limit=2*/
+                    "$host/api/bns/4/banners?limit=2", /*api/bns/4/banners?limit=2*/
                     absolutePath = true,
                     tag = RESPONSE,
                     uid = "the_fastest_api"
@@ -121,6 +121,8 @@ class ChangeLineUtil private constructor() {
                     //RetrofitClient.init() // 重置URL
                     val activity = AppManager.getAppManager().currentActivity()
                     activity.startActivity(Intent(activity, activity.javaClass))
+                    CfLog.e("切换线路成功")
+                    ToastUtils.showLong("切换线路成功")
                     mIsRunning = false
                     //viewModel?.reNewViewModel?.postValue(null)
                     data
@@ -133,7 +135,7 @@ class ChangeLineUtil private constructor() {
                 if (e !is CancellationException) {
                     if (isThird) {
                         //viewModel?.noWebData?.postValue(null)
-                        ToastUtils.showLong("网络异常，请检查手机网络连接情况")
+                        ToastUtils.showLong("切换线路失败，请检查手机网络连接情况")
                         mIsRunning = false
                     } else {
                         getThirdFastestDomain(isH5 = false)
@@ -174,13 +176,13 @@ class ChangeLineUtil private constructor() {
                 fastest(domainTasks, uid = "the_fastest_line_third")
             } catch (e: Exception) {
                 CfLog.e(e.toString())
-                if (!isH5) {
-                    //viewModel?.noWebData?.postValue(null)
-                    ToastUtils.showLong("网络异常，请检查手机网络连接情况")
-                    mIsRunning = false
-                } else {
+                if (isH5) {
                     mIsH5DomainEmpty = true
                     getFastestApiDomain(isThird = false)
+                } else {
+                    //viewModel?.noWebData?.postValue(null)
+                    mIsRunning = false
+                    ToastUtils.showLong("切换线路失败，获取三方域名存储地址失败，请检查手机网络连接情况")
                 }
             }
         }

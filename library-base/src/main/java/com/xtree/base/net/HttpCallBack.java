@@ -113,7 +113,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 onFail(ex);
                 break;
             case HttpCallBack.CodeRule.CODE_100002:
-                ToastUtils.showLong("域名被劫持"  + "，切换线路中...");
+                ToastUtils.showShort("域名被劫持"  + "，切换线路中...");
                 ChangeLineUtil.getInstance().start();
                 break;
             default:
@@ -136,7 +136,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 AppUtil.goWeb403();
             }else{
                 CfLog.e("无法访问：" + rError.getMessage());
-                ToastUtils.showLong("无法访问：" + rError.getMessage() + "，切换线路中...");
+                ToastUtils.showShort("无法访问：" + rError.getMessage() + "，切换线路中...");
                 ChangeLineUtil.getInstance().start();
             }
             return;

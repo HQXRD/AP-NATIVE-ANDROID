@@ -55,7 +55,7 @@ public class ExceptionInterceptor implements Interceptor {
             return response;
         } else {
             if(result.contains("诈骗")) {
-                CfLog.e("被劫持地址：" + request.url());
+                //CfLog.e("被劫持地址：" + request.url());
                 BaseResponse baseResponse = new BaseResponse();
                 baseResponse.setStatus(CODE_100002);
                 try {
