@@ -114,14 +114,14 @@
             <TextView
                 android:id="@+id/tvw_to_bank_name"
                 style="@style/style_rc_dlg_value"
-                android:text="@{model.bankInfoData.bankCode}"
+                android:text="@{model.bankInfoData.bankName}"
                 tools:text="XXX" />
 
             <TextView
                 android:id="@+id/tvw_copy_bank_name"
                 style="@style/style_rc_dlg_copy"
                 android:text="@string/txt_copy"
-                android:onClick="@{() -> StringUtils.copy(model.bankInfoData.bankCode)}"/>
+                android:onClick="@{() -> StringUtils.copy(model.bankInfoData.bankName)}"/>
         </LinearLayout>
 
         <LinearLayout style="@style/style_rc_dlg_ll">

@@ -15,6 +15,10 @@ public class ExBankInfoResponse {
     @SerializedName("bank_code")
     private String bankCode;
     /**
+     * 银行卡名称
+     */
+    private String bankName;
+    /**
      * merchantOrder
      */
     @SerializedName("merchant_order")
@@ -54,6 +58,14 @@ public class ExBankInfoResponse {
      */
     @SerializedName("allow_cancel_time")
     private String allowCancelTime;
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
 
     public String getBankCode() {
         return bankCode;
