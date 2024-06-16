@@ -186,6 +186,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                             bankInfo.setBankAccount(data.getBankAccount());
                             bankInfo.setBankArea(data.getBankArea());
                             bankInfo.setBankCode(data.getBankCode());
+                            bankInfo.setBankName(data.getBankName());
                             bankInfo.setBankAccountName(data.getBankAccountName());
                             bankInfo.setMerchantOrder(data.getMerchantOrder());
                             bankInfo.setPayAmount(data.getPayAmount());
@@ -370,6 +371,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     bankInfo.setBankAccount(data.getBankAccount());
                     bankInfo.setBankArea(data.getBankArea());
                     bankInfo.setBankCode(data.getBankCode());
+                    bankInfo.setBankName(data.getBankName());
                     bankInfo.setBankAccountName(data.getBankAccountName());
                     bankInfo.setMerchantOrder(data.getMerchantOrder());
                     bankInfo.setPayAmount(data.getPayAmount());
@@ -393,6 +395,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     bankInfo.setBankAccount(data.getBankAccount());
                     bankInfo.setBankArea(data.getBankArea());
                     bankInfo.setBankCode(data.getBankCode());
+                    bankInfo.setBankName(data.getBankName());
                     bankInfo.setBankAccountName(data.getBankAccountName());
                     bankInfo.setMerchantOrder(data.getMerchantOrder());
                     bankInfo.setPayAmount(data.getPayAmount());
