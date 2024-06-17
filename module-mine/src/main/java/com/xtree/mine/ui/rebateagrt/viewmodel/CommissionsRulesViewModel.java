@@ -44,9 +44,9 @@ public class CommissionsRulesViewModel extends BaseViewModel<MineRepository> {
             int modelPosition = bindingViewHolder.getModelPosition() +1;
 
             if (modelPosition % 2 == 0) {
-                tv1.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_main_20a));
-                tv2.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_main_20a));
-                tv3.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_main_20a));
+                tv1.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_main_10));
+                tv2.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_main_10));
+                tv3.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_main_10));
             } else {
                 tv1.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_white));
                 tv2.setBackgroundColor(getApplication().getResources().getColor(R.color.clr_white));
