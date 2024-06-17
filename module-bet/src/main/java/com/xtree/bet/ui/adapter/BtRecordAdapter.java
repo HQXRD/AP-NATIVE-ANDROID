@@ -6,13 +6,10 @@ import android.content.Context;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lxj.xpopup.XPopup;
@@ -150,7 +147,7 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
             binding.tvName.setText(cg + "-" + SPUtils.getInstance().getString(KEY_PLATFORM_NAME));
         }
         binding.rvMatch.setLayoutManager(new LinearLayoutManager(mContext));
-        binding.rvMatch.setAdapter(new BtResultOptionAdapter(mContext, btResult.getBetResultOption(), btResult.isAdvanceSettlement()));
+        binding.rvMatch.setAdapter(new BtResultOptionAdapter(mContext, btResult, btResult.isAdvanceSettlement()));
         binding.tvResultId.setText(mContext.getResources().getString(R.string.bt_bt_result_id_1, btResult.getId()));
         binding.tvBtTime.setText(mContext.getResources().getString(R.string.bt_bt_result_bt_time, TimeUtils.longFormatString(btResult.getBtDate(), TimeUtils.FORMAT_YY_MM_DD_HH_MM), btResult.getBetResultOption().get(0).getMarketType()));
         binding.tvBtResult.setText(btResult.getStatusDesc());
@@ -200,9 +197,9 @@ public class BtRecordAdapter extends AnimatedExpandableListViewMax.AnimatedExpan
             binding.clSettlement.setVisibility(View.VISIBLE);
             binding.clAdSettlement.setVisibility(View.GONE);
             binding.tvAmount.setText(mContext.getResources().getString(R.string.bt_bt_result_bt_amount_1, String.valueOf(btResult.getBtAmount())));
-            if(btResult.isSettled()){ // 已结算
+            if (btResult.isSettled()) { // 已结算
                 binding.tvWin.setText(mContext.getResources().getString(R.string.bt_bt_result_win_2, String.valueOf(btResult.userWin())));
-            }else {
+            } else {
                 binding.tvWin.setText(mContext.getResources().getString(R.string.bt_bt_result_win_1, String.valueOf(btResult.getBtWin())));
             }
         }
