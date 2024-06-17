@@ -5,14 +5,14 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
-import java.lang.ref.WeakReference;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
+
+import java.lang.ref.WeakReference;
 
 import me.xtree.mvvmhabit.R;
 
@@ -99,6 +99,15 @@ public class ContainerActivity extends RxAppCompatActivity {
             }
         } else {
             super.onBackPressed();
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);
+        if (fragment instanceof BaseFragment) {
+            BaseFragment<?, ?> containerFragment = (BaseFragment<?, ?>) fragment;
+            containerFragment.getActivityResult(requestCode, resultCode, data);
         }
     }
 }

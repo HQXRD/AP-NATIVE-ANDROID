@@ -328,6 +328,12 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     }
 
     /**
+     * 获取activity结果回调
+     */
+    public void getActivityResult(int requestCode, int resultCode, Intent data) {
+    }
+
+    /**
      * 关闭键盘
      */
     public void hideKeyBoard() {
