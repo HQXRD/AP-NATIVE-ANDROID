@@ -176,28 +176,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
 
                             payOrderData.setValue(data);
 
-                            initTip();
-
-                            checkCancleState();
-                            checkCancleWaitState();
-                            checkOrderStatus();
-
-                            ExBankInfoResponse bankInfo = new ExBankInfoResponse();
-                            bankInfo.setBankAccount(data.getBankAccount());
-                            bankInfo.setBankArea(data.getBankArea());
-                            bankInfo.setBankCode(data.getBankCode());
-                            bankInfo.setBankName(data.getBankName());
-                            bankInfo.setBankAccountName(data.getBankAccountName());
-                            bankInfo.setMerchantOrder(data.getMerchantOrder());
-                            bankInfo.setPayAmount(data.getPayAmount());
-                            bankInfo.setAllowCancel(data.getAllowCancel());
-                            bankInfo.setAllowCancelTime(data.getAllowCancelTime());
-                            bankInfo.setExpireTime(data.getExpireTime());
-                            bankInfoData.setValue(bankInfo);
-
-                            deadlinesData.setValue("请于 " + data.getExpireTime() + " 内完成支付");
-                            cancleWaitTimeKeeping();
-                            cancleOrderTimeKeeping();
+                            initOrder(data);
                         }
                     }
 
@@ -222,38 +201,86 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         addSubscribe(disposable);
     }
 
+    /**
+     * 初始化订单信息
+     */
+    private void initOrder(ExRechargeOrderCheckResponse.DataDTO data) {
+        initTip();
+
+        checkCancleState();
+        checkCancleWaitState();
+        checkOrderStatus();
+
+        ExBankInfoResponse bankInfo = new ExBankInfoResponse();
+        bankInfo.setBankAccount(data.getBankAccount());
+        bankInfo.setBankArea(data.getBankArea());
+        bankInfo.setBankCode(data.getBankCode());
+        bankInfo.setBankName(data.getBankName());
+        bankInfo.setBankAccountName(data.getBankAccountName());
+        bankInfo.setMerchantOrder(data.getMerchantOrder());
+        bankInfo.setPayAmount(data.getPayAmount());
+        bankInfo.setAllowCancel(data.getAllowCancel());
+        bankInfo.setAllowCancelTime(data.getAllowCancelTime());
+        bankInfo.setExpireTime(data.getExpireTime());
+        bankInfoData.setValue(bankInfo);
+
+        deadlinesData.setValue("请于 " + data.getExpireTime() + " 内完成支付");
+        cancleWaitTimeKeeping();
+        cancleOrderTimeKeeping();
+    }
+
+    /**
+     * 重新检查订单
+     */
+    public void reCheckOrder() {
+        close();
+
+        ExRechargeOrderCheckResponse.DataDTO pValue = payOrderData.getValue();
+        if (pValue != null) {
+            initOrder(pValue);
+        } else {
+            getOrder();
+        }
+    }
+
     private void initTip() {
         ExRechargeOrderCheckResponse.DataDTO pValue = payOrderData.getValue();
         if (pValue == null) {
             return;
         }
-        String payName = pValue.getPayName();
-        String payBankName = pValue.getPayBankName();
-        String tip1String = "请使用" +
-                payName +
-                "的" +
-                payBankName +
-                "卡充值，确保后续可成功提现";
-        int color = mActivity.get().getResources().getColor(R.color.clr_red_24);
-        ForegroundColorSpan colorSpan1 = new ForegroundColorSpan(color);
-        ForegroundColorSpan colorSpan2 = new ForegroundColorSpan(color);
-        ForegroundColorSpan colorSpan3 = new ForegroundColorSpan(color);
-        ForegroundColorSpan colorSpan4 = new ForegroundColorSpan(color);
 
-        SpannableString tip1Sp = new SpannableString(tip1String);
-        tip1Sp.setSpan(colorSpan1, tip1String.indexOf(payName),
-                tip1String.indexOf(payName) + payName.length(),
-                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        tip1Sp.setSpan(colorSpan2, tip1String.indexOf(payBankName),
-                tip1String.indexOf(payBankName) + payBankName.length(),
-                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        tip1.setValue(tip1Sp);
+        if (tip1.getValue() == null) {
+            String payName = pValue.getPayName();
+            String payBankName = pValue.getPayBankName();
+            String tip1String = "请使用" +
+                    payName +
+                    "的" +
+                    payBankName +
+                    "卡充值，确保后续可成功提现";
+            int color = mActivity.get().getResources().getColor(R.color.clr_red_24);
+            ForegroundColorSpan colorSpan1 = new ForegroundColorSpan(color);
+            ForegroundColorSpan colorSpan2 = new ForegroundColorSpan(color);
 
-        SpannableString tip2Sp = new SpannableString("请转账成功后务必及时确认！否则可能造成延迟上分");
-        tip2Sp.setSpan(colorSpan3, 3, 5, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        tip2Sp.setSpan(colorSpan4, tip2Sp.length() - 4, tip2Sp.length(),
-                Spanned.SPAN_INCLUSIVE_INCLUSIVE);
-        tip2.setValue(tip2Sp);
+            SpannableString tip1Sp = new SpannableString(tip1String);
+            tip1Sp.setSpan(colorSpan1, tip1String.indexOf(payName),
+                    tip1String.indexOf(payName) + payName.length(),
+                    Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            tip1Sp.setSpan(colorSpan2, tip1String.indexOf(payBankName),
+                    tip1String.indexOf(payBankName) + payBankName.length(),
+                    Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            tip1.setValue(tip1Sp);
+        }
+
+        if (tip2.getValue() == null) {
+            int color = mActivity.get().getResources().getColor(R.color.clr_red_24);
+            ForegroundColorSpan colorSpan3 = new ForegroundColorSpan(color);
+            ForegroundColorSpan colorSpan4 = new ForegroundColorSpan(color);
+            SpannableString tip2Sp = new SpannableString("请转账成功后务必及时确认！否则可能造成延迟上分");
+            tip2Sp.setSpan(colorSpan3, 3, 5, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            tip2Sp.setSpan(colorSpan4, tip2Sp.length() - 4, tip2Sp.length(),
+                    Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+            tip2.setValue(tip2Sp);
+        }
     }
 
     /**
@@ -264,6 +291,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         String expireTime = value.getExpireTime();
         long cancleOrderDifference = getDifferenceTimeByNow(expireTime);
         if (cancleOrderDifference <= 0) {
+            if (!canonicalName.equals(ExTransferConfirmFragment.class.getCanonicalName())) {
+                toFail();
+            }
             return;
         }
 
@@ -281,7 +311,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 .doOnComplete(new Action() {
                     @Override
                     public void run() throws Exception {
-                        toFail();
+                        if (!canonicalName.equals(ExTransferConfirmFragment.class.getCanonicalName())) {
+                            toFail();
+                        }
                     }
                 })
                 .subscribe();
@@ -889,6 +921,20 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
      * 图片选择
      */
     public void gotoSelectMedia() {
+
+        if (mActivity == null || mActivity.get() == null) {
+            Stack<Activity> activityStack = AppManager.getActivityStack();
+            for (Activity activity : activityStack) {
+                FragmentActivity fa = (FragmentActivity) activity;
+                for (Fragment fragment : fa.getSupportFragmentManager().getFragments()) {
+                    if (fragment.getClass().getCanonicalName().equals(canonicalName)) {
+                        this.mActivity = new WeakReference<>(fa);
+                    }
+                }
+            }
+            return;
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (!Environment.isExternalStorageManager()) {
                 Intent appIntent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
@@ -997,6 +1043,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         deadlinesData.setValue(null);
         leftTimeData.setValue(null);
         tip1.setValue(null);
+        tip2.setValue(null);
     }
 
     /**
@@ -1014,9 +1061,6 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                 if (fragment.getClass().getCanonicalName().equals(ExTransferCommitFragment.class.getCanonicalName())) {
                     fa.finish();
                 }
-                if (fragment.getClass().getCanonicalName().equals(ExTransferConfirmFragment.class.getCanonicalName())) {
-                    fa.finish();
-                }
                 if (fragment.getClass().getCanonicalName().equals(ExTransferPayeeFragment.class.getCanonicalName())) {
                     fa.finish();
                 }
@@ -1024,6 +1068,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     fa.finish();
                 }
                 if (fragment.getClass().getCanonicalName().equals(ExTransferFailFragment.class.getCanonicalName())) {
+                    fa.finish();
+                }
+                if (fragment.getClass().getCanonicalName().equals(ExTransferConfirmFragment.class.getCanonicalName())) {
                     fa.finish();
                 }
             }

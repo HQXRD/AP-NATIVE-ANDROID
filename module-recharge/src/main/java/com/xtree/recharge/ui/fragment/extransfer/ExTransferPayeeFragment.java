@@ -3,6 +3,7 @@ package com.xtree.recharge.ui.fragment.extransfer;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
@@ -14,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
-import com.xtree.recharge.ui.widget.Comm100ChatWindows;
 import com.xtree.recharge.BR;
 import com.xtree.recharge.R;
 import com.xtree.recharge.data.source.request.ExCreateOrderRequest;
@@ -23,6 +23,7 @@ import com.xtree.recharge.ui.fragment.RechargeFragment;
 import com.xtree.recharge.ui.viewmodel.ExTransferViewModel;
 import com.xtree.recharge.ui.viewmodel.RechargeViewModel;
 import com.xtree.recharge.ui.viewmodel.factory.AppViewModelFactory;
+import com.xtree.recharge.ui.widget.Comm100ChatWindows;
 
 import java.util.Map;
 import java.util.Stack;
@@ -46,6 +47,12 @@ public class ExTransferPayeeFragment extends BaseFragment<FragmentExtransferPaye
         binding.ivwBack.setOnClickListener(v -> getActivity().finish());
         binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
         serviceChatFlow = new Comm100ChatWindows(requireActivity());
+        serviceChatFlow.setOnClickListener(new Comm100ChatWindows.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewModel.close();
+            }
+        });
         serviceChatFlow.show();
     }
 
@@ -108,6 +115,12 @@ public class ExTransferPayeeFragment extends BaseFragment<FragmentExtransferPaye
                 startContainerFragment(canonicalName, bundle);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.getModel().setActivity(getActivity());
     }
 
     @Override
