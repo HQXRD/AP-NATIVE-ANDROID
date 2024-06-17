@@ -83,7 +83,7 @@ android {
         // 生产环境 欧洲杯发布用
         xingCai_EC {
             applicationId "com.sptxc.app" // xcsport
-            versionName "1.2.0"
+            versionName "1.2.0" // v120b
             versionCode 120
             resValue "string", "app_name", "XC Sports"
             resValue "string", "domain_api", "https://app.zgntcpgxds.com:16801"
