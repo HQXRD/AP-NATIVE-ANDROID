@@ -22,7 +22,6 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserActivity;
-import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.TipGameDialog;
 import com.xtree.home.BuildConfig;
 import com.xtree.home.R;
@@ -81,6 +80,18 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         } else {
             binding.tvwMaintenance.setVisibility(View.GONE);
             binding.ivwGreyCover.setVisibility(View.GONE);
+        }
+
+        if (vo.twoImage) {
+            binding.ivwSplit.setVisibility(View.INVISIBLE);
+            binding.ivwCoverLeft.setVisibility(View.VISIBLE);
+            binding.ivwCoverRight.setVisibility(View.VISIBLE);
+            binding.ivwCoverLeft.setOnClickListener(view -> jump(vo, true));
+            binding.ivwCoverRight.setOnClickListener(view -> jump(vo, false));
+        } else {
+            binding.ivwSplit.setVisibility(View.GONE);
+            binding.ivwCoverLeft.setVisibility(View.GONE);
+            binding.ivwCoverRight.setVisibility(View.GONE);
         }
 
         //if (vo.twoImage) {
@@ -161,26 +172,23 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             mCallBack.onClick(vo);
             return;
         }
-
-        if (vo.twoImage) {
-            //熊猫场馆弹窗判断
-            if (TextUtils.equals(PLATFORM_PM, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PM_NOT_TIP_TODAY)) {
-                showPMDialog(vo, SPKeyGlobal.PM_NOT_TIP_TODAY, isLeft);
-                return;
-            }
-
-            if (isLeft) {
-                goApp(vo);
-            } else {
-                goWeb(vo);
-            }
+        //熊猫场馆弹窗判断
+        if (TextUtils.equals(PLATFORM_PM, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PM_NOT_TIP_TODAY)) {
+            showPMDialog(vo, SPKeyGlobal.PM_NOT_TIP_TODAY);
             return;
         }
 
-        //杏彩体育旗舰场馆弹窗判断
-        //vo的属性值有可能为空，java的equals不能使用null.equals（java的缺陷）,建议使用TextUtils.equals
-        if (TextUtils.equals(PLATFORM_PMXC, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PMXC_NOT_TIP_TODAY)) {
-            showPMDialog(vo, SPKeyGlobal.PMXC_NOT_TIP_TODAY, isLeft);
+        if (vo.twoImage) {
+            if (!isLeft) {
+                vo.alias = PLATFORM_PMXC;
+                //杏彩体育旗舰场馆弹窗判断
+                //vo的属性值有可能为空，java的equals不能使用null.equals（java的缺陷）,建议使用TextUtils.equals
+                if (TextUtils.equals(PLATFORM_PMXC, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PMXC_NOT_TIP_TODAY)) {
+                    showPMDialog(vo, SPKeyGlobal.PMXC_NOT_TIP_TODAY);
+                    return;
+                }
+            }
+            goApp(vo);
             return;
         }
 
@@ -200,7 +208,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
     }
 
-    private void showPMDialog(GameVo vo, String key, boolean isLeft) {
+    private void showPMDialog(GameVo vo, String key) {
         if (basePopupView != null && basePopupView.isShow()) {
             return;
         }
@@ -211,12 +219,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
                     @Override
                     public void onClickPM() {
                         //熊猫体育
-                        if (isLeft) {
-                            goApp(vo);
-                        } else {
-                            LoadingDialog.show(ctx);
-                            goWeb(vo);
-                        }
+                        goApp(vo);
                         basePopupView.dismiss();
 
                     }
