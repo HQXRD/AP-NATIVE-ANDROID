@@ -1078,12 +1078,9 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mActivity != null) {
-            mActivity.clear();
-            mActivity = null;
-        }
+    protected void onCleared() {
+        super.onCleared();
+        clear();
     }
 }
 
