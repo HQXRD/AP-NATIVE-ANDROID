@@ -19,7 +19,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_delete"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="80dp"
+            android:background="@color/bt_page_bg">
 
             <CheckBox
                 android:id="@+id/chb_select_all"
@@ -56,9 +57,9 @@
                 android:layout_width="80dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/bg_main_c5"
+                android:background="@drawable/bt_msg_delete_selected"
                 android:text="@string/txt_delete_all"
-                android:textColor="@color/clr_white"
+                android:textColor="@color/clr_orange_10"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +72,7 @@
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/bt_msg_delete_selected"
                 android:text="@string/txt_delete_selected"
-                android:textColor="@color/clr_txt_01"
+                android:textColor="@color/clr_orange_10"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btn_all_delete"

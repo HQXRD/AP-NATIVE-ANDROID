@@ -155,7 +155,7 @@
     <color name="bt_text_color_primary_4">@color/clr_txt_04</color>
 
     <!-- 投注页页面背颜色 -->
-    <color name="bt_page_bg">#95352E</color>
+    <color name="bt_page_bg">#f9f8f4</color>
 
     <!-- 投注页页面各区块背景颜色 -->
     <color name="bt_page_up_bg">#FFFFFF</color>

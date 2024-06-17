@@ -45,11 +45,11 @@ public class MsgListAdapter extends CachedAutoRefreshAdapter<MsgVo> {
         binding.tvwMsgTitle.setText(vo.title);
         binding.tvwMsgDate.setText(vo.created_at);
 
-        if (vo.is_read) {
-            binding.ivwMsgPoint.setVisibility(View.INVISIBLE);
-        } else {
-            binding.ivwMsgPoint.setVisibility(View.VISIBLE);
-        }
+        //if (vo.is_read) {
+        //    binding.ivwMsgPoint.setVisibility(View.INVISIBLE);
+        //} else {
+        //    binding.ivwMsgPoint.setVisibility(View.VISIBLE);
+        //}
 
         binding.clItem.setOnClickListener(v ->
         { // 限制多次快速点击

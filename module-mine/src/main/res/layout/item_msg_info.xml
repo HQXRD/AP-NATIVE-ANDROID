@@ -21,6 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:src="@mipmap/ic_app_msg"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/ckb_msg_check"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,8 +30,8 @@
         android:id="@+id/ivw_msg_point"
         android:layout_width="6dp"
         android:layout_height="6dp"
-        android:visibility="visible"
         android:src="@drawable/ic_red_point"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@id/ivw_msg_icon"
         app:layout_constraintTop_toTopOf="@id/ivw_msg_icon" />
 
@@ -39,34 +40,27 @@
         style="@style/style_bind_confirm_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:ellipsize="end"
         android:maxEms="10"
         android:singleLine="true"
         android:text="13测试"
-        app:layout_constraintStart_toEndOf="@id/ivw_msg_icon"
-        app:layout_constraintTop_toTopOf="@id/ivw_msg_icon" />
+        android:textSize="@dimen/bt_text_16sp"
+        app:layout_constraintBottom_toBottomOf="@id/ivw_msg_icon"
+        app:layout_constraintStart_toEndOf="@id/ivw_msg_icon" />
 
     <TextView
         android:id="@+id/tvw_msg_date"
         style="@style/style_bind_confirm_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
         android:text="2023-10-13 16:08:33"
+        android:textSize="@dimen/bt_text_12sp"
         android:textStyle="normal"
-        android:textSize="@dimen/bt_text_10sp"
-        app:layout_constraintBottom_toBottomOf="@id/ivw_msg_icon"
-        app:layout_constraintStart_toEndOf="@id/ivw_msg_icon" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:src="@mipmap/cm_ic_to_right"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@id/ivw_msg_icon"
+        app:layout_constraintTop_toTopOf="@id/ivw_msg_icon" />
 
     <ImageView
         android:layout_width="wrap_content"
