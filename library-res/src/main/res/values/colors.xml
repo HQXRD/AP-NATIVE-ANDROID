@@ -291,7 +291,7 @@
 
     <!-- 通用 begin -->
     <!-- 通用背景色 -->
-    <color name="clr_bg_main">#95352E</color>
+    <color name="clr_bg_main">#fcf9f6</color>
     <color name="bg_main">#95352E</color>
     <color name="clr_white">#FFFFFF</color>
     <color name="clr_white_t20">#33FFFFFF</color>
