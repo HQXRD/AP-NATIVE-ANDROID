@@ -71,9 +71,10 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
     override fun initView() {
         init()
         initTag()
-        setThirdFasterDomain()
+        binding?.root?.postDelayed({ inMain() }, DELAY_MILLIS)
+        /*setThirdFasterDomain()
         setFasterApiDomain()
-        setFasterH5Domain()
+        setFasterH5Domain()*/
     }
 
     companion object {
@@ -128,7 +129,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                 ).transform { data ->
                     CfLog.e("域名：H5------$host")
                     NetConfig.host = host
-                    DomainUtil.setDomainUrl(host)
+                    DomainUtil.setH5Url(host)
                     getFastestApiDomain(isThird = false)
                     data
                 }
@@ -163,7 +164,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                     NetConfig.host = host
                     DomainUtil.setApiUrl(host)
                     if(mIsH5DomainEmpty){
-                        DomainUtil.setDomainUrl(host)
+                        DomainUtil.setH5Url(host)
                     }
                     RetrofitClient.init() // 重置URL
                     viewModel?.reNewViewModel?.postValue(null)
@@ -237,9 +238,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
         }
 
         if (url.startsWith("http://") || url.startsWith("https://")) {
-            DomainUtil.setDomainUrl(url)
+            DomainUtil.setH5Url(url)
         } else {
-            DomainUtil.setDomainUrl(api)
+            DomainUtil.setH5Url(api)
         }
     }
 

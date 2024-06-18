@@ -15,6 +15,7 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ChangeApiLineUtil;
 import com.xtree.base.vo.EventVo;
 import com.xtree.base.widget.MenuItemView;
 import com.xtree.base.widget.SpecialMenuItemView;
@@ -85,6 +86,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
+        ChangeApiLineUtil.getInstance().start();
     }
 
     @Override

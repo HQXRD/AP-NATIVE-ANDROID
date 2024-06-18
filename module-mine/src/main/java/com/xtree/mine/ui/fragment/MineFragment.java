@@ -174,13 +174,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         });
         binding.tvwDcCentre.setOnClickListener(v -> {
             CfLog.i("****** ");
-            BrowserActivity.start(getContext(), DomainUtil.getDomain2() + Constant.URL_DC_CENTER); // 优惠中心
+            BrowserActivity.start(getContext(), DomainUtil.getH5Domain2() + Constant.URL_DC_CENTER); // 优惠中心
         });
 
         binding.tvwInviteFriend.setOnClickListener(v -> {
             CfLog.i("****** ");
             //goWebView(v, Constant.URL_INVITE_FRIEND);
-            BrowserActivity.start(getContext(), DomainUtil.getDomain2() + Constant.URL_INVITE_FRIEND);
+            BrowserActivity.start(getContext(), DomainUtil.getH5Domain2() + Constant.URL_INVITE_FRIEND);
         });
         binding.tvwGuanfangheyin.setOnClickListener(v -> {
             String title = ((TextView) v).getText().toString();
@@ -213,13 +213,13 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
         binding.tvwVipZhongxin.setOnClickListener(v -> {
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
             //BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
-            BrowserActivity.start(getContext(), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER);
+            BrowserActivity.start(getContext(), DomainUtil.getH5Domain2() + Constant.URL_VIP_CENTER);
         });
         //VIP中心
         binding.ivwLevel.setOnClickListener(v -> {
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
             //BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
-            BrowserActivity.start(getContext(), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER);
+            BrowserActivity.start(getContext(), DomainUtil.getH5Domain2() + Constant.URL_VIP_CENTER);
         });
         binding.tvwFanhuiBaobiao.setOnClickListener(v -> {
             startContainerFragment(RouterFragmentPath.Mine.PAGER_REBATE_REPORT); // 返水报表
@@ -270,7 +270,7 @@ public class MineFragment extends BaseFragment<FragmentMineBinding, MineViewMode
 
     private void goWebView(View v, String path, boolean isContainTitle) {
         String title = ((TextView) v).getText().toString();
-        String url = DomainUtil.getDomain2() + path;
+        String url = DomainUtil.getH5Domain2() + path;
         BrowserActivity.start(getContext(), title, url, isContainTitle);
     }
 

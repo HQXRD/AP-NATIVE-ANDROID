@@ -78,7 +78,7 @@ public class DebugFragment extends BaseFragment<FragmentDebugBinding, HomeViewMo
         binding.tvwRelease.setText(!BuildConfig.DEBUG + "");
         binding.tvwChannel.setText(R.string.channel_name);
         binding.tvwApi.setText(DomainUtil.getApiUrl());
-        binding.tvwH5.setText(DomainUtil.getDomain());
+        binding.tvwH5.setText(DomainUtil.getH5Domain());
         binding.tvwUsername.setText(SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME, ""));
         binding.tvwSession.setText(SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID, ""));
         binding.tvwToken.setText(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN, ""));

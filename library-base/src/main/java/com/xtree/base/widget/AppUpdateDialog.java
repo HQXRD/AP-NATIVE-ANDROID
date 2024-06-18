@@ -106,7 +106,7 @@ public class AppUpdateDialog extends CenterPopupView {
         apkFile = new File(this.context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), saveFileName);
         apkFile.deleteOnExit(); //删除旧的文件,重新下载
         if (!vo.download_url.startsWith("http")) {
-            vo.download_url = DomainUtil.getDomain2() + vo.download_url;
+            vo.download_url = DomainUtil.getH5Domain2() + vo.download_url;
         }
         CfLog.i("download_url: " + vo.download_url);
 

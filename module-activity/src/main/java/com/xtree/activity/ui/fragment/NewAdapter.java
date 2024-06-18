@@ -88,7 +88,7 @@ public class NewAdapter extends CachedAutoRefreshAdapter<NewVo> {
         //    url = DomainUtil.getDomain2() + "/webapp/?isNative=1#/turntable/135";
         //} else {
         //url = DomainUtil.getDomain2() + "/webapp/#" + vo.url;
-        url = DomainUtil.getDomain2() + "/webapp/?isNative=1#/activity/" + vo.id; // /webapp/?isNative=1#/activity/245
+        url = DomainUtil.getH5Domain2() + "/webapp/?isNative=1#/activity/" + vo.id; // /webapp/?isNative=1#/activity/245
         //}
         return url;
     }
