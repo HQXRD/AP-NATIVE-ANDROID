@@ -41,6 +41,7 @@ import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.BrowserActivity;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.home.BR;
 import com.xtree.home.R;
@@ -454,6 +455,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
                 return;
             }
+            LoadingDialog.show(getContext());
             viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
         };
 
