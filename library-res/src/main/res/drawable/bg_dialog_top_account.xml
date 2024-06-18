@@ -4,8 +4,8 @@
 
     <gradient
         android:angle="270"
-        android:endColor="@color/clr_bg_frame_big"
-        android:startColor="@color/clr_bg_frame_big" />
+        android:endColor="@color/clr_bg_main"
+        android:startColor="@color/clr_bg_main" />
     <corners
         android:topLeftRadius="20dp"
         android:topRightRadius="20dp" />

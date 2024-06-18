@@ -48,7 +48,7 @@
         android:id="@+id/ll_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/clr_bg_frame_big"
+        android:background="@color/clr_bg_main"
         android:orientation="vertical"
         android:padding="@dimen/layout_margin"
         android:paddingBottom="36dp">
