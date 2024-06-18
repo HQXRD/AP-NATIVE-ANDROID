@@ -67,7 +67,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         binding = HmItemGameBinding.bind(holder.itemView);
 
         binding.ivwImg.setOnClickListener(view -> jump(vo));
-        if (vo.twoImage) {
+        if (vo.cid == 41) {//杏彩官方
             binding.ivwSplit.setVisibility(View.INVISIBLE);
             binding.ivwCoverLeft.setVisibility(View.VISIBLE);
             binding.ivwCoverRight.setVisibility(View.VISIBLE);
@@ -116,9 +116,9 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         binding.ivwCoverLeft.setOnClickListener(view -> jump(vo, true));
         binding.ivwCoverRight.setOnClickListener(view -> jump(vo.twoVo, false));
         KLog.i(vo);
-        //if (vo.twoVo == null) {
-        //    return;
-        //}
+        if (vo.twoVo == null) {
+            return;
+        }
         if (vo.status == 1 && vo.twoVo.status == 1) {//状态都正常时
             binding.ivwImg.setImageLevel(101);
         } else if (vo.status != 1 && vo.twoVo.status != 1) {
@@ -219,7 +219,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             return;
         }
 
-        if (vo.twoImage) {
+        if (vo.cid == 41 || vo.cid == 42) {//杏彩官方与旗舰
             if (!isLeft) {
                 //杏彩体育旗舰场馆弹窗判断
                 //vo的属性值有可能为空，java的equals不能使用null.equals（java的缺陷）,建议使用TextUtils.equals
@@ -233,7 +233,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
 
         if (vo.isH5) {
-            //减少用cid判断，AG真人、AG电子cid会重复
+            //减少用cid判断，AG真人AG电子同公司游戏cid会重复
             if (vo.id.equals("202") && AppUtil.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
                 showTipDialog(SPKeyGlobal.AG_NOT_TIP_TODAY, "AG真人", vo);
                 return;
