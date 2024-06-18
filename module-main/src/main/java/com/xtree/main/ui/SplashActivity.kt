@@ -45,6 +45,9 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
     private val DELAY_MILLIS: Long = 100L // 延长时间
     private var mSavedInstanceState: Bundle? = null
     private var mIsH5DomainEmpty: Boolean = false
+    private var isH5Ok: Boolean = false
+    private var isApiOk: Boolean = false
+
     private var mHandler: Handler = object : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             inMain()
@@ -74,6 +77,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
         setThirdFasterDomain()
         setFasterApiDomain()
         setFasterH5Domain()
+        // 产品希望能快速的进到首页(如果不等直接跳首页会出现白屏)
+        binding!!.root.postDelayed({ startActivity(Intent(this, MainActivity::class.java)) }, 1000L)
     }
 
     companion object {
@@ -127,6 +132,8 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                     uid = "the_fastest_line_h5"
                 ).transform { data ->
                     CfLog.e("域名：H5------$host")
+                    isH5Ok = true
+                    goMain()
                     NetConfig.host = host
                     DomainUtil.setDomainUrl(host)
                     getFastestApiDomain(isThird = false)
@@ -160,9 +167,11 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                     uid = "the_fastest_api"
                 ).transform { data ->
                     CfLog.e("域名：api------$host---$isThird")
+                    isApiOk = true
+                    goMain()
                     NetConfig.host = host
                     DomainUtil.setApiUrl(host)
-                    if(mIsH5DomainEmpty){
+                    if (mIsH5DomainEmpty) {
                         DomainUtil.setDomainUrl(host)
                     }
                     RetrofitClient.init() // 重置URL
@@ -233,7 +242,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
         val url = getString(R.string.domain_url) // 如果为空或者不正确,转用API的
 
         if (api.startsWith("http://") || api.startsWith("https://")) {
-            DomainUtil.setApiUrl(url)
+            DomainUtil.setApiUrl(api)
         }
 
         if (url.startsWith("http://") || url.startsWith("https://")) {
@@ -329,6 +338,14 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
         mHandler.removeMessages(MSG_IN_MAIN)
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+    }
+
+    private fun goMain() {
+        if (isApiOk && isH5Ok) {
+            mHandler.removeMessages(MSG_IN_MAIN)
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
     }
 
     override fun initViewModel(): SplashViewModel? {
