@@ -193,8 +193,14 @@ public class TransferFragment extends BaseFragment<FragmentTransferBinding, MyWa
         });
 
         binding.rgpAmount.setOnCheckedChangeListener((group, checkedId) -> {
+            // 重置所有 RadioButton 的颜色
+            for (int i = 0; i < group.getChildCount(); i++) {
+                RadioButton rb = (RadioButton) group.getChildAt(i);
+                rb.setTextColor(getResources().getColor(R.color.textColor));  // 重置为默认颜色
+            }
             RadioButton rdo = group.findViewById(checkedId);
             if (rdo != null) {
+                rdo.setTextColor(getResources().getColor(R.color.white));
                 String txt = rdo.getTag().toString();
                 if (txt.equalsIgnoreCase("MAX")) {
                     binding.edtAmount.setText(mBalanceVo.balance);

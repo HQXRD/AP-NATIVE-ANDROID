@@ -132,19 +132,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="4dp"
-                            android:src="@mipmap/cm_ic_dot" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="4dp"
-                            android:src="@mipmap/cm_ic_dot" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="4dp"
-                            android:src="@mipmap/cm_ic_dot" />
+                            android:src="@mipmap/cm_ic_line" />
 
                         <TextView
                             android:layout_width="wrap_content"

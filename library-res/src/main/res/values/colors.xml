@@ -61,11 +61,13 @@
     <!-- 通用字颜色 主色/1级字 -->
     <color name="clr_txt_01">#420C0B</color>
     <!-- 通用字颜色 主色/2级字 -->
-    <color name="clr_txt_02">#665849</color>
+    <color name="clr_txt_02">#333333</color>
     <!-- 通用字颜色 主色/3级字 -->
-    <color name="clr_txt_03">#5C5C5C</color>
+    <color name="clr_txt_03">#8B8B8B</color>
     <!-- 通用字颜色 主色/4级字 -->
-    <color name="clr_txt_04">#949292</color>
+    <color name="clr_txt_04">#E5E5E5</color>
+    <!-- 通用字颜色 主色/5级字 -->
+    <color name="clr_txt_05">#4F4439</color>
     <!-- 通用黑色 1E -->
     <color name="clr_txt_black_cm">#1E1E1E</color>
     <!-- 可跳转链接的文字 通常是蓝色或主题色 -->
@@ -361,9 +363,12 @@
     <color name="clr_orange_08">#E77C40</color>
     <color name="clr_orange_09">#96362E</color>
     <color name="clr_orange_10">#C05D5B</color>"
+    <color name="clr_orange_11">#E6714F</color>"
+    <color name="clr_orange_12">#B34B43</color>"
 
     <color name="clr_yellow">#FFD700</color>
     <color name="clr_yellow_2">#FBF6F1</color>
+    <color name="clr_yellow_3">#F6ECE2</color>
     <!-- 报表-盈亏 红色 -->
     <color name="clr_red_01">#FF5050</color>
     <color name="clr_red_02">#FF3131</color>
