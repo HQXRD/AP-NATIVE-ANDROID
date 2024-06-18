@@ -75,6 +75,8 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
 
             return;
         } else {
+            binding.tvMaintenance1.setVisibility(View.GONE);
+            binding.tvMaintenance2.setVisibility(View.GONE);
             binding.ivwImg.setImageLevel(vo.typeId);
             binding.ivwSplit.setVisibility(View.GONE);
             binding.ivwCoverLeft.setVisibility(View.GONE);
@@ -231,10 +233,11 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
 
         if (vo.isH5) {
-            if (vo.cid == 3 && AppUtil.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
+            //减少用cid判断，AG真人、AG电子cid会重复
+            if (vo.id.equals("202") && AppUtil.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
                 showTipDialog(SPKeyGlobal.AG_NOT_TIP_TODAY, "AG真人", vo);
                 return;
-            } else if (vo.cid == 31 && AppUtil.isTipToday(SPKeyGlobal.DB_NOT_TIP_TODAY)) {
+            } else if (vo.id.equals("204") && AppUtil.isTipToday(SPKeyGlobal.DB_NOT_TIP_TODAY)) {
                 showTipDialog(SPKeyGlobal.DB_NOT_TIP_TODAY, "DB真人", vo);
                 return;
             }

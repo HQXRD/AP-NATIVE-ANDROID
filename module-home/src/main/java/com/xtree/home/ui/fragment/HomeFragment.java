@@ -230,7 +230,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             //KLog.d(list.get(0));
             GameVo twoVo = null;
             for (GameVo vo : list) {
-                if (vo.cid == 42) {
+                if (vo.cid == 42) {//杏彩体育旗舰
                     twoVo = vo;
                 }
             }
