@@ -22,9 +22,9 @@
 
     <item>
         <shape>
-            <gradient android:angle="0"
-                android:endColor="@color/clr_btn_02"
-                android:startColor="@color/clr_btn_01" />
+            <gradient android:angle="180"
+                android:endColor="@color/clr_main_07"
+                android:startColor="@color/clr_main_08" />
             <corners android:radius="10dp" />
         </shape>
     </item>
