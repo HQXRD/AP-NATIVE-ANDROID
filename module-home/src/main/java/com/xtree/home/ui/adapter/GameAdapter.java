@@ -234,10 +234,10 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
 
         if (vo.isH5) {
             //减少用cid判断，AG真人AG电子同公司游戏cid会重复
-            if (vo.id.equals("202") && AppUtil.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
+            if (TextUtils.equals(vo.id, "202") && AppUtil.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
                 showTipDialog(SPKeyGlobal.AG_NOT_TIP_TODAY, "AG真人", vo);
                 return;
-            } else if (vo.id.equals("204") && AppUtil.isTipToday(SPKeyGlobal.DB_NOT_TIP_TODAY)) {
+            } else if (TextUtils.equals(vo.id, "204") && AppUtil.isTipToday(SPKeyGlobal.DB_NOT_TIP_TODAY)) {
                 showTipDialog(SPKeyGlobal.DB_NOT_TIP_TODAY, "DB真人", vo);
                 return;
             }
