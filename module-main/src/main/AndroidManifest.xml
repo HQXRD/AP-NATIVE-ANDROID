@@ -4,8 +4,8 @@
     <application>
         <activity
             android:name=".ui.SplashActivity"
-            android:launchMode="singleInstance"
             android:exported="true"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.Start">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -14,9 +14,10 @@
             </intent-filter>
         </activity>
         <!--在自己组件中注册Activity-->
-        <activity android:name="com.xtree.main.ui.MainActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name="com.xtree.main.ui.MainActivity"
+            android:exported="true"
             android:launchMode="singleTop"
-            android:exported="true"></activity>
+            android:screenOrientation="portrait"></activity>
     </application>
 </manifest>
