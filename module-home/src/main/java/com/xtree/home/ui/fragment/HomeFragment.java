@@ -224,6 +224,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         viewModel.liveDataGames.observe(getViewLifecycleOwner(), list -> {
             KLog.i("size: " + list.size());
+            if (list == null || list.size() == 0) {
+                return;
+            }
             //KLog.d(list.get(0));
             GameVo twoVo = null;
             for (GameVo vo : list) {
