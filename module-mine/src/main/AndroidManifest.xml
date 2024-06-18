@@ -7,7 +7,7 @@
         <!-- 在自己组件中注册Activity -->
         <activity
             android:name=".ui.activity.LoginRegisterActivity"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activity.ChooseActivity"
