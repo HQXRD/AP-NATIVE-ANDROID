@@ -313,11 +313,13 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                 // 原生的,或者需要请求接口的
                 CfLog.w("******: " + vo);
             }
-            if (vo.cid == 42) {
-                vo.status = 1;
-            }
-            // 33:MG电子 17:CQ9娱乐 已下架 奥丁电子下一版再上线
-            if (vo.status == 2 || vo.cid == 17 || vo.cid == 33 || vo.cid == 43) {
+            //杏彩官方和杏彩旗舰 status==2也依旧往下执行
+            if (vo.cid == 41 || vo.cid == 42) {
+                //if (vo.cid == 41) {
+                //    vo.status = 2;
+                //}
+            } else if (vo.status == 2 || vo.cid == 17 || vo.cid == 33 || vo.cid == 43) {
+                // 33:MG电子 17:CQ9娱乐 已下架 奥丁电子下一版再上线
                 // 已下架,不要加到列表里面了
                 CfLog.w("not show: " + vo);
                 continue;

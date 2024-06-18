@@ -23,13 +23,13 @@ import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserActivity;
 import com.xtree.base.widget.TipGameDialog;
-import com.xtree.home.BuildConfig;
 import com.xtree.home.R;
 import com.xtree.home.databinding.HmItemGameBinding;
 import com.xtree.home.ui.custom.view.TipPMDialog;
 import com.xtree.home.vo.GameVo;
 
 import me.xtree.mvvmhabit.base.AppManager;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -65,8 +65,21 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
     public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
         GameVo vo = get(position);
         binding = HmItemGameBinding.bind(holder.itemView);
-        binding.ivwImg.setImageLevel(vo.typeId);
+
         binding.ivwImg.setOnClickListener(view -> jump(vo));
+        if (vo.twoImage) {
+            binding.ivwSplit.setVisibility(View.INVISIBLE);
+            binding.ivwCoverLeft.setVisibility(View.VISIBLE);
+            binding.ivwCoverRight.setVisibility(View.VISIBLE);
+            setTwoImage(vo);
+
+            return;
+        } else {
+            binding.ivwImg.setImageLevel(vo.typeId);
+            binding.ivwSplit.setVisibility(View.GONE);
+            binding.ivwCoverLeft.setVisibility(View.GONE);
+            binding.ivwCoverRight.setVisibility(View.GONE);
+        }
 
         if (vo.status == 0) {
             String txt = ctx.getString(R.string.hm_txt_maintaining, vo.maintenance_start, vo.maintenance_end);
@@ -80,18 +93,6 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         } else {
             binding.tvwMaintenance.setVisibility(View.GONE);
             binding.ivwGreyCover.setVisibility(View.GONE);
-        }
-
-        if (vo.twoImage) {
-            binding.ivwSplit.setVisibility(View.INVISIBLE);
-            binding.ivwCoverLeft.setVisibility(View.VISIBLE);
-            binding.ivwCoverRight.setVisibility(View.VISIBLE);
-            binding.ivwCoverLeft.setOnClickListener(view -> jump(vo, true));
-            binding.ivwCoverRight.setOnClickListener(view -> jump(vo, false));
-        } else {
-            binding.ivwSplit.setVisibility(View.GONE);
-            binding.ivwCoverLeft.setVisibility(View.GONE);
-            binding.ivwCoverRight.setVisibility(View.GONE);
         }
 
         //if (vo.twoImage) {
@@ -109,52 +110,90 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
     }
 
-    /**
-     * 极速版普通版切换
-     */
-    private void setFastCommon(int position, GameVo vo) {
-        String key;
-        if (vo.cid == 5) {
-            //熊猫体育
-            key = SPKeyGlobal.PM_FAST_COMMON;
-        } else if (vo.cid == 26) {
-            //FB体育
-            key = SPKeyGlobal.FB_FAST_COMMON;
-        } else {
-            key = "";
+    private void setTwoImage(GameVo vo) {
+        binding.ivwCoverLeft.setOnClickListener(view -> jump(vo, true));
+        binding.ivwCoverRight.setOnClickListener(view -> jump(vo.twoVo, false));
+        KLog.i(vo);
+        //if (vo.twoVo == null) {
+        //    return;
+        //}
+        if (vo.status == 1 && vo.twoVo.status == 1) {//状态都正常时
+            binding.ivwImg.setImageLevel(101);
+        } else if (vo.status != 1 && vo.twoVo.status != 1) {
+            binding.ivwImg.setImageLevel(91);
+        } else if (vo.status != 1) {
+            binding.ivwImg.setImageLevel(92);
+        } else if (vo.twoVo.status != 1) {
+            binding.ivwImg.setImageLevel(93);
         }
-        boolean isFast = SPUtils.getInstance().getBoolean(key, true);
-        if (isFast) {
-            //如果是极速版
-            binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_fast);
-            binding.ivwImg.setOnClickListener(view -> jump(vo, true));
-            binding.ivLeft.setOnClickListener(null);
-            binding.ivRight.setOnClickListener(view -> {
-                CfLog.i("ivRight");
-                SPUtils.getInstance().put(key, false);
-                notifyItemChanged(position);
-            });
+
+        if (vo.status == 0) {
+            String txt = ctx.getString(R.string.hm_txt_maintaining, vo.maintenance_start, vo.maintenance_end);
+            binding.tvMaintenance1.setText(txt);
+            binding.tvMaintenance1.setVisibility(View.VISIBLE);
+        } else if (vo.status == 2) {
+            binding.tvMaintenance1.setText("已下架");
+            binding.tvMaintenance1.setVisibility(View.VISIBLE);
         } else {
-            //普通版
-            binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_common);
-            binding.ivwImg.setOnClickListener(view -> jump(vo, false));
-            binding.ivRight.setOnClickListener(null);
-            binding.ivLeft.setOnClickListener(view -> {
-                CfLog.i("ivLeft");
-                SPUtils.getInstance().put(key, true);
-                notifyItemChanged(position);
-            });
+            binding.tvMaintenance1.setVisibility(View.GONE);
+        }
+        if (vo.twoVo.status == 0) {
+            String txt = ctx.getString(R.string.hm_txt_maintaining, vo.twoVo.maintenance_start, vo.twoVo.maintenance_end);
+            binding.tvMaintenance2.setText(txt);
+            binding.tvMaintenance2.setVisibility(View.VISIBLE);
+        } else if (vo.twoVo.status == 2) {
+            binding.tvMaintenance2.setText("已下架");
+            binding.tvMaintenance2.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvMaintenance2.setVisibility(View.GONE);
         }
     }
 
+    /**
+     * 极速版普通版切换
+     */
+    //private void setFastCommon(int position, GameVo vo) {
+    //    String key;
+    //    if (vo.cid == 5) {
+    //        //熊猫体育
+    //        key = SPKeyGlobal.PM_FAST_COMMON;
+    //    } else if (vo.cid == 26) {
+    //        //FB体育
+    //        key = SPKeyGlobal.FB_FAST_COMMON;
+    //    } else {
+    //        key = "";
+    //    }
+    //    boolean isFast = SPUtils.getInstance().getBoolean(key, true);
+    //    if (isFast) {
+    //        //如果是极速版
+    //        binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_fast);
+    //        binding.ivwImg.setOnClickListener(view -> jump(vo, true));
+    //        binding.ivLeft.setOnClickListener(null);
+    //        binding.ivRight.setOnClickListener(view -> {
+    //            CfLog.i("ivRight");
+    //            SPUtils.getInstance().put(key, false);
+    //            notifyItemChanged(position);
+    //        });
+    //    } else {
+    //        //普通版
+    //        binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_common);
+    //        binding.ivwImg.setOnClickListener(view -> jump(vo, false));
+    //        binding.ivRight.setOnClickListener(null);
+    //        binding.ivLeft.setOnClickListener(view -> {
+    //            CfLog.i("ivLeft");
+    //            SPUtils.getInstance().put(key, true);
+    //            notifyItemChanged(position);
+    //        });
+    //    }
+    //}
     private void jump(GameVo vo) {
         jump(vo, true);
     }
 
     private void jump(GameVo vo, boolean isLeft) {
         CfLog.d(vo.toString());
-        // 非正常状态 (且 非debug模式下 方便调试),不跳转
-        if (vo.status != 1 && !BuildConfig.DEBUG) {
+        // 非正常状态
+        if (vo.status != 1) {
             // 0是维护, 1是正常, 2是下架
             return;
         }
@@ -180,7 +219,6 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
 
         if (vo.twoImage) {
             if (!isLeft) {
-                vo.alias = PLATFORM_PMXC;
                 //杏彩体育旗舰场馆弹窗判断
                 //vo的属性值有可能为空，java的equals不能使用null.equals（java的缺陷）,建议使用TextUtils.equals
                 if (TextUtils.equals(PLATFORM_PMXC, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PMXC_NOT_TIP_TODAY)) {

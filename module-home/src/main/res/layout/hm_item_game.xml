@@ -130,4 +130,31 @@
         app:layout_constraintStart_toStartOf="@id/ivw_img"
         app:layout_constraintEnd_toEndOf="@id/ivw_img"/>
 
+    <TextView
+        android:id="@+id/tv_maintenance1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="13dp"
+        android:gravity="center_vertical"
+        android:text="@string/hm_txt_maintaining"
+        android:textColor="@color/clr_hm_txt_black"
+        android:textSize="13sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
+
+    <TextView
+        android:id="@+id/tv_maintenance2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="13dp"
+        android:gravity="center_vertical"
+        android:text="@string/hm_txt_maintaining"
+        android:textColor="@color/clr_hm_txt_black"
+        android:textSize="13sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivw_split"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

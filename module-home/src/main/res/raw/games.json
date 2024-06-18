@@ -2,6 +2,7 @@
   { "id":"101", "title": "XXXX", "picture": "hm_gm_ty_01", "typeId": 101, "pId": 1 ,    	"cid":41, "name" : "杏彩体育", "alias":"fbxc", "imageName": "XCImage.sport_FBXC", "twoImage": true } ,
   { "id":"102", "title": "XXXX", "picture": "hm_gm_ty_03", "typeId": 102, "pId": 1 ,    	"cid":26, "name" : "FB体育", "alias":"fb","imageName": "XCImage.sport_FB"} ,
   { "id":"103", "title": "XXXX", "picture": "hm_gm_ty_02", "typeId": 103, "pId": 1 ,    	"isH5": false, "name" : "熊猫体育", "cid":5, "alias":"obg", "imageName": "XCImage.sport_OBG"} ,
+  { "id":"104", "title": "XXAA", "picture": "hm_gm_ty_07", "typeId": 104, "pId": 1 ,    	"name" : "杏彩体育2", "alias" : "obgzy", "cid":42 ,"status":2, "twoImage": true} ,
   { "id":"105", "title": "XXAA", "picture": "hm_gm_ty_05", "typeId": 105, "pId": 1 ,    	"isH5": true, "cid":30,"imageName": "XCImage.sport_IMONE", "gameId": 2757 } ,
   { "id":"106", "title": "XXAA", "picture": "hm_gm_ty_06", "typeId": 106, "pId": 1 ,    	"name" : "BTI体育","isH5": true, "cid":15 } ,
   { "id":"107", "title": "XXXX", "picture": "hm_gm_ty_04", "typeId": 107, "pId": 1 ,    	"playURL":"ibcgame?s=1&autoThrad", "isH5": true, "cid":10, "imageName": "XCImage.sport_IBC" } ,

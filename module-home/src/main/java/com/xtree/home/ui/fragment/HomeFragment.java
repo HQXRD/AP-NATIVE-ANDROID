@@ -225,6 +225,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         viewModel.liveDataGames.observe(getViewLifecycleOwner(), list -> {
             KLog.i("size: " + list.size());
             //KLog.d(list.get(0));
+            GameVo twoVo = null;
+            for (GameVo vo : list) {
+                if (vo.cid == 42) {
+                    twoVo = vo;
+                }
+            }
+            list.remove(twoVo);
+            list.get(0).twoVo = twoVo;
             gameAdapter.clear();
             gameAdapter.addAll(list);
             //RadioButton rBtn = (RadioButton) binding.rgpType.getChildAt(gameGroup);
