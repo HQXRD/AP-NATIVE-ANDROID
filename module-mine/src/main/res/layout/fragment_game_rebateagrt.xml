@@ -9,83 +9,79 @@
 
         <import type="android.view.View" />
     </data>
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_main">
+        android:background="@color/clr_bg_main">
 
         <include
             android:id="@+id/layout_toolbar"
             layout="@layout/layout_base_toolbar"
             toolbarModel="@{model}"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
-            android:layout_width="0dp"
-            android:layout_height="42dp"
-            android:textSize="16sp"
-            app:tabGravity="fill"
-            app:tabMode="fixed"
-            android:tooltipText="@null"
-            android:longClickable="false"
-            app:tabIndicatorHeight="4dp"
-            app:tabIndicatorColor="@color/clr_main_02"
-            app:tabTextColor="@color/clr_txt_03"
-            app:tabSelectedTextColor="@color/clr_txt_black_cm"
-            app:tabBackground="@android:color/transparent"
-            app:tabRippleColor="@android:color/transparent"
             setSelectedListener="@{model}"
             tabs="@{model.tabs}"
-            android:background="@color/clr_main_09"
-            app:layout_constraintTop_toBottomOf="@id/layout_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:background="@color/clr_bg_main"
+            android:longClickable="false"
+            android:textSize="16sp"
+            android:tooltipText="@null"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layout_toolbar"
+            app:layout_constraintVertical_bias="0"
+            app:tabBackground="@android:color/transparent"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/clr_main_02"
+            app:tabIndicatorHeight="4dp"
+            app:tabMode="fixed"
+            app:tabRippleColor="@android:color/transparent"
+            app:tabSelectedTextColor="@color/clr_txt_black_cm"
+            app:tabTextColor="@color/clr_txt_03" />
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/refreshLayout"
+            onLoadMoreListener="@{model.onLoadMoreListener}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:srlEnableRefresh="false"
-            app:srlEnableLoadMore="true"
-            app:srlEnableAutoLoadMore="true"
-            onLoadMoreListener="@{model.onLoadMoreListener}"
-            app:layout_constraintTop_toBottomOf="@id/tabLayout"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tabLayout"
+            app:srlEnableAutoLoadMore="true"
+            app:srlEnableLoadMore="true"
+            app:srlEnableRefresh="false">
 
             <androidx.recyclerview.widget.RecyclerView
+                itemViewType="@{model.itemType}"
+                onBindListener="@{model.onBindListener}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:itemData="@{model.datas}"
-                itemViewType="@{model.itemType}"
-                onBindListener="@{model.onBindListener}"/>
+                app:itemData="@{model.datas}" />
 
         </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> model.createRebateAgrt()}"
             android:src="@mipmap/icon_create_argt"
             android:visibility="@{model.tabPosition!=model.Subordinate_Agrte_TAB?View.GONE:View.VISIBLE}"
-            android:onClick="@{() -> model.createRebateAgrt()}"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintVertical_bias="0.8"
             app:layout_constraintHorizontal_bias="1"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.8" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
