@@ -81,8 +81,8 @@
                     android:id="@+id/tv_choose_tutorial"
                     style="@style/style_usdt_tutorial"
                     android:autoLink="all"
-                    android:text="USDT教程"
-                    android:textColor="@color/clr_withdrawal_list_bottom_text_bg"
+                    android:text="@string/txt_usdt_tutorial"
+                    android:textColor="@color/clr_orange_09"
                     android:textSize="15dp" />
 
                 <TextView
@@ -91,7 +91,7 @@
                     android:layout_marginTop="6dp"
                     android:gravity="center"
                     android:text="@string/txt_awards_no_money_tip"
-                    android:textColor="@color/black"
+                    android:textColor="@color/clr_orange_08"
                     android:textSize="15dp"
                     android:visibility="visible" />
             </LinearLayout>

@@ -453,7 +453,7 @@
     <!--  提款-->
     <color name="clr_withdrawal_list_bottom_text_bg">#1FC4F8</color>
     <color name="clr_withdrawal_list_bottom_text_tip_bg">#E77C40</color>
-    <color name="clr_withdrawal_list_text_bg">@color/clr_main_05</color>
+    <color name="clr_withdrawal_list_text_bg">@color/clr_txt_title</color>
     <color name="clr_withdrawal_btn_bg">@color/clr_bg_frame_32</color>
     <color name="clr_withdrawal_btn_stroke">@color/clr_main_04</color>
     <color name="clr_withdrawal_list_top_start_bg">@color/clr_main_03</color>
