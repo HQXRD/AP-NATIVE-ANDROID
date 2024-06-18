@@ -5,11 +5,10 @@
     android:id="@+id/ll_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/clr_transparent"
+    android:background="@color/clr_yellow_2"
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
-    <!-- bg_dialog_withdraw_close-->
     <LinearLayout
         android:id="@+id/ll_choose_usdt"
         android:layout_width="match_parent"
@@ -17,13 +16,23 @@
         android:layout_gravity="center"
         android:layout_marginLeft="@dimen/bt_text_20sp"
         android:layout_marginRight="@dimen/bt_text_20sp"
+        android:layout_marginTop="@dimen/bt_text_20sp"
         android:gravity="center"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:padding="5dp"
+        android:paddingTop="10dp"
+
+        android:background="@drawable/bg_dialog_withdraw_close">
+
 
         <TextView
             android:id="@+id/tv_choose_usdt"
-            style="@style/style_withdraw_money_account"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:padding="12dp"
+            android:textStyle="bold"
+            android:textColor="@color/clr_txt_title"
             android:text=""
             tools:text="提款" />
     </LinearLayout>

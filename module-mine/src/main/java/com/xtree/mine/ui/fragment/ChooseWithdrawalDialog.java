@@ -244,7 +244,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 //下划线TextView 点击事件
                 binding.tvChooseTutorial.setOnClickListener(v -> {
                     Intent intent = new Intent(getContext(), BrowserActivity.class);
-                    intent.putExtra(BrowserActivity.ARG_TITLE, "USDT教程");
+                    intent.putExtra(BrowserActivity.ARG_TITLE, getContext().getString(R.string.txt_usdt_tutorial));
                     intent.putExtra(BrowserActivity.ARG_URL, DomainUtil.getDomain2() + "/static/usdt-description/as/usdt_m.html");
                     getContext().startActivity(intent);
                 });
