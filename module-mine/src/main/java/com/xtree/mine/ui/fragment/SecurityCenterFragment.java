@@ -199,23 +199,6 @@ public class SecurityCenterFragment extends BaseFragment<FragmentSecurityCenterB
                 //绑定手机
                 percent++;
             }
-            if (percent == 1) {
-                binding.tvwPercent.setText("20%");
-                binding.prbSafe.setProgress(20);
-            } else if (percent == 2) {
-                binding.tvwPercent.setText("40%");
-                binding.prbSafe.setProgress(40);
-            } else if (percent == 3) {
-                binding.tvwPercent.setText("60%");
-                binding.prbSafe.setProgress(60);
-            } else if (percent == 4) {
-                binding.tvwPercent.setText("80%");
-                binding.prbSafe.setProgress(80);
-            } else if (percent == 5) {
-                binding.tvwPercent.setText("100%");
-                binding.prbSafe.setProgress(1000);
-            }
-
         }
     }
 

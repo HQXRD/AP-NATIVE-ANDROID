@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/clr_white"
+        android:background="@color/clr_bg_main"
         android:orientation="vertical"
         tools:context=".ui.fragment.SecurityCenterFragment">
 
@@ -52,67 +52,31 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/layout_margin"
-            android:background="@drawable/bg_main_frame_03"
-            android:orientation="vertical"
-            android:padding="@dimen/layout_margin">
+            android:background="@color/clr_main_06"
+            android:gravity="center"
+            android:paddingBottom="@dimen/layout_margin">
 
             <ImageView
-                android:id="@+id/ivw_pwd_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/me_sc_pwd_edit"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginTop="@dimen/layout_margin"
+                android:layout_marginBottom="@dimen/layout_margin"
+                android:src="@mipmap/me_sc_pwd_edit" />
 
-            <TextView
-                android:id="@+id/tvw_pwd_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/layout_margin"
-                android:text="@string/txt_pwd_edit_hint"
-                android:textColor="@color/clr_txt_black_cm"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@id/ivw_pwd_edit"
-                app:layout_constraintTop_toTopOf="@id/ivw_pwd_edit" />
-
-            <TextView
-                android:id="@+id/tvw_percent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/clr_withdrawal_text_bank_tip"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="70%" />
-
-            <ProgressBar
-                android:id="@+id/prb_safe"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="4dp"
-                android:layout_marginEnd="@dimen/layout_margin"
-                android:background="@color/clr_bg_light_main"
-                android:max="100"
-                android:progress="20"
-                android:progressDrawable="@drawable/me_level_progressbar"
-                app:layout_constraintBottom_toBottomOf="@id/tvw_percent"
-                app:layout_constraintEnd_toStartOf="@id/tvw_percent"
-                app:layout_constraintStart_toStartOf="@id/tvw_pwd_edit"
-                app:layout_constraintTop_toTopOf="@id/tvw_percent" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-
+            android:layout_marginStart="@dimen/layout_margin"
+            android:layout_marginTop="-10dp"
+            android:layout_marginEnd="@dimen/layout_margin"
+            android:layout_marginBottom="@dimen/layout_margin"
+            android:background="@drawable/bg_white_12"
+            android:elevation="2dp"
             android:orientation="vertical">
 
             <TextView
