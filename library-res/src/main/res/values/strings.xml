@@ -233,6 +233,7 @@
 
     <string name="txt_upgrade">检查更新</string>
     <string name="txt_usdt_tutorial">USDT介绍及提款教程</string>
+    <string name="txt_usdt_tutorial_mine">USDT教程</string>
     <string name="txt_help">帮助中心</string>
     <string name="txt_qa">常见问题</string>
     <string name="txt_next_step">下一步</string>

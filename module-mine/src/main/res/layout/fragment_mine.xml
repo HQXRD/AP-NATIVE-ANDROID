@@ -11,7 +11,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/clr_main_08"
+            android:background="@color/clr_bg_main"
             android:orientation="vertical">
 
             <LinearLayout
@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/layout_margin"
                     android:text="@string/me_user_name_hint"
-                    android:textColor="@color/clr_txt_black_cm"
+                    android:textColor="@color/clr_txt_01"
                     android:textSize="14sp" />
 
                 <TextView
@@ -126,13 +126,13 @@
                     android:id="@+id/tvw_1k_recycle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_white_6"
+                    android:background="@drawable/bg_1k_recycle"
                     android:paddingStart="16dp"
                     android:paddingTop="6dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="6dp"
                     android:text="@string/me_get_all_money"
-                    android:textColor="@color/clr_txt_01"
+                    android:textColor="@color/clr_white"
                     android:textSize="10sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -259,6 +259,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_me_main_frame"
+                    android:elevation="1dp"
                     android:orientation="vertical"
                     android:padding="@dimen/layout_margin"
                     android:visibility="gone"
@@ -314,10 +315,10 @@
                         <TextView style="@style/style_wallet_space" />
 
                         <TextView
-                            android:id="@+id/tvw_qa"
+                            android:id="@+id/tvw_reg_prom"
                             style="@style/style_menu_black"
-                            android:drawableTop="@mipmap/me_gr_qa"
-                            android:text="@string/txt_question" />
+                            android:drawableTop="@mipmap/me_gr_reg"
+                            android:text="@string/txt_reg_prom" />
 
                         <TextView style="@style/style_wallet_space" />
 
@@ -333,7 +334,7 @@
                             android:id="@+id/tvw_tutorial"
                             style="@style/style_menu_black"
                             android:drawableTop="@mipmap/me_gr_usdt"
-                            android:text="@string/txt_usdt_tutorial" />
+                            android:text="@string/txt_usdt_tutorial_mine" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -357,10 +358,10 @@
                         <TextView style="@style/style_wallet_space" />
 
                         <TextView
-                            android:id="@+id/tvw_reg_prom"
+                            android:id="@+id/tvw_qa"
                             style="@style/style_menu_black"
-                            android:drawableTop="@mipmap/me_gr_reg"
-                            android:text="@string/txt_reg_prom" />
+                            android:drawableTop="@mipmap/me_gr_qa"
+                            android:text="@string/txt_question" />
 
                         <TextView
                             android:id="@+id/tvw_black"
@@ -378,6 +379,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_me_main_frame"
+                    android:elevation="1dp"
                     android:orientation="vertical"
                     android:padding="@dimen/layout_margin"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -444,7 +446,7 @@
                             android:id="@+id/tvw_tutorial_client"
                             style="@style/style_menu_black"
                             android:drawableTop="@mipmap/me_gr_usdt"
-                            android:text="@string/txt_usdt_tutorial" />
+                            android:text="@string/txt_usdt_tutorial_mine" />
 
                         <TextView style="@style/style_wallet_space" />
 
