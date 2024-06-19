@@ -241,8 +241,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text=""
-                                tools:text="Demo"
-                                android:textColor="@color/clr_grey_13" />
+                                android:textColor="@color/clr_grey_13"
+                                tools:text="Demo" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -343,7 +343,7 @@
                             android:text="" />
 
                         <TextView
-                            android:id="@+id/tv_withdrawal_type_show1"
+                            android:id="@+id/tv_withdrawal_single_show"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="1dp"
@@ -395,15 +395,15 @@
                             android:id="@+id/tv_info_withdrawal_amount"
                             style="@style/style_withdraw_bottom_title"
                             android:text="@string/txt_withdrawal_method"
-                            android:visibility="gone"/>
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/tv_info_withdrawal_amount_show"
                             style="@style/style_virtual_text"
                             android:layout_alignTop="@id/tv_info_withdrawal_amount"
                             android:layout_toRightOf="@id/tv_info_withdrawal_amount"
-                            android:visibility="gone"
-                            android:text="0" />
+                            android:text="0"
+                            android:visibility="gone" />
 
                         <TextView
                             android:id="@+id/tv_info_exchange_rate"
@@ -477,7 +477,7 @@
                                 android:background="@drawable/bg_withdraw_money_input">
 
                                 <TextView
-                                    android:id="@+id/tv_collection_usdt"
+                                    android:id="@+id/tv_bind_address"
                                     style="@style/style_usdt_edit"
                                     android:layout_marginLeft="10dp"
                                     android:drawableRight="@mipmap/bt_icon_expand"

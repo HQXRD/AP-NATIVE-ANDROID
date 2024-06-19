@@ -462,8 +462,8 @@
     <color name="clr_withdrawal_list_top_start_bg">@color/clr_main_03</color>
     <color name="clr_withdrawal_list_top_end_bg">@color/clr_main_03</color>
     <color name="clr_withdrawal_text_bg">@color/clr_main_04</color>
-    <color name="clr_withdrawal_btn_start">@color/clr_main_03</color>
-    <color name="clr_withdrawal_btn_end">@color/clr_main_01</color>
+    <color name="clr_withdrawal_btn_start">@color/clr_main_07</color>
+    <color name="clr_withdrawal_btn_end">@color/clr_main_08</color>
     <color name="clr_withdrawal_text_tip">@color/clr_withdrawal_list_bottom_text_tip_bg</color>
     <color name="clr_withdrawal_text_bank_tip">#121B47</color>
     <!--反馈-->

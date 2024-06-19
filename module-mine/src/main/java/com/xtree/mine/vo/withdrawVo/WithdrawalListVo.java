@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * 选择提款模式
  */
-public class WithdrawalListVo  {
+public class WithdrawalListVo  implements Comparable{
     public String name;
     public String title;
     public String type;
@@ -36,6 +36,12 @@ public class WithdrawalListVo  {
                 ", enable=" + enable +
                 ", flag=" + flag +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        WithdrawalListVo vo = (WithdrawalListVo) o;
+        return Integer.compare(Integer.valueOf(vo.type), Integer.valueOf(this.type));
     }
     /*{
 	"status": 10000,

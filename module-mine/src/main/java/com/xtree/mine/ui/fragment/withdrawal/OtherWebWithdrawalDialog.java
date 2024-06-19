@@ -1,4 +1,4 @@
-package com.xtree.mine.ui.fragment;
+package com.xtree.mine.ui.fragment.withdrawal;
 
 import android.app.Application;
 import android.content.Context;
@@ -43,6 +43,7 @@ import com.xtree.mine.databinding.DialogOtherWithdrawalWebBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.ChooseInfoVo;
 import com.xtree.mine.vo.OtherWebWithdrawVo;
+import com.xtree.mine.vo.withdrawVo.WithdrawalInfoVo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -68,15 +69,19 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
     DialogOtherWithdrawalWebBinding binding;
     private String jumpUrl;//外跳URL
     private String checkCode;
+    private WithdrawalInfoVo infoVo;
 
     public OtherWebWithdrawalDialog(@NonNull Context context) {
         super(context);
     }
 
-    public static OtherWebWithdrawalDialog newInstance(Context context, LifecycleOwner owner, final ChooseInfoVo.ChannelInfo chooseInfoVo, final String checkCode) {
+    public static OtherWebWithdrawalDialog newInstance(Context context,
+                                                       LifecycleOwner owner,
+                                                       final WithdrawalInfoVo infoVo,
+                                                       final String checkCode) {
         OtherWebWithdrawalDialog dialog = new OtherWebWithdrawalDialog(context);
         dialog.owner = owner;
-        dialog.chooseInfoVo = chooseInfoVo;
+        dialog.infoVo = infoVo;
         dialog.checkCode = checkCode;
         CfLog.i("OtherWebWithdrawalDialog  dialog.chooseInfoVo = " + dialog.chooseInfoVo.toString());
         return dialog;
@@ -321,18 +326,23 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         }
 
         //注意：每天限制提款5次，您已提款1次 提款时间为00:01至00:00，您今日剩余提款额度为 199900.00元
-        final String notice = "<font color=#EE5A5A>注意:</font>";
+   /*     final String notice = "<font color=#EE5A5A>注意:</font>";
         String times, count, starttime, endtime, rest;
         times = "<font color=#EE5A5A>" + String.valueOf(otherWebWithdrawVo.times) + "</font>";
         count = "<font color=#EE5A5A>" + otherWebWithdrawVo.count + "</font>";
         starttime = "<font color=#000000>" + otherWebWithdrawVo.wraptime.starttime + "</font>";
         endtime = "<font color=#000000>" + otherWebWithdrawVo.wraptime.endtime + "</font>";
         rest = StringUtils.formatToSeparate(Float.valueOf(otherWebWithdrawVo.rest));
-        String testTxt = "<font color=#EE5A5A>" + rest + "</font>";
-        String format = getContext().getResources().getString(R.string.txt_withdraw_bank_top_tip);
-        String textSource = String.format(format, notice, times, count, starttime, endtime, testTxt);
+        String testTxt = "<font color=#EE5A5A>" + rest + "</font>"*/;
+        String formatStr = getContext().getResources().getString(R.string.txt_withdraw_top_tip);
+        String count, userCount, totalAmount;
+        count = "<font color=#99A0B1>" + infoVo.day_total_count + "</font>";
+        userCount = "<font color=#99A0B1>" + infoVo.day_used_count + "</font>";
+        totalAmount = "<font color=#DA0000>" + infoVo.day_rest_amount + "</font>";
+        String textTipSource = String.format(formatStr, count, userCount, totalAmount);
 
-        binding.tvNotice.setText(HtmlCompat.fromHtml(textSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
+        binding.tvNotice.setText(HtmlCompat.fromHtml(textTipSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
 
     }
 

@@ -160,7 +160,7 @@
                     android:id="@+id/tv_show_notice_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/clr_grey_13"
+                    android:textColor="@color/clr_txt_rebateagrt_subtitle"
                     android:visibility="visible"
                     tools:text="Demo" />
 
@@ -195,7 +195,7 @@
         android:layout_marginBottom="0dp"
         android:background="@color/clr_white"
         android:visibility="gone"
-        tools:visibility="visible">
+        tools:visibility="gone">
         <!--大额提款View-->
         <LinearLayout
             android:id="@+id/ll_bank_withdrawal_view_more"
@@ -538,7 +538,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
         android:background="@color/white"
-        android:visibility="gone"
+        android:visibility="visible"
         tools:visibility="visible">
 
         <LinearLayout
@@ -561,7 +561,8 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="0dp"
         android:background="@color/clr_white"
-        android:visibility="visible">
+        android:visibility="visible"
+        tools:visibility="gone">
 
         <LinearLayout
             android:id="@+id/ll_bank_withdrawal_default"

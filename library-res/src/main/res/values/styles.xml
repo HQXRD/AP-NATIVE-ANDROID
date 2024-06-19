@@ -1064,7 +1064,7 @@
         <item name="android:layout_marginEnd">@dimen/layout_margin</item>
         <item name="android:gravity">right|center_vertical</item>
         <item name="android:layout_marginTop">10dp</item>
-        <item name="android:textColor">@color/clr_txt_black_01</item>
+        <item name="android:textColor">@color/clr_withdrawal_text_bank_tip</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
     </style>

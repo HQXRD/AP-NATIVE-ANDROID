@@ -1,5 +1,6 @@
-package com.xtree.mine.ui.fragment;
+package com.xtree.mine.ui.fragment.withdrawal;
 
+import android.content.Context;
 import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,21 +12,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.xtree.mine.R;
-import com.xtree.mine.vo.USDTCashVo;
+import com.xtree.mine.vo.withdrawVo.WithdrawalListVo;
 
 import java.util.ArrayList;
 
-/* USDT提款顶顶 选项卡View*/
-public class FruitHorUSDTRecyclerViewAdapter extends RecyclerView.Adapter {
-    public interface IUSDTFruitHorCallback {
-        void callbackWithFruitHor(USDTCashVo.Channel selectVo);
-    }
+/**
+ * 取款顶部View Adapter 通用体现 通用提现4 大额提现 固额提现
+ */
+public class FruitHorRecyclerViewAdapter extends RecyclerView.Adapter {
+    private Context context;
+    private ArrayList<WithdrawalListVo> arrayList;
+    private IFruitHorCallback callback;
 
-    private ArrayList<USDTCashVo.Channel> arrayList;
-    private IUSDTFruitHorCallback callback;
-
-    public FruitHorUSDTRecyclerViewAdapter(ArrayList<USDTCashVo.Channel> arrayList, IUSDTFruitHorCallback callback) {
+    public FruitHorRecyclerViewAdapter(Context context, ArrayList<WithdrawalListVo> arrayList, IFruitHorCallback callback) {
         super();
+        this.context = context;
         this.arrayList = arrayList;
         this.callback = callback;
     }
@@ -33,16 +34,18 @@ public class FruitHorUSDTRecyclerViewAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.dialog_bank_withdrawal_top_child, parent, false);
-        final USDTViewHolder viewHolder = new USDTViewHolder(itemView);
+        final ViewHolder viewHolder = new ViewHolder(itemView);
 
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        USDTViewHolder viewHolder = (USDTViewHolder) holder;
-        viewHolder.showTextView.setText(arrayList.get(position).name);
+
+        ViewHolder viewHolder = (ViewHolder) holder;
+        viewHolder.showTextView.setText(arrayList.get(position).title);
         if (arrayList.get(position).flag) {
             viewHolder.showLayout.setBackgroundResource(R.drawable.bg_dialog_top_bank_selected);
         } else {
@@ -59,12 +62,12 @@ public class FruitHorUSDTRecyclerViewAdapter extends RecyclerView.Adapter {
         });
     }
 
-    private void referArray(USDTCashVo.Channel viewModel, ArrayList<USDTCashVo.Channel> arrayList) {
-        for (int i = 0; i < arrayList.size(); i++) {
-            if (arrayList.get(i).name.equals(viewModel.name)) {
-                arrayList.get(i).flag = true;
+    private void referArray(WithdrawalListVo viewModel, ArrayList<WithdrawalListVo> bankWithdrawalList) {
+        for (int i = 0; i < bankWithdrawalList.size(); i++) {
+            if (bankWithdrawalList.get(i).title.equals(viewModel.title)) {
+                bankWithdrawalList.get(i).flag = true;
             } else {
-                arrayList.get(i).flag = false;
+                bankWithdrawalList.get(i).flag = false;
             }
 
         }
@@ -79,12 +82,18 @@ public class FruitHorUSDTRecyclerViewAdapter extends RecyclerView.Adapter {
         return this.arrayList.size();
     }
 
-    private static class USDTViewHolder extends RecyclerView.ViewHolder {
+    private void referViewHolder(int position) {
+        for (int i = 0; i < arrayList.size(); i++) {
+
+        }
+    }
+
+    private static class ViewHolder extends RecyclerView.ViewHolder {
         private View itemView;
         private TextView showTextView;
         private LinearLayout showLayout;
 
-        public USDTViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             this.itemView = itemView;
             showTextView = itemView.findViewById(R.id.tv_top_child);
@@ -116,5 +125,4 @@ public class FruitHorUSDTRecyclerViewAdapter extends RecyclerView.Adapter {
             }
         }
     }
-
 }
