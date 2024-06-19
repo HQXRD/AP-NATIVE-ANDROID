@@ -255,7 +255,8 @@ public class AppUpdateDialog extends CenterPopupView {
             intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
         }
         context.startActivity(intent);
-        android.os.Process.killProcess(android.os.Process.myPid());
+        //修复 HQAP2-4223 待验证
+        //android.os.Process.killProcess(android.os.Process.myPid());
 
     }
 
