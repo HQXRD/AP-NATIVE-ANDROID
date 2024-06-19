@@ -36,6 +36,7 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.BtDomainUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
@@ -220,7 +221,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             mPlatformName = getString(R.string.bt_platform_name_fbxc);
         } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
             mPlatformName = getString(R.string.bt_platform_name_fb);
-        } else if (TextUtils.equals(mPlatform, PLATFORM_PM)){
+        } else if (TextUtils.equals(mPlatform, PLATFORM_PM)) {
             mPlatformName = getString(R.string.bt_platform_name_pm);
         } else {
             mPlatformName = getString(R.string.bt_platform_name_pmxc);
@@ -351,6 +352,9 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         binding.tvBalance.setOnClickListener(this);
         binding.ivwGameSearch.setOnClickListener(this);
         binding.tvwCancel.setOnClickListener(this);
+
+        //初始化网页版
+        initGoWeb();
 
         mBettingNetFloatingWindows = BettingNetFloatingWindows.getInstance(this, (useAgent, isChangeDomain, checkBox) -> {
             checkBox.setChecked(useAgent);
@@ -570,6 +574,21 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
                 mHandler.postDelayed(searchRunnable, 1000);
             }
         });
+
+    }
+
+    private void initGoWeb() {
+        if (TextUtils.equals(mPlatform, PLATFORM_PM) || TextUtils.equals(mPlatform, PLATFORM_FB)) {
+            binding.ivWeb.setVisibility(View.VISIBLE);
+            binding.ivWeb.setOnClickListener(v -> {
+                if (ClickUtil.isFastClick()) {
+                    return;
+                }
+                viewModel.getPlayUrl(mPlatform);
+            });
+        } else {
+            binding.ivWeb.setVisibility(View.GONE);
+        }
     }
 
     /**
@@ -1408,6 +1427,11 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         });
         viewModel.agentSwitchData.observe(this, switchMap -> {
             initAgentUi(switchMap);
+        });
+
+        viewModel.liveDataPlayUrl.observe(this, map -> {
+            String url = map.get("url").toString();
+            AppUtil.goBrowser(this, url);
         });
 
     }
