@@ -2,6 +2,8 @@ package com.xtree.base.utils;
 
 import android.util.Base64;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
@@ -16,7 +18,6 @@ public class AESUtil {
         CfLog.e("getAlgorithm() : " + secretKey.getAlgorithm() + " getFormat() : " + secretKey.getFormat() + " getEncoded() : " + new String(secretKey.getEncoded()));
         return secretKey;
     }
-
 
     // 本地端生加密
     public static String encryptData(String data, SecretKey secretKey) throws Exception {
@@ -46,6 +47,7 @@ public class AESUtil {
         byte[] encryptedBytes = Base64.decode(data, Base64.DEFAULT);
         byte[] decryptedBytes = cipher.doFinal(encryptedBytes);
 
+        CfLog.d(new String(decryptedBytes, StandardCharsets.UTF_8));
         return new String(decryptedBytes);
     }
 }
