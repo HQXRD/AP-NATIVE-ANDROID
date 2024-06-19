@@ -18,6 +18,7 @@ public class GameVo implements Parcelable {
     public boolean isH5 = false; // true:跳H5, false:原生的
     public String imageName; //
     public boolean twoImage = false; // 是否两张图片(左右不一样)
+    public GameVo twoVo; // 如果twoImage，就会有twoVo
     public String gameId; //
 
     public String title; //

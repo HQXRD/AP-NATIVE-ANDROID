@@ -112,6 +112,7 @@ public class RetrofitClient {
                         .request("Request") // request的Tag
                         .response("Response")// Response的Tag
                         .build())
+                .dns(DnsFactory.getDns())
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)

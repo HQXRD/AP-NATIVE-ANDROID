@@ -3,9 +3,8 @@ package me.xtree.mvvmhabit.base;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.WindowManager;
-
-import java.lang.ref.WeakReference;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,6 +12,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity;
+
+import java.lang.ref.WeakReference;
 
 import me.xtree.mvvmhabit.R;
 
@@ -50,6 +51,11 @@ public class ContainerActivity extends RxAppCompatActivity {
         if (fragment == null) {
             fragment = initFromIntent(getIntent());
         }
+        if (fragment == null) {
+            Log.e("TAG", "fragment is null, routerPath is " + routerPath);
+            finish();
+            return;
+        }
         FragmentTransaction trans = getSupportFragmentManager()
                 .beginTransaction();
         trans.replace(R.id.content, fragment);
@@ -65,13 +71,16 @@ public class ContainerActivity extends RxAppCompatActivity {
 
     protected Fragment initFromIntent(Intent data) {
         if (data == null) {
-            throw new RuntimeException(
-                    "you must provide a page info to display");
+            //throw new RuntimeException("you must provide a page info to display");
+            Log.e("TAG", "you must provide a page info to display");
+            return null;
         }
         try {
             String fragmentName = data.getStringExtra(FRAGMENT);
             if (fragmentName == null || "".equals(fragmentName)) {
-                throw new IllegalArgumentException("can not find page fragmentName");
+                //throw new IllegalArgumentException("can not find page fragmentName");
+                Log.e("TAG", "can not find page fragmentName");
+                return null;
             }
             Class<?> fragmentClass = Class.forName(fragmentName);
             Fragment fragment = (Fragment) fragmentClass.newInstance();
@@ -99,6 +108,15 @@ public class ContainerActivity extends RxAppCompatActivity {
             }
         } else {
             super.onBackPressed();
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content);
+        if (fragment instanceof BaseFragment) {
+            BaseFragment<?, ?> containerFragment = (BaseFragment<?, ?>) fragment;
+            containerFragment.getActivityResult(requestCode, resultCode, data);
         }
     }
 }

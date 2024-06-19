@@ -10,6 +10,9 @@
             type="com.xtree.recharge.ui.viewmodel.BankPickViewModel" />
 
         <import type="android.view.View" />
+
+        <import type="androidx.core.content.ContextCompat" />
+        <import type="com.xtree.recharge.R" />
     </data>
     <FrameLayout
         android:layout_width="match_parent"
@@ -100,6 +103,7 @@
                     android:inputType="text"
                     android:maxLength="24"
                     textChangedListener="@{model}"
+                    android:text="@={model.searchTextLiveData}"
                     android:textColor="@color/clr_purple_12"
                     android:textColorHint="@color/clr_text_color_hint"
                     android:background="@drawable/selector_bank_pick_bg"
@@ -108,10 +112,11 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:src="@mipmap/ic_game_search"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
+                    android:layout_margin="8dp"
+                    android:src="@{model.showDelete?ContextCompat.getDrawable(context,R.mipmap.icon_bt_ex_delete):ContextCompat.getDrawable(context,R.mipmap.icon_bt_ex_search)}"
+                    android:onClick="@{() -> model.clearSearch()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

@@ -39,7 +39,7 @@
                         android:id="@+id/tab_play_method"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:layout_toLeftOf="@+id/tv_balance"
+                        android:layout_toLeftOf="@+id/iv_web"
                         android:layout_toRightOf="@+id/iv_back"
                         android:textSize="18sp"
                         app:tabIndicatorHeight="0dp"
@@ -49,6 +49,17 @@
                         app:tabPaddingEnd="5dp"
                         app:tabPaddingStart="5dp"
                         app:tabRippleColor="@android:color/transparent" />
+
+                    <ImageView
+                        android:id="@+id/iv_web"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="3dp"
+                        android:visibility="gone"
+                        android:layout_toLeftOf="@+id/tv_balance"
+                        android:adjustViewBounds="true"
+                        android:src="@mipmap/bt_web" />
 
                     <TextView
                         android:id="@+id/tv_balance"

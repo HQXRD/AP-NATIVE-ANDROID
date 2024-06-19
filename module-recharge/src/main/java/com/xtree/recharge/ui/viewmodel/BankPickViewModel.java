@@ -48,6 +48,8 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
     public final MutableLiveData<List<BindModel>> searchDatas = new MutableLiveData<>(new ArrayList<>());
     public final MutableLiveData<List<BindModel>> groupDatas = new MutableLiveData<>(new ArrayList<>());
     public final MutableLiveData<Boolean> showSearch = new MutableLiveData<>(false);
+    public final MutableLiveData<Boolean> showDelete = new MutableLiveData<>(false);
+    public final MutableLiveData<String> searchTextLiveData = new MutableLiveData<>();
     public RecyclerView.RecycledViewPool recycledViewPool = new RecyclerView.RecycledViewPool();
     public RechargeVo.OpBankListDTO bankListData;
     private BankPickDialogFragment.onPickListner onPickListner;
@@ -122,6 +124,7 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
 
         searchDatas.getValue().clear();
         showSearch.setValue(false);
+        showDelete.setValue(false);
 
         if (bankListData != null) {
 
@@ -234,6 +237,10 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
         }
     }
 
+    public void clearSearch() {
+        searchTextLiveData.setValue("");
+    }
+
     public void setOnPickListner(BankPickDialogFragment.onPickListner onPickListner) {
         this.onPickListner = onPickListner;
     }
@@ -277,5 +284,6 @@ public class BankPickViewModel extends BaseViewModel<RechargeRepository> impleme
         List<BindModel> list = new ArrayList<>(set);
         searchDatas.setValue(list);
         showSearch.setValue(!sc.isEmpty());
+        showDelete.setValue(!sc.isEmpty());
     }
 }

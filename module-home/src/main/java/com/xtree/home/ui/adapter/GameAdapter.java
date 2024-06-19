@@ -22,15 +22,14 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.BrowserActivity;
-import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.TipGameDialog;
-import com.xtree.home.BuildConfig;
 import com.xtree.home.R;
 import com.xtree.home.databinding.HmItemGameBinding;
 import com.xtree.home.ui.custom.view.TipPMDialog;
 import com.xtree.home.vo.GameVo;
 
 import me.xtree.mvvmhabit.base.AppManager;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -66,8 +65,23 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
     public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
         GameVo vo = get(position);
         binding = HmItemGameBinding.bind(holder.itemView);
-        binding.ivwImg.setImageLevel(vo.typeId);
+
         binding.ivwImg.setOnClickListener(view -> jump(vo));
+        if (vo.cid == 41) {//杏彩官方
+            binding.ivwSplit.setVisibility(View.INVISIBLE);
+            binding.ivwCoverLeft.setVisibility(View.VISIBLE);
+            binding.ivwCoverRight.setVisibility(View.VISIBLE);
+            setTwoImage(vo);
+
+            return;
+        } else {
+            binding.tvMaintenance1.setVisibility(View.GONE);
+            binding.tvMaintenance2.setVisibility(View.GONE);
+            binding.ivwImg.setImageLevel(vo.typeId);
+            binding.ivwSplit.setVisibility(View.GONE);
+            binding.ivwCoverLeft.setVisibility(View.GONE);
+            binding.ivwCoverRight.setVisibility(View.GONE);
+        }
 
         if (vo.status == 0) {
             String txt = ctx.getString(R.string.hm_txt_maintaining, vo.maintenance_start, vo.maintenance_end);
@@ -98,52 +112,90 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
     }
 
-    /**
-     * 极速版普通版切换
-     */
-    private void setFastCommon(int position, GameVo vo) {
-        String key;
-        if (vo.cid == 5) {
-            //熊猫体育
-            key = SPKeyGlobal.PM_FAST_COMMON;
-        } else if (vo.cid == 26) {
-            //FB体育
-            key = SPKeyGlobal.FB_FAST_COMMON;
-        } else {
-            key = "";
+    private void setTwoImage(GameVo vo) {
+        binding.ivwCoverLeft.setOnClickListener(view -> jump(vo, true));
+        binding.ivwCoverRight.setOnClickListener(view -> jump(vo.twoVo, false));
+        KLog.i(vo);
+        if (vo.twoVo == null) {
+            return;
         }
-        boolean isFast = SPUtils.getInstance().getBoolean(key, true);
-        if (isFast) {
-            //如果是极速版
-            binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_fast);
-            binding.ivwImg.setOnClickListener(view -> jump(vo, true));
-            binding.ivLeft.setOnClickListener(null);
-            binding.ivRight.setOnClickListener(view -> {
-                CfLog.i("ivRight");
-                SPUtils.getInstance().put(key, false);
-                notifyItemChanged(position);
-            });
+        if (vo.status == 1 && vo.twoVo.status == 1) {//状态都正常时
+            binding.ivwImg.setImageLevel(101);
+        } else if (vo.status != 1 && vo.twoVo.status != 1) {
+            binding.ivwImg.setImageLevel(91);
+        } else if (vo.status != 1) {
+            binding.ivwImg.setImageLevel(92);
+        } else if (vo.twoVo.status != 1) {
+            binding.ivwImg.setImageLevel(93);
+        }
+
+        if (vo.status == 0) {
+            String txt = ctx.getString(R.string.hm_txt_maintaining, vo.maintenance_start, vo.maintenance_end);
+            binding.tvMaintenance1.setText(txt);
+            binding.tvMaintenance1.setVisibility(View.VISIBLE);
+        } else if (vo.status == 2) {
+            binding.tvMaintenance1.setText("已下架");
+            binding.tvMaintenance1.setVisibility(View.VISIBLE);
         } else {
-            //普通版
-            binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_common);
-            binding.ivwImg.setOnClickListener(view -> jump(vo, false));
-            binding.ivRight.setOnClickListener(null);
-            binding.ivLeft.setOnClickListener(view -> {
-                CfLog.i("ivLeft");
-                SPUtils.getInstance().put(key, true);
-                notifyItemChanged(position);
-            });
+            binding.tvMaintenance1.setVisibility(View.GONE);
+        }
+        if (vo.twoVo.status == 0) {
+            String txt = ctx.getString(R.string.hm_txt_maintaining, vo.twoVo.maintenance_start, vo.twoVo.maintenance_end);
+            binding.tvMaintenance2.setText(txt);
+            binding.tvMaintenance2.setVisibility(View.VISIBLE);
+        } else if (vo.twoVo.status == 2) {
+            binding.tvMaintenance2.setText("已下架");
+            binding.tvMaintenance2.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvMaintenance2.setVisibility(View.GONE);
         }
     }
 
+    /**
+     * 极速版普通版切换
+     */
+    //private void setFastCommon(int position, GameVo vo) {
+    //    String key;
+    //    if (vo.cid == 5) {
+    //        //熊猫体育
+    //        key = SPKeyGlobal.PM_FAST_COMMON;
+    //    } else if (vo.cid == 26) {
+    //        //FB体育
+    //        key = SPKeyGlobal.FB_FAST_COMMON;
+    //    } else {
+    //        key = "";
+    //    }
+    //    boolean isFast = SPUtils.getInstance().getBoolean(key, true);
+    //    if (isFast) {
+    //        //如果是极速版
+    //        binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_fast);
+    //        binding.ivwImg.setOnClickListener(view -> jump(vo, true));
+    //        binding.ivLeft.setOnClickListener(null);
+    //        binding.ivRight.setOnClickListener(view -> {
+    //            CfLog.i("ivRight");
+    //            SPUtils.getInstance().put(key, false);
+    //            notifyItemChanged(position);
+    //        });
+    //    } else {
+    //        //普通版
+    //        binding.ivFc.setBackgroundResource(R.mipmap.hm_bt_common);
+    //        binding.ivwImg.setOnClickListener(view -> jump(vo, false));
+    //        binding.ivRight.setOnClickListener(null);
+    //        binding.ivLeft.setOnClickListener(view -> {
+    //            CfLog.i("ivLeft");
+    //            SPUtils.getInstance().put(key, true);
+    //            notifyItemChanged(position);
+    //        });
+    //    }
+    //}
     private void jump(GameVo vo) {
         jump(vo, true);
     }
 
     private void jump(GameVo vo, boolean isLeft) {
         CfLog.d(vo.toString());
-        // 非正常状态 (且 非debug模式下 方便调试),不跳转
-        if (vo.status != 1 && !BuildConfig.DEBUG) {
+        // 非正常状态
+        if (vo.status != 1) {
             // 0是维护, 1是正常, 2是下架
             return;
         }
@@ -161,34 +213,31 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             mCallBack.onClick(vo);
             return;
         }
-
-        if (vo.twoImage) {
-            //熊猫场馆弹窗判断
-            if (TextUtils.equals(PLATFORM_PM, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PM_NOT_TIP_TODAY)) {
-                showPMDialog(vo, SPKeyGlobal.PM_NOT_TIP_TODAY, isLeft);
-                return;
-            }
-
-            if (isLeft) {
-                goApp(vo);
-            } else {
-                goWeb(vo);
-            }
+        //熊猫场馆弹窗判断
+        if (TextUtils.equals(PLATFORM_PM, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PM_NOT_TIP_TODAY)) {
+            showPMDialog(vo, SPKeyGlobal.PM_NOT_TIP_TODAY);
             return;
         }
 
-        //杏彩体育旗舰场馆弹窗判断
-        //vo的属性值有可能为空，java的equals不能使用null.equals（java的缺陷）,建议使用TextUtils.equals
-        if (TextUtils.equals(PLATFORM_PMXC, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PMXC_NOT_TIP_TODAY)) {
-            showPMDialog(vo, SPKeyGlobal.PMXC_NOT_TIP_TODAY, isLeft);
+        if (vo.cid == 41 || vo.cid == 42) {//杏彩官方与旗舰
+            if (!isLeft) {
+                //杏彩体育旗舰场馆弹窗判断
+                //vo的属性值有可能为空，java的equals不能使用null.equals（java的缺陷）,建议使用TextUtils.equals
+                if (TextUtils.equals(PLATFORM_PMXC, vo.alias) && AppUtil.isTipToday(SPKeyGlobal.PMXC_NOT_TIP_TODAY)) {
+                    showPMDialog(vo, SPKeyGlobal.PMXC_NOT_TIP_TODAY);
+                    return;
+                }
+            }
+            goApp(vo);
             return;
         }
 
         if (vo.isH5) {
-            if (vo.cid == 3 && AppUtil.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
+            //减少用cid判断，AG真人AG电子同公司游戏cid会重复
+            if (TextUtils.equals(vo.id, "202") && AppUtil.isTipToday(SPKeyGlobal.AG_NOT_TIP_TODAY)) {
                 showTipDialog(SPKeyGlobal.AG_NOT_TIP_TODAY, "AG真人", vo);
                 return;
-            } else if (vo.cid == 31 && AppUtil.isTipToday(SPKeyGlobal.DB_NOT_TIP_TODAY)) {
+            } else if (TextUtils.equals(vo.id, "204") && AppUtil.isTipToday(SPKeyGlobal.DB_NOT_TIP_TODAY)) {
                 showTipDialog(SPKeyGlobal.DB_NOT_TIP_TODAY, "DB真人", vo);
                 return;
             }
@@ -200,7 +249,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
     }
 
-    private void showPMDialog(GameVo vo, String key, boolean isLeft) {
+    private void showPMDialog(GameVo vo, String key) {
         if (basePopupView != null && basePopupView.isShow()) {
             return;
         }
@@ -211,12 +260,7 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
                     @Override
                     public void onClickPM() {
                         //熊猫体育
-                        if (isLeft) {
-                            goApp(vo);
-                        } else {
-                            LoadingDialog.show(ctx);
-                            goWeb(vo);
-                        }
+                        goApp(vo);
                         basePopupView.dismiss();
 
                     }
