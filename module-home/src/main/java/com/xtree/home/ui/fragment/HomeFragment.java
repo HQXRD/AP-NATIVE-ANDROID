@@ -41,6 +41,7 @@ import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.BrowserActivity;
+import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.home.BR;
 import com.xtree.home.R;
@@ -224,7 +225,18 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         viewModel.liveDataGames.observe(getViewLifecycleOwner(), list -> {
             KLog.i("size: " + list.size());
+            if (list == null || list.size() == 0) {
+                return;
+            }
             //KLog.d(list.get(0));
+            GameVo twoVo = null;
+            for (GameVo vo : list) {
+                if (vo.cid == 42) {//杏彩体育旗舰
+                    twoVo = vo;
+                }
+            }
+            list.remove(twoVo);
+            list.get(0).twoVo = twoVo;
             gameAdapter.clear();
             gameAdapter.addAll(list);
             //RadioButton rBtn = (RadioButton) binding.rgpType.getChildAt(gameGroup);
@@ -443,6 +455,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
                 return;
             }
+            LoadingDialog.show(getContext());
             viewModel.getPlayUrl(vo.alias, vo.gameId, vo.name);
         };
 

@@ -23,10 +23,23 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+#1 使用了自定义View要保证不能被混淆
+#2 使用了枚举要保证枚举不被混淆
+#3 对第三方库中的类不进行混淆
+#4 运用了反射的类也不进行混淆
+#5 使用了 Gson 之类的工具要使 JavaBean 类即实体类不被混淆
+#6 在引用第三方库的时候，标明库的混淆规则
+#7 有用到 WebView 的 JS 调用也需要保证写的接口方法不混淆
+#8 Parcelable 的子类和 Creator 静态成员变量不混淆，否则会产生 Android.os.BadParcelableException 异常
+#9 使用的四大组件，自定义的Application* 实体类
+#10 JNI中调用的类
+#11 Layout布局使用的View构造函数（自定义控件）、android:onClick等。
+
 
 #------------------------------------------主项目混淆规则----------------------------------------------
 #实体类不参与混淆
--keep class com.goldze.mvvmhabit.entity.** { *; }
+-keep class com.xtree.mvvmhabit.entity.** { *; }
+
 
 #tkrefreshlayout
 -keep class com.lcodecore.tkrefreshlayout.** { *; }
@@ -37,6 +50,14 @@
 
 -keep class me.xtree.mvvmhabit.http.BaseResponse { *; }
 -keep class me.xtree.mvvmhabit.http.BaseResponse2 { *; }
+-keep class me.xtree.mvvmhabit.http.PMBaseResponse { *; }
+
+-keep class com.xtree.base.vo.**{*;}
+-keep class com.xtree.activity.vo.**{*;}
+-keep class com.xtree.bet.bean.**{*;}
+-keep class com.xtree.home.vo.**{*;}
+-keep class com.xtree.mine.vo.**{*;}
+-keep class com.xtree.recharge.vo.**{*;}
 
 #-------------------------------------------------------------------------
 
@@ -130,7 +151,7 @@
 
 #---------------------------------3.与js互相调用的类------------------------
 
-#无
+-keep public class com.xtree.base.widget.WebAppInterface { *; }
 
 #----------------------------------------------------------------------------
 
@@ -144,8 +165,6 @@
 #----------------------------------------------------------------------------
 
 #---------------------------------5.自定义控件------------------------------
-
--keep class me.goldze.mvvmhabit.widget.** { *; }
 
 #----------------------------------------------------------------------------
 #---------------------------------6.其他定制区-------------------------------
@@ -301,9 +320,12 @@
 # -keep class * implements com.alibaba.android.arouter.facade.template.IProvider
 #----------------------------------------------------------------------------
 
-#---------------------------------AndroidJunkCode------------------------------------
-#为config2配置的packageBase
--keep class com.xtree.** {*;}
-#----------------------------------------------------------------------------
+#-keep class com.xtree.** {*;}
 
+#---------------------------------Module类不能混淆------------------------------------
 -keep class com.xtree.base.base.**{*;}
+-keep class com.xtree.base.config.**{*;}
+-keep public class com.xtree.bet.BetModuleInit { *; }
+-keep public class com.xtree.home.HomeModuleInit { *; }
+-keep public class com.xtree.main.MainModuleInit { *; }
+-keep public class com.xtree.main.MainModuleInit { *; }
