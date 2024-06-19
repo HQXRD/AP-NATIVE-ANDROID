@@ -9,7 +9,7 @@ import org.json.JSONObject;
 
 
 public class KLog {
-
+    private final static String TAG = "TAG";
     private static boolean IS_SHOW_LOG = false;
 
     private static final String DEFAULT_MESSAGE = "execute";
@@ -123,7 +123,7 @@ public class KLog {
         String methodName = stackTrace[index].getMethodName();
         int lineNumber = stackTrace[index].getLineNumber();
 
-        String tag = (tagStr == null ? className : tagStr);
+        String tag = TAG; // (tagStr == null ? className : tagStr);
         methodName = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
 
         StringBuilder stringBuilder = new StringBuilder();

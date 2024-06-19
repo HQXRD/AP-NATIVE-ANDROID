@@ -66,7 +66,7 @@ public class CfLog {
                 return;
             }
             getMethodNames(new Throwable().getStackTrace());
-            Log.e(className, createLog(message));
+            Log.e(TAG, createLog(message));
         }
     }
 
@@ -78,7 +78,7 @@ public class CfLog {
             }
             getMethodNames(new Throwable().getStackTrace());
 
-            Log.e(className, createLog(String.format(message, args)));
+            Log.e(TAG, createLog(String.format(message, args)));
         }
     }
 
@@ -90,7 +90,7 @@ public class CfLog {
                 return;
             }
             getMethodNames(new Throwable().getStackTrace());
-            Log.e(className, createLog(message) + "\n " + e.toString());
+            Log.e(TAG, createLog(message) + "\n " + e.toString());
         }
     }
 
@@ -102,7 +102,7 @@ public class CfLog {
             }
             getMethodNames(new Throwable().getStackTrace());
 
-            Log.w(className, createLog(String.format(message, args)));
+            Log.w(TAG, createLog(String.format(message, args)));
         }
     }
 
@@ -113,7 +113,7 @@ public class CfLog {
                 return;
             }
             getMethodNames(new Throwable().getStackTrace());
-            Log.i(className, createLog("************"));
+            Log.i(TAG, createLog("************"));
         }
 
     }
@@ -125,7 +125,23 @@ public class CfLog {
                 return;
             }
             getMethodNames(new Throwable().getStackTrace());
-            Log.i(className, createLog(message));
+            //Log.i(className, createLog(message));
+            String msg = createLog(message);
+            final int maxLength = 1600;
+            if (msg.length() > maxLength) {
+                Log.i(TAG, "msg.length = " + msg.length());
+                int chunkCount = msg.length() / maxLength;
+                for (int i = 0; i <= chunkCount; i++) {
+                    int max = maxLength * (i + 1);
+                    if (max >= msg.length()) {
+                        Log.w(TAG, msg.substring(maxLength * i));
+                    } else {
+                        Log.w(TAG, msg.substring(maxLength * i, max));
+                    }
+                }
+            } else {
+                Log.i(TAG, msg);
+            }
         }
 
     }
@@ -137,7 +153,7 @@ public class CfLog {
                 return;
             }
             getMethodNames(new Throwable().getStackTrace());
-            Log.d(className, createLog("--------"));
+            Log.d(TAG, createLog("--------"));
         }
     }
 
@@ -148,7 +164,7 @@ public class CfLog {
                 return;
             }
             getMethodNames(new Throwable().getStackTrace());
-            Log.d(className, createLog(message));
+            Log.d(TAG, createLog(message));
         }
     }
 
@@ -160,7 +176,7 @@ public class CfLog {
             }
             getMethodNames(new Throwable().getStackTrace());
 
-            Log.d(className, createLog(String.format(message, args)));
+            Log.d(TAG, createLog(String.format(message, args)));
         }
     }
 
@@ -172,7 +188,7 @@ public class CfLog {
             }
 
             getMethodNames(new Throwable().getStackTrace());
-            Log.v(className, createLog(message));
+            Log.v(TAG, createLog(message));
         }
     }
 
@@ -184,7 +200,7 @@ public class CfLog {
             }
 
             getMethodNames(new Throwable().getStackTrace());
-            Log.w(className, createLog(message));
+            Log.w(TAG, createLog(message));
         }
     }
 
@@ -195,7 +211,7 @@ public class CfLog {
         }
 
         getMethodNames(new Throwable().getStackTrace());
-        Log.wtf(className, createLog(message));
+        Log.wtf(TAG, createLog(message));
     }
 
 }
