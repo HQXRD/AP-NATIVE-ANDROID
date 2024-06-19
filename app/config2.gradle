@@ -91,7 +91,7 @@ android {
             resValue "string", "mixpanel_token", "44c997f89ac52bdb676418f79a78cc6e"
             resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "ms_secret_key", "efa54723-d17f-40a5-ba10-95f6a4ec7832"
-            resValue "string", "domain_api_list", ";https://app.zgntcpgxds.com:16801" +
+            resValue "string", "domain_api_list", "https://app.zgntcpgxds.com:16801" +
                     ";http://43.128.11.58:16804" +
                     ";http://43.137.39.194:16803" +
                     ";http://101.43.19.60:16803" +
@@ -122,14 +122,14 @@ android {
                     ";https://h53.h7y7p2.com" +
                     ";https://h54.y7g2n9.com" +
                     ";https://h55.y7t9j5.com"
-            resValue "string", "domain_url_list_third", "https://scdnapp.l3s7n5.com/xc/app_config.json" +
-                    ";https://scdnapp.b4k4p3.com/xc/app_config.json" +
-                    ";https://scdnapp.s2s3b7.com/xc/app_config.json" +
-                    ";https://scdnapp.f6i8s7.com/xc/app_config.json" +
-                    ";https://cn2app.e2f9f5.com/xc/app_config.json" +
+            resValue "string", "domain_url_list_third", "https://cn2app.e2f9f5.com/xc/app_config.json" +
                     ";https://cn2app.q5o4v3.com/xc/app_config.json" +
                     ";https://cn2app.e9f6s7.com/xc/app_config.json" +
-                    ";https://cn2app.v2a1c6.com/xc/app_config.json"
+                    ";https://cn2app.v2a1c6.com/xc/app_config.json" +
+                    ";https://scdnapp.i2q9r4.com/xc/app_config.json" +
+                    ";https://scdnapp.o6j6r6.com/xc/app_config.json" +
+                    ";https://aliapp.v9u4a4.com/xc/app_config.json" +
+                    ";https://aliapp.l2r1l7.com/xc/app_config.json"
             multiDexEnabled true
             dimension "channelName"
         }
