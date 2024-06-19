@@ -71,10 +71,12 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
     override fun initView() {
         init()
         initTag()
+        inMain()
         binding?.root?.postDelayed({ inMain() }, DELAY_MILLIS)
         /*setThirdFasterDomain()
         setFasterApiDomain()
         setFasterH5Domain()*/
+
     }
 
     companion object {
@@ -128,7 +130,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                     uid = "the_fastest_line_h5"
                 ).transform { data ->
                     CfLog.e("域名：H5------$host")
-                    NetConfig.host = host
+                    
                     DomainUtil.setH5Url(host)
                     getFastestApiDomain(isThird = false)
                     data
@@ -161,7 +163,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
                     uid = "the_fastest_api"
                 ).transform { data ->
                     CfLog.e("域名：api------$host---$isThird")
-                    NetConfig.host = host
+                    
                     DomainUtil.setApiUrl(host)
                     if(mIsH5DomainEmpty){
                         DomainUtil.setH5Url(host)

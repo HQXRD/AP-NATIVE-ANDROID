@@ -16,6 +16,7 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ChangeApiLineUtil;
+import com.xtree.base.utils.ChangeH5LineUtil;
 import com.xtree.base.vo.EventVo;
 import com.xtree.base.widget.MenuItemView;
 import com.xtree.base.widget.SpecialMenuItemView;
@@ -87,6 +88,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         ChangeApiLineUtil.getInstance().start();
+        ChangeH5LineUtil.getInstance().start();
     }
 
     @Override

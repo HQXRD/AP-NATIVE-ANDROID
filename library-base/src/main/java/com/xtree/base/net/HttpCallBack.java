@@ -5,6 +5,7 @@ import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ChangeApiLineUtil;
 import com.xtree.base.utils.ChangeH5LineUtil;
 import com.xtree.base.widget.LoadingDialog;
 
@@ -114,7 +115,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 break;
             case HttpCallBack.CodeRule.CODE_100002:
                 ToastUtils.showShort("当前网络环境异常，切换线路中..."); // ("域名被劫持"  + "，切换线路中...");
-                ChangeH5LineUtil.getInstance().start();
+                ChangeApiLineUtil.getInstance().start();
                 break;
             default:
                 KLog.e("status is not normal: " + baseResponse);
@@ -137,7 +138,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             }else{
                 CfLog.e("无法访问：" + rError.getMessage());
                 ToastUtils.showShort("无法访问：" + rError.getMessage() + "，切换线路中...");
-                ChangeH5LineUtil.getInstance().start();
+                ChangeApiLineUtil.getInstance().start();
             }
             return;
         } else if (t instanceof BusinessException) {

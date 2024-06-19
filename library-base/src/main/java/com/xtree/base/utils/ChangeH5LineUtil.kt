@@ -12,6 +12,7 @@ import com.xtree.base.vo.Domain
 import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
 import java.util.concurrent.CancellationException
+import java.util.concurrent.TimeUnit
 
 class ChangeH5LineUtil private constructor() {
 
@@ -19,9 +20,11 @@ class ChangeH5LineUtil private constructor() {
         mCurH5DomainList = ArrayList()
         mThirdDomainList = ArrayList()
     }
+
     companion object {
         @JvmStatic
         val instance: ChangeH5LineUtil by lazy { ChangeH5LineUtil() }
+
         /**
          * 当前预埋域名列表
          */
@@ -30,8 +33,8 @@ class ChangeH5LineUtil private constructor() {
         private var mIsRunning: Boolean = false
     }
 
-    fun start(){
-        if(!mIsRunning) {
+    fun start() {
+        if (!mIsRunning) {
             CfLog.e("=====开始切换线路========")
             mIsRunning = true
             setThirdFasterDomain()
@@ -66,7 +69,7 @@ class ChangeH5LineUtil private constructor() {
                     uid = "the_fastest_line_h5"
                 ).transform { data ->
                     CfLog.e("域名：H5------$host")
-                    NetConfig.host = host
+
                     DomainUtil.setH5Url(host)
                     data
                 }
@@ -78,7 +81,7 @@ class ChangeH5LineUtil private constructor() {
                 if (e !is CancellationException) {
                     if (isThird) {
                         CfLog.e("切换线路失败，请检查手机网络连接情况")
-                        ToastUtils.showLong("切换线路失败，请检查手机网络连接情况")
+                        ToastUtils.showLong("切换网页线路失败，请检查手机网络连接情况")
                         mIsRunning = false
                     }
                     getThirdFastestDomain(isH5 = true)
@@ -100,13 +103,23 @@ class ChangeH5LineUtil private constructor() {
                     absolutePath = true,
                     tag = RESPONSE,
                     uid = "the_fastest_line_third"
-                ) { addHeader("App-RNID", "87jumkljo") }.transform { data ->
-                    CfLog.i("$host")
-                    var domainJson =
-                        AESUtil.decryptData(data, "wnIem4HOB2RKzhiqpaqbZuxtp7T36afAHH88BUht/2Y=")
-                    val domain: Domain = Gson().fromJson(domainJson, Domain::class.java)
-                    mCurH5DomainList = domain.h5
-                    getFastestH5Domain(isThird = true)
+                ) {
+                    addHeader("App-RNID", "87jumkljo")
+                    connectTimeout(5, TimeUnit.SECONDS)
+                }.transform { data ->
+                    CfLog.e("$host")
+                    try {
+                        var domainJson = AESUtil.decryptData(
+                            data,
+                            "wnIem4HOB2RKzhiqpaqbZuxtp7T36afAHH88BUht/2Y="
+                        )
+                        val domain: Domain = Gson().fromJson(domainJson, Domain::class.java)
+                        ChangeApiLineUtil.mCurApiDomainList = domain.api
+                        getFastestH5Domain(isThird = true)
+                    } catch (e: Exception) {
+                        mIsRunning = false
+                        //ToastUtils.showLong("切换H5线路失败，获取三方域名存储地址失败，请检查手机网络连接情况")
+                    }
                     data
                 }
             }
@@ -115,7 +128,7 @@ class ChangeH5LineUtil private constructor() {
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 mIsRunning = false
-                ToastUtils.showLong("切换线路失败，获取三方域名存储地址失败，请检查手机网络连接情况")
+                ToastUtils.showLong("切换H5线路失败，获取三方域名存储地址失败，请检查手机网络连接情况")
             }
         }
     }
