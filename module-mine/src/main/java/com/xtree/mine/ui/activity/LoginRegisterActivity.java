@@ -41,6 +41,7 @@ import com.xtree.mine.ui.viewmodel.LoginViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.SettingsVo;
+import com.xtree.weight.TopSpeedDomainFloatingWindows;
 
 import java.util.HashMap;
 
@@ -68,6 +69,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     private SettingsVo settingsVo;
     private PromotionCodeVo promotionCodeVo;
     private String code;//剪切板获取的code
+    private TopSpeedDomainFloatingWindows mTopSpeedDomainFloatingWindows;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -86,6 +88,8 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     @Override
     public void initView() {
+        mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(this);
+        mTopSpeedDomainFloatingWindows.show();
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.loginSubHeader.setOnClickListener(v -> {
             if (clickCount++ > 5) {

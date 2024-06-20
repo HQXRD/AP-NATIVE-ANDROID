@@ -25,7 +25,7 @@ import com.xtree.base.widget.SpecialMenuItemView;
 import com.xtree.main.BR;
 import com.xtree.main.R;
 import com.xtree.main.databinding.ActivityMainBinding;
-import com.xtree.main.ui.dialog.TopSpeedDomainFloatingWindows;
+import com.xtree.weight.TopSpeedDomainFloatingWindows;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -77,7 +77,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
 
     @Override
     public void initView() {
-
+        mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(MainActivity.this);
+        mTopSpeedDomainFloatingWindows.show();
     }
 
     @Override
@@ -208,15 +209,10 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
                 meMenuItem.setHasMessage((boolean) event.getMsg());
                 break;
             case EVENT_TOP_SPEED_FINISH:
-                if(mTopSpeedDomainFloatingWindows == null) {
-                    mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(this);
-                }
-                if(mTopSpeedDomainFloatingWindows.isShowing()){
-                    mTopSpeedDomainFloatingWindows.refresh();
-                }else {
-                    mTopSpeedDomainFloatingWindows.show();
-                }
+                CfLog.e("EVENT_TOP_SPEED_FINISH竞速完成。。。");
+                mTopSpeedDomainFloatingWindows.refresh();
                 mIsDomainSpeedChecked = true;
+                initData();
                 break;
         }
     }

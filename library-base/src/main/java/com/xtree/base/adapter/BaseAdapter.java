@@ -1,4 +1,4 @@
-package com.xtree.main.ui.adapter;
+package com.xtree.base.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

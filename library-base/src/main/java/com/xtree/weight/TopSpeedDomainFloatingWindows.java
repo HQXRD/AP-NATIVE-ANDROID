@@ -1,4 +1,4 @@
-package com.xtree.main.ui.dialog;
+package com.xtree.weight;
 
 import static android.content.Context.WINDOW_SERVICE;
 
@@ -9,11 +9,16 @@ import android.view.WindowManager;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.xtree.base.R;
+import com.xtree.base.adapter.MainDomainAdapter;
+import com.xtree.base.databinding.MainLayoutTopSpeedDomainBinding;
+import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.FastestTopDomainUtil;
+import com.xtree.base.vo.TopSpeedDomain;
 import com.xtree.base.widget.FloatingWindows;
-import com.xtree.main.R;
-import com.xtree.main.databinding.MainLayoutTopSpeedDomainBinding;
-import com.xtree.main.ui.adapter.MainDomainAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TopSpeedDomainFloatingWindows extends FloatingWindows {
     MainLayoutTopSpeedDomainBinding mBinding;
@@ -39,25 +44,42 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
         mBinding = MainLayoutTopSpeedDomainBinding.bind(secondaryLayout.getRootView());
         secondaryLayout.setVisibility(View.GONE);
         mBinding.rvAgent.setLayoutManager(new LinearLayoutManager(mContext));
-        mainDomainAdapter = new MainDomainAdapter(mContext, FastestTopDomainUtil.getInstance().getTopSpeedDomain());
-        mBinding.rvAgent.setAdapter(mainDomainAdapter);
         ivwIcon.setOnClickListener(v -> {
             if(secondaryLayout.getVisibility() == VISIBLE){
                 secondaryLayout.setVisibility(GONE);
             }else {
                 secondaryLayout.setVisibility(VISIBLE);
+                List<TopSpeedDomain> datas = new ArrayList<>();
+                for (int i = 0; i < 4; i++) {
+                    datas.add(new TopSpeedDomain());
+                }
+                if(mainDomainAdapter == null) {
+                    mainDomainAdapter = new MainDomainAdapter(mContext, datas);
+                    mainDomainAdapter.setIsChecking(true);
+                    mBinding.rvAgent.setAdapter(mainDomainAdapter);
+                }else {
+                    mainDomainAdapter.setIsChecking(true);
+                    mainDomainAdapter.setNewData(datas);
+                }
+                FastestTopDomainUtil.getInstance().start();
             }
         });
         mBinding.tvSpeedCheck.setOnClickListener(v -> {
+            List<TopSpeedDomain> datas = new ArrayList<>();
+            for (int i = 0; i < 4; i++) {
+                datas.add(new TopSpeedDomain());
+            }
+            mainDomainAdapter.setIsChecking(true);
+            mainDomainAdapter.setNewData(datas);
             FastestTopDomainUtil.getInstance().start();
         });
     }
 
     public void refresh() {
-        mainDomainAdapter.setNewData(FastestTopDomainUtil.getInstance().getTopSpeedDomain());
-    }
-
-    public boolean isShowing() {
-        return secondaryLayout.getVisibility() == VISIBLE;
+        CfLog.e("mainDomainAdapter == " + (mainDomainAdapter == null));
+        if(mainDomainAdapter != null) {
+            mainDomainAdapter.setIsChecking(false);
+            mainDomainAdapter.setNewData(FastestTopDomainUtil.getInstance().getTopSpeedDomain());
+        }
     }
 }

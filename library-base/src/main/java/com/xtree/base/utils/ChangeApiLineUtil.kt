@@ -80,8 +80,8 @@ class ChangeApiLineUtil private constructor() {
                     ToastUtils.showLong("切换线路成功")
                     DomainUtil.setApiUrl(host)
                     RetrofitClient.init() // 重置URL
-                    val activity = AppManager.getAppManager().currentActivity()
-                    activity.startActivity(Intent(activity, activity.javaClass))
+                    /*val activity = AppManager.getAppManager().currentActivity()
+                    activity.startActivity(Intent(activity, activity.javaClass))*/
                     mIsRunning = false
                     data
                 }

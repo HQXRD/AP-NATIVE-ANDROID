@@ -94,13 +94,10 @@ class FastestTopDomainUtil private constructor() {
                     uid = "the_fastest_line"
                 ).transform { data ->
                     CfLog.i("$host")
-                    CfLog.e("域名：api------$host")
-                    if(mTopSpeedDomainList.size == 0) {
-                        DomainUtil.setApiUrl(host)
-                    }
                     var topSpeedDomain = TopSpeedDomain()
                     topSpeedDomain.url = host
                     topSpeedDomain.speedSec = System.currentTimeMillis() - curTime
+                    CfLog.e("域名：api------$host---${topSpeedDomain.speedSec}")
                     mTopSpeedDomainList.add(topSpeedDomain)
                     mCurApiDomainList.remove(host)
                     if(mTopSpeedDomainList.size < 4 && mCurApiDomainList.isNotEmpty()) {
@@ -110,6 +107,8 @@ class FastestTopDomainUtil private constructor() {
                         if(!mIsFirstFinish){
                             mIsFirstFinish = true
                         }
+                        mTopSpeedDomainList.sort()
+                        DomainUtil.setApiUrl(mTopSpeedDomainList[0].url)
                         EventBus.getDefault().post(EventVo(EventConstant.EVENT_TOP_SPEED_FINISH, ""))
                     }
                     data

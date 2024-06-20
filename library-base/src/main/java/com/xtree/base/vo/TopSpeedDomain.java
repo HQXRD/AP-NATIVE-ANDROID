@@ -2,7 +2,7 @@ package com.xtree.base.vo;
 
 import android.os.Parcel;
 
-public class TopSpeedDomain implements BaseBean {
+public class TopSpeedDomain implements BaseBean, Comparable<TopSpeedDomain> {
     public String url;
     public long speedSec;
 
@@ -41,4 +41,16 @@ public class TopSpeedDomain implements BaseBean {
             return new TopSpeedDomain[size];
         }
     };
+
+    @Override
+    public int compareTo(TopSpeedDomain o) {
+        long result = this.speedSec - o.speedSec;
+        if (result > 0) {
+            return 1;
+        } else if (result == 0) {
+            return 0;
+        } else {
+            return -1;
+        }
+    }
 }
