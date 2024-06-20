@@ -1,5 +1,6 @@
 package com.xtree.base.adapter;
 
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -48,6 +49,23 @@ public class MainDomainAdapter extends BaseAdapter<TopSpeedDomain> {
             binding.tvAgentChange.setVisibility(!TextUtils.equals(domain.url, DomainUtil.getApiUrl()) ? View.VISIBLE : View.INVISIBLE);
             binding.tvRecomment.setText("推荐");
             binding.tvSpeed.setText(String.valueOf(domain.speedSec));
+
+            if (domain.speedSec < 200) {
+                binding.tvAgentChange.setTextColor(mContext.getResources().getColor(R.color.clr_green_03));
+                binding.tvAgentChange.setBackground(mContext.getResources().getDrawable(R.drawable.bg_stroke_green));
+                binding.ivRedPoint.setBackground(mContext.getResources().getDrawable(R.drawable.ic_green_point));
+                binding.tvRecomment.setVisibility(View.VISIBLE);
+            } else if (domain.speedSec > 200 && domain.speedSec < 500) {
+                binding.tvAgentChange.setTextColor(mContext.getResources().getColor(R.color.clr_orange_02));
+                binding.tvAgentChange.setBackground(mContext.getResources().getDrawable(R.drawable.bg_stroke_orange));
+                binding.ivRedPoint.setBackground(mContext.getResources().getDrawable(R.drawable.ic_orange_point));
+                binding.tvRecomment.setVisibility(View.VISIBLE);
+            } else {
+                binding.tvAgentChange.setTextColor(mContext.getResources().getColor(R.color.clr_red_02));
+                binding.tvAgentChange.setBackground(mContext.getResources().getDrawable(R.drawable.bg_stroke_red));
+                binding.ivRedPoint.setBackground(mContext.getResources().getDrawable(R.drawable.ic_red_point));
+                binding.tvRecomment.setVisibility(View.INVISIBLE);
+            }
         }
 
         binding.tvAgentChange.setOnClickListener(v -> {

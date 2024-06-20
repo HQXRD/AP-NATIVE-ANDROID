@@ -149,12 +149,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
         return mainTab;
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        initData();
-    }
-
     private void initBottomTab() {
         homeMenuItem = newItem(R.mipmap.mn_hm_unselected, R.mipmap.mn_hm_selected, getString(R.string.txt_pg_home));
         activityMenuItem = newItem(R.mipmap.mn_dc_unselected, R.mipmap.mn_dc_selected, getString(R.string.txt_pg_discount));
@@ -212,7 +206,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
                 CfLog.e("EVENT_TOP_SPEED_FINISH竞速完成。。。");
                 mTopSpeedDomainFloatingWindows.refresh();
                 mIsDomainSpeedChecked = true;
-                initData();
                 break;
         }
     }

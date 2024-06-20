@@ -120,8 +120,8 @@ public abstract class FloatingWindows extends RelativeLayout {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         mWindowManager.getDefaultDisplay().getMetrics(displayMetrics);
         floatLp.gravity = Gravity.TOP;
-        mFloatX = mFloatX == 0 ? displayMetrics.widthPixels / 2 - 100 : mFloatX;
-        mFloatY = mFloatY == 0 ? displayMetrics.heightPixels / 2 + 100 : mFloatY;
+        mFloatX = mFloatX == 0 ? displayMetrics.widthPixels / 2 - ConvertUtils.dp2px(30) : mFloatX;
+        mFloatY = mFloatY == 0 ? displayMetrics.heightPixels / 2 + ConvertUtils.dp2px(100) : mFloatY;
         floatLp.x = mFloatX;
         floatLp.y = mFloatY;
 

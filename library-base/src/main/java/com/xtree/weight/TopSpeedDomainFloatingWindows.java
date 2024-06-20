@@ -20,6 +20,8 @@ import com.xtree.base.widget.FloatingWindows;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.xtree.mvvmhabit.utils.ConvertUtils;
+
 public class TopSpeedDomainFloatingWindows extends FloatingWindows {
     MainLayoutTopSpeedDomainBinding mBinding;
     MainDomainAdapter mainDomainAdapter;
@@ -34,7 +36,7 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
         WindowManager windowManager = (WindowManager) mContext.getSystemService(WINDOW_SERVICE);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-        setPosition(displayMetrics.widthPixels / 2 - 100, displayMetrics.heightPixels / 2 + 300);
+        setPosition(displayMetrics.widthPixels / 2 - ConvertUtils.dp2px(30), displayMetrics.heightPixels / 2 + ConvertUtils.dp2px(50));
         super.initView(layout);
     }
 

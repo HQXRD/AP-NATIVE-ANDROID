@@ -138,7 +138,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             }else{
                 CfLog.e("无法访问：" + rError.getMessage());
                 ToastUtils.showShort("无法访问：" + rError.getMessage() + "，切换线路中...");
-                //ChangeApiLineUtil.getInstance().start();
+                ChangeApiLineUtil.getInstance().start();
             }
             return;
         } else if (t instanceof BusinessException) {
