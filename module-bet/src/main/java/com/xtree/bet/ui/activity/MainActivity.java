@@ -236,6 +236,13 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         SPUtils.getInstance().put(SPKeyGlobal.KEY_GAME_SWITCH + mPlatform, bGameSwitch);
         boolean isAgent = SPUtils.getInstance().getBoolean(SPKeyGlobal.KEY_USE_AGENT + mPlatform);
 
+        //更新悬浮窗数据
+        if (mBettingNetFloatingWindows != null) {
+            mBettingNetFloatingWindows.initData();
+        } else {
+            initNetFloatWindows();
+        }
+
         if (!bGameSwitch) {
             if (!BtDomainUtil.isMutiLine()) {
                 if (!isFloating) {
@@ -351,14 +358,8 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         //初始化网页版
         initGoWeb();
 
-        mBettingNetFloatingWindows = BettingNetFloatingWindows.getInstance(this, (useAgent, isChangeDomain, checkBox) -> {
-            checkBox.setChecked(useAgent);
-            setDomain(useAgent);
-            resetViewModel();
-            setChangeDomainVisible();
-            uploadException(useAgent, isChangeDomain);
-            mBettingNetFloatingWindows.hideSecondaryLayout();
-        });
+        initNetFloatWindows();
+
         setChangeDomainVisible();
 
         binding.tabPlayMethod.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -570,6 +571,17 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             }
         });
 
+    }
+
+    private void initNetFloatWindows() {
+        mBettingNetFloatingWindows = BettingNetFloatingWindows.getInstance(this, (useAgent, isChangeDomain, checkBox) -> {
+            checkBox.setChecked(useAgent);
+            setDomain(useAgent);
+            resetViewModel();
+            setChangeDomainVisible();
+            uploadException(useAgent, isChangeDomain);
+            mBettingNetFloatingWindows.hideSecondaryLayout();
+        });
     }
 
     private void initGoWeb() {
