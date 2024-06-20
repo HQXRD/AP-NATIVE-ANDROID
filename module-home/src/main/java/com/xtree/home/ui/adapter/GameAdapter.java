@@ -71,6 +71,10 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
             binding.ivwSplit.setVisibility(View.INVISIBLE);
             binding.ivwCoverLeft.setVisibility(View.VISIBLE);
             binding.ivwCoverRight.setVisibility(View.VISIBLE);
+            //解决因为缓存导致的问题
+            binding.tvwMaintenance.setVisibility(View.GONE);
+            binding.ivwGreyCover.setVisibility(View.GONE);
+            binding.rlSpace.setVisibility(View.GONE);
             setTwoImage(vo);
 
             return;
