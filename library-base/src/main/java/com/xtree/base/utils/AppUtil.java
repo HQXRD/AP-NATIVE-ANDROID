@@ -23,7 +23,7 @@ public class AppUtil {
      */
     public static void goCustomerService(Context ctx) {
 
-        goBrowser(ctx, DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE);
+        goBrowser(ctx, DomainUtil.getH5Domain2() + Constant.URL_CUSTOMER_SERVICE);
     }
 
     public static void goBrowser(Context ctx, String url) {
@@ -32,9 +32,9 @@ public class AppUtil {
         }
 
         if (url.startsWith("/")) {
-            url = DomainUtil.getDomain2() + url;
+            url = DomainUtil.getH5Domain2() + url;
         } else if (!url.startsWith("http")) {
-            url = DomainUtil.getDomain2() + "/" + url;
+            url = DomainUtil.getH5Domain2() + "/" + url;
         } else {
             // 正常 url
         }
@@ -48,7 +48,7 @@ public class AppUtil {
     public static void goWeb403() {
         CfLog.i("*********");
         AppManager.getAppManager().AppExit();
-        String url = DomainUtil.getDomain2() + Constant.URL_PAGE_403;
+        String url = DomainUtil.getH5Domain2() + Constant.URL_PAGE_403;
         ARouter.getInstance().build(RouterActivityPath.Widget.PAGER_FORBIDDEN)
                 .withString("title", "访问限制")
                 .withString("url", url).navigation();

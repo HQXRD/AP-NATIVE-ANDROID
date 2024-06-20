@@ -278,7 +278,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         binding.tvwAntiFraud.setOnClickListener(v -> {
             // 防骗教程
             String title = getString(R.string.txt_rc_anti_fraud);
-            String url = DomainUtil.getDomain2() + Constant.URL_ANTI_FRAUD;
+            String url = DomainUtil.getH5Domain2() + Constant.URL_ANTI_FRAUD;
             new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
         });
         binding.tvwDownload.setOnClickListener(v -> {
@@ -405,7 +405,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             @Override
             public void onBindView(BannerImageHolder holder, BannersVo data, int position, int size) {
                 //holder.imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                String url = data.picture.startsWith("http") ? data.picture : DomainUtil.getDomain2() + data.picture;
+                String url = data.picture.startsWith("http") ? data.picture : DomainUtil.getH5Domain2() + data.picture;
                 Glide.with(getContext()).load(url).placeholder(R.mipmap.rc_bnr_ad).into(holder.imageView);
             }
         });
@@ -414,7 +414,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 return;
             }
 
-            String url = data.link.startsWith("http") ? data.link : DomainUtil.getDomain2() + data.link;
+            String url = data.link.startsWith("http") ? data.link : DomainUtil.getH5Domain2() + data.link;
             CfLog.d(url);
             AppUtil.goBrowser(getContext(), url);
         });
@@ -516,7 +516,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         curPaymentTypeVo = vo;
         binding.llCurPmt.setVisibility(View.VISIBLE);
         binding.tvwCurPmt.setText(vo.dispay_title);
-        String url = DomainUtil.getDomain2() + vo.un_selected_image; // 未选中 彩色图片
+        String url = DomainUtil.getH5Domain2() + vo.un_selected_image; // 未选中 彩色图片
         Glide.with(getContext()).load(url).placeholder(R.mipmap.ic_trans_76).into(binding.ivwCurPmt);
         binding.llBindInfo.setVisibility(View.GONE);
         binding.llDown.setVisibility(View.GONE); // 隐藏底部 用户输入的部分
@@ -637,7 +637,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 viewModel.checkOrder(vo.bid); // 查极速充值的未完成订单
             } else if (!TextUtils.isEmpty(vo.op_thiriframe_url)) {
                 TagUtils.tagEvent(getContext(), "rc", vo.bid); // 打点
-                String url = vo.op_thiriframe_url.startsWith("http") ? vo.op_thiriframe_url : DomainUtil.getDomain2() + vo.op_thiriframe_url;
+                String url = vo.op_thiriframe_url.startsWith("http") ? vo.op_thiriframe_url : DomainUtil.getH5Domain2() + vo.op_thiriframe_url;
                 showWebPayDialog(vo.title, url);
             } else if (vo.paycode.contains(ONE_PAY_FIX)) {
                 // 极速充值
@@ -1441,7 +1441,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             }
             String url = vo.op_thiriframe_url;
             if (!url.startsWith("http")) {
-                url = DomainUtil.getDomain2() + url;
+                url = DomainUtil.getH5Domain2() + url;
             }
             CfLog.d(vo.title + ", jump: " + url);
             showWebPayDialog(vo.title, url);
@@ -1631,7 +1631,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 if (vo.domainList.size() > 0) {
                     url = vo.domainList.get(0) + url;
                 } else {
-                    url = DomainUtil.getDomain2() + url;
+                    url = DomainUtil.getH5Domain2() + url;
                 }
             }
             CfLog.i(vo.payname + ", jump: " + url);
@@ -1779,7 +1779,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         CfLog.i("****** 弹窗: " + msg);
         if (!mRecommendList.isEmpty()) {
             // 弹窗
-            String url = DomainUtil.getDomain2() + Constant.URL_RC_CNYT_TUTORIAL; // 不用 tutorialUrl
+            String url = DomainUtil.getH5Domain2() + Constant.URL_RC_CNYT_TUTORIAL; // 不用 tutorialUrl
             BasePopupView dialog = new RechargeRecommendDialog(getContext(), msg, url, mRecommendList, vo, curVo -> {
                 CfLog.i("****** ");
                 //onClickPayment(curVo);
@@ -1828,7 +1828,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     }
 
     private void showWebDialog(String title, String path) {
-        String url = path.startsWith("/") ? DomainUtil.getDomain2() + path : path;
+        String url = path.startsWith("/") ? DomainUtil.getH5Domain2() + path : path;
         new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
     }
 

@@ -93,7 +93,7 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
                 Ele vo1 = get(position);
                 CfLog.i(vo1.toString());
                 Glide.with(EleChildFragment.this.requireContext())
-                        .load(DomainUtil.getDomain2() + vo1.getPicture())
+                        .load(DomainUtil.getH5Domain2() + vo1.getPicture())
                         .placeholder(R.mipmap.cm_placeholder)
                         .into(binding.ibGame);
                 binding.tvGame.setText(vo1.getName());
@@ -105,7 +105,7 @@ public class EleChildFragment extends BaseFragment<FragmentEleChildBinding, Home
                     CfLog.i(vo1.toString());
                     String eventName = gameVo.name.length() > 2 ? gameVo.name.substring(0, 2) : "gm2";
                     TagUtils.tagEvent(getContext(), eventName, vo1.getId()); // 打点
-                    BrowserActivity.start(getContext(), gameVo.name, DomainUtil.getDomain() + gameVo.playURL + vo1.getId(), false, true);
+                    BrowserActivity.start(getContext(), gameVo.name, DomainUtil.getH5Domain() + gameVo.playURL + vo1.getId(), false, true);
                 });
             }
 

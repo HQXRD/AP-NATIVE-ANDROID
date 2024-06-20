@@ -183,7 +183,7 @@ public class BtSettingDialogFragment extends BaseDialogFragment<BtDialogSettingB
     }
 
     private void goWebView(String title, String path, boolean isContainTitle) {
-        String url = DomainUtil.getDomain2() + path;
+        String url = DomainUtil.getH5Domain2() + path;
         BrowserActivity.start(getContext(), title, url, isContainTitle);
     }
 }

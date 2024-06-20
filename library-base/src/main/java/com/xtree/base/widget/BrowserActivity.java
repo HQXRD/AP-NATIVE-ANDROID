@@ -19,6 +19,8 @@ import android.webkit.DownloadListener;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -26,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
@@ -172,7 +175,7 @@ public class BrowserActivity extends AppCompatActivity {
 
         if (isFirstOpenBrowser && !TextUtils.isEmpty(token)) {
             String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
-            url = DomainUtil.getDomain() + "/static/sessionkeeper.html?token=" + token
+            url = DomainUtil.getH5Domain() + "/static/sessionkeeper.html?token=" + token
                     + "&tokenExpires=3600&url=" + urlBase64;
             SPUtils.getInstance().put(SPKeyGlobal.IS_FIRST_OPEN_BROWSER, false);
         }
@@ -329,6 +332,13 @@ public class BrowserActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), R.string.network_failed, Toast.LENGTH_SHORT).show();
             }
 
+            @Nullable
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                CfLog.e("访问地址：" + request.getUrl());
+                return super.shouldInterceptRequest(view, request);
+            }
+
         });
 
     }
@@ -351,7 +361,7 @@ public class BrowserActivity extends AppCompatActivity {
         ivwJump.setOnClickListener(v -> {
             //传递token
             String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
-            String jumpUrl = DomainUtil.getDomain2() + "/static/sessionkeeper.html?token=" + token + "&tokenExpires=3600&url=" + urlBase64;
+            String jumpUrl = DomainUtil.getH5Domain2() + "/static/sessionkeeper.html?token=" + token + "&tokenExpires=3600&url=" + urlBase64;
             CfLog.i("jumpUrl: " + jumpUrl);
             // 跳至外部浏览器
             AppUtil.goBrowser(getBaseContext(), jumpUrl);
