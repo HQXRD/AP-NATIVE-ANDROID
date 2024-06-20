@@ -1,15 +1,11 @@
 package com.xtree.main.ui.adapter;
 
-import static com.xtree.base.utils.BtDomainUtil.KEY_PLATFORM;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.widget.CheckBox;
 
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.NumberUtils;
 import com.xtree.base.vo.TopSpeedDomain;
@@ -23,6 +19,7 @@ import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class MainDomainAdapter extends BaseAdapter<TopSpeedDomain> {
+    private Context context;
 
     @Override
     public int layoutId() {
@@ -31,6 +28,7 @@ public class MainDomainAdapter extends BaseAdapter<TopSpeedDomain> {
 
     public MainDomainAdapter(Context context, List<TopSpeedDomain> datas) {
         super(context, datas);
+        this.context = context;
     }
 
     @Override
@@ -49,6 +47,24 @@ public class MainDomainAdapter extends BaseAdapter<TopSpeedDomain> {
             binding.tvAgentName.setText("线路" + NumberUtils.int2chineseNum(position + 1));
         }
         binding.tvSpeed.setText(String.valueOf(domain.speedSec));
+
+        if (domain.speedSec < 200) {
+            binding.tvAgentChange.setTextColor(context.getResources().getColor(R.color.clr_green_03));
+            binding.tvAgentChange.setBackground(context.getResources().getDrawable(R.drawable.bg_stroke_green));
+            binding.ivRedPoint.setBackground(context.getResources().getDrawable(R.drawable.ic_green_point));
+            binding.tvRecomment.setVisibility(View.VISIBLE);
+        } else if (domain.speedSec > 200 && domain.speedSec < 500) {
+            binding.tvAgentChange.setTextColor(context.getResources().getColor(R.color.clr_orange_02));
+            binding.tvAgentChange.setBackground(context.getResources().getDrawable(R.drawable.bg_stroke_orange));
+            binding.ivRedPoint.setBackground(context.getResources().getDrawable(R.drawable.ic_orange_point));
+            binding.tvRecomment.setVisibility(View.VISIBLE);
+        } else {
+            binding.tvAgentChange.setTextColor(context.getResources().getColor(R.color.clr_red_02));
+            binding.tvAgentChange.setBackground(context.getResources().getDrawable(R.drawable.bg_stroke_red));
+            binding.ivRedPoint.setBackground(context.getResources().getDrawable(R.drawable.ic_red_point));
+            binding.tvRecomment.setVisibility(View.INVISIBLE);
+        }
+
         binding.tvAgentChange.setOnClickListener(v -> {
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_LINE_POSITION, position);
             DomainUtil.setApiUrl(domain.url);
