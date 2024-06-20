@@ -2,7 +2,9 @@ package com.xtree.main.ui;
 
 import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
 import static com.xtree.base.utils.EventConstant.EVENT_RED_POINT;
+import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FINISH;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -15,14 +17,15 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.ChangeApiLineUtil;
 import com.xtree.base.utils.ChangeH5LineUtil;
+import com.xtree.base.utils.FastestTopDomainUtil;
 import com.xtree.base.vo.EventVo;
 import com.xtree.base.widget.MenuItemView;
 import com.xtree.base.widget.SpecialMenuItemView;
 import com.xtree.main.BR;
 import com.xtree.main.R;
 import com.xtree.main.databinding.ActivityMainBinding;
+import com.xtree.main.ui.dialog.TopSpeedDomainFloatingWindows;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -50,6 +53,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     private BaseTabItem activityMenuItem;
     private BaseTabItem rechargeMenuItem;
     private BaseTabItem meMenuItem;
+    private TopSpeedDomainFloatingWindows mTopSpeedDomainFloatingWindows;
+    private boolean mIsDomainSpeedChecked;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -87,7 +92,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        ChangeApiLineUtil.getInstance().start();
+        FastestTopDomainUtil.getInstance().start();
         ChangeH5LineUtil.getInstance().start();
     }
 
@@ -143,6 +148,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
         return mainTab;
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        initData();
+    }
+
     private void initBottomTab() {
         homeMenuItem = newItem(R.mipmap.mn_hm_unselected, R.mipmap.mn_hm_selected, getString(R.string.txt_pg_home));
         activityMenuItem = newItem(R.mipmap.mn_dc_unselected, R.mipmap.mn_dc_selected, getString(R.string.txt_pg_discount));
@@ -195,6 +206,17 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
             case EVENT_RED_POINT:
                 CfLog.i("open red");
                 meMenuItem.setHasMessage((boolean) event.getMsg());
+                break;
+            case EVENT_TOP_SPEED_FINISH:
+                if(mTopSpeedDomainFloatingWindows == null) {
+                    mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(this);
+                }
+                if(mTopSpeedDomainFloatingWindows.isShowing()){
+                    mTopSpeedDomainFloatingWindows.refresh();
+                }else {
+                    mTopSpeedDomainFloatingWindows.show();
+                }
+                mIsDomainSpeedChecked = true;
                 break;
         }
     }

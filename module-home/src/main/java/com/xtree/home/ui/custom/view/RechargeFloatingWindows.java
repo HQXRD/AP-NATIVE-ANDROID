@@ -1,11 +1,15 @@
 package com.xtree.home.ui.custom.view;
 
+import static android.content.Context.WINDOW_SERVICE;
+
 import android.content.Context;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +38,7 @@ import java.util.List;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.ContainerActivity;
+import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -48,6 +53,14 @@ public class RechargeFloatingWindows extends FloatingWindows {
         super(context);
         mCompositeDisposable = new CompositeDisposable();
         onCreate(R.layout.floating_recharge);
+    }
+
+    @Override
+    protected void initView(int layout) {
+        WindowManager windowManager = (WindowManager) mContext.getSystemService(WINDOW_SERVICE);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        super.initView(layout);
     }
 
     @Override
