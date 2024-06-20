@@ -36,6 +36,7 @@ public class WebAppInterface {
     final String TYPE_VIP = "goVip";
     final String TYPE_GAME = "goGame";
     final String TYPE_ACTIVITY_DETAIL = "goActivityDetail"; // 打开活动详情
+    final String TYPE_BROWSER = "goBrowser";
     final String TYPE_BACK = "goBack";
     final String TYPE_CLOSE = "close";
     final String TYPE_ERROR_MSG = "errorMsg";
@@ -152,6 +153,8 @@ public class WebAppInterface {
                 });
                 //close(); // 不能close,否则上级页面关闭,弹窗也被关闭
                 break;
+            case TYPE_BROWSER:
+                AppUtil.goBrowser(context, vo.data.toString());
             case TYPE_BACK:
                 goBack();
                 break;
