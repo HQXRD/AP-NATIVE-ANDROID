@@ -37,24 +37,21 @@ class FastestTopDomainUtil private constructor() {
         private lateinit var mCurApiDomainList: MutableList<String>
         private lateinit var mThirdDomainList: MutableList<String>
         private lateinit var mTopSpeedDomainList: MutableList<TopSpeedDomain>
-        private var mIsFinish: Boolean = false
-
-        /**
-         * 第一次进入app后获取最快4条域名是否完成
-         */
-        var mIsFirstFinish: Boolean = false
-
+        private var mIsFinish: Boolean = true
     }
 
     fun start() {
-        CfLog.e("=====开始切换线路========")
-        index = 0
-        mCurApiDomainList.clear()
-        mThirdApiDomainList.clear()
-        mThirdDomainList.clear()
-        mTopSpeedDomainList.clear()
-        setThirdFasterDomain()
-        setFasterApiDomain()
+        if(mIsFinish) {
+            CfLog.e("=====开始切换线路========")
+            mIsFinish = false
+            index = 0
+            mCurApiDomainList.clear()
+            mThirdApiDomainList.clear()
+            mThirdDomainList.clear()
+            mTopSpeedDomainList.clear()
+            setThirdFasterDomain()
+            setFasterApiDomain()
+        }
     }
 
     fun isFinish(): Boolean {
@@ -68,7 +65,9 @@ class FastestTopDomainUtil private constructor() {
     private fun addApiDomainList(list: List<String>) {
         list.forEachIndexed { _, s ->
             run {
-                mCurApiDomainList.add(s)
+                if(!TextUtils.isEmpty(s)) {
+                    mCurApiDomainList.add(s)
+                }
             }
         }
     }
@@ -76,12 +75,14 @@ class FastestTopDomainUtil private constructor() {
     private fun addThirdDomainList(domainList: List<String>) {
         domainList.forEachIndexed { _, s ->
             run {
-                mThirdDomainList.add(s)
+                if(!TextUtils.isEmpty(s)) {
+                    mThirdDomainList.add(s)
+                }
             }
         }
     }
 
-    private fun getFastestApiDomain() {
+    private fun getFastestApiDomain(isThird: Boolean) {
 
         scopeNet {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
@@ -101,12 +102,9 @@ class FastestTopDomainUtil private constructor() {
                     mTopSpeedDomainList.add(topSpeedDomain)
                     mCurApiDomainList.remove(host)
                     if(mTopSpeedDomainList.size < 4 && mCurApiDomainList.isNotEmpty()) {
-                        getFastestApiDomain()
+                        getFastestApiDomain(isThird)
                     }else{
                         mIsFinish = true
-                        if(!mIsFirstFinish){
-                            mIsFirstFinish = true
-                        }
                         mTopSpeedDomainList.sort()
                         DomainUtil.setApiUrl(mTopSpeedDomainList[0].url)
                         EventBus.getDefault().post(EventVo(EventConstant.EVENT_TOP_SPEED_FINISH, ""))
@@ -119,7 +117,12 @@ class FastestTopDomainUtil private constructor() {
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 if (e !is CancellationException) {
-                    getThirdFastestDomain()
+                    if(isThird){ // 失败
+                        mIsFinish = true
+                        EventBus.getDefault().post(EventVo(EventConstant.EVENT_TOP_SPEED_FAILED, ""))
+                    }else {
+                        getThirdFastestDomain(true)
+                    }
                 }
             }
         }
@@ -129,10 +132,13 @@ class FastestTopDomainUtil private constructor() {
 
     /**
      * 三方域名存储地址竞速
+     * @param needClear 是否删除清除本地预埋的竞速地址
      */
-    private fun getThirdFastestDomain() {
-        mCurApiDomainList.clear()
+    private fun getThirdFastestDomain(needClear: Boolean) {
         if (index < mThirdDomainList.size && !TextUtils.isEmpty(mThirdDomainList[index])) {
+            if (needClear) {
+                mCurApiDomainList.clear()
+            }
             scopeNet {
                 val data = Get<String>(
                     mThirdDomainList[index],
@@ -157,15 +163,18 @@ class FastestTopDomainUtil private constructor() {
                             }
                         }
                     }
-                    getFastestApiDomain()
+                    getFastestApiDomain(true)
                     CfLog.e("getThirdFastestDomain success")
 
                 } catch (e: Exception) {
                     CfLog.e("getThirdFastestDomain fail")
                     index++
-                    getThirdFastestDomain()
+                    getThirdFastestDomain(true)
                 }
             }
+        }else if(mCurApiDomainList.isEmpty()){
+            mIsFinish = true
+            EventBus.getDefault().post(EventVo(EventConstant.EVENT_TOP_SPEED_FAILED, ""))
         }
     }
 
@@ -177,7 +186,11 @@ class FastestTopDomainUtil private constructor() {
         val apiList = listOf(*apis.split(";".toRegex()).dropLastWhile { it.isEmpty() }
             .toTypedArray())
         addApiDomainList(apiList)
-        getFastestApiDomain()
+        if(mCurApiDomainList.size >= 4) {
+            getFastestApiDomain(false)
+        }else {
+            getThirdFastestDomain(false)
+        }
     }
 
     /**

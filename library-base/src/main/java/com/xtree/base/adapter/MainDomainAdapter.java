@@ -21,7 +21,17 @@ import me.xtree.mvvmhabit.base.AppManager;
 
 public class MainDomainAdapter extends BaseAdapter<TopSpeedDomain> {
     private boolean mChecking = true;
+    private boolean mFailed = false;
     private List<TopSpeedDomain> tmpTopSpeedDomainList = new ArrayList<>();
+
+    public void setChecking(boolean isChecking) {
+        mChecking = isChecking;
+    }
+
+    public void setFailed(boolean isFailed) {
+        mFailed = isFailed;
+    }
+
     @Override
     public int layoutId() {
         return R.layout.main_layout_domain_agent_item;
@@ -45,10 +55,16 @@ public class MainDomainAdapter extends BaseAdapter<TopSpeedDomain> {
             binding.tvAgentChange.setVisibility(View.INVISIBLE);
             binding.tvSpeed.setText("");
             binding.tvRecomment.setText("测速中...");
+            binding.tvRecomment.setVisibility(View.VISIBLE);
+        }else if(mFailed){
+            binding.tvAgentChange.setVisibility(View.INVISIBLE);
+            binding.tvSpeed.setText("");
+            binding.tvRecomment.setText("测速失败");
+            binding.tvRecomment.setVisibility(View.VISIBLE);
         }else{
             binding.tvAgentChange.setVisibility(!TextUtils.equals(domain.url, DomainUtil.getApiUrl()) ? View.VISIBLE : View.INVISIBLE);
             binding.tvRecomment.setText("推荐");
-            binding.tvSpeed.setText(String.valueOf(domain.speedSec));
+            binding.tvSpeed.setText(domain.speedSec + "ms");
 
             if (domain.speedSec < 200) {
                 binding.tvAgentChange.setTextColor(mContext.getResources().getColor(R.color.clr_green_03));
@@ -74,9 +90,5 @@ public class MainDomainAdapter extends BaseAdapter<TopSpeedDomain> {
             activity.startActivity(new Intent(activity, activity.getClass()));
             notifyDataSetChanged();
         });
-    }
-
-    public void setIsChecking(boolean isChecking) {
-        mChecking = isChecking;
     }
 }
