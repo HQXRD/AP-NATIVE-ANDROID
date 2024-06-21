@@ -41,6 +41,7 @@ import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.ProfileVo;
 import com.xtree.base.widget.AppUpdateDialog;
 import com.xtree.base.widget.BrowserActivity;
+import com.xtree.base.widget.ImageDialog;
 import com.xtree.base.widget.LoadingDialog;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.home.BR;
@@ -191,7 +192,30 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             // banner
             binding.bnrTop.setDatas(list);
         });
+
+        viewModel.liveDataPublicLink.observe(getViewLifecycleOwner(), list -> {
+            if (updateView != null && updateView.isShow()) {//如果更新弹窗已显示，不显示弹窗
+                return;
+            }
+            if (list == null || list.isEmpty()) {
+                boolean isLogin = getArguments().getBoolean("isLogin", false);
+                if (isLogin) {
+                    viewModel.getECLink();
+                }
+                return;
+            }
+
+            new XPopup.Builder(getContext())
+                    .dismissOnBackPressed(true)
+                    .dismissOnTouchOutside(false)
+                    .asCustom(new ImageDialog(requireContext(), list.get(0).getPop_image(), false, null))
+                    .show();
+        });
+
         viewModel.liveDataECLink.observe(getViewLifecycleOwner(), list -> {
+            if (updateView.isShow()) {//如果更新弹窗已显示，不显示弹窗
+                return;
+            }
             if (list == null || list.isEmpty() || list.get(0).app_target_link == null || list.get(0).app_target_link.isEmpty()) {
                 return;
             }
@@ -521,10 +545,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     public void initData() {
-        boolean isLogin = getArguments().getBoolean("isLogin", false);
-        if (isLogin) {
-            viewModel.getECLink();
-        }
         viewModel.getPublicLink();
     }
 
