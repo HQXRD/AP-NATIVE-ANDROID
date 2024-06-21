@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.xtree.mvvmhabit.base.AppManager;
+import me.xtree.mvvmhabit.utils.ToastUtils;
 
 public class MainDomainAdapter extends BaseAdapter<TopSpeedDomain> {
     private boolean mChecking = true;
@@ -86,6 +87,7 @@ public class MainDomainAdapter extends BaseAdapter<TopSpeedDomain> {
 
         binding.tvAgentChange.setOnClickListener(v -> {
             DomainUtil.setApiUrl(domain.url);
+            ToastUtils.showLong("切换线路成功");
             Activity activity = AppManager.getAppManager().currentActivity();
             activity.startActivity(new Intent(activity, activity.getClass()));
             notifyDataSetChanged();
