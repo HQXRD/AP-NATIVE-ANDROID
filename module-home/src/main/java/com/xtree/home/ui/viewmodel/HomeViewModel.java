@@ -33,6 +33,7 @@ import com.xtree.home.vo.GameStatusVo;
 import com.xtree.home.vo.GameVo;
 import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.PaymentDataVo;
+import com.xtree.home.vo.PublicDialogVo;
 import com.xtree.home.vo.RedPocketVo;
 import com.xtree.home.vo.RewardRedVo;
 import com.xtree.home.vo.SettingsVo;
@@ -52,6 +53,7 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.BusinessException;
+import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -63,6 +65,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
 
     public MutableLiveData<List<BannersVo>> liveDataBanner = new MutableLiveData<>();
     public MutableLiveData<List<BannersVo>> liveDataECLink = new MutableLiveData<>();
+    public MutableLiveData<List<PublicDialogVo>> liveDataPublicLink = new MutableLiveData<>();
     public MutableLiveData<List<NoticeVo>> liveDataNotice = new MutableLiveData<>();
     //public MutableLiveData<List<GameStatusVo>> liveDataGameStatus = new MutableLiveData<>();
     public MutableLiveData<List<GameVo>> liveDataGames = new MutableLiveData<>();
@@ -119,6 +122,26 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onResult(List<BannersVo> list) {
                         liveDataECLink.setValue(list);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e(t.toString());
+                        //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
+    public void getPublicLink() {
+        Disposable disposable = (Disposable) model.getApiService().getPublicLink()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<List<PublicDialogVo>>() {
+                    @Override
+                    public void onResult(List<PublicDialogVo> list) {
+                        CfLog.i("publicLink        "+list);
+                        liveDataPublicLink.setValue(list);
                     }
 
                     @Override

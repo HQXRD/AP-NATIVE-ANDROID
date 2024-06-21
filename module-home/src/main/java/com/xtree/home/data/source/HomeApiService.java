@@ -13,6 +13,7 @@ import com.xtree.home.vo.GameStatusVo;
 import com.xtree.home.vo.LoginResultVo;
 import com.xtree.home.vo.NoticeVo;
 import com.xtree.home.vo.PaymentDataVo;
+import com.xtree.home.vo.PublicDialogVo;
 import com.xtree.home.vo.RechargeReportVo;
 import com.xtree.home.vo.RedPocketVo;
 import com.xtree.home.vo.RewardRedVo;
@@ -52,6 +53,12 @@ public interface HomeApiService {
      */
     @GET("/api/bns/11/banners?limit=20")
     Flowable<BaseResponse<List<BannersVo>>> getECLink();
+
+    /**
+     * 获取首页公共弹窗
+     */
+    @GET("/api/bns/13/banners?limit=20")
+    Flowable<BaseResponse<List<PublicDialogVo>>> getPublicLink();
 
     /**
      * 获取 公告列表
