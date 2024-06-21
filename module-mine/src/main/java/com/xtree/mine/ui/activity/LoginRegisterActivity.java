@@ -111,6 +111,12 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        viewModel.getSettings();
+    }
+
+    @Override
     public void initView() {
         mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(this);
         mTopSpeedDomainFloatingWindows.show();
