@@ -20,6 +20,7 @@ import com.xtree.recharge.vo.FeedbackCheckVo;
 import com.xtree.recharge.vo.FeedbackImageUploadVo;
 import com.xtree.recharge.vo.FeedbackVo;
 import com.xtree.recharge.vo.HiWalletVo;
+import com.xtree.recharge.vo.OrderInfoVo;
 import com.xtree.recharge.vo.PayOrderDataVo;
 import com.xtree.recharge.vo.PaymentDataVo;
 import com.xtree.recharge.vo.PaymentTypeVo;
@@ -417,6 +418,12 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     @Override
                     public void onResult(PayOrderDataVo vo) {
                         CfLog.d("********");
+                        if (vo.orderinfo != null && vo.orderinfo instanceof Map) {
+                            vo.orderInfo = new Gson().fromJson(new Gson().toJson(vo.orderinfo), OrderInfoVo.class);
+                        } else {
+                            vo.orderInfo = new OrderInfoVo();
+                        }
+
                         liveDataExpOrderData.setValue(vo);
                     }
 
