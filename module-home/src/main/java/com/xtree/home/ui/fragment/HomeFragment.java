@@ -525,6 +525,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (isLogin) {
             viewModel.getECLink();
         }
+        viewModel.getPublicLink();
     }
 
     private void initFootball() {
