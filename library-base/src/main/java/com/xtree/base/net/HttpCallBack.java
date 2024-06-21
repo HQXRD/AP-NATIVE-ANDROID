@@ -6,6 +6,8 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ChangeLineUtil;
+import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.LoadingDialog;
 
 import io.reactivex.subscribers.DisposableSubscriber;
@@ -15,6 +17,7 @@ import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
+import me.xtree.mvvmhabit.utils.Utils;
 
 public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
     public abstract void onResult(T t);
@@ -113,6 +116,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 onFail(ex);
                 break;
             case HttpCallBack.CodeRule.CODE_100002:
+                TagUtils.tagEvent(Utils.getContext(), "API 测速失败", DomainUtil.getApiUrl());
                 ToastUtils.showShort("当前网络环境异常，切换线路中..."); // ("域名被劫持"  + "，切换线路中...");
                 ChangeLineUtil.getInstance().start();
                 break;
@@ -134,8 +138,9 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             KLog.e("code: " + rError.code);
             if (rError.code == 403) {
                 AppUtil.goWeb403();
-            }else{
+            } else {
                 CfLog.e("无法访问：" + rError.getMessage());
+                TagUtils.tagEvent(Utils.getContext(), "API 测速失败", DomainUtil.getApiUrl());
                 ToastUtils.showShort("无法访问：" + rError.getMessage() + "，切换线路中...");
                 ChangeLineUtil.getInstance().start();
             }
