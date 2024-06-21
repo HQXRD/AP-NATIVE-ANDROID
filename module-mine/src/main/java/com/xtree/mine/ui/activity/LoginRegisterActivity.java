@@ -2,6 +2,7 @@ package com.xtree.mine.ui.activity;
 
 import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
 import static com.xtree.base.utils.EventConstant.EVENT_RED_POINT;
+import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FAILED;
 import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FINISH;
 
 import android.content.Intent;
@@ -106,6 +107,12 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     @Override
     public void initData() {
+        viewModel.getSettings();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
         viewModel.getSettings();
     }
 
@@ -611,6 +618,9 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         switch (event.getEvent()) {
             case EVENT_TOP_SPEED_FINISH:
                 mTopSpeedDomainFloatingWindows.refresh();
+                break;
+            case EVENT_TOP_SPEED_FAILED:
+                mTopSpeedDomainFloatingWindows.onError();
                 break;
         }
     }

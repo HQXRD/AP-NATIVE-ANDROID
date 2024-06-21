@@ -1,6 +1,5 @@
 package com.xtree.base.utils
 
-import android.content.Intent
 import com.alibaba.android.arouter.utils.TextUtils
 import com.drake.net.Get
 import com.drake.net.tag.RESPONSE
@@ -9,9 +8,7 @@ import com.drake.net.utils.fastest
 import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
 import com.xtree.base.R
-import com.xtree.base.net.RetrofitClient
 import com.xtree.base.vo.Domain
-import me.xtree.mvvmhabit.base.AppManager
 import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
 import java.util.concurrent.CancellationException

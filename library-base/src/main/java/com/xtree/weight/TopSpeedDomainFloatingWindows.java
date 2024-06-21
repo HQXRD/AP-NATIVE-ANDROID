@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.xtree.base.R;
 import com.xtree.base.adapter.MainDomainAdapter;
 import com.xtree.base.databinding.MainLayoutTopSpeedDomainBinding;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.FastestTopDomainUtil;
 import com.xtree.base.vo.TopSpeedDomain;
 import com.xtree.base.widget.FloatingWindows;
@@ -57,10 +56,10 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
                 }
                 if(mainDomainAdapter == null) {
                     mainDomainAdapter = new MainDomainAdapter(mContext, datas);
-                    mainDomainAdapter.setIsChecking(true);
+                    mainDomainAdapter.setChecking(true);
                     mBinding.rvAgent.setAdapter(mainDomainAdapter);
                 }else {
-                    mainDomainAdapter.setIsChecking(true);
+                    mainDomainAdapter.setChecking(true);
                     mainDomainAdapter.setNewData(datas);
                 }
                 FastestTopDomainUtil.getInstance().start();
@@ -71,17 +70,24 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
             for (int i = 0; i < 4; i++) {
                 datas.add(new TopSpeedDomain());
             }
-            mainDomainAdapter.setIsChecking(true);
+            mainDomainAdapter.setChecking(true);
             mainDomainAdapter.setNewData(datas);
             FastestTopDomainUtil.getInstance().start();
         });
     }
 
     public void refresh() {
-        CfLog.e("mainDomainAdapter == " + (mainDomainAdapter == null));
         if(mainDomainAdapter != null) {
-            mainDomainAdapter.setIsChecking(false);
+            mainDomainAdapter.setChecking(false);
             mainDomainAdapter.setNewData(FastestTopDomainUtil.getInstance().getTopSpeedDomain());
+        }
+    }
+
+    public void onError() {
+        if(mainDomainAdapter != null) {
+            mainDomainAdapter.setChecking(false);
+            mainDomainAdapter.setFailed(true);
+            mainDomainAdapter.notifyDataSetChanged();
         }
     }
 }

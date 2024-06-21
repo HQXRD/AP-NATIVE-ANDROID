@@ -2,6 +2,7 @@ package com.xtree.main.ui;
 
 import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
 import static com.xtree.base.utils.EventConstant.EVENT_RED_POINT;
+import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FAILED;
 import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FINISH;
 
 import android.content.Intent;
@@ -206,6 +207,9 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, BaseViewMode
                 CfLog.e("EVENT_TOP_SPEED_FINISH竞速完成。。。");
                 mTopSpeedDomainFloatingWindows.refresh();
                 mIsDomainSpeedChecked = true;
+                break;
+            case EVENT_TOP_SPEED_FAILED:
+                mTopSpeedDomainFloatingWindows.onError();
                 break;
         }
     }
