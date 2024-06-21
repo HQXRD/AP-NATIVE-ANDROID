@@ -435,6 +435,8 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
         HashMap<String, String> map = new HashMap<>();
         map.put("controller", "gameinfo");
         map.put("action", "newgamelist");
+        map.put("userid", userId);
+        map.put("username", userName);
         map.put("starttime", starttime);
         map.put("endtime", endtime);
         map.put("lotteryid", "0");
