@@ -22,6 +22,9 @@ public class OrderInfoVo implements Parcelable {
     public String bank_area; // "cn"
     public String qrcode; // ""
 
+    public OrderInfoVo() {
+    }
+
     protected OrderInfoVo(Parcel in) {
         returncode = in.readString();
         message = in.readString();

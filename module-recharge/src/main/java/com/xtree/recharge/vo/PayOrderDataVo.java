@@ -8,13 +8,14 @@ public class PayOrderDataVo implements Parcelable {
     public String merchant_order; // "PAY0017292024052818444600000656"
     public String platform_order; // "471b6c1b"
     public String amount; // 133
-    public OrderInfoVo orderinfo;
+    public OrderInfoVo orderInfo; // 自己加的
+    public Object orderinfo; // 接口返回的,有时可能会是 []
 
     protected PayOrderDataVo(Parcel in) {
         merchant_order = in.readString();
         platform_order = in.readString();
         amount = in.readString();
-        orderinfo = in.readParcelable(OrderInfoVo.class.getClassLoader());
+        orderInfo = in.readParcelable(Object.class.getClassLoader());
     }
 
     @Override
@@ -22,7 +23,7 @@ public class PayOrderDataVo implements Parcelable {
         dest.writeString(merchant_order);
         dest.writeString(platform_order);
         dest.writeString(amount);
-        dest.writeParcelable(orderinfo, flags);
+        dest.writeParcelable(orderInfo, flags);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class PayOrderDataVo implements Parcelable {
                 "merchant_order='" + merchant_order + '\'' +
                 ", platform_order='" + platform_order + '\'' +
                 ", amount='" + amount + '\'' +
-                ", orderinfo=" + orderinfo +
+                ", orderInfo=" + orderInfo +
                 '}';
     }
 
