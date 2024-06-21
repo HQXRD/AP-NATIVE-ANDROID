@@ -20,9 +20,14 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class TagUtils {
+
+    public static final String TAG_AC = "_ac"; // appCenter
+    public static final String TAG_MP = "_mp"; // mixpanel
+    public static final String TAG_ST = "_st"; // sentry
 
     public static final String EVENT_REG = "register";
     public static final String EVENT_LOGIN = "login";
@@ -115,9 +120,7 @@ public class TagUtils {
 
     public static void tagEvent(Context ctx, String event, String key, String value) {
         CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", key: " + key + ", value: " + value);
-        if (!IS_TAG || isFrequent(event)) {
-            return;
-        }
+
         tagAppsFlyer(ctx, event, getMap(key, value));
         tagMixpanel(ctx, event, key, value);
         tagAppCenter(event, getMap(key, value));
@@ -125,15 +128,28 @@ public class TagUtils {
 
     public static void tagEvent(Context ctx, String event, HashMap<String, Object> map) {
         CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", map: " + new Gson().toJson(map));
-        if (!IS_TAG || isFrequent(event)) {
-            return;
-        }
+
         if (!map.containsKey("uid")) {
             map.put("uid", USER_ID);
         }
         tagAppsFlyer(ctx, event, map);
-        Analytics.trackEvent(event);
         tagMixpanel(ctx, event, getJson(map));
+        tagAppCenter(event, getMap(map));
+        tagSentry(event, getMap(map));
+    }
+
+    private static HashMap<String, String> getMap(HashMap<String, Object> map) {
+        if (map == null) {
+            return null;
+        }
+        HashMap<String, String> tmp = new HashMap<>();
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            tmp.put((String) entry.getKey(), String.valueOf(entry.getValue()));
+        }
+
+        return tmp;
     }
 
     /**
@@ -145,9 +161,7 @@ public class TagUtils {
      */
     public static void loginEvent(Context ctx, String event, String uid) {
         CfLog.i(ctx.getClass().getSimpleName() + ", event: " + event + ", uid: " + uid);
-        if (!IS_TAG || isFrequent(event)) {
-            return;
-        }
+
         USER_ID = uid;
         //HashMap<String, Object> map = new HashMap<>();
         //map.put("uid", uid);
@@ -176,6 +190,7 @@ public class TagUtils {
             tagAppCenter("tagDaily"); // AppCenter MS
             tagAppsFlyer(ctx, "tagDaily", null);
             tagMixpanel(ctx, "tagDaily", null);
+            tagSentry("tagDaily", "" + curDate);
         }
     }
 
@@ -184,12 +199,15 @@ public class TagUtils {
     }
 
     private static void tagMixpanel(Context ctx, String event, String key, Object value) {
+        if (!IS_TAG || isFrequent(event, TAG_MP)) {
+            return;
+        }
         JSONObject props = getJson(key, value);
         tagMixpanel(ctx, event, props);
     }
 
     private static void tagMixpanel(Context ctx, String event, JSONObject props) {
-        if (!IS_TAG || isFrequent(event)) {
+        if (!IS_TAG || isFrequent(event, TAG_MP)) {
             return;
         }
         if (props == null) {
@@ -205,32 +223,53 @@ public class TagUtils {
     }
 
     private static void tagAppCenter(String event) {
-        if (!IS_TAG || isFrequent(event)) {
+        if (!IS_TAG || isFrequent(event, TAG_AC)) {
             return;
         }
         Analytics.trackEvent(event); // AppCenter MS
     }
 
     private static void tagAppCenter(String event, Map<String, String> map) {
-        if (!IS_TAG || isFrequent(event)) {
+        if (!IS_TAG || isFrequent(event, TAG_AC)) {
             return;
         }
         Analytics.trackEvent(event, map); // AppCenter MS
+    }
+
+    private static void tagSentry(String event, String value) {
+        if (!IS_TAG || isFrequent(event, TAG_ST)) {
+            return;
+        }
+        //SentryEvent mSentryEvent = new SentryEvent();
+        //mSentryEvent.setEventId(new SentryId(event));
+        //mSentryEvent.setTag(event, value);
+        ////mSentryEvent.setModule(event, value);
+        //Sentry.captureEvent(mSentryEvent);
+    }
+
+    private static void tagSentry(String event, Map<String, String> map) {
+        if (!IS_TAG || isFrequent(event, TAG_ST)) {
+            return;
+        }
+        //SentryEvent mSentryEvent = new SentryEvent();
+        //mSentryEvent.setEventId(new SentryId(event));
+        //mSentryEvent.setTags(map);
+        //Sentry.captureEvent(mSentryEvent);
     }
 
     /**
      * 某个事件 是否频繁 (true-频繁,可以return掉,防止某个事件短时间内重复多次)
      *
      * @param eventName 事件名
-     * @return true:是频繁, false不频繁
+     * @param tag       打点平台名
+     * @return true:是频繁, false:不频繁
      */
-    private static boolean isFrequent(String eventName) {
-
-        if (mapCache.containsKey(eventName) && System.currentTimeMillis() - mapCache.get(eventName) < 60 * 1000) {
+    private static boolean isFrequent(String eventName, String tag) {
+        if (mapCache.containsKey(eventName + tag) && System.currentTimeMillis() - mapCache.get(eventName + tag) < 60 * 1000) {
             return true;
         }
 
-        mapCache.put(eventName, System.currentTimeMillis());
+        mapCache.put(eventName + tag, System.currentTimeMillis());
         return false;
     }
 
