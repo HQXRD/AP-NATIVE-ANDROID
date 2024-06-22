@@ -288,6 +288,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
         });
         viewModel.liveDataVipInfo.observe(getViewLifecycleOwner(), vo -> {
+            if (vo == null) {
+                return;
+            }
+
             CfLog.d("*** " + vo.toString());
             if (vo.sp.equals("1")) {
                 binding.ivwVip.setImageLevel(vo.display_level); // display_level
@@ -342,7 +346,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             mRechargeFloatingWindows.show();
             isFloating = true;
         }
-        if (SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN).equals("")) {
+        if (TextUtils.isEmpty(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN))) {
             mRechargeFloatingWindows.removeView();
             isFloating = false;
         }
@@ -363,7 +367,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
 
         binding.bnrTop.setOnBannerListener((OnBannerListener<BannersVo>) (data, position) -> {
-            if (data.link.equals("")) {
+            if (data == null || TextUtils.isEmpty(data.link)) {
                 EventBus.getDefault().post(new EventVo(EVENT_CHANGE_TO_ACT, ""));
                 return;
             }
