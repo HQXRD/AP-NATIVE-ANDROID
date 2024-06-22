@@ -13,6 +13,7 @@ import com.xtree.base.widget.LoadingDialog;
 import io.reactivex.subscribers.DisposableSubscriber;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.BusinessException;
+import me.xtree.mvvmhabit.http.ExceptionHandle;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -134,14 +135,24 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         //t.printStackTrace();
         if (t instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) t;
-            ToastUtils.showLong(rError.message + " [" + rError.code + "]");
+
+            //域名解析错误不弹提示
+            if (rError.code != ExceptionHandle.ERROR.HOST_ERROR) {
+                ToastUtils.showLong(rError.message + " [" + rError.code + "]");
+            }
+
             KLog.e("code: " + rError.code);
             if (rError.code == 403) {
                 AppUtil.goWeb403();
             } else {
                 CfLog.e("无法访问：" + rError.getMessage());
                 TagUtils.tagEvent(Utils.getContext(), "API 测速失败", DomainUtil.getApiUrl());
-                ToastUtils.showShort("无法访问：" + rError.getMessage() + "，切换线路中...");
+
+                //域名解析错误不弹提示
+                if (rError.code != ExceptionHandle.ERROR.HOST_ERROR) {
+                    ToastUtils.showShort("无法访问：" + rError.getMessage() + "，切换线路中...");
+                }
+
                 ChangeLineUtil.getInstance().start();
             }
             return;
