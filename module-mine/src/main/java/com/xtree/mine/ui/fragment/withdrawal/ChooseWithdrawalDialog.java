@@ -37,10 +37,10 @@ import com.xtree.mine.databinding.DialogChooseWithdrawaBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.ChooseInfoMoYuVo;
 import com.xtree.mine.vo.ChooseInfoVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalBankInfoVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalInfoVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalListVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalQuotaVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalBankInfoVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalInfoVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalListVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalQuotaVo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,16 +58,16 @@ import me.xtree.mvvmhabit.utils.Utils;
 public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdrawListCallback {
 
     @Override
-    public void onClickListItem(WithdrawalListVo itemVo) {
+    public void onClickListItem(WithdrawalListVo.WithdrawalItemVo itemVo) {
         CfLog.e("IWithdrawListCallback = " + itemVo.toString());
         selectorVo = itemVo;
         //银行卡类型
         if (TextUtils.equals("1", selectorVo.type)) {
             //获取当前选中的提款详情
-            viewModel.getWithdrawalBankInfo(selectorVo.name);
+            viewModel.getWithdrawalBankInfo(selectorVo.name,withdrawalListVoArrayList.check);
         } else {
             //获取当前选中的提款详情
-            viewModel.getWithdrawalInfo(itemVo.name);
+            viewModel.getWithdrawalInfo(selectorVo.name,withdrawalListVoArrayList.check);
         }
     }
 
@@ -101,10 +101,10 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
 
     private WithdrawalQuotaVo quotaVo;//可提额度
 
-    private WithdrawalListVo selectorVo;//被选中的取款类型
-    private ArrayList<WithdrawalListVo> withdrawalListVoArrayList;//获取可提现渠道列表
-    public static ArrayList<WithdrawalListVo> bankWithdrawalList = new ArrayList<>();//银行卡提款列表
-    public static ArrayList<WithdrawalListVo> usdtWithdrawalList = new ArrayList<>();//USDT提款列表
+    private WithdrawalListVo.WithdrawalItemVo selectorVo;//被选中的取款类型
+    private WithdrawalListVo withdrawalListVoArrayList;//获取可提现渠道列表
+    public static ArrayList<WithdrawalListVo.WithdrawalItemVo> bankWithdrawalList = new ArrayList<>();//银行卡提款列表
+    public static ArrayList<WithdrawalListVo.WithdrawalItemVo> usdtWithdrawalList = new ArrayList<>();//USDT提款列表
     private WithdrawalInfoVo infoVo;//当前提款渠道详情
     private WithdrawalBankInfoVo bankInfoVo;//银行卡提现渠道详情
 
@@ -194,12 +194,12 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
         // 获取可提现渠道列表
         viewModel.withdrawalListVoMutableLiveData.observe(owner, vo -> {
             withdrawalListVoArrayList = vo;
-            if (withdrawalListVoArrayList != null && !withdrawalListVoArrayList.isEmpty()) {
+            if (withdrawalListVoArrayList != null && !withdrawalListVoArrayList.listdata.isEmpty()) {
                 //业务正常 刷新列表UI
 
-                sortingWithdrawalListByType("1", withdrawalListVoArrayList, bankWithdrawalList);
-                sortingWithdrawalListByType("2", withdrawalListVoArrayList, usdtWithdrawalList);
-                referListUI(sortTypeList(withdrawalListVoArrayList));
+                sortingWithdrawalListByType("1", withdrawalListVoArrayList.listdata, bankWithdrawalList);
+                sortingWithdrawalListByType("2", withdrawalListVoArrayList.listdata, usdtWithdrawalList);
+                referListUI(sortTypeList(withdrawalListVoArrayList.listdata));
 
             } else {
                 ToastUtils.showError(getContext().getString(R.string.txt_network_error));
@@ -245,16 +245,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
         viewModel.withdrawalBankInfoVoMutableLiveData.observe(owner, vo -> {
             bankInfoVo = vo;
             CfLog.e("withdrawalBankInfoVoMutableLiveData=" + vo.toString());
-        /*    if (!TextUtils.isEmpty(bankInfoVo.message) && !TextUtils.equals("success", bankInfoVo.message)) {
-                //您尚未绑定
-                if (TextUtils.equals(getContext().getString(R.string.txt_bind_error_sys_tip), bankInfoVo.message) ||
-                        bankInfoVo.message.contains(getContext().getString(R.string.txt_bind_error_sys_tip))) {
-                    //显示绑定的Dialog
-                    showBindTipDialog(selectorVo);
-                } else {
-                    showErrorDialog(bankInfoVo.message);
-                }
-            } else*/
+
             if (bankInfoVo != null && !bankInfoVo.user_bank_info.isEmpty()) {
                 //业务正常 可以跳转下一级页面
                 if (TextUtils.equals("1", selectorVo.type)) {
@@ -336,7 +327,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
             binding.tvChooseTip.setText(tip);
 
             binding.tvChooseTip.setOnClickListener(v -> {
-                viewModel.getWithdrawQuota("");
+                viewModel.getWithdrawQuota();
             });
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -349,7 +340,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
      *
      * @param vo
      */
-    private void referListUI(ArrayList<WithdrawalListVo> vo) {
+    private void referListUI(ArrayList<WithdrawalListVo.WithdrawalItemVo> vo) {
 
         if (vo != null && vo.size() > 0) {
             WithdrawalListAdapter adapter = new WithdrawalListAdapter(getContext(), vo, this);
@@ -362,7 +353,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
     /**
      * 跳转银行卡提款页面
      */
-    private void showBankWithdrawalDialog(final String name, final ArrayList<WithdrawalListVo> listVo, final WithdrawalBankInfoVo selectorInfoVo)
+    private void showBankWithdrawalDialog(final String name, final ArrayList<WithdrawalListVo.WithdrawalItemVo> listVo, final WithdrawalBankInfoVo selectorInfoVo)
     {
         bankPopupView = new XPopup.Builder(getContext())
                 .moveUpToKeyboard(false)
@@ -386,8 +377,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
     private void requestData() {
         showMaskLoading();
        /* viewModel.getChooseWithdrawInfo(checkCode);*/
-        viewModel.getWithdrawQuota("");
-        viewModel.getWithdrawalList();
+        viewModel.getWithdrawQuota();
+        viewModel.getWithdrawalList(checkCode);
     }
 
     /*显示銀行卡提款loading */
@@ -525,7 +516,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
      */
     private void showBankWithdrawalDialog(final String name,
                                           final String checkCode,
-                                          final ArrayList<WithdrawalListVo> bankWithdrawalList,
+                                          final ArrayList<WithdrawalListVo.WithdrawalItemVo> bankWithdrawalList,
                                           final WithdrawalBankInfoVo selectorInfoVo
                                          ) {
         basePopupView = new XPopup.Builder(getContext())
@@ -547,7 +538,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
     /**
      * 跳转USDT 提款
      */
-    private void showUSDTWithdrawalDialog(final String name, final ArrayList<WithdrawalListVo> listVo, final WithdrawalInfoVo infoVo) {
+    private void showUSDTWithdrawalDialog(final String name, final ArrayList<WithdrawalListVo.WithdrawalItemVo> listVo, final WithdrawalInfoVo infoVo) {
         basePopupView = new XPopup.Builder(getContext())
             .moveUpToKeyboard(false)
             .asCustom(USDTWithdrawalDialog.newInstance(getContext(), owner, name, listVo, infoVo,checkCode));
@@ -632,14 +623,14 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
      * @param infoList
      * @return
      */
-    private ArrayList<WithdrawalListVo> sortTypeList(ArrayList<WithdrawalListVo> infoList) {
+    private ArrayList<WithdrawalListVo.WithdrawalItemVo> sortTypeList( ArrayList<WithdrawalListVo.WithdrawalItemVo>infoList) {
         //列表去重
         TreeSet treeSet = new TreeSet(infoList);
         infoList.clear();
         infoList.addAll(treeSet);
 
         CfLog.e("sortTypeList  infoList1= " + infoList.size());
-        ArrayList<WithdrawalListVo> arrayList = new ArrayList<WithdrawalListVo>();
+        ArrayList<WithdrawalListVo.WithdrawalItemVo> arrayList = new ArrayList<WithdrawalListVo.WithdrawalItemVo>();
         for (int i = 0; i < infoList.size(); i++) {
             //只添加enable为 true状态的，即是开启该提款通道的体况方式
             if (infoList.get(i).enable == true) {
@@ -661,11 +652,11 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
      *
      * @param list
      */
-    public void sortingWithdrawalListByType(final String type, final ArrayList<WithdrawalListVo> list, ArrayList<WithdrawalListVo> targetList) {
+    public void sortingWithdrawalListByType(final String type, final ArrayList<WithdrawalListVo.WithdrawalItemVo> list, ArrayList<WithdrawalListVo.WithdrawalItemVo> targetList) {
         targetList.clear();
         if (list != null && !list.isEmpty()) {
             for (int i = 0; i < list.size(); i++) {
-                WithdrawalListVo vo = list.get(i);
+                WithdrawalListVo.WithdrawalItemVo vo = list.get(i);
                 //比对列表 将type为1的[银行卡提款类型]
                 if (TextUtils.equals(type, vo.type)) {
                     targetList.add(vo);
@@ -675,8 +666,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
         }
     }
 
-    private static ArrayList<WithdrawalListVo> removeDupliByType(ArrayList<WithdrawalListVo> list) {
-        ArrayList<WithdrawalListVo> wdList = new ArrayList<>();
+    private static ArrayList<WithdrawalListVo.WithdrawalItemVo> removeDupliByType(ArrayList<WithdrawalListVo.WithdrawalItemVo> list) {
+        ArrayList<WithdrawalListVo.WithdrawalItemVo> wdList = new ArrayList<>();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             list.stream().forEach(
                     p -> {
@@ -686,8 +677,8 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                     }
             );
         }
-        TreeSet<WithdrawalListVo> treeSet = new TreeSet<WithdrawalListVo>(list);
-        ArrayList<WithdrawalListVo> newList = new ArrayList<>(treeSet);
+        TreeSet<WithdrawalListVo.WithdrawalItemVo> treeSet = new TreeSet<WithdrawalListVo.WithdrawalItemVo>(list);
+        ArrayList<WithdrawalListVo.WithdrawalItemVo> newList = new ArrayList<>(treeSet);
         return newList;
     }
 
@@ -698,10 +689,10 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
 
         private IWithdrawListCallback callBack;
         private Context context;
-        private ArrayList<WithdrawalListVo> withdrawalItemVoArrayList;
-        private ArrayList<WithdrawalListVo> withdrawalItemVoList;
+        private ArrayList<WithdrawalListVo.WithdrawalItemVo> withdrawalItemVoArrayList;
+        private ArrayList<WithdrawalListVo.WithdrawalItemVo> withdrawalItemVoList;
 
-        public WithdrawalListAdapter(Context context, ArrayList<WithdrawalListVo> voArrayList, IWithdrawListCallback callBack) {
+        public WithdrawalListAdapter(Context context, ArrayList<WithdrawalListVo.WithdrawalItemVo> voArrayList, IWithdrawListCallback callBack) {
             this.context = context;
             this.withdrawalItemVoArrayList = voArrayList;
             this.callBack = callBack;
@@ -736,7 +727,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                 holder = (ChooseAdapterViewHolder) convertView.getTag();
             }
 
-            final WithdrawalListVo vo = this.withdrawalItemVoList.get(position);
+            final WithdrawalListVo.WithdrawalItemVo vo = this.withdrawalItemVoList.get(position);
 
             if (TextUtils.equals("1", vo.type)) {
                 holder.showInfoName.setText("银行卡提款");
@@ -747,7 +738,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
             }
             holder.showInfoLinear.setOnClickListener(view -> {
                 if (this.callBack != null && !ClickUtil.isFastClick()) {
-                    final WithdrawalListVo itemVo = withdrawalItemVoList.get(position);
+                    final WithdrawalListVo.WithdrawalItemVo itemVo = withdrawalItemVoList.get(position);
                     this.callBack.onClickListItem(itemVo);
                 }
             });
@@ -755,7 +746,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                 @Override
                 public void onClick(View v) {
                     if (callBack != null && !ClickUtil.isFastClick()) {
-                        final WithdrawalListVo itemVo = withdrawalItemVoList.get(position);
+                        final WithdrawalListVo.WithdrawalItemVo itemVo = withdrawalItemVoList.get(position);
                         callBack.onClickListItem(itemVo);
                     }
                 }
@@ -775,7 +766,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
          * @param list
          * @return
          */
-        public ArrayList<WithdrawalListVo> removeDuplicationBy2For(ArrayList<WithdrawalListVo> list) {
+        public ArrayList<WithdrawalListVo.WithdrawalItemVo> removeDuplicationBy2For(ArrayList<WithdrawalListVo.WithdrawalItemVo> list) {
             for (int i = 0; i < list.size(); i++) {
                 for (int j = i + 1; j < list.size(); j++) {
                     if (list.get(i).type.equals(list.get(j).type)) {
@@ -791,7 +782,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
     /**
      * 显示其他虚拟币提款Dialog
      */
-    private void showOtherVirtualWithdrawalDialog(final String name, final WithdrawalListVo listVo, final WithdrawalInfoVo infoVo) {
+    private void showOtherVirtualWithdrawalDialog(final String name, final WithdrawalListVo.WithdrawalItemVo listVo, final WithdrawalInfoVo infoVo) {
 
         basePopupView = new XPopup.Builder(getContext())
                 .moveUpToKeyboard(false)
@@ -802,7 +793,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
     /**
      * 显示绑定Dialog
      */
-    private void showBindTipDialog(final WithdrawalListVo selectorVo) {
+    private void showBindTipDialog(final WithdrawalListVo.WithdrawalItemVo selectorVo) {
         String errorMessage = "";
         String bindType = "";
         final String format = getContext().getResources().getString(R.string.txt_bind_tip);

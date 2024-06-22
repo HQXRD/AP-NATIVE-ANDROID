@@ -1,4 +1,4 @@
-package com.xtree.mine.vo.withdrawVo;
+package com.xtree.mine.vo.withdrawals;
 
 import me.xtree.mvvmhabit.http.BaseResponse2;
 

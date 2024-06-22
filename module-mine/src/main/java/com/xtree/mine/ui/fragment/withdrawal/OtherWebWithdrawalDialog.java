@@ -43,7 +43,7 @@ import com.xtree.mine.databinding.DialogOtherWithdrawalWebBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.ChooseInfoVo;
 import com.xtree.mine.vo.OtherWebWithdrawVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalInfoVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalInfoVo;
 
 import java.io.File;
 import java.util.ArrayList;

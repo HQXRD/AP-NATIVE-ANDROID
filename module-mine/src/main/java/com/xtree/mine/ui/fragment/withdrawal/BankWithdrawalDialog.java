@@ -50,10 +50,10 @@ import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalBankBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
 import com.xtree.mine.vo.ChooseInfoVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalBankInfoVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalListVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalSubmitVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalVerifyVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalBankInfoVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalListVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalSubmitVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalVerifyVo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -70,11 +70,11 @@ import project.tqyb.com.library_res.databinding.ItemTextBinding;
 public class BankWithdrawalDialog extends BottomPopupView implements IAmountCallback, IFruitHorCallback {
 
     @Override
-    public void callbackWithFruitHor(WithdrawalListVo selectVo) {
+    public void callbackWithFruitHor(WithdrawalListVo.WithdrawalItemVo selectVo) {
         changVo = selectVo;//设置选中的channelVo
         wtype = changVo.name;
         LoadingDialog.show(getContext());
-        viewModel.getWithdrawalBankInfo(changVo.name);
+        viewModel.getWithdrawalBankInfo(changVo.name , check);
     }
 
     public interface BankWithdrawalClose {
@@ -98,23 +98,24 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
     private BasePopupView ppwError;//显示异常View
     private String checkCode;
     private ProfileVo mProfileVo;
-    private ArrayList<WithdrawalListVo> listVo;//选项卡
+    private ArrayList<WithdrawalListVo.WithdrawalItemVo> listVo;//选项卡
     private WithdrawalBankInfoVo infoVo;//银行卡提现 渠道信息
 
     private WithdrawalVerifyVo verifyVo;
     private WithdrawalSubmitVo submitVo;
-    private WithdrawalListVo changVo;//切换的Vo
+    private WithdrawalListVo.WithdrawalItemVo changVo;//切换的Vo
     private String wtype;//验证当前渠道信息时使用
     private WithdrawalBankInfoVo.UserBankInfo selectUsdtInfo;//选中的提款银行卡
     private BankWithdrawalClose closeCallback;
     private BasePopupView errorPopView = null; // 底部弹窗
+    private String check;//新增返回参数：check ,需带入下一个接口
 
 
     public static BankWithdrawalDialog newInstance(Context context,
                                                    LifecycleOwner owner,
                                                    final String wtype,
                                                    final String checkCode ,
-                                                   ArrayList<WithdrawalListVo> listVo,
+                                                   ArrayList<WithdrawalListVo.WithdrawalItemVo> listVo,
                                                    final WithdrawalBankInfoVo infoVo,
                                                    final BankWithdrawalClose closeCallback) {
         BankWithdrawalDialog dialog = new BankWithdrawalDialog(context);
@@ -124,6 +125,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         dialog.checkCode= checkCode;
         dialog.listVo = listVo;
         dialog.infoVo = infoVo;
+        dialog.check = infoVo.check;
         dialog.closeCallback = closeCallback;
         return dialog;
     }
@@ -168,7 +170,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         initNoticeView();
         refreshTopUI(listVo);
         LoadingDialog.show(getContext());
-        viewModel.getWithdrawalBankInfo(listVo.get(0).name);
+        viewModel.getWithdrawalBankInfo(listVo.get(0).name ,check);
     }
     /**
      * 初始化顶部公共区域UI
@@ -190,7 +192,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
      *
      * @param listVo
      */
-    private void refreshTopUI(ArrayList<WithdrawalListVo> listVo) {
+    private void refreshTopUI(ArrayList<WithdrawalListVo.WithdrawalItemVo> listVo) {
         for (int i = 0; i < listVo.size(); i++) {
             if (i == 0) {
                 listVo.get(0).flag = true;
@@ -978,7 +980,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
                 WithdrawalBankInfoVo.UserBankInfo vo = get(position);
-
                 String showMessage = vo.bank_name + "--" + vo.account;
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
@@ -1309,7 +1310,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         map.put("money", verifyVo.money);
         map.put("wtype", wtype);
         map.put("nonce", UuidUtil.getID24());
-
+        map.put("check", check);
         CfLog.i("requestSubmit -->" + map);
 
         viewModel.postWithdrawalSubmit(map);
@@ -1330,6 +1331,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         map.put("bank_id", selectUsdtInfo.id);
         map.put("money", money);
         map.put("wtype", wtype);
+        map.put("check", check);
         map.put("nonce", UuidUtil.getID24());
         CfLog.e("requestVerify -->" + map);
         viewModel.postWithdrawalVerify(map);
@@ -1338,6 +1340,6 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
         initNoticeView();
         refreshTopUI(listVo);
         LoadingDialog.show(getContext());
-        viewModel.getWithdrawalBankInfo(listVo.get(0).name);
+        viewModel.getWithdrawalBankInfo(listVo.get(0).name,check);
     }
 }
