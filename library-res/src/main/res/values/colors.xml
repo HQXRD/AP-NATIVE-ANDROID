@@ -427,8 +427,8 @@
     <color name="cl_withdrawal_amount">#6D6C72</color>
     <color name="cl_withdrawal_tip">#D24859</color>
     <color name="cl_over_tip">#8F8F8F</color>
-    <color name="cl_awards_end">@color/clr_main_05</color>
-    <color name="cl_awards_start">@color/clr_main_07</color>
+    <color name="cl_awards_end">#FFFFFF</color>
+    <color name="cl_awards_start">#E7948C</color>
     <color name="clr_e5e7f3">#E5E7F3</color>
     <color name="clr_f3f5f6">#F3F5F6</color>
     <!--魔域 提现 金额选择 按钮 字体颜色-->
@@ -480,4 +480,6 @@
     <color name="clr_txt_rebateagrt_subtitle">#99A0B1</color>
     <!--    高亮-->
     <color name="clr_txt_rebateagrt_highlight">#0065FF</color>
+
+    <color name="clr_txt_awards_number">#868181</color>
 </resources>

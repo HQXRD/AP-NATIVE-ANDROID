@@ -346,4 +346,7 @@
     <string name="txt_bind_tip">您还未绑定%1$s,是否前往绑定?</string>
     <string name="txt_bind_bank_tip">银行卡</string>
     <string name="txt_bind_usdt_tip">USDT提款</string>
+    <string name="txt_withdraw_flow_close_single">适用： %1$s </string>
+    <string name="txt_withdraw_flow_close_tip">适用： %1$s 等 %2$s</string>
+    <string name="txt_withdraw_flow_open_tip">适用： %1$s %2$s</string>
 </resources>

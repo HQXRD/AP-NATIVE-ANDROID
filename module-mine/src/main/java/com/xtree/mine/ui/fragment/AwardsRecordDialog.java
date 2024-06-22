@@ -16,6 +16,7 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.lxj.xpopup.widget.SmartDragLayout;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.widget.ExpandableTextView;
 import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogChooseAwardsBinding;
@@ -173,7 +174,7 @@ public class AwardsRecordDialog extends BottomPopupView {
                 holder.showBonus = (TextView) convertView.findViewById(R.id.tvw_title_bonus);
                 holder.showTurnover = (TextView) convertView.findViewById(R.id.tvw_required_turnover);
                 holder.showContent = (TextView) convertView.findViewById(R.id.tvw_title_content);
-                holder.showVenues =  (TextView)convertView.findViewById(R.id.tvw_venues);
+                holder.showVenues =  (ExpandableTextView)convertView.findViewById(R.id.tvw_venues);
                 convertView.setTag(holder);
             } else {
                 holder = (ChooseAdapterViewHolder) convertView.getTag();
@@ -207,7 +208,7 @@ public class AwardsRecordDialog extends BottomPopupView {
             public TextView showBonus;//奖金
             public TextView showTurnover;//流水
             public TextView showContent;//内容
-            public TextView showVenues;//显示场馆
+            public ExpandableTextView showVenues;//显示场馆
         }
     }
 
