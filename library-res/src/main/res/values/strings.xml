@@ -353,4 +353,5 @@
     <string name="txt_rc_hi_reg">注册嗨钱包</string>
     <string name="txt_rc_hi_down">下载嗨钱包</string>
     <string name="txt_deposit_fee_most">最高加送%1$s%%</string>
+    <string name="txt_bank_rc_amount">充值金额:</string>
 </resources>

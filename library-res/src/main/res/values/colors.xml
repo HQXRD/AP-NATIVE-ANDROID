@@ -53,8 +53,8 @@
     <!-- 点缀色 -->
     <color name="clr_main_31">#FF6C00</color>
     <color name="clr_main_32">#FF1388</color>
-    <color name="clr_main_33">#FF3C4A</color>
-    <color name="clr_main_34">#FF4C31</color>
+    <color name="clr_main_33">#FFF1ED</color>
+    <color name="clr_main_34">#F9F4FF</color>
     <color name="clr_main_35">#18C35D</color>
     <!-- ################ 配色 设计师提供 end ################ -->
 
@@ -317,6 +317,7 @@
     <color name="clr_grey_03">#E9E9E9</color>
     <color name="clr_grey_05">#D1D1D1</color>
     <color name="clr_grey_07">#F7F7F7</color>
+    <color name="clr_grey_09">#A9A9A9</color>
 
     <color name="clr_grey_22">#38D9D9D9</color>
     <color name="clr_grey_080">#CCD9D9D9</color>
