@@ -138,4 +138,20 @@ public class RouterFragmentPath {
         public static final String PAGER_BET_HOME = BET + "/home";
         public static final String PAGER_BET_TUTORIAL = BET + "/tutorial";
     }
+    public static class Transfer {
+        private static final String Transfer = "/transfer";
+        //极速转账-提交订单
+        public static final String PAGER_TRANSFER_EX_COMMIT = Transfer + "/ExTransferCommitFragment";
+        //极速转账-确认付款
+        public static final String PAGER_TRANSFER_EX_CONFIRM = Transfer + "/ExTransferConfirmFragment";
+        //极速转账-失败
+        public static final String PAGER_TRANSFER_EX_FAIL = Transfer + "/ExTransferFailFragment";
+        //极速转账-转账汇款
+        public static final String PAGER_TRANSFER_EX_PAYEE = Transfer + "/ExTransferPayeeFragment";
+        //极速转账-上传凭证
+        public static final String PAGER_TRANSFER_EX_VOUCHER = Transfer + "/ExTransferVoucherFragment";
+        //极速转账-客服
+        public static final String PAGER_TRANSFER_EX_CHAT = Transfer + "/CommChatFragment";
+
+    }
 }

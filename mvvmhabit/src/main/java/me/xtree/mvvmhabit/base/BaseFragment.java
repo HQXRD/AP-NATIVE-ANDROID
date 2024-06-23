@@ -326,6 +326,11 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
     public boolean isBackPressed() {
         return false;
     }
+    /**
+     * 获取activity结果回调
+     */
+    public void getActivityResult(int requestCode, int resultCode, Intent data) {
+    }
 
     /**
      * 关闭键盘
