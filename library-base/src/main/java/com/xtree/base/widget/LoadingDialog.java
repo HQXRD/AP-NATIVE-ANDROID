@@ -15,7 +15,7 @@ import com.xtree.base.R;
 
 public class LoadingDialog extends BottomPopupView {
     private Context mContext;
-
+    public boolean isPurple = false;
     private static BasePopupView ppw;
 
     public LoadingDialog(@NonNull Context context) {
@@ -42,7 +42,18 @@ public class LoadingDialog extends BottomPopupView {
         }
         return ppw;
     }
-
+    public static BasePopupView show2(Context context) {
+        if (ppw == null || ppw.isDismiss()) {
+            LoadingDialog dialog = new LoadingDialog(context);
+            dialog.isPurple = true;
+            ppw = new XPopup.Builder(context)
+                    .dismissOnTouchOutside(false)
+                    .dismissOnBackPressed(true)
+                    .asCustom(dialog)
+                    .show();
+        }
+        return ppw;
+    }
     public static void finish() {
         if (ppw != null && ppw.isShow()) {
             ppw.dismiss();
