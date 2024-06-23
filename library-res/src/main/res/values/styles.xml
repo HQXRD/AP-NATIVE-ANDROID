@@ -1201,5 +1201,51 @@
         <item name="android:layout_marginTop">1dp</item>
         <item name="android:orientation">horizontal</item>
     </style>
+    <style name="style_btn_short">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginStart">6dp</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:background">@drawable/bg_btn_short_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:text">@string/txt_confirm</item>
+        <item name="android:textColor">@color/clr_text_btn_selector</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_btn_short_cancel" parent="style_btn_short">
+        <item name="android:background">@drawable/bg_btn_short_cancel_selector</item>
+        <item name="android:text">@string/txt_cancel</item>
+        <item name="android:textColor">@color/clr_grey_13</item>
+    </style>
+
+    <!-- 充值 弹窗 列表项 纯色 -->
+    <style name="style_rdo_recommend">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/bg_btn_r10_white_selector</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_text_main_selector</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <!-- 通用 按钮 背景为颜色,可变色(谷歌验证) -->
+    <style name="style_cm_auth_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:background">@drawable/bg_edt_auth_selector</item>
+        <item name="android:hint"></item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLength">50</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@color/clr_grey_80</item>
+        <item name="android:textColorHint">@color/clr_txt_color_hint</item>
+        <item name="android:textSize">14sp</item>
+    </style>
 
 </resources>
