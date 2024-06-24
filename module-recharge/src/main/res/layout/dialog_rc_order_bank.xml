@@ -152,7 +152,8 @@
 
             <TextView
                 android:id="@+id/tvw_copy_bank_name"
-                style="@style/style_btn_small"
+                style="@style/style_btn_recharge_small"
+                android:layout_height="21dp"
                 android:minEms="3"
                 android:text="@string/txt_copy" />
         </LinearLayout>
@@ -170,7 +171,7 @@
 
             <TextView
                 android:id="@+id/tvw_copy_branch"
-                style="@style/style_btn_small"
+                style="@style/style_btn_recharge_small"
                 android:minEms="3"
                 android:text="@string/txt_copy" />
         </LinearLayout>
@@ -188,7 +189,7 @@
 
             <TextView
                 android:id="@+id/tvw_copy_acc_name"
-                style="@style/style_btn_small"
+                style="@style/style_btn_recharge_small"
                 android:minEms="3"
                 android:text="@string/txt_copy" />
         </LinearLayout>
@@ -206,7 +207,7 @@
 
             <TextView
                 android:id="@+id/tvw_copy_acc_num"
-                style="@style/style_btn_small"
+                style="@style/style_btn_recharge_small"
                 android:minEms="3"
                 android:text="@string/txt_copy" />
         </LinearLayout>

@@ -132,7 +132,7 @@
 
             <TextView
                 android:id="@+id/tvw_copy"
-                style="@style/style_btn_small"
+                style="@style/style_btn_recharge_small"
                 android:layout_marginEnd="@dimen/layout_margin"
                 android:minEms="3"
                 android:text="@string/txt_copy" />

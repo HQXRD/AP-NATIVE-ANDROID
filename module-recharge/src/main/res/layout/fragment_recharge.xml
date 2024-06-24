@@ -14,7 +14,7 @@
         android:id="@+id/ll_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/clr_main_08"
+        android:background="@color/clr_main_11"
         android:orientation="vertical">
 
         <View
@@ -36,7 +36,7 @@
                 style="@style/style_cm_title"
                 android:layout_marginTop="0dp"
                 android:text="@string/txt_recharge"
-                android:textColor="@color/clr_white"
+                android:textColor="@color/clr_black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +45,7 @@
             <ImageView
                 android:id="@+id/ivw_back"
                 style="@style/style_ic_title_back"
-                android:src="@mipmap/cm_ic_back_w"
+                android:src="@mipmap/cm_ic_back"
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -63,17 +63,18 @@
                 <ImageView
                     android:id="@+id/ivw_cs"
                     style="@style/style_ic_title_right"
-                    android:src="@mipmap/cm_ic_cs_w" />
+                    android:layout_width="wrap_content"
+                    android:src="@mipmap/cm_ic_cs" />
 
                 <ImageView
                     android:id="@+id/ivw_rule"
                     style="@style/style_ic_title_right"
-                    android:src="@mipmap/cm_ic_rule" />
+                    android:src="@mipmap/cm_ic_fb" />
 
                 <ImageView
                     android:id="@+id/ivw_msg"
                     style="@style/style_ic_title_right"
-                    android:src="@mipmap/cm_ic_msg_w" />
+                    android:src="@mipmap/cm_ic_msg" />
 
             </LinearLayout>
 
@@ -134,7 +135,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="4dp"
-                            android:src="@mipmap/rc_ic_1k" />
+                            android:src="@mipmap/rc_ic_1k_hiwallet" />
 
                         <View
                             android:layout_width="wrap_content"
@@ -150,7 +151,7 @@
                             android:drawableStart="@mipmap/cm_ic_anti_fraud"
                             android:drawablePadding="4dp"
                             android:text="@string/txt_rc_anti_fraud"
-                            android:textColor="@color/clr_txt_black_01"
+                            android:textColor="@color/clr_txt_recharge_top_tip"
                             android:textSize="12sp"
                             android:visibility="gone"
                             tools:visibility="invisible" />

@@ -341,8 +341,8 @@
         <item name="android:layout_marginEnd">@dimen/layout_margin</item>
         <item name="android:layout_marginTop">8dp</item>
         <item name="android:text"></item>
-        <item name="android:textColor">@color/clr_grey_80</item>
-        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/clr_txt_recharge_tip</item>
+        <item name="android:textSize">12sp</item>
     </style>
     <!-- 通用 提示小字 桔红色 -->
     <style name="style_cm_tip_small_orange" parent="style_cm_tip_small_grey">
@@ -352,7 +352,7 @@
     <!-- 通用 提示小字 桔红色 -->
     <style name="style_cm_tip_small_yellow" parent="style_cm_tip_small_grey">
         <item name="android:text"></item>
-        <item name="android:textColor">@color/clr_orange_02</item>
+        <item name="android:textColor">@color/clr_orange_01</item>
         <item name="android:textSize">12sp</item>
     </style>
 
@@ -1343,4 +1343,32 @@
         <item name="android:drawableTop">@mipmap/cm_ic_time_left</item>
     </style>
 
+    <!-- 充值 小按钮 背景为蓝色颜色,可变色 (重新绑定) -->
+    <style name="style_btn_recharge_small">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">1dp</item>
+        <item name="android:text"></item>
+        <item name="android:textColor">@color/clr_txt_recharge_copy</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="style_recharge_dlg_copy">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:gravity">end</item>
+        <item name="android:textColor">@color/clr_txt_recharge_copy</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="style_rdo_type">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/ic_bg_type_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/clr_purple_05</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

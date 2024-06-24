@@ -29,7 +29,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:scaleType="fitXY"
-                android:src="@mipmap/bg_google_auth"
+                android:background="@drawable/bg_dialog_rc"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -38,12 +38,12 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_title"
+                android:background="@drawable/bg_dialog_top_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
                 <ImageView
                     android:id="@+id/ivw_top"
                     android:layout_width="match_parent"

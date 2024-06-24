@@ -520,7 +520,19 @@
     <color name="clr_edt_auth_focused">@color/clr_white</color>
     <!-- 输入框 hint -->
     <color name="clr_txt_color_hint">#C7C4D0</color>
+    <!-- 充值弹窗 提示语 -->
+    <color name="clr_txt_recharge_hint">#99A0B1</color>
+    <!-- 充值弹窗 复制字体颜色  clr_grey_13 -->
+    <color name="clr_txt_recharge_copy">#13A1DE</color>
+    <!-- 充值弹窗 注意字体颜色   -->
+    <color name="clr_txt_recharge_tip">#121B47</color>
+    <!-- 充值弹窗 温馨   -->
+    <color name="clr_txt_recharge_dialog_tip">#A8423A</color>
+    <color name="clr_txt_recharge_top_tip">#2F2747</color>
 
-
-
+    <!-- 充值首页 立即下载 -->
+    <color name="clr_bg_recharge_start">#FFD9B2</color>
+    <color name="clr_bg_recharge_end">#FFFFFF</color>
+    <!--  金额已选中  -->
+    <color name="clr_purple_05">#9179E7</color>
 </resources>

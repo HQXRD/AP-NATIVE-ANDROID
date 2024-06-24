@@ -83,7 +83,7 @@
         <TextView
             style="@style/style_cm_tip_small_grey"
             android:layout_width="match_parent"
-            android:drawableStart="@mipmap/cm_ic_hint_purple"
+            android:drawableStart="@mipmap/cm_ic_hint_main"
             android:drawablePadding="4dp"
             android:text="若有任何订单问题，请立即联系客服，并提供区间流水明细，以利确认到账情况及处理您的保证金返还"
             android:textSize="12sp" />

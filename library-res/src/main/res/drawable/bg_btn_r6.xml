@@ -11,15 +11,15 @@
     <item android:state_enabled="false">
         <shape android:shape="rectangle">
             <solid android:color="@color/clr_btn_grey01" />
-            <corners android:radius="10dp" />
+            <corners android:radius="20dp" />
         </shape>
     </item>
     <item>
         <shape>
-            <gradient android:angle="0"
-                android:endColor="@color/clr_btn_02"
-                android:startColor="@color/clr_btn_01" />
-            <corners android:radius="6dp" />
+            <gradient android:angle="270"
+                android:endColor="@color/clr_bg_recharge_start"
+                android:startColor="@color/clr_bg_recharge_start" />
+            <corners android:radius="20dp" />
         </shape>
     </item>
 </selector>
