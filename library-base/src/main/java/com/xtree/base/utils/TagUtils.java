@@ -23,6 +23,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import io.sentry.Sentry;
+import io.sentry.SentryEvent;
+import io.sentry.protocol.SentryId;
+
 public class TagUtils {
 
     public static final String TAG_AC = "_ac"; // appCenter
@@ -240,21 +244,21 @@ public class TagUtils {
         if (!IS_TAG || isFrequent(event, TAG_ST)) {
             return;
         }
-        //SentryEvent mSentryEvent = new SentryEvent();
-        //mSentryEvent.setEventId(new SentryId(event));
-        //mSentryEvent.setTag(event, value);
-        ////mSentryEvent.setModule(event, value);
-        //Sentry.captureEvent(mSentryEvent);
+        SentryEvent mSentryEvent = new SentryEvent();
+        mSentryEvent.setEventId(new SentryId(event));
+        mSentryEvent.setTag(event, value);
+        //mSentryEvent.setModule(event, value);
+        Sentry.captureEvent(mSentryEvent);
     }
 
     private static void tagSentry(String event, Map<String, String> map) {
         if (!IS_TAG || isFrequent(event, TAG_ST)) {
             return;
         }
-        //SentryEvent mSentryEvent = new SentryEvent();
-        //mSentryEvent.setEventId(new SentryId(event));
-        //mSentryEvent.setTags(map);
-        //Sentry.captureEvent(mSentryEvent);
+        SentryEvent mSentryEvent = new SentryEvent();
+        mSentryEvent.setEventId(new SentryId(event));
+        mSentryEvent.setTags(map);
+        Sentry.captureEvent(mSentryEvent);
     }
 
     /**

@@ -234,6 +234,7 @@
     <string name="build_time">20240112</string>
     <string name="mixpanel_token">abc123</string>
     <string name="ms_secret_key">abc123</string>
+    <string name="sentry_dsn">abc123</string>
     <string name="txt_agree">同意</string>
     <string name="text_no_agree">不同意</string>
     <string name="txt_precautions">注意事项</string>
