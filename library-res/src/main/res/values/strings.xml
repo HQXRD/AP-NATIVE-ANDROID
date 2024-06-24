@@ -346,4 +346,12 @@
     <string name="txt_bind_tip">您还未绑定%1$s,是否前往绑定?</string>
     <string name="txt_bind_bank_tip">银行卡</string>
     <string name="txt_bind_usdt_tip">USDT提款</string>
+    <string name="txt_withdraw_flow_close_single">适用： %1$s </string>
+    <string name="txt_withdraw_flow_close_tip">适用： %1$s 等 %2$s</string>
+    <string name="txt_withdraw_flow_open_tip">适用： %1$s %2$s</string>
+    <string name="txt_rc_hi_wlt_content">目前登入账号尚未绑定嗨钱包账号，\n确认是否继续操作？</string>
+    <string name="txt_rc_hi_reg">注册嗨钱包</string>
+    <string name="txt_rc_hi_down">下载嗨钱包</string>
+    <string name="txt_deposit_fee_most">最高加送%1$s%%</string>
+    <string name="txt_bank_rc_amount">充值金额:</string>
 </resources>

@@ -33,10 +33,10 @@ import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalVirtualBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
-import com.xtree.mine.vo.withdrawVo.WithdrawalInfoVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalListVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalSubmitVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalVerifyVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalInfoVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalListVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalSubmitVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalVerifyVo;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     ChooseWithdrawViewModel viewModel;
     private String wtype;
     private WithdrawalInfoVo.UserBankInfo selectorBankInfo;//选中的支付地址
-    private WithdrawalListVo listVo;
+    private WithdrawalListVo.WithdrawalItemVo listVo;
     private WithdrawalInfoVo infoVo;
 
     private WithdrawalVerifyVo verifyVo;
@@ -78,7 +78,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     public static VirtualWithdrawalDialog newInstance(Context context,
                                                       LifecycleOwner owner,
                                                       final String wtype,
-                                                      final WithdrawalListVo listVo,
+                                                      final WithdrawalListVo.WithdrawalItemVo listVo,
                                                       final WithdrawalInfoVo infoVo,
                                                       final String checkCode,
                                                       final String usdtType) {
@@ -117,7 +117,7 @@ public class VirtualWithdrawalDialog extends BottomPopupView {
     private void initView() {
         binding = DialogBankWithdrawalVirtualBinding.bind(findViewById(R.id.ll_root));
         binding.ivwClose.setOnClickListener(v -> dismiss());
-        binding.tvwTitle.setText(listVo.title);
+        binding.tvwTitle.setText(listVo.name);
         refreshUI(infoVo);
 
     }

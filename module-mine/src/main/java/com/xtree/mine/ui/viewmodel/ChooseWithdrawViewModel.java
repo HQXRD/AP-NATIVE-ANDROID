@@ -26,12 +26,12 @@ import com.xtree.mine.vo.USDTSecurityVo;
 import com.xtree.mine.vo.VirtualCashVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalBankInfoVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalInfoVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalListVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalQuotaVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalSubmitVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalVerifyVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalBankInfoVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalInfoVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalListVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalQuotaVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalSubmitVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalVerifyVo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,7 +67,7 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     //提款接入新接口
     public MutableLiveData<WithdrawalQuotaVo> quotaVoMutableLiveData = new MutableLiveData<>();//获取提款额度
     public MutableLiveData<String> quotaErrorData = new MutableLiveData<>();//获取提款提款额度错误
-    public MutableLiveData<ArrayList<WithdrawalListVo>> withdrawalListVoMutableLiveData = new MutableLiveData();//获取提现渠道
+    public MutableLiveData<WithdrawalListVo> withdrawalListVoMutableLiveData = new MutableLiveData();//获取提现渠道
 
     public MutableLiveData<WithdrawalInfoVo> withdrawalInfoVoMutableLiveData = new MutableLiveData<>();// 获取提现渠道 错误信息
     public MutableLiveData<String> withdrawalListErrorData = new MutableLiveData<>();// 获取提现渠道 错误信息
@@ -605,13 +605,12 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
 
     }
 
-
     //接入提款新接口
 
     /**
      * 提款获取可用额度
      */
-    public void getWithdrawQuota(final String checkCode) {
+    public void getWithdrawQuota() {
         Disposable disposable = (Disposable) model.getApiService().getWithdrawalQuota()
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
@@ -644,13 +643,13 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     /**
      * 获取可提现渠道列表
      */
-    public void getWithdrawalList() {
-        Disposable disposable = (Disposable) model.getApiService().getWithdrawalList()
+    public void getWithdrawalList(final String checkCode) {
+        Disposable disposable = (Disposable) model.getApiService().getWithdrawalList(checkCode)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpWithdrawalCallBack<ArrayList<WithdrawalListVo>>() {
+                .subscribeWith(new HttpWithdrawalCallBack<WithdrawalListVo>() {
                     @Override
-                    public void onResult(ArrayList<WithdrawalListVo> withdrawalListVos) {
+                    public void onResult(WithdrawalListVo withdrawalListVos) {
                         withdrawalListVoMutableLiveData.setValue(withdrawalListVos);
                     }
 
@@ -672,15 +671,10 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
-    /**
-     * 获取可提现渠道列表
-     */
-    public void getWithdrawalInfo(final String name) {
+    public void getWithdrawalInfo(final String wtype, final  String check) {
         //wtype
         //	hipayht
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("wtype", name);
-        Disposable disposable = (Disposable) model.getApiService().getWithdrawalInfo(name)
+        Disposable disposable = (Disposable) model.getApiService().getWithdrawalInfo(wtype , check)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpWithdrawalCallBack<WithdrawalInfoVo>() {
@@ -716,14 +710,12 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
     }
 
     /**
-     * 获取可提现渠道列表
+     * 获取银行卡渠道详情
+     * @param wtype
+     * @param check
      */
-    public void getWithdrawalBankInfo(final String name) {
-        //wtype
-        //	hipayht
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("wtype", name);
-        Disposable disposable = (Disposable) model.getApiService().getWithdrawalBankInfo(name)
+    public void getWithdrawalBankInfo(final String wtype, final  String check) {
+        Disposable disposable = (Disposable) model.getApiService().getWithdrawalBankInfo(wtype, check)
                 .compose(RxUtils.schedulersTransformer())
                 .compose(RxUtils.exceptionTransformer())
                 .subscribeWith(new HttpWithdrawalCallBack<WithdrawalBankInfoVo>() {
@@ -773,11 +765,6 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
-    /**
-     * 验证当前渠道信息
-     *
-     * @param map
-     */
     public void postWithdrawalVerify(final HashMap<String, Object> map) {
         Disposable disposable = (Disposable) model.getApiService().postWithdrawalVerify(map)
                 .compose(RxUtils.schedulersTransformer())
@@ -810,11 +797,6 @@ public class ChooseWithdrawViewModel extends BaseViewModel<MineRepository> {
         addSubscribe(disposable);
     }
 
-    /**
-     * 验证当前渠道信息
-     *
-     * @param map
-     */
     public void postWithdrawalSubmit(final HashMap<String, Object> map) {
         Disposable disposable = (Disposable) model.getApiService().postWithdrawalSubmit(map)
                 .compose(RxUtils.schedulersTransformer())

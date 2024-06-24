@@ -59,13 +59,13 @@ import com.xtree.mine.vo.VipUpgradeInfoVo;
 import com.xtree.mine.vo.VirtualCashVo;
 import com.xtree.mine.vo.VirtualConfirmVo;
 import com.xtree.mine.vo.VirtualSecurityVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalBankInfoVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalInfoVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalListVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalQuotaVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalSubmitVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalVerifyVo;
 import com.xtree.mine.vo.request.AdduserRequest;
+import com.xtree.mine.vo.withdrawals.WithdrawalBankInfoVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalInfoVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalListVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalQuotaVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalSubmitVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalVerifyVo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -724,21 +724,21 @@ public interface HttpApiService {
     /**
      * 获取可提现渠道列表
      */
-    @GET("/api/withdrawal/list")
-    Flowable<BaseResponse3<ArrayList<WithdrawalListVo>>> getWithdrawalList();
+    @GET("/api/withdrawal/list/{checkCode}")
+    Flowable<BaseResponse3<WithdrawalListVo>> getWithdrawalList(@Path("checkCode") String checkCode);
 
     /**
      * 获取当前渠道详情
      * /api/withdrawal/info?wtype=ebpay
      */
-    @GET("/api/withdrawal/info/{key}")
-    Flowable<BaseResponse3<WithdrawalInfoVo>> getWithdrawalInfo(@Path("key") String key);
+    @GET("/api/withdrawal/info/{wtype}/{check}")
+    Flowable<BaseResponse3<WithdrawalInfoVo>> getWithdrawalInfo(@Path("wtype") String wtype,@Path("check") String check);
 
     /**
      * 银行卡提现获取当前渠道详情
      */
-    @GET("/api/withdrawal/info/{key}")
-    Flowable<BaseResponse3<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@Path("key") String key);
+    @GET("/api/withdrawal/info/{wtype}/{check}")
+    Flowable<BaseResponse3<WithdrawalBankInfoVo>> getWithdrawalBankInfo(@Path("wtype") String wtype,@Path("check") String check);
 
     /**
      * 验证当前渠道信息

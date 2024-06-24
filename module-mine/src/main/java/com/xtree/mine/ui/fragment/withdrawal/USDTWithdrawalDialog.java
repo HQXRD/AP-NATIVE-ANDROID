@@ -39,12 +39,10 @@ import com.xtree.mine.R;
 import com.xtree.mine.data.Injection;
 import com.xtree.mine.databinding.DialogBankWithdrawalUsdtBinding;
 import com.xtree.mine.ui.viewmodel.ChooseWithdrawViewModel;
-import com.xtree.mine.vo.USDTCashVo;
-import com.xtree.mine.vo.USDTSecurityVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalInfoVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalListVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalSubmitVo;
-import com.xtree.mine.vo.withdrawVo.WithdrawalVerifyVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalInfoVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalListVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalSubmitVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalVerifyVo;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -78,13 +76,13 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
 
     private ArrayList<WithdrawalInfoVo.UserBankInfo> trc20BankInfoList;//只支持trc20提款地址
 
-    private ArrayList<WithdrawalListVo> listVo;
+    private ArrayList<WithdrawalListVo.WithdrawalItemVo> listVo;
     private WithdrawalInfoVo infoVo;
     private WithdrawalInfoVo.UserBankInfo selectorBankInfo;//选中的支付地址
 
     private WithdrawalVerifyVo verifyVo;
     private WithdrawalSubmitVo submitVo;
-    private WithdrawalListVo changVo;//切换的Vo
+    private WithdrawalListVo.WithdrawalItemVo changVo;//切换的Vo
     private BasePopupView errorPopView;
 
     public USDTWithdrawalDialog(@NonNull Context context) {
@@ -94,7 +92,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
     public static USDTWithdrawalDialog newInstance(Context context,
                                                    LifecycleOwner owner,
                                                    final String wtype,
-                                                   ArrayList<WithdrawalListVo> listVo,
+                                                   ArrayList<WithdrawalListVo.WithdrawalItemVo> listVo,
                                                    final WithdrawalInfoVo infoVo,
                                                    final String checkCode) {
         USDTWithdrawalDialog dialog = new USDTWithdrawalDialog(context);
@@ -241,7 +239,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
      * @param changVo
      * @param infoVo
      */
-    private void refreshChangeUI(WithdrawalListVo changVo, WithdrawalInfoVo infoVo) {
+    private void refreshChangeUI(WithdrawalListVo.WithdrawalItemVo changVo, WithdrawalInfoVo infoVo) {
         //根据传入列表的地址数据判断提币数组数据 TRC情况下 只显示trc地址
         if (TextUtils.equals("TRC20_USDT", changVo.name)
                 || changVo.name.contains("TRC")
@@ -354,7 +352,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
      *
      * @param listVo
      */
-    private void refreshTopUI(ArrayList<WithdrawalListVo> listVo) {
+    private void refreshTopUI(ArrayList<WithdrawalListVo.WithdrawalItemVo> listVo) {
         recyclerViewAdapter = new FruitHorUSDTRecyclerViewAdapter( listVo, this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -547,77 +545,6 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
         ppw.show();
     }
 
-    /**
-     * 设置提款 请求 下一步
-     */
-    private void requestWithdrawUSDT(String money, String realCount, String usdtId, String checkCode, final USDTCashVo cashMoYuVo) {
-        LoadingDialog.show(getContext());
-
-      /*  "action": "platwithdraw",
-                "check": "3d917f5496f73e6c2b06b86722354599",
-                "controller": "security",
-                "flag": "withdraw",
-                  "usdtType": "2"
-                  "nonce": "01f0291c4277f8fffb3c37212d1d8de6",
-                "money": "10",
-
-                "realCount": 1.38,
-                "usdtid": "2789",
-              */
-
-        HashMap<String, String> map = new HashMap<>();
-        map.put("action", "platwithdraw");
-        map.put("controller", "security");
-        map.put("flag", "withdraw");
-        map.put("usdtType", cashMoYuVo.usdt_type);
-        map.put("nonce", UuidUtil.getID24());
-
-        map.put("money", money);
-        map.put("realCount", realCount);
-        map.put("usdtid", usdtId);
-        map.put("check", checkCode);
-        CfLog.i("requestWithdrawUSDT = " + map);
-        viewModel.postPlatWithdrawUSDTMoYu(map);
-    }
-
-    /**
-     * 设置提款 完成申请
-     */
-    private void requestConfirmUSDT(String money, String realCount, String handingFee, String usdt_type, String usdtType, String checkCode, USDTSecurityVo usdtSecurityVo) {
-       /* {
-         "controller": "security",
-            "action": "platwithdraw",
-            "flag": "confirm",
-                "cardid": "",
-                "check": "72e49e769b01a2067444a2b3c2a5853b",
-                "handing_fee": "0.00",
-                "money": 10,
-                "nonce": "5327a1599a53bb460a55b783bd39633c",
-                "realCount": 1.38,
-                "usdt_type": "ERC20_USDT",
-                "usdtid": "2789",
-                "usdtType": "2"
-        }*/
-        LoadingDialog.show(getContext());
-        HashMap<String, String> map = new HashMap<>();
-        map.put("controller", "security");
-        map.put("action", "platwithdraw");
-        map.put("flag", "confirm");
-        map.put("cardid", "");
-        map.put("check", checkCode);
-        map.put("handing_fee", usdtSecurityVo.datas.handing_fee);
-        map.put("money", money);
-        map.put("nonce", UuidUtil.getID24());
-        map.put("realCount", realCount);
-        map.put("usdtType", usdtSecurityVo.drawal_type);
-        map.put("usdt_type", usdtSecurityVo.usdt_type);
-        map.put("usdtid", usdtid);//选中提款地址
-
-        CfLog.i("requestConfirmUSDT = " + map);
-
-        viewModel.postConfirmWithdrawUSDTMoYu(map);
-
-    }
 
     /**
      * 设置提款 请求 下一步
@@ -673,12 +600,12 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
     }
 
     @Override
-    public void callbackWithFruitHor(WithdrawalListVo selectVo) {
+    public void callbackWithFruitHor(WithdrawalListVo.WithdrawalItemVo selectVo) {
         CfLog.e("callbackWithUSDTFruitHor=" + selectVo.toString());
         final String title = selectVo.title;
         final String selectorType = selectVo.type;
         changVo = selectVo;
         //获取当前选中的提款详情
-        viewModel.getWithdrawalInfo(selectVo.name);
+        viewModel.getWithdrawalInfo(selectVo.name,infoVo.code );
     }
 }

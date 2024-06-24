@@ -1,7 +1,7 @@
 package com.xtree.mine.ui.fragment.withdrawal;
 
-import com.xtree.mine.vo.withdrawVo.WithdrawalListVo;
+import com.xtree.mine.vo.withdrawals.WithdrawalListVo;
 
 public interface IWithdrawListCallback {
-    public void onClickListItem(final WithdrawalListVo itemVo);
+    public void onClickListItem(final WithdrawalListVo.WithdrawalItemVo itemVo);
 }
