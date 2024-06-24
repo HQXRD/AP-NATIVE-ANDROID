@@ -115,11 +115,6 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 // 谷歌验证
                 onFail(ex);
                 break;
-            case HttpCallBack.CodeRule.CODE_100002:
-                TagUtils.tagEvent(Utils.getContext(), "API 测速失败", DomainUtil.getApiUrl());
-                ToastUtils.showShort("当前网络环境异常，切换线路中..."); // ("域名被劫持"  + "，切换线路中...");
-                ChangeLineUtil.getInstance().start();
-                break;
             default:
                 KLog.e("status is not normal: " + baseResponse);
                 onFail(ex);
@@ -149,6 +144,10 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             BusinessException rError = (BusinessException) t;
             ToastUtils.showLong(rError.message + " [" + rError.code + "]");
             return;
+        } else if (t instanceof HijackedException){
+            TagUtils.tagEvent(Utils.getContext(), "event_hijacked", t.getMessage());
+            ToastUtils.showShort("当前网络环境异常，切换线路中..."); // ("域名被劫持"  + "，切换线路中...");
+            ChangeLineUtil.getInstance().start();
         }
         //其他全部甩锅网络异常
         ToastUtils.showShort("网络异常");
