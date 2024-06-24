@@ -80,8 +80,9 @@ dependencies {
 
     api rootProject.ext.dependencies["appcenter-analytics"]
     api rootProject.ext.dependencies["appcenter-crashes"]
+    api rootProject.ext.dependencies["sentry"]
     api rootProject.ext.dependencies["event-bus"]
-    implementation rootProject.ext.dependencies["lottie"]
+    api rootProject.ext.dependencies["lottie"]
 
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    api rootProject.ext.dependencies["constraintlayout"]
 }
