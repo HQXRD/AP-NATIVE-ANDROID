@@ -1,5 +1,6 @@
 package com.xtree.base.mvvm
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -14,6 +15,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.drake.brv.utils.bindingAdapter
 import com.drake.brv.utils.divider
+import com.drake.brv.utils.grid
 import com.drake.brv.utils.linear
 import com.drake.brv.utils.models
 import com.google.android.material.tabs.TabLayout
@@ -24,8 +26,6 @@ import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshLoadMoreListener
 import com.xtree.base.mvvm.recyclerview.BaseDatabindingAdapter
 import com.xtree.base.mvvm.recyclerview.BindModel
-import com.xtree.base.widget.FilterView
-import com.xtree.base.widget.impl.FilterViewOnClickListerner
 
 /**
  *Created by KAKA on 2024/3/8.
@@ -33,7 +33,7 @@ import com.xtree.base.widget.impl.FilterViewOnClickListerner
  */
 
 @BindingAdapter(
-    value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId"],
+    value = ["layoutManager", "itemData", "itemViewType", "onBindListener", "dividerDrawableId", "viewPool","spanCount"],
     requireAll = false
 )
 fun RecyclerView.init(
@@ -42,11 +42,15 @@ fun RecyclerView.init(
     itemViewType: List<Int>?,
     onBindListener: BaseDatabindingAdapter.onBindListener?,
     dividerDrawableId: Int?,
+    viewPool: RecyclerView.RecycledViewPool?,
+    spanCount: Int?,
 ) {
 
     if (itemData == null || itemViewType == null) {
         return
     }
+
+    viewPool?.let { setRecycledViewPool(it) }
 
     adapter?.run {
 
@@ -61,20 +65,22 @@ fun RecyclerView.init(
         }
     } ?: run {
         when (layoutManager) {
-            null -> linear()
+            null -> if (this.layoutManager == null) spanCount?.run { grid(spanCount) } ?: run { linear() }
             else -> this.layoutManager = layoutManager
         }
 
-        dividerDrawableId?.let { divider {
-            setDrawable(it)
-            startVisible = false
-            endVisible = true
-        } }
+        dividerDrawableId?.let {
+            divider {
+                setDrawable(it)
+                startVisible = false
+                endVisible = true
+            }
+        }
 
         val mAdapter = BaseDatabindingAdapter().run {
             initData(itemData, itemViewType)
             onBind {
-                onBindListener?.onBind(this,this.itemView.rootView, getItemViewType())
+                onBindListener?.onBind(this, this.itemView.rootView, getItemViewType())
 
                 itemView.rootView.setOnClickListener {
                     onBindListener?.onItemClick(modelPosition, layoutPosition, getItemViewType())
@@ -100,18 +106,6 @@ fun RecyclerView.init(
     }
 }
 
-@BindingAdapter(
-    value = ["typeData", "statuData", "queryListener"],
-    requireAll = false
-)
-fun FilterView.initData(
-    typeData: List<FilterView.IBaseVo>?,
-    statuData: List<FilterView.IBaseVo>,
-    queryListener: FilterViewOnClickListerner?
-) {
-    setData(typeData, statuData)
-    queryListener?.let { setQueryListener(it) }
-}
 
 @BindingAdapter(
     value = ["setSelectedListener", "tabs"],
@@ -119,10 +113,11 @@ fun FilterView.initData(
 )
 fun TabLayout.init(setSelectedListener: OnTabSelectedListener?, tabs: List<String>?) {
     tabs?.let {
+        removeAllTabs()
         for (tab in it) {
             addTab(newTab().apply { text = tab })
         }
-    }?:run {
+    } ?: run {
         visibility = GONE
     }
 
@@ -132,10 +127,10 @@ fun TabLayout.init(setSelectedListener: OnTabSelectedListener?, tabs: List<Strin
 }
 
 @BindingAdapter(
-    value = ["onRefreshLoadMoreListener","onLoadMoreListener"],
+    value = ["onRefreshLoadMoreListener", "onLoadMoreListener"],
     requireAll = false
 )
-fun SmartRefreshLayout.init(onRefreshLoadMoreListener: OnRefreshLoadMoreListener?,onLoadMoreListener: OnLoadMoreListener?) {
+fun SmartRefreshLayout.init(onRefreshLoadMoreListener: OnRefreshLoadMoreListener?, onLoadMoreListener: OnLoadMoreListener?) {
     onRefreshLoadMoreListener?.let { setOnRefreshListener(it) }
     onLoadMoreListener?.let { setOnLoadMoreListener(it) }
 }
@@ -144,13 +139,14 @@ fun SmartRefreshLayout.init(onRefreshLoadMoreListener: OnRefreshLoadMoreListener
     value = ["textChangedListener"],
     requireAll = false
 )
-fun EditText.init(textChangedListener:TextWatcher?) {
+fun EditText.init(textChangedListener: TextWatcher?) {
     textChangedListener?.let { addTextChangedListener(it) }
 }
 
+@SuppressLint("CheckResult")
 @BindingAdapter(
-value = ["imageUrl", "placeholder", "error", "fallback", "loadWidth", "loadHeight", "cacheEnable"],
-requireAll = false
+    value = ["imageUrl", "placeholder", "error", "fallback", "loadWidth", "loadHeight", "cacheEnable"],
+    requireAll = false
 )
 fun setImageUrl(
     view: ImageView,
@@ -169,14 +165,13 @@ fun setImageUrl(
     val diskCacheStrategy = if (cacheEnable == true) DiskCacheStrategy.AUTOMATIC else DiskCacheStrategy.NONE
     // 设置编码格式，在Android 11(R)上面使用高清无损压缩格式 WEBP_LOSSLESS ， Android 11 以下使用PNG格式，PNG格式时会忽略设置的 quality 参数。
     val encodeFormat = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) Bitmap.CompressFormat.WEBP_LOSSLESS else Bitmap.CompressFormat.PNG
-    Glide.with(view.context)
+    val glide = Glide.with(view.context)
         .asDrawable()
         .load(source)
         .placeholder(placeholder)
         .error(error)
         .fallback(fallback)
         .thumbnail(0.33f)
-        .override(widthSize, heightSize)
         .skipMemoryCache(false)
         .sizeMultiplier(0.5f)
         .format(DecodeFormat.PREFER_ARGB_8888)
@@ -184,5 +179,10 @@ fun setImageUrl(
         .encodeQuality(80)
         .diskCacheStrategy(diskCacheStrategy)
         .transition(DrawableTransitionOptions.withCrossFade())
-        .into(view)
+    width?.let {
+        if (it > 0) {
+            glide.override(widthSize, heightSize)
+        }
+    }
+    glide.into(view)
 }

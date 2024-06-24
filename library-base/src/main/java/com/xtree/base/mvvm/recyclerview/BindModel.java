@@ -2,20 +2,12 @@ package com.xtree.base.mvvm.recyclerview;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.BaseObservable;
-import androidx.lifecycle.DefaultLifecycleObserver;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.ViewModel;
 
 import com.drake.brv.BindingAdapter;
 import com.drake.brv.item.ItemAttached;
 import com.drake.brv.item.ItemBind;
 import com.drake.brv.item.ItemPosition;
 import com.drake.brv.item.ItemStableId;
-import com.xtree.base.mvvm.viewmodel.BindViewModelFactory;
-import com.xtree.base.mvvm.viewmodel.ViewModelUtils;
-
-import me.xtree.mvvmhabit.base.BaseViewModel;
 
 /**
  * Created by KAKA on 2024/3/8.
