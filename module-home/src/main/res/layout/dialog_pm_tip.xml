@@ -95,33 +95,36 @@
         android:layout_height="wrap_content"
         style="@style/style_cm_ckb"
         android:text="@string/txt_rc_not_tip"
-        android:theme="@style/PMTipCheckBoxTheme"
-        android:textSize="12sp"
-        android:layout_marginTop="16dp"
         android:textColor="@color/clr_purple_01"
+        android:textSize="12sp"
+        android:theme="@style/PMTipCheckBoxTheme"
+        app:layout_constraintBottom_toTopOf="@+id/iv_line"
         app:layout_constraintEnd_toEndOf="@+id/tvw_msg"
         app:layout_constraintStart_toStartOf="@+id/tvw_msg"
         app:layout_constraintTop_toBottomOf="@+id/tvw_fb" />
 
     <ImageView
+        android:id="@+id/iv_line"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:src="@mipmap/ic_rc_split_line"
+        app:layout_constraintBottom_toBottomOf="@id/ivw_bg"
         app:layout_constraintEnd_toEndOf="@+id/cb_tip_pm"
         app:layout_constraintStart_toStartOf="@+id/cb_tip_pm"
-        app:layout_constraintTop_toBottomOf="@+id/cb_tip_pm"/>
+        app:layout_constraintTop_toBottomOf="@+id/tvw_fb" />
 
     <TextView
         android:id="@+id/tvw_cs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:drawableStart="@mipmap/cm_ic_cs2"
-        android:layout_marginBottom="30dp"
         android:drawablePadding="3dp"
         android:text="@string/txt_contact_custom"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/ivw_bg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_line" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
