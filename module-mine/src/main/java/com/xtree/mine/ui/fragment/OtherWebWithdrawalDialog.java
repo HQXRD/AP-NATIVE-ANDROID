@@ -218,7 +218,7 @@ public class OtherWebWithdrawalDialog extends BottomPopupView implements FruitHo
         //成功状态
         String url = vo.fast_iframe_url;
         if (!StringUtils.isStartHttp(url)) {
-            url = DomainUtil.getDomain2() + url;
+            url = DomainUtil.getH5Domain2() + url;
         }
         jumpUrl = url;
 

@@ -6,8 +6,6 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ChangeLineUtil;
-import com.xtree.base.utils.DomainUtil;
-import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.LoadingDialog;
 
 import io.reactivex.subscribers.DisposableSubscriber;

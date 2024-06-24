@@ -55,7 +55,7 @@ public class RechargeTypeAdapter extends CachedAutoRefreshAdapter<PaymentTypeVo>
         PaymentTypeVo vo = get(position);
         CfLog.d(vo.toInfo());
         binding = ItemRcTypeBinding.bind(holder.itemView);
-        String url = DomainUtil.getDomain2() + vo.un_selected_image; // 未选中
+        String url = DomainUtil.getH5Domain2() + vo.un_selected_image; // 未选中
         //Glide.with(ctx).load(url).placeholder(R.mipmap.dc_bg).into(binding.ivwIcon);
 
         binding.tvwTitle.setText(vo.dispay_title);
@@ -69,7 +69,7 @@ public class RechargeTypeAdapter extends CachedAutoRefreshAdapter<PaymentTypeVo>
             binding.ivwBg.setSelected(true); // 背景图
             binding.tvwTitle.setSelected(true);
             binding.tvwDepRate.setSelected(true);
-            url = DomainUtil.getDomain2() + vo.selected_image; // 选中
+            url = DomainUtil.getH5Domain2() + vo.selected_image; // 选中
         }
 
         binding.ivwIcon.setTag(vo);
@@ -131,7 +131,7 @@ public class RechargeTypeAdapter extends CachedAutoRefreshAdapter<PaymentTypeVo>
 
         PaymentTypeVo vo = (PaymentTypeVo) binding2.ivwIcon.getTag();
         String url = isSelected ? vo.selected_image : vo.un_selected_image;
-        url = DomainUtil.getDomain2() + url; // 选中/未选中
+        url = DomainUtil.getH5Domain2() + url; // 选中/未选中
 
         binding2.ivwBg.setSelected(isSelected);
         binding2.tvwTitle.setSelected(isSelected);

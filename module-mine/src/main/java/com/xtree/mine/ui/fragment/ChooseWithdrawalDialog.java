@@ -671,7 +671,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
             binding.tvChooseTutorial.setOnClickListener(v -> {
                 Intent intent = new Intent(getContext(), BrowserActivity.class);
                 intent.putExtra(BrowserActivity.ARG_TITLE, "USDT教程");
-                intent.putExtra(BrowserActivity.ARG_URL, DomainUtil.getDomain2() + "/static/usdt-description/as/usdt_m.html");
+                intent.putExtra(BrowserActivity.ARG_URL, DomainUtil.getH5Domain2() + "/static/usdt-description/as/usdt_m.html");
                 getContext().startActivity(intent);
             });
 

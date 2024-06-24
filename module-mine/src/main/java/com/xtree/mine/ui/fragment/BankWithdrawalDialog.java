@@ -723,7 +723,7 @@ public class BankWithdrawalDialog extends BottomPopupView implements IAmountCall
 
                 String url = bankInfoVo.fast_iframe_url;
                 if (!StringUtils.isStartHttp(url)) {
-                    url = DomainUtil.getDomain2() + url;
+                    url = DomainUtil.getH5Domain2() + url;
                 }
                 jumpUrl = url; //设置外跳地址
 

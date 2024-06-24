@@ -120,7 +120,7 @@ public class AdsFragment extends BaseFragment<FragmentAdsBinding, HomeViewModel>
             }
         });
 
-        binding.wvAdsMain.loadUrl(DomainUtil.getDomain2() + Constant.URL_APP_CENTER, header);
+        binding.wvAdsMain.loadUrl(DomainUtil.getH5Domain2() + Constant.URL_APP_CENTER, header);
     }
 
     @Override
