@@ -25,7 +25,6 @@ import java.util.Map;
 
 import io.sentry.Sentry;
 import io.sentry.SentryEvent;
-import io.sentry.protocol.SentryId;
 
 public class TagUtils {
 
@@ -116,6 +115,7 @@ public class TagUtils {
         tagAppsFlyer(ctx, event, getMap(null, null));
         tagMixpanel(ctx, event, null);
         tagAppCenter(event);
+        tagSentry(event, event);
     }
 
     public static void tagEvent(Context ctx, String event, Object value) {
@@ -128,6 +128,7 @@ public class TagUtils {
         tagAppsFlyer(ctx, event, getMap(key, value));
         tagMixpanel(ctx, event, key, value);
         tagAppCenter(event, getMap(key, value));
+        tagSentry(event, getMap(key, value));
     }
 
     public static void tagEvent(Context ctx, String event, HashMap<String, Object> map) {
@@ -171,7 +172,6 @@ public class TagUtils {
         //map.put("uid", uid);
         //tagAppsFlyer(ctx, event, getMap("uid", uid));
         MixpanelAPI.getInstance(ctx, MIXPANEL_TOKEN, true).identify(uid);
-        //tagMixpanel(ctx, event, "uid", uid);
         tagEvent(ctx, event, "uid", uid);
     }
 
@@ -245,9 +245,7 @@ public class TagUtils {
             return;
         }
         SentryEvent mSentryEvent = new SentryEvent();
-        mSentryEvent.setEventId(new SentryId(event));
         mSentryEvent.setTag(event, value);
-        //mSentryEvent.setModule(event, value);
         Sentry.captureEvent(mSentryEvent);
     }
 
@@ -256,7 +254,6 @@ public class TagUtils {
             return;
         }
         SentryEvent mSentryEvent = new SentryEvent();
-        mSentryEvent.setEventId(new SentryId(event));
         mSentryEvent.setTags(map);
         Sentry.captureEvent(mSentryEvent);
     }
