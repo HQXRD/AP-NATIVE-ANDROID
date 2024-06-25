@@ -172,6 +172,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             viewModel.getFBXCGameTokenApi();
             viewModel.getPMGameTokenApi();
             viewModel.getPMXCGameTokenApi();
+            viewModel.getPublicLink(); // 公共弹窗
             //viewModel.getPaymentsTypeList();
         }
     }
@@ -549,9 +550,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     public void initData() {
-        if (!TextUtils.isEmpty(token)) {
-            viewModel.getPublicLink();
-        }
+
     }
 
     private void initFootball() {
