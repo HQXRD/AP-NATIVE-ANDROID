@@ -81,8 +81,8 @@ android {
         // 生产环境 欧洲杯发布用
         xingCai_EC {
             applicationId "com.sptxc.app" // xcsport
-            versionName "1.2.1"
-            versionCode 121
+            versionName "1.2.3.1"
+            versionCode 1231
             resValue "string", "app_name", "XC Sports"
             resValue "string", "domain_api", "https://app.zgntcpgxds.com:16801"
             resValue "string", "domain_url", "https://h51.h2b4u5.com"
@@ -91,7 +91,7 @@ android {
             resValue "string", "mixpanel_token", "44c997f89ac52bdb676418f79a78cc6e"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "efa54723-d17f-40a5-ba10-95f6a4ec7832"
-            resValue "string", "domain_api_list", ";https://app.zgntcpgxds.com:16801" +
+            resValue "string", "domain_api_list", "https://app.zgntcpgxds.com:16801" +
                     ";http://43.128.11.58:16804" +
                     ";http://43.137.39.194:16803" +
                     ";http://101.43.19.60:16803" +

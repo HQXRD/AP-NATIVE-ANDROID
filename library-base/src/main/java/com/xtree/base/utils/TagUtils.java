@@ -13,6 +13,7 @@ import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
+import com.xtree.base.global.SPKeyGlobal;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,6 +23,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class TagUtils {
 
@@ -44,6 +47,7 @@ public class TagUtils {
     private static String MIXPANEL_TOKEN = "******";
     private static String MS_SECRET_KEY = "******";
     private static String USER_ID = "";
+    private static String USER_NAME = SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME);
     private static String deviceId;
 
     private static Map<String, Long> mapCache = new HashMap<>(); // 记录打点事件对应的时间,防重复
@@ -123,7 +127,7 @@ public class TagUtils {
 
         tagAppsFlyer(ctx, event, getMap(key, value));
         tagMixpanel(ctx, event, key, value);
-        tagAppCenter(event, getMap(key, value));
+        tagAppCenter(event, getMap(key, USER_NAME + ":" + value));
     }
 
     public static void tagEvent(Context ctx, String event, HashMap<String, Object> map) {

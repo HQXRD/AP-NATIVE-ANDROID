@@ -1,22 +1,36 @@
 package com.xtree.base.utils
 
+import com.drake.net.utils.runMain
+import me.xtree.mvvmhabit.utils.ToastUtils
+import me.xtree.mvvmhabit.utils.Utils
+
 /**
  * 接口域名竞速
  */
 object SpeedApiLine : ChangeLine() {
 
     override fun onSuccessed() {
-
+        TagUtils.tagEvent(
+            Utils.getContext(),
+            "event_change_api_line_successed",
+            "切换API线路成功"
+        )
+        runMain { ToastUtils.showShort("切换线路成功") }
     }
 
     override fun onFailed() {
-
+        TagUtils.tagEvent(
+            Utils.getContext(),
+            "event_change_api_line_failed",
+            "切换API线路失败"
+        )
+        runMain { ToastUtils.showShort("切换线路失败") }
     }
 
     /**
      * 开始域名竞速
      */
     fun start(){
-        super.start("api/bns/4/banners?limit=2")
+        super.start("api/bns/4/banners?limit=2", true)
     }
 }

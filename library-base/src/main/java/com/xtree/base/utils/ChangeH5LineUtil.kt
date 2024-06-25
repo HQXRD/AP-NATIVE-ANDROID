@@ -5,12 +5,16 @@ import com.drake.net.NetConfig
 import com.drake.net.tag.RESPONSE
 import com.drake.net.transform.transform
 import com.drake.net.utils.fastest
+import com.drake.net.utils.runMain
 import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
 import com.xtree.base.R
 import com.xtree.base.vo.Domain
+import com.xtree.base.vo.EventVo
+import me.xtree.mvvmhabit.http.NetworkUtil
 import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
+import org.greenrobot.eventbus.EventBus
 import java.util.concurrent.CancellationException
 import java.util.concurrent.TimeUnit
 
@@ -34,6 +38,11 @@ class ChangeH5LineUtil private constructor() {
     }
 
     fun start() {
+        if(!NetworkUtil.isNetworkAvailable(Utils.getContext())){
+            runMain { ToastUtils.showShort("网络不可用，请检查您的手机网络是否开启") }
+            EventBus.getDefault().post(EventVo(EventConstant.EVENT_TOP_SPEED_FAILED, ""))
+            return
+        }
         if (!mIsRunning) {
             CfLog.e("=====开始切换线路========")
             mIsRunning = true

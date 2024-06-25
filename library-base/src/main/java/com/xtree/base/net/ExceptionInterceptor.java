@@ -1,13 +1,11 @@
 package com.xtree.base.net;
 
-import static com.xtree.base.net.HttpCallBack.CodeRule.CODE_100002;
 
 import android.util.Base64;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
 
@@ -20,7 +18,7 @@ import java.nio.charset.Charset;
 import java.util.zip.GZIPInputStream;
 
 import kotlin.text.Charsets;
-import me.xtree.mvvmhabit.http.BaseResponse;
+import me.xtree.mvvmhabit.http.HijackedException;
 import me.xtree.mvvmhabit.utils.Utils;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
@@ -32,7 +30,7 @@ import okio.BufferedSource;
 
 public class ExceptionInterceptor implements Interceptor {
 
-
+    private final static String[] KEY_WORD = new String[]{"诈骗", "公安", "公安局"};
 
     @NonNull
     @Override
@@ -60,11 +58,26 @@ public class ExceptionInterceptor implements Interceptor {
             return response;
         } else {
             TagUtils.tagEvent(Utils.getContext(), "event_json_conversion_error", DomainUtil.getApiUrl());
-            if(result.contains("诈骗")) {
+            if(isHijacked(result)) {
                 throw new HijackedException(request.url(), result);
+            }else {
+                return response;
             }
-            return response;
         }
+    }
+
+    /**
+     * 接口是否被劫持
+     * @param result
+     * @return
+     */
+    private boolean isHijacked(String result){
+        for (int i = 0; i < KEY_WORD.length; i ++){
+            if(result.contains(KEY_WORD[i])){
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isJSONType(String str){

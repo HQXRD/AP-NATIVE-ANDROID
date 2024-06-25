@@ -1,9 +1,8 @@
-package com.xtree.base.net;
+package me.xtree.mvvmhabit.http;
 
 import androidx.annotation.Nullable;
-
+import me.xtree.mvvmhabit.R;
 import me.xtree.mvvmhabit.utils.Utils;
-import com.xtree.base.R;
 import okhttp3.HttpUrl;
 
 public class HijackedException extends RuntimeException{
