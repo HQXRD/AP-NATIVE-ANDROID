@@ -79,7 +79,6 @@ public class RechargeChannelAdapter extends CachedAutoRefreshAdapter<RechargeVo>
 
             mCallBack.onClick(vo);
             //onClickPayment(vo);
-            ToastUtils.showError("我选中了" + vo.title);
         });
     }
 
