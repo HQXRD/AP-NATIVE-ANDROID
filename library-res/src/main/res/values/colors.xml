@@ -537,4 +537,10 @@
     <color name="clr_purple_05">#9179E7</color>
     <color name="clr_rc_txt_hi">#5B5768</color>
     <color name="clr_blue_03">#119BFF</color>
+
+    <color name="clr_rc_manual_1">#CC6A74</color>
+    <!-- 分隔线 -->
+    <color name="clr_div_line">#F2F3F7</color>
+
+
 </resources>

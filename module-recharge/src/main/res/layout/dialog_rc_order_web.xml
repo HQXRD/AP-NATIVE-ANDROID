@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/clr_transparent"
-    android:orientation="vertical"
-    tools:ignore="MissingDefaultResource">
+    style="@style/style_rc_dlg_root">
+
+    <ImageView
+        android:id="@+id/ivw_bg_top"
+        style="@style/style_rc_dlg_bg_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivw_bg_bottom"
+        style="@style/style_rc_dlg_bg_top2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ivw_bg_top" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_title"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/bg_dialog_top_main"
-        android:padding="8dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/ivw_top"
+            style="@style/style_rc_dlg_bg_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/tvw_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/clr_white"
-            android:textSize="15sp"
+            style="@style/style_rc_dlg_title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,161 +46,179 @@
 
         <ImageView
             android:id="@+id/ivw_close"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="close"
-            android:padding="4dp"
-            android:src="@mipmap/ic_pop_close"
+            style="@style/style_rc_dlg_close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/ivw_cs"
+            style="@style/style_rc_dlg_cs"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ivw_close"
+            app:layout_constraintTop_toTopOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/clr_white"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cl_title">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingTop="12dp">
+            android:layout_height="match_parent"
+            android:layout_margin="12dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tvw_cs"
-                style="@style/style_btn_small"
-                android:layout_gravity="end"
-                android:layout_marginEnd="@dimen/layout_margin"
-                android:drawableStart="@mipmap/cm_ic_tutorial"
-                android:drawablePadding="4dp"
-                android:text="@string/txt_contact_custom" />
-
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center|bottom"
-                android:orientation="horizontal">
+                android:layout_marginTop="16dp">
 
                 <TextView
                     android:id="@+id/tvw_money"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="48sp"
+                    style="@style/style_rc_dlg_money"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="1000.00" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/layout_margin"
+                    android:layout_marginBottom="12dp"
                     android:text="@string/txt_yuan"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tvw_money" />
+
+                <TextView
+                    android:id="@+id/tvw_copy_money"
+                    style="@style/style_rc_dlg_copy"
+                    android:layout_marginEnd="12dp"
+                    android:text="@string/txt_copy"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/tvw_tip_channel"
+                style="@style/style_cm_tip_small_yellow2"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="@string/txt_rc_only_bank_card"
+                android:visibility="visible" />
+
+            <View style="@style/style_dlg_info_dividing" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView style="@style/style_rc_dlg_hourglass" />
+
+                <ImageView
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="4dp"
+                    android:src="@color/clr_div_line" />
+
+                <TextView
+                    android:id="@+id/tvw_max_expire_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:drawablePadding="12dp"
+                    android:text="@string/txt_rc_submit_succ_pay_in_minutes_pls"
                     android:textColor="@color/black" />
             </LinearLayout>
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvw_max_expire_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:drawableStart="@mipmap/cm_ic_hourglass"
-            android:drawablePadding="12dp"
-            android:text="@string/txt_rc_submit_succ_pay_in_minutes_pls"
-            android:textColor="@color/black" />
-
-        <View
-            style="@style/style_filter_info_dividing"
-            android:layout_height="1dp"
-            android:layout_marginTop="6dp" />
-
-
-        <LinearLayout
-            android:id="@+id/ll_qrcode_url"
-            style="@style/style_bind_confirm_ll"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:visibility="gone"
-            tools:visibility="visible">
+            <View style="@style/style_dlg_info_dividing" />
 
             <TextView
-                style="@style/style_bind_confirm_bank_title"
-                android:layout_marginStart="12dp"
-                android:gravity="start"
-                android:minEms="2"
-                android:text="收款钱包地址：" />
-
-            <TextView
-                android:id="@+id/tvw_qrcode_url"
-                style="@style/style_bind_confirm_value"
-                android:layout_gravity="end"
+                android:id="@+id/tvw_qrcode_title"
+                style="@style/style_rc_dlg_key"
+                android:layout_marginStart="@dimen/layout_margin"
+                android:layout_marginTop="12dp"
                 android:layout_weight="1"
-                android:gravity="start"
-                android:textColor="@color/clr_black"
-                android:textStyle="bold"
-                tools:text="abcde abcde abcde abcde abcde abcde abcde " />
+                android:text="收款钱包地址："
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:id="@+id/ll_qrcode_url"
+                style="@style/style_rc_dlg_ll"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tvw_qrcode_url"
+                    style="@style/style_rc_dlg_key"
+                    android:layout_marginEnd="@dimen/layout_margin"
+                    android:layout_weight="1"
+                    tools:text="abcde abcde abcde abcde abcde abcde abcde " />
+
+                <TextView
+                    android:id="@+id/tvw_copy"
+                    style="@style/style_rc_dlg_copy"
+                    android:text="@string/txt_copy"
+                    android:textColor="@color/clr_purple_12" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ivw_qrcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/layout_margin"
+                android:visibility="gone"
+                tools:src="@mipmap/cm_ic_qrcode"
+                tools:visibility="visible" />
 
             <TextView
-                android:id="@+id/tvw_copy"
-                style="@style/style_btn_recharge_small"
-                android:layout_marginEnd="@dimen/layout_margin"
-                android:minEms="3"
-                android:text="@string/txt_copy" />
+                android:id="@+id/tvw_ok"
+                style="@style/style_btn_long"
+                android:text="@string/txt_rc_already_pay"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tvw_show_pay"
+                style="@style/style_btn_long"
+                android:text="@string/txt_rc_show_pay_dialog" />
+
+            <TextView
+                style="@style/style_cm_tip_small_title_warn"
+                android:layout_marginTop="36dp"
+                android:text="@string/txt_notice_c" />
+
+            <TextView
+                android:id="@+id/tvw_01"
+                style="@style/style_cm_tip_small_grey"
+                android:text="@string/txt_rc_browser_continue"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tvw_02"
+                style="@style/style_cm_tip_small_yellow"
+                android:text="@string/txt_rc_dont_save_account_or_qrcode" />
+
+            <TextView
+                android:id="@+id/tvw_03"
+                style="@style/style_cm_tip_small_yellow"
+                android:text="@string/txt_rc_wait_long_or_orders_not_processed_contact_cs" />
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/ivw_qrcode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/layout_margin"
-            android:visibility="gone"
-            tools:src="@mipmap/cm_ic_qrcode"
-            tools:visibility="visible" />
-
-        <TextView
-            android:id="@+id/tvw_ok"
-            style="@style/style_btn"
-            android:layout_width="match_parent"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="36dp"
-            android:text="@string/txt_rc_already_pay"
-            android:visibility="gone"
-            tools:visibility="visible" />
-
-        <TextView
-            android:id="@+id/tvw_show_pay"
-            style="@style/style_btn"
-            android:layout_width="match_parent"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="36dp"
-            android:text="@string/txt_rc_show_pay_dialog" />
-
-        <TextView
-            style="@style/style_cm_tip_small_grey"
-            android:layout_marginTop="36dp"
-            android:drawableStart="@mipmap/cm_ic_hint_main"
-            android:text="@string/txt_notice_c"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tvw_01"
-            style="@style/style_cm_tip_small_grey"
-            android:text="@string/txt_rc_browser_continue"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tvw_02"
-            style="@style/style_cm_tip_small_yellow"
-            android:text="@string/txt_rc_dont_save_account_or_qrcode" />
-
-        <TextView
-            android:id="@+id/tvw_03"
-            style="@style/style_cm_tip_small_yellow"
-            android:text="@string/txt_rc_wait_long_or_orders_not_processed_contact_cs" />
-    </LinearLayout>
-</LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

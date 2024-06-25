@@ -3,33 +3,40 @@
     <string name="txt_not_support">暂不支持</string>
     <string name="pls_choose_recharge_type">请选择充值类型</string>
     <string name="txt_recharge_range">充值金额区间 %1$s~%2$s </string>
-    <string name="txt_deposit_fee">存款加赠%1$s%%</string>
+    <string name="txt_deposit_fee">加送%1$s%%</string>
+    <string name="txt_deposit_fee_most">最高加送%1$s%%</string>
     <string name="format_change_range">预计支付：%1$s%2$s</string>
-
-    <string name="txt_rate_cnyt_cny">参考汇率 1CNYT ≈ 1.00CNY</string>
-    <string name="txt_rate_tog_cny">参考汇率 1TOG ≈ 1.00CNY</string>
-    <string name="txt_rate_eb_cny">参考汇率 1EB ≈ 1.00CNY</string>
+    <string name="txt_rate_usdt">"参考汇率 1USDT ≈ %1$s元"</string>
+    <string name="txt_rate_cnyt_cny">参考汇率 1CNYT = 1.00元</string>
+    <string name="txt_rate_tog_cny">参考汇率 1TOG = 1.00元</string>
+    <string name="txt_rate_eb_cny">参考汇率 1EB = 1.00元</string>
+    <string name="txt_rate_gobao_cny">参考汇率 1GB = 1.00元</string>
+    <string name="txt_rate_okpay_cny">参考汇率 1OKG = 1.00元</string>
+    <string name="txt_rate_gopay_cny">参考汇率 1GOP = 1.00元</string>
     <string name="txt_recharge">充值</string>
     <string name="txt_feedback">反馈信息</string>
-    <string name="txt_choose_recharge_channel">请选择充值渠道：</string>
+    <string name="txt_next">下一步</string>
+    <string name="txt_choose_recharge_channel">请选择充值方式：</string>
     <string name="txt_is_to_open_hiwallet_wallet">是否打开HiWallet钱包</string>
+    <string name="txt_is_to_open_hiwallet_title">即将进入嗨钱包页面</string>
+    <string name="txt_is_to_open_hiwallet_content">尚未注册，请注册后进行登录\n已经有嗨钱包账号，点击返回按钮后，进行登录\n登录后，即可体验嗨钱包的功能</string>
     <string name="txt_pls_select_payment_card">请选择付款银行卡</string>
     <string name="txt_pls_enter_ur_real_name">请输入支付账户真实姓名</string>
-    <string name="txt_cur_recharge_channel">当前充值渠道：</string>
+    <string name="txt_cur_recharge_channel">当前充值方式：</string>
     <string name="txt_bind_personal_info">请先绑定个人信息</string>
     <string name="txt_bind_phone">立刻绑定手机</string>
     <string name="txt_bind_bank_card">立刻绑定银行卡</string>
     <string name="txt_deposit_name">存款人姓名</string>
-    <string name="txt_enter_real_name_pls">*请如实填写支付账户中文姓名!</string>
-    <string name="txt_enter_recharge_amount">请输入充值金额(最低%1$s元，最高%2$s元)</string>
+    <string name="txt_enter_real_name_pls">请如实填写支付账户中文姓名，并保证与提款所使用的银行卡姓名相同，否则无法保证您的正常提款！</string>
+    <string name="txt_enter_recharge_amount">请输入充值金额，最低%1$s元，最高%2$s元</string>
     <string name="txt_choose_recharge_amount">请选择金额</string>
     <string name="txt_enter_correct_amount">请输入范围%1$s~%2$s内的金额！</string>
-    <string name="txt_ref_exchange_rate">参考汇率</string>
-    <string name="txt_real_recharge_amount">实际充值金额：</string>
+    <string name="txt_ref_exchange_rate">参考汇率：</string>
+    <string name="txt_real_recharge_amount">实际存款金额：</string>
     <string name="txt_amount_filled_should_same_as_remittance_amount">*平台填写金额应当与汇款金额完全一致，否则将无法及时到账！</string>
-    <string name="txt_rc_channel_low_rate_hint"><![CDATA[当前渠道【<font color=#EE5A5A>%1$s</font>】充值到账成功率较低，为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！]]></string>
+    <string name="txt_rc_channel_low_rate_hint"><![CDATA[当前渠道<font color=#4B4B4B>【%1$s】</font>充值到账成功率较低，为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！]]></string>
     <string name="txt_close_dialog_continue_cur">关闭弹窗，继续使用当前充值渠道</string>
-    <string name="txt_rc_count_low_rate_hint"><![CDATA[您已经连续充值<font color=#EE5A5A>%1$d</font>次，为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！]]></string>
+    <string name="txt_rc_count_low_rate_hint"><![CDATA[您已经连续充值<font color=#4B4B4B>%1$d</font>次，为了保证快速到账，请使用以下渠道进行充值或联系客服进行处理！]]></string>
     <string name="txt_rc_order_not_received_contact_pls">有订单还未到账，为了您的充值能快速到账，请您进行反馈！</string>
 
     <!--反馈录入页面录入提示语言-->
@@ -60,7 +67,6 @@
     <string name="txt_tip_input_wechat_pay_way">* 支付渠道：</string>
     <string name="txt_tip_input_wechat_select_pay_way">请选择支付渠道</string>
     <string name="txt_tip_input_wechat_pay_way_err">*支付渠道不能为空</string>
-
 
     <string name="txt_tip_input_usdt_payment_account">* 付款钱包地址：</string>
     <string name="txt_tip_input_usdt_selector_payment_account">请输入付款钱包地址</string>
@@ -100,6 +106,8 @@
 
     <string name="txt_rc_1k_copy_card">一键复制银行卡所有信息</string>
     <string name="txt_rc_only_bank_card">仅支持银行卡转账，其它充值方式将无法到账。</string>
+    <string name="txt_rc_only_x_card">仅支持%1$s转账，其它充值方式将无法到账。</string>
+    <string name="txt_rc_kw_recharge">充值</string>
     <string name="txt_rc_only_bank_card_no_others">本充值方式仅支持银行卡转账，其它充值方式将无法到账。</string>
     <string name="txt_rc_order_amount_and_transfer_should_same">“订单金额”与网银转账金额不符，将无法到账。</string>
     <string name="txt_login_online_banking_transfer">登录网银，点击“转账汇款”，输入上方收款信息。</string>
@@ -107,6 +115,7 @@
     <string name="txt_to_bank_name_detail">银行地区/支行：</string>
     <string name="txt_bank_acct_name">收款账户名：</string>
     <string name="txt_bank_acct_card">收款账号：</string>
+    <string name="txt_bank_rc_amount">充值金额：</string>
     <string name="txt_to_bank_card">收款银行卡</string>
     <string name="txt_transfer_no_card">转账找不到银行卡？</string>
     <string name="txt_click_to_guide">点击参考指引</string>
@@ -120,17 +129,15 @@
     <string name="txt_rc_usdt_tip">进行USDT转账时请注意 手续费金额 及 到账金额，到账金额 必须与充值USDT个数一致，否则可能造成充值失败，感谢您的配合。</string>
     <string name="txt_rc_no_alipay_wechat">本渠道不支持支付宝、微信转账。</string>
     <string name="txt_rc_tip_usdt_1">1、当前汇率仅供参考，实际到账金额以到账时的汇率时汇率进行计算</string>
-    <string name="txt_rc_tip_usdt_2">2、请不要向转账地址充值任何非 %1$s 资产，否则资产将可能无法找回</string>
+    <string name="txt_rc_tip_usdt_2">2、请不要向转账地址充值任何非%1$s资产，否则资产将可能无法找回</string>
     <string name="txt_rc_tip_ebpay_1">1、请仔细核对充值地址进行确认</string>
     <string name="txt_rc_tip_ebpay_2">2、请确保ebpay账户有足够金额进行充值</string>
-    <string name="txt_alipay">支付宝</string>
-    <string name="txt_wechat">微信</string>
     <string name="txt_ecny">数字人民币</string>
     <string name="txt_bank_card">银行卡</string>
-    <string name="txt_rc_tip_yhk_1">1、为了保证您正常提款,请您在使用 %1$s 充值时务必使用绑定银行卡或与绑定银行卡姓名相同的卡进行充值,否则将无法正常提款</string>
+    <string name="txt_rc_tip_yhk_1">1、为了保证您正常提款,请您在使用%1$s充值时务必使用绑定银行卡或与绑定银行卡姓名相同的卡进行充值,否则将无法正常提款</string>
     <string name="txt_rc_tip_yhk_2">2、为了您的资金安全，降低被银行冻卡风险，当充值金额为整数时（10，20，300）时，实际充值金额会在该整数的基础上随机增加尾数金额</string>
     <string name="txt_rc_tip_yhk_3">部分银行暂不支持数字人民币手机充值，推荐使用微信、支付宝或者建行、招行充值</string>
-    <string name="txt_rc_tip_yhk_2a">2、本通道只接受线上网银转账及手机银行转账。 %1$s 不接受支付宝、微信转账、财付通、ATM、临柜等其他方式，使用以上方式可能会导致无法到账或者到账延迟。</string>
+    <string name="txt_rc_tip_yhk_2a">2、本通道只接受线上网银转账及手机银行转账。%1$s不接受支付宝、微信转账、财付通、ATM、临柜等其他方式，使用以上方式可能会导致无法到账或者到账延迟。</string>
     <string name="txt_rc_tip_alipay_wechat">请按照充值页提示操作，否则将可能造成充值延迟到账或到账失败的情况</string>
     <string name="txt_rc_bind_personal_info">请先绑定个人信息</string>
     <string name="txt_rc_bind_phone_now">立即绑定手机号</string>
@@ -144,5 +151,4 @@
     <string name="txt_rc_bind_wechat_pls">请先绑定您的微信账号</string>
     <!--反馈页面提示-->
     <string name="txt_feedback_upload_image">请上传充值明细截图</string>
-    <string name="txt_rate_usdt">"参考汇率 1USDT ≈ %1$s元"</string>
 </resources>

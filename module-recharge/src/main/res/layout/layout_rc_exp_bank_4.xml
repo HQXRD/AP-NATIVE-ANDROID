@@ -45,7 +45,7 @@
                 tools:text="PAY00123456789" />
 
             <TextView
-                style="@style/style_recharge_dlg_copy"
+                style="@style/style_rc_dlg_copy"
                 android:text="@string/txt_copy"
                 android:onClick="@{() -> StringUtils.copy(model.payOrderData.merchantOrder)}"/>
 
@@ -65,7 +65,7 @@
 
             <TextView
                 android:id="@+id/tvw_copy_bank_name"
-                style="@style/style_recharge_dlg_copy"
+                style="@style/style_rc_dlg_copy"
                 android:text="@string/txt_copy"
                 android:onClick="@{() -> StringUtils.copy(model.bankInfoData.bankName)}"/>
 
@@ -85,7 +85,7 @@
 
             <TextView
                 android:id="@+id/tvw_copy_branch"
-                style="@style/style_recharge_dlg_copy"
+                style="@style/style_rc_dlg_copy"
                 android:text="@string/txt_copy"
                 android:onClick="@{() -> StringUtils.copy(model.bankInfoData.bankArea)}"/>
         </LinearLayout>
@@ -104,7 +104,7 @@
 
             <TextView
                 android:id="@+id/tvw_copy_acc_name"
-                style="@style/style_recharge_dlg_copy"
+                style="@style/style_rc_dlg_copy"
                 android:text="@string/txt_copy"
                 android:onClick="@{() -> StringUtils.copy(model.bankInfoData.bankAccountName)}"/>
         </LinearLayout>
@@ -123,7 +123,7 @@
 
             <TextView
                 android:id="@+id/tvw_copy_acc_num"
-                style="@style/style_recharge_dlg_copy"
+                style="@style/style_rc_dlg_copy"
                 android:text="@string/txt_copy"
                 android:onClick="@{() -> StringUtils.copy(model.bankInfoData.bankAccount)}"/>
         </LinearLayout>
@@ -142,7 +142,7 @@
 
             <TextView
                 android:id="@+id/tvw_copy_money2"
-                style="@style/style_recharge_dlg_copy"
+                style="@style/style_rc_dlg_copy"
                 android:text="@string/txt_copy"
                 android:onClick="@{() -> StringUtils.copy(model.bankInfoData.payAmount)}"/>
         </LinearLayout>
@@ -165,7 +165,7 @@
         <TextView
             style="@style/style_cm_tip_small_grey"
             android:layout_width="match_parent"
-            android:drawableStart="@mipmap/cm_ic_hint_main"
+            android:drawableStart="@mipmap/cm_ic_hint_purple"
             android:drawablePadding="4dp"
             android:text="您的存款已经操作完成，会在核实无误后，立即给您上分。敬请耐心等候。"
             android:textSize="12sp" />

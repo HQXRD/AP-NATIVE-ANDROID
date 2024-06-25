@@ -1,10 +1,13 @@
 package com.xtree.recharge.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -163,13 +166,11 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
         //获取进入反馈页面回去的数据
         viewModel.feedbackCheckVoSingleLiveData.observe(this, o -> {
             feedbackCheckVo = o;
-            CfLog.e("feedbackCheckVoSingleLiveData = " + o.toString());
             for (int i = 0; i < feedbackCheckVo.list.size(); i++) {
                 FeedbackCheckVo.FeedbackCheckInfo info = feedbackCheckVo.list.get(i);
                 if (feedbackId.equals(String.valueOf(info.id))) {
                     checkInfo = info;
                 }
-                CfLog.e("feedbackCheckVo.list = " + feedbackCheckVo.list.get(i).toString());
             }
 
             referFeedbackUI(checkInfo);
@@ -237,7 +238,6 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
                 FeedbackCheckVo.FeedbackBankInfo voBankInfo = get(position);
                 binding2.tvwTitle.setText(voBankInfo.name);
                 binding2.tvwTitle.setOnClickListener(v -> {
-                    CfLog.i("****** " + voBankInfo.toString());
                     binding.tvwPaymentChannel.setText(voBankInfo.name);
                     receive_bank = String.valueOf(voBankInfo.id);
                     ppw.dismiss();
@@ -274,7 +274,6 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
 
                 binding2.tvwTitle.setText(voProtocolInfo.name);
                 binding2.tvwTitle.setOnClickListener(v -> {
-                    CfLog.i("****** " + voProtocolInfo.toString());
                     binding.edProtocol.setText(voProtocolInfo.name);
                     ppw.dismiss();
                 });
@@ -392,7 +391,6 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
      * 检测付款人姓名
      */
     private boolean checkInputPaymentName() {
-        CfLog.i("checkInputPaymentName 付款人姓名 ： " + binding.etPaymentName.getText().toString().trim());
         if (TextUtils.isEmpty(binding.etPaymentName.getText().toString().trim())) //付款人姓名
         {
             binding.ivPaymentNameInfo.setBackgroundResource(R.mipmap.cm_ic_hint_red);
@@ -513,8 +511,6 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
         //1 支付宝 微信 2 虚拟币
         if (payType == 1) {
             if (TextUtils.isEmpty(binding.etPaymentAccount.getText().toString().trim())) {
-                String t = binding.etPaymentAccount.getText().toString().trim();
-                CfLog.i("nextCheckInputWithPayWay = " + t);
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_pay_err), ToastUtils.ShowType.Fail);
             } else if (checkInputPaymentName()) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_pay_wechat_name_err), ToastUtils.ShowType.Fail);
@@ -527,9 +523,7 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
             } else if (checkInputThirdOrder()) {
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_other_order_err), ToastUtils.ShowType.Fail);
             } else if (TextUtils.isEmpty(receive_bank)) {
-                CfLog.i("tvwPaymentChannel = " + binding.tvwPaymentChannel.getText().toString().trim() + " ||receive_bank = " + receive_bank);
                 ToastUtils.show(getContext().getString(R.string.txt_tip_input_wechat_pay_way_err), ToastUtils.ShowType.Fail);
-
             } else if (!imageSelector) {
                 //未更换图片
                 feedbackAdd(checkInfo.userpay_picture);
@@ -704,6 +698,14 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
      * 图片选择
      */
     private void gotoSelectMedia() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                Intent getpermission = new Intent();
+                getpermission.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                startActivity(getpermission);
+                return;
+            }
+        }
         PictureSelector.create(getActivity())
                 .openGallery(SelectMimeType.ofImage())
                 .isDisplayCamera(false)
@@ -722,7 +724,6 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
                                 File imageRealPath = new File(imageRealPathString);
 
                                 if (imageRealPath.exists()) {
-                                    CfLog.i("获取图片地址Base64 ===== " + ImageUploadUtil.bitmapToString(imageRealPathString));
                                     Bitmap bitmap = BitmapFactory.decodeFile(imageRealPathString);
                                     if (bitmap == null) {
                                         //未通过文件名取得bitmap
@@ -734,6 +735,7 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
                                         binding.ivSelectorTipImage.setImageBitmap(bitmap);
                                         imageSelector = true;//向界面设置了选中图片
                                     }
+
                                 } else {
                                     CfLog.i("获取图片地址不存在是 ====== " + result.get(i).getRealPath());
                                 }
@@ -784,8 +786,8 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
             uploadMap.put("userpay_picture", userPic); //上传图片三方地址
             uploadMap.put("receive_bank", receive_bank);//支付渠道
             uploadMap.put("userpay_virtual_protocol", "1");//用户支付协议 微信默认为1
-            uploadMap.put("userpay_name", binding.etPaymentName.getText().toString()); //付款人
-            uploadMap.put("receive_name", binding.etCollectionName.getText().toString());//收款人
+            uploadMap.put("userpay_name", binding.etPaymentAccount.getText().toString()); //付款人
+            uploadMap.put("receive_name", binding.etPaymentName.getText().toString());//收款人
             CfLog.i("微信状态提交反馈  " + uploadMap);
 
         } else {
@@ -800,7 +802,6 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
             uploadMap.put("userpay_virtual_protocol", "2");//用户支付协议 虚拟币默认为1
             uploadMap.put("receive_banknum", binding.etCollectionWalletAddress.getText().toString());//收款钱包地址
 
-            CfLog.i("虚拟币状态提交反馈  " + uploadMap);
         }
         LoadingDialog.show(getContext());
         viewModel.feedbackCustomAdd(uploadMap);

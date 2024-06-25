@@ -87,7 +87,7 @@
 
                         <TextView
                             android:id="@+id/tvw_payment_method"
-                            style="@style/style_feedback_eon_edit"
+                            style="@style/style_cm_edit"
                             android:layout_toRightOf="@id/tv_payment_method"
                             android:hint="银行卡/微信/支付宝"
                             android:text="" />
@@ -99,7 +99,7 @@
                             android:layout_below="@id/tvw_payment_method"
                             android:layout_alignLeft="@id/tvw_payment_method"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="gone" />
 
                         <TextView
@@ -156,7 +156,7 @@
 
                         <EditText
                             android:id="@+id/et_payment_account"
-                            style="@style/style_feedback_eon_edit"
+                            style="@style/style_cm_edit"
                             android:layout_toRightOf="@id/tv_payment_account"
                             android:hint="@string/txt_tip_input_wechat_bank_name" />
 
@@ -167,7 +167,7 @@
                             android:layout_below="@id/et_payment_account"
                             android:layout_alignLeft="@id/et_payment_account"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
 
                             />
 
@@ -202,7 +202,7 @@
 
                         <EditText
                             android:id="@+id/et_payment_address"
-                            style="@style/style_feedback_eon_edit"
+                            style="@style/style_cm_edit"
                             android:layout_toRightOf="@id/tv_payment_address"
                             android:hint="@string/txt_tip_input_usdt_selector_payment_account" />
 
@@ -213,7 +213,7 @@
                             android:layout_below="@id/et_payment_address"
                             android:layout_alignLeft="@id/et_payment_address"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible" />
 
                         <TextView
@@ -254,7 +254,7 @@
 
                             <EditText
                                 android:id="@+id/et_payment_name"
-                                style="@style/style_feedback_eon_edit"
+                                style="@style/style_cm_edit"
                                 android:hint="@string/txt_tip_input_wechat_pay_name" />
                         </LinearLayout>
 
@@ -265,7 +265,7 @@
                             android:layout_below="@id/ll_payment_name_info"
                             android:layout_alignLeft="@id/ll_payment_name_info"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_main" />
+                            android:background="@mipmap/cm_ic_hint_purple" />
 
                         <TextView
                             android:id="@+id/tv_payment_name_info"
@@ -304,7 +304,7 @@
 
                             <EditText
                                 android:id="@+id/et_collection_name"
-                                style="@style/style_feedback_eon_edit"
+                                style="@style/style_cm_edit"
                                 android:hint="@string/txt_tip_input_wechat_payee_name" />
                         </LinearLayout>
 
@@ -315,7 +315,7 @@
                             android:layout_below="@id/ll_collection_name_info"
                             android:layout_alignLeft="@id/ll_collection_name_info"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_main" />
+                            android:background="@mipmap/cm_ic_hint_purple" />
 
                         <TextView
                             android:id="@+id/tvt_collection_name"
@@ -354,13 +354,13 @@
 
                             <EditText
                                 android:id="@+id/ed_protocol"
-                                style="@style/style_feedback_eon_edit"
+                                style="@style/style_cm_edit"
                                 android:hint="@string/txt_tip_input_usdt_payment_agreement"
                                 android:visibility="visible" />
                             <!--选择付款协议-->
                             <TextView
                                 android:id="@+id/tvw_protocol"
-                                style="@style/style_feedback_eon_edit"
+                                style="@style/style_cm_edit"
                                 android:drawableEnd="@mipmap/bt_icon_expand"
                                 android:hint="@string/txt_tip_input_usdt_payment_agreement"
                                 android:text=""
@@ -374,7 +374,7 @@
                             android:layout_below="@id/ll_protocol_info"
                             android:layout_alignLeft="@id/ll_protocol_info"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible" />
 
                         <TextView
@@ -408,7 +408,7 @@
 
                         <EditText
                             android:id="@+id/et_deposit_amount"
-                            style="@style/style_feedback_eon_edit"
+                            style="@style/style_cm_edit"
                             android:layout_toRightOf="@id/tv_deposit_amount"
                             android:hint="@string/txt_tip_input_wechat_save_numb"
                             android:inputType="numberDecimal" />
@@ -420,7 +420,7 @@
                             android:layout_below="@id/et_deposit_amount"
                             android:layout_alignLeft="@id/et_deposit_amount"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_main" />
+                            android:background="@mipmap/cm_ic_hint_purple" />
 
                         <TextView
                             android:id="@+id/tv_deposit_amount_info"
@@ -452,7 +452,7 @@
 
                         <EditText
                             android:id="@+id/et_virtual_amount"
-                            style="@style/style_feedback_eon_edit"
+                            style="@style/style_cm_edit"
                             android:layout_toRightOf="@id/tv_virtual_amount"
                             android:hint="@string/txt_tip_input_wechat_save_numb"
                             android:inputType="numberDecimal" />
@@ -464,7 +464,7 @@
                             android:layout_below="@id/et_virtual_amount"
                             android:layout_alignLeft="@id/et_virtual_amount"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_main" />
+                            android:background="@mipmap/cm_ic_hint_purple" />
 
                         <TextView
                             android:id="@+id/tv_virtual_amount_info"
@@ -494,7 +494,7 @@
 
                         <TextView
                             android:id="@+id/tv_deposit_time"
-                            style="@style/style_feedback_eon_edit"
+                            style="@style/style_cm_edit"
                             android:layout_toRightOf="@id/tv_deposit_time_info_left"
                             android:drawableEnd="@mipmap/bt_icon_expand"
                             android:hint="请输入存款时间"
@@ -507,7 +507,7 @@
                             android:layout_below="@id/tv_deposit_time"
                             android:layout_alignLeft="@id/tv_deposit_time"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible" />
 
                         <TextView
@@ -537,7 +537,7 @@
 
                         <EditText
                             android:id="@+id/ed_third_order_number"
-                            style="@style/style_feedback_eon_edit"
+                            style="@style/style_cm_edit"
                             android:layout_toRightOf="@id/tv_third_order_number"
                             android:hint="@string/txt_tip_input_three_numb" />
 
@@ -548,7 +548,7 @@
                             android:layout_below="@id/ed_third_order_number"
                             android:layout_alignLeft="@id/ed_third_order_number"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible" />
 
                         <TextView
@@ -578,7 +578,7 @@
 
                         <TextView
                             android:id="@+id/tvw_payment_channel"
-                            style="@style/style_feedback_eon_edit"
+                            style="@style/style_cm_edit"
                             android:layout_toRightOf="@id/tv_payment_channel"
                             android:drawableEnd="@mipmap/bt_icon_expand"
                             android:hint="@string/txt_tip_input_wechat_select_pay_way"
@@ -591,7 +591,7 @@
                             android:layout_below="@id/tvw_payment_channel"
                             android:layout_alignLeft="@id/tvw_payment_channel"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible" />
 
                         <TextView
@@ -625,7 +625,7 @@
 
                         <EditText
                             android:id="@+id/et_collection_wallet_address"
-                            style="@style/style_feedback_eon_edit"
+                            style="@style/style_cm_edit"
                             android:layout_toRightOf="@id/tv_collection_wallet_address"
                             android:hint="@string/txt_tip_input_usdt_add_hint" />
 
@@ -636,7 +636,7 @@
                             android:layout_below="@id/et_collection_wallet_address"
                             android:layout_alignLeft="@id/et_collection_wallet_address"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible" />
 
                         <TextView
@@ -704,7 +704,7 @@
                             android:layout_below="@id/ll_remittance_screenshot"
                             android:layout_alignLeft="@id/ll_remittance_screenshot"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
 
                             />
 
@@ -715,16 +715,22 @@
                             android:layout_height="wrap_content"
                             android:layout_alignTop="@id/iv_selector_tip_image_bottom"
                             android:layout_toRightOf="@id/iv_selector_tip_image_bottom"
-                            android:text="@string/txt_tip_input_image" />
+                            android:text="@string/txt_tip_input_image"
+
+                            />
 
                     </RelativeLayout>
 
                 </LinearLayout>
 
-                <TextView
+                <ImageView
                     android:id="@+id/ivw_next"
-                    style="@style/style_cm_btn_round"
-                    android:text="@string/txt_next_step" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:background="@mipmap/cm_btn_next" />
+
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
 

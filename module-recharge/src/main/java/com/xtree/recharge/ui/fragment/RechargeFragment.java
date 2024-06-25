@@ -1,8 +1,6 @@
 package com.xtree.recharge.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -60,7 +58,6 @@ import com.xtree.recharge.vo.BannersVo;
 import com.xtree.recharge.vo.HiWalletVo;
 import com.xtree.recharge.vo.PaymentDataVo;
 import com.xtree.recharge.vo.PaymentTypeVo;
-import com.xtree.recharge.vo.PaymentVo;
 import com.xtree.recharge.vo.ProcessingDataVo;
 import com.xtree.recharge.vo.RechargePayVo;
 import com.xtree.recharge.vo.RechargeVo;
@@ -78,7 +75,6 @@ import java.util.List;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.base.BaseFragment;
-import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.bus.RxBus;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
@@ -727,7 +723,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         loadMax = Double.parseDouble(vo.loadmax);
         String amount = binding.edtAmount.getText().toString();
 
-        binding.tvwTipAmount.setText(getContext().getString(R.string.txt_enter_correct_amount, vo.loadmin, vo.loadmax));
+        binding.tvwTipAmount.setText(getString(R.string.txt_enter_correct_amount, vo.loadmin, vo.loadmax));
         binding.tvwTipAmount.setVisibility(View.GONE);
 
         // 有一组金额按钮需要显示出来 (固额和非固额)
@@ -1870,4 +1866,5 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //CfLog.d("amount: " + amount);
         return amount;
     }
+
 }
