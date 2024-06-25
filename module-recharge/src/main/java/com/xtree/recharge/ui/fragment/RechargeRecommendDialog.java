@@ -20,7 +20,7 @@ import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.widget.BrowserDialog;
 import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.DialogRcRecommendBinding;
-import com.xtree.recharge.databinding.ItemAmountBinding;
+import com.xtree.recharge.databinding.ItemRcRecommendBinding;
 import com.xtree.recharge.vo.RechargeVo;
 
 import java.util.List;
@@ -66,7 +66,7 @@ public class RechargeRecommendDialog extends CenterPopupView {
     private void initView() {
 
         if (curRechargeVo == null) {
-            binding.tvwUseCur.setVisibility(View.INVISIBLE);
+            binding.tvwUseCur.setVisibility(View.GONE);
             binding.tvwClose.setVisibility(View.VISIBLE); // 充值次数的
             key = SPKeyGlobal.RC_NOT_TIP_TODAY_COUNT;
         } else {
@@ -105,14 +105,14 @@ public class RechargeRecommendDialog extends CenterPopupView {
             @NonNull
             @Override
             public CacheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                CacheViewHolder holder = new CacheViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.item_amount, parent, false));
+                CacheViewHolder holder = new CacheViewHolder(LayoutInflater.from(getContext()).inflate(R.layout.item_rc_recommend, parent, false));
                 return holder;
             }
 
             @Override
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
 
-                ItemAmountBinding binding2 = ItemAmountBinding.bind(holder.itemView);
+                ItemRcRecommendBinding binding2 = ItemRcRecommendBinding.bind(holder.itemView);
                 RechargeVo vo = get(position);
                 binding2.tvwTitle.setLines(3); // 有些2行,有些1行
                 binding2.tvwTitle.setText(vo.title);

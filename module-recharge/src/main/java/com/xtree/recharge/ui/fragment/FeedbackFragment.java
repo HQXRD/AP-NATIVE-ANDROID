@@ -1,10 +1,13 @@
 package com.xtree.recharge.ui.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -29,15 +32,17 @@ import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.adapter.CacheViewHolder;
 import com.xtree.base.adapter.CachedAutoRefreshAdapter;
+import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterFragmentPath;
-import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ClickUtil;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.ImageUploadUtil;
 import com.xtree.base.utils.TimeUtils;
 import com.xtree.base.utils.UuidUtil;
 import com.xtree.base.vo.ProfileVo;
+import com.xtree.base.widget.BrowserDialog;
 import com.xtree.base.widget.DateTimePickerDialog;
 import com.xtree.base.widget.GlideEngine;
 import com.xtree.base.widget.ImageFileCompressEngine;
@@ -129,7 +134,15 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         }
         referFeedbackUI("wechat");
         //我的客服
-        binding.ivwCs.setOnClickListener(v -> AppUtil.goCustomerService(getContext()));
+        binding.ivwCs.setOnClickListener(v -> {
+            //增加限制用户多次快速点击
+            if (ClickUtil.isFastClick()) {
+                return;
+            }
+            String title = getContext().getString(R.string.txt_custom_center);
+            String url = DomainUtil.getDomain2() + Constant.URL_CUSTOMER_SERVICE;
+            new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
+        });
         //消息中心
         binding.ivwMsg.setOnClickListener(v -> {
             //增加限制用户多次快速点击
@@ -220,7 +233,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         String startTime = TimeUtils.parseTime(new Date(), TimeUtils.FORMAT_YY_MM_DD) + " 00:00";
         String endTime = TimeUtils.parseTime(new Date(), TimeUtils.FORMAT_YY_MM_DD_HH_MM);
         HashMap<String, String> map = new HashMap<>();
-        //starttime=2024-03-11 00:00&endtime=2024-03-11 23:59
         map.put("starttime", startTime);
         map.put("endtime", endTime);
         CfLog.e("FeedbackFragment = " + map);
@@ -234,8 +246,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
         viewModel.feedbackVoSingleLiveData.observe(this, o -> {
 
             feedbackVo = o;
-
-            CfLog.i("未到账订单 = " + feedbackVo.list.size());
             orderFeedbackVoArrayList.addAll(feedbackVo.list);
             modeInfoArrayList.addAll(feedbackVo.modeInfo);//付款方式
             bankInfoArrayList.addAll(feedbackVo.banksInfo);//支付渠道
@@ -320,6 +330,8 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                     feedbackDep = vo;
                     binding.tvwUnreceivedOrders.setText(showMessage);
                     binding.tvDepositTime.setText(time); //存款准确时间
+                    //bank_id 支付渠道
+                    // ;
                     for (int i = 0; i < bankInfoArrayList.size(); i++) {
                         if (bankInfoArrayList.get(i).id == Integer.valueOf(feedbackDep.bank_id)) {
                             finalThreeID = bankInfoArrayList.get(i).name;
@@ -365,7 +377,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 OrderFeedbackVo vo = get(position);
                 //订单号：XXXX 金额:xxxx
                 String showMessage = "订单号: " + vo.id + "金额: " + vo.userpay_amount;
-                CfLog.i("未到账订单信息是 ：" + showMessage);
                 binding2.tvwTitle.setText(showMessage);
                 binding2.tvwTitle.setOnClickListener(v -> {
                     binding.tvwUnreceivedOrders.setText(showMessage);
@@ -396,11 +407,13 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             public void onBindViewHolder(@NonNull CacheViewHolder holder, int position) {
                 binding2 = ItemTextBinding.bind(holder.itemView);
                 FeedbackVo.FeedbackModeInfo vo = get(position);
+                CfLog.i(" FeedbackVo.FeedbackModeInfo = " + vo.toString());
                 binding2.tvwTitle.setText(vo.name);
                 binding2.tvwTitle.setOnClickListener(v -> {
+                    CfLog.i("feedbackVo " + vo);
                     binding.tvwPaymentMethod.setText(vo.name);
                     //feedbackType = 1; //1 微信 2 usdt
-                    if (TextUtils.equals("虚拟货币", vo.name)) {
+                    if (vo.name.equals("虚拟货币")) {
                         feedbackType = 2;
                         referFeedbackUI("usdt");
                     } else if (vo.name.contains("微信")) {
@@ -442,7 +455,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                 FeedbackVo.FeedbackBankInfo voBankInfo = get(position);
                 binding2.tvwTitle.setText(voBankInfo.name);
                 binding2.tvwTitle.setOnClickListener(v -> {
-                    CfLog.i("****** " + voBankInfo.toString());
                     //et_selector_right_payway;
                     binding.tvwPaymentChannel.setText(voBankInfo.name);
                     receive_bank = String.valueOf(voBankInfo.id);
@@ -587,7 +599,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
      * 检测付款人姓名
      */
     private boolean checkInputPaymentName() {
-        CfLog.i("checkInputPaymentName 付款人姓名 ： " + binding.etPaymentName.getText().toString().trim());
+
         if (TextUtils.isEmpty(binding.etPaymentName.getText().toString().trim())) //付款人姓名
         {
             binding.ivPaymentNameInfo.setBackgroundResource(R.mipmap.cm_ic_hint_red);
@@ -907,6 +919,15 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
      * 图片选择
      */
     private void gotoSelectMedia() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                Intent getpermission = new Intent();
+                getpermission.setAction(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION);
+                startActivity(getpermission);
+                return;
+            }
+        }
+
         PictureSelector.create(getActivity()).openGallery(SelectMimeType.ofImage())
                 .isDisplayCamera(false)
                 .setMaxSelectNum(1)
@@ -921,9 +942,9 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                                 if (TextUtils.isEmpty(imageRealPathString)) {
                                     imageRealPathString = result.get(i).getRealPath();
                                 }
+
                                 File imageRealPath = new File(imageRealPathString);
                                 if (imageRealPath.exists()) {
-                                    CfLog.i("获取图片地址Base64 ===== " + ImageUploadUtil.bitmapToString(imageRealPathString));
                                     Bitmap bitmap = BitmapFactory.decodeFile(imageRealPathString);
                                     if (bitmap == null) {
                                         //未通过文件名取得bitmap
@@ -937,6 +958,7 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
                                         binding.ivSelectorTipImage.setImageBitmap(bitmap);
                                         imageSelector = true;//向界面设置了选中图片
                                     }
+
                                 } else {
                                     CfLog.i("获取图片地址不存在是 ====== " + result.get(i).getRealPath());
                                 }
@@ -975,7 +997,6 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
      * @param userPic
      */
     private void feedbackAdd(String userPic) {
-        LoadingDialog.show(getContext());
         HashMap<String, String> uploadMap = new HashMap<String, String>();
         if (feedbackType == 1)//微信
         {
@@ -988,9 +1009,9 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             uploadMap.put("userpay_picture", userPic); //上传图片三方地址
             uploadMap.put("receive_bank", receive_bank);//支付渠道
             uploadMap.put("userpay_virtual_protocol", "1");//用户支付协议 微信默认为1
-
-            uploadMap.put("userpay_name", binding.etPaymentName.getText().toString()); //付款人
-            uploadMap.put("receive_name", binding.etCollectionName.getText().toString());//收款人
+            uploadMap.put("userpay_name", binding.etPaymentAccount.getText().toString()); //付款人
+            uploadMap.put("receive_name", binding.etPaymentName.getText().toString());//收款人
+            CfLog.i("微信状态提交反馈  " + uploadMap.toString());
 
         } else {
             uploadMap.put("nonce", UuidUtil.getID16());//传入UUID);
@@ -1004,8 +1025,9 @@ public class FeedbackFragment extends BaseFragment<FragmentFeedbackBinding, Rech
             uploadMap.put("userpay_virtual_protocol", "2");//用户支付协议 虚拟币默认为1
             uploadMap.put("receive_banknum", binding.etCollectionWalletAddress.getText().toString());//收款钱包地址
 
+            CfLog.i("虚拟币状态提交反馈  " + uploadMap);
         }
-
+        LoadingDialog.show(getContext());
         viewModel.feedbackCustomAdd(uploadMap);
 
     }

@@ -13,11 +13,7 @@ import com.xtree.base.utils.CfLog;
 import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.ItemAmountBinding;
 
-/**
- * 金额选项
- */
 public class AmountAdapter extends CachedAutoRefreshAdapter<String> {
-
 
     Context ctx;
     ICallBack mCallBack;

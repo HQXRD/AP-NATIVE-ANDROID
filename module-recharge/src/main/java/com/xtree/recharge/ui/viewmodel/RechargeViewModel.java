@@ -42,7 +42,6 @@ import me.xtree.mvvmhabit.bus.event.SingleLiveData;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import me.xtree.mvvmhabit.utils.ToastUtils;
 
 /**
  * 充值页 ViewModel
