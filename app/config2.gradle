@@ -18,14 +18,7 @@ android {
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "domain_api_list", "https://ap3sport.oxldkm.com;"
             resValue "string", "domain_url_list", "https://ap3sport.oxldkm.com;"
-            resValue "string", "domain_url_list_third", "https://scdnapp.l3s7n5.com/xc/app_config.json" +
-                    ";https://scdnapp.b4k4p3.com/xc/app_config.json" +
-                    ";https://scdnapp.s2s3b7.com/xc/app_config.json" +
-                    ";https://scdnapp.f6i8s7.com/xc/app_config.json" +
-                    ";https://cn2app.e2f9f5.com/xc/app_config.json" +
-                    ";https://cn2app.q5o4v3.com/xc/app_config.json" +
-                    ";https://cn2app.e9f6s7.com/xc/app_config.json" +
-                    ";https://cn2app.v2a1c6.com/xc/app_config.json"
+            resValue "string", "domain_url_list_third", "https://ap3sport.oxldkm.com/xc/app_config.json"
             multiDexEnabled true
             dimension "channelName"
         }
