@@ -54,6 +54,7 @@ import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.EventVo;
 import com.xtree.weight.TopSpeedDomainFloatingWindows;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -118,6 +119,8 @@ public class BrowserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
+
+        EventBus.getDefault().register(this);
 
         initView();
         title = getIntent().getStringExtra(ARG_TITLE);
@@ -633,6 +636,9 @@ public class BrowserActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        EventBus.getDefault().unregister(this);
+
         if (mTopSpeedDomainFloatingWindows != null) {
             mTopSpeedDomainFloatingWindows.removeView();
         }
