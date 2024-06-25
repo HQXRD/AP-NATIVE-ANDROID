@@ -225,11 +225,17 @@ public class CustomFloatWindows extends RelativeLayout {
                                 rechargeReportAdapter.clear();
                                 rechargeReportAdapter.addAll(rechargeOrderVoList);
                                 floatView.findViewById(R.id.rcv_data).setVisibility(View.VISIBLE);
-                                floatView.findViewById(R.id.tvw_no_data).setVisibility(View.GONE);
+                                floatView.findViewById(R.id.tvw_way).setVisibility(View.VISIBLE);
+                                floatView.findViewById(R.id.tvw_money).setVisibility(View.VISIBLE);
+                                floatView.findViewById(R.id.tvw_time).setVisibility(View.VISIBLE);
+                                floatView.findViewById(R.id.tvw_no_data).setVisibility(View.INVISIBLE);
                             } else {
                                 rechargeReportAdapter.clear();
                                 floatView.findViewById(R.id.tvw_no_data).setVisibility(View.VISIBLE);
-                                floatView.findViewById(R.id.rcv_data).setVisibility(View.GONE);
+                                floatView.findViewById(R.id.tvw_way).setVisibility(View.INVISIBLE);
+                                floatView.findViewById(R.id.tvw_money).setVisibility(View.INVISIBLE);
+                                floatView.findViewById(R.id.tvw_time).setVisibility(View.INVISIBLE);
+                                floatView.findViewById(R.id.rcv_data).setVisibility(View.INVISIBLE);
                             }
                         }
 

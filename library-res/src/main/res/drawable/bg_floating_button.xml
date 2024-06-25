@@ -4,8 +4,8 @@
 
     <gradient
         android:angle="0"
-        android:endColor="@color/clr_bg_frame_small_1"
-        android:startColor="@color/clr_bg_frame_small_1" />
+        android:endColor="@color/clr_pink_01"
+        android:startColor="@color/clr_pink_01" />
 
     <stroke
         android:width="1dp"
