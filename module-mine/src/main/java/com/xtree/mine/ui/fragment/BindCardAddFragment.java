@@ -158,6 +158,10 @@ public class BindCardAddFragment extends BaseFragment<FragmentBindCardAddBinding
         viewModel.liveDataBankProvinceList.observe(this, vo -> {
             CfLog.i("******");
             mUserBankInfoVo = vo;
+            if (vo.accountname != null && !vo.accountname.isEmpty()) {
+                binding.edtName.setText(vo.accountname);
+                binding.edtName.setEnabled(false);
+            }
         });
 
         viewModel.liveDataCityList.observe(this, list -> {
