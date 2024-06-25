@@ -227,7 +227,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
         viewModel.liveDataVipInfo.observe(getViewLifecycleOwner(), vo -> {
             CfLog.d("*** " + vo.toString());
-            //意昂2去除 VIP选项
+            //恒行2去除 VIP选项
            /* if (vo.sp.equals("1")) {
                 binding.tvwVip.setText("VIP " + vo.display_level); // display_level
             } else {
