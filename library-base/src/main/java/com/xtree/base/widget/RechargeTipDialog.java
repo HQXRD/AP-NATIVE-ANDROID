@@ -2,7 +2,6 @@ package com.xtree.base.widget;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -12,7 +11,10 @@ import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.R;
 import com.xtree.base.databinding.DialogTipBinding;
 
-public class TipDialog extends CenterPopupView {
+/**
+ * 极速充值 Dialog
+ */
+public class RechargeTipDialog extends CenterPopupView {
 
     CharSequence title;
     CharSequence title2;
@@ -20,7 +22,7 @@ public class TipDialog extends CenterPopupView {
     CharSequence txtLeft;
     boolean isSingleBtn;
     CharSequence txtRight;
-    ICallBack mCallBack;
+    TipDialog.ICallBack mCallBack;
 
     DialogTipBinding binding;
 
@@ -30,14 +32,22 @@ public class TipDialog extends CenterPopupView {
         void onClickRight();
     }
 
-    public TipDialog(@NonNull Context context, String title, String msg, ICallBack mCallBack) {
+    public RechargeTipDialog(@NonNull Context context,
+                             String title,
+                             String msg,
+                             TipDialog.ICallBack mCallBack) {
         super(context);
         this.title = title;
         this.msg = msg;
         this.mCallBack = mCallBack;
     }
 
-    public TipDialog(@NonNull Context context, String title, String msg, String txtLeft, String txtRight, ICallBack mCallBack) {
+    public RechargeTipDialog(@NonNull Context context,
+                             String title,
+                             String msg,
+                             String txtLeft,
+                             String txtRight,
+                             TipDialog.ICallBack mCallBack) {
         super(context);
         this.title = title;
         this.msg = msg;
@@ -46,11 +56,11 @@ public class TipDialog extends CenterPopupView {
         this.mCallBack = mCallBack;
     }
 
-    public TipDialog(@NonNull Context context,
+    public RechargeTipDialog(@NonNull Context context,
                      String title,
                      CharSequence msg,
                      boolean isSingleBtn,
-                     ICallBack mCallBack) {
+                     TipDialog.ICallBack mCallBack) {
         super(context);
         this.title = title;
         this.msg = msg;
@@ -58,14 +68,14 @@ public class TipDialog extends CenterPopupView {
         this.mCallBack = mCallBack;
     }
 
-    public TipDialog(Context context,
+    public RechargeTipDialog(Context context,
                      CharSequence title,
                      CharSequence title2,
                      CharSequence msg,
                      String txtLeft,
                      String txtRight,
                      boolean isSingleBtn,
-                     ICallBack mCallBack) {
+                     TipDialog.ICallBack mCallBack) {
         super(context);
         this.title = title;
         this.title2 = title2;
@@ -85,7 +95,7 @@ public class TipDialog extends CenterPopupView {
 
     @Override
     protected int getImplLayoutId() {
-        return R.layout.dialog_tip;
+        return R.layout.dialog_recharge_tip;
     }
 
     @Override
@@ -152,5 +162,4 @@ public class TipDialog extends CenterPopupView {
         });
 
     }
-
 }
