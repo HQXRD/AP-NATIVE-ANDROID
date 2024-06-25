@@ -83,7 +83,7 @@ class BindAlipayWechatFragment : BaseFragment<FragmentBindAwBinding, BindCardVie
                     }
                     binding2.ivCode.setOnClickListener {
                         XPopup.Builder(context)
-                            .asCustom(ImageDialog(requireContext(), DomainUtil.getDomain2() + vo.qrcode_url,needToken = true))
+                            .asCustom(ImageDialog(requireContext(), DomainUtil.getH5Domain2() + vo.qrcode_url,needToken = true))
                             .show()
                     }
                 }
