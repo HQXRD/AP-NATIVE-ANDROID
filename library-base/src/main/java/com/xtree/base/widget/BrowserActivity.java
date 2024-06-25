@@ -48,6 +48,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.weight.TopSpeedDomainFloatingWindows;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -103,6 +104,8 @@ public class BrowserActivity extends AppCompatActivity {
 
     ValueCallback<Uri> mUploadCallbackBelow;
     ValueCallback<Uri[]> mUploadCallbackAboveL;
+
+    private TopSpeedDomainFloatingWindows mTopSpeedDomainFloatingWindows;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,6 +240,9 @@ public class BrowserActivity extends AppCompatActivity {
 
         mWebView.setFitsSystemWindows(true);
         setWebView(mWebView);
+
+        mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(this);
+        mTopSpeedDomainFloatingWindows.show();
 
         // 下载文件
         mWebView.setDownloadListener(new DownloadListener() {
@@ -617,4 +623,11 @@ public class BrowserActivity extends AppCompatActivity {
         ctx.startActivity(it);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mTopSpeedDomainFloatingWindows != null) {
+            mTopSpeedDomainFloatingWindows.removeView();
+        }
+    }
 }
