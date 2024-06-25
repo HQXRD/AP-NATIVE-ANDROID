@@ -545,7 +545,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     public void initData() {
-        viewModel.getPublicLink();
+        if (!TextUtils.isEmpty(token)) {
+            viewModel.getPublicLink();
+        }
     }
 
     private void initFootball() {
