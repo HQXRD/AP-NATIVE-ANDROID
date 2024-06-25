@@ -6,7 +6,7 @@ import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ChangeApiLineUtil;
-import com.xtree.base.utils.ChangeH5LineUtil;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.LoadingDialog;
 
@@ -17,6 +17,7 @@ import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
+import me.xtree.mvvmhabit.utils.Utils;
 
 public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
     public abstract void onResult(T t);
@@ -139,6 +140,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 AppUtil.goWeb403();
             } else {
                 CfLog.e("无法访问：" + rError.getMessage());
+                TagUtils.tagEvent(Utils.getContext(), "API 测速失败", DomainUtil.getApiUrl());
                 ToastUtils.showShort("无法访问：" + rError.getMessage() + "，切换线路中...");
                 ChangeApiLineUtil.getInstance().start();
             }
