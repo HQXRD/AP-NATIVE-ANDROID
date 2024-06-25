@@ -2,6 +2,7 @@ package com.xtree.activity.ui.fragment;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -40,6 +41,12 @@ public class NewAdapter extends CachedAutoRefreshAdapter<NewVo> {
         NewVo vo = get(position);
         binding = ItemNewBinding.bind(holder.itemView);
 
+        if ((getSize() - 1) == position) {
+            binding.rlSpace.setVisibility(View.VISIBLE);
+        } else {
+            binding.rlSpace.setVisibility(View.GONE);
+        }
+
         Glide.with(ctx).load(vo.h5_image).placeholder(R.mipmap.dc_bg).into(binding.ivwImg);
         binding.tvwTitle.setText(vo.title);
         binding.tvwTime.setText(vo.start_at + "~" + vo.end_at);
@@ -71,8 +78,8 @@ public class NewAdapter extends CachedAutoRefreshAdapter<NewVo> {
             url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/1?aid=173";
         } else if (vo.id == 174) {
             url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/5?aid=174";
-       //} else if (vo.id == 198) {
-       //     url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/5?aid=198";
+            //} else if (vo.id == 198) {
+            //     url = DomainUtil.getDomain2() + "/webapp/#/newactivity/64/5?aid=198";
         } else if (vo.id == 135) {
             url = DomainUtil.getDomain2() + "/webapp/#/turntable/135";
         } else {
