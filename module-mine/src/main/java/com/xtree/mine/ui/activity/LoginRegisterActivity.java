@@ -1,5 +1,10 @@
 package com.xtree.mine.ui.activity;
 
+import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
+import static com.xtree.base.utils.EventConstant.EVENT_RED_POINT;
+import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FAILED;
+import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FINISH;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -11,6 +16,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
+import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -29,6 +36,7 @@ import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.ClipboardUtil;
 import com.xtree.base.utils.SPUtil;
 import com.xtree.base.utils.TagUtils;
+import com.xtree.base.vo.EventVo;
 import com.xtree.base.vo.PromotionCodeVo;
 import com.xtree.base.widget.MsgDialog;
 import com.xtree.mine.BR;
@@ -41,6 +49,11 @@ import com.xtree.mine.ui.viewmodel.LoginViewModel;
 import com.xtree.mine.ui.viewmodel.factory.AppViewModelFactory;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.SettingsVo;
+import com.xtree.weight.TopSpeedDomainFloatingWindows;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
 
@@ -68,6 +81,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     private SettingsVo settingsVo;
     private PromotionCodeVo promotionCodeVo;
     private String code;//剪切板获取的code
+    private TopSpeedDomainFloatingWindows mTopSpeedDomainFloatingWindows;
 
     @Override
     public int initContentView(Bundle savedInstanceState) {
@@ -80,12 +94,32 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
     }
 
     @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
     public void initData() {
         viewModel.getSettings();
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        viewModel.getSettings();
+    }
+
+    @Override
     public void initView() {
+        mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(this);
+        mTopSpeedDomainFloatingWindows.show();
         binding.llRoot.setOnClickListener(v -> hideKeyBoard());
         binding.loginSubHeader.setOnClickListener(v -> {
             if (clickCount++ > 5) {
@@ -577,5 +611,17 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         binding.tvwUsernameWarning.setText(R.string.txt_username_empty);
         binding.tvwPwdWarning.setText(R.string.txt_pwd_cannot_empty);
         binding.tvwPwdCheckWarning.setText(R.string.txt_pwd_is_empty);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventVo event) {
+        switch (event.getEvent()) {
+            case EVENT_TOP_SPEED_FINISH:
+                mTopSpeedDomainFloatingWindows.refresh();
+                break;
+            case EVENT_TOP_SPEED_FAILED:
+                mTopSpeedDomainFloatingWindows.onError();
+                break;
+        }
     }
 }

@@ -131,7 +131,7 @@ public class FeedbackDetailFragment extends BaseFragment<FragmentFeedbackDetailB
             binding.llInputUsdtAdd.setVisibility(View.VISIBLE);//显示收款钱包地址
             binding.etSelectorRightAdd.setText(info.receive_banknum);//收款钱包地址
         }
-        String imageDownUrl = DomainUtil.getDomain2() + info.userpay_picture; //图片地址
+        String imageDownUrl = DomainUtil.getH5Domain2() + info.userpay_picture; //图片地址
         CfLog.i("imageDownUrl ==" + imageDownUrl);
 
         String cookie = "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN)

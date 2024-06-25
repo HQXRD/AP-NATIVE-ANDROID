@@ -149,7 +149,7 @@ public class RechargeOrderWebDialog extends BottomPopupView {
                 if (mRechargePayVo.domainList.size() > 0) {
                     url = mRechargePayVo.domainList.get(0) + url;
                 } else {
-                    url = DomainUtil.getDomain2() + url;
+                    url = DomainUtil.getH5Domain2() + url;
                 }
             }
             CfLog.i(mRechargePayVo.payname + ", jump: " + url);

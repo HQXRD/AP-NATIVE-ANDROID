@@ -197,7 +197,7 @@ class SplashsPresenter @Inject constructor(val mContext: Context, val mApis: Api
                     uid = "the_fastest_line"
                 ).transform { data ->
                     if (data.contains("hello world")) {
-                        NetConfig.host = host
+                        
                         mApiDomain = host
                         // 设置最快访问的域名为当次使用接口域名
                         setCurDomain()
@@ -300,7 +300,7 @@ class SplashsPresenter @Inject constructor(val mContext: Context, val mApis: Api
                     result = response.body?.string()
                     if (result != null) {
                         if (result.contains("hello world")) {
-                            NetConfig.host = host
+                            
                             mApiDomain = host
                             // 设置最快访问的域名为当次使用接口域名
                             setCurDomain()

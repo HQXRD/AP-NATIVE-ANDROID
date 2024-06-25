@@ -126,7 +126,7 @@ public class WebAppInterface {
             case TYPE_VIP:
                 if (isLogin) {
                     BrowserActivity.start(context, context.getString(R.string.txt_vip_center),
-                            DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
+                            DomainUtil.getH5Domain2() + Constant.URL_VIP_CENTER, true, false, true);
                 } else {
                     goLogin();
                 }
@@ -148,7 +148,7 @@ public class WebAppInterface {
             case TYPE_ACTIVITY_DETAIL:
                 CfLog.i(vo.data.toString());
                 mView.post(() -> {
-                    String url = DomainUtil.getDomain2() + "/webapp/?isNative=1#/activity/" + vo.data;
+                    String url = DomainUtil.getH5Domain2() + "/webapp/?isNative=1#/activity/" + vo.data;
                     new XPopup.Builder(context).moveUpToKeyboard(false).asCustom(BrowserDialog.newInstance(context, url)).show();
                 });
                 //close(); // 不能close,否则上级页面关闭,弹窗也被关闭
