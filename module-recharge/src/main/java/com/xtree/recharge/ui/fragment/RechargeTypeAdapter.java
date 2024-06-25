@@ -19,6 +19,9 @@ import com.xtree.recharge.databinding.ItemRcTypeBinding;
 import com.xtree.recharge.vo.PaymentTypeVo;
 import com.xtree.recharge.vo.RechargeVo;
 
+/**
+ * 充值页面 推荐充值渠道 适配器
+ */
 public class RechargeTypeAdapter extends CachedAutoRefreshAdapter<PaymentTypeVo> {
 
     Context ctx;

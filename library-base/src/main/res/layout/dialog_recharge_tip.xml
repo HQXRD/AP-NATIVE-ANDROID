@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/clr_transparent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/ivw_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:padding="4dp"
+            android:src="@mipmap/cm_recharge_dialog_bg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivw_empty"
+            android:layout_width="24dp"
+            android:layout_height="16dp"
+            android:background="@color/clr_transparent"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@id/ivw_bg"
+            app:layout_constraintStart_toStartOf="@id/ivw_bg" />
+
+        <TextView
+            android:id="@+id/tvw_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:gravity="center"
+            android:text="@string/txt_kind_tips"
+            android:textColor="@color/clr_txt_recharge_dialog_tip"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+            app:layout_constraintStart_toStartOf="@id/ivw_bg"
+            app:layout_constraintTop_toTopOf="@id/ivw_bg" />
+
+        <TextView
+            android:id="@+id/tvw_msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="52dp"
+            android:gravity="center"
+            android:textColor="@color/clr_grey_60"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+            app:layout_constraintStart_toStartOf="@id/ivw_bg"
+            app:layout_constraintTop_toBottomOf="@id/tvw_title"
+            tools:text="这是内容  这是内容这是内容这是内容这是内容这是内容" />
+
+        <TextView
+            android:id="@+id/tvw_msg2"
+            style="@style/style_cm_tip_small_orange"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="24dp"
+            android:fadeScrollbars="false"
+            android:gravity="center"
+            android:scrollbars="vertical"
+            android:textColor="@color/clr_grey_60"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/layout_tvw"
+            app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+            app:layout_constraintStart_toStartOf="@id/ivw_bg"
+            app:layout_constraintTop_toBottomOf="@id/tvw_title"
+            tools:text="这是内容 长的4行52字"
+            tools:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/layout_tvw"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginBottom="46dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/ivw_bg"
+            app:layout_constraintEnd_toEndOf="@id/ivw_bg"
+            app:layout_constraintStart_toStartOf="@id/ivw_bg">
+
+            <TextView
+                android:id="@+id/tvw_left"
+                style="@style/style_btn_recharge_back"
+                android:text="@string/txt_cancel"
+                android:textColor="@color/clr_txt_recharge_dialog_tip"
+                android:textSize="14sp"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/tvw_right"
+                style="@style/style_btn_recharge"
+                android:text="@string/txt_confirm"
+                android:textSize="14sp"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
