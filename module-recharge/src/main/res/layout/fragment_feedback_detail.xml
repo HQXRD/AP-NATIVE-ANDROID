@@ -385,7 +385,7 @@
                             android:layout_below="@id/ll_selector_tip_image"
                             android:layout_alignLeft="@id/ll_selector_tip_image"
                             android:layout_marginTop="10dp"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
 
                             />
 
@@ -404,12 +404,14 @@
 
                 </LinearLayout>
 
-                <TextView
+                <ImageView
                     android:id="@+id/ivw_next"
-                    style="@style/style_cm_btn_round"
-                    android:text="@string/txt_next_step"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:background="@mipmap/cm_btn_next"
+                    android:visibility="gone" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>

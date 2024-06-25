@@ -96,7 +96,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/tvw_type"
                             android:layout_alignLeft="@id/tvw_type"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -164,7 +164,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/tv_selector_right_payment_account"
                             android:layout_alignLeft="@id/tv_selector_right_payment_account"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -214,7 +214,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/ll"
                             android:layout_alignLeft="@id/ll"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -267,7 +267,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/ll_collection_name_agreement"
                             android:layout_alignLeft="@id/ll_collection_name_agreement"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -309,7 +309,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/et_selector_right_savename"
                             android:layout_alignLeft="@id/et_selector_right_savename"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -354,7 +354,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/tv_selector_right_savetime"
                             android:layout_alignLeft="@id/tv_selector_right_savetime"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -396,7 +396,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/tv_selector_right_three"
                             android:layout_alignLeft="@id/tv_selector_right_three"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -441,7 +441,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/tv_selector_right_payway"
                             android:layout_alignLeft="@id/tv_selector_right_payway"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -484,7 +484,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/et_selector_right_add"
                             android:layout_alignLeft="@id/et_selector_right_add"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
                             android:visibility="invisible"
                             />
                         <TextView
@@ -530,16 +530,17 @@
                             <RelativeLayout
                                 android:layout_width="73dp"
                                 android:layout_height="73dp" >
+
                                 <ImageView
                                     android:id="@+id/iv_selector_tip_image"
                                     android:layout_width="73dp"
                                     android:layout_height="73dp"
-                                    android:layout_marginTop="1dp"
+                                    android:layout_centerInParent="true"
                                     android:layout_marginLeft="1dp"
+                                    android:layout_marginTop="1dp"
                                     android:layout_marginRight="1dp"
                                     android:layout_marginBottom="1dp"
-                                    android:layout_centerInParent="true"
-                                    android:visibility="visible"/>
+                                    android:visibility="visible" />
                                 <ImageView
                                     android:id="@+id/iv_selector_add"
                                     android:layout_width="18dp"
@@ -560,7 +561,7 @@
                             android:layout_marginTop="10dp"
                             android:layout_below="@id/ll_selector_tip_image"
                             android:layout_alignLeft="@id/ll_selector_tip_image"
-                            android:background="@mipmap/cm_ic_hint_main"
+                            android:background="@mipmap/cm_ic_hint_purple"
 
                             />
                         <TextView
@@ -578,12 +579,14 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/ivw_next"
-                    style="@style/style_cm_btn_round"
-                    android:text="@string/txt_next_step"
+                <ImageView
                     android:visibility="gone"
-                    tools:visibility="visible" />
+                    android:id="@+id/ivw_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:background="@mipmap/cm_btn_next" />
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
