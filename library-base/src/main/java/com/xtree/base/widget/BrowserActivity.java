@@ -1,5 +1,8 @@
 package com.xtree.base.widget;
 
+import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FAILED;
+import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FINISH;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -48,7 +51,11 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.vo.EventVo;
 import com.xtree.weight.TopSpeedDomainFloatingWindows;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -628,6 +635,18 @@ public class BrowserActivity extends AppCompatActivity {
         super.onDestroy();
         if (mTopSpeedDomainFloatingWindows != null) {
             mTopSpeedDomainFloatingWindows.removeView();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventVo event) {
+        switch (event.getEvent()) {
+            case EVENT_TOP_SPEED_FINISH:
+                mTopSpeedDomainFloatingWindows.refresh();
+                break;
+            case EVENT_TOP_SPEED_FAILED:
+                mTopSpeedDomainFloatingWindows.onError();
+                break;
         }
     }
 }
