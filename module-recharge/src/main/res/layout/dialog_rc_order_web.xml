@@ -190,14 +190,14 @@
 
             <TextView
                 android:id="@+id/tvw_ok"
-                style="@style/style_btn_long"
+                style="@style/style_btn_long_recharge"
                 android:text="@string/txt_rc_already_pay"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/tvw_show_pay"
-                style="@style/style_btn_long"
+                style="@style/style_btn_long_recharge"
                 android:text="@string/txt_rc_show_pay_dialog" />
 
             <TextView

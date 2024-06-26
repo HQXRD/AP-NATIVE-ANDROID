@@ -7,6 +7,44 @@ import java.util.List;
  * 充值订单 (提交充值后)
  */
 public class RechargePayVo {
+    @Override
+    public String toString() {
+        return "RechargePayVo{" +
+                "status='" + status + '\'' +
+                ", msg='" + msg + '\'' +
+                ", paycode='" + paycode + '\'' +
+                ", payname='" + payname + '\'' +
+                ", money='" + money + '\'' +
+                ", isredirect=" + isredirect +
+                ", redirecturl='" + redirecturl + '\'' +
+                ", isqrcode=" + isqrcode +
+                ", qrcodeurl='" + qrcodeurl + '\'' +
+                ", isbank=" + isbank +
+                ", iszskh=" + iszskh +
+                ", postscript='" + postscript + '\'' +
+                ", bankcode='" + bankcode + '\'' +
+                ", bankname='" + bankname + '\'' +
+                ", bankacctcard='" + bankacctcard + '\'' +
+                ", bankacctname='" + bankacctname + '\'' +
+                ", bankcardneedcopy=" + bankcardneedcopy +
+                ", maxexpiretime='" + maxexpiretime + '\'' +
+                ", bank_url='" + bank_url + '\'' +
+                ", help_url='" + help_url + '\'' +
+                ", isusdt=" + isusdt +
+                ", udtType='" + udtType + '\'' +
+                ", rate='" + rate + '\'' +
+                ", rateamount='" + rateamount + '\'' +
+                ", toBankName='" + toBankName + '\'' +
+                ", toBankNameDetail='" + toBankNameDetail + '\'' +
+                ", isRedirectMode=" + isRedirectMode +
+                ", direct_enable=" + direct_enable +
+                ", recharge_json_expiretime='" + recharge_json_expiretime + '\'' +
+                ", recharge_json_channel=" + recharge_json_channel +
+                ", iLastId='" + iLastId + '\'' +
+                ", domain_list=" + domain_list +
+                ", domainList=" + domainList +
+                '}';
+    }
 
     public String status; // "success",
     public String msg; // "ok",
