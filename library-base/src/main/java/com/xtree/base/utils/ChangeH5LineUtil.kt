@@ -35,7 +35,7 @@ class ChangeH5LineUtil private constructor() {
 
     fun start() {
         if (!mIsRunning) {
-            CfLog.e("=====开始切换线路========")
+            CfLog.e("=====H5开始切换线路========")
             mIsRunning = true
             setThirdFasterDomain()
             setFasterH5Domain()
