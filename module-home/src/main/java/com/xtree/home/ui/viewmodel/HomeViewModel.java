@@ -153,6 +153,26 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         addSubscribe(disposable);
     }
 
+    public void getPublicLink() {
+        Disposable disposable = (Disposable) model.getApiService().getPublicLink()
+                .compose(RxUtils.schedulersTransformer())
+                .compose(RxUtils.exceptionTransformer())
+                .subscribeWith(new HttpCallBack<List<PublicDialogVo>>() {
+                    @Override
+                    public void onResult(List<PublicDialogVo> list) {
+                        CfLog.i("publicLink        "+list);
+                        liveDataPublicLink.setValue(list);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        CfLog.e(t.toString());
+                        //super.onError(t);
+                    }
+                });
+        addSubscribe(disposable);
+    }
+
     public void getNotices() {
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         if (TextUtils.isEmpty(token)) {

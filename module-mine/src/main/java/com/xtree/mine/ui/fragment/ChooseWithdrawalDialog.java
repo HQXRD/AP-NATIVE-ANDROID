@@ -124,7 +124,11 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
         super(context);
     }
 
-    public static ChooseWithdrawalDialog newInstance(Context context, LifecycleOwner owner, IChooseDialogBack callBack, BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose, final FragmentActivity activity) {
+    public static ChooseWithdrawalDialog newInstance(Context context,
+                                                     LifecycleOwner owner,
+                                                     IChooseDialogBack callBack,
+                                                     BankWithdrawalDialog.BankWithdrawalClose bankWithdrawalClose,
+                                                     final FragmentActivity activity) {
         ChooseWithdrawalDialog dialog = new ChooseWithdrawalDialog(context);
 
         dialog.context = context;
@@ -185,6 +189,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
         //获取可提额度 刷新底部金额数据
         viewModel.quotaVoMutableLiveData.observe(owner, vo -> {
             quotaVo = vo;
+            referQuotaUI(quotaVo);
         });
         // 获取可提现渠道列表
         viewModel.withdrawalListVoMutableLiveData.observe(owner, vo -> {
@@ -406,7 +411,9 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
     /**
      * 跳转银行卡提款页面
      */
-    private void showBankWithdrawalDialog(final String name, final ArrayList<WithdrawalListVo> bankWithdrawalList, final WithdrawalBankInfoVo selectorInfoVo) {
+    private void showBankWithdrawalDialog(final String name,
+                                          final ArrayList<WithdrawalListVo> bankWithdrawalList,
+                                          final WithdrawalBankInfoVo selectorInfoVo) {
         bankPopupView = new XPopup.Builder(getContext())
                 .moveUpToKeyboard(false)
                 .asCustom(BankWithdrawalDialog.newInstance(getContext(), owner, name, bankWithdrawalList, selectorInfoVo, new BankWithdrawalDialog.BankWithdrawalClose() {
@@ -675,7 +682,7 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                 getContext().startActivity(intent);
             });
 
-            String quota = "";
+           /* String quota = "";
             if (quotaVo != null && quotaVo.quota != null) {
                 if (TextUtils.equals("0", quotaVo.quota)) {
                     quota = "0.00";
@@ -690,12 +697,39 @@ public class ChooseWithdrawalDialog extends BottomPopupView implements IWithdraw
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     binding.tvChooseTip.setTextColor(getContext().getColor(R.color.clr_grey_13));
                 }
-            }
+            }*/
 
             dismissMasksLoading();
         }
     }
-
+    private void  referQuotaUI(final WithdrawalQuotaVo quotaVo){
+        String quota = "";
+        if (quotaVo != null && quotaVo.quota != null) {
+            if (TextUtils.equals("0", quotaVo.quota)) {
+                quota = "0.00";
+            } else {
+                quota =String.format("%.2f",Double.valueOf(quotaVo.quota)) ;
+            }
+            String tip =
+                    String.format(getContext().getString(R.string.txt_choose_withdrawal_tip),
+                            quotaVo.fAvailableBalance, quota);
+            binding.tvChooseTip.setVisibility(View.VISIBLE);
+            binding.tvChooseTip.setText(tip);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.tvChooseTip.setTextColor(getContext().getColor(R.color.clr_grey_13));
+            }
+        }else {
+            String tip = getContext().getString(R.string.txt_choose_quota_error_tip);
+            binding.tvChooseTip.setVisibility(View.VISIBLE);
+            binding.tvChooseTip.setText(tip);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.tvChooseTip.setTextColor(getContext().getColor(R.color.clr_grey_13));
+            }
+            binding.tvChooseTip.setOnClickListener(v -> {
+                viewModel.getWithdrawQuota();
+            });
+        }
+    }
     /**
      * 列表排序
      *
