@@ -196,6 +196,9 @@ class RegPromFragment : BaseFragment<FragmentPromLinksBinding, MineViewModel>(),
 
 
     private fun initDialog() {
+        if (mProfileVo.usertype == 1 && (mProfileVo.userLevel == 1 || mProfileVo.userLevel == 2)) {//总代与一代只能开户代理
+            binding.tvSelectType.isEnabled = false
+        }
         binding.tvSelectType.setOnClickListener {
             ppw.show()
         }
