@@ -71,7 +71,7 @@ public class ExceptionInterceptor extends DecompressInterceptor {
             return response;
         } else {
             TagUtils.tagEvent(Utils.getContext(), "event_json_conversion_error", DomainUtil.getApiUrl());
-            if(isHijacked(result)) {
+            if(isHijacked(result) || result.contains("html")) {
                 throw new HijackedException(request.url(), result);
             }else {
                 return response;
