@@ -130,7 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:background="@color/bt_bg_color_time"
+            android:background="#FBEDED"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
