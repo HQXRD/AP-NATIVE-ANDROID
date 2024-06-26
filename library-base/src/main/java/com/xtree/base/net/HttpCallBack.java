@@ -6,6 +6,7 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.AppUtil;
+import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.utils.SpeedApiLine;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.LoadingDialog;
@@ -138,15 +139,15 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 TagUtils.tagEvent(Utils.getContext(), "event_change_api_line_start", " [" + rError.code + "]域名被劫持，切换线路开始...");
                 if(!SpeedApiLine.INSTANCE.isRunning()) {
                     ToastUtils.showShort("当前网络环境异常" + " [" + rError.code + "]，切换线路中..."); // ("域名被劫持"  + "，切换线路中...");
+                    SpeedApiLine.INSTANCE.addHijeckedDomainList(((HijackedException) t.getCause()).getHost());
                 }
-                SpeedApiLine.INSTANCE.addHijeckedDomainList(((HijackedException) t.getCause()).getHost());
                 SpeedApiLine.INSTANCE.start();
             } else{
                 TagUtils.tagEvent(Utils.getContext(), "event_network_error", t.getMessage());
                 TagUtils.tagEvent(Utils.getContext(), "event_change_api_line_start", " [" + rError.code + "]域名无法访问，切换线路开始...");
-                //SpeedApiLine.INSTANCE.addHijeckedDomainList(((HijackedException) t.getCause()).getHost());
                 if(!SpeedApiLine.INSTANCE.isRunning()) {
                     ToastUtils.showShort("当前网络环境异常" + " [" + rError.code + "]，切换线路中...");
+                    SpeedApiLine.INSTANCE.addHijeckedDomainList(DomainUtil.getApiUrl());
                 }
                 SpeedApiLine.INSTANCE.start();
             }
