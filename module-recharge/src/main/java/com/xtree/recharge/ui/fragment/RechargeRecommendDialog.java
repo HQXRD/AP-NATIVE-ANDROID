@@ -97,7 +97,8 @@ public class RechargeRecommendDialog extends CenterPopupView {
             mCallBack.onCallBack(curRechargeVo);
             dismiss();
         });
-        binding.ivwClose.setOnClickListener(v -> binding.tvwUseCur.performClick());
+        //UI设计搞取消取消按钮
+       // binding.ivwClose.setOnClickListener(v -> binding.tvwUseCur.performClick());
         binding.tvwClose.setOnClickListener(v -> dismiss());
 
         CachedAutoRefreshAdapter<RechargeVo> mAdapter = new CachedAutoRefreshAdapter<RechargeVo>() {

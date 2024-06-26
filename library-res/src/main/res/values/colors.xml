@@ -541,6 +541,17 @@
     <color name="clr_rc_manual_1">#CC6A74</color>
     <!-- 分隔线 -->
     <color name="clr_div_line">#F2F3F7</color>
+    <color name="clr_recharge_selected">#FBEDED</color>
+    <color name="clr_recharge_no_selected">#A8423A</color>
 
+    <!-- 充值 温馨提示 颜色 -->
+    <color name="clr_re_dialog_center_start">#66F9C1DC</color>
+    <color name="clr_re_dialog_center_end">#66B5A9FF</color>
 
+    <!-- 充值 温馨提示 银行列表 弹窗 颜色 -->
+    <color name="clr_re_dialog_bank_start">#FFF9FE</color>
+    <color name="clr_re_dialog_bank_end">#FFEDEB</color>
+
+    <!-- 充值 温馨提示 银行列表  按钮弹窗 颜色 -->
+    <color name="clr_re_btn_txt">#FDF9F7</color>
 </resources>
