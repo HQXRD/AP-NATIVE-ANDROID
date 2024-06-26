@@ -66,7 +66,7 @@
     <!-- 通用字颜色 主色/3级字 -->
     <color name="clr_txt_03">#8B8B8B</color>
     <!-- 通用字颜色 主色/4级字 -->
-    <color name="clr_txt_04">#E5E5E5</color>
+    <color name="clr_txt_04">#949292</color>
     <!-- 通用字颜色 主色/5级字 -->
     <color name="clr_txt_05">#4F4439</color>
     <color name="clr_txt_06">#E3C3A2</color>"
@@ -228,7 +228,7 @@
     <color name="bt_color_shadow">#1AAD7851</color>
 
     <!-- 键盘背景颜色 -->
-    <color name="bt_bg_color_keyboard">#FAD881</color>
+    <color name="bt_bg_color_keyboard">#F3D6D6</color>
 
     <!-- 赛事详情页顶部栏背景颜色 -->
     <color name="bt_color_detail_top_toolbar">#4D000000</color>
@@ -261,7 +261,7 @@
     <color name="bt_color_match_close">#FFE3DF</color>
 
     <!-- 投注键盘点击背景颜色 -->
-    <color name="bt_color_keyboard_pressed">@color/clr_main_05</color>
+    <color name="bt_color_keyboard_pressed">#FBEDED</color>
 
     <!-- 投注确认页赛事关闭提示字体颜色 -->
     <color name="bt_color_text_match_close">#B85F53</color>
