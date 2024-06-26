@@ -198,10 +198,10 @@
     <color name="bt_bg_color_playtype">@color/clr_main_05</color>
 
     <!-- 投注项默认背影颜色 -->
-    <color name="bt_option_bg_default">#D24137</color>
+    <color name="bt_option_bg_default">#FBEDED</color>
 
     <!-- 投注项选中背影颜色 -->
-    <color name="bt_option_bg_selected">@color/clr_main_05</color>
+    <color name="bt_option_bg_selected">#B34B43</color>
 
     <!-- 主题色背景下（项目中是蓝色）的字体颜色 -->
     <color name="bt_color_under_bg_primary_text">#FFFFFF</color>
