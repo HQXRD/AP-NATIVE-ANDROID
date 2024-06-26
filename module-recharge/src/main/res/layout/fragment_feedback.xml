@@ -789,6 +789,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
                     android:background="@mipmap/cm_btn_next" />
 
             </LinearLayout>
