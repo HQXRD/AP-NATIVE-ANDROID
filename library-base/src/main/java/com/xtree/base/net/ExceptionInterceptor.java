@@ -1,13 +1,13 @@
 package com.xtree.base.net;
 
-import static com.xtree.base.net.HttpCallBack.CodeRule.CODE_100002;
 
 import android.util.Base64;
 
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.TagUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -19,7 +19,8 @@ import java.util.zip.DataFormatException;
 import java.util.zip.GZIPInputStream;
 
 import kotlin.text.Charsets;
-import me.xtree.mvvmhabit.http.BaseResponse;
+import me.xtree.mvvmhabit.http.HijackedException;
+import me.xtree.mvvmhabit.utils.Utils;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -29,6 +30,8 @@ import okio.Buffer;
 import okio.BufferedSource;
 
 public class ExceptionInterceptor extends DecompressInterceptor {
+
+    private final static String[] KEY_WORD = new String[]{"诈骗", "公安", "公安局"};
 
     @NonNull
     @Override
@@ -67,23 +70,27 @@ public class ExceptionInterceptor extends DecompressInterceptor {
         if(isJSONType(result)){
             return response;
         } else {
-            if(result.contains("诈骗")) {
-                //CfLog.e("被劫持地址：" + request.url());
-                BaseResponse baseResponse = new BaseResponse();
-                baseResponse.setStatus(CODE_100002);
-                try {
-                    result = new Gson().toJson(baseResponse);
-                    ResponseBody resultResponseBody = ResponseBody.create(contentType, result);
-                    response = response.newBuilder().body(resultResponseBody).build();
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
-                } finally {
-                    return response;
-                }
+            TagUtils.tagEvent(Utils.getContext(), "event_json_conversion_error", DomainUtil.getApiUrl());
+            if(isHijacked(result) || result.contains("html")) {
+                throw new HijackedException(request.url(), result);
             }else {
                 return response;
             }
         }
+    }
+
+    /**
+     * 接口是否被劫持
+     * @param result
+     * @return
+     */
+    private boolean isHijacked(String result){
+        for (int i = 0; i < KEY_WORD.length; i ++){
+            if(result.contains(KEY_WORD[i])){
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean isJSONType(String str){
