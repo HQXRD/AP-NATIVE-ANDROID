@@ -5,20 +5,26 @@ android {
         // 测试环境 测试用
         xingCai_pre {
             applicationId "com.${name.toLowerCase()}.app" //
-            versionName "1.2.4"
-            versionCode 124
+            versionName "1.2.2"
+            versionCode 122
             resValue "string", "app_name", "杏彩T${versionCode}"
             resValue "string", "domain_api", "https://ap3sport.oxldkm.com"
             resValue "string", "domain_url", "https://ap3sport.oxldkm.com"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
-            resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "sentry_dsn", "https://78cf4cf46e69206c1ddc741b9ab7edca@o4507447554539520.ingest.us.sentry.io/4507456764706816"
             resValue "bool", "is_tag", "false" // 是否开启统计
+            resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
             resValue "string", "domain_api_list", "https://ap3sport.oxldkm.com;"
             resValue "string", "domain_url_list", "https://ap3sport.oxldkm.com;"
-            resValue "string", "domain_url_list_third", "https://ap3sport.oxldkm.com/xc/app_config.json"
+            resValue "string", "domain_url_list_third", "https://scdnapp.l3s7n5.com/xc/app_config.json" +
+                    ";https://scdnapp.b4k4p3.com/xc/app_config.json" +
+                    ";https://scdnapp.s2s3b7.com/xc/app_config.json" +
+                    ";https://scdnapp.f6i8s7.com/xc/app_config.json" +
+                    ";https://cn2app.e2f9f5.com/xc/app_config.json" +
+                    ";https://cn2app.q5o4v3.com/xc/app_config.json" +
+                    ";https://cn2app.e9f6s7.com/xc/app_config.json" +
+                    ";https://cn2app.v2a1c6.com/xc/app_config.json"
             multiDexEnabled true
             dimension "channelName"
         }
@@ -75,17 +81,16 @@ android {
         // 生产环境 欧洲杯发布用
         xingCai_EC {
             applicationId "com.sptxc.app" // xcsport
-            versionName "1.2.4"
-            versionCode 124
+            versionName "1.2.3.1"
+            versionCode 1231
             resValue "string", "app_name", "XC Sports"
             resValue "string", "domain_api", "https://app.zgntcpgxds.com:16801"
             resValue "string", "domain_url", "https://h51.h2b4u5.com"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "44c997f89ac52bdb676418f79a78cc6e"
+            resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "efa54723-d17f-40a5-ba10-95f6a4ec7832"
-            resValue "string", "sentry_dsn", "https://78cf4cf46e69206c1ddc741b9ab7edca@o4507447554539520.ingest.us.sentry.io/4507456764706816"
-            resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "domain_api_list", "https://app.zgntcpgxds.com:16801" +
                     ";http://43.128.11.58:16804" +
                     ";http://43.137.39.194:16803" +
