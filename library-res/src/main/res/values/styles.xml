@@ -1223,7 +1223,7 @@
         <item name="android:padding">2dp</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/clr_text_main_selector</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 
 
@@ -1360,8 +1360,8 @@
     </style>
 
     <style name="style_rdo_type">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">34dp</item>
         <item name="android:background">@drawable/ic_bg_type_selector</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/clr_purple_05</item>
@@ -1476,26 +1476,14 @@
         <item name="android:textColor">@color/clr_txt_rebateagrt_title</item>
         <item name="android:textSize">14sp</item>
     </style>
-    <!-- 充值 弹窗 按钮 渐变 -->
-    <style name="style_btn_frame">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginStart">12dp</item>
-        <item name="android:background">@drawable/bg_btn_r10_selector</item>
-        <item name="android:gravity">center</item>
-        <item name="android:minEms">5</item>
-        <item name="android:padding">6dp</item>
-        <item name="android:text">@string/txt_submit</item>
-        <item name="android:textColor">@color/clr_text_code_selector</item>
-        <item name="android:textSize">12sp</item>
-    </style>
+
     <style name="style_cm_ckb">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:button">@drawable/ckb_selector</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingStart">4dp</item>
-        <item name="android:textColor">@color/clr_purple_01</item>
+        <item name="android:textColor">@color/clr_orange_10</item>
         <item name="android:textSize">12sp</item>
     </style>
     <!--极速充值 长按钮-->
@@ -1594,6 +1582,39 @@
         <item name="android:textColor">@color/clr_text_code_selector</item>
         <item name="android:textSize">16sp</item>
     </style>
-
-
+    <!-- 极速充值 按钮 当前充值方式 -->
+    <style name="style_rdo_recharge_type">
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">34dp</item>
+        <item name="android:background">@drawable/ic_bg_recharge_type_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/bt_color_recharge_item_text</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!-- 极速充值 弹窗 按钮 渐变 -->
+    <style name="style_btn_recharge_frame">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:background">@drawable/bg_btn_re_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">@string/txt_submit</item>
+        <item name="android:textColor">@color/clr_text_code_selector</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <!-- 充值 弹窗 按钮 渐变  bg_btn_r10_selector-->
+    <style name="style_btn_frame">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:background">@drawable/bg_btn_re_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minEms">5</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:text">@string/txt_submit</item>
+        <item name="android:textColor">@color/clr_re_btn_txt</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

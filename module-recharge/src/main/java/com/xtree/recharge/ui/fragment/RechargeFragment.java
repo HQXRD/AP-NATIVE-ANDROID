@@ -92,9 +92,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     private Method method;
     private Object object;
     //RechargeAdapter rechargeAdapter;
-    RechargeTypeAdapter mTypeAdapter;
-    RechargeChannelAdapter mChannelAdapter;
-    AmountAdapter mAmountAdapter;
+    RechargeTypeAdapter mTypeAdapter; //顶部推荐充值渠道适配器
+    RechargeChannelAdapter mChannelAdapter;//充值渠道适配器
+    AmountAdapter mAmountAdapter;//金额适配器
     double loadMin;
     double loadMax;
     //PaymentVo mPaymentVo;
