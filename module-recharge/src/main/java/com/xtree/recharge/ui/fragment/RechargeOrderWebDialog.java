@@ -23,6 +23,9 @@ import com.xtree.recharge.vo.RechargePayVo;
 
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
+/**
+ * 充值订单 web页面
+ */
 public class RechargeOrderWebDialog extends BottomPopupView {
 
     RechargePayVo mRechargePayVo;
