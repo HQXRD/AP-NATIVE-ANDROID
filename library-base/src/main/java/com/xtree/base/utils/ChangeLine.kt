@@ -52,7 +52,7 @@ abstract class ChangeLine {
     abstract fun onFailed()
 
     fun addHijeckedDomainList(domain: String) {
-        if(!mHijackedDomainList.contains(domain)) {
+        if (!mHijackedDomainList.contains(domain)) {
             mHijackedDomainList.add(domain)
         }
         mCurApiDomainList.remove(domain)
@@ -67,8 +67,12 @@ abstract class ChangeLine {
         start(mUrl, mIsApi)
     }
 
+    fun isRunning() : Boolean{
+        return mIsRunning
+    }
+
     open fun start(url: String, isApi: Boolean) {
-        if(!NetworkUtil.isNetworkAvailable(Utils.getContext())){
+        if (!NetworkUtil.isNetworkAvailable(Utils.getContext())) {
             runMain { ToastUtils.showShort("网络不可用，请检查您的手机网络是否开启") }
             return
         }
@@ -76,7 +80,7 @@ abstract class ChangeLine {
             index = 0
             mUrl = url
             mIsApi = isApi
-            CfLog.e("=====开始切换线路========")
+            CfLog.e("=====API开始切换线路========")
             mCurApiDomainList.clear()
             mThirdApiDomainList.clear()
             mIsRunning = true
@@ -168,26 +172,25 @@ abstract class ChangeLine {
         if (index == mThirdApiDomainList.size - 1) {
             setFasterApiDomain()
             CfLog.e("mCurApiDomainList.size==" + mCurApiDomainList.size)
-            if(mCurApiDomainList.isEmpty()){
+            if (mCurApiDomainList.isEmpty()) {
                 onAllDomainHijacked()
-            }else{
+            } else {
                 getFastestApiDomain()
             }
         }
         //mCurApiDomainList.clear()
         if (index < mThirdApiDomainList.size && !TextUtils.isEmpty(mThirdApiDomainList[index])) {
             scopeNet {
-                val data = Get<String>(
-                    mThirdApiDomainList[index],
-                    absolutePath = true,
-                    tag = RESPONSE,
-                    uid = "the_fastest_line_third"
-                ) {
-                    addHeader("App-RNID", "87jumkljo")
-                    connectTimeout(5, TimeUnit.SECONDS)
-                }.await()
-
                 try {
+                    val data = Get<String>(
+                        mThirdApiDomainList[index],
+                        absolutePath = true,
+                        tag = RESPONSE,
+                        uid = "the_fastest_line_third"
+                    ) {
+                        addHeader("App-RNID", "87jumkljo")
+                        connectTimeout(5, TimeUnit.SECONDS)
+                    }.await()
                     var domainJson = AESUtil.decryptData(
                         data,
                         "wnIem4HOB2RKzhiqpaqbZuxtp7T36afAHH88BUht/2Y="
@@ -201,13 +204,14 @@ abstract class ChangeLine {
                     if (mCurApiDomainList.isNotEmpty()) {
                         setFasterApiDomain()
                         CfLog.e("mCurApiDomainList.size==" + mCurApiDomainList.size)
-                        if(mCurApiDomainList.isEmpty()){
+                        if (mCurApiDomainList.isEmpty()) {
                             onAllDomainHijacked()
-                        }else{
+                        } else {
                             getFastestApiDomain()
                         }
                     }
                 } catch (e: Exception) {
+                    CfLog.e("Exception==$e")
                     index++
                     getThirdFastestDomain()
                 }

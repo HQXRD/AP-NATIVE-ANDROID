@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.zip.DataFormatException;
 import java.util.zip.GZIPInputStream;
 
 import kotlin.text.Charsets;
@@ -28,7 +29,7 @@ import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
 
-public class ExceptionInterceptor implements Interceptor {
+public class ExceptionInterceptor extends DecompressInterceptor {
 
     private final static String[] KEY_WORD = new String[]{"诈骗", "公安", "公安局"};
 
@@ -53,6 +54,18 @@ public class ExceptionInterceptor implements Interceptor {
             charset = contentType.charset(Charsets.UTF_8);
         }
         String result = buffer.clone().readString(charset);
+
+        boolean isCrypto = response.isSuccessful() && response.body() != null && response.header("X-Crypto") != null &&
+                response.header("X-Crypto").equalsIgnoreCase("yes");
+
+        if(isCrypto){
+            try {
+                byte[] base64DecodedData = android.util.Base64.decode(buffer.clone().readByteArray(), android.util.Base64.DEFAULT);
+                result = decompressZlibText(base64DecodedData);
+            } catch (DataFormatException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
         if(isJSONType(result)){
             return response;

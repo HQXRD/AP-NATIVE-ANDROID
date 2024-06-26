@@ -136,13 +136,18 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
             } else if(rError.code == HIJACKED_ERROR){
                 TagUtils.tagEvent(Utils.getContext(), "event_hijacked", t.getMessage());
                 TagUtils.tagEvent(Utils.getContext(), "event_change_api_line_start", " [" + rError.code + "]域名被劫持，切换线路开始...");
-                ToastUtils.showShort("当前网络环境异常" + " [" + rError.code + "]，切换线路中..."); // ("域名被劫持"  + "，切换线路中...");
+                if(!SpeedApiLine.INSTANCE.isRunning()) {
+                    ToastUtils.showShort("当前网络环境异常" + " [" + rError.code + "]，切换线路中..."); // ("域名被劫持"  + "，切换线路中...");
+                }
                 SpeedApiLine.INSTANCE.addHijeckedDomainList(((HijackedException) t.getCause()).getHost());
                 SpeedApiLine.INSTANCE.start();
             } else{
                 TagUtils.tagEvent(Utils.getContext(), "event_network_error", t.getMessage());
                 TagUtils.tagEvent(Utils.getContext(), "event_change_api_line_start", " [" + rError.code + "]域名无法访问，切换线路开始...");
-                ToastUtils.showShort("当前网络环境异常" + " [" + rError.code + "]，切换线路中...");
+                //SpeedApiLine.INSTANCE.addHijeckedDomainList(((HijackedException) t.getCause()).getHost());
+                if(!SpeedApiLine.INSTANCE.isRunning()) {
+                    ToastUtils.showShort("当前网络环境异常" + " [" + rError.code + "]，切换线路中...");
+                }
                 SpeedApiLine.INSTANCE.start();
             }
             return;

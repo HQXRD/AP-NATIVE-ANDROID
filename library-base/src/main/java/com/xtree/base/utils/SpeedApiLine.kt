@@ -24,7 +24,7 @@ object SpeedApiLine : ChangeLine() {
             "event_change_api_line_failed",
             "切换API线路失败"
         )
-        runMain { ToastUtils.showShort("切换线路失败") }
+        runMain { ToastUtils.showShort("切换线路失败，请检查手机网络连接情况") }
     }
 
     /**
