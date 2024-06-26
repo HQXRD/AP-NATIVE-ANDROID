@@ -13,6 +13,7 @@ import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
 import com.mixpanel.android.mpmetrics.MixpanelAPI;
+import com.xtree.base.global.SPKeyGlobal;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,8 +24,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import io.sentry.Sentry;
-import io.sentry.SentryEvent;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class TagUtils {
 
@@ -47,6 +47,7 @@ public class TagUtils {
     private static String MIXPANEL_TOKEN = "******";
     private static String MS_SECRET_KEY = "******";
     private static String USER_ID = "";
+    private static String USER_NAME = SPUtils.getInstance().getString(SPKeyGlobal.USER_NAME);
     private static String deviceId;
 
     private static Map<String, Long> mapCache = new HashMap<>(); // 记录打点事件对应的时间,防重复
@@ -115,7 +116,6 @@ public class TagUtils {
         tagAppsFlyer(ctx, event, getMap(null, null));
         tagMixpanel(ctx, event, null);
         tagAppCenter(event);
-        tagSentry(event, event);
     }
 
     public static void tagEvent(Context ctx, String event, Object value) {
@@ -127,8 +127,7 @@ public class TagUtils {
 
         tagAppsFlyer(ctx, event, getMap(key, value));
         tagMixpanel(ctx, event, key, value);
-        tagAppCenter(event, getMap(key, value));
-        tagSentry(event, getMap(key, value));
+        tagAppCenter(event, getMap(key, USER_NAME + "：" + value));
     }
 
     public static void tagEvent(Context ctx, String event, HashMap<String, Object> map) {
@@ -172,6 +171,7 @@ public class TagUtils {
         //map.put("uid", uid);
         //tagAppsFlyer(ctx, event, getMap("uid", uid));
         MixpanelAPI.getInstance(ctx, MIXPANEL_TOKEN, true).identify(uid);
+        //tagMixpanel(ctx, event, "uid", uid);
         tagEvent(ctx, event, "uid", uid);
     }
 
@@ -244,18 +244,21 @@ public class TagUtils {
         if (!IS_TAG || isFrequent(event, TAG_ST)) {
             return;
         }
-        SentryEvent mSentryEvent = new SentryEvent();
-        mSentryEvent.setTag(event, value);
-        Sentry.captureEvent(mSentryEvent);
+        //SentryEvent mSentryEvent = new SentryEvent();
+        //mSentryEvent.setEventId(new SentryId(event));
+        //mSentryEvent.setTag(event, value);
+        ////mSentryEvent.setModule(event, value);
+        //Sentry.captureEvent(mSentryEvent);
     }
 
     private static void tagSentry(String event, Map<String, String> map) {
         if (!IS_TAG || isFrequent(event, TAG_ST)) {
             return;
         }
-        SentryEvent mSentryEvent = new SentryEvent();
-        mSentryEvent.setTags(map);
-        Sentry.captureEvent(mSentryEvent);
+        //SentryEvent mSentryEvent = new SentryEvent();
+        //mSentryEvent.setEventId(new SentryId(event));
+        //mSentryEvent.setTags(map);
+        //Sentry.captureEvent(mSentryEvent);
     }
 
     /**
