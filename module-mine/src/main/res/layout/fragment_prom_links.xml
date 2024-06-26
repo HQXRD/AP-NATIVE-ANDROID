@@ -63,7 +63,7 @@
                 app:layout_constraintBottom_toBottomOf="@+id/tv_type"
                 app:layout_constraintStart_toEndOf="@+id/tv_type"
                 app:layout_constraintTop_toTopOf="@+id/tv_type"
-                tools:text="大招商" />
+                tools:text="代理" />
 
             <View
                 android:id="@+id/textView3"

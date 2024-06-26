@@ -113,7 +113,7 @@ public class ProfileVo {
      * userLevel
      */
     @SerializedName("user_level")
-    private int userLevel;
+    private int userLevel;//总代==1、一代==2
 
     @Override
     public String toString() {

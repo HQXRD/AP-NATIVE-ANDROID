@@ -15,6 +15,8 @@ import com.xtree.recharge.R;
 import com.xtree.recharge.databinding.ItemRcChannelBinding;
 import com.xtree.recharge.vo.RechargeVo;
 
+import me.xtree.mvvmhabit.utils.ToastUtils;
+
 /**
  * 充值渠道 适配器
  */

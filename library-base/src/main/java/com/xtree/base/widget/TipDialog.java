@@ -46,7 +46,11 @@ public class TipDialog extends CenterPopupView {
         this.mCallBack = mCallBack;
     }
 
-    public TipDialog(@NonNull Context context, String title, CharSequence msg, boolean isSingleBtn, ICallBack mCallBack) {
+    public TipDialog(@NonNull Context context,
+                     String title,
+                     CharSequence msg,
+                     boolean isSingleBtn,
+                     ICallBack mCallBack) {
         super(context);
         this.title = title;
         this.msg = msg;
@@ -54,7 +58,14 @@ public class TipDialog extends CenterPopupView {
         this.mCallBack = mCallBack;
     }
 
-    public TipDialog(Context context, CharSequence title, CharSequence title2, CharSequence msg, String txtLeft, String txtRight, boolean isSingleBtn, ICallBack mCallBack) {
+    public TipDialog(Context context,
+                     CharSequence title,
+                     CharSequence title2,
+                     CharSequence msg,
+                     String txtLeft,
+                     String txtRight,
+                     boolean isSingleBtn,
+                     ICallBack mCallBack) {
         super(context);
         this.title = title;
         this.title2 = title2;
