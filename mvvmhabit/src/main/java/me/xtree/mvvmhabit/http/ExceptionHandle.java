@@ -1,9 +1,9 @@
 package me.xtree.mvvmhabit.http;
 
+import android.net.ParseException;
+
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.MalformedJsonException;
-
-import android.net.ParseException;
 
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
@@ -78,13 +78,17 @@ public class ExceptionHandle {
             ex.message = "连接超时";
             // return ex;
         } else if (e instanceof java.net.UnknownHostException) {
-            ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR, true);
+            ex = new ResponseThrowable(e, ERROR.HOST_ERROR, true);
             ex.message = "主机地址未知";
             // return ex;
         } else if (e instanceof NullPointerException) {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR, true);
             ex.message = "主机地址未知";
             // return ex;
+        } else if (e instanceof HijackedException) {
+            ex = new ResponseThrowable(e, ERROR.HIJACKED_ERROR, true);
+            ex.message = e.getMessage();
+            return ex;
         } else {
             ex = new ResponseThrowable(e, ERROR.UNKNOWN);
             ex.message = "未知错误";
@@ -97,7 +101,7 @@ public class ExceptionHandle {
     /**
      * 约定异常
      */
-    class ERROR {
+    public class ERROR {
         /**
          * 未知错误
          */
@@ -124,6 +128,17 @@ public class ExceptionHandle {
          * 连接超时
          */
         public static final int TIMEOUT_ERROR = 1006;
+
+        /**
+         * 域名解析错误
+         */
+        public static final int HOST_ERROR = 1007;
+        
+        /**
+         * 域名被劫持
+         */
+        public static final int HIJACKED_ERROR = 1007;
+
     }
 
 }

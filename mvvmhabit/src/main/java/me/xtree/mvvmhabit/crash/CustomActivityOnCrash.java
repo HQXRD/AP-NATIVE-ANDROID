@@ -47,6 +47,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 
+import io.sentry.Sentry;
+import me.xtree.mvvmhabit.R;
 
 public final class CustomActivityOnCrash {
 
@@ -105,6 +107,7 @@ public final class CustomActivityOnCrash {
                     Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
                         @Override
                         public void uncaughtException(Thread thread, final Throwable throwable) {
+                            Sentry.captureException(throwable);
                             if (config.isEnabled()) {
                                 Log.e(TAG, "App has crashed, executing CustomActivityOnCrash's UncaughtExceptionHandler", throwable);
 
@@ -304,7 +307,8 @@ public final class CustomActivityOnCrash {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
         //Get build date
-        String buildDateAsString = getBuildDateAsString(context, dateFormat);
+        //String buildDateAsString = getBuildDateAsString(context, dateFormat);
+        String buildDateAsString = context.getResources().getString(R.string.build_time);
 
         //Get app version
         String versionName = getVersionName(context);

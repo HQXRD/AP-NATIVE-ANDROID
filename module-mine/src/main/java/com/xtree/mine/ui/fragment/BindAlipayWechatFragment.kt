@@ -16,6 +16,7 @@ import com.xtree.base.router.RouterFragmentPath
 import com.xtree.base.utils.AppUtil
 import com.xtree.base.utils.CfLog
 import com.xtree.base.utils.DomainUtil
+import com.xtree.base.widget.ImageDialog
 import com.xtree.base.widget.LoadingDialog
 import com.xtree.base.widget.MsgDialog
 import com.xtree.base.widget.TipDialog
@@ -82,7 +83,7 @@ class BindAlipayWechatFragment : BaseFragment<FragmentBindAwBinding, BindCardVie
                     }
                     binding2.ivCode.setOnClickListener {
                         XPopup.Builder(context)
-                            .asCustom(AWCodeDialog(requireContext(), DomainUtil.getH5Domain2() + vo.qrcode_url))
+                            .asCustom(ImageDialog(requireContext(), DomainUtil.getH5Domain2() + vo.qrcode_url,needToken = true))
                             .show()
                     }
                 }
