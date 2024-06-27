@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
@@ -23,6 +24,7 @@ import com.xtree.mine.vo.CookieVo;
 import com.xtree.mine.vo.LoginResultVo;
 import com.xtree.mine.vo.UserUsdtJumpVo;
 import com.xtree.mine.vo.VerificationCodeVo;
+import com.xtree.mine.vo.VerifyErrorVo;
 import com.xtree.mine.vo.VerifyVo;
 
 import java.util.Map;
@@ -44,6 +46,7 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
     //public MutableLiveData<VerificationCodeVo> liveDataCode2 = new MutableLiveData<>(); // 发送验证码 修改登录密码用
     //public MutableLiveData<VerificationCodeVo> liveDataCode3 = new MutableLiveData<>(); // 发送验证码 验证其它业务用
     public MutableLiveData<VerifyVo> liveDataSingleVerify1 = new MutableLiveData<>(); // 验证验证码(首次绑定用)
+    public MutableLiveData<VerifyErrorVo> verifyErrorData = new MutableLiveData<VerifyErrorVo>();//验证码错误(首次绑定使用)
     public MutableLiveData<VerifyVo> liveDataSingleVerify2 = new MutableLiveData<>(); // 验证验证码(修改密码)
     public MutableLiveData<VerifyVo> liveDataSingleVerify3 = new MutableLiveData<>(); // 验证验证码(验证用)
 
@@ -228,14 +231,19 @@ public class VerifyViewModel extends BaseViewModel<MineRepository> {
 
                     @Override
                     public void onError(Throwable t) {
-                        CfLog.e("error, " + t.toString());
-                        super.onError(t);
+                        CfLog.e("error,liveDataSingleVerify1 " + t.toString());
+                       // super.onError(t);
                     }
 
                     @Override
                     public void onFail(BusinessException t) {
-                        CfLog.e("error, " + t.toString());
+                        CfLog.e("onFail,liveDataSingleVerify1 " + t.toString());
                         super.onFail(t);
+                        if (t.message !=null && !TextUtils.isEmpty(t.message)){
+                            VerifyErrorVo error = new VerifyErrorVo();
+                            error.messgae = t.getMessage();
+                            verifyErrorData.setValue(error);
+                        }
                     }
                 });
         addSubscribe(disposable);
