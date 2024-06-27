@@ -131,7 +131,7 @@ public class TagUtils {
 
         tagAppsFlyer(ctx, event, getMap(key, value));
         tagMixpanel(ctx, event, key, value);
-        tagAppCenter(event, getMap(key, USER_NAME + "：" + value));
+        tagAppCenter(event, getMap(key, value));
         tagAppCenter(event, getMap(key, value));
         tagSentry(event, getMap(key, value));
     }

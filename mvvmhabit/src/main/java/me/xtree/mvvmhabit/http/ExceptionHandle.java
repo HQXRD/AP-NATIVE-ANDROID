@@ -137,7 +137,7 @@ public class ExceptionHandle {
         /**
          * 域名被劫持
          */
-        public static final int HIJACKED_ERROR = 1007;
+        public static final int HIJACKED_ERROR = 1008;
 
     }
 

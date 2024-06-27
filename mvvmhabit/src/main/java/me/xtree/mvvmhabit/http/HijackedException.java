@@ -17,7 +17,8 @@ public class HijackedException extends RuntimeException{
     @Nullable
     @Override
     public String getMessage() {
-        String domain = host.host(); // 被劫持域名
+        String scheme = host.scheme();
+        String domain = scheme + "://" + host.host(); // 被劫持域名
         String api = host.url().getPath(); // 被劫持接口
         return Utils.getContext().getString(R.string.text_hijack_tip, domain, api, responseStr);
     }
@@ -28,5 +29,8 @@ public class HijackedException extends RuntimeException{
      */
     public String getHost() {
         return host.host();
+    }
+    public String getUrl(){
+        return host.toString();
     }
 }
