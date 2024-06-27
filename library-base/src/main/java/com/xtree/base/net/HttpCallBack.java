@@ -131,6 +131,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         //t.printStackTrace();
         if (t instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) t;
+            ToastUtils.showLong(rError.message + " [" + rError.code + "]");
             KLog.e("code: " + rError.code);
             if (rError.code == 403) {
                 AppUtil.goWeb403();

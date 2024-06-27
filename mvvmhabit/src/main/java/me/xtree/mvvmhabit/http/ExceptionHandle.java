@@ -78,7 +78,7 @@ public class ExceptionHandle {
             ex.message = "连接超时";
             // return ex;
         } else if (e instanceof java.net.UnknownHostException) {
-            ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR, true);
+            ex = new ResponseThrowable(e, ERROR.HOST_ERROR, true);
             ex.message = "主机地址未知";
             // return ex;
         } else if (e instanceof NullPointerException) {
@@ -128,6 +128,11 @@ public class ExceptionHandle {
          * 连接超时
          */
         public static final int TIMEOUT_ERROR = 1006;
+
+        /**
+         * 域名解析错误
+         */
+        public static final int HOST_ERROR = 1007;
 
         /**
          * 域名被劫持

@@ -45,7 +45,7 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
         mBinding = MainLayoutTopSpeedDomainBinding.bind(secondaryLayout.getRootView());
         secondaryLayout.setVisibility(View.GONE);
         mBinding.rvAgent.setLayoutManager(new LinearLayoutManager(mContext));
-        ivwIcon.setOnClickListener(v -> {
+        floatView.setOnClickListener(v -> {
             if(secondaryLayout.getVisibility() == VISIBLE){
                 secondaryLayout.setVisibility(GONE);
             }else {
