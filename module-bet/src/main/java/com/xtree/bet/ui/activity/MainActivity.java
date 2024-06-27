@@ -285,31 +285,36 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
             useLinePosition = 0;
             SPUtils.getInstance().put(SPKeyGlobal.KEY_USE_LINE_POSITION + mPlatform, 0);
         }
-        if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
-            if (isAgent) {
-                SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getApiUrl());
+        try {
+            if (TextUtils.equals(mPlatform, PLATFORM_FBXC)) {
+                if (isAgent) {
+                    SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, DomainUtil.getApiUrl());
+                } else {
+                    SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
+                }
+            } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
+                if (isAgent) {
+                    SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getApiUrl());
+                } else {
+                    SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
+                }
+            } else if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
+                if (isAgent) {
+                    SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, DomainUtil.getApiUrl());
+                } else {
+                    SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
+                }
             } else {
-                SPUtils.getInstance().put(SPKeyGlobal.FBXC_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
+                if (isAgent) {
+                    SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getApiUrl());
+                } else {
+                    SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
+                }
             }
-        } else if (TextUtils.equals(mPlatform, PLATFORM_FB)) {
-            if (isAgent) {
-                SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, DomainUtil.getApiUrl());
-            } else {
-                SPUtils.getInstance().put(SPKeyGlobal.FB_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
-            }
-        } else if (TextUtils.equals(mPlatform, PLATFORM_PMXC)) {
-            if (isAgent) {
-                SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, DomainUtil.getApiUrl());
-            } else {
-                SPUtils.getInstance().put(SPKeyGlobal.PMXC_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
-            }
-        } else {
-            if (isAgent) {
-                SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, DomainUtil.getApiUrl());
-            } else {
-                SPUtils.getInstance().put(SPKeyGlobal.PM_API_SERVICE_URL, BtDomainUtil.getDomainUrl().get(useLinePosition));
-            }
+        }catch (IndexOutOfBoundsException e){
+            finish();
         }
+
     }
 
     @Override

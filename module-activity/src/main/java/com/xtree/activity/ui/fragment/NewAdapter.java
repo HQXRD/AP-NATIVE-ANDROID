@@ -63,7 +63,7 @@ public class NewAdapter extends CachedAutoRefreshAdapter<NewVo> {
         TagUtils.tagEvent(ctx, "dc", vo.id);
         String url = getString(vo);
         //new XPopup.Builder(ctx).moveUpToKeyboard(false).asCustom(new BrowserDialog(ctx, vo.title, url, true, true)).show();
-        new XPopup.Builder(ctx).moveUpToKeyboard(false).asCustom(BrowserDialog.newInstance(ctx, url)).show();
+        new XPopup.Builder(ctx).moveUpToKeyboard(false).isViewMode(true).asCustom(BrowserDialog.newInstance(ctx, url)).show();
 
         //Intent it = new Intent(ctx, BrowserActivity.class);
         //it.putExtra("url", url);
@@ -88,7 +88,7 @@ public class NewAdapter extends CachedAutoRefreshAdapter<NewVo> {
         //    url = DomainUtil.getDomain2() + "/webapp/?isNative=1#/turntable/135";
         //} else {
         //url = DomainUtil.getDomain2() + "/webapp/#" + vo.url;
-        url = DomainUtil.getDomain2() + "/webapp/?isNative=1#/activity/" + vo.id; // /webapp/?isNative=1#/activity/245
+        url = DomainUtil.getH5Domain2() + "/webapp/?isNative=1#/activity/" + vo.id; // /webapp/?isNative=1#/activity/245
         //}
         return url;
     }

@@ -14,6 +14,8 @@ import android.webkit.DownloadListener;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -22,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -184,7 +187,7 @@ public class BrowserDialog extends BottomPopupView {
 
         if (isFirstOpenBrowser && !TextUtils.isEmpty(token)) {
             String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
-            url = DomainUtil.getDomain() + "/static/sessionkeeper.html?token=" + token
+            url = DomainUtil.getH5Domain() + "/static/sessionkeeper.html?token=" + token
                     + "&tokenExpires=3600&url=" + urlBase64;
             SPUtils.getInstance().put(SPKeyGlobal.IS_FIRST_OPEN_BROWSER, false);
         }
@@ -308,7 +311,14 @@ public class BrowserDialog extends BottomPopupView {
                 Toast.makeText(getContext(), R.string.network_failed, Toast.LENGTH_SHORT).show();
             }
 
+            @Nullable
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                CfLog.e("访问地址：" + request.getUrl());
+                return super.shouldInterceptRequest(view, request);
+            }
         });
+
 
     }
 

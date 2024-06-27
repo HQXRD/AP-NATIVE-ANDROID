@@ -42,6 +42,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     private int viewModelId;
     private MaterialDialog dialog;
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

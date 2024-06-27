@@ -94,7 +94,7 @@ public class RechargeOrderBankDialog extends BottomPopupView {
             String title = getContext().getString(R.string.txt_rc_help);
             String url = mRechargePayVo.help_url;
             if (!url.startsWith("http")) {
-                url = DomainUtil.getDomain2() + url;
+                url = DomainUtil.getH5Domain2() + url;
             }
             new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
         }

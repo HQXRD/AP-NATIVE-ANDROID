@@ -172,6 +172,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             viewModel.getFBXCGameTokenApi();
             viewModel.getPMGameTokenApi();
             viewModel.getPMXCGameTokenApi();
+            viewModel.getPublicLink(); // 公共弹窗
             //viewModel.getPaymentsTypeList();
         }
     }
@@ -464,7 +465,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             }
             //startContainerFragment(RouterFragmentPath.Mine.PAGER_VIP_UPGRADE);
             //BrowserActivity.start(getContext(), getString(R.string.txt_vip_center), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER, true, false, true);
-            BrowserActivity.start(getContext(), DomainUtil.getDomain2() + Constant.URL_VIP_CENTER);
+            BrowserActivity.start(getContext(), DomainUtil.getH5Domain2() + Constant.URL_VIP_CENTER);
             //new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url, true)).show();
         });
 
@@ -549,7 +550,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
 
     @Override
     public void initData() {
-        viewModel.getPublicLink();
+
     }
 
     private void initFootball() {
@@ -575,7 +576,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         //    //} else if (result.equals("198")) {
         //    //    url = DomainUtil.getDomain2() + "#/newactivity/64/5?aid=198";
         //} else {
-        url = DomainUtil.getDomain2() + Constant.URL_ACTIVITY + result;
+        url = DomainUtil.getH5Domain2() + Constant.URL_ACTIVITY + result;
         //}
         return url;
     }

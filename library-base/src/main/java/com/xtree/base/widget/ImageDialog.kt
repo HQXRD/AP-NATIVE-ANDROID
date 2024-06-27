@@ -48,11 +48,11 @@ class ImageDialog(context: Context, private var url: String, var needToken: Bool
                     .build()
             )
             Glide.with(this)
-                .load(glideUrl).placeholder(R.mipmap.ic_loading).error(R.mipmap.me_icon_name)
+                .load(glideUrl).error(R.mipmap.me_icon_name)
                 .into(binding.ivCode)
         } else {
             Glide.with(this)
-                .load(url).placeholder(R.mipmap.ic_loading).error(R.mipmap.me_icon_name)
+                .load(url).error(R.mipmap.me_icon_name)
                 .into(binding.ivCode)
         }
 

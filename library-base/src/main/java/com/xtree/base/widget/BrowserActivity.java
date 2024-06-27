@@ -1,5 +1,8 @@
 package com.xtree.base.widget;
 
+import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FAILED;
+import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FINISH;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -19,6 +22,8 @@ import android.webkit.DownloadListener;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -26,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
@@ -45,6 +51,12 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.vo.EventVo;
+import com.xtree.weight.TopSpeedDomainFloatingWindows;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -101,10 +113,14 @@ public class BrowserActivity extends AppCompatActivity {
     ValueCallback<Uri> mUploadCallbackBelow;
     ValueCallback<Uri[]> mUploadCallbackAboveL;
 
+    private TopSpeedDomainFloatingWindows mTopSpeedDomainFloatingWindows;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browser);
+
+        EventBus.getDefault().register(this);
 
         initView();
         title = getIntent().getStringExtra(ARG_TITLE);
@@ -172,7 +188,7 @@ public class BrowserActivity extends AppCompatActivity {
 
         if (isFirstOpenBrowser && !TextUtils.isEmpty(token)) {
             String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
-            url = DomainUtil.getDomain() + "/static/sessionkeeper.html?token=" + token
+            url = DomainUtil.getH5Domain() + "/static/sessionkeeper.html?token=" + token
                     + "&tokenExpires=3600&url=" + urlBase64;
             SPUtils.getInstance().put(SPKeyGlobal.IS_FIRST_OPEN_BROWSER, false);
         }
@@ -234,6 +250,9 @@ public class BrowserActivity extends AppCompatActivity {
 
         mWebView.setFitsSystemWindows(true);
         setWebView(mWebView);
+
+        mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(this);
+        mTopSpeedDomainFloatingWindows.show();
 
         // 下载文件
         mWebView.setDownloadListener(new DownloadListener() {
@@ -329,6 +348,13 @@ public class BrowserActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), R.string.network_failed, Toast.LENGTH_SHORT).show();
             }
 
+            @Nullable
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                CfLog.e("访问地址：" + request.getUrl());
+                return super.shouldInterceptRequest(view, request);
+            }
+
         });
 
     }
@@ -351,7 +377,7 @@ public class BrowserActivity extends AppCompatActivity {
         ivwJump.setOnClickListener(v -> {
             //传递token
             String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
-            String jumpUrl = DomainUtil.getDomain2() + "/static/sessionkeeper.html?token=" + token + "&tokenExpires=3600&url=" + urlBase64;
+            String jumpUrl = DomainUtil.getH5Domain2() + "/static/sessionkeeper.html?token=" + token + "&tokenExpires=3600&url=" + urlBase64;
             CfLog.i("jumpUrl: " + jumpUrl);
             // 跳至外部浏览器
             AppUtil.goBrowser(getBaseContext(), jumpUrl);
@@ -607,4 +633,26 @@ public class BrowserActivity extends AppCompatActivity {
         ctx.startActivity(it);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        EventBus.getDefault().unregister(this);
+
+        if (mTopSpeedDomainFloatingWindows != null) {
+            mTopSpeedDomainFloatingWindows.removeView();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventVo event) {
+        switch (event.getEvent()) {
+            case EVENT_TOP_SPEED_FINISH:
+                mTopSpeedDomainFloatingWindows.refresh();
+                break;
+            case EVENT_TOP_SPEED_FAILED:
+                mTopSpeedDomainFloatingWindows.onError();
+                break;
+        }
+    }
 }

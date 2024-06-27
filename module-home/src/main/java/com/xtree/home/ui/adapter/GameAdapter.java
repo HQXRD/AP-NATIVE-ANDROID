@@ -299,9 +299,9 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         } else {
             // 拼装URL
             if (vo.id.equals("601")) {
-                playGame(DomainUtil.getDomain() + vo.playURL, vo.name, vo.id.equals("601"));
+                playGame(DomainUtil.getH5Domain() + vo.playURL, vo.name, vo.id.equals("601"));
             } else {
-                playGame(DomainUtil.getDomain() + vo.playURL, vo.name);
+                playGame(DomainUtil.getH5Domain() + vo.playURL, vo.name);
             }
         }
     }

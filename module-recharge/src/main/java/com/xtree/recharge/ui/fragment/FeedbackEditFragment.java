@@ -808,7 +808,7 @@ public class FeedbackEditFragment extends BaseFragment<FragmentFeedbackEditBindi
     }
 
     private void loadImage(String imageDownUrl) {
-        String imageDownUrls = DomainUtil.getDomain2() + imageDownUrl; //图片地址
+        String imageDownUrls = DomainUtil.getH5Domain2() + imageDownUrl; //图片地址
         CfLog.i("imageDownUrls ==" + imageDownUrls);
 
         String cookie = "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_COOKIE_NAME) + "=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID) + ";";
