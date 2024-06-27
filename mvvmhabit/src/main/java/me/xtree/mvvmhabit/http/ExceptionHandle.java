@@ -1,9 +1,9 @@
 package me.xtree.mvvmhabit.http;
 
-import android.net.ParseException;
-
 import com.google.gson.JsonParseException;
 import com.google.gson.stream.MalformedJsonException;
+
+import android.net.ParseException;
 
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
@@ -133,11 +133,11 @@ public class ExceptionHandle {
          * 域名解析错误
          */
         public static final int HOST_ERROR = 1007;
-        
+
         /**
          * 域名被劫持
          */
-        public static final int HIJACKED_ERROR = 1007;
+        public static final int HIJACKED_ERROR = 1008;
 
     }
 
