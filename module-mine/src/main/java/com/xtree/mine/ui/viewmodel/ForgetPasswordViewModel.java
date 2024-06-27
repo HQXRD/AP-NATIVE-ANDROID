@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.viewmodel;
 
 import android.app.Application;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -62,95 +63,112 @@ public class ForgetPasswordViewModel extends BaseViewModel<MineRepository> {
     }
 
     public void sendMessage(String sendType) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("flag", "sendmessage");
-        map.put("username", mUsername);
-        map.put("smstype", "11");
-        map.put("sendtype", sendType);
-        map.put("nonce", UuidUtil.getID16());
+        //传入的 username字段 要求不可为空，且长度大于3
+        if (mUsername != null && !TextUtils.isEmpty(mUsername) && mUsername.length() > 2) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("flag", "sendmessage");
+            map.put("username", mUsername);
+            map.put("smstype", "11");
+            map.put("sendtype", sendType);
+            map.put("nonce", UuidUtil.getID16());
 
-        mSendtype = sendType;
+            mSendtype = sendType;
 
-        Disposable disposable = (Disposable) model.getApiService().getForgetPasswordOTP(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<ForgetPasswordTimeoutVo>() {
-                    @Override
-                    public void onResult(ForgetPasswordTimeoutVo vo) {
-                        CfLog.i(vo.toString());
-                        liveDataCheckSendMessageSuccess.setValue(vo.timeoutsec);
-                    }
+            Disposable disposable = (Disposable) model.getApiService().getForgetPasswordOTP(map)
+                    .compose(RxUtils.schedulersTransformer()) //线程调度
+                    .compose(RxUtils.exceptionTransformer())
+                    .subscribeWith(new HttpCallBack<ForgetPasswordTimeoutVo>() {
+                        @Override
+                        public void onResult(ForgetPasswordTimeoutVo vo) {
+                            CfLog.i(vo.toString());
+                            liveDataCheckSendMessageSuccess.setValue(vo.timeoutsec);
+                        }
 
-                    @Override
-                    public void onError(Throwable t) {
-                        CfLog.e("error, " + t.toString());
-                        super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);
+                        @Override
+                        public void onError(Throwable t) {
+                            CfLog.e("error, " + t.toString());
+                            super.onError(t);
+                        }
+                    });
+            addSubscribe(disposable);
+        } else {
+            CfLog.e("*******************mUsername is NULL *******************");
+        }
+
     }
 
     public void sendMessageVerfyCode(String smsCode, String sendType) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("flag", "verifycode");
-        map.put("username", mUsername);
-        map.put("smscode", smsCode);
-        map.put("smstype", "11");
-        map.put("sendtype", sendType);
-        map.put("nonce", UuidUtil.getID16());
+        //传入的 username字段 要求不可为空，且长度大于3
+        if (mUsername != null && !TextUtils.isEmpty(mUsername) && mUsername.length() > 2) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("flag", "verifycode");
+            map.put("username", mUsername);
+            map.put("smscode", smsCode);
+            map.put("smstype", "11");
+            map.put("sendtype", sendType);
+            map.put("nonce", UuidUtil.getID16());
 
-        mSendtype = sendType;
+            mSendtype = sendType;
 
-        Disposable disposable = (Disposable) model.getApiService().getUserTokenApi(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<ForgetPasswordVerifyVo>() {
-                    @Override
-                    public void onResult(ForgetPasswordVerifyVo vo) {
-                        CfLog.i(vo.toString());
-                        mToken = vo.token;
-                        liveDataToken.setValue(true);
-                    }
+            Disposable disposable = (Disposable) model.getApiService().getUserTokenApi(map)
+                    .compose(RxUtils.schedulersTransformer()) //线程调度
+                    .compose(RxUtils.exceptionTransformer())
+                    .subscribeWith(new HttpCallBack<ForgetPasswordVerifyVo>() {
+                        @Override
+                        public void onResult(ForgetPasswordVerifyVo vo) {
+                            CfLog.i(vo.toString());
+                            mToken = vo.token;
+                            liveDataToken.setValue(true);
+                        }
 
-                    @Override
-                    public void onError(Throwable t) {
-                        CfLog.e("error, " + t.toString());
-                        super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);
+                        @Override
+                        public void onError(Throwable t) {
+                            CfLog.e("error, " + t.toString());
+                            super.onError(t);
+                        }
+                    });
+            addSubscribe(disposable);
+        } else {
+            CfLog.e("*******************mUsername is NULL *******************");
+        }
+
     }
 
     public void sendChangePasswordSuccessful(String password) {
         String public_key = SPUtils.getInstance().getString("public_key", "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDW+Gv8Xmk+EdTLQUU5fEAzhlVuFrI7GN4a8N\\/B0Oe63ORK8oBE1pK+t5U5Iz89K4zf7nX+tqQvzND5Z57NMwyqTYYb3TMbrKgjqF1K2YW08OaubjpdohMnDIibmPXNtrbRZpOf2xIaApR+wpqGS+Xw0LzKA8JPYDOPO4lseAtqVwIDAQAB");
+        //传入的 username字段 要求不可为空，且长度大于3
+        if (mUsername != null && !TextUtils.isEmpty(mUsername) && mUsername.length() > 2) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("flag", "changepassword");
+            map.put("username", mUsername);
+            map.put("sendtype", mSendtype);
+            map.put("token", mToken);
+            map.put("newpass", RSAEncrypt.encrypt2(password, public_key));
+            map.put("nonce", UuidUtil.getID16());
 
-        HashMap<String, String> map = new HashMap<>();
-        map.put("flag", "changepassword");
-        map.put("username", mUsername);
-        map.put("sendtype", mSendtype);
-        map.put("token", mToken);
-        map.put("newpass", RSAEncrypt.encrypt2(password, public_key));
-        map.put("nonce", UuidUtil.getID16());
+            Disposable disposable = (Disposable) model.getApiService().getChangePasswordResult(map)
+                    .compose(RxUtils.schedulersTransformer()) //线程调度
+                    .compose(RxUtils.exceptionTransformer())
+                    .subscribeWith(new HttpCallBack<Object>() {
+                        @Override
+                        public void onResult(Object vo) {
+                            CfLog.i(vo.toString());
+                            liveDataCheckPasswordSuccess.setValue(true);
+                            mUsername = "";
+                            mSendtype = "";
+                            mToken = "";
+                        }
 
-        Disposable disposable = (Disposable) model.getApiService().getChangePasswordResult(map)
-                .compose(RxUtils.schedulersTransformer()) //线程调度
-                .compose(RxUtils.exceptionTransformer())
-                .subscribeWith(new HttpCallBack<Object>() {
-                    @Override
-                    public void onResult(Object vo) {
-                        CfLog.i(vo.toString());
-                        liveDataCheckPasswordSuccess.setValue(true);
-                        mUsername = "";
-                        mSendtype = "";
-                        mToken = "";
-                    }
+                        @Override
+                        public void onError(Throwable t) {
+                            CfLog.e("error, " + t.toString());
+                            super.onError(t);
+                        }
+                    });
+            addSubscribe(disposable);
+        } else {
+            CfLog.e("*******************mUsername is NULL *******************");
+        }
 
-                    @Override
-                    public void onError(Throwable t) {
-                        CfLog.e("error, " + t.toString());
-                        super.onError(t);
-                    }
-                });
-        addSubscribe(disposable);
     }
 }

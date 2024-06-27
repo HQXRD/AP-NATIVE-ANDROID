@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,8 +93,12 @@ public class ForgetPasswordFragment extends BaseFragment<FragmentForgetPasswordB
             if (mIsClickable) {
                 CfLog.d("getForgetUserInfo");
                 mUsername = binding.llCheckUsername.edtResetPasswordUsername.getText().toString();
-                viewModel.getForgetUserInfo(mUsername);
-                mIsClickable = false;
+                if (mUsername !=null && !TextUtils.isEmpty(mUsername) && mUsername.length() >2){
+                    viewModel.getForgetUserInfo(mUsername);
+                    mIsClickable = false;
+                }else{
+                    CfLog.e("*******************mUsername is NULL *******************");
+                }
             }
         });
 
