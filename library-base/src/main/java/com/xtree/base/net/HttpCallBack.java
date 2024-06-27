@@ -1,5 +1,7 @@
 package com.xtree.base.net;
 
+import static me.xtree.mvvmhabit.http.ExceptionHandle.ERROR.HIJACKED_ERROR;
+
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
@@ -7,12 +9,14 @@ import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.ChangeApiLineUtil;
 import com.xtree.base.utils.DomainUtil;
+import com.xtree.base.utils.SpeedApiLine;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.LoadingDialog;
 
 import io.reactivex.subscribers.DisposableSubscriber;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.BusinessException;
+import me.xtree.mvvmhabit.http.HijackedException;
 import me.xtree.mvvmhabit.http.ResponseThrowable;
 import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.SPUtils;
@@ -115,11 +119,6 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 // 谷歌验证
                 onFail(ex);
                 break;
-            case HttpCallBack.CodeRule.CODE_100002:
-                TagUtils.tagEvent(Utils.getContext(), "API 测速失败", DomainUtil.getApiUrl());
-                ToastUtils.showShort("当前网络环境异常，切换线路中..."); // ("域名被劫持"  + "，切换线路中...");
-                ChangeApiLineUtil.getInstance().start();
-                break;
             default:
                 KLog.e("status is not normal: " + baseResponse);
                 onFail(ex);
@@ -134,15 +133,25 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
         //t.printStackTrace();
         if (t instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) t;
-            ToastUtils.showLong(rError.message + " [" + rError.code + "]");
             KLog.e("code: " + rError.code);
             if (rError.code == 403) {
                 AppUtil.goWeb403();
-            } else {
-                CfLog.e("无法访问：" + rError.getMessage());
-                TagUtils.tagEvent(Utils.getContext(), "API 测速失败", DomainUtil.getApiUrl());
-                ToastUtils.showShort("无法访问：" + rError.getMessage() + "，切换线路中...");
-                ChangeApiLineUtil.getInstance().start();
+            } else if(rError.code == HIJACKED_ERROR){
+                TagUtils.tagEvent(Utils.getContext(), "event_hijacked", t.getMessage());
+                TagUtils.tagEvent(Utils.getContext(), "event_change_api_line_start", " [" + rError.code + "]域名被劫持，切换线路开始...");
+                if(!SpeedApiLine.INSTANCE.isRunning()) {
+                    ToastUtils.showShort("当前网络环境异常" + " [" + rError.code + "]，切换线路中..."); // ("域名被劫持"  + "，切换线路中...");
+                    SpeedApiLine.INSTANCE.addHijeckedDomainList(((HijackedException) t.getCause()).getHost());
+                }
+                SpeedApiLine.INSTANCE.start();
+            } else{
+                TagUtils.tagEvent(Utils.getContext(), "event_network_error", DomainUtil.getApiUrl() + "：" + t.getMessage());
+                TagUtils.tagEvent(Utils.getContext(), "event_change_api_line_start", " [" + rError.code + "]域名无法访问，切换线路开始...");
+                if(!SpeedApiLine.INSTANCE.isRunning()) {
+                    ToastUtils.showShort("当前网络环境异常" + " [" + rError.code + "]，切换线路中...");
+                    SpeedApiLine.INSTANCE.addHijeckedDomainList(DomainUtil.getApiUrl());
+                }
+                SpeedApiLine.INSTANCE.start();
             }
             return;
         } else if (t instanceof BusinessException) {

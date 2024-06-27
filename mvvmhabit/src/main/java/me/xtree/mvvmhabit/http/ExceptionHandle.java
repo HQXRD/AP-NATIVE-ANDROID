@@ -85,6 +85,10 @@ public class ExceptionHandle {
             ex = new ResponseThrowable(e, ERROR.TIMEOUT_ERROR, true);
             ex.message = "主机地址未知";
             // return ex;
+        } else if (e instanceof HijackedException) {
+            ex = new ResponseThrowable(e, ERROR.HIJACKED_ERROR, true);
+            ex.message = e.getMessage();
+            return ex;
         } else {
             ex = new ResponseThrowable(e, ERROR.UNKNOWN);
             ex.message = "未知错误";
@@ -129,6 +133,12 @@ public class ExceptionHandle {
          * 域名解析错误
          */
         public static final int HOST_ERROR = 1007;
+        
+        /**
+         * 域名被劫持
+         */
+        public static final int HIJACKED_ERROR = 1007;
+
     }
 
 }

@@ -1,18 +1,19 @@
 package com.xtree.base.utils
 
-import android.content.Intent
 import com.alibaba.android.arouter.utils.TextUtils
 import com.drake.net.Get
 import com.drake.net.tag.RESPONSE
 import com.drake.net.transform.transform
 import com.drake.net.utils.fastest
+import com.drake.net.utils.runMain
 import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
 import com.xtree.base.R
 import com.xtree.base.vo.Domain
 import com.xtree.base.vo.EventVo
 import com.xtree.base.vo.TopSpeedDomain
-import me.xtree.mvvmhabit.base.AppManager
+import me.xtree.mvvmhabit.http.NetworkUtil
+import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
 import org.greenrobot.eventbus.EventBus
 import java.util.concurrent.CancellationException
@@ -41,8 +42,13 @@ class FastestTopDomainUtil private constructor() {
     }
 
     fun start() {
+        if(!NetworkUtil.isNetworkAvailable(Utils.getContext())){
+            runMain { ToastUtils.showShort("网络不可用，请检查您的手机网络是否开启") }
+            EventBus.getDefault().post(EventVo(EventConstant.EVENT_TOP_SPEED_FAILED, ""))
+            return
+        }
         if(mIsFinish) {
-            CfLog.e("=====开始切换线路========")
+            CfLog.e("=====开始线路测速========")
             mIsFinish = false
             index = 0
             mCurApiDomainList.clear()
@@ -135,10 +141,11 @@ class FastestTopDomainUtil private constructor() {
      * @param needClear 是否删除清除本地预埋的竞速地址
      */
     private fun getThirdFastestDomain(needClear: Boolean) {
+        if (needClear) {
+            mCurApiDomainList.clear()
+        }
         if (index < mThirdDomainList.size && !TextUtils.isEmpty(mThirdDomainList[index])) {
-            if (needClear) {
-                mCurApiDomainList.clear()
-            }
+
             scopeNet {
                 val data = Get<String>(
                     mThirdDomainList[index],
