@@ -37,7 +37,9 @@
             android:inputType="textEmailAddress"
             android:maxLength="60" />
 
-        <View style="@style/style_dividing_line" />
+        <View
+            android:id="@+id/edt_num_line"
+            style="@style/style_dividing_line" />
 
         <TextView
             android:id="@+id/tvw_tip_hint"
@@ -90,7 +92,9 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View style="@style/style_dividing_line" />
+        <View
+            android:id="@+id/edt_code_line"
+            style="@style/style_dividing_line" />
 
         <TextView
             android:id="@+id/tvw_tip_warn2"

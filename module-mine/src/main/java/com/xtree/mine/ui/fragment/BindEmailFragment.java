@@ -1,6 +1,7 @@
 package com.xtree.mine.ui.fragment;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -45,6 +46,9 @@ import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.utils.SPUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
+/**
+ * 绑定邮箱
+ */
 @Route(path = RouterFragmentPath.Mine.PAGER_BIND_EMAIL)
 public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, VerifyViewModel> {
 
@@ -206,6 +210,149 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
     public void onDestroy() {
         mHandler.removeMessages(MSG_TIMER);
         super.onDestroy();
+    }
+
+    public void initViewObservable() {
+        viewModel.liveDataCode.observe(this, vo -> {
+            CfLog.i("***********");
+            ToastUtils.showLong(R.string.txt_already_send_code_succ);
+            binding.tvwCode.setEnabled(false);
+            binding.tvwCode.setText(vo.timeoutsec + "s");
+            mHandler.sendEmptyMessageDelayed(MSG_TIMER, 1000L);
+
+        });
+        viewModel.liveDataCodeFail.observe(this, vo -> {
+            CfLog.i("***********");
+            ToastUtils.showLong(R.string.txt_enter_code_error);
+            binding.tvwCode.setEnabled(true);
+            if (!binding.edtNum.getText().toString().contains("*")) {
+                binding.edtNum.setEnabled(true);
+            }
+
+        });
+        viewModel.liveDataSingleVerify1.observe(this, vo -> {
+            CfLog.i("*********** 绑定成功，返回上页");
+            //mVerifyVo= vo;
+            TagUtils.logEvent(getContext(), "bindEmail");
+            ToastUtils.showLong(R.string.txt_bind_email_succ);
+            //getActivity().finish();
+            viewModel.getProfile2();
+
+            // 绑定完成后,去办理其它业务
+            if (!TextUtils.isEmpty(typeName2) && vo != null && !TextUtils.isEmpty(vo.mark) && !TextUtils.isEmpty(vo.tokenSign)) {
+                CfLog.i("*********** goOthers: " + typeName2);
+                viewModel.goOthers(getActivity(), typeName2, vo);
+            }
+        });
+        //验证码验证异常
+        viewModel.verifyErrorData.observe(this,vo->{
+            ToastUtils.showLong(R.string.txt_verify_error_code);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.edtCodeLine.setBackgroundColor(getContext().getColor(R.color.red));
+                binding.edtCode.setTextColor(getContext().getColor(R.color.red));
+            }
+        });
+        viewModel.liveDataSingleVerify2.observe(this, vo -> {
+            CfLog.i("*********** 验证成功, 去修改密码");
+            mVerifyVo = vo;
+            ToastUtils.showLong(R.string.txt_verify_succ);
+            // 去修改密码
+            viewModel.goOthers(getActivity(), typeName, vo);
+            getActivity().finish();
+        });
+        viewModel.liveDataSingleVerify3.observe(this, vo -> {
+            CfLog.i("*********** 验证成功, 去其它业务");
+            mVerifyVo = vo;
+            ToastUtils.showLong(R.string.txt_verify_succ);
+            // 去其它业务 (绑U,绑YHK等)
+            if (TextUtils.isEmpty(typeName2)) {
+                viewModel.goOthers(getActivity(), typeName, vo); // 验证
+            } else {
+                viewModel.goOthers(getActivity(), typeName2, vo); // 验证(绑定)
+            }
+
+            getActivity().finish();
+        });
+
+        viewModel.liveDataUpdateVerify1.observe(this, vo -> {
+            CfLog.i("***********");
+            alreadySendCode(vo);
+        });
+        viewModel.liveDataUpdateVerify2.observe(this, verifyVo -> {
+            mVerifyVo = verifyVo;
+            typeName = Constant.UPDATE_EMAIL2;
+
+            mHandler.removeMessages(MSG_TIMER);
+            binding.tvwCode.setText(R.string.txt_get_code);
+            binding.tvwCode.setEnabled(true);
+
+            binding.tvwTitle.setText(R.string.txt_enter_new_email);
+            binding.edtNum.setEnabled(true);
+            binding.edtNum.setText("");
+            binding.edtCode.setText("");
+            binding.tvwTipWarn2.setVisibility(View.INVISIBLE);
+            binding.edtNum.performClick();
+
+        });
+        viewModel.liveDataUpdateVerify3.observe(this, vo -> {
+            CfLog.i("***********");
+            alreadySendCode(vo);
+        });
+        viewModel.liveDataUpdateVerify4.observe(this, verifyVo -> {
+            ToastUtils.showLong(R.string.txt_change_succ);
+            //getActivity().finish();
+            viewModel.getProfile2();
+        });
+        viewModel.liveDataBindVerify1.observe(this, vo -> {
+            CfLog.i("***********");
+            alreadySendCode(vo);
+        });
+        viewModel.liveDataBindVerify2.observe(this, vo -> {
+            CfLog.i("*********** 验证成功, 跳去修改 手机 " + vo.toString());
+            String type = Constant.VERIFY_BIND_PHONE2; // 另一验证绑自己
+            Bundle bundle = new Bundle();
+            bundle.putString("type", type);
+            bundle.putString("tokenSign", vo.tokenSign);
+            startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
+            getActivity().finish();
+        });
+        viewModel.liveDataBindVerify3.observe(this, vo -> {
+            CfLog.i("***********");
+            alreadySendCode(vo);
+        });
+        viewModel.liveDataBindVerify4.observe(this, verifyVo -> {
+            CfLog.i("*********** 修改/绑定成功, ");
+            //getActivity().finish();
+            TagUtils.logEvent(getContext(), "bindEmail");
+            viewModel.getProfile2();
+        });
+        viewModel.liveDataLogin.observe(this, vo -> {
+            CfLog.i("*********** 登录-验证成功...");
+
+            if (vo.twofa_required == 0) {
+                //viewModel.setLoginSucc(vo);
+                goMain();
+
+            } else if (vo.twofa_required == 1) {
+                CfLog.i("*********** 去谷歌验证...");
+                GoogleAuthDialog dialog = new GoogleAuthDialog(getContext(), this, () -> {
+                    viewModel.setLoginSucc(vo);
+                    goMain();
+                });
+                new XPopup.Builder(getContext())
+                        .dismissOnBackPressed(false)
+                        .dismissOnTouchOutside(false)
+                        .asCustom(dialog)
+                        .show();
+            }
+
+        });
+
+        viewModel.liveDataProfile2.observe(this, ov -> {
+            CfLog.i("*********** 获取个人信息成功, ");
+            getActivity().finish();
+        });
+
     }
 
     /**
@@ -387,138 +534,7 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
 
     }
 
-    public void initViewObservable() {
-        viewModel.liveDataCode.observe(this, vo -> {
-            CfLog.i("***********");
-            ToastUtils.showLong(R.string.txt_already_send_code);
-            binding.tvwCode.setEnabled(false);
-            binding.tvwCode.setText(vo.timeoutsec + "s");
-            mHandler.sendEmptyMessageDelayed(MSG_TIMER, 1000L);
 
-        });
-        viewModel.liveDataCodeFail.observe(this, vo -> {
-            CfLog.i("***********");
-            binding.tvwCode.setEnabled(true);
-            if (!binding.edtNum.getText().toString().contains("*")) {
-                binding.edtNum.setEnabled(true);
-            }
-        });
-        viewModel.liveDataSingleVerify1.observe(this, vo -> {
-            CfLog.i("*********** 绑定成功，返回上页");
-            //mVerifyVo= vo;
-            TagUtils.logEvent(getContext(), "bindEmail");
-            ToastUtils.showLong(R.string.txt_bind_succ);
-            //getActivity().finish();
-            viewModel.getProfile2();
-
-            // 绑定完成后,去办理其它业务
-            if (!TextUtils.isEmpty(typeName2) && vo != null && !TextUtils.isEmpty(vo.mark) && !TextUtils.isEmpty(vo.tokenSign)) {
-                CfLog.i("*********** goOthers: " + typeName2);
-                viewModel.goOthers(getActivity(), typeName2, vo);
-            }
-        });
-        viewModel.liveDataSingleVerify2.observe(this, vo -> {
-            CfLog.i("*********** 验证成功, 去修改密码");
-            mVerifyVo = vo;
-            ToastUtils.showLong(R.string.txt_verify_succ);
-            // 去修改密码
-            viewModel.goOthers(getActivity(), typeName, vo);
-            getActivity().finish();
-        });
-        viewModel.liveDataSingleVerify3.observe(this, vo -> {
-            CfLog.i("*********** 验证成功, 去其它业务");
-            mVerifyVo = vo;
-            ToastUtils.showLong(R.string.txt_verify_succ);
-            // 去其它业务 (绑U,绑YHK等)
-            if (TextUtils.isEmpty(typeName2)) {
-                viewModel.goOthers(getActivity(), typeName, vo); // 验证
-            } else {
-                viewModel.goOthers(getActivity(), typeName2, vo); // 验证(绑定)
-            }
-
-            getActivity().finish();
-        });
-
-        viewModel.liveDataUpdateVerify1.observe(this, vo -> {
-            CfLog.i("***********");
-            alreadySendCode(vo);
-        });
-        viewModel.liveDataUpdateVerify2.observe(this, verifyVo -> {
-            mVerifyVo = verifyVo;
-            typeName = Constant.UPDATE_EMAIL2;
-
-            mHandler.removeMessages(MSG_TIMER);
-            binding.tvwCode.setText(R.string.txt_get_code);
-            binding.tvwCode.setEnabled(true);
-
-            binding.tvwTitle.setText(R.string.txt_enter_new_email);
-            binding.edtNum.setEnabled(true);
-            binding.edtNum.setText("");
-            binding.edtCode.setText("");
-            binding.tvwTipWarn2.setVisibility(View.INVISIBLE);
-            binding.edtNum.performClick();
-
-        });
-        viewModel.liveDataUpdateVerify3.observe(this, vo -> {
-            CfLog.i("***********");
-            alreadySendCode(vo);
-        });
-        viewModel.liveDataUpdateVerify4.observe(this, verifyVo -> {
-            ToastUtils.showLong(R.string.txt_change_succ);
-            //getActivity().finish();
-            viewModel.getProfile2();
-        });
-        viewModel.liveDataBindVerify1.observe(this, vo -> {
-            CfLog.i("***********");
-            alreadySendCode(vo);
-        });
-        viewModel.liveDataBindVerify2.observe(this, vo -> {
-            CfLog.i("*********** 验证成功, 跳去修改 手机 " + vo.toString());
-            String type = Constant.VERIFY_BIND_PHONE2; // 另一验证绑自己
-            Bundle bundle = new Bundle();
-            bundle.putString("type", type);
-            bundle.putString("tokenSign", vo.tokenSign);
-            startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
-            getActivity().finish();
-        });
-        viewModel.liveDataBindVerify3.observe(this, vo -> {
-            CfLog.i("***********");
-            alreadySendCode(vo);
-        });
-        viewModel.liveDataBindVerify4.observe(this, verifyVo -> {
-            CfLog.i("*********** 修改/绑定成功, ");
-            //getActivity().finish();
-            TagUtils.logEvent(getContext(), "bindEmail");
-            viewModel.getProfile2();
-        });
-        viewModel.liveDataLogin.observe(this, vo -> {
-            CfLog.i("*********** 登录-验证成功...");
-
-            if (vo.twofa_required == 0) {
-                //viewModel.setLoginSucc(vo);
-                goMain();
-
-            } else if (vo.twofa_required == 1) {
-                CfLog.i("*********** 去谷歌验证...");
-                GoogleAuthDialog dialog = new GoogleAuthDialog(getContext(), this, () -> {
-                    viewModel.setLoginSucc(vo);
-                    goMain();
-                });
-                new XPopup.Builder(getContext())
-                        .dismissOnBackPressed(false)
-                        .dismissOnTouchOutside(false)
-                        .asCustom(dialog)
-                        .show();
-            }
-
-        });
-
-        viewModel.liveDataProfile2.observe(this, ov -> {
-            CfLog.i("*********** 获取个人信息成功, ");
-            getActivity().finish();
-        });
-
-    }
 
     private void goMain() {
         ARouter.getInstance().build(RouterActivityPath.Main.PAGER_MAIN)
@@ -540,14 +556,26 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
             binding.tvwCode.setEnabled(true);
             binding.tvwTipHint.setVisibility(View.VISIBLE);
             binding.tvwTipWarn.setVisibility(View.GONE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.edtNumLine.setBackgroundColor(getContext().getColor(R.color.clr_grey_080));
+                binding.edtNum.setTextColor(getContext().getColor(R.color.clr_grey_80));
+            }
         } else {
             binding.tvwCode.setEnabled(false);
             if (num.isEmpty()) {
                 binding.tvwTipHint.setVisibility(View.VISIBLE);
                 binding.tvwTipWarn.setVisibility(View.GONE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    binding.edtNumLine.setBackgroundColor(getContext().getColor(R.color.clr_grey_080));
+                    binding.edtNum.setTextColor(getContext().getColor(R.color.clr_grey_80));
+                }
             } else {
                 binding.tvwTipHint.setVisibility(View.GONE);
                 binding.tvwTipWarn.setVisibility(View.VISIBLE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    binding.edtNumLine.setBackgroundColor(getContext().getColor(R.color.red));
+                    binding.edtNum.setTextColor(getContext().getColor(R.color.red));
+                }
             }
         }
     }
@@ -556,10 +584,18 @@ public class BindEmailFragment extends BaseFragment<FragmentBindEmailBinding, Ve
         String code = binding.edtCode.getText().toString().trim();
         if (code.length() == 6) {
             binding.tvwTipWarn2.setVisibility(View.INVISIBLE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                binding.edtCodeLine.setBackgroundColor(getContext().getColor(R.color.clr_grey_080));
+                binding.edtCode.setTextColor(getContext().getColor(R.color.clr_grey_80));
+            }
         } else {
             binding.tvwTipWarn2.setVisibility(View.VISIBLE);
             if (code.isEmpty()) {
                 binding.tvwTipWarn2.setText(R.string.txt_enter_code_cannot_empty);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    binding.edtCodeLine.setBackgroundColor(getContext().getColor(R.color.clr_grey_080));
+                    binding.edtCode.setTextColor(getContext().getColor(R.color.red));
+                }
             } else {
                 binding.tvwTipWarn2.setText(R.string.txt_enter_code_6);
             }
