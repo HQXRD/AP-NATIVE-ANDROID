@@ -478,7 +478,7 @@ public final class ToastUtils {
                     imageView.setBackgroundResource(R.drawable.ic_toast_success);
                     break;
                 case Default:
-                    imageView.setBackgroundResource(R.drawable.ic_info);
+                    //imageView.setBackgroundResource(R.drawable.ic_info);
                     break;
             }
 

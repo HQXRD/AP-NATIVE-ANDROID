@@ -385,4 +385,6 @@
     <color name="clr_flow_item_stroke">#87C6C5C7</color>
     <color name="clr_awards_bt_start">#CF5A38</color>
     <color name="clr_awards_bt_end">#95352E</color>
+    <!-- Toast背景颜色 -->
+    <color name="clr_toast_black">#B3000000</color>
 </resources>
