@@ -9,7 +9,6 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.MutableLiveData;
 
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
@@ -43,7 +42,7 @@ import me.xtree.mvvmhabit.utils.Utils;
 public class BaseBtViewModel extends BaseViewModel<BetRepository> {
     public SingleLiveData<String> userBalanceData = new SingleLiveData<>();
     public SingleLiveData<Void> tokenInvalidEvent = new SingleLiveData<>();
-    public MutableLiveData<Map> liveDataPlayUrl = new MutableLiveData<>();
+    public SingleLiveData<Map> liveDataPlayUrl = new SingleLiveData<>();
     public BaseBtViewModel(@NonNull Application application, BetRepository model) {
         super(application, model);
     }
