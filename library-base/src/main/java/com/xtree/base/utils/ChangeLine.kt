@@ -151,7 +151,11 @@ abstract class ChangeLine {
                 .transform { data ->
                     CfLog.i("$host")
                     CfLog.e("当前域名：api------$host---")
-                    DomainUtil.setApiUrl(host)
+                    if(mIsApi) {
+                        DomainUtil.setApiUrl(host)
+                    }else{
+                        DomainUtil.setH5Url(host)
+                    }
                     onSuccessed()
                     mIsRunning = false
                     data

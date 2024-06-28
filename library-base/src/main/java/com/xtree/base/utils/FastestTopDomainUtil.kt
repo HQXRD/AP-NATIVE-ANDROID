@@ -47,7 +47,7 @@ class FastestTopDomainUtil private constructor() {
             EventBus.getDefault().post(EventVo(EventConstant.EVENT_TOP_SPEED_FAILED, ""))
             return
         }
-        //if(mIsFinish) {
+        if(mIsFinish) {
             CfLog.e("=====开始线路测速========")
             mIsFinish = false
             index = 0
@@ -57,7 +57,7 @@ class FastestTopDomainUtil private constructor() {
             mTopSpeedDomainList.clear()
             setThirdFasterDomain()
             setFasterApiDomain()
-        //}
+        }
     }
 
     fun isFinish(): Boolean {
