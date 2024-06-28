@@ -321,18 +321,8 @@ public class GameAdapter extends CachedAutoRefreshAdapter<GameVo> {
         }
 
         if (TextUtils.isEmpty(cgToken) || !BtDomainUtil.hasDefaultLine(vo.alias)) {
-            if (time < 3) {
-                ToastUtils.showShort("场馆初始化中，请稍候...");
-                time++;
-            } else {
-                ToastUtils.showShort("场馆初始化失败，即将重启应用，请保证手机网络通畅");
-                binding.getRoot().postDelayed(() -> {
-                    AppManager.getAppManager().AppExit();
-                    ARouter.getInstance().build(RouterActivityPath.Main.PAGER_SPLASH).
-                            withString("KEY_PLATFORM", vo.alias).navigation();
-                }, 2000);
-
-            }
+            CfLog.e("无法获取到场馆地址");
+            mCallBack.onClick(vo);
         } else {
             ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
                     withString("KEY_PLATFORM", vo.alias).navigation();
