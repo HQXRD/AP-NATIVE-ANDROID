@@ -1,6 +1,5 @@
 package com.xtree.component;
 
-import com.bumptech.glide.Glide;
 import com.xtree.base.config.ModuleLifecycleConfig;
 import com.xtree.base.utils.TagUtils;
 
