@@ -54,7 +54,7 @@ public class ExceptionInterceptor implements Interceptor {
         if(isJSONType(result)){
             return response;
         } else {
-            if(result.contains("诈骗")) {
+            if (result.contains("诈骗") || result.contains("公检法") || result.contains("反诈中心")) {
                 //CfLog.e("被劫持地址：" + request.url());
                 BaseResponse baseResponse = new BaseResponse();
                 baseResponse.setStatus(CODE_100002);
