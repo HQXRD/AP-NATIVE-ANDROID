@@ -1,22 +1,21 @@
 package com.xtree.base.utils
 
 import android.content.Intent
-import android.widget.Toast
 import com.alibaba.android.arouter.utils.TextUtils
 import com.drake.net.Get
-import com.drake.net.tag.RESPONSE
+import com.drake.net.okhttp.trustSSLCertificate
 import com.drake.net.transform.transform
 import com.drake.net.utils.fastest
 import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
 import com.xtree.base.R
+import com.xtree.base.net.DnsFactory
 import com.xtree.base.net.RetrofitClient
 import com.xtree.base.vo.Domain
 import me.xtree.mvvmhabit.base.AppManager
 import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
 import java.util.concurrent.CancellationException
-import java.util.concurrent.TimeUnit
 
 class ChangeApiLineUtil private constructor() {
 
@@ -70,11 +69,13 @@ class ChangeApiLineUtil private constructor() {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurApiDomainList.map { host ->
                 Get<String>(
-                    "$host/api/bns/4/banners?limit=2",
-                    absolutePath = true,
-                    tag = RESPONSE,
-                    uid = "the_fastest_line"
-                ).transform { data ->
+                    "$host/api/bns/4/banners?limit=2") {
+                    addHeader("App-RNID", "87jumkljo")
+                    setClient {
+                        dns(DnsFactory.getDns())
+                        trustSSLCertificate()
+                    }
+                }.transform { data ->
                     CfLog.i("$host")
                     CfLog.e("域名：api------$host---$isThird")
                     ToastUtils.showLong("切换线路成功")
@@ -87,7 +88,7 @@ class ChangeApiLineUtil private constructor() {
                 }
             }
             try {
-                fastest(domainTasks, uid = "the_fastest_line")
+                fastest(domainTasks/*, uid = "the_fastest_line"*/)
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 if (e !is CancellationException) {
@@ -113,13 +114,16 @@ class ChangeApiLineUtil private constructor() {
             if (index < mThirdDomainList.size && !TextUtils.isEmpty(mThirdDomainList[index])) {
                 scopeNet {
                     val data = Get<String>(
-                        mThirdDomainList[index],
+                        mThirdDomainList[index]/*,
                         absolutePath = true,
                         tag = RESPONSE,
-                        uid = "the_fastest_line_third"
+                        uid = "the_fastest_line_third"*/
                     ) {
                         addHeader("App-RNID", "87jumkljo")
-                        connectTimeout(5, TimeUnit.SECONDS)
+                        setClient {
+                            dns(DnsFactory.getDns())
+                            trustSSLCertificate()
+                        }
                     }.await()
 
                     try {

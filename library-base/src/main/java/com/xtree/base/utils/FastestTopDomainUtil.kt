@@ -2,13 +2,14 @@ package com.xtree.base.utils
 
 import com.alibaba.android.arouter.utils.TextUtils
 import com.drake.net.Get
-import com.drake.net.tag.RESPONSE
+import com.drake.net.okhttp.trustSSLCertificate
 import com.drake.net.transform.transform
 import com.drake.net.utils.fastest
 import com.drake.net.utils.runMain
 import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
 import com.xtree.base.R
+import com.xtree.base.net.DnsFactory
 import com.xtree.base.vo.Domain
 import com.xtree.base.vo.EventVo
 import com.xtree.base.vo.TopSpeedDomain
@@ -17,7 +18,6 @@ import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
 import org.greenrobot.eventbus.EventBus
 import java.util.concurrent.CancellationException
-import java.util.concurrent.TimeUnit
 
 class FastestTopDomainUtil private constructor() {
     init {
@@ -47,7 +47,7 @@ class FastestTopDomainUtil private constructor() {
             EventBus.getDefault().post(EventVo(EventConstant.EVENT_TOP_SPEED_FAILED, ""))
             return
         }
-        if(mIsFinish) {
+        //if(mIsFinish) {
             CfLog.e("=====开始线路测速========")
             mIsFinish = false
             index = 0
@@ -57,7 +57,7 @@ class FastestTopDomainUtil private constructor() {
             mTopSpeedDomainList.clear()
             setThirdFasterDomain()
             setFasterApiDomain()
-        }
+        //}
     }
 
     fun isFinish(): Boolean {
@@ -95,11 +95,14 @@ class FastestTopDomainUtil private constructor() {
             var curTime: Long = System.currentTimeMillis()
             val domainTasks = mCurApiDomainList.map { host ->
                 Get<String>(
-                    "$host/api/bns/4/banners?limit=2",
-                    absolutePath = true,
-                    tag = RESPONSE,
-                    uid = "the_fastest_line"
-                ).transform { data ->
+                    "$host/point.bmp")
+                {
+                    addHeader("App-RNID", "87jumkljo")
+                    setClient {
+                        dns(DnsFactory.getDns())
+                        trustSSLCertificate()
+                    }
+                }.transform { data ->
                     CfLog.i("$host")
                     var topSpeedDomain = TopSpeedDomain()
                     topSpeedDomain.url = host
@@ -119,7 +122,7 @@ class FastestTopDomainUtil private constructor() {
                 }
             }
             try {
-                fastest(domainTasks, uid = "the_fastest_line")
+                fastest(domainTasks)
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 if (e !is CancellationException) {
@@ -148,13 +151,13 @@ class FastestTopDomainUtil private constructor() {
 
             scopeNet {
                 val data = Get<String>(
-                    mThirdDomainList[index],
-                    absolutePath = true,
-                    tag = RESPONSE,
-                    uid = "the_fastest_line_third"
+                    mThirdDomainList[index]
                 ) {
                     addHeader("App-RNID", "87jumkljo")
-                    connectTimeout(10, TimeUnit.SECONDS)
+                    setClient {
+                        dns(DnsFactory.getDns())
+                        trustSSLCertificate()
+                    }
                 }.await()
 
                 try {

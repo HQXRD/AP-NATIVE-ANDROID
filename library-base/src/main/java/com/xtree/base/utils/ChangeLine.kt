@@ -2,19 +2,19 @@ package com.xtree.base.utils
 
 import com.alibaba.android.arouter.utils.TextUtils
 import com.drake.net.Get
-import com.drake.net.tag.RESPONSE
+import com.drake.net.okhttp.trustSSLCertificate
 import com.drake.net.transform.transform
 import com.drake.net.utils.fastest
 import com.drake.net.utils.runMain
 import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
 import com.xtree.base.R
+import com.xtree.base.net.DnsFactory
 import com.xtree.base.vo.Domain
 import me.xtree.mvvmhabit.http.NetworkUtil
 import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
 import java.util.concurrent.CancellationException
-import java.util.concurrent.TimeUnit
 
 abstract class ChangeLine {
     /**
@@ -140,10 +140,15 @@ abstract class ChangeLine {
             val domainTasks = mCurApiDomainList.map { host ->
                 Get<String>(
                     "$host/$mUrl",
-                    absolutePath = true,
-                    tag = RESPONSE,
-                    uid = "the_fastest_line"
-                ).transform { data ->
+                    tag = "the_fastest_line")
+                {
+                    addHeader("App-RNID", "87jumkljo")
+                    setClient {
+                        dns(DnsFactory.getDns())
+                        trustSSLCertificate()
+                    }
+                }
+                .transform { data ->
                     CfLog.i("$host")
                     CfLog.e("当前域名：api------$host---")
                     DomainUtil.setApiUrl(host)
@@ -151,9 +156,10 @@ abstract class ChangeLine {
                     mIsRunning = false
                     data
                 }
+
             }
             try {
-                fastest(domainTasks, uid = "the_fastest_line")
+                fastest(domainTasks, "the_fastest_line")
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 mIsRunning = false
@@ -183,13 +189,13 @@ abstract class ChangeLine {
             scopeNet {
                 try {
                     val data = Get<String>(
-                        mThirdApiDomainList[index],
-                        absolutePath = true,
-                        tag = RESPONSE,
-                        uid = "the_fastest_line_third"
+                        mThirdApiDomainList[index]
                     ) {
                         addHeader("App-RNID", "87jumkljo")
-                        connectTimeout(5, TimeUnit.SECONDS)
+                        setClient {
+                            dns(DnsFactory.getDns())
+                            trustSSLCertificate()
+                        }
                     }.await()
                     var domainJson = AESUtil.decryptData(
                         data,
