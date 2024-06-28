@@ -24,10 +24,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import me.xtree.mvvmhabit.utils.SPUtils;
-
 import io.sentry.Sentry;
 import io.sentry.SentryEvent;
+import me.xtree.mvvmhabit.utils.SPUtils;
 
 public class TagUtils {
 
@@ -131,7 +130,6 @@ public class TagUtils {
 
         tagAppsFlyer(ctx, event, getMap(key, value));
         tagMixpanel(ctx, event, key, value);
-        tagAppCenter(event, getMap(key, value));
         tagAppCenter(event, getMap(key, value));
         tagSentry(event, getMap(key, value));
     }
