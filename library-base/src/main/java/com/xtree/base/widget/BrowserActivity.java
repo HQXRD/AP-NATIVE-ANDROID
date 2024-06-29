@@ -44,6 +44,7 @@ import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
 import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 import com.xtree.base.R;
+import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
@@ -89,6 +90,7 @@ public class BrowserActivity extends AppCompatActivity {
     public static final String ARG_IS_LOTTERY = "isLottery";
     public static final String ARG_IS_3RD_LINK = "is3rdLink";
     public static final String ARG_IS_HIDE_TITLE = "isHideTitle";
+    public static final String ARG_SEARCH_DNS_URL = "https://114.114.114.114/dns-query";
 
     View vTitle;
     View clTitle;
@@ -201,21 +203,6 @@ public class BrowserActivity extends AppCompatActivity {
             SPUtils.getInstance().put(SPKeyGlobal.IS_FIRST_OPEN_BROWSER, false);
         }
 
-        //mWebView.addJavascriptInterface(new WebAppInterface(this, ivwBack, new WebAppInterface.ICallBack() {
-        //    @Override
-        //    public void close() {
-        //        String url2 = getIntent().getStringExtra("url") + "";
-        //        if (!url2.contains(Constant.URL_VIP_CENTER)) {
-        //            finish();
-        //        }
-        //    }
-        //
-        //    @Override
-        //    public void goBack() {
-        //        finish();
-        //    }
-        //}), "android");
-
         //setWebCookie();
         //setCookie(cookie, url); // 设置 cookie
         Uri uri = getIntent().getData();
@@ -267,25 +254,6 @@ public class BrowserActivity extends AppCompatActivity {
 
         mTopSpeedDomainFloatingWindows = new TopSpeedDomainFloatingWindows(this);
         mTopSpeedDomainFloatingWindows.show();
-
-        // 下载文件
-        //mWebView.setDownloadListener(new DownloadListener() {
-        //    @Override
-        //    public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-        //        CfLog.d("onDownloadStart url: " + url);
-        //        /*CfLog.i("url: " + url
-        //                + ",\n contentLength: " + contentLength
-        //                + " (" + contentLength / 1024 / 1024 + "." + 100 * (contentLength / 1024 % 1024) / 1024 + "M)"
-        //                + ",\n mimetype: " + mimetype
-        //                + ",\n contentDisposition: " + contentDisposition
-        //                + ",\n userAgent: " + userAgent
-        //        );*/
-        //        //Log.d("---", "onDownloadStart url: " + url);
-        //        AppUtil.goBrowser(getBaseContext(), url);
-        //    }
-        //});
-
-
     }
 
     private void initAgentWeb(String url, Map<String, String> header) throws UnknownHostException {
@@ -299,29 +267,21 @@ public class BrowserActivity extends AppCompatActivity {
                 .setAgentWebParent(findViewById(R.id.wv_main), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator() // 使用默认的加载进度条
                 .additionalHttpHeader(url, header)
-                //.setAgentWebWebSettings(new IAgentWebSettings() {
-                //    @Override
-                //    public IAgentWebSettings toSetting(WebView webView) {
-                //        WebSettings settings = webView.getSettings();
-                //        settings.setJavaScriptEnabled(true);
-                //        settings.setDomStorageEnabled(true);
-                //        settings.setDatabaseEnabled(true);
-                //        //settings.setAppCacheEnabled(true);
-                //        settings.setUseWideViewPort(true);
-                //        //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-                //        //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
-                //        settings.setLoadWithOverviewMode(true);
-                //        settings.setJavaScriptCanOpenWindowsAutomatically(true);
-                //        settings.setLoadsImagesAutomatically(true);
-                //        return null;
-                //    }
-                //
-                //    @Override
-                //    public WebSettings getWebSettings() {
-                //        return null;
-                //    }
-                //})
                 .setWebViewClient(new CustomWebViewClient()) // 设置 WebViewClient
+                .addJavascriptInterface("android", new WebAppInterface(this, ivwBack, new WebAppInterface.ICallBack() {
+                    @Override
+                    public void close() {
+                        String url2 = getIntent().getStringExtra("url") + "";
+                        if (!url2.contains(Constant.URL_VIP_CENTER)) {
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void goBack() {
+                        finish();
+                    }
+                }))
                 .setWebChromeClient(new WebChromeClient() {
                     @Override
                     public void onProgressChanged(WebView view, int newProgress) {
@@ -418,20 +378,6 @@ public class BrowserActivity extends AppCompatActivity {
             }
         });
     }
-
-    //private void setWebView(WebView webView) {
-    //    WebSettings settings = webView.getSettings();
-    //    settings.setJavaScriptEnabled(true);
-    //    settings.setDomStorageEnabled(true);
-    //    settings.setDatabaseEnabled(true);
-    //    //settings.setAppCacheEnabled(true);
-    //    settings.setUseWideViewPort(true);
-    //    //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-    //    //settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NORMAL);
-    //    settings.setLoadWithOverviewMode(true);
-    //    settings.setJavaScriptCanOpenWindowsAutomatically(true);
-    //    settings.setLoadsImagesAutomatically(true);
-    //}
 
     /**
      * 图片选择
@@ -672,8 +618,8 @@ public class BrowserActivity extends AppCompatActivity {
             client = new OkHttpClient.Builder()
                     .dns(new DnsOverHttps.Builder()
                             .client(new OkHttpClient())
-                            .url(HttpUrl.get("https://114.114.114.114/dns-query"))
-                            .bootstrapDnsHosts(InetAddress.getByName("114.114.114.114"),InetAddress.getByName("8.8.8.8") )
+                            .url(HttpUrl.get(ARG_SEARCH_DNS_URL))
+                            .bootstrapDnsHosts(InetAddress.getByName("114.114.114.114"), InetAddress.getByName("8.8.8.8"))
                             .build())
                     .build();
         }
@@ -737,5 +683,4 @@ public class BrowserActivity extends AppCompatActivity {
             Toast.makeText(getBaseContext(), R.string.network_failed, Toast.LENGTH_SHORT).show();
         }
     }
-
 }

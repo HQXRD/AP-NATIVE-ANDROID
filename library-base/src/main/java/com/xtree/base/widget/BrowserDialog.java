@@ -10,24 +10,23 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
-import android.webkit.DownloadListener;
+import android.view.ViewGroup;
+import android.webkit.CookieManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.just.agentweb.AgentWeb;
 import com.luck.picture.lib.basic.PictureSelector;
 import com.luck.picture.lib.config.SelectMimeType;
 import com.luck.picture.lib.entity.LocalMedia;
@@ -36,16 +35,23 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.R;
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.dnsoverhttps.DnsOverHttps;
 
 /**
  * 浏览器底部弹窗<p/>
@@ -54,12 +60,14 @@ import me.xtree.mvvmhabit.utils.SPUtils;
  * new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
  */
 public class BrowserDialog extends BottomPopupView {
+    public static final String ARG_SEARCH_DNS_URL = "https://114.114.114.114/dns-query";
     Context mContext;
     TextView tvwTitle;
     View vTitle;
     View clTitle;
     ImageView ivwClose;
-    WebView mWebView;
+    AgentWeb agentWeb;
+    ViewGroup mWebView;
     ImageView ivwLoading;
     ImageView ivwLaunch;
     //LinearLayout llBackground;
@@ -172,18 +180,6 @@ public class BrowserDialog extends BottomPopupView {
             header.clear();
         }
         header.put("App-RNID", "87jumkljo");
-        mWebView.addJavascriptInterface(new WebAppInterface(getContext(), ivwClose, new WebAppInterface.ICallBack() {
-            @Override
-            public void close() {
-                //dismiss(); // only the original thread that created a view hierarchy can touch its views.
-                ivwClose.post(() -> dismiss());
-            }
-
-            @Override
-            public void goBack() {
-                ivwClose.post(() -> dismiss());
-            }
-        }), "android");
 
         if (isFirstOpenBrowser && !TextUtils.isEmpty(token)) {
             String urlBase64 = Base64.encodeToString(url.getBytes(), Base64.DEFAULT);
@@ -192,7 +188,7 @@ public class BrowserDialog extends BottomPopupView {
             SPUtils.getInstance().put(SPKeyGlobal.IS_FIRST_OPEN_BROWSER, false);
         }
         //setWebCookie();
-        mWebView.loadUrl(url, header);
+        //mWebView.loadUrl(url, header);
 
         ivwClose.setOnClickListener(v -> dismiss());
 
@@ -210,115 +206,73 @@ public class BrowserDialog extends BottomPopupView {
         ivwLaunch = findViewById(R.id.ivw_launch);
 
         mWebView.setFitsSystemWindows(true);
-        setWebView(mWebView);
         LoadingDialog.show2(mContext);
-        // 下载文件
-        mWebView.setDownloadListener(new DownloadListener() {
-            @Override
-            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
-                CfLog.d("onDownloadStart url: " + url);
-                /*CfLog.i("url: " + url
-                        + ",\n contentLength: " + contentLength
-                        + " (" + contentLength / 1024 / 1024 + "." + 100 * (contentLength / 1024 % 1024) / 1024 + "M)"
-                        + ",\n mimetype: " + mimetype
-                        + ",\n contentDisposition: " + contentDisposition
-                        + ",\n userAgent: " + userAgent
-                );*/
-                //Log.d("---", "onDownloadStart url: " + url);
-                AppUtil.goBrowser(getContext(), url);
-            }
-        });
+    }
 
-        // 上传文件
-        mWebView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                super.onProgressChanged(view, newProgress);
-                // 网页加载进度
-                CfLog.d("******* newProgress: " + newProgress);
-                if (newProgress > 0 && newProgress < 100) {
-                    if (newProgress >= 75) {
-                        LoadingDialog.finish();
+    private void initAgentWeb(String url, Map<String, String> header) throws UnknownHostException {
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        cookieManager.setAcceptThirdPartyCookies(new WebView(mContext), true);
+        cookieManager.setCookie(url, "auth=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN) + ";" + "_sessionHandler=" + SPUtils.getInstance().getString(SPKeyGlobal.USER_SHARE_SESSID));
+        cookieManager.flush();
+
+        agentWeb = AgentWeb.with((Activity) mContext)
+                .setAgentWebParent(findViewById(R.id.wv_main), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+                .useDefaultIndicator() // 使用默认的加载进度条
+                .additionalHttpHeader(url, header)
+                .setWebViewClient(new CustomWebViewClient()) // 设置 WebViewClient
+                .addJavascriptInterface("android", new WebAppInterface(mContext, ivwClose, new WebAppInterface.ICallBack() {
+                    @Override
+                    public void close() {
+                        //dismiss(); // only the original thread that created a view hierarchy can touch its views.
+                        ivwClose.post(() -> dismiss());
                     }
-                }
-            }
 
-            /**
-             * For Android >= 4.1
-             * 16(Android 4.1.2) <= API <= 20(Android 4.4W.2)回调此方法
-             */
-            public void openFileChooser(ValueCallback<Uri> valueCallback, String acceptType, String capture) {
-                CfLog.i("*********");
-                mUploadCallbackBelow = valueCallback;
-                //openImageChooserActivity();
-                gotoSelectMedia();
-            }
+                    @Override
+                    public void goBack() {
+                        ivwClose.post(() -> dismiss());
+                    }
+                }))
+                .setWebChromeClient(new com.just.agentweb.WebChromeClient() {
+                    @Override
+                    public void onProgressChanged(WebView view, int newProgress) {
+                        super.onProgressChanged(view, newProgress);
+                        // 网页加载进度
+                        CfLog.d("******* newProgress: " + newProgress);
+                        if (newProgress > 0 && newProgress < 100) {
+                            if (newProgress >= 75) {
+                                LoadingDialog.finish();
+                            }
+                        }
+                    }
 
-            /**
-             * For Android >= 5.0
-             * API >= 21(Android 5.0.1)回调此方法
-             */
-            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
-                CfLog.i("*********");
-                // (1)该方法回调时说明版本API >= 21，此时将结果赋值给 mUploadCallbackAboveL，使之 != null
-                mUploadCallbackAboveL = filePathCallback;
-                //openImageChooserActivity();
-                gotoSelectMedia();
-                return true;
-            }
+                    /**
+                     * For Android >= 4.1
+                     * 16(Android 4.1.2) <= API <= 20(Android 4.4W.2)回调此方法
+                     */
+                    public void openFileChooser(ValueCallback<Uri> valueCallback, String acceptType, String capture) {
+                        CfLog.i("*********");
+                        mUploadCallbackBelow = valueCallback;
+                        //openImageChooserActivity();
+                        gotoSelectMedia();
+                    }
 
-        });
-        mWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                CfLog.d("onPageStarted url:  " + url);
-                //Log.d("---", "onPageStarted url:  " + url);
-
-                CfLog.d("is3rdLink: " + is3rdLink);
-                if (is3rdLink) {
-                    return;
-                }
-                if (isFirstLoad) {
-                    isFirstLoad = false;
-                    setWebCookie();
-                }
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                CfLog.d("onPageFinished url: " + url);
-                //Log.d("---", "onPageFinished url: " + url);
-                LoadingDialog.finish();
-                hideLoading();
-            }
-
-            @Override
-            public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-                //handler.proceed();
-                hideLoading();
-                if (sslErrorCount < 4) {
-                    sslErrorCount++;
-                    tipSsl(view, handler);
-                } else {
-                    handler.proceed();
-                }
-            }
-
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                CfLog.e("errorCode: " + errorCode + ", description: " + description + ", failingUrl: " + failingUrl);
-                hideLoading();
-                Toast.makeText(getContext(), R.string.network_failed, Toast.LENGTH_SHORT).show();
-            }
-
-            @Nullable
-            @Override
-            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                CfLog.e("访问地址：" + request.getUrl());
-                return super.shouldInterceptRequest(view, request);
-            }
-        });
-
+                    /**
+                     * For Android >= 5.0
+                     * API >= 21(Android 5.0.1)回调此方法
+                     */
+                    public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
+                        CfLog.i("*********");
+                        // (1)该方法回调时说明版本API >= 21，此时将结果赋值给 mUploadCallbackAboveL，使之 != null
+                        mUploadCallbackAboveL = filePathCallback;
+                        //openImageChooserActivity();
+                        gotoSelectMedia();
+                        return true;
+                    }
+                }) // 设置 WebChromeClient
+                .createAgentWeb() // 创建 AgentWeb
+                .ready()
+                .go(url); // 加载网页
 
     }
 
@@ -465,9 +419,84 @@ public class BrowserDialog extends BottomPopupView {
 
         CfLog.i(js.replace("\n", " \t"));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            mWebView.evaluateJavascript(js, null);
+            agentWeb.getWebCreator().getWebView().evaluateJavascript(js, null);
         } else {
-            mWebView.loadUrl("javascript:" + js);
+            agentWeb.getWebCreator().getWebView().loadUrl("javascript:" + js);
+        }
+    }
+
+    public class CustomWebViewClient extends com.just.agentweb.WebViewClient {
+        private OkHttpClient client;
+
+        public CustomWebViewClient() throws UnknownHostException {
+            // 初始化 OkHttpClient 并配置自定义的 DNS 解析
+            client = new OkHttpClient.Builder()
+                    .dns(new DnsOverHttps.Builder()
+                            .client(new OkHttpClient())
+                            .url(HttpUrl.get(ARG_SEARCH_DNS_URL))
+                            .bootstrapDnsHosts(InetAddress.getByName("114.114.114.114"), InetAddress.getByName("8.8.8.8"))
+                            .build())
+                    .build();
+        }
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+            String url = request.getUrl().toString();
+            Request httpRequest = new Request.Builder().url(url).build();
+
+            try {
+                Response response = client.newCall(httpRequest).execute();
+                return new WebResourceResponse(
+                        response.header("content-type"),
+                        response.header("content-encoding"),
+                        response.body().byteStream()
+                );
+            } catch (IOException e) {
+                e.printStackTrace();
+                return super.shouldInterceptRequest(view, request);
+            }
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            CfLog.d("onPageStarted url:  " + url);
+            //Log.d("---", "onPageStarted url:  " + url);
+
+            CfLog.d("is3rdLink: " + is3rdLink);
+            if (is3rdLink) {
+                return;
+            }
+            if (isFirstLoad) {
+                isFirstLoad = false;
+                setWebCookie();
+            }
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            CfLog.d("onPageFinished url: " + url);
+            //Log.d("---", "onPageFinished url: " + url);
+            LoadingDialog.finish();
+            hideLoading();
+        }
+
+        @Override
+        public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
+            //handler.proceed();
+            hideLoading();
+            if (sslErrorCount < 4) {
+                sslErrorCount++;
+                tipSsl(view, handler);
+            } else {
+                handler.proceed();
+            }
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            CfLog.e("errorCode: " + errorCode + ", description: " + description + ", failingUrl: " + failingUrl);
+            hideLoading();
+            Toast.makeText(getContext(), R.string.network_failed, Toast.LENGTH_SHORT).show();
         }
     }
 }
