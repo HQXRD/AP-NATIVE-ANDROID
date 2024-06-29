@@ -4,8 +4,8 @@ import android.text.TextUtils;
 
 public class DomainUtil {
 
-    private static String apiUrl = "https://www.eon2.org"; // API 用
-    private static String domainUrl = "https://www.eon2.org"; // 网页用
+    private static String apiUrl = "https://app1.d6d7vh.click"; // API 用
+    private static String domainUrl = "https://www.hxing5vip3.com"; // 网页用
 
     /**
      * 获取域名, API 使用
