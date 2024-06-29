@@ -316,7 +316,7 @@ public class BtCarDialogFragment extends BaseDialogFragment<BtLayoutBtCarBinding
                 }
             }
             BtResultDialogFragment.getInstance(betConfirmOptionList, cgOddLimits, btResults).show(getParentFragmentManager(), "BtResultDialogFragment");
-            BtCarManager.clearBtCar();
+            binding.llRoot.postDelayed(() -> BtCarManager.clearBtCar(), 1000);
             RxBus.getDefault().post(new BetContract(BetContract.ACTION_BT_SUCESSED));
             dismiss();
         });
