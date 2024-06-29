@@ -26,7 +26,6 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.lxj.xpopup.XPopup;
 import com.lxj.xpopup.core.BasePopupView;
 import com.xtree.base.global.Constant;
@@ -88,6 +87,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     private static final int MSG_ADD_PAYMENT = 1002;
     private static final long REFRESH_DELAY = 30 * 60 * 1000L; // 刷新间隔等待时间(如果长时间没刷新)
     private static final String ONE_PAY_FIX = "onepayfix"; // 极速充值包含的关键字
+    private static final String KEY_MANUAL = "manual"; // 人工充值
 
     private Method method;
     private Object object;
@@ -389,7 +389,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         binding.btnNext.setOnClickListener(v -> {
             // 下一步
-            if (isOnePayFix(curRechargeVo)) {
+            if (curRechargeVo.paycode.equals(KEY_MANUAL)) {
+                goNextManual(); // 人工充值
+            } else if (isOnePayFix(curRechargeVo)) {
                 goNext2(); // 极速充值
             } else if (curRechargeVo.paycode.contains("hiwallet")) {
                 goHiWallet(); // 嗨钱包
@@ -590,10 +592,10 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         //    return;
         //}
         //if (vo.op_thiriframe_use && vo.phone_needbind && (!vo.view_bank_card || (vo.view_bank_card && !vo.userBankList.isEmpty()))) {
-        if (vo.phone_needbind) {
-            binding.llBindInfo.setVisibility(View.VISIBLE);
-            binding.tvwBindPhone.setVisibility(View.VISIBLE);
-        }
+        //if (vo.phone_needbind) {
+        //    binding.llBindInfo.setVisibility(View.VISIBLE);
+        //    binding.tvwBindPhone.setVisibility(View.VISIBLE);
+        //}
         if (vo.view_bank_card && vo.userBankList.isEmpty()) {
             binding.llBindInfo.setVisibility(View.VISIBLE);
             binding.tvwBindYhk.setVisibility(View.VISIBLE);
@@ -613,13 +615,29 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
-        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb) && vo.paycode.contains("zfb")) {
+        boolean isZFB = "false".equalsIgnoreCase(vo.bankcardstatus_onepayzfb) && vo.paycode.contains("zfb");
+        boolean isWX = "false".equalsIgnoreCase(vo.bankcardstatus_onepaywx) && vo.paycode.contains("wx");
+        // 支付宝和微信 需要绑定银行卡 (产品要求的) 2024-05-30
+        if ((isZFB || isWX)) {
+            if (mProfileVo == null) {
+                CfLog.i("mProfileVo is null, read it again... ");
+                viewModel.readProfile();
+                return;
+            }
+            if (!mProfileVo.is_binding_card) {
+                // 绑定YHK
+                CfLog.i("****** 绑定YHK");
+                toBindCard();
+                return;
+            }
+        }
+        if (isZFB) {
             // 请先绑定您的支付宝账号
             CfLog.i("****** 绑定ZFB");
             toBindAlipay();
             return;
         }
-        if ("false".equalsIgnoreCase(vo.bankcardstatus_onepaywx) && vo.paycode.contains("wx")) {
+        if (isWX) {
             // 请先绑定您的微信账号
             CfLog.i("****** 绑定WX");
             toBindWeChat();
@@ -662,8 +680,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         binding.llDown.setVisibility(View.VISIBLE); // 下面的部分显示
 
         // 人工充值
-        if (vo.paycode.equals("manual")) {
+        if (vo.paycode.equals(KEY_MANUAL)) {
             CfLog.i("manual ****** ");
+            binding.llBankCard.setVisibility(View.GONE);
             binding.llName.setVisibility(View.GONE);
             binding.llAmount.setVisibility(View.GONE);
             binding.llManual.setVisibility(View.VISIBLE);
@@ -676,8 +695,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
 
         // 显示/隐藏银行卡 userBankList
         if (vo.view_bank_card) {
-            binding.tvwChooseBankCard.setVisibility(View.VISIBLE);
-            binding.tvwBankCard.setVisibility(View.VISIBLE);
+            binding.llBankCard.setVisibility(View.VISIBLE);
             binding.tvwBankCard.setOnClickListener(v -> showBankCard(vo)); // 选择银行卡
             if (isOnePayFix(vo)) {
                 if (vo.getOpBankList() != null && vo.getOpBankList().getUsed() != null
@@ -697,8 +715,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 binding.tvwBankCard.setText(vo.userBankList.get(0).name);
             }
         } else {
-            binding.tvwChooseBankCard.setVisibility(View.GONE);
-            binding.tvwBankCard.setVisibility(View.GONE);
+            binding.llBankCard.setVisibility(View.GONE);
         }
 
         // 设置存款人姓名
@@ -841,8 +858,14 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
     private void toBindPage(String type) {
         isNeedRefresh = true;
         Bundle bundle = new Bundle();
-        bundle.putString("type", type);
-        startContainerFragment(RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY, bundle);
+        bundle.putString("type", type); // bindcardzfb bindcardwx
+        String path;
+        if (mProfileVo.has_securitypwd) {
+            path = RouterFragmentPath.Mine.PAGER_SECURITY_VERIFY_CHOOSE;
+        } else {
+            path = RouterFragmentPath.Mine.PAGER_FUNDS_PWD;
+        }
+        startContainerFragment(path, bundle);
     }
 
     private void toBindAlipay() {
@@ -903,7 +926,8 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         if (curRechargeVo == null) {
             return;
         }
-        if (curRechargeVo.paycode.equals("manual")) {
+        if (curRechargeVo.paycode.equals(KEY_MANUAL)) {
+            binding.btnNext.setEnabled(true);
             return;
         }
 
@@ -958,6 +982,17 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         viewModel.rechargePay(curRechargeVo.bid, map);
     }
 
+    /**
+     * 人工充值
+     */
+    private void goNextManual() {
+        LoadingDialog.show(getContext());
+        viewModel.getManualSignal();
+    }
+
+    /**
+     * 极速充值
+     */
     private void goNext2() {
         TagUtils.tagEvent(getContext(), "rc", curRechargeVo.bid); // 打点
         LoadingDialog.show(getContext()); // Loading
@@ -1107,9 +1142,9 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
             return;
         }
 
-        String json = SPUtils.getInstance().getString(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, "{}");
-        mapRechargeVo = new Gson().fromJson(json, new TypeToken<HashMap<String, RechargeVo>>() {
-        }.getType());
+        //String json = SPUtils.getInstance().getString(SPKeyGlobal.RC_PAYMENT_THIRIFRAME, "{}");
+        //mapRechargeVo = new Gson().fromJson(json, new TypeToken<HashMap<String, RechargeVo>>() {
+        //}.getType());
 
         isShowOrderDetail = getArguments().getBoolean("isShowOrderDetail");
         if (isShowOrderDetail) {

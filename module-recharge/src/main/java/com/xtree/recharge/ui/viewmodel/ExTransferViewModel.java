@@ -914,6 +914,10 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
      * 回执单示例
      */
     public void showExample() {
+        if (isActivityNull()) {
+            return;
+        }
+
         ExSlipExampleDialogFragment.show(mActivity.get());
     }
 
@@ -922,16 +926,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
      */
     public void gotoSelectMedia() {
 
-        if (mActivity == null || mActivity.get() == null) {
-            Stack<Activity> activityStack = AppManager.getActivityStack();
-            for (Activity activity : activityStack) {
-                FragmentActivity fa = (FragmentActivity) activity;
-                for (Fragment fragment : fa.getSupportFragmentManager().getFragments()) {
-                    if (fragment.getClass().getCanonicalName().equals(canonicalName)) {
-                        this.mActivity = new WeakReference<>(fa);
-                    }
-                }
-            }
+        if (isActivityNull()) {
             return;
         }
 
@@ -981,6 +976,26 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
 
                     }
                 });
+    }
+
+    private Boolean isActivityNull() {
+        if (mActivity == null || mActivity.get() == null) {
+            Stack<Activity> activityStack = AppManager.getActivityStack();
+            for (Activity activity : activityStack) {
+                FragmentActivity fa = (FragmentActivity) activity;
+                for (Fragment fragment : fa.getSupportFragmentManager().getFragments()) {
+                    if (fragment.getClass().getCanonicalName().equals(canonicalName)) {
+                        this.mActivity = new WeakReference<>(fa);
+                    }
+                }
+            }
+            if (mActivity == null || mActivity.get() == null) {
+                return true;
+            }
+            return false;
+        } else {
+            return false;
+        }
     }
 
     public void setRechargeViewModel(RechargeViewModel rechargeViewModel) {
