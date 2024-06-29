@@ -34,12 +34,14 @@ android {
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_api_list", "https://hxing5pre.hxing5vip.com;" +
-                    "https://hxing5pre.hxing5vip.com;" +
-                    "https://hxing5pre.hxing5vip.com;"
+            resValue "string", "domain_api_list", "https://app1.d6d7vh.click;" +
+                    "https://app1.a4x6ur.click;" +
+                    "https://app1.k2j8gm.click;" +
+                    "https://app1.p2e2vs.click;"
 
-            resValue "string", "domain_url_list", "https://hxing5pre.hxing5vip.com;" +
-                    "https://hxing5pre.hxing5vip.com;"
+            resValue "string", "domain_url_list", "https://www.hxing5vip3.com;" +
+                    "https://www.j4l2gm.click;" +
+                    "https://www.l7g2ao.click;"
             multiDexEnabled true
             dimension "channelName"
         }
@@ -56,12 +58,14 @@ android {
             resValue "string", "mixpanel_token", "cce6df315eee2c445da416c6b717f114"
             resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "ms_secret_key", "0ad1d127-3d6e-47f0-8904-1fd9eff9d97b"
-            resValue "string", "domain_api_list", "https://hxing5pre.hxing5vip.com;" +
-                    "https://hxing5pre.hxing5vip.com;" +
-                    "https://hxing5pre.hxing5vip.com;"
+            resValue "string", "domain_api_list", "https://app1.d6d7vh.click;" +
+                    "https://app1.a4x6ur.click;" +
+                    "https://app1.k2j8gm.click;" +
+                    "https://app1.p2e2vs.click;"
 
-            resValue "string", "domain_url_list", "https://hxing5pre.hxing5vip.com;" +
-                    "https://hxing5pre.hxing5vip.com;"
+            resValue "string", "domain_url_list", "https://www.hxing5vip3.com;" +
+                    "https://www.j4l2gm.click;" +
+                    "https://www.l7g2ao.click;"
             multiDexEnabled true
             dimension "channelName"
         }
