@@ -38,7 +38,6 @@ import java.util.List;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.ContainerActivity;
-import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -71,9 +70,9 @@ public class RechargeFloatingWindows extends FloatingWindows {
         rechargeReportAdapter = new RechargeReportAdapter(mContext, vo -> {
             secondaryLayout.findViewById(R.id.cl_floating_window).setVisibility(View.GONE);
             llLine.setVisibility(View.GONE);
-            if (vo.sysParamPrefix.contains("onepayfix") && !TextUtils.isEmpty(vo.bankId)) {
+            if (vo.sysParamPrefix.contains("onepayfix") && !TextUtils.isEmpty(vo.bankId) && !TextUtils.isEmpty(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN))) {
                 goOrderDetail(vo); // 极速充值
-            } else if (TextUtils.isEmpty(vo.orderurl)) {
+            } else if (TextUtils.isEmpty(vo.orderurl) && !TextUtils.isEmpty(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN))) {
                 //new XPopup.Builder(ctx).asCustom(new BrowserDialog(ctx, vo.payport_nickname, DomainUtil.getDomain2()
                 // + "/webapp/#/depositetail/" + vo.id)).show();
                 goOrderDetail(vo);
@@ -106,14 +105,16 @@ public class RechargeFloatingWindows extends FloatingWindows {
         mainLayout.setOnClickListener(v -> {
             secondaryLayout.findViewById(R.id.cl_floating_window).setVisibility(View.VISIBLE);
             llLine.setVisibility(View.VISIBLE);
-            if (!isSearch) {
+            if (!isSearch && !TextUtils.isEmpty(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN))) {
                 CfLog.i("search the data");
                 getReportData();
                 isSearch = true;
             }
         });
 
-        getReportData();
+        if (!TextUtils.isEmpty(SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN))) {
+            getReportData();
+        }
     }
 
     private void goOrderDetail(RechargeOrderVo vo) {
