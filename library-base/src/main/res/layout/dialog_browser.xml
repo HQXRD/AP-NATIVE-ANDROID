@@ -30,7 +30,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/v_title" />
 
-    <WebView
+    <FrameLayout
         android:id="@+id/wv_main"
         android:layout_width="match_parent"
         android:layout_height="0dp"
