@@ -245,6 +245,7 @@ public class AppUpdateDialog extends CenterPopupView {
     public void installAPK() throws IOException {
         CfLog.i("******");
         if (apkFile == null || !apkFile.exists()) {
+            CfLog.e("************installAPK  apkFile is null************");
             return;
         }
 
@@ -262,7 +263,9 @@ public class AppUpdateDialog extends CenterPopupView {
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.setDataAndType(uri, "application/vnd.android.package-archive");
         } else {
+            /*Android M之前老版本写法*/
             intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         context.startActivity(intent);
         //修复 HQAP2-4223 待验证
