@@ -14,11 +14,13 @@
         android:id="@+id/ll_choose_usdt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
         android:layout_gravity="center"
         android:layout_marginLeft="@dimen/bt_text_20sp"
         android:layout_marginRight="@dimen/bt_text_20sp"
         android:gravity="center"
         android:orientation="vertical"
+        android:background="@drawable/bg_dialog_choose_list"
         android:padding="5dp">
 
         <TextView

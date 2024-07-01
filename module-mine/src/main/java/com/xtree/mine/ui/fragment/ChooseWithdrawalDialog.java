@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LifecycleOwner;
 
@@ -253,17 +254,29 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                     tip =
                             String.format(getContext().getString(R.string.txt_choose_withdrawal_nobind_tip),
                                     StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))));
+
+                    binding.tvChooseTip.setVisibility(View.VISIBLE);
+                    binding.tvChooseTip.setText(tip);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        binding.tvChooseTip.setTextColor(getContext().getColor(R.color.clr_txt_rebateagrt_subtitle));
+                    }
                 } else {
                     tip =
                             String.format(getContext().getString(R.string.txt_choose_withdrawal_tip),
                                     StringUtils.formatToSeparate(Float.valueOf((chooseInfoVo.user.availablebalance))), chooseInfoVo.usdtInfo.quota);
+
+                    String formatStr = getContext().getResources().getString(R.string.txt_choose_withdrawal_tip);
+                    String availablebalance, quota;
+                    availablebalance = "<font color=#99A0B1>" + chooseInfoVo.user.availablebalance + "</font>";
+                    quota = "<font color=#DA0000>" + chooseInfoVo.usdtInfo.quota + "</font>";
+                    String textTipSource = String.format(formatStr, availablebalance, quota);
+
+                    binding.tvChooseTip.setText(HtmlCompat.fromHtml(textTipSource, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
+                    binding.tvChooseTip.setVisibility(View.VISIBLE);
+                    binding.tvChooseTip.setText(tip);
                 }
 
-                binding.tvChooseTip.setVisibility(View.VISIBLE);
-                binding.tvChooseTip.setText(tip);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    binding.tvChooseTip.setTextColor(getContext().getColor(R.color.clr_withdrawal_list_bottom_text_tip_bg));
-                }
             }
         } else {
             showErrorDialog(getContext().getString(R.string.txt_network_error));

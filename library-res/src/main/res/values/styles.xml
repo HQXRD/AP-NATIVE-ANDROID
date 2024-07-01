@@ -1130,8 +1130,7 @@
         <item name="android:gravity">center</item>
         <item name="android:padding">12dp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">@drawable/bg_dialog_withdraw_close</item>
-        <item name="android:textColor">@color/clr_withdrawal_list_text_bg</item>
+        <item name="android:textColor">@color/bt_color_withdrawal_item</item>
     </style>
 
     <!-- 提款页-下半部分灰色区-标题 -->

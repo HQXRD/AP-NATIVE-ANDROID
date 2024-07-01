@@ -132,7 +132,7 @@ public class FundPassWordFragment extends BottomPopupView {
             this.fundPassWordVo = vo;
             if (vo != null) {
                 if (("2").equals(this.fundPassWordVo.msg_type) && (("资金密码错误").equals(this.fundPassWordVo.message))){
-
+                    ToastUtils.showError(this.fundPassWordVo.message);
                 }else if (!TextUtils.isEmpty(this.fundPassWordVo.status)) {
                     //返回正常
                     if ("1".equals(this.fundPassWordVo.status) && !TextUtils.isEmpty(this.fundPassWordVo.msg.checkcode)) {
