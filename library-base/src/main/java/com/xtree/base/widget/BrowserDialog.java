@@ -60,7 +60,7 @@ import okhttp3.dnsoverhttps.DnsOverHttps;
  * new XPopup.Builder(getContext()).asCustom(new BrowserDialog(getContext(), title, url)).show();
  */
 public class BrowserDialog extends BottomPopupView {
-    public static final String ARG_SEARCH_DNS_URL = "https://114.114.114.114/dns-query";
+    public static final String ARG_SEARCH_DNS_URL = "https://dns.alidns.com/dns-query";
     Context mContext;
     TextView tvwTitle;
     View vTitle;
@@ -189,6 +189,11 @@ public class BrowserDialog extends BottomPopupView {
         }
         //setWebCookie();
         //mWebView.loadUrl(url, header);
+        try {
+            initAgentWeb(url, header);
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
 
         ivwClose.setOnClickListener(v -> dismiss());
 
