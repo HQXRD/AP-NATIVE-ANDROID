@@ -86,7 +86,7 @@ class SplashActivity : BaseActivity<ActivitySplashBinding?, SplashViewModel?>() 
         token[1] = getString(R.string.ms_secret_key)
         val channel = getString(R.string.channel_name)
         val userId = SPUtils.getInstance().getString(SPKeyGlobal.USER_ID)
-        var isTag = true//resources.getBoolean(R.bool.is_tag) && !BuildConfig.DEBUG
+        var isTag = resources.getBoolean(R.bool.is_tag) && !BuildConfig.DEBUG
         TagUtils.init(baseContext, token, channel, userId, isTag)
         TagUtils.tagDailyEvent(baseContext)
     }
