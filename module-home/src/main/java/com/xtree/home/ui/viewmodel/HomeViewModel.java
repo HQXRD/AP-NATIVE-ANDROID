@@ -9,11 +9,13 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xtree.base.global.SPKeyGlobal;
 import com.xtree.base.net.HttpCallBack;
 import com.xtree.base.net.RetrofitClient;
+import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.utils.BtDomainUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.vo.AppUpdateVo;
@@ -53,7 +55,6 @@ import java.util.Map;
 import io.reactivex.disposables.Disposable;
 import me.xtree.mvvmhabit.base.BaseViewModel;
 import me.xtree.mvvmhabit.http.BusinessException;
-import me.xtree.mvvmhabit.utils.KLog;
 import me.xtree.mvvmhabit.utils.RxUtils;
 import me.xtree.mvvmhabit.utils.SPUtils;
 
@@ -78,6 +79,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
     public MutableLiveData<EleVo> liveDataEle = new MutableLiveData<>();
     public MutableLiveData<RedPocketVo> liveDataRedPocket = new MutableLiveData<>();
     public MutableLiveData<AppUpdateVo> liveDataUpdate = new MutableLiveData<>();//更新
+    public MutableLiveData<GameVo> liveDataIntoAppGame = new MutableLiveData<>();//进入原生场馆
 
     HashMap<String, PaymentDataVo.RechargeVo> mapRechargeVo = new HashMap<>(); // 缓存的,充值渠道
     String public_key;
@@ -210,7 +212,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
         addSubscribe(disposable);
     }
 
-    public void getFBGameTokenApi() {
+    public void getFBGameTokenApi(boolean isFirst) {
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         if (TextUtils.isEmpty(token)) {
             return;
@@ -227,17 +229,21 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         BtDomainUtil.setDefaultFbDomainUrl(fbService.getForward().getApiServerAddress());
                         BtDomainUtil.addFbDomainUrl(fbService.getForward().getApiServerAddress());
                         BtDomainUtil.setFbDomainUrl(fbService.getDomains());
+                        if(!isFirst){
+                            ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
+                                    withString("KEY_PLATFORM", BtDomainUtil.PLATFORM_FB).navigation();
+                        }
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        //super.onError(t);
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);
     }
 
-    public void getFBXCGameTokenApi() {
+    public void getFBXCGameTokenApi(boolean isFirst) {
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         if (TextUtils.isEmpty(token)) {
             return;
@@ -253,17 +259,21 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         BtDomainUtil.setDefaultFbxcDomainUrl(fbService.getForward().getApiServerAddress());
                         BtDomainUtil.addFbxcDomainUrl(fbService.getForward().getApiServerAddress());
                         BtDomainUtil.setFbxcDomainUrl(fbService.getDomains());
+                        if(!isFirst){
+                            ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
+                                    withString("KEY_PLATFORM", BtDomainUtil.PLATFORM_FBXC).navigation();
+                        }
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        //super.onError(t);
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);
     }
 
-    public void getPMGameTokenApi() {
+    public void getPMGameTokenApi(boolean isFirst) {
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         if (TextUtils.isEmpty(token)) {
             return;
@@ -279,17 +289,21 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.PM_IMG_SERVICE_URL, pmService.getImgDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PM_USER_ID, pmService.getUserId());
                         BtDomainUtil.setDefaultPmDomainUrl(pmService.getApiDomain());
+                        if(!isFirst){
+                            ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
+                                    withString("KEY_PLATFORM", BtDomainUtil.PLATFORM_PM).navigation();
+                        }
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        //super.onError(t);
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);
     }
 
-    public void getPMXCGameTokenApi() {
+    public void getPMXCGameTokenApi(boolean isFirst) {
         String token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
         if (TextUtils.isEmpty(token)) {
             return;
@@ -305,11 +319,15 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                         SPUtils.getInstance().put(SPKeyGlobal.PMXC_IMG_SERVICE_URL, pmService.getImgDomain());
                         SPUtils.getInstance().put(SPKeyGlobal.PMXC_USER_ID, pmService.getUserId());
                         BtDomainUtil.setDefaultPmxcDomainUrl(pmService.getApiDomain());
+                        if(!isFirst){
+                            ARouter.getInstance().build(RouterActivityPath.Bet.PAGER_BET_HOME).
+                                    withString("KEY_PLATFORM", BtDomainUtil.PLATFORM_PMXC).navigation();
+                        }
                     }
 
                     @Override
                     public void onError(Throwable t) {
-                        //super.onError(t);
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);

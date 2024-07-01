@@ -1,5 +1,9 @@
 package com.xtree.home.ui.fragment;
 
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FB;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_FBXC;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PM;
+import static com.xtree.base.utils.BtDomainUtil.PLATFORM_PMXC;
 import static com.xtree.base.utils.EventConstant.EVENT_CHANGE_TO_ACT;
 
 import android.graphics.drawable.Drawable;
@@ -168,10 +172,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         if (!TextUtils.isEmpty(token)) {
             setViewClickable(true);
             viewModel.getCookie();
-            viewModel.getFBGameTokenApi();
-            viewModel.getFBXCGameTokenApi();
-            viewModel.getPMGameTokenApi();
-            viewModel.getPMXCGameTokenApi();
+            viewModel.getFBGameTokenApi(true);
+            viewModel.getFBXCGameTokenApi(true);
+            viewModel.getPMGameTokenApi(true);
+            viewModel.getPMXCGameTokenApi(true);
             viewModel.getPublicLink(); // 公共弹窗
             //viewModel.getPaymentsTypeList();
         }
@@ -214,10 +218,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
 
         viewModel.liveDataECLink.observe(getViewLifecycleOwner(), list -> {
-            if (updateView.isShow()) {//如果更新弹窗已显示，不显示弹窗
+            if (updateView != null && updateView.isShow()) {//如果更新弹窗已显示，不显示弹窗
                 return;
             }
-            if (list == null || list.isEmpty() || list.get(0).app_target_link == null || list.get(0).app_target_link.isEmpty()) {
+            if (list == null || list.isEmpty() || TextUtils.isEmpty(list.get(0).app_target_link)) {
                 return;
             }
             String url = list.get(0).app_target_link;
@@ -294,7 +298,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             }
 
             CfLog.d("*** " + vo.toString());
-            if (vo.sp.equals("1")) {
+            if (TextUtils.equals(vo.sp, "1")) {
                 binding.ivwVip.setImageLevel(vo.display_level); // display_level
             } else {
                 binding.ivwVip.setImageLevel(vo.level); // level
@@ -391,7 +395,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                     result = data.link.substring(index);
                 }
                 token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
-                if (TextUtils.isEmpty(token) && result.equals("135")) {
+                if (TextUtils.isEmpty(token) && TextUtils.equals(result, "135")) {
                     ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
                     return;
                 }
@@ -482,6 +486,22 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("vo", vo);
                 startContainerFragment(RouterFragmentPath.Home.ELE, bundle);
+                return;
+            }
+            if (TextUtils.equals(vo.alias, PLATFORM_FBXC)) {
+                viewModel.getFBXCGameTokenApi(false);
+                return;
+            }
+            if (TextUtils.equals(vo.alias, PLATFORM_FB)) {
+                viewModel.getFBGameTokenApi(false);
+                return;
+            }
+            if (TextUtils.equals(vo.alias, PLATFORM_PMXC)) {
+                viewModel.getPMXCGameTokenApi(false);
+                return;
+            }
+            if (TextUtils.equals(vo.alias, PLATFORM_PM)) {
+                viewModel.getPMGameTokenApi(false);
                 return;
             }
             LoadingDialog.show(getContext());

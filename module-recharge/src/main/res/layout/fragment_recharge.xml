@@ -268,17 +268,18 @@
 
                     <!-- 以下是各充值渠道的UI -->
                     <LinearLayout
+                        android:id="@+id/ll_bank_card"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
                         <TextView
                             android:id="@+id/tvw_choose_bank_card"
                             style="@style/style_rc_title"
-                            android:text="付款银行卡"
-                            android:visibility="gone"
-                            tools:visibility="visible" />
+                            android:text="付款银行卡" />
 
                         <TextView
                             android:id="@+id/tvw_bank_card"
@@ -288,9 +289,7 @@
                             android:drawableEnd="@mipmap/cm_ic_expand"
                             android:hint="@string/txt_pls_select_payment_card"
                             android:maxLength="80"
-                            android:text=""
-                            android:visibility="gone"
-                            tools:visibility="visible" />
+                            android:text="" />
                     </LinearLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -372,11 +371,11 @@
                                 style="@style/style_cm_edit"
                                 android:layout_width="0dp"
                                 android:layout_marginStart="4dp"
-                                android:elevation="1dp"
                                 android:layout_marginEnd="@dimen/layout_margin"
+                                android:elevation="1dp"
                                 android:text="@string/txt_enter_recharge_amount"
-                                android:textSize="14sp"
                                 android:textColor="@color/clr_txt_color_hint"
+                                android:textSize="14sp"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@id/tvw_title_amount"
                                 app:layout_constraintTop_toTopOf="parent"

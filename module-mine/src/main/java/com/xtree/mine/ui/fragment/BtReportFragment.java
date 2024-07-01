@@ -371,21 +371,23 @@ public class BtReportFragment extends BaseFragment<FragmentReportBinding, Report
             return;
         }
 
-        String typeId = getArguments().getString("typeId").toUpperCase();
+        String typeId = getArguments().getString("typeId");
         String typeName = getArguments().getString("typeName");
-
-        for (BtPlatformVo vo : btPlatformVos) {
-            if (vo.code.equals(typeId)) {
-                typeName = vo.cn_name;
-            }
-        }
-
         int status = getArguments().getInt("status", 0); // 0-全部, 1-已结算, 2-未结算
-        CfLog.e("typeId: " + typeId + ", typeName: " + typeName + ", status: " + status);
+        CfLog.i("typeId: " + typeId + ", typeName: " + typeName + ", status: " + status);
 
         if (TextUtils.isEmpty(typeId)) {
             return;
         }
+
+        typeId = typeId.toUpperCase();
+        for (BtPlatformVo vo : btPlatformVos) {
+            if (vo.code.equalsIgnoreCase(typeId)) {
+                typeName = vo.cn_name;
+                break;
+            }
+        }
+        CfLog.i("typeId: " + typeId + ", typeName: " + typeName + ", status: " + status);
 
         // 设置选中的类型
         BtPlatformVo typeVo = new BtPlatformVo("", typeId, typeName);
