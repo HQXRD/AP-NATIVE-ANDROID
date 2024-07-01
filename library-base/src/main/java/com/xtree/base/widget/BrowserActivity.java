@@ -90,7 +90,7 @@ public class BrowserActivity extends AppCompatActivity {
     public static final String ARG_IS_LOTTERY = "isLottery";
     public static final String ARG_IS_3RD_LINK = "is3rdLink";
     public static final String ARG_IS_HIDE_TITLE = "isHideTitle";
-    public static final String ARG_SEARCH_DNS_URL = "https://114.114.114.114/dns-query";
+    public static final String ARG_SEARCH_DNS_URL = "https://dns.alidns.com/dns-query";
 
     View vTitle;
     View clTitle;
