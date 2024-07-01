@@ -1,15 +1,9 @@
 package com.xtree.base.net;
 
-import android.os.Build;
-import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
-import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.utils.TagUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -18,18 +12,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
 import kotlin.text.Charsets;
-import me.xtree.mvvmhabit.http.PMBaseResponse;
 import me.xtree.mvvmhabit.utils.KLog;
-import me.xtree.mvvmhabit.utils.SPUtils;
-import me.xtree.mvvmhabit.utils.Utils;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
