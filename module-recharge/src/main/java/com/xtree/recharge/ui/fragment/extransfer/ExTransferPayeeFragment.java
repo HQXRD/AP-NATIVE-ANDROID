@@ -1,7 +1,9 @@
 package com.xtree.recharge.ui.fragment.extransfer;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.comm100.livechat.VisitorClientInterface;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.recharge.BR;
@@ -31,6 +34,7 @@ import java.util.Stack;
 import me.xtree.mvvmhabit.base.AppManager;
 import me.xtree.mvvmhabit.base.BaseFragment;
 import me.xtree.mvvmhabit.base.BaseViewModel;
+import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.bus.RxBus;
 
 /**
@@ -49,7 +53,22 @@ public class ExTransferPayeeFragment extends BaseFragment<FragmentExtransferPaye
         serviceChatFlow = new Comm100ChatWindows(requireActivity());
         serviceChatFlow.setOnClickListener(new Comm100ChatWindows.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view, String url) {
+
+                String chatUrl = url;
+                if (viewModel != null && viewModel.payOrderData.getValue() != null) {
+                    String merchantOrder = viewModel.payOrderData.getValue().getMerchantOrder();
+                    if (!TextUtils.isEmpty(merchantOrder)) {
+                        chatUrl += merchantOrder;
+                    }
+                }
+
+                VisitorClientInterface.setChatUrl(chatUrl);
+
+                Intent intent = new Intent(getContext(), ContainerActivity.class);
+                intent.putExtra(ContainerActivity.ROUTER_PATH, RouterFragmentPath.Transfer.PAGER_TRANSFER_EX_CHAT);
+                requireActivity().startActivity(intent);
+
                 viewModel.close();
             }
         });

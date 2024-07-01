@@ -358,7 +358,7 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
      * 设置客服提示计时器
      */
     public void serviceChatTimeKeeping() {
-        Disposable disposable = (Disposable) Flowable.intervalRange(0, 30, 0, 1, TimeUnit.SECONDS)
+        Flowable.intervalRange(0, 30, 0, 1, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(new Action() {
                     @Override
@@ -369,7 +369,6 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     }
                 })
                 .subscribe();
-        addSubscribe(disposable);
     }
 
     /**
