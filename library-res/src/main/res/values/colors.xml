@@ -429,7 +429,7 @@
     <color name="cl_amount_bt">@color/clr_main_05</color>
     <color name="cl_withdrawal_amount">#6D6C72</color>
     <color name="cl_withdrawal_tip">#D24859</color>
-    <color name="cl_over_tip">#8F8F8F</color>
+    <color name="cl_over_tip">#C6C6C6</color>
     <color name="cl_awards_end">@color/clr_main_05</color>
     <color name="cl_awards_start">@color/clr_main_07</color>
     <color name="clr_e5e7f3">#E5E7F3</color>
@@ -483,4 +483,16 @@
     <color name="clr_txt_rebateagrt_subtitle">#99A0B1</color>
     <!--    高亮-->
     <color name="clr_txt_rebateagrt_highlight">#0065FF</color>
+    <!--    输入资金密码-->
+    <color name="clr_short_btn_start">#DBEAFF</color>
+    <color name="clr_short_btn_center">#415AB0</color>
+    <color name="clr_short_btn_end">#385B8F</color>
+    <color name="clr_short_btn_left_start">#E7ECF5</color>
+    <color name="clr_short_btn_left_stroke">#B8C3E2</color>
+    <color name="clr_fund_psw_top">#BEE0FF</color>
+    <color name="clr_fund_psw_center">#FFFFFF</color>
+    <color name="clr_fund_psw_start">#54699F</color>
+    <color name="clr_fund_psw_end">#6A7FBF</color>
+
+
 </resources>
