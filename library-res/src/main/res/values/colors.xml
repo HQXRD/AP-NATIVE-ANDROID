@@ -494,5 +494,6 @@
     <color name="clr_fund_psw_start">#54699F</color>
     <color name="clr_fund_psw_end">#6A7FBF</color>
 
+    <color name="clr_withdrawal_center">#B7CDFF</color>
 
 </resources>
