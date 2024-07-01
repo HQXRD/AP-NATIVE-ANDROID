@@ -214,10 +214,10 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         });
 
         viewModel.liveDataECLink.observe(getViewLifecycleOwner(), list -> {
-            if (updateView.isShow()) {//如果更新弹窗已显示，不显示弹窗
+            if (updateView != null && updateView.isShow()) {//如果更新弹窗已显示，不显示弹窗
                 return;
             }
-            if (list == null || list.isEmpty() || list.get(0).app_target_link == null || list.get(0).app_target_link.isEmpty()) {
+            if (list == null || list.isEmpty() || TextUtils.isEmpty(list.get(0).app_target_link)) {
                 return;
             }
             String url = list.get(0).app_target_link;
@@ -294,7 +294,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             }
 
             CfLog.d("*** " + vo.toString());
-            if (vo.sp.equals("1")) {
+            if (TextUtils.equals(vo.sp, "1")) {
                 binding.ivwVip.setImageLevel(vo.display_level); // display_level
             } else {
                 binding.ivwVip.setImageLevel(vo.level); // level
@@ -391,7 +391,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                     result = data.link.substring(index);
                 }
                 token = SPUtils.getInstance().getString(SPKeyGlobal.USER_TOKEN);
-                if (TextUtils.isEmpty(token) && result.equals("135")) {
+                if (TextUtils.isEmpty(token) && TextUtils.equals(result, "135")) {
                     ARouter.getInstance().build(RouterActivityPath.Mine.PAGER_LOGIN_REGISTER).navigation();
                     return;
                 }

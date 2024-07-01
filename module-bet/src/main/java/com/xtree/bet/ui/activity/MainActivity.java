@@ -1158,6 +1158,7 @@ public class MainActivity extends BaseActivity<FragmentMainBinding, TemplateMain
         super.onDestroy();
         BtCarManager.destroy();
         SPUtils.getInstance(BET_EXPAND).clear();
+        mBettingNetFloatingWindows.removeView();
         mBettingNetFloatingWindows.clearInstance();
     }
 
