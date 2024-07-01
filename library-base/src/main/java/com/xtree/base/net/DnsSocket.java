@@ -12,61 +12,88 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import okhttp3.Dns;
 
 /**
- * Created by KAKA on 2024/6/18.
- * Describe: DNS配置工厂
+ * Created by KAKA on 2024/6/27.
+ * Describe: DNS 解析 SOCKET
  */
-public class DnsFactory {
-    public static Dns getDns() {
-        //可以根据条件配置DNS
-        return new EcDns();
+public class DnsSocket {
+
+    private static volatile DnsSocket instance;
+    private volatile DatagramSocket socket;;
+    private static final int TIME_OUT = 5000;;
+    public static final String dns1 = "114.114.114.114";
+    public static final String dns2 = "8.8.8.8";
+    public static final int dnsPort = 53;;
+
+    private DnsSocket() throws SocketException {
+        socket = new DatagramSocket();
+        socket.setSoTimeout(TIME_OUT);
     }
 
-    //PRE环境DNS
-    private static class PreDns implements Dns {
-        @Override
-        public List<InetAddress> lookup(String hostname) throws UnknownHostException {
-            return SYSTEM.lookup(hostname);
-        }
-    }
-
-    //生产环境DNS
-    private static class EcDns implements Dns {
-        private List<InetAddress> dnsServers = null;
-        private static final String dns1 = "114.114.114.114";
-        private static final String dns2 = "8.8.8.8";
-        private static final int dnsPort = 53;
-
-        @Override
-        public List<InetAddress> lookup(String hostname) throws UnknownHostException {
-            InetAddress address = InetAddress.getByName(hostname);
-
-            if (address.getHostAddress().equals(address.getHostName())) {
-                return SYSTEM.lookup(hostname);
-            } else {
-                CfLog.i(hostname + " is an domain name");
-                try {
-                    DatagramSocket socket = new DatagramSocket();
-                    dnsServers = new ArrayList<>();
-                    dnsServers.add(resolveDNS(socket,hostname, dns1, dnsPort));
-                    dnsServers.add(resolveDNS(socket, hostname, dns2, dnsPort));
-                    socket.close();
-                    return dnsServers;
-                } catch (SocketException e) {
-                    e.printStackTrace();
-                    return Collections.singletonList(InetAddress.getByName(hostname));
+    public static DnsSocket getInstance() throws SocketException {
+        if (instance == null) {
+            synchronized (DnsSocket.class) {
+                if (instance == null) {
+                    instance = new DnsSocket();
                 }
             }
         }
+        return instance;
     }
 
-    public static InetAddress resolveDNS(DatagramSocket socket, String hostname, String dnsServer, int dnsPort) throws UnknownHostException {
+    /**
+     * 使用114.114.114.114 解析
+     */
+    public InetAddress resolveDNS1(String hostname) throws UnknownHostException {
+        return resolveDNS(hostname, dns1, dnsPort);
+    }
+
+    /**
+     * 使用8.8.8.8 解析
+     */
+    public InetAddress resolveDNS2(String hostname) throws UnknownHostException {
+        return resolveDNS(hostname, dns2, dnsPort);
+    }
+
+    /**
+     * 轮次使用dns1->dns2 解析hostname
+     * @return 返回解析结果 若服务器解析失败则使用本地dns解析
+     */
+    public InetAddress resolveDNS(String hostname) throws UnknownHostException {
+        try {
+            byte[] dnsQuery = buildDNSQuery(hostname);
+            DatagramPacket requestPacket = new DatagramPacket(dnsQuery, dnsQuery.length, InetAddress.getByName(dns1), dnsPort);
+            socket.send(requestPacket);
+            byte[] response = new byte[1024];
+            DatagramPacket responsePacket = new DatagramPacket(response, response.length);
+            socket.receive(responsePacket);
+
+
+            String ip = parseDNSResponse(responsePacket.getData(), responsePacket.getLength());
+
+            if (ip != null) {
+                CfLog.i("DNS获取成功 " + hostname + ": " + ip);
+                return InetAddress.getByName(ip);
+            } else {
+                CfLog.e("dns解析失败 " + hostname);
+                return resolveDNS(hostname, dns2, dnsPort);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return resolveDNS(hostname, dns2, dnsPort);
+    }
+
+    /**
+     * 指定DNS服务器解析hostname
+     * @param hostname 域名
+     * @param dnsServer dns服务器地址
+     * @param dnsPort 端口号
+     * @return 返回解析结果 若服务器解析失败则使用本地dns解析
+     */
+    public InetAddress resolveDNS(String hostname, String dnsServer, int dnsPort) throws UnknownHostException {
         try {
             byte[] dnsQuery = buildDNSQuery(hostname);
             DatagramPacket requestPacket = new DatagramPacket(dnsQuery, dnsQuery.length, InetAddress.getByName(dnsServer), dnsPort);
@@ -92,7 +119,7 @@ public class DnsFactory {
         return InetAddress.getByName(hostname);
     }
 
-    private static byte[] buildDNSQuery(String hostname) {
+    private byte[] buildDNSQuery(String hostname) {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
 
@@ -123,7 +150,7 @@ public class DnsFactory {
         return byteArrayOutputStream.toByteArray();
     }
 
-    private static String parseDNSResponse(byte[] response, int length) {
+    private String parseDNSResponse(byte[] response, int length) {
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(response,
                 0, length);
         DataInputStream dataInputStream = new DataInputStream(byteArrayInputStream);
@@ -157,13 +184,13 @@ public class DnsFactory {
         return null;
     }
 
-    private static void skipQuestion(DataInputStream dataInputStream) throws IOException {
+    private void skipQuestion(DataInputStream dataInputStream) throws IOException {
         while (dataInputStream.readByte() != 0) ;
         dataInputStream.readShort();
         dataInputStream.readShort();
     }
 
-    private static String readAnswer(DataInputStream dataInputStream) throws IOException {
+    private String readAnswer(DataInputStream dataInputStream) throws IOException {
         if (dataInputStream.readByte() != (byte) 0xc0) {
             return null;
         }
@@ -181,21 +208,13 @@ public class DnsFactory {
         return null;
     }
 
-    //这个不行
-//    private static String readAnswer(DataInputStream dataInputStream) throws IOException {
-//        if (dataInputStream.readByte() != (byte) 0xc0) {
-//            return null;
-//        }
-//        dataInputStream.readByte();
-//        int type = dataInputStream.readShort();
-//        dataInputStream.readShort();
-//        int length = dataInputStream.readShort();
-//        if (type == 1 && length == 4) {
-//            byte[] ipBytes = new byte[length];
-//            dataInputStream.read(ipBytes);
-//            return InetAddress.getByAddress(ipBytes).getHostAddress();
-//        }
-//        dataInputStream.skipBytes(length);
-//        return null;
-//    }
+
+    public static synchronized void closeInstance() {
+        if (instance != null) {
+            if (instance.socket != null) {
+                instance.socket.close();
+            }
+            instance = null;
+        }
+    }
 }

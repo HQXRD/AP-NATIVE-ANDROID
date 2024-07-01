@@ -5,8 +5,8 @@ android {
         // 测试环境 测试用
         xingCai_pre {
             applicationId "com.${name.toLowerCase()}.app" //
-            versionName "1.2.3"
-            versionCode 123
+            versionName "1.2.4"
+            versionCode 124
             resValue "string", "app_name", "杏彩T${versionCode}"
             resValue "string", "domain_api", "https://ap3sport.oxldkm.com"
             resValue "string", "domain_url", "https://ap3sport.oxldkm.com"
@@ -18,14 +18,7 @@ android {
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "domain_api_list", "https://ap3sport.oxldkm.com;"
             resValue "string", "domain_url_list", "https://ap3sport.oxldkm.com;"
-            resValue "string", "domain_url_list_third", "https://scdnapp.l3s7n5.com/xc/app_config.json" +
-                    ";https://scdnapp.b4k4p3.com/xc/app_config.json" +
-                    ";https://scdnapp.s2s3b7.com/xc/app_config.json" +
-                    ";https://scdnapp.f6i8s7.com/xc/app_config.json" +
-                    ";https://cn2app.e2f9f5.com/xc/app_config.json" +
-                    ";https://cn2app.q5o4v3.com/xc/app_config.json" +
-                    ";https://cn2app.e9f6s7.com/xc/app_config.json" +
-                    ";https://cn2app.v2a1c6.com/xc/app_config.json"
+            resValue "string", "domain_url_list_third", "https://ap3sport.oxldkm.com/xc/app_config.json"
             multiDexEnabled true
             dimension "channelName"
         }
@@ -82,8 +75,8 @@ android {
         // 生产环境 欧洲杯发布用
         xingCai_EC {
             applicationId "com.sptxc.app" // xcsport
-            versionName "1.2.3"
-            versionCode 123
+            versionName "1.2.4"
+            versionCode 124
             resValue "string", "app_name", "XC Sports"
             resValue "string", "domain_api", "https://app.zgntcpgxds.com:16801"
             resValue "string", "domain_url", "https://h51.h2b4u5.com"

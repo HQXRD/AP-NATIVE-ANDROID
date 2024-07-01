@@ -324,8 +324,10 @@ public class LeagueAdapter extends AnimatedExpandableListViewMax.AnimatedExpanda
         }
 
         List<Integer> scoreList = match.getScore(Constants.getScoreType());
-
-        if (scoreList != null && scoreList.size() > 1) {
+        if (!match.isGoingon()){
+            binding.tvScoreMain.setText("");
+            binding.tvScoreVisitor.setText("");
+        } else if (scoreList != null && scoreList.size() > 1) {
             binding.tvScoreMain.setText(String.valueOf(scoreList.get(0)));
             binding.tvScoreVisitor.setText(String.valueOf(scoreList.get(1)));
         }
