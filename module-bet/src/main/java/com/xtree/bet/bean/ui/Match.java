@@ -145,7 +145,7 @@ public interface Match extends BaseBean {
      */
     String getIconVisitor();
     /**
-     * 获取比赛是否未开始状态
+     * 获取比赛是否开始状态
      * @return
      */
     boolean isGoingon();
