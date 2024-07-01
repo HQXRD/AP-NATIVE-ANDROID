@@ -91,6 +91,7 @@ public class ExTransferVoucherFragment extends BaseFragment<FragmentExtransferVo
     public void initData() {
         super.initData();
         binding.getModel().setActivity(getActivity());
+        binding.getModel().setFlowWindow(serviceChatFlow);
         binding.getModel().canonicalName = getClass().getCanonicalName();
     }
 
@@ -119,6 +120,7 @@ public class ExTransferVoucherFragment extends BaseFragment<FragmentExtransferVo
         super.onDestroy();
         if (serviceChatFlow != null) {
             serviceChatFlow.removeView();
+            serviceChatFlow = null;
         }
     }
 }

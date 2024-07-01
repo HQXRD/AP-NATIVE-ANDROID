@@ -5,9 +5,9 @@ import android.content.Intent;
 import android.view.View;
 
 import com.comm100.livechat.VisitorClientInterface;
-import com.xtree.base.R;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.widget.FloatingWindows;
+import com.xtree.recharge.R;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
 
@@ -27,7 +27,7 @@ public class Comm100ChatWindows extends FloatingWindows {
      */
     public Comm100ChatWindows(Context context) {
         super(context);
-        onCreate(0);
+        onCreate(R.layout.layout_commchat_flowview);
     }
 
     public interface OnClickListener {
@@ -43,6 +43,7 @@ public class Comm100ChatWindows extends FloatingWindows {
     @Override
     public void initData() {
         setIcon(R.mipmap.icon_kefu_float);
+
         if (floatView != null) {
             floatView.setOnClickListener(v -> {
 
@@ -60,5 +61,19 @@ public class Comm100ChatWindows extends FloatingWindows {
                 getContext().startActivity(intent);
             });
         }
+    }
+
+    /**
+     * 显示提示
+     */
+    public void showTip() {
+        setBottomLocation();
+    }
+
+    /**
+     * 隐藏提示
+     */
+    public void hideTip() {
+        removeSecond();
     }
 }

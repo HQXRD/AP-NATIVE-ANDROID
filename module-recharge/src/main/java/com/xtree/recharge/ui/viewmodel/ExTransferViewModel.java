@@ -1,5 +1,6 @@
 package com.xtree.recharge.ui.viewmodel;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.content.ActivityNotFoundException;
@@ -54,6 +55,7 @@ import com.xtree.recharge.ui.fragment.extransfer.ExTransferFailFragment;
 import com.xtree.recharge.ui.fragment.extransfer.ExTransferPayeeFragment;
 import com.xtree.recharge.ui.fragment.extransfer.ExTransferVoucherFragment;
 import com.xtree.recharge.ui.model.BankPickModel;
+import com.xtree.recharge.ui.widget.Comm100ChatWindows;
 import com.xtree.recharge.vo.RechargeVo;
 
 import java.io.File;
@@ -125,6 +127,8 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     public MutableLiveData<RechargeViewModel> rechargeLiveData = new MutableLiveData<>();
     //标题
     public MutableLiveData<String> titleLiveData = new MutableLiveData<>("小额网银");
+    @SuppressLint("StaticFieldLeak")
+    private Comm100ChatWindows serviceChatFlow = null;
 
     public void initData(FragmentActivity mActivity, ExCreateOrderRequest createOrderInfo) {
         setActivity(mActivity);
@@ -348,6 +352,24 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
                     .subscribe();
             addSubscribe(disposable);
         }
+    }
+
+    /**
+     * 设置客服提示计时器
+     */
+    public void serviceChatTimeKeeping() {
+        Disposable disposable = (Disposable) Flowable.intervalRange(0, 30, 0, 1, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        if (serviceChatFlow != null) {
+                            serviceChatFlow.showTip();
+                        }
+                    }
+                })
+                .subscribe();
+        addSubscribe(disposable);
     }
 
     /**
@@ -885,6 +907,13 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
     }
 
     /**
+     * 设置当前客服浮窗
+     */
+    public void setFlowWindow(Comm100ChatWindows chatWindows) {
+        this.serviceChatFlow = chatWindows;
+    }
+
+    /**
      * 解析时间
      */
     public String formatSeconds(long seconds) {
@@ -1022,6 +1051,11 @@ public class ExTransferViewModel extends BaseViewModel<RechargeRepository> {
         if (mActivity != null) {
             mActivity.clear();
             mActivity = null;
+        }
+
+        if (serviceChatFlow != null) {
+            serviceChatFlow.removeView();
+            serviceChatFlow = null;
         }
 
         if (rechargeLiveData != null && rechargeLiveData.getValue() != null) {

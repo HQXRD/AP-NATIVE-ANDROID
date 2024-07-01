@@ -95,12 +95,14 @@ public class ExTransferCommitFragment extends BaseFragment<FragmentExtransferCom
         super.initData();
 
         binding.getModel().setActivity(getActivity());
+        binding.getModel().setFlowWindow(serviceChatFlow);
         binding.getModel().canonicalName = getClass().getCanonicalName();
 
         ExCreateOrderRequest createOrderInfo = RxBus.getDefault().getStickyEvent(ExCreateOrderRequest.class);
         if (createOrderInfo != null) {
             RxBus.getDefault().removeAllStickyEvents();
             binding.getModel().initData(getActivity(),createOrderInfo);
+            binding.getModel().serviceChatTimeKeeping();
         }
     }
 
@@ -130,6 +132,7 @@ public class ExTransferCommitFragment extends BaseFragment<FragmentExtransferCom
         super.onDestroy();
         if (serviceChatFlow != null) {
             serviceChatFlow.removeView();
+            serviceChatFlow = null;
         }
     }
 
