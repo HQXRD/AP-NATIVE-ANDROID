@@ -71,8 +71,19 @@ public class ExceptionInterceptor extends DecompressInterceptor {
             return response;
         } else {
             TagUtils.tagEvent(Utils.getContext(), "event_json_conversion_error", DomainUtil.getApiUrl());
-            if(isHijacked(result) || result.toLowerCase().contains("html")) {
-                throw new HijackedException(request.url(), result);
+            if (result.contains("诈骗") || result.contains("公检法") || result.contains("反诈中心")) {
+                //CfLog.e("被劫持地址：" + request.url());
+                BaseResponse baseResponse = new BaseResponse();
+                baseResponse.setStatus(CODE_100002);
+                try {
+                    result = new Gson().toJson(baseResponse);
+                    ResponseBody resultResponseBody = ResponseBody.create(contentType, result);
+                    response = response.newBuilder().body(resultResponseBody).build();
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                } finally {
+                    return response;
+                }
             }else {
                 return response;
             }

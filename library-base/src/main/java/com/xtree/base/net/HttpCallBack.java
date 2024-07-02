@@ -12,6 +12,7 @@ import com.xtree.base.utils.TagUtils;
 import com.xtree.base.widget.LoadingDialog;
 
 import io.reactivex.subscribers.DisposableSubscriber;
+import io.sentry.Sentry;
 import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.http.BusinessException;
 import me.xtree.mvvmhabit.http.HijackedException;
@@ -117,6 +118,11 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
                 // 谷歌验证
                 onFail(ex);
                 break;
+            case HttpCallBack.CodeRule.CODE_100002:
+                TagUtils.tagEvent(Utils.getContext(), "API JSON数据转换失败", DomainUtil.getApiUrl());
+                ToastUtils.showShort("当前网络环境异常，切换线路中..."); // ("域名被劫持"  + "，切换线路中...");
+                ChangeApiLineUtil.getInstance().start();
+                break;
             default:
                 KLog.e("status is not normal: " + baseResponse);
                 onFail(ex);
@@ -128,6 +134,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
     public void onError(Throwable t) {
         LoadingDialog.finish();
         KLog.e("error: " + t.toString());
+        Sentry.captureException(t);
         //t.printStackTrace();
         if (t instanceof ResponseThrowable) {
             ResponseThrowable rError = (ResponseThrowable) t;
@@ -168,6 +175,7 @@ public abstract class HttpCallBack<T> extends DisposableSubscriber<T> {
     public void onFail(BusinessException t) {
         LoadingDialog.finish();
         KLog.e("error: " + t.toString());
+        Sentry.captureException(t);
         ToastUtils.showLong(t.message + " [" + t.code + "]");
     }
 
