@@ -68,11 +68,11 @@
             app:layout_constraintTop_toBottomOf="@id/cl_main"
             app:tabBackground="@color/white"
             app:tabGravity="center"
-            app:tabIndicatorColor="@color/clr_main"
+            app:tabIndicatorColor="@color/clr_blue_02"
             app:tabMode="scrollable"
             app:tabPadding="2dp"
-            app:tabSelectedTextColor="@color/clr_main"
-            app:tabTextColor="@color/black" />
+            app:tabSelectedTextColor="@color/clr_black"
+            app:tabTextColor="@color/bt_color_blurred" />
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/vp_main"

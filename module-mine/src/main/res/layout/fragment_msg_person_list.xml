@@ -71,7 +71,7 @@
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/bt_msg_delete_selected"
                 android:text="@string/txt_delete_selected"
-                android:textColor="@color/clr_txt_01"
+                android:textColor="@color/clr_blue_02"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/btn_all_delete"
