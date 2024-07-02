@@ -35,6 +35,7 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.R;
 import com.xtree.base.global.SPKeyGlobal;
+import com.xtree.base.net.DnsWebViewClient;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 
@@ -430,37 +431,37 @@ public class BrowserDialog extends BottomPopupView {
         }
     }
 
-    public class CustomWebViewClient extends com.just.agentweb.WebViewClient {
-        private OkHttpClient client;
-
-        public CustomWebViewClient() throws UnknownHostException {
-            // 初始化 OkHttpClient 并配置自定义的 DNS 解析
-            client = new OkHttpClient.Builder()
-                    .dns(new DnsOverHttps.Builder()
-                            .client(new OkHttpClient())
-                            .url(HttpUrl.get(ARG_SEARCH_DNS_URL))
-                            .bootstrapDnsHosts(InetAddress.getByName("8.8.8.8"), InetAddress.getByName("114.114.114.114"))
-                            .build())
-                    .build();
-        }
-
-        @Override
-        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            String url = request.getUrl().toString();
-            Request httpRequest = new Request.Builder().url(url).build();
-
-            try {
-                Response response = client.newCall(httpRequest).execute();
-                return new WebResourceResponse(
-                        response.header("content-type"),
-                        response.header("content-encoding"),
-                        response.body().byteStream()
-                );
-            } catch (IOException e) {
-                e.printStackTrace();
-                return super.shouldInterceptRequest(view, request);
-            }
-        }
+    public class CustomWebViewClient extends DnsWebViewClient {
+//        private OkHttpClient client;
+//
+//        public CustomWebViewClient() throws UnknownHostException {
+//            // 初始化 OkHttpClient 并配置自定义的 DNS 解析
+//            client = new OkHttpClient.Builder()
+//                    .dns(new DnsOverHttps.Builder()
+//                            .client(new OkHttpClient())
+//                            .url(HttpUrl.get(ARG_SEARCH_DNS_URL))
+//                            .bootstrapDnsHosts(InetAddress.getByName("8.8.8.8"), InetAddress.getByName("114.114.114.114"))
+//                            .build())
+//                    .build();
+//        }
+//
+//        @Override
+//        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+//            String url = request.getUrl().toString();
+//            Request httpRequest = new Request.Builder().url(url).build();
+//
+//            try {
+//                Response response = client.newCall(httpRequest).execute();
+//                return new WebResourceResponse(
+//                        response.header("content-type"),
+//                        response.header("content-encoding"),
+//                        response.body().byteStream()
+//                );
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return super.shouldInterceptRequest(view, request);
+//            }
+//        }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
