@@ -167,70 +167,6 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <!-- <LinearLayout
-                             android:layout_width="match_parent"
-                             android:layout_height="34dp"
-                             android:orientation="vertical"
-                             android:visibility="gone">
-
-                             <RelativeLayout
-                                 android:layout_width="match_parent"
-                                 android:layout_height="34dp">
-
-                                 <LinearLayout
-                                     android:id="@+id/ll_usdt"
-                                     android:layout_width="82dp"
-                                     android:layout_height="30dp"
-                                     android:background="@drawable/bg_dialog_top_bank_selected"
-                                     android:orientation="horizontal">
-
-                                     <RelativeLayout
-                                         android:layout_width="match_parent"
-                                         android:layout_height="match_parent">
-
-                                         <TextView
-                                             android:id="@+id/tv_virtual_usdt"
-                                             android:layout_width="wrap_content"
-                                             android:layout_height="wrap_content"
-                                             android:layout_centerHorizontal="true"
-                                             android:layout_centerVertical="true"
-                                             android:layout_gravity="center"
-                                             android:gravity="center_horizontal"
-                                             android:text="USDT"
-                                             android:textColor="@color/white" />
-                                     </RelativeLayout>
-
-                                 </LinearLayout>
-
-                                 <LinearLayout
-                                     android:id="@+id/ll_other_usdt"
-                                     android:layout_width="82dp"
-                                     android:layout_height="30dp"
-                                     android:layout_marginLeft="10dp"
-                                     android:layout_toRightOf="@id/ll_usdt"
-                                     android:background="@drawable/bg_dialog_top_bank_noselected"
-                                     android:orientation="horizontal">
-
-                                     <RelativeLayout
-                                         android:layout_width="match_parent"
-                                         android:layout_height="match_parent">
-
-                                         <TextView
-                                             android:id="@+id/tv_virtual_other"
-                                             android:layout_width="wrap_content"
-                                             android:layout_height="wrap_content"
-                                             android:layout_centerHorizontal="true"
-                                             android:layout_centerVertical="true"
-                                             android:layout_gravity="center"
-                                             android:gravity="center_horizontal"
-                                             android:text="嗨钱包USDT"
-                                             android:textColor="@color/white" />
-                                     </RelativeLayout>
-                                 </LinearLayout>
-                             </RelativeLayout>
-
-                         </LinearLayout>-->
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="60dp"
@@ -242,6 +178,7 @@
                                 android:layout_height="wrap_content"
                                 android:text=""
                                 tools:text="Demo"
+                                android:drawableLeft="@mipmap/mine_withdrawal_notice"
                                 android:textColor="@color/clr_grey_13" />
                         </LinearLayout>
                     </LinearLayout>
@@ -371,7 +308,7 @@
                         android:id="@+id/et_input_money"
                         style="@style/style_bank_edit"
                         android:layout_marginLeft="10dp"
-                        android:drawableLeft="@mipmap/me_icon_wlt_bank"
+
                         android:drawablePadding="6dp"
                         android:hint="@string/txt_input_money"
                         android:inputType="numberDecimal"
@@ -480,7 +417,8 @@
                                     android:id="@+id/tv_collection_usdt"
                                     style="@style/style_usdt_edit"
                                     android:layout_marginLeft="10dp"
-                                    android:drawableRight="@mipmap/bt_icon_expand"
+                                    android:drawableRight="@mipmap/mine_withdrawal_expand"
+                                    android:paddingRight="10dp"
                                     android:hint="@string/txt_select_virtual_address" />
                             </RelativeLayout>
 

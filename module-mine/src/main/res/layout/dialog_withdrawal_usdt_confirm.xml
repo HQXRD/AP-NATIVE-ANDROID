@@ -56,8 +56,7 @@
 
     <View style="@style/style_withdraw_dividing_line" android:visibility="gone" />
 
-    <LinearLayout style="@style/style_withdraw_confirm_ll"
-         >
+    <LinearLayout style="@style/style_withdraw_confirm_ll">
 
         <TextView
             style="@style/style_withdraw_show_title"
