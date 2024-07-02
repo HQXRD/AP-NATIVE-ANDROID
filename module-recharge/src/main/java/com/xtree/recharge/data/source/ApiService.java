@@ -101,12 +101,10 @@ public interface ApiService {
 
     /**
      * 获取 充值类型详情 (跳转链接用的)
-     *
-     * @param bid
-     * @return
      */
-    @GET("/api/deposit/payments?")
-    Flowable<BaseResponse<RechargeVo>> getPayment(@Query("bid") String bid);
+    //@GET("/api/deposit/payments?")
+    @GET("/api/deposit/info/{bid}")
+    Flowable<BaseResponse<RechargeVo>> getPayment(@Path("bid") String bid);
 
     /**
      * 获取 实际充值金额 (接口和充值一样,参数不一样)
@@ -118,7 +116,8 @@ public interface ApiService {
     /**
      * 提交充值
      */
-    @POST("/api/deposit/rechargepay/{bid}")
+    //@POST("/api/deposit/rechargepay/{bid}")
+    @POST("/api/deposit/submit/{bid}")
     @Headers({"Content-Type: application/vnd.sc-api.v1.json"})
     Flowable<BaseResponse<Object>> rechargePay(@Path("bid") String bid, @Body Map<String, String> map);
 
