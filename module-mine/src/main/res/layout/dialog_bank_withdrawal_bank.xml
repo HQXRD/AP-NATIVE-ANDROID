@@ -160,9 +160,10 @@
                     android:id="@+id/tv_show_notice_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/mine_withdrawal_notice"
                     android:textColor="@color/clr_grey_13"
                     android:visibility="visible"
-                    tools:text="Demo" />
+                    tools:text="De1231231231233333333333333333333333333333333333333333333333333333333333333333333mo" />
 
             </LinearLayout>
         </RelativeLayout>
@@ -310,15 +311,17 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="10dp"
-                                android:background="@mipmap/me_icon_wlt_bank" />
+                                android:background="@mipmap/me_icon_wlt_bank"
+                                android:visibility="gone"/>
 
                             <EditText
                                 android:id="@+id/et_input_money_more"
                                 style="@style/style_bank_edit"
                                 android:layout_alignLeft="@id/iv_input_money_more"
-                                android:layout_marginLeft="18dp"
+                                android:layout_marginLeft="6dp"
                                 android:focusable="false"
                                 android:hint="@string/txt_input_money"
+                                android:textColorHint="@color/cl_over_tip"
                                 android:imeOptions="actionDone"
                                 android:inputType="numberDecimal"
                                 android:maxLength="14"
@@ -411,7 +414,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="1dp"
                                 android:text="@string/txt_payee_bank_card"
-                                android:textColor="@color/clr_txt_withdraw_money"
+                                android:textColor="@color/clr_grey_13"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
 
@@ -448,7 +451,7 @@
 
                             <TextView
                                 android:id="@+id/tv_actual_withdrawal_next_more"
-                                style="@style/style_cm_btn_round"
+                                style="@style/style_btn_round"
                                 android:text="@string/txt_next_step" />
 
                             <TextView

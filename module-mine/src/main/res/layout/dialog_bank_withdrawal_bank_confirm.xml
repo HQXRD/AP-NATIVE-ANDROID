@@ -11,6 +11,7 @@
     <!--显示状态 2 确认提款信息View-->
     <LinearLayout
         android:id="@+id/ll_virtual_confirm_view"
+        android:background="@color/clr_white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
