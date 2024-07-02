@@ -1,18 +1,17 @@
 package com.xtree.base.utils
 
 import com.drake.net.Get
-import com.drake.net.NetConfig
-import com.drake.net.tag.RESPONSE
+import com.drake.net.okhttp.trustSSLCertificate
 import com.drake.net.transform.transform
 import com.drake.net.utils.fastest
 import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
 import com.xtree.base.R
+import com.xtree.base.net.DnsFactory
 import com.xtree.base.vo.Domain
 import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
 import java.util.concurrent.CancellationException
-import java.util.concurrent.TimeUnit
 
 class ChangeH5LineUtil private constructor() {
 
@@ -35,7 +34,7 @@ class ChangeH5LineUtil private constructor() {
 
     fun start() {
         if (!mIsRunning) {
-            CfLog.e("=====开始切换线路========")
+            CfLog.e("=====H5开始切换线路========")
             mIsRunning = true
             setThirdFasterDomain()
             setFasterH5Domain()
@@ -64,27 +63,31 @@ class ChangeH5LineUtil private constructor() {
             val domainTasks = mCurH5DomainList.map { host ->
                 Get<String>(
                     "$host/point.bmp",
-                    absolutePath = true,
-                    tag = RESPONSE,
-                    uid = "the_fastest_line_h5"
-                ).transform { data ->
+                    tag = "the_fastest_line")
+                {
+                    addHeader("App-RNID", "87jumkljo")
+                    setClient {
+                        dns(DnsFactory.getDns())
+                        trustSSLCertificate()
+                    }
+                }.transform { data ->
                     CfLog.e("域名：H5------$host")
-
                     DomainUtil.setH5Url(host)
                     data
                 }
             }
             try {
-                fastest(domainTasks, uid = "the_fastest_line_h5")
+                fastest(domainTasks/*, uid = "the_fastest_line_h5"*/)
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 if (e !is CancellationException) {
                     if (isThird) {
                         CfLog.e("切换线路失败，请检查手机网络连接情况")
-                        ToastUtils.showLong("切换网页线路失败，请检查手机网络连接情况")
+                        //ToastUtils.showLong("切换网页线路失败，请检查手机网络连接情况")
                         mIsRunning = false
+                    }else {
+                        getThirdFastestDomain(isH5 = true)
                     }
-                    getThirdFastestDomain(isH5 = true)
 
                 }
             }
@@ -100,12 +103,13 @@ class ChangeH5LineUtil private constructor() {
             val domainTasks = mThirdDomainList.map { host ->
                 Get<String>(
                     "$host",
-                    absolutePath = true,
-                    tag = RESPONSE,
-                    uid = "the_fastest_line_third"
+                    "the_fastest_line_third"
                 ) {
                     addHeader("App-RNID", "87jumkljo")
-                    connectTimeout(5, TimeUnit.SECONDS)
+                    setClient {
+                        dns(DnsFactory.getDns())
+                        trustSSLCertificate()
+                    }
                 }.transform { data ->
                     CfLog.e("$host")
                     try {
@@ -114,7 +118,7 @@ class ChangeH5LineUtil private constructor() {
                             "wnIem4HOB2RKzhiqpaqbZuxtp7T36afAHH88BUht/2Y="
                         )
                         val domain: Domain = Gson().fromJson(domainJson, Domain::class.java)
-                        ChangeApiLineUtil.mCurApiDomainList = domain.api
+                        mCurH5DomainList = domain.h5
                         getFastestH5Domain(isThird = true)
                     } catch (e: Exception) {
                         mIsRunning = false
@@ -124,11 +128,11 @@ class ChangeH5LineUtil private constructor() {
                 }
             }
             try {
-                fastest(domainTasks, uid = "the_fastest_line_third")
+                fastest(domainTasks, "the_fastest_line_third")
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 mIsRunning = false
-                ToastUtils.showLong("切换H5线路失败，获取三方域名存储地址失败，请检查手机网络连接情况")
+                //ToastUtils.showLong("切换H5线路失败，获取三方域名存储地址失败，请检查手机网络连接情况")
             }
         }
     }

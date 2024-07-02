@@ -127,7 +127,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e(t.toString());
-                        //super.onError(t);
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);
@@ -147,7 +147,7 @@ public class HomeViewModel extends BaseViewModel<HomeRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e(t.toString());
-                        //super.onError(t);
+                        super.onError(t);
                     }
                 });
         addSubscribe(disposable);

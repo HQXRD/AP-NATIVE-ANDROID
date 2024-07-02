@@ -38,7 +38,7 @@ public class DecompressInterceptor implements Interceptor {
         return response;
     }
 
-    private ResponseBody decompressResponseBody(ResponseBody body) throws IOException {
+    public ResponseBody decompressResponseBody(ResponseBody body) throws IOException {
         BufferedSource source = body.source();
         Buffer buffer = new Buffer();
         buffer.writeAll(source);

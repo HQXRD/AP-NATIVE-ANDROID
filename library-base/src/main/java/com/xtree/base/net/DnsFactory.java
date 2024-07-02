@@ -41,7 +41,7 @@ public class DnsFactory {
         private List<InetAddress> dnsServers = null;
         private static final String dns1 = "114.114.114.114";
         private static final String dns2 = "8.8.8.8";
-        private static final int dnsPort = 53;;
+        private static final int dnsPort = 53;
 
         @Override
         public List<InetAddress> lookup(String hostname) throws UnknownHostException {
