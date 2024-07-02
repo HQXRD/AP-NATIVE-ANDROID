@@ -3,105 +3,61 @@ android {
 
     productFlavors {
         // 测试环境 测试用
-        eon2_pre {
+        eon1_pre {
             applicationId "com.${name.toLowerCase()}.app"
-            versionName "1.0.6"
-            versionCode 106
+            versionName "1.0.0"
+            versionCode 100
             //resValue "string", "app_name", "${name}"
-            resValue "string", "app_name", "意昂2T${versionCode}"
+            resValue "string", "app_name", "意昂1T${versionCode}"
             // 后面可能会改成 https://preyiang22test.oxldkm.com 如后续有连线问题 尝试看看
-            resValue "string", "domain_api", "https://preyiang2test.oxldkm.com"
-            resValue "string", "domain_url", "https://preyiang2test.oxldkm.com"
-            resValue "string", "channel_name", "eon2"  // 渠道名称
+            resValue "string", "domain_api", "https://preyiang.oxldkm.com"
+            resValue "string", "domain_url", "https://preyiang.oxldkm.com"
+            resValue "string", "channel_name", "eon1"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
             // 后面可能会改成 https://preyiang22test.oxldkm.com 如后续有连线问题 尝试看看
-            resValue "string", "domain_api_list", "https://preyiang2test.oxldkm.com;"
-            resValue "string", "domain_url_list", "https://preyiang2test.oxldkm.com;"
+            resValue "string", "domain_api_list", "https://preyiang.oxldkm.com;"
+            resValue "string", "domain_url_list", "https://preyiang.oxldkm.com;"
             multiDexEnabled true
             dimension "channelName"
         }
         // 生产环境 测试用
-        eon2_uat {
+        eon1_uat {
             applicationId "com.${name.toLowerCase()}.app"
-            versionName "1.0.6"
-            versionCode 106
-            resValue "string", "app_name", "意昂2R${versionCode}"
-            resValue "string", "domain_api", "https://www.eon2.org"
-            resValue "string", "domain_url", "https://www.eon2.org"
-            resValue "string", "channel_name", "eon2"  // 渠道名称
+            versionName "1.0.0"
+            versionCode 100
+            resValue "string", "app_name", "意昂1R${versionCode}"
+            resValue "string", "domain_api", "https://huidu.eon6.com"
+            resValue "string", "domain_url", "https://huidu.eon6.com"
+            resValue "string", "channel_name", "eon1"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
             resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
-            resValue "string", "domain_api_list", "https://app1.r4n2h7.xyz;" +
-                    "https://app2.q1i9z8.xyz;" +
-                    "https://app3.h1g8d8.xyz;" +
-                    "https://app4.k1b3i6.xyz;" +
-                    "https://app5.v3k2o5.xyz;" +
-                    "https://app1.d7p7i2.xyz;" +
-                    "https://app2.o1m3m9.xyz;" +
-                    "https://app3.l9y7e5.xyz;" +
-                    "https://app1.q6g4c6.xyz;" +
-                    "https://app2.s2f6z5.xyz;" +
-                    "https://app3.e5b4f7.xyz;" +
-                    "https://app1.s9o5w5.xyz;" +
-                    "https://app2.t6y2m4.xyz;" +
-                    "https://app3.t1l4c3.xyz;" +
-                    "https://app.7jcvs.com:46803;" +
-                    "http://43.137.39.194:46803;" +
-                    "http://43.128.11.58:46803;" +
-                    "https://app.7jcvs.com:46803;"
-
-            resValue "string", "domain_url_list", "https://www.u2s4s7.xyz;" +
-                    "https://www.d4v2o1.xyz;" +
-                    "https://www.o9s9u4.xyz;" +
-                    "https://www.h4r3a2.xyz;" +
-                    "https://www.j9b1x3.xyz;" +
-                    "https://www.n5q2b8.xyz;"
+            resValue "string", "domain_api_list", "https://huidu.eon6.com;"
+            resValue "string", "domain_url_list", "https://huidu.eon6.com;"
             multiDexEnabled true
             dimension "channelName"
         }
         // 生产环境 发布用
-        eon2_OL {
-            applicationId "com.eon2.app" // eon2
-            versionName "1.0.6"
-            versionCode 106
-            resValue "string", "app_name", "意昂体育2"
-            resValue "string", "domain_api", "https://www.eon2.org"
-            resValue "string", "domain_url", "https://www.u2s4s7.xyz"
-            resValue "string", "channel_name", "eon2"  // 渠道名称
+        eon1_OL {
+            applicationId "com.eon1.app" // eon1
+            versionName "1.0.0"
+            versionCode 100
+            resValue "string", "app_name", "意昂体育1"
+            resValue "string", "domain_api", "https://www.eon6.com"
+            resValue "string", "domain_url", "https://www.eon6.com"
+            resValue "string", "channel_name", "eon1"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "string", "mixpanel_token", "cce6df315eee2c445da416c6b717f114"
             resValue "bool", "is_tag", "true" // 是否开启统计
             resValue "string", "ms_secret_key", "0ad1d127-3d6e-47f0-8904-1fd9eff9d97b"
-            resValue "string", "domain_api_list", "https://app1.r4n2h7.xyz;" +
-                    "https://app2.q1i9z8.xyz;" +
-                    "https://app3.h1g8d8.xyz;" +
-                    "https://app4.k1b3i6.xyz;" +
-                    "https://app5.v3k2o5.xyz;" +
-                    "https://app1.d7p7i2.xyz;" +
-                    "https://app2.o1m3m9.xyz;" +
-                    "https://app3.l9y7e5.xyz;" +
-                    "https://app1.q6g4c6.xyz;" +
-                    "https://app2.s2f6z5.xyz;" +
-                    "https://app3.e5b4f7.xyz;" +
-                    "https://app1.s9o5w5.xyz;" +
-                    "https://app2.t6y2m4.xyz;" +
-                    "https://app3.t1l4c3.xyz;" +
-                    "https://app.7jcvs.com:46803;" +
-                    "http://43.137.39.194:46803;" +
-                    "http://43.128.11.58:46803;" +
-                    "https://app.7jcvs.com:46803;"
-
-            resValue "string", "domain_url_list", "https://www.u2s4s7.xyz;" +
-                    "https://www.d4v2o1.xyz;" +
-                    "https://www.o9s9u4.xyz;" +
-                    "https://www.h4r3a2.xyz;" +
-                    "https://www.j9b1x3.xyz;" +
-                    "https://www.n5q2b8.xyz;"
+            resValue "string", "domain_api_list", "https://www.eon6.com;" +
+                    "https://www.eon6.com;"
+            resValue "string", "domain_url_list", "https://www.eon6.com;" +
+                    "https://www.eon6.com;"
             multiDexEnabled true
             dimension "channelName"
         }
@@ -163,12 +119,12 @@ androidJunkCode {
         debug config
         release config
 
-        eon2Debug config2
-        eon2Release config2
-        eon2_preDebug config2
-        eon2_preRelease config2
-        eon2_OLDebug config2
-        eon2_OLRelease config2
+        eon1Debug config2
+        eon1Release config2
+        eon1_preDebug config2
+        eon1_preRelease config2
+        eon1_OLDebug config2
+        eon1_OLRelease config2
     }
 
 }

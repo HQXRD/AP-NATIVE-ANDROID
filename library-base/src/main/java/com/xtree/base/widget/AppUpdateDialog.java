@@ -252,7 +252,10 @@ public class AppUpdateDialog extends CenterPopupView {
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.setDataAndType(uri, "application/vnd.android.package-archive");
         } else {
+            /*Android M之前老版本写法*/
             intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
         }
         context.startActivity(intent);
         android.os.Process.killProcess(android.os.Process.myPid());

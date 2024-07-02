@@ -38,7 +38,7 @@ public class FundPassWordFragment extends BottomPopupView {
 
     private FragmentWithdrawalFundPasswordBinding binding;
     private ChooseWithdrawViewModel viewModel;
-    private FundPassWordVo vo;
+    private FundPassWordVo fundPassWordVo;
     private IFundPassWordCallBack iFundPassWordCallBack;
     private LifecycleOwner owner;
 
@@ -129,20 +129,20 @@ public class FundPassWordFragment extends BottomPopupView {
 
     private void initViewObservable() {
         viewModel.fundPassWordVoMutableLiveData.observe(owner, vo -> {
-            this.vo = vo;
+            this.fundPassWordVo = vo;
             if (vo != null) {
-                if (!TextUtils.isEmpty(this.vo.status)) {
+                if (("2").equals(this.fundPassWordVo.msg_type) && (("资金密码错误").equals(this.fundPassWordVo.message))){
+                    ToastUtils.showError(this.fundPassWordVo.message);
+                }else if (!TextUtils.isEmpty(this.fundPassWordVo.status)) {
                     //返回正常
-                    if ("1".equals(this.vo.status) && !TextUtils.isEmpty(this.vo.msg.checkcode)) {
-                        iFundPassWordCallBack.closeFundPWDialogWithCode(this.vo.msg.checkcode);
-                    } else if (!TextUtils.isEmpty(this.vo.message)) {
-                        ToastUtils.showError(this.vo.message);
+                    if ("1".equals(this.fundPassWordVo.status) && !TextUtils.isEmpty(this.fundPassWordVo.msg.checkcode)) {
+                        iFundPassWordCallBack.closeFundPWDialogWithCode(this.fundPassWordVo.msg.checkcode);
+                    } else if (!TextUtils.isEmpty(this.fundPassWordVo.message)) {
+                        ToastUtils.showError(this.fundPassWordVo.message);
                     } else {
                         //返回异常
                         ToastUtils.showError(getContext().getString(R.string.txt_network_error));
                     }
-                } else if (("2").equals(this.vo.msg_type) && (("资金密码错误").equals(this.vo.message))) {
-                    ToastUtils.showError(this.vo.message);
                 }
             } else {
                 //返回异常
