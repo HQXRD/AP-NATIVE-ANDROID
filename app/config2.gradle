@@ -78,7 +78,7 @@ android {
             versionName "1.2.4"
             versionCode 124
             resValue "string", "app_name", "XC Sports"
-            resValue "string", "domain_api", "https://app.zgntcpgxds.com:16801"
+            resValue "string", "domain_api", "https://app4.f4w3f2.com"
             resValue "string", "domain_url", "https://h51.h2b4u5.com"
             resValue "string", "channel_name", "xingcai"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
