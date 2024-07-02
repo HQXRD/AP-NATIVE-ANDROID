@@ -1,6 +1,8 @@
 package com.xtree.base.net;
 
 
+import static com.xtree.base.net.HttpCallBack.CodeRule.CODE_100002;
+
 import android.util.Base64;
 
 import androidx.annotation.NonNull;
@@ -19,9 +21,8 @@ import java.util.zip.DataFormatException;
 import java.util.zip.GZIPInputStream;
 
 import kotlin.text.Charsets;
-import me.xtree.mvvmhabit.http.HijackedException;
+import me.xtree.mvvmhabit.http.BaseResponse;
 import me.xtree.mvvmhabit.utils.Utils;
-import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Request;
 import okhttp3.Response;
