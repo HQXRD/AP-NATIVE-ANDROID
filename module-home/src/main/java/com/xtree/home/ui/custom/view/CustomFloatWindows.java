@@ -71,7 +71,7 @@ public class CustomFloatWindows extends RelativeLayout {
         CfLog.e("Close floatView start");
         if (windowManager != null && floatView != null && isShow) {
             CfLog.e("Close floatView");
-            windowManager.removeView(floatView);
+            windowManager.removeViewImmediate(floatView);
             isShow = false;
         }
     }
