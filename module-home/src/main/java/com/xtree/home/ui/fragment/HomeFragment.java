@@ -145,6 +145,12 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         return new ViewModelProvider(this, factory).get(HomeViewModel.class);
     }
 
+    public void onDetach() {
+        super.onDetach();
+        // 在结束后浮动弹窗被删除
+        customFloatWindows.removeView();
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -237,7 +243,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
         //App更新
         viewModel.liveDataUpdate.observe(getViewLifecycleOwner(), vo -> {
             updateVo = vo;
-            if (updateVo != null){
+            if (updateVo != null) {
                 //存储服务器设置时间间隔
                 SPUtils.getInstance().put(SPKeyGlobal.APP_INTERVAL_TIME, updateVo.interval_duration);
                 //请求更新服务时间
@@ -262,7 +268,6 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
                     }
                 }
             }
-
 
         });
 
