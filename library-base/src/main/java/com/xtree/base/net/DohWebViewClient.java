@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
-import com.just.agentweb.WebViewClient;
+import android.webkit.WebViewClient;
 
 import com.xtree.base.utils.CfLog;
 
@@ -16,9 +16,9 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.UnknownHostException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,11 +26,32 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 
+import okhttp3.Headers;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 /**
- * Created by KAKA on 2024/6/28.
- * Describe: WebViewClient 自定义DNS解析
+ * Created by KAKA on 2024/7/3.
+ * Describe: DOH 自定义webclient
  */
-public class DnsWebViewClient extends WebViewClient {
+public class DohWebViewClient extends WebViewClient {
+
+    public static final String ARG_SEARCH_DNS_URL = "https://dns.alidns.com/dns-query";
+
+    private OkHttpClient client;
+
+    public DohWebViewClient() throws UnknownHostException {
+        // 初始化 OkHttpClient 并配置自定义的 DNS 解析
+//        client = new OkHttpClient.Builder()
+//                .dns(new DnsOverHttps.Builder()
+//                        .client(new OkHttpClient())
+//                        .url(HttpUrl.get(ARG_SEARCH_DNS_URL))
+//                        .bootstrapDnsHosts(InetAddress.getByName("8.8.8.8"), InetAddress.getByName("114.114.114.114"))
+//                        .build())
+//                .build();
+    }
+
 
     @SuppressLint("NewApi")
     @Override
@@ -43,24 +64,28 @@ public class DnsWebViewClient extends WebViewClient {
         //拦截方案只能正常处理不带body的请求
         if ((scheme.equalsIgnoreCase("http") || scheme.equalsIgnoreCase("https")) && method.equalsIgnoreCase("get")) {
             try {
-                URLConnection connection = recursiveRequest(url, headerFields, null);
+//                URLConnection connection = recursiveRequest(url, headerFields, null);
+//
+//                if (connection == null) {
+//                    CfLog.i("connection null");
+//                    return super.shouldInterceptRequest(view, request);
+//                }
 
-                if (connection == null) {
-                    CfLog.i("connection null");
-                    return super.shouldInterceptRequest(view, request);
-                }
+                Request httpRequest = new Request.Builder().url(url).build();
+
+                Response re = client.newCall(httpRequest).execute();
 
                 //对于POST请求的Body数据，WebResourceRequest接口中并没有提供，这里无法处理
-                String contentType = connection.getContentType();
+                String contentType = re.body().contentType().toString();
                 String mime = getMime(contentType);
                 String charset = getCharset(contentType);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) connection;
-                int statusCode = httpURLConnection.getResponseCode();
-                String response = httpURLConnection.getResponseMessage();
-                Map<String, List<String>> headers = httpURLConnection.getHeaderFields();
-                Set<String> headerKeySet = headers.keySet();
-                CfLog.i("code:" + httpURLConnection.getResponseCode());
+                int statusCode = re.code();
+                String response = re.message();
+                Headers headers = re.headers();
+                Set<String> headerKeySet = headers.names();
+                CfLog.i("code:" + re.code());
                 CfLog.i("mime:" + mime + "; charset:" + charset);
+
 
                 //无mime类型的请求不拦截
                 if (TextUtils.isEmpty(mime)) {
@@ -71,13 +96,13 @@ public class DnsWebViewClient extends WebViewClient {
                     if (!isBinaryRes(mime) && TextUtils.isEmpty(charset)) {
                         charset = Charset.defaultCharset().displayName();
                     }
-                    WebResourceResponse resourceResponse = new WebResourceResponse(mime, charset, httpURLConnection.getInputStream());
+                    WebResourceResponse resourceResponse = new WebResourceResponse(mime, charset, re.body().byteStream());
                     resourceResponse.setStatusCodeAndReasonPhrase(statusCode, response);
                     Map<String, String> responseHeader = new HashMap<String, String>();
-                    for (String key : headerKeySet) {
-                        //HttpUrlConnection可能包含key为null的报头，指向该http请求状态码
-                        responseHeader.put(key, httpURLConnection.getHeaderField(key));
-                    }
+//                    for (String key : headerKeySet) {
+//                        //HttpUrlConnection可能包含key为null的报头，指向该http请求状态码
+//                        responseHeader.put(key, httpURLConnection.getHeaderField(key));
+//                    }
                     resourceResponse.setResponseHeaders(responseHeader);
                     return resourceResponse;
                 }
