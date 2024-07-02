@@ -95,7 +95,7 @@ class FastestTopDomainUtil private constructor() {
             var curTime: Long = System.currentTimeMillis()
             val domainTasks = mCurApiDomainList.map { host ->
                 Get<String>(
-                    "$host/point.bmp")
+                    "$host/api/settings/?&fields=customer_service_url")
                 {
                     addHeader("App-RNID", "87jumkljo")
                     setClient {
