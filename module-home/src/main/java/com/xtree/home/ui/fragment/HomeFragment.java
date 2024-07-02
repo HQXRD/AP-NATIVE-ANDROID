@@ -148,7 +148,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     public void onDetach() {
         super.onDetach();
         // 在结束后浮动弹窗被删除
-        customFloatWindows.removeView();
+        if (customFloatWindows != null) {
+            customFloatWindows.removeView();
+        }
     }
 
     @Override
