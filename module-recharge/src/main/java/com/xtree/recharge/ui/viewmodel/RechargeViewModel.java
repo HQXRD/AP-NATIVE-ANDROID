@@ -330,14 +330,14 @@ public class RechargeViewModel extends BaseViewModel<RechargeRepository> {
                     @Override
                     public void onError(Throwable t) {
                         CfLog.e(t.toString());
-                        super.onError(t);
+                        //super.onError(t);
                         liveDataExpNoOrder.setValue(true);
                     }
 
                     @Override
                     public void onFail(BusinessException t) {
                         CfLog.e(t.toString());
-                        super.onFail(t);
+                        //super.onFail(t);
                         liveDataExpNoOrder.setValue(true);
                     }
                 });
