@@ -20,7 +20,7 @@
     <color name="clr_main_05">#F6ECE2</color>
     <color name="clr_main_06">#F5EDE7</color>
     <color name="clr_main_06a">#F6ECE2</color>
-    <color name="clr_main_07">#F7EDE7</color>
+    <color name="clr_main_07">@color/clr_blue_01</color>
     <color name="clr_main_08">#F9F8F4</color>
     <color name="clr_main_08a">#FBF6F1</color>
     <color name="clr_main_09">#FCF9F6</color>
@@ -41,7 +41,7 @@
 
     <!-- ################ 配色 设计师提供 start ################ -->
     <!-- 主色 -->
-    <color name="clr_main">#D0B292</color>
+    <color name="clr_main">#f2f3f7</color>
     <!-- 主-渐变色 -->
     <color name="clr_main_start">#E3CBB2</color>
     <color name="clr_main_end">#D0B190</color>
@@ -303,8 +303,8 @@
 
     <!-- 通用 begin -->
     <!-- 通用背景色 -->
-    <color name="clr_bg_main">#F9F8F4</color>
-    <color name="bg_main">#F9F8F4</color>
+    <color name="clr_bg_main">#f2f3f7</color>
+    <color name="bg_main">#f2f3f7</color>
     <color name="clr_white">#FFFFFF</color>
     <color name="clr_white_t20">#33FFFFFF</color>
     <color name="clr_white_t80">#CCFFFFFF</color>
@@ -394,6 +394,7 @@
     <!--<color name="clr_blue_10">#247BF4</color>-->
     <!--<color name="clr_blue_11">#70B2FD</color>-->
     <!--<color name="clr_blue_12">#8BC1FF</color>-->
+    <color name="clr_blue_01">#4b8ef5</color>
 
     <color name="clr_green_03">#5BBA5B</color>
     <color name="clr_green_06">#E7E7E7</color>
