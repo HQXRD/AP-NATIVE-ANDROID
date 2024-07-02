@@ -619,7 +619,7 @@ public class BrowserActivity extends AppCompatActivity {
                     .dns(new DnsOverHttps.Builder()
                             .client(new OkHttpClient())
                             .url(HttpUrl.get(ARG_SEARCH_DNS_URL))
-                            .bootstrapDnsHosts(InetAddress.getByName("114.114.114.114"), InetAddress.getByName("8.8.8.8"))
+                            .bootstrapDnsHosts(InetAddress.getByName("8.8.8.8"), InetAddress.getByName("114.114.114.114"))
                             .build())
                     .build();
         }
