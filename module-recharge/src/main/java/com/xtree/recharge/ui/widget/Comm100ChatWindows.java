@@ -51,7 +51,7 @@ public class Comm100ChatWindows extends FloatingWindows {
         if (floatView != null) {
             floatView.setOnClickListener(v -> {
 
-                String chatUrl = "https://psowoexvd.n2vu8zpu2f6.com/chatWindow.aspx?planId=" + planId + "&siteId=" + siteId + "&orderid=";
+                String chatUrl = "https://psowoexvd.n2vu8zpu2f6.com/chatWindow.aspx?planId=" + planId + "&siteId=" + siteId + "&CUSTOM!orderid=";
 
                 if (onClickListener != null) {
                     onClickListener.onClick(v, chatUrl);
