@@ -31,6 +31,6 @@ object SpeedApiLine : ChangeLine() {
      * 开始域名竞速
      */
     fun start(){
-        super.start("point.bmp", true)
+        super.start("api/bns/4/banners?limit=2", true)
     }
 }
