@@ -75,6 +75,6 @@
         android:background="@color/clr_white"
         app:showLabel="true"
         app:textSize="16sp"
-        app:themeColor="@color/clr_main_04" />
+        app:themeColor="@color/clr_blue_07" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
