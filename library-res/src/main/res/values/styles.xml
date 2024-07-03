@@ -347,7 +347,7 @@
     <!-- 通用 提示小字 桔红色 -->
     <style name="style_cm_tip_small_orange" parent="style_cm_tip_small_grey">
         <item name="android:text">@string/txt_note_asterisks_cannot_empty</item>
-        <item name="android:textColor">@color/clr_orange_08</item>
+        <item name="android:textColor">@color/bt_color_blurred</item>
     </style>
     <!-- 通用 提示小字 桔红色 -->
     <style name="style_cm_tip_small_yellow" parent="style_cm_tip_small_grey">
@@ -600,8 +600,8 @@
         <item name="android:maxLength">32</item>
         <item name="android:padding">8dp</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">@color/clr_grey_80</item>
-        <item name="android:textColorHint">@color/clr_txt_grey_03</item>
+        <item name="android:textColor">@color/clr_main_18</item>
+        <item name="android:textColorHint">@color/cl_over_tip</item>
         <item name="android:textSize">14sp</item>
     </style>
 
@@ -1215,6 +1215,18 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/clr_white</item>
         <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <!-- 通用 提示小字 桔红色 -->
+    <style name="style_mine_feedback_tip" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/layout_margin</item>
+        <item name="android:layout_marginEnd">@dimen/layout_margin</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:text">@string/txt_note_asterisks_cannot_empty</item>
+        <item name="android:textColor">@color/clr_txt_rebateagrt_subtitle</item>
     </style>
 
 </resources>

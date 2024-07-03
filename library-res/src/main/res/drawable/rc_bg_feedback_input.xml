@@ -9,7 +9,7 @@
         android:endColor="@color/clr_bg_frame_32"
         android:startColor="@color/clr_bg_frame_32" />
     <stroke android:width="2dp"
-        android:color="@color/clr_rc_feedback_input_stroke" />
+        android:color="@color/cl_over_tip" />
     <corners android:radius="10dp"/>
 
 </shape>
