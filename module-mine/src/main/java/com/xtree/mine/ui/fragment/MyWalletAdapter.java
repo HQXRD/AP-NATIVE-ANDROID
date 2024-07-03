@@ -47,9 +47,11 @@ public class MyWalletAdapter extends CachedAutoRefreshAdapter<GameBalanceVo> {
         if (vo.balance.matches("\\d+\\.\\d{4}")) {
             binding.llMain.setBackground(ContextCompat.getDrawable(ctx, R.drawable.bg_my_wallet_item));
             binding.tvwThirdGameBalance.setTextSize(18);
+            binding.tvwThirdGameBalance.setTextColor(ContextCompat.getColor(ctx, R.color.clr_blue_08));
         } else {
             binding.llMain.setBackground(ContextCompat.getDrawable(ctx, R.drawable.bg_gray_8));
             binding.tvwThirdGameBalance.setTextSize(10);
+            binding.tvwThirdGameBalance.setTextColor(ContextCompat.getColor(ctx, R.color.clr_grey_13));
         }
     }
 }

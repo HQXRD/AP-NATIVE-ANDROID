@@ -12,15 +12,13 @@
         style="@style/style_trans_ll"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@drawable/bg_gray_8"
-        android:gravity="top">
+        android:background="@drawable/bg_gray_8">
 
         <TextView
             android:id="@+id/tvw_third_game_name"
             style="@style/style_trans_name"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
             android:text="@string/me_wallet_bbingame"
             android:textSize="@dimen/bt_text_12sp" />
 
