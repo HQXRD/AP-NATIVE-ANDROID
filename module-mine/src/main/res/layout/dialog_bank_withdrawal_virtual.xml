@@ -225,6 +225,7 @@
                                 android:layout_height="wrap_content"
                                 android:text=""
                                 tools:text="Demo"
+                                android:drawableLeft="@mipmap/mine_withdrawal_notice"
                                 android:textColor="@color/clr_grey_13" />
                         </LinearLayout>
                     </LinearLayout>
@@ -380,11 +381,12 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="10dp"
-                            android:background="@mipmap/me_icon_wlt_bank" />
+                            android:background="@mipmap/me_icon_wlt_bank"
+                            android:visibility="gone"/>
 
                         <EditText
                             android:id="@+id/et_input_money"
-                            style="@style/style_usdt_edit"
+                            style="@style/style_bank_edit"
                             android:layout_alignLeft="@id/iv_input_money"
                             android:layout_marginLeft="10dp"
                             android:hint="@string/txt_input_money"
@@ -481,9 +483,7 @@
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal">
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+
 
                         <LinearLayout
                             android:id="@+id/ll_collection_usdt_input"
@@ -501,7 +501,7 @@
                                     android:id="@+id/tv_collection_usdt"
                                     style="@style/style_usdt_edit"
                                     android:layout_marginLeft="10dp"
-                                    android:drawableRight="@mipmap/bt_icon_expand"
+                                    android:drawableRight="@mipmap/mine_withdrawal_expand"
                                     android:hint="@string/txt_select_virtual_address" />
                             </RelativeLayout>
 
@@ -524,7 +524,6 @@
 
                         </LinearLayout>
 
-                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -538,16 +537,15 @@
 
                     <TextView
                         android:id="@+id/iv_next"
-                        style="@style/style_cm_btn_round"
-                        android:text="@string/txt_withdraw_next" />
+                        style="@style/style_btn_round"
+                        android:text="@string/txt_next_step"  />
 
                     <TextView
                         android:id="@+id/iv_previous"
                         style="@style/style_cm_btn_round"
                         android:text="@string/txt_previous_step"
-                        android:visibility="invisible"
-                        tools:visibility="visible" />
-
+                        android:visibility="gone"
+                        />
                 </LinearLayout>
 
             </LinearLayout>
@@ -698,39 +696,33 @@
                     <View style="@style/style_withdraw_dividing_line" />
 
                     <LinearLayout
-                        android:id="@+id/ll_next_confirm_previous"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/ll_collection_usdt"
-                        android:layout_marginTop="10dp"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="20dp"
                         android:orientation="horizontal">
 
-                        <RelativeLayout
+                        <Button
+                            android:id="@+id/iv_confirm_previous"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_dialog_withdraw_close"
+                            android:text="@string/txt_withdraw_previous"
+                            android:textColor="@color/clr_withdrawal_text_bg"
+                            android:textSize="16sp" />
 
-                            <Button
-                                android:id="@+id/iv_confirm_next"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:background="@drawable/me_bg_withdrawal_next"
-                                android:text="@string/txt_withdraw_next"
-                                android:textColor="@color/white"
-                                android:textSize="16sp" />
-
-                            <Button
-                                android:id="@+id/iv_confirm_previous"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/iv_confirm_next"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="10dp"
-                                android:background="@drawable/bg_dialog_withdraw_close"
-                                android:text="@string/txt_withdraw_previous"
-                                android:textColor="@color/update_progress_start_color"
-                                android:textSize="16sp" />
-
-                        </RelativeLayout>
+                        <Button
+                            android:id="@+id/iv_confirm_next"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:background="@drawable/me_bg_withdrawal_next"
+                            android:text="@string/txt_withdraw_next"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -759,23 +751,27 @@
                     style="@style/style_withdraw_image_value"
                     android:layout_gravity="center"
                     android:text="@string/txt_account_successful"
-                    android:textColor="@color/cl_over_tip" />
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/clr_withdrawal_text_bank_tip"  />
 
                 <TextView
                     android:id="@+id/tv_over_detail"
-                    style="@style/style_withdraw_image_value"
+                    android:textSize="12dp"
+                    style="@style/style_withdraw_bottom_text_value"
                     android:layout_gravity="center"
                     android:text="@string/txt_account_suc_message"
-                    android:textColor="@color/cl_over_tip" />
+                    android:textColor="@color/clr_txt_rebateagrt_subtitle" />
 
                 <Button
                     android:id="@+id/iv_continue_confirm_next"
-                    android:layout_width="match_parent"
+                    android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="20dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/me_bg_withdrawal_next"
                     android:text="@string/txt_withdraw_confirm_next"
                     android:textColor="@color/white"
@@ -793,19 +789,6 @@
                     android:text="@string/txt_withdraw_close"
                     android:textColor="@color/update_progress_start_color"
                     android:textSize="16sp" />
-                <!--<ImageView
-                    android:id="@+id/iv_continue_confirm_next"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:background="@mipmap/ic_continue" />
-
-                <ImageView
-                    android:id="@+id/iv_continue_confirm_previous"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@mipmap/cm_btn_withdrawal_closure" />
--->
             </LinearLayout>
 
         </LinearLayout>

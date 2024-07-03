@@ -325,7 +325,7 @@
     <string name="txt_virtual_type">虚拟币类型：</string>
     <string name="txt_confirm_amount">提款金额方式：</string>
     <string name="txt_withdrawal_min">单笔最低提现金额:</string>
-    <string name="txt_input_money">请输入提款金额</string>
+    <string name="txt_input_money">请输入想提款金额</string>
     <string name="txt_actual_withdrawal_amount">实际提款金额</string>
     <string name="txt_payee_bank_card">收款银行卡</string>
     <string name="txt_kind_tips_count">1.为了保证您正常提款，请您在使用银行卡充值时务必使用绑定银行卡或者与绑定银行卡姓名相同的卡，否则将无法正常提款。 </string>

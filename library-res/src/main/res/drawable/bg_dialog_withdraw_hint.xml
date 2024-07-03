@@ -4,8 +4,8 @@
 
     <gradient
         android:angle="0"
-        android:endColor="@color/clr_hint"
-        android:startColor="@color/clr_hint" />
+        android:endColor="@color/clr_short_btn_left_start"
+        android:startColor="@color/clr_short_btn_left_start" />
     <corners
         android:bottomLeftRadius="10dp"
         android:bottomRightRadius="10dp"/>
