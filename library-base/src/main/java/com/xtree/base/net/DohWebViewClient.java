@@ -6,8 +6,8 @@ import android.text.TextUtils;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
+import com.just.agentweb.WebViewClient;
 import com.xtree.base.utils.CfLog;
 
 import java.io.IOException;
@@ -27,9 +27,12 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLSession;
 
 import okhttp3.Headers;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.dnsoverhttps.DnsOverHttps;
+
 
 /**
  * Created by KAKA on 2024/7/3.
@@ -43,13 +46,13 @@ public class DohWebViewClient extends WebViewClient {
 
     public DohWebViewClient() throws UnknownHostException {
         // 初始化 OkHttpClient 并配置自定义的 DNS 解析
-//        client = new OkHttpClient.Builder()
-//                .dns(new DnsOverHttps.Builder()
-//                        .client(new OkHttpClient())
-//                        .url(HttpUrl.get(ARG_SEARCH_DNS_URL))
-//                        .bootstrapDnsHosts(InetAddress.getByName("8.8.8.8"), InetAddress.getByName("114.114.114.114"))
-//                        .build())
-//                .build();
+        client = new OkHttpClient.Builder()
+                .dns(new DnsOverHttps.Builder()
+                        .client(new OkHttpClient())
+                        .url(HttpUrl.get(ARG_SEARCH_DNS_URL))
+                        .bootstrapDnsHosts(InetAddress.getByName("8.8.8.8"), InetAddress.getByName("114.114.114.114"))
+                        .build())
+                .build();
     }
 
 
@@ -58,32 +61,26 @@ public class DohWebViewClient extends WebViewClient {
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
         String scheme = request.getUrl().getScheme().trim();
         String method = request.getMethod();
-        Map<String, String> headerFields = request.getRequestHeaders();
         String url = request.getUrl().toString();
         CfLog.i("url:" + url);
+        Request httpRequest = new Request.Builder().url(url).build();
+
         //拦截方案只能正常处理不带body的请求
         if ((scheme.equalsIgnoreCase("http") || scheme.equalsIgnoreCase("https")) && method.equalsIgnoreCase("get")) {
-            try {
-//                URLConnection connection = recursiveRequest(url, headerFields, null);
-//
-//                if (connection == null) {
-//                    CfLog.i("connection null");
-//                    return super.shouldInterceptRequest(view, request);
-//                }
-
-                Request httpRequest = new Request.Builder().url(url).build();
-
-                Response re = client.newCall(httpRequest).execute();
+            try (Response response = client.newCall(httpRequest).execute()) {
 
                 //对于POST请求的Body数据，WebResourceRequest接口中并没有提供，这里无法处理
-                String contentType = re.body().contentType().toString();
+                String contentType = response.body().contentType().toString();
                 String mime = getMime(contentType);
                 String charset = getCharset(contentType);
-                int statusCode = re.code();
-                String response = re.message();
-                Headers headers = re.headers();
+                int statusCode = response.code();
+                String statusMessage = response.message();
+                if (TextUtils.isEmpty(statusMessage)) {
+                    statusMessage = getStatusMessage(response.code());
+                }
+                Headers headers = response.headers();
                 Set<String> headerKeySet = headers.names();
-                CfLog.i("code:" + re.code());
+                CfLog.i("code:" + response.code());
                 CfLog.i("mime:" + mime + "; charset:" + charset);
 
 
@@ -96,13 +93,14 @@ public class DohWebViewClient extends WebViewClient {
                     if (!isBinaryRes(mime) && TextUtils.isEmpty(charset)) {
                         charset = Charset.defaultCharset().displayName();
                     }
-                    WebResourceResponse resourceResponse = new WebResourceResponse(mime, charset, re.body().byteStream());
-                    resourceResponse.setStatusCodeAndReasonPhrase(statusCode, response);
+                    WebResourceResponse resourceResponse = new WebResourceResponse(mime, charset, response.body().byteStream());
+                    resourceResponse.setStatusCodeAndReasonPhrase(statusCode, statusMessage);
                     Map<String, String> responseHeader = new HashMap<String, String>();
-//                    for (String key : headerKeySet) {
-//                        //HttpUrlConnection可能包含key为null的报头，指向该http请求状态码
-//                        responseHeader.put(key, httpURLConnection.getHeaderField(key));
-//                    }
+                    responseHeader.put(null, String.join(" ", "HTTP/1.1", String.valueOf(statusCode), statusMessage));
+                    for (String key : headerKeySet) {
+                        //可能包含key为null的报头，指向该http请求状态码
+                        responseHeader.put(key, response.header(key));
+                    }
                     resourceResponse.setResponseHeaders(responseHeader);
                     return resourceResponse;
                 }
@@ -129,6 +127,19 @@ public class DohWebViewClient extends WebViewClient {
             view.loadUrl(request.toString());
         }
         return true;
+    }
+
+    private String getStatusMessage(int statusCode) {
+        switch (statusCode) {
+            case 200:
+                return "OK";
+            case 404:
+                return "Not Found";
+            case 401:
+                return "Unauthorized";
+            default:
+                return "Unknown Status Code: " + statusCode;
+        }
     }
 
     /**
@@ -194,92 +205,6 @@ public class DohWebViewClient extends WebViewClient {
             }
         }
         return false;
-    }
-
-    public URLConnection recursiveRequest(String path, Map<String, String> headers, String reffer) {
-        HttpURLConnection conn;
-        URL url = null;
-        try {
-            url = new URL(path);
-            conn = (HttpURLConnection) url.openConnection();
-//            String ip = dnsResolver.getIPV4ByHost(url.getHost());
-            String ip = null;
-            InetAddress address = DnsSocket.getInstance().resolveDNS(url.getHost());
-            ip = address.getHostAddress();
-            if (ip != null) {
-                //通过PDNS获取IP成功，进行URL替换和HOST头设置
-                CfLog.i("get IP: " + ip + " for host: " + url.getHost() + "from pdns resolver success!");
-                String newUrl = path.replaceFirst(url.getHost(), ip);
-                conn = (HttpURLConnection) new URL(newUrl).openConnection();
-
-                if (headers != null) {
-                    for (Map.Entry<String, String> field : headers.entrySet()) {
-                        conn.setRequestProperty(field.getKey(), field.getValue());
-                    }
-                }
-                // 设置HTTP请求头Host域
-                conn.setRequestProperty("Host", url.getHost());
-            } else {
-                return null;
-            }
-            conn.setConnectTimeout(30000);
-            conn.setReadTimeout(30000);
-            conn.setInstanceFollowRedirects(false);
-            if (conn instanceof HttpsURLConnection) {
-                final HttpsURLConnection httpsURLConnection = (HttpsURLConnection) conn;
-//                TlsSniSocketFactory sslSocketFactory = new TlsSniSocketFactory((HttpsURLConnection) conn);
-//
-//                // sni场景，创建SSLScocket
-//                httpsURLConnection.setSSLSocketFactory(sslSocketFactory);
-                // https场景，证书校验
-                httpsURLConnection.setHostnameVerifier(new HostnameVerifier() {
-                    @Override
-                    public boolean verify(String hostname, SSLSession session) {
-                        String host = httpsURLConnection.getRequestProperty("Host");
-                        if (null == host) {
-                            host = httpsURLConnection.getURL().getHost();
-                        }
-                        return HttpsURLConnection.getDefaultHostnameVerifier().verify(host, session);
-                    }
-                });
-            }
-            int code = conn.getResponseCode();// Network block
-            if (needRedirect(code)) {
-                // 原有报头中含有cookie，放弃拦截
-                if (containCookie(headers)) {
-                    return null;
-                }
-
-                String location = conn.getHeaderField("Location");
-                if (location == null) {
-                    location = conn.getHeaderField("location");
-                }
-
-                if (location != null) {
-                    if (!(location.startsWith("http://") || location.startsWith("https://"))) {
-                        //某些时候会省略host，只返回后面的path，所以需要补全url
-                        URL originalUrl = new URL(path);
-                        location = originalUrl.getProtocol() + "://" + originalUrl.getHost() + location;
-                    }
-                    CfLog.i("code:" + code + "; location:" + location + "; path" + path);
-                    return recursiveRequest(location, headers, path);
-                } else {
-                    //无法获取location信息，让浏览器获取
-                    return null;
-                }
-            } else {
-                //redirect finish.
-                CfLog.i("redirect finish");
-                return conn;
-            }
-        } catch (MalformedURLException e) {
-            CfLog.w("recursiveRequest MalformedURLException");
-        } catch (IOException e) {
-            CfLog.w("recursiveRequest IOException");
-        } catch (Exception e) {
-            CfLog.w("unknow exception");
-        }
-        return null;
     }
 
     private boolean needRedirect(int code) {
