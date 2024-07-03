@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import com.lxj.xpopup.core.CenterPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.R;
 import com.xtree.base.databinding.DialogUpdateBinding;
+import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 import com.xtree.base.vo.AppUpdateVo;
@@ -112,6 +114,15 @@ public class AppUpdateDialog extends CenterPopupView {
 
         CfLog.i("apkFile: " + apkFile.getAbsolutePath());
         binding = DialogUpdateBinding.bind(findViewById(R.id.ll_root_update));
+        //打开浏览器下载安装
+        binding.dialogUpdateTip.setText(getContext().getString(R.string.txt_update_bottom_tip));
+        binding.dialogUpdateTip.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(vo.download_url)){
+                AppUtil.goBrowser(getContext(),vo.download_url);
+            }else {
+                CfLog.e("****************  download url is null *********** ");
+            }
+        });
         if (!isWeakUpdate) {
             //强更新
             binding.dialogUpdateCancel.setVisibility(View.GONE);
@@ -136,6 +147,18 @@ public class AppUpdateDialog extends CenterPopupView {
             binding.llUpdateProgressbar.setVisibility(View.VISIBLE);
             mCallBack.onUpdateForce();
             mHandler.sendEmptyMessage(DOWN_START);//开始下载
+
+            //打开浏览器下载安装
+            binding.dialogUpdateTip.setText(getContext().getString(R.string.txt_update_bottom_error_tip));
+            binding.dialogUpdateTip.setOnClickListener(v1 -> {
+                if (!TextUtils.isEmpty(vo.download_url)){
+                    AppUtil.goBrowser(getContext(),vo.download_url);
+                }else {
+                    CfLog.e("****************  download url is null *********** ");
+                }
+            });
+
+
         });
     }
 
