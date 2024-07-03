@@ -130,7 +130,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="50dp"
                 android:layout_marginBottom="@dimen/layout_margin"
-                android:background="@drawable/bg_main_r12"
+                android:background="@drawable/bg_main_r40"
                 android:text="@string/txt_search"
                 android:textColor="@color/clr_white"
                 android:textSize="16sp"
@@ -204,7 +204,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="@dimen/layout_margin"
-                            android:drawableTop="@mipmap/bg_no_data"
+                            android:drawableTop="@mipmap/img_no_data"
                             android:text="@string/txt_click_search"
                             android:textSize="16sp" />
 
