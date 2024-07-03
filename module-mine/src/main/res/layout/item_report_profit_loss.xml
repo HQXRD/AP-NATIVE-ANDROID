@@ -233,7 +233,7 @@
         android:paddingEnd="12dp"
         android:paddingBottom="4dp"
         android:text="投注记录"
-        android:textColor="@color/clr_txt"
+        android:textColor="@color/clr_blue_07"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/v_dividing" />
