@@ -383,4 +383,6 @@
     </string>
     <string name="txt_enter_correct_amount">请输入范围%1$s~%2$s内的金额！</string>
 
+    <string name="txt_agree">同意</string>
+    <string name="text_no_agree">不同意</string>
 </resources>

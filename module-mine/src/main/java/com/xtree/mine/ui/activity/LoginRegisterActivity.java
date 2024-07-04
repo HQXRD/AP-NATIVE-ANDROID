@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import androidx.lifecycle.ViewModelProvider;
@@ -23,6 +24,7 @@ import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AESUtil;
 import com.xtree.base.utils.AppUtil;
 import com.xtree.base.utils.CfLog;
+import com.xtree.base.utils.ClickUtil;
 import com.xtree.base.utils.SPUtil;
 import com.xtree.base.utils.TagUtils;
 import com.xtree.mine.BR;
@@ -118,6 +120,7 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
         binding.btnLogin.setOnClickListener(v -> {
             if (!ifAgree()) {
                 ToastUtils.showLong(getResources().getString(R.string.me_agree_hint));
+                showAgreementDialog(binding.ckbAgreement);
                 return;
             }
 
@@ -135,10 +138,10 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
             viewModel.login(acc, pwd);
         });
         binding.tvwAgreement.setOnClickListener(v -> {
-            showAgreementDialog();
+            showAgreementDialog(binding.ckbAgreement);
         });
         binding.tvwAgreementRegister.setOnClickListener(v -> {
-            showAgreementDialog();
+            showAgreementDialog(binding.registerAgreementCheckbox);
         });
 
         binding.edtAccReg.addTextChangedListener(new TextWatcher() {
@@ -245,11 +248,11 @@ public class LoginRegisterActivity extends BaseActivity<ActivityLoginBinding, Lo
 
     }
 
-    private void showAgreementDialog() {
-        if (ppw != null && ppw.isShow()) {
+    private void showAgreementDialog(CheckBox checkBox) {
+        if (ClickUtil.isFastClick()) {
             return;
         }
-        ppw = new XPopup.Builder(LoginRegisterActivity.this).asCustom(new AgreementDialog(LoginRegisterActivity.this));
+        BasePopupView ppw = new XPopup.Builder(LoginRegisterActivity.this).asCustom(new AgreementDialog(LoginRegisterActivity.this, checkBox));
         ppw.show();
     }
 
