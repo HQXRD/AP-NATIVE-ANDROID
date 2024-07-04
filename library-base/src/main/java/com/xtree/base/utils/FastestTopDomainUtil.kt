@@ -103,7 +103,7 @@ class FastestTopDomainUtil private constructor() {
                     addHeader("UUID", TagUtils.getDeviceId(Utils.getContext()));
                     addHeader("X-Crypto", "no");
                     setClient {
-                        dns(DnsFactory.getDns())
+//                        dns(DnsFactory.getDns())
                         trustSSLCertificate()
                     }
                 }.transform { data ->
@@ -159,7 +159,7 @@ class FastestTopDomainUtil private constructor() {
                 ) {
                     addHeader("App-RNID", "87jumkljo")
                     setClient {
-                        dns(DnsFactory.getDns())
+//                        dns(DnsFactory.getDns())
                         trustSSLCertificate()
                     }
                 }.await()

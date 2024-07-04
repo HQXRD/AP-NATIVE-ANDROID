@@ -72,7 +72,7 @@ class ChangeApiLineUtil private constructor() {
                     "$host/api/bns/4/banners?limit=2") {
                     addHeader("App-RNID", "87jumkljo")
                     setClient {
-                        dns(DnsFactory.getDns())
+//                        dns(DnsFactory.getDns())
                         trustSSLCertificate()
                     }
                 }.transform { data ->
@@ -121,7 +121,7 @@ class ChangeApiLineUtil private constructor() {
                     ) {
                         addHeader("App-RNID", "87jumkljo")
                         setClient {
-                            dns(DnsFactory.getDns())
+//                            dns(DnsFactory.getDns())
                             trustSSLCertificate()
                         }
                     }.await()

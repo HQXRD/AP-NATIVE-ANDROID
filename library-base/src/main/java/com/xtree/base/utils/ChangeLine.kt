@@ -144,7 +144,7 @@ abstract class ChangeLine {
                 {
                     addHeader("App-RNID", "87jumkljo")
                     setClient {
-                        dns(DnsFactory.getDns())
+//                        dns(DnsFactory.getDns())
                         trustSSLCertificate()
                     }
                 }
@@ -197,7 +197,7 @@ abstract class ChangeLine {
                     ) {
                         addHeader("App-RNID", "87jumkljo")
                         setClient {
-                            dns(DnsFactory.getDns())
+//                            dns(DnsFactory.getDns())
                             trustSSLCertificate()
                         }
                     }.await()

@@ -67,7 +67,7 @@ class ChangeH5LineUtil private constructor() {
                 {
                     addHeader("App-RNID", "87jumkljo")
                     setClient {
-                        dns(DnsFactory.getDns())
+//                        dns(DnsFactory.getDns())
                         trustSSLCertificate()
                     }
                 }.transform { data ->
@@ -107,7 +107,7 @@ class ChangeH5LineUtil private constructor() {
                 ) {
                     addHeader("App-RNID", "87jumkljo")
                     setClient {
-                        dns(DnsFactory.getDns())
+//                        dns(DnsFactory.getDns())
                         trustSSLCertificate()
                     }
                 }.transform { data ->
