@@ -22,8 +22,6 @@ import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,7 +44,6 @@ import com.luck.picture.lib.interfaces.OnResultCallbackListener;
 import com.xtree.base.R;
 import com.xtree.base.global.Constant;
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.net.DnsWebViewClient;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.AppUtil;
@@ -60,8 +57,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,10 +64,6 @@ import java.util.Map;
 
 import me.xtree.mvvmhabit.base.ContainerActivity;
 import me.xtree.mvvmhabit.utils.SPUtils;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.dnsoverhttps.DnsOverHttps;
 
 /**
@@ -611,7 +602,7 @@ public class BrowserActivity extends AppCompatActivity {
         }
     }
 
-    public class CustomWebViewClient extends DnsWebViewClient {
+    public class CustomWebViewClient extends WebViewClient {
 //        private OkHttpClient client;
 //
 //        public CustomWebViewClient() throws UnknownHostException {
