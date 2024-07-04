@@ -27,8 +27,8 @@ android {
             versionName "1.0.0"
             versionCode 100
             resValue "string", "app_name", "恒行5R${versionCode}"
-            resValue "string", "domain_api", "https://hxing5pre.hxing5vip.com"
-            resValue "string", "domain_url", "https://hxing5pre.hxing5vip.com"
+            resValue "string", "domain_api", "https://app1.d6d7vh.click"
+            resValue "string", "domain_url", "https://www.hxing5vip3.com"
             resValue "string", "channel_name", "hengxing5"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "bool", "is_tag", "false" // 是否开启统计
@@ -51,8 +51,8 @@ android {
             versionName "1.0.0"
             versionCode 100
             resValue "string", "app_name", "恒行5"
-            resValue "string", "domain_api", "https://hxing5pre.hxing5vip.com"
-            resValue "string", "domain_url", "https://hxing5pre.hxing5vip.com"
+            resValue "string", "domain_api", "https://app1.d6d7vh.click"
+            resValue "string", "domain_url", "https://www.hxing5vip3.com"
             resValue "string", "channel_name", "hengxing5"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
             resValue "bool", "is_tag", "true" // 是否开启统计
