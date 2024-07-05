@@ -164,6 +164,22 @@
                 android:text="@string/txt_confirm"
                 android:textSize="14sp" />
         </LinearLayout>
+        <TextView
+            android:id="@+id/tv_install_tip"
+            android:text=""
+            tools:text="打开浏览器下载安装"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginTop="6dp"
+            android:textColor="@color/clr_purple_12"
+            android:textSize="14sp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout"
+            app:layout_constraintEnd_toEndOf="@id/linearLayout"
+            app:layout_constraintStart_toStartOf="@id/linearLayout"
+            />
 
         <TextView
             android:id="@+id/dialog_update_tip"

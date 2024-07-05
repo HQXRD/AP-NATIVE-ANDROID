@@ -117,9 +117,9 @@ public class AppUpdateDialog extends CenterPopupView {
         //打开浏览器下载安装
         binding.dialogUpdateTip.setText(getContext().getString(R.string.txt_update_bottom_tip));
         binding.dialogUpdateTip.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(vo.download_url)){
-                AppUtil.goBrowser(getContext(),vo.download_url);
-            }else {
+            if (!TextUtils.isEmpty(vo.download_url)) {
+                AppUtil.goBrowser(getContext(), vo.download_url);
+            } else {
                 CfLog.e("****************  download url is null *********** ");
             }
         });
@@ -151,13 +151,12 @@ public class AppUpdateDialog extends CenterPopupView {
             //打开浏览器下载安装
             binding.dialogUpdateTip.setText(getContext().getString(R.string.txt_update_bottom_error_tip));
             binding.dialogUpdateTip.setOnClickListener(v1 -> {
-                if (!TextUtils.isEmpty(vo.download_url)){
-                    AppUtil.goBrowser(getContext(),vo.download_url);
-                }else {
+                if (!TextUtils.isEmpty(vo.download_url)) {
+                    AppUtil.goBrowser(getContext(), vo.download_url);
+                } else {
                     CfLog.e("****************  download url is null *********** ");
                 }
             });
-
 
         });
     }
