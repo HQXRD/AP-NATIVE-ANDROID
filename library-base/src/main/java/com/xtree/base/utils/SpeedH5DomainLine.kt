@@ -31,6 +31,6 @@ object SpeedH5DomainLine : ChangeLine() {
      * 开始域名竞速
      */
     fun start(){
-        super.start("api/settings/?&fields=customer_service_url", false)
+        super.start("?speedTest=1", false)
     }
 }

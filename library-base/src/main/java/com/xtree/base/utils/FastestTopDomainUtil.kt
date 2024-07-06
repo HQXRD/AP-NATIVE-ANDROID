@@ -98,13 +98,9 @@ class FastestTopDomainUtil private constructor() {
             var curTime: Long = System.currentTimeMillis()
             val domainTasks = mCurApiDomainList.map { host ->
                 Get<String>(
-                    "$host/api/settings/?&fields=customer_service_url")
+                    "$host/?speedTest=1")
                 {
                     addHeader("App-RNID", "87jumkljo")
-                    addHeader("Content-Type", "application/vnd.sc-api.v1.json");
-                    addHeader("Source", "9");
-                    addHeader("UUID", TagUtils.getDeviceId(Utils.getContext()));
-                    addHeader("X-Crypto", "no");
                     setClient {
 //                        dns(DnsFactory.getDns())
                         trustSSLCertificate()

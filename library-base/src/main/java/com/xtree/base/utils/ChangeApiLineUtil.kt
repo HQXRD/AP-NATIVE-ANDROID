@@ -69,7 +69,7 @@ class ChangeApiLineUtil private constructor() {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurApiDomainList.map { host ->
                 Get<String>(
-                    "$host/api/bns/4/banners?limit=2") {
+                    "$host/?speedTest=1") {
                     addHeader("App-RNID", "87jumkljo")
                     setClient {
 //                        dns(DnsFactory.getDns())

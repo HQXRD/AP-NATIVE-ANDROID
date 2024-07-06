@@ -62,7 +62,7 @@ class ChangeH5LineUtil private constructor() {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurH5DomainList.map { host ->
                 Get<String>(
-                    "$host/point.bmp",
+                    "$host/?speedTest=1",
                     tag = "the_fastest_line")
                 {
                     addHeader("App-RNID", "87jumkljo")

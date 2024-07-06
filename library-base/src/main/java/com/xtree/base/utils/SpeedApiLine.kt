@@ -31,6 +31,6 @@ object SpeedApiLine : ChangeLine() {
      * 开始域名竞速
      */
     fun start(){
-        super.start("api/settings/?&fields=customer_service_url", true)
+        super.start("?speedTest=1", true)
     }
 }
