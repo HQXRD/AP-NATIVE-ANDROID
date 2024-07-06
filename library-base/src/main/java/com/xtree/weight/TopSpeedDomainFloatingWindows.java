@@ -79,7 +79,29 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
     public void refresh() {
         if(mainDomainAdapter != null) {
             mainDomainAdapter.setChecking(false);
-            mainDomainAdapter.setNewData(FastestTopDomainUtil.getInstance().getTopSpeedDomain());
+            List<TopSpeedDomain> topSpeedDomain = FastestTopDomainUtil.getInstance().getTopSpeedDomain();
+
+            if (topSpeedDomain.isEmpty()) {
+                onError();
+                return;
+            }
+
+            List<TopSpeedDomain> datas = mainDomainAdapter.getDatas();
+            int oldSize = datas.size();
+
+            for (int i = 0; i < topSpeedDomain.size(); i++) {
+                TopSpeedDomain newData = topSpeedDomain.get(i);
+
+                if (oldSize >= (i + 1)) {
+                    TopSpeedDomain oldData = datas.get(i);
+                    oldData.url = newData.url;
+                    oldData.speedSec = newData.speedSec;
+                    mainDomainAdapter.notifyItemChanged(i);
+                } else {
+                    datas.add(newData);
+                    mainDomainAdapter.notifyItemInserted(datas.size() - 1);
+                }
+            }
         }
     }
 
