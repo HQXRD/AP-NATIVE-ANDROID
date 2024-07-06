@@ -7,6 +7,7 @@ import com.drake.net.transform.transform
 import com.drake.net.utils.runMain
 import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
+import com.xtree.base.BuildConfig
 import com.xtree.base.R
 import com.xtree.base.vo.Domain
 import com.xtree.base.vo.EventVo
@@ -116,12 +117,14 @@ class FastestTopDomainUtil private constructor() {
                     CfLog.e("域名：api------$host---${topSpeedDomain.speedSec}")
                     mCurApiDomainList.remove(host)
 
-                    if (mTopSpeedDomainList.size < 4) {
+                    //debug模式 显示所有测速线路 release模式 只显示4条
+                    if (mTopSpeedDomainList.size < 4 || BuildConfig.DEBUG) {
                         mTopSpeedDomainList.add(topSpeedDomain)
                         mIsFinish = true
                         mTopSpeedDomainList.sort()
                         DomainUtil.setApiUrl(mTopSpeedDomainList[0].url)
-                        EventBus.getDefault().post(EventVo(EventConstant.EVENT_TOP_SPEED_FINISH, ""))
+                        EventBus.getDefault()
+                            .post(EventVo(EventConstant.EVENT_TOP_SPEED_FINISH, ""))
                     }
 
                     data
