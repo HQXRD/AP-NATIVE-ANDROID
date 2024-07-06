@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.xtree.base.R;
 import com.xtree.base.adapter.MainDomainAdapter;
 import com.xtree.base.databinding.MainLayoutTopSpeedDomainBinding;
-import com.xtree.base.utils.FastestTopDomainUtil;
+import com.xtree.base.net.fastest.FastestTopDomainUtil;
 import com.xtree.base.vo.TopSpeedDomain;
 import com.xtree.base.widget.FloatingWindows;
 
