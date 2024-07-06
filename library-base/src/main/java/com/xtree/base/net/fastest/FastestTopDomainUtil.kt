@@ -1,4 +1,4 @@
-package com.xtree.base.utils
+package com.xtree.base.net.fastest
 
 import com.alibaba.android.arouter.utils.TextUtils
 import com.drake.net.Get
@@ -9,6 +9,10 @@ import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
 import com.xtree.base.BuildConfig
 import com.xtree.base.R
+import com.xtree.base.utils.AESUtil
+import com.xtree.base.utils.CfLog
+import com.xtree.base.utils.DomainUtil
+import com.xtree.base.utils.EventConstant
 import com.xtree.base.vo.Domain
 import com.xtree.base.vo.EventVo
 import com.xtree.base.vo.TopSpeedDomain
@@ -97,34 +101,27 @@ class FastestTopDomainUtil private constructor() {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             var curTime: Long = System.currentTimeMillis()
             val domainTasks = mCurApiDomainList.map { host ->
-                Get<String>(
-                    "$host/?speedTest=1")
-                {
-                    addHeader("App-RNID", "87jumkljo")
-                    setClient {
-//                        dns(DnsFactory.getDns())
-                        trustSSLCertificate()
-                    }
-                }.transform { data ->
-                    CfLog.i("$host")
-                    var topSpeedDomain = TopSpeedDomain()
-                    topSpeedDomain.url = host
-                    topSpeedDomain.speedSec = System.currentTimeMillis() - curTime
-                    CfLog.e("域名：api------$host---${topSpeedDomain.speedSec}")
-                    mCurApiDomainList.remove(host)
+                Get<String>(getFastestAPI(host), block = FASTEST_BLOCK)
+                    .transform { data ->
+                        CfLog.i("$host")
+                        var topSpeedDomain = TopSpeedDomain()
+                        topSpeedDomain.url = host
+                        topSpeedDomain.speedSec = System.currentTimeMillis() - curTime
+                        CfLog.e("域名：api------$host---${topSpeedDomain.speedSec}")
+                        mCurApiDomainList.remove(host)
 
-                    //debug模式 显示所有测速线路 release模式 只显示4条
-                    if (mTopSpeedDomainList.size < 4 || BuildConfig.DEBUG) {
-                        mTopSpeedDomainList.add(topSpeedDomain)
-                        mIsFinish = true
-                        mTopSpeedDomainList.sort()
-                        DomainUtil.setApiUrl(mTopSpeedDomainList[0].url)
-                        EventBus.getDefault()
-                            .post(EventVo(EventConstant.EVENT_TOP_SPEED_FINISH, ""))
-                    }
+                        //debug模式 显示所有测速线路 release模式 只显示4条
+                        if (mTopSpeedDomainList.size < 4 || BuildConfig.DEBUG) {
+                            mTopSpeedDomainList.add(topSpeedDomain)
+                            mIsFinish = true
+                            mTopSpeedDomainList.sort()
+                            DomainUtil.setApiUrl(mTopSpeedDomainList[0].url)
+                            EventBus.getDefault()
+                                .post(EventVo(EventConstant.EVENT_TOP_SPEED_FINISH, ""))
+                        }
 
-                    data
-                }
+                        data
+                    }
             }
             try {
                 val mutex = Mutex()
@@ -167,15 +164,7 @@ class FastestTopDomainUtil private constructor() {
         if (index < mThirdDomainList.size && !TextUtils.isEmpty(mThirdDomainList[index])) {
 
             scopeNet {
-                val data = Get<String>(
-                    mThirdDomainList[index]
-                ) {
-                    addHeader("App-RNID", "87jumkljo")
-                    setClient {
-//                        dns(DnsFactory.getDns())
-                        trustSSLCertificate()
-                    }
-                }.await()
+                val data = Get<String>(mThirdDomainList[index], block = FASTEST_BLOCK).await()
 
                 try {
                     var domainJson = AESUtil.decryptData(

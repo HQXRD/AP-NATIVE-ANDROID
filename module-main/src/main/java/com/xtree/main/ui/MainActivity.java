@@ -5,7 +5,6 @@ import static com.xtree.base.utils.EventConstant.EVENT_RED_POINT;
 import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FAILED;
 import static com.xtree.base.utils.EventConstant.EVENT_TOP_SPEED_FINISH;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -18,8 +17,8 @@ import com.gyf.immersionbar.ImmersionBar;
 import com.xtree.base.router.RouterActivityPath;
 import com.xtree.base.router.RouterFragmentPath;
 import com.xtree.base.utils.CfLog;
-import com.xtree.base.utils.ChangeH5LineUtil;
-import com.xtree.base.utils.FastestTopDomainUtil;
+import com.xtree.base.net.fastest.ChangeH5LineUtil;
+import com.xtree.base.net.fastest.FastestTopDomainUtil;
 import com.xtree.base.vo.EventVo;
 import com.xtree.base.widget.MenuItemView;
 import com.xtree.base.widget.SpecialMenuItemView;

@@ -1,4 +1,4 @@
-package com.xtree.base.utils
+package com.xtree.base.net.fastest
 
 import com.drake.net.Get
 import com.drake.net.okhttp.trustSSLCertificate
@@ -7,9 +7,10 @@ import com.drake.net.utils.fastest
 import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
 import com.xtree.base.R
-import com.xtree.base.net.DnsFactory
+import com.xtree.base.utils.AESUtil
+import com.xtree.base.utils.CfLog
+import com.xtree.base.utils.DomainUtil
 import com.xtree.base.vo.Domain
-import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
 import java.util.concurrent.CancellationException
 
@@ -62,15 +63,9 @@ class ChangeH5LineUtil private constructor() {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurH5DomainList.map { host ->
                 Get<String>(
-                    "$host/?speedTest=1",
-                    tag = "the_fastest_line")
-                {
-                    addHeader("App-RNID", "87jumkljo")
-                    setClient {
-//                        dns(DnsFactory.getDns())
-                        trustSSLCertificate()
-                    }
-                }.transform { data ->
+                    getFastestAPI(host),
+                    tag = "the_fastest_line", block = FASTEST_BLOCK)
+                    .transform { data ->
                     CfLog.e("域名：H5------$host")
                     DomainUtil.setH5Url(host)
                     data
@@ -103,29 +98,23 @@ class ChangeH5LineUtil private constructor() {
             val domainTasks = mThirdDomainList.map { host ->
                 Get<String>(
                     "$host",
-                    "the_fastest_line_third"
-                ) {
-                    addHeader("App-RNID", "87jumkljo")
-                    setClient {
-//                        dns(DnsFactory.getDns())
-                        trustSSLCertificate()
+                    "the_fastest_line_third", block = FASTEST_BLOCK)
+                    .transform { data ->
+                        CfLog.e("$host")
+                        try {
+                            var domainJson = AESUtil.decryptData(
+                                data,
+                                "wnIem4HOB2RKzhiqpaqbZuxtp7T36afAHH88BUht/2Y="
+                            )
+                            val domain: Domain = Gson().fromJson(domainJson, Domain::class.java)
+                            mCurH5DomainList = domain.h5
+                            getFastestH5Domain(isThird = true)
+                        } catch (e: Exception) {
+                            mIsRunning = false
+                            //ToastUtils.showLong("切换H5线路失败，获取三方域名存储地址失败，请检查手机网络连接情况")
+                        }
+                        data
                     }
-                }.transform { data ->
-                    CfLog.e("$host")
-                    try {
-                        var domainJson = AESUtil.decryptData(
-                            data,
-                            "wnIem4HOB2RKzhiqpaqbZuxtp7T36afAHH88BUht/2Y="
-                        )
-                        val domain: Domain = Gson().fromJson(domainJson, Domain::class.java)
-                        mCurH5DomainList = domain.h5
-                        getFastestH5Domain(isThird = true)
-                    } catch (e: Exception) {
-                        mIsRunning = false
-                        //ToastUtils.showLong("切换H5线路失败，获取三方域名存储地址失败，请检查手机网络连接情况")
-                    }
-                    data
-                }
             }
             try {
                 fastest(domainTasks, "the_fastest_line_third")
