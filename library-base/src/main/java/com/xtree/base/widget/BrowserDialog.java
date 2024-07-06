@@ -14,10 +14,9 @@ import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import com.just.agentweb.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,23 +34,16 @@ import com.lxj.xpopup.core.BottomPopupView;
 import com.lxj.xpopup.util.XPopupUtils;
 import com.xtree.base.R;
 import com.xtree.base.global.SPKeyGlobal;
-import com.xtree.base.net.DnsWebViewClient;
 import com.xtree.base.utils.CfLog;
 import com.xtree.base.utils.DomainUtil;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import me.xtree.mvvmhabit.utils.SPUtils;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.dnsoverhttps.DnsOverHttps;
 
 /**
@@ -431,7 +423,7 @@ public class BrowserDialog extends BottomPopupView {
         }
     }
 
-    public class CustomWebViewClient extends DnsWebViewClient {
+    public class CustomWebViewClient extends WebViewClient {
 //        private OkHttpClient client;
 //
 //        public CustomWebViewClient() throws UnknownHostException {

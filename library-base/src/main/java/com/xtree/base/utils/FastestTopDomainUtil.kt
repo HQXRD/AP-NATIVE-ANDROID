@@ -4,15 +4,18 @@ import com.alibaba.android.arouter.utils.TextUtils
 import com.drake.net.Get
 import com.drake.net.okhttp.trustSSLCertificate
 import com.drake.net.transform.transform
-import com.drake.net.utils.fastest
 import com.drake.net.utils.runMain
 import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
+import com.xtree.base.BuildConfig
 import com.xtree.base.R
-import com.xtree.base.net.DnsFactory
 import com.xtree.base.vo.Domain
 import com.xtree.base.vo.EventVo
 import com.xtree.base.vo.TopSpeedDomain
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import me.xtree.mvvmhabit.http.NetworkUtil
 import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
@@ -95,15 +98,11 @@ class FastestTopDomainUtil private constructor() {
             var curTime: Long = System.currentTimeMillis()
             val domainTasks = mCurApiDomainList.map { host ->
                 Get<String>(
-                    "$host/api/settings/?&fields=customer_service_url")
+                    "$host/?speedTest=1")
                 {
                     addHeader("App-RNID", "87jumkljo")
-                    addHeader("Content-Type", "application/vnd.sc-api.v1.json");
-                    addHeader("Source", "9");
-                    addHeader("UUID", TagUtils.getDeviceId(Utils.getContext()));
-                    addHeader("X-Crypto", "no");
                     setClient {
-                        dns(DnsFactory.getDns())
+//                        dns(DnsFactory.getDns())
                         trustSSLCertificate()
                     }
                 }.transform { data ->
@@ -112,21 +111,35 @@ class FastestTopDomainUtil private constructor() {
                     topSpeedDomain.url = host
                     topSpeedDomain.speedSec = System.currentTimeMillis() - curTime
                     CfLog.e("域名：api------$host---${topSpeedDomain.speedSec}")
-                    mTopSpeedDomainList.add(topSpeedDomain)
                     mCurApiDomainList.remove(host)
-                    if(mTopSpeedDomainList.size < 4 && mCurApiDomainList.isNotEmpty()) {
-                        getFastestApiDomain(isThird)
-                    }else{
+
+                    //debug模式 显示所有测速线路 release模式 只显示4条
+                    if (mTopSpeedDomainList.size < 4 || BuildConfig.DEBUG) {
+                        mTopSpeedDomainList.add(topSpeedDomain)
                         mIsFinish = true
                         mTopSpeedDomainList.sort()
                         DomainUtil.setApiUrl(mTopSpeedDomainList[0].url)
-                        EventBus.getDefault().post(EventVo(EventConstant.EVENT_TOP_SPEED_FINISH, ""))
+                        EventBus.getDefault()
+                            .post(EventVo(EventConstant.EVENT_TOP_SPEED_FINISH, ""))
                     }
+
                     data
                 }
             }
             try {
-                fastest(domainTasks)
+                val mutex = Mutex()
+                domainTasks.forEach {
+                    launch(Dispatchers.IO) {
+                        try {
+                            val result = it.deferred.await()
+                            mutex.withLock {
+                                it.block(result)
+                            }
+                        } catch (e: Exception) {
+                            it.deferred.cancel()
+                        }
+                    }
+                }
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 if (e !is CancellationException) {
@@ -159,7 +172,7 @@ class FastestTopDomainUtil private constructor() {
                 ) {
                     addHeader("App-RNID", "87jumkljo")
                     setClient {
-                        dns(DnsFactory.getDns())
+//                        dns(DnsFactory.getDns())
                         trustSSLCertificate()
                     }
                 }.await()
