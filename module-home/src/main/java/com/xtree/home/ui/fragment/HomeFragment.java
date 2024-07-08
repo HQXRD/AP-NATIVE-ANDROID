@@ -148,7 +148,9 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
     public void onDetach() {
         super.onDetach();
         // 在结束后浮动弹窗被删除
-        customFloatWindows.removeView();
+        if (customFloatWindows != null) {
+            customFloatWindows.removeView();
+        }
     }
 
     @Override
@@ -178,7 +180,7 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding, HomeViewMode
             KLog.d("************");
             viewModel.getNotices(); // 获取公告
             //viewModel.getProfile(); // 获取个人信息
-            viewModel.getVipInfo(); // 获取VIP信息
+            //viewModel.getVipInfo(); // 获取VIP信息
             //viewModel.getFBGameTokenApi();
             //viewModel.getPMGameTokenApi();
         });

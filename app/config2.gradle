@@ -3,7 +3,7 @@ android {
 
     productFlavors {
         // 测试环境 测试用
-        hengxing5_pre {
+        hx5_pre {
             applicationId "com.${name.toLowerCase()}.app"
             versionName "1.0.0"
             versionCode 100
@@ -13,27 +13,27 @@ android {
             resValue "string", "domain_url", "https://hxing5pre.hxing5vip.com"
             resValue "string", "channel_name", "hengxing5"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
-            resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
-            resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
+            resValue "string", "mixpanel_token", "6a1ec9cae116d7a920a4697a46599ca9"
+            resValue "string", "ms_secret_key", "53dd1b8a-f8a2-4b0d-98ea-e727787a31c0"
             resValue "string", "domain_api_list", "https://hxing5pre.hxing5vip.com;"
             resValue "string", "domain_url_list", "https://hxing5pre.hxing5vip.com;"
             multiDexEnabled true
             dimension "channelName"
         }
         // 生产环境 测试用
-        hengxing5_uat {
+        hx5_uat {
             applicationId "com.${name.toLowerCase()}.app"
             versionName "1.0.0"
             versionCode 100
             resValue "string", "app_name", "恒行5R${versionCode}"
-            resValue "string", "domain_api", "https://hxing5pre.hxing5vip.com"
-            resValue "string", "domain_url", "https://hxing5pre.hxing5vip.com"
+            resValue "string", "domain_api", "https://app1.d6d7vh.click"
+            resValue "string", "domain_url", "https://www.hxing5vip3.com"
             resValue "string", "channel_name", "hengxing5"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
-            resValue "string", "mixpanel_token", "aeb0e83d57c9c765a9f0c1631f16e1d8"
             resValue "bool", "is_tag", "false" // 是否开启统计
-            resValue "string", "ms_secret_key", "e429ce40-219f-4f59-8e45-1eb12bc433ed"
+            resValue "string", "mixpanel_token", "6a1ec9cae116d7a920a4697a46599ca9"
+            resValue "string", "ms_secret_key", "53dd1b8a-f8a2-4b0d-98ea-e727787a31c0"
             resValue "string", "domain_api_list", "https://app1.d6d7vh.click;" +
                     "https://app1.a4x6ur.click;" +
                     "https://app1.k2j8gm.click;" +
@@ -46,18 +46,18 @@ android {
             dimension "channelName"
         }
         // 生产环境 发布用
-        hengxing5_OL {
-            applicationId "com.hengxing5.app" // hengxing5
+        hx5_OL {
+            applicationId "com.hengxing5.app"
             versionName "1.0.0"
             versionCode 100
             resValue "string", "app_name", "恒行5"
-            resValue "string", "domain_api", "https://hxing5pre.hxing5vip.com"
-            resValue "string", "domain_url", "https://hxing5pre.hxing5vip.com"
+            resValue "string", "domain_api", "https://app1.d6d7vh.click"
+            resValue "string", "domain_url", "https://www.hxing5vip3.com"
             resValue "string", "channel_name", "hengxing5"  // 渠道名称
             resValue "string", "build_time", "${buildTime()}"
-            resValue "string", "mixpanel_token", "cce6df315eee2c445da416c6b717f114"
             resValue "bool", "is_tag", "true" // 是否开启统计
-            resValue "string", "ms_secret_key", "0ad1d127-3d6e-47f0-8904-1fd9eff9d97b"
+            resValue "string", "mixpanel_token", "6a1ec9cae116d7a920a4697a46599ca9"
+            resValue "string", "ms_secret_key", "53dd1b8a-f8a2-4b0d-98ea-e727787a31c0"
             resValue "string", "domain_api_list", "https://app1.d6d7vh.click;" +
                     "https://app1.a4x6ur.click;" +
                     "https://app1.k2j8gm.click;" +
@@ -127,12 +127,12 @@ androidJunkCode {
         debug config
         release config
 
-        hengxing5Debug config2
-        hengxing5Release config2
-        hengxing5_preDebug config2
-        hengxing5_preRelease config2
-        hengxing5_OLDebug config2
-        hengxing5_OLRelease config2
+        hx5Debug config2
+        hx5Release config2
+        hx5_preDebug config2
+        hx5_preRelease config2
+        hx5_OLDebug config2
+        hx5_OLRelease config2
     }
 
 }
