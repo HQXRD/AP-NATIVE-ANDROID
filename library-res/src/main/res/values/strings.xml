@@ -383,4 +383,7 @@
     </string>
     <string name="txt_enter_correct_amount">请输入范围%1$s~%2$s内的金额！</string>
 
+    <string name="txt_update_bottom_tip">打开浏览器下载安装</string>
+    <string name="txt_update_bottom_err_tip">如更新失败，打开浏览器下载安装</string>
+
 </resources>

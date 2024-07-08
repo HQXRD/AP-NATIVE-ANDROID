@@ -1,6 +1,6 @@
 <resources>
     <string name="mine_name">module-mine</string>
-    <string name="me_user_name_hint">用户001</string>
+    <string name="me_user_name_hint">恒行体育，您身边的滚球顾问~</string>
     <string name="me_user_nickname">用户昵称</string>
     <string name="me_login_hint">登录</string>
     <string name="me_register_hint">注册</string>
@@ -412,7 +412,7 @@
     <string name="txt_group_balance">团队余额：</string>
     <string name="txt_last_login_time">最后登陆：</string>
     <string name="txt_register_time">注册日期：</string>
-    <string name="txt_account_money_record">帐变记录</string>
+    <string name="txt_account_money_record">账变记录</string>
     <string name="txt_reg_rebate">自身保留返点：</string>
     <string name="txt_reg_name_tip">字母或数字6–16个字符,不能连续四位相同,首字不能是0或者o</string>
     <string name="txt_reg_pwd_tip">由字号和数字组成的6–16个字符，且必须包含字母和数宇</string>

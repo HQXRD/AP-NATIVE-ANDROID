@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class FeedbackVo {
     public int nowPaye ;//所在页码
-    public int showRows;//
+    public Object showRows;//
     public int count ;//多少条处理中反馈
     public List<OrderFeedbackVo> list ; //反馈中的信息
     public List<FeedbackBankInfo> banksInfo ;// 支付渠道选择

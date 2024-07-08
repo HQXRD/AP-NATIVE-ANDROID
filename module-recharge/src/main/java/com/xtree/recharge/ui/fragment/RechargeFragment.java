@@ -334,6 +334,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
         // 文字大小可随长度而改变,解决长度太长显示不全的问题(HQAP2-3310)
         TextViewCompat.setAutoSizeTextTypeWithDefaults(binding.tvwAmountHint, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
         TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(binding.tvwAmountHint, 12, 14, 1, TypedValue.COMPLEX_UNIT_SP);
+        //存款金额输入 监听
         binding.edtAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -345,6 +346,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 CfLog.d("amount: " + s);
                 if (s.toString().indexOf(".") > 0) {
                     binding.tvwRealAmount.setText(s.subSequence(0, s.toString().indexOf(".")));
+
                 } else {
                     binding.tvwRealAmount.setText(s);
                 }
@@ -353,6 +355,7 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 } else {
                     binding.tvwAmountHint.setVisibility(View.INVISIBLE);
                 }
+
 
                 // 获取 实际充值金额 (测试环境 银行卡充值3)
                 if (curRechargeVo != null && curRechargeVo.isrecharge_additional && s.length() >= 3) {
@@ -377,6 +380,13 @@ public class RechargeFragment extends BaseFragment<FragmentRechargeBinding, Rech
                 if (!amount.equals(mAmountAdapter.getAmount())) {
                     mAmountAdapter.setAmount(amount);
                     mAmountAdapter.notifyDataSetChanged();
+                }
+                if (amount.length() > 0){
+                    binding.btnNext.setEnabled(true); // 默认禁用.
+                    binding.btnNext.setBackground(getContext().getDrawable(R.mipmap.cm_btn_recharge_long_disable));
+                }else{
+                    binding.btnNext.setEnabled(false); // 默认禁用.
+                    binding.btnNext.setBackground(getContext().getDrawable(R.mipmap.cm_btn_recharge_long_press));
                 }
                 setNextButton();
             }

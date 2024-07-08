@@ -554,4 +554,6 @@
 
     <!-- 充值 温馨提示 银行列表  按钮弹窗 颜色 -->
     <color name="clr_re_btn_txt">#FDF9F7</color>
+    <!-- 公共彈窗 中间颜色 颜色 -->
+    <color name="clr_tip_bg">#26230604</color>
 </resources>
