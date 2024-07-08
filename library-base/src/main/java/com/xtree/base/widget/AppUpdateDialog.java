@@ -114,7 +114,7 @@ public class AppUpdateDialog extends CenterPopupView {
 
         CfLog.i("apkFile: " + apkFile.getAbsolutePath());
         binding = DialogUpdateBinding.bind(findViewById(R.id.ll_root_update));
-        //打开浏览器下载安装
+        /*//打开浏览器下载安装
         binding.dialogUpdateTip.setText(getContext().getString(R.string.txt_update_bottom_tip));
         binding.dialogUpdateTip.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(vo.download_url)) {
@@ -122,7 +122,7 @@ public class AppUpdateDialog extends CenterPopupView {
             } else {
                 CfLog.e("****************  download url is null *********** ");
             }
-        });
+        });*/
         if (!isWeakUpdate) {
             //强更新
             binding.dialogUpdateCancel.setVisibility(View.GONE);
@@ -149,6 +149,7 @@ public class AppUpdateDialog extends CenterPopupView {
             mHandler.sendEmptyMessage(DOWN_START);//开始下载
 
             //打开浏览器下载安装
+            binding.dialogUpdateTip.setVisibility(View.VISIBLE);
             binding.dialogUpdateTip.setText(getContext().getString(R.string.txt_update_bottom_error_tip));
             binding.dialogUpdateTip.setOnClickListener(v1 -> {
                 if (!TextUtils.isEmpty(vo.download_url)) {
