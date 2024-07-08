@@ -87,7 +87,11 @@ public class AppUpdateDialog extends CenterPopupView {
     @Override
     protected void onCreate() {
         super.onCreate();
-        initView();
+        try {
+            initView();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -100,7 +104,7 @@ public class AppUpdateDialog extends CenterPopupView {
         return (XPopupUtils.getScreenHeight(getContext()) * 8 / 10);
     }
 
-    private void initView() {
+    private void initView() throws IOException {
         CfLog.i("****** ");
         saveFileName = vo.version_name + ".apk";
         apkFile = new File(this.context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS), saveFileName);
@@ -158,7 +162,11 @@ public class AppUpdateDialog extends CenterPopupView {
                     break;
                 case DOWN_OVER:
                     ToastUtils.show(getContext().getString(R.string.txt_update_down_over_tip), ToastUtils.ShowType.Success);
-                    installAPK();
+                    try {
+                        installAPK();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                     break;
                 case DOWN_FAIL:
                     ToastUtils.showSuccess(getContext().getString(R.string.txt_update_down_fail_tip));
@@ -234,17 +242,20 @@ public class AppUpdateDialog extends CenterPopupView {
     /**
      * 安装APK
      */
-    public void installAPK() {
+    public void installAPK() throws IOException {
         CfLog.i("******");
         if (apkFile == null || !apkFile.exists()) {
+            CfLog.e("************installAPK  apkFile is null************");
             return;
         }
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        Uri uri = Uri.fromFile(apkFile);
-        CfLog.i(uri.toString()); //
+        //Uri uri = Uri.fromFile(apkFile);
+        //动态判断是否已经申请内存卡权限
+        Uri uri =getApkUri(apkFile);
+        CfLog.e("**************** installAPK  ****************"+uri.toString());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             uri = FileProvider.getUriForFile(this.context, getContext().getPackageName(), apkFile);
@@ -252,12 +263,28 @@ public class AppUpdateDialog extends CenterPopupView {
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             intent.setDataAndType(uri, "application/vnd.android.package-archive");
         } else {
+            /*Android M之前老版本写法*/
             intent.setDataAndType(Uri.fromFile(apkFile), "application/vnd.android.package-archive");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         }
         context.startActivity(intent);
         //修复 HQAP2-4223 待验证
         //android.os.Process.killProcess(android.os.Process.myPid());
 
+    }
+
+    private Uri getApkUri(File apkFile) throws IOException {
+        //如果没有设置SDcard写权限，需要授权才能安装
+        try {
+            String[] command = {"chmod", "777", apkFile.toString()};
+            ProcessBuilder builder = new ProcessBuilder(command);
+            builder.start();
+        } catch (IOException ioException) {
+            CfLog.e("**************** getApkUri  IOException  ****************");
+        }
+
+        Uri uri = Uri.fromFile(apkFile);
+        return uri;
     }
 
     /**
