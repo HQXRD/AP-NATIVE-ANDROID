@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/me_agreement"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/textColor"
         android:textSize="@dimen/bt_text_14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
         android:layout_margin="20dp"
         android:scrollbars="vertical"
         android:text="@string/me_agreement_text"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/textColor"
         android:textSize="@dimen/bt_text_14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
