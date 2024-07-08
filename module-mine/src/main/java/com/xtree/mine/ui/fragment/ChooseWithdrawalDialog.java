@@ -166,11 +166,11 @@ public class ChooseWithdrawalDialog extends BottomPopupView {
                 //网络异常
                 callBack.closeDialogByError();
             } else {
-                if (!TextUtils.isEmpty(chooseInfoVo.msg_type) && chooseInfoVo.msg_type.equals("2")) {
+             /*   if (!TextUtils.isEmpty(chooseInfoVo.msg_type) && chooseInfoVo.msg_type.equals("2")) {
                     //异常状态
                     showErrorDialog(chooseInfoVo.message);
 
-                } else if (!TextUtils.isEmpty(chooseInfoVo.ur_here) && TextUtils.equals("资金密码检查", chooseInfoVo.ur_here)) {
+                } else*/ if (!TextUtils.isEmpty(chooseInfoVo.ur_here) && TextUtils.equals("资金密码检查", chooseInfoVo.ur_here)) {
                     //异常状态 弹出资金密码输入页面
                     ToastUtils.showError(chooseInfoVo.ur_here);
                 } else if (!TextUtils.isEmpty(chooseInfoVo.error)) {
