@@ -839,8 +839,8 @@
 
     <!-- 登录页 复选框 -->
     <style name="style_cm_ckb_normal">
-        <item name="colorAccent">@color/clr_main</item>
-        <item name="colorControlNormal">@color/clr_main</item>
+        <item name="colorAccent">@color/clr_grey_13</item>
+        <item name="colorControlNormal">@color/clr_grey_13</item>
     </style>
 
     <!-- 我的-账户管理-绑定-新增页 标题 -->
@@ -1189,7 +1189,7 @@
         <item name="android:layout_width">50dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/bt_color_blurred</item>
         <item name="android:textSize">12sp</item>
     </style>
     <!-- 通用 筛选 标题 外框 -->

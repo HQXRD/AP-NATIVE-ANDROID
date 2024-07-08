@@ -45,7 +45,7 @@
     <!-- 主-渐变色 -->
     <color name="clr_main_start">@color/clr_blue_03</color>
     <color name="clr_main_end">@color/clr_blue_04</color>
-    <color name="clr_main_end_2">#D0B190</color>
+    <color name="clr_main_end_2">@color/clr_blue_04</color>
 
     <!-- 辅-渐变色 -->
     <color name="clr_main_21">#2D2D2D</color>
@@ -363,7 +363,7 @@
 
     <color name="clr_white_14">#24FFFFFF</color>
 
-    <color name="clr_login_txt_01">@color/clr_main</color>
+    <color name="clr_login_txt_01">@color/clr_grey_13</color>
 
     <!-- 按钮背景 灰色 -->
     <color name="clr_btn_grey01">#F2F3F7</color>
