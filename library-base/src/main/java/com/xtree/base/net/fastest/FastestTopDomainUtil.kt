@@ -111,7 +111,7 @@ class FastestTopDomainUtil private constructor() {
             val domainTasks = mCurApiDomainList.map { host ->
                 Get<String>(getFastestAPI(host), block = {
                     setGroup(FASTEST_GOURP_NAME)
-                    FASTEST_BLOCK
+                    FASTEST_BLOCK(this)
                 })
                     .transform { data ->
                         CfLog.i("$host")

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
+import io.reactivex.rxjava3.functions.Consumer;
 import me.xtree.mvvmhabit.utils.ConvertUtils;
 import me.xtree.mvvmhabit.utils.ToastUtils;
 
@@ -66,6 +67,14 @@ public class TopSpeedDomainFloatingWindows extends FloatingWindows {
                 if(mainDomainAdapter == null) {
                     mainDomainAdapter = new MainDomainAdapter(mContext, datas);
                     mainDomainAdapter.setChecking(true);
+                    mainDomainAdapter.setCallBack(new Consumer<String>() {
+                        @Override
+                        public void accept(String s) throws Throwable {
+                            //切换线路成功回调
+                            secondaryLayout.setVisibility(GONE);
+                        }
+                    });
+
                     mBinding.rvAgent.setAdapter(mainDomainAdapter);
                 }else {
                     mainDomainAdapter.setChecking(true);
