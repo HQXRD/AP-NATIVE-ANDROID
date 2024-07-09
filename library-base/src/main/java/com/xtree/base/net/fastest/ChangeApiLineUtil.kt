@@ -1,4 +1,4 @@
-package com.xtree.base.utils
+package com.xtree.base.net.fastest
 
 import android.content.Intent
 import com.alibaba.android.arouter.utils.TextUtils
@@ -9,8 +9,10 @@ import com.drake.net.utils.fastest
 import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
 import com.xtree.base.R
-import com.xtree.base.net.DnsFactory
 import com.xtree.base.net.RetrofitClient
+import com.xtree.base.utils.AESUtil
+import com.xtree.base.utils.CfLog
+import com.xtree.base.utils.DomainUtil
 import com.xtree.base.vo.Domain
 import me.xtree.mvvmhabit.base.AppManager
 import me.xtree.mvvmhabit.utils.ToastUtils
@@ -68,24 +70,18 @@ class ChangeApiLineUtil private constructor() {
         scopeNet {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurApiDomainList.map { host ->
-                Get<String>(
-                    "$host/api/bns/4/banners?limit=2") {
-                    addHeader("App-RNID", "87jumkljo")
-                    setClient {
-//                        dns(DnsFactory.getDns())
-                        trustSSLCertificate()
+                Get<String>(getFastestAPI(host), block = FASTEST_BLOCK)
+                    .transform { data ->
+                        CfLog.i("$host")
+                        CfLog.e("域名：api------$host---$isThird")
+                        ToastUtils.showLong("切换线路成功")
+                        DomainUtil.setApiUrl(host)
+                        RetrofitClient.init() // 重置URL
+                        val activity = AppManager.getAppManager().currentActivity()
+                        activity.startActivity(Intent(activity, activity.javaClass))
+                        mIsRunning = false
+                        data
                     }
-                }.transform { data ->
-                    CfLog.i("$host")
-                    CfLog.e("域名：api------$host---$isThird")
-                    ToastUtils.showLong("切换线路成功")
-                    DomainUtil.setApiUrl(host)
-                    RetrofitClient.init() // 重置URL
-                    val activity = AppManager.getAppManager().currentActivity()
-                    activity.startActivity(Intent(activity, activity.javaClass))
-                    mIsRunning = false
-                    data
-                }
             }
             try {
                 fastest(domainTasks/*, uid = "the_fastest_line"*/)
@@ -118,13 +114,7 @@ class ChangeApiLineUtil private constructor() {
                         absolutePath = true,
                         tag = RESPONSE,
                         uid = "the_fastest_line_third"*/
-                    ) {
-                        addHeader("App-RNID", "87jumkljo")
-                        setClient {
-//                            dns(DnsFactory.getDns())
-                            trustSSLCertificate()
-                        }
-                    }.await()
+                        , block = FASTEST_BLOCK).await()
 
                     try {
                         var domainJson = AESUtil.decryptData(

@@ -1,18 +1,28 @@
-package com.xtree.base.utils
+package com.xtree.base.net.fastest
 
+import android.widget.Toast
 import com.alibaba.android.arouter.utils.TextUtils
 import com.drake.net.Get
-import com.drake.net.okhttp.trustSSLCertificate
+import com.drake.net.Net
 import com.drake.net.transform.transform
-import com.drake.net.utils.fastest
 import com.drake.net.utils.runMain
 import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
+import com.xtree.base.BuildConfig
 import com.xtree.base.R
-import com.xtree.base.net.DnsFactory
+import com.xtree.base.utils.AESUtil
+import com.xtree.base.utils.CfLog
+import com.xtree.base.utils.DomainUtil
+import com.xtree.base.utils.EventConstant
 import com.xtree.base.vo.Domain
 import com.xtree.base.vo.EventVo
 import com.xtree.base.vo.TopSpeedDomain
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.joinAll
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import me.xtree.mvvmhabit.http.NetworkUtil
 import me.xtree.mvvmhabit.utils.ToastUtils
 import me.xtree.mvvmhabit.utils.Utils
@@ -38,7 +48,9 @@ class FastestTopDomainUtil private constructor() {
         private lateinit var mCurApiDomainList: MutableList<String>
         private lateinit var mThirdDomainList: MutableList<String>
         private lateinit var mTopSpeedDomainList: MutableList<TopSpeedDomain>
-        private var mIsFinish: Boolean = true
+        @set:Synchronized
+        @get:Synchronized
+        var mIsFinish: Boolean = true
     }
 
     fun start() {
@@ -47,7 +59,7 @@ class FastestTopDomainUtil private constructor() {
             EventBus.getDefault().post(EventVo(EventConstant.EVENT_TOP_SPEED_FAILED, ""))
             return
         }
-        if(mIsFinish) {
+        if (mIsFinish) {
             CfLog.e("=====开始线路测速========")
             mIsFinish = false
             index = 0
@@ -57,6 +69,8 @@ class FastestTopDomainUtil private constructor() {
             mTopSpeedDomainList.clear()
             setThirdFasterDomain()
             setFasterApiDomain()
+        } else {
+            ToastUtils.show("测速过于频繁，请稍后再试!", Toast.LENGTH_SHORT, 0)
         }
     }
 
@@ -94,39 +108,62 @@ class FastestTopDomainUtil private constructor() {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             var curTime: Long = System.currentTimeMillis()
             val domainTasks = mCurApiDomainList.map { host ->
-                Get<String>(
-                    "$host/api/settings/?&fields=customer_service_url")
-                {
-                    addHeader("App-RNID", "87jumkljo")
-                    addHeader("Content-Type", "application/vnd.sc-api.v1.json");
-                    addHeader("Source", "9");
-                    addHeader("UUID", TagUtils.getDeviceId(Utils.getContext()));
-                    addHeader("X-Crypto", "no");
-                    setClient {
-//                        dns(DnsFactory.getDns())
-                        trustSSLCertificate()
+                Get<String>(getFastestAPI(host), block = {
+                    setGroup(FASTEST_GOURP_NAME)
+                    FASTEST_BLOCK(this)
+                })
+                    .transform { data ->
+                        CfLog.i("$host")
+                        var topSpeedDomain = TopSpeedDomain()
+                        topSpeedDomain.url = host
+                        topSpeedDomain.speedSec = data.toLong() - curTime
+                        CfLog.e("域名：api------$host---${topSpeedDomain.speedSec}")
+                        mCurApiDomainList.remove(host)
+
+                        //debug模式 显示所有测速线路 release模式 只显示4条
+                        if (mTopSpeedDomainList.size < 4 || BuildConfig.DEBUG) {
+                            mTopSpeedDomainList.add(topSpeedDomain)
+                            mTopSpeedDomainList.sort()
+                            DomainUtil.setApiUrl(mTopSpeedDomainList[0].url)
+                            EventBus.getDefault()
+                                .post(EventVo(EventConstant.EVENT_TOP_SPEED_FINISH, ""))
+                        }
+
+                        if (!BuildConfig.DEBUG) {
+                            if (mTopSpeedDomainList.size >= 4 && !mIsFinish) {
+                                Net.cancelGroup(FASTEST_GOURP_NAME)
+                                mIsFinish = true
+                            }
+                        }
+
+                        data
                     }
-                }.transform { data ->
-                    CfLog.i("$host")
-                    var topSpeedDomain = TopSpeedDomain()
-                    topSpeedDomain.url = host
-                    topSpeedDomain.speedSec = System.currentTimeMillis() - curTime
-                    CfLog.e("域名：api------$host---${topSpeedDomain.speedSec}")
-                    mTopSpeedDomainList.add(topSpeedDomain)
-                    mCurApiDomainList.remove(host)
-                    if(mTopSpeedDomainList.size < 4 && mCurApiDomainList.isNotEmpty()) {
-                        getFastestApiDomain(isThird)
-                    }else{
-                        mIsFinish = true
-                        mTopSpeedDomainList.sort()
-                        DomainUtil.setApiUrl(mTopSpeedDomainList[0].url)
-                        EventBus.getDefault().post(EventVo(EventConstant.EVENT_TOP_SPEED_FINISH, ""))
-                    }
-                    data
-                }
             }
             try {
-                fastest(domainTasks)
+                val jobs = mutableListOf<Job>()
+
+                val mutex = Mutex()
+                domainTasks.forEach {
+                    val job = launch(Dispatchers.IO) {
+                        try {
+                            it.deferred.await()
+                            mutex.withLock {
+                                it.block(System.currentTimeMillis().toString())
+                            }
+                        } catch (e: Exception) {
+                            try {
+                                it.deferred.cancel()
+                            } catch (e: CancellationException) {
+                                CfLog.e(e.toString())
+                            }
+                        }
+                    }
+                    jobs.add(job)
+                }
+
+                jobs.joinAll()
+                mIsFinish = true
+
             } catch (e: Exception) {
                 CfLog.e(e.toString())
                 if (e !is CancellationException) {
@@ -154,15 +191,7 @@ class FastestTopDomainUtil private constructor() {
         if (index < mThirdDomainList.size && !TextUtils.isEmpty(mThirdDomainList[index])) {
 
             scopeNet {
-                val data = Get<String>(
-                    mThirdDomainList[index]
-                ) {
-                    addHeader("App-RNID", "87jumkljo")
-                    setClient {
-//                        dns(DnsFactory.getDns())
-                        trustSSLCertificate()
-                    }
-                }.await()
+                val data = Get<String>(mThirdDomainList[index], block = FASTEST_BLOCK).await()
 
                 try {
                     var domainJson = AESUtil.decryptData(

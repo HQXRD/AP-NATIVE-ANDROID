@@ -1,4 +1,4 @@
-package com.xtree.base.utils
+package com.xtree.base.net.fastest
 
 import com.alibaba.android.arouter.utils.TextUtils
 import com.drake.net.Get
@@ -9,7 +9,9 @@ import com.drake.net.utils.runMain
 import com.drake.net.utils.scopeNet
 import com.google.gson.Gson
 import com.xtree.base.R
-import com.xtree.base.net.DnsFactory
+import com.xtree.base.utils.AESUtil
+import com.xtree.base.utils.CfLog
+import com.xtree.base.utils.DomainUtil
 import com.xtree.base.vo.Domain
 import me.xtree.mvvmhabit.http.NetworkUtil
 import me.xtree.mvvmhabit.utils.ToastUtils
@@ -139,27 +141,21 @@ abstract class ChangeLine {
             // 并发请求本地配置的域名 命名参数 uid = "the fastest line" 用于库自动取消任务
             val domainTasks = mCurApiDomainList.map { host ->
                 Get<String>(
-                    "$host/$mUrl",
-                    tag = "the_fastest_line")
-                {
-                    addHeader("App-RNID", "87jumkljo")
-                    setClient {
-//                        dns(DnsFactory.getDns())
-                        trustSSLCertificate()
+                    getFastestAPI(host, mUrl),
+                    tag = "the_fastest_line", block = FASTEST_BLOCK
+                )
+                    .transform { data ->
+                        CfLog.i("$host")
+                        CfLog.e("当前域名：api------$host---")
+                        if (mIsApi) {
+                            DomainUtil.setApiUrl(host)
+                        } else {
+                            DomainUtil.setH5Url(host)
+                        }
+                        onSuccessed()
+                        mIsRunning = false
+                        data
                     }
-                }
-                .transform { data ->
-                    CfLog.i("$host")
-                    CfLog.e("当前域名：api------$host---")
-                    if(mIsApi) {
-                        DomainUtil.setApiUrl(host)
-                    }else{
-                        DomainUtil.setH5Url(host)
-                    }
-                    onSuccessed()
-                    mIsRunning = false
-                    data
-                }
 
             }
             try {
@@ -192,15 +188,9 @@ abstract class ChangeLine {
         if (index < mThirdApiDomainList.size && !TextUtils.isEmpty(mThirdApiDomainList[index])) {
             scopeNet {
                 try {
-                    val data = Get<String>(
-                        mThirdApiDomainList[index]
-                    ) {
-                        addHeader("App-RNID", "87jumkljo")
-                        setClient {
-//                            dns(DnsFactory.getDns())
-                            trustSSLCertificate()
-                        }
-                    }.await()
+                    val data =
+                        Get<String>(mThirdApiDomainList[index], block = FASTEST_BLOCK).await()
+
                     var domainJson = AESUtil.decryptData(
                         data,
                         "wnIem4HOB2RKzhiqpaqbZuxtp7T36afAHH88BUht/2Y="
