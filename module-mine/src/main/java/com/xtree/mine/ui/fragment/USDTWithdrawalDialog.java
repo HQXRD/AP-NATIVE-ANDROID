@@ -394,7 +394,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
      */
     private void refreshSecurityUI() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            binding.tvConfirmWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_choose_20));
+            binding.tvConfirmWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_blue_07));
         }
         binding.llSetRequestView.setVisibility(View.GONE);
         binding.tvUserNameShow.setText(cashMoYuVo.user.username);
@@ -439,7 +439,7 @@ public class USDTWithdrawalDialog extends BottomPopupView implements FruitHorUSD
      */
     private void refreshConfirmUI() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            binding.tvOverWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_choose_20));
+            binding.tvOverWithdrawalRequest.setTextColor(getContext().getColor(R.color.clr_blue_07));
         }
         binding.llVirtualConfirmView.llConfirmView.setVisibility(View.GONE);
         binding.llOverApply.setVisibility(View.VISIBLE);
