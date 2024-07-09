@@ -128,7 +128,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:paddingTop">2dp</item>
-        <item name="android:textColor">@color/clr_txt_01</item>
+        <item name="android:textColor">@color/bt_color_car_dialog_hight_line2</item>
         <item name="android:textSize">12sp</item>
     </style>
     <!-- 我的-12个菜单 黑色字 -->
